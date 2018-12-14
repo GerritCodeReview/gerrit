@@ -223,22 +223,20 @@ public class ChangeIndexer {
   /**
    * Synchronously index a change.
    *
-   * @param db review database.
    * @param change change to index.
    */
-  public void index(ReviewDb db, Change change) throws IOException {
-    index(changeDataFactory.create(db, change));
+  public void index(Change change) throws IOException {
+    index(changeDataFactory.create(change));
   }
 
   /**
    * Synchronously index a change.
    *
-   * @param db review database.
    * @param project the project to which the change belongs.
    * @param changeId ID of the change to index.
    */
-  public void index(ReviewDb db, Project.NameKey project, Change.Id changeId) throws IOException {
-    index(changeDataFactory.create(db, project, changeId));
+  public void index(Project.NameKey project, Change.Id changeId) throws IOException {
+    index(changeDataFactory.create(project, changeId));
   }
 
   /**
@@ -369,7 +367,7 @@ public class ChangeIndexer {
 
     @Override
     public Void callImpl(Provider<ReviewDb> db) throws Exception {
-      ChangeData cd = changeDataFactory.create(db.get(), project, id);
+      ChangeData cd = changeDataFactory.create(project, id);
       index(cd);
       return null;
     }
@@ -415,7 +413,7 @@ public class ChangeIndexer {
     public Boolean callImpl(Provider<ReviewDb> db) throws Exception {
       try {
         if (stalenessChecker.isStale(id)) {
-          indexImpl(changeDataFactory.create(db.get(), project, id));
+          indexImpl(changeDataFactory.create(project, id));
           return true;
         }
       } catch (Exception e) {

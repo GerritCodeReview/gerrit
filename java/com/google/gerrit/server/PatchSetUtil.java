@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -52,18 +51,15 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class PatchSetUtil {
   private final Provider<ApprovalsUtil> approvalsUtilProvider;
   private final ProjectCache projectCache;
-  private final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager repoManager;
 
   @Inject
   PatchSetUtil(
       Provider<ApprovalsUtil> approvalsUtilProvider,
       ProjectCache projectCache,
-      Provider<ReviewDb> dbProvider,
       GitRepositoryManager repoManager) {
     this.approvalsUtilProvider = approvalsUtilProvider;
     this.projectCache = projectCache;
-    this.dbProvider = dbProvider;
     this.repoManager = repoManager;
   }
 
@@ -159,7 +155,7 @@ public class PatchSetUtil {
 
     ApprovalsUtil approvalsUtil = approvalsUtilProvider.get();
     for (PatchSetApproval ap :
-        approvalsUtil.byPatchSet(dbProvider.get(), notes, change.currentPatchSetId(), null, null)) {
+        approvalsUtil.byPatchSet(notes, change.currentPatchSetId(), null, null)) {
       LabelType type = projectState.getLabelTypes(notes).byLabel(ap.getLabel());
       if (type != null
           && ap.getValue() == 1

@@ -45,7 +45,6 @@ import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
@@ -61,7 +60,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collections;
@@ -93,20 +91,17 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   private static final String CLOSED_CHANGES = "closed_" + CHANGES;
 
   private final ChangeMapping mapping;
-  private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final Schema<ChangeData> schema;
 
   @Inject
   ElasticChangeIndex(
       ElasticConfiguration cfg,
-      Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       SitePaths sitePaths,
       ElasticRestClientProvider clientBuilder,
       @Assisted Schema<ChangeData> schema) {
     super(cfg, sitePaths, schema, clientBuilder, CHANGES);
-    this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
     mapping = new ChangeMapping(schema, client.adapter());
@@ -219,13 +214,11 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       int id = source.get(ChangeField.LEGACY_ID.getName()).getAsInt();
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
       String projectName = requireNonNull(source.get(ChangeField.PROJECT.getName()).getAsString());
-      return changeDataFactory.create(
-          db.get(), new Project.NameKey(projectName), new Change.Id(id));
+      return changeDataFactory.create(new Project.NameKey(projectName), new Change.Id(id));
     }
 
     ChangeData cd =
-        changeDataFactory.create(
-            db.get(), CHANGE_CODEC.decode(Base64.decodeBase64(c.getAsString())));
+        changeDataFactory.create(CHANGE_CODEC.decode(Base64.decodeBase64(c.getAsString())));
 
     // Any decoding that is done here must also be done in {@link LuceneChangeIndex}.
 

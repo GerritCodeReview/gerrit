@@ -49,7 +49,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
 import com.google.gerrit.reviewdb.converter.ProtoConverter;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -65,7 +64,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.protobuf.MessageLite;
 import java.io.IOException;
@@ -145,7 +143,6 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private final ListeningExecutorService executor;
-  private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final Schema<ChangeData> schema;
   private final QueryBuilder<ChangeData> queryBuilder;
@@ -157,12 +154,10 @@ public class LuceneChangeIndex implements ChangeIndex {
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
-      Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       @Assisted Schema<ChangeData> schema)
       throws IOException {
     this.executor = executor;
-    this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
 
@@ -450,15 +445,13 @@ public class LuceneChangeIndex implements ChangeIndex {
     IndexableField cb = Iterables.getFirst(doc.get(CHANGE_FIELD), null);
     if (cb != null) {
       BytesRef proto = cb.binaryValue();
-      cd =
-          changeDataFactory.create(
-              db.get(), CHANGE_CODEC.decode(proto.bytes, proto.offset, proto.length));
+      cd = changeDataFactory.create(CHANGE_CODEC.decode(proto.bytes, proto.offset, proto.length));
     } else {
       IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
       Change.Id id = new Change.Id(f.numericValue().intValue());
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
       IndexableField project = doc.get(PROJECT.getName()).iterator().next();
-      cd = changeDataFactory.create(db.get(), new Project.NameKey(project.stringValue()), id);
+      cd = changeDataFactory.create(new Project.NameKey(project.stringValue()), id);
     }
 
     // Any decoding that is done here must also be done in {@link ElasticChangeIndex}.

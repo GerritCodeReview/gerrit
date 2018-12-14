@@ -69,7 +69,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   protected static ChangeData newChangeData(
       EmailArguments ea, Project.NameKey project, Change.Id id) {
-    return ea.changeDataFactory.create(ea.db.get(), project, id);
+    return ea.changeDataFactory.create(project, id);
   }
 
   protected final Change change;

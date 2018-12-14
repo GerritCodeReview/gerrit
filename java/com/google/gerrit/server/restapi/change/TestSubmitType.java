@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
@@ -31,11 +30,9 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.RulesCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import org.kohsuke.args4j.Option;
 
 public class TestSubmitType implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
-  private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
@@ -45,11 +42,9 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
 
   @Inject
   TestSubmitType(
-      Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       RulesCache rules,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
-    this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
@@ -74,7 +69,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
             .build();
 
     SubmitRuleEvaluator evaluator = submitRuleEvaluatorFactory.create(opts);
-    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
+    ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     SubmitTypeRecord rec = evaluator.getSubmitType(cd);
 
     if (rec.status != SubmitTypeRecord.Status.OK) {

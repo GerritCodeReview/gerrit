@@ -76,7 +76,7 @@ public class ReviewerJson {
     ChangeData cd = null;
     for (ReviewerResource rsrc : rsrcs) {
       if (cd == null || !cd.getId().equals(rsrc.getChangeId())) {
-        cd = changeDataFactory.create(db.get(), rsrc.getChangeResource().getNotes());
+        cd = changeDataFactory.create(rsrc.getChangeResource().getNotes());
       }
       ReviewerInfo info;
       if (rsrc.isByEmail()) {
@@ -105,7 +105,7 @@ public class ReviewerJson {
         out,
         reviewerAccountId,
         cd,
-        approvalsUtil.byPatchSetUser(db.get(), cd.notes(), psId, reviewerAccountId, null, null));
+        approvalsUtil.byPatchSetUser(cd.notes(), psId, reviewerAccountId, null, null));
   }
 
   public ReviewerInfo format(

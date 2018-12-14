@@ -323,7 +323,7 @@ public class Submit
     }
 
     ReviewDb db = dbProvider.get();
-    ChangeData cd = changeDataFactory.create(db, resource.getNotes());
+    ChangeData cd = changeDataFactory.create(resource.getNotes());
     try {
       MergeOp.checkSubmitRule(cd, false);
     } catch (ResourceConflictException e) {

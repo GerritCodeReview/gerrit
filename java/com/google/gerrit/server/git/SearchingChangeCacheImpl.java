@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -107,16 +106,15 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
    * <p>Returned changes only include the {@code Change} object (with id, branch) and the reviewers.
    * Additional stored fields are not loaded from the index.
    *
-   * @param db database handle to populate missing change data (probably unused).
    * @param project project to read.
    * @return list of known changes; empty if no changes.
    */
-  public List<ChangeData> getChangeData(ReviewDb db, Project.NameKey project) {
+  public List<ChangeData> getChangeData(Project.NameKey project) {
     try {
       List<CachedChange> cached = cache.get(project);
       List<ChangeData> cds = new ArrayList<>(cached.size());
       for (CachedChange cc : cached) {
-        ChangeData cd = changeDataFactory.create(db, cc.change());
+        ChangeData cd = changeDataFactory.create(cc.change());
         cd.setReviewers(cc.reviewers());
         cds.add(cd);
       }

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.proto;
 
-import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.CodedOutputStream;
 import com.google.protobuf.MessageLite;
@@ -62,29 +61,6 @@ public class Protos {
       outputStream.useDeterministicSerialization();
       message.writeTo(outputStream);
       outputStream.flush();
-      return bout.toByteString();
-    } catch (IOException e) {
-      throw new IllegalStateException("exception writing to ByteString", e);
-    }
-  }
-
-  /**
-   * Serializes an object to a {@link ByteString} using a protobuf codec.
-   *
-   * <p>Guarantees deterministic serialization. No matter whether the use case cares about
-   * determinism or not, always use this method in preference to {@link
-   * ProtobufCodec#encodeToByteString(Object)}, which is not guaranteed deterministic.
-   *
-   * @param object the object to serialize.
-   * @param codec codec for serializing.
-   * @return a {@code ByteString} with the message contents.
-   */
-  public static <T> ByteString toByteString(T object, ProtobufCodec<T> codec) {
-    try (ByteString.Output bout = ByteString.newOutput()) {
-      CodedOutputStream cout = CodedOutputStream.newInstance(bout);
-      cout.useDeterministicSerialization();
-      codec.encode(object, cout);
-      cout.flush();
       return bout.toByteString();
     } catch (IOException e) {
       throw new IllegalStateException("exception writing to ByteString", e);

@@ -76,7 +76,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RobotComment;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -124,7 +123,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -158,7 +156,6 @@ public class PostReview
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
   private static final int DEFAULT_ROBOT_COMMENT_SIZE_LIMIT_IN_BYTES = 1024 * 1024;
 
-  private final Provider<ReviewDb> db;
   private final ChangeResource.Factory changeResourceFactory;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
@@ -181,7 +178,6 @@ public class PostReview
 
   @Inject
   PostReview(
-      Provider<ReviewDb> db,
       RetryHelper retryHelper,
       ChangeResource.Factory changeResourceFactory,
       ChangeData.Factory changeDataFactory,
@@ -202,7 +198,6 @@ public class PostReview
       ProjectCache projectCache,
       PermissionBackend permissionBackend) {
     super(retryHelper);
-    this.db = db;
     this.changeResourceFactory = changeResourceFactory;
     this.changeDataFactory = changeDataFactory;
     this.commentsUtil = commentsUtil;
@@ -303,7 +298,7 @@ public class PostReview
     output.labels = input.labels;
 
     try (BatchUpdate bu =
-        updateFactory.create(db.get(), revision.getChange().getProject(), revision.getUser(), ts)) {
+        updateFactory.create(revision.getChange().getProject(), revision.getUser(), ts)) {
       Account.Id id = revision.getUser().getAccountId();
       boolean ccOrReviewer = false;
       if (input.labels != null && !input.labels.isEmpty()) {

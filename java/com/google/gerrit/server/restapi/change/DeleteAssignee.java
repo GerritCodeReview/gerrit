@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
@@ -41,7 +40,6 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
@@ -49,7 +47,6 @@ public class DeleteAssignee
     extends RetryingRestModifyView<ChangeResource, Input, Response<AccountInfo>> {
 
   private final ChangeMessagesUtil cmUtil;
-  private final Provider<ReviewDb> db;
   private final AssigneeChanged assigneeChanged;
   private final IdentifiedUser.GenericFactory userFactory;
   private final AccountLoader.Factory accountLoaderFactory;
@@ -58,13 +55,11 @@ public class DeleteAssignee
   DeleteAssignee(
       RetryHelper retryHelper,
       ChangeMessagesUtil cmUtil,
-      Provider<ReviewDb> db,
       AssigneeChanged assigneeChanged,
       IdentifiedUser.GenericFactory userFactory,
       AccountLoader.Factory accountLoaderFactory) {
     super(retryHelper);
     this.cmUtil = cmUtil;
-    this.db = db;
     this.assigneeChanged = assigneeChanged;
     this.userFactory = userFactory;
     this.accountLoaderFactory = accountLoaderFactory;
@@ -77,7 +72,7 @@ public class DeleteAssignee
     rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
 
     try (BatchUpdate bu =
-        updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Op op = new Op();
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();

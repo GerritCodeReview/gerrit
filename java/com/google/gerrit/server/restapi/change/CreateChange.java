@@ -39,7 +39,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -101,7 +100,6 @@ public class CreateChange
     extends RetryingRestCollectionModifyView<
         TopLevelResource, ChangeResource, ChangeInput, Response<ChangeInfo>> {
   private final String anonymousCowardName;
-  private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
   private final Sequences seq;
   private final TimeZone serverTimeZone;
@@ -122,7 +120,6 @@ public class CreateChange
   @Inject
   CreateChange(
       @AnonymousCowardName String anonymousCowardName,
-      Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
       Sequences seq,
       @GerritPersonIdent PersonIdent myIdent,
@@ -141,7 +138,6 @@ public class CreateChange
       ContributorAgreementsChecker contributorAgreements) {
     super(retryHelper);
     this.anonymousCowardName = anonymousCowardName;
-    this.db = db;
     this.gitManager = gitManager;
     this.seq = seq;
     this.serverTimeZone = myIdent.getTimeZone();
@@ -319,7 +315,7 @@ public class CreateChange
       ins.setGroups(groups);
       ins.setNotify(input.notify);
       ins.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
-      try (BatchUpdate bu = updateFactory.create(db.get(), project, me, now)) {
+      try (BatchUpdate bu = updateFactory.create(project, me, now)) {
         bu.setRepository(git, rw, oi);
         bu.insertChange(ins);
         bu.execute();

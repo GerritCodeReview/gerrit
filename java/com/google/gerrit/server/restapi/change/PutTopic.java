@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.ChangeResource;
@@ -40,24 +39,17 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
 public class PutTopic extends RetryingRestModifyView<ChangeResource, TopicInput, Response<String>>
     implements UiAction<ChangeResource> {
-  private final Provider<ReviewDb> dbProvider;
   private final ChangeMessagesUtil cmUtil;
   private final TopicEdited topicEdited;
 
   @Inject
-  PutTopic(
-      Provider<ReviewDb> dbProvider,
-      ChangeMessagesUtil cmUtil,
-      RetryHelper retryHelper,
-      TopicEdited topicEdited) {
+  PutTopic(ChangeMessagesUtil cmUtil, RetryHelper retryHelper, TopicEdited topicEdited) {
     super(retryHelper);
-    this.dbProvider = dbProvider;
     this.cmUtil = cmUtil;
     this.topicEdited = topicEdited;
   }
@@ -82,8 +74,7 @@ public class PutTopic extends RetryingRestModifyView<ChangeResource, TopicInput,
 
     Op op = new Op(sanitizedInput);
     try (BatchUpdate u =
-        updateFactory.create(
-            dbProvider.get(), req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {
       u.addOp(req.getId(), op);
       u.execute();
     }

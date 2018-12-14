@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -182,11 +181,10 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     @Override
     protected Void impl(RequestContext ctx) throws OrmException, IOException {
       // Reload change, as some time may have passed since GetChanges.
-      ReviewDb db = ctx.getReviewDbProvider().get();
       try {
         Change c =
             notesFactory.createChecked(new Project.NameKey(event.getProjectName()), id).getChange();
-        indexerFactory.create(executor, indexes).index(db, c);
+        indexerFactory.create(executor, indexes).index(c);
       } catch (NoSuchChangeException e) {
         indexerFactory.create(executor, indexes).delete(id);
       }

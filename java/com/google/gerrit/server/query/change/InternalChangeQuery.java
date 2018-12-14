@@ -33,7 +33,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
@@ -168,11 +167,10 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
   }
 
   public Iterable<ChangeData> byCommitsOnBranchNotMerged(
-      Repository repo, ReviewDb db, Branch.NameKey branch, Collection<String> hashes)
+      Repository repo, Branch.NameKey branch, Collection<String> hashes)
       throws OrmException, IOException {
     return byCommitsOnBranchNotMerged(
         repo,
-        db,
         branch,
         hashes,
         // Account for all commit predicates plus ref, project, status.
@@ -181,20 +179,16 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
 
   @VisibleForTesting
   Iterable<ChangeData> byCommitsOnBranchNotMerged(
-      Repository repo,
-      ReviewDb db,
-      Branch.NameKey branch,
-      Collection<String> hashes,
-      int indexLimit)
+      Repository repo, Branch.NameKey branch, Collection<String> hashes, int indexLimit)
       throws OrmException, IOException {
     if (hashes.size() > indexLimit) {
-      return byCommitsOnBranchNotMergedFromDatabase(repo, db, branch, hashes);
+      return byCommitsOnBranchNotMergedFromDatabase(repo, branch, hashes);
     }
     return byCommitsOnBranchNotMergedFromIndex(branch, hashes);
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromDatabase(
-      Repository repo, ReviewDb db, Branch.NameKey branch, Collection<String> hashes)
+      Repository repo, Branch.NameKey branch, Collection<String> hashes)
       throws OrmException, IOException {
     Set<Change.Id> changeIds = Sets.newHashSetWithExpectedSize(hashes.size());
     String lastPrefix = null;
@@ -221,7 +215,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
               Change c = cn.getChange();
               return c.getDest().equals(branch) && c.getStatus() != Change.Status.MERGED;
             });
-    return Lists.transform(notes, n -> changeDataFactory.create(db, n));
+    return Lists.transform(notes, n -> changeDataFactory.create(n));
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromIndex(

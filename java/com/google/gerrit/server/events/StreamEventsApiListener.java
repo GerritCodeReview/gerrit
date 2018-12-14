@@ -154,7 +154,11 @@ public class StreamEventsApiListener
         new Supplier<ChangeAttribute>() {
           @Override
           public ChangeAttribute get() {
-            return eventFactory.asChangeAttribute(change, notes);
+            try {
+              return eventFactory.asChangeAttribute(change, notes);
+            } catch (OrmException e) {
+              throw new RuntimeException(e);
+            }
           }
         });
   }

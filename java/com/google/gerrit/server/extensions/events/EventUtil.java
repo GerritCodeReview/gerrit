@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.ChangeJson;
@@ -35,7 +34,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -63,7 +61,6 @@ public class EventUtil {
   }
 
   private final ChangeData.Factory changeDataFactory;
-  private final Provider<ReviewDb> db;
   private final ChangeJson.Factory changeJsonFactory;
   private final RevisionJson.Factory revisionJsonFactory;
 
@@ -71,10 +68,8 @@ public class EventUtil {
   EventUtil(
       ChangeJson.Factory changeJsonFactory,
       RevisionJson.Factory revisionJsonFactory,
-      ChangeData.Factory changeDataFactory,
-      Provider<ReviewDb> db) {
+      ChangeData.Factory changeDataFactory) {
     this.changeDataFactory = changeDataFactory;
-    this.db = db;
     this.changeJsonFactory = changeJsonFactory;
     this.revisionJsonFactory = revisionJsonFactory;
   }
@@ -92,7 +87,7 @@ public class EventUtil {
   public RevisionInfo revisionInfo(Project.NameKey project, PatchSet ps)
       throws OrmException, PatchListNotAvailableException, GpgException, IOException,
           PermissionBackendException {
-    ChangeData cd = changeDataFactory.create(db.get(), project, ps.getId().getParentKey());
+    ChangeData cd = changeDataFactory.create(project, ps.getId().getParentKey());
     return revisionJsonFactory.create(CHANGE_OPTIONS).getRevisionInfo(cd, ps);
   }
 

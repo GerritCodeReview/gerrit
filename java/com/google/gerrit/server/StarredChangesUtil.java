@@ -35,7 +35,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -167,7 +166,6 @@ public class StarredChangesUtil {
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated gitRefUpdated;
   private final AllUsersName allUsers;
-  private final Provider<ReviewDb> dbProvider;
   private final Provider<PersonIdent> serverIdent;
   private final ChangeIndexer indexer;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -177,14 +175,12 @@ public class StarredChangesUtil {
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
       AllUsersName allUsers,
-      Provider<ReviewDb> dbProvider,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       ChangeIndexer indexer,
       Provider<InternalChangeQuery> queryProvider) {
     this.repoManager = repoManager;
     this.gitRefUpdated = gitRefUpdated;
     this.allUsers = allUsers;
-    this.dbProvider = dbProvider;
     this.serverIdent = serverIdent;
     this.indexer = indexer;
     this.queryProvider = queryProvider;
@@ -229,7 +225,7 @@ public class StarredChangesUtil {
         updateLabels(repo, refName, old.objectId(), labels);
       }
 
-      indexer.index(dbProvider.get(), project, changeId);
+      indexer.index(project, changeId);
       return ImmutableSortedSet.copyOf(labels);
     } catch (IOException e) {
       throw new OrmException(
@@ -259,7 +255,7 @@ public class StarredChangesUtil {
                   changeId.get(), command.getRefName(), command.getResult()));
         }
       }
-      indexer.index(dbProvider.get(), project, changeId);
+      indexer.index(project, changeId);
     } catch (IOException e) {
       throw new OrmException(String.format("Unstar change %d failed", changeId.get()), e);
     }

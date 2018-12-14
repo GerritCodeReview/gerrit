@@ -260,7 +260,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     testRepo.reset(c1);
     assertPushOk(pushHead(testRepo, "refs/heads/master", false), "refs/heads/master");
 
-    cd = changeDataFactory.create(db, project, psId1.getParentKey());
+    cd = changeDataFactory.create(project, psId1.getParentKey());
     Change c = cd.change();
     assertThat(c.getStatus()).isEqualTo(Change.Status.MERGED);
     assertThat(c.currentPatchSetId()).isEqualTo(psId1);

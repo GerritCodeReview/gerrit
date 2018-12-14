@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdentProvider;
@@ -72,7 +71,6 @@ public class EmailArguments {
   final SitePaths site;
 
   final ChangeQueryBuilder queryBuilder;
-  final Provider<ReviewDb> db;
   final ChangeData.Factory changeDataFactory;
   final SoyTofu soyTofu;
   final EmailSettings settings;
@@ -102,7 +100,6 @@ public class EmailArguments {
       UrlFormatter urlFormatter,
       AllProjectsName allProjectsName,
       ChangeQueryBuilder queryBuilder,
-      Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       @MailTemplates SoyTofu soyTofu,
       EmailSettings settings,
@@ -131,7 +128,6 @@ public class EmailArguments {
     this.urlFormatter = urlFormatter;
     this.allProjectsName = allProjectsName;
     this.queryBuilder = queryBuilder;
-    this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.soyTofu = soyTofu;
     this.settings = settings;

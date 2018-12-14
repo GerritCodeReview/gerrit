@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.util;
 
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.inject.Provider;
 
 /**
  * The RequestContext is an interface exposing the fields that are needed by the GerritGlobalModule
@@ -24,6 +22,4 @@ import com.google.inject.Provider;
  */
 public interface RequestContext {
   CurrentUser getUser();
-
-  Provider<ReviewDb> getReviewDbProvider();
 }

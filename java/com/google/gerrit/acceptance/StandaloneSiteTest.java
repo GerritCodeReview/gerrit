@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -34,7 +33,6 @@ import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
@@ -80,11 +78,6 @@ public abstract class StandaloneSiteTest {
     @Override
     public CurrentUser getUser() {
       return ctx.getUser();
-    }
-
-    @Override
-    public Provider<ReviewDb> getReviewDbProvider() {
-      return ctx.getReviewDbProvider();
     }
 
     public Injector getInjector() {

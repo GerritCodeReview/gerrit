@@ -29,12 +29,8 @@ import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
-import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 import com.google.inject.assistedinject.Assisted;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -53,7 +49,6 @@ class EmailMerge implements Runnable, RequestContext {
 
   private final ExecutorService sendEmailsExecutor;
   private final MergedSender.Factory mergedSenderFactory;
-  private final SchemaFactory<ReviewDb> schemaFactory;
   private final ThreadLocalRequestContext requestContext;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
@@ -69,7 +64,6 @@ class EmailMerge implements Runnable, RequestContext {
   EmailMerge(
       @SendEmailExecutor ExecutorService executor,
       MergedSender.Factory mergedSenderFactory,
-      SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       @Assisted Project.NameKey project,
@@ -79,7 +73,6 @@ class EmailMerge implements Runnable, RequestContext {
       @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify) {
     this.sendEmailsExecutor = executor;
     this.mergedSenderFactory = mergedSenderFactory;
-    this.schemaFactory = schemaFactory;
     this.requestContext = requestContext;
     this.identifiedUserFactory = identifiedUserFactory;
     this.project = project;
@@ -127,22 +120,5 @@ class EmailMerge implements Runnable, RequestContext {
       return identifiedUserFactory.create(submitter).getRealUser();
     }
     throw new OutOfScopeException("No user on email thread");
-  }
-
-  @Override
-  public Provider<ReviewDb> getReviewDbProvider() {
-    return new Provider<ReviewDb>() {
-      @Override
-      public ReviewDb get() {
-        if (db == null) {
-          try {
-            db = schemaFactory.open();
-          } catch (OrmException e) {
-            throw new ProvisionException("Cannot open ReviewDb", e);
-          }
-        }
-        return db;
-      }
-    };
   }
 }

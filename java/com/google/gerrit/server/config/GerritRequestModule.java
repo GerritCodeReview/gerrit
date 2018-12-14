@@ -26,7 +26,6 @@ public class GerritRequestModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(RequestCleanup.class).in(RequestScoped.class);
-    bind(RequestScopedReviewDbProvider.class);
     bind(IdentifiedUser.RequestFactory.class).in(SINGLETON);
   }
 }

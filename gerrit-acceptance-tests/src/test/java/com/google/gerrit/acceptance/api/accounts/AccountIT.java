@@ -809,6 +809,33 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setName() throws Exception {
+    gApi.accounts().self().setName("Admin McAdminface");
+    assertThat(gApi.accounts().self().get().name).isEqualTo("Admin McAdminface");
+  }
+
+  @Test
+  public void adminCanSetNameOfOtherUser() throws Exception {
+    gApi.accounts().id(user.username).setName("User McUserface");
+    assertThat(gApi.accounts().id(user.username).get().name).isEqualTo("User McUserface");
+  }
+
+  @Test
+  public void userCannotSetNameOfOtherUser() throws Exception {
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    gApi.accounts().id(admin.username).setName("Admin McAdminface");
+  }
+
+  @Test
+  @Sandboxed
+  public void userCanSetNameOfOtherUserWithModifyAccountPermission() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.MODIFY_ACCOUNT);
+    gApi.accounts().id(admin.username).setName("Admin McAdminface");
+    assertThat(gApi.accounts().id(admin.username).get().name).isEqualTo("Admin McAdminface");
+  }
+
+  @Test
   @Sandboxed
   public void fetchUserBranch() throws Exception {
     setApiUser(user);

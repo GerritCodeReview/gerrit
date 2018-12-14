@@ -63,6 +63,7 @@ import com.google.gerrit.server.account.Index;
 import com.google.gerrit.server.account.PostWatchedProjects;
 import com.google.gerrit.server.account.PutActive;
 import com.google.gerrit.server.account.PutAgreement;
+import com.google.gerrit.server.account.PutName;
 import com.google.gerrit.server.account.PutStatus;
 import com.google.gerrit.server.account.SetDiffPreferences;
 import com.google.gerrit.server.account.SetEditPreferences;
@@ -120,6 +121,7 @@ public class AccountApiImpl implements AccountApi {
   private final DeleteExternalIds deleteExternalIds;
   private final PutStatus putStatus;
   private final GetGroups getGroups;
+  private final PutName putName;
 
   @Inject
   AccountApiImpl(
@@ -158,6 +160,7 @@ public class AccountApiImpl implements AccountApi {
       DeleteExternalIds deleteExternalIds,
       PutStatus putStatus,
       GetGroups getGroups,
+      PutName putName,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -195,6 +198,7 @@ public class AccountApiImpl implements AccountApi {
     this.deleteExternalIds = deleteExternalIds;
     this.putStatus = putStatus;
     this.getGroups = getGroups;
+    this.putName = putName;
   }
 
   @Override
@@ -511,6 +515,17 @@ public class AccountApiImpl implements AccountApi {
       deleteExternalIds.apply(account, externalIds);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete external IDs", e);
+    }
+  }
+
+  @Override
+  public void setName(String name) throws RestApiException {
+    PutName.Input input = new PutName.Input();
+    input.name = name;
+    try {
+      putName.apply(account, input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set account name", e);
     }
   }
 }

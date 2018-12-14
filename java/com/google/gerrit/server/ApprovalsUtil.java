@@ -17,14 +17,12 @@ package com.google.gerrit.server;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
-import static java.util.Comparator.comparing;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Shorts;
@@ -80,13 +78,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 @Singleton
 public class ApprovalsUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  private static final Ordering<PatchSetApproval> SORT_APPROVALS =
-      Ordering.from(comparing(PatchSetApproval::getGranted));
-
-  public static List<PatchSetApproval> sortApprovals(Iterable<PatchSetApproval> approvals) {
-    return SORT_APPROVALS.sortedCopy(approvals);
-  }
 
   public static PatchSetApproval newApproval(
       PatchSet.Id psId, CurrentUser user, LabelId labelId, int value, Date when) {

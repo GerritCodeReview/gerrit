@@ -126,11 +126,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
     }
 
     try {
-      args.permissionBackend
-          .user(args.getUser())
-          .database(args.db)
-          .change(changeNotes)
-          .check(ChangePermission.READ);
+      args.permissionBackend.user(args.getUser()).change(changeNotes).check(ChangePermission.READ);
     } catch (AuthException e) {
       throw error(String.format("change %s not found", change));
     }

@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -80,7 +79,6 @@ public class ChangeEditModifier {
 
   private final TimeZone tz;
   private final ChangeIndexer indexer;
-  private final Provider<ReviewDb> reviewDb;
   private final Provider<CurrentUser> currentUser;
   private final PermissionBackend permissionBackend;
   private final ChangeEditUtil changeEditUtil;
@@ -91,14 +89,12 @@ public class ChangeEditModifier {
   ChangeEditModifier(
       @GerritPersonIdent PersonIdent gerritIdent,
       ChangeIndexer indexer,
-      Provider<ReviewDb> reviewDb,
       Provider<CurrentUser> currentUser,
       PermissionBackend permissionBackend,
       ChangeEditUtil changeEditUtil,
       PatchSetUtil patchSetUtil,
       ProjectCache projectCache) {
     this.indexer = indexer;
-    this.reviewDb = reviewDb;
     this.currentUser = currentUser;
     this.permissionBackend = permissionBackend;
     this.tz = gerritIdent.getTimeZone();
@@ -410,11 +406,7 @@ public class ChangeEditModifier {
     // Not allowed to edit if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(notes);
     try {
-      permissionBackend
-          .currentUser()
-          .database(reviewDb)
-          .change(notes)
-          .check(ChangePermission.ADD_PATCH_SET);
+      permissionBackend.currentUser().change(notes).check(ChangePermission.ADD_PATCH_SET);
       projectCache.checkedGet(notes.getProjectName()).checkStatePermitsWrite();
     } catch (AuthException denied) {
       throw new AuthException("edit not permitted", denied);

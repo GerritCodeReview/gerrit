@@ -280,8 +280,7 @@ public class PostReview
         reviewerInput.notify = NotifyHandling.NONE;
 
         ReviewerAddition result =
-            reviewerAdder.prepare(
-                db.get(), revision.getNotes(), revision.getUser(), reviewerInput, true);
+            reviewerAdder.prepare(revision.getNotes(), revision.getUser(), reviewerInput, true);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
         if (result.result.error != null) {
           hasError = true;
@@ -467,7 +466,7 @@ public class PostReview
     }
 
     CurrentUser caller = rev.getUser();
-    PermissionBackend.ForChange perm = rev.permissions().database(db);
+    PermissionBackend.ForChange perm = rev.permissions();
     Iterator<Map.Entry<String, Short>> itr = in.labels.entrySet().iterator();
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
@@ -499,11 +498,7 @@ public class PostReview
 
     IdentifiedUser reviewer = accountResolver.parseOnBehalfOf(caller, in.onBehalfOf);
     try {
-      permissionBackend
-          .user(reviewer)
-          .database(db)
-          .change(rev.getNotes())
-          .check(ChangePermission.READ);
+      permissionBackend.user(reviewer).change(rev.getNotes()).check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new UnprocessableEntityException(
           String.format("on_behalf_of account %s cannot see change", reviewer.getAccountId()));

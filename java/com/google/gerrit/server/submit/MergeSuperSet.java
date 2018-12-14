@@ -110,7 +110,7 @@ public class MergeSuperSet {
 
         if (projectState.statePermitsRead()) {
           try {
-            permissionBackend.user(user).change(cd).database(db).check(ChangePermission.READ);
+            permissionBackend.user(user).change(cd).check(ChangePermission.READ);
             visible = true;
           } catch (AuthException e) {
             // Do nothing.
@@ -147,11 +147,7 @@ public class MergeSuperSet {
    * @return the resulting larger {@link ChangeSet}
    */
   private ChangeSet topicClosure(
-      ReviewDb db,
-      ChangeSet changeSet,
-      CurrentUser user,
-      Set<String> topicsSeen,
-      Set<String> visibleTopicsSeen)
+      ChangeSet changeSet, CurrentUser user, Set<String> topicsSeen, Set<String> visibleTopicsSeen)
       throws OrmException, PermissionBackendException, IOException {
     List<ChangeData> visibleChanges = new ArrayList<>();
     List<ChangeData> nonVisibleChanges = new ArrayList<>();
@@ -163,7 +159,7 @@ public class MergeSuperSet {
         continue;
       }
       for (ChangeData topicCd : byTopicOpen(topic)) {
-        if (canRead(db, user, topicCd)) {
+        if (canRead(user, topicCd)) {
           visibleChanges.add(topicCd);
         } else {
           nonVisibleChanges.add(topicCd);
@@ -194,7 +190,7 @@ public class MergeSuperSet {
     int oldSeen;
     int seen;
 
-    changeSet = topicClosure(db, changeSet, user, topicsSeen, visibleTopicsSeen);
+    changeSet = topicClosure(changeSet, user, topicsSeen, visibleTopicsSeen);
     seen = topicsSeen.size() + visibleTopicsSeen.size();
 
     do {
@@ -202,7 +198,7 @@ public class MergeSuperSet {
       try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation)) {
         changeSet = mergeSuperSetComputation.get().completeWithoutTopic(db, orm, changeSet, user);
       }
-      changeSet = topicClosure(db, changeSet, user, topicsSeen, visibleTopicsSeen);
+      changeSet = topicClosure(changeSet, user, topicsSeen, visibleTopicsSeen);
       seen = topicsSeen.size() + visibleTopicsSeen.size();
     } while (seen != oldSeen);
     return changeSet;
@@ -212,7 +208,7 @@ public class MergeSuperSet {
     return queryProvider.get().byTopicOpen(topic);
   }
 
-  private boolean canRead(ReviewDb db, CurrentUser user, ChangeData cd)
+  private boolean canRead(CurrentUser user, ChangeData cd)
       throws PermissionBackendException, IOException {
     ProjectState projectState = projectCache.checkedGet(cd.project());
     if (projectState == null || !projectState.statePermitsRead()) {
@@ -220,7 +216,7 @@ public class MergeSuperSet {
     }
 
     try {
-      permissionBackend.user(user).change(cd).database(db).check(ChangePermission.READ);
+      permissionBackend.user(user).change(cd).check(ChangePermission.READ);
       return true;
     } catch (AuthException e) {
       return false;

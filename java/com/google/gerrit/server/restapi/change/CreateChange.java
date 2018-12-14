@@ -221,7 +221,7 @@ public class CreateChange
         }
         ChangeNotes change = Iterables.getOnlyElement(notes);
         try {
-          permissionBackend.currentUser().change(change).database(db).check(ChangePermission.READ);
+          permissionBackend.currentUser().change(change).check(ChangePermission.READ);
         } catch (AuthException e) {
           throw new UnprocessableEntityException("Read not permitted for " + input.baseChange);
         }

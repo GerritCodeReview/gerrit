@@ -27,7 +27,6 @@ import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryProcessor;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DynamicOptions;
@@ -66,7 +65,6 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     PluginDefinedInfo create(ChangeData a, ChangeQueryProcessor qp, String plugin);
   }
 
-  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> userProvider;
   private final ChangeNotes.Factory notesFactory;
   private final DynamicMap<ChangeAttributeFactory> attributeFactories;
@@ -92,7 +90,6 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       IndexConfig indexConfig,
       ChangeIndexCollection indexes,
       ChangeIndexRewriter rewriter,
-      Provider<ReviewDb> db,
       ChangeNotes.Factory notesFactory,
       DynamicMap<ChangeAttributeFactory> attributeFactories,
       PermissionBackend permissionBackend,
@@ -106,7 +103,6 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
         rewriter,
         FIELD_LIMIT,
         () -> limitsFactory.create(userProvider.get()).getQueryLimit());
-    this.db = db;
     this.userProvider = userProvider;
     this.notesFactory = notesFactory;
     this.attributeFactories = attributeFactories;
@@ -173,7 +169,6 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     return new AndChangeSource(
         pred,
         new ChangeIsVisibleToPredicate(
-            db,
             notesFactory,
             userProvider.get(),
             permissionBackend,

@@ -109,7 +109,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     // Not allowed to rebase if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
-    rsrc.permissions().database(dbProvider).check(ChangePermission.REBASE);
+    rsrc.permissions().check(ChangePermission.REBASE);
     projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
 
     Change change = rsrc.getChange();
@@ -169,11 +169,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       throw new ResourceConflictException("cannot rebase change onto itself");
     }
 
-    permissionBackend
-        .user(rsrc.getUser())
-        .database(dbProvider)
-        .change(base.notes())
-        .check(ChangePermission.READ);
+    permissionBackend.user(rsrc.getUser()).change(base.notes()).check(ChangePermission.READ);
 
     Change baseChange = base.notes().getChange();
     if (!baseChange.getProject().equals(change.getProject())) {
@@ -250,7 +246,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       return description;
     }
 
-    if (rsrc.permissions().database(dbProvider).testOrFalse(ChangePermission.REBASE)) {
+    if (rsrc.permissions().testOrFalse(ChangePermission.REBASE)) {
       return description.setVisible(true).setEnabled(enabled);
     }
     return description;

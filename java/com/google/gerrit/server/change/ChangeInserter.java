@@ -425,8 +425,7 @@ public class ChangeInserter implements InsertChangeOp {
     update.fixStatus(change.getStatus());
 
     reviewerAdditions =
-        reviewerAdder.prepare(
-            ctx.getDb(), ctx.getNotes(), ctx.getUser(), getReviewerInputs(), true);
+        reviewerAdder.prepare(ctx.getNotes(), ctx.getUser(), getReviewerInputs(), true);
     Optional<ReviewerAddition> reviewerError = reviewerAdditions.getFailures().stream().findFirst();
     if (reviewerError.isPresent()) {
       throw new UnprocessableEntityException(reviewerError.get().result.error);

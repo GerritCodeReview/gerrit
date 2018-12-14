@@ -74,7 +74,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
@@ -202,7 +201,6 @@ public class ChangeJson {
     }
   }
 
-  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
   private final ChangeData.Factory changeDataFactory;
@@ -225,7 +223,6 @@ public class ChangeJson {
 
   @Inject
   ChangeJson(
-      Provider<ReviewDb> db,
       Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
       ChangeData.Factory cdf,
@@ -241,7 +238,6 @@ public class ChangeJson {
       RevisionJson.Factory revisionJsonFactory,
       @Assisted Iterable<ListChangesOption> options,
       @Assisted Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory) {
-    this.db = db;
     this.userProvider = user;
     this.changeDataFactory = cdf;
     this.permissionBackend = permissionBackend;
@@ -803,7 +799,7 @@ public class ChangeJson {
    */
   private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
       throws OrmException {
-    PermissionBackend.WithUser withUser = permissionBackend.user(user).database(db);
+    PermissionBackend.WithUser withUser = permissionBackend.user(user);
     return lazyLoad
         ? withUser.change(cd)
         : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));

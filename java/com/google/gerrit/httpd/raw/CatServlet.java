@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
@@ -32,7 +31,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
@@ -52,7 +50,6 @@ import org.eclipse.jgit.lib.ObjectId;
 @SuppressWarnings("serial")
 @Singleton
 public class CatServlet extends HttpServlet {
-  private final Provider<ReviewDb> requestDb;
   private final ChangeEditUtil changeEditUtil;
   private final PatchSetUtil psUtil;
   private final ChangeNotes.Factory changeNotesFactory;
@@ -61,13 +58,11 @@ public class CatServlet extends HttpServlet {
 
   @Inject
   CatServlet(
-      Provider<ReviewDb> sf,
       ChangeEditUtil ceu,
       PatchSetUtil psu,
       ChangeNotes.Factory cnf,
       PermissionBackend pb,
       ProjectCache pc) {
-    requestDb = sf;
     changeEditUtil = ceu;
     psUtil = psu;
     changeNotesFactory = cnf;
@@ -127,11 +122,7 @@ public class CatServlet extends HttpServlet {
     String revision;
     try {
       ChangeNotes notes = changeNotesFactory.createChecked(changeId);
-      permissionBackend
-          .currentUser()
-          .change(notes)
-          .database(requestDb)
-          .check(ChangePermission.READ);
+      permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
       projectCache.checkedGet(notes.getProjectName()).checkStatePermitsRead();
       if (patchKey.getParentKey().get() == 0) {
         // change edit

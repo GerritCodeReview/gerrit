@@ -19,7 +19,7 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.protobuf.Parser;
@@ -32,9 +32,9 @@ public class LabelIdProtoConverterTest {
   public void allValuesConvertedToProto() {
     LabelId labelId = new LabelId("Label ID 42");
 
-    Reviewdb.LabelId proto = labelIdProtoConverter.toProto(labelId);
+    Entities.LabelId proto = labelIdProtoConverter.toProto(labelId);
 
-    Reviewdb.LabelId expectedProto = Reviewdb.LabelId.newBuilder().setId("Label ID 42").build();
+    Entities.LabelId expectedProto = Entities.LabelId.newBuilder().setId("Label ID 42").build();
     assertThat(proto).isEqualTo(expectedProto);
   }
 
@@ -50,11 +50,11 @@ public class LabelIdProtoConverterTest {
 
   @Test
   public void protoCanBeParsedFromBytes() throws Exception {
-    Reviewdb.LabelId proto = Reviewdb.LabelId.newBuilder().setId("label-23").build();
+    Entities.LabelId proto = Entities.LabelId.newBuilder().setId("label-23").build();
     byte[] bytes = proto.toByteArray();
 
-    Parser<Reviewdb.LabelId> parser = labelIdProtoConverter.getParser();
-    Reviewdb.LabelId parsedProto = parser.parseFrom(bytes);
+    Parser<Entities.LabelId> parser = labelIdProtoConverter.getParser();
+    Entities.LabelId parsedProto = parser.parseFrom(bytes);
 
     assertThat(parsedProto).isEqualTo(proto);
   }

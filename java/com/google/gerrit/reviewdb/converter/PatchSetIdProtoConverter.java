@@ -14,32 +14,32 @@
 
 package com.google.gerrit.reviewdb.converter;
 
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.protobuf.Parser;
 
-public enum PatchSetIdProtoConverter implements ProtoConverter<Reviewdb.PatchSet_Id, PatchSet.Id> {
+public enum PatchSetIdProtoConverter implements ProtoConverter<Entities.PatchSet_Id, PatchSet.Id> {
   INSTANCE;
 
-  private final ProtoConverter<Reviewdb.Change_Id, Change.Id> changeIdConverter =
+  private final ProtoConverter<Entities.Change_Id, Change.Id> changeIdConverter =
       ChangeIdProtoConverter.INSTANCE;
 
   @Override
-  public Reviewdb.PatchSet_Id toProto(PatchSet.Id patchSetId) {
-    return Reviewdb.PatchSet_Id.newBuilder()
+  public Entities.PatchSet_Id toProto(PatchSet.Id patchSetId) {
+    return Entities.PatchSet_Id.newBuilder()
         .setChangeId(changeIdConverter.toProto(patchSetId.getParentKey()))
         .setPatchSetId(patchSetId.get())
         .build();
   }
 
   @Override
-  public PatchSet.Id fromProto(Reviewdb.PatchSet_Id proto) {
+  public PatchSet.Id fromProto(Entities.PatchSet_Id proto) {
     return new PatchSet.Id(changeIdConverter.fromProto(proto.getChangeId()), proto.getPatchSetId());
   }
 
   @Override
-  public Parser<Reviewdb.PatchSet_Id> getParser() {
-    return Reviewdb.PatchSet_Id.parser();
+  public Parser<Entities.PatchSet_Id> getParser() {
+    return Entities.PatchSet_Id.parser();
   }
 }

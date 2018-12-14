@@ -11,6 +11,6 @@ java_library(
         "//lib:guava",
         "//lib:gwtorm",
         "//lib:protobuf",
-        "//proto:reviewdb_java_proto",
+        "//proto:entities_java_proto",
     ],
 )

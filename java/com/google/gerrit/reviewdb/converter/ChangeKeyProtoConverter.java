@@ -14,25 +14,25 @@
 
 package com.google.gerrit.reviewdb.converter;
 
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.protobuf.Parser;
 
-public enum ChangeKeyProtoConverter implements ProtoConverter<Reviewdb.Change_Key, Change.Key> {
+public enum ChangeKeyProtoConverter implements ProtoConverter<Entities.Change_Key, Change.Key> {
   INSTANCE;
 
   @Override
-  public Reviewdb.Change_Key toProto(Change.Key key) {
-    return Reviewdb.Change_Key.newBuilder().setId(key.get()).build();
+  public Entities.Change_Key toProto(Change.Key key) {
+    return Entities.Change_Key.newBuilder().setId(key.get()).build();
   }
 
   @Override
-  public Change.Key fromProto(Reviewdb.Change_Key proto) {
+  public Change.Key fromProto(Entities.Change_Key proto) {
     return new Change.Key(proto.getId());
   }
 
   @Override
-  public Parser<Reviewdb.Change_Key> getParser() {
-    return Reviewdb.Change_Key.parser();
+  public Parser<Entities.Change_Key> getParser() {
+    return Entities.Change_Key.parser();
   }
 }

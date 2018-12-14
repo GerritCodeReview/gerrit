@@ -20,7 +20,7 @@ DEPS = [
     "//lib/auto:auto-value",
     "//lib/jetty:servlets",
     "//lib/prolog:compiler-lib",
-    "//proto:reviewdb_java_proto",
+    "//proto:entities_java_proto",
 ]
 
 java_library(

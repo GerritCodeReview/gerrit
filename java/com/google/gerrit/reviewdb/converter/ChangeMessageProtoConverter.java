@@ -14,7 +14,7 @@
 
 package com.google.gerrit.reviewdb.converter;
 
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -23,20 +23,20 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public enum ChangeMessageProtoConverter
-    implements ProtoConverter<Reviewdb.ChangeMessage, ChangeMessage> {
+    implements ProtoConverter<Entities.ChangeMessage, ChangeMessage> {
   INSTANCE;
 
-  private final ProtoConverter<Reviewdb.ChangeMessage_Key, ChangeMessage.Key>
+  private final ProtoConverter<Entities.ChangeMessage_Key, ChangeMessage.Key>
       changeMessageKeyConverter = ChangeMessageKeyProtoConverter.INSTANCE;
-  private final ProtoConverter<Reviewdb.Account_Id, Account.Id> accountIdConverter =
+  private final ProtoConverter<Entities.Account_Id, Account.Id> accountIdConverter =
       AccountIdProtoConverter.INSTANCE;
-  private final ProtoConverter<Reviewdb.PatchSet_Id, PatchSet.Id> patchSetIdConverter =
+  private final ProtoConverter<Entities.PatchSet_Id, PatchSet.Id> patchSetIdConverter =
       PatchSetIdProtoConverter.INSTANCE;
 
   @Override
-  public Reviewdb.ChangeMessage toProto(ChangeMessage changeMessage) {
-    Reviewdb.ChangeMessage.Builder builder =
-        Reviewdb.ChangeMessage.newBuilder()
+  public Entities.ChangeMessage toProto(ChangeMessage changeMessage) {
+    Entities.ChangeMessage.Builder builder =
+        Entities.ChangeMessage.newBuilder()
             .setKey(changeMessageKeyConverter.toProto(changeMessage.getKey()));
     Account.Id author = changeMessage.getAuthor();
     if (author != null) {
@@ -69,7 +69,7 @@ public enum ChangeMessageProtoConverter
   }
 
   @Override
-  public ChangeMessage fromProto(Reviewdb.ChangeMessage proto) {
+  public ChangeMessage fromProto(Entities.ChangeMessage proto) {
     ChangeMessage.Key key =
         proto.hasKey() ? changeMessageKeyConverter.fromProto(proto.getKey()) : null;
     Account.Id author =
@@ -91,7 +91,7 @@ public enum ChangeMessageProtoConverter
   }
 
   @Override
-  public Parser<Reviewdb.ChangeMessage> getParser() {
-    return Reviewdb.ChangeMessage.parser();
+  public Parser<Entities.ChangeMessage> getParser() {
+    return Entities.ChangeMessage.parser();
   }
 }

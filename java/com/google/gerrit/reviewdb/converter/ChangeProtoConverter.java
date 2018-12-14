@@ -14,7 +14,7 @@
 
 package com.google.gerrit.reviewdb.converter;
 
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -22,22 +22,22 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.protobuf.Parser;
 import java.sql.Timestamp;
 
-public enum ChangeProtoConverter implements ProtoConverter<Reviewdb.Change, Change> {
+public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Change> {
   INSTANCE;
 
-  private final ProtoConverter<Reviewdb.Change_Id, Change.Id> changeIdConverter =
+  private final ProtoConverter<Entities.Change_Id, Change.Id> changeIdConverter =
       ChangeIdProtoConverter.INSTANCE;
-  private final ProtoConverter<Reviewdb.Change_Key, Change.Key> changeKeyConverter =
+  private final ProtoConverter<Entities.Change_Key, Change.Key> changeKeyConverter =
       ChangeKeyProtoConverter.INSTANCE;
-  private final ProtoConverter<Reviewdb.Account_Id, Account.Id> accountIdConverter =
+  private final ProtoConverter<Entities.Account_Id, Account.Id> accountIdConverter =
       AccountIdProtoConverter.INSTANCE;
-  private final ProtoConverter<Reviewdb.Branch_NameKey, Branch.NameKey> branchNameConverter =
+  private final ProtoConverter<Entities.Branch_NameKey, Branch.NameKey> branchNameConverter =
       BranchNameKeyProtoConverter.INSTANCE;
 
   @Override
-  public Reviewdb.Change toProto(Change change) {
-    Reviewdb.Change.Builder builder =
-        Reviewdb.Change.newBuilder()
+  public Entities.Change toProto(Change change) {
+    Entities.Change.Builder builder =
+        Entities.Change.newBuilder()
             .setChangeId(changeIdConverter.toProto(change.getId()))
             .setRowVersion(change.getRowVersion())
             .setChangeKey(changeKeyConverter.toProto(change.getKey()))
@@ -80,7 +80,7 @@ public enum ChangeProtoConverter implements ProtoConverter<Reviewdb.Change, Chan
   }
 
   @Override
-  public Change fromProto(Reviewdb.Change proto) {
+  public Change fromProto(Entities.Change proto) {
     Change.Id changeId = changeIdConverter.fromProto(proto.getChangeId());
     Change.Key key =
         proto.hasChangeKey() ? changeKeyConverter.fromProto(proto.getChangeKey()) : null;
@@ -120,7 +120,7 @@ public enum ChangeProtoConverter implements ProtoConverter<Reviewdb.Change, Chan
   }
 
   @Override
-  public Parser<Reviewdb.Change> getParser() {
-    return Reviewdb.Change.parser();
+  public Parser<Entities.Change> getParser() {
+    return Entities.Change.parser();
   }
 }

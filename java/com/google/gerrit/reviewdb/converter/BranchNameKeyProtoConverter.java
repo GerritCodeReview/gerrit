@@ -14,34 +14,34 @@
 
 package com.google.gerrit.reviewdb.converter;
 
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.protobuf.Parser;
 
 public enum BranchNameKeyProtoConverter
-    implements ProtoConverter<Reviewdb.Branch_NameKey, Branch.NameKey> {
+    implements ProtoConverter<Entities.Branch_NameKey, Branch.NameKey> {
   INSTANCE;
 
-  private final ProtoConverter<Reviewdb.Project_NameKey, Project.NameKey> projectNameConverter =
+  private final ProtoConverter<Entities.Project_NameKey, Project.NameKey> projectNameConverter =
       ProjectNameKeyProtoConverter.INSTANCE;
 
   @Override
-  public Reviewdb.Branch_NameKey toProto(Branch.NameKey nameKey) {
-    return Reviewdb.Branch_NameKey.newBuilder()
+  public Entities.Branch_NameKey toProto(Branch.NameKey nameKey) {
+    return Entities.Branch_NameKey.newBuilder()
         .setProjectName(projectNameConverter.toProto(nameKey.getParentKey()))
         .setBranchName(nameKey.get())
         .build();
   }
 
   @Override
-  public Branch.NameKey fromProto(Reviewdb.Branch_NameKey proto) {
+  public Branch.NameKey fromProto(Entities.Branch_NameKey proto) {
     return new Branch.NameKey(
         projectNameConverter.fromProto(proto.getProjectName()), proto.getBranchName());
   }
 
   @Override
-  public Parser<Reviewdb.Branch_NameKey> getParser() {
-    return Reviewdb.Branch_NameKey.parser();
+  public Parser<Entities.Branch_NameKey> getParser() {
+    return Entities.Branch_NameKey.parser();
   }
 }

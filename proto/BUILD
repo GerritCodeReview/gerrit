@@ -10,12 +10,12 @@ java_proto_library(
 )
 
 proto_library(
-    name = "reviewdb_proto",
-    srcs = ["reviewdb.proto"],
+    name = "entities_proto",
+    srcs = ["entities.proto"],
 )
 
 java_proto_library(
-    name = "reviewdb_java_proto",
+    name = "entities_java_proto",
     visibility = ["//visibility:public"],
-    deps = [":reviewdb_proto"],
+    deps = [":entities_proto"],
 )

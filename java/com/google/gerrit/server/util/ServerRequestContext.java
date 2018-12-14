@@ -14,12 +14,9 @@
 
 package com.google.gerrit.server.util;
 
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 
 /** RequestContext with an InternalUser making the internals visible. */
 public class ServerRequestContext implements RequestContext {
@@ -33,15 +30,5 @@ public class ServerRequestContext implements RequestContext {
   @Override
   public CurrentUser getUser() {
     return user;
-  }
-
-  @Override
-  public Provider<ReviewDb> getReviewDbProvider() {
-    return new Provider<ReviewDb>() {
-      @Override
-      public ReviewDb get() {
-        throw new ProvisionException("Automatic ReviewDb only available in request scope");
-      }
-    };
   }
 }

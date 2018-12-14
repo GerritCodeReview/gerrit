@@ -46,7 +46,6 @@ import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.GroupMembership;
@@ -67,14 +66,11 @@ import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testing.GerritBaseTests;
-import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Provider;
-import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -196,13 +192,11 @@ public class RefControlTest extends GerritBaseTests {
   private ProjectCache projectCache;
   private PermissionCollection.Factory sectionSorter;
   private ChangeControl.Factory changeControlFactory;
-  private ReviewDb db;
 
   @Inject private PermissionBackend permissionBackend;
   @Inject private CapabilityCollection.Factory capabilityCollectionFactory;
   @Inject private SchemaCreator schemaCreator;
   @Inject private SingleVersionListener singleVersionListener;
-  @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;
   @Inject private DefaultRefFilter.Factory refFilterFactory;
   @Inject private TransferConfig transferConfig;
@@ -286,7 +280,6 @@ public class RefControlTest extends GerritBaseTests {
       throw new RuntimeException(e);
     }
 
-    db = schemaFactory.open();
     singleVersionListener.start();
     try {
       schemaCreator.create();
@@ -313,11 +306,6 @@ public class RefControlTest extends GerritBaseTests {
           public CurrentUser getUser() {
             return null;
           }
-
-          @Override
-          public Provider<ReviewDb> getReviewDbProvider() {
-            return Providers.of(db);
-          }
         });
 
     changeControlFactory = injector.getInstance(ChangeControl.Factory.class);
@@ -326,9 +314,6 @@ public class RefControlTest extends GerritBaseTests {
   @After
   public void tearDown() {
     requestContext.setContext(null);
-    if (db != null) {
-      db.close();
-    }
   }
 
   @Test

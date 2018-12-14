@@ -33,7 +33,6 @@ import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
 import com.google.gerrit.gpg.testing.TestKey;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
@@ -45,13 +44,11 @@ import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testing.GerritBaseTests;
-import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
-import com.google.inject.util.Providers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -78,14 +75,11 @@ public class GerritPublicKeyCheckerTest extends GerritBaseTests {
 
   @Inject private IdentifiedUser.GenericFactory userFactory;
 
-  @Inject private InMemoryDatabase schemaFactory;
-
   @Inject private SchemaCreator schemaCreator;
 
   @Inject private ThreadLocalRequestContext requestContext;
 
   private LifecycleManager lifecycle;
-  private ReviewDb db;
   private Account.Id userId;
   private IdentifiedUser user;
   private Repository storeRepo;
@@ -109,7 +103,6 @@ public class GerritPublicKeyCheckerTest extends GerritBaseTests {
     injector.injectMembers(this);
     lifecycle.start();
 
-    db = schemaFactory.open();
     schemaCreator.create();
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     // Note: does not match any key in TestKeys.
@@ -123,11 +116,6 @@ public class GerritPublicKeyCheckerTest extends GerritBaseTests {
           @Override
           public CurrentUser getUser() {
             return user;
-          }
-
-          @Override
-          public Provider<ReviewDb> getReviewDbProvider() {
-            return Providers.of(db);
           }
         });
 
@@ -156,9 +144,6 @@ public class GerritPublicKeyCheckerTest extends GerritBaseTests {
   public void tearDownInjector() {
     if (lifecycle != null) {
       lifecycle.stop();
-    }
-    if (db != null) {
-      db.close();
     }
   }
 

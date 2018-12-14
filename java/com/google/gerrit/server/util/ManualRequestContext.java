@@ -53,11 +53,6 @@ public class ManualRequestContext implements RequestContext, AutoCloseable {
   }
 
   @Override
-  public Provider<ReviewDb> getReviewDbProvider() {
-    return db;
-  }
-
-  @Override
   public void close() {
     requestContext.setContext(old);
     db.get().close();

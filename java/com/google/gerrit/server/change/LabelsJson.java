@@ -263,7 +263,6 @@ public class LabelsJson {
     Map<String, Short> result = new HashMap<>();
     for (PatchSetApproval psa :
         approvalsUtil.byPatchSetUser(
-            db.get(),
             lazyLoad ? cd.notes() : notesFactory.createFromIndexedChange(cd.change()),
             cd.change().currentPatchSetId(),
             accountId,

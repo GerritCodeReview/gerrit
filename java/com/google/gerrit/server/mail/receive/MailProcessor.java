@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
@@ -84,6 +85,7 @@ import java.util.Set;
 public class MailProcessor {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final Provider<ReviewDb> dbProvider;
   private final Emails emails;
   private final InboundEmailRejectionSender.Factory emailRejectionSender;
   private final RetryHelper retryHelper;
@@ -102,6 +104,7 @@ public class MailProcessor {
 
   @Inject
   public MailProcessor(
+      Provider<ReviewDb> dbProvider,
       Emails emails,
       InboundEmailRejectionSender.Factory emailRejectionSender,
       RetryHelper retryHelper,
@@ -117,6 +120,7 @@ public class MailProcessor {
       CommentAdded commentAdded,
       AccountCache accountCache,
       UrlFormatter urlFormatter) {
+    this.dbProvider = dbProvider;
     this.emails = emails;
     this.emailRejectionSender = emailRejectionSender;
     this.retryHelper = retryHelper;
@@ -259,7 +263,8 @@ public class MailProcessor {
       }
 
       Op o = new Op(new PatchSet.Id(cd.getId(), metadata.patchSet), parsedComments, message.id());
-      BatchUpdate batchUpdate = buf.create(cd.db(), project, ctx.getUser(), TimeUtil.nowTs());
+      BatchUpdate batchUpdate =
+          buf.create(dbProvider.get(), project, ctx.getUser(), TimeUtil.nowTs());
       batchUpdate.addOp(cd.getId(), o);
       batchUpdate.execute();
     }
@@ -329,12 +334,7 @@ public class MailProcessor {
       Map<String, Short> approvals = new HashMap<>();
       approvalsUtil
           .byPatchSetUser(
-              ctx.getDb(),
-              notes,
-              psId,
-              ctx.getAccountId(),
-              ctx.getRevWalk(),
-              ctx.getRepoView().getConfig())
+              notes, psId, ctx.getAccountId(), ctx.getRevWalk(), ctx.getRepoView().getConfig())
           .forEach(a -> approvals.put(a.getLabel(), a.getValue()));
       // Fire Gerrit event. Note that approvals can't be granted via email, so old and new approvals
       // are always the same here.

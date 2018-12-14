@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -74,18 +73,12 @@ public class ApprovalCopier {
   }
 
   Iterable<PatchSetApproval> getForPatchSet(
-      ReviewDb db,
-      ChangeNotes notes,
-      PatchSet.Id psId,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig)
+      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig)
       throws OrmException {
-    return getForPatchSet(
-        db, notes, psId, rw, repoConfig, Collections.<PatchSetApproval>emptyList());
+    return getForPatchSet(notes, psId, rw, repoConfig, Collections.<PatchSetApproval>emptyList());
   }
 
   Iterable<PatchSetApproval> getForPatchSet(
-      ReviewDb db,
       ChangeNotes notes,
       PatchSet.Id psId,
       @Nullable RevWalk rw,
@@ -96,11 +89,10 @@ public class ApprovalCopier {
     if (ps == null) {
       return Collections.emptyList();
     }
-    return getForPatchSet(db, notes, ps, rw, repoConfig, dontCopy);
+    return getForPatchSet(notes, ps, rw, repoConfig, dontCopy);
   }
 
   private Iterable<PatchSetApproval> getForPatchSet(
-      ReviewDb db,
       ChangeNotes notes,
       PatchSet ps,
       @Nullable RevWalk rw,
@@ -108,7 +100,7 @@ public class ApprovalCopier {
       Iterable<PatchSetApproval> dontCopy)
       throws OrmException {
     requireNonNull(ps, "ps should not be null");
-    ChangeData cd = changeDataFactory.create(db, notes);
+    ChangeData cd = changeDataFactory.create(notes);
     try {
       ProjectState project = projectCache.checkedGet(cd.change().getDest().getParentKey());
       ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvals();

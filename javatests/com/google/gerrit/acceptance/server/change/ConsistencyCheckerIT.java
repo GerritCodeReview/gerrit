@@ -258,7 +258,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
             + "Groups: "
             + rev
             + "\n");
-    indexer.index(db, c.getProject(), c.getId());
+    indexer.index(c.getProject(), c.getId());
     ChangeNotes notes = changeNotesFactory.create(c.getProject(), c.getId());
 
     FixInput fix = new FixInput();
@@ -817,7 +817,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
             + "Subject: "
             + subject
             + "\n");
-    indexer.index(db, c.getProject(), c.getId());
+    indexer.index(c.getProject(), c.getId());
 
     return ps;
   }

@@ -628,6 +628,6 @@ public class ChangeEditModifier {
   }
 
   private void reindex(Change change) throws IOException {
-    indexer.index(reviewDb.get(), change);
+    indexer.index(change);
   }
 }

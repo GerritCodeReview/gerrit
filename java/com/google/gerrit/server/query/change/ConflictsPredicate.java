@@ -51,7 +51,7 @@ public class ConflictsPredicate {
     ChangeData cd;
     List<String> files;
     try {
-      cd = args.changeDataFactory.create(args.db.get(), c);
+      cd = args.changeDataFactory.create(c);
       files = cd.currentFilePaths();
     } catch (IOException e) {
       throw new OrmException(e);

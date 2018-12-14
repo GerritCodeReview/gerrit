@@ -76,7 +76,6 @@ class DefaultRefFilter {
   private final TagCache tagCache;
   private final ChangeNotes.Factory changeNotesFactory;
   @Nullable private final SearchingChangeCacheImpl changeCache;
-  private final Provider<ReviewDb> db;
   private final GroupCache groupCache;
   private final PermissionBackend permissionBackend;
   private final ProjectControl projectControl;
@@ -103,7 +102,6 @@ class DefaultRefFilter {
     this.tagCache = tagCache;
     this.changeNotesFactory = changeNotesFactory;
     this.changeCache = changeCache;
-    this.db = db;
     this.groupCache = groupCache;
     this.permissionBackend = permissionBackend;
     this.skipFullRefEvaluationIfAllRefsAreVisible =
@@ -334,7 +332,7 @@ class DefaultRefFilter {
     Project.NameKey project = projectState.getNameKey();
     try {
       Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
-      for (ChangeData cd : changeCache.getChangeData(db.get(), project)) {
+      for (ChangeData cd : changeCache.getChangeData(project)) {
         ChangeNotes notes = changeNotesFactory.createFromIndexedChange(cd.change());
         if (!projectState.statePermitsRead()) {
           continue;

@@ -34,7 +34,6 @@ import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.util.Providers;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
@@ -442,7 +441,7 @@ class RefControl {
     public ForChange change(ChangeData cd) {
       try {
         // TODO(hiesel) Force callers to call database() and use db instead of cd.db()
-        return getProjectControl().controlFor(cd.change()).asForChange(cd, Providers.of(cd.db()));
+        return getProjectControl().controlFor(cd.change()).asForChange(cd);
       } catch (OrmException e) {
         return FailedPermissionBackend.change("unavailable", e);
       }
@@ -457,12 +456,12 @@ class RefControl {
           "expected change in project %s, not %s",
           project,
           change.getProject());
-      return getProjectControl().controlFor(notes).asForChange(null, db);
+      return getProjectControl().controlFor(notes).asForChange(null);
     }
 
     @Override
     public ForChange indexedChange(ChangeData cd, ChangeNotes notes) {
-      return getProjectControl().controlFor(notes).asForChange(cd, db);
+      return getProjectControl().controlFor(notes).asForChange(cd);
     }
 
     @Override

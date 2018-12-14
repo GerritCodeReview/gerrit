@@ -196,7 +196,7 @@ public class DeleteDraftComments
         result.change =
             changeJsonFactory
                 .create(ListChangesOption.SKIP_MERGEABLE)
-                .format(changeDataFactory.create(ctx.getDb(), ctx.getNotes()));
+                .format(changeDataFactory.create(ctx.getNotes()));
         result.deleted = comments.build();
       }
       return dirty;

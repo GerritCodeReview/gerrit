@@ -46,7 +46,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RobotComment;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
@@ -196,23 +195,22 @@ public class ChangeData {
       this.assistedFactory = assistedFactory;
     }
 
-    public ChangeData create(ReviewDb db, Project.NameKey project, Change.Id id) {
-      return assistedFactory.create(db, project, id, null, null);
+    public ChangeData create(Project.NameKey project, Change.Id id) {
+      return assistedFactory.create(project, id, null, null);
     }
 
-    public ChangeData create(ReviewDb db, Change change) {
-      return assistedFactory.create(db, change.getProject(), change.getId(), change, null);
+    public ChangeData create(Change change) {
+      return assistedFactory.create(change.getProject(), change.getId(), change, null);
     }
 
-    public ChangeData create(ReviewDb db, ChangeNotes notes) {
+    public ChangeData create(ChangeNotes notes) {
       return assistedFactory.create(
-          db, notes.getChange().getProject(), notes.getChangeId(), notes.getChange(), notes);
+          notes.getChange().getProject(), notes.getChangeId(), notes.getChange(), notes);
     }
   }
 
   public interface AssistedFactory {
     ChangeData create(
-        ReviewDb db,
         Project.NameKey project,
         Change.Id id,
         @Nullable Change change,
@@ -233,7 +231,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, project, id, null, null);
+            null, project, id, null, null);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -256,7 +254,6 @@ public class ChangeData {
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   // Required assisted injected fields.
-  private final ReviewDb db;
   private final Project.NameKey project;
   private final Change.Id legacyId;
 
@@ -322,7 +319,6 @@ public class ChangeData {
       TrackingFooters trackingFooters,
       PureRevert pureRevert,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
-      @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id,
       @Assisted @Nullable Change change,
@@ -343,11 +339,6 @@ public class ChangeData {
     this.pureRevert = pureRevert;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
 
-    // May be null in tests when created via createForTest above, in which case lazy-loading will
-    // intentionally fail with NPE. Still not marked @Nullable in the constructor, to force callers
-    // using Guice to pass a non-null value.
-    this.db = db;
-
     this.project = project;
     this.legacyId = id;
 
@@ -365,10 +356,6 @@ public class ChangeData {
   public ChangeData setLazyLoad(boolean load) {
     lazyLoad = load;
     return this;
-  }
-
-  public ReviewDb db() {
-    return db;
   }
 
   public AllUsersName getAllUsersNameForIndexing() {
@@ -536,7 +523,7 @@ public class ChangeData {
         try {
           currentApprovals =
               ImmutableList.copyOf(
-                  approvalsUtil.byPatchSet(db, notes(), c.currentPatchSetId(), null, null));
+                  approvalsUtil.byPatchSet(notes(), c.currentPatchSetId(), null, null));
         } catch (OrmException e) {
           if (e.getCause() instanceof NoSuchChangeException) {
             currentApprovals = Collections.emptyList();

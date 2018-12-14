@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -46,7 +45,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -268,18 +266,15 @@ public class MergeValidators {
       AccountMergeValidator create();
     }
 
-    private final Provider<ReviewDb> dbProvider;
     private final AllUsersName allUsersName;
     private final ChangeData.Factory changeDataFactory;
     private final AccountValidator accountValidator;
 
     @Inject
     public AccountMergeValidator(
-        Provider<ReviewDb> dbProvider,
         AllUsersName allUsersName,
         ChangeData.Factory changeDataFactory,
         AccountValidator accountValidator) {
-      this.dbProvider = dbProvider;
       this.allUsersName = allUsersName;
       this.changeDataFactory = changeDataFactory;
       this.accountValidator = accountValidator;
@@ -301,7 +296,7 @@ public class MergeValidators {
 
       ChangeData cd =
           changeDataFactory.create(
-              dbProvider.get(), destProject.getProject().getNameKey(), patchSetId.getParentKey());
+              destProject.getProject().getNameKey(), patchSetId.getParentKey());
       try {
         if (!cd.currentFilePaths().contains(AccountProperties.ACCOUNT_CONFIG)) {
           return;

@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
@@ -36,7 +35,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,7 +46,6 @@ import org.eclipse.jgit.lib.ObjectId;
 @Singleton
 public class Revisions implements ChildCollection<ChangeResource, RevisionResource> {
   private final DynamicMap<RestView<RevisionResource>> views;
-  private final Provider<ReviewDb> dbProvider;
   private final ChangeEditUtil editUtil;
   private final PatchSetUtil psUtil;
   private final PermissionBackend permissionBackend;
@@ -57,13 +54,11 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   @Inject
   Revisions(
       DynamicMap<RestView<RevisionResource>> views,
-      Provider<ReviewDb> dbProvider,
       ChangeEditUtil editUtil,
       PatchSetUtil psUtil,
       PermissionBackend permissionBackend,
       ProjectCache projectCache) {
     this.views = views;
-    this.dbProvider = dbProvider;
     this.editUtil = editUtil;
     this.psUtil = psUtil;
     this.permissionBackend = permissionBackend;
@@ -114,7 +109,6 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       permissionBackend
           .user(change.getUser())
           .change(change.getNotes())
-          .database(dbProvider)
           .check(ChangePermission.READ);
       return projectCache.checkedGet(change.getProject()).statePermitsRead();
     } catch (AuthException e) {

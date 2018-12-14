@@ -109,7 +109,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
             PerThreadCache.getOrCompute(
                 PerThreadCache.Key.create(ProjectControl.class, project, user.getCacheKey()),
                 () -> projectControlFactory.create(user, state));
-        return control.asForProject().database(db);
+        return control.asForProject();
       } catch (Exception e) {
         Throwable cause = e.getCause() != null ? e.getCause() : e;
         return FailedPermissionBackend.project(

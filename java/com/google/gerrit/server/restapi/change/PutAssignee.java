@@ -96,7 +96,6 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
     try {
       permissionBackend
           .absentUser(assignee.getAccountId())
-          .database(db)
           .change(rsrc.getNotes())
           .check(ChangePermission.READ);
     } catch (AuthException e) {
@@ -124,7 +123,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
     reviewerInput.state = ReviewerState.CC;
     reviewerInput.confirmed = true;
     reviewerInput.notify = NotifyHandling.NONE;
-    return reviewerAdder.prepare(db.get(), rsrc.getNotes(), rsrc.getUser(), reviewerInput, false);
+    return reviewerAdder.prepare(rsrc.getNotes(), rsrc.getUser(), reviewerInput, false);
   }
 
   @Override

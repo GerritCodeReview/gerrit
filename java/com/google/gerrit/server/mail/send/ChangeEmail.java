@@ -378,11 +378,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       return false;
     }
     try {
-      args.permissionBackend
-          .absentUser(to)
-          .change(changeData)
-          .database(args.db)
-          .check(ChangePermission.READ);
+      args.permissionBackend.absentUser(to).change(changeData).check(ChangePermission.READ);
       return true;
     } catch (AuthException e) {
       return false;

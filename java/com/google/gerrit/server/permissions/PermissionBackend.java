@@ -29,14 +29,11 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.ImplementedBy;
-import com.google.inject.Provider;
-import com.google.inject.util.Providers;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -152,35 +149,14 @@ public abstract class PermissionBackend {
     // delegates to the appropriate testOrFalse method in PermissionBackend.
   }
 
-  /** PermissionBackend with an optional per-request ReviewDb handle. */
-  public abstract static class AcceptsReviewDb<T> {
-    protected Provider<ReviewDb> db;
-
-    public T database(Provider<ReviewDb> db) {
-      if (db != null) {
-        this.db = db;
-      }
-      return self();
-    }
-
-    public T database(ReviewDb db) {
-      return database(Providers.of(requireNonNull(db, "ReviewDb")));
-    }
-
-    @SuppressWarnings("unchecked")
-    private T self() {
-      return (T) this;
-    }
-  }
-
   /** PermissionBackend scoped to a specific user. */
-  public abstract static class WithUser extends AcceptsReviewDb<WithUser> {
+  public abstract static class WithUser {
     /** Returns an instance scoped for the specified project. */
     public abstract ForProject project(Project.NameKey project);
 
     /** Returns an instance scoped for the {@code ref}, and its parent project. */
     public ForRef ref(Branch.NameKey ref) {
-      return project(ref.getParentKey()).ref(ref.get()).database(db);
+      return project(ref.getParentKey()).ref(ref.get());
     }
 
     /** Returns an instance scoped for the change, and its destination ref and project. */
@@ -292,7 +268,7 @@ public abstract class PermissionBackend {
   }
 
   /** PermissionBackend scoped to a user and project. */
-  public abstract static class ForProject extends AcceptsReviewDb<ForProject> {
+  public abstract static class ForProject {
     /** Returns the fully qualified resource path that this instance is scoped to. */
     public abstract String resourcePath();
 
@@ -401,7 +377,7 @@ public abstract class PermissionBackend {
   }
 
   /** PermissionBackend scoped to a user, project and reference. */
-  public abstract static class ForRef extends AcceptsReviewDb<ForRef> {
+  public abstract static class ForRef {
     /** Returns a fully qualified resource path that this instance is scoped to. */
     public abstract String resourcePath();
 
@@ -451,7 +427,7 @@ public abstract class PermissionBackend {
   }
 
   /** PermissionBackend scoped to a user, project, reference and change. */
-  public abstract static class ForChange extends AcceptsReviewDb<ForChange> {
+  public abstract static class ForChange {
     /** Returns the fully qualified resource path that this instance is scoped to. */
     public abstract String resourcePath();
 

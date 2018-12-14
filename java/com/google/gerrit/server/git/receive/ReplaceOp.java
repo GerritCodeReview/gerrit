@@ -316,7 +316,6 @@ public class ReplaceOp implements BatchUpdateOp {
 
     reviewerAdditions =
         reviewerAdder.prepare(
-            ctx.getDb(),
             ctx.getNotes(),
             ctx.getUser(),
             getReviewerInputs(magicBranch, fromFooters, ctx.getChange(), info),

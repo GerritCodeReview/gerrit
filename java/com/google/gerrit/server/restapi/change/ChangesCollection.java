@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeResource;
@@ -44,7 +43,6 @@ import java.util.List;
 
 @Singleton
 public class ChangesCollection implements RestCollection<TopLevelResource, ChangeResource> {
-  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
   private final Provider<QueryChanges> queryFactory;
   private final DynamicMap<RestView<ChangeResource>> views;
@@ -55,7 +53,6 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
 
   @Inject
   public ChangesCollection(
-      Provider<ReviewDb> db,
       Provider<CurrentUser> user,
       Provider<QueryChanges> queryFactory,
       DynamicMap<RestView<ChangeResource>> views,
@@ -63,7 +60,6 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
       ChangeResource.Factory changeResourceFactory,
       PermissionBackend permissionBackend,
       ProjectCache projectCache) {
-    this.db = db;
     this.user = user;
     this.queryFactory = queryFactory;
     this.views = views;
@@ -129,7 +125,7 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
 
   private boolean canRead(ChangeNotes notes) throws PermissionBackendException, IOException {
     try {
-      permissionBackend.currentUser().change(notes).database(db).check(ChangePermission.READ);
+      permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
     } catch (AuthException e) {
       return false;
     }

@@ -2664,7 +2664,7 @@ class ReceiveCommits {
       }
 
       try {
-        permissions.change(notes).database(db).check(ChangePermission.ADD_PATCH_SET);
+        permissions.change(notes).check(ChangePermission.ADD_PATCH_SET);
       } catch (AuthException no) {
         reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
         return false;

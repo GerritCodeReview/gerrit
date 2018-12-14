@@ -204,11 +204,11 @@ public class ApprovalsUtil {
     }
 
     Set<Account.Id> need = Sets.newLinkedHashSet(wantReviewers);
-    if (authorId != null && canSee(db, update.getNotes(), authorId)) {
+    if (authorId != null && canSee(update.getNotes(), authorId)) {
       need.add(authorId);
     }
 
-    if (committerId != null && canSee(db, update.getNotes(), committerId)) {
+    if (committerId != null && canSee(update.getNotes(), committerId)) {
       need.add(committerId);
     }
     need.remove(change.getOwner());
@@ -229,16 +229,12 @@ public class ApprovalsUtil {
     return Collections.unmodifiableList(cells);
   }
 
-  private boolean canSee(ReviewDb db, ChangeNotes notes, Account.Id accountId) {
+  private boolean canSee(ChangeNotes notes, Account.Id accountId) {
     try {
       if (!projectCache.checkedGet(notes.getProjectName()).statePermitsRead()) {
         return false;
       }
-      permissionBackend
-          .absentUser(accountId)
-          .change(notes)
-          .database(db)
-          .check(ChangePermission.READ);
+      permissionBackend.absentUser(accountId).change(notes).check(ChangePermission.READ);
       return true;
     } catch (AuthException e) {
       return false;
@@ -304,7 +300,7 @@ public class ApprovalsUtil {
     if (approvals.isEmpty()) {
       return ImmutableList.of();
     }
-    checkApprovals(approvals, permissionBackend.user(user).database(db).change(update.getNotes()));
+    checkApprovals(approvals, permissionBackend.user(user).change(update.getNotes()));
     List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
     Date ts = update.getWhen();
     for (Map.Entry<String, Short> vote : approvals.entrySet()) {

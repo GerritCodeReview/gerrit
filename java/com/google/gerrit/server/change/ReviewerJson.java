@@ -27,7 +27,6 @@ import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.permissions.LabelPermission;
@@ -38,7 +37,6 @@ import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.List;
@@ -46,7 +44,6 @@ import java.util.TreeMap;
 
 @Singleton
 public class ReviewerJson {
-  private final Provider<ReviewDb> db;
   private final PermissionBackend permissionBackend;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
@@ -55,13 +52,11 @@ public class ReviewerJson {
 
   @Inject
   ReviewerJson(
-      Provider<ReviewDb> db,
       PermissionBackend permissionBackend,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       AccountLoader.Factory accountLoaderFactory,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
-    this.db = db;
     this.permissionBackend = permissionBackend;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
@@ -128,8 +123,7 @@ public class ReviewerJson {
     // do not exist in the DB.
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
-      PermissionBackend.ForChange perm =
-          permissionBackend.absentUser(reviewerAccountId).database(db).change(cd);
+      PermissionBackend.ForChange perm = permissionBackend.absentUser(reviewerAccountId).change(cd);
 
       for (SubmitRecord rec : submitRuleEvaluator.evaluate(cd)) {
         if (rec.labels == null) {

@@ -37,6 +37,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
 
 import com.google.auto.value.AutoValue;
@@ -67,7 +68,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
@@ -1004,7 +1004,7 @@ class ChangeNotesParser {
   }
 
   private void updatePatchSetStates() {
-    Set<PatchSet.Id> missing = new TreeSet<>(ReviewDbUtil.intKeyOrdering());
+    Set<PatchSet.Id> missing = new TreeSet<>(comparing(PatchSet.Id::get));
     for (Iterator<PatchSet> it = patchSets.values().iterator(); it.hasNext(); ) {
       PatchSet ps = it.next();
       if (ps.getRevision().equals(PARTIAL_PATCH_SET)) {

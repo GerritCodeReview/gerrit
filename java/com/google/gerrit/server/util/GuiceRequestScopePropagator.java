@@ -17,7 +17,6 @@ package com.google.gerrit.server.util;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -41,9 +40,8 @@ public class GuiceRequestScopePropagator extends RequestScopePropagator {
   GuiceRequestScopePropagator(
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       @RemotePeer Provider<SocketAddress> remotePeerProvider,
-      ThreadLocalRequestContext local,
-      Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
-    super(ServletScopes.REQUEST, local, dbProviderProvider);
+      ThreadLocalRequestContext local) {
+    super(ServletScopes.REQUEST, local);
     this.url = urlProvider != null ? urlProvider.get() : null;
     this.peer = remotePeerProvider.get();
   }

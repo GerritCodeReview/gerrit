@@ -87,7 +87,6 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
@@ -315,7 +314,6 @@ class ReceiveCommits {
   private final ReplaceOp.Factory replaceOpFactory;
   private final RetryHelper retryHelper;
   private final RequestScopePropagator requestScopePropagator;
-  private final ReviewDb db;
   private final Sequences seq;
   private final SetHashtagsOp.Factory hashtagsFactory;
   private final SubmoduleOp.Factory subOpFactory;
@@ -391,7 +389,6 @@ class ReceiveCommits {
       ReplaceOp.Factory replaceOpFactory,
       RetryHelper retryHelper,
       RequestScopePropagator requestScopePropagator,
-      ReviewDb db,
       Sequences seq,
       SetHashtagsOp.Factory hashtagsFactory,
       SubmoduleOp.Factory subOpFactory,
@@ -412,7 +409,6 @@ class ReceiveCommits {
     this.commitValidatorFactory = commitValidatorFactory;
     this.createRefControl = createRefControl;
     this.createGroupPermissionSyncer = createGroupPermissionSyncer;
-    this.db = db;
     this.editUtil = editUtil;
     this.hashtagsFactory = hashtagsFactory;
     this.indexer = indexer;

@@ -35,11 +35,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 import com.google.inject.assistedinject.Assisted;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -82,7 +78,6 @@ public class EmailReviewComments implements Runnable, RequestContext {
   private final ExecutorService sendEmailsExecutor;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final CommentSender.Factory commentSenderFactory;
-  private final SchemaFactory<ReviewDb> schemaFactory;
   private final ThreadLocalRequestContext requestContext;
 
   private final NotifyHandling notify;
@@ -101,7 +96,6 @@ public class EmailReviewComments implements Runnable, RequestContext {
       @SendEmailExecutor ExecutorService executor,
       PatchSetInfoFactory patchSetInfoFactory,
       CommentSender.Factory commentSenderFactory,
-      SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext,
       @Assisted NotifyHandling notify,
       @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify,
@@ -115,7 +109,6 @@ public class EmailReviewComments implements Runnable, RequestContext {
     this.sendEmailsExecutor = executor;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.commentSenderFactory = commentSenderFactory;
-    this.schemaFactory = schemaFactory;
     this.requestContext = requestContext;
     this.notify = notify;
     this.accountsToNotify = accountsToNotify;
@@ -167,22 +160,5 @@ public class EmailReviewComments implements Runnable, RequestContext {
   @Override
   public CurrentUser getUser() {
     return user.getRealUser();
-  }
-
-  @Override
-  public Provider<ReviewDb> getReviewDbProvider() {
-    return new Provider<ReviewDb>() {
-      @Override
-      public ReviewDb get() {
-        if (db == null) {
-          try {
-            db = schemaFactory.open();
-          } catch (OrmException e) {
-            throw new ProvisionException("Cannot open ReviewDb", e);
-          }
-        }
-        return db;
-      }
-    };
   }
 }

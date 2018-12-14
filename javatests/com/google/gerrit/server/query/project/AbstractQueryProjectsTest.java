@@ -38,7 +38,6 @@ import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -56,11 +55,9 @@ import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testing.GerritServerTests;
-import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
-import com.google.inject.util.Providers;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -86,8 +83,6 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
   @Inject private Provider<AnonymousUser> anonymousUser;
 
-  @Inject protected InMemoryDatabase schemaFactory;
-
   @Inject protected SchemaCreator schemaCreator;
 
   @Inject protected ThreadLocalRequestContext requestContext;
@@ -100,7 +95,6 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
   protected LifecycleManager lifecycle;
   protected Injector injector;
-  protected ReviewDb db;
   protected AccountInfo currentUserInfo;
   protected CurrentUser user;
 
@@ -120,11 +114,9 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   @After
   public void cleanUp() {
     lifecycle.stop();
-    db.close();
   }
 
   protected void setUpDatabase() throws Exception {
-    db = schemaFactory.open();
     schemaCreator.create();
 
     Account.Id userId = createAccount("user", "User", "user@example.com", true);
@@ -142,11 +134,6 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
       public CurrentUser getUser() {
         return requestUser;
       }
-
-      @Override
-      public Provider<ReviewDb> getReviewDbProvider() {
-        return Providers.of(db);
-      }
     };
   }
 
@@ -157,11 +144,6 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
           public CurrentUser getUser() {
             return anonymousUser.get();
           }
-
-          @Override
-          public Provider<ReviewDb> getReviewDbProvider() {
-            return Providers.of(db);
-          }
         });
   }
 
@@ -171,9 +153,6 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
       lifecycle.stop();
     }
     requestContext.setContext(null);
-    if (db != null) {
-      db.close();
-    }
   }
 
   @Test

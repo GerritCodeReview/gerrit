@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
@@ -52,10 +51,8 @@ public class PerThreadRequestScope {
 
   public static class Propagator extends ThreadLocalRequestScopePropagator<Context> {
     @Inject
-    Propagator(
-        ThreadLocalRequestContext local,
-        Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
-      super(REQUEST, current, local, dbProviderProvider);
+    Propagator(ThreadLocalRequestContext local) {
+      super(REQUEST, current, local);
     }
 
     @Override

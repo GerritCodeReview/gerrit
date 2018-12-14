@@ -18,13 +18,11 @@ import static com.google.gerrit.server.config.GerritConfigListenerHelper.acceptI
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.AccountVisibility;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.config.ConfigKey;
 import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
@@ -33,7 +31,6 @@ public class SuggestReviewers {
 
   private static final int DEFAULT_MAX_SUGGESTED = 10;
 
-  protected final Provider<ReviewDb> dbProvider;
   protected final ReviewersUtil reviewersUtil;
 
   private final boolean suggestAccounts;
@@ -83,11 +80,7 @@ public class SuggestReviewers {
 
   @Inject
   public SuggestReviewers(
-      AccountVisibility av,
-      Provider<ReviewDb> dbProvider,
-      @GerritServerConfig Config cfg,
-      ReviewersUtil reviewersUtil) {
-    this.dbProvider = dbProvider;
+      AccountVisibility av, @GerritServerConfig Config cfg, ReviewersUtil reviewersUtil) {
     this.reviewersUtil = reviewersUtil;
     this.maxSuggestedReviewers =
         cfg.getInt("suggest", "maxSuggestedReviewers", DEFAULT_MAX_SUGGESTED);

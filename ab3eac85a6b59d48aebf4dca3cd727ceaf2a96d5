@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f2a7669_102e294f",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-14T18:20:37Z",
+      "side": 0,
+      "message": "A new usage of this method was added in master while this was out for review.",
+      "revId": "ab3eac85a6b59d48aebf4dca3cd727ceaf2a96d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -46,7 +46,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -211,7 +210,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ProjectCache projectCache;
     final Provider<InternalChangeQuery> queryProvider;
     final ChildProjects childProjects;
-    final Provider<ReviewDb> db;
     final StarredChangesUtil starredChangesUtil;
     final SubmitDryRun submitDryRun;
     final GroupMembers groupMembers;
@@ -222,7 +220,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     @Inject
     @VisibleForTesting
     public Arguments(
-        Provider<ReviewDb> db,
         Provider<InternalChangeQuery> queryProvider,
         ChangeIndexRewriter rewriter,
         DynamicMap<ChangeOperatorFactory> opFactories,
@@ -250,7 +247,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         GroupMembers groupMembers,
         Provider<AnonymousUser> anonymousUserProvider) {
       this(
-          db,
           queryProvider,
           rewriter,
           opFactories,
@@ -280,7 +276,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     private Arguments(
-        Provider<ReviewDb> db,
         Provider<InternalChangeQuery> queryProvider,
         ChangeIndexRewriter rewriter,
         DynamicMap<ChangeOperatorFactory> opFactories,
@@ -307,7 +302,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AccountCache accountCache,
         GroupMembers groupMembers,
         Provider<AnonymousUser> anonymousUserProvider) {
-      this.db = db;
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
       this.opFactories = opFactories;
@@ -338,7 +332,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     Arguments asUser(CurrentUser otherUser) {
       return new Arguments(
-          db,
           queryProvider,
           rewriter,
           opFactories,

@@ -23,7 +23,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
@@ -52,7 +51,6 @@ public abstract class AbstractChangeNotes<T> {
     final ChangeNoteJson changeNoteJson;
     final LegacyChangeNoteRead legacyChangeNoteRead;
     final NoteDbMetrics metrics;
-    final Provider<ReviewDb> db;
 
     // Providers required to avoid dependency cycles.
 
@@ -66,7 +64,6 @@ public abstract class AbstractChangeNotes<T> {
         ChangeNoteJson changeNoteJson,
         LegacyChangeNoteRead legacyChangeNoteRead,
         NoteDbMetrics metrics,
-        Provider<ReviewDb> db,
         Provider<ChangeNotesCache> cache) {
       this.failOnLoadForTest = new AtomicBoolean();
       this.repoManager = repoManager;
@@ -74,7 +71,6 @@ public abstract class AbstractChangeNotes<T> {
       this.legacyChangeNoteRead = legacyChangeNoteRead;
       this.changeNoteJson = changeNoteJson;
       this.metrics = metrics;
-      this.db = db;
       this.cache = cache;
     }
   }

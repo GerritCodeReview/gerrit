@@ -178,12 +178,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
 
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(
-              ctx.getDb(),
-              ctx.getNotes(),
-              psId,
-              accountId,
-              ctx.getRevWalk(),
-              ctx.getRepoView().getConfig())) {
+              ctx.getNotes(), psId, accountId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
         if (labelTypes.byLabel(a.getLabelId()) == null) {
           continue; // Ignore undefined labels.
         } else if (!a.getLabel().equals(label)) {

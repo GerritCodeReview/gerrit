@@ -230,7 +230,7 @@ public class ChangeEditUtil {
     try (Repository repo = gitManager.openRepository(change.getProject())) {
       deleteRef(repo, edit);
     }
-    indexer.index(db.get(), change);
+    indexer.index(change);
   }
 
   private PatchSet getBasePatchSet(ChangeNotes notes, Ref ref) throws IOException {

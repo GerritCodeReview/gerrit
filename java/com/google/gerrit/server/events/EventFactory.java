@@ -128,23 +128,7 @@ public class EventFactory {
    * @param change
    * @return object suitable for serialization to JSON
    */
-  public ChangeAttribute asChangeAttribute(Change change, ChangeNotes notes) {
-    try (ReviewDb db = schema.open()) {
-      return asChangeAttribute(db, change, notes);
-    } catch (OrmException e) {
-      logger.atSevere().withCause(e).log("Cannot open database connection");
-      return new ChangeAttribute();
-    }
-  }
-
-  /**
-   * Create a ChangeAttribute for the given change suitable for serialization to JSON.
-   *
-   * @param db Review database
-   * @param change
-   * @return object suitable for serialization to JSON
-   */
-  public ChangeAttribute asChangeAttribute(ReviewDb db, Change change) {
+  public ChangeAttribute asChangeAttribute(Change change) {
     ChangeAttribute a = new ChangeAttribute();
     a.project = change.getProject().get();
     a.branch = change.getDest().getShortName();
@@ -153,7 +137,7 @@ public class EventFactory {
     a.number = change.getId().get();
     a.subject = change.getSubject();
     try {
-      a.commitMessage = changeDataFactory.create(db, change).commitMessage();
+      a.commitMessage = changeDataFactory.create(change).commitMessage();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log(
           "Error while getting full commit message for change %d", a.number);
@@ -171,14 +155,12 @@ public class EventFactory {
   /**
    * Create a ChangeAttribute for the given change suitable for serialization to JSON.
    *
-   * @param db Review database
    * @param change
    * @param notes
    * @return object suitable for serialization to JSON
    */
-  public ChangeAttribute asChangeAttribute(ReviewDb db, Change change, ChangeNotes notes)
-      throws OrmException {
-    ChangeAttribute a = asChangeAttribute(db, change);
+  public ChangeAttribute asChangeAttribute(Change change, ChangeNotes notes) throws OrmException {
+    ChangeAttribute a = asChangeAttribute(change);
     Set<String> hashtags = notes.load().getHashtags();
     if (!hashtags.isEmpty()) {
       a.hashtags = new ArrayList<>(hashtags.size());

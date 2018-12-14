@@ -82,8 +82,7 @@ public class PostReviewers
     }
 
     // Re-read change to take into account results of the update.
-    addition.gatherResults(
-        changeDataFactory.create(dbProvider.get(), rsrc.getProject(), rsrc.getId()));
+    addition.gatherResults(changeDataFactory.create(rsrc.getProject(), rsrc.getId()));
     return addition.result;
   }
 }

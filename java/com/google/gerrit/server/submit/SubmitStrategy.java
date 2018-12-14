@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -91,7 +90,6 @@ public abstract class SubmitStrategy {
           IdentifiedUser caller,
           MergeTip mergeTip,
           RevFlag canMergeFlag,
-          ReviewDb db,
           Set<RevCommit> alreadyAccepted,
           Set<CodeReviewCommit> incoming,
           RequestId submissionId,
@@ -124,7 +122,6 @@ public abstract class SubmitStrategy {
     final IdentifiedUser caller;
     final MergeTip mergeTip;
     final RevFlag canMergeFlag;
-    final ReviewDb db;
     final Set<RevCommit> alreadyAccepted;
     final RequestId submissionId;
     final SubmitType submitType;
@@ -163,7 +160,6 @@ public abstract class SubmitStrategy {
         @Assisted IdentifiedUser caller,
         @Assisted MergeTip mergeTip,
         @Assisted RevFlag canMergeFlag,
-        @Assisted ReviewDb db,
         @Assisted Set<RevCommit> alreadyAccepted,
         @Assisted Set<CodeReviewCommit> incoming,
         @Assisted RequestId submissionId,
@@ -194,7 +190,6 @@ public abstract class SubmitStrategy {
       this.caller = caller;
       this.mergeTip = mergeTip;
       this.canMergeFlag = canMergeFlag;
-      this.db = db;
       this.alreadyAccepted = alreadyAccepted;
       this.submissionId = submissionId;
       this.submitType = submitType;

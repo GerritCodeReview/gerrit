@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -48,7 +47,6 @@ public class SubmitStrategyFactory {
 
   public SubmitStrategy create(
       SubmitType submitType,
-      ReviewDb db,
       CodeReviewRevWalk rw,
       RevFlag canMergeFlag,
       Set<RevCommit> alreadyAccepted,
@@ -72,7 +70,6 @@ public class SubmitStrategyFactory {
             caller,
             mergeTip,
             canMergeFlag,
-            db,
             alreadyAccepted,
             incoming,
             submissionId,

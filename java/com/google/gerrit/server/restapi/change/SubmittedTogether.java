@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.WalkSorter;
@@ -62,7 +61,6 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       Comparator.comparing(ChangeData::project).thenComparing(cd -> cd.getId().id, reverseOrder());
 
   private final ChangeJson.Factory json;
-  private final Provider<ReviewDb> dbProvider;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<MergeSuperSet> mergeSuperSet;
   private final Provider<WalkSorter> sorter;
@@ -89,12 +87,10 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   @Inject
   SubmittedTogether(
       ChangeJson.Factory json,
-      Provider<ReviewDb> dbProvider,
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeSuperSet> mergeSuperSet,
       Provider<WalkSorter> sorter) {
     this.json = json;
-    this.dbProvider = dbProvider;
     this.queryProvider = queryProvider;
     this.mergeSuperSet = mergeSuperSet;
     this.sorter = sorter;
@@ -129,8 +125,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       int hidden;
 
       if (c.getStatus().isOpen()) {
-        ChangeSet cs =
-            mergeSuperSet.get().completeChangeSet(dbProvider.get(), c, resource.getUser());
+        ChangeSet cs = mergeSuperSet.get().completeChangeSet(c, resource.getUser());
         cds = ensureRequiredDataIsLoaded(cs.changes().asList());
         hidden = cs.nonVisibleChanges().size();
       } else if (c.getStatus().asChangeStatus() == ChangeStatus.MERGED) {

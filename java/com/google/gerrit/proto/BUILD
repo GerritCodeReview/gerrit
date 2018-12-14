@@ -3,7 +3,6 @@ java_library(
     srcs = ["Protos.java"],
     visibility = ["//visibility:public"],
     deps = [
-        "//lib:gwtorm",
         "//lib:protobuf",
     ],
 )

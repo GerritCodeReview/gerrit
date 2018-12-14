@@ -43,7 +43,6 @@ import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -58,7 +57,6 @@ import com.google.gerrit.server.submit.MergeIdenticalTreeException;
 import com.google.gerrit.server.submit.MergeSorter;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -162,7 +160,6 @@ public class MergeUtil {
     MergeUtil create(ProjectState project, boolean useContentMerge);
   }
 
-  private final Provider<ReviewDb> db;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final UrlFormatter urlFormatter;
   private final ApprovalsUtil approvalsUtil;
@@ -174,7 +171,6 @@ public class MergeUtil {
   @AssistedInject
   MergeUtil(
       @GerritServerConfig Config serverConfig,
-      Provider<ReviewDb> db,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       UrlFormatter urlFormatter,
       ApprovalsUtil approvalsUtil,
@@ -182,7 +178,6 @@ public class MergeUtil {
       @Assisted ProjectState project) {
     this(
         serverConfig,
-        db,
         identifiedUserFactory,
         urlFormatter,
         approvalsUtil,
@@ -194,14 +189,12 @@ public class MergeUtil {
   @AssistedInject
   MergeUtil(
       @GerritServerConfig Config serverConfig,
-      Provider<ReviewDb> db,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       UrlFormatter urlFormatter,
       ApprovalsUtil approvalsUtil,
       @Assisted ProjectState project,
       PluggableCommitMessageGenerator commitMessageGenerator,
       @Assisted boolean useContentMerge) {
-    this.db = db;
     this.identifiedUserFactory = identifiedUserFactory;
     this.urlFormatter = urlFormatter;
     this.approvalsUtil = approvalsUtil;
@@ -598,7 +591,7 @@ public class MergeUtil {
 
   private Iterable<PatchSetApproval> safeGetApprovals(ChangeNotes notes, PatchSet.Id psId) {
     try {
-      return approvalsUtil.byPatchSet(db.get(), notes, psId, null, null);
+      return approvalsUtil.byPatchSet(notes, psId, null, null);
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Can't read approval records for %s", psId);
       return Collections.emptyList();

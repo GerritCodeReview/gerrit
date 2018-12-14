@@ -347,7 +347,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     Map<PatchSetApproval.Key, PatchSetApproval> byKey = new HashMap<>();
     for (PatchSetApproval psa :
         args.approvalsUtil.byPatchSet(
-            ctx.getDb(), ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
+            ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
       byKey.put(psa.getKey(), psa);
     }
 

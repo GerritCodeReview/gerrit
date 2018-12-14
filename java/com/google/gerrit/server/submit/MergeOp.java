@@ -542,12 +542,10 @@ public class MergeOp implements AutoCloseable {
   private ChangeSet reloadChanges(ChangeSet changeSet) {
     List<ChangeData> visible = new ArrayList<>(changeSet.changes().size());
     List<ChangeData> nonVisible = new ArrayList<>(changeSet.nonVisibleChanges().size());
-    changeSet
-        .changes()
-        .forEach(c -> visible.add(changeDataFactory.create(db, c.project(), c.getId())));
+    changeSet.changes().forEach(c -> visible.add(changeDataFactory.create(c.project(), c.getId())));
     changeSet
         .nonVisibleChanges()
-        .forEach(c -> nonVisible.add(changeDataFactory.create(db, c.project(), c.getId())));
+        .forEach(c -> nonVisible.add(changeDataFactory.create(c.project(), c.getId())));
     return new ChangeSet(visible, nonVisible);
   }
 

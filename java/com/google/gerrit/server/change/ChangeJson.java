@@ -268,11 +268,11 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(ChangeResource rsrc) throws OrmException {
-    return format(changeDataFactory.create(db.get(), rsrc.getNotes()));
+    return format(changeDataFactory.create(rsrc.getNotes()));
   }
 
   public ChangeInfo format(Change change) throws OrmException {
-    return format(changeDataFactory.create(db.get(), change));
+    return format(changeDataFactory.create(change));
   }
 
   public ChangeInfo format(Project.NameKey project, Change.Id id) throws OrmException {
@@ -284,7 +284,7 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(RevisionResource rsrc) throws OrmException {
-    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
+    ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     return format(cd, Optional.of(rsrc.getPatchSet().getId()), true, ChangeInfo::new);
   }
 
@@ -328,10 +328,9 @@ public class ChangeJson {
       if (!has(CHECK)) {
         throw e;
       }
-      return checkOnly(changeDataFactory.create(db.get(), project, id), changeInfoSupplier);
+      return checkOnly(changeDataFactory.create(project, id), changeInfoSupplier);
     }
-    return format(
-        changeDataFactory.create(db.get(), notes), Optional.empty(), true, changeInfoSupplier);
+    return format(changeDataFactory.create(notes), Optional.empty(), true, changeInfoSupplier);
   }
 
   private static Collection<SubmitRequirementInfo> requirementsFor(ChangeData cd) {
@@ -496,7 +495,7 @@ public class ChangeJson {
       // If any problems were fixed, the ChangeData needs to be reloaded.
       for (ProblemInfo p : out.problems) {
         if (p.status == ProblemInfo.Status.FIXED) {
-          cd = changeDataFactory.create(cd.db(), cd.project(), cd.getId());
+          cd = changeDataFactory.create(cd.project(), cd.getId());
           break;
         }
       }

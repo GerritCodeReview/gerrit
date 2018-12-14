@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.common.TestSubmitRuleInput.Filters;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -38,13 +37,11 @@ import com.google.gerrit.server.rules.PrologRule;
 import com.google.gerrit.server.rules.RulesCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.util.LinkedHashMap;
 import java.util.List;
 import org.kohsuke.args4j.Option;
 
 public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
-  private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
   private final AccountLoader.Factory accountInfoFactory;
@@ -57,14 +54,12 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
 
   @Inject
   TestSubmitRule(
-      Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       RulesCache rules,
       AccountLoader.Factory infoFactory,
       ProjectCache projectCache,
       DefaultSubmitRule defaultSubmitRule,
       PrologRule prologRule) {
-    this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
     this.accountInfoFactory = infoFactory;
@@ -95,7 +90,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     if (projectState == null) {
       throw new BadRequestException("project not found");
     }
-    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
+    ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     List<SubmitRecord> records;
     if (projectState.hasPrologRules() || input.rule != null) {
       records = ImmutableList.copyOf(prologRule.evaluate(cd, opts));

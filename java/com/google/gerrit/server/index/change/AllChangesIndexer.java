@@ -224,20 +224,20 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         // It does mean that reindexing after invalidating the DiffSummary cache will be expensive,
         // but the goal is to invalidate that cache as infrequently as we possibly can. And besides,
         // we don't have concrete proof that improving packfile locality would help.
-        notesFactory.scan(repo, project).forEach(r -> index(db, r));
+        notesFactory.scan(repo, project).forEach(r -> index(r));
       } catch (RepositoryNotFoundException rnfe) {
         logger.atSevere().log(rnfe.getMessage());
       }
       return null;
     }
 
-    private void index(ReviewDb db, ChangeNotesResult r) {
+    private void index(ChangeNotesResult r) {
       if (r.error().isPresent()) {
         fail("Failed to read change " + r.id() + " for indexing", true, r.error().get());
         return;
       }
       try {
-        indexer.index(changeDataFactory.create(db, r.notes()));
+        indexer.index(changeDataFactory.create(r.notes()));
         done.update(1);
         verboseWriter.println("Reindexed change " + r.id());
       } catch (RejectedExecutionException e) {

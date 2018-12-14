@@ -16,7 +16,6 @@ package com.google.gerrit.lucene;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
-import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.CHANGE_CODEC;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
@@ -46,6 +45,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.converter.ChangeProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
 import com.google.gerrit.reviewdb.converter.ProtoConverter;
@@ -450,9 +450,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     IndexableField cb = Iterables.getFirst(doc.get(CHANGE_FIELD), null);
     if (cb != null) {
       BytesRef proto = cb.binaryValue();
-      cd =
-          changeDataFactory.create(
-              db.get(), CHANGE_CODEC.decode(proto.bytes, proto.offset, proto.length));
+      cd = changeDataFactory.create(db.get(), parseProtoFrom(proto, ChangeProtoConverter.INSTANCE));
     } else {
       IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
       Change.Id id = new Change.Id(f.numericValue().intValue());

@@ -99,7 +99,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
         .collect(toImmutableList());
   }
 
-  private static <P extends MessageLite, T> T parseProtoFrom(
+  protected static <P extends MessageLite, T> T parseProtoFrom(
       byte[] bytes, ProtoConverter<P, T> converter) {
     P message = Protos.parseUnchecked(converter.getParser(), bytes);
     return converter.fromProto(message);

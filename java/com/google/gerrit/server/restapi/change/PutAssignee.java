@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResolver;
@@ -43,7 +42,6 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -54,7 +52,6 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
 
   private final AccountResolver accountResolver;
   private final SetAssigneeOp.Factory assigneeFactory;
-  private final Provider<ReviewDb> db;
   private final ReviewerAdder reviewerAdder;
   private final AccountLoader.Factory accountLoaderFactory;
   private final PermissionBackend permissionBackend;
@@ -64,14 +61,12 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       AccountResolver accountResolver,
       SetAssigneeOp.Factory assigneeFactory,
       RetryHelper retryHelper,
-      Provider<ReviewDb> db,
       ReviewerAdder reviewerAdder,
       AccountLoader.Factory accountLoaderFactory,
       PermissionBackend permissionBackend) {
     super(retryHelper);
     this.accountResolver = accountResolver;
     this.assigneeFactory = assigneeFactory;
-    this.db = db;
     this.reviewerAdder = reviewerAdder;
     this.accountLoaderFactory = accountLoaderFactory;
     this.permissionBackend = permissionBackend;
@@ -103,8 +98,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
     }
 
     try (BatchUpdate bu =
-        updateFactory.create(
-            db.get(), rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       SetAssigneeOp op = assigneeFactory.create(assignee);
       bu.addOp(rsrc.getId(), op);
 

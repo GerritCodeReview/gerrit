@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -68,7 +67,6 @@ public class PutMessage
 
   private final GitRepositoryManager repositoryManager;
   private final Provider<CurrentUser> userProvider;
-  private final Provider<ReviewDb> db;
   private final TimeZone tz;
   private final PatchSetInserter.Factory psInserterFactory;
   private final PermissionBackend permissionBackend;
@@ -81,7 +79,6 @@ public class PutMessage
       RetryHelper retryHelper,
       GitRepositoryManager repositoryManager,
       Provider<CurrentUser> userProvider,
-      Provider<ReviewDb> db,
       PatchSetInserter.Factory psInserterFactory,
       PermissionBackend permissionBackend,
       @GerritPersonIdent PersonIdent gerritIdent,
@@ -91,7 +88,6 @@ public class PutMessage
     super(retryHelper);
     this.repositoryManager = repositoryManager;
     this.userProvider = userProvider;
-    this.db = db;
     this.psInserterFactory = psInserterFactory;
     this.tz = gerritIdent.getTimeZone();
     this.permissionBackend = permissionBackend;
@@ -138,8 +134,7 @@ public class PutMessage
 
       Timestamp ts = TimeUtil.nowTs();
       try (BatchUpdate bu =
-          updateFactory.create(
-              db.get(), resource.getChange().getProject(), userProvider.get(), ts)) {
+          updateFactory.create(resource.getChange().getProject(), userProvider.get(), ts)) {
         // Ensure that BatchUpdate will update the same repo
         bu.setRepository(repository, new RevWalk(objectInserter.newReader()), objectInserter);
 

@@ -634,7 +634,7 @@ class ReceiveCommits {
 
     try (BatchUpdate bu =
             batchUpdateFactory.create(
-                db, project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
+                project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
@@ -782,7 +782,7 @@ class ReceiveCommits {
 
     try (BatchUpdate bu =
             batchUpdateFactory.create(
-                db, project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
+                project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
@@ -3094,7 +3094,7 @@ class ReceiveCommits {
       retryHelper.execute(
           updateFactory -> {
             try (BatchUpdate bu =
-                    updateFactory.create(db, projectState.getNameKey(), user, TimeUtil.nowTs());
+                    updateFactory.create(projectState.getNameKey(), user, TimeUtil.nowTs());
                 ObjectInserter ins = repo.newObjectInserter();
                 ObjectReader reader = ins.newReader();
                 RevWalk rw = new RevWalk(reader)) {

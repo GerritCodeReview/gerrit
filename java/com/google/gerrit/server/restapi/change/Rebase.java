@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeJson;
@@ -51,7 +50,6 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -74,7 +72,6 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
   private final RebaseChangeOp.Factory rebaseFactory;
   private final RebaseUtil rebaseUtil;
   private final ChangeJson.Factory json;
-  private final Provider<ReviewDb> dbProvider;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final PatchSetUtil patchSetUtil;
@@ -86,7 +83,6 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       RebaseChangeOp.Factory rebaseFactory,
       RebaseUtil rebaseUtil,
       ChangeJson.Factory json,
-      Provider<ReviewDb> dbProvider,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       PatchSetUtil patchSetUtil) {
@@ -95,7 +91,6 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     this.rebaseFactory = rebaseFactory;
     this.rebaseUtil = rebaseUtil;
     this.json = json;
-    this.dbProvider = dbProvider;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.patchSetUtil = patchSetUtil;
@@ -118,8 +113,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
         ObjectReader reader = oi.newReader();
         RevWalk rw = new RevWalk(reader);
         BatchUpdate bu =
-            updateFactory.create(
-                dbProvider.get(), change.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+            updateFactory.create(change.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       if (!change.getStatus().isOpen()) {
         throw new ResourceConflictException("change is " + ChangeUtil.status(change));
       } else if (!hasOneParent(rw, rsrc.getPatchSet())) {

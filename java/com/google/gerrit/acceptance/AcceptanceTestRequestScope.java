@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.RequestCleanup;
-import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
@@ -29,16 +28,12 @@ import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
-import com.google.inject.util.Providers;
 import java.util.HashMap;
 import java.util.Map;
 
 /** Guice scopes for state during an Acceptance Test connection. */
 public class AcceptanceTestRequestScope {
   private static final Key<RequestCleanup> RC_KEY = Key.get(RequestCleanup.class);
-
-  private static final Key<RequestScopedReviewDbProvider> DB_KEY =
-      Key.get(RequestScopedReviewDbProvider.class);
 
   public static class Context implements RequestContext {
     private final RequestCleanup cleanup = new RequestCleanup();
@@ -57,7 +52,6 @@ public class AcceptanceTestRequestScope {
       user = u;
       created = started = finished = at;
       map.put(RC_KEY, cleanup);
-      map.put(DB_KEY, new RequestScopedReviewDbProvider(schemaFactory, Providers.of(cleanup)));
     }
 
     private Context(Context p, SshSession s, CurrentUser c) {
@@ -76,11 +70,6 @@ public class AcceptanceTestRequestScope {
         throw new IllegalStateException("user == null, forgot to set it?");
       }
       return user;
-    }
-
-    @Override
-    public Provider<ReviewDb> getReviewDbProvider() {
-      return (RequestScopedReviewDbProvider) map.get(DB_KEY);
     }
 
     synchronized <T> T get(Key<T> key, Provider<T> creator) {
@@ -112,11 +101,8 @@ public class AcceptanceTestRequestScope {
     private final AcceptanceTestRequestScope atrScope;
 
     @Inject
-    Propagator(
-        AcceptanceTestRequestScope atrScope,
-        ThreadLocalRequestContext local,
-        Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
-      super(REQUEST, current, local, dbProviderProvider);
+    Propagator(AcceptanceTestRequestScope atrScope, ThreadLocalRequestContext local) {
+      super(REQUEST, current, local);
       this.atrScope = atrScope;
     }
 

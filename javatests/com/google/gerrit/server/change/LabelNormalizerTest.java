@@ -54,8 +54,6 @@ import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Provider;
-import com.google.inject.util.Providers;
 import java.util.List;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
@@ -93,7 +91,6 @@ public class LabelNormalizerTest extends GerritBaseTests {
     lifecycle.add(injector);
     lifecycle.start();
 
-    db = schemaFactory.open();
     schemaCreator.create();
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     user = userFactory.create(userId);
@@ -103,11 +100,6 @@ public class LabelNormalizerTest extends GerritBaseTests {
           @Override
           public CurrentUser getUser() {
             return user;
-          }
-
-          @Override
-          public Provider<ReviewDb> getReviewDbProvider() {
-            return Providers.of(db);
           }
         });
 

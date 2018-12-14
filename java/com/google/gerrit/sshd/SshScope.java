@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
-import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
@@ -29,16 +28,12 @@ import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
-import com.google.inject.util.Providers;
 import java.util.HashMap;
 import java.util.Map;
 
 /** Guice scopes for state during an SSH connection. */
 public class SshScope {
   private static final Key<RequestCleanup> RC_KEY = Key.get(RequestCleanup.class);
-
-  private static final Key<RequestScopedReviewDbProvider> DB_KEY =
-      Key.get(RequestScopedReviewDbProvider.class);
 
   class Context implements RequestContext {
     private final RequestCleanup cleanup = new RequestCleanup();
@@ -57,7 +52,6 @@ public class SshScope {
       commandLine = c;
       created = started = finished = at;
       map.put(RC_KEY, cleanup);
-      map.put(DB_KEY, new RequestScopedReviewDbProvider(schemaFactory, Providers.of(cleanup)));
     }
 
     private Context(Context p, SshSession s, String c) {
@@ -83,11 +77,6 @@ public class SshScope {
         return identifiedUser;
       }
       return user;
-    }
-
-    @Override
-    public Provider<ReviewDb> getReviewDbProvider() {
-      return (RequestScopedReviewDbProvider) map.get(DB_KEY);
     }
 
     synchronized <T> T get(Key<T> key, Provider<T> creator) {
@@ -125,11 +114,8 @@ public class SshScope {
     private final SshScope sshScope;
 
     @Inject
-    Propagator(
-        SshScope sshScope,
-        ThreadLocalRequestContext local,
-        Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
-      super(REQUEST, current, local, dbProviderProvider);
+    Propagator(SshScope sshScope, ThreadLocalRequestContext local) {
+      super(REQUEST, current, local);
       this.sshScope = sshScope;
     }
 

@@ -268,7 +268,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       List<PatchSetApproval> approvals = new ArrayList<>();
       for (PatchSetApproval psa :
           approvalsUtil.byPatchSet(
-              ctx.getDb(), ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
+              ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
         ProjectState projectState = projectCache.checkedGet(project);
         LabelType type = projectState.getLabelTypes(ctx.getNotes()).byLabel(psa.getLabelId());
         // Only keep veto votes, defined as votes where:

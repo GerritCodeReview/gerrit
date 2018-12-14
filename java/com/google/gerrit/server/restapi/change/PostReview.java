@@ -380,8 +380,7 @@ public class PostReview
       bu.execute();
 
       // Re-read change to take into account results of the update.
-      ChangeData cd =
-          changeDataFactory.create(db.get(), revision.getProject(), revision.getChange().getId());
+      ChangeData cd = changeDataFactory.create(revision.getProject(), revision.getChange().getId());
       for (ReviewerAddition reviewerResult : reviewerResults) {
         reviewerResult.gatherResults(cd);
       }
@@ -1146,7 +1145,7 @@ public class PostReview
       if (ctx.getAccountId().equals(ctx.getChange().getOwner())) {
         return true;
       }
-      ChangeData cd = changeDataFactory.create(db.get(), ctx.getNotes());
+      ChangeData cd = changeDataFactory.create(ctx.getNotes());
       ReviewerSet reviewers = cd.reviewers();
       if (reviewers.byState(REVIEWER).contains(ctx.getAccountId())) {
         return true;
@@ -1357,7 +1356,6 @@ public class PostReview
 
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(
-              ctx.getDb(),
               ctx.getNotes(),
               psId,
               user.getAccountId(),

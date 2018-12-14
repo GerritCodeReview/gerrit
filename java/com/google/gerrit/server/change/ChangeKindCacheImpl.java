@@ -115,7 +115,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
 
     @Override
     public ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch) {
-      return getChangeKindInternal(this, db, change, patch, changeDataFactory, repoManager);
+      return getChangeKindInternal(this, change, patch, changeDataFactory, repoManager);
     }
 
     @Override
@@ -351,7 +351,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
 
   @Override
   public ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch) {
-    return getChangeKindInternal(this, db, change, patch, changeDataFactory, repoManager);
+    return getChangeKindInternal(this, change, patch, changeDataFactory, repoManager);
   }
 
   @Override
@@ -406,7 +406,6 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
 
   private static ChangeKind getChangeKindInternal(
       ChangeKindCache cache,
-      ReviewDb db,
       Change change,
       PatchSet patch,
       ChangeData.Factory changeDataFactory,
@@ -420,7 +419,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
           RevWalk rw = new RevWalk(repo)) {
         kind =
             getChangeKindInternal(
-                cache, rw, repo.getConfig(), changeDataFactory.create(db, change), patch);
+                cache, rw, repo.getConfig(), changeDataFactory.create(change), patch);
       } catch (IOException e) {
         // Do nothing; assume we have a complex change
         logger.atWarning().withCause(e).log(

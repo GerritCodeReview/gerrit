@@ -35,7 +35,6 @@ import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -76,8 +75,8 @@ class ChangeControl {
     this.notes = notes;
   }
 
-  ForChange asForChange(@Nullable ChangeData cd, @Nullable Provider<ReviewDb> db) {
-    return new ForChangeImpl(cd, db);
+  ForChange asForChange(@Nullable ChangeData cd) {
+    return new ForChangeImpl(cd);
   }
 
   private CurrentUser getUser() {
@@ -93,8 +92,8 @@ class ChangeControl {
   }
 
   /** Can this user see this change? */
-  private boolean isVisible(ReviewDb db, @Nullable ChangeData cd) throws OrmException {
-    if (getChange().isPrivate() && !isPrivateVisible(db, cd)) {
+  private boolean isVisible(@Nullable ChangeData cd) throws OrmException {
+    if (getChange().isPrivate() && !isPrivateVisible(cd)) {
       return false;
     }
     return refControl.isVisible();
@@ -157,9 +156,9 @@ class ChangeControl {
   }
 
   /** Is this user a reviewer for the change? */
-  private boolean isReviewer(ReviewDb db, @Nullable ChangeData cd) throws OrmException {
+  private boolean isReviewer(@Nullable ChangeData cd) throws OrmException {
     if (getUser().isIdentifiedUser()) {
-      cd = cd != null ? cd : changeDataFactory.create(db, notes);
+      cd = cd != null ? cd : changeDataFactory.create(notes);
       Collection<Account.Id> results = cd.reviewers().all();
       return results.contains(getUser().getAccountId());
     }
@@ -207,9 +206,9 @@ class ChangeControl {
         || getProjectControl().isAdmin();
   }
 
-  private boolean isPrivateVisible(ReviewDb db, ChangeData cd) throws OrmException {
+  private boolean isPrivateVisible(ChangeData cd) throws OrmException {
     return isOwner()
-        || isReviewer(db, cd)
+        || isReviewer(cd)
         || refControl.canPerform(Permission.VIEW_PRIVATE_CHANGES)
         || getUser().isInternalUser();
   }
@@ -219,26 +218,22 @@ class ChangeControl {
     private Map<String, PermissionRange> labels;
     private String resourcePath;
 
-    ForChangeImpl(@Nullable ChangeData cd, @Nullable Provider<ReviewDb> db) {
+    ForChangeImpl(@Nullable ChangeData cd) {
       this.cd = cd;
-      this.db = db;
     }
 
     private ReviewDb db() {
       if (db != null) {
         return db.get();
-      } else if (cd != null) {
-        return cd.db();
-      } else {
-        return null;
       }
+      return null;
     }
 
     private ChangeData changeData() {
       if (cd == null) {
         ReviewDb reviewDb = db();
         checkState(reviewDb != null, "need ReviewDb");
-        cd = changeDataFactory.create(reviewDb, notes);
+        cd = changeDataFactory.create(notes);
       }
       return cd;
     }
@@ -294,7 +289,7 @@ class ChangeControl {
       try {
         switch (perm) {
           case READ:
-            return isVisible(db(), changeData());
+            return isVisible(changeData());
           case ABANDON:
             return canAbandon();
           case DELETE:

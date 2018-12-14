@@ -255,7 +255,7 @@ public class ReplaceOp implements BatchUpdateOp {
       groups = prevPs != null ? prevPs.getGroups() : ImmutableList.<String>of();
     }
 
-    ChangeData cd = changeDataFactory.create(ctx.getDb(), ctx.getNotes());
+    ChangeData cd = changeDataFactory.create(ctx.getNotes());
     oldRecipients = getRecipientsFromReviewers(cd.reviewers());
 
     ChangeUpdate update = ctx.getUpdate(patchSetId);
@@ -452,7 +452,6 @@ public class ReplaceOp implements BatchUpdateOp {
     if (!approvals.isEmpty()) {
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(
-              ctx.getDb(),
               ctx.getNotes(),
               priorPatchSetId,
               ctx.getAccountId(),

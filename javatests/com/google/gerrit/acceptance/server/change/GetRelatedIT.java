@@ -515,7 +515,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     // Pretend PS1,1 was pushed before the groups field was added.
     clearGroups(psId1_1);
-    indexer.index(changeDataFactory.create(db, project, psId1_1.getParentKey()));
+    indexer.index(changeDataFactory.create(project, psId1_1.getParentKey()));
 
     // PS1,1 has no groups, so disappeared from related changes.
     assertRelated(psId2_1);

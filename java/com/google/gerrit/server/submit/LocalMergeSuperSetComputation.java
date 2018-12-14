@@ -153,7 +153,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
           walkChangesByHashes(visibleCommits, Collections.emptySet(), or, b);
       Set<String> nonVisibleHashes = walkChangesByHashes(nonVisibleCommits, visibleHashes, or, b);
 
-      ChangeSet partialSet = byCommitsOnBranchNotMerged(or, db, b, visibleHashes, nonVisibleHashes);
+      ChangeSet partialSet = byCommitsOnBranchNotMerged(or, b, visibleHashes, nonVisibleHashes);
       Iterables.addAll(visibleChanges, partialSet.changes());
       Iterables.addAll(nonVisibleChanges, partialSet.nonVisibleChanges());
     }
@@ -212,16 +212,12 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private ChangeSet byCommitsOnBranchNotMerged(
-      OpenRepo or,
-      ReviewDb db,
-      Branch.NameKey branch,
-      Set<String> visibleHashes,
-      Set<String> nonVisibleHashes)
+      OpenRepo or, Branch.NameKey branch, Set<String> visibleHashes, Set<String> nonVisibleHashes)
       throws OrmException, IOException {
     List<ChangeData> potentiallyVisibleChanges =
-        byCommitsOnBranchNotMerged(or, db, branch, visibleHashes);
+        byCommitsOnBranchNotMerged(or, branch, visibleHashes);
     List<ChangeData> invisibleChanges =
-        new ArrayList<>(byCommitsOnBranchNotMerged(or, db, branch, nonVisibleHashes));
+        new ArrayList<>(byCommitsOnBranchNotMerged(or, branch, nonVisibleHashes));
     List<ChangeData> visibleChanges = new ArrayList<>(potentiallyVisibleChanges.size());
     for (ChangeData cd : potentiallyVisibleChanges) {
       if (changeIsVisibleToPredicate.match(cd)) {
@@ -234,8 +230,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private ImmutableList<ChangeData> byCommitsOnBranchNotMerged(
-      OpenRepo or, ReviewDb db, Branch.NameKey branch, Set<String> hashes)
-      throws OrmException, IOException {
+      OpenRepo or, Branch.NameKey branch, Set<String> hashes) throws OrmException, IOException {
     if (hashes.isEmpty()) {
       return ImmutableList.of();
     }
@@ -245,7 +240,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     }
     ImmutableList<ChangeData> result =
         ImmutableList.copyOf(
-            queryProvider.get().byCommitsOnBranchNotMerged(or.repo, db, branch, hashes));
+            queryProvider.get().byCommitsOnBranchNotMerged(or.repo, branch, hashes));
     queryCache.put(k, result);
     return result;
   }

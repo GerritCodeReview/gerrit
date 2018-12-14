@@ -350,24 +350,19 @@ public class ApprovalsUtil {
   }
 
   public Iterable<PatchSetApproval> byPatchSet(
-      ReviewDb db,
-      ChangeNotes notes,
-      PatchSet.Id psId,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig)
+      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig)
       throws OrmException {
-    return copier.getForPatchSet(db, notes, psId, rw, repoConfig);
+    return copier.getForPatchSet(notes, psId, rw, repoConfig);
   }
 
   public Iterable<PatchSetApproval> byPatchSetUser(
-      ReviewDb db,
       ChangeNotes notes,
       PatchSet.Id psId,
       Account.Id accountId,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig)
       throws OrmException {
-    return filterApprovals(byPatchSet(db, notes, psId, rw, repoConfig), accountId);
+    return filterApprovals(byPatchSet(notes, psId, rw, repoConfig), accountId);
   }
 
   public PatchSetApproval getSubmitter(ChangeNotes notes, PatchSet.Id c) {

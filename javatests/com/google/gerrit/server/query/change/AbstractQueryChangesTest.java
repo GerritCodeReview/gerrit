@@ -1759,7 +1759,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     allUsers.update(draftsRef.getName(), draftsRef.getObjectId());
     assertThat(allUsers.getRepository().exactRef(draftsRef.getName())).isNotNull();
 
-    indexer.index(db, project, id);
+    indexer.index(project, id);
     assertQuery("draftby:" + userId);
   }
 
@@ -2261,7 +2261,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     for (int i = 1; i <= 11; i++) {
       Iterable<ChangeData> cds =
-          queryProvider.get().byCommitsOnBranchNotMerged(repo.getRepository(), db, dest, shas, i);
+          queryProvider.get().byCommitsOnBranchNotMerged(repo.getRepository(), dest, shas, i);
       Iterable<Integer> ids = FluentIterable.from(cds).transform(in -> in.getId().get());
       String name = "limit " + i;
       assertThat(ids).named(name).hasSize(n);

@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -38,7 +37,6 @@ import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -74,7 +72,6 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
 
   @AssistedInject
   private RobotCommentUpdate(
-      @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       ChangeNoteUtil noteUtil,
       @Assisted ChangeNotes notes,
@@ -82,12 +79,11 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
-    super(cfg, noteUtil, serverIdent, notes, null, accountId, realAccountId, authorIdent, when);
+    super(noteUtil, serverIdent, notes, null, accountId, realAccountId, authorIdent, when);
   }
 
   @AssistedInject
   private RobotCommentUpdate(
-      @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       ChangeNoteUtil noteUtil,
       @Assisted Change change,
@@ -95,7 +91,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
-    super(cfg, noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
+    super(noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
   }
 
   public void putComment(RobotComment c) {

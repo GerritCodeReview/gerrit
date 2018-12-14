@@ -16,10 +16,8 @@ package com.google.gerrit.reviewdb.server;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.gwtorm.client.Column;
-import com.google.gwtorm.client.IntKey;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Set;
@@ -27,28 +25,6 @@ import java.util.TreeSet;
 
 /** Static utilities for ReviewDb types. */
 public class ReviewDbUtil {
-  private static final Ordering<? extends IntKey<?>> INT_KEY_ORDERING =
-      Ordering.natural().nullsFirst().<IntKey<?>>onResultOf(IntKey::get).nullsFirst();
-
-  /**
-   * Null-safe ordering over arbitrary subclass of {@code IntKey}.
-   *
-   * <p>In some cases, {@code Comparator.comparing(Change.Id::get)} may be shorter and cleaner.
-   * However, this method may be preferable in some cases:
-   *
-   * <ul>
-   *   <li>This ordering is null-safe over both input and the result of {@link IntKey#get()}; {@code
-   *       comparing} is only a good idea if all inputs are obviously non-null.
-   *   <li>{@code intKeyOrdering().sortedCopy(iterable)} is shorter than the stream equivalent.
-   *   <li>Creating derived comparators may be more readable with {@link Ordering} method chaining
-   *       rather than static {@code Comparator} methods.
-   * </ul>
-   */
-  @SuppressWarnings("unchecked")
-  public static <K extends IntKey<?>> Ordering<K> intKeyOrdering() {
-    return (Ordering<K>) INT_KEY_ORDERING;
-  }
-
   public static ReviewDb unwrapDb(ReviewDb db) {
     if (db instanceof DisallowedReviewDb) {
       return unwrapDb(((DisallowedReviewDb) db).unsafeGetDelegate());

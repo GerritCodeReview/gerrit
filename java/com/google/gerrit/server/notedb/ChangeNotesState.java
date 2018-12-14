@@ -65,7 +65,6 @@ import com.google.gerrit.server.index.change.ChangeField.StoredSubmitRecord;
 import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.MessageLite;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -311,7 +310,7 @@ public abstract class ChangeNotesState {
     return change;
   }
 
-  void copyColumnsTo(Change change) throws IOException {
+  void copyColumnsTo(Change change) {
     ChangeColumns c = columns();
     checkState(
         c != null && metaId() != null,

@@ -26,6 +26,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.converter.ChangeProtoConverter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
 import com.google.gerrit.testing.GerritBaseTests;

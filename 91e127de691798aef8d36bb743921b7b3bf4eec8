@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14316951_347148c4",
+        "filename": "java/com/google/gerrit/reviewdb/converter/ChangeProtoConverter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-14T20:36:03Z",
+      "side": 1,
+      "message": "I just merged the change to get rid of noteDbState, so this change will need to be adapted.",
+      "revId": "91e127de691798aef8d36bb743921b7b3bf4eec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

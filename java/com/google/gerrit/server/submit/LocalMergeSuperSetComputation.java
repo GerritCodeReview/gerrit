@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -109,7 +108,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
 
   @Override
   public ChangeSet completeWithoutTopic(
-      ReviewDb db, MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user)
+      MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user)
       throws OrmException, IOException, PermissionBackendException {
     Collection<ChangeData> visibleChanges = new ArrayList<>();
     Collection<ChangeData> nonVisibleChanges = new ArrayList<>();

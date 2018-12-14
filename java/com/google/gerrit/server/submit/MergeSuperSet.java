@@ -22,7 +22,6 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.TraceContext;
@@ -93,7 +92,7 @@ public class MergeSuperSet {
     return this;
   }
 
-  public ChangeSet completeChangeSet(ReviewDb db, Change change, CurrentUser user)
+  public ChangeSet completeChangeSet(Change change, CurrentUser user)
       throws IOException, OrmException, PermissionBackendException {
     try {
       if (orm == null) {
@@ -120,10 +119,10 @@ public class MergeSuperSet {
 
       ChangeSet changeSet = new ChangeSet(cd, visible);
       if (wholeTopicEnabled(cfg)) {
-        return completeChangeSetIncludingTopics(db, changeSet, user);
+        return completeChangeSetIncludingTopics(changeSet, user);
       }
       try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation)) {
-        return mergeSuperSetComputation.get().completeWithoutTopic(db, orm, changeSet, user);
+        return mergeSuperSetComputation.get().completeWithoutTopic(orm, changeSet, user);
       }
     } finally {
       if (closeOrm && orm != null) {
@@ -137,9 +136,8 @@ public class MergeSuperSet {
    * Completes {@code changeSet} with any additional changes from its topics
    *
    * <p>{@link #completeChangeSetIncludingTopics} calls this repeatedly, alternating with {@link
-   * MergeSuperSetComputation#completeWithoutTopic(ReviewDb, MergeOpRepoManager, ChangeSet,
-   * CurrentUser)}, to discover what additional changes should be submitted with a change until the
-   * set stops growing.
+   * MergeSuperSetComputation#completeWithoutTopic(MergeOpRepoManager, ChangeSet, CurrentUser)}, to
+   * discover what additional changes should be submitted with a change until the set stops growing.
    *
    * <p>{@code topicsSeen} and {@code visibleTopicsSeen} keep track of topics already explored to
    * avoid wasted work.
@@ -182,8 +180,7 @@ public class MergeSuperSet {
     return new ChangeSet(visibleChanges, nonVisibleChanges);
   }
 
-  private ChangeSet completeChangeSetIncludingTopics(
-      ReviewDb db, ChangeSet changeSet, CurrentUser user)
+  private ChangeSet completeChangeSetIncludingTopics(ChangeSet changeSet, CurrentUser user)
       throws IOException, OrmException, PermissionBackendException {
     Set<String> topicsSeen = new HashSet<>();
     Set<String> visibleTopicsSeen = new HashSet<>();
@@ -196,7 +193,7 @@ public class MergeSuperSet {
     do {
       oldSeen = seen;
       try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation)) {
-        changeSet = mergeSuperSetComputation.get().completeWithoutTopic(db, orm, changeSet, user);
+        changeSet = mergeSuperSetComputation.get().completeWithoutTopic(orm, changeSet, user);
       }
       changeSet = topicClosure(changeSet, user, topicsSeen, visibleTopicsSeen);
       seen = topicsSeen.size() + visibleTopicsSeen.size();

@@ -52,7 +52,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
@@ -239,7 +238,6 @@ public class MergeOp implements AutoCloseable {
 
   private MergeOpRepoManager orm;
   private CommitStatus commitStatus;
-  private ReviewDb db;
   private SubmitInput submitInput;
   private ListMultimap<RecipientType, Account.Id> accountsToNotify;
   private Set<Project.NameKey> allProjects;
@@ -427,7 +425,6 @@ public class MergeOp implements AutoCloseable {
    * topic or via superproject subscriptions. All affected changes are integrated using the projects
    * integration strategy.
    *
-   * @param db the review database.
    * @param change the change to be merged.
    * @param caller the identity of the caller
    * @param checkSubmitRules whether the prolog submit rules should be evaluated
@@ -438,7 +435,6 @@ public class MergeOp implements AutoCloseable {
    * @throws IOException an error occurred reading from NoteDb.
    */
   public void merge(
-      ReviewDb db,
       Change change,
       IdentifiedUser caller,
       boolean checkSubmitRules,
@@ -451,7 +447,6 @@ public class MergeOp implements AutoCloseable {
     this.dryrun = dryrun;
     this.caller = caller;
     this.ts = TimeUtil.nowTs();
-    this.db = db;
     this.submissionId = new RequestId(change.getId().toString());
 
     try (TraceContext traceContext =
@@ -461,7 +456,7 @@ public class MergeOp implements AutoCloseable {
       logger.atFine().log("Beginning integration of %s", change);
       try {
         ChangeSet indexBackedChangeSet =
-            mergeSuperSet.setMergeOpRepoManager(orm).completeChangeSet(db, change, caller);
+            mergeSuperSet.setMergeOpRepoManager(orm).completeChangeSet(change, caller);
         checkState(
             indexBackedChangeSet.ids().contains(change.getId()),
             "change %s missing from %s",
@@ -536,7 +531,7 @@ public class MergeOp implements AutoCloseable {
       orm.close();
     }
     orm = ormProvider.get();
-    orm.setContext(db, ts, caller);
+    orm.setContext(ts, caller);
   }
 
   private ChangeSet reloadChanges(ChangeSet changeSet) {
@@ -669,7 +664,6 @@ public class MergeOp implements AutoCloseable {
         SubmitStrategy strategy =
             submitStrategyFactory.create(
                 submitting.submitType(),
-                db,
                 or.rw,
                 or.canMergeFlag,
                 getAlreadyAccepted(or, ob.oldTip),

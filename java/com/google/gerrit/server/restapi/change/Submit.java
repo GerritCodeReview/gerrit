@@ -36,7 +36,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -107,7 +106,6 @@ public class Submit
     }
   }
 
-  private final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final ChangeData.Factory changeDataFactory;
@@ -128,7 +126,6 @@ public class Submit
 
   @Inject
   Submit(
-      Provider<ReviewDb> dbProvider,
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
       ChangeData.Factory changeDataFactory,
@@ -140,7 +137,6 @@ public class Submit
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil,
       ProjectCache projectCache) {
-    this.dbProvider = dbProvider;
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.changeDataFactory = changeDataFactory;
@@ -212,8 +208,7 @@ public class Submit
     }
 
     try (MergeOp op = mergeOpProvider.get()) {
-      ReviewDb db = dbProvider.get();
-      op.merge(db, change, submitter, true, input, false);
+      op.merge(change, submitter, true, input, false);
       try {
         change = changeNotesFactory.createChecked(change.getProject(), change.getId()).getChange();
       } catch (NoSuchChangeException e) {
@@ -321,7 +316,6 @@ public class Submit
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
 
-    ReviewDb db = dbProvider.get();
     ChangeData cd = changeDataFactory.create(resource.getNotes());
     try {
       MergeOp.checkSubmitRule(cd, false);
@@ -334,7 +328,7 @@ public class Submit
 
     ChangeSet cs;
     try {
-      cs = mergeSuperSet.get().completeChangeSet(db, cd.change(), resource.getUser());
+      cs = mergeSuperSet.get().completeChangeSet(cd.change(), resource.getUser());
     } catch (OrmException | IOException | PermissionBackendException e) {
       throw new OrmRuntimeException(
           "Could not determine complete set of changes to be submitted", e);

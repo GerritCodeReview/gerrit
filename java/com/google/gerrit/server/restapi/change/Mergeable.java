@@ -24,8 +24,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.change.RevisionResource;
@@ -40,10 +38,8 @@ import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Future;
@@ -66,7 +62,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final ProjectCache projectCache;
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeData.Factory changeDataFactory;
-  private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
   private final MergeabilityCache cache;
   private final SubmitRuleEvaluator submitRuleEvaluator;
@@ -77,7 +72,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
       ChangeData.Factory changeDataFactory,
-      Provider<ReviewDb> db,
       ChangeIndexer indexer,
       MergeabilityCache cache,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
@@ -85,7 +79,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeDataFactory = changeDataFactory;
-    this.db = db;
     this.indexer = indexer;
     this.cache = cache;
     submitRuleEvaluator = submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults());
@@ -157,8 +150,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ObjectId commit,
       Ref ref,
       SubmitType submitType,
-      String strategy)
-      throws OrmException {
+      String strategy) {
     if (commit == null) {
       return false;
     }
@@ -186,25 +178,14 @@ public class Mergeable implements RestReadView<RevisionResource> {
       SubmitType type,
       String strategy,
       Repository git,
-      Boolean old)
-      throws OrmException {
-    final boolean mergeable = cache.get(commit, ref, type, strategy, change.getDest(), git);
+      Boolean old) {
+    boolean mergeable = cache.get(commit, ref, type, strategy, change.getDest(), git);
+    // TODO(dborowitz): Include something else in the change ETag that it's possible to bump here,
+    // such as cache or secondary index update time.
     if (!Objects.equals(mergeable, old)) {
-      invalidateETag(change.getId(), db.get());
-
       @SuppressWarnings("unused")
       Future<?> possiblyIgnoredError = indexer.indexAsync(change.getProject(), change.getId());
     }
     return mergeable;
-  }
-
-  private static void invalidateETag(Change.Id id, ReviewDb db) throws OrmException {
-    // Empty update of Change to bump rowVersion, changing its ETag.
-    // TODO(dborowitz): Include cache info in ETag somehow instead.
-    db = ReviewDbUtil.unwrapDb(db);
-    Change c = db.changes().get(id);
-    if (c != null) {
-      db.changes().update(Collections.singleton(c));
-    }
   }
 }

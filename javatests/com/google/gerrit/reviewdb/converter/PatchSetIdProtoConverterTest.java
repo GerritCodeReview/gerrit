@@ -19,7 +19,7 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.reviewdb.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -35,11 +35,11 @@ public class PatchSetIdProtoConverterTest {
   public void allValuesConvertedToProto() {
     PatchSet.Id patchSetId = new PatchSet.Id(new Change.Id(103), 73);
 
-    Reviewdb.PatchSet_Id proto = patchSetIdProtoConverter.toProto(patchSetId);
+    Entities.PatchSet_Id proto = patchSetIdProtoConverter.toProto(patchSetId);
 
-    Reviewdb.PatchSet_Id expectedProto =
-        Reviewdb.PatchSet_Id.newBuilder()
-            .setChangeId(Reviewdb.Change_Id.newBuilder().setId(103))
+    Entities.PatchSet_Id expectedProto =
+        Entities.PatchSet_Id.newBuilder()
+            .setChangeId(Entities.Change_Id.newBuilder().setId(103))
             .setPatchSetId(73)
             .build();
     assertThat(proto).isEqualTo(expectedProto);
@@ -57,15 +57,15 @@ public class PatchSetIdProtoConverterTest {
 
   @Test
   public void protoCanBeParsedFromBytes() throws Exception {
-    Reviewdb.PatchSet_Id proto =
-        Reviewdb.PatchSet_Id.newBuilder()
-            .setChangeId(Reviewdb.Change_Id.newBuilder().setId(103))
+    Entities.PatchSet_Id proto =
+        Entities.PatchSet_Id.newBuilder()
+            .setChangeId(Entities.Change_Id.newBuilder().setId(103))
             .setPatchSetId(73)
             .build();
     byte[] bytes = proto.toByteArray();
 
-    Parser<Reviewdb.PatchSet_Id> parser = patchSetIdProtoConverter.getParser();
-    Reviewdb.PatchSet_Id parsedProto = parser.parseFrom(bytes);
+    Parser<Entities.PatchSet_Id> parser = patchSetIdProtoConverter.getParser();
+    Entities.PatchSet_Id parsedProto = parser.parseFrom(bytes);
 
     assertThat(parsedProto).isEqualTo(proto);
   }

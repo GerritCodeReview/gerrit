@@ -19,7 +19,7 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.reviewdb.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -55,19 +55,19 @@ public class ChangeProtoConverterTest {
     change.setReviewStarted(true);
     change.setRevertOf(new Change.Id(180));
 
-    Reviewdb.Change proto = changeProtoConverter.toProto(change);
+    Entities.Change proto = changeProtoConverter.toProto(change);
 
-    Reviewdb.Change expectedProto =
-        Reviewdb.Change.newBuilder()
-            .setChangeId(Reviewdb.Change_Id.newBuilder().setId(14))
-            .setChangeKey(Reviewdb.Change_Key.newBuilder().setId("change 1"))
+    Entities.Change expectedProto =
+        Entities.Change.newBuilder()
+            .setChangeId(Entities.Change_Id.newBuilder().setId(14))
+            .setChangeKey(Entities.Change_Key.newBuilder().setId("change 1"))
             .setRowVersion(0)
             .setCreatedOn(987654L)
             .setLastUpdatedOn(1234567L)
-            .setOwnerAccountId(Reviewdb.Account_Id.newBuilder().setId(35))
+            .setOwnerAccountId(Entities.Account_Id.newBuilder().setId(35))
             .setDest(
-                Reviewdb.Branch_NameKey.newBuilder()
-                    .setProjectName(Reviewdb.Project_NameKey.newBuilder().setName("project 67"))
+                Entities.Branch_NameKey.newBuilder()
+                    .setProjectName(Entities.Project_NameKey.newBuilder().setName("project 67"))
                     .setBranchName("refs/heads/branch 74"))
             .setStatus(Change.STATUS_MERGED)
             .setCurrentPatchSetId(23)
@@ -75,11 +75,11 @@ public class ChangeProtoConverterTest {
             .setTopic("my topic")
             .setOriginalSubject("original subject ABC")
             .setSubmissionId("submission ID 234")
-            .setAssignee(Reviewdb.Account_Id.newBuilder().setId(100001))
+            .setAssignee(Entities.Account_Id.newBuilder().setId(100001))
             .setIsPrivate(true)
             .setWorkInProgress(true)
             .setReviewStarted(true)
-            .setRevertOf(Reviewdb.Change_Id.newBuilder().setId(180))
+            .setRevertOf(Entities.Change_Id.newBuilder().setId(180))
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -94,19 +94,19 @@ public class ChangeProtoConverterTest {
             new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
 
-    Reviewdb.Change proto = changeProtoConverter.toProto(change);
+    Entities.Change proto = changeProtoConverter.toProto(change);
 
-    Reviewdb.Change expectedProto =
-        Reviewdb.Change.newBuilder()
-            .setChangeId(Reviewdb.Change_Id.newBuilder().setId(14))
-            .setChangeKey(Reviewdb.Change_Key.newBuilder().setId("change 1"))
+    Entities.Change expectedProto =
+        Entities.Change.newBuilder()
+            .setChangeId(Entities.Change_Id.newBuilder().setId(14))
+            .setChangeKey(Entities.Change_Key.newBuilder().setId("change 1"))
             .setCreatedOn(987654L)
             // Defaults to createdOn if not set.
             .setLastUpdatedOn(987654L)
-            .setOwnerAccountId(Reviewdb.Account_Id.newBuilder().setId(35))
+            .setOwnerAccountId(Entities.Account_Id.newBuilder().setId(35))
             .setDest(
-                Reviewdb.Branch_NameKey.newBuilder()
-                    .setProjectName(Reviewdb.Project_NameKey.newBuilder().setName("project 67"))
+                Entities.Branch_NameKey.newBuilder()
+                    .setProjectName(Entities.Project_NameKey.newBuilder().setName("project 67"))
                     .setBranchName("refs/heads/branch-74"))
             // Default values which can't be unset.
             .setCurrentPatchSetId(0)
@@ -132,19 +132,19 @@ public class ChangeProtoConverterTest {
     // O as ID actually means that no current patch set is present.
     change.setCurrentPatchSet(new PatchSet.Id(new Change.Id(14), 0), null, null);
 
-    Reviewdb.Change proto = changeProtoConverter.toProto(change);
+    Entities.Change proto = changeProtoConverter.toProto(change);
 
-    Reviewdb.Change expectedProto =
-        Reviewdb.Change.newBuilder()
-            .setChangeId(Reviewdb.Change_Id.newBuilder().setId(14))
-            .setChangeKey(Reviewdb.Change_Key.newBuilder().setId("change 1"))
+    Entities.Change expectedProto =
+        Entities.Change.newBuilder()
+            .setChangeId(Entities.Change_Id.newBuilder().setId(14))
+            .setChangeKey(Entities.Change_Key.newBuilder().setId("change 1"))
             .setCreatedOn(987654L)
             // Defaults to createdOn if not set.
             .setLastUpdatedOn(987654L)
-            .setOwnerAccountId(Reviewdb.Account_Id.newBuilder().setId(35))
+            .setOwnerAccountId(Entities.Account_Id.newBuilder().setId(35))
             .setDest(
-                Reviewdb.Branch_NameKey.newBuilder()
-                    .setProjectName(Reviewdb.Project_NameKey.newBuilder().setName("project 67"))
+                Entities.Branch_NameKey.newBuilder()
+                    .setProjectName(Entities.Project_NameKey.newBuilder().setName("project 67"))
                     .setBranchName("refs/heads/branch-74"))
             .setCurrentPatchSetId(0)
             // Default values which can't be unset.
@@ -169,19 +169,19 @@ public class ChangeProtoConverterTest {
             new Timestamp(987654L));
     change.setCurrentPatchSet(new PatchSet.Id(new Change.Id(14), 23), "subject ABC", null);
 
-    Reviewdb.Change proto = changeProtoConverter.toProto(change);
+    Entities.Change proto = changeProtoConverter.toProto(change);
 
-    Reviewdb.Change expectedProto =
-        Reviewdb.Change.newBuilder()
-            .setChangeId(Reviewdb.Change_Id.newBuilder().setId(14))
-            .setChangeKey(Reviewdb.Change_Key.newBuilder().setId("change 1"))
+    Entities.Change expectedProto =
+        Entities.Change.newBuilder()
+            .setChangeId(Entities.Change_Id.newBuilder().setId(14))
+            .setChangeKey(Entities.Change_Key.newBuilder().setId("change 1"))
             .setCreatedOn(987654L)
             // Defaults to createdOn if not set.
             .setLastUpdatedOn(987654L)
-            .setOwnerAccountId(Reviewdb.Account_Id.newBuilder().setId(35))
+            .setOwnerAccountId(Entities.Account_Id.newBuilder().setId(35))
             .setDest(
-                Reviewdb.Branch_NameKey.newBuilder()
-                    .setProjectName(Reviewdb.Project_NameKey.newBuilder().setName("project 67"))
+                Entities.Branch_NameKey.newBuilder()
+                    .setProjectName(Entities.Project_NameKey.newBuilder().setName("project 67"))
                     .setBranchName("refs/heads/branch-74"))
             .setCurrentPatchSetId(23)
             .setSubject("subject ABC")
@@ -238,8 +238,8 @@ public class ChangeProtoConverterTest {
   // never be unset in our entity object.
   @Test
   public void protoWithOnlyRequiredValuesCanBeConvertedBack() {
-    Reviewdb.Change proto =
-        Reviewdb.Change.newBuilder().setChangeId(Reviewdb.Change_Id.newBuilder().setId(14)).build();
+    Entities.Change proto =
+        Entities.Change.newBuilder().setChangeId(Entities.Change_Id.newBuilder().setId(14)).build();
     Change change = changeProtoConverter.fromProto(proto);
 
     assertThat(change.getChangeId()).isEqualTo(14);
@@ -261,15 +261,15 @@ public class ChangeProtoConverterTest {
 
   @Test
   public void unsetLastUpdatedOnIsAutomaticallySetToCreatedOnWhenConvertedBack() {
-    Reviewdb.Change proto =
-        Reviewdb.Change.newBuilder()
-            .setChangeId(Reviewdb.Change_Id.newBuilder().setId(14))
-            .setChangeKey(Reviewdb.Change_Key.newBuilder().setId("change 1"))
+    Entities.Change proto =
+        Entities.Change.newBuilder()
+            .setChangeId(Entities.Change_Id.newBuilder().setId(14))
+            .setChangeKey(Entities.Change_Key.newBuilder().setId("change 1"))
             .setCreatedOn(987654L)
-            .setOwnerAccountId(Reviewdb.Account_Id.newBuilder().setId(35))
+            .setOwnerAccountId(Entities.Account_Id.newBuilder().setId(35))
             .setDest(
-                Reviewdb.Branch_NameKey.newBuilder()
-                    .setProjectName(Reviewdb.Project_NameKey.newBuilder().setName("project 67"))
+                Entities.Branch_NameKey.newBuilder()
+                    .setProjectName(Entities.Project_NameKey.newBuilder().setName("project 67"))
                     .setBranchName("branch 74"))
             .build();
     Change change = changeProtoConverter.fromProto(proto);
@@ -279,17 +279,17 @@ public class ChangeProtoConverterTest {
 
   @Test
   public void protoCanBeParsedFromBytes() throws Exception {
-    Reviewdb.Change proto =
-        Reviewdb.Change.newBuilder()
-            .setChangeId(Reviewdb.Change_Id.newBuilder().setId(14))
-            .setChangeKey(Reviewdb.Change_Key.newBuilder().setId("change 1"))
+    Entities.Change proto =
+        Entities.Change.newBuilder()
+            .setChangeId(Entities.Change_Id.newBuilder().setId(14))
+            .setChangeKey(Entities.Change_Key.newBuilder().setId("change 1"))
             .setRowVersion(0)
             .setCreatedOn(987654L)
             .setLastUpdatedOn(1234567L)
-            .setOwnerAccountId(Reviewdb.Account_Id.newBuilder().setId(35))
+            .setOwnerAccountId(Entities.Account_Id.newBuilder().setId(35))
             .setDest(
-                Reviewdb.Branch_NameKey.newBuilder()
-                    .setProjectName(Reviewdb.Project_NameKey.newBuilder().setName("project 67"))
+                Entities.Branch_NameKey.newBuilder()
+                    .setProjectName(Entities.Project_NameKey.newBuilder().setName("project 67"))
                     .setBranchName("branch 74"))
             .setStatus(Change.STATUS_MERGED)
             .setCurrentPatchSetId(23)
@@ -297,16 +297,16 @@ public class ChangeProtoConverterTest {
             .setTopic("my topic")
             .setOriginalSubject("original subject ABC")
             .setSubmissionId("submission ID 234")
-            .setAssignee(Reviewdb.Account_Id.newBuilder().setId(100001))
+            .setAssignee(Entities.Account_Id.newBuilder().setId(100001))
             .setIsPrivate(true)
             .setWorkInProgress(true)
             .setReviewStarted(true)
-            .setRevertOf(Reviewdb.Change_Id.newBuilder().setId(180))
+            .setRevertOf(Entities.Change_Id.newBuilder().setId(180))
             .build();
     byte[] bytes = proto.toByteArray();
 
-    Parser<Reviewdb.Change> parser = changeProtoConverter.getParser();
-    Reviewdb.Change parsedProto = parser.parseFrom(bytes);
+    Parser<Entities.Change> parser = changeProtoConverter.getParser();
+    Entities.Change parsedProto = parser.parseFrom(bytes);
 
     assertThat(parsedProto).isEqualTo(proto);
   }

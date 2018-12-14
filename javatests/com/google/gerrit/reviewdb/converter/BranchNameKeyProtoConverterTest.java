@@ -19,7 +19,7 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.reviewdb.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -35,11 +35,11 @@ public class BranchNameKeyProtoConverterTest {
   public void allValuesConvertedToProto() {
     Branch.NameKey nameKey = new Branch.NameKey(new Project.NameKey("project-13"), "branch-72");
 
-    Reviewdb.Branch_NameKey proto = branchNameKeyProtoConverter.toProto(nameKey);
+    Entities.Branch_NameKey proto = branchNameKeyProtoConverter.toProto(nameKey);
 
-    Reviewdb.Branch_NameKey expectedProto =
-        Reviewdb.Branch_NameKey.newBuilder()
-            .setProjectName(Reviewdb.Project_NameKey.newBuilder().setName("project-13"))
+    Entities.Branch_NameKey expectedProto =
+        Entities.Branch_NameKey.newBuilder()
+            .setProjectName(Entities.Project_NameKey.newBuilder().setName("project-13"))
             .setBranchName("refs/heads/branch-72")
             .build();
     assertThat(proto).isEqualTo(expectedProto);
@@ -57,15 +57,15 @@ public class BranchNameKeyProtoConverterTest {
 
   @Test
   public void protoCanBeParsedFromBytes() throws Exception {
-    Reviewdb.Branch_NameKey proto =
-        Reviewdb.Branch_NameKey.newBuilder()
-            .setProjectName(Reviewdb.Project_NameKey.newBuilder().setName("project 1"))
+    Entities.Branch_NameKey proto =
+        Entities.Branch_NameKey.newBuilder()
+            .setProjectName(Entities.Project_NameKey.newBuilder().setName("project 1"))
             .setBranchName("branch 36")
             .build();
     byte[] bytes = proto.toByteArray();
 
-    Parser<Reviewdb.Branch_NameKey> parser = branchNameKeyProtoConverter.getParser();
-    Reviewdb.Branch_NameKey parsedProto = parser.parseFrom(bytes);
+    Parser<Entities.Branch_NameKey> parser = branchNameKeyProtoConverter.getParser();
+    Entities.Branch_NameKey parsedProto = parser.parseFrom(bytes);
 
     assertThat(parsedProto).isEqualTo(proto);
   }

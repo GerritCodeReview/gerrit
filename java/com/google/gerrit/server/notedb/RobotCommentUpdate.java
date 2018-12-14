@@ -76,48 +76,26 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
   private RobotCommentUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      NotesMigration migration,
       ChangeNoteUtil noteUtil,
       @Assisted ChangeNotes notes,
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
-    super(
-        cfg,
-        migration,
-        noteUtil,
-        serverIdent,
-        notes,
-        null,
-        accountId,
-        realAccountId,
-        authorIdent,
-        when);
+    super(cfg, noteUtil, serverIdent, notes, null, accountId, realAccountId, authorIdent, when);
   }
 
   @AssistedInject
   private RobotCommentUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      NotesMigration migration,
       ChangeNoteUtil noteUtil,
       @Assisted Change change,
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
-    super(
-        cfg,
-        migration,
-        noteUtil,
-        serverIdent,
-        null,
-        change,
-        accountId,
-        realAccountId,
-        authorIdent,
-        when);
+    super(cfg, noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
   }
 
   public void putComment(RobotComment c) {
@@ -178,19 +156,16 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
     if (curr.equals(ObjectId.zeroId())) {
       return RevisionNoteMap.emptyMap();
     }
-    if (migration.readChanges()) {
-      // If reading from changes is enabled, then the old RobotCommentNotes
-      // already parsed the revision notes. We can reuse them as long as the ref
-      // hasn't advanced.
-      ChangeNotes changeNotes = getNotes();
-      if (changeNotes != null) {
-        RobotCommentNotes robotCommentNotes = changeNotes.load().getRobotCommentNotes();
-        if (robotCommentNotes != null) {
-          ObjectId idFromNotes = firstNonNull(robotCommentNotes.getRevision(), ObjectId.zeroId());
-          RevisionNoteMap<RobotCommentsRevisionNote> rnm = robotCommentNotes.getRevisionNoteMap();
-          if (idFromNotes.equals(curr) && rnm != null) {
-            return rnm;
-          }
+    // The old RobotCommentNotes already parsed the revision notes. We can reuse them as long as
+    // the ref hasn't advanced.
+    ChangeNotes changeNotes = getNotes();
+    if (changeNotes != null) {
+      RobotCommentNotes robotCommentNotes = changeNotes.load().getRobotCommentNotes();
+      if (robotCommentNotes != null) {
+        ObjectId idFromNotes = firstNonNull(robotCommentNotes.getRevision(), ObjectId.zeroId());
+        RevisionNoteMap<RobotCommentsRevisionNote> rnm = robotCommentNotes.getRevisionNoteMap();
+        if (idFromNotes.equals(curr) && rnm != null) {
+          return rnm;
         }
       }
     }

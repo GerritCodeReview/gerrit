@@ -28,8 +28,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -39,13 +37,10 @@ import com.google.gerrit.server.change.NotifyUtil;
 import com.google.gerrit.server.extensions.events.ReviewerDeleted;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.update.BatchUpdateOp;
-import com.google.gerrit.server.update.BatchUpdateReviewDb;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gwtorm.server.OrmException;
@@ -73,7 +68,6 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   private final ReviewerDeleted reviewerDeleted;
   private final Provider<IdentifiedUser> user;
   private final DeleteReviewerSender.Factory deleteReviewerSenderFactory;
-  private final NotesMigration migration;
   private final NotifyUtil notifyUtil;
   private final RemoveReviewerControl removeReviewerControl;
   private final ProjectCache projectCache;
@@ -96,7 +90,6 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       ReviewerDeleted reviewerDeleted,
       Provider<IdentifiedUser> user,
       DeleteReviewerSender.Factory deleteReviewerSenderFactory,
-      NotesMigration migration,
       NotifyUtil notifyUtil,
       RemoveReviewerControl removeReviewerControl,
       ProjectCache projectCache,
@@ -109,7 +102,6 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     this.reviewerDeleted = reviewerDeleted;
     this.user = user;
     this.deleteReviewerSenderFactory = deleteReviewerSenderFactory;
-    this.migration = migration;
     this.notifyUtil = notifyUtil;
     this.removeReviewerControl = removeReviewerControl;
     this.projectCache = projectCache;
@@ -202,24 +194,8 @@ public class DeleteReviewerOp implements BatchUpdateOp {
 
   private Iterable<PatchSetApproval> approvals(ChangeContext ctx, Account.Id accountId)
       throws OrmException {
-    Change.Id changeId = ctx.getNotes().getChangeId();
     Iterable<PatchSetApproval> approvals;
-    PrimaryStorage r = PrimaryStorage.of(ctx.getChange());
-
-    if (migration.readChanges() && r == PrimaryStorage.REVIEW_DB) {
-      // Because NoteDb and ReviewDb have different semantics for zero-value
-      // approvals, we must fall back to ReviewDb as the source of truth here.
-      ReviewDb db = ctx.getDb();
-
-      if (db instanceof BatchUpdateReviewDb) {
-        db = ((BatchUpdateReviewDb) db).unsafeGetDelegate();
-      }
-      db = ReviewDbUtil.unwrapDb(db);
-      approvals = db.patchSetApprovals().byChange(changeId);
-    } else {
-      approvals = approvalsUtil.byChange(ctx.getNotes()).values();
-    }
-
+    approvals = approvalsUtil.byChange(ctx.getNotes()).values();
     return Iterables.filter(approvals, psa -> accountId.equals(psa.getAccountId()));
   }
 

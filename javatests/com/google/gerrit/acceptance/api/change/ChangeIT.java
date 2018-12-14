@@ -259,7 +259,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void setPrivateByOwner() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
-        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+        pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
 
     setApiUser(user);
     String changeId = result.getChangeId();
@@ -296,7 +296,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void administratorCanSetUserChangePrivate() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
-        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+        pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
 
     String changeId = result.getChangeId();
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
@@ -320,7 +320,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void accessPrivate() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
-        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+        pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
 
     setApiUser(user);
     gApi.changes().id(result.getChangeId()).setPrivate(true, null);
@@ -378,7 +378,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void ownerCannotMarkPrivateAfterMerging() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
-        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+        pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
 
     String changeId = result.getChangeId();
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
@@ -395,7 +395,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void ownerCanUnmarkPrivateAfterMerging() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
-        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+        pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
 
     String changeId = result.getChangeId();
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
@@ -695,7 +695,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @TestProjectInput(cloneAs = "user")
   public void reviewWithWorkInProgressChangeOwner() throws Exception {
-    PushOneCommit push = pushFactory.create(db, user.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(user.getIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
     assertThat(r.getChange().change().getOwner()).isEqualTo(user.id);
@@ -710,7 +710,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @TestProjectInput(cloneAs = "user")
   public void reviewWithWithWorkInProgressAdmin() throws Exception {
-    PushOneCommit push = pushFactory.create(db, user.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(user.getIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
     assertThat(r.getChange().change().getOwner()).isEqualTo(user.id);
@@ -754,7 +754,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
     PushOneCommit push2 =
         pushFactory.create(
-            db,
             admin.getIdent(),
             testRepo,
             PushOneCommit.SUBJECT,
@@ -1100,7 +1099,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @TestProjectInput(cloneAs = "user")
   public void deleteNewChangeAsNormalUser() throws Exception {
     PushOneCommit.Result changeResult =
-        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+        pushFactory.create(user.getIdent(), testRepo).to("refs/for/master");
     String changeId = changeResult.getChangeId();
 
     setApiUser(user);
@@ -1225,7 +1224,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @TestProjectInput(cloneAs = "user")
   public void deleteAbandonedChangeAsNormalUser() throws Exception {
     PushOneCommit.Result changeResult =
-        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+        pushFactory.create(user.getIdent(), testRepo).to("refs/for/master");
     String changeId = changeResult.getChangeId();
 
     setApiUser(user);
@@ -1240,7 +1239,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @TestProjectInput(cloneAs = "user")
   public void deleteAbandonedChangeOfAnotherUserAsAdmin() throws Exception {
     PushOneCommit.Result changeResult =
-        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+        pushFactory.create(user.getIdent(), testRepo).to("refs/for/master");
     String changeId = changeResult.getChangeId();
 
     gApi.changes().id(changeId).abandon();
@@ -1269,7 +1268,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     try {
       PushOneCommit.Result changeResult =
-          pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+          pushFactory.create(user.getIdent(), testRepo).to("refs/for/master");
       String changeId = changeResult.getChangeId();
 
       merge(changeResult);
@@ -1331,7 +1330,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
     PushOneCommit push =
         pushFactory.create(
-            db,
             admin.getIdent(),
             testRepo,
             PushOneCommit.SUBJECT,
@@ -1488,7 +1486,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void pushCommitOfOtherUser() throws Exception {
     // admin pushes commit of user
-    PushOneCommit push = pushFactory.create(db, user.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(user.getIdent(), testRepo);
     PushOneCommit.Result result = push.to("refs/for/master");
     result.assertOkStatus();
 
@@ -1527,7 +1525,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // admin pushes commit of user
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
-    PushOneCommit push = pushFactory.create(db, user.getIdent(), repo);
+    PushOneCommit push = pushFactory.create(user.getIdent(), repo);
     PushOneCommit.Result result = push.to("refs/for/master");
     result.assertOkStatus();
 
@@ -1558,7 +1556,6 @@ public class ChangeIT extends AbstractDaemonTest {
     // admin pushes commit that references 'user' in a footer
     PushOneCommit push =
         pushFactory.create(
-            db,
             admin.getIdent(),
             testRepo,
             PushOneCommit.SUBJECT
@@ -1603,7 +1600,6 @@ public class ChangeIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
     PushOneCommit push =
         pushFactory.create(
-            db,
             admin.getIdent(),
             repo,
             PushOneCommit.SUBJECT
@@ -1645,7 +1641,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // create change
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), repo);
     PushOneCommit.Result result = push.to("refs/for/master");
     result.assertOkStatus();
 
@@ -2663,8 +2659,7 @@ public class ChangeIT extends AbstractDaemonTest {
     r1.assertOkStatus();
     PushOneCommit.Result r2 =
         pushFactory
-            .create(
-                db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
+            .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
             .to("refs/for/master");
     r2.assertOkStatus();
 
@@ -2839,8 +2834,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void noteDbCommitsOnPatchSetCreation() throws Exception {
     PushOneCommit.Result r = createChange();
     pushFactory
-        .create(
-            db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "4711", r.getChangeId())
+        .create(admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "4711", r.getChangeId())
         .to("refs/for/master")
         .assertOkStatus();
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
@@ -2906,7 +2900,7 @@ public class ChangeIT extends AbstractDaemonTest {
     block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
 
     // Create change as admin
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), adminTestRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");
     r1.assertOkStatus();
 
@@ -2926,7 +2920,7 @@ public class ChangeIT extends AbstractDaemonTest {
     TestRepository<?> userTestRepo = cloneProject(project, user);
 
     // Create change as admin
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), adminTestRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");
     r1.assertOkStatus();
 
@@ -2950,7 +2944,7 @@ public class ChangeIT extends AbstractDaemonTest {
     block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
 
     // Create change as admin
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), adminTestRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");
     r1.assertOkStatus();
 
@@ -2982,7 +2976,7 @@ public class ChangeIT extends AbstractDaemonTest {
     createBranch("dev");
     PushOneCommit.Result changeA =
         pushFactory
-            .create(db, user.getIdent(), testRepo, "change A", "A.txt", "A content")
+            .create(user.getIdent(), testRepo, "change A", "A.txt", "A content")
             .to("refs/heads/dev");
     changeA.assertOkStatus();
     MergeInput mergeInput = new MergeInput();
@@ -3018,7 +3012,7 @@ public class ChangeIT extends AbstractDaemonTest {
     createBranch("dev");
     PushOneCommit.Result changeA =
         pushFactory
-            .create(db, user.getIdent(), testRepo, "change A", "A.txt", "A content")
+            .create(user.getIdent(), testRepo, "change A", "A.txt", "A content")
             .to("refs/heads/dev");
     changeA.assertOkStatus();
     MergeInput mergeInput = new MergeInput();
@@ -3192,7 +3186,6 @@ public class ChangeIT extends AbstractDaemonTest {
     testRepo.reset("config");
     PushOneCommit push2 =
         pushFactory.create(
-            db,
             admin.getIdent(),
             testRepo,
             "Ignore Verified",
@@ -3239,7 +3232,6 @@ public class ChangeIT extends AbstractDaemonTest {
     testRepo.reset("config");
     PushOneCommit push2 =
         pushFactory.create(
-            db,
             admin.getIdent(),
             testRepo,
             "Configure Non-Author-Code-Review",
@@ -3294,7 +3286,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void checkLabelsForAutoClosedChange() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
     PushOneCommit.Result result = push.to("refs/heads/master");
     result.assertOkStatus();
 
@@ -3428,10 +3420,10 @@ public class ChangeIT extends AbstractDaemonTest {
 
     String oldHead = getRemoteHead().name();
     PushOneCommit.Result result1 =
-        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+        pushFactory.create(user.getIdent(), testRepo).to("refs/for/master");
     testRepo.reset(oldHead);
     PushOneCommit.Result result2 =
-        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+        pushFactory.create(user.getIdent(), testRepo).to("refs/for/master");
 
     addComment(result1, "comment 1", true, false, null);
     addComment(result2, "comment 2", true, true, null);
@@ -3449,8 +3441,7 @@ public class ChangeIT extends AbstractDaemonTest {
     addPureRevertSubmitRule();
 
     // Create a change that is not a revert of another change
-    PushOneCommit.Result r1 =
-        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+    PushOneCommit.Result r1 = pushFactory.create(user.getIdent(), testRepo).to("refs/for/master");
     approve(r1.getChangeId());
 
     exception.expect(ResourceConflictException.class);
@@ -3461,8 +3452,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void pureRevertFactBlocksSubmissionOfNonPureReverts() throws Exception {
-    PushOneCommit.Result r1 =
-        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+    PushOneCommit.Result r1 = pushFactory.create(user.getIdent(), testRepo).to("refs/for/master");
     merge(r1);
 
     addPureRevertSubmitRule();
@@ -3481,8 +3471,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void pureRevertFactAllowsSubmissionOfPureReverts() throws Exception {
     // Create a change that we can later revert
-    PushOneCommit.Result r1 =
-        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+    PushOneCommit.Result r1 = pushFactory.create(user.getIdent(), testRepo).to("refs/for/master");
     merge(r1);
 
     addPureRevertSubmitRule();
@@ -3580,7 +3569,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // Block default permission
     block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
     // Create change as user
-    PushOneCommit push = pushFactory.create(db, user.getIdent(), userTestRepo);
+    PushOneCommit push = pushFactory.create(user.getIdent(), userTestRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
     // Try to change the commit message
@@ -3610,7 +3599,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String subject = "A happy change " + smile;
     PushOneCommit.Result r =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, subject, FILE_NAME, FILE_CONTENT)
+            .create(admin.getIdent(), testRepo, subject, FILE_NAME, FILE_CONTENT)
             .to("refs/for/master");
     r.assertOkStatus();
     String id = r.getChangeId();
@@ -3926,7 +3915,6 @@ public class ChangeIT extends AbstractDaemonTest {
   public void trackingIds() throws Exception {
     PushOneCommit push =
         pushFactory.create(
-            db,
             admin.getIdent(),
             testRepo,
             PushOneCommit.SUBJECT + "\n\n" + "Bug:JRA001",

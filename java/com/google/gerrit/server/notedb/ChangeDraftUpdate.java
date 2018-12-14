@@ -94,7 +94,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   private ChangeDraftUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      NotesMigration migration,
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       @Assisted ChangeNotes notes,
@@ -102,17 +101,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
-    super(
-        cfg,
-        migration,
-        noteUtil,
-        serverIdent,
-        notes,
-        null,
-        accountId,
-        realAccountId,
-        authorIdent,
-        when);
+    super(cfg, noteUtil, serverIdent, notes, null, accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
   }
 
@@ -120,7 +109,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   private ChangeDraftUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      NotesMigration migration,
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       @Assisted Change change,
@@ -128,17 +116,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
-    super(
-        cfg,
-        migration,
-        noteUtil,
-        serverIdent,
-        null,
-        change,
-        accountId,
-        realAccountId,
-        authorIdent,
-        when);
+    super(cfg, noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
   }
 
@@ -211,19 +189,16 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   private RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap(RevWalk rw, ObjectId curr)
       throws ConfigInvalidException, OrmException, IOException {
-    if (migration.readChanges()) {
-      // If reading from changes is enabled, then the old DraftCommentNotes
-      // already parsed the revision notes. We can reuse them as long as the ref
-      // hasn't advanced.
-      ChangeNotes changeNotes = getNotes();
-      if (changeNotes != null) {
-        DraftCommentNotes draftNotes = changeNotes.load().getDraftCommentNotes();
-        if (draftNotes != null) {
-          ObjectId idFromNotes = firstNonNull(draftNotes.getRevision(), ObjectId.zeroId());
-          RevisionNoteMap<ChangeRevisionNote> rnm = draftNotes.getRevisionNoteMap();
-          if (idFromNotes.equals(curr) && rnm != null) {
-            return rnm;
-          }
+    // The old DraftCommentNotes already parsed the revision notes. We can reuse them as long as
+    // the ref hasn't advanced.
+    ChangeNotes changeNotes = getNotes();
+    if (changeNotes != null) {
+      DraftCommentNotes draftNotes = changeNotes.load().getDraftCommentNotes();
+      if (draftNotes != null) {
+        ObjectId idFromNotes = firstNonNull(draftNotes.getRevision(), ObjectId.zeroId());
+        RevisionNoteMap<ChangeRevisionNote> rnm = draftNotes.getRevisionNoteMap();
+        if (idFromNotes.equals(curr) && rnm != null) {
+          return rnm;
         }
       }
     }

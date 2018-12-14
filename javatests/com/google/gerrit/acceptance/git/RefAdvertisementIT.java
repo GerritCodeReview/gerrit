@@ -138,22 +138,22 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     // visible.
     allow("refs/for/refs/heads/*", Permission.SUBMIT, admins);
     PushOneCommit.Result mr =
-        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master%submit");
+        pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master%submit");
     mr.assertOkStatus();
     c1 = mr.getChange();
     r1 = changeRefPrefix(c1.getId());
     PushOneCommit.Result br =
-        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/branch%submit");
+        pushFactory.create(admin.getIdent(), testRepo).to("refs/for/branch%submit");
     br.assertOkStatus();
     c2 = br.getChange();
     r2 = changeRefPrefix(c2.getId());
 
     // Second 2 changes are unmerged.
-    mr = pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master");
+    mr = pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master");
     mr.assertOkStatus();
     c3 = mr.getChange();
     r3 = changeRefPrefix(c3.getId());
-    br = pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/branch");
+    br = pushFactory.create(admin.getIdent(), testRepo).to("refs/for/branch");
     br.assertOkStatus();
     c4 = br.getChange();
     r4 = changeRefPrefix(c4.getId());
@@ -448,30 +448,28 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       PatchSet.Id psId = new PatchSet.Id(c3.getId(), 2);
       c.setCurrentPatchSet(psId, subject, c.getOriginalSubject());
 
-      if (notesMigration.commitChangeWrites()) {
-        PersonIdent committer = serverIdent.get();
-        PersonIdent author =
-            noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), committer);
-        tr.branch(RefNames.changeMetaRef(c3.getId()))
-            .commit()
-            .author(author)
-            .committer(committer)
-            .message(
-                "Update patch set "
-                    + psId.get()
-                    + "\n"
-                    + "\n"
-                    + "Patch-set: "
-                    + psId.get()
-                    + "\n"
-                    + "Commit: "
-                    + rev
-                    + "\n"
-                    + "Subject: "
-                    + subject
-                    + "\n")
-            .create();
-      }
+      PersonIdent committer = serverIdent.get();
+      PersonIdent author =
+          noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), committer);
+      tr.branch(RefNames.changeMetaRef(c3.getId()))
+          .commit()
+          .author(author)
+          .committer(committer)
+          .message(
+              "Update patch set "
+                  + psId.get()
+                  + "\n"
+                  + "\n"
+                  + "Patch-set: "
+                  + psId.get()
+                  + "\n"
+                  + "Commit: "
+                  + rev
+                  + "\n"
+                  + "Subject: "
+                  + subject
+                  + "\n")
+          .create();
       indexer.index(db, c.getProject(), c.getId());
     }
 
@@ -627,8 +625,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesOmitDraftCommentRefsOfOtherUsers() throws Exception {
-    assume().that(notesMigration.commitChangeWrites()).isTrue();
-
     allow(project, "refs/*", Permission.READ, REGISTERED_USERS);
     allow(allUsersName, "refs/*", Permission.READ, REGISTERED_USERS);
 
@@ -649,8 +645,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesOmitStarredChangesRefsOfOtherUsers() throws Exception {
-    assume().that(notesMigration.commitChangeWrites()).isTrue();
-
     allow(project, "refs/*", Permission.READ, REGISTERED_USERS);
     allow(allUsersName, "refs/*", Permission.READ, REGISTERED_USERS);
 
@@ -675,7 +669,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allUsersRepo.reset("userRef");
     PushOneCommit.Result mr =
         pushFactory
-            .create(db, admin.getIdent(), allUsersRepo)
+            .create(admin.getIdent(), allUsersRepo)
             .to("refs/for/" + RefNames.REFS_USERS_SELF);
     mr.assertOkStatus();
 
@@ -759,9 +753,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       throws Exception {
     List<String> expected = new ArrayList<>(expectedWithMeta.length);
     for (String r : expectedWithMeta) {
-      if (notesMigration.commitChangeWrites() || !r.endsWith(RefNames.META_SUFFIX)) {
-        expected.add(r);
-      }
+      expected.add(r);
     }
 
     AcceptanceTestRequestScope.Context ctx = null;

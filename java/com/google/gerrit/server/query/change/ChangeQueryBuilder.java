@@ -68,7 +68,6 @@ import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -208,7 +207,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final GroupBackend groupBackend;
     final IdentifiedUser.GenericFactory userFactory;
     final IndexConfig indexConfig;
-    final NotesMigration notesMigration;
     final PatchListCache patchListCache;
     final ProjectCache projectCache;
     final Provider<InternalChangeQuery> queryProvider;
@@ -249,7 +247,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IndexConfig indexConfig,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
-        NotesMigration notesMigration,
         GroupMembers groupMembers,
         Provider<AnonymousUser> anonymousUserProvider) {
       this(
@@ -278,7 +275,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           indexConfig,
           starredChangesUtil,
           accountCache,
-          notesMigration,
           groupMembers,
           anonymousUserProvider);
     }
@@ -309,7 +305,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IndexConfig indexConfig,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
-        NotesMigration notesMigration,
         GroupMembers groupMembers,
         Provider<AnonymousUser> anonymousUserProvider) {
       this.db = db;
@@ -337,7 +332,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.starredChangesUtil = starredChangesUtil;
       this.accountCache = accountCache;
       this.hasOperands = hasOperands;
-      this.notesMigration = notesMigration;
       this.groupMembers = groupMembers;
       this.anonymousUserProvider = anonymousUserProvider;
     }
@@ -369,7 +363,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           indexConfig,
           starredChangesUtil,
           accountCache,
-          notesMigration,
           groupMembers,
           anonymousUserProvider);
     }
@@ -565,9 +558,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       if (args.getSchema().hasField(ChangeField.WIP)) {
         return Predicate.and(
             Predicate.not(new BooleanPredicate(ChangeField.WIP)),
-            ReviewerPredicate.reviewer(args, self()));
+            ReviewerPredicate.reviewer(self()));
       }
-      return ReviewerPredicate.reviewer(args, self());
+      return ReviewerPredicate.reviewer(self());
     }
 
     if ("cc".equalsIgnoreCase(value)) {

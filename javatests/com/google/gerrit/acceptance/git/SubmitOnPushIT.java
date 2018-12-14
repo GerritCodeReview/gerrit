@@ -218,7 +218,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
     PushOneCommit push =
         pushFactory.create(
-            db,
             admin.getIdent(),
             testRepo,
             PushOneCommit.SUBJECT,
@@ -352,8 +351,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   private PushOneCommit.Result push(String ref, String subject, String fileName, String content)
       throws Exception {
-    PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo, subject, fileName, content);
     return push.to(ref);
   }
 
@@ -361,7 +359,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
       String ref, String subject, String fileName, String content, String changeId)
       throws Exception {
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content, changeId);
+        pushFactory.create(admin.getIdent(), testRepo, subject, fileName, content, changeId);
     return push.to(ref);
   }
 }

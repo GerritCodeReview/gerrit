@@ -704,19 +704,6 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   }
 
   @Test
-  public void serializeReadOnlyUntil() throws Exception {
-    assertRoundTrip(
-        newBuilder().readOnlyUntil(new Timestamp(1212L)).build(),
-        ChangeNotesStateProto.newBuilder()
-            .setMetaId(SHA_BYTES)
-            .setChangeId(ID.get())
-            .setColumns(colsProto)
-            .setReadOnlyUntil(1212L)
-            .setHasReadOnlyUntil(true)
-            .build());
-  }
-
-  @Test
   public void changeNotesStateMethods() throws Exception {
     assertThatSerializedClass(ChangeNotesState.class)
         .hasAutoValueMethods(
@@ -746,7 +733,6 @@ public class ChangeNotesStateTest extends GerritBaseTests {
                 .put(
                     "publishedComments",
                     new TypeLiteral<ImmutableListMultimap<RevId, Comment>>() {}.getType())
-                .put("readOnlyUntil", Timestamp.class)
                 .build());
   }
 

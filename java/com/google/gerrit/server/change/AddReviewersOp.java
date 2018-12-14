@@ -43,7 +43,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.extensions.events.ReviewerAdded;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -116,7 +115,6 @@ public class AddReviewersOp implements BatchUpdateOp {
   private final AccountCache accountCache;
   private final ProjectCache projectCache;
   private final AddReviewersEmail addReviewersEmail;
-  private final NotesMigration migration;
   private final Set<Account.Id> accountIds;
   private final Collection<Address> addresses;
   private final ReviewerState state;
@@ -142,7 +140,6 @@ public class AddReviewersOp implements BatchUpdateOp {
       AccountCache accountCache,
       ProjectCache projectCache,
       AddReviewersEmail addReviewersEmail,
-      NotesMigration migration,
       @Assisted Set<Account.Id> accountIds,
       @Assisted Collection<Address> addresses,
       @Assisted ReviewerState state,
@@ -155,7 +152,6 @@ public class AddReviewersOp implements BatchUpdateOp {
     this.accountCache = accountCache;
     this.projectCache = projectCache;
     this.addReviewersEmail = addReviewersEmail;
-    this.migration = migration;
 
     this.accountIds = accountIds;
     this.addresses = addresses;
@@ -173,7 +169,7 @@ public class AddReviewersOp implements BatchUpdateOp {
       throws RestApiException, OrmException, IOException {
     change = ctx.getChange();
     if (!accountIds.isEmpty()) {
-      if (migration.readChanges() && state == CC) {
+      if (state == CC) {
         addedCCs =
             approvalsUtil.addCcs(
                 ctx.getNotes(), ctx.getUpdate(change.currentPatchSetId()), accountIds);
@@ -191,21 +187,21 @@ public class AddReviewersOp implements BatchUpdateOp {
 
     ImmutableList<Address> addressesToAdd = ImmutableList.of();
     ReviewerStateInternal internalState = ReviewerStateInternal.fromReviewerState(state);
-    if (migration.readChanges()) {
-      // TODO(dborowitz): This behavior should live in ApprovalsUtil or something, like addCcs does.
-      ImmutableSet<Address> existing = ctx.getNotes().getReviewersByEmail().byState(internalState);
-      addressesToAdd =
-          addresses.stream().filter(a -> !existing.contains(a)).collect(toImmutableList());
 
-      if (state == CC) {
-        addedCCsByEmail = addressesToAdd;
-      } else {
-        addedReviewersByEmail = addressesToAdd;
-      }
-      for (Address a : addressesToAdd) {
-        ctx.getUpdate(change.currentPatchSetId()).putReviewerByEmail(a, internalState);
-      }
+    // TODO(dborowitz): This behavior should live in ApprovalsUtil or something, like addCcs does.
+    ImmutableSet<Address> existing = ctx.getNotes().getReviewersByEmail().byState(internalState);
+    addressesToAdd =
+        addresses.stream().filter(a -> !existing.contains(a)).collect(toImmutableList());
+
+    if (state == CC) {
+      addedCCsByEmail = addressesToAdd;
+    } else {
+      addedReviewersByEmail = addressesToAdd;
     }
+    for (Address a : addressesToAdd) {
+      ctx.getUpdate(change.currentPatchSetId()).putReviewerByEmail(a, internalState);
+    }
+
     if (addedCCs.isEmpty() && addedReviewers.isEmpty() && addressesToAdd.isEmpty()) {
       return false;
     }

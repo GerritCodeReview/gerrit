@@ -29,7 +29,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DESCRIPTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PRIVATE;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_READ_ONLY_UNTIL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REVERT_OF;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
@@ -71,7 +70,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -152,7 +150,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private boolean isAllowWriteToNewtRef;
   private String psDescription;
   private boolean currentPatchSet;
-  private Timestamp readOnlyUntil;
   private Boolean isPrivate;
   private Boolean workInProgress;
   private Integer revertOf;
@@ -166,7 +163,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      NotesMigration migration,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
@@ -178,7 +174,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this(
         cfg,
         serverIdent,
-        migration,
         updateManagerFactory,
         draftUpdateFactory,
         robotCommentUpdateFactory,
@@ -194,7 +189,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      NotesMigration migration,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
@@ -207,7 +201,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this(
         cfg,
         serverIdent,
-        migration,
         updateManagerFactory,
         draftUpdateFactory,
         robotCommentUpdateFactory,
@@ -228,7 +221,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      NotesMigration migration,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
@@ -238,7 +230,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       ChangeNoteUtil noteUtil) {
-    super(cfg, migration, notes, user, serverIdent, noteUtil, when);
+    super(cfg, notes, user, serverIdent, noteUtil, when);
     this.updateManagerFactory = updateManagerFactory;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
@@ -250,7 +242,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      NotesMigration migration,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
@@ -262,17 +253,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted PersonIdent authorIdent,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator) {
-    super(
-        cfg,
-        migration,
-        noteUtil,
-        serverIdent,
-        null,
-        change,
-        accountId,
-        realAccountId,
-        authorIdent,
-        when);
+    super(cfg, noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;
@@ -283,7 +264,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public ObjectId commit() throws IOException, OrmException {
     try (NoteDbUpdateManager updateManager = updateManagerFactory.create(getProjectName())) {
       updateManager.add(this);
-      updateManager.stageAndApplyDelta(getChange());
       updateManager.execute();
     }
     return getResult();
@@ -545,16 +525,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (curr.equals(ObjectId.zeroId())) {
       return RevisionNoteMap.emptyMap();
     }
-    if (migration.readChanges()) {
-      // If reading from changes is enabled, then the old ChangeNotes may have
-      // already parsed the revision notes. We can reuse them as long as the ref
-      // hasn't advanced.
-      ChangeNotes notes = getNotes();
-      if (notes != null && notes.revisionNoteMap != null) {
-        ObjectId idFromNotes = firstNonNull(notes.load().getRevision(), ObjectId.zeroId());
-        if (idFromNotes.equals(curr)) {
-          return notes.revisionNoteMap;
-        }
+    // The old ChangeNotes may have already parsed the revision notes. We can reuse them as long as
+    // the ref hasn't advanced.
+    ChangeNotes notes = getNotes();
+    if (notes != null && notes.revisionNoteMap != null) {
+      ObjectId idFromNotes = firstNonNull(notes.load().getRevision(), ObjectId.zeroId());
+      if (idFromNotes.equals(curr)) {
+        return notes.revisionNoteMap;
       }
     }
     NoteMap noteMap = NoteMap.read(rw.getObjectReader(), rw.parseCommit(curr));
@@ -750,10 +727,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addIdent(msg, realAccountId).append('\n');
     }
 
-    if (readOnlyUntil != null) {
-      addFooter(msg, FOOTER_READ_ONLY_UNTIL, NoteDbUtil.formatTime(serverIdent, readOnlyUntil));
-    }
-
     if (isPrivate != null) {
       addFooter(msg, FOOTER_PRIVATE, isPrivate);
     }
@@ -813,7 +786,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && tag == null
         && psDescription == null
         && !currentPatchSet
-        && readOnlyUntil == null
         && isPrivate == null
         && workInProgress == null
         && revertOf == null;
@@ -852,10 +824,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.workInProgress = workInProgress;
   }
 
-  void setReadOnlyUntil(Timestamp readOnlyUntil) {
-    this.readOnlyUntil = readOnlyUntil;
-  }
-
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {
     return sb.append(footer.getName()).append(": ");
   }
@@ -876,14 +844,5 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     PersonIdent.appendSanitized(sb, ident.getEmailAddress());
     sb.append('>');
     return sb;
-  }
-
-  @Override
-  protected void checkNotReadOnly() throws OrmException {
-    // Allow setting Read-only-until to 0 to release an existing lease.
-    if (readOnlyUntil != null && readOnlyUntil.getTime() == 0) {
-      return;
-    }
-    super.checkNotReadOnly();
   }
 }

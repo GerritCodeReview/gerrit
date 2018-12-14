@@ -145,7 +145,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String file = "file";
       String contents = "contents " + line;
       PushOneCommit push =
-          pushFactory.create(db, admin.getIdent(), testRepo, "first subject", file, contents);
+          pushFactory.create(admin.getIdent(), testRepo, "first subject", file, contents);
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
@@ -169,7 +169,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String file = "file";
       String contents = "contents " + line;
       PushOneCommit push =
-          pushFactory.create(db, admin.getIdent(), testRepo, "first subject", file, contents);
+          pushFactory.create(admin.getIdent(), testRepo, "first subject", file, contents);
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
@@ -201,7 +201,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String file = "file";
       String contents = "contents " + line;
       PushOneCommit push =
-          pushFactory.create(db, admin.getIdent(), testRepo, "first subject", file, contents);
+          pushFactory.create(admin.getIdent(), testRepo, "first subject", file, contents);
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
@@ -275,7 +275,7 @@ public class CommentsIT extends AbstractDaemonTest {
   public void listComments() throws Exception {
     String file = "file";
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, "first subject", file, "contents");
+        pushFactory.create(admin.getIdent(), testRepo, "first subject", file, "contents");
     PushOneCommit.Result r = push.to("refs/for/master");
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
@@ -384,7 +384,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String file = "file";
       String contents = "contents " + line;
       PushOneCommit push =
-          pushFactory.create(db, admin.getIdent(), testRepo, "first subject", file, contents);
+          pushFactory.create(admin.getIdent(), testRepo, "first subject", file, contents);
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
@@ -427,7 +427,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r2 =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "content")
+            .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "content")
             .to("refs/for/master");
     changeId = r2.getChangeId();
     revId = r2.getCommit().getName();
@@ -442,8 +442,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r2 =
         pushFactory
-            .create(
-                db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
+            .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
             .to("refs/for/master");
 
     setApiUser(admin);
@@ -489,8 +488,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r2 =
         pushFactory
-            .create(
-                db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent", r1.getChangeId())
+            .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent", r1.getChangeId())
             .to("refs/for/master");
 
     addComment(r1, "nit: trailing whitespace");
@@ -536,13 +534,7 @@ public class CommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r2 =
         pushFactory
             .create(
-                db,
-                admin.getIdent(),
-                testRepo,
-                SUBJECT,
-                FILE_NAME,
-                "new\ncntent\n",
-                r1.getChangeId())
+                admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new\ncntent\n", r1.getChangeId())
             .to("refs/for/master");
 
     addDraft(
@@ -847,10 +839,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     setApiUser(admin);
     for (int i = 0; i < commentsBeforeDelete.size(); i++) {
-      List<RevCommit> commitsBeforeDelete = new ArrayList<>();
-      if (notesMigration.commitChangeWrites()) {
-        commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(id);
-      }
+      List<RevCommit> commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(id);
 
       CommentInfo comment = commentsBeforeDelete.get(i);
       String uuid = comment.id;
@@ -869,9 +858,7 @@ public class CommentsIT extends AbstractDaemonTest {
       assertThat(updatedComment).isEqualTo(oldComment);
 
       // Check the NoteDb state after the deletion.
-      if (notesMigration.commitChangeWrites()) {
-        assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
-      }
+      assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
 
       comment.message = expectedMsg;
       commentsBeforeDelete.set(i, comment);
@@ -918,10 +905,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String uuid = targetComment.get().id;
     CommentInfo oldComment = gApi.changes().id(changeId).revision(ps1).comment(uuid).get();
 
-    List<RevCommit> commitsBeforeDelete = new ArrayList<>();
-    if (notesMigration.commitChangeWrites()) {
-      commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(id);
-    }
+    List<RevCommit> commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(id);
 
     setApiUser(admin);
     for (int i = 0; i < 3; i++) {
@@ -937,9 +921,7 @@ public class CommentsIT extends AbstractDaemonTest {
     oldComment.message = expectedMsg;
     assertThat(updatedComment).isEqualTo(oldComment);
 
-    if (notesMigration.commitChangeWrites()) {
-      assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
-    }
+    assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
     assertThat(getChangeSortedComments(id.get())).hasSize(3);
   }
 

@@ -1234,11 +1234,11 @@ public class AccountIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
     allUsersRepo.reset("userRef");
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), allUsersRepo);
     push.to(RefNames.refsUsers(admin.id)).assertOkStatus();
     accountIndexedCounter.assertReindexOf(admin);
 
-    push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
+    push = pushFactory.create(admin.getIdent(), allUsersRepo);
     push.to(RefNames.REFS_USERS_SELF).assertOkStatus();
     accountIndexedCounter.assertReindexOf(admin);
   }
@@ -1249,7 +1249,7 @@ public class AccountIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, userRefName + ":userRef");
     allUsersRepo.reset("userRef");
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), allUsersRepo);
     PushOneCommit.Result r = push.to(MagicBranch.NEW_CHANGE + userRefName);
     r.assertOkStatus();
     accountIndexedCounter.assertNoReindex();
@@ -1258,7 +1258,7 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().submit();
     accountIndexedCounter.assertReindexOf(admin);
 
-    push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
+    push = pushFactory.create(admin.getIdent(), allUsersRepo);
     r = push.to(MagicBranch.NEW_CHANGE + RefNames.REFS_USERS_SELF);
     r.assertOkStatus();
     accountIndexedCounter.assertNoReindex();
@@ -1281,7 +1281,6 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         pushFactory
             .create(
-                db,
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
@@ -1320,7 +1319,6 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         pushFactory
             .create(
-                db,
                 foo.getIdent(),
                 allUsersRepo,
                 "Update account config",
@@ -1353,7 +1351,6 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         pushFactory
             .create(
-                db,
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
@@ -1393,7 +1390,6 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         pushFactory
             .create(
-                db,
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
@@ -1427,7 +1423,6 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         pushFactory
             .create(
-                db,
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
@@ -1467,7 +1462,6 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         pushFactory
             .create(
-                db,
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
@@ -1499,7 +1493,6 @@ public class AccountIT extends AbstractDaemonTest {
         ProjectWatches.NotifyValue.create(null, EnumSet.of(NotifyType.ALL_COMMENTS)).toString());
     PushOneCommit push =
         pushFactory.create(
-            db,
             admin.getIdent(),
             allUsersRepo,
             "Add project watch",
@@ -1513,7 +1506,6 @@ public class AccountIT extends AbstractDaemonTest {
         ProjectWatches.PROJECT, project.get(), ProjectWatches.KEY_NOTIFY, invalidNotifyValue);
     push =
         pushFactory.create(
-            db,
             admin.getIdent(),
             allUsersRepo,
             "Add invalid project watch",
@@ -1543,7 +1535,6 @@ public class AccountIT extends AbstractDaemonTest {
     accountIndexedCounter.clear();
     pushFactory
         .create(
-            db,
             oooUser.getIdent(),
             allUsersRepo,
             "Update account config",
@@ -1569,7 +1560,6 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         pushFactory
             .create(
-                db,
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
@@ -1602,7 +1592,6 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         pushFactory
             .create(
-                db,
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
@@ -1637,7 +1626,6 @@ public class AccountIT extends AbstractDaemonTest {
 
     pushFactory
         .create(
-            db,
             foo.getIdent(),
             allUsersRepo,
             "Update account config",
@@ -1671,7 +1659,6 @@ public class AccountIT extends AbstractDaemonTest {
 
     pushFactory
         .create(
-            db,
             foo.getIdent(),
             allUsersRepo,
             "Update account config",
@@ -1698,7 +1685,6 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         pushFactory
             .create(
-                db,
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
@@ -1730,7 +1716,6 @@ public class AccountIT extends AbstractDaemonTest {
 
     pushFactory
         .create(
-            db,
             admin.getIdent(),
             allUsersRepo,
             "Update account config",
@@ -1750,7 +1735,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     String userRef = RefNames.refsUsers(new Account.Id(seq.nextAccountId()));
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
-    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), allUsersRepo).to(userRef);
+    PushOneCommit.Result r = pushFactory.create(admin.getIdent(), allUsersRepo).to(userRef);
     r.assertErrorStatus();
     assertThat(r.getMessage()).contains("Not allowed to create user branch.");
 
@@ -1767,7 +1752,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     String userRef = RefNames.refsUsers(new Account.Id(seq.nextAccountId()));
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
-    pushFactory.create(db, admin.getIdent(), allUsersRepo).to(userRef).assertOkStatus();
+    pushFactory.create(admin.getIdent(), allUsersRepo).to(userRef).assertOkStatus();
 
     try (Repository repo = repoManager.openRepository(allUsers)) {
       assertThat(repo.exactRef(userRef)).isNotNull();
@@ -1783,7 +1768,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     String userRef = RefNames.REFS_USERS + "foo";
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
-    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), allUsersRepo).to(userRef);
+    PushOneCommit.Result r = pushFactory.create(admin.getIdent(), allUsersRepo).to(userRef);
     r.assertErrorStatus();
     assertThat(r.getMessage()).contains("Not allowed to create non-user branch under refs/users/.");
 
@@ -1803,7 +1788,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     pushFactory
-        .create(db, admin.getIdent(), allUsersRepo)
+        .create(admin.getIdent(), allUsersRepo)
         .to(RefNames.REFS_USERS_DEFAULT)
         .assertOkStatus();
 

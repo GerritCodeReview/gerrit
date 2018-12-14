@@ -26,9 +26,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbSchemaVersionManager;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -44,7 +42,6 @@ public class NoteDbSchemaUpdater {
   private final AllUsersName allUsersName;
   private final GitRepositoryManager repoManager;
   private final SchemaCreator schemaCreator;
-  private final NotesMigration notesMigration;
   private final NoteDbSchemaVersionManager versionManager;
   private final NoteDbSchemaVersion.Arguments args;
   private final ImmutableSortedMap<Integer, Class<? extends NoteDbSchemaVersion>> schemaVersions;
@@ -56,7 +53,6 @@ public class NoteDbSchemaUpdater {
       AllProjectsName allProjectsName,
       GitRepositoryManager repoManager,
       SchemaCreator schemaCreator,
-      NotesMigration notesMigration,
       NoteDbSchemaVersionManager versionManager,
       NoteDbSchemaVersion.Arguments args) {
     this(
@@ -65,7 +61,6 @@ public class NoteDbSchemaUpdater {
         allUsersName,
         repoManager,
         schemaCreator,
-        notesMigration,
         versionManager,
         args,
         NoteDbSchemaVersions.ALL);
@@ -77,7 +72,6 @@ public class NoteDbSchemaUpdater {
       AllUsersName allUsersName,
       GitRepositoryManager repoManager,
       SchemaCreator schemaCreator,
-      NotesMigration notesMigration,
       NoteDbSchemaVersionManager versionManager,
       NoteDbSchemaVersion.Arguments args,
       ImmutableSortedMap<Integer, Class<? extends NoteDbSchemaVersion>> schemaVersions) {
@@ -86,19 +80,12 @@ public class NoteDbSchemaUpdater {
     this.allUsersName = allUsersName;
     this.repoManager = repoManager;
     this.schemaCreator = schemaCreator;
-    this.notesMigration = notesMigration;
     this.versionManager = versionManager;
     this.args = args;
     this.schemaVersions = schemaVersions;
   }
 
   public void update(UpdateUI ui) throws OrmException {
-    if (!notesMigration.commitChangeWrites()) {
-      // TODO(dborowitz): Only necessary to make migration tests pass; remove when NoteDb is the
-      // only option.
-      return;
-    }
-
     ensureSchemaCreated();
 
     int currentVersion = versionManager.read();
@@ -133,6 +120,12 @@ public class NoteDbSchemaUpdater {
     }
   }
 
+  // Config#getEnum requires this to be public, so give it an off-putting name.
+  public enum PrimaryStorageFor216Compatibility {
+    REVIEW_DB,
+    NOTE_DB
+  }
+
   private void checkNoteDbConfigFor216() throws OrmException {
     // Check that the NoteDb migration config matches what we expect from a site that both:
     // * Completed the change migration to NoteDB.
@@ -140,8 +133,9 @@ public class NoteDbSchemaUpdater {
 
     if (!cfg.getBoolean("noteDb", "changes", "write", false)
         || !cfg.getBoolean("noteDb", "changes", "read", false)
-        || cfg.getEnum("noteDb", "changes", "primaryStorage", PrimaryStorage.REVIEW_DB)
-            != PrimaryStorage.NOTE_DB
+        || cfg.getEnum(
+                "noteDb", "changes", "primaryStorage", PrimaryStorageFor216Compatibility.REVIEW_DB)
+            != PrimaryStorageFor216Compatibility.NOTE_DB
         || !cfg.getBoolean("noteDb", "changes", "disableReviewDb", false)) {
       throw new OrmException(
           "You appear to be upgrading from a 2.x site, but the NoteDb change migration was"

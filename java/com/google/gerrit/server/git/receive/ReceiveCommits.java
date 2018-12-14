@@ -122,7 +122,6 @@ import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -304,7 +303,6 @@ class ReceiveCommits {
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final PluginSetContext<ReceivePackInitializer> initializers;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
-  private final NotesMigration notesMigration;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
   private final PermissionBackend permissionBackend;
@@ -381,7 +379,6 @@ class ReceiveCommits {
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginSetContext<ReceivePackInitializer> initializers,
       MergedByPushOp.Factory mergedByPushOpFactory,
-      NotesMigration notesMigration,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
       PermissionBackend permissionBackend,
@@ -423,7 +420,6 @@ class ReceiveCommits {
     this.mergeOpProvider = mergeOpProvider;
     this.mergedByPushOpFactory = mergedByPushOpFactory;
     this.notesFactory = notesFactory;
-    this.notesMigration = notesMigration;
     this.optionParserFactory = optionParserFactory;
     this.ormProvider = ormProvider;
     this.patchSetInfoFactory = patchSetInfoFactory;
@@ -1327,7 +1323,6 @@ class ReceiveCommits {
     boolean deprecatedTopicSeen;
     final ReceiveCommand cmd;
     final LabelTypes labelTypes;
-    final NotesMigration notesMigration;
     private final boolean defaultPublishComments;
     Branch.NameKey dest;
     PermissionBackend.ForRef perm;
@@ -1473,10 +1468,7 @@ class ReceiveCommits {
         aliases = {"-t"},
         metaVar = "HASHTAG",
         usage = "add hashtag to changes")
-    void addHashtag(String token) throws CmdLineException {
-      if (!notesMigration.readChanges()) {
-        throw cmdLineParser.reject("cannot add hashtags; noteDb is disabled");
-      }
+    void addHashtag(String token) {
       String hashtag = cleanupHashtag(token);
       if (!hashtag.isEmpty()) {
         hashtags.add(hashtag);
@@ -1484,16 +1476,11 @@ class ReceiveCommits {
       // TODO(dpursehouse): validate hashtags
     }
 
-    MagicBranchInput(
-        IdentifiedUser user,
-        ReceiveCommand cmd,
-        LabelTypes labelTypes,
-        NotesMigration notesMigration) {
+    MagicBranchInput(IdentifiedUser user, ReceiveCommand cmd, LabelTypes labelTypes) {
       this.deprecatedTopicSeen = false;
       this.cmd = cmd;
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
       this.labelTypes = labelTypes;
-      this.notesMigration = notesMigration;
       GeneralPreferencesInfo prefs = user.state().getGeneralPreferences();
       this.defaultPublishComments =
           prefs != null
@@ -1632,7 +1619,7 @@ class ReceiveCommits {
    */
   private void parseMagicBranch(ReceiveCommand cmd) throws PermissionBackendException {
     logger.atFine().log("Found magic branch %s", cmd.getRefName());
-    MagicBranchInput magicBranch = new MagicBranchInput(user, cmd, labelTypes, notesMigration);
+    MagicBranchInput magicBranch = new MagicBranchInput(user, cmd, labelTypes);
 
     String ref;
     magicBranch.cmdLineParser = optionParserFactory.create(magicBranch);

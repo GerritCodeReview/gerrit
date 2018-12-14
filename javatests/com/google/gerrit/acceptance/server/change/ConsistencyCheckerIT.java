@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.common.ProblemInfo.Status.FIXED;
 import static com.google.gerrit.extensions.common.ProblemInfo.Status.FIX_FAILED;
 import static com.google.gerrit.testing.TestChanges.newPatchSet;
-import static java.util.Collections.singleton;
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -43,7 +42,6 @@ import com.google.gerrit.server.change.ConsistencyChecker;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -804,11 +802,6 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     c.setCurrentPatchSet(psId, subject, c.getOriginalSubject());
     PatchSet ps = newPatchSet(psId, rev, adminId);
 
-    if (PrimaryStorage.of(c) == PrimaryStorage.REVIEW_DB) {
-      db.patchSets().insert(singleton(ps));
-      db.changes().update(singleton(c));
-    }
-
     addNoteDbCommit(
         c.getId(),
         "Update patch set "
@@ -836,9 +829,6 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   }
 
   private void addNoteDbCommit(Change.Id id, String commitMessage) throws Exception {
-    if (!notesMigration.commitChangeWrites()) {
-      return;
-    }
     PersonIdent committer = serverIdent.get();
     PersonIdent author =
         noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), committer);

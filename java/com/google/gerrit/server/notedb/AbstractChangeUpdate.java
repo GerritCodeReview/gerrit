@@ -29,7 +29,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Date;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -44,13 +43,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public abstract class AbstractChangeUpdate {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  protected final NotesMigration migration;
   protected final ChangeNoteUtil noteUtil;
   protected final Account.Id accountId;
   protected final Account.Id realAccountId;
   protected final PersonIdent authorIdent;
   protected final Date when;
-  private final long readOnlySkewMs;
 
   @Nullable private final ChangeNotes notes;
   private final Change change;
@@ -62,13 +59,11 @@ public abstract class AbstractChangeUpdate {
 
   protected AbstractChangeUpdate(
       Config cfg,
-      NotesMigration migration,
       ChangeNotes notes,
       CurrentUser user,
       PersonIdent serverIdent,
       ChangeNoteUtil noteUtil,
       Date when) {
-    this.migration = migration;
     this.noteUtil = noteUtil;
     this.serverIdent = new PersonIdent(serverIdent, when);
     this.notes = notes;
@@ -78,12 +73,10 @@ public abstract class AbstractChangeUpdate {
     this.realAccountId = realAccountId != null ? realAccountId : accountId;
     this.authorIdent = ident(noteUtil, serverIdent, user, when);
     this.when = when;
-    this.readOnlySkewMs = NoteDbChangeState.getReadOnlySkew(cfg);
   }
 
   protected AbstractChangeUpdate(
       Config cfg,
-      NotesMigration migration,
       ChangeNoteUtil noteUtil,
       PersonIdent serverIdent,
       @Nullable ChangeNotes notes,
@@ -95,7 +88,6 @@ public abstract class AbstractChangeUpdate {
     checkArgument(
         (notes != null && change == null) || (notes == null && change != null),
         "exactly one of notes or change required");
-    this.migration = migration;
     this.noteUtil = noteUtil;
     this.serverIdent = new PersonIdent(serverIdent, when);
     this.notes = notes;
@@ -104,7 +96,6 @@ public abstract class AbstractChangeUpdate {
     this.realAccountId = realAccountId;
     this.authorIdent = authorIdent;
     this.when = when;
-    this.readOnlySkewMs = NoteDbChangeState.getReadOnlySkew(cfg);
   }
 
   private static void checkUserType(CurrentUser user) {
@@ -216,7 +207,6 @@ public abstract class AbstractChangeUpdate {
     }
 
     checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
-    checkNotReadOnly();
 
     logger.atFinest().log(
         "%s for change %s of project %s in %s (NoteDb)",
@@ -247,18 +237,6 @@ public abstract class AbstractChangeUpdate {
     }
     result = ins.insert(cb);
     return result;
-  }
-
-  protected void checkNotReadOnly() throws OrmException {
-    ChangeNotes notes = getNotes();
-    if (notes == null) {
-      // Can only happen during ChangeRebuilder, which will never include a read-only lease.
-      return;
-    }
-    Timestamp until = notes.getReadOnlyUntil();
-    if (until != null && NoteDbChangeState.timeForReadOnlyCheck(readOnlySkewMs).before(until)) {
-      throw new OrmException("change " + notes.getChangeId() + " is read-only until " + until);
-    }
   }
 
   /**

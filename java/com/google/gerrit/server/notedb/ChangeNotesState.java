@@ -62,7 +62,6 @@ import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.Reviewer
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.index.change.ChangeField.StoredSubmitRecord;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.MessageLite;
@@ -120,7 +119,6 @@ public abstract class ChangeNotesState {
       List<SubmitRecord> submitRecords,
       List<ChangeMessage> changeMessages,
       ListMultimap<RevId, Comment> publishedComments,
-      @Nullable Timestamp readOnlyUntil,
       boolean isPrivate,
       boolean workInProgress,
       boolean reviewStarted,
@@ -168,15 +166,11 @@ public abstract class ChangeNotesState {
         .submitRecords(submitRecords)
         .changeMessages(changeMessages)
         .publishedComments(publishedComments)
-        .readOnlyUntil(readOnlyUntil)
         .build();
   }
 
   /**
    * Subset of Change columns that can be represented in NoteDb.
-   *
-   * <p>Notable exceptions include rowVersion and noteDbState, which are only make sense when read
-   * from NoteDb, so they cannot be cached.
    *
    * <p>Fields should match the column names in {@link Change}, and are in listed column order.
    */
@@ -304,9 +298,6 @@ public abstract class ChangeNotesState {
 
   abstract ImmutableListMultimap<RevId, Comment> publishedComments();
 
-  @Nullable
-  abstract Timestamp readOnlyUntil();
-
   Change newChange(Project.NameKey project) {
     ChangeColumns c = requireNonNull(columns(), "columns are required");
     Change change =
@@ -317,7 +308,6 @@ public abstract class ChangeNotesState {
             new Branch.NameKey(project, c.branch()),
             c.createdOn());
     copyNonConstructorColumnsTo(change);
-    change.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
     return change;
   }
 
@@ -327,32 +317,11 @@ public abstract class ChangeNotesState {
         c != null && metaId() != null,
         "missing columns or metaId in ChangeNotesState; is NoteDb enabled? %s",
         this);
-    checkMetaId(change);
     change.setKey(c.changeKey());
     change.setOwner(c.owner());
     change.setDest(new Branch.NameKey(change.getProject(), c.branch()));
     change.setCreatedOn(c.createdOn());
     copyNonConstructorColumnsTo(change);
-  }
-
-  private void checkMetaId(Change change) throws IOException {
-    NoteDbChangeState state = NoteDbChangeState.parse(change);
-    if (state == null) {
-      return; // Can happen during small NoteDb tests.
-    } else if (state.getPrimaryStorage() == PrimaryStorage.NOTE_DB) {
-      return;
-    }
-    checkState(state.getRefState().isPresent(), "expected RefState: %s", state);
-    ObjectId idFromState = state.getRefState().get().changeMetaId();
-    if (!idFromState.equals(metaId())) {
-      throw new IOException(
-          "cannot copy ChangeNotesState into Change "
-              + changeId()
-              + "; this ChangeNotesState was created from "
-              + metaId()
-              + ", but change requires state "
-              + idFromState);
-    }
   }
 
   private void copyNonConstructorColumnsTo(Change change) {
@@ -430,8 +399,6 @@ public abstract class ChangeNotesState {
 
     abstract Builder publishedComments(ListMultimap<RevId, Comment> publishedComments);
 
-    abstract Builder readOnlyUntil(@Nullable Timestamp readOnlyUntil);
-
     abstract ChangeNotesState build();
   }
 
@@ -493,10 +460,6 @@ public abstract class ChangeNotesState {
           .changeMessages()
           .forEach(m -> b.addChangeMessage(toByteString(m, ChangeMessageProtoConverter.INSTANCE)));
       object.publishedComments().values().forEach(c -> b.addPublishedComment(GSON.toJson(c)));
-
-      if (object.readOnlyUntil() != null) {
-        b.setReadOnlyUntil(object.readOnlyUntil().getTime()).setHasReadOnlyUntil(true);
-      }
 
       return Protos.toByteArray(b.build());
     }
@@ -630,9 +593,6 @@ public abstract class ChangeNotesState {
                       .stream()
                       .map(r -> GSON.fromJson(r, Comment.class))
                       .collect(toImmutableListMultimap(c -> new RevId(c.revId), c -> c)));
-      if (proto.getHasReadOnlyUntil()) {
-        b.readOnlyUntil(new Timestamp(proto.getReadOnlyUntil()));
-      }
       return b.build();
     }
 

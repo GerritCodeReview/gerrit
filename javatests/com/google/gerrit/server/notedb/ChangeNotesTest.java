@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
@@ -54,14 +53,12 @@ import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestChanges;
-import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -956,7 +953,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId());
     String trimmedSubj = c.getSubject();
     c.setCurrentPatchSet(c.currentPatchSetId(), "  " + trimmedSubj, c.getOriginalSubject());
-    ChangeUpdate update = newUpdate(c, changeOwner);
+    ChangeUpdate update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
     update.setBranch(c.getDest().get());
     update.commit();
@@ -968,7 +965,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     c = TestChanges.newChange(project, changeOwner.getAccountId());
     c.setCurrentPatchSet(c.currentPatchSetId(), tabSubj, c.getOriginalSubject());
-    update = newUpdate(c, changeOwner);
+    update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
     update.setBranch(c.getDest().get());
     update.commit();
@@ -2760,76 +2757,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
-  public void readOnlyUntilExpires() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    Timestamp until = new Timestamp(TimeUtil.nowMs() + 10000);
-    update.setReadOnlyUntil(until);
-    update.commit();
-
-    update = newUpdate(c, changeOwner);
-    update.setTopic("failing-topic");
-    try {
-      update.commit();
-      assert_().fail("expected OrmException");
-    } catch (OrmException e) {
-      assertThat(e.getMessage()).contains("read-only until");
-    }
-
-    ChangeNotes notes = newNotes(c);
-    assertThat(notes.getChange().getTopic()).isNotEqualTo("failing-topic");
-    assertThat(notes.getReadOnlyUntil()).isEqualTo(until);
-
-    TestTimeUtil.incrementClock(30, TimeUnit.SECONDS);
-    update = newUpdate(c, changeOwner);
-    update.setTopic("succeeding-topic");
-    update.commit();
-
-    // Write succeeded; lease still exists, even though it's expired.
-    notes = newNotes(c);
-    assertThat(notes.getChange().getTopic()).isEqualTo("succeeding-topic");
-    assertThat(notes.getReadOnlyUntil()).isEqualTo(until);
-
-    // New lease takes precedence.
-    update = newUpdate(c, changeOwner);
-    until = new Timestamp(TimeUtil.nowMs() + 10000);
-    update.setReadOnlyUntil(until);
-    update.commit();
-    assertThat(newNotes(c).getReadOnlyUntil()).isEqualTo(until);
-  }
-
-  @Test
-  public void readOnlyUntilCleared() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    Timestamp until = new Timestamp(TimeUtil.nowMs() + TimeUnit.DAYS.toMillis(30));
-    update.setReadOnlyUntil(until);
-    update.commit();
-
-    update = newUpdate(c, changeOwner);
-    update.setTopic("failing-topic");
-    try {
-      update.commit();
-      assert_().fail("expected OrmException");
-    } catch (OrmException e) {
-      assertThat(e.getMessage()).contains("read-only until");
-    }
-
-    // Sentinel timestamp of 0 can be written to clear lease.
-    update = newUpdate(c, changeOwner);
-    update.setReadOnlyUntil(new Timestamp(0));
-    update.commit();
-
-    update = newUpdate(c, changeOwner);
-    update.setTopic("succeeding-topic");
-    update.commit();
-
-    ChangeNotes notes = newNotes(c);
-    assertThat(notes.getChange().getTopic()).isEqualTo("succeeding-topic");
-    assertThat(notes.getReadOnlyUntil()).isEqualTo(new Timestamp(0));
-  }
-
-  @Test
   public void privateDefault() throws Exception {
     Change c = newChange();
     ChangeNotes notes = newNotes(c);
@@ -3067,7 +2994,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void setRevertOfPersistsValue() throws Exception {
     Change changeToRevert = newChange();
     Change c = TestChanges.newChange(project, changeOwner.getAccountId());
-    ChangeUpdate update = newUpdate(c, changeOwner);
+    ChangeUpdate update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
     update.setRevertOf(changeToRevert.getId().get());
     update.commit();

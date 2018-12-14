@@ -61,10 +61,10 @@ message ChangeNotesKeyProto {
 // were chosen ease of coding the initial implementation. In particular, where
 // there already exists another serialization mechanism in Gerrit for
 // serializing a particular field, we use that rather than defining a new proto
-// type. This includes ReviewDb types that can be serialized to proto using
-// ProtobufCodec as well as NoteDb and indexed types that are serialized using
-// JSON. We can always revisit this decision later, particularly when we
-// eliminate the ReviewDb types; it just requires bumping the cache version.
+// type. This includes types that can be serialized to proto using
+// ProtoConverters as well as NoteDb and indexed types that are serialized using
+// JSON. We can always revisit this decision later; it just requires bumping the
+// cache version.
 //
 // Note on nullability: there are a lot of nullable fields in ChangeNotesState
 // and its dependencies. It's likely we could make some of them non-nullable,
@@ -134,10 +134,10 @@ message ChangeNotesStateProto {
 
   repeated string hashtag = 5;
 
-  // Raw PatchSet proto as produced by ProtobufCodec.
+  // Raw PatchSet proto as produced by PatchSetProtoConverter.
   repeated bytes patch_set = 6;
 
-  // Raw PatchSetApproval proto as produced by ProtobufCodec.
+  // Raw PatchSetApproval proto as produced by PatchSetApprovalProtoConverter.
   repeated bytes approval = 7;
 
   // Next ID: 4
@@ -175,7 +175,7 @@ message ChangeNotesStateProto {
   // com.google.gerrit.server.index.change.ChangeField.StoredSubmitRecord.
   repeated string submit_record = 14;
 
-  // Raw ChangeMessage proto as produced by ProtobufCodec.
+  // Raw ChangeMessage proto as produced by ChangeMessageProtoConverter.
   repeated bytes change_message = 15;
 
   // JSON produced from com.google.gerrit.reviewdb.client.Comment.

@@ -683,7 +683,7 @@ class ReceiveCommits {
     // Update superproject gitlinks if required.
     if (!branches.isEmpty()) {
       try (MergeOpRepoManager orm = ormProvider.get()) {
-        orm.setContext(db, TimeUtil.nowTs(), user);
+        orm.setContext(TimeUtil.nowTs(), user);
         SubmoduleOp op = subOpFactory.create(branches, orm);
         op.updateSuperProjects();
       } catch (SubmoduleException e) {
@@ -2512,7 +2512,7 @@ class ReceiveCommits {
     logger.atFine().log(
         "Processing submit with tip change %s (%s)", tipChange.getId(), magicBranch.cmd.getNewId());
     try (MergeOp op = mergeOpProvider.get()) {
-      op.merge(db, tipChange, user, false, new SubmitInput(), false);
+      op.merge(tipChange, user, false, new SubmitInput(), false);
     }
   }
 

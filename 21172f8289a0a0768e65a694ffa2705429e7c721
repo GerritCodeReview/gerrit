@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c042985f_20859561",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-14T08:31:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e76f82f3_18ee8b7e",
+      "range": {
+        "startLine": 831,
+        "startChar": 14,
+        "endLine": 831,
+        "endChar": 66
+      },
+      "revId": "21172f8289a0a0768e65a694ffa2705429e7c721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ae0eeea_a53c45ef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "21172f8289a0a0768e65a694ffa2705429e7c721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b55c8dea_d1c19aa9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-14T08:31:10Z",
+      "side": 1,
+      "message": "Ack.  Will fix it in the merge up.",
+      "parentUuid": "5ae0eeea_a53c45ef",
+      "range": {
+        "startLine": 523,
+        "startChar": 4,
+        "endLine": 523,
+        "endChar": 17
+      },
+      "revId": "21172f8289a0a0768e65a694ffa2705429e7c721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

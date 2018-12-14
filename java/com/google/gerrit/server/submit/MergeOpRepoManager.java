@@ -20,7 +20,6 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -105,7 +104,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     }
 
     public BatchUpdate getUpdate() {
-      checkState(db != null, "call setContext before getUpdate");
+      checkState(caller != null, "call setContext before getUpdate");
       if (update == null) {
         update =
             batchUpdateFactory
@@ -157,7 +156,6 @@ public class MergeOpRepoManager implements AutoCloseable {
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
 
-  private ReviewDb db;
   private Timestamp ts;
   private IdentifiedUser caller;
 
@@ -175,8 +173,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     openRepos = new HashMap<>();
   }
 
-  public void setContext(ReviewDb db, Timestamp ts, IdentifiedUser caller) {
-    this.db = db;
+  public void setContext(Timestamp ts, IdentifiedUser caller) {
     this.ts = ts;
     this.caller = caller;
   }

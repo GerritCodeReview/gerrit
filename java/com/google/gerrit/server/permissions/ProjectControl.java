@@ -343,7 +343,7 @@ class ProjectControl {
 
     @Override
     public ForRef ref(String ref) {
-      return controlForRef(ref).asForRef().database(db);
+      return controlForRef(ref).asForRef();
     }
 
     @Override

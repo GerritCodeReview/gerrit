@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.permissions;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.labelPermissionName;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 
@@ -28,7 +27,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
@@ -222,17 +220,8 @@ class ChangeControl {
       this.cd = cd;
     }
 
-    private ReviewDb db() {
-      if (db != null) {
-        return db.get();
-      }
-      return null;
-    }
-
     private ChangeData changeData() {
       if (cd == null) {
-        ReviewDb reviewDb = db();
-        checkState(reviewDb != null, "need ReviewDb");
         cd = changeDataFactory.create(notes);
       }
       return cd;

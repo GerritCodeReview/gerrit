@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -37,7 +36,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 /** Distributes Events to listeners if they are allowed to see them */
@@ -64,22 +62,18 @@ public class EventBroker implements EventDispatcher {
 
   protected final ChangeNotes.Factory notesFactory;
 
-  protected final Provider<ReviewDb> dbProvider;
-
   @Inject
   public EventBroker(
       PluginSetContext<UserScopedEventListener> listeners,
       PluginSetContext<EventListener> unrestrictedListeners,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
-      ChangeNotes.Factory notesFactory,
-      Provider<ReviewDb> dbProvider) {
+      ChangeNotes.Factory notesFactory) {
     this.listeners = listeners;
     this.unrestrictedListeners = unrestrictedListeners;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.notesFactory = notesFactory;
-    this.dbProvider = dbProvider;
   }
 
   @Override
@@ -173,12 +167,10 @@ public class EventBroker implements EventDispatcher {
     if (pe == null || !pe.statePermitsRead()) {
       return false;
     }
-    ReviewDb db = dbProvider.get();
     try {
       permissionBackend
           .user(user)
           .change(notesFactory.createChecked(change))
-          .database(db)
           .check(ChangePermission.READ);
       return true;
     } catch (AuthException e) {

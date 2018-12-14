@@ -40,7 +40,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -82,7 +81,6 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
-  private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
   private final GitRepositoryManager repoManager;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -95,7 +93,6 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   @Inject
   Move(
       PermissionBackend permissionBackend,
-      Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
@@ -107,7 +104,6 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       @GerritServerConfig Config gerritConfig) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
-    this.dbProvider = dbProvider;
     this.json = json;
     this.repoManager = repoManager;
     this.queryProvider = queryProvider;
@@ -159,8 +155,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     projectCache.checkedGet(project).checkStatePermitsWrite();
 
     Op op = new Op(input);
-    try (BatchUpdate u =
-        updateFactory.create(dbProvider.get(), project, caller, TimeUtil.nowTs())) {
+    try (BatchUpdate u = updateFactory.create(project, caller, TimeUtil.nowTs())) {
       u.addOp(change.getId(), op);
       u.execute();
     }

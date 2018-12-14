@@ -109,7 +109,7 @@ public class MergeOpRepoManager implements AutoCloseable {
       if (update == null) {
         update =
             batchUpdateFactory
-                .create(db, getProjectName(), caller, ts)
+                .create(getProjectName(), caller, ts)
                 .setRepository(repo, rw, ins)
                 .setOnSubmitValidators(onSubmitValidatorsFactory.create());
       }

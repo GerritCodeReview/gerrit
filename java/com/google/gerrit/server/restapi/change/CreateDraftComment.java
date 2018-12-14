@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
@@ -51,7 +50,6 @@ import java.util.Collections;
 @Singleton
 public class CreateDraftComment
     extends RetryingRestModifyView<RevisionResource, DraftInput, Response<CommentInfo>> {
-  private final Provider<ReviewDb> db;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
@@ -59,14 +57,12 @@ public class CreateDraftComment
 
   @Inject
   CreateDraftComment(
-      Provider<ReviewDb> db,
       RetryHelper retryHelper,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       PatchListCache patchListCache) {
     super(retryHelper);
-    this.db = db;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
@@ -88,7 +84,7 @@ public class CreateDraftComment
     }
 
     try (BatchUpdate bu =
-        updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Op op = new Op(rsrc.getPatchSet().getId(), in);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();

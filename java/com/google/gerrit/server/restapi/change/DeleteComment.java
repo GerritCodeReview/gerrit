@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.CommentResource;
@@ -51,7 +50,6 @@ public class DeleteComment
     extends RetryingRestModifyView<CommentResource, DeleteCommentInput, CommentInfo> {
 
   private final Provider<CurrentUser> userProvider;
-  private final Provider<ReviewDb> dbProvider;
   private final PermissionBackend permissionBackend;
   private final CommentsUtil commentsUtil;
   private final Provider<CommentJson> commentJson;
@@ -60,7 +58,6 @@ public class DeleteComment
   @Inject
   public DeleteComment(
       Provider<CurrentUser> userProvider,
-      Provider<ReviewDb> dbProvider,
       PermissionBackend permissionBackend,
       RetryHelper retryHelper,
       CommentsUtil commentsUtil,
@@ -68,7 +65,6 @@ public class DeleteComment
       ChangeNotes.Factory notesFactory) {
     super(retryHelper);
     this.userProvider = userProvider;
-    this.dbProvider = dbProvider;
     this.permissionBackend = permissionBackend;
     this.commentsUtil = commentsUtil;
     this.commentJson = commentJson;
@@ -91,7 +87,7 @@ public class DeleteComment
     DeleteCommentOp deleteCommentOp = new DeleteCommentOp(rsrc, newMessage);
     try (BatchUpdate batchUpdate =
         batchUpdateFactory.create(
-            dbProvider.get(), rsrc.getRevisionResource().getProject(), user, TimeUtil.nowTs())) {
+            rsrc.getRevisionResource().getProject(), user, TimeUtil.nowTs())) {
       batchUpdate.addOp(rsrc.getRevisionResource().getChange().getId(), deleteCommentOp).execute();
     }
 

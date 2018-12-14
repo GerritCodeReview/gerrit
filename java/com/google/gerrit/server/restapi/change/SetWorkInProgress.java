@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
@@ -46,7 +45,6 @@ import com.google.inject.Singleton;
 public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, Input, Response<?>>
     implements UiAction<ChangeResource> {
   private final WorkInProgressOp.Factory opFactory;
-  private final Provider<ReviewDb> db;
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
 
@@ -54,12 +52,10 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
   SetWorkInProgress(
       WorkInProgressOp.Factory opFactory,
       RetryHelper retryHelper,
-      Provider<ReviewDb> db,
       PermissionBackend permissionBackend,
       Provider<CurrentUser> user) {
     super(retryHelper);
     this.opFactory = opFactory;
-    this.db = db;
     this.permissionBackend = permissionBackend;
     this.user = user;
   }
@@ -80,7 +76,7 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
     }
 
     try (BatchUpdate bu =
-        updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       bu.addOp(rsrc.getChange().getId(), opFactory.create(true, input));
       bu.execute();
       return Response.ok("");

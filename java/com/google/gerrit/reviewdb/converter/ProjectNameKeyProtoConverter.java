@@ -14,26 +14,26 @@
 
 package com.google.gerrit.reviewdb.converter;
 
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.reviewdb.Entities;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.protobuf.Parser;
 
 public enum ProjectNameKeyProtoConverter
-    implements ProtoConverter<Reviewdb.Project_NameKey, Project.NameKey> {
+    implements ProtoConverter<Entities.Project_NameKey, Project.NameKey> {
   INSTANCE;
 
   @Override
-  public Reviewdb.Project_NameKey toProto(Project.NameKey nameKey) {
-    return Reviewdb.Project_NameKey.newBuilder().setName(nameKey.get()).build();
+  public Entities.Project_NameKey toProto(Project.NameKey nameKey) {
+    return Entities.Project_NameKey.newBuilder().setName(nameKey.get()).build();
   }
 
   @Override
-  public Project.NameKey fromProto(Reviewdb.Project_NameKey proto) {
+  public Project.NameKey fromProto(Entities.Project_NameKey proto) {
     return new Project.NameKey(proto.getName());
   }
 
   @Override
-  public Parser<Reviewdb.Project_NameKey> getParser() {
-    return Reviewdb.Project_NameKey.parser();
+  public Parser<Entities.Project_NameKey> getParser() {
+    return Entities.Project_NameKey.parser();
   }
 }

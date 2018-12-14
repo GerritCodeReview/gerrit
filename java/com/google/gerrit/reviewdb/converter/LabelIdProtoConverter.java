@@ -14,25 +14,25 @@
 
 package com.google.gerrit.reviewdb.converter;
 
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.reviewdb.Entities;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.protobuf.Parser;
 
-public enum LabelIdProtoConverter implements ProtoConverter<Reviewdb.LabelId, LabelId> {
+public enum LabelIdProtoConverter implements ProtoConverter<Entities.LabelId, LabelId> {
   INSTANCE;
 
   @Override
-  public Reviewdb.LabelId toProto(LabelId labelId) {
-    return Reviewdb.LabelId.newBuilder().setId(labelId.get()).build();
+  public Entities.LabelId toProto(LabelId labelId) {
+    return Entities.LabelId.newBuilder().setId(labelId.get()).build();
   }
 
   @Override
-  public LabelId fromProto(Reviewdb.LabelId proto) {
+  public LabelId fromProto(Entities.LabelId proto) {
     return new LabelId(proto.getId());
   }
 
   @Override
-  public Parser<Reviewdb.LabelId> getParser() {
-    return Reviewdb.LabelId.parser();
+  public Parser<Entities.LabelId> getParser() {
+    return Entities.LabelId.parser();
   }
 }

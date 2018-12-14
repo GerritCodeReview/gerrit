@@ -19,7 +19,7 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.reviewdb.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.protobuf.Parser;
@@ -32,9 +32,9 @@ public class AccountIdProtoConverterTest {
   public void allValuesConvertedToProto() {
     Account.Id accountId = new Account.Id(24);
 
-    Reviewdb.Account_Id proto = accountIdProtoConverter.toProto(accountId);
+    Entities.Account_Id proto = accountIdProtoConverter.toProto(accountId);
 
-    Reviewdb.Account_Id expectedProto = Reviewdb.Account_Id.newBuilder().setId(24).build();
+    Entities.Account_Id expectedProto = Entities.Account_Id.newBuilder().setId(24).build();
     assertThat(proto).isEqualTo(expectedProto);
   }
 
@@ -50,11 +50,11 @@ public class AccountIdProtoConverterTest {
 
   @Test
   public void protoCanBeParsedFromBytes() throws Exception {
-    Reviewdb.Account_Id proto = Reviewdb.Account_Id.newBuilder().setId(24).build();
+    Entities.Account_Id proto = Entities.Account_Id.newBuilder().setId(24).build();
     byte[] bytes = proto.toByteArray();
 
-    Parser<Reviewdb.Account_Id> parser = accountIdProtoConverter.getParser();
-    Reviewdb.Account_Id parsedProto = parser.parseFrom(bytes);
+    Parser<Entities.Account_Id> parser = accountIdProtoConverter.getParser();
+    Entities.Account_Id parsedProto = parser.parseFrom(bytes);
 
     assertThat(parsedProto).isEqualTo(proto);
   }

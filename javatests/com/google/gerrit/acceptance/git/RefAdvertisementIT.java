@@ -46,13 +46,13 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.receive.ReceiveCommitsAdvertiseRefsHook;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,6 +62,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -75,7 +76,6 @@ import org.junit.Test;
 public class RefAdvertisementIT extends AbstractDaemonTest {
   @Inject private PermissionBackend permissionBackend;
   @Inject private ChangeNoteUtil noteUtil;
-  @Inject @AnonymousCowardName private String anonymousCowardName;
   @Inject private AllUsersName allUsersName;
 
   private AccountGroup.UUID admins;
@@ -89,6 +89,13 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   private String r2;
   private String r3;
   private String r4;
+
+  @ConfigSuite.Config
+  public static Config enableFullRefEvaluation() {
+    Config cfg = new Config();
+    cfg.setBoolean("auth", null, "skipFullRefEvaluationIfAllRefsAreVisible", false);
+    return cfg;
+  }
 
   @Before
   public void setUp() throws Exception {
@@ -377,6 +384,28 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void uploadPackAllRefsAreVisibleOrphanedTag() throws Exception {
+    allow("refs/*", Permission.READ, REGISTERED_USERS);
+    // Delete the pending change on 'branch' and 'branch' itself so that the tag gets orphaned
+    gApi.changes().id(c4.getId().id).delete();
+    gApi.projects().name(project.get()).branch("refs/heads/branch").delete();
+
+    setApiUser(user);
+    assertUploadPackRefs(
+        "HEAD",
+        "refs/meta/config",
+        r1 + "1",
+        r1 + "meta",
+        r2 + "1",
+        r2 + "meta",
+        r3 + "1",
+        r3 + "meta",
+        "refs/heads/master",
+        "refs/tags/branch-tag",
+        "refs/tags/master-tag");
+  }
+
+  @Test
   public void receivePackListsOpenChangesAsAdditionalHaves() throws Exception {
     ReceiveCommitsAdvertiseRefsHook.Result r = getReceivePackRefs();
     assertThat(r.allRefs().keySet())
@@ -565,6 +594,9 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesIncludePrivateChangesWhenAllRefsMayBeRead() throws Exception {
+    assume()
+        .that(baseConfig.getBoolean("auth", "skipFullRefEvaluationIfAllRefsAreVisible", true))
+        .isTrue();
     allow("refs/*", Permission.READ, REGISTERED_USERS);
 
     TestRepository<?> userTestRepository = cloneProject(project, user);

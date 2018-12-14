@@ -17,6 +17,7 @@ package com.google.gerrit.server.submit;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Function;
@@ -32,7 +33,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -182,8 +182,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         continue; // Bogus ref, can't be merged into tip so we don't care.
       }
     }
-    commits.sort(
-        ReviewDbUtil.intKeyOrdering().reverse().onResultOf(CodeReviewCommit::getPatchsetId));
+    commits.sort(comparing((CodeReviewCommit c) -> c.getPatchsetId().get()).reversed());
     CodeReviewCommit result = MergeUtil.findAnyMergedInto(rw, commits, tip);
     if (result == null) {
       return null;

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.submit;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
@@ -41,13 +40,11 @@ public interface MergeSuperSetComputation {
    * <p>This method is invoked iteratively while new changes to be submitted together are discovered
    * by expanding the topics of the changes. This method must not do any topic expansion on its own.
    *
-   * @param db {@link ReviewDb} instance
    * @param orm {@link MergeOpRepoManager} that should be used to access repositories
    * @param changeSet A set of changes for which it is known that they should be submitted together
    * @param user The user for which the visibility checks should be performed
    * @return the completed set of changes that should be submitted together
    */
-  ChangeSet completeWithoutTopic(
-      ReviewDb db, MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user)
+  ChangeSet completeWithoutTopic(MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user)
       throws OrmException, IOException, PermissionBackendException;
 }

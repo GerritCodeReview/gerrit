@@ -16,7 +16,7 @@ syntax = "proto2";
 
 package devtools.gerritcodereview;
 
-option java_package = "com.google.gerrit.proto.reviewdb";
+option java_package = "com.google.gerrit.proto";
 
 // Serialized form of com.google.gerrit.reviewdb.client.Change.Id.
 // Next ID: 2

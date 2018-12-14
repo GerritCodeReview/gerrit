@@ -14,33 +14,33 @@
 
 package com.google.gerrit.reviewdb.converter;
 
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.protobuf.Parser;
 
 public enum ChangeMessageKeyProtoConverter
-    implements ProtoConverter<Reviewdb.ChangeMessage_Key, ChangeMessage.Key> {
+    implements ProtoConverter<Entities.ChangeMessage_Key, ChangeMessage.Key> {
   INSTANCE;
 
-  private final ProtoConverter<Reviewdb.Change_Id, Change.Id> changeIdConverter =
+  private final ProtoConverter<Entities.Change_Id, Change.Id> changeIdConverter =
       ChangeIdProtoConverter.INSTANCE;
 
   @Override
-  public Reviewdb.ChangeMessage_Key toProto(ChangeMessage.Key messageKey) {
-    return Reviewdb.ChangeMessage_Key.newBuilder()
+  public Entities.ChangeMessage_Key toProto(ChangeMessage.Key messageKey) {
+    return Entities.ChangeMessage_Key.newBuilder()
         .setChangeId(changeIdConverter.toProto(messageKey.getParentKey()))
         .setUuid(messageKey.get())
         .build();
   }
 
   @Override
-  public ChangeMessage.Key fromProto(Reviewdb.ChangeMessage_Key proto) {
+  public ChangeMessage.Key fromProto(Entities.ChangeMessage_Key proto) {
     return new ChangeMessage.Key(changeIdConverter.fromProto(proto.getChangeId()), proto.getUuid());
   }
 
   @Override
-  public Parser<Reviewdb.ChangeMessage_Key> getParser() {
-    return Reviewdb.ChangeMessage_Key.parser();
+  public Parser<Entities.ChangeMessage_Key> getParser() {
+    return Entities.ChangeMessage_Key.parser();
   }
 }

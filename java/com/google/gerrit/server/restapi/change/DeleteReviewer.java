@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.change;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -26,25 +25,21 @@ import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
 public class DeleteReviewer
     extends RetryingRestModifyView<ReviewerResource, DeleteReviewerInput, Response<?>> {
 
-  private final Provider<ReviewDb> dbProvider;
   private final DeleteReviewerOp.Factory deleteReviewerOpFactory;
   private final DeleteReviewerByEmailOp.Factory deleteReviewerByEmailOpFactory;
 
   @Inject
   DeleteReviewer(
-      Provider<ReviewDb> dbProvider,
       RetryHelper retryHelper,
       DeleteReviewerOp.Factory deleteReviewerOpFactory,
       DeleteReviewerByEmailOp.Factory deleteReviewerByEmailOpFactory) {
     super(retryHelper);
-    this.dbProvider = dbProvider;
     this.deleteReviewerOpFactory = deleteReviewerOpFactory;
     this.deleteReviewerByEmailOpFactory = deleteReviewerByEmailOpFactory;
   }
@@ -59,7 +54,6 @@ public class DeleteReviewer
 
     try (BatchUpdate bu =
         updateFactory.create(
-            dbProvider.get(),
             rsrc.getChangeResource().getProject(),
             rsrc.getChangeResource().getUser(),
             TimeUtil.nowTs())) {

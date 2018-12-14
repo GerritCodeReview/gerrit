@@ -123,7 +123,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
       List<RevCommit> visibleCommits = new ArrayList<>();
       List<RevCommit> nonVisibleCommits = new ArrayList<>();
       for (ChangeData cd : bc.get(b)) {
-        boolean visible = isVisible(db, changeSet, cd, user);
+        boolean visible = isVisible(changeSet, cd, user);
 
         if (submitType(cd) == SubmitType.CHERRY_PICK) {
           if (visible) {
@@ -181,7 +181,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     }
   }
 
-  private boolean isVisible(ReviewDb db, ChangeSet changeSet, ChangeData cd, CurrentUser user)
+  private boolean isVisible(ChangeSet changeSet, ChangeData cd, CurrentUser user)
       throws PermissionBackendException, IOException {
     ProjectState projectState = projectCache.checkedGet(cd.project());
     boolean visible =
@@ -193,7 +193,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     }
 
     try {
-      permissionBackend.user(user).change(cd).database(db).check(ChangePermission.READ);
+      permissionBackend.user(user).change(cd).check(ChangePermission.READ);
       return true;
     } catch (AuthException e) {
       // We thought the change was visible, but it isn't.

@@ -83,7 +83,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
     // Not allowed to abandon if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
-    rsrc.permissions().database(dbProvider).check(ChangePermission.ABANDON);
+    rsrc.permissions().check(ChangePermission.ABANDON);
 
     NotifyHandling notify = input.notify == null ? defaultNotify(rsrc.getChange()) : input.notify;
     Change change =

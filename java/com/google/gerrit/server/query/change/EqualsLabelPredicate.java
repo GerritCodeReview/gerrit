@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -30,14 +29,12 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 import java.io.IOException;
 
 public class EqualsLabelPredicate extends ChangeIndexPredicate {
   protected final ProjectCache projectCache;
   protected final PermissionBackend permissionBackend;
   protected final IdentifiedUser.GenericFactory userFactory;
-  protected final Provider<ReviewDb> dbProvider;
   protected final String label;
   protected final int expVal;
   protected final Account.Id account;
@@ -49,7 +46,6 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     this.permissionBackend = args.permissionBackend;
     this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;
-    this.dbProvider = args.dbProvider;
     this.group = args.group;
     this.label = label;
     this.expVal = expVal;
@@ -123,8 +119,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
 
     // Check the user has 'READ' permission.
     try {
-      PermissionBackend.ForChange perm =
-          permissionBackend.absentUser(approver).database(dbProvider).change(cd);
+      PermissionBackend.ForChange perm = permissionBackend.absentUser(approver).change(cd);
       ProjectState projectState = projectCache.checkedGet(cd.project());
       if (projectState == null || !projectState.statePermitsRead()) {
         return false;

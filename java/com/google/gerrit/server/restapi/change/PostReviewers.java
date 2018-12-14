@@ -68,8 +68,7 @@ public class PostReviewers
       throw new BadRequestException("missing reviewer field");
     }
 
-    ReviewerAddition addition =
-        reviewerAdder.prepare(dbProvider.get(), rsrc.getNotes(), rsrc.getUser(), input, true);
+    ReviewerAddition addition = reviewerAdder.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
     if (addition.op == null) {
       return addition.result;
     }

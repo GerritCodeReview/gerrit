@@ -44,7 +44,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -55,7 +54,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -79,7 +77,6 @@ public class LabelsJson {
     LabelsJson create(Iterable<ListChangesOption> options);
   }
 
-  private final Provider<ReviewDb> db;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeNotes.Factory notesFactory;
   private final PermissionBackend permissionBackend;
@@ -87,12 +84,10 @@ public class LabelsJson {
 
   @Inject
   LabelsJson(
-      Provider<ReviewDb> db,
       ApprovalsUtil approvalsUtil,
       ChangeNotes.Factory notesFactory,
       PermissionBackend permissionBackend,
       @Assisted Iterable<ListChangesOption> options) {
-    this.db = db;
     this.approvalsUtil = approvalsUtil;
     this.notesFactory = notesFactory;
     this.permissionBackend = permissionBackend;
@@ -507,7 +502,7 @@ public class LabelsJson {
    */
   private PermissionBackend.ForChange permissionBackendForChange(Account.Id user, ChangeData cd)
       throws OrmException {
-    PermissionBackend.WithUser withUser = permissionBackend.absentUser(user).database(db);
+    PermissionBackend.WithUser withUser = permissionBackend.absentUser(user);
     return lazyLoad
         ? withUser.change(cd)
         : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.reviewdb.converter;
 
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.reviewdb.Entities;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -22,19 +22,19 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.protobuf.Parser;
 
 public enum PatchSetApprovalKeyProtoConverter
-    implements ProtoConverter<Reviewdb.PatchSetApproval_Key, PatchSetApproval.Key> {
+    implements ProtoConverter<Entities.PatchSetApproval_Key, PatchSetApproval.Key> {
   INSTANCE;
 
-  private final ProtoConverter<Reviewdb.PatchSet_Id, PatchSet.Id> patchSetIdConverter =
+  private final ProtoConverter<Entities.PatchSet_Id, PatchSet.Id> patchSetIdConverter =
       PatchSetIdProtoConverter.INSTANCE;
-  private final ProtoConverter<Reviewdb.Account_Id, Account.Id> accountIdConverter =
+  private final ProtoConverter<Entities.Account_Id, Account.Id> accountIdConverter =
       AccountIdProtoConverter.INSTANCE;
-  private final ProtoConverter<Reviewdb.LabelId, LabelId> labelIdConverter =
+  private final ProtoConverter<Entities.LabelId, LabelId> labelIdConverter =
       LabelIdProtoConverter.INSTANCE;
 
   @Override
-  public Reviewdb.PatchSetApproval_Key toProto(PatchSetApproval.Key key) {
-    return Reviewdb.PatchSetApproval_Key.newBuilder()
+  public Entities.PatchSetApproval_Key toProto(PatchSetApproval.Key key) {
+    return Entities.PatchSetApproval_Key.newBuilder()
         .setPatchSetId(patchSetIdConverter.toProto(key.getParentKey()))
         .setAccountId(accountIdConverter.toProto(key.getAccountId()))
         .setCategoryId(labelIdConverter.toProto(key.getLabelId()))
@@ -42,7 +42,7 @@ public enum PatchSetApprovalKeyProtoConverter
   }
 
   @Override
-  public PatchSetApproval.Key fromProto(Reviewdb.PatchSetApproval_Key proto) {
+  public PatchSetApproval.Key fromProto(Entities.PatchSetApproval_Key proto) {
     return new PatchSetApproval.Key(
         patchSetIdConverter.fromProto(proto.getPatchSetId()),
         accountIdConverter.fromProto(proto.getAccountId()),
@@ -50,7 +50,7 @@ public enum PatchSetApprovalKeyProtoConverter
   }
 
   @Override
-  public Parser<Reviewdb.PatchSetApproval_Key> getParser() {
-    return Reviewdb.PatchSetApproval_Key.parser();
+  public Parser<Entities.PatchSetApproval_Key> getParser() {
+    return Entities.PatchSetApproval_Key.parser();
   }
 }

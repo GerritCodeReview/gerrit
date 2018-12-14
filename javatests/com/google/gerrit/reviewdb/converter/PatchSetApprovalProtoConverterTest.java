@@ -19,7 +19,7 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.reviewdb.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -50,22 +50,22 @@ public class PatchSetApprovalProtoConverterTest {
     patchSetApproval.setRealAccountId(new Account.Id(612));
     patchSetApproval.setPostSubmit(true);
 
-    Reviewdb.PatchSetApproval proto = protoConverter.toProto(patchSetApproval);
+    Entities.PatchSetApproval proto = protoConverter.toProto(patchSetApproval);
 
-    Reviewdb.PatchSetApproval expectedProto =
-        Reviewdb.PatchSetApproval.newBuilder()
+    Entities.PatchSetApproval expectedProto =
+        Entities.PatchSetApproval.newBuilder()
             .setKey(
-                Reviewdb.PatchSetApproval_Key.newBuilder()
+                Entities.PatchSetApproval_Key.newBuilder()
                     .setPatchSetId(
-                        Reviewdb.PatchSet_Id.newBuilder()
-                            .setChangeId(Reviewdb.Change_Id.newBuilder().setId(42))
+                        Entities.PatchSet_Id.newBuilder()
+                            .setChangeId(Entities.Change_Id.newBuilder().setId(42))
                             .setPatchSetId(14))
-                    .setAccountId(Reviewdb.Account_Id.newBuilder().setId(100013))
-                    .setCategoryId(Reviewdb.LabelId.newBuilder().setId("label-8")))
+                    .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
+                    .setCategoryId(Entities.LabelId.newBuilder().setId("label-8")))
             .setValue(456)
             .setGranted(987654L)
             .setTag("tag-21")
-            .setRealAccountId(Reviewdb.Account_Id.newBuilder().setId(612))
+            .setRealAccountId(Entities.Account_Id.newBuilder().setId(612))
             .setPostSubmit(true)
             .build();
     assertThat(proto).isEqualTo(expectedProto);
@@ -82,18 +82,18 @@ public class PatchSetApprovalProtoConverterTest {
             (short) 456,
             new Date(987654L));
 
-    Reviewdb.PatchSetApproval proto = protoConverter.toProto(patchSetApproval);
+    Entities.PatchSetApproval proto = protoConverter.toProto(patchSetApproval);
 
-    Reviewdb.PatchSetApproval expectedProto =
-        Reviewdb.PatchSetApproval.newBuilder()
+    Entities.PatchSetApproval expectedProto =
+        Entities.PatchSetApproval.newBuilder()
             .setKey(
-                Reviewdb.PatchSetApproval_Key.newBuilder()
+                Entities.PatchSetApproval_Key.newBuilder()
                     .setPatchSetId(
-                        Reviewdb.PatchSet_Id.newBuilder()
-                            .setChangeId(Reviewdb.Change_Id.newBuilder().setId(42))
+                        Entities.PatchSet_Id.newBuilder()
+                            .setChangeId(Entities.Change_Id.newBuilder().setId(42))
                             .setPatchSetId(14))
-                    .setAccountId(Reviewdb.Account_Id.newBuilder().setId(100013))
-                    .setCategoryId(Reviewdb.LabelId.newBuilder().setId("label-8")))
+                    .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
+                    .setCategoryId(Entities.LabelId.newBuilder().setId("label-8")))
             .setValue(456)
             .setGranted(987654L)
             // This value can't be unset when our entity class is given.
@@ -141,16 +141,16 @@ public class PatchSetApprovalProtoConverterTest {
   // never be unset in our entity object.
   @Test
   public void protoWithOnlyRequiredValuesCanBeConvertedBack() {
-    Reviewdb.PatchSetApproval proto =
-        Reviewdb.PatchSetApproval.newBuilder()
+    Entities.PatchSetApproval proto =
+        Entities.PatchSetApproval.newBuilder()
             .setKey(
-                Reviewdb.PatchSetApproval_Key.newBuilder()
+                Entities.PatchSetApproval_Key.newBuilder()
                     .setPatchSetId(
-                        Reviewdb.PatchSet_Id.newBuilder()
-                            .setChangeId(Reviewdb.Change_Id.newBuilder().setId(42))
+                        Entities.PatchSet_Id.newBuilder()
+                            .setChangeId(Entities.Change_Id.newBuilder().setId(42))
                             .setPatchSetId(14))
-                    .setAccountId(Reviewdb.Account_Id.newBuilder().setId(100013))
-                    .setCategoryId(Reviewdb.LabelId.newBuilder().setId("label-8")))
+                    .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
+                    .setCategoryId(Entities.LabelId.newBuilder().setId("label-8")))
             .build();
     PatchSetApproval patchSetApproval = protoConverter.fromProto(proto);
 
@@ -165,23 +165,23 @@ public class PatchSetApprovalProtoConverterTest {
 
   @Test
   public void protoCanBeParsedFromBytes() throws Exception {
-    Reviewdb.PatchSetApproval proto =
-        Reviewdb.PatchSetApproval.newBuilder()
+    Entities.PatchSetApproval proto =
+        Entities.PatchSetApproval.newBuilder()
             .setKey(
-                Reviewdb.PatchSetApproval_Key.newBuilder()
+                Entities.PatchSetApproval_Key.newBuilder()
                     .setPatchSetId(
-                        Reviewdb.PatchSet_Id.newBuilder()
-                            .setChangeId(Reviewdb.Change_Id.newBuilder().setId(42))
+                        Entities.PatchSet_Id.newBuilder()
+                            .setChangeId(Entities.Change_Id.newBuilder().setId(42))
                             .setPatchSetId(14))
-                    .setAccountId(Reviewdb.Account_Id.newBuilder().setId(100013))
-                    .setCategoryId(Reviewdb.LabelId.newBuilder().setId("label-8")))
+                    .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
+                    .setCategoryId(Entities.LabelId.newBuilder().setId("label-8")))
             .setValue(456)
             .setGranted(987654L)
             .build();
     byte[] bytes = proto.toByteArray();
 
-    Parser<Reviewdb.PatchSetApproval> parser = protoConverter.getParser();
-    Reviewdb.PatchSetApproval parsedProto = parser.parseFrom(bytes);
+    Parser<Entities.PatchSetApproval> parser = protoConverter.getParser();
+    Entities.PatchSetApproval parsedProto = parser.parseFrom(bytes);
 
     assertThat(parsedProto).isEqualTo(proto);
   }

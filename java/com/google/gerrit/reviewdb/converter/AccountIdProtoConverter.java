@@ -14,25 +14,25 @@
 
 package com.google.gerrit.reviewdb.converter;
 
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.reviewdb.Entities;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.protobuf.Parser;
 
-public enum AccountIdProtoConverter implements ProtoConverter<Reviewdb.Account_Id, Account.Id> {
+public enum AccountIdProtoConverter implements ProtoConverter<Entities.Account_Id, Account.Id> {
   INSTANCE;
 
   @Override
-  public Reviewdb.Account_Id toProto(Account.Id accountId) {
-    return Reviewdb.Account_Id.newBuilder().setId(accountId.get()).build();
+  public Entities.Account_Id toProto(Account.Id accountId) {
+    return Entities.Account_Id.newBuilder().setId(accountId.get()).build();
   }
 
   @Override
-  public Account.Id fromProto(Reviewdb.Account_Id proto) {
+  public Account.Id fromProto(Entities.Account_Id proto) {
     return new Account.Id(proto.getId());
   }
 
   @Override
-  public Parser<Reviewdb.Account_Id> getParser() {
-    return Reviewdb.Account_Id.parser();
+  public Parser<Entities.Account_Id> getParser() {
+    return Entities.Account_Id.parser();
   }
 }

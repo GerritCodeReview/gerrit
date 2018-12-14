@@ -19,7 +19,7 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.reviewdb.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.protobuf.Parser;
@@ -32,9 +32,9 @@ public class RevIdProtoConverterTest {
   public void allValuesConvertedToProto() {
     RevId revId = new RevId("9903402f303249e");
 
-    Reviewdb.RevId proto = revIdProtoConverter.toProto(revId);
+    Entities.RevId proto = revIdProtoConverter.toProto(revId);
 
-    Reviewdb.RevId expectedProto = Reviewdb.RevId.newBuilder().setId("9903402f303249e").build();
+    Entities.RevId expectedProto = Entities.RevId.newBuilder().setId("9903402f303249e").build();
     assertThat(proto).isEqualTo(expectedProto);
   }
 
@@ -49,11 +49,11 @@ public class RevIdProtoConverterTest {
 
   @Test
   public void protoCanBeParsedFromBytes() throws Exception {
-    Reviewdb.RevId proto = Reviewdb.RevId.newBuilder().setId("9903402f303249e").build();
+    Entities.RevId proto = Entities.RevId.newBuilder().setId("9903402f303249e").build();
     byte[] bytes = proto.toByteArray();
 
-    Parser<Reviewdb.RevId> parser = revIdProtoConverter.getParser();
-    Reviewdb.RevId parsedProto = parser.parseFrom(bytes);
+    Parser<Entities.RevId> parser = revIdProtoConverter.getParser();
+    Entities.RevId parsedProto = parser.parseFrom(bytes);
 
     assertThat(parsedProto).isEqualTo(proto);
   }

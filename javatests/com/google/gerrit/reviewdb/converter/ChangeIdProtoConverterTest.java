@@ -19,7 +19,7 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.reviewdb.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.protobuf.Parser;
@@ -32,9 +32,9 @@ public class ChangeIdProtoConverterTest {
   public void allValuesConvertedToProto() {
     Change.Id changeId = new Change.Id(94);
 
-    Reviewdb.Change_Id proto = changeIdProtoConverter.toProto(changeId);
+    Entities.Change_Id proto = changeIdProtoConverter.toProto(changeId);
 
-    Reviewdb.Change_Id expectedProto = Reviewdb.Change_Id.newBuilder().setId(94).build();
+    Entities.Change_Id expectedProto = Entities.Change_Id.newBuilder().setId(94).build();
     assertThat(proto).isEqualTo(expectedProto);
   }
 
@@ -50,11 +50,11 @@ public class ChangeIdProtoConverterTest {
 
   @Test
   public void protoCanBeParsedFromBytes() throws Exception {
-    Reviewdb.Change_Id proto = Reviewdb.Change_Id.newBuilder().setId(94).build();
+    Entities.Change_Id proto = Entities.Change_Id.newBuilder().setId(94).build();
     byte[] bytes = proto.toByteArray();
 
-    Parser<Reviewdb.Change_Id> parser = changeIdProtoConverter.getParser();
-    Reviewdb.Change_Id parsedProto = parser.parseFrom(bytes);
+    Parser<Entities.Change_Id> parser = changeIdProtoConverter.getParser();
+    Entities.Change_Id parsedProto = parser.parseFrom(bytes);
 
     assertThat(parsedProto).isEqualTo(proto);
   }

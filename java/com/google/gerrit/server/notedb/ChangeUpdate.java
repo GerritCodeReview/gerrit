@@ -61,7 +61,6 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
@@ -82,7 +81,6 @@ import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -161,7 +159,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @AssistedInject
   private ChangeUpdate(
-      @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
@@ -172,7 +169,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted CurrentUser user,
       ChangeNoteUtil noteUtil) {
     this(
-        cfg,
         serverIdent,
         updateManagerFactory,
         draftUpdateFactory,
@@ -187,7 +183,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @AssistedInject
   private ChangeUpdate(
-      @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
@@ -199,7 +194,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted Date when,
       ChangeNoteUtil noteUtil) {
     this(
-        cfg,
         serverIdent,
         updateManagerFactory,
         draftUpdateFactory,
@@ -219,7 +213,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @AssistedInject
   private ChangeUpdate(
-      @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
@@ -230,7 +223,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       ChangeNoteUtil noteUtil) {
-    super(cfg, notes, user, serverIdent, noteUtil, when);
+    super(notes, user, serverIdent, noteUtil, when);
     this.updateManagerFactory = updateManagerFactory;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
@@ -240,7 +233,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @AssistedInject
   private ChangeUpdate(
-      @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
@@ -253,7 +245,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted PersonIdent authorIdent,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator) {
-    super(cfg, noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
+    super(noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;

@@ -31,7 +31,6 @@ import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.Date;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -58,7 +57,6 @@ public abstract class AbstractChangeUpdate {
   protected boolean rootOnly;
 
   protected AbstractChangeUpdate(
-      Config cfg,
       ChangeNotes notes,
       CurrentUser user,
       PersonIdent serverIdent,
@@ -76,7 +74,6 @@ public abstract class AbstractChangeUpdate {
   }
 
   protected AbstractChangeUpdate(
-      Config cfg,
       ChangeNoteUtil noteUtil,
       PersonIdent serverIdent,
       @Nullable ChangeNotes notes,

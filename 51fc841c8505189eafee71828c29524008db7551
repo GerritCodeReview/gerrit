@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ab384a5_89e389bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-14T15:53:15Z",
+      "side": 1,
+      "message": "I\u0027m also open to other suggestions. index.proto might be an alternative if we decide that those protos are mainly used for indices (and only exceptionally for the ChangeNotesState cache).",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "51fc841c8505189eafee71828c29524008db7551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

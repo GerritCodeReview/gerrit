@@ -23,7 +23,6 @@ import static com.google.gerrit.index.FieldDef.integer;
 import static com.google.gerrit.index.FieldDef.prefix;
 import static com.google.gerrit.index.FieldDef.storedOnly;
 import static com.google.gerrit.index.FieldDef.timestamp;
-import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.CHANGE_CODEC;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -53,6 +52,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.converter.ChangeProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
 import com.google.gerrit.reviewdb.converter.ProtoConverter;
@@ -468,7 +468,8 @@ public class ChangeField {
 
   /** Serialized change object, used for pre-populating results. */
   public static final FieldDef<ChangeData, byte[]> CHANGE =
-      storedOnly("_change").build(changeGetter(CHANGE_CODEC::encodeToByteArray));
+      storedOnly("_change")
+          .build(changeGetter(change -> toProto(ChangeProtoConverter.INSTANCE, change)));
 
   /** Serialized approvals for the current patch set, used for pre-populating results. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> APPROVAL =
@@ -854,11 +855,11 @@ public class ChangeField {
   }
 
   private static <T> List<byte[]> toProtos(ProtoConverter<?, T> converter, Collection<T> objects) {
-    return objects
-        .stream()
-        .map(converter::toProto)
-        .map(Protos::toByteArray)
-        .collect(toImmutableList());
+    return objects.stream().map(object -> toProto(converter, object)).collect(toImmutableList());
+  }
+
+  private static <T> byte[] toProto(ProtoConverter<?, T> converter, T object) {
+    return Protos.toByteArray(converter.toProto(object));
   }
 
   private static <T> FieldDef.Getter<ChangeData, T> changeGetter(Function<Change, T> func) {

@@ -312,7 +312,7 @@ public class ReplaceOp implements BatchUpdateOp {
     update.setPsDescription(psDescription);
     MailRecipients fromFooters = getRecipientsFromFooters(accountResolver, commit.getFooterLines());
     approvalsUtil.addApprovalsForNewPatchSet(
-        ctx.getDb(), update, projectState.getLabelTypes(), newPatchSet, ctx.getUser(), approvals);
+        update, projectState.getLabelTypes(), newPatchSet, ctx.getUser(), approvals);
 
     reviewerAdditions =
         reviewerAdder.prepare(

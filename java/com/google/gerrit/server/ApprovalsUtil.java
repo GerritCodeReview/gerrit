@@ -38,7 +38,6 @@ import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -143,7 +142,6 @@ public class ApprovalsUtil {
   }
 
   public List<PatchSetApproval> addReviewers(
-      ReviewDb db,
       ChangeUpdate update,
       LabelTypes labelTypes,
       Change change,
@@ -153,7 +151,6 @@ public class ApprovalsUtil {
       Collection<Account.Id> existingReviewers)
       throws OrmException {
     return addReviewers(
-        db,
         update,
         labelTypes,
         change,
@@ -165,7 +162,6 @@ public class ApprovalsUtil {
   }
 
   public List<PatchSetApproval> addReviewers(
-      ReviewDb db,
       ChangeNotes notes,
       ChangeUpdate update,
       LabelTypes labelTypes,
@@ -184,11 +180,10 @@ public class ApprovalsUtil {
       }
     }
     return addReviewers(
-        db, update, labelTypes, change, psId, null, null, wantReviewers, existingReviewers);
+        update, labelTypes, change, psId, null, null, wantReviewers, existingReviewers);
   }
 
   private List<PatchSetApproval> addReviewers(
-      ReviewDb db,
       ChangeUpdate update,
       LabelTypes labelTypes,
       Change change,
@@ -225,7 +220,6 @@ public class ApprovalsUtil {
               new PatchSetApproval.Key(psId, account, labelId), (short) 0, update.getWhen()));
       update.putReviewer(account, REVIEWER);
     }
-    db.patchSetApprovals().upsert(cells);
     return Collections.unmodifiableList(cells);
   }
 
@@ -274,7 +268,6 @@ public class ApprovalsUtil {
   /**
    * Adds approvals to ChangeUpdate for a new patch set, and writes to NoteDb.
    *
-   * @param db review database.
    * @param update change update.
    * @param labelTypes label types for the containing project.
    * @param ps patch set being approved.
@@ -284,7 +277,6 @@ public class ApprovalsUtil {
    * @throws OrmException
    */
   public Iterable<PatchSetApproval> addApprovalsForNewPatchSet(
-      ReviewDb db,
       ChangeUpdate update,
       LabelTypes labelTypes,
       PatchSet ps,

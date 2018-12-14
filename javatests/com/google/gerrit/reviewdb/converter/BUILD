@@ -18,16 +18,3 @@ junit_tests(
         "//proto:reviewdb_java_proto",
     ],
 )
-
-junit_tests(
-    name = "compatibility_tests",
-    srcs = COMPATIBLITY_TEST_SRCS,
-    deps = [
-        "//java/com/google/gerrit/proto",
-        "//java/com/google/gerrit/reviewdb:server",
-        "//lib:guava",
-        "//lib:gwtorm-client",
-        "//lib:protobuf",
-        "//lib/truth",
-    ],
-)

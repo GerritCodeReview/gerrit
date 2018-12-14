@@ -40,7 +40,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Constants;
@@ -157,7 +156,6 @@ public class MergedByPushOp implements BatchUpdateOp {
         ApprovalsUtil.newApproval(
             change.currentPatchSetId(), ctx.getUser(), LabelId.legacySubmit(), 1, ctx.getWhen());
     update.putApproval(submitter.getLabel(), submitter.getValue());
-    ctx.getDb().patchSetApprovals().upsert(Collections.singleton(submitter));
 
     return true;
   }

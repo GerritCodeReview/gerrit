@@ -45,7 +45,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
@@ -389,7 +388,6 @@ public class ChangeInserter implements InsertChangeOp {
       throws RestApiException, OrmException, IOException, PermissionBackendException,
           ConfigInvalidException {
     change = ctx.getChange(); // Use defensive copy created by ChangeControl.
-    ReviewDb db = ctx.getDb();
     patchSetInfo =
         patchSetInfoFactory.get(ctx.getRevWalk(), ctx.getRevWalk().parseCommit(commitId), psId);
     ctx.getChange().setCurrentPatchSet(patchSetInfo);
@@ -434,7 +432,7 @@ public class ChangeInserter implements InsertChangeOp {
 
     LabelTypes labelTypes = projectState.getLabelTypes();
     approvalsUtil.addApprovalsForNewPatchSet(
-        db, update, labelTypes, patchSet, ctx.getUser(), approvals);
+        update, labelTypes, patchSet, ctx.getUser(), approvals);
 
     // Check if approvals are changing in with this update. If so, add current user to reviewers.
     // Note that this is done separately as addReviewers is filtering out the change owner as

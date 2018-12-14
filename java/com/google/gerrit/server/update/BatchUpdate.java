@@ -37,7 +37,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountState;
@@ -110,7 +109,7 @@ public class BatchUpdate implements AutoCloseable {
 
   // TODO(dborowitz): Make this package-private to force all callers to use RetryHelper.
   public interface Factory {
-    BatchUpdate create(ReviewDb db, Project.NameKey project, CurrentUser user, Timestamp when);
+    BatchUpdate create(Project.NameKey project, CurrentUser user, Timestamp when);
   }
 
   public static void execute(
@@ -385,7 +384,6 @@ public class BatchUpdate implements AutoCloseable {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeIndexer indexer,
       GitReferenceUpdated gitRefUpdated,
-      @SuppressWarnings("unused") @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Timestamp when) {

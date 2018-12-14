@@ -2969,7 +2969,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         new Project.NameKey(repo.getRepository().getDescription().getRepositoryName());
     Account.Id ownerId = owner != null ? owner : userId;
     IdentifiedUser user = userFactory.create(ownerId);
-    try (BatchUpdate bu = updateFactory.create(db, project, user, createdOn)) {
+    try (BatchUpdate bu = updateFactory.create(project, user, createdOn)) {
       bu.insertChange(ins);
       bu.execute();
       return ins.getChange();
@@ -2989,7 +2989,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .setNotify(NotifyHandling.NONE)
             .setFireRevisionCreated(false)
             .setValidate(false);
-    try (BatchUpdate bu = updateFactory.create(db, c.getProject(), user, TimeUtil.nowTs());
+    try (BatchUpdate bu = updateFactory.create(c.getProject(), user, TimeUtil.nowTs());
         ObjectInserter oi = repo.getRepository().newObjectInserter();
         ObjectReader reader = oi.newReader();
         RevWalk rw = new RevWalk(reader)) {

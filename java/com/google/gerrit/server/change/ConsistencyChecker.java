@@ -37,7 +37,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -113,7 +112,6 @@ public class ConsistencyChecker {
   private final PatchSetUtil psUtil;
   private final Provider<CurrentUser> user;
   private final Provider<PersonIdent> serverIdent;
-  private final Provider<ReviewDb> db;
   private final RetryHelper retryHelper;
 
   private BatchUpdate.Factory updateFactory;
@@ -141,11 +139,9 @@ public class ConsistencyChecker {
       PatchSetInserter.Factory patchSetInserterFactory,
       PatchSetUtil psUtil,
       Provider<CurrentUser> user,
-      Provider<ReviewDb> db,
       RetryHelper retryHelper) {
     this.accounts = accounts;
     this.accountPatchReviewStore = accountPatchReviewStore;
-    this.db = db;
     this.notesFactory = notesFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
@@ -585,7 +581,7 @@ public class ConsistencyChecker {
   }
 
   private BatchUpdate newBatchUpdate() {
-    return updateFactory.create(db.get(), change().getProject(), user.get(), TimeUtil.nowTs());
+    return updateFactory.create(change().getProject(), user.get(), TimeUtil.nowTs());
   }
 
   private void fixPatchSetRef(ProblemInfo p, PatchSet ps) {

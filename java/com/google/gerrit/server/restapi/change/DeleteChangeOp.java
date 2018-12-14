@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
@@ -29,7 +28,6 @@ import com.google.gerrit.server.extensions.events.ChangeDeleted;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdateOp;
-import com.google.gerrit.server.update.BatchUpdateReviewDb;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Order;
 import com.google.gerrit.server.update.RepoContext;
@@ -64,7 +62,7 @@ class DeleteChangeOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, OrmException, IOException, NoSuchChangeException {
+      throws RestApiException, OrmException, IOException {
     checkState(
         ctx.getOrder() == Order.DB_BEFORE_REPO, "must use DeleteChangeOp with DB_BEFORE_REPO");
     checkState(id == null, "cannot reuse DeleteChangeOp");
@@ -76,7 +74,6 @@ class DeleteChangeOp implements BatchUpdateOp {
     // Cleaning up is only possible as long as the change and its elements are
     // still part of the database.
     cleanUpReferences(ctx, id, patchSets);
-    deleteChangeElementsFromDb(ctx, id);
 
     ctx.deleteChange();
     changeDeleted.fire(ctx.getChange(), ctx.getAccount(), ctx.getWhen());
@@ -108,20 +105,6 @@ class DeleteChangeOp implements BatchUpdateOp {
     RevWalk revWalk = ctx.getRevWalk();
     ObjectId objectId = ObjectId.fromString(patchSet.getRevision().get());
     return revWalk.isMergedInto(revWalk.parseCommit(objectId), revWalk.parseCommit(destId.get()));
-  }
-
-  private void deleteChangeElementsFromDb(ChangeContext ctx, Change.Id id) throws OrmException {
-    // Only delete from ReviewDb here; deletion from NoteDb is handled in
-    // BatchUpdate.
-    //
-    // This is special. We want to delete exactly the rows that are present in
-    // the database, even when reading everything else from NoteDb, so we need
-    // to bypass the write-only wrapper.
-    ReviewDb db = BatchUpdateReviewDb.unwrap(ctx.getDb());
-    db.patchComments().delete(db.patchComments().byChange(id));
-    db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));
-    db.patchSets().delete(db.patchSets().byChange(id));
-    db.changeMessages().delete(db.changeMessages().byChange(id));
   }
 
   private void cleanUpReferences(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)

@@ -39,7 +39,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.Collections;
 
 @Singleton
 public class PutDescription
@@ -93,10 +92,9 @@ public class PutDescription
 
     @Override
     public boolean updateChange(ChangeContext ctx) throws OrmException {
-      PatchSet ps = psUtil.get(ctx.getNotes(), psId);
       ChangeUpdate update = ctx.getUpdate(psId);
       newDescription = Strings.nullToEmpty(input.description);
-      oldDescription = Strings.nullToEmpty(ps.getDescription());
+      oldDescription = Strings.nullToEmpty(psUtil.get(ctx.getNotes(), psId).getDescription());
       if (oldDescription.equals(newDescription)) {
         return false;
       }
@@ -109,10 +107,7 @@ public class PutDescription
         summary = "Description changed to \"" + newDescription + "\"";
       }
 
-      ps.setDescription(newDescription);
       update.setPsDescription(newDescription);
-
-      ctx.getDb().patchSets().update(Collections.singleton(ps));
 
       ChangeMessage cmsg =
           ChangeMessagesUtil.newMessage(

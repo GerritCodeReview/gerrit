@@ -286,8 +286,6 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
                 (short) 0,
                 ctx.getWhen()));
       }
-      // Remove votes from ReviewDb.
-      ctx.getDb().patchSetApprovals().upsert(approvals);
     }
   }
 

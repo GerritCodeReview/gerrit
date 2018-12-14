@@ -28,13 +28,12 @@ import com.google.gerrit.index.RefState;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.converter.ChangeProtoConverter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
-import com.google.gwtorm.protobuf.CodecFactory;
-import com.google.gwtorm.protobuf.ProtobufCodec;
 import java.util.stream.Stream;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -50,8 +49,6 @@ public class StalenessCheckerTest extends GerritBaseTests {
   private static final Project.NameKey P2 = new Project.NameKey("project2");
 
   private static final Change.Id C = new Change.Id(1234);
-
-  private static final ProtobufCodec<Change> CHANGE_CODEC = CodecFactory.encoder(Change.class);
 
   private GitRepositoryManager repoManager;
   private Repository r1;
@@ -339,6 +336,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
   }
 
   private static Change clone(Change change) {
-    return CHANGE_CODEC.decode(CHANGE_CODEC.encodeToByteArray(change));
+    ChangeProtoConverter converter = ChangeProtoConverter.INSTANCE;
+    return converter.fromProto(converter.toProto(change));
   }
 }

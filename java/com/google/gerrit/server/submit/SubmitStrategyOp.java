@@ -336,7 +336,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // If the submit strategy created a new revision (rebase, cherry-pick), copy
     // approvals as well.
     if (!newPsId.equals(oldPsId)) {
-      saveApprovals(normalized, ctx, newPsUpdate, true);
+      saveApprovals(normalized, newPsUpdate, true);
       submitter = convertPatchSet(newPsId).apply(submitter);
     }
   }
@@ -363,19 +363,12 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     LabelNormalizer.Result normalized =
         args.labelNormalizer.normalize(ctx.getNotes(), byKey.values());
     update.putApproval(submitter.getLabel(), submitter.getValue());
-    saveApprovals(normalized, ctx, update, false);
+    saveApprovals(normalized, update, false);
     return normalized;
   }
 
   private void saveApprovals(
-      LabelNormalizer.Result normalized,
-      ChangeContext ctx,
-      ChangeUpdate update,
-      boolean includeUnchanged)
-      throws OrmException {
-    PatchSet.Id psId = update.getPatchSetId();
-    ctx.getDb().patchSetApprovals().upsert(convertPatchSet(normalized.getNormalized(), psId));
-    ctx.getDb().patchSetApprovals().upsert(zero(convertPatchSet(normalized.deleted(), psId)));
+      LabelNormalizer.Result normalized, ChangeUpdate update, boolean includeUnchanged) {
     for (PatchSetApproval psa : normalized.updated()) {
       update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());
     }

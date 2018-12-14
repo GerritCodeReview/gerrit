@@ -29,7 +29,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -62,7 +61,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -205,7 +203,6 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       }
 
       ctx.getUpdate(psId).removeApprovalFor(accountId, label);
-      ctx.getDb().patchSetApprovals().upsert(Collections.singleton(deletedApproval(ctx)));
 
       StringBuilder msg = new StringBuilder();
       msg.append("Removed ");
@@ -216,17 +213,6 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       cmUtil.addChangeMessage(ctx.getUpdate(psId), changeMessage);
 
       return true;
-    }
-
-    private PatchSetApproval deletedApproval(ChangeContext ctx) {
-      // Set the effective user to the account we're trying to remove, and don't
-      // set the real user; this preserves the calling user as the NoteDb
-      // committer.
-      return new PatchSetApproval(
-          new PatchSetApproval.Key(
-              ps.getId(), accountState.getAccount().getId(), new LabelId(label)),
-          (short) 0,
-          ctx.getWhen());
     }
 
     @Override

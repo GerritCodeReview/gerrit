@@ -1224,14 +1224,6 @@ public class PostReview
 
       forceCallerAsReviewer(projectState, ctx, current, ups, del);
 
-      if (!del.isEmpty()) {
-        ctx.getDb().patchSetApprovals().delete(del);
-      }
-
-      if (!ups.isEmpty()) {
-        ctx.getDb().patchSetApprovals().upsert(ups);
-      }
-
       return !del.isEmpty() || !ups.isEmpty();
     }
 

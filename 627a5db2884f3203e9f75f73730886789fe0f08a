@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78522cda_2b955dc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-14T09:38:08Z",
+      "side": 1,
+      "message": "I don\u0027t think that this functionality should be implemented by labels. Labels are intended for voting on changes. Using a label to disable existing permissions to vote on other labels sounds weird to me and I would prefer to not do this in Gerrit core.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

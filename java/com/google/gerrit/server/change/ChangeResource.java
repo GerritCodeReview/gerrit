@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -42,7 +41,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -71,7 +69,6 @@ public class ChangeResource implements RestResource, HasETag {
 
   private static final String ZERO_ID_STRING = ObjectId.zeroId().name();
 
-  private final Provider<ReviewDb> db;
   private final AccountCache accountCache;
   private final ApprovalsUtil approvalUtil;
   private final PatchSetUtil patchSetUtil;
@@ -83,7 +80,6 @@ public class ChangeResource implements RestResource, HasETag {
 
   @Inject
   ChangeResource(
-      Provider<ReviewDb> db,
       AccountCache accountCache,
       ApprovalsUtil approvalUtil,
       PatchSetUtil patchSetUtil,
@@ -92,7 +88,6 @@ public class ChangeResource implements RestResource, HasETag {
       ProjectCache projectCache,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user) {
-    this.db = db;
     this.accountCache = accountCache;
     this.approvalUtil = approvalUtil;
     this.patchSetUtil = patchSetUtil;
@@ -104,7 +99,7 @@ public class ChangeResource implements RestResource, HasETag {
   }
 
   public PermissionBackend.ForChange permissions() {
-    return permissionBackend.user(user).database(db).change(notes);
+    return permissionBackend.user(user).change(notes);
   }
 
   public CurrentUser getUser() {

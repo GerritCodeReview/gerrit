@@ -90,7 +90,6 @@ public class SuggestChangeReviewers extends SuggestReviewers
         // already a reviewer.
         return permissionBackend
             .absentUser(account)
-            .database(dbProvider)
             .ref(rsrc.getChange().getDest())
             .testOrFalse(RefPermission.READ);
       }

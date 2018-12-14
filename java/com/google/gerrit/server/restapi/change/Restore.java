@@ -93,7 +93,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
     // Not allowed to restore if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
-    rsrc.permissions().database(dbProvider).check(ChangePermission.RESTORE);
+    rsrc.permissions().check(ChangePermission.RESTORE);
     projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
 
     Op op = new Op(input);
@@ -192,7 +192,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
       return description;
     }
 
-    boolean visible = rsrc.permissions().database(dbProvider).testOrFalse(ChangePermission.RESTORE);
+    boolean visible = rsrc.permissions().testOrFalse(ChangePermission.RESTORE);
     return description.setVisible(visible);
   }
 }

@@ -59,7 +59,7 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
     if (!isChangeDeletable(rsrc.getChange().getStatus())) {
       throw new MethodNotAllowedException("delete not permitted");
     }
-    rsrc.permissions().database(db).check(ChangePermission.DELETE);
+    rsrc.permissions().check(ChangePermission.DELETE);
 
     try (BatchUpdate bu =
         updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
@@ -74,7 +74,7 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
   @Override
   public UiAction.Description getDescription(ChangeResource rsrc) {
     Change.Status status = rsrc.getChange().getStatus();
-    PermissionBackend.ForChange perm = rsrc.permissions().database(db);
+    PermissionBackend.ForChange perm = rsrc.permissions();
     return new UiAction.Description()
         .setLabel("Delete")
         .setTitle("Delete change " + rsrc.getId())

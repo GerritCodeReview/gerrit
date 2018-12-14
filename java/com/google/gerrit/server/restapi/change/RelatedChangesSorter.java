@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -38,7 +37,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayDeque;
@@ -61,18 +59,15 @@ import org.eclipse.jgit.revwalk.RevWalk;
 class RelatedChangesSorter {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
-  private final Provider<ReviewDb> dbProvider;
   private final ProjectCache projectCache;
 
   @Inject
   RelatedChangesSorter(
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
-      Provider<ReviewDb> dbProvider,
       ProjectCache projectCache) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
-    this.dbProvider = dbProvider;
     this.projectCache = projectCache;
   }
 
@@ -235,7 +230,7 @@ class RelatedChangesSorter {
   }
 
   private boolean isVisible(PatchSetData psd) throws PermissionBackendException, IOException {
-    PermissionBackend.WithUser perm = permissionBackend.currentUser().database(dbProvider);
+    PermissionBackend.WithUser perm = permissionBackend.currentUser();
     try {
       perm.change(psd.data()).check(ChangePermission.READ);
     } catch (AuthException e) {

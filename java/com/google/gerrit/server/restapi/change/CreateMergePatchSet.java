@@ -130,7 +130,7 @@ public class CreateMergePatchSet
     // Not allowed to create a new patch set if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
-    rsrc.permissions().database(db).check(ChangePermission.ADD_PATCH_SET);
+    rsrc.permissions().check(ChangePermission.ADD_PATCH_SET);
 
     ProjectState projectState = projectCache.checkedGet(rsrc.getProject());
     projectState.checkStatePermitsWrite();
@@ -212,7 +212,7 @@ public class CreateMergePatchSet
     }
     ChangeNotes change = Iterables.getOnlyElement(notes);
     try {
-      permissionBackend.currentUser().change(change).database(db).check(ChangePermission.READ);
+      permissionBackend.currentUser().change(change).check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new UnprocessableEntityException("Read not permitted for " + baseChange);
     }

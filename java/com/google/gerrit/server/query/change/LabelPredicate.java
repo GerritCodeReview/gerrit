@@ -21,12 +21,10 @@ import com.google.gerrit.index.query.RangeUtil;
 import com.google.gerrit.index.query.RangeUtil.Range;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
-import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -38,7 +36,6 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     protected final ProjectCache projectCache;
     protected final PermissionBackend permissionBackend;
     protected final IdentifiedUser.GenericFactory userFactory;
-    protected final Provider<ReviewDb> dbProvider;
     protected final String value;
     protected final Set<Account.Id> accounts;
     protected final AccountGroup.UUID group;
@@ -47,14 +44,12 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
         ProjectCache projectCache,
         PermissionBackend permissionBackend,
         IdentifiedUser.GenericFactory userFactory,
-        Provider<ReviewDb> dbProvider,
         String value,
         Set<Account.Id> accounts,
         AccountGroup.UUID group) {
       this.projectCache = projectCache;
       this.permissionBackend = permissionBackend;
       this.userFactory = userFactory;
-      this.dbProvider = dbProvider;
       this.value = value;
       this.accounts = accounts;
       this.group = group;
@@ -82,8 +77,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
       AccountGroup.UUID group) {
     super(
         predicates(
-            new Args(
-                a.projectCache, a.permissionBackend, a.userFactory, a.db, value, accounts, group)));
+            new Args(a.projectCache, a.permissionBackend, a.userFactory, value, accounts, group)));
     this.value = value;
   }
 

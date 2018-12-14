@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c23493ec_f0d14755",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-14T16:24:55Z",
+      "side": 1,
+      "message": "To be clear, I think we should submit this change as-is, but I\u0027m not particularly persuaded by this argument.\n\nThe complexity we have today is already problematic: we claim that permissions are based on ref patterns, so it\u0027s reasonable for users to believe that setting a permission on a particular ref name would, you know, grant permissions on that ref. But that\u0027s not the case today, due to the weird special-casing of tags (to say nothing of the refs/for/refs/heads/* mess). We already have evidence that this is confusing users.\n\nThis change arguably makes it worse, because we\u0027re adding another special-case behavior to refs/*. But not for other equivalent ref patterns, e.g. refs/.*. So the cognitive load is still there.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 31
+      },
+      "revId": "c7ba2ccd6f8d6a061e75c09b6eb180843aece872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

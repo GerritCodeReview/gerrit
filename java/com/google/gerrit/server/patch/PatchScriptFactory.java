@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -82,7 +81,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final PatchSetUtil psUtil;
   private final Provider<PatchScriptBuilder> builderFactory;
   private final PatchListCache patchListCache;
-  private final ReviewDb db;
   private final CommentsUtil commentsUtil;
 
   private final String fileName;
@@ -112,7 +110,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       PatchSetUtil psUtil,
       Provider<PatchScriptBuilder> builderFactory,
       PatchListCache patchListCache,
-      ReviewDb db,
       CommentsUtil commentsUtil,
       ChangeEditUtil editReader,
       Provider<CurrentUser> userProvider,
@@ -127,7 +124,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.psUtil = psUtil;
     this.builderFactory = builderFactory;
     this.patchListCache = patchListCache;
-    this.db = db;
     this.notes = notes;
     this.commentsUtil = commentsUtil;
     this.editReader = editReader;
@@ -150,7 +146,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       PatchSetUtil psUtil,
       Provider<PatchScriptBuilder> builderFactory,
       PatchListCache patchListCache,
-      ReviewDb db,
       CommentsUtil commentsUtil,
       ChangeEditUtil editReader,
       Provider<CurrentUser> userProvider,
@@ -165,7 +160,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.psUtil = psUtil;
     this.builderFactory = builderFactory;
     this.patchListCache = patchListCache;
-    this.db = db;
     this.notes = notes;
     this.commentsUtil = commentsUtil;
     this.editReader = editReader;
@@ -204,7 +198,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     PatchSet psEntityB = psb.get() == 0 ? new PatchSet(psb) : psUtil.get(notes, psb);
     if (psEntityA != null || psEntityB != null) {
       try {
-        permissionBackend.currentUser().change(notes).database(db).check(ChangePermission.READ);
+        permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
       } catch (AuthException e) {
         throw new NoSuchChangeException(changeId);
       }

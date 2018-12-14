@@ -35,7 +35,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
@@ -51,7 +50,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -93,7 +91,6 @@ class DefaultRefFilter {
       TagCache tagCache,
       ChangeNotes.Factory changeNotesFactory,
       @Nullable SearchingChangeCacheImpl changeCache,
-      Provider<ReviewDb> db,
       GroupCache groupCache,
       PermissionBackend permissionBackend,
       @GerritServerConfig Config config,
@@ -111,7 +108,7 @@ class DefaultRefFilter {
     this.user = projectControl.getUser();
     this.projectState = projectControl.getProjectState();
     this.permissionBackendForProject =
-        permissionBackend.user(user).database(db).project(projectState.getNameKey());
+        permissionBackend.user(user).project(projectState.getNameKey());
     this.fullFilterCount =
         metricMaker.newCounter(
             "permissions/ref_filter/full_filter_count",

@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -29,18 +28,15 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
 public class RemoveReviewerControl {
   private final PermissionBackend permissionBackend;
-  private final Provider<ReviewDb> dbProvider;
 
   @Inject
-  RemoveReviewerControl(PermissionBackend permissionBackend, Provider<ReviewDb> dbProvider) {
+  RemoveReviewerControl(PermissionBackend permissionBackend) {
     this.permissionBackend = permissionBackend;
-    this.dbProvider = dbProvider;
   }
 
   /**
@@ -75,11 +71,7 @@ public class RemoveReviewerControl {
         permissionBackend, cd.change(), currentUser, reviewer, value)) {
       return true;
     }
-    return permissionBackend
-        .user(currentUser)
-        .change(cd)
-        .database(dbProvider)
-        .test(ChangePermission.REMOVE_REVIEWER);
+    return permissionBackend.user(currentUser).change(cd).test(ChangePermission.REMOVE_REVIEWER);
   }
 
   private void checkRemoveReviewer(
@@ -90,11 +82,7 @@ public class RemoveReviewerControl {
       return;
     }
 
-    permissionBackend
-        .user(currentUser)
-        .change(notes)
-        .database(dbProvider)
-        .check(ChangePermission.REMOVE_REVIEWER);
+    permissionBackend.user(currentUser).change(notes).check(ChangePermission.REMOVE_REVIEWER);
   }
 
   private static boolean canRemoveReviewerWithoutPermissionCheck(

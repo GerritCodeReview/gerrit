@@ -16,24 +16,19 @@ package com.google.gerrit.server.query.account;
 
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.index.query.PostFilterPredicate;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 
 public class CanSeeChangePredicate extends PostFilterPredicate<AccountState> {
-  private final Provider<ReviewDb> db;
   private final PermissionBackend permissionBackend;
   private final ChangeNotes changeNotes;
 
-  CanSeeChangePredicate(
-      Provider<ReviewDb> db, PermissionBackend permissionBackend, ChangeNotes changeNotes) {
+  CanSeeChangePredicate(PermissionBackend permissionBackend, ChangeNotes changeNotes) {
     super(AccountQueryBuilder.FIELD_CAN_SEE, changeNotes.getChangeId().toString());
-    this.db = db;
     this.permissionBackend = permissionBackend;
     this.changeNotes = changeNotes;
   }
@@ -43,7 +38,6 @@ public class CanSeeChangePredicate extends PostFilterPredicate<AccountState> {
     try {
       permissionBackend
           .absentUser(accountState.getAccount().getId())
-          .database(db)
           .change(changeNotes)
           .check(ChangePermission.READ);
       return true;

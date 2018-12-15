@@ -794,9 +794,7 @@ public abstract class AbstractDaemonTest {
 
   private Context newRequestContext(TestAccount account) {
     return atrScope.newContext(
-        reviewDbProvider,
-        new SshSession(sshKeys, server, account),
-        identifiedUserFactory.create(account.getId()));
+        new SshSession(sshKeys, server, account), identifiedUserFactory.create(account.getId()));
   }
 
   /**
@@ -814,7 +812,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected Context setApiUserAnonymous() {
-    return atrScope.set(atrScope.newContext(reviewDbProvider, null, anonymousUser.get()));
+    return atrScope.set(atrScope.newContext(null, anonymousUser.get()));
   }
 
   protected Account getAccount(Account.Id accountId) {

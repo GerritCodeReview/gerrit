@@ -30,7 +30,6 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -45,7 +44,6 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gson.reflect.TypeToken;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
@@ -56,7 +54,6 @@ import org.junit.Test;
 public class EmailIT extends AbstractDaemonTest {
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private ExternalIds externalIds;
-  @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
   @Inject private AuthConfig authConfig;
   @Inject private @AnonymousCowardName String anonymousCowardName;
   @Inject private @CanonicalWebUrl Provider<String> canonicalUrl;
@@ -279,7 +276,7 @@ public class EmailIT extends AbstractDaemonTest {
             disableReverseDnsLookup,
             accountCache,
             groupBackend);
-    return atrScope.set(atrScope.newContext(reviewDbProvider, null, userFactory.create(admin.id)));
+    return atrScope.set(atrScope.newContext(null, userFactory.create(admin.id)));
   }
 
   private class RealmWithAdditionalEmails extends DefaultRealm {

@@ -78,7 +78,6 @@ import com.google.gerrit.server.rules.DefaultSubmitRule;
 import com.google.gerrit.server.rules.IgnoreSelfApprovalRule;
 import com.google.gerrit.server.rules.PrologModule;
 import com.google.gerrit.server.rules.SubmitRule;
-import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
@@ -91,7 +90,6 @@ public class BatchProgramModule extends FactoryModule {
   @SuppressWarnings("rawtypes")
   @Override
   protected void configure() {
-    install(new DatabaseModule());
     install(new DiffExecutorModule());
     install(new SysExecutorModule());
     install(BatchUpdate.module());

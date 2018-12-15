@@ -18,8 +18,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -35,28 +33,24 @@ import com.google.inject.Singleton;
 @Singleton
 public class OneOffRequestContext {
   private final InternalUser.Factory userFactory;
-  private final SchemaFactory<ReviewDb> schemaFactory;
   private final ThreadLocalRequestContext requestContext;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
   @Inject
   OneOffRequestContext(
       InternalUser.Factory userFactory,
-      SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext,
       IdentifiedUser.GenericFactory identifiedUserFactory) {
     this.userFactory = userFactory;
-    this.schemaFactory = schemaFactory;
     this.requestContext = requestContext;
     this.identifiedUserFactory = identifiedUserFactory;
   }
 
-  public ManualRequestContext open() throws OrmException {
-    return new ManualRequestContext(userFactory.create(), schemaFactory, requestContext);
+  public ManualRequestContext open() {
+    return new ManualRequestContext(userFactory.create(), requestContext);
   }
 
-  public ManualRequestContext openAs(Account.Id userId) throws OrmException {
-    return new ManualRequestContext(
-        identifiedUserFactory.create(userId), schemaFactory, requestContext);
+  public ManualRequestContext openAs(Account.Id userId) {
+    return new ManualRequestContext(identifiedUserFactory.create(userId), requestContext);
   }
 }

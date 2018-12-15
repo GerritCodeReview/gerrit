@@ -27,7 +27,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.ReviewDbSchemaModule;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
@@ -70,7 +69,6 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
 
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
 
-    install(new DatabaseModule());
     listener().to(CreateSchema.class);
 
     bind(SitePaths.class);

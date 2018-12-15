@@ -77,7 +77,6 @@ import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.ServerInformationImpl;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.RestApiModule;
-import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaCreatorImpl;
@@ -187,7 +186,6 @@ public class InMemoryModule extends FactoryModule {
         .toInstance(MoreExecutors.newDirectExecutorService());
     bind(SecureStore.class).to(DefaultSecureStore.class);
 
-    install(new DatabaseModule());
     install(new InMemorySchemaModule());
     install(NoSshKeyCache.module());
     install(new GerritInstanceNameModule());

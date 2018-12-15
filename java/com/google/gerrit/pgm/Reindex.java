@@ -160,7 +160,7 @@ public class Reindex extends SiteProgram {
         throw new IllegalStateException("unsupported index.type");
     }
     modules.add(indexModule);
-    modules.add(dbInjector.getInstance(BatchProgramModule.class));
+    modules.add(new BatchProgramModule());
     modules.add(
         new FactoryModule() {
           @Override

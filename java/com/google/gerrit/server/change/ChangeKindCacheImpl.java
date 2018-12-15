@@ -28,7 +28,6 @@ import com.google.gerrit.proto.Protos;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
@@ -114,7 +113,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
 
     @Override
-    public ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch) {
+    public ChangeKind getChangeKind(Change change, PatchSet patch) {
       return getChangeKindInternal(this, change, patch, changeDataFactory, repoManager);
     }
 
@@ -350,7 +349,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
   }
 
   @Override
-  public ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch) {
+  public ChangeKind getChangeKind(Change change, PatchSet patch) {
     return getChangeKindInternal(this, change, patch, changeDataFactory, repoManager);
   }
 

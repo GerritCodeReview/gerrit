@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.change.ChangeData;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -39,7 +38,7 @@ public interface ChangeKindCache {
       ObjectId prior,
       ObjectId next);
 
-  ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch);
+  ChangeKind getChangeKind(Change change, PatchSet patch);
 
   ChangeKind getChangeKind(
       @Nullable RevWalk rw, @Nullable Config repoConfig, ChangeData cd, PatchSet patch);

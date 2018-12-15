@@ -21,28 +21,24 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.schema.NotesMigrationSchemaFactory;
-import com.google.gerrit.server.schema.ReviewDbFactory;
+import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.ReviewDbSchemaModule;
-import com.google.gerrit.testing.InMemoryDatabase;
+import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Key;
 import com.google.inject.ProvisionException;
-import com.google.inject.TypeLiteral;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 class InMemoryTestingDatabaseModule extends LifecycleModule {
@@ -74,13 +70,8 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
 
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
 
-    TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
-        new TypeLiteral<SchemaFactory<ReviewDb>>() {};
-    bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
-    bind(Key.get(schemaFactory, ReviewDbFactory.class)).to(InMemoryDatabase.class);
-    bind(InMemoryDatabase.class).in(SINGLETON);
-
-    listener().to(CreateDatabase.class);
+    install(new DatabaseModule());
+    listener().to(CreateSchema.class);
 
     bind(SitePaths.class);
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
@@ -90,19 +81,19 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     install(new SshdModule());
   }
 
-  static class CreateDatabase implements LifecycleListener {
-    private final InMemoryDatabase mem;
+  static class CreateSchema implements LifecycleListener {
+    private final SchemaCreator schemaCreator;
 
     @Inject
-    CreateDatabase(InMemoryDatabase mem) {
-      this.mem = mem;
+    CreateSchema(SchemaCreator schemaCreator) {
+      this.schemaCreator = schemaCreator;
     }
 
     @Override
     public void start() {
       try {
-        mem.create();
-      } catch (OrmException e) {
+        schemaCreator.create();
+      } catch (OrmException | IOException | ConfigInvalidException e) {
         throw new OrmRuntimeException(e);
       }
     }

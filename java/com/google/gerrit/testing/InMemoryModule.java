@@ -28,7 +28,6 @@ import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
@@ -78,26 +77,22 @@ import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.ServerInformationImpl;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.RestApiModule;
+import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
-import com.google.gerrit.server.schema.NotesMigrationSchemaFactory;
-import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaCreatorImpl;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.server.submit.LocalMergeSuperSetComputation;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.util.Providers;
 import java.lang.reflect.InvocationTargetException;
@@ -192,11 +187,7 @@ public class InMemoryModule extends FactoryModule {
         .toInstance(MoreExecutors.newDirectExecutorService());
     bind(SecureStore.class).to(DefaultSecureStore.class);
 
-    TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
-        new TypeLiteral<SchemaFactory<ReviewDb>>() {};
-    bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
-    bind(Key.get(schemaFactory, ReviewDbFactory.class)).to(InMemoryDatabase.class);
-
+    install(new DatabaseModule());
     install(new InMemorySchemaModule());
     install(NoSshKeyCache.module());
     install(new GerritInstanceNameModule());
@@ -304,16 +295,6 @@ public class InMemoryModule extends FactoryModule {
   @FanOutExecutor
   public ExecutorService createFanOutExecutor(WorkQueue queues) {
     return queues.createQueue(2, "FanOut");
-  }
-
-  @Provides
-  @Singleton
-  InMemoryDatabase getInMemoryDatabase(
-      GitRepositoryManager repoManager,
-      AllProjectsName allProjectsName,
-      SchemaCreator schemaCreator,
-      SchemaFactory<ReviewDb> schemaFactory) {
-    return new InMemoryDatabase(repoManager, allProjectsName, schemaCreator, schemaFactory);
   }
 
   private Module luceneIndexModule() {

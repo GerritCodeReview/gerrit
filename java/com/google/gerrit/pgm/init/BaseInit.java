@@ -33,7 +33,6 @@ import com.google.gerrit.pgm.init.index.IndexManagerOnInit;
 import com.google.gerrit.pgm.init.index.elasticsearch.ElasticIndexModuleOnInit;
 import com.google.gerrit.pgm.init.index.lucene.LuceneIndexModuleOnInit;
 import com.google.gerrit.pgm.util.SiteProgram;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
@@ -41,13 +40,11 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.plugins.JarScanner;
 import com.google.gerrit.server.schema.NoteDbSchemaUpdater;
-import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
@@ -339,7 +336,6 @@ public class BaseInit extends SiteProgram {
     public final SitePaths site;
     public final InitFlags flags;
     final NoteDbSchemaUpdater noteDbSchemaUpdater;
-    final SchemaFactory<ReviewDb> schema;
     final GitRepositoryManager repositoryManager;
 
     @Inject
@@ -348,13 +344,11 @@ public class BaseInit extends SiteProgram {
         SitePaths site,
         InitFlags flags,
         NoteDbSchemaUpdater noteDbSchemaUpdater,
-        @ReviewDbFactory SchemaFactory<ReviewDb> schema,
         GitRepositoryManager repositoryManager) {
       this.ui = ui;
       this.site = site;
       this.flags = flags;
       this.noteDbSchemaUpdater = noteDbSchemaUpdater;
-      this.schema = schema;
       this.repositoryManager = repositoryManager;
     }
 

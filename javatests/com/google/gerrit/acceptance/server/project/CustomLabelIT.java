@@ -94,7 +94,6 @@ public class CustomLabelIT extends AbstractDaemonTest {
   @After
   public void cleanup() {
     eventListenerRegistration.remove();
-    db.close();
   }
 
   @Test

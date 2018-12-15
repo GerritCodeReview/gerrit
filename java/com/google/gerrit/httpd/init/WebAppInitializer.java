@@ -84,7 +84,6 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.RestApiModule;
-import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
 import com.google.gerrit.server.schema.ReviewDbSchemaModule;
@@ -275,7 +274,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
           });
       modules.add(new GerritServerConfigModule());
     }
-    modules.add(new DatabaseModule());
     modules.add(new DropWizardMetricMaker.ApiModule());
     return Guice.createInjector(PRODUCTION, modules);
   }

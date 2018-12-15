@@ -79,8 +79,6 @@ import com.google.gerrit.server.rules.IgnoreSelfApprovalRule;
 import com.google.gerrit.server.rules.PrologModule;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.inject.Inject;
-import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 import java.util.Collections;
@@ -89,17 +87,9 @@ import java.util.Set;
 
 /** Module for programs that perform batch operations on a site. */
 public class BatchProgramModule extends FactoryModule {
-  private final Module reviewDbModule;
-
-  @Inject
-  BatchProgramModule(PerThreadReviewDbModule reviewDbModule) {
-    this.reviewDbModule = reviewDbModule;
-  }
-
   @SuppressWarnings("rawtypes")
   @Override
   protected void configure() {
-    install(reviewDbModule);
     install(new DiffExecutorModule());
     install(new SysExecutorModule());
     install(BatchUpdate.module());

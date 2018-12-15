@@ -577,8 +577,7 @@ public abstract class AbstractDaemonTest {
   protected String registerRepoConnection(Project.NameKey p, TestAccount testAccount)
       throws Exception {
     InProcessProtocol.Context ctx =
-        new InProcessProtocol.Context(
-            reviewDbProvider, identifiedUserFactory, testAccount.getId(), p);
+        new InProcessProtocol.Context(identifiedUserFactory, testAccount.getId(), p);
     Repository repo = repoManager.openRepository(p);
     toClose.add(repo);
     return inProcessProtocol.register(ctx, repo).toString();

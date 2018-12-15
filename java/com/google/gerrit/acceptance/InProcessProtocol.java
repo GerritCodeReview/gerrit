@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -45,7 +44,6 @@ import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Key;
@@ -150,7 +148,6 @@ class InProcessProtocol extends TestProtocol<Context> {
     private static final Key<RequestCleanup> RC_KEY = Key.get(RequestCleanup.class);
     private static final Key<CurrentUser> USER_KEY = Key.get(CurrentUser.class);
 
-    private final SchemaFactory<ReviewDb> schemaFactory;
     private final IdentifiedUser.GenericFactory userFactory;
     private final Account.Id accountId;
     private final Project.NameKey project;
@@ -158,11 +155,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final Map<Key<?>, Object> map;
 
     Context(
-        SchemaFactory<ReviewDb> schemaFactory,
-        IdentifiedUser.GenericFactory userFactory,
-        Account.Id accountId,
-        Project.NameKey project) {
-      this.schemaFactory = schemaFactory;
+        IdentifiedUser.GenericFactory userFactory, Account.Id accountId, Project.NameKey project) {
       this.userFactory = userFactory;
       this.accountId = accountId;
       this.project = project;
@@ -176,7 +169,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     }
 
     private Context newContinuingContext() {
-      return new Context(schemaFactory, userFactory, accountId, project);
+      return new Context(userFactory, accountId, project);
     }
 
     @Override

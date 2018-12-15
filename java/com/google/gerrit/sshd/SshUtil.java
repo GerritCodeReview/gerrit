@@ -127,7 +127,7 @@ public class SshUtil {
       // session, record a login event in the log and add
       // a close listener to record a logout event.
       //
-      Context ctx = sshScope.newContext(null, sd, null);
+      Context ctx = sshScope.newContext(sd, null);
       Context old = sshScope.set(ctx);
       try {
         sshLog.onLogin();
@@ -139,7 +139,7 @@ public class SshUtil {
           new SshFutureListener<CloseFuture>() {
             @Override
             public void operationComplete(CloseFuture future) {
-              final Context ctx = sshScope.newContext(null, sd, null);
+              final Context ctx = sshScope.newContext(sd, null);
               final Context old = sshScope.set(ctx);
               try {
                 sshLog.onLogout();

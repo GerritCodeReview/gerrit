@@ -14,7 +14,6 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
@@ -22,7 +21,6 @@ import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
@@ -38,7 +36,6 @@ public class SshScope {
   class Context implements RequestContext {
     private final RequestCleanup cleanup = new RequestCleanup();
     private final Map<Key<?>, Object> map = new HashMap<>();
-    private final SchemaFactory<ReviewDb> schemaFactory;
     private final SshSession session;
     private final String commandLine;
 
@@ -46,8 +43,7 @@ public class SshScope {
     volatile long started;
     volatile long finished;
 
-    private Context(SchemaFactory<ReviewDb> sf, SshSession s, String c, long at) {
-      schemaFactory = sf;
+    private Context(SshSession s, String c, long at) {
       session = s;
       commandLine = c;
       created = started = finished = at;
@@ -55,7 +51,7 @@ public class SshScope {
     }
 
     private Context(Context p, SshSession s, String c) {
-      this(p.schemaFactory, s, c, p.created);
+      this(s, c, p.created);
       started = p.started;
       finished = p.finished;
     }
@@ -146,8 +142,8 @@ public class SshScope {
     this.userFactory = userFactory;
   }
 
-  Context newContext(SchemaFactory<ReviewDb> sf, SshSession s, String cmd) {
-    return new Context(sf, s, cmd, TimeUtil.nowMs());
+  Context newContext(SshSession s, String cmd) {
+    return new Context(s, cmd, TimeUtil.nowMs());
   }
 
   private Context newContinuingContext(Context ctx) {

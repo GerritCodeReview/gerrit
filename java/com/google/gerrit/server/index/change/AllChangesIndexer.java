@@ -29,7 +29,6 @@ import com.google.gerrit.index.SiteIndexer;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -38,7 +37,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,7 +56,6 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
 public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, ChangeIndex> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeData.Factory changeDataFactory;
   private final GitRepositoryManager repoManager;
   private final ListeningExecutorService executor;
@@ -68,14 +65,12 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
   @Inject
   AllChangesIndexer(
-      SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       GitRepositoryManager repoManager,
       @IndexExecutor(BATCH) ListeningExecutorService executor,
       ChangeIndexer.Factory indexerFactory,
       ChangeNotes.Factory notesFactory,
       ProjectCache projectCache) {
-    this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
     this.repoManager = repoManager;
     this.executor = executor;
@@ -217,8 +212,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     @Override
     public Void call() throws Exception {
-      try (Repository repo = repoManager.openRepository(project);
-          ReviewDb db = schemaFactory.open()) {
+      try (Repository repo = repoManager.openRepository(project)) {
         // Order of scanning changes is undefined. This is ok if we assume that packfile locality is
         // not important for indexing, since sites should have a fully populated DiffSummary cache.
         // It does mean that reindexing after invalidating the DiffSummary cache will be expensive,

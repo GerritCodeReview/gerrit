@@ -54,7 +54,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.restapi.change.ChangeEdits.EditMessage;
@@ -63,7 +62,6 @@ import com.google.gerrit.server.restapi.change.ChangeEdits.Put;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -77,7 +75,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -93,7 +90,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private static final String CONTENT_NEW2_STR = "quxÄÜÖßµ";
   private static final byte[] CONTENT_NEW2 = CONTENT_NEW2_STR.getBytes(UTF_8);
 
-  @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
   @Inject private ProjectOperations projectOperations;
 
   private String changeId;
@@ -112,17 +108,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    db = reviewDbProvider.open();
     changeId = newChange(admin.getIdent());
     ps = getCurrentPatchSet(changeId);
     assertThat(ps).isNotNull();
     amendChange(admin.getIdent(), changeId);
     changeId2 = newChange2(admin.getIdent());
-  }
-
-  @After
-  public void cleanup() {
-    db.close();
   }
 
   @Test

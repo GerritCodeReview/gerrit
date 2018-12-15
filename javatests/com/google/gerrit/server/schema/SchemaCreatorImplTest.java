@@ -26,7 +26,6 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.testing.GerritBaseTests;
-import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -42,17 +41,17 @@ public class SchemaCreatorImplTest extends GerritBaseTests {
 
   @Inject private GitRepositoryManager repoManager;
 
-  @Inject private InMemoryDatabase inMemoryDatabase;
+  @Inject private SchemaCreator schemaCreator;
 
   @Inject private ProjectConfig.Factory projectConfigFactory;
 
   @Before
   public void setUp() throws Exception {
     new InMemoryModule().inject(this);
+    schemaCreator.create();
   }
 
   private LabelTypes getLabelTypes() throws Exception {
-    inMemoryDatabase.create();
     ProjectConfig c = projectConfigFactory.create(allProjects);
     try (Repository repo = repoManager.openRepository(allProjects)) {
       c.load(repo);

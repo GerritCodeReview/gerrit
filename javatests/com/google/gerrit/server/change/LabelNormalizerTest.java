@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
@@ -49,7 +48,6 @@ import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritBaseTests;
-import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -66,7 +64,6 @@ public class LabelNormalizerTest extends GerritBaseTests {
   @Inject private AllProjectsName allProjects;
   @Inject private GitRepositoryManager repoManager;
   @Inject private IdentifiedUser.GenericFactory userFactory;
-  @Inject private InMemoryDatabase schemaFactory;
   @Inject private LabelNormalizer norm;
   @Inject private MetaDataUpdate.User metaDataUpdateFactory;
   @Inject private ProjectCache projectCache;
@@ -77,7 +74,6 @@ public class LabelNormalizerTest extends GerritBaseTests {
   @Inject private GerritApi gApi;
 
   private LifecycleManager lifecycle;
-  private ReviewDb db;
   private Account.Id userId;
   private IdentifiedUser user;
   private Change change;
@@ -137,9 +133,6 @@ public class LabelNormalizerTest extends GerritBaseTests {
       lifecycle.stop();
     }
     requestContext.setContext(null);
-    if (db != null) {
-      db.close();
-    }
   }
 
   @Test

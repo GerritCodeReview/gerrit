@@ -140,11 +140,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @After
-  public void cleanup() {
-    db.close();
-  }
-
-  @After
   public void removeOnSubmitValidator() {
     if (onSubmitValidatorHandle != null) {
       onSubmitValidatorHandle.remove();

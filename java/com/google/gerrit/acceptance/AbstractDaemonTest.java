@@ -79,7 +79,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -129,7 +128,6 @@ import com.google.gerrit.testing.FakeGroupAuditService;
 import com.google.gerrit.testing.SshMode;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -270,7 +268,6 @@ public abstract class AbstractDaemonTest {
   protected RestSession adminRestSession;
   protected RestSession userRestSession;
   protected RestSession anonymousRestSession;
-  protected ReviewDb db;
   protected SshSession adminSshSession;
   protected SshSession userSshSession;
   protected TestAccount admin;
@@ -287,7 +284,6 @@ public abstract class AbstractDaemonTest {
   @Inject private EventRecorder.Factory eventRecorderFactory;
   @Inject private InProcessProtocol inProcessProtocol;
   @Inject private Provider<AnonymousUser> anonymousUser;
-  @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
   @Inject private AccountIndexer accountIndexer;
   @Inject private Groups groups;
   @Inject private GroupIndexer groupIndexer;
@@ -423,8 +419,6 @@ public abstract class AbstractDaemonTest {
     server.getTestInjector().injectMembers(this);
     Transport.register(inProcessProtocol);
     toClose = Collections.synchronizedList(new ArrayList<Repository>());
-
-    db = reviewDbProvider.open();
 
     // All groups which were added during the server start (e.g. in SchemaCreatorImpl) aren't
     // contained in the instance of the group index which is available here and in tests. There are
@@ -588,7 +582,6 @@ public abstract class AbstractDaemonTest {
     for (Repository repo : toClose) {
       repo.close();
     }
-    db.close();
     closeSsh();
     if (server != commonServer) {
       server.close();

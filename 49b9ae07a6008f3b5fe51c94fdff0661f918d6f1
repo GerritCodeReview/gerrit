@@ -46,6 +46,23 @@
       "revId": "49b9ae07a6008f3b5fe51c94fdff0661f918d6f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f840cc47_4e222839",
+        "filename": "WORKSPACE",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-15T06:45:44Z",
+      "side": 1,
+      "message": "Another update PR to bump Protobuf to tagged release: v3.6.1.3 was merged today night, so that this can and should be updated.",
+      "revId": "49b9ae07a6008f3b5fe51c94fdff0661f918d6f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

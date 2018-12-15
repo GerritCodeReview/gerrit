@@ -23,7 +23,6 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.data.ChangeAttribute;
@@ -76,7 +75,6 @@ public class OutputStreamQuery {
     JSON
   }
 
-  private final ReviewDb db;
   private final GitRepositoryManager repoManager;
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeQueryProcessor queryProcessor;
@@ -100,14 +98,12 @@ public class OutputStreamQuery {
 
   @Inject
   OutputStreamQuery(
-      ReviewDb db,
       GitRepositoryManager repoManager,
       ChangeQueryBuilder queryBuilder,
       ChangeQueryProcessor queryProcessor,
       EventFactory eventFactory,
       TrackingFooters trackingFooters,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
-    this.db = db;
     this.repoManager = repoManager;
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
@@ -277,7 +273,6 @@ public class OutputStreamQuery {
 
     if (includePatchSets) {
       eventFactory.addPatchSets(
-          db,
           rw,
           c,
           d.patchSets(),
@@ -290,7 +285,7 @@ public class OutputStreamQuery {
     if (includeCurrentPatchSet) {
       PatchSet current = d.currentPatchSet();
       if (current != null) {
-        c.currentPatchSet = eventFactory.asPatchSetAttribute(db, rw, d.change(), current);
+        c.currentPatchSet = eventFactory.asPatchSetAttribute(rw, d.change(), current);
         eventFactory.addApprovals(c.currentPatchSet, d.currentApprovals(), labelTypes);
 
         if (includeFiles) {
@@ -306,7 +301,6 @@ public class OutputStreamQuery {
       eventFactory.addComments(c, d.messages());
       if (includePatchSets) {
         eventFactory.addPatchSets(
-            db,
             rw,
             c,
             d.patchSets(),

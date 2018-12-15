@@ -19,12 +19,10 @@ import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.gerrit.sshd.SshScope.Context;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -57,7 +55,6 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
   private final SshScope sshScope;
   private final ScheduledExecutorService startExecutor;
   private final ExecutorService destroyExecutor;
-  private final SchemaFactory<ReviewDb> schemaFactory;
   private final DynamicItem<SshCreateCommandInterceptor> createCommandInterceptor;
 
   @Inject
@@ -67,12 +64,10 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
       WorkQueue workQueue,
       SshLog l,
       SshScope s,
-      SchemaFactory<ReviewDb> sf,
       DynamicItem<SshCreateCommandInterceptor> i) {
     dispatcher = d;
     log = l;
     sshScope = s;
-    schemaFactory = sf;
     createCommandInterceptor = i;
 
     int threads = cfg.getInt("sshd", "commandStartThreads", 2);
@@ -152,7 +147,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
     @Override
     public void setSession(ServerSession session) {
       final SshSession s = session.getAttribute(SshSession.KEY);
-      this.ctx = sshScope.newContext(schemaFactory, s, commandLine);
+      this.ctx = sshScope.newContext(s, commandLine);
     }
 
     @Override

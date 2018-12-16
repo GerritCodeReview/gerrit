@@ -226,6 +226,10 @@ public class GerritServer implements AutoCloseable {
 
           // Silence non-critical messages from Jetty.
           .put("org.eclipse.jetty", Level.WARN)
+
+          // Silence non-critical messages from JGit.
+          .put("org.eclipse.jgit.transport.PacketLineIn", Level.WARN)
+          .put("org.eclipse.jgit.transport.PacketLineOut", Level.WARN)
           .build();
 
   private static boolean forceLocalDisk() {

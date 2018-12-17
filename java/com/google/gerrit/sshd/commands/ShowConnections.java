@@ -44,6 +44,7 @@ import org.apache.sshd.common.io.mina.MinaSession;
 import org.apache.sshd.common.io.nio2.Nio2Acceptor;
 import org.apache.sshd.common.session.helpers.AbstractSession;
 import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.channel.ChannelSession;
 import org.kohsuke.args4j.Option;
 
 /** Show the current SSH connections. */
@@ -71,7 +72,7 @@ final class ShowConnections extends SshCommand {
   private int columns = 80;
 
   @Override
-  public void start(Environment env) throws IOException {
+  public void start(ChannelSession channel, Environment env) throws IOException {
     String s = env.getEnv().get(Environment.ENV_COLUMNS);
     if (s != null && !s.isEmpty()) {
       try {
@@ -80,7 +81,7 @@ final class ShowConnections extends SshCommand {
         columns = 80;
       }
     }
-    super.start(env);
+    super.start(channel, env);
   }
 
   @Override

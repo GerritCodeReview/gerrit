@@ -19,6 +19,7 @@ import com.google.gerrit.server.logging.TraceContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.channel.ChannelSession;
 import org.kohsuke.args4j.Option;
 
 public abstract class SshCommand extends BaseCommand {
@@ -32,7 +33,7 @@ public abstract class SshCommand extends BaseCommand {
   protected PrintWriter stderr;
 
   @Override
-  public void start(Environment env) throws IOException {
+  public void start(ChannelSession channel, Environment env) throws IOException {
     startThread(
         new CommandRunnable() {
           @Override

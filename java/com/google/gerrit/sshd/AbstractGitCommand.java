@@ -24,6 +24,7 @@ import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.channel.ChannelSession;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Argument;
@@ -47,7 +48,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
   protected Project project;
 
   @Override
-  public void start(Environment env) {
+  public void start(ChannelSession channel, Environment env) {
     Context ctx = context.subContext(newSession(), context.getCommandLine());
     final Context old = sshScope.set(ctx);
     try {

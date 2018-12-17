@@ -828,12 +828,8 @@ class ChangeNotesParser {
       throw pe;
     }
 
-    // Store an actual 0-vote approval in the map for a removed approval, for
-    // several reasons:
-    //  - This is closer to the ReviewDb representation, which leads to less
-    //    confusion and special-casing of NoteDb.
-    //  - More importantly, ApprovalCopier needs an actual approval in order to
-    //    block copying an earlier approval over a later delete.
+    // Store an actual 0-vote approval in the map for a removed approval, because ApprovalCopier
+    // needs an actual approval in order to block copying an earlier approval over a later delete.
     PatchSetApproval remove =
         new PatchSetApproval(
             new PatchSetApproval.Key(psId, effectiveAccountId, new LabelId(label)), (short) 0, ts);

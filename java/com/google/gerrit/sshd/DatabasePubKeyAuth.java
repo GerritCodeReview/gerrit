@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.PublicKey;
 import java.util.Collection;
@@ -68,7 +69,8 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       SitePaths site,
       KeyPairProvider hostKeyProvider,
       @GerritServerConfig Config cfg,
-      SshScope s) {
+      SshScope s)
+      throws IOException, GeneralSecurityException {
     sshKeyCache = skc;
     sshLog = l;
     userFactory = uf;
@@ -79,7 +81,8 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     peerKeyCache = new PeerKeyCache(site.peer_keys);
   }
 
-  private static Set<PublicKey> myHostKeys(KeyPairProvider p) {
+  private static Set<PublicKey> myHostKeys(KeyPairProvider p)
+      throws IOException, GeneralSecurityException {
     final Set<PublicKey> keys = new HashSet<>(6);
     addPublicKey(keys, p, KeyPairProvider.SSH_ED25519);
     addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP256);
@@ -90,9 +93,9 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     return keys;
   }
 
-  private static void addPublicKey(
-      final Collection<PublicKey> out, KeyPairProvider p, String type) {
-    final KeyPair pair = p.loadKey(type);
+  private static void addPublicKey(final Collection<PublicKey> out, KeyPairProvider p, String type)
+      throws IOException, GeneralSecurityException {
+    final KeyPair pair = p.loadKey(null, type);
     if (pair != null && pair.getPublic() != null) {
       out.add(pair.getPublic());
     }

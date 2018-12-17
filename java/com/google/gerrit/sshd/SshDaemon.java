@@ -51,6 +51,7 @@ import java.nio.file.PathMatcher;
 import java.nio.file.WatchService;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
+import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.PublicKey;
@@ -152,7 +153,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       SshLog sshLog,
       @SshListenAddresses List<SocketAddress> listen,
       @SshAdvertisedAddresses List<String> advertised,
-      MetricMaker metricMaker) {
+      MetricMaker metricMaker)
+      throws IOException, GeneralSecurityException {
     setPort(IANA_SSH_PORT /* never used */);
 
     this.cfg = cfg;
@@ -369,12 +371,16 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   @Override
   protected void checkConfig() {
     super.checkConfig();
-    if (myHostKeys().isEmpty()) {
-      throw new IllegalStateException("No SSHD host key");
+    try {
+      if (myHostKeys().isEmpty()) {
+        throw new IllegalStateException("No SSHD host key");
+      }
+    } catch (IOException | GeneralSecurityException e) {
+      throw new IllegalStateException("Cannot load host key", e);
     }
   }
 
-  private List<HostKey> computeHostKeys() {
+  private List<HostKey> computeHostKeys() throws IOException, GeneralSecurityException {
     if (listen.isEmpty()) {
       return Collections.emptyList();
     }
@@ -398,7 +404,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     return Collections.unmodifiableList(r);
   }
 
-  private List<PublicKey> myHostKeys() {
+  private List<PublicKey> myHostKeys() throws IOException, GeneralSecurityException {
     final KeyPairProvider p = getKeyPairProvider();
     final List<PublicKey> keys = new ArrayList<>(6);
     addPublicKey(keys, p, KeyPairProvider.SSH_ED25519);
@@ -410,9 +416,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     return keys;
   }
 
-  private static void addPublicKey(
-      final Collection<PublicKey> out, KeyPairProvider p, String type) {
-    final KeyPair pair = p.loadKey(type);
+  private static void addPublicKey(final Collection<PublicKey> out, KeyPairProvider p, String type)
+      throws IOException, GeneralSecurityException {
+    final KeyPair pair = p.loadKey(null, type);
     if (pair != null && pair.getPublic() != null) {
       out.add(pair.getPublic());
     }
@@ -518,7 +524,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       final NamedFactory<Cipher> f = i.next();
       try {
         final Cipher c = f.create();
-        final byte[] key = new byte[c.getBlockSize()];
+        final byte[] key = new byte[c.getKdfSize()];
         final byte[] iv = new byte[c.getIVSize()];
         c.init(Cipher.Mode.Encrypt, key, iv);
       } catch (InvalidKeyException e) {

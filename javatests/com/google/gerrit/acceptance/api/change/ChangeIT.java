@@ -2111,12 +2111,9 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     gApi.changes().id(changeId).addReviewer(user.getId().toString());
 
-    // ReviewerState will vary between ReviewDb and NoteDb; we just care that it
-    // shows up somewhere.
-    Iterable<AccountInfo> reviewers =
-        Iterables.concat(gApi.changes().id(changeId).get().reviewers.values());
-    assertThat(reviewers).hasSize(1);
-    assertThat(reviewers.iterator().next()._accountId).isEqualTo(user.getId().get());
+    ChangeInfo c = gApi.changes().id(changeId).get(ListChangesOption.DETAILED_LABELS);
+    assertThat(getReviewers(c.reviewers.get(CC))).isEmpty();
+    assertThat(getReviewers(c.reviewers.get(REVIEWER))).containsExactly(user.getId());
 
     sender.clear();
     gApi.changes().id(changeId).reviewer(user.getId().toString()).remove();
@@ -2129,9 +2126,9 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Make sure the reviewer can still be added again.
     gApi.changes().id(changeId).addReviewer(user.getId().toString());
-    reviewers = Iterables.concat(gApi.changes().id(changeId).get().reviewers.values());
-    assertThat(reviewers).hasSize(1);
-    assertThat(reviewers.iterator().next()._accountId).isEqualTo(user.getId().get());
+    c = gApi.changes().id(changeId).get();
+    assertThat(getReviewers(c.reviewers.get(CC))).isEmpty();
+    assertThat(getReviewers(c.reviewers.get(REVIEWER))).containsExactly(user.getId());
 
     // Remove again, and then try to remove once more to verify 404 is
     // returned.
@@ -3827,6 +3824,9 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   private static Iterable<Account.Id> getReviewers(Collection<AccountInfo> r) {
+    if (r == null) {
+      return ImmutableList.of();
+    }
     return Iterables.transform(r, a -> new Account.Id(a._accountId));
   }
 

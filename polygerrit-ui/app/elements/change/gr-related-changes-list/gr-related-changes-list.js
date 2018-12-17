@@ -120,13 +120,21 @@
       ];
 
       // Get conflicts if change is open and is mergeable.
+      console.log(" **** hai");
       if (this.changeIsOpen(this.change.status) && this.mergeable) {
-        promises.push(this._getConflicts().then(response => {
-          // Because the server doesn't always return a response and the
-          // template expects an array, always return an array.
-          this._conflicts = response ? response : [];
-          this._fireReloadEvent();
-        }));
+          promises.push(
+	      this._getProjectConfig().then(config => {
+		  console.log("got config", config.disable_conflicts_ui);
+		  if (config.disable_conflicts_ui) {
+		      // NOSUBMIT : should return the next promise instead.
+		      this._getConflicts().then(response => {
+			   // Because the server doesn't always return a response and the
+			   // template expects an array, always return an array.
+			   this._conflicts = response ? response : [];
+			   this._fireReloadEvent();
+		      });
+		  }
+	      }));
       }
 
       promises.push(this._getServerConfig().then(config => {
@@ -176,6 +184,10 @@
       return this.$.restAPI.getChangesSubmittedTogether(this.change._number);
     },
 
+    _getProjectConfig() {
+      return this.$.restAPI.getProjectConfig(this.change.project);
+    },
+      
     _getServerConfig() {
       return this.$.restAPI.getConfig();
     },

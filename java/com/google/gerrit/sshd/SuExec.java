@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.command.Command;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -90,7 +91,7 @@ public final class SuExec extends BaseCommand {
   }
 
   @Override
-  public void start(Environment env) throws IOException {
+  public void start(ChannelSession channel, Environment env) throws IOException {
     try {
       checkCanRunAs();
       parseCommandLine();
@@ -102,7 +103,7 @@ public final class SuExec extends BaseCommand {
         cmd.setArguments(args.toArray(new String[args.size()]));
         provideStateTo(cmd);
         atomicCmd.set(cmd);
-        cmd.start(env);
+        cmd.start(channel, env);
       } finally {
         sshScope.set(old);
       }
@@ -158,11 +159,11 @@ public final class SuExec extends BaseCommand {
   }
 
   @Override
-  public void destroy() {
+  public void destroy(ChannelSession channel) {
     Command cmd = atomicCmd.getAndSet(null);
     if (cmd != null) {
       try {
-        cmd.destroy();
+        cmd.destroy(channel);
       } catch (Exception e) {
         Throwables.throwIfUnchecked(e);
         throw new RuntimeException(e);

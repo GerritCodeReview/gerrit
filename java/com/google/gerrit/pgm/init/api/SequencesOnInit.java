@@ -15,7 +15,6 @@
 package com.google.gerrit.pgm.init.api;
 
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -42,7 +41,7 @@ public class SequencesOnInit {
             GitReferenceUpdated.DISABLED,
             new Project.NameKey(allUsersName.get()),
             Sequences.NAME_ACCOUNTS,
-            () -> ReviewDb.FIRST_ACCOUNT_ID,
+            () -> Sequences.FIRST_ACCOUNT_ID,
             1);
     return accountSeq.next();
   }

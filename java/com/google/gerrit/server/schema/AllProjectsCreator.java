@@ -39,7 +39,6 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.UsedAt;
@@ -82,7 +81,7 @@ public class AllProjectsCreator {
   @Nullable private GroupReference admin;
   @Nullable private GroupReference batch;
   private String message;
-  private int firstChangeId = ReviewDb.FIRST_CHANGE_ID;
+  private int firstChangeId = Sequences.FIRST_CHANGE_ID;
   private LabelType codeReviewLabel;
   private List<LabelType> additionalLabelType;
 

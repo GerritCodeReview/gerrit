@@ -27,7 +27,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.acceptance.ProjectResetter;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.Nullable;
@@ -54,7 +53,6 @@ import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -508,45 +506,39 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "noteDb.groups.write", value = "true")
   public void advertisedReferencesDontShowGroupBranchToOwnerWithoutRead() throws Exception {
-    try (ProjectResetter resetter = resetGroups()) {
-      createSelfOwnedGroup("Foos", user);
-      TestRepository<?> userTestRepository = cloneProject(allUsers, user);
-      try (Git git = userTestRepository.git()) {
-        assertThat(getGroupRefs(git)).isEmpty();
-      }
+    createSelfOwnedGroup("Foos", user);
+    TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+    try (Git git = userTestRepository.git()) {
+      assertThat(getGroupRefs(git)).isEmpty();
     }
   }
 
   @Test
   @GerritConfig(name = "noteDb.groups.write", value = "true")
   public void advertisedReferencesOmitGroupBranchesOfNonOwnedGroups() throws Exception {
-    try (ProjectResetter resetter = resetGroups()) {
-      allow(allUsersName, RefNames.REFS_GROUPS + "*", Permission.READ, REGISTERED_USERS);
-      AccountGroup.UUID users = createGroup("Users", admins, user);
-      AccountGroup.UUID foos = createGroup("Foos", users);
-      AccountGroup.UUID bars = createSelfOwnedGroup("Bars", user);
-      TestRepository<?> userTestRepository = cloneProject(allUsers, user);
-      try (Git git = userTestRepository.git()) {
-        assertThat(getGroupRefs(git))
-            .containsExactly(RefNames.refsGroups(foos), RefNames.refsGroups(bars));
-      }
+    allow(allUsersName, RefNames.REFS_GROUPS + "*", Permission.READ, REGISTERED_USERS);
+    AccountGroup.UUID users = createGroup("Users", admins, user);
+    AccountGroup.UUID foos = createGroup("Foos", users);
+    AccountGroup.UUID bars = createSelfOwnedGroup("Bars", user);
+    TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+    try (Git git = userTestRepository.git()) {
+      assertThat(getGroupRefs(git))
+          .containsExactly(RefNames.refsGroups(foos), RefNames.refsGroups(bars));
     }
   }
 
   @Test
   @GerritConfig(name = "noteDb.groups.write", value = "true")
   public void advertisedReferencesIncludeAllGroupBranchesWithAccessDatabase() throws Exception {
-    try (ProjectResetter resetter = resetGroups()) {
-      allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-      AccountGroup.UUID users = createGroup("Users", admins);
-      TestRepository<?> userTestRepository = cloneProject(allUsers, user);
-      try (Git git = userTestRepository.git()) {
-        assertThat(getGroupRefs(git))
-            .containsExactly(
-                RefNames.refsGroups(admins),
-                RefNames.refsGroups(nonInteractiveUsers),
-                RefNames.refsGroups(users));
-      }
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    AccountGroup.UUID users = createGroup("Users", admins);
+    TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+    try (Git git = userTestRepository.git()) {
+      assertThat(getGroupRefs(git))
+          .containsExactly(
+              RefNames.refsGroups(admins),
+              RefNames.refsGroups(nonInteractiveUsers),
+              RefNames.refsGroups(users));
     }
   }
 
@@ -804,20 +796,5 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     groupInput.members =
         Arrays.stream(members).map(m -> String.valueOf(m.id.get())).collect(toList());
     return new AccountGroup.UUID(gApi.groups().create(groupInput).get().id);
-  }
-
-  /**
-   * Create a resetter to reset the group branches in All-Users. This makes the group data between
-   * ReviewDb and NoteDb inconsistent, but in the context of this test class we only care about refs
-   * and hence this is not an issue. Once groups are no longer in ReviewDb and {@link
-   * AbstractDaemonTest#resetProjects} takes care to reset group branches we no longer need this
-   * method.
-   */
-  private ProjectResetter resetGroups() throws IOException {
-    return projectResetter
-        .builder()
-        .build(
-            new ProjectResetter.Config()
-                .reset(allUsers, RefNames.REFS_GROUPS + "*", RefNames.REFS_GROUPNAMES));
   }
 }

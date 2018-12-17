@@ -97,7 +97,6 @@ public class DeleteDraftComment
       Comment c = maybeComment.get();
       setCommentRevId(c, patchListCache, ctx.getChange(), ps);
       commentsUtil.deleteComments(ctx.getUpdate(psId), Collections.singleton(c));
-      ctx.dontBumpLastUpdatedOn();
       return true;
     }
   }

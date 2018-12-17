@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
@@ -323,7 +324,10 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void createGroup() throws Exception {
     String newGroupName = name("newGroup");
+    AccountGroup.NameKey nameKey = new AccountGroup.NameKey(newGroupName);
+    assertThat(groupCache.get(nameKey)).isEmpty();
     GroupInfo g = gApi.groups().create(newGroupName).get();
+    assertThat(groupCache.get(nameKey)).isPresent();
     assertGroupInfo(group(newGroupName), g);
   }
 

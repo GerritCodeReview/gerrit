@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
@@ -41,10 +40,6 @@ public class Sequences {
   public static final int FIRST_ACCOUNT_ID = 1000000;
   public static final int FIRST_GROUP_ID = 1;
   public static final int FIRST_CHANGE_ID = 1;
-
-  public static int getChangeSequenceGap(Config cfg) {
-    return cfg.getInt("noteDb", "changes", "initialSequenceGap", 1000);
-  }
 
   private enum SequenceType {
     ACCOUNTS,
@@ -128,10 +123,5 @@ public class Sequences {
     try (Timer2.Context timer = nextIdLatency.start(SequenceType.GROUPS, false)) {
       return groupSeq.next();
     }
-  }
-
-  @VisibleForTesting
-  public RepoSequence getChangeIdRepoSequence() {
-    return changeSeq;
   }
 }

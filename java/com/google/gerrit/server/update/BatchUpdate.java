@@ -333,12 +333,6 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     @Override
-    public void dontBumpLastUpdatedOn() {
-      // Do nothing; NoteDb effectively updates timestamp if and only if a commit was written to the
-      // change meta ref.
-    }
-
-    @Override
     public void deleteChange() {
       deleted = true;
     }

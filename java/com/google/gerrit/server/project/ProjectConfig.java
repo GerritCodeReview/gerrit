@@ -109,6 +109,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_VALUE = "value";
   public static final String KEY_CAN_OVERRIDE = "canOverride";
   public static final String KEY_BRANCH = "branch";
+  public static final String KEY_DISABLE_CONFLICT_QUERIES = "disableConflictQueries";
 
   private static final String KEY_MATCH = "match";
   private static final String KEY_HTML = "html";
@@ -158,6 +159,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String SUBSCRIBE_MATCH_REFS = "matching";
   private static final String SUBSCRIBE_MULTI_MATCH_REFS = "all";
 
+  private static final String INDEX = "index";
   private static final String DASHBOARD = "dashboard";
   private static final String KEY_DEFAULT = "default";
   private static final String KEY_LOCAL_DEFAULT = "local-default";
@@ -589,6 +591,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
     p.setDefaultDashboard(rc.getString(DASHBOARD, null, KEY_DEFAULT));
     p.setLocalDefaultDashboard(rc.getString(DASHBOARD, null, KEY_LOCAL_DEFAULT));
+    p.setDisableConflictsQueries(rc.getBoolean(INDEX, null, KEY_DISABLE_CONFLICT_QUERIES, false));
 
     loadAccountsSection(rc);
     loadContributorAgreements(rc);
@@ -1134,6 +1137,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
     set(rc, DASHBOARD, null, KEY_DEFAULT, p.getDefaultDashboard());
     set(rc, DASHBOARD, null, KEY_LOCAL_DEFAULT, p.getLocalDefaultDashboard());
+    set(rc, INDEX, null, KEY_DISABLE_CONFLICT_QUERIES, p.getDisableConflictsQueries());
 
     Set<AccountGroup.UUID> keepGroups = new HashSet<>();
     saveAccountsSection(rc, keepGroups);

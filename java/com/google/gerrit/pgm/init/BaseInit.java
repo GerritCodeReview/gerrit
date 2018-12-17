@@ -45,7 +45,6 @@ import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -387,12 +386,6 @@ public class BaseInit extends SiteProgram {
       @Override
       public boolean isBatch() {
         return consoleUi.isBatch();
-      }
-
-      @Override
-      public void pruneSchema(StatementExecutor e, List<String> prune) {
-        // Do nothing in NoteDb.
-        // TODO(dborowitz): Remove this method in the base class.
       }
     }
   }

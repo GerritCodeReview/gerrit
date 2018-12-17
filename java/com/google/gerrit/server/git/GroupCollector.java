@@ -30,7 +30,6 @@ import com.google.common.collect.SortedSetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -76,10 +75,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 public class GroupCollector {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static List<String> getDefaultGroups(PatchSet ps) {
-    return ImmutableList.of(ps.getRevision().get());
-  }
-
   public static List<String> getDefaultGroups(ObjectId commit) {
     return ImmutableList.of(commit.name());
   }
@@ -117,19 +112,6 @@ public class GroupCollector {
             // TODO(dborowitz): Reuse open repository from caller.
             ChangeNotes notes = notesFactory.createChecked(project, psId.getParentKey());
             PatchSet ps = psUtil.get(notes, psId);
-            return ps != null ? ps.getGroups() : null;
-          }
-        });
-  }
-
-  public static GroupCollector createForSchemaUpgradeOnly(
-      ListMultimap<ObjectId, Ref> changeRefsById, ReviewDb db) {
-    return new GroupCollector(
-        transformRefs(changeRefsById),
-        new Lookup() {
-          @Override
-          public List<String> lookup(PatchSet.Id psId) throws OrmException {
-            PatchSet ps = db.patchSets().get(psId);
             return ps != null ? ps.getGroups() : null;
           }
         });

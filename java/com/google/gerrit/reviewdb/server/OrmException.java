@@ -15,7 +15,7 @@
 package com.google.gerrit.reviewdb.server;
 
 /** Any data store read or write error. */
-public class OrmException extends Exception {
+public class OrmException extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
   public OrmException(String message) {

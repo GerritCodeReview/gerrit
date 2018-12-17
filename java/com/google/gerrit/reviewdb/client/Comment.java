@@ -283,15 +283,41 @@ public class Comment {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof Comment) {
-      return Objects.equals(key, ((Comment) o).key);
+    if (!(o instanceof Comment)) {
+      return false;
     }
-    return false;
+    Comment c = (Comment) o;
+    return Objects.equals(key, c.key)
+        && lineNbr == c.lineNbr
+        && Objects.equals(author, c.author)
+        && Objects.equals(realAuthor, c.realAuthor)
+        && Objects.equals(writtenOn, c.writtenOn)
+        && side == c.side
+        && Objects.equals(message, c.message)
+        && Objects.equals(parentUuid, c.parentUuid)
+        && Objects.equals(range, c.range)
+        && Objects.equals(tag, c.tag)
+        && Objects.equals(revId, c.revId)
+        && Objects.equals(serverId, c.serverId)
+        && unresolved == c.unresolved;
   }
 
   @Override
   public int hashCode() {
-    return key.hashCode();
+    return Objects.hash(
+        key,
+        lineNbr,
+        author,
+        realAuthor,
+        writtenOn,
+        side,
+        message,
+        parentUuid,
+        range,
+        tag,
+        revId,
+        serverId,
+        unresolved);
   }
 
   @Override

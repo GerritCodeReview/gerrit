@@ -346,12 +346,8 @@ public class GroupsUpdate {
 
   private void updateCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {
     indexer.get().index(createdGroup.getGroupUUID());
-    for (Account.Id modifiedMember : createdGroup.getMembers()) {
-      groupIncludeCache.evictGroupsWithMember(modifiedMember);
-    }
-    for (AccountGroup.UUID modifiedSubgroup : createdGroup.getSubgroups()) {
-      groupIncludeCache.evictParentGroupsOf(modifiedSubgroup);
-    }
+    createdGroup.getMembers().forEach(groupIncludeCache::evictGroupsWithMember);
+    createdGroup.getSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
   }
 
   private void updateCachesOnGroupUpdate(UpdateResult result) throws IOException {

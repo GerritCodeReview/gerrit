@@ -3609,6 +3609,10 @@ default behavior.
 
 [[receive.enableProtocolV2]]receive.enableProtocolV2::
 +
+[NOTE]
+Support for Git protocol version 2 is still experimental. Do not use it in
+production!
++
 Enable support for git protocol version 2.
 +
 When this option is enabled, clients may send upload pack using git

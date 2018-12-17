@@ -46,6 +46,30 @@
       "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b46a85b_7fb42983",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-12-17T09:28:43Z",
+      "side": 1,
+      "message": "so maybe the other code below is also wrong? ;) anyone else have an opinion on that?",
+      "parentUuid": "fcdfb292_d37d27fc",
+      "range": {
+        "startLine": 348,
+        "startChar": 4,
+        "endLine": 348,
+        "endChar": 48
+      },
+      "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

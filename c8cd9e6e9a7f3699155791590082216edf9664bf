@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c63c3447_51200297",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-17T09:14:05Z",
+      "side": 1,
+      "message": "Needs to be adapted to new revision of https://gerrit-review.googlesource.com/c/plugins/reviewnotes/+/207634",
+      "revId": "c8cd9e6e9a7f3699155791590082216edf9664bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

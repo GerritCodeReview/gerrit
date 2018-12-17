@@ -345,6 +345,9 @@ public class GroupsUpdate {
   }
 
   private void updateCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {
+    groupCache.evict(createdGroup.getGroupUUID());
+    groupCache.evict(createdGroup.getId());
+    groupCache.evict(createdGroup.getNameKey());
     indexer.get().index(createdGroup.getGroupUUID());
     for (Account.Id modifiedMember : createdGroup.getMembers()) {
       groupIncludeCache.evictGroupsWithMember(modifiedMember);

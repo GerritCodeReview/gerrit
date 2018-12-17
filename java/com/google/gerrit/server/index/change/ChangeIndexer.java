@@ -346,7 +346,7 @@ public class ChangeIndexer {
     }
   }
 
-  // Not AbstractIndexTask as it doesn't need ReviewDb.
+  // Not AbstractIndexTask as it doesn't need a request context.
   private class DeleteTask implements Callable<Void> {
     private final Change.Id id;
 

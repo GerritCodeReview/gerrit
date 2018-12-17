@@ -61,9 +61,9 @@ message ChangeNotesKeyProto {
 // were chosen ease of coding the initial implementation. In particular, where
 // there already exists another serialization mechanism in Gerrit for
 // serializing a particular field, we use that rather than defining a new proto
-// type. This includes ReviewDb types that can be serialized to proto using
-// ProtobufCodec as well as NoteDb and indexed types that are serialized using
-// JSON. We can always revisit this decision later, particularly when we
+// type. This includes core entity types that can be serialized to proto using
+// ProtoCoverters, as well as NoteDb and indexed types that are serialized
+// using JSON. We can always revisit this decision later, particularly when we
 // eliminate the ReviewDb types; it just requires bumping the cache version.
 //
 // Note on nullability: there are a lot of nullable fields in ChangeNotesState

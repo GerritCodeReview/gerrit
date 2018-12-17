@@ -36,7 +36,7 @@ import org.junit.runners.model.Statement;
  * An in-memory test environment for integration tests.
  *
  * <p>This test environment emulates the internals of a Gerrit server without starting a Gerrit
- * site. ReviewDb as well as NoteDb are represented by in-memory representations.
+ * site. Git repositories, including NoteDb, are stored in memory.
  *
  * <p>Each test is executed with a fresh and clean test environment. Hence, modifications applied in
  * one test don't carry over to subsequent ones.
@@ -109,7 +109,8 @@ public final class InMemoryTestEnvironment implements MethodRule {
     // The first user is added to the "Administrators" group. See AccountManager#create().
     setApiUser(accountManager.authenticate(AuthRequest.forUser("admin")).getAccountId());
 
-    // Inject target members after setting API user, so it can @Inject a ReviewDb if it wants.
+    // Inject target members after setting API user, so it can @Inject request-scoped objects if it
+    // wants.
     injector.injectMembers(target);
   }
 

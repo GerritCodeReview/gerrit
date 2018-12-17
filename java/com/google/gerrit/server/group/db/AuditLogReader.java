@@ -59,8 +59,8 @@ public class AuditLogReader {
   }
 
   // Having separate methods for reading the two types of audit records mirrors the split in
-  // ReviewDb. Once ReviewDb is gone, the audit record interface becomes more flexible and we can
-  // revisit this, e.g. to do only a single walk, or even change the record types.
+  // ReviewDb. Now that ReviewDb is gone, the audit record interface is more flexible and this may
+  // be changed, e.g. to do only a single walk, or even change the record types.
 
   public ImmutableList<AccountGroupMemberAudit> getMembersAudit(
       Repository allUsersRepo, AccountGroup.UUID uuid) throws IOException, ConfigInvalidException {
@@ -134,8 +134,8 @@ public class AuditLogReader {
   private Optional<ParsedCommit> parse(AccountGroup.UUID uuid, RevCommit c) {
     Optional<Account.Id> authorId = NoteDbUtil.parseIdent(c.getAuthorIdent(), serverId);
     if (!authorId.isPresent()) {
-      // Only report audit events from identified users, since this is a non-nullable field in
-      // ReviewDb. May be revisited after groups are fully migrated to NoteDb.
+      // Only report audit events from identified users, since this was a non-nullable field in
+      // ReviewDb. May be revisited.
       return Optional.empty();
     }
 

@@ -128,8 +128,8 @@ public class IdentifiedUser extends CurrentUser {
   /**
    * Create an IdentifiedUser, relying on current request state.
    *
-   * <p>Can only be used from within a module that has defined request scoped {@code @RemotePeer
-   * SocketAddress} and {@code ReviewDb} providers.
+   * <p>Can only be used from within a module that has defined a request scoped {@code @RemotePeer
+   * SocketAddress} provider.
    */
   @Singleton
   public static class RequestFactory {

@@ -40,8 +40,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  *
  * <p>Second, the read methods take into account any pending operations on the repository that
  * implementations have staged using the write methods on {@link RepoContext}. Callers do not have
- * to worry about whether operations have been performed yet, and the implementation details may
- * differ between ReviewDb and NoteDb, but callers just don't need to care.
+ * to worry about whether operations have been performed yet.
  */
 public class RepoView {
   private final Repository repo;

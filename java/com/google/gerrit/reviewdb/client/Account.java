@@ -151,10 +151,7 @@ public final class Account {
   /** The user-settable status of this account (e.g. busy, OOO, available) */
   private String status;
 
-  /**
-   * ID of the user branch from which the account was read, {@code null} if the account was read
-   * from ReviewDb.
-   */
+  /** ID of the user branch from which the account was read. */
   private String metaId;
 
   protected Account() {}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ff12c69_3e071f54",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-17T10:41:16Z",
+      "side": 0,
+      "message": "nit: this parameter still exists",
+      "revId": "d517fe8aacc056fe0f1e3962b0aa1b9619052285",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "c26e1660fbd1ed9a12bb668566269c3f194b829c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d8a2ab3_d5efba75",
+        "filename": "plugins/replication",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-17T15:59:13Z",
+      "side": 1,
+      "message": "Sorry, done.",
+      "parentUuid": "1f8d3c3c_5e7a0f97",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "c26e1660fbd1ed9a12bb668566269c3f194b829c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

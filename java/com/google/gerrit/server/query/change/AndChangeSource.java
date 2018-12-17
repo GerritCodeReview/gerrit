@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.exceptions.StorageRuntimeException;
 import com.google.gerrit.index.query.AndSource;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.index.query.Predicate;
@@ -43,14 +41,9 @@ public class AndChangeSource extends AndSource<ChangeData> implements ChangeData
   }
 
   @Override
-  protected List<ChangeData> transformBuffer(List<ChangeData> buffer)
-      throws StorageRuntimeException {
+  protected List<ChangeData> transformBuffer(List<ChangeData> buffer) {
     if (!hasChange()) {
-      try {
-        ChangeData.ensureChangeLoaded(buffer);
-      } catch (StorageException e) {
-        throw new StorageRuntimeException(e);
-      }
+      ChangeData.ensureChangeLoaded(buffer);
     }
     return super.transformBuffer(buffer);
   }

@@ -37,7 +37,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.exceptions.StorageRuntimeException;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
@@ -415,10 +414,10 @@ public class LuceneChangeIndex implements ChangeIndex {
         return result.build();
       } catch (InterruptedException e) {
         close();
-        throw new StorageRuntimeException(e);
+        throw new StorageException(e);
       } catch (ExecutionException e) {
         Throwables.throwIfUnchecked(e.getCause());
-        throw new StorageRuntimeException(e.getCause());
+        throw new StorageException(e.getCause());
       }
     }
 

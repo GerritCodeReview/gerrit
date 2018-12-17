@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.change;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.exceptions.StorageRuntimeException;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.Response;
@@ -73,8 +72,8 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
         changeResourceFactory.create(cd.notes(), user).prepareETag(h, user);
       }
       h.putBoolean(cs.furtherHiddenChanges());
-    } catch (IOException | StorageException | PermissionBackendException e) {
-      throw new StorageRuntimeException(e);
+    } catch (IOException | PermissionBackendException e) {
+      throw new StorageException(e);
     }
     return h.hash().toString();
   }

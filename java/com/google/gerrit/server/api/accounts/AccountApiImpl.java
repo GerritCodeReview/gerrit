@@ -41,6 +41,7 @@ import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.Input;
+import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
@@ -74,6 +75,7 @@ import com.google.gerrit.server.restapi.account.Index;
 import com.google.gerrit.server.restapi.account.PostWatchedProjects;
 import com.google.gerrit.server.restapi.account.PutActive;
 import com.google.gerrit.server.restapi.account.PutAgreement;
+import com.google.gerrit.server.restapi.account.PutName;
 import com.google.gerrit.server.restapi.account.PutStatus;
 import com.google.gerrit.server.restapi.account.SetDiffPreferences;
 import com.google.gerrit.server.restapi.account.SetEditPreferences;
@@ -132,6 +134,7 @@ public class AccountApiImpl implements AccountApi {
   private final PutStatus putStatus;
   private final GetGroups getGroups;
   private final EmailApiImpl.Factory emailApi;
+  private final PutName putName;
 
   @Inject
   AccountApiImpl(
@@ -173,6 +176,7 @@ public class AccountApiImpl implements AccountApi {
       PutStatus putStatus,
       GetGroups getGroups,
       EmailApiImpl.Factory emailApi,
+      PutName putName,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -213,6 +217,7 @@ public class AccountApiImpl implements AccountApi {
     this.putStatus = putStatus;
     this.getGroups = getGroups;
     this.emailApi = emailApi;
+    this.putName = putName;
   }
 
   @Override
@@ -575,6 +580,17 @@ public class AccountApiImpl implements AccountApi {
       return deleteDraftComments.apply(account, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete draft comments", e);
+    }
+  }
+
+  @Override
+  public void setName(String name) throws RestApiException {
+    NameInput input = new NameInput();
+    input.name = name;
+    try {
+      putName.apply(account, input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set account name", e);
     }
   }
 }

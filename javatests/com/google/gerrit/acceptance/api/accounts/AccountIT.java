@@ -52,6 +52,7 @@ import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
@@ -1173,6 +1174,33 @@ public class AccountIT extends AbstractDaemonTest {
     info = gApi.accounts().self().get();
     assertUser(info, admin);
     accountIndexedCounter.assertReindexOf(admin);
+  }
+
+  @Test
+  public void setName() throws Exception {
+    gApi.accounts().self().setName("Admin McAdminface");
+    assertThat(gApi.accounts().self().get().name).isEqualTo("Admin McAdminface");
+  }
+
+  @Test
+  public void adminCanSetNameOfOtherUser() throws Exception {
+    gApi.accounts().id(user.username).setName("User McUserface");
+    assertThat(gApi.accounts().id(user.username).get().name).isEqualTo("User McUserface");
+  }
+
+  @Test
+  public void userCannotSetNameOfOtherUser() throws Exception {
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    gApi.accounts().id(admin.username).setName("Admin McAdminface");
+  }
+
+  @Test
+  @Sandboxed
+  public void userCanSetNameOfOtherUserWithModifyAccountPermission() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.MODIFY_ACCOUNT);
+    gApi.accounts().id(admin.username).setName("Admin McAdminface");
+    assertThat(gApi.accounts().id(admin.username).get().name).isEqualTo("Admin McAdminface");
   }
 
   @Test

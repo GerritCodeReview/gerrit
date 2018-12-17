@@ -25,7 +25,7 @@ import java.util.Objects;
  * <p>Changing fields in this class changes the storage format of inline comments in NoteDb and may
  * require a corresponding data migration (adding new optional fields is generally okay).
  *
- * <p>{@link PatchLineComment} also represents inline comments, but in ReviewDb. There are a few
+ * <p>{@link PatchLineComment} historically represented comments in ReviewDb. There are a few
  * notable differences:
  *
  * <ul>
@@ -41,9 +41,9 @@ import java.util.Objects;
  * </ul>
  *
  * <p>For all utility classes and middle layer functionality using Comment over PatchLineComment is
- * preferred, as PatchLineComment will go away together with ReviewDb. This means Comment should be
- * used everywhere and only for storing inline comment in ReviewDb a conversion to PatchLineComment
- * is done. Converting Comments to PatchLineComments and vice verse is done by
+ * preferred, as ReviewDb is gone so PatchLineComment is slated for deletion as well. This means
+ * Comment should be used everywhere and only for storing inline comment in ReviewDb a conversion to
+ * PatchLineComment is done. Converting Comments to PatchLineComments and vice verse is done by
  * CommentsUtil#toPatchLineComments(Change.Id, PatchLineComment.Status, Iterable) and
  * CommentsUtil#toComments(String, Iterable).
  */

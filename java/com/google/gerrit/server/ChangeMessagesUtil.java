@@ -105,14 +105,14 @@ public class ChangeMessagesUtil {
    * Replace an existing change message with the provided new message.
    *
    * <p>The ID of a change message is different between NoteDb and ReviewDb. In NoteDb, it's the
-   * commit SHA-1, but in ReviewDb it's generated randomly. To make sure the change message can be
-   * deleted from both NoteDb and ReviewDb, the index of the change message must be used rather than
-   * its ID.
+   * commit SHA-1, but in ReviewDb it was generated randomly. Taking the target message as an index
+   * rather than an ID allowed us to delete the message from both NoteDb and ReviewDb.
    *
    * @param update change update.
    * @param targetMessageIdx the index of the target change message.
    * @param newMessage the new message which is going to replace the old.
    */
+  // TODO(xchangcheng): Reconsider implementation now that there is only a single ID.
   public void replaceChangeMessage(ChangeUpdate update, int targetMessageIdx, String newMessage) {
     update.deleteChangeMessageByRewritingHistory(targetMessageIdx, newMessage);
   }

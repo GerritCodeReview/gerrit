@@ -98,7 +98,8 @@ public class SchemaCreatorImpl implements SchemaCreator {
     // We have to create the All-Users repository before we can use it to store the groups in it.
     allUsersCreator.setAdministrators(admins).create();
 
-    // Don't rely on injection to construct Sequences, as it requires ReviewDb.
+    // Don't rely on injection to construct Sequences, as the default GitReferenceUpdated has a
+    // thick dependency stack which may not all be available at schema creation time.
     Sequences seqs =
         new Sequences(
             config,

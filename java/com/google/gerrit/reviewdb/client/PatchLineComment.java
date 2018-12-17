@@ -23,9 +23,7 @@ import java.util.Objects;
 /**
  * A comment left by a user on a specific line of a {@link Patch}.
  *
- * <p>This class represents an inline comment in ReviewDb. It should only be used for
- * writing/reading inline comments to/from ReviewDb. For all other purposes inline comments should
- * be represented by {@link Comment}.
+ * <p>New APIs should not expose this class.
  *
  * @see Comment
  */
@@ -169,12 +167,7 @@ public final class PatchLineComment {
   @Column(id = 12)
   protected boolean unresolved;
 
-  /**
-   * The RevId for the commit to which this comment is referring.
-   *
-   * <p>Note that this field is not stored in the database. It is just provided for users of this
-   * class to avoid a lookup when they don't have easy access to a ReviewDb.
-   */
+  /** The RevId for the commit to which this comment is referring. */
   protected RevId revId;
 
   protected PatchLineComment() {}

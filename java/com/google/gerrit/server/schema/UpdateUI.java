@@ -14,9 +14,6 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.StatementExecutor;
-import java.util.List;
 import java.util.Set;
 
 public interface UpdateUI {
@@ -37,6 +34,4 @@ public interface UpdateUI {
   String readString(String defaultValue, Set<String> allowedValues, String message);
 
   boolean isBatch();
-
-  void pruneSchema(StatementExecutor e, List<String> pruneList) throws OrmException;
 }

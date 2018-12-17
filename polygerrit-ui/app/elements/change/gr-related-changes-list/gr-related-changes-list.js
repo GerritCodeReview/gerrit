@@ -121,12 +121,19 @@
 
       // Get conflicts if change is open and is mergeable.
       if (this.changeIsOpen(this.change.status) && this.mergeable) {
-        promises.push(this._getConflicts().then(response => {
-          // Because the server doesn't always return a response and the
-          // template expects an array, always return an array.
-          this._conflicts = response ? response : [];
-          this._fireReloadEvent();
-        }));
+          promises.push(
+	      this._getProjectConfig().then(config => {
+                console.log("got config", config.disable_conflicts_ui);
+		if (!config.disable_conflicts_ui || !this._formatBooleanString(config.disable_conflicts_ui)) {
+		      // NOSUBMIT : should return the next promise instead.
+		      this._getConflicts().then(response => {
+			   // Because the server doesn't always return a response and the
+			   // template expects an array, always return an array.
+			   this._conflicts = response ? response : [];
+			   this._fireReloadEvent();
+		      });
+		  }
+	      }));
       }
 
       promises.push(this._getServerConfig().then(config => {
@@ -154,6 +161,26 @@
     },
 
     /**
+     * cut& paste from gr-creat-change-dialog.js
+     * Translate project config boolean setting to a JS boolean.
+     */
+    _formatBooleanString(config) {
+      if (config && config.configured_value === 'TRUE') {
+        return true;
+      } else if (config && config.configured_value === 'FALSE') {
+        return false;
+      } else if (config && config.configured_value === 'INHERIT') {
+        if (config && config.inherited_value) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    },
+
+    /**
      * Determines whether or not the given change has a parent change. If there
      * is a relation chain, and the change id is not the last item of the
      * relation chain, there is a parent.
@@ -174,6 +201,10 @@
 
     _getSubmittedTogether() {
       return this.$.restAPI.getChangesSubmittedTogether(this.change._number);
+    },
+
+    _getProjectConfig() {
+      return this.$.restAPI.getProjectConfig(this.change.project);
     },
 
     _getServerConfig() {

@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.reviewdb.server.OrmException;
-import com.google.gerrit.reviewdb.server.OrmRuntimeException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ActionJson;
 import com.google.gerrit.server.change.ChangeResource;
@@ -74,7 +73,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
       }
       h.putBoolean(cs.furtherHiddenChanges());
     } catch (IOException | OrmException | PermissionBackendException e) {
-      throw new OrmRuntimeException(e);
+      throw new OrmException(e);
     }
     return h.hash().toString();
   }

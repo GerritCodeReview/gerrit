@@ -18,7 +18,6 @@ import com.google.gerrit.index.query.AndSource;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.server.OrmException;
-import com.google.gerrit.reviewdb.server.OrmRuntimeException;
 import java.util.Collection;
 import java.util.List;
 
@@ -43,12 +42,12 @@ public class AndChangeSource extends AndSource<ChangeData> implements ChangeData
   }
 
   @Override
-  protected List<ChangeData> transformBuffer(List<ChangeData> buffer) throws OrmRuntimeException {
+  protected List<ChangeData> transformBuffer(List<ChangeData> buffer) throws OrmException {
     if (!hasChange()) {
       try {
         ChangeData.ensureChangeLoaded(buffer);
       } catch (OrmException e) {
-        throw new OrmRuntimeException(e);
+        throw new OrmException(e);
       }
     }
     return super.transformBuffer(buffer);

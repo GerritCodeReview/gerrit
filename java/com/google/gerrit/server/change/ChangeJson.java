@@ -373,7 +373,6 @@ public class ChangeJson {
       return toChangeInfo(cd, limitToPsId, changeInfoSupplier);
     } catch (PatchListNotAvailableException
         | GpgException
-        | OrmException
         | IOException
         | PermissionBackendException
         | RuntimeException e) {
@@ -420,7 +419,7 @@ public class ChangeJson {
         try {
           ensureLoaded(Collections.singleton(cd));
           changeInfos.add(format(cd, Optional.empty(), false, ChangeInfo::new));
-        } catch (OrmException | RuntimeException e) {
+        } catch (RuntimeException e) {
           logger.atWarning().withCause(e).log(
               "Omitting corrupt change %s from results", cd.getId());
         }

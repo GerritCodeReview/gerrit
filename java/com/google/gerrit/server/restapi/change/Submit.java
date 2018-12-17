@@ -37,7 +37,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.OrmException;
-import com.google.gerrit.reviewdb.server.OrmRuntimeException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -292,7 +291,7 @@ public class Submit
       }
     } catch (PermissionBackendException | OrmException | IOException e) {
       logger.atSevere().withCause(e).log("Error checking if change is submittable");
-      throw new OrmRuntimeException("Could not determine problems for the change", e);
+      throw new OrmException("Could not determine problems for the change", e);
     }
     return null;
   }
@@ -313,7 +312,7 @@ public class Submit
       }
     } catch (IOException e) {
       logger.atSevere().withCause(e).log("Error checking if change is submittable");
-      throw new OrmRuntimeException("Could not determine problems for the change", e);
+      throw new OrmException("Could not determine problems for the change", e);
     }
 
     ChangeData cd = changeDataFactory.create(resource.getNotes());
@@ -323,15 +322,14 @@ public class Submit
       return null; // submit not visible
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Error checking if change is submittable");
-      throw new OrmRuntimeException("Could not determine problems for the change", e);
+      throw new OrmException("Could not determine problems for the change", e);
     }
 
     ChangeSet cs;
     try {
       cs = mergeSuperSet.get().completeChangeSet(cd.change(), resource.getUser());
     } catch (OrmException | IOException | PermissionBackendException e) {
-      throw new OrmRuntimeException(
-          "Could not determine complete set of changes to be submitted", e);
+      throw new OrmException("Could not determine complete set of changes to be submitted", e);
     }
 
     String topic = change.getTopic();
@@ -355,7 +353,7 @@ public class Submit
       // the cache, as it yields the same result.
       enabled = cd.isMergeable();
     } catch (OrmException e) {
-      throw new OrmRuntimeException("Could not determine mergeability", e);
+      throw new OrmException("Could not determine mergeability", e);
     }
 
     if (submitProblems != null) {
@@ -477,7 +475,7 @@ public class Submit
     try {
       return queryProvider.get().byTopicOpen(topic);
     } catch (OrmException e) {
-      throw new OrmRuntimeException(e);
+      throw new OrmException(e);
     }
   }
 

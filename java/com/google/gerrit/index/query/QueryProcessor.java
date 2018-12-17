@@ -38,7 +38,6 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.server.OrmException;
-import com.google.gerrit.reviewdb.server.OrmRuntimeException;
 import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gwtorm.server.ResultSet;
 import java.util.ArrayList;
@@ -188,8 +187,6 @@ public abstract class QueryProcessor<T> {
       throws OrmException, QueryParseException {
     try {
       return query(null, queries);
-    } catch (OrmRuntimeException e) {
-      throw new OrmException(e.getMessage(), e);
     } catch (OrmException e) {
       if (e.getCause() != null) {
         Throwables.throwIfInstanceOf(e.getCause(), QueryParseException.class);
@@ -283,7 +280,7 @@ public abstract class QueryProcessor<T> {
       // Only measure successful queries that actually touched the index.
       metrics.executionTime.record(
           schemaDef.getName(), System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
-    } catch (OrmException | OrmRuntimeException e) {
+    } catch (OrmException e) {
       Optional<QueryParseException> qpe = findQueryParseException(e);
       if (qpe.isPresent()) {
         throw new QueryParseException(qpe.get().getMessage(), e);

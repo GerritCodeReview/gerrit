@@ -50,7 +50,6 @@ import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
 import com.google.gerrit.reviewdb.converter.ProtoConverter;
 import com.google.gerrit.reviewdb.server.OrmException;
-import com.google.gerrit.reviewdb.server.OrmRuntimeException;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -412,10 +411,10 @@ public class LuceneChangeIndex implements ChangeIndex {
         return result;
       } catch (InterruptedException e) {
         close();
-        throw new OrmRuntimeException(e);
+        throw new OrmException(e);
       } catch (ExecutionException e) {
         Throwables.throwIfUnchecked(e.getCause());
-        throw new OrmRuntimeException(e.getCause());
+        throw new OrmException(e.getCause());
       }
     }
 

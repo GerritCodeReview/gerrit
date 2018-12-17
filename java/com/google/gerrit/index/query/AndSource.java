@@ -22,7 +22,6 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.server.OrmException;
-import com.google.gerrit.reviewdb.server.OrmRuntimeException;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.ResultSet;
 import java.util.ArrayList;
@@ -81,7 +80,7 @@ public class AndSource<T> extends AndPredicate<T>
   public ResultSet<T> read() throws OrmException {
     try {
       return readImpl();
-    } catch (OrmRuntimeException err) {
+    } catch (OrmException err) {
       if (err.getCause() != null) {
         Throwables.throwIfInstanceOf(err.getCause(), OrmException.class);
       }
@@ -166,7 +165,7 @@ public class AndSource<T> extends AndPredicate<T>
         .transformAndConcat(this::transformBuffer);
   }
 
-  protected List<T> transformBuffer(List<T> buffer) throws OrmRuntimeException {
+  protected List<T> transformBuffer(List<T> buffer) throws OrmException {
     return buffer;
   }
 

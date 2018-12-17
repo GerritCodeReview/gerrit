@@ -22,7 +22,6 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.server.OrmException;
-import com.google.gerrit.reviewdb.server.OrmRuntimeException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
@@ -92,7 +91,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
       try {
         schemaCreator.ensureCreated();
       } catch (OrmException | IOException | ConfigInvalidException e) {
-        throw new OrmRuntimeException(e);
+        throw new OrmException(e);
       }
     }
 

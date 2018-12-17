@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.command.Command;
 import org.kohsuke.args4j.Argument;
 
@@ -69,7 +70,7 @@ final class DispatchCommand extends BaseCommand {
   }
 
   @Override
-  public void start(Environment env) throws IOException {
+  public void start(ChannelSession channel, Environment env) throws IOException {
     try {
       parseCommandLine();
       if (Strings.isNullOrEmpty(commandName)) {
@@ -115,7 +116,7 @@ final class DispatchCommand extends BaseCommand {
 
       provideStateTo(cmd);
       atomicCmd.set(cmd);
-      cmd.start(env);
+      cmd.start(channel, env);
 
     } catch (UnloggedFailure e) {
       String msg = e.getMessage();
@@ -145,11 +146,11 @@ final class DispatchCommand extends BaseCommand {
   }
 
   @Override
-  public void destroy() {
+  public void destroy(ChannelSession channel) {
     Command cmd = atomicCmd.getAndSet(null);
     if (cmd != null) {
       try {
-        cmd.destroy();
+        cmd.destroy(channel);
       } catch (Exception e) {
         Throwables.throwIfUnchecked(e);
         throw new RuntimeException(e);

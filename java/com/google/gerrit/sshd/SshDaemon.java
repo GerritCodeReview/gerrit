@@ -51,6 +51,7 @@ import java.nio.file.PathMatcher;
 import java.nio.file.WatchService;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
+import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.PublicKey;
@@ -379,12 +380,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       return Collections.emptyList();
     }
 
-    final List<PublicKey> keys = myHostKeys();
-    final List<HostKey> r = new ArrayList<>();
+    List<HostKey> r = new ArrayList<>();
+    List<PublicKey> keys = myHostKeys();
     for (PublicKey pub : keys) {
-      final Buffer buf = new ByteArrayBuffer();
+      Buffer buf = new ByteArrayBuffer();
       buf.putRawPublicKey(pub);
-      final byte[] keyBin = buf.getCompactData();
+      byte[] keyBin = buf.getCompactData();
 
       for (String addr : advertised) {
         try {
@@ -395,24 +396,29 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         }
       }
     }
+
     return Collections.unmodifiableList(r);
   }
 
   private List<PublicKey> myHostKeys() {
-    final KeyPairProvider p = getKeyPairProvider();
-    final List<PublicKey> keys = new ArrayList<>(6);
-    addPublicKey(keys, p, KeyPairProvider.SSH_ED25519);
-    addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP256);
-    addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP384);
-    addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP521);
-    addPublicKey(keys, p, KeyPairProvider.SSH_RSA);
-    addPublicKey(keys, p, KeyPairProvider.SSH_DSS);
+    KeyPairProvider p = getKeyPairProvider();
+    List<PublicKey> keys = new ArrayList<>(6);
+    try {
+      addPublicKey(keys, p, KeyPairProvider.SSH_ED25519);
+      addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP256);
+      addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP384);
+      addPublicKey(keys, p, KeyPairProvider.ECDSA_SHA2_NISTP521);
+      addPublicKey(keys, p, KeyPairProvider.SSH_RSA);
+      addPublicKey(keys, p, KeyPairProvider.SSH_DSS);
+    } catch (IOException | GeneralSecurityException e) {
+      throw new IllegalStateException("Cannot load SSHD host key", e);
+    }
     return keys;
   }
 
-  private static void addPublicKey(
-      final Collection<PublicKey> out, KeyPairProvider p, String type) {
-    final KeyPair pair = p.loadKey(type);
+  private static void addPublicKey(final Collection<PublicKey> out, KeyPairProvider p, String type)
+      throws IOException, GeneralSecurityException {
+    final KeyPair pair = p.loadKey(null, type);
     if (pair != null && pair.getPublic() != null) {
       out.add(pair.getPublic());
     }
@@ -512,14 +518,14 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   private void initCiphers(Config cfg) {
-    final List<NamedFactory<Cipher>> a = BaseBuilder.setUpDefaultCiphers(true);
+    List<NamedFactory<Cipher>> a = BaseBuilder.setUpDefaultCiphers(true);
 
     for (Iterator<NamedFactory<Cipher>> i = a.iterator(); i.hasNext(); ) {
-      final NamedFactory<Cipher> f = i.next();
+      NamedFactory<Cipher> f = i.next();
       try {
-        final Cipher c = f.create();
-        final byte[] key = new byte[c.getBlockSize()];
-        final byte[] iv = new byte[c.getIVSize()];
+        Cipher c = f.create();
+        byte[] key = new byte[c.getKdfSize()];
+        byte[] iv = new byte[c.getIVSize()];
         c.init(Cipher.Mode.Encrypt, key, iv);
       } catch (InvalidKeyException e) {
         logger.atWarning().log(

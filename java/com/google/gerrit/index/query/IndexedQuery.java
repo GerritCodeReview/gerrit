@@ -16,9 +16,9 @@ package com.google.gerrit.index.query;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.QueryOptions;
-import com.google.gwtorm.server.OrmException;
 import java.util.Collection;
 import java.util.List;
 

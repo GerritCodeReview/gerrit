@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.projects;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.Projects;
@@ -29,7 +30,6 @@ import com.google.gerrit.server.restapi.project.ListProjects;
 import com.google.gerrit.server.restapi.project.ListProjects.FilterType;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.restapi.project.QueryProjects;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.group;
 import static java.util.Comparator.comparing;
 
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -36,7 +37,6 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

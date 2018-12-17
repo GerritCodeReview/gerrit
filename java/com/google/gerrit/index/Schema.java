@@ -22,7 +22,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.exceptions.OrmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

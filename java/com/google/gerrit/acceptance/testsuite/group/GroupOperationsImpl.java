@@ -17,6 +17,8 @@ package com.google.gerrit.acceptance.testsuite.group;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.exceptions.NoSuchGroupException;
+import com.google.gerrit.exceptions.OrmDuplicateKeyException;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.ServerInitiated;
@@ -27,8 +29,6 @@ import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.notedb.Sequences;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;

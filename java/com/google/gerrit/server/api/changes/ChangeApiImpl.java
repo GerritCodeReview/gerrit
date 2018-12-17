@@ -17,6 +17,7 @@ package com.google.gerrit.server.api.changes;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
@@ -95,7 +96,6 @@ import com.google.gerrit.server.restapi.change.SetWorkInProgress;
 import com.google.gerrit.server.restapi.change.SubmittedTogether;
 import com.google.gerrit.server.restapi.change.SuggestChangeReviewers;
 import com.google.gerrit.server.restapi.change.Unignore;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;

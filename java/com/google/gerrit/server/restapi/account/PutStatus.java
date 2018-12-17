@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.api.accounts.StatusInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -29,7 +30,6 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

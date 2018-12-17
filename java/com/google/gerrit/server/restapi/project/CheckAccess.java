@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -35,7 +36,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

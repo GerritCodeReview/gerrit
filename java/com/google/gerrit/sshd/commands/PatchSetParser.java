@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

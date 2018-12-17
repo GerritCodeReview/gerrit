@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -26,7 +27,6 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gerrit.server.StarredChangesUtil.MutuallyExclusiveLabelsException;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

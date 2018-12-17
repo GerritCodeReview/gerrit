@@ -14,7 +14,7 @@
 
 package com.google.gerrit.index.query;
 
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.exceptions.OrmException;
 
 public interface DataSource<T> {
   /** @return an estimate of the number of results from {@link #read()}. */

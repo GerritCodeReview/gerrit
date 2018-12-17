@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.changes;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -33,7 +34,6 @@ import com.google.gerrit.server.restapi.change.ChangeEdits;
 import com.google.gerrit.server.restapi.change.DeleteChangeEdit;
 import com.google.gerrit.server.restapi.change.PublishChangeEdit;
 import com.google.gerrit.server.restapi.change.RebaseChangeEdit;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;

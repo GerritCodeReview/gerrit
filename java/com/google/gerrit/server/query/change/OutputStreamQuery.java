@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -34,7 +35,6 @@ import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gson.Gson;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.BufferedWriter;
 import java.io.IOException;

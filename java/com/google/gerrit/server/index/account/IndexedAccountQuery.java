@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.account;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.DataSource;
@@ -25,7 +26,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gwtorm.server.OrmException;
 
 public class IndexedAccountQuery extends IndexedQuery<Account.Id, AccountState>
     implements DataSource<AccountState>, Matchable<AccountState> {

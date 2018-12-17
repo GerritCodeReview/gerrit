@@ -16,13 +16,13 @@ package com.google.gerrit.server.query.group;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.NoSuchGroupException;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
-import com.google.gwtorm.server.OrmException;
 
 public class GroupIsVisibleToPredicate extends IsVisibleToPredicate<InternalGroup> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

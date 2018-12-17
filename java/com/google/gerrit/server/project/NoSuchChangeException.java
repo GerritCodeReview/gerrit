@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gwtorm.server.OrmException;
 
 /** Indicates the change does not exist. */
 public class NoSuchChangeException extends OrmException {

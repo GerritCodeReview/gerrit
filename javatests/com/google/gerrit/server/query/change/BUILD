@@ -60,6 +60,7 @@ junit_tests(
     ),
     visibility = ["//visibility:public"],
     deps = [
+        "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/proto/testing",
         "//java/com/google/gerrit/reviewdb:server",

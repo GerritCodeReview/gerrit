@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -25,7 +26,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

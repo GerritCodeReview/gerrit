@@ -15,6 +15,8 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.OrmDuplicateKeyException;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -40,8 +42,6 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.server.restapi.change.QueryChanges;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

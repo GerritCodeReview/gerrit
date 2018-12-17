@@ -14,8 +14,8 @@
 
 package com.google.gerrit.index.query;
 
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.index.QueryOptions;
-import com.google.gwtorm.server.OrmException;
 
 public interface Paginated<T> {
   QueryOptions getOptions();

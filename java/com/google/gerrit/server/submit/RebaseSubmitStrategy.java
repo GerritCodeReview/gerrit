@@ -19,6 +19,7 @@ import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 import static com.google.gerrit.server.submit.CommitMergeStatus.SKIPPED_IDENTICAL_TREE;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -34,7 +35,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;

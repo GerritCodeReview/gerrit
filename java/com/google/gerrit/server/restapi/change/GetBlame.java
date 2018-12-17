@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.common.BlameInfo;
 import com.google.gerrit.extensions.common.RangeInfo;
 import com.google.gerrit.extensions.restapi.CacheControl;
@@ -32,7 +33,6 @@ import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gitiles.blame.cache.BlameCache;
 import com.google.gitiles.blame.cache.Region;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;

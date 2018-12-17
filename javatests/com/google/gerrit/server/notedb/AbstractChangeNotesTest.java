@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
@@ -57,7 +58,6 @@ import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestChanges;
 import com.google.gerrit.testing.TestTimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;

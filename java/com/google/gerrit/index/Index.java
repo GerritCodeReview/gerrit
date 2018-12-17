@@ -15,12 +15,12 @@
 package com.google.gerrit.index;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.Optional;
 

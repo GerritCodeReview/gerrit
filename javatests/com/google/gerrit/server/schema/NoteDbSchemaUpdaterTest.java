@@ -22,6 +22,7 @@ import static com.google.gerrit.server.schema.NoteDbSchemaUpdater.requiredUpgrad
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -33,7 +34,6 @@ import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestUpdateUI;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.ListResultSet;
 import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;

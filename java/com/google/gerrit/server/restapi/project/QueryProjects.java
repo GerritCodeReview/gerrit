@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -29,7 +30,6 @@ import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.query.project.ProjectQueryBuilder;
 import com.google.gerrit.server.query.project.ProjectQueryProcessor;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;

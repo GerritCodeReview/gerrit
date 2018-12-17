@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -26,7 +27,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

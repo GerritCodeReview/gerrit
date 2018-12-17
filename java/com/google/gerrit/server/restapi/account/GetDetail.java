@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -21,7 +22,6 @@ import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collections;

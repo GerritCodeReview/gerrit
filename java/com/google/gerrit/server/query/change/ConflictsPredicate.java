@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -29,7 +30,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.submit.SubmitDryRun;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;

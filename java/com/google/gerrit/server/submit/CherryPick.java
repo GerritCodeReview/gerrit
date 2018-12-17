@@ -19,6 +19,7 @@ import static com.google.gerrit.server.submit.CommitMergeStatus.SKIPPED_IDENTICA
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
@@ -30,7 +31,6 @@ import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;

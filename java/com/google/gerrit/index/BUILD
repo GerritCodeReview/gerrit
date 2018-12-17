@@ -22,6 +22,7 @@ java_library(
         ":query_exception",
         "//antlr3:query_parser",
         "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/json",
         "//java/com/google/gerrit/metrics",

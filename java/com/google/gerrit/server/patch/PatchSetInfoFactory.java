@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -24,7 +25,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

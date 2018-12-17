@@ -14,6 +14,7 @@
 
 package com.google.gerrit.gpg.api;
 
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.api.accounts.GpgKeysInput;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
@@ -28,7 +29,6 @@ import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.GpgApiAdapter;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;

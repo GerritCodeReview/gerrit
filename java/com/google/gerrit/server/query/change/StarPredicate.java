@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 
 public class StarPredicate extends ChangeIndexPredicate {
   protected final Account.Id accountId;

@@ -18,6 +18,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.mail.MailHeader;
@@ -25,7 +26,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
-import com.google.gwtorm.server.OrmException;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -18,6 +18,7 @@ import static com.google.gerrit.extensions.client.AuthType.DEVELOPMENT_BECOME_AN
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.common.EmailInfo;
@@ -41,7 +42,6 @@ import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

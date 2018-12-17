@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.group;
 
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.exceptions.NoSuchGroupException;
+import com.google.gerrit.exceptions.OrmException;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -26,7 +27,6 @@ import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

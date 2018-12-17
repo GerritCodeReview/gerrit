@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4c1dea3_0a9de0c8",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-17T11:55:23Z",
+      "side": 1,
+      "message": "Duplicated logic from the other constructor. Better to delegate rather than copy\u0026paste.",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 41
+      },
+      "revId": "7296fd5242a4405e9271f343abed7786bb763676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

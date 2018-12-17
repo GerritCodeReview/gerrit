@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "730944cb_86fbea03",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-17T11:55:23Z",
+      "side": 1,
+      "message": "We should not need to make this public at all, but just allow other server-ids through an optional flag in the REST API (e.g. GET http://mygerrit.com/changes/myproject~123/detail?allow-any-server-id)",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 6
+      },
+      "revId": "835a7cbcd49062fa4f8fe4c0b42b13d1ccbbf29a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

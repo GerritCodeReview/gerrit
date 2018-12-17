@@ -18,7 +18,28 @@ import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
-/** Populates initial repository data. */
+/** Populates initial NoteDb schema, {@code All-Projects} configuration, etc. */
 public interface SchemaCreator {
+
+  /**
+   * Create the schema, assuming it does not already exist.
+   *
+   * <p>Fails if the schema does exist.
+   *
+   * @throws OrmException an error occurred.
+   * @throws IOException an error occurred.
+   * @throws ConfigInvalidException an error occurred.
+   */
   void create() throws OrmException, IOException, ConfigInvalidException;
+
+  /**
+   * Create the schema only if it does not already exist.
+   *
+   * <p>Succeeds if the schema does exist.
+   *
+   * @throws OrmException an error occurred.
+   * @throws IOException an error occurred.
+   * @throws ConfigInvalidException an error occurred.
+   */
+  void ensureCreated() throws OrmException, IOException, ConfigInvalidException;
 }

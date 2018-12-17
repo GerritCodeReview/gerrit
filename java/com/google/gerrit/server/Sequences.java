@@ -21,7 +21,6 @@ import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer2;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -38,6 +37,10 @@ public class Sequences {
   public static final String NAME_ACCOUNTS = "accounts";
   public static final String NAME_GROUPS = "groups";
   public static final String NAME_CHANGES = "changes";
+
+  public static final int FIRST_ACCOUNT_ID = 1000000;
+  public static final int FIRST_GROUP_ID = 1;
+  public static final int FIRST_CHANGE_ID = 1;
 
   public static int getChangeSequenceGap(Config cfg) {
     return cfg.getInt("noteDb", "changes", "initialSequenceGap", 1000);
@@ -70,7 +73,7 @@ public class Sequences {
             gitRefUpdated,
             allUsers,
             NAME_ACCOUNTS,
-            () -> ReviewDb.FIRST_ACCOUNT_ID,
+            () -> FIRST_ACCOUNT_ID,
             accountBatchSize);
 
     int changeBatchSize = cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20);
@@ -80,7 +83,7 @@ public class Sequences {
             gitRefUpdated,
             allProjects,
             NAME_CHANGES,
-            () -> ReviewDb.FIRST_CHANGE_ID,
+            () -> FIRST_CHANGE_ID,
             changeBatchSize);
 
     int groupBatchSize = 1;
@@ -90,7 +93,7 @@ public class Sequences {
             gitRefUpdated,
             allUsers,
             NAME_GROUPS,
-            () -> ReviewDb.FIRST_GROUP_ID,
+            () -> FIRST_GROUP_ID,
             groupBatchSize);
 
     nextIdLatency =

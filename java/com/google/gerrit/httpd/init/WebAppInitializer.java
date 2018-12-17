@@ -84,7 +84,7 @@ import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.RestApiModule;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
-import com.google.gerrit.server.schema.ReviewDbSchemaModule;
+import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.ssh.SshAddressesModule;
@@ -266,7 +266,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
 
   private Injector createCfgInjector() {
     final List<Module> modules = new ArrayList<>();
-    modules.add(new ReviewDbSchemaModule());
+    modules.add(new SchemaModule());
     modules.add(NoteDbSchemaVersionCheck.module());
     modules.add(new AuthConfigModule());
     return dbInjector.createChildInjector(modules);

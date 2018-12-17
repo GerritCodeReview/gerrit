@@ -246,7 +246,7 @@ public class InMemoryModule extends FactoryModule {
     install(new DefaultProjectNameLockManager.Module());
   }
 
-  /** Copy of ReviewDbSchemaModule with a slightly different server ID provider. */
+  /** Copy of SchemaModule with a slightly different server ID provider. */
   // TODO(dborowitz): Better code sharing.
   private class InMemorySchemaModule extends FactoryModule {
     @Override

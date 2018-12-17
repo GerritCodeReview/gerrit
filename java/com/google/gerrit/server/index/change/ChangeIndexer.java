@@ -17,7 +17,6 @@ package com.google.gerrit.server.index.change;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -26,7 +25,6 @@ import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
@@ -38,7 +36,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.OutOfScopeException;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -48,7 +45,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 
@@ -312,7 +308,6 @@ public class ChangeIndexer {
     @Override
     public final T call() throws Exception {
       try {
-        final AtomicReference<Provider<ReviewDb>> dbRef = Atomics.newReference();
         RequestContext newCtx =
             new RequestContext() {
               @Override
@@ -325,10 +320,6 @@ public class ChangeIndexer {
           return callImpl();
         } finally {
           context.setContext(oldCtx);
-          Provider<ReviewDb> db = dbRef.get();
-          if (db != null) {
-            db.get().close();
-          }
         }
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Failed to execute %s", this);

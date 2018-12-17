@@ -57,6 +57,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
+import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.command.Command;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
@@ -182,7 +183,7 @@ public abstract class BaseCommand implements Command {
   }
 
   @Override
-  public void destroy() {
+  public void destroy(ChannelSession channel) {
     Future<?> future = task.getAndSet(null);
     if (future != null && !future.isDone()) {
       future.cancel(true);

@@ -40,6 +40,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.channel.ChannelSession;
 import org.kohsuke.args4j.Option;
 
 /** Display the current work queue. */
@@ -70,7 +71,7 @@ final class ShowQueue extends SshCommand {
   private int maxCommandWidth;
 
   @Override
-  public void start(Environment env) throws IOException {
+  public void start(ChannelSession channel, Environment env) throws IOException {
     String s = env.getEnv().get(Environment.ENV_COLUMNS);
     if (s != null && !s.isEmpty()) {
       try {
@@ -79,7 +80,7 @@ final class ShowQueue extends SshCommand {
         columns = 80;
       }
     }
-    super.start(env);
+    super.start(channel, env);
   }
 
   @Override

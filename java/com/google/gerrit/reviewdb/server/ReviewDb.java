@@ -81,9 +81,4 @@ public interface ReviewDb extends Schema {
 
   // Deleted @Relation(id = 30)
 
-  int FIRST_ACCOUNT_ID = 1000000;
-
-  int FIRST_GROUP_ID = 1;
-
-  int FIRST_CHANGE_ID = 1;
 }

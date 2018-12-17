@@ -310,6 +310,15 @@ the Git push.
 Default is `INHERIT`, which means that this property is inherited from
 the parent project.
 
+[[change.disableConflictsUi]]change.disableConflictsUi::
++
+Controls whether to show conflicting changes in the change screen.
++
+For large projects, conflicts queries are expensive to
+compute, and if the project moves fast, Gerrit cannot hide this cost
+effectively through caching.
+
+
 [[submit-section]]
 === Submit section
 

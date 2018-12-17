@@ -271,6 +271,8 @@ limitations under the License.
           .returns(Promise.resolve());
       sandbox.stub(element, '_getConflicts')
           .returns(Promise.resolve());
+      sandbox.stub(element, '_getProjectConfig')
+          .returns(Promise.resolve({}));
 
       return element.reload().then(() => {
         assert.equal(loadedStub.callCount, 4);
@@ -285,6 +287,8 @@ limitations under the License.
 
         sandbox.stub(element, '_getRelatedChanges')
             .returns(Promise.resolve({changes: []}));
+        sandbox.stub(element, '_getProjectConfig')
+            .returns(Promise.resolve({}));
         sandbox.stub(element, '_getSubmittedTogether')
             .returns(Promise.resolve());
         sandbox.stub(element, '_getCherryPicks')
@@ -312,6 +316,8 @@ limitations under the License.
       setup(() => {
         element = fixture('basic');
 
+        sandbox.stub(element, '_getProjectConfig')
+            .returns(Promise.resolve({}));
         sandbox.stub(element, '_getRelatedChanges')
             .returns(Promise.resolve({changes: []}));
         sandbox.stub(element, '_getSubmittedTogether')

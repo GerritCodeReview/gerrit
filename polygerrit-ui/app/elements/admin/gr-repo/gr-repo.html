@@ -203,6 +203,23 @@ limitations under the License.
                   </gr-select>
                 </span>
               </section>
+              <section
+                   id="disableConflictsUi"
+                   class$="repositorySettings [[_computeRepositoriesClass(_repoConfig.disable_conflicts_ui)]]">
+                <span class="title">Disable conflicts section in change screen</span>
+                <span class="value">
+                  <gr-select
+                      id="disableConflictsUi"
+                      bind-value="{{_repoConfig.disable_conflicts_ui.configured_value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelect(_repoConfig.disable_conflicts_ui)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                    </select>
+                  </gr-select>
+                </span>
+              </section>
               <section>
                 <span class="title">
                   Reject implicit merges when changes are pushed for review</span>

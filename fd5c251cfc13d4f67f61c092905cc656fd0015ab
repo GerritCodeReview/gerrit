@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a431a6e6_74e71769",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-12-17T09:24:15Z",
+      "side": 1,
+      "message": "groupCache uses index to deliver, wouldn\u0027t it be better to evict it once index gets updated (in the following line) so that there is no race condition between potential call to get and index operation?",
+      "range": {
+        "startLine": 348,
+        "startChar": 4,
+        "endLine": 348,
+        "endChar": 48
+      },
+      "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

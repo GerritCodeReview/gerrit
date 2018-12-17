@@ -181,6 +181,7 @@ public class AllProjectsCreator {
       p.setBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, InheritableBoolean.FALSE);
       p.setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY, InheritableBoolean.FALSE);
       p.setBooleanConfig(BooleanProjectConfig.ENABLE_SIGNED_PUSH, InheritableBoolean.FALSE);
+      p.setBooleanConfig(BooleanProjectConfig.DISABLE_CONFLICTS_UI, InheritableBoolean.FALSE);
 
       AccessSection cap = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
       AccessSection all = config.getAccessSection(AccessSection.ALL, true);

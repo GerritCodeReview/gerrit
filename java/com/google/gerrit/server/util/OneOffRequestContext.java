@@ -15,7 +15,6 @@
 package com.google.gerrit.server.util;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.inject.Inject;
@@ -23,9 +22,6 @@ import com.google.inject.Singleton;
 
 /**
  * Helper to create one-off request contexts.
- *
- * <p>Each call to {@link #open()} opens a new {@link ReviewDb}, so this class should only be used
- * in a bounded try/finally block.
  *
  * <p>The user in the request context is {@link InternalUser} or the {@link IdentifiedUser}
  * associated to the userId passed as parameter.

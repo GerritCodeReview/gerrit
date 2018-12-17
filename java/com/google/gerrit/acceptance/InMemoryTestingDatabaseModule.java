@@ -18,7 +18,6 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.exceptions.StorageRuntimeException;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -91,8 +90,8 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     public void start() {
       try {
         schemaCreator.ensureCreated();
-      } catch (StorageException | IOException | ConfigInvalidException e) {
-        throw new StorageRuntimeException(e);
+      } catch (IOException | ConfigInvalidException e) {
+        throw new StorageException(e);
       }
     }
 

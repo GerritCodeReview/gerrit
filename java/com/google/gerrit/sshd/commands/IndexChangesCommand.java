@@ -16,13 +16,13 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.change.Index;
 import com.google.gerrit.sshd.ChangeArgumentParser;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.LinkedHashMap;

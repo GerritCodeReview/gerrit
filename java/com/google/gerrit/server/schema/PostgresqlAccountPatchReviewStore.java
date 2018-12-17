@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.reviewdb.server.OrmDuplicateKeyException;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.ThreadSettingsConfig;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.SQLException;

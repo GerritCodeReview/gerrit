@@ -16,12 +16,12 @@ package com.google.gerrit.server.query.account;
 
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.index.query.PostFilterPredicate;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 
 public class CanSeeChangePredicate extends PostFilterPredicate<AccountState> {
   private final PermissionBackend permissionBackend;

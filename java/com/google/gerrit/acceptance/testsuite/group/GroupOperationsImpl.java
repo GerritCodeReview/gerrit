@@ -18,6 +18,8 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.server.OrmDuplicateKeyException;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
@@ -27,8 +29,6 @@ import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;

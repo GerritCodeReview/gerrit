@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.reviewdb.server.OrmException;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 

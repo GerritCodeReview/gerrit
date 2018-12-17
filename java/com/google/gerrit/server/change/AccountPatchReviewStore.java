@@ -18,7 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.reviewdb.server.OrmException;
 import java.util.Collection;
 import java.util.Optional;
 

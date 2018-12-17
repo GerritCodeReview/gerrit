@@ -15,8 +15,8 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 
 public class HasStarsPredicate extends ChangeIndexPredicate {
   protected final Account.Id accountId;

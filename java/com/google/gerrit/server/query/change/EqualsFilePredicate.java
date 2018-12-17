@@ -15,9 +15,9 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
-import com.google.gwtorm.server.OrmException;
 
 public class EqualsFilePredicate extends ChangeIndexPredicate {
   public static Predicate<ChangeData> create(Arguments args, String value) {

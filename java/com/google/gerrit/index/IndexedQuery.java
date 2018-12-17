@@ -22,7 +22,7 @@ import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Paginated;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import java.util.Collection;
 import java.util.List;

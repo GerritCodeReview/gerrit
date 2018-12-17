@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.submit;
 
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.Collection;

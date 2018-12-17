@@ -15,8 +15,8 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 
 public class TrackingIdPredicate extends ChangeIndexPredicate {

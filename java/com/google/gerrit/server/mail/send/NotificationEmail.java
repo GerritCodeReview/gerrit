@@ -23,9 +23,9 @@ import com.google.gerrit.mail.Address;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
-import com.google.gwtorm.server.OrmException;
 import java.util.HashMap;
 import java.util.Map;
 

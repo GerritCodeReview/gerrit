@@ -19,7 +19,7 @@ import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.reviewdb.server.OrmException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;

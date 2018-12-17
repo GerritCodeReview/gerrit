@@ -17,8 +17,8 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.index.change.ChangeField.EXACT_COMMITTER;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_EXACTCOMMITTER;
 
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.Locale;
 

@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -28,7 +29,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 
 public class EqualsLabelPredicate extends ChangeIndexPredicate {

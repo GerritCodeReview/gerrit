@@ -19,6 +19,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GER
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.reviewdb.server.OrmDuplicateKeyException;
 import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
@@ -29,7 +30,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;

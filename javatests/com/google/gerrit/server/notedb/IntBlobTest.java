@@ -20,8 +20,8 @@ import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;

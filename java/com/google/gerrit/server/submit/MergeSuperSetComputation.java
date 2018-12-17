@@ -15,9 +15,9 @@
 package com.google.gerrit.server.submit;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 
 /**

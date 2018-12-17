@@ -17,9 +17,9 @@ package com.google.gerrit.server.submit;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import java.util.List;
 import java.util.Optional;

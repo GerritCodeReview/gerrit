@@ -20,7 +20,7 @@ import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.reviewdb.server.OrmException;
 
 public class CommitPredicate extends ChangeIndexPredicate {
   static FieldDef<ChangeData, ?> commitField(String id) {

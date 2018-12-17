@@ -41,7 +41,8 @@ public enum BooleanProjectConfig {
   ENABLE_REVIEWER_BY_EMAIL("reviewer", "enableByEmail"),
   MATCH_AUTHOR_TO_COMMITTER_DATE("submit", "matchAuthorToCommitterDate"),
   REJECT_EMPTY_COMMIT("submit", "rejectEmptyCommit"),
-  WORK_IN_PROGRESS_BY_DEFAULT("change", "workInProgressByDefault");
+  WORK_IN_PROGRESS_BY_DEFAULT("change", "workInProgressByDefault"),
+  DISABLE_CONFLICTS_QUERIES("index", "disableConflictsQueries");
 
   // Git config
   private final String section;

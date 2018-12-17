@@ -69,6 +69,9 @@ public class BooleanProjectConfigTransformations {
               BooleanProjectConfig.REJECT_EMPTY_COMMIT,
               new Mapper(i -> i.rejectEmptyCommit, (i, v) -> i.rejectEmptyCommit = v))
           .put(
+              BooleanProjectConfig.DISABLE_CONFLICTS_QUERIES,
+              new Mapper(i -> i.disableConflictsQueries, (i, v) -> i.disableConflictsQueries = v))
+          .put(
               BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT,
               new Mapper(i -> i.workInProgressByDefault, (i, v) -> i.workInProgressByDefault = v))
           .build();

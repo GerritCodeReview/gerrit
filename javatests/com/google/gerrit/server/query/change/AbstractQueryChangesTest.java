@@ -72,6 +72,7 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -102,6 +103,7 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -1884,6 +1886,38 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("conflicts:" + change2.getId().get());
     assertQuery("conflicts:" + change3.getId().get(), change1);
     assertQuery("conflicts:" + change4.getId().get());
+  }
+
+  @Test
+  public void disableConflicts() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 =
+        repo.parseBody(
+            repo.commit()
+                .add("file1", "contents1")
+                .add("dir/file2", "contents2")
+                .add("dir/file3", "contents3")
+                .create());
+    RevCommit commit2 =
+        repo.parseBody(repo.commit().add("dir/file2", "contents2 different").create());
+
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+
+    assertQuery("conflicts:" + change1.getId().get(), change2);
+    Project.NameKey project =
+        new Project.NameKey(repo.getRepository().getDescription().getRepositoryName());
+    ProjectState ps = projectCache.checkedGet(project);
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      ps.getProject()
+          .setBooleanConfig(
+              BooleanProjectConfig.DISABLE_CONFLICTS_QUERIES, InheritableBoolean.TRUE);
+      ProjectConfig cfg = ps.getConfig();
+      cfg.commit(md);
+    }
+    projectCache.evict(ps.getProject());
+
+    assertQuery("conflicts:" + change1.getId().get());
   }
 
   @Test

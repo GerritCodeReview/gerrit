@@ -48,6 +48,13 @@ public class ConflictsPredicate {
 
   public static Predicate<ChangeData> create(Arguments args, String value, Change c)
       throws QueryParseException, OrmException {
+    if (args.projectCache
+        .get(c.getProject())
+        .getProject()
+        .getBooleanConfig(BooleanProjectConfig.DISABLE_CONFLICTS_QUERIES)) {
+      return Predicate.none();
+    }
+
     ChangeData cd;
     List<String> files;
     try {

@@ -30,9 +30,8 @@ import com.google.gerrit.server.config.GerritServerIdProvider;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import org.eclipse.jgit.lib.PersonIdent;
 
-// TODO(dborowitz): Rename, since this no longer has anything to do with ReviewDb.
-/** Validate the schema and connect to Git. */
-public class ReviewDbSchemaModule extends FactoryModule {
+/** Bindings for low-level Gerrit schema data. */
+public class SchemaModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(PersonIdent.class)

@@ -27,8 +27,8 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.schema.ReviewDbSchemaModule;
 import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
@@ -74,7 +74,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     bind(SitePaths.class);
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
 
-    install(new ReviewDbSchemaModule());
+    install(new SchemaModule());
 
     install(new SshdModule());
   }

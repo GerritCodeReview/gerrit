@@ -25,7 +25,7 @@ import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
-import com.google.gerrit.server.schema.ReviewDbSchemaModule;
+import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
@@ -118,7 +118,7 @@ public abstract class SiteProgram extends AbstractProgram {
         });
     Injector cfgInjector = Guice.createInjector(sitePathModule, configModule);
 
-    modules.add(new ReviewDbSchemaModule());
+    modules.add(new SchemaModule());
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
 
     try {

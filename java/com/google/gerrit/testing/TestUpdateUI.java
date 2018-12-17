@@ -15,9 +15,6 @@
 package com.google.gerrit.testing;
 
 import com.google.gerrit.server.schema.UpdateUI;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.StatementExecutor;
-import java.util.List;
 import java.util.Set;
 
 public class TestUpdateUI implements UpdateUI {
@@ -40,12 +37,5 @@ public class TestUpdateUI implements UpdateUI {
   @Override
   public boolean isBatch() {
     return true;
-  }
-
-  @Override
-  public void pruneSchema(StatementExecutor e, List<String> pruneList) throws OrmException {
-    for (String sql : pruneList) {
-      e.execute(sql);
-    }
   }
 }

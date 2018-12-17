@@ -24,7 +24,6 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.exceptions.StorageRuntimeException;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -69,7 +68,6 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -290,9 +288,9 @@ public class Submit
         return "Problems with change(s): "
             + unmergeable.stream().map(c -> c.getId().toString()).collect(joining(", "));
       }
-    } catch (PermissionBackendException | StorageException | IOException e) {
+    } catch (PermissionBackendException | IOException e) {
       logger.atSevere().withCause(e).log("Error checking if change is submittable");
-      throw new StorageRuntimeException("Could not determine problems for the change", e);
+      throw new StorageException("Could not determine problems for the change", e);
     }
     return null;
   }
@@ -313,7 +311,7 @@ public class Submit
       }
     } catch (IOException e) {
       logger.atSevere().withCause(e).log("Error checking if change is submittable");
-      throw new StorageRuntimeException("Could not determine problems for the change", e);
+      throw new StorageException("Could not determine problems for the change", e);
     }
 
     ChangeData cd = changeDataFactory.create(resource.getNotes());
@@ -321,42 +319,31 @@ public class Submit
       MergeOp.checkSubmitRule(cd, false);
     } catch (ResourceConflictException e) {
       return null; // submit not visible
-    } catch (StorageException e) {
-      logger.atSevere().withCause(e).log("Error checking if change is submittable");
-      throw new StorageRuntimeException("Could not determine problems for the change", e);
     }
 
     ChangeSet cs;
     try {
       cs = mergeSuperSet.get().completeChangeSet(cd.change(), resource.getUser());
-    } catch (StorageException | IOException | PermissionBackendException e) {
-      throw new StorageRuntimeException(
-          "Could not determine complete set of changes to be submitted", e);
+    } catch (IOException | PermissionBackendException e) {
+      throw new StorageException("Could not determine complete set of changes to be submitted", e);
     }
 
     String topic = change.getTopic();
     int topicSize = 0;
     if (!Strings.isNullOrEmpty(topic)) {
-      topicSize = getChangesByTopic(topic).size();
+      topicSize = queryProvider.get().byTopicOpen(topic).size();
     }
     boolean treatWithTopic = submitWholeTopic && !Strings.isNullOrEmpty(topic) && topicSize > 1;
 
     String submitProblems = problemsForSubmittingChangeset(cd, cs, resource.getUser());
 
-    Boolean enabled;
-    try {
-      // Recheck mergeability rather than using value stored in the index,
-      // which may be stale.
-      // TODO(dborowitz): This is ugly; consider providing a way to not read
-      // stored fields from the index in the first place.
-      // cd.setMergeable(null);
-      // That was done in unmergeableChanges which was called by
-      // problemsForSubmittingChangeset, so now it is safe to read from
-      // the cache, as it yields the same result.
-      enabled = cd.isMergeable();
-    } catch (StorageException e) {
-      throw new StorageRuntimeException("Could not determine mergeability", e);
-    }
+    // Recheck mergeability rather than using value stored in the index, which may be stale.
+    // TODO(dborowitz): This is ugly; consider providing a way to not read stored fields from the
+    // index in the first place.
+    // cd.setMergeable(null);
+    // That was done in unmergeableChanges which was called by problemsForSubmittingChangeset, so
+    // now it is safe to read from the cache, as it yields the same result.
+    Boolean enabled = cd.isMergeable();
 
     if (submitProblems != null) {
       return new UiAction.Description()
@@ -474,14 +461,6 @@ public class Submit
           String.format("on_behalf_of account %s cannot see change", submitter.getAccountId()));
     }
     return submitter;
-  }
-
-  private List<ChangeData> getChangesByTopic(String topic) {
-    try {
-      return queryProvider.get().byTopicOpen(topic);
-    } catch (StorageException e) {
-      throw new StorageRuntimeException(e);
-    }
   }
 
   public static class CurrentRevision implements RestModifyView<ChangeResource, SubmitInput> {

@@ -17,12 +17,10 @@ package com.google.gerrit.index.query;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.exceptions.StorageRuntimeException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -77,23 +75,6 @@ public class AndSource<T> extends AndPredicate<T>
 
   @Override
   public ResultSet<T> read() throws StorageException {
-    try {
-      return readImpl();
-    } catch (StorageRuntimeException err) {
-      if (err.getCause() != null) {
-        Throwables.throwIfInstanceOf(err.getCause(), StorageException.class);
-      }
-      throw new StorageException(err);
-    }
-  }
-
-  @Override
-  public ResultSet<FieldBundle> readRaw() throws StorageException {
-    // TOOD(hiesel): Implement
-    throw new UnsupportedOperationException("not implemented");
-  }
-
-  private ResultSet<T> readImpl() throws StorageException {
     if (source == null) {
       throw new StorageException("No DataSource: " + this);
     }
@@ -142,6 +123,12 @@ public class AndSource<T> extends AndPredicate<T>
   }
 
   @Override
+  public ResultSet<FieldBundle> readRaw() throws StorageException {
+    // TOOD(hiesel): Implement
+    throw new UnsupportedOperationException("not implemented");
+  }
+
+  @Override
   public boolean isMatchable() {
     return isVisibleToPredicate != null || super.isMatchable();
   }
@@ -164,7 +151,7 @@ public class AndSource<T> extends AndPredicate<T>
         .transformAndConcat(this::transformBuffer);
   }
 
-  protected List<T> transformBuffer(List<T> buffer) throws StorageRuntimeException {
+  protected List<T> transformBuffer(List<T> buffer) {
     return buffer;
   }
 

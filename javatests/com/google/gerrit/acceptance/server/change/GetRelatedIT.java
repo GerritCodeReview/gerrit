@@ -609,7 +609,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
             public boolean updateChange(ChangeContext ctx) throws OrmException {
               PatchSet ps = psUtil.get(ctx.getNotes(), psId);
               psUtil.setGroups(ctx.getUpdate(psId), ps, ImmutableList.<String>of());
-              ctx.dontBumpLastUpdatedOn();
               return true;
             }
           });

@@ -142,7 +142,6 @@ public class PutDraftComment
       setCommentRevId(comment, patchListCache, ctx.getChange(), ps);
       commentsUtil.putComments(
           update, Status.DRAFT, Collections.singleton(update(comment, in, ctx.getWhen())));
-      ctx.dontBumpLastUpdatedOn();
       return true;
     }
   }

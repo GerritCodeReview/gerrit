@@ -102,6 +102,7 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -1884,6 +1885,38 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("conflicts:" + change2.getId().get());
     assertQuery("conflicts:" + change3.getId().get(), change1);
     assertQuery("conflicts:" + change4.getId().get());
+  }
+
+  @Test
+  public void disableConflicts() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 =
+        repo.parseBody(
+            repo.commit()
+                .add("file1", "contents1")
+                .add("dir/file2", "contents2")
+                .add("dir/file3", "contents3")
+                .create());
+    RevCommit commit2 = repo.parseBody(repo.commit().add("file1", "contents1").create());
+    RevCommit commit3 =
+        repo.parseBody(repo.commit().add("dir/file2", "contents2 different").create());
+    RevCommit commit4 = repo.parseBody(repo.commit().add("file4", "contents4").create());
+
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    Change change3 = insert(repo, newChangeForCommit(repo, commit3));
+
+    assertQuery("conflicts:" + change1.getId().get(), change3);
+    Project.NameKey project =
+        new Project.NameKey(repo.getRepository().getDescription().getRepositoryName());
+    ProjectState ps = projectCache.checkedGet(project);
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      ps.getProject().setDisableConflictsQueries(true);
+      ProjectConfig cfg = ps.getConfig();
+      cfg.commit(md);
+    }
+    projectCache.evict(ps.getProject());
+
+    assertQuery("conflicts:" + change1.getId().get());
   }
 
   @Test

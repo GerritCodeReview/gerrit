@@ -89,6 +89,8 @@ public final class Project {
 
   protected ProjectState state;
 
+  protected boolean disableConflictsQueries;
+
   protected NameKey parent;
 
   protected String maxObjectSizeLimit;
@@ -182,6 +184,14 @@ public final class Project {
 
   public void setLocalDefaultDashboard(String localDefaultDashboardId) {
     this.localDefaultDashboardId = localDefaultDashboardId;
+  }
+
+  public boolean getDisableConflictsQueries() {
+    return disableConflictsQueries;
+  }
+
+  public void setDisableConflictsQueries(boolean disableConflictsQueries) {
+    this.disableConflictsQueries = disableConflictsQueries;
   }
 
   public String getThemeName() {

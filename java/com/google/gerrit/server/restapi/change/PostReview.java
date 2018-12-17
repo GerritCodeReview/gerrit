@@ -1269,11 +1269,8 @@ public class PostReview
         checkState(prev != psa.getValue()); // Should be filtered out above.
         if (prev > psa.getValue()) {
           reduced.add(psa);
-        } else {
-          // Set postSubmit bit in ReviewDb; not required for NoteDb, which sets
-          // it automatically.
-          psa.setPostSubmit(true);
         }
+        // No need to set postSubmit bit, which is set automatically when parsing from NoteDb.
       }
 
       if (!disallowed.isEmpty()) {

@@ -158,6 +158,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String SUBSCRIBE_MATCH_REFS = "matching";
   private static final String SUBSCRIBE_MULTI_MATCH_REFS = "all";
 
+  private static final String INDEX = "index";
   private static final String DASHBOARD = "dashboard";
   private static final String KEY_DEFAULT = "default";
   private static final String KEY_LOCAL_DEFAULT = "local-default";

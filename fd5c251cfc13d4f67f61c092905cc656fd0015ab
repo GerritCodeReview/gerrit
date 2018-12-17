@@ -22,6 +22,30 @@
       "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcdfb292_d37d27fc",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-17T09:26:33Z",
+      "side": 1,
+      "message": "Not sure.  The other code below also does the eviction before indexing.",
+      "parentUuid": "a431a6e6_74e71769",
+      "range": {
+        "startLine": 348,
+        "startChar": 4,
+        "endLine": 348,
+        "endChar": 48
+      },
+      "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

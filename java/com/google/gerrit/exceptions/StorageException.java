@@ -27,7 +27,7 @@ package com.google.gerrit.exceptions;
  *   <li>Other wrapped {@code IOException}s
  * </ul>
  */
-public class StorageException extends Exception {
+public class StorageException extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
   public StorageException(String message) {

@@ -124,8 +124,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
           .setContentType(f.getMimeType())
           .setAttachmentName("submit-preview-" + change.getChangeId() + "." + format);
       return bin;
-    } catch (StorageException
-        | RestApiException
+    } catch (RestApiException
         | UpdateException
         | IOException
         | ConfigInvalidException

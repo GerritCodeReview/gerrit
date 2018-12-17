@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
@@ -89,7 +88,6 @@ public class EmailReviewComments implements Runnable, RequestContext {
   private final List<Comment> comments;
   private final String patchSetComment;
   private final List<LabelVote> labels;
-  private ReviewDb db;
 
   @Inject
   EmailReviewComments(
@@ -130,7 +128,6 @@ public class EmailReviewComments implements Runnable, RequestContext {
   public void run() {
     RequestContext old = requestContext.setContext(this);
     try {
-
       CommentSender cm = commentSenderFactory.create(notes.getProjectName(), notes.getChangeId());
       cm.setFrom(user.getAccountId());
       cm.setPatchSet(patchSet, patchSetInfoFactory.get(notes.getProjectName(), patchSet));
@@ -145,10 +142,6 @@ public class EmailReviewComments implements Runnable, RequestContext {
       logger.atSevere().withCause(e).log("Cannot email comments for %s", patchSet.getId());
     } finally {
       requestContext.setContext(old);
-      if (db != null) {
-        db.close();
-        db = null;
-      }
     }
   }
 

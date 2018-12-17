@@ -27,7 +27,6 @@ import com.google.common.collect.Ordering;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.exceptions.StorageRuntimeException;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.index.IndexConfig;
@@ -192,8 +191,6 @@ public abstract class QueryProcessor<T> {
       throws StorageException, QueryParseException {
     try {
       return query(null, queries);
-    } catch (StorageRuntimeException e) {
-      throw new StorageException(e.getMessage(), e);
     } catch (StorageException e) {
       if (e.getCause() != null) {
         Throwables.throwIfInstanceOf(e.getCause(), QueryParseException.class);
@@ -287,7 +284,7 @@ public abstract class QueryProcessor<T> {
       // Only measure successful queries that actually touched the index.
       metrics.executionTime.record(
           schemaDef.getName(), System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
-    } catch (StorageException | StorageRuntimeException e) {
+    } catch (StorageException e) {
       Optional<QueryParseException> qpe = findQueryParseException(e);
       if (qpe.isPresent()) {
         throw new QueryParseException(qpe.get().getMessage(), e);

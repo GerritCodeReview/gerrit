@@ -15,7 +15,6 @@
 package com.google.gerrit.reviewdb.server;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gwtorm.server.Relation;
 import com.google.gwtorm.server.Schema;
 
 /**
@@ -58,22 +57,17 @@ public interface ReviewDb extends Schema {
 
   // Deleted @Relation(id = 20)
 
-  @Relation(id = 21)
-  ChangeAccess changes();
+  // Deleted @Relation(id = 21)
 
-  @Relation(id = 22)
-  PatchSetApprovalAccess patchSetApprovals();
+  // Deleted @Relation(id = 22)
 
-  @Relation(id = 23)
-  ChangeMessageAccess changeMessages();
+  // Deleted @Relation(id = 23)
 
-  @Relation(id = 24)
-  PatchSetAccess patchSets();
+  // Deleted @Relation(id = 24)
 
   // Deleted @Relation(id = 25)
 
-  @Relation(id = 26)
-  PatchLineCommentAccess patchComments();
+  // Deleted @Relation(id = 26)
 
   // Deleted @Relation(id = 28)
 

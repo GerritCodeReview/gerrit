@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.init;
 
-import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Splitter;
@@ -38,7 +37,6 @@ import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.httpd.raw.StaticModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
-import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.gerrit.pgm.util.LogFileCompressor;
@@ -105,7 +103,6 @@ import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
-import com.google.inject.name.Names;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.spi.Message;
@@ -125,7 +122,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
 import org.eclipse.jgit.lib.Config;
 
 /** Configures the web application environment for Gerrit Code Review. */
@@ -262,16 +258,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
       Module configModule = new GerritServerConfigModule();
       modules.add(configModule);
     } else {
-      modules.add(
-          new LifecycleModule() {
-            @Override
-            protected void configure() {
-              bind(Key.get(DataSource.class, Names.named("ReviewDb")))
-                  .toProvider(ReviewDbDataSourceProvider.class)
-                  .in(SINGLETON);
-              listener().to(ReviewDbDataSourceProvider.class);
-            }
-          });
       modules.add(new GerritServerConfigModule());
     }
     modules.add(new DropWizardMetricMaker.ApiModule());

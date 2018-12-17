@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
-  <resource-ref>
-    <res-ref-name>jdbc/ReviewDb</res-ref-name>
-    <res-type>javax.sql.DataSource</res-type>
-    <res-auth>Container</res-auth>
-  </resource-ref>
-
   <filter>
     <filter-name>guiceFilter</filter-name>
     <filter-class>com.google.gerrit.httpd.init.WebAppInitializer</filter-class>

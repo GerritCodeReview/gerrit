@@ -15,10 +15,8 @@
 package com.google.gerrit.reviewdb.server;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.Relation;
 import com.google.gwtorm.server.Schema;
-import com.google.gwtorm.server.Sequence;
 
 /**
  * The review service database schema.
@@ -88,13 +86,4 @@ public interface ReviewDb extends Schema {
   int FIRST_GROUP_ID = 1;
 
   int FIRST_CHANGE_ID = 1;
-
-  /**
-   * Next unique id for a {@link Change}.
-   *
-   * @deprecated use {@link com.google.gerrit.server.Sequences#nextChangeId()}.
-   */
-  @Sequence(startWith = FIRST_CHANGE_ID)
-  @Deprecated
-  int nextChangeId() throws OrmException;
 }

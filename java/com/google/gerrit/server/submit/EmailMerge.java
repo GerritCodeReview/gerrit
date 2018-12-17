@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
@@ -57,8 +56,6 @@ class EmailMerge implements Runnable, RequestContext {
   private final Account.Id submitter;
   private final NotifyHandling notifyHandling;
   private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
-
-  private ReviewDb db;
 
   @Inject
   EmailMerge(
@@ -102,10 +99,6 @@ class EmailMerge implements Runnable, RequestContext {
       logger.atSevere().withCause(e).log("Cannot email merged notification for %s", changeId);
     } finally {
       requestContext.setContext(old);
-      if (db != null) {
-        db.close();
-        db = null;
-      }
     }
   }
 

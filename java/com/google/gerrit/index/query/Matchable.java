@@ -14,7 +14,7 @@
 
 package com.google.gerrit.index.query;
 
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.reviewdb.server.OrmException;
 
 public interface Matchable<T> {
   /**

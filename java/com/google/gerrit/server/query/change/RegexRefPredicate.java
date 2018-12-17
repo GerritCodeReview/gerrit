@@ -15,8 +15,8 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 

@@ -16,7 +16,7 @@ package com.google.gerrit.index.query;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.reviewdb.server.OrmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

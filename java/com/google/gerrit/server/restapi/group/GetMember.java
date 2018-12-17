@@ -16,10 +16,10 @@ package com.google.gerrit.server.restapi.group;
 
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.group.MemberResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

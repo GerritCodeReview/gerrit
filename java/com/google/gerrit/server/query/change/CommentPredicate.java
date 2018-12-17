@@ -16,10 +16,10 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
-import com.google.gwtorm.server.OrmException;
 
 public class CommentPredicate extends ChangeIndexPredicate {
   protected final ChangeIndex index;

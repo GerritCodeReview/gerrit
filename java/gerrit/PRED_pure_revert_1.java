@@ -14,8 +14,8 @@
 
 package gerrit;
 
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.rules.StoredValues;
-import com.google.gwtorm.server.OrmException;
 import com.googlecode.prolog_cafe.exceptions.JavaException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;

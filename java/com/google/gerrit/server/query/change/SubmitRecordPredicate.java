@@ -19,8 +19,8 @@ import static java.util.stream.Collectors.toList;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 import java.util.Set;
 
 public class SubmitRecordPredicate extends ChangeIndexPredicate {

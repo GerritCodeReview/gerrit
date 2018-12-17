@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.testsuite.account;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountState;
@@ -24,7 +25,6 @@ import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;

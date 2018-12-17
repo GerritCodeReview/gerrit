@@ -23,12 +23,12 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.RulesCache;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import org.kohsuke.args4j.Option;
 

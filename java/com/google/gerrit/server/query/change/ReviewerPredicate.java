@@ -18,9 +18,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
-import com.google.gwtorm.server.OrmException;
 
 public class ReviewerPredicate extends ChangeIndexPredicate {
   protected static Predicate<ChangeData> forState(Account.Id id, ReviewerStateInternal state) {

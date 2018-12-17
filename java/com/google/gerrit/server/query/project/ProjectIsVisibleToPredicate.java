@@ -17,12 +17,12 @@ package com.google.gerrit.server.query.project;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
-import com.google.gwtorm.server.OrmException;
 
 public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectData> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

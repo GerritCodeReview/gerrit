@@ -19,8 +19,8 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.testing.GerritBaseTests;
-import com.google.gwtorm.server.OrmException;
 import java.util.Arrays;
 import org.junit.Test;
 

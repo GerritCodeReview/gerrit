@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import com.google.gwtorm.server.OrmDuplicateKeyException;
+import com.google.gerrit.reviewdb.server.OrmDuplicateKeyException;
 
 /**
  * Exception that is thrown if an external ID cannot be inserted because an external ID with the

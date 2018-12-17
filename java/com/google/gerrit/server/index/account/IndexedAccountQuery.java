@@ -24,8 +24,8 @@ import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gwtorm.server.OrmException;
 
 public class IndexedAccountQuery extends IndexedQuery<Account.Id, AccountState>
     implements DataSource<AccountState>, Matchable<AccountState> {

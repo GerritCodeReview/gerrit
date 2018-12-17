@@ -16,6 +16,7 @@ package com.google.gerrit.pgm.init;
 
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
@@ -23,7 +24,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;

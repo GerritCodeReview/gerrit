@@ -15,10 +15,10 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.reviewdb.server.OrmException;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

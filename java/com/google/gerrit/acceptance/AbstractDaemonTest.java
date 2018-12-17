@@ -38,6 +38,7 @@ import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
@@ -160,7 +161,6 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -292,6 +292,7 @@ public abstract class AbstractDaemonTest {
   @Inject private Groups groups;
   @Inject private GroupIndexer groupIndexer;
   @Inject private AbstractChangeNotes.Args changeNotesArgs;
+  @Inject private ProjectOperations projectOperations;
 
   private ProjectResetter resetter;
   private List<Repository> toClose;
@@ -1159,22 +1160,18 @@ public abstract class AbstractDaemonTest {
     return changeResourceFactory.create(notes.get(0), atrScope.get().getUser());
   }
 
-  @Nullable
   protected RevCommit getHead(Repository repo, String name) throws Exception {
     try (RevWalk rw = new RevWalk(repo)) {
       Ref r = repo.exactRef(name);
-      return r != null ? rw.parseCommit(r.getObjectId()) : null;
+      return rw.parseCommit(r.getObjectId());
     }
   }
 
-  @Nullable
+  // TODO(hanwen): push this down.
   protected RevCommit getRemoteHead(Project.NameKey project, String branch) throws Exception {
-    try (Repository repo = repoManager.openRepository(project)) {
-      return getHead(repo, branch.startsWith(Constants.R_REFS) ? branch : "refs/heads/" + branch);
-    }
+    return projectOperations.project(project).getHead(branch);
   }
 
-  @Nullable
   protected RevCommit getRemoteHead() throws Exception {
     return getRemoteHead(project, "master");
   }

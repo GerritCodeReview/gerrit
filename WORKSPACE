@@ -794,8 +794,14 @@ maven_jar(
 
 maven_jar(
     name = "sshd",
-    artifact = "org.apache.sshd:sshd-core:2.0.0",
-    sha1 = "f4275079a2463cfd2bf1548a80e1683288a8e86b",
+    artifact = "org.apache.sshd:sshd-core:2.2.0",
+    sha1 = "1859ca07aafb6fcbf55872de0d7e3d99a0011523",
+)
+
+maven_jar(
+    name = "sshd-common",
+    artifact = "org.apache.sshd:sshd-common:2.2.0",
+    sha1 = "33af1dd672bf170e4f49302e96f9412e76551836",
 )
 
 maven_jar(

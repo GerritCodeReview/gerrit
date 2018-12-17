@@ -35,9 +35,11 @@ import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.gwtorm.server.OrmException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
@@ -98,20 +100,6 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
       allUsersName = new AllUsersName("The-Users");
       repoManager = new InMemoryRepositoryManager();
 
-      SchemaCreator schemaCreator =
-          () -> {
-            try (Repository repo = repoManager.createRepository(allProjectsName)) {
-              if (initialVersion.isPresent()) {
-                TestRepository<?> tr = new TestRepository<>(repo);
-                tr.update(RefNames.REFS_VERSION, tr.blob(initialVersion.get().toString()));
-              }
-            } catch (Exception e) {
-              throw new OrmException(e);
-            }
-            repoManager.createRepository(allUsersName).close();
-            setUp();
-          };
-
       args = new NoteDbSchemaVersion.Arguments(repoManager, allProjectsName);
       NoteDbSchemaVersionManager versionManager =
           new NoteDbSchemaVersionManager(allProjectsName, repoManager);
@@ -121,11 +109,42 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
               allProjectsName,
               allUsersName,
               repoManager,
-              schemaCreator,
+              new TestSchemaCreator(initialVersion),
               versionManager,
               args,
               ImmutableSortedMap.of(10, TestSchema_10.class, 11, TestSchema_11.class));
       messages = new ArrayList<>();
+    }
+
+    private class TestSchemaCreator implements SchemaCreator {
+      private final Optional<Integer> initialVersion;
+
+      TestSchemaCreator(Optional<Integer> initialVersion) {
+        this.initialVersion = initialVersion;
+      }
+
+      @Override
+      public void create() throws OrmException, IOException {
+        try (Repository repo = repoManager.createRepository(allProjectsName)) {
+          if (initialVersion.isPresent()) {
+            TestRepository<?> tr = new TestRepository<>(repo);
+            tr.update(RefNames.REFS_VERSION, tr.blob(initialVersion.get().toString()));
+          }
+        } catch (Exception e) {
+          throw new OrmException(e);
+        }
+        repoManager.createRepository(allUsersName).close();
+        setUp();
+      }
+
+      @Override
+      public void ensureCreated() throws OrmException, IOException {
+        try {
+          repoManager.openRepository(allProjectsName).close();
+        } catch (RepositoryNotFoundException e) {
+          create();
+        }
+      }
     }
 
     protected void setNotesMigrationConfig() {

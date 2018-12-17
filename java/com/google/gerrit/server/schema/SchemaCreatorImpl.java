@@ -41,6 +41,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -109,6 +110,15 @@ public class SchemaCreatorImpl implements SchemaCreator {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       createAdminsGroup(seqs, allUsersRepo, admins);
       createBatchUsersGroup(seqs, allUsersRepo, batchUsers, admins.getUUID());
+    }
+  }
+
+  @Override
+  public void ensureCreated() throws OrmException, IOException, ConfigInvalidException {
+    try {
+      repoManager.openRepository(allProjectsName).close();
+    } catch (RepositoryNotFoundException e) {
+      create();
     }
   }
 

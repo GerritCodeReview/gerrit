@@ -31,6 +31,7 @@ public class ConfigInput {
   public InheritableBoolean rejectImplicitMerges;
   public InheritableBoolean privateByDefault;
   public InheritableBoolean workInProgressByDefault;
+  public InheritableBoolean disableConflictsQueries;
   public InheritableBoolean enableReviewerByEmail;
   public InheritableBoolean matchAuthorToCommitterDate;
   public InheritableBoolean rejectEmptyCommit;

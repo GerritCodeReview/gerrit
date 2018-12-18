@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -77,10 +76,8 @@ public final class PatchSet {
   public static class Id extends IntKey<Change.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1)
     public Change.Id changeId;
 
-    @Column(id = 2)
     public int patchSetId;
 
     public Id() {
@@ -156,20 +153,14 @@ public final class PatchSet {
     }
   }
 
-  @Column(id = 1, name = Column.NONE)
   protected Id id;
 
-  @Column(id = 2, notNull = false)
   protected RevId revision;
 
-  @Column(id = 3, name = "uploader_account_id")
   protected Account.Id uploader;
 
   /** When this patch set was first introduced onto the change. */
-  @Column(id = 4)
   protected Timestamp createdOn;
-
-  // @Column(id = 5)
 
   /**
    * Opaque group identifier, usually assigned during creation.
@@ -180,13 +171,11 @@ public final class PatchSet {
    * <p>Changes on the same branch having patch sets with intersecting groups are considered
    * related, as in the "Related Changes" tab.
    */
-  @Column(id = 6, notNull = false, length = Integer.MAX_VALUE)
   protected String groups;
 
   // DELETED id = 7 (pushCertficate)
 
   /** Certificate sent with a push that created this patch set. */
-  @Column(id = 8, notNull = false, length = Integer.MAX_VALUE)
   protected String pushCertificate;
 
   /**
@@ -195,7 +184,6 @@ public final class PatchSet {
    * <p>When this field is null, the description was never set on the patch set. When this field is
    * an empty string, the description was set and later cleared.
    */
-  @Column(id = 9, notNull = false, length = Integer.MAX_VALUE)
   protected String description;
 
   protected PatchSet() {}

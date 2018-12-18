@@ -57,7 +57,6 @@ public final class Account {
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1)
     protected int id;
 
     protected Id() {}

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.CompoundKey;
 import java.util.Objects;
 
@@ -23,10 +22,8 @@ public final class AccountGroupById {
   public static class Key extends CompoundKey<AccountGroup.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1)
     protected AccountGroup.Id groupId;
 
-    @Column(id = 2)
     protected AccountGroup.UUID includeUUID;
 
     protected Key() {
@@ -58,7 +55,6 @@ public final class AccountGroupById {
     }
   }
 
-  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
   protected AccountGroupById() {}

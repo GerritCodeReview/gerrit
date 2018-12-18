@@ -26,6 +26,18 @@ function test_empty {
   fi
 }
 
+function test_empty_with_comments {
+  rm -f input
+  cat << EOF > input
+# comment
+
+# comment2
+EOF
+  if ${hook} input ; then
+    fail "must fail on empty message"
+  fi
+}
+
 # a Change-Id already set is preserved.
 function test_preserve_changeid {
   cat << EOF > input
@@ -113,7 +125,7 @@ EOF
 
 
 # Test driver.
-
+git init
 for func in $( declare -F | awk '{print $3;}' | sort); do
   case ${func} in
     test_*)

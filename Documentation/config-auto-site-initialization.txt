@@ -11,62 +11,31 @@ runtime. It is also possible to install only a subset of packaged
 plugins or not install any plugins.
 
 This feature may be useful for such setups where Gerrit administrators
-don't have direct access to the database and the file system of the
-server where Gerrit should be deployed and, therefore, cannot perform
-the init from their local machine prior to deploying Gerrit on such a
-server. It may also make deployment and testing in a local servlet
-container faster to set up as the init step could be skipped.
+don't have direct access to the file system of the server where Gerrit
+should be deployed and, therefore, cannot perform the init from their
+local machine prior to deploying Gerrit on such a server. It may also
+make deployment and testing in a local servlet container faster to set
+up as the init step could be skipped.
 
 == Gerrit Configuration
 
 The site initialization will be performed only if the `gerrit.init`
 system property exists. The value of the property is not used; only the
-existence of the property matters.
-
-If the `gerrit.site_path` system property is defined then the init is
-run for that site. The database connectivity, in that case, is defined
-in the `etc/gerrit.config`.
-
-`gerrit.site_path` system property must be defined to run the init for
-that site.
-
-[WARNING]
-Defining the `jdbc/ReviewDb` JNDI property for an H2 database under the
-path defined by `gerrit.site_path` will cause an incomplete auto
-initialization and Gerrit will fail to start.
-
-Opening a connection to such a database will create a subfolder under the
-site path folder (in order to create the H2 database) and Gerrit will
-no longer consider that site path to be new and, because of that,
-skip some required initialization steps (for example, Lucene index
-creation). In order to auto initialize Gerrit with an embedded H2
-database use the `gerrit.site_path` to define the location of the review
-site and don't define a JNDI resource with a URL under that path.
+existence of the property matters. The `gerrit.site_path` system
+property must be set as well.
 
 If the `gerrit.install_plugins` property is not defined then all packaged
 plugins will be installed. If it is defined then it is parsed as a
 comma-separated list of plugin names to install. If the value is an
 empty string then no plugin will be installed.
 
-=== Example 1
+=== Example
 
-Prepare Tomcat so that a site is initialized at a given path using
-the H2 database (if the site doesn't exist yet) or using whatever
-database is defined in `etc/gerrit.config` of that site:
+Prepare Tomcat so that a site is initialized at a given path (if the site
+doesn't exist yet).
 
 ----
   $ export CATALINA_OPTS='-Dgerrit.init -Dgerrit.site_path=/path/to/site'
-  $ catalina.sh start
-----
-
-=== Example 2
-
-Assuming the database schema doesn't exist in the database defined
-via the `jdbc/ReviewDb` JNDI property, initialize a new site using that
-database and a given path:
-
-----
-  $ export CATALINA_OPTS='-Dgerrit.init -Dgerrit.init_path=/path/to/site'
   $ catalina.sh start
 ----
 

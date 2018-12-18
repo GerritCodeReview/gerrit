@@ -28,7 +28,7 @@ for some basic setup prior to writing default configuration files
 into a newly created `$site_path`.
 
 If run in an existing `$site_path`, init upgrades existing resources
-(e.g. DB schema, plugins) as necessary.
+(e.g. NoteDb schema, plugins) as necessary.
 
 == OPTIONS
 -b::
@@ -100,8 +100,7 @@ objects these SQL statements must be executed manually.
 	folder.
 
 == CONTEXT
-This command can only be run on a server which has direct
-connectivity to the metadata database, and local access to the
+This command can only be run on a server which has direct local access to the
 managed Git repositories.
 
 GERRIT

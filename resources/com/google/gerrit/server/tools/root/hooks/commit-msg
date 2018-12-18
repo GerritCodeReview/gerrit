@@ -32,6 +32,11 @@ if test ! -s "$1" ; then
   exit 1
 fi
 
+if test -z "$(git stripspace --strip-comments < $1)"; then
+  echo "file has only comments"
+  exit 1
+fi
+
 # $RANDOM will be undefined if not using bash, so don't use set -u
 random=$( (whoami ; hostname ; date; cat $1 ; echo $RANDOM) | git hash-object --stdin)
 dest="$1.tmp.${random}"

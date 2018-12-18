@@ -28,9 +28,8 @@ _ssh_ -p <port> <host> _gerrit create-project_
 == DESCRIPTION
 Creates a new bare Git repository under `gerrit.basePath`, using
 the project name supplied.  The newly created repository is empty
-(has no commits), but is registered in the Gerrit database so that
-the initial commit may be uploaded for review, or initial content
-can be pushed directly into a branch.
+(has no commits), and the initial content may either be uploaded for
+review, or pushed directly to a branch.
 
 If replication is enabled, this command also connects to each of
 the configured remote systems over SSH and uses command line git

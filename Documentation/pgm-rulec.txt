@@ -33,8 +33,7 @@ named `rules-'SHA1'.jar` in `'$site_path'/cache/rules`.
 	Compile rules for the specified project.
 
 == CONTEXT
-This command can only be run on a server which has direct
-connectivity to the metadata database, and local access to the
+This command can only be run on a server which has local access to the
 managed Git repositories.
 
 Caching needs to be enabled. See

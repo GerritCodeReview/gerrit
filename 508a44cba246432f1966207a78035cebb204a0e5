@@ -118,6 +118,30 @@
       "revId": "508a44cba246432f1966207a78035cebb204a0e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a45f977_fdddbe32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-18T12:50:09Z",
+      "side": 1,
+      "message": "Yes, that\u0027s probably the case.  We should then extend the other tests.",
+      "parentUuid": "0b2a5236_ffcf639e",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "508a44cba246432f1966207a78035cebb204a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

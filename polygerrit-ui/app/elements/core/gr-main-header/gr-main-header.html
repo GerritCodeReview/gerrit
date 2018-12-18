@@ -176,6 +176,7 @@ limitations under the License.
       <ul class="links">
         <template is="dom-repeat" items="[[_links]]" as="linkGroup">
           <li class$="[[linkGroup.class]]">
+          <gr-endpoint-decorator name$="header-dropdown-[[linkGroup.title]]">
           <gr-dropdown
               link
               down-arrow
@@ -185,6 +186,7 @@ limitations under the License.
               [[linkGroup.title]]
             </span>
           </gr-dropdown>
+          </gr-endpoint-decorator>
           </li>
         </template>
       </ul>

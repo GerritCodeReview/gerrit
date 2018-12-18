@@ -14,8 +14,19 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.common.base.MoreObjects;
+
 public class RefInfo {
   public String ref;
   public String revision;
   public Boolean canDelete;
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("ref", ref)
+        .add("revision", revision)
+        .add("canDelete", canDelete)
+        .toString();
+  }
 }

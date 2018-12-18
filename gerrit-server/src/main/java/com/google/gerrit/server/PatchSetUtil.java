@@ -19,34 +19,66 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.notedb.PatchSetState.DRAFT;
 import static com.google.gerrit.server.notedb.PatchSetState.PUBLISHED;
 
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
+import com.google.inject.name.Named;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Utilities for manipulating patch sets. */
 @Singleton
 public class PatchSetUtil {
+  private static final Logger log = LoggerFactory.getLogger(PatchSetUtil.class);
+  public static final String PATCH_SET_BY_CHANGE = "patch_set_by_change";
+
+  public static class Module extends CacheModule {
+    @Override
+    protected void configure() {
+      cache(
+              PATCH_SET_BY_CHANGE,
+              Change.Id.class,
+              new TypeLiteral<ImmutableCollection<PatchSet>>() {})
+          .expireAfterWrite(2, TimeUnit.MINUTES)
+          .loader(PatchSetsLoader.class);
+    }
+  }
+
   private final NotesMigration migration;
+  private final LoadingCache<Id, ImmutableCollection<PatchSet>> patchSetsByChangeCache;
 
   @Inject
-  PatchSetUtil(NotesMigration migration) {
+  PatchSetUtil(
+      NotesMigration migration,
+      @Named(PATCH_SET_BY_CHANGE)
+          LoadingCache<Change.Id, ImmutableCollection<PatchSet>> patchSetsByChangeCache) {
     this.migration = migration;
+    this.patchSetsByChangeCache = patchSetsByChangeCache;
   }
 
   public PatchSet current(ReviewDb db, ChangeNotes notes) throws OrmException {
@@ -63,8 +95,12 @@ public class PatchSetUtil {
   public ImmutableCollection<PatchSet> byChange(ReviewDb db, ChangeNotes notes)
       throws OrmException {
     if (!migration.readChanges()) {
-      return ChangeUtil.PS_ID_ORDER.immutableSortedCopy(
-          db.patchSets().byChange(notes.getChangeId()));
+      try {
+        return patchSetsByChangeCache.get(notes.getChangeId());
+      } catch (ExecutionException e) {
+        log.warn("Cannot load patch sets for chagne {}", notes.getChangeId(), e);
+        return ImmutableList.<PatchSet>of();
+      }
     }
     return notes.load().getPatchSets().values();
   }
@@ -153,5 +189,20 @@ public class PatchSetUtil {
     ps.setGroups(groups);
     update.setGroups(groups);
     db.patchSets().update(Collections.singleton(ps));
+  }
+
+  private static class PatchSetsLoader
+      extends CacheLoader<Change.Id, ImmutableCollection<PatchSet>> {
+    private final Provider<ReviewDb> db;
+
+    @Inject
+    PatchSetsLoader(Provider<ReviewDb> db) {
+      this.db = db;
+    }
+
+    @Override
+    public ImmutableCollection<PatchSet> load(Change.Id id) throws Exception {
+      return ChangeUtil.PS_ID_ORDER.immutableSortedCopy(db.get().patchSets().byChange(id));
+    }
   }
 }

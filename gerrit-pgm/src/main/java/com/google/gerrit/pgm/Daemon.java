@@ -50,6 +50,7 @@ import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.ModuleOverloader;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
@@ -386,6 +387,7 @@ public class Daemon extends SiteProgram {
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new SearchingChangeCacheImpl.Module(slave));
+    modules.add(new PatchSetUtil.Module());
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultMemoryCacheModule());
     modules.add(new H2CacheModule());

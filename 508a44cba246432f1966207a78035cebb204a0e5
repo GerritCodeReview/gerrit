@@ -46,6 +46,30 @@
       "revId": "508a44cba246432f1966207a78035cebb204a0e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcebbca8_f9c93beb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-18T12:15:18Z",
+      "side": 1,
+      "message": "OK, that\u0027s better, but none of these tests verify that ref filtering is working. I think RefAdvertisementIT should be changed so that it goes through GitOverHttpServlet to make sure this class is covered.",
+      "parentUuid": "1e811686_dcc58f9c",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "508a44cba246432f1966207a78035cebb204a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

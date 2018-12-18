@@ -94,6 +94,30 @@
       "revId": "508a44cba246432f1966207a78035cebb204a0e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b2a5236_ffcf639e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-18T12:45:39Z",
+      "side": 1,
+      "message": "Might be that there is an overlap between the tests, but isn\u0027t ListBranchesIT just about branches, and other refs are not covered?",
+      "parentUuid": "21a5c82a_c96a3215",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "508a44cba246432f1966207a78035cebb204a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

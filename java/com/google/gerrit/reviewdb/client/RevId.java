@@ -14,14 +14,11 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.Column;
-
 /** A revision identifier for a file or a change. */
 public final class RevId {
   public static final int ABBREV_LEN = 7;
   public static final int LEN = 40;
 
-  @Column(id = 1, length = LEN)
   protected String id;
 
   protected RevId() {}

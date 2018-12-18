@@ -16,8 +16,8 @@ package com.google.gerrit.reviewdb.client;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeStatus;
-import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.StringKey;
 import java.sql.Timestamp;
@@ -96,7 +96,6 @@ public final class Change {
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1)
     public int id;
 
     protected Id() {}
@@ -259,7 +258,6 @@ public final class Change {
   public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1, length = 60)
     protected String id;
 
     protected Key() {}
@@ -427,19 +425,15 @@ public final class Change {
   }
 
   /** Locally assigned unique identifier of the change */
-  @Column(id = 1)
   protected Id changeId;
 
   /** Globally assigned unique identifier of the change */
-  @Column(id = 2)
   protected Key changeKey;
 
   /** optimistic locking */
-  @Column(id = 3)
   protected int rowVersion;
 
   /** When this change was first introduced into the database. */
-  @Column(id = 4)
   protected Timestamp createdOn;
 
   /**
@@ -447,37 +441,30 @@ public final class Change {
    *
    * <p>Note, this update timestamp includes its children.
    */
-  @Column(id = 5)
   protected Timestamp lastUpdatedOn;
 
   // DELETED: id = 6 (sortkey)
 
-  @Column(id = 7, name = "owner_account_id")
   protected Account.Id owner;
 
   /** The branch (and project) this change merges into. */
-  @Column(id = 8)
   protected Branch.NameKey dest;
 
   // DELETED: id = 9 (open)
 
   /** Current state code; see {@link Status}. */
-  @Column(id = 10)
   protected char status;
 
   // DELETED: id = 11 (nbrPatchSets)
 
   /** The current patch set. */
-  @Column(id = 12)
   protected int currentPatchSetId;
 
   /** Subject from the current patch set. */
-  @Column(id = 13)
   protected String subject;
 
   /** Topic name assigned by the user, if any. */
-  @Column(id = 14, notNull = false)
-  protected String topic;
+  @Nullable protected String topic;
 
   // DELETED: id = 15 (lastSha1MergeTested)
   // DELETED: id = 16 (mergeable)
@@ -488,35 +475,28 @@ public final class Change {
    * <p>Unlike {@link #subject}, this string does not change if future patch sets change the first
    * line.
    */
-  @Column(id = 17, notNull = false)
-  protected String originalSubject;
+  @Nullable protected String originalSubject;
 
   /**
    * Unique id for the changes submitted together assigned during merging. Only set if the status is
    * MERGED.
    */
-  @Column(id = 18, notNull = false)
-  protected String submissionId;
+  @Nullable protected String submissionId;
 
   /** Allows assigning a change to a user. */
-  @Column(id = 19, notNull = false)
-  protected Account.Id assignee;
+  @Nullable protected Account.Id assignee;
 
   /** Whether the change is private. */
-  @Column(id = 20)
   protected boolean isPrivate;
 
   /** Whether the change is work in progress. */
-  @Column(id = 21)
   protected boolean workInProgress;
 
   /** Whether the change has started review. */
-  @Column(id = 22)
   protected boolean reviewStarted;
 
   /** References a change that this change reverts. */
-  @Column(id = 23, notNull = false)
-  protected Id revertOf;
+  @Nullable protected Id revertOf;
 
   protected Change() {}
 

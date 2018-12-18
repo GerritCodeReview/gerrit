@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
 /** Line of development within a {@link Project}. */
@@ -23,10 +22,8 @@ public final class Branch {
   public static class NameKey extends StringKey<Project.NameKey> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1)
     protected Project.NameKey projectName;
 
-    @Column(id = 2)
     protected String branchName;
 
     protected NameKey() {

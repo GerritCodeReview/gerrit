@@ -14,8 +14,8 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.Comment.Range;
-import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -36,10 +36,8 @@ public final class PatchLineComment {
           new Patch.Key(new PatchSet.Id(changeId, key.patchSetId), key.filename), key.uuid);
     }
 
-    @Column(id = 1, name = Column.NONE)
     protected Patch.Key patchKey;
 
-    @Column(id = 2, length = 40)
     protected String uuid;
 
     protected Key() {
@@ -122,49 +120,37 @@ public final class PatchLineComment {
     return plc;
   }
 
-  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
   /** Line number this comment applies to; it should display after the line. */
-  @Column(id = 2)
   protected int lineNbr;
 
   /** Who wrote this comment. */
-  @Column(id = 3, name = "author_id")
   protected Account.Id author;
 
   /** When this comment was drafted. */
-  @Column(id = 4)
   protected Timestamp writtenOn;
 
   /** Current publication state of the comment; see {@link Status}. */
-  @Column(id = 5)
   protected char status;
 
   /** Which file is this comment; 0 is ancestor, 1 is new version. */
-  @Column(id = 6)
   protected short side;
 
   /** The text left by the user. */
-  @Column(id = 7, notNull = false, length = Integer.MAX_VALUE)
-  protected String message;
+  @Nullable protected String message;
 
   /** The parent of this comment, or null if this is the first comment on this line */
-  @Column(id = 8, length = 40, notNull = false)
-  protected String parentUuid;
+  @Nullable protected String parentUuid;
 
-  @Column(id = 9, notNull = false)
-  protected CommentRange range;
+  @Nullable protected CommentRange range;
 
-  @Column(id = 10, notNull = false)
-  protected String tag;
+  @Nullable protected String tag;
 
   /** Real user that added this comment on behalf of the user recorded in {@link #author}. */
-  @Column(id = 11, notNull = false)
-  protected Account.Id realAuthor;
+  @Nullable protected Account.Id realAuthor;
 
   /** True if this comment requires further action. */
-  @Column(id = 12)
   protected boolean unresolved;
 
   /** The RevId for the commit to which this comment is referring. */

@@ -17,7 +17,6 @@ package com.google.gerrit.reviewdb.client;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -35,7 +34,6 @@ public final class Project {
   public static class NameKey extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1)
     protected String name;
 
     protected NameKey() {}

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.Column;
+import com.google.gerrit.common.Nullable;
 import com.google.gwtorm.client.CompoundKey;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -24,13 +24,10 @@ public final class AccountGroupMemberAudit {
   public static class Key extends CompoundKey<Account.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1)
     protected Account.Id accountId;
 
-    @Column(id = 2)
     protected AccountGroup.Id groupId;
 
-    @Column(id = 3)
     protected Timestamp addedOn;
 
     protected Key() {
@@ -75,17 +72,13 @@ public final class AccountGroupMemberAudit {
     }
   }
 
-  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
-  @Column(id = 2)
   protected Account.Id addedBy;
 
-  @Column(id = 3, notNull = false)
-  protected Account.Id removedBy;
+  @Nullable protected Account.Id removedBy;
 
-  @Column(id = 4, notNull = false)
-  protected Timestamp removedOn;
+  @Nullable protected Timestamp removedOn;
 
   protected AccountGroupMemberAudit() {}
 

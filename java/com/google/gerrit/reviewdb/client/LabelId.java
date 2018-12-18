@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
 public class LabelId extends StringKey<com.google.gwtorm.client.Key<?>> {
@@ -26,7 +25,6 @@ public class LabelId extends StringKey<com.google.gwtorm.client.Key<?>> {
     return new LabelId(LEGACY_SUBMIT_NAME);
   }
 
-  @Column(id = 1)
   public String id;
 
   public LabelId() {}

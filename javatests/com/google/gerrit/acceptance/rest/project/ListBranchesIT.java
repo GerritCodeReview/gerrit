@@ -26,10 +26,17 @@ import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.testing.ConfigSuite;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 @NoHttpd
 public class ListBranchesIT extends AbstractDaemonTest {
+  @ConfigSuite.Config
+  public static Config gitProtocolVersion2Enabled() {
+    return gitProtocolVersion2EnabledConfg();
+  }
+
   @Test
   public void listBranchesOfNonExistingProject_NotFound() throws Exception {
     exception.expect(ResourceNotFoundException.class);

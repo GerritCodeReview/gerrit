@@ -22,6 +22,30 @@
       "revId": "c3b5e8f200cf905c09c5e202da42298c2bd07a09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edbe3f3c_7de83247",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-18T11:48:22Z",
+      "side": 1,
+      "message": "I\u0027m not sure if it\u0027s sufficient. At the moment this test doesn\u0027t pass at all when v2 is enabled.",
+      "parentUuid": "98031fef_04ed47be",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 85,
+        "endChar": 3
+      },
+      "revId": "c3b5e8f200cf905c09c5e202da42298c2bd07a09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

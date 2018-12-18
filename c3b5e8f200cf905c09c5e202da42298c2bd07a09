@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98031fef_04ed47be",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-18T10:17:02Z",
+      "side": 1,
+      "message": "Is this sufficient? I was under the impression that this tests invokes the ref filtering directly by calling PermissionBackend.ForProject.filter and hence this config setting has no effect? In fact we want to test that the ref filtering logic is invoked by JGit, don\u0027t we?",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 85,
+        "endChar": 3
+      },
+      "revId": "c3b5e8f200cf905c09c5e202da42298c2bd07a09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

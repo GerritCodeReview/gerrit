@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
-import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefNames;
 import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefs;
 
 import com.google.common.collect.ImmutableList;
@@ -90,72 +89,63 @@ public class ListBranchesIT extends AbstractDaemonTest {
 
   @Test
   public void listBranchesUsingPagination() throws Exception {
-    pushTo("refs/heads/master");
-    pushTo("refs/heads/someBranch1");
-    pushTo("refs/heads/someBranch2");
-    pushTo("refs/heads/someBranch3");
+    BranchInfo head = branch("HEAD", "master", false);
+    BranchInfo refsConfig = branch(RefNames.REFS_CONFIG, null, false);
+    BranchInfo master =
+        branch("refs/heads/master", pushTo("refs/heads/master").getCommit().getName(), false);
+    BranchInfo branch1 =
+        branch(
+            "refs/heads/someBranch1", pushTo("refs/heads/someBranch1").getCommit().getName(), true);
+    BranchInfo branch2 =
+        branch(
+            "refs/heads/someBranch2", pushTo("refs/heads/someBranch2").getCommit().getName(), true);
+    BranchInfo branch3 =
+        branch(
+            "refs/heads/someBranch3", pushTo("refs/heads/someBranch3").getCommit().getName(), true);
 
     // Using only limit.
-    assertRefNames(
-        ImmutableList.of(
-            "HEAD", RefNames.REFS_CONFIG, "refs/heads/master", "refs/heads/someBranch1"),
-        list().withLimit(4).get());
+    assertRefs(ImmutableList.of(head, refsConfig, master, branch1), list().withLimit(4).get());
 
     // Limit higher than total number of branches.
-    assertRefNames(
-        ImmutableList.of(
-            "HEAD",
-            RefNames.REFS_CONFIG,
-            "refs/heads/master",
-            "refs/heads/someBranch1",
-            "refs/heads/someBranch2",
-            "refs/heads/someBranch3"),
+    assertRefs(
+        ImmutableList.of(head, refsConfig, master, branch1, branch2, branch3),
         list().withLimit(25).get());
 
     // Using start only.
-    assertRefNames(
-        ImmutableList.of(
-            "refs/heads/master",
-            "refs/heads/someBranch1",
-            "refs/heads/someBranch2",
-            "refs/heads/someBranch3"),
-        list().withStart(2).get());
+    assertRefs(ImmutableList.of(master, branch1, branch2, branch3), list().withStart(2).get());
 
     // Skip more branches than the number of available branches.
-    assertRefNames(ImmutableList.<String>of(), list().withStart(7).get());
+    assertRefs(ImmutableList.of(), list().withStart(7).get());
 
     // Ssing start and limit.
-    assertRefNames(
-        ImmutableList.of("refs/heads/master", "refs/heads/someBranch1"),
-        list().withStart(2).withLimit(2).get());
+    assertRefs(ImmutableList.of(master, branch1), list().withStart(2).withLimit(2).get());
   }
 
   @Test
   public void listBranchesUsingFilter() throws Exception {
-    pushTo("refs/heads/master");
-    pushTo("refs/heads/someBranch1");
-    pushTo("refs/heads/someBranch2");
-    pushTo("refs/heads/someBranch3");
+    BranchInfo master =
+        branch("refs/heads/master", pushTo("refs/heads/master").getCommit().getName(), false);
+    BranchInfo branch1 =
+        branch(
+            "refs/heads/someBranch1", pushTo("refs/heads/someBranch1").getCommit().getName(), true);
+    BranchInfo branch2 =
+        branch(
+            "refs/heads/someBranch2", pushTo("refs/heads/someBranch2").getCommit().getName(), true);
+    BranchInfo branch3 =
+        branch(
+            "refs/heads/someBranch3", pushTo("refs/heads/someBranch3").getCommit().getName(), true);
 
     // Using substring.
-    assertRefNames(
-        ImmutableList.of(
-            "refs/heads/someBranch1", "refs/heads/someBranch2", "refs/heads/someBranch3"),
-        list().withSubstring("some").get());
+    assertRefs(ImmutableList.of(branch1, branch2, branch3), list().withSubstring("some").get());
 
-    assertRefNames(
-        ImmutableList.of(
-            "refs/heads/someBranch1", "refs/heads/someBranch2", "refs/heads/someBranch3"),
-        list().withSubstring("Branch").get());
+    assertRefs(ImmutableList.of(branch1, branch2, branch3), list().withSubstring("Branch").get());
 
-    assertRefNames(
-        ImmutableList.of(
-            "refs/heads/someBranch1", "refs/heads/someBranch2", "refs/heads/someBranch3"),
-        list().withSubstring("somebranch").get());
+    assertRefs(
+        ImmutableList.of(branch1, branch2, branch3), list().withSubstring("somebranch").get());
 
     // Using regex.
-    assertRefNames(ImmutableList.of("refs/heads/master"), list().withRegex(".*ast.*r").get());
-    assertRefNames(ImmutableList.of(), list().withRegex(".*AST.*R").get());
+    assertRefs(ImmutableList.of(master), list().withRegex(".*ast.*r").get());
+    assertRefs(ImmutableList.of(), list().withRegex(".*AST.*R").get());
 
     // Conflicting options
     assertBadRequest(list().withSubstring("somebranch").withRegex(".*ast.*r"));

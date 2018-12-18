@@ -17,7 +17,9 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.server.AuditEvent;
+import com.google.gerrit.testing.ConfigSuite;
 import java.util.Collections;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -25,6 +27,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GitOverHttpServletIT extends AbstractPushForReview {
+  @ConfigSuite.Config
+  public static Config gitProtocolVersion2Enabled() {
+    return gitProtocolVersion2EnabledConfg();
+  }
 
   @Before
   public void beforeEach() throws Exception {

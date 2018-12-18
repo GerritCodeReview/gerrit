@@ -62,6 +62,7 @@ import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PostReceiveHookChain;
@@ -270,6 +271,9 @@ class InProcessProtocol extends TestProtocol<Context> {
       up.setPreUploadHook(PreUploadHookChain.newChain(hooks));
       if (transferConfig.enableProtocolV2()) {
         up.setExtraParameters(ImmutableList.of("version=2"));
+        Config config = new Config();
+        config.setInt("protocol", null, "version", 2);
+        up.setTransferConfig(new org.eclipse.jgit.transport.TransferConfig(config));
       }
       for (UploadPackInitializer initializer : uploadPackInitializers) {
         initializer.init(req.project, up);

@@ -46,8 +46,8 @@ Changing this parameter requires to migrate database using the
 link:pgm-MigrateAccountPatchReviewDb.html[MigrateAccountPatchReviewDb] program.
 Migration cannot be done while the server is running.
 +
-Also note that the db_name has to be a new db and not reusing gerrit's own review database,
-otherwise gerrit's init will remove the table.
+Also note that the db_name has to be a new db and not reusing an old ReviewDb
+database from a former 2.x site, otherwise gerrit's init will remove the table.
 
 ----
 [accountPatchReviewDb]
@@ -805,11 +805,10 @@ cache `"accounts"`::
 +
 Cache entries contain important details of an active user, including
 their display name, preferences, and known email addresses. Entry
-information is obtained from the `accounts` database table.
+information is obtained NoteDb data in the `All-Users` repo.
 
 +
-If direct updates are made to any of these database tables, this
-cache should be flushed.
+If direct updates are made to `All-Users`, this cache should be flushed.
 
 cache `"adv_bases"`::
 +
@@ -829,7 +828,7 @@ Default value is 0 (disabled). It is disabled by default due to the fact
 that change updates are not communicated between Gerrit servers. Hence
 this cache should be disabled in an multi-master/multi-slave setup.
 +
-The cache should be flushed whenever the database changes table is modified
+The cache should be flushed whenever NoteDb change metadata is modified
 outside of Gerrit.
 
 cache `"diff"`::
@@ -2618,8 +2617,7 @@ Defaults to no limit.
 +
 Maximum number of leaf terms to allow in a query. Too-large queries may
 perform poorly, so setting this option causes query parsing to fail fast
-before attempting to send them to the secondary index. Should this limit
-be reached, database is used instead of index as applicable.
+before attempting to send them to the secondary index.
 +
 When the index type is `LUCENE`, also sets the maximum number of clauses
 permitted per BooleanQuery. This is so that all enforced query limits
@@ -3300,9 +3298,9 @@ Common examples:
 [[note-db]]
 === Section noteDb
 
-NoteDb is the next generation of Gerrit storage backend, currently powering
-`googlesource.com`. For more information, including how to migrate your data,
-see the link:note-db.html[documentation].
+NoteDb is the Git-based database storage backend for Gerrit.
+`googlesource.com`. For more information, including how to migrate data from an
+older Gerrit version, see the link:note-db.html[documentation].
 
 [[notedb.accounts.sequenceBatchSize]]notedb.accounts.sequenceBatchSize::
 +

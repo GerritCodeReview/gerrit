@@ -16,7 +16,7 @@ Clear an in-memory cache, forcing Gerrit to reconsult the ground
 truth when it needs the information again.
 
 Flushing a cache may be necessary if an administrator modifies
-database records directly in the database, rather than going through
+NoteDb metadata directly in a repository, rather than going through
 the Gerrit web interface.
 
 If no options are supplied, defaults to `--all`.

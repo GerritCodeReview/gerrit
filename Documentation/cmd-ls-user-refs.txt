@@ -32,8 +32,8 @@ Administrators
 --user::
 -u::
 	Required; User for which the visible refs should be listed. Gerrit
-	will query the database to find matching users, so the
-	full identity/name does not need to be specified.
+	will query the index to find matching users, so the full
+	identity/name does not need to be specified.
 
 --only-refs-heads::
 	Only list the refs found under refs/heads/*

@@ -33,7 +33,6 @@
        * @type {?HTMLElement}
        * */
       _cachedDiffBuilder: Object,
-      isAttached: Boolean,
     },
 
     listeners: {
@@ -41,10 +40,6 @@
       'comment-thread-mouseenter': '_handleCommentThreadMouseenter',
       'create-range-comment': '_createRangeComment',
     },
-
-    observers: [
-      '_enableSelectionObserver(loggedIn, isAttached)',
-    ],
 
     get diffBuilder() {
       if (!this._cachedDiffBuilder) {
@@ -54,24 +49,30 @@
       return this._cachedDiffBuilder;
     },
 
-    _enableSelectionObserver(loggedIn, isAttached) {
-      if (loggedIn && isAttached) {
-        this.listen(document, 'selectionchange', '_handleSelectionChange');
-      } else {
-        this.unlisten(document, 'selectionchange', '_handleSelectionChange');
-      }
-    },
 
     isRangeSelected() {
       return !!this.$$('gr-selection-action-box');
     },
 
-    _handleSelectionChange() {
+    /**
+     * Determines side/line/range for a DOM selection and shows a tooltip.
+     *
+     * With native shadow DOM, gr-diff-highlight cannot access a selection that
+     * references the DOM elements making up the diff because they are in the
+     * shadow DOM the gr-diff element. For this reason, we listen to the
+     * selectionchange event and retrieve the selection in gr-diff, and then
+     * call this method to process the Selection.
+     *
+     * @param {Selection} selection A DOM Selection living in the shadow DOM of
+     *     the diff element.
+     */
+    handleSelectionChange(selection) {
       // Can't use up or down events to handle selection started and/or ended in
       // in comment threads or outside of diff.
       // Debounce removeActionBox to give it a chance to react to click/tap.
       this._removeActionBoxDebounced();
-      this.debounce('selectionChange', this._handleSelection, 200);
+      this.debounce(
+          'selectionChange', () => this._handleSelection(selection), 200);
     },
 
     _getThreadEl(e) {
@@ -128,6 +129,7 @@
      * Merges multiple ranges, accounts for triple click, accounts for
      * syntax highligh, convert native DOM Range objects to Gerrit concepts
      * (line, side, etc).
+     * @param {Selection} selection
      * @return {({
      *   start: {
      *     node: Node,
@@ -143,8 +145,7 @@
      *   }
      * })|null|!Object}
      */
-    _getNormalizedRange() {
-      const selection = window.getSelection();
+    _getNormalizedRange(selection) {
       const rangeCount = selection.rangeCount;
       if (rangeCount === 0) {
         return null;
@@ -289,12 +290,12 @@
       actionBox.placeBelow(range);
     },
 
-    _handleSelection() {
-      const normalizedRange = this._getNormalizedRange();
+    _handleSelection(selection) {
+      const normalizedRange = this._getNormalizedRange(selection);
       if (!normalizedRange) {
         return;
       }
-      const domRange = window.getSelection().getRangeAt(0);
+      const domRange = selection.getRangeAt(0);
       /** @type {?} */
       const start = normalizedRange.start;
       if (!start) {

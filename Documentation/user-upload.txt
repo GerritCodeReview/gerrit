@@ -732,7 +732,7 @@ client invoked by the end-user, or by `repo upload`.  This allows
 Gerrit to provide magical refs, such as `+refs/for/*+` for new
 change submission and `+refs/changes/*+` for change replacement.
 When a push request is received to create a ref in one of these
-namespaces Gerrit performs its own logic to update the database,
+namespaces Gerrit performs its own logic to update the review metadata,
 and then lies to the client about the result of the operation.
 A successful result causes the client to believe that Gerrit has
 created the ref, but in reality Gerrit hasn't created the ref at all.

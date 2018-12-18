@@ -250,7 +250,6 @@ back and consult this section when creating them.
 Here are some design level objectives that you should keep in mind
 when coding:
 
-  * ORM entity objects should match exactly one row in the database.
   * Most client pages should perform only one RPC to load so as to
     keep latencies down.  Exceptions would apply to RPCs which need
     to load large data sets if splitting them out will help the
@@ -269,10 +268,11 @@ when coding:
   * Don't leave repository objects (git or schema) open.  A .close()
     after every open should be placed in a finally{} block.
   * Don't leave UI components, which can cause new actions to occur,
-    enabled during RPCs which update the DB.  This is to prevent
-    people from submitting actions more than once when operating
-    on slow links.  If the action buttons are disabled, they cannot
-    be resubmitted and the user can see that Gerrit is still busy.
+    enabled during RPCs which update Git repositories, including NoteDb.
+    This is to prevent people from submitting actions more than once
+    when operating on slow links.  If the action buttons are disabled,
+    they cannot be resubmitted and the user can see that Gerrit is still
+    busy.
   * ...and so is Guava (previously known as Google Collections).
 
 

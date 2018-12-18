@@ -71,7 +71,7 @@ link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
 
 link:cmd-query.html[gerrit query]::
-	Query the change database.
+	Query the change search index.
 
 'gerrit receive-pack'::
 	'Deprecated alias for `git receive-pack`.'

@@ -47,6 +47,30 @@
       "revId": "edc2ca14f8d594b4211cee709a0e0037ac82b5da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5993939_5e556e8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-18T00:20:37Z",
+      "side": 1,
+      "message": "\u003e Other than being a smaller delta, what\u0027s the advantage of that?\n\nThat was the only advantage.\n\n\u003e Long term I want to eliminate all instances of the string \"gwtorm\" from core Gerrit ;)\n\nAck.",
+      "parentUuid": "48d421df_9232c9ba",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 16
+      },
+      "revId": "edc2ca14f8d594b4211cee709a0e0037ac82b5da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

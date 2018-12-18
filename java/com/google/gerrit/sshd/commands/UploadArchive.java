@@ -139,7 +139,7 @@ public class UploadArchive extends AbstractGitCommand {
     PacketLineIn packetIn = new PacketLineIn(in);
     for (; ; ) {
       String s = packetIn.readString();
-      if (s == PacketLineIn.END) {
+      if (s.equals(PacketLineIn.END)) {
         break;
       }
       if (!s.startsWith(argCmd)) {

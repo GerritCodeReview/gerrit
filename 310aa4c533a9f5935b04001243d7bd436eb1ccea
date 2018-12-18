@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c485d5d4_dc88486e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-18T14:06:19Z",
+      "side": 1,
+      "message": "Should this project option be inheritable so that on a host it can be globally disabled on the All-Project project?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 0
+      },
+      "revId": "310aa4c533a9f5935b04001243d7bd436eb1ccea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61e3d7dc_1d71d3da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-18T14:06:19Z",
+      "side": 1,
+      "message": "Also add the new project option to ConfigInfo and make sure that one can get/set this option via the GetConfig/PutConfig REST endpoints (and adapt the REST API documentation).\n\nI\u0027m not sure, but there may be some things to do in PolyGerrit to expose this option in the project admin UI.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 4
+      },
+      "revId": "310aa4c533a9f5935b04001243d7bd436eb1ccea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ac01c0a_e091c0c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-18T14:06:19Z",
+      "side": 1,
+      "message": "Documentation should go into config-project-config.txt",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "310aa4c533a9f5935b04001243d7bd436eb1ccea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c66b36a4_02d304ba",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-18T14:06:19Z",
+      "side": 1,
+      "message": "nit: make the naming consistent (\"conflict\" vs \"conflicts\")",
+      "range": {
+        "startLine": 1140,
+        "startChar": 25,
+        "endLine": 1140,
+        "endChar": 83
+      },
+      "revId": "310aa4c533a9f5935b04001243d7bd436eb1ccea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baa8a48e_6ef357a1",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1900,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-18T14:06:19Z",
+      "side": 1,
+      "message": "commit2 is unused and can be removed",
+      "range": {
+        "startLine": 1900,
+        "startChar": 14,
+        "endLine": 1900,
+        "endChar": 21
+      },
+      "revId": "310aa4c533a9f5935b04001243d7bd436eb1ccea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5154c71e_32c9ecd0",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1903,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-18T14:06:19Z",
+      "side": 1,
+      "message": "commit4 is unused and can be removed",
+      "range": {
+        "startLine": 1903,
+        "startChar": 14,
+        "endLine": 1903,
+        "endChar": 21
+      },
+      "revId": "310aa4c533a9f5935b04001243d7bd436eb1ccea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "478aabde_00a97d7d",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1917,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-18T14:06:19Z",
+      "side": 1,
+      "message": "[optional] Maybe you could extract ProjectConfigUpdate out of AbstractDaemonTest so that this can become:\n\n  try (ProjectConfigUpdate u \u003d new ProjectConfigUpdate(project)) {\n    u.getConfig().setDisableConflictsQueries(true);\n    u.save();\n  }",
+      "range": {
+        "startLine": 1911,
+        "startChar": 4,
+        "endLine": 1917,
+        "endChar": 40
+      },
+      "revId": "310aa4c533a9f5935b04001243d7bd436eb1ccea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

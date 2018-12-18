@@ -387,12 +387,22 @@ public abstract class AbstractDaemonTest {
     return cfg;
   }
 
+  protected static Config gitProtocolVersion2EnabledConfg() {
+    Config cfg = new Config();
+    cfg.setBoolean("receive", null, "enableProtocolV2", true);
+    return cfg;
+  }
+
   protected boolean isSubmitWholeTopicEnabled() {
     return cfg.getBoolean("change", null, "submitWholeTopic", false);
   }
 
   protected boolean isContributorAgreementsEnabled() {
     return cfg.getBoolean("auth", null, "contributorAgreements", false);
+  }
+
+  protected int protocolVersion() {
+    return cfg.getBoolean("receive", null, "enableProtocolV2", false) ? 2 : 1;
   }
 
   protected void beforeTest(Description description) throws Exception {

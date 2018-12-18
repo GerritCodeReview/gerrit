@@ -19,7 +19,6 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
-import com.google.gwtorm.client.RowVersion;
 import com.google.gwtorm.client.StringKey;
 import java.sql.Timestamp;
 import java.util.Arrays;
@@ -437,7 +436,6 @@ public final class Change {
 
   /** optimistic locking */
   @Column(id = 3)
-  @RowVersion
   protected int rowVersion;
 
   /** When this change was first introduced into the database. */

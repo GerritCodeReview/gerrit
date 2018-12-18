@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "98cb519e_5421e1c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-18T16:55:50Z",
+      "side": 1,
+      "message": "Good catch. I looked at the code and agree that this is an oversight. Please see my other comment that ID and UUID are affected as well.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 27
+      },
+      "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a431a6e6_74e71769",
         "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
         "patchSetId": 2
@@ -66,6 +89,76 @@
         "startChar": 4,
         "endLine": 348,
         "endChar": 48
+      },
+      "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af40cb7d_f57e15a1",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-18T16:55:50Z",
+      "side": 1,
+      "message": "See I0b281d7b72 for more details.\n\nEvicting a cache entry doesn\u0027t directly trigger it\u0027s recalculation. Hence, having several groupCache#evict calls for the same key in a row is innocuous.\n\nI0b281d7b72 adjusted the group index to always evict a cache entry before using it. As a consequence, first doing the index call and then evicting the cache entry would mean that the cache entry is evicted, recomputed, and then evicted again. The next client request would trigger a recomputation. On the other hand, if the cache entry is evicted before triggering the index, the result is: cache eviction, cache eviction, recomputation. Thus, the value is only computed once but still guaranteed to be correct for all code paths.\n\nWhat do you mean by race condition?",
+      "parentUuid": "8b46a85b_7fb42983",
+      "range": {
+        "startLine": 348,
+        "startChar": 4,
+        "endLine": 348,
+        "endChar": 48
+      },
+      "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "923eba10_36bd968e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-18T16:55:50Z",
+      "side": 1,
+      "message": "Please copy all of these calls to above, not just the one for names. I looked at the code and think that all caches are affected.",
+      "range": {
+        "startLine": 370,
+        "startChar": 4,
+        "endLine": 372,
+        "endChar": 44
+      },
+      "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25393738_4c8b77ca",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-18T16:55:50Z",
+      "side": 1,
+      "message": "Could you please add a separate test(s) for this, ideally one for the name, the ID, and the UUID? (It would be good to have such tests similar and close to cachedGroupsForMemberAreUpdatedOnGroupCreation().)",
+      "range": {
+        "startLine": 327,
+        "startChar": 4,
+        "endLine": 330,
+        "endChar": 52
       },
       "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

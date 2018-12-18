@@ -54,6 +54,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.NoteDbMode;
 import com.google.gerrit.testing.TestChanges;
 import com.google.inject.Inject;
@@ -66,6 +67,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -77,6 +79,11 @@ import org.junit.Test;
 
 @NoHttpd
 public class RefAdvertisementIT extends AbstractDaemonTest {
+  @ConfigSuite.Config
+  public static Config gitProtocolVersion2Enabled() {
+    return gitProtocolVersion2EnabledConfg();
+  }
+
   @Inject private PermissionBackend permissionBackend;
   @Inject private ChangeNoteUtil noteUtil;
   @Inject @AnonymousCowardName private String anonymousCowardName;

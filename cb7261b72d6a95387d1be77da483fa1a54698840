@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0096d2e3_a9d47760",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-18T21:30:53Z",
+      "side": 0,
+      "message": "So I\u0027m wrong, these were not actually identical. But what is \"init_path\"? It\u0027s not documented above. Was the intent for one of the duplicative references to gerrit.site_path above to actually say init_path? If so, it\u0027s not at all clear to me which one.\n\nHonestly I don\u0027t know what the intended behavior is, and reading the documentation didn\u0027t help me learn. If someone who understands this code wants to take over this change, be my guest.",
+      "range": {
+        "startLine": 69,
+        "startChar": 49,
+        "endLine": 69,
+        "endChar": 58
+      },
+      "revId": "cb7261b72d6a95387d1be77da483fa1a54698840",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

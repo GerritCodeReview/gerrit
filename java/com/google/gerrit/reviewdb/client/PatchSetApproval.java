@@ -14,7 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.Column;
+import com.google.gerrit.common.Nullable;
 import com.google.gwtorm.client.CompoundKey;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -25,13 +25,10 @@ public final class PatchSetApproval {
   public static class Key extends CompoundKey<PatchSet.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1, name = Column.NONE)
     protected PatchSet.Id patchSetId;
 
-    @Column(id = 2)
     protected Account.Id accountId;
 
-    @Column(id = 3)
     protected LabelId categoryId;
 
     protected Key() {
@@ -65,7 +62,6 @@ public final class PatchSetApproval {
     }
   }
 
-  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
   /**
@@ -84,20 +80,15 @@ public final class PatchSetApproval {
    * and in the negative and positive direction a magnitude can be assumed.The further from 0 the
    * more assertive the approval.
    */
-  @Column(id = 2)
   protected short value;
 
-  @Column(id = 3)
   protected Timestamp granted;
 
-  @Column(id = 6, notNull = false)
-  protected String tag;
+  @Nullable protected String tag;
 
   /** Real user that made this approval on behalf of the user recorded in {@link Key#accountId}. */
-  @Column(id = 7, notNull = false)
-  protected Account.Id realAccountId;
+  @Nullable protected Account.Id realAccountId;
 
-  @Column(id = 8)
   protected boolean postSubmit;
 
   // DELETED: id = 4 (changeOpen)

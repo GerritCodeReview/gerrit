@@ -19,7 +19,6 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_STARRED_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import java.sql.Timestamp;
 import java.util.Optional;
@@ -46,18 +45,10 @@ import java.util.Optional;
  * </ul>
  */
 public final class Account {
-  /**
-   * Key local to Gerrit to identify a user.
-   *
-   * <p>Fields in this type must be annotated with {@link Column} so that account IDs can be
-   * converted into protos (protobuf requires the {@link Column} annotations for decoding/encoding).
-   * We need to be able to store account IDs as protos because we store change protos in the change
-   * index and a change references account IDs for the change owner and the assignee.
-   */
+  /** Key local to Gerrit to identify a user. */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1)
     protected int id;
 
     protected Id() {}

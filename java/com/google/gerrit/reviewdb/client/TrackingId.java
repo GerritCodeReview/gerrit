@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.CompoundKey;
 import com.google.gwtorm.client.StringKey;
 
@@ -27,7 +26,6 @@ public final class TrackingId {
   public static class Id extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1, length = TrackingId.TRACKING_ID_MAX_CHAR)
     protected String id;
 
     protected Id() {}
@@ -51,7 +49,6 @@ public final class TrackingId {
   public static class System extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1, length = TrackingId.TRACKING_SYSTEM_MAX_CHAR)
     protected String system;
 
     protected System() {}
@@ -74,13 +71,10 @@ public final class TrackingId {
   public static class Key extends CompoundKey<Change.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1)
     protected Change.Id changeId;
 
-    @Column(id = 2)
     protected Id trackingKey;
 
-    @Column(id = 3)
     protected System trackingSystem;
 
     protected Key() {
@@ -114,7 +108,6 @@ public final class TrackingId {
     }
   }
 
-  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
   protected TrackingId() {}

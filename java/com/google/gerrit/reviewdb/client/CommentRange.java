@@ -14,20 +14,14 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.Column;
-
 public class CommentRange {
 
-  @Column(id = 1)
   protected int startLine;
 
-  @Column(id = 2)
   protected int startCharacter;
 
-  @Column(id = 3)
   protected int endLine;
 
-  @Column(id = 4)
   protected int endCharacter;
 
   protected CommentRange() {}

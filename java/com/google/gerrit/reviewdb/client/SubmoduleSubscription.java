@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
 /**
@@ -34,10 +33,8 @@ public final class SubmoduleSubscription {
      * Indicates the super project, aka subscriber: the project owner of the gitlinks to the
      * submodules.
      */
-    @Column(id = 1)
     protected Branch.NameKey superProject;
 
-    @Column(id = 2)
     protected String submodulePath;
 
     protected Key() {
@@ -65,10 +62,8 @@ public final class SubmoduleSubscription {
     }
   }
 
-  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
-  @Column(id = 2)
   protected Branch.NameKey submodule;
 
   protected SubmoduleSubscription() {}

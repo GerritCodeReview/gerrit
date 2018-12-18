@@ -82,6 +82,24 @@
       "revId": "51fc841c8505189eafee71828c29524008db7551",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fcb91dc_b99b4240",
+        "filename": "proto/entities.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-18T14:14:50Z",
+      "side": 1,
+      "message": "I\u0027m fine with com.google.gerrit.proto as you have it in the latest patch set. We can always change it later.",
+      "parentUuid": "ffe547c7_5ae338c8",
+      "revId": "51fc841c8505189eafee71828c29524008db7551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

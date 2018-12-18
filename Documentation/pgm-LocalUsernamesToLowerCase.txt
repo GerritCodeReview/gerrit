@@ -47,7 +47,7 @@ it must be run by itself.
 
 == CONTEXT
 This command can only be run on a server which has direct
-connectivity to the metadata database.
+connectivity to the managed Git repositories.
 
 == EXAMPLES
 To convert the local username of every account to lower case:

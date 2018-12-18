@@ -325,10 +325,10 @@ from the Section.Factory rather than from an injected Config object.
 
 Plugins' InitSteps are executed during the "Gerrit Plugin init" phase, after
 the extraction of the plugins embedded in the distribution .war file into
-`$GERRIT_SITE/plugins` and before the DB Schema initialization or upgrade.
+`$GERRIT_SITE/plugins` and before the site initialization or upgrade.
 
-A plugin's InitStep cannot refer to Gerrit's DB Schema or any other Gerrit
-runtime objects injected at startup.
+A plugin's InitStep cannot refer to Gerrit's any Gerrit runtime objects injected
+at startup.
 
 [source,java]
 ----
@@ -1573,9 +1573,8 @@ public Object apply(RevisionResource rcrs, Input in) {
   // schedule a build
   [...]
   // update change
-  ReviewDb db = dbProvider.get();
   try (BatchUpdate bu = batchUpdateFactory.create(
-      db, project.getNameKey(), user, TimeUtil.nowTs())) {
+      project.getNameKey(), user, TimeUtil.nowTs())) {
     bu.addOp(change.getId(), new BatchUpdate.Op() {
       @Override
       public boolean updateChange(ChangeContext ctx) {

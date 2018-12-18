@@ -126,7 +126,7 @@ public class AccountPredicates {
 
   public static Predicate<AccountState> cansee(
       AccountQueryBuilder.Arguments args, ChangeNotes changeNotes) {
-    return new CanSeeChangePredicate(args.db, args.permissionBackend, changeNotes);
+    return new CanSeeChangePredicate(args.permissionBackend, changeNotes);
   }
 
   static class AccountPredicate extends IndexPredicate<AccountState>

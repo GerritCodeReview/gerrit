@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -69,7 +68,6 @@ public class ChangeEditUtil {
   private final GitRepositoryManager gitManager;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ChangeIndexer indexer;
-  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> userProvider;
   private final ChangeKindCache changeKindCache;
   private final PatchSetUtil psUtil;
@@ -79,14 +77,12 @@ public class ChangeEditUtil {
       GitRepositoryManager gitManager,
       PatchSetInserter.Factory patchSetInserterFactory,
       ChangeIndexer indexer,
-      Provider<ReviewDb> db,
       Provider<CurrentUser> userProvider,
       ChangeKindCache changeKindCache,
       PatchSetUtil psUtil) {
     this.gitManager = gitManager;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.indexer = indexer;
-    this.db = db;
     this.userProvider = userProvider;
     this.changeKindCache = changeKindCache;
     this.psUtil = psUtil;
@@ -201,8 +197,7 @@ public class ChangeEditUtil {
             .append(".");
       }
 
-      try (BatchUpdate bu =
-          updateFactory.create(db.get(), change.getProject(), user, TimeUtil.nowTs())) {
+      try (BatchUpdate bu = updateFactory.create(change.getProject(), user, TimeUtil.nowTs())) {
         bu.setRepository(repo, rw, oi);
         bu.addOp(change.getId(), inserter.setMessage(message.toString()));
         bu.addOp(
@@ -230,7 +225,7 @@ public class ChangeEditUtil {
     try (Repository repo = gitManager.openRepository(change.getProject())) {
       deleteRef(repo, edit);
     }
-    indexer.index(db.get(), change);
+    indexer.index(change);
   }
 
   private PatchSet getBasePatchSet(ChangeNotes notes, Ref ref) throws IOException {

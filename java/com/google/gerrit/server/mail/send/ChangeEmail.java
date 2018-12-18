@@ -69,7 +69,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   protected static ChangeData newChangeData(
       EmailArguments ea, Project.NameKey project, Change.Id id) {
-    return ea.changeDataFactory.create(ea.db.get(), project, id);
+    return ea.changeDataFactory.create(project, id);
   }
 
   protected final Change change;
@@ -378,11 +378,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       return false;
     }
     try {
-      args.permissionBackend
-          .absentUser(to)
-          .change(changeData)
-          .database(args.db)
-          .check(ChangePermission.READ);
+      args.permissionBackend.absentUser(to).change(changeData).check(ChangePermission.READ);
       return true;
     } catch (AuthException e) {
       return false;

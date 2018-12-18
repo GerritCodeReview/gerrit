@@ -287,11 +287,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     psUtil.checkPatchSetNotLocked(origNotes);
 
     if (checkAddPatchSetPermission) {
-      permissionBackend
-          .user(ctx.getUser())
-          .database(ctx.getDb())
-          .change(origNotes)
-          .check(ChangePermission.ADD_PATCH_SET);
+      permissionBackend.user(ctx.getUser()).change(origNotes).check(ChangePermission.ADD_PATCH_SET);
     }
     projectCache.checkedGet(ctx.getProject()).checkStatePermitsWrite();
     if (!validate) {

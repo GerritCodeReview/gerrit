@@ -87,7 +87,6 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
@@ -315,7 +314,6 @@ class ReceiveCommits {
   private final ReplaceOp.Factory replaceOpFactory;
   private final RetryHelper retryHelper;
   private final RequestScopePropagator requestScopePropagator;
-  private final ReviewDb db;
   private final Sequences seq;
   private final SetHashtagsOp.Factory hashtagsFactory;
   private final SubmoduleOp.Factory subOpFactory;
@@ -391,7 +389,6 @@ class ReceiveCommits {
       ReplaceOp.Factory replaceOpFactory,
       RetryHelper retryHelper,
       RequestScopePropagator requestScopePropagator,
-      ReviewDb db,
       Sequences seq,
       SetHashtagsOp.Factory hashtagsFactory,
       SubmoduleOp.Factory subOpFactory,
@@ -412,7 +409,6 @@ class ReceiveCommits {
     this.commitValidatorFactory = commitValidatorFactory;
     this.createRefControl = createRefControl;
     this.createGroupPermissionSyncer = createGroupPermissionSyncer;
-    this.db = db;
     this.editUtil = editUtil;
     this.hashtagsFactory = hashtagsFactory;
     this.indexer = indexer;
@@ -634,7 +630,7 @@ class ReceiveCommits {
 
     try (BatchUpdate bu =
             batchUpdateFactory.create(
-                db, project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
+                project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
@@ -683,7 +679,7 @@ class ReceiveCommits {
     // Update superproject gitlinks if required.
     if (!branches.isEmpty()) {
       try (MergeOpRepoManager orm = ormProvider.get()) {
-        orm.setContext(db, TimeUtil.nowTs(), user);
+        orm.setContext(TimeUtil.nowTs(), user);
         SubmoduleOp op = subOpFactory.create(branches, orm);
         op.updateSuperProjects();
       } catch (SubmoduleException e) {
@@ -782,7 +778,7 @@ class ReceiveCommits {
 
     try (BatchUpdate bu =
             batchUpdateFactory.create(
-                db, project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
+                project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
@@ -2507,7 +2503,7 @@ class ReceiveCommits {
     logger.atFine().log(
         "Processing submit with tip change %s (%s)", tipChange.getId(), magicBranch.cmd.getNewId());
     try (MergeOp op = mergeOpProvider.get()) {
-      op.merge(db, tipChange, user, false, new SubmitInput(), false);
+      op.merge(tipChange, user, false, new SubmitInput(), false);
     }
   }
 
@@ -2659,7 +2655,7 @@ class ReceiveCommits {
       }
 
       try {
-        permissions.change(notes).database(db).check(ChangePermission.ADD_PATCH_SET);
+        permissions.change(notes).check(ChangePermission.ADD_PATCH_SET);
       } catch (AuthException no) {
         reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
         return false;
@@ -3094,7 +3090,7 @@ class ReceiveCommits {
       retryHelper.execute(
           updateFactory -> {
             try (BatchUpdate bu =
-                    updateFactory.create(db, projectState.getNameKey(), user, TimeUtil.nowTs());
+                    updateFactory.create(projectState.getNameKey(), user, TimeUtil.nowTs());
                 ObjectInserter ins = repo.newObjectInserter();
                 ObjectReader reader = ins.newReader();
                 RevWalk rw = new RevWalk(reader)) {

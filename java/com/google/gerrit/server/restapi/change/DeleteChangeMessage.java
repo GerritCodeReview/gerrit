@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLoader;
@@ -58,7 +57,6 @@ public class DeleteChangeMessage
         ChangeMessageResource, DeleteChangeMessageInput, Response<ChangeMessageInfo>> {
 
   private final Provider<CurrentUser> userProvider;
-  private final Provider<ReviewDb> dbProvider;
   private final PermissionBackend permissionBackend;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final AccountLoader.Factory accountLoaderFactory;
@@ -67,7 +65,6 @@ public class DeleteChangeMessage
   @Inject
   public DeleteChangeMessage(
       Provider<CurrentUser> userProvider,
-      Provider<ReviewDb> dbProvider,
       PermissionBackend permissionBackend,
       ChangeMessagesUtil changeMessagesUtil,
       AccountLoader.Factory accountLoaderFactory,
@@ -75,7 +72,6 @@ public class DeleteChangeMessage
       RetryHelper retryHelper) {
     super(retryHelper);
     this.userProvider = userProvider;
-    this.dbProvider = dbProvider;
     this.permissionBackend = permissionBackend;
     this.changeMessagesUtil = changeMessagesUtil;
     this.accountLoaderFactory = accountLoaderFactory;
@@ -97,8 +93,7 @@ public class DeleteChangeMessage
     DeleteChangeMessageOp deleteChangeMessageOp =
         new DeleteChangeMessageOp(resource.getChangeMessageIndex(), newChangeMessage);
     try (BatchUpdate batchUpdate =
-        updateFactory.create(
-            dbProvider.get(), resource.getChangeResource().getProject(), user, TimeUtil.nowTs())) {
+        updateFactory.create(resource.getChangeResource().getProject(), user, TimeUtil.nowTs())) {
       batchUpdate.addOp(resource.getChangeId(), deleteChangeMessageOp).execute();
     }
 

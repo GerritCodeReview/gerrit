@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -50,7 +49,6 @@ public final class StoredValues {
   public static final StoredValue<Accounts> ACCOUNTS = create(Accounts.class);
   public static final StoredValue<AccountCache> ACCOUNT_CACHE = create(AccountCache.class);
   public static final StoredValue<Emails> EMAILS = create(Emails.class);
-  public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
   public static final StoredValue<ChangeData> CHANGE_DATA = create(ChangeData.class);
   public static final StoredValue<ProjectState> PROJECT_STATE = create(ProjectState.class);
 

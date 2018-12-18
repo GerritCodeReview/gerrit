@@ -17,7 +17,6 @@ package com.google.gerrit.server.update;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -37,7 +36,6 @@ public class BatchUpdateTest extends GerritBaseTests {
 
   @Inject private GitRepositoryManager repoManager;
   @Inject private BatchUpdate.Factory batchUpdateFactory;
-  @Inject private ReviewDb db;
   @Inject private Provider<CurrentUser> user;
 
   private Project.NameKey project;
@@ -56,7 +54,7 @@ public class BatchUpdateTest extends GerritBaseTests {
     final RevCommit masterCommit = repo.branch("master").commit().create();
     final RevCommit branchCommit = repo.branch("branch").commit().parent(masterCommit).create();
 
-    try (BatchUpdate bu = batchUpdateFactory.create(db, project, user.get(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
       bu.addRepoOnlyOp(
           new RepoOnlyOp() {
             @Override

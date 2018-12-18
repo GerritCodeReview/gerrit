@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -40,7 +39,6 @@ import java.util.Map;
 public class ChangeArgumentParser {
   private final ChangesCollection changesCollection;
   private final ChangeFinder changeFinder;
-  private final ReviewDb db;
   private final ChangeNotes.Factory changeNotesFactory;
   private final PermissionBackend permissionBackend;
 
@@ -48,12 +46,10 @@ public class ChangeArgumentParser {
   ChangeArgumentParser(
       ChangesCollection changesCollection,
       ChangeFinder changeFinder,
-      ReviewDb db,
       ChangeNotes.Factory changeNotesFactory,
       PermissionBackend permissionBackend) {
     this.changesCollection = changesCollection;
     this.changeFinder = changeFinder;
-    this.db = db;
     this.changeNotesFactory = changeNotesFactory;
     this.permissionBackend = permissionBackend;
   }
@@ -97,7 +93,7 @@ public class ChangeArgumentParser {
         }
 
         try {
-          permissionBackend.currentUser().change(notes).database(db).check(ChangePermission.READ);
+          permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
           toAdd.add(notes);
         } catch (AuthException e) {
           // Do nothing.

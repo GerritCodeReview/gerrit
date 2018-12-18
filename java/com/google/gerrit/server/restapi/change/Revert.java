@@ -33,7 +33,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -92,7 +91,6 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     implements UiAction<ChangeResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final Provider<ReviewDb> db;
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
   private final ChangeInserter.Factory changeInserterFactory;
@@ -110,7 +108,6 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
 
   @Inject
   Revert(
-      Provider<ReviewDb> db,
       PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,
       ChangeInserter.Factory changeInserterFactory,
@@ -127,7 +124,6 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       ProjectCache projectCache,
       NotifyUtil notifyUtil) {
     super(retryHelper);
-    this.db = db;
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.changeInserterFactory = changeInserterFactory;
@@ -242,7 +238,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       ins.setReviewersAndCcs(reviewers, ccs);
       ins.setRevertOf(changeIdToRevert);
 
-      try (BatchUpdate bu = updateFactory.create(db.get(), project, user, now)) {
+      try (BatchUpdate bu = updateFactory.create(project, user, now)) {
         bu.setRepository(git, revWalk, oi);
         bu.insertChange(ins);
         bu.addOp(changeId, new NotifyOp(changeToRevert, ins, input.notify, accountsToNotify));

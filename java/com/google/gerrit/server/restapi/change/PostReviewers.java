@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
@@ -33,7 +32,6 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -43,18 +41,13 @@ public class PostReviewers
     extends RetryingRestCollectionModifyView<
         ChangeResource, ReviewerResource, AddReviewerInput, AddReviewerResult> {
 
-  private final Provider<ReviewDb> dbProvider;
   private final ChangeData.Factory changeDataFactory;
   private final ReviewerAdder reviewerAdder;
 
   @Inject
   PostReviewers(
-      Provider<ReviewDb> db,
-      ChangeData.Factory changeDataFactory,
-      RetryHelper retryHelper,
-      ReviewerAdder reviewerAdder) {
+      ChangeData.Factory changeDataFactory, RetryHelper retryHelper, ReviewerAdder reviewerAdder) {
     super(retryHelper);
-    this.dbProvider = db;
     this.changeDataFactory = changeDataFactory;
     this.reviewerAdder = reviewerAdder;
   }
@@ -68,22 +61,19 @@ public class PostReviewers
       throw new BadRequestException("missing reviewer field");
     }
 
-    ReviewerAddition addition =
-        reviewerAdder.prepare(dbProvider.get(), rsrc.getNotes(), rsrc.getUser(), input, true);
+    ReviewerAddition addition = reviewerAdder.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
     if (addition.op == null) {
       return addition.result;
     }
     try (BatchUpdate bu =
-        updateFactory.create(
-            dbProvider.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Change.Id id = rsrc.getChange().getId();
       bu.addOp(id, addition.op);
       bu.execute();
     }
 
     // Re-read change to take into account results of the update.
-    addition.gatherResults(
-        changeDataFactory.create(dbProvider.get(), rsrc.getProject(), rsrc.getId()));
+    addition.gatherResults(changeDataFactory.create(rsrc.getProject(), rsrc.getId()));
     return addition.result;
   }
 }

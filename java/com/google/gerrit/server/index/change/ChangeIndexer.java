@@ -37,14 +37,10 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -83,7 +79,6 @@ public class ChangeIndexer {
 
   @Nullable private final ChangeIndexCollection indexes;
   @Nullable private final ChangeIndex index;
-  private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeData.Factory changeDataFactory;
   private final ThreadLocalRequestContext context;
   private final ListeningExecutorService batchExecutor;
@@ -95,7 +90,6 @@ public class ChangeIndexer {
   @AssistedInject
   ChangeIndexer(
       @GerritServerConfig Config cfg,
-      SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
       PluginSetContext<ChangeIndexedListener> indexedListeners,
@@ -104,7 +98,6 @@ public class ChangeIndexer {
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index) {
     this.executor = executor;
-    this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
     this.context = context;
     this.indexedListeners = indexedListeners;
@@ -117,7 +110,6 @@ public class ChangeIndexer {
 
   @AssistedInject
   ChangeIndexer(
-      SchemaFactory<ReviewDb> schemaFactory,
       @GerritServerConfig Config cfg,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
@@ -127,7 +119,6 @@ public class ChangeIndexer {
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndexCollection indexes) {
     this.executor = executor;
-    this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
     this.context = context;
     this.indexedListeners = indexedListeners;
@@ -223,22 +214,20 @@ public class ChangeIndexer {
   /**
    * Synchronously index a change.
    *
-   * @param db review database.
    * @param change change to index.
    */
-  public void index(ReviewDb db, Change change) throws IOException {
-    index(changeDataFactory.create(db, change));
+  public void index(Change change) throws IOException {
+    index(changeDataFactory.create(change));
   }
 
   /**
    * Synchronously index a change.
    *
-   * @param db review database.
    * @param project the project to which the change belongs.
    * @param changeId ID of the change to index.
    */
-  public void index(ReviewDb db, Project.NameKey project, Change.Id changeId) throws IOException {
-    index(changeDataFactory.create(db, project, changeId));
+  public void index(Project.NameKey project, Change.Id changeId) throws IOException {
+    index(changeDataFactory.create(project, changeId));
   }
 
   /**
@@ -315,7 +304,7 @@ public class ChangeIndexer {
       this.id = id;
     }
 
-    protected abstract T callImpl(Provider<ReviewDb> db) throws Exception;
+    protected abstract T callImpl() throws Exception;
 
     @Override
     public abstract String toString();
@@ -327,27 +316,13 @@ public class ChangeIndexer {
         RequestContext newCtx =
             new RequestContext() {
               @Override
-              public Provider<ReviewDb> getReviewDbProvider() {
-                Provider<ReviewDb> db = dbRef.get();
-                if (db == null) {
-                  try {
-                    db = Providers.of(schemaFactory.open());
-                  } catch (OrmException e) {
-                    throw new ProvisionException("error opening ReviewDb", e);
-                  }
-                  dbRef.set(db);
-                }
-                return db;
-              }
-
-              @Override
               public CurrentUser getUser() {
                 throw new OutOfScopeException("No user during ChangeIndexer");
               }
             };
         RequestContext oldCtx = context.setContext(newCtx);
         try {
-          return callImpl(newCtx.getReviewDbProvider());
+          return callImpl();
         } finally {
           context.setContext(oldCtx);
           Provider<ReviewDb> db = dbRef.get();
@@ -368,8 +343,8 @@ public class ChangeIndexer {
     }
 
     @Override
-    public Void callImpl(Provider<ReviewDb> db) throws Exception {
-      ChangeData cd = changeDataFactory.create(db.get(), project, id);
+    public Void callImpl() throws Exception {
+      ChangeData cd = changeDataFactory.create(project, id);
       index(cd);
       return null;
     }
@@ -412,10 +387,10 @@ public class ChangeIndexer {
     }
 
     @Override
-    public Boolean callImpl(Provider<ReviewDb> db) throws Exception {
+    public Boolean callImpl() throws Exception {
       try {
         if (stalenessChecker.isStale(id)) {
-          indexImpl(changeDataFactory.create(db.get(), project, id));
+          indexImpl(changeDataFactory.create(project, id));
           return true;
         }
       } catch (Exception e) {

@@ -78,7 +78,6 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -113,11 +112,9 @@ import com.google.gerrit.testing.GerritServerTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
 import com.google.gerrit.testing.TestTimeUtil;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
-import com.google.inject.util.Providers;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -167,7 +164,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected ChangeNotes.Factory changeNotesFactory;
   @Inject protected Provider<ChangeQueryProcessor> queryProcessorProvider;
   @Inject protected SchemaCreator schemaCreator;
-  @Inject protected SchemaFactory<ReviewDb> schemaFactory;
   @Inject protected Sequences seq;
   @Inject protected ThreadLocalRequestContext requestContext;
   @Inject protected ProjectCache projectCache;
@@ -176,7 +172,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected Injector injector;
   protected LifecycleManager lifecycle;
-  protected ReviewDb db;
   protected Account.Id userId;
   protected CurrentUser user;
 
@@ -214,14 +209,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @After
   public void cleanUp() {
     lifecycle.stop();
-    db.close();
   }
 
   protected void initAfterLifecycleStart() throws Exception {}
 
   protected void setUpDatabase() throws Exception {
     schemaCreator.create();
-    db = schemaFactory.open();
 
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     String email = "user@example.com";
@@ -241,11 +234,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       public CurrentUser getUser() {
         return requestUser;
       }
-
-      @Override
-      public Provider<ReviewDb> getReviewDbProvider() {
-        return Providers.of(db);
-      }
     };
   }
 
@@ -260,9 +248,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       lifecycle.stop();
     }
     requestContext.setContext(null);
-    if (db != null) {
-      db.close();
-    }
   }
 
   @Before
@@ -1759,7 +1744,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     allUsers.update(draftsRef.getName(), draftsRef.getObjectId());
     assertThat(allUsers.getRepository().exactRef(draftsRef.getName())).isNotNull();
 
-    indexer.index(db, project, id);
+    indexer.index(project, id);
     assertQuery("draftby:" + userId);
   }
 
@@ -2261,7 +2246,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     for (int i = 1; i <= 11; i++) {
       Iterable<ChangeData> cds =
-          queryProvider.get().byCommitsOnBranchNotMerged(repo.getRepository(), db, dest, shas, i);
+          queryProvider.get().byCommitsOnBranchNotMerged(repo.getRepository(), dest, shas, i);
       Iterable<Integer> ids = FluentIterable.from(cds).transform(in -> in.getId().get());
       String name = "limit " + i;
       assertThat(ids).named(name).hasSize(n);
@@ -2969,7 +2954,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         new Project.NameKey(repo.getRepository().getDescription().getRepositoryName());
     Account.Id ownerId = owner != null ? owner : userId;
     IdentifiedUser user = userFactory.create(ownerId);
-    try (BatchUpdate bu = updateFactory.create(db, project, user, createdOn)) {
+    try (BatchUpdate bu = updateFactory.create(project, user, createdOn)) {
       bu.insertChange(ins);
       bu.execute();
       return ins.getChange();
@@ -2989,7 +2974,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .setNotify(NotifyHandling.NONE)
             .setFireRevisionCreated(false)
             .setValidate(false);
-    try (BatchUpdate bu = updateFactory.create(db, c.getProject(), user, TimeUtil.nowTs());
+    try (BatchUpdate bu = updateFactory.create(c.getProject(), user, TimeUtil.nowTs());
         ObjectInserter oi = repo.getRepository().newObjectInserter();
         ObjectReader reader = oi.newReader();
         RevWalk rw = new RevWalk(reader)) {

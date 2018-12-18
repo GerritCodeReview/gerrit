@@ -22,7 +22,6 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.TraceContext;
@@ -93,7 +92,7 @@ public class MergeSuperSet {
     return this;
   }
 
-  public ChangeSet completeChangeSet(ReviewDb db, Change change, CurrentUser user)
+  public ChangeSet completeChangeSet(Change change, CurrentUser user)
       throws IOException, OrmException, PermissionBackendException {
     try {
       if (orm == null) {
@@ -110,7 +109,7 @@ public class MergeSuperSet {
 
         if (projectState.statePermitsRead()) {
           try {
-            permissionBackend.user(user).change(cd).database(db).check(ChangePermission.READ);
+            permissionBackend.user(user).change(cd).check(ChangePermission.READ);
             visible = true;
           } catch (AuthException e) {
             // Do nothing.
@@ -120,10 +119,10 @@ public class MergeSuperSet {
 
       ChangeSet changeSet = new ChangeSet(cd, visible);
       if (wholeTopicEnabled(cfg)) {
-        return completeChangeSetIncludingTopics(db, changeSet, user);
+        return completeChangeSetIncludingTopics(changeSet, user);
       }
       try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation)) {
-        return mergeSuperSetComputation.get().completeWithoutTopic(db, orm, changeSet, user);
+        return mergeSuperSetComputation.get().completeWithoutTopic(orm, changeSet, user);
       }
     } finally {
       if (closeOrm && orm != null) {
@@ -137,9 +136,8 @@ public class MergeSuperSet {
    * Completes {@code changeSet} with any additional changes from its topics
    *
    * <p>{@link #completeChangeSetIncludingTopics} calls this repeatedly, alternating with {@link
-   * MergeSuperSetComputation#completeWithoutTopic(ReviewDb, MergeOpRepoManager, ChangeSet,
-   * CurrentUser)}, to discover what additional changes should be submitted with a change until the
-   * set stops growing.
+   * MergeSuperSetComputation#completeWithoutTopic(MergeOpRepoManager, ChangeSet, CurrentUser)}, to
+   * discover what additional changes should be submitted with a change until the set stops growing.
    *
    * <p>{@code topicsSeen} and {@code visibleTopicsSeen} keep track of topics already explored to
    * avoid wasted work.
@@ -147,11 +145,7 @@ public class MergeSuperSet {
    * @return the resulting larger {@link ChangeSet}
    */
   private ChangeSet topicClosure(
-      ReviewDb db,
-      ChangeSet changeSet,
-      CurrentUser user,
-      Set<String> topicsSeen,
-      Set<String> visibleTopicsSeen)
+      ChangeSet changeSet, CurrentUser user, Set<String> topicsSeen, Set<String> visibleTopicsSeen)
       throws OrmException, PermissionBackendException, IOException {
     List<ChangeData> visibleChanges = new ArrayList<>();
     List<ChangeData> nonVisibleChanges = new ArrayList<>();
@@ -163,7 +157,7 @@ public class MergeSuperSet {
         continue;
       }
       for (ChangeData topicCd : byTopicOpen(topic)) {
-        if (canRead(db, user, topicCd)) {
+        if (canRead(user, topicCd)) {
           visibleChanges.add(topicCd);
         } else {
           nonVisibleChanges.add(topicCd);
@@ -186,23 +180,22 @@ public class MergeSuperSet {
     return new ChangeSet(visibleChanges, nonVisibleChanges);
   }
 
-  private ChangeSet completeChangeSetIncludingTopics(
-      ReviewDb db, ChangeSet changeSet, CurrentUser user)
+  private ChangeSet completeChangeSetIncludingTopics(ChangeSet changeSet, CurrentUser user)
       throws IOException, OrmException, PermissionBackendException {
     Set<String> topicsSeen = new HashSet<>();
     Set<String> visibleTopicsSeen = new HashSet<>();
     int oldSeen;
     int seen;
 
-    changeSet = topicClosure(db, changeSet, user, topicsSeen, visibleTopicsSeen);
+    changeSet = topicClosure(changeSet, user, topicsSeen, visibleTopicsSeen);
     seen = topicsSeen.size() + visibleTopicsSeen.size();
 
     do {
       oldSeen = seen;
       try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation)) {
-        changeSet = mergeSuperSetComputation.get().completeWithoutTopic(db, orm, changeSet, user);
+        changeSet = mergeSuperSetComputation.get().completeWithoutTopic(orm, changeSet, user);
       }
-      changeSet = topicClosure(db, changeSet, user, topicsSeen, visibleTopicsSeen);
+      changeSet = topicClosure(changeSet, user, topicsSeen, visibleTopicsSeen);
       seen = topicsSeen.size() + visibleTopicsSeen.size();
     } while (seen != oldSeen);
     return changeSet;
@@ -212,7 +205,7 @@ public class MergeSuperSet {
     return queryProvider.get().byTopicOpen(topic);
   }
 
-  private boolean canRead(ReviewDb db, CurrentUser user, ChangeData cd)
+  private boolean canRead(CurrentUser user, ChangeData cd)
       throws PermissionBackendException, IOException {
     ProjectState projectState = projectCache.checkedGet(cd.project());
     if (projectState == null || !projectState.statePermitsRead()) {
@@ -220,7 +213,7 @@ public class MergeSuperSet {
     }
 
     try {
-      permissionBackend.user(user).change(cd).database(db).check(ChangePermission.READ);
+      permissionBackend.user(user).change(cd).check(ChangePermission.READ);
       return true;
     } catch (AuthException e) {
       return false;

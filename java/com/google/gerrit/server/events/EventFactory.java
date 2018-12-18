@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.UserIdentity;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
@@ -64,7 +63,6 @@ import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -93,7 +91,6 @@ public class EventFactory {
   private final ApprovalsUtil approvalsUtil;
   private final ChangeKindCache changeKindCache;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final SchemaFactory<ReviewDb> schema;
   private final IndexConfig indexConfig;
 
   @Inject
@@ -107,7 +104,6 @@ public class EventFactory {
       ApprovalsUtil approvalsUtil,
       ChangeKindCache changeKindCache,
       Provider<InternalChangeQuery> queryProvider,
-      SchemaFactory<ReviewDb> schema,
       IndexConfig indexConfig) {
     this.accountCache = accountCache;
     this.urlFormatter = urlFormatter;
@@ -118,7 +114,6 @@ public class EventFactory {
     this.approvalsUtil = approvalsUtil;
     this.changeKindCache = changeKindCache;
     this.queryProvider = queryProvider;
-    this.schema = schema;
     this.indexConfig = indexConfig;
   }
 
@@ -128,23 +123,7 @@ public class EventFactory {
    * @param change
    * @return object suitable for serialization to JSON
    */
-  public ChangeAttribute asChangeAttribute(Change change, ChangeNotes notes) {
-    try (ReviewDb db = schema.open()) {
-      return asChangeAttribute(db, change, notes);
-    } catch (OrmException e) {
-      logger.atSevere().withCause(e).log("Cannot open database connection");
-      return new ChangeAttribute();
-    }
-  }
-
-  /**
-   * Create a ChangeAttribute for the given change suitable for serialization to JSON.
-   *
-   * @param db Review database
-   * @param change
-   * @return object suitable for serialization to JSON
-   */
-  public ChangeAttribute asChangeAttribute(ReviewDb db, Change change) {
+  public ChangeAttribute asChangeAttribute(Change change) {
     ChangeAttribute a = new ChangeAttribute();
     a.project = change.getProject().get();
     a.branch = change.getDest().getShortName();
@@ -153,7 +132,7 @@ public class EventFactory {
     a.number = change.getId().get();
     a.subject = change.getSubject();
     try {
-      a.commitMessage = changeDataFactory.create(db, change).commitMessage();
+      a.commitMessage = changeDataFactory.create(change).commitMessage();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log(
           "Error while getting full commit message for change %d", a.number);
@@ -171,14 +150,12 @@ public class EventFactory {
   /**
    * Create a ChangeAttribute for the given change suitable for serialization to JSON.
    *
-   * @param db Review database
    * @param change
    * @param notes
    * @return object suitable for serialization to JSON
    */
-  public ChangeAttribute asChangeAttribute(ReviewDb db, Change change, ChangeNotes notes)
-      throws OrmException {
-    ChangeAttribute a = asChangeAttribute(db, change);
+  public ChangeAttribute asChangeAttribute(Change change, ChangeNotes notes) throws OrmException {
+    ChangeAttribute a = asChangeAttribute(change);
     Set<String> hashtags = notes.load().getHashtags();
     if (!hashtags.isEmpty()) {
       a.hashtags = new ArrayList<>(hashtags.size());
@@ -401,17 +378,15 @@ public class EventFactory {
   }
 
   public void addPatchSets(
-      ReviewDb db,
       RevWalk revWalk,
       ChangeAttribute ca,
       Collection<PatchSet> ps,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
       LabelTypes labelTypes) {
-    addPatchSets(db, revWalk, ca, ps, approvals, false, null, labelTypes);
+    addPatchSets(revWalk, ca, ps, approvals, false, null, labelTypes);
   }
 
   public void addPatchSets(
-      ReviewDb db,
       RevWalk revWalk,
       ChangeAttribute ca,
       Collection<PatchSet> ps,
@@ -422,7 +397,7 @@ public class EventFactory {
     if (!ps.isEmpty()) {
       ca.patchSets = new ArrayList<>(ps.size());
       for (PatchSet p : ps) {
-        PatchSetAttribute psa = asPatchSetAttribute(db, revWalk, change, p);
+        PatchSetAttribute psa = asPatchSetAttribute(revWalk, change, p);
         if (approvals != null) {
           addApprovals(psa, p.getId(), approvals, labelTypes);
         }
@@ -482,28 +457,10 @@ public class EventFactory {
   /**
    * Create a PatchSetAttribute for the given patchset suitable for serialization to JSON.
    *
-   * @param revWalk
    * @param patchSet
    * @return object suitable for serialization to JSON
    */
   public PatchSetAttribute asPatchSetAttribute(RevWalk revWalk, Change change, PatchSet patchSet) {
-    try (ReviewDb db = schema.open()) {
-      return asPatchSetAttribute(db, revWalk, change, patchSet);
-    } catch (OrmException e) {
-      logger.atSevere().withCause(e).log("Cannot open database connection");
-      return new PatchSetAttribute();
-    }
-  }
-
-  /**
-   * Create a PatchSetAttribute for the given patchset suitable for serialization to JSON.
-   *
-   * @param db Review database
-   * @param patchSet
-   * @return object suitable for serialization to JSON
-   */
-  public PatchSetAttribute asPatchSetAttribute(
-      ReviewDb db, RevWalk revWalk, Change change, PatchSet patchSet) {
     PatchSetAttribute p = new PatchSetAttribute();
     p.revision = patchSet.getRevision().get();
     p.number = patchSet.getPatchSetId();
@@ -535,7 +492,7 @@ public class EventFactory {
           p.sizeInsertions += pe.getInsertions();
         }
       }
-      p.kind = changeKindCache.getChangeKind(db, change, patchSet);
+      p.kind = changeKindCache.getChangeKind(change, patchSet);
     } catch (IOException | OrmException e) {
       logger.atSevere().withCause(e).log("Cannot load patch set data for %s", patchSet.getId());
     } catch (PatchListObjectTooLargeException e) {

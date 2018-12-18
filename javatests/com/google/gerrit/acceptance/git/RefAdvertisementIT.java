@@ -470,7 +470,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
                   + subject
                   + "\n")
           .create();
-      indexer.index(db, c.getProject(), c.getId());
+      indexer.index(c.getProject(), c.getId());
     }
 
     assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(c4, 1));

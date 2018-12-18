@@ -259,7 +259,7 @@ public class MailProcessor {
       }
 
       Op o = new Op(new PatchSet.Id(cd.getId(), metadata.patchSet), parsedComments, message.id());
-      BatchUpdate batchUpdate = buf.create(cd.db(), project, ctx.getUser(), TimeUtil.nowTs());
+      BatchUpdate batchUpdate = buf.create(project, ctx.getUser(), TimeUtil.nowTs());
       batchUpdate.addOp(cd.getId(), o);
       batchUpdate.execute();
     }
@@ -329,12 +329,7 @@ public class MailProcessor {
       Map<String, Short> approvals = new HashMap<>();
       approvalsUtil
           .byPatchSetUser(
-              ctx.getDb(),
-              notes,
-              psId,
-              ctx.getAccountId(),
-              ctx.getRevWalk(),
-              ctx.getRepoView().getConfig())
+              notes, psId, ctx.getAccountId(), ctx.getRevWalk(), ctx.getRepoView().getConfig())
           .forEach(a -> approvals.put(a.getLabel(), a.getValue()));
       // Fire Gerrit event. Note that approvals can't be granted via email, so old and new approvals
       // are always the same here.

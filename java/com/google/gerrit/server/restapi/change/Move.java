@@ -40,7 +40,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -82,7 +81,6 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
-  private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
   private final GitRepositoryManager repoManager;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -95,7 +93,6 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   @Inject
   Move(
       PermissionBackend permissionBackend,
-      Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
@@ -107,7 +104,6 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       @GerritServerConfig Config gerritConfig) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
-    this.dbProvider = dbProvider;
     this.json = json;
     this.repoManager = repoManager;
     this.queryProvider = queryProvider;
@@ -151,16 +147,15 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
 
     // Move requires abandoning this change, and creating a new change.
     try {
-      rsrc.permissions().database(dbProvider).check(ABANDON);
-      permissionBackend.user(caller).database(dbProvider).ref(newDest).check(CREATE_CHANGE);
+      rsrc.permissions().check(ABANDON);
+      permissionBackend.user(caller).ref(newDest).check(CREATE_CHANGE);
     } catch (AuthException denied) {
       throw new AuthException("move not permitted", denied);
     }
     projectCache.checkedGet(project).checkStatePermitsWrite();
 
     Op op = new Op(input);
-    try (BatchUpdate u =
-        updateFactory.create(dbProvider.get(), project, caller, TimeUtil.nowTs())) {
+    try (BatchUpdate u = updateFactory.create(project, caller, TimeUtil.nowTs())) {
       u.addOp(change.getId(), op);
       u.execute();
     }
@@ -268,7 +263,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       List<PatchSetApproval> approvals = new ArrayList<>();
       for (PatchSetApproval psa :
           approvalsUtil.byPatchSet(
-              ctx.getDb(), ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
+              ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
         ProjectState projectState = projectCache.checkedGet(project);
         LabelType type = projectState.getLabelTypes(ctx.getNotes()).byLabel(psa.getLabelId());
         // Only keep veto votes, defined as votes where:
@@ -286,8 +281,6 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
                 (short) 0,
                 ctx.getWhen()));
       }
-      // Remove votes from ReviewDb.
-      ctx.getDb().patchSetApprovals().upsert(approvals);
     }
   }
 
@@ -327,6 +320,6 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     return description.setVisible(
         and(
             permissionBackend.user(rsrc.getUser()).ref(change.getDest()).testCond(CREATE_CHANGE),
-            rsrc.permissions().database(dbProvider).testCond(ABANDON)));
+            rsrc.permissions().testCond(ABANDON)));
   }
 }

@@ -18,7 +18,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.IndexUtils;
@@ -37,7 +36,6 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  protected final Provider<ReviewDb> db;
   protected final ChangeNotes.Factory notesFactory;
   protected final CurrentUser user;
   protected final PermissionBackend permissionBackend;
@@ -46,14 +44,12 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
 
   @Inject
   public ChangeIsVisibleToPredicate(
-      Provider<ReviewDb> db,
       ChangeNotes.Factory notesFactory,
       CurrentUser user,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       Provider<AnonymousUser> anonymousUserProvider) {
     super(ChangeQueryBuilder.FIELD_VISIBLETO, IndexUtils.describe(user));
-    this.db = db;
     this.notesFactory = notesFactory;
     this.user = user;
     this.permissionBackend = permissionBackend;
@@ -92,7 +88,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
             ? permissionBackend.absentUser(user.getAccountId())
             : permissionBackend.user(anonymousUserProvider.get());
     try {
-      withUser.indexedChange(cd, notes).database(db).check(ChangePermission.READ);
+      withUser.indexedChange(cd, notes).check(ChangePermission.READ);
     } catch (PermissionBackendException e) {
       Throwable cause = e.getCause();
       if (cause instanceof RepositoryNotFoundException) {

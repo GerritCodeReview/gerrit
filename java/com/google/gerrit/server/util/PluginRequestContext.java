@@ -14,11 +14,8 @@
 
 package com.google.gerrit.server.util;
 
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PluginUser;
-import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 
 /** RequestContext active while plugins load or unload. */
 public class PluginRequestContext implements RequestContext {
@@ -31,15 +28,5 @@ public class PluginRequestContext implements RequestContext {
   @Override
   public CurrentUser getUser() {
     return user;
-  }
-
-  @Override
-  public Provider<ReviewDb> getReviewDbProvider() {
-    return new Provider<ReviewDb>() {
-      @Override
-      public ReviewDb get() {
-        throw new ProvisionException("Automatic ReviewDb only available in request scope");
-      }
-    };
   }
 }

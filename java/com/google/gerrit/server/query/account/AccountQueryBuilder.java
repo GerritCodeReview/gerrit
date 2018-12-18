@@ -1,5 +1,4 @@
 // Copyright (C) 2016 The Android Open Source Project
-//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -27,7 +26,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
@@ -62,7 +60,6 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
       new QueryBuilder.Definition<>(AccountQueryBuilder.class);
 
   public static class Arguments {
-    final Provider<ReviewDb> db;
     final ChangeFinder changeFinder;
     final PermissionBackend permissionBackend;
 
@@ -73,12 +70,10 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
     public Arguments(
         Provider<CurrentUser> self,
         AccountIndexCollection indexes,
-        Provider<ReviewDb> db,
         ChangeFinder changeFinder,
         PermissionBackend permissionBackend) {
       this.self = self;
       this.indexes = indexes;
-      this.db = db;
       this.changeFinder = changeFinder;
       this.permissionBackend = permissionBackend;
     }
@@ -126,11 +121,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
     }
 
     try {
-      args.permissionBackend
-          .user(args.getUser())
-          .database(args.db)
-          .change(changeNotes)
-          .check(ChangePermission.READ);
+      args.permissionBackend.user(args.getUser()).change(changeNotes).check(ChangePermission.READ);
     } catch (AuthException e) {
       throw error(String.format("change %s not found", change));
     }

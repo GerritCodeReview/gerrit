@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -54,13 +53,12 @@ public class SuggestChangeReviewers extends SuggestReviewers
   @Inject
   SuggestChangeReviewers(
       AccountVisibility av,
-      Provider<ReviewDb> dbProvider,
       PermissionBackend permissionBackend,
       Provider<CurrentUser> self,
       @GerritServerConfig Config cfg,
       ReviewersUtil reviewersUtil,
       ProjectCache projectCache) {
-    super(av, dbProvider, cfg, reviewersUtil);
+    super(av, cfg, reviewersUtil);
     this.permissionBackend = permissionBackend;
     this.self = self;
     this.projectCache = projectCache;
@@ -90,7 +88,6 @@ public class SuggestChangeReviewers extends SuggestReviewers
         // already a reviewer.
         return permissionBackend
             .absentUser(account)
-            .database(dbProvider)
             .ref(rsrc.getChange().getDest())
             .testOrFalse(RefPermission.READ);
       }

@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountState;
@@ -43,7 +42,6 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -53,7 +51,6 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
     implements UiAction<ChangeResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
   private final AbandonOp.Factory abandonOpFactory;
   private final NotifyUtil notifyUtil;
@@ -61,14 +58,12 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
 
   @Inject
   Abandon(
-      Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       RetryHelper retryHelper,
       AbandonOp.Factory abandonOpFactory,
       NotifyUtil notifyUtil,
       PatchSetUtil patchSetUtil) {
     super(retryHelper);
-    this.dbProvider = dbProvider;
     this.json = json;
     this.abandonOpFactory = abandonOpFactory;
     this.notifyUtil = notifyUtil;
@@ -83,7 +78,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
     // Not allowed to abandon if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
-    rsrc.permissions().database(dbProvider).check(ChangePermission.ABANDON);
+    rsrc.permissions().check(ChangePermission.ABANDON);
 
     NotifyHandling notify = input.notify == null ? defaultNotify(rsrc.getChange()) : input.notify;
     Change change =
@@ -134,8 +129,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
       throws RestApiException, UpdateException {
     AccountState accountState = user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null;
     AbandonOp op = abandonOpFactory.create(accountState, msgTxt, notifyHandling, accountsToNotify);
-    try (BatchUpdate u =
-        updateFactory.create(dbProvider.get(), notes.getProjectName(), user, TimeUtil.nowTs())) {
+    try (BatchUpdate u = updateFactory.create(notes.getProjectName(), user, TimeUtil.nowTs())) {
       u.addOp(notes.getChangeId(), op).execute();
     }
     return op.getChange();

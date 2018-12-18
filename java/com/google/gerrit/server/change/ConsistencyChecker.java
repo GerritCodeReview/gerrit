@@ -15,9 +15,10 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
-import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.ChangeUtil.PS_ID_ORDER;
+import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
@@ -37,8 +38,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -68,6 +67,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -113,7 +113,6 @@ public class ConsistencyChecker {
   private final PatchSetUtil psUtil;
   private final Provider<CurrentUser> user;
   private final Provider<PersonIdent> serverIdent;
-  private final Provider<ReviewDb> db;
   private final RetryHelper retryHelper;
 
   private BatchUpdate.Factory updateFactory;
@@ -141,11 +140,9 @@ public class ConsistencyChecker {
       PatchSetInserter.Factory patchSetInserterFactory,
       PatchSetUtil psUtil,
       Provider<CurrentUser> user,
-      Provider<ReviewDb> db,
       RetryHelper retryHelper) {
     this.accounts = accounts;
     this.accountPatchReviewStore = accountPatchReviewStore;
-    this.db = db;
     this.notesFactory = notesFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
@@ -461,7 +458,11 @@ public class ConsistencyChecker {
           problem(
               String.format(
                   "Multiple patch sets for expected merged commit %s: %s",
-                  commit.name(), intKeyOrdering().sortedCopy(thisCommitPsIds)));
+                  commit.name(),
+                  thisCommitPsIds
+                      .stream()
+                      .sorted(comparing(PatchSet.Id::get))
+                      .collect(toImmutableList())));
           break;
       }
     } catch (IOException e) {
@@ -585,7 +586,7 @@ public class ConsistencyChecker {
   }
 
   private BatchUpdate newBatchUpdate() {
-    return updateFactory.create(db.get(), change().getProject(), user.get(), TimeUtil.nowTs());
+    return updateFactory.create(change().getProject(), user.get(), TimeUtil.nowTs());
   }
 
   private void fixPatchSetRef(ProblemInfo p, PatchSet ps) {
@@ -699,7 +700,7 @@ public class ConsistencyChecker {
       if (!toDelete.contains(ctx.getChange().currentPatchSetId())) {
         return false;
       }
-      Set<PatchSet.Id> all = new HashSet<>();
+      TreeSet<PatchSet.Id> all = new TreeSet<>(comparing(PatchSet.Id::get));
       // Doesn't make any assumptions about the order in which deletes happen
       // and whether they are seen by this op; we are already given the full set
       // of patch sets that will eventually be deleted in this update.
@@ -711,8 +712,7 @@ public class ConsistencyChecker {
       if (all.isEmpty()) {
         throw new NoPatchSetsWouldRemainException();
       }
-      PatchSet.Id latest = ReviewDbUtil.intKeyOrdering().max(all);
-      ctx.getChange().setCurrentPatchSet(patchSetInfoFactory.get(ctx.getNotes(), latest));
+      ctx.getChange().setCurrentPatchSet(patchSetInfoFactory.get(ctx.getNotes(), all.last()));
       return true;
     }
   }

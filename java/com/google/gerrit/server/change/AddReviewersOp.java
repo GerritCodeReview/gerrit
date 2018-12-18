@@ -176,7 +176,6 @@ public class AddReviewersOp implements BatchUpdateOp {
       } else {
         addedReviewers =
             approvalsUtil.addReviewers(
-                ctx.getDb(),
                 ctx.getNotes(),
                 ctx.getUpdate(change.currentPatchSetId()),
                 projectCache.checkedGet(change.getProject()).getLabelTypes(change.getDest()),

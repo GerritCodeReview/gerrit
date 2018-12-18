@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -93,7 +92,6 @@ public class CherryPickChange {
     abstract ImmutableSet<String> filesWithGitConflicts();
   }
 
-  private final Provider<ReviewDb> dbProvider;
   private final Sequences seq;
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitRepositoryManager gitManager;
@@ -109,7 +107,6 @@ public class CherryPickChange {
 
   @Inject
   CherryPickChange(
-      Provider<ReviewDb> dbProvider,
       Sequences seq,
       Provider<InternalChangeQuery> queryProvider,
       @GerritPersonIdent PersonIdent myIdent,
@@ -122,7 +119,6 @@ public class CherryPickChange {
       ProjectCache projectCache,
       ApprovalsUtil approvalsUtil,
       NotifyUtil notifyUtil) {
-    this.dbProvider = dbProvider;
     this.seq = seq;
     this.queryProvider = queryProvider;
     this.gitManager = gitManager;
@@ -248,8 +244,7 @@ public class CherryPickChange {
                   + " reside on the same branch. "
                   + "Cannot create a new patch set.");
         }
-        try (BatchUpdate bu =
-            batchUpdateFactory.create(dbProvider.get(), project, identifiedUser, now)) {
+        try (BatchUpdate bu = batchUpdateFactory.create(project, identifiedUser, now)) {
           bu.setRepository(git, revWalk, oi);
           Change.Id changeId;
           if (destChanges.size() == 1) {

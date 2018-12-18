@@ -18,10 +18,8 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Throwables;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.RequestCleanup;
-import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -47,15 +45,10 @@ public abstract class RequestScopePropagator {
 
   private final Scope scope;
   private final ThreadLocalRequestContext local;
-  private final Provider<RequestScopedReviewDbProvider> dbProviderProvider;
 
-  protected RequestScopePropagator(
-      Scope scope,
-      ThreadLocalRequestContext local,
-      Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
+  protected RequestScopePropagator(Scope scope, ThreadLocalRequestContext local) {
     this.scope = scope;
     this.local = local;
-    this.dbProviderProvider = dbProviderProvider;
   }
 
   /**
@@ -180,11 +173,6 @@ public abstract class RequestScopePropagator {
                 @Override
                 public CurrentUser getUser() {
                   return context.getUser();
-                }
-
-                @Override
-                public Provider<ReviewDb> getReviewDbProvider() {
-                  return dbProviderProvider.get();
                 }
               });
       try {

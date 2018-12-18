@@ -76,7 +76,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RobotComment;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -124,7 +123,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -158,7 +156,6 @@ public class PostReview
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
   private static final int DEFAULT_ROBOT_COMMENT_SIZE_LIMIT_IN_BYTES = 1024 * 1024;
 
-  private final Provider<ReviewDb> db;
   private final ChangeResource.Factory changeResourceFactory;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
@@ -181,7 +178,6 @@ public class PostReview
 
   @Inject
   PostReview(
-      Provider<ReviewDb> db,
       RetryHelper retryHelper,
       ChangeResource.Factory changeResourceFactory,
       ChangeData.Factory changeDataFactory,
@@ -202,7 +198,6 @@ public class PostReview
       ProjectCache projectCache,
       PermissionBackend permissionBackend) {
     super(retryHelper);
-    this.db = db;
     this.changeResourceFactory = changeResourceFactory;
     this.changeDataFactory = changeDataFactory;
     this.commentsUtil = commentsUtil;
@@ -280,8 +275,7 @@ public class PostReview
         reviewerInput.notify = NotifyHandling.NONE;
 
         ReviewerAddition result =
-            reviewerAdder.prepare(
-                db.get(), revision.getNotes(), revision.getUser(), reviewerInput, true);
+            reviewerAdder.prepare(revision.getNotes(), revision.getUser(), reviewerInput, true);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
         if (result.result.error != null) {
           hasError = true;
@@ -304,7 +298,7 @@ public class PostReview
     output.labels = input.labels;
 
     try (BatchUpdate bu =
-        updateFactory.create(db.get(), revision.getChange().getProject(), revision.getUser(), ts)) {
+        updateFactory.create(revision.getChange().getProject(), revision.getUser(), ts)) {
       Account.Id id = revision.getUser().getAccountId();
       boolean ccOrReviewer = false;
       if (input.labels != null && !input.labels.isEmpty()) {
@@ -380,8 +374,7 @@ public class PostReview
       bu.execute();
 
       // Re-read change to take into account results of the update.
-      ChangeData cd =
-          changeDataFactory.create(db.get(), revision.getProject(), revision.getChange().getId());
+      ChangeData cd = changeDataFactory.create(revision.getProject(), revision.getChange().getId());
       for (ReviewerAddition reviewerResult : reviewerResults) {
         reviewerResult.gatherResults(cd);
       }
@@ -468,7 +461,7 @@ public class PostReview
     }
 
     CurrentUser caller = rev.getUser();
-    PermissionBackend.ForChange perm = rev.permissions().database(db);
+    PermissionBackend.ForChange perm = rev.permissions();
     Iterator<Map.Entry<String, Short>> itr = in.labels.entrySet().iterator();
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
@@ -500,11 +493,7 @@ public class PostReview
 
     IdentifiedUser reviewer = accountResolver.parseOnBehalfOf(caller, in.onBehalfOf);
     try {
-      permissionBackend
-          .user(reviewer)
-          .database(db)
-          .change(rev.getNotes())
-          .check(ChangePermission.READ);
+      permissionBackend.user(reviewer).change(rev.getNotes()).check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new UnprocessableEntityException(
           String.format("on_behalf_of account %s cannot see change", reviewer.getAccountId()));
@@ -1146,7 +1135,7 @@ public class PostReview
       if (ctx.getAccountId().equals(ctx.getChange().getOwner())) {
         return true;
       }
-      ChangeData cd = changeDataFactory.create(db.get(), ctx.getNotes());
+      ChangeData cd = changeDataFactory.create(ctx.getNotes());
       ReviewerSet reviewers = cd.reviewers();
       if (reviewers.byState(REVIEWER).contains(ctx.getAccountId())) {
         return true;
@@ -1229,14 +1218,6 @@ public class PostReview
       }
 
       forceCallerAsReviewer(projectState, ctx, current, ups, del);
-
-      if (!del.isEmpty()) {
-        ctx.getDb().patchSetApprovals().delete(del);
-      }
-
-      if (!ups.isEmpty()) {
-        ctx.getDb().patchSetApprovals().upsert(ups);
-      }
 
       return !del.isEmpty() || !ups.isEmpty();
     }
@@ -1357,7 +1338,6 @@ public class PostReview
 
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(
-              ctx.getDb(),
               ctx.getNotes(),
               psId,
               user.getAccountId(),

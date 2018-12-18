@@ -24,7 +24,6 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 /** Runnable to enable scheduling change cleanups to run periodically */
@@ -85,7 +84,7 @@ public class ChangeCleanupRunner implements Runnable {
             abandonUtil.abandonInactiveOpenChanges(updateFactory);
             return null;
           });
-    } catch (RestApiException | UpdateException | OrmException e) {
+    } catch (RestApiException | UpdateException e) {
       logger.atSevere().withCause(e).log("Failed to cleanup changes.");
     }
   }

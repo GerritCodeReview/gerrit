@@ -18,7 +18,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
@@ -75,16 +74,6 @@ public interface Context {
    * @return time zone.
    */
   TimeZone getTimeZone();
-
-  /**
-   * Get the ReviewDb database.
-   *
-   * <p>Callers should not manage transactions or call mutating methods on the Changes table.
-   * Mutations on other tables (including other entities in the change entity group) are fine.
-   *
-   * @return open database instance.
-   */
-  ReviewDb getDb();
 
   /**
    * Get the user performing the update.

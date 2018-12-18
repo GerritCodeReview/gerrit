@@ -255,7 +255,7 @@ public class ReplaceOp implements BatchUpdateOp {
       groups = prevPs != null ? prevPs.getGroups() : ImmutableList.<String>of();
     }
 
-    ChangeData cd = changeDataFactory.create(ctx.getDb(), ctx.getNotes());
+    ChangeData cd = changeDataFactory.create(ctx.getNotes());
     oldRecipients = getRecipientsFromReviewers(cd.reviewers());
 
     ChangeUpdate update = ctx.getUpdate(patchSetId);
@@ -312,11 +312,10 @@ public class ReplaceOp implements BatchUpdateOp {
     update.setPsDescription(psDescription);
     MailRecipients fromFooters = getRecipientsFromFooters(accountResolver, commit.getFooterLines());
     approvalsUtil.addApprovalsForNewPatchSet(
-        ctx.getDb(), update, projectState.getLabelTypes(), newPatchSet, ctx.getUser(), approvals);
+        update, projectState.getLabelTypes(), newPatchSet, ctx.getUser(), approvals);
 
     reviewerAdditions =
         reviewerAdder.prepare(
-            ctx.getDb(),
             ctx.getNotes(),
             ctx.getUser(),
             getReviewerInputs(magicBranch, fromFooters, ctx.getChange(), info),
@@ -452,7 +451,6 @@ public class ReplaceOp implements BatchUpdateOp {
     if (!approvals.isEmpty()) {
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(
-              ctx.getDb(),
               ctx.getNotes(),
               priorPatchSetId,
               ctx.getAccountId(),

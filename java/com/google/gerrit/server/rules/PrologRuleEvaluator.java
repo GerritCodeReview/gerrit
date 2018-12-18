@@ -487,7 +487,6 @@ public class PrologRuleEvaluator {
     env.set(StoredValues.ACCOUNTS, accounts);
     env.set(StoredValues.ACCOUNT_CACHE, accountCache);
     env.set(StoredValues.EMAILS, emails);
-    env.set(StoredValues.REVIEW_DB, cd.db());
     env.set(StoredValues.CHANGE_DATA, cd);
     env.set(StoredValues.PROJECT_STATE, projectState);
     return env;

@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
@@ -37,26 +36,18 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.Collections;
 
 @Singleton
 public class PutDescription
     extends RetryingRestModifyView<RevisionResource, DescriptionInput, Response<String>>
     implements UiAction<RevisionResource> {
-  private final Provider<ReviewDb> dbProvider;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
 
   @Inject
-  PutDescription(
-      Provider<ReviewDb> dbProvider,
-      ChangeMessagesUtil cmUtil,
-      RetryHelper retryHelper,
-      PatchSetUtil psUtil) {
+  PutDescription(ChangeMessagesUtil cmUtil, RetryHelper retryHelper, PatchSetUtil psUtil) {
     super(retryHelper);
-    this.dbProvider = dbProvider;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
   }
@@ -69,8 +60,7 @@ public class PutDescription
 
     Op op = new Op(input != null ? input : new DescriptionInput(), rsrc.getPatchSet().getId());
     try (BatchUpdate u =
-        updateFactory.create(
-            dbProvider.get(), rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       u.addOp(rsrc.getChange().getId(), op);
       u.execute();
     }
@@ -93,10 +83,9 @@ public class PutDescription
 
     @Override
     public boolean updateChange(ChangeContext ctx) throws OrmException {
-      PatchSet ps = psUtil.get(ctx.getNotes(), psId);
       ChangeUpdate update = ctx.getUpdate(psId);
       newDescription = Strings.nullToEmpty(input.description);
-      oldDescription = Strings.nullToEmpty(ps.getDescription());
+      oldDescription = Strings.nullToEmpty(psUtil.get(ctx.getNotes(), psId).getDescription());
       if (oldDescription.equals(newDescription)) {
         return false;
       }
@@ -109,10 +98,7 @@ public class PutDescription
         summary = "Description changed to \"" + newDescription + "\"";
       }
 
-      ps.setDescription(newDescription);
       update.setPsDescription(newDescription);
-
-      ctx.getDb().patchSets().update(Collections.singleton(ps));
 
       ChangeMessage cmsg =
           ChangeMessagesUtil.newMessage(

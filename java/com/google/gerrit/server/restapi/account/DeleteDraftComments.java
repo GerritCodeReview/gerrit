@@ -36,7 +36,6 @@ import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -74,7 +73,6 @@ import java.util.Objects;
 public class DeleteDraftComments
     implements RestModifyView<AccountResource, DeleteDraftCommentsInput> {
 
-  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> userProvider;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final Provider<ChangeQueryBuilder> queryBuilderProvider;
@@ -88,7 +86,6 @@ public class DeleteDraftComments
 
   @Inject
   DeleteDraftComments(
-      Provider<ReviewDb> db,
       Provider<CurrentUser> userProvider,
       Factory batchUpdateFactory,
       Provider<ChangeQueryBuilder> queryBuilderProvider,
@@ -99,7 +96,6 @@ public class DeleteDraftComments
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       PatchListCache patchListCache) {
-    this.db = db;
     this.userProvider = userProvider;
     this.batchUpdateFactory = batchUpdateFactory;
     this.queryBuilderProvider = queryBuilderProvider;
@@ -142,7 +138,7 @@ public class DeleteDraftComments
             .query(predicate(accountId, input))) {
       BatchUpdate update =
           updates.computeIfAbsent(
-              cd.project(), p -> batchUpdateFactory.create(db.get(), p, rsrc.getUser(), now));
+              cd.project(), p -> batchUpdateFactory.create(p, rsrc.getUser(), now));
       Op op = new Op(commentFormatter, accountId);
       update.addOp(cd.getId(), op);
       ops.add(op);
@@ -196,7 +192,7 @@ public class DeleteDraftComments
         result.change =
             changeJsonFactory
                 .create(ListChangesOption.SKIP_MERGEABLE)
-                .format(changeDataFactory.create(ctx.getDb(), ctx.getNotes()));
+                .format(changeDataFactory.create(ctx.getNotes()));
         result.deleted = comments.build();
       }
       return dirty;

@@ -33,7 +33,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -79,7 +78,6 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 @Singleton
 public class CreateMergePatchSet
     extends RetryingRestModifyView<ChangeResource, MergePatchSetInput, Response<ChangeInfo>> {
-  private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
   private final CommitsCollection commits;
   private final TimeZone serverTimeZone;
@@ -94,7 +92,6 @@ public class CreateMergePatchSet
 
   @Inject
   CreateMergePatchSet(
-      Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
       CommitsCollection commits,
       @GerritPersonIdent PersonIdent myIdent,
@@ -108,7 +105,6 @@ public class CreateMergePatchSet
       ChangeFinder changeFinder,
       PermissionBackend permissionBackend) {
     super(retryHelper);
-    this.db = db;
     this.gitManager = gitManager;
     this.commits = commits;
     this.serverTimeZone = myIdent.getTimeZone();
@@ -130,7 +126,7 @@ public class CreateMergePatchSet
     // Not allowed to create a new patch set if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
-    rsrc.permissions().database(db).check(ChangePermission.ADD_PATCH_SET);
+    rsrc.permissions().check(ChangePermission.ADD_PATCH_SET);
 
     ProjectState projectState = projectCache.checkedGet(rsrc.getProject());
     projectState.checkStatePermitsWrite();
@@ -185,7 +181,7 @@ public class CreateMergePatchSet
       PatchSet.Id nextPsId = ChangeUtil.nextPatchSetId(ps.getId());
       PatchSetInserter psInserter =
           patchSetInserterFactory.create(rsrc.getNotes(), nextPsId, newCommit);
-      try (BatchUpdate bu = updateFactory.create(db.get(), project, me, now)) {
+      try (BatchUpdate bu = updateFactory.create(project, me, now)) {
         bu.setRepository(git, rw, oi);
         psInserter
             .setMessage("Uploaded patch set " + nextPsId.get() + ".")
@@ -212,7 +208,7 @@ public class CreateMergePatchSet
     }
     ChangeNotes change = Iterables.getOnlyElement(notes);
     try {
-      permissionBackend.currentUser().change(change).database(db).check(ChangePermission.READ);
+      permissionBackend.currentUser().change(change).check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new UnprocessableEntityException("Read not permitted for " + baseChange);
     }

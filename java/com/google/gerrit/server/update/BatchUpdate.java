@@ -37,7 +37,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountState;
@@ -110,7 +109,7 @@ public class BatchUpdate implements AutoCloseable {
 
   // TODO(dborowitz): Make this package-private to force all callers to use RetryHelper.
   public interface Factory {
-    BatchUpdate create(ReviewDb db, Project.NameKey project, CurrentUser user, Timestamp when);
+    BatchUpdate create(Project.NameKey project, CurrentUser user, Timestamp when);
   }
 
   public static void execute(
@@ -281,11 +280,6 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     @Override
-    public ReviewDb getDb() {
-      return db;
-    }
-
-    @Override
     public CurrentUser getUser() {
       return user;
     }
@@ -364,7 +358,6 @@ public class BatchUpdate implements AutoCloseable {
   private final ChangeIndexer indexer;
   private final GitReferenceUpdated gitRefUpdated;
 
-  private final ReviewDb db;
   private final Project.NameKey project;
   private final CurrentUser user;
   private final Timestamp when;
@@ -391,7 +384,6 @@ public class BatchUpdate implements AutoCloseable {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeIndexer indexer,
       GitReferenceUpdated gitRefUpdated,
-      @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Timestamp when) {
@@ -401,7 +393,6 @@ public class BatchUpdate implements AutoCloseable {
     this.updateManagerFactory = updateManagerFactory;
     this.indexer = indexer;
     this.gitRefUpdated = gitRefUpdated;
-    this.db = db;
     this.project = project;
     this.user = user;
     this.when = when;

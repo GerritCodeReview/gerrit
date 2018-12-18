@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.RobotComment;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -31,14 +30,11 @@ import java.util.Map;
 
 @Singleton
 public class ListRobotComments implements RestReadView<RevisionResource> {
-  protected final Provider<ReviewDb> db;
   protected final Provider<CommentJson> commentJson;
   protected final CommentsUtil commentsUtil;
 
   @Inject
-  ListRobotComments(
-      Provider<ReviewDb> db, Provider<CommentJson> commentJson, CommentsUtil commentsUtil) {
-    this.db = db;
+  ListRobotComments(Provider<CommentJson> commentJson, CommentsUtil commentsUtil) {
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
   }

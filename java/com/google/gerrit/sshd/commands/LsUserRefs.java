@@ -106,7 +106,7 @@ public class LsUserRefs extends SshCommand {
       }
     } catch (RepositoryNotFoundException e) {
       throw die("'" + projectName + "': not a git archive");
-    } catch (IOException | OrmException e) {
+    } catch (IOException e) {
       throw die("Error opening: '" + projectName);
     }
   }

@@ -17,6 +17,7 @@ package com.google.gerrit.server.submit;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Function;
@@ -32,7 +33,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -182,8 +182,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         continue; // Bogus ref, can't be merged into tip so we don't care.
       }
     }
-    commits.sort(
-        ReviewDbUtil.intKeyOrdering().reverse().onResultOf(CodeReviewCommit::getPatchsetId));
+    commits.sort(comparing((CodeReviewCommit c) -> c.getPatchsetId().get()).reversed());
     CodeReviewCommit result = MergeUtil.findAnyMergedInto(rw, commits, tip);
     if (result == null) {
       return null;
@@ -336,7 +335,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // If the submit strategy created a new revision (rebase, cherry-pick), copy
     // approvals as well.
     if (!newPsId.equals(oldPsId)) {
-      saveApprovals(normalized, ctx, newPsUpdate, true);
+      saveApprovals(normalized, newPsUpdate, true);
       submitter = convertPatchSet(newPsId).apply(submitter);
     }
   }
@@ -347,7 +346,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     Map<PatchSetApproval.Key, PatchSetApproval> byKey = new HashMap<>();
     for (PatchSetApproval psa :
         args.approvalsUtil.byPatchSet(
-            ctx.getDb(), ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
+            ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
       byKey.put(psa.getKey(), psa);
     }
 
@@ -363,19 +362,12 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     LabelNormalizer.Result normalized =
         args.labelNormalizer.normalize(ctx.getNotes(), byKey.values());
     update.putApproval(submitter.getLabel(), submitter.getValue());
-    saveApprovals(normalized, ctx, update, false);
+    saveApprovals(normalized, update, false);
     return normalized;
   }
 
   private void saveApprovals(
-      LabelNormalizer.Result normalized,
-      ChangeContext ctx,
-      ChangeUpdate update,
-      boolean includeUnchanged)
-      throws OrmException {
-    PatchSet.Id psId = update.getPatchSetId();
-    ctx.getDb().patchSetApprovals().upsert(convertPatchSet(normalized.getNormalized(), psId));
-    ctx.getDb().patchSetApprovals().upsert(zero(convertPatchSet(normalized.deleted(), psId)));
+      LabelNormalizer.Result normalized, ChangeUpdate update, boolean includeUnchanged) {
     for (PatchSetApproval psa : normalized.updated()) {
       update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());
     }

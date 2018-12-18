@@ -28,7 +28,6 @@ import com.google.gerrit.proto.Protos;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
@@ -114,8 +113,8 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
 
     @Override
-    public ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch) {
-      return getChangeKindInternal(this, db, change, patch, changeDataFactory, repoManager);
+    public ChangeKind getChangeKind(Change change, PatchSet patch) {
+      return getChangeKindInternal(this, change, patch, changeDataFactory, repoManager);
     }
 
     @Override
@@ -350,8 +349,8 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
   }
 
   @Override
-  public ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch) {
-    return getChangeKindInternal(this, db, change, patch, changeDataFactory, repoManager);
+  public ChangeKind getChangeKind(Change change, PatchSet patch) {
+    return getChangeKindInternal(this, change, patch, changeDataFactory, repoManager);
   }
 
   @Override
@@ -406,7 +405,6 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
 
   private static ChangeKind getChangeKindInternal(
       ChangeKindCache cache,
-      ReviewDb db,
       Change change,
       PatchSet patch,
       ChangeData.Factory changeDataFactory,
@@ -420,7 +418,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
           RevWalk rw = new RevWalk(repo)) {
         kind =
             getChangeKindInternal(
-                cache, rw, repo.getConfig(), changeDataFactory.create(db, change), patch);
+                cache, rw, repo.getConfig(), changeDataFactory.create(change), patch);
       } catch (IOException e) {
         // Do nothing; assume we have a complex change
         logger.atWarning().withCause(e).log(

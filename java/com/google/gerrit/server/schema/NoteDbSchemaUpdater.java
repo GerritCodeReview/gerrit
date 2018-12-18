@@ -32,7 +32,6 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
@@ -110,11 +109,7 @@ public class NoteDbSchemaUpdater {
 
   private void ensureSchemaCreated() throws OrmException {
     try {
-      try {
-        repoManager.openRepository(allProjectsName).close();
-      } catch (RepositoryNotFoundException e) {
-        schemaCreator.create();
-      }
+      schemaCreator.ensureCreated();
     } catch (IOException | ConfigInvalidException e) {
       throw new OrmException("Cannot initialize Gerrit site");
     }

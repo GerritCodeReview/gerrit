@@ -14,22 +14,17 @@
 
 package com.google.gerrit.acceptance;
 
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.RequestCleanup;
-import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.DisabledReviewDb;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
-import com.google.inject.util.Providers;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,13 +32,9 @@ import java.util.Map;
 public class AcceptanceTestRequestScope {
   private static final Key<RequestCleanup> RC_KEY = Key.get(RequestCleanup.class);
 
-  private static final Key<RequestScopedReviewDbProvider> DB_KEY =
-      Key.get(RequestScopedReviewDbProvider.class);
-
   public static class Context implements RequestContext {
     private final RequestCleanup cleanup = new RequestCleanup();
     private final Map<Key<?>, Object> map = new HashMap<>();
-    private final SchemaFactory<ReviewDb> schemaFactory;
     private final SshSession session;
     private final CurrentUser user;
 
@@ -51,17 +42,15 @@ public class AcceptanceTestRequestScope {
     volatile long started;
     volatile long finished;
 
-    private Context(SchemaFactory<ReviewDb> sf, SshSession s, CurrentUser u, long at) {
-      schemaFactory = sf;
+    private Context(SshSession s, CurrentUser u, long at) {
       session = s;
       user = u;
       created = started = finished = at;
       map.put(RC_KEY, cleanup);
-      map.put(DB_KEY, new RequestScopedReviewDbProvider(schemaFactory, Providers.of(cleanup)));
     }
 
     private Context(Context p, SshSession s, CurrentUser c) {
-      this(p.schemaFactory, s, c, p.created);
+      this(s, c, p.created);
       started = p.started;
       finished = p.finished;
     }
@@ -76,11 +65,6 @@ public class AcceptanceTestRequestScope {
         throw new IllegalStateException("user == null, forgot to set it?");
       }
       return user;
-    }
-
-    @Override
-    public Provider<ReviewDb> getReviewDbProvider() {
-      return (RequestScopedReviewDbProvider) map.get(DB_KEY);
     }
 
     synchronized <T> T get(Key<T> key, Provider<T> creator) {
@@ -112,11 +96,8 @@ public class AcceptanceTestRequestScope {
     private final AcceptanceTestRequestScope atrScope;
 
     @Inject
-    Propagator(
-        AcceptanceTestRequestScope atrScope,
-        ThreadLocalRequestContext local,
-        Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
-      super(REQUEST, current, local, dbProviderProvider);
+    Propagator(AcceptanceTestRequestScope atrScope, ThreadLocalRequestContext local) {
+      super(REQUEST, current, local);
       this.atrScope = atrScope;
     }
 
@@ -145,8 +126,8 @@ public class AcceptanceTestRequestScope {
     this.local = local;
   }
 
-  public Context newContext(SchemaFactory<ReviewDb> sf, SshSession s, CurrentUser user) {
-    return new Context(sf, s, user, TimeUtil.nowMs());
+  public Context newContext(SshSession s, CurrentUser user) {
+    return new Context(s, user, TimeUtil.nowMs());
   }
 
   private Context newContinuingContext(Context ctx) {
@@ -166,19 +147,11 @@ public class AcceptanceTestRequestScope {
 
   public Context disableDb() {
     Context old = current.get();
-    SchemaFactory<ReviewDb> sf = DisabledReviewDb::new;
-    Context ctx = new Context(sf, old.session, old.user, old.created);
+    Context ctx = new Context(old.session, old.user, old.created);
 
     current.set(ctx);
     local.setContext(ctx);
     return old;
-  }
-
-  public Context reopenDb() {
-    // Setting a new context with the same fields is enough to get the ReviewDb
-    // provider to reopen the database.
-    Context old = current.get();
-    return set(new Context(old.schemaFactory, old.session, old.user, old.created));
   }
 
   /** Returns exactly one instance per command executed. */

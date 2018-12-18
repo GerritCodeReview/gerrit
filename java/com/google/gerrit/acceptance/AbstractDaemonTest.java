@@ -80,7 +80,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -130,7 +129,6 @@ import com.google.gerrit.testing.FakeGroupAuditService;
 import com.google.gerrit.testing.SshMode;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -270,7 +268,6 @@ public abstract class AbstractDaemonTest {
   protected RestSession adminRestSession;
   protected RestSession userRestSession;
   protected RestSession anonymousRestSession;
-  protected ReviewDb db;
   protected SshSession adminSshSession;
   protected SshSession userSshSession;
   protected TestAccount admin;
@@ -287,7 +284,6 @@ public abstract class AbstractDaemonTest {
   @Inject private EventRecorder.Factory eventRecorderFactory;
   @Inject private InProcessProtocol inProcessProtocol;
   @Inject private Provider<AnonymousUser> anonymousUser;
-  @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
   @Inject private AccountIndexer accountIndexer;
   @Inject private Groups groups;
   @Inject private GroupIndexer groupIndexer;
@@ -425,14 +421,12 @@ public abstract class AbstractDaemonTest {
     Transport.register(inProcessProtocol);
     toClose = Collections.synchronizedList(new ArrayList<Repository>());
 
-    db = reviewDbProvider.open();
-
     // All groups which were added during the server start (e.g. in SchemaCreatorImpl) aren't
     // contained in the instance of the group index which is available here and in tests. There are
     // two reasons:
     // 1) No group index is available in SchemaCreatorImpl when using an in-memory database.
-    // (This could be fixed by using the IndexManagerOnInit in InMemoryDatabase similar as BaseInit
-    // uses it.)
+    // (This could be fixed by using the IndexManagerOnInit in InMemoryTestingDatabaseModule similar
+    // to how BaseInit uses it.)
     // 2) During the on-init part of the server start, we use another instance of the index than
     // later on. As test indexes are non-permanent, closing an instance and opening another one
     // removes all indexed data.
@@ -578,8 +572,7 @@ public abstract class AbstractDaemonTest {
   protected String registerRepoConnection(Project.NameKey p, TestAccount testAccount)
       throws Exception {
     InProcessProtocol.Context ctx =
-        new InProcessProtocol.Context(
-            reviewDbProvider, identifiedUserFactory, testAccount.getId(), p);
+        new InProcessProtocol.Context(identifiedUserFactory, testAccount.getId(), p);
     Repository repo = repoManager.openRepository(p);
     toClose.add(repo);
     return inProcessProtocol.register(ctx, repo).toString();
@@ -590,7 +583,6 @@ public abstract class AbstractDaemonTest {
     for (Repository repo : toClose) {
       repo.close();
     }
-    db.close();
     closeSsh();
     if (server != commonServer) {
       server.close();
@@ -795,9 +787,7 @@ public abstract class AbstractDaemonTest {
 
   private Context newRequestContext(TestAccount account) {
     return atrScope.newContext(
-        reviewDbProvider,
-        new SshSession(sshKeys, server, account),
-        identifiedUserFactory.create(account.getId()));
+        new SshSession(sshKeys, server, account), identifiedUserFactory.create(account.getId()));
   }
 
   /**
@@ -815,7 +805,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected Context setApiUserAnonymous() {
-    return atrScope.set(atrScope.newContext(reviewDbProvider, null, anonymousUser.get()));
+    return atrScope.set(atrScope.newContext(null, anonymousUser.get()));
   }
 
   protected Account getAccount(Account.Id accountId) {
@@ -1131,7 +1121,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected PatchSet getPatchSet(PatchSet.Id psId) throws OrmException {
-    return changeDataFactory.create(db, project, psId.getParentKey()).patchSet(psId);
+    return changeDataFactory.create(project, psId.getParentKey()).patchSet(psId);
   }
 
   protected IdentifiedUser user(TestAccount testAccount) {

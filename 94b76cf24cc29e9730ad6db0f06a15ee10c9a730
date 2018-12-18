@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c395a3d8_6cab64a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-18T21:49:00Z",
+      "side": 1,
+      "message": "Was it an oversight not to add a hook for that event? It was pointed out in that feature request: [1].\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d10184",
+      "revId": "94b76cf24cc29e9730ad6db0f06a15ee10c9a730",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eb3f1415_d568bb88",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

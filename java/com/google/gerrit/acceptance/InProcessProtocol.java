@@ -267,6 +267,9 @@ class InProcessProtocol extends TestProtocol<Context> {
       List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
       hooks.add(uploadValidatorsFactory.create(projectState.getProject(), repo, "localhost-test"));
       up.setPreUploadHook(PreUploadHookChain.newChain(hooks));
+      if (transferConfig.enableProtocolV2()) {
+        up.setExtraParameters(ImmutableList.of("version=2"));
+      }
       for (UploadPackInitializer initializer : uploadPackInitializers) {
         initializer.init(req.project, up);
       }

@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "874a60b2_8e7a00f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-18T14:46:48Z",
+      "side": 1,
+      "message": "Thanks for trying my proposal. This change looks smaller/simpler than I expected it to be. ;-)",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "6254953a5dad81419146c8c5830b4f0754a22ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab83d79c_b3d20bc6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -26,6 +49,53 @@
     },
     {
       "key": {
+        "uuid": "350c7257_32bd4835",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-18T14:46:48Z",
+      "side": 1,
+      "message": "Second edition: Item 58\nThird edition: Item 70",
+      "parentUuid": "ab83d79c_b3d20bc6",
+      "range": {
+        "startLine": 16,
+        "startChar": 46,
+        "endLine": 16,
+        "endChar": 63
+      },
+      "revId": "6254953a5dad81419146c8c5830b4f0754a22ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fc90d1f_b0f68580",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-18T14:46:48Z",
+      "side": 1,
+      "message": "Do you mean that OrmDuplicateKeyException is recoverable? I would question that for most cases. What we do is that we map the exception to something else e.g. ResourceConflictException in some cases.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 72
+      },
+      "revId": "6254953a5dad81419146c8c5830b4f0754a22ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c92f965_72ee616c",
         "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
         "patchSetId": 2
@@ -37,6 +107,30 @@
       "writtenOn": "2018-12-17T23:28:09Z",
       "side": 1,
       "message": "This is a case where an OrmException is recoverable. Arguably. At least where we need to catch the unchecked exception and do something with it. I\u0027m wondering:\n\n* What is the real right thing to do here? Use a different checked exception type in the query subsystem?\n* Do we want to block this change on doing whatever that right thing ends up being?",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 69
+      },
+      "revId": "6254953a5dad81419146c8c5830b4f0754a22ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffbc4e86_2f612cf8",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-18T14:46:48Z",
+      "side": 1,
+      "message": "\u003e This is a case where an OrmException is recoverable. Arguably. At least where we need to catch the unchecked exception and do something with it. I\u0027m wondering:\n\u003e \n\u003e * What is the real right thing to do here? Use a different checked exception type in the query subsystem?\n\nIt seems that we currently always wrap the QueryParseException into an OrmException to avoid having to change the signature of the query subsystem. I would directly use QueryParseException.\n\n\u003e * Do we want to block this change on doing whatever that right thing ends up being?\n\nWe wouldn\u0027t need to block this change but we should somehow ensure that we don\u0027t forget to do these additional adjustments.",
+      "parentUuid": "4c92f965_72ee616c",
       "range": {
         "startLine": 284,
         "startChar": 0,

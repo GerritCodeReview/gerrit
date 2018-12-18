@@ -19,14 +19,8 @@ _java_ -jar gerrit.war _daemon_
 
 == DESCRIPTION
 Runs the Gerrit network daemon on the local system, configured as
-per the local copy of link:config-gerrit.html[gerrit.config].
-
-The path to gerrit.config is read from the metadata database,
-which requires that all slaves (and master) reading from the same
-database must place gerrit.config at the same location on the local
-filesystem.  However, any option within gerrit.config, including
-link:config-gerrit.html#gerrit.basePath[gerrit.basePath] may be set
-to different values.
+per the local copy of link:config-gerrit.html[gerrit.config] located under
+`<SITE_PATH>/etc`.
 
 == OPTIONS
 

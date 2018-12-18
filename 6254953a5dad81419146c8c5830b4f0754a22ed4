@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "e7273c23_d6828e7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-18T20:39:00Z",
+      "side": 1,
+      "message": "Yeah! I was surprised too at how few compilation errors this caused. There is still lots of cleanup to do but the nice thing is we can do it incrementally.",
+      "parentUuid": "874a60b2_8e7a00f0",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "6254953a5dad81419146c8c5830b4f0754a22ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab83d79c_b3d20bc6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "54037570_4c940fe5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-18T20:39:00Z",
+      "side": 1,
+      "message": "True, we don\u0027t actually \"recover\" in these cases. But isn\u0027t this a case where having checked exceptions is a benefit, because it forces you to consider what HTTP response code you want? I think that would be easy to forget if it were unchecked.\n\nMaybe this means that high-level classes like PutName shouldn\u0027t be catching OrmDuplicateKeyExceptions, and they should just be caught at the RestApiServlet level? This would require other changes, like making ODKE\u0027s message more user-friendly at the source where it\u0027s thrown. This is certainly easier in the non-ReviewDb world where we control all the throw sites. WDYT?",
+      "parentUuid": "0fc90d1f_b0f68580",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 72
+      },
+      "revId": "6254953a5dad81419146c8c5830b4f0754a22ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c92f965_72ee616c",
         "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
         "patchSetId": 2
@@ -131,6 +179,30 @@
       "side": 1,
       "message": "\u003e This is a case where an OrmException is recoverable. Arguably. At least where we need to catch the unchecked exception and do something with it. I\u0027m wondering:\n\u003e \n\u003e * What is the real right thing to do here? Use a different checked exception type in the query subsystem?\n\nIt seems that we currently always wrap the QueryParseException into an OrmException to avoid having to change the signature of the query subsystem. I would directly use QueryParseException.\n\n\u003e * Do we want to block this change on doing whatever that right thing ends up being?\n\nWe wouldn\u0027t need to block this change but we should somehow ensure that we don\u0027t forget to do these additional adjustments.",
       "parentUuid": "4c92f965_72ee616c",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 69
+      },
+      "revId": "6254953a5dad81419146c8c5830b4f0754a22ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1d153e6_7c822bd1",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-18T20:39:00Z",
+      "side": 1,
+      "message": "\u003e \u003e This is a case where an OrmException is recoverable. Arguably. At least where we need to catch the unchecked exception and do something with it. I\u0027m wondering:\n\u003e \u003e \n\u003e \u003e * What is the real right thing to do here? Use a different checked exception type in the query subsystem?\n\u003e \n\u003e It seems that we currently always wrap the QueryParseException into an OrmException to avoid having to change the signature of the query subsystem. I would directly use QueryParseException.\n\nIIUC, you\u0027re saying that DataSource#read etc. should be changed to possibly throw QueryParseException so we don\u0027t have to do this unwrapping. That sounds pretty reasonable; if nothing else, it aligns the exceptions between DataSource and QueryProcessor.\n\nHowever, I don\u0027t think that QPE should be the *only* exception type that DataSource#read can throw. There really are two categories of errors:\n\n* Errors in the user-provided input, which QueryProcessor should throw as QPE, or something else with a user-visible error message that we can turn into an HTTP 400.\n* Errors in the underlying index, which are generally unrecoverable.\n\nISTM the latter should certainly be an unchecked exception. I\u0027m not sure whether the former should be checked or unchecked. Certainly an easier thing to do for now would be to keep using QPE for the former, and just make sure we keep the same exception types all the way through the call stack to avoid the need to unwrap.\n\nI guess one of the advantages of using more unchecked exceptions is that we can continue to throw checked QPEs and it doesn\u0027t clutter up the method signatures too much.\n\nThis also ties into the bikeshedding question on repo-discuss: if we rename OrmException to something like NoteDbException, then it\u0027s not really the right choice as an unchecked exception type to throw from DataSource#read. But maybe GerritException could be. Or maybe we create a new type; with unchecked exceptions, that\u0027s easier to do.",
+      "parentUuid": "ffbc4e86_2f612cf8",
       "range": {
         "startLine": 284,
         "startChar": 0,

@@ -22,6 +22,30 @@
       "revId": "508a44cba246432f1966207a78035cebb204a0e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e811686_dcc58f9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-18T11:55:35Z",
+      "side": 1,
+      "message": "This statement is wrong.  The UploadPack in GitOverHttpServlet gets used during GitOverHttpServletIT and HttpPushForReviewIT; the one in Upload gets used during SshPushForReviewIT.\n\nNeither of them are used in tests like ListBranchesIT.  In that one, it uses InProcessProtocol.",
+      "parentUuid": "6d918d24_f30331c8",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "508a44cba246432f1966207a78035cebb204a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

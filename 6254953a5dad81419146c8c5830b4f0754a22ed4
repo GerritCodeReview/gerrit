@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ab83d79c_b3d20bc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-12-18T11:03:21Z",
+      "side": 1,
+      "message": "Effective Java Chapter 9 Item 58:\n\n\"If you believe a condition is likely to allow for recovery, use a checked exception; if not, use a runtime exception. If it isn’t clear whether recovery is possible, you’re probably better off using an unchecked exception.\"",
+      "range": {
+        "startLine": 16,
+        "startChar": 46,
+        "endLine": 16,
+        "endChar": 63
+      },
+      "revId": "6254953a5dad81419146c8c5830b4f0754a22ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c92f965_72ee616c",
         "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
         "patchSetId": 2

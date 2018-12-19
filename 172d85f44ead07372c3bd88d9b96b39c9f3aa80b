@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c083711d_2a96bd8c",
+        "filename": "java/com/google/gerrit/server/schema/InMemoryAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-19T20:24:57Z",
+      "side": 0,
+      "message": "I think it\u0027s actually an accident that this worked before without a direct runtime_dep on h2, because the schema library either had a transitive dep on h2 or was only included into a binary/test with such a transitive dep.",
+      "revId": "172d85f44ead07372c3bd88d9b96b39c9f3aa80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

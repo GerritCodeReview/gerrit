@@ -14,6 +14,7 @@
 
 package com.google.gerrit.index;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.IndexPredicate;
@@ -21,7 +22,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -95,7 +95,7 @@ public interface Index<K, V> {
    */
   default Optional<V> get(K key, QueryOptions opts) throws IOException {
     opts = opts.withStart(0).withLimit(2);
-    List<V> results;
+    ImmutableList<V> results;
     try {
       results = getSource(keyPredicate(key), opts).read().toList();
     } catch (QueryParseException e) {
@@ -120,7 +120,7 @@ public interface Index<K, V> {
    */
   default Optional<FieldBundle> getRaw(K key, QueryOptions opts) throws IOException {
     opts = opts.withStart(0).withLimit(2);
-    List<FieldBundle> results;
+    ImmutableList<FieldBundle> results;
     try {
       results = getSource(keyPredicate(key), opts).readRaw().toList();
     } catch (QueryParseException e) {

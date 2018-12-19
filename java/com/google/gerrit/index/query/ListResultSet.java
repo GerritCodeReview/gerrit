@@ -14,15 +14,15 @@
 
 package com.google.gerrit.index.query;
 
-import java.util.ArrayList;
+import com.google.common.collect.ImmutableList;
 import java.util.Iterator;
 import java.util.List;
 
 public class ListResultSet<T> implements ResultSet<T> {
-  private List<T> items;
+  private ImmutableList<T> items;
 
-  public ListResultSet(final List<T> r) {
-    items = r;
+  public ListResultSet(List<T> r) {
+    items = ImmutableList.copyOf(r);
   }
 
   @Override
@@ -31,11 +31,11 @@ public class ListResultSet<T> implements ResultSet<T> {
   }
 
   @Override
-  public List<T> toList() {
+  public ImmutableList<T> toList() {
     if (items == null) {
       throw new IllegalStateException("Results already obtained");
     }
-    final List<T> r = new ArrayList<>(items);
+    ImmutableList<T> r = items;
     items = null;
     return r;
   }

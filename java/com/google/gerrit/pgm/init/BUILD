@@ -21,7 +21,6 @@ java_library(
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/util/time",
         "//lib:guava",
-        "//lib:gwtjsonrpc",
         "//lib:gwtorm",
         "//lib:h2",
         "//lib/commons:validator",

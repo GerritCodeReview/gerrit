@@ -20,7 +20,9 @@ import com.google.gwtorm.server.OrmException;
 
 public class HashtagPredicate extends ChangeIndexPredicate {
   public HashtagPredicate(String hashtag) {
-    super(ChangeField.HASHTAG, HashtagsUtil.cleanupHashtag(hashtag));
+    // Use toLowerCase without locale to match behavior in ChangeField.
+    // TODO(dborowitz): Change both.
+    super(ChangeField.HASHTAG, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase());
   }
 
   @Override

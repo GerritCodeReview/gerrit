@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6688866f_f2352d84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-19T03:48:23Z",
+      "side": 1,
+      "message": "Yes.  Will look into it.",
+      "parentUuid": "c395a3d8_6cab64a3",
+      "revId": "94b76cf24cc29e9730ad6db0f06a15ee10c9a730",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb3f1415_d568bb88",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -16,6 +16,24 @@
       "revId": "2e7a468e3aa270e8b680e5fbcca1736a74fbd793",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62329e4e_1ca4ed2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-19T05:53:25Z",
+      "side": 1,
+      "message": "I wasn\u0027t planning to because as far as I\u0027m concerned 2.13 is not maintained any more.\n\nIf we do a new 2.13 release, then we would need to also check what other important patches need to be backported, and I don\u0027t have time to do that.  Feel free to do it though, if you want :)",
+      "parentUuid": "4f1b1da6_eeb3417d",
+      "revId": "2e7a468e3aa270e8b680e5fbcca1736a74fbd793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

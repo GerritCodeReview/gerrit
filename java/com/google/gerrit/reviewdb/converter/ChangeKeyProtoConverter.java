@@ -12,15 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.reviewdb.server;
+package com.google.gerrit.reviewdb.converter;
 
+import com.google.gerrit.proto.reviewdb.Reviewdb;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gwtorm.protobuf.CodecFactory;
-import com.google.gwtorm.protobuf.ProtobufCodec;
+import com.google.protobuf.Parser;
 
-/** {@link ProtobufCodec} instances for ReviewDb types. */
-public class ReviewDbCodecs {
-  public static final ProtobufCodec<Change> CHANGE_CODEC = CodecFactory.encoder(Change.class);
+public enum ChangeKeyProtoConverter implements ProtoConverter<Reviewdb.Change_Key, Change.Key> {
+  INSTANCE;
 
-  private ReviewDbCodecs() {}
+  @Override
+  public Reviewdb.Change_Key toProto(Change.Key key) {
+    return Reviewdb.Change_Key.newBuilder().setId(key.get()).build();
+  }
+
+  @Override
+  public Change.Key fromProto(Reviewdb.Change_Key proto) {
+    return new Change.Key(proto.getId());
+  }
+
+  @Override
+  public Parser<Reviewdb.Change_Key> getParser() {
+    return Reviewdb.Change_Key.parser();
+  }
 }

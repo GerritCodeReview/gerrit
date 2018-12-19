@@ -14,7 +14,6 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.CHANGE_CODEC;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -43,6 +42,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.converter.ChangeProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
 import com.google.gerrit.server.ReviewerByEmailSet;
@@ -218,7 +218,8 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     }
 
     ChangeData cd =
-        changeDataFactory.create(CHANGE_CODEC.decode(Base64.decodeBase64(c.getAsString())));
+        changeDataFactory.create(
+            parseProtoFrom(Base64.decodeBase64(c.getAsString()), ChangeProtoConverter.INSTANCE));
 
     // Any decoding that is done here must also be done in {@link LuceneChangeIndex}.
 

@@ -16,6 +16,24 @@
       "revId": "c435e1bd9bed4a65d2c2dc76d3df1316a692b6f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50faabd3_7135ef29",
+        "filename": "java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1076571
+      },
+      "writtenOn": "2018-12-19T07:47:32Z",
+      "side": 1,
+      "message": "I guess you\u0027re right. It\u0027s unfortunate that it gives a warning when compiling, but it seems to be fine.",
+      "parentUuid": "92938707_3da05f5c",
+      "revId": "c435e1bd9bed4a65d2c2dc76d3df1316a692b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

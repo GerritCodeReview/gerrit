@@ -20,7 +20,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RawInput;
-import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.json.OutputFormat;
 import java.io.IOException;
 import org.apache.http.Header;
 import org.apache.http.client.fluent.Request;

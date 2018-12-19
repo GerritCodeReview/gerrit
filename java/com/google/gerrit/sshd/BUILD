@@ -6,6 +6,7 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/json",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/lucene",
         "//java/com/google/gerrit/metrics",

@@ -26,7 +26,6 @@ java_library(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/org/eclipse/jgit:server",
         "//lib:guava",
-        "//lib:gwtjsonrpc",
         "//lib:gwtorm",
         "//lib:servlet-api-3_1",
         "//lib/auto:auto-value",

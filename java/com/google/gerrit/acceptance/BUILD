@@ -36,7 +36,6 @@ java_library(
         "//lib:args4j",
         "//lib:gson",
         "//lib:guava-retrying",
-        "//lib:gwtjsonrpc",
         "//lib:gwtorm",
         "//lib:h2",
         "//lib:jimfs",

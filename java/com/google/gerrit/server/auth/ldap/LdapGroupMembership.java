@@ -22,20 +22,24 @@ import com.google.gerrit.server.project.ProjectCache;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.Config;
 
 class LdapGroupMembership implements GroupMembership {
   private final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache;
   private final ProjectCache projectCache;
   private final String id;
+  private final boolean guessRelevantGroups;
   private GroupMembership membership;
 
   LdapGroupMembership(
       LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
       ProjectCache projectCache,
-      String id) {
+      String id,
+      Config gerritConfig) {
     this.membershipCache = membershipCache;
     this.projectCache = projectCache;
     this.id = id;
+    this.guessRelevantGroups = gerritConfig.getBoolean("ldap", "guessRelevantGroups", true);
   }
 
   @Override
@@ -56,7 +60,9 @@ class LdapGroupMembership implements GroupMembership {
   @Override
   public Set<AccountGroup.UUID> getKnownGroups() {
     Set<AccountGroup.UUID> g = new HashSet<>(get().getKnownGroups());
-    g.retainAll(projectCache.guessRelevantGroupUUIDs());
+    if (guessRelevantGroups) {
+      g.retainAll(projectCache.guessRelevantGroupUUIDs());
+    }
     return g;
   }
 

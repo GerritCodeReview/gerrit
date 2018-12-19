@@ -28,7 +28,7 @@ import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.util.http.CacheHeaders;
-import com.google.gwtjsonrpc.server.RPCServletUtils;
+import com.google.gerrit.util.http.RequestUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.FileNotFoundException;
@@ -97,7 +97,7 @@ class HttpAuthFilter implements Filter {
       final HttpServletRequest req = (HttpServletRequest) request;
       final HttpServletResponse rsp = (HttpServletResponse) response;
       final byte[] tosend;
-      if (RPCServletUtils.acceptsGzipEncoding(req)) {
+      if (RequestUtil.acceptsGzipEncoding(req)) {
         rsp.setHeader("Content-Encoding", "gzip");
         tosend = signInGzip;
       } else {

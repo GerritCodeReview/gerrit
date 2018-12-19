@@ -36,7 +36,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.util.http.CacheHeaders;
-import com.google.gwtjsonrpc.server.RPCServletUtils;
+import com.google.gerrit.util.http.RequestUtil;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -182,7 +182,7 @@ public abstract class ResourceServlet extends HttpServlet {
     }
 
     byte[] tosend = r.raw;
-    if (!r.contentType.equals(JS) && RPCServletUtils.acceptsGzipEncoding(req)) {
+    if (!r.contentType.equals(JS) && RequestUtil.acceptsGzipEncoding(req)) {
       byte[] gz = HtmlDomUtil.compress(tosend);
       if ((gz.length + 24) < tosend.length) {
         rsp.setHeader(CONTENT_ENCODING, "gzip");
@@ -267,7 +267,7 @@ public abstract class ResourceServlet extends HttpServlet {
 
     OutputStream out = rsp.getOutputStream();
     GZIPOutputStream gz = null;
-    if (RPCServletUtils.acceptsGzipEncoding(req)) {
+    if (RequestUtil.acceptsGzipEncoding(req)) {
       rsp.setHeader(CONTENT_ENCODING, "gzip");
       gz = new GZIPOutputStream(out);
       out = gz;

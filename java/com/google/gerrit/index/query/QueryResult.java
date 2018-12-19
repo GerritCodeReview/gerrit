@@ -15,6 +15,7 @@
 package com.google.gerrit.index.query;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import java.util.List;
 
@@ -22,15 +23,15 @@ import java.util.List;
 @AutoValue
 public abstract class QueryResult<T> {
   public static <T> QueryResult<T> create(
-      @Nullable String query, Predicate<T> predicate, int limit, List<T> entites) {
+      @Nullable String query, Predicate<T> predicate, int limit, List<T> entities) {
     boolean more;
-    if (entites.size() > limit) {
+    if (entities.size() > limit) {
       more = true;
-      entites = entites.subList(0, limit);
+      entities = entities.subList(0, limit);
     } else {
       more = false;
     }
-    return new AutoValue_QueryResult<>(query, predicate, entites, more);
+    return new AutoValue_QueryResult<>(query, predicate, ImmutableList.copyOf(entities), more);
   }
 
   /** @return the original query string, or null if the query was created programmatically. */
@@ -41,7 +42,7 @@ public abstract class QueryResult<T> {
   public abstract Predicate<T> predicate();
 
   /** @return the query results. */
-  public abstract List<T> entities();
+  public abstract ImmutableList<T> entities();
 
   /**
    * @return whether the query could be retried with a higher start/limit to produce more results.

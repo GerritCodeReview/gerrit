@@ -14,8 +14,8 @@
 
 package com.google.gerrit.index.query;
 
+import com.google.common.collect.ImmutableList;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Result from any data store query function.
@@ -38,9 +38,9 @@ public interface ResultSet<T> extends Iterable<T> {
    * <p>Prior to returning {@link #close()} is invoked. This method must not be combined with {@link
    * #iterator()} on the same instance.
    *
-   * @return mutable list of the complete results.
+   * @return immutable list of the complete results.
    */
-  List<T> toList();
+  ImmutableList<T> toList();
 
   /**
    * Close the result, discarding any further results.

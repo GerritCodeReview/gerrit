@@ -28,6 +28,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -333,7 +334,8 @@ public class LuceneChangeIndex implements ChangeIndex {
       } catch (IOException e) {
         throw new OrmException(e);
       }
-      List<FieldBundle> fieldBundles = documents.stream().map(rawDocumentMapper).collect(toList());
+      ImmutableList<FieldBundle> fieldBundles =
+          documents.stream().map(rawDocumentMapper).collect(toImmutableList());
       return new ResultSet<FieldBundle>() {
         @Override
         public Iterator<FieldBundle> iterator() {
@@ -341,7 +343,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         }
 
         @Override
-        public List<FieldBundle> toList() {
+        public ImmutableList<FieldBundle> toList() {
           return fieldBundles;
         }
 
@@ -401,15 +403,16 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
 
     @Override
-    public List<ChangeData> toList() {
+    public ImmutableList<ChangeData> toList() {
       try {
         List<Document> docs = future.get();
-        List<ChangeData> result = new ArrayList<>(docs.size());
+        ImmutableList.Builder<ChangeData> result =
+            ImmutableList.builderWithExpectedSize(docs.size());
         String idFieldName = LEGACY_ID.getName();
         for (Document doc : docs) {
           result.add(toChangeData(fields(doc, fields), fields, idFieldName));
         }
-        return result;
+        return result.build();
       } catch (InterruptedException e) {
         close();
         throw new OrmRuntimeException(e);

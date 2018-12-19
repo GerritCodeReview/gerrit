@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1545191371 -0800\nnonce AGLkUnAI1G8ig78YU8jVnDij2kqHS8QORy67u/cgJ7j8xu62NhhkeXaRM8Xw0XUdC1gmeijrhXvR\n\n0000000000000000000000000000000000000000 4abd517f24ab9254768e0c9969dca62266d9c9e8 refs/for/master%r\u003ddpursehouse@collab.net\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlwZv8sVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMw5UQAMg5iIEKKR6yv/9jYJ0/azLYPv+Q\ne+v2579ErWVQUs6/L0U/n6LOxBkuHs50AOdkWE0S45N52K5cwVaxi7lociNBFgLW\n1eWRU1tAGLtQaJeYrniv/ODgBvV0ahg119uF6wfumJeZttdXRqou8yCeoB7JlSv3\nckOXnp2v2OavJMhxnncco3sxM1kMDu+f6wkkTd/1iuTCMBtkuK+Hscbx3d0kjb6v\nMQGsZZVXWM8Qzdh6hVqTjlnfOEqtYNoBCRhz9fXq7AKIKSP6eLxn+iDco0xb/PeC\nFekOqRYPqVhmhpdj4OExDnqV0hC35+Yr75T4LbA8nF9flm9JRgaKLRuaUtbcQxYT\nSjDJET+JSHrV0ejGnmD4by7s2gTmZFT3+zScz5XrIfNMfBbAw6eUnLlDvVNRDXoN\nkuDLjNtLx5SwFQrokkBEvL/0Fam2a6ignAl0J/kQ8TAnd4EXURm6GdgX9LZNkK3K\n+DKcnPpnB50Qs7A14q+X+M1Yo9W8yWAkjt4TprLEQfLA2lWhi2JYWQ9u8Rdqz6Ld\njNBz+s66wIli0PngAQt6DBXmiQ4d8hMLMF/ly/slD9fiYGPil915C0uwnOxbYSGq\nveTsdDpXNTfPP295JNQLzrvZmRIXWJtTT9QqPVC/++A5UNHrin4VG2bKlCJ8plbG\nU1cQ+92NpolvHZ0V\n\u003dIfCF\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd395e3b_d28e9dd6",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebCssServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-19T03:55:27Z",
+      "side": 1,
+      "message": "Don\u0027t we need them in these classes too?",
+      "revId": "4abd517f24ab9254768e0c9969dca62266d9c9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "985396d3_e45b82d9",
+        "filename": "java/com/google/gerrit/server/config/AllProjectsName.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-19T03:55:27Z",
+      "side": 1,
+      "message": "Don\u0027t need to add the serial Id here?  If the suppression was unused I\u0027m surprised we didn\u0027t see a warning about it.",
+      "revId": "4abd517f24ab9254768e0c9969dca62266d9c9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d64d323_f3ab05c6",
+        "filename": "java/com/google/gerrit/server/config/AllUsersName.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-19T03:55:27Z",
+      "side": 1,
+      "message": "Same",
+      "revId": "4abd517f24ab9254768e0c9969dca62266d9c9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

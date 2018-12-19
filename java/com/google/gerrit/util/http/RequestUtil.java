@@ -89,5 +89,10 @@ public class RequestUtil {
     return result.toString();
   }
 
+  public static boolean acceptsGzipEncoding(HttpServletRequest request) {
+    String accepts = request.getHeader("Accept-Encoding");
+    return accepts != null && accepts.indexOf("gzip") != -1;
+  }
+
   private RequestUtil() {}
 }

@@ -26,7 +26,7 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_PRAGMA;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.tools.ToolsCatalog.Entry;
-import com.google.gwtjsonrpc.server.RPCServletUtils;
+import com.google.gerrit.util.http.RequestUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -130,7 +130,7 @@ public class ToolServlet extends HttpServlet {
     body.appendChild(footer);
 
     byte[] tosend = toUTF8(page);
-    if (RPCServletUtils.acceptsGzipEncoding(req)) {
+    if (RequestUtil.acceptsGzipEncoding(req)) {
       rsp.setHeader("Content-Encoding", "gzip");
       tosend = compress(tosend);
     }

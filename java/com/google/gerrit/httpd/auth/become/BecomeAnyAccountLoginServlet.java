@@ -53,9 +53,10 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-@SuppressWarnings("serial")
 @Singleton
 class BecomeAnyAccountLoginServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
+
   private final DynamicItem<WebSession> webSession;
   private final Accounts accounts;
   private final AccountCache accountCache;

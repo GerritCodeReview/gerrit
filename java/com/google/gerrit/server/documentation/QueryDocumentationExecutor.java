@@ -129,8 +129,9 @@ public class QueryDocumentationExecutor {
     return parser != null && searcher != null;
   }
 
-  @SuppressWarnings("serial")
   public static class DocQueryException extends Exception {
+    private static final long serialVersionUID = 1L;
+
     DocQueryException() {}
 
     DocQueryException(String msg) {

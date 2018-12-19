@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "eca8693d_7b817f08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-19T01:38:44Z",
+      "side": 1,
+      "message": "nit: use one space instead of two",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 6
+      },
+      "revId": "665dcb6cf595614ae4d16d417eb6a5bbbfe2d12b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6bc0bf8_e7f31416",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2

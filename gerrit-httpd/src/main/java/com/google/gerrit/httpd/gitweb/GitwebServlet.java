@@ -84,9 +84,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Invokes {@code gitweb.cgi} for the project given in {@code p}. */
-@SuppressWarnings("serial")
 @Singleton
 class GitwebServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
+
   private static final Logger log = LoggerFactory.getLogger(GitwebServlet.class);
 
   private static final String PROJECT_LIST_ACTION = "project_list";

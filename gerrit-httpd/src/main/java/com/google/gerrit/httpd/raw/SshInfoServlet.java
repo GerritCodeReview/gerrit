@@ -46,9 +46,10 @@ import javax.servlet.http.HttpServletResponse;
  *  Port 8010
  * }</pre>
  */
-@SuppressWarnings("serial")
 @Singleton
 public class SshInfoServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
+
   private final SshInfo sshd;
 
   @Inject

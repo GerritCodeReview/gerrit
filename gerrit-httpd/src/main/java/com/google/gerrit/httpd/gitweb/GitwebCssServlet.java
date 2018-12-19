@@ -32,10 +32,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@SuppressWarnings("serial")
 abstract class GitwebCssServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
+
   @Singleton
   static class Site extends GitwebCssServlet {
+    private static final long serialVersionUID = 1L;
+
     @Inject
     Site(SitePaths paths) throws IOException {
       super(paths.site_css);
@@ -44,6 +47,8 @@ abstract class GitwebCssServlet extends HttpServlet {
 
   @Singleton
   static class Default extends GitwebCssServlet {
+    private static final long serialVersionUID = 1L;
+
     @Inject
     Default(GitwebCgiConfig gwcc) throws IOException {
       super(gwcc.getGitwebCss());

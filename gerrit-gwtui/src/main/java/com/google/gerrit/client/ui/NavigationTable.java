@@ -73,9 +73,10 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     }
   }
 
-  @SuppressWarnings("serial")
   private static final LinkedHashMap<String, Object> savedPositions =
       new LinkedHashMap<String, Object>(10, 0.75f, true) {
+        private static final long serialVersionUID = 1L;
+
         @Override
         protected boolean removeEldestEntry(Entry<String, Object> eldest) {
           return size() >= 20;

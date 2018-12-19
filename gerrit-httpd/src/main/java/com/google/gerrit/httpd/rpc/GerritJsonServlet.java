@@ -42,8 +42,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Base JSON servlet to ensure the current user is not forged. */
-@SuppressWarnings("serial")
 final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> {
+  private static final long serialVersionUID = 1L;
+
   private static final Logger log = LoggerFactory.getLogger(GerritJsonServlet.class);
   private static final ThreadLocal<GerritCall> currentCall = new ThreadLocal<>();
   private static final ThreadLocal<MethodHandle> currentMethod = new ThreadLocal<>();

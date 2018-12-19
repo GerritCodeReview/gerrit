@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "75365209_a55d2dc9",
+        "filename": "java/com/google/gerrit/json/SqlTimestampDeserializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-19T03:40:43Z",
+      "side": 1,
+      "message": "I don\u0027t mind doing some cleanup/moderniziation of these classes, but for the initial copy I didn\u0027t want to make any real changes. The only things I did were change the package name, remove some public modifiers, and delete unused code.\n\nI can do these in a followup if you feel strongly. Personally I don\u0027t, though.",
+      "parentUuid": "ceacdaf8_1fc462ce",
+      "range": {
+        "startLine": 30,
+        "startChar": 32,
+        "endLine": 30,
+        "endChar": 51
+      },
+      "revId": "ca7cefa2eef0428dd732e738cb83fc4866218217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "67625d32_56999753",
         "filename": "java/com/google/gerrit/json/SqlTimestampDeserializer.java",
         "patchSetId": 2

@@ -25,7 +25,7 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gwtjsonrpc.server.SignedToken;
+import com.google.gerrit.server.mail.SignedToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

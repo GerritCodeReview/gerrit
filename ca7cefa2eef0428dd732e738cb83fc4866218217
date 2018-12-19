@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "4bc1cac5_c81103d0",
+        "filename": "java/com/google/gerrit/json/SqlTimestampDeserializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-19T03:43:24Z",
+      "side": 1,
+      "message": "Ack. Agreed, it\u0027s better to import the code as-is with minimal modification. I will do some cleanups later if I have time.",
+      "parentUuid": "75365209_a55d2dc9",
+      "range": {
+        "startLine": 30,
+        "startChar": 32,
+        "endLine": 30,
+        "endChar": 51
+      },
+      "revId": "ca7cefa2eef0428dd732e738cb83fc4866218217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67625d32_56999753",
         "filename": "java/com/google/gerrit/json/SqlTimestampDeserializer.java",
         "patchSetId": 2

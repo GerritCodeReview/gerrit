@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7ae9e151_85396e98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-19T01:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eca8693d_7b817f08",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 6
+      },
+      "revId": "665dcb6cf595614ae4d16d417eb6a5bbbfe2d12b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6bc0bf8_e7f31416",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "665dcb6cf595614ae4d16d417eb6a5bbbfe2d12b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a93cd12_4332a3e0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2892,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-19T01:44:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b6bc0bf8_e7f31416",
+      "range": {
+        "startLine": 2892,
+        "startChar": 34,
+        "endLine": 2892,
+        "endChar": 35
+      },
+      "revId": "665dcb6cf595614ae4d16d417eb6a5bbbfe2d12b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

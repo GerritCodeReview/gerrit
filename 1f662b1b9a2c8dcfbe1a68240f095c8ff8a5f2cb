@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1545195130 -0800\nnonce AGLkUnBKlnPQ8K++a7EwJOS0Je+1N3zvOwqjlw8+fodkurQondthWiegMWEJq5w9bsUGF3XHj7oO\n\n0000000000000000000000000000000000000000 1f662b1b9a2c8dcfbe1a68240f095c8ff8a5f2cb refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlwZznoVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMypcP/3Z/YWvwxd/Xo4uwbza6PFh8SpRG\nOCYn4h8ORmTfpHKGo5MukAd/n/XX9csDVmYNdyFl/W6NGd5VDXZB9sMhzhaKo1gD\nNtyTiGjJxF9IizTo1yIpyMmQB2VcQi/+1H9JuQfz0TqBAZC9+kL01P4ze6E+4VN/\nfXw/lVM5VGqzAW7NgH3uO2gnUycKzFf4zjEVpatrS8/BiCEPalBURngecqhc+Cy+\n/hzGn+Mv0BARO6ZvUhNHVSF8U/kKSRkyM88FyWzOKQ2ddw4O+dRODxal/N/iQ6d8\n/VEBa/NitoDlXSn72FjNCN6qDl9D4DAUERbFTdY+f//71I0nHf34LljEhkfyIoQh\nkvMQjW81Xtjsf+iwnC4evkAIRhYKu6/hNk6n3+j9a1BH9HfslrNFrOC5xgLLAvm9\n8zWgwiKI5KTxK4hXyS8fJaqHnIPbOjSKbBXutkH9Y+ZPM0dtpN5MNpxsdHNDkqfU\nSKBYk9mXuxEW5xjX9C7o1XspvArERN4aiwGfuVQl9XAO+ZMe8YpcEVJvHa9T5BfG\natomIrmxdWJuWFBgGpaQXtE4Mh8Bh8sDed/2Qk5YQ7+ZrNdbtYpebz7THRyBMQHo\nlzMA157Nl57TYKhN7WZ0O7POE/8VDzhY+XGo9KC1x+nI5WABXuyR21F5Ov8Zsn0h\nn5NmZ4gskxkOnx4B\n\u003dSPg6\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f260507_e78703d8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-19T08:58:28Z",
+      "side": 1,
+      "message": "from NoteDb data",
+      "range": {
+        "startLine": 808,
+        "startChar": 24,
+        "endLine": 808,
+        "endChar": 35
+      },
+      "revId": "1f662b1b9a2c8dcfbe1a68240f095c8ff8a5f2cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a199d3a_1e97a0c6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3302,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-19T08:58:28Z",
+      "side": 1,
+      "message": "Remove this.",
+      "range": {
+        "startLine": 3302,
+        "startChar": 0,
+        "endLine": 3302,
+        "endChar": 20
+      },
+      "revId": "1f662b1b9a2c8dcfbe1a68240f095c8ff8a5f2cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a81502bd_a6e99f91",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-19T08:58:28Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 330,
+        "startChar": 36,
+        "endLine": 330,
+        "endChar": 44
+      },
+      "revId": "1f662b1b9a2c8dcfbe1a68240f095c8ff8a5f2cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

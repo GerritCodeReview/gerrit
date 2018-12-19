@@ -77,7 +77,7 @@ import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.ServerInformationImpl;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.RestApiModule;
-import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
+import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaCreatorImpl;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
@@ -112,6 +112,8 @@ public class InMemoryModule extends FactoryModule {
   }
 
   public static void setDefaults(Config cfg) {
+    cfg.setString(
+        "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);
     cfg.setEnum("auth", null, "type", AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT);
     cfg.setString("gerrit", null, "allProjects", "Test-Projects");
     cfg.setString("gerrit", null, "basePath", "git");
@@ -215,7 +217,6 @@ public class InMemoryModule extends FactoryModule {
     install(new FakeEmailSender.Module());
     install(new SignedTokenEmailTokenVerifier.Module());
     install(new GpgModule(cfg));
-    install(new InMemoryAccountPatchReviewStore.Module());
     install(new LocalMergeSuperSetComputation.Module());
 
     bind(AllAccountsIndexer.class).toProvider(Providers.of(null));

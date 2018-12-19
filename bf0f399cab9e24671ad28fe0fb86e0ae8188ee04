@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca21d34b_09da21ee",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-12-19T22:01:20Z",
+      "side": 1,
+      "message": "This loses the exit status from stripspace. Also, $1 should be wrapped in quotes to avoid misguided \"ambiguous redirect\" warnings from certain shells if $1 contains spaces (see [1] for more details). Perhaps:\n\n random\u003d...\n dest\u003d...\n\n trap \u0027rm -f \"$dest\"\u0027 EXIT\n\n if ! git stripspace --strip-comments \u003c \"$1\" \u003e \"${dest}\" ; then\n   echo \"cannot strip comments from $1\"\n   exit 1\n fi\n\n if ! mv \"${dest}\" \"$1\" ; then\n   echo \"cannot rewrite $1\"\n   exit 1\n fi\n\n if test ! -s \"$1\" ; then\n   echo \"file has only comments: $1\"\n   exit 1\n fi\n\n if ! git -c trailer.ifexists\u003ddoNothing interpret-trailers \\\n      --trailer \"Change-Id: I${random}\" \u003c \"$1\" \u003e \"$dest\" ; then\n   echo \"cannot insert change-id line in $1\"\n   exit 1\n fi\n\n mv \"${dest}\" \"$1\"\n\n[1] http://kernel.googlesource.com/pub/scm/git/git/+/b1492bf3151263f9fc72dafe468e84e6c01ac0c9",
+      "revId": "bf0f399cab9e24671ad28fe0fb86e0ae8188ee04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

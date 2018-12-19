@@ -22,6 +22,30 @@
       "revId": "201610028d85a0aff38829544464a96e24034454",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2cf7775_20b2f829",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-12-19T18:52:35Z",
+      "side": 1,
+      "message": "Agreed, but sadly I don\u0027t think there is in Polymer 1:\nhttps://polymer-library.polymer-project.org/1.0/docs/devguide/local-dom\n\nPolymer.dom(node).parentNode returns the Shadow DOM root, and then null. What we want is the light DOM parent, so something like getEffectiveParent() would be great, but all they have is querying light DOM children with getEffectiveChildren() and so on... I would say it\u0027s because in general it\u0027s not a very clean design to have a component make assumptions about what sort of functions the parent outside may contain, but in this case I only try to fix what already works this way, and would like to avoid to significantly change how the action box works.",
+      "parentUuid": "0aed1976_513f5375",
+      "range": {
+        "startLine": 85,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 16
+      },
+      "revId": "201610028d85a0aff38829544464a96e24034454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

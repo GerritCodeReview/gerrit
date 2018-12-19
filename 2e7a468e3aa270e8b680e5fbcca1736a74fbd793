@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f1b1da6_eeb3417d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-19T05:50:09Z",
+      "side": 1,
+      "message": "Do we need also new release for 2.13 line?",
+      "revId": "2e7a468e3aa270e8b680e5fbcca1736a74fbd793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

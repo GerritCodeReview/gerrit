@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92938707_3da05f5c",
+        "filename": "java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-19T02:32:29Z",
+      "side": 1,
+      "message": "I\u0027m not sure if it was intentional to do the comparison with reference equality instead of value equality.  Looking at the JGit code, it also does comparisons against the PacketLine... constants with ref equality.\n\nThat said, if we do make this change I would prefer to put the constant on the left, i.e.\n\n  if (PacketLineIn.END.equals(s)) {",
+      "revId": "c435e1bd9bed4a65d2c2dc76d3df1316a692b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

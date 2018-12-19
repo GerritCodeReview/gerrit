@@ -22,6 +22,30 @@
       "revId": "805ac092643cf2b51c5be087ebd69991f7b25ff3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66f840c6_9e7b4fcd",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListBranchesIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-19T11:46:10Z",
+      "side": 1,
+      "message": "Null is passed because we don\u0027t know the revision. This is the same as in the other tests.",
+      "parentUuid": "b0f2ef8b_80704f28",
+      "range": {
+        "startLine": 93,
+        "startChar": 57,
+        "endLine": 93,
+        "endChar": 61
+      },
+      "revId": "805ac092643cf2b51c5be087ebd69991f7b25ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

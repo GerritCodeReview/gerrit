@@ -77,7 +77,6 @@ import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.ServerInformationImpl;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.RestApiModule;
-import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaCreatorImpl;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
@@ -124,6 +123,11 @@ public class InMemoryModule extends FactoryModule {
     cfg.setInt("sendemail", null, "threadPoolSize", 0);
     cfg.setBoolean("receive", null, "enableSignedPush", false);
     cfg.setString("receive", null, "certNonceSeed", "sekret");
+
+    // DB_CLOSE_DELAY=-1: By default the content of an in-memory H2 database is lost at the moment
+    // the last connection is closed. This option keeps the content as long as the VM lives.
+    cfg.setString(
+        "accountPatchReviewDb", null, "url", "jdbc:h2:mem:account_patch_reviews;DB_CLOSE_DELAY=-1");
   }
 
   private final Config cfg;
@@ -215,7 +219,6 @@ public class InMemoryModule extends FactoryModule {
     install(new FakeEmailSender.Module());
     install(new SignedTokenEmailTokenVerifier.Module());
     install(new GpgModule(cfg));
-    install(new InMemoryAccountPatchReviewStore.Module());
     install(new LocalMergeSuperSetComputation.Module());
 
     bind(AllAccountsIndexer.class).toProvider(Providers.of(null));

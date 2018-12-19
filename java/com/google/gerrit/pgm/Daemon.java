@@ -90,7 +90,6 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.RestApiModule;
-import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
@@ -404,10 +403,7 @@ public class Daemon extends SiteProgram {
     modules.add(new WorkQueue.Module());
     modules.add(new StreamEventsApiListener.Module());
     modules.add(new EventBroker.Module());
-    modules.add(
-        inMemoryTest
-            ? new InMemoryAccountPatchReviewStore.Module()
-            : new JdbcAccountPatchReviewStore.Module(config));
+    modules.add(new JdbcAccountPatchReviewStore.Module(config));
     modules.add(new SysExecutorModule());
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());

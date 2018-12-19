@@ -109,10 +109,6 @@ public abstract class JdbcAccountPatchReviewStore
     this.ds = createDataSource(cfg, sitePaths, threadSettingsConfig);
   }
 
-  protected JdbcAccountPatchReviewStore(DataSource ds) {
-    this.ds = ds;
-  }
-
   private static String getUrl(@GerritServerConfig Config cfg, SitePaths sitePaths) {
     String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
     if (url == null) {

@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "569a9443_208cf5a3",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-19T07:22:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "923eba10_36bd968e",
+      "range": {
+        "startLine": 370,
+        "startChar": 4,
+        "endLine": 372,
+        "endChar": 44
+      },
+      "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25393738_4c8b77ca",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 2
@@ -154,6 +178,30 @@
       "writtenOn": "2018-12-18T16:55:50Z",
       "side": 1,
       "message": "Could you please add a separate test(s) for this, ideally one for the name, the ID, and the UUID? (It would be good to have such tests similar and close to cachedGroupsForMemberAreUpdatedOnGroupCreation().)",
+      "range": {
+        "startLine": 327,
+        "startChar": 4,
+        "endLine": 330,
+        "endChar": 52
+      },
+      "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "462e9efd_600bdd95",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-19T07:22:11Z",
+      "side": 1,
+      "message": "I\u0027ve moved this to a separate test, but adding tests for the Id and UUID are not as easy since the group API doesn\u0027t support creating with specified Id/UUID and I don\u0027t know of any way to reliably predict the Id or UUID that a created group will have.\n\n(My initial version of this change did also evict the Id and UUID caches, but I removed that part in a later patch set due to lack of tests).",
+      "parentUuid": "25393738_4c8b77ca",
       "range": {
         "startLine": 327,
         "startChar": 4,

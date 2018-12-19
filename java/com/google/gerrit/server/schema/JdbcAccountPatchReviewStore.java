@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
@@ -47,6 +48,12 @@ import org.eclipse.jgit.lib.Config;
 public abstract class JdbcAccountPatchReviewStore
     implements AccountPatchReviewStore, LifecycleListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  // DB_CLOSE_DELAY=-1: By default the content of an in-memory H2 database is lost at the moment the
+  // last connection is closed. This option keeps the content as long as the VM lives.
+  @VisibleForTesting
+  public static final String TEST_IN_MEMORY_URL =
+      "jdbc:h2:mem:account_patch_reviews;DB_CLOSE_DELAY=-1";
 
   private static final String ACCOUNT_PATCH_REVIEW_DB = "accountPatchReviewDb";
   private static final String H2_DB = "h2";
@@ -107,10 +114,6 @@ public abstract class JdbcAccountPatchReviewStore
   protected JdbcAccountPatchReviewStore(
       Config cfg, SitePaths sitePaths, ThreadSettingsConfig threadSettingsConfig) {
     this.ds = createDataSource(cfg, sitePaths, threadSettingsConfig);
-  }
-
-  protected JdbcAccountPatchReviewStore(DataSource ds) {
-    this.ds = ds;
   }
 
   private static String getUrl(@GerritServerConfig Config cfg, SitePaths sitePaths) {

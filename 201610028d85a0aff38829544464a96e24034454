@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aed1976_513f5375",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2018-12-19T18:14:48Z",
+      "side": 1,
+      "message": "This looks like something that polymer should handle. Is there a polymer built in support?",
+      "range": {
+        "startLine": 85,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 16
+      },
+      "revId": "201610028d85a0aff38829544464a96e24034454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

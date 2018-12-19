@@ -2885,6 +2885,19 @@ Directory and link:https://www.freeipa.org[FreeIPA].
   groupMemberPattern = (&(objectClass=group)(member=${dn}))
 ----
 
+[[ldap.guessRelevantGroups]]ldap.guessRelevantGroups::
++
+Filter the groups found in LDAP by guessing the ones relevant to
+Gerrit and removing the others from list completions and ACL evaluations.
+The guess is based on two elements: the projects most recently
+accessed in the cache and the list of LDAP groups included in their ACLs.
++
+Please note that projects rarely used and thus not cached may be
+temporarily inaccessible by users even with LDAP membership and grants
+referenced in the ACLs.
++
+By default, true.
+
 [[ldap.server]]ldap.server::
 +
 URL of the organization's LDAP server to query for user information

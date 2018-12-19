@@ -28,7 +28,6 @@ java_library(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server/logging",
         "//lib:guava",
-        "//lib:gwtjsonrpc",
         "//lib:gwtorm",
         "//lib/antlr:java-runtime",
         "//lib/auto:auto-value",

@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "f3ee4dbe_2537ff55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-19T10:18:01Z",
+      "side": 1,
+      "message": "If the value is set to \u0027INHERIT\u0027 we must load the project configs of the parent projects too to determine the inherited value. But projects (including their config) should mostly be available in the cache, so that shouldn\u0027t be expensive.",
+      "parentUuid": "a9ed010f_a5469ec5",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 0
+      },
+      "revId": "310aa4c533a9f5935b04001243d7bd436eb1ccea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61e3d7dc_1d71d3da",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

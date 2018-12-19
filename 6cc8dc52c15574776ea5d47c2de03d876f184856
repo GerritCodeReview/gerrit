@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc6510f7_edae2b83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-19T10:18:01Z",
+      "side": 1,
+      "message": "I have a general question about this change.\n\nWhat I expected was a project setting that would allow to remove/hide the \u0027Merge Conflicts\u0027 section on the change screen. If it is hidden, the UI wouldn\u0027t need to make the search query that normally populates this section. One could still use the conflicts operator in manual change queries.\n\nInstead, this makes the conflicts operator for some changes non-functional. I think this can create confusion:\n1. For some changes the conflicts operator works, but for some not.\n2. For those where it\u0027s disabled the result is just empty and users cannot differentiate between \u0027there are no conflicts\u0027 and \u0027there may be conflicts, but computing conflicts was disabled\u0027\n3. The UI would still show an empty \u0027Merge Conflicts\u0027 section on the change screen giving users the impression that there are no conflicts, although there might be some.\n4. We still send conflicts search queries to the server that we know will have no results. We should rather omit them completely.\n5. Using the conflicts operator for manual queries wouldn\u0027t work anymore.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 57
+      },
+      "revId": "6cc8dc52c15574776ea5d47c2de03d876f184856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77487998_09038ee1",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ConfigInput.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-19T10:18:01Z",
+      "side": 1,
+      "message": "nit: move this down after \u0027rejectEmptyCommit\u0027 to have the fields ordered the same way as in ConfigInfo.",
+      "revId": "6cc8dc52c15574776ea5d47c2de03d876f184856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

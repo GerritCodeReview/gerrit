@@ -20,6 +20,7 @@ import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -38,6 +39,7 @@ import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
+import com.google.gerrit.index.query.ListResultSet;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.ResultSet;
@@ -62,7 +64,6 @@ import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -385,7 +386,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
     private <T> ResultSet<T> readImpl(Function<JsonObject, T> mapper) throws OrmException {
       try {
-        List<T> results = Collections.emptyList();
         String uri = getURI(index, SEARCH);
         Response response =
             performRequest(HttpPost.METHOD_NAME, uri, search, Collections.emptyMap());
@@ -396,34 +396,19 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
               new JsonParser().parse(content).getAsJsonObject().getAsJsonObject("hits");
           if (obj.get("hits") != null) {
             JsonArray json = obj.getAsJsonArray("hits");
-            results = Lists.newArrayListWithCapacity(json.size());
+            ImmutableList.Builder<T> results = ImmutableList.builderWithExpectedSize(json.size());
             for (int i = 0; i < json.size(); i++) {
               T mapperResult = mapper.apply(json.get(i).getAsJsonObject());
               if (mapperResult != null) {
                 results.add(mapperResult);
               }
             }
+            return new ListResultSet<>(results.build());
           }
         } else {
           logger.atSevere().log(statusLine.getReasonPhrase());
         }
-        final List<T> r = Collections.unmodifiableList(results);
-        return new ResultSet<T>() {
-          @Override
-          public Iterator<T> iterator() {
-            return r.iterator();
-          }
-
-          @Override
-          public List<T> toList() {
-            return r;
-          }
-
-          @Override
-          public void close() {
-            // Do nothing.
-          }
-        };
+        return new ListResultSet<>(ImmutableList.of());
       } catch (IOException e) {
         throw new OrmException(e);
       }

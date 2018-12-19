@@ -266,7 +266,7 @@ public abstract class QueryProcessor<T> {
 
       out = new ArrayList<>(cnt);
       for (int i = 0; i < cnt; i++) {
-        List<T> matchesList = matches.get(i).toList();
+        ImmutableList<T> matchesList = matches.get(i).toList();
         logger.atFine().log(
             "Matches[%d]:\n%s",
             i, lazy(() -> matchesList.stream().map(this::formatForLogging).collect(toSet())));

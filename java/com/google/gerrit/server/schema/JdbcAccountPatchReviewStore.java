@@ -48,6 +48,11 @@ public abstract class JdbcAccountPatchReviewStore
     implements AccountPatchReviewStore, LifecycleListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  @FunctionalInterface
+  interface ConnectionSupplier {
+    Connection get() throws SQLException;
+  }
+
   private static final String ACCOUNT_PATCH_REVIEW_DB = "accountPatchReviewDb";
   private static final String H2_DB = "h2";
   private static final String MARIADB = "mariadb";
@@ -83,8 +88,6 @@ public abstract class JdbcAccountPatchReviewStore
     }
   }
 
-  private DataSource ds;
-
   public static JdbcAccountPatchReviewStore createAccountPatchReviewStore(
       Config cfg, SitePaths sitePaths, ThreadSettingsConfig threadSettingsConfig) {
     String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
@@ -104,13 +107,15 @@ public abstract class JdbcAccountPatchReviewStore
         "unsupported driver type for account patch reviews db: " + url);
   }
 
+  private ConnectionSupplier connectionSupplier;
+
   protected JdbcAccountPatchReviewStore(
       Config cfg, SitePaths sitePaths, ThreadSettingsConfig threadSettingsConfig) {
-    this.ds = createDataSource(cfg, sitePaths, threadSettingsConfig);
+    this(createDataSource(cfg, sitePaths, threadSettingsConfig)::getConnection);
   }
 
-  protected JdbcAccountPatchReviewStore(DataSource ds) {
-    this.ds = ds;
+  protected JdbcAccountPatchReviewStore(ConnectionSupplier connectionSupplier) {
+    this.connectionSupplier = connectionSupplier;
   }
 
   private static String getUrl(@GerritServerConfig Config cfg, SitePaths sitePaths) {
@@ -170,11 +175,11 @@ public abstract class JdbcAccountPatchReviewStore
   }
 
   public Connection getConnection() throws SQLException {
-    return ds.getConnection();
+    return connectionSupplier.get();
   }
 
   public void createTableIfNotExists() throws OrmException {
-    try (Connection con = ds.getConnection();
+    try (Connection con = getConnection();
         Statement stmt = con.createStatement()) {
       doCreateTable(stmt);
     } catch (SQLException e) {
@@ -195,7 +200,7 @@ public abstract class JdbcAccountPatchReviewStore
   }
 
   public void dropTableIfExists() throws OrmException {
-    try (Connection con = ds.getConnection();
+    try (Connection con = getConnection();
         Statement stmt = con.createStatement()) {
       stmt.executeUpdate("DROP TABLE IF EXISTS account_patch_reviews");
     } catch (SQLException e) {
@@ -209,7 +214,7 @@ public abstract class JdbcAccountPatchReviewStore
   @Override
   public boolean markReviewed(PatchSet.Id psId, Account.Id accountId, String path)
       throws OrmException {
-    try (Connection con = ds.getConnection();
+    try (Connection con = getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
                 "INSERT INTO account_patch_reviews "
@@ -237,7 +242,7 @@ public abstract class JdbcAccountPatchReviewStore
       return;
     }
 
-    try (Connection con = ds.getConnection();
+    try (Connection con = getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
                 "INSERT INTO account_patch_reviews "
@@ -263,7 +268,7 @@ public abstract class JdbcAccountPatchReviewStore
   @Override
   public void clearReviewed(PatchSet.Id psId, Account.Id accountId, String path)
       throws OrmException {
-    try (Connection con = ds.getConnection();
+    try (Connection con = getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
                 "DELETE FROM account_patch_reviews "
@@ -281,7 +286,7 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public void clearReviewed(PatchSet.Id psId) throws OrmException {
-    try (Connection con = ds.getConnection();
+    try (Connection con = getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
                 "DELETE FROM account_patch_reviews "
@@ -297,7 +302,7 @@ public abstract class JdbcAccountPatchReviewStore
   @Override
   public Optional<PatchSetWithReviewedFiles> findReviewed(PatchSet.Id psId, Account.Id accountId)
       throws OrmException {
-    try (Connection con = ds.getConnection();
+    try (Connection con = getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
                 "SELECT patch_set_id, file_name FROM account_patch_reviews APR1 "

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d23be390_db17d14b",
+        "filename": "java/com/google/gerrit/reviewdb/client/AccountGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-19T04:31:01Z",
+      "side": 0,
+      "message": "Should we now annotate this field as @Nullable?\n\nSame for the others that previously had notNull\u003dfalse",
+      "range": {
+        "startLine": 160,
+        "startChar": 46,
+        "endLine": 160,
+        "endChar": 62
+      },
+      "revId": "ef0f1ff133a1ff2f6475b24c9bdf6561be255123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

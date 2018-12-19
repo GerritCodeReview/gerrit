@@ -33,6 +33,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -50,6 +51,7 @@ import javax.naming.directory.DirContext;
 import javax.naming.ldap.LdapName;
 import javax.naming.ldap.Rdn;
 import javax.security.auth.login.LoginException;
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,6 +67,7 @@ public class LdapGroupBackend implements GroupBackend {
   private final LoadingCache<String, Boolean> existsCache;
   private final ProjectCache projectCache;
   private final Provider<CurrentUser> userProvider;
+  private final Config gerritConfig;
 
   @Inject
   LdapGroupBackend(
@@ -72,12 +75,14 @@ public class LdapGroupBackend implements GroupBackend {
       @Named(GROUP_CACHE) LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
       @Named(GROUP_EXIST_CACHE) LoadingCache<String, Boolean> existsCache,
       ProjectCache projectCache,
-      Provider<CurrentUser> userProvider) {
+      Provider<CurrentUser> userProvider,
+      @GerritServerConfig Config gerritConfig) {
     this.helper = helper;
     this.membershipCache = membershipCache;
     this.projectCache = projectCache;
     this.existsCache = existsCache;
     this.userProvider = userProvider;
+    this.gerritConfig = gerritConfig;
   }
 
   private boolean isLdapUUID(AccountGroup.UUID uuid) {
@@ -178,7 +183,7 @@ public class LdapGroupBackend implements GroupBackend {
     if (id == null) {
       return GroupMembership.EMPTY;
     }
-    return new LdapGroupMembership(membershipCache, projectCache, id);
+    return new LdapGroupMembership(membershipCache, projectCache, id, gerritConfig);
   }
 
   private static String findId(Collection<ExternalId> extIds) {

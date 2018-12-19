@@ -39,7 +39,6 @@ import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
-import com.google.gwtorm.server.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

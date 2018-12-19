@@ -55,7 +55,6 @@ java_library(
         "//lib:gson",
         "//lib:guava",
         "//lib:guava-retrying",
-        "//lib:gwtjsonrpc",
         "//lib:gwtorm",
         "//lib:jsch",
         "//lib:juniversalchardet",

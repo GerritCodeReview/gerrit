@@ -30,7 +30,6 @@ java_library(
         "//lib:args4j",
         "//lib:gson",
         "//lib:guava",
-        "//lib:gwtjsonrpc",
         "//lib:gwtorm",
         "//lib:jsch",
         "//lib:servlet-api-3_1",

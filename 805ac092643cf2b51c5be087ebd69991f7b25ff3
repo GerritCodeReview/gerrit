@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0f2ef8b_80704f28",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListBranchesIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-19T10:38:05Z",
+      "side": 1,
+      "message": "Better pass the actual revision of the refs/meta/config branch here?\nIIUC \u0027null\u0027 means that the revision is not asserted, but when reading this code this was unclear to me and I was wondering why the refs/meta/config branch would have no revision, and if it had no revision why would it be returned.",
+      "range": {
+        "startLine": 93,
+        "startChar": 57,
+        "endLine": 93,
+        "endChar": 61
+      },
+      "revId": "805ac092643cf2b51c5be087ebd69991f7b25ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "37988cb13753daa32ff5dd37c0796591a632af0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "396ab1f9_05f06377",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-12-19T11:54:05Z",
+      "side": 1,
+      "message": "Yeah, sorry.\n\nIs there another API design that would prevent this? I guess we should all checkout the common gerrit plugins locally to make sure we cover them.",
+      "parentUuid": "c2ec7c52_264561c0",
+      "range": {
+        "startLine": 80,
+        "startChar": 27,
+        "endLine": 80,
+        "endChar": 39
+      },
+      "revId": "37988cb13753daa32ff5dd37c0796591a632af0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

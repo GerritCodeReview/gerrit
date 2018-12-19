@@ -22,6 +22,30 @@
       "revId": "cb7261b72d6a95387d1be77da483fa1a54698840",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b70856a_eaac3ed0",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-19T08:26:15Z",
+      "side": 0,
+      "message": "The commit message of [1] contains some more details.\n\nIIUC for auto-site-initialization 2 things were needed: path to site + database connectivity.\n\nIf you already have a Gerrit site that should automatically be updated there are 2 possibilities:\n1. You provide the path to the site by setting the \u0027gerrit.site_path\u0027 system property.\n   Then it can be read from the gerrit.config file how to connect to the database.\n2. You provide how to connect to the database by the \u0027jdbc/ReviewDb\u0027 JNDI property.\n   Then the site path can be read from the system-config table.\n\nIf you don\u0027t have a Gerrit site yet, you must provide both, path to site + database connectivity. In this case the site path is provided by the \u0027gerrit.init_path\u0027 system property and the database connectivity by the \u0027jdbc/ReviewDb\u0027 JNDI property.\nI think the only reason for using \u0027gerrit.init_path\u0027 here instead of \u0027gerrit.site_path\u0027 is that this allows to differentiate this case more easily from case 1. above.\n\nConsidering that ReviewDb is gone now we have 2 cases left:\n1. site exists: you should set the \u0027gerrit.site_path\u0027 system property\n2. site doesn\u0027t exist yet: you should set the \u0027gerrit.init_path\u0027 system property\n\nWe may change that to using \u0027gerrit.site_path\u0027 always but this seems to be unrelated to the ReviewDb removal.\n\nHTH\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/46171",
+      "parentUuid": "0096d2e3_a9d47760",
+      "range": {
+        "startLine": 69,
+        "startChar": 49,
+        "endLine": 69,
+        "endChar": 58
+      },
+      "revId": "cb7261b72d6a95387d1be77da483fa1a54698840",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

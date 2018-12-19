@@ -1597,7 +1597,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     in.add = ImmutableSet.of("foo");
     gApi.changes().id(change1.getId().get()).setHashtags(in);
 
-    in.add = ImmutableSet.of("foo", "bar", "a tag");
+    in.add = ImmutableSet.of("foo", "bar", "a tag", "ACamelCaseTag");
     gApi.changes().id(change2.getId().get()).setHashtags(in);
 
     return ImmutableList.of(change1, change2);
@@ -1614,6 +1614,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("hashtag:\" a tag \"", changes.get(1));
     assertQuery("hashtag:\"#a tag\"", changes.get(1));
     assertQuery("hashtag:\"# #a tag\"", changes.get(1));
+    assertQuery("hashtag:acamelcasetag", changes.get(1));
+    assertQuery("hashtag:ACamelCaseTAg", changes.get(1));
   }
 
   @Test

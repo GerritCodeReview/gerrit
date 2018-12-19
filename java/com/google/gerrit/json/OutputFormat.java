@@ -17,7 +17,6 @@ package com.google.gerrit.json;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gwtjsonrpc.server.SqlTimestampDeserializer;
 import java.sql.Timestamp;
 
 /** Standard output format used by an API call. */

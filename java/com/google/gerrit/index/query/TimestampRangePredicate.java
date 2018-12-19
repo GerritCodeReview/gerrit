@@ -15,7 +15,7 @@
 package com.google.gerrit.index.query;
 
 import com.google.gerrit.index.FieldDef;
-import com.google.gwtjsonrpc.common.JavaSqlTimestampHelper;
+import com.google.gerrit.json.JavaSqlTimestampHelper;
 import java.sql.Timestamp;
 import java.util.Date;
 

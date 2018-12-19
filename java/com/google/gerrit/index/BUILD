@@ -23,6 +23,7 @@ java_library(
         "//antlr3:query_parser",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/json",
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server/logging",

@@ -19,6 +19,7 @@ import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.index.IndexConfig;
@@ -37,7 +38,6 @@ import com.google.gwtorm.server.OrmException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -98,8 +98,8 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
       }
 
       @Override
-      public List<ChangeData> toList() {
-        List<ChangeData> r = rs.toList();
+      public ImmutableList<ChangeData> toList() {
+        ImmutableList<ChangeData> r = rs.toList();
         for (ChangeData cd : r) {
           fromSource.put(cd, currSource);
         }

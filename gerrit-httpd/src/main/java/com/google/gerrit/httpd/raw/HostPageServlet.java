@@ -67,9 +67,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /** Sends the Gerrit host page to clients. */
-@SuppressWarnings("serial")
 @Singleton
 public class HostPageServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
+
   private static final Logger log = LoggerFactory.getLogger(HostPageServlet.class);
 
   private static final String HPD_ID = "gerrit_hostpagedata";

@@ -17,8 +17,9 @@ package com.google.gwtexpui.safehtml.client;
 import com.google.gwt.core.client.GWT;
 
 /** Safely constructs a {@link SafeHtml}, escaping user provided content. */
-@SuppressWarnings("serial")
 public class SafeHtmlBuilder extends SafeHtml {
+  private static final long serialVersionUID = 1L;
+
   private static final Impl impl;
 
   static {

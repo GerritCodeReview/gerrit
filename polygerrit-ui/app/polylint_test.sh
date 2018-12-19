@@ -3,13 +3,13 @@
 set -ex
 
 npm_bin=$(which npm)
-if [[ -z "$npm_bin" ]]; then
+if [ -z "$npm_bin" ]; then
     echo "NPM must be on the path."
     exit 1
 fi
 
 polylint_bin=$(which polylint)
-if [[ -z "$polylint_bin" ]]; then
+if [ -z "$polylint_bin" ]; then
     echo "You must install polylint and its dependencies from NPM."
     echo "> npm install -g polylint"
     exit 1

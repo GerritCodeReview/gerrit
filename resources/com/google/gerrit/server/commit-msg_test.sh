@@ -37,11 +37,11 @@ EOF
   ${hook} input || fail "failed hook execution"
 
   found=$(grep -c '^Change-Id' input)
-  if [[ "${found}" != "1" ]]; then
+  if [ "${found}" != "1" ]; then
     fail "got ${found} Change-Ids, want 1"
   fi
   found=$(grep -c '^Change-Id: I123' input)
-  if [[ "${found}" != "1" ]]; then
+  if [ "${found}" != "1" ]; then
     fail "got ${found} Change-Id: I123, want 1"
   fi
 }
@@ -56,7 +56,7 @@ EOF
 
   ${hook} input || fail "failed hook execution"
   result=$(tail -1 input | grep ^Change-Id)
-  if [[ -z "${result}" ]] ; then
+  if [ -z "${result}" ] ; then
     echo "after: "
     cat input
 
@@ -65,7 +65,7 @@ EOF
 }
 
 function test_dash_at_end {
-  if [[ ! -x /bin/dash ]] ; then
+  if [ ! -x /bin/dash ] ; then
     echo "/bin/dash not installed; skipping dash test."
     return
   fi
@@ -79,7 +79,7 @@ EOF
   /bin/dash ${hook} input || fail "failed hook execution"
 
   result=$(tail -1 input | grep ^Change-Id)
-  if [[ -z "${result}" ]] ; then
+  if [ -z "${result}" ] ; then
     echo "after: "
     cat input
 
@@ -88,7 +88,7 @@ EOF
 }
 
 function test_preserve_dash_changeid {
-  if [[ ! -x /bin/dash ]] ; then
+  if [ ! -x /bin/dash ] ; then
     echo "/bin/dash not installed; skipping dash test."
     return
   fi
@@ -102,11 +102,11 @@ EOF
   /bin/dash ${hook} input || fail "failed hook execution"
 
   found=$(grep -c '^Change-Id' input)
-  if [[ "${found}" != "1" ]]; then
+  if [ "${found}" != "1" ]; then
     fail "got ${found} Change-Ids, want 1"
   fi
   found=$(grep -c '^Change-Id: I123' input)
-  if [[ "${found}" != "1" ]]; then
+  if [ "${found}" != "1" ]; then
     fail "got ${found} Change-Id: I123, want 1"
   fi
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ -z "${TEMPLATE_NO_DEFAULT}" ]]; then
+if [ -z "${TEMPLATE_NO_DEFAULT}" ]; then
 bazel test \
       --test_env="HOME=$HOME" \
       //polygerrit-ui/app:all

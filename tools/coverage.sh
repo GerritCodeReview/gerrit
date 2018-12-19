@@ -8,13 +8,13 @@
 # dir.
 
 genhtml=$(which genhtml)
-if [[ -z "${genhtml}" ]]; then
+if [ -z "${genhtml}" ]; then
     echo "Install 'genhtml' (contained in the 'lcov' package)"
     exit 1
 fi
 
 destdir="$1"
-if [[ -z "${destdir}" ]]; then
+if [ -z "${destdir}" ]; then
     destdir=$(mktemp -d /tmp/gerritcov.XXXXXX)
 fi
 

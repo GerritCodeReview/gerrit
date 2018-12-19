@@ -9,7 +9,7 @@ if [ -z "$node_bin" ]; then
 fi
 
 npm_bin=$(which npm)
-if [[ -z "$npm_bin" ]]; then
+if [ -z "$npm_bin" ]; then
     echo "NPM must be on the path. (https://www.npmjs.com/)"
     exit 1
 fi

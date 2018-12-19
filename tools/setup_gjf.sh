@@ -36,7 +36,7 @@ case "$VERSION" in
 esac
 
 root="$(git rev-parse --show-toplevel)"
-if [[ -z "$root" ]]; then
+if [ -z "$root" ]; then
   echo "google-java-format setup requires a git working tree"
   exit 1
 fi

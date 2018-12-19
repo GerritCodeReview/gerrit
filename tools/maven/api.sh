@@ -16,7 +16,7 @@
 
 set -e
 
-if [[ "$#" -lt "1" ]] ; then
+if [ "$#" -lt "1" ] ; then
   cat <<EOF
 Usage: run "$0 COMMAND [build_args...]" from the top of your workspace,
 where COMMAND is one of
@@ -56,7 +56,7 @@ war_deploy)
 esac
 shift
 
-if [[ "${VERBOSE:-x}" != "x" ]]; then
+if [ "${VERBOSE:-x}" != "x" ]; then
   set -o xtrace
 fi
 

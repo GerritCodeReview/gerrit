@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 npm_bin=$(which npm)
-if [[ -z "$npm_bin" ]]; then
+if [ -z "$npm_bin" ]; then
     echo "NPM must be on the path. (https://www.npmjs.com/)"
     exit 1
 fi
 
 wct_bin=$(which wct)
-if [[ -z "$wct_bin" ]]; then
+if [ -z "$wct_bin" ]; then
     echo "WCT must be on the path. (https://github.com/Polymer/web-component-tester)"
     exit 1
 fi

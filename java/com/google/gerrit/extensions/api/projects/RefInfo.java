@@ -23,6 +23,10 @@ public class RefInfo {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).add("ref", ref).add("revision", revision).toString();
+    return MoreObjects.toStringHelper(this)
+        .add("ref", ref)
+        .add("revision", revision)
+        .add("canDelete", canDelete)
+        .toString();
   }
 }

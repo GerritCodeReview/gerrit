@@ -22,6 +22,30 @@
       "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "935a1a19_beecec70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1073507
+      },
+      "writtenOn": "2018-12-20T23:17:17Z",
+      "side": 1,
+      "message": "We want to lock label changes while CI system is evaluating changes. How do you propose to do this? \n\nThis change was implemented following the idea of patchset lock (implemented in https://gerrit-review.googlesource.com/c/gerrit/+/72174/1)\n\nSome of the advantages of having a label function to do this are:\n1. Label locks would be visible to everyone.\n2. It can be easily removed by admins.\n3. It can be accompanied with comments that explains the reason for the label lock.\n4. It can be managed by the existing ACL framework.",
+      "parentUuid": "78522cda_2b955dc1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -35,6 +35,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.template.soy.data.SanitizedContent;
+import com.google.template.soy.data.SanitizedContent.ContentKind;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,7 +44,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -56,15 +56,12 @@ import org.eclipse.jgit.util.SystemReader;
 public abstract class OutgoingEmail {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  protected OutgoingEmailMessage outgoingEmailMessage;
   protected String messageClass;
   private final Set<Account.Id> rcptTo = new HashSet<>();
-  private final Map<String, EmailHeader> headers;
   private final Set<Address> smtpRcptTo = new HashSet<>();
   private Address smtpFromAddress;
-  private StringBuilder textBody;
-  private StringBuilder htmlBody;
-  protected Map<String, Object> soyContext;
-  protected Map<String, Object> soyContextEmailData;
+  private ListMultimap<RecipientType, Account.Id> accountsToNotify = ImmutableListMultimap.of();
   protected List<String> footers;
   protected final EmailArguments args;
   protected Account.Id fromId;
@@ -73,7 +70,7 @@ public abstract class OutgoingEmail {
   protected OutgoingEmail(EmailArguments ea, String mc) {
     args = ea;
     messageClass = mc;
-    headers = new LinkedHashMap<>();
+    outgoingEmailMessage = new OutgoingEmailMessage();
   }
 
   public void setFrom(Account.Id id) {
@@ -101,14 +98,9 @@ public abstract class OutgoingEmail {
     }
 
     init();
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("HeaderHtml"));
-    }
+    outgoingEmailMessage.append(SoyTemplate.HEADER);
     format();
-    appendText(textTemplate("Footer"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("FooterHtml"));
-    }
+    outgoingEmailMessage.append(SoyTemplate.FOOTER);
 
     Set<Address> smtpRcptToPlaintextOnly = new HashSet<>();
     if (shouldSendMessage()) {
@@ -154,7 +146,7 @@ public abstract class OutgoingEmail {
       // Set Reply-To only if it hasn't been set by a child class
       // Reply-To will already be populated for the message types where Gerrit supports
       // inbound email replies.
-      if (!headers.containsKey(FieldName.REPLY_TO)) {
+      if (!outgoingEmailMessage.hasHeader(FieldName.REPLY_TO)) {
         StringJoiner j = new StringJoiner(", ");
         if (fromId != null) {
           Address address = toAddress(fromId);
@@ -167,16 +159,20 @@ public abstract class OutgoingEmail {
         setHeader(FieldName.REPLY_TO, j.toString());
       }
 
-      String textPart = textBody.toString();
       OutgoingEmailValidationListener.Args va = new OutgoingEmailValidationListener.Args();
       va.messageClass = messageClass;
       va.smtpFromAddress = smtpFromAddress;
       va.smtpRcptTo = smtpRcptTo;
-      va.headers = headers;
-      va.body = textPart;
+      va.headers = outgoingEmailMessage.headers();
+
+      va.body = "";
+      if (fromId != null && args.fromAddressGenerator.isGenericAddress(fromId)) {
+        va.body = getFromLine();
+      }
+      va.body += renderTemplates(ContentKind.TEXT);
 
       if (useHtml()) {
-        va.htmlBody = htmlBody.toString();
+        va.htmlBody = renderTemplates(ContentKind.HTML);
       } else {
         va.htmlBody = null;
       }
@@ -197,7 +193,7 @@ public abstract class OutgoingEmail {
       if (!smtpRcptToPlaintextOnly.isEmpty()) {
         // Send plaintext message
         Map<String, EmailHeader> shallowCopy = new HashMap<>();
-        shallowCopy.putAll(headers);
+        shallowCopy.putAll(outgoingEmailMessage.headers());
         // Remove To and Cc
         shallowCopy.remove(FieldName.TO);
         shallowCopy.remove(FieldName.CC);
@@ -212,7 +208,6 @@ public abstract class OutgoingEmail {
     }
   }
 
-  /** Format the message body by calling {@link #appendText(String)}. */
   protected abstract void format() throws EmailException;
 
   /**
@@ -225,9 +220,9 @@ public abstract class OutgoingEmail {
 
     smtpFromAddress = args.fromAddressGenerator.from(fromId);
     setHeader(FieldName.DATE, new Date());
-    headers.put(FieldName.FROM, new EmailHeader.AddressList(smtpFromAddress));
-    headers.put(FieldName.TO, new EmailHeader.AddressList());
-    headers.put(FieldName.CC, new EmailHeader.AddressList());
+    outgoingEmailMessage.addHeader(FieldName.FROM, new EmailHeader.AddressList(smtpFromAddress));
+    outgoingEmailMessage.addHeader(FieldName.TO, new EmailHeader.AddressList());
+    outgoingEmailMessage.addHeader(FieldName.CC, new EmailHeader.AddressList());
     setHeader(FieldName.MESSAGE_ID, "");
     setHeader(MailHeader.AUTO_SUBMITTED.fieldName(), "auto-generated");
 
@@ -237,12 +232,6 @@ public abstract class OutgoingEmail {
 
     setHeader(MailHeader.MESSAGE_TYPE.fieldName(), messageClass);
     footers.add(MailHeader.MESSAGE_TYPE.withDelimiter() + messageClass);
-    textBody = new StringBuilder();
-    htmlBody = new StringBuilder();
-
-    if (fromId != null && args.fromAddressGenerator.isGenericAddress(fromId)) {
-      appendText(getFromLine());
-    }
   }
 
   protected String getFromLine() {
@@ -297,30 +286,11 @@ public abstract class OutgoingEmail {
 
   /** Set a header in the outgoing message. */
   protected void setHeader(String name, String value) {
-    headers.put(name, new EmailHeader.String(value));
-  }
-
-  /** Remove a header from the outgoing message. */
-  protected void removeHeader(String name) {
-    headers.remove(name);
+    outgoingEmailMessage.addHeader(name, new EmailHeader.String(value));
   }
 
   protected void setHeader(String name, Date date) {
-    headers.put(name, new EmailHeader.Date(date));
-  }
-
-  /** Append text to the outgoing email body. */
-  protected void appendText(String text) {
-    if (text != null) {
-      textBody.append(text);
-    }
-  }
-
-  /** Append html to the outgoing email body. */
-  protected void appendHtml(String html) {
-    if (html != null) {
-      htmlBody.append(html);
-    }
+    outgoingEmailMessage.addHeader(name, new EmailHeader.Date(date));
   }
 
   /** Lookup a human readable name for an account, usually the "full name". */
@@ -393,7 +363,7 @@ public abstract class OutgoingEmail {
   }
 
   protected boolean shouldSendMessage() {
-    if (textBody.length() == 0) {
+    if (outgoingEmailMessage.bodyParts().size() == 0) {
       // If we have no message body, don't send.
       return false;
     }
@@ -492,15 +462,17 @@ public abstract class OutgoingEmail {
           if (!override) {
             return;
           }
-          ((EmailHeader.AddressList) headers.get(FieldName.TO)).remove(addr.getEmail());
-          ((EmailHeader.AddressList) headers.get(FieldName.CC)).remove(addr.getEmail());
+          ((EmailHeader.AddressList) outgoingEmailMessage.header(FieldName.TO))
+              .remove(addr.getEmail());
+          ((EmailHeader.AddressList) outgoingEmailMessage.header(FieldName.CC))
+              .remove(addr.getEmail());
         }
         switch (rt) {
           case TO:
-            ((EmailHeader.AddressList) headers.get(FieldName.TO)).add(addr);
+            ((EmailHeader.AddressList) outgoingEmailMessage.header(FieldName.TO)).add(addr);
             break;
           case CC:
-            ((EmailHeader.AddressList) headers.get(FieldName.CC)).add(addr);
+            ((EmailHeader.AddressList) outgoingEmailMessage.header(FieldName.CC)).add(addr);
             break;
           case BCC:
             break;
@@ -524,38 +496,19 @@ public abstract class OutgoingEmail {
   }
 
   protected void setupSoyContext() {
-    soyContext = new HashMap<>();
     footers = new ArrayList<>();
 
-    soyContext.put("messageClass", messageClass);
-    soyContext.put("footers", footers);
+    outgoingEmailMessage.fillVariable("messageClass", messageClass);
+    outgoingEmailMessage.fillVariable("footers", footers);
 
-    soyContextEmailData = new HashMap<>();
-    soyContextEmailData.put("settingsUrl", getSettingsUrl());
-    soyContextEmailData.put("instanceName", getInstanceName());
-    soyContextEmailData.put("gerritHost", getGerritHost());
-    soyContextEmailData.put("gerritUrl", getGerritUrl());
-    soyContext.put("email", soyContextEmailData);
+    outgoingEmailMessage.fillEmailVariable("settingsUrl", getSettingsUrl());
+    outgoingEmailMessage.fillEmailVariable("instanceName", getInstanceName());
+    outgoingEmailMessage.fillEmailVariable("gerritHost", getGerritHost());
+    outgoingEmailMessage.fillEmailVariable("gerritUrl", getGerritUrl());
   }
 
   private String getInstanceName() {
     return args.instanceNameProvider.get();
-  }
-
-  private String soyTemplate(String name, SanitizedContent.ContentKind kind) {
-    return args.soyTofu
-        .newRenderer("com.google.gerrit.server.mail.template." + name)
-        .setContentKind(kind)
-        .setData(soyContext)
-        .render();
-  }
-
-  protected String textTemplate(String name) {
-    return soyTemplate(name, SanitizedContent.ContentKind.TEXT);
-  }
-
-  protected String soyHtmlTemplate(String name) {
-    return soyTemplate(name, SanitizedContent.ContentKind.HTML);
   }
 
   protected void removeUser(Account user) {
@@ -565,7 +518,7 @@ public abstract class OutgoingEmail {
         j.remove();
       }
     }
-    for (Map.Entry<String, EmailHeader> entry : headers.entrySet()) {
+    for (Map.Entry<String, EmailHeader> entry : outgoingEmailMessage.headers().entrySet()) {
       // Don't remove fromEmail from the "From" header though!
       if (entry.getValue() instanceof AddressList && !entry.getKey().equals("From")) {
         ((AddressList) entry.getValue()).remove(fromEmail);
@@ -580,5 +533,22 @@ public abstract class OutgoingEmail {
   /** Override this method to enable HTML in a subclass. */
   protected boolean supportsHtml() {
     return false;
+  }
+
+  private String renderTemplates(SanitizedContent.ContentKind kind) {
+    StringBuilder b = new StringBuilder();
+    for (SoyTemplate template : outgoingEmailMessage.bodyParts()) {
+      b.append(
+          args.soyTofu
+              .newRenderer(
+                  "com.google.gerrit.server.mail.template."
+                      + (kind == SanitizedContent.ContentKind.HTML
+                          ? template.htmlTemplateName()
+                          : template.templateName()))
+              .setContentKind(kind)
+              .setData(outgoingEmailMessage.soyContext())
+              .render());
+    }
+    return b.toString();
   }
 }

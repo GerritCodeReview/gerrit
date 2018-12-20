@@ -79,10 +79,7 @@ public abstract class NewChangeSender extends ChangeEmail {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(textTemplate("NewChange"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("NewChangeHtml"));
-    }
+    outgoingEmailMessage.append(SoyTemplate.NEW_CHANGE);
   }
 
   public List<String> getReviewerNames() {
@@ -99,8 +96,8 @@ public abstract class NewChangeSender extends ChangeEmail {
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
-    soyContext.put("ownerName", getNameFor(change.getOwner()));
-    soyContextEmailData.put("reviewerNames", getReviewerNames());
+    outgoingEmailMessage.fillVariable("ownerName", getNameFor(change.getOwner()));
+    outgoingEmailMessage.fillEmailVariable("reviewerNames", getReviewerNames());
   }
 
   @Override

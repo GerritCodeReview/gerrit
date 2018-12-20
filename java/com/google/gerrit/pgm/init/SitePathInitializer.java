@@ -30,6 +30,7 @@ import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.pgm.init.api.Section.Factory;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.mail.EmailModule;
+import com.google.gerrit.server.mail.send.SoyTemplate;
 import com.google.inject.Binding;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -104,38 +105,12 @@ public class SitePathInitializer {
     chmod(0755, site.gerrit_socket);
     chmod(0700, site.tmp_dir);
 
-    extractMailExample("Abandoned.soy");
-    extractMailExample("AbandonedHtml.soy");
-    extractMailExample("AddKey.soy");
-    extractMailExample("ChangeFooter.soy");
-    extractMailExample("ChangeFooterHtml.soy");
-    extractMailExample("ChangeSubject.soy");
-    extractMailExample("Comment.soy");
-    extractMailExample("CommentHtml.soy");
-    extractMailExample("CommentFooter.soy");
-    extractMailExample("CommentFooterHtml.soy");
-    extractMailExample("DeleteReviewer.soy");
-    extractMailExample("DeleteReviewerHtml.soy");
-    extractMailExample("DeleteVote.soy");
-    extractMailExample("DeleteVoteHtml.soy");
-    extractMailExample("Footer.soy");
-    extractMailExample("FooterHtml.soy");
-    extractMailExample("HeaderHtml.soy");
-    extractMailExample("InboundEmailRejection.soy");
-    extractMailExample("InboundEmailRejectionHtml.soy");
-    extractMailExample("Merged.soy");
-    extractMailExample("MergedHtml.soy");
-    extractMailExample("NewChange.soy");
-    extractMailExample("NewChangeHtml.soy");
-    extractMailExample("RegisterNewEmail.soy");
-    extractMailExample("ReplacePatchSet.soy");
-    extractMailExample("ReplacePatchSetHtml.soy");
-    extractMailExample("Restored.soy");
-    extractMailExample("RestoredHtml.soy");
-    extractMailExample("Reverted.soy");
-    extractMailExample("RevertedHtml.soy");
-    extractMailExample("SetAssignee.soy");
-    extractMailExample("SetAssigneeHtml.soy");
+    for (SoyTemplate template : SoyTemplate.values()) {
+      extractMailExample(template.fileName());
+      if (template.hasHtml()) {
+        extractMailExample(template.htmlFileName());
+      }
+    }
 
     if (!ui.isBatch()) {
       System.err.println();

@@ -106,21 +106,21 @@ public abstract class NotificationEmail extends OutgoingEmail {
     super.setupSoyContext();
 
     String projectName = branch.getParentKey().get();
-    soyContext.put("projectName", projectName);
+    outgoingEmailMessage.fillVariable("projectName", projectName);
     // shortProjectName is the project name with the path abbreviated.
-    soyContext.put("shortProjectName", getShortProjectName(projectName));
+    outgoingEmailMessage.fillVariable("shortProjectName", getShortProjectName(projectName));
 
     // instanceAndProjectName is the instance's name followed by the abbreviated project path
-    soyContext.put(
+    outgoingEmailMessage.fillVariable(
         "instanceAndProjectName",
         getInstanceAndProjectName(args.instanceNameProvider.get(), projectName));
-    soyContext.put("addInstanceNameInSubject", args.addInstanceNameInSubject);
+    outgoingEmailMessage.fillVariable("addInstanceNameInSubject", args.addInstanceNameInSubject);
 
-    soyContextEmailData.put("sshHost", getSshHost());
+    outgoingEmailMessage.fillEmailVariable("sshHost", getSshHost());
 
     Map<String, String> branchData = new HashMap<>();
     branchData.put("shortName", branch.getShortName());
-    soyContext.put("branch", branchData);
+    outgoingEmailMessage.fillVariable("branch", branchData);
 
     footers.add(MailHeader.PROJECT.withDelimiter() + branch.getParentKey().get());
     footers.add("Gerrit-Branch: " + branch.getShortName());

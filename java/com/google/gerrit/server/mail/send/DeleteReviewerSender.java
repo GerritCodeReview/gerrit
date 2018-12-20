@@ -70,10 +70,7 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(textTemplate("DeleteReviewer"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("DeleteReviewerHtml"));
-    }
+    outgoingEmailMessage.append(SoyTemplate.DELETE_REVIEWER);
   }
 
   public List<String> getReviewerNames() {
@@ -93,7 +90,7 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
-    soyContextEmailData.put("reviewerNames", getReviewerNames());
+    outgoingEmailMessage.fillEmailVariable("reviewerNames", getReviewerNames());
   }
 
   @Override

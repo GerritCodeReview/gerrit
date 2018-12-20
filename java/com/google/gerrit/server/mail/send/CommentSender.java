@@ -169,7 +169,7 @@ public class CommentSender extends ReplyToChangeSender {
     if (incomingEmailEnabled) {
       if (replyToAddress == null) {
         // Remove Reply-To and use outbound SMTP (default) instead.
-        removeHeader(FieldName.REPLY_TO);
+        outgoingEmailMessage.removeHeader(FieldName.REPLY_TO);
       } else {
         setHeader(FieldName.REPLY_TO, replyToAddress);
       }
@@ -177,19 +177,13 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   @Override
-  public void formatChange() throws EmailException {
-    appendText(textTemplate("Comment"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("CommentHtml"));
-    }
+  public void formatChange() {
+    outgoingEmailMessage.append(SoyTemplate.COMMENT);
   }
 
   @Override
-  public void formatFooter() throws EmailException {
-    appendText(textTemplate("CommentFooter"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("CommentFooterHtml"));
-    }
+  public void formatFooter() {
+    outgoingEmailMessage.append(SoyTemplate.COMMENT_FOOTER);
   }
 
   /**
@@ -508,16 +502,16 @@ public class CommentSender extends ReplyToChangeSender {
     boolean hasComments;
     try (Repository repo = getRepository()) {
       List<Map<String, Object>> files = getCommentGroupsTemplateData(repo);
-      soyContext.put("commentFiles", files);
+      outgoingEmailMessage.fillVariable("commentFiles", files);
       hasComments = !files.isEmpty();
     }
 
-    soyContext.put(
+    outgoingEmailMessage.fillVariable(
         "patchSetCommentBlocks", commentBlocksToSoyData(CommentFormatter.parse(patchSetComment)));
-    soyContext.put("labels", getLabelVoteSoyData(labels));
-    soyContext.put("commentCount", inlineComments.size());
-    soyContext.put("commentTimestamp", getCommentTimestamp());
-    soyContext.put(
+    outgoingEmailMessage.fillVariable("labels", getLabelVoteSoyData(labels));
+    outgoingEmailMessage.fillVariable("commentCount", inlineComments.size());
+    outgoingEmailMessage.fillVariable("commentTimestamp", getCommentTimestamp());
+    outgoingEmailMessage.fillVariable(
         "coverLetterBlocks", commentBlocksToSoyData(CommentFormatter.parse(getCoverLetter())));
 
     footers.add(MailHeader.COMMENT_DATE.withDelimiter() + getCommentTimestamp());

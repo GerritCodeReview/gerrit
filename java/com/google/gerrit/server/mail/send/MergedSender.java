@@ -57,11 +57,7 @@ public class MergedSender extends ReplyToChangeSender {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(textTemplate("Merged"));
-
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("MergedHtml"));
-    }
+    outgoingEmailMessage.append(SoyTemplate.MERGED);
   }
 
   public String getApprovals() {
@@ -129,7 +125,7 @@ public class MergedSender extends ReplyToChangeSender {
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
-    soyContextEmailData.put("approvals", getApprovals());
+    outgoingEmailMessage.fillEmailVariable("approvals", getApprovals());
   }
 
   @Override

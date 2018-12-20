@@ -103,10 +103,7 @@ public class AddKeySender extends OutgoingEmail {
 
   @Override
   protected void format() throws EmailException {
-    appendText(textTemplate("AddKey"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("AddKeyHtml"));
-    }
+    outgoingEmailMessage.append(SoyTemplate.ADD_KEY);
   }
 
   public String getEmail() {
@@ -140,11 +137,11 @@ public class AddKeySender extends OutgoingEmail {
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
-    soyContextEmailData.put("email", getEmail());
-    soyContextEmailData.put("gpgKeys", getGpgKeys());
-    soyContextEmailData.put("keyType", getKeyType());
-    soyContextEmailData.put("sshKey", getSshKey());
-    soyContextEmailData.put("userNameEmail", getUserNameEmail());
+    outgoingEmailMessage.fillEmailVariable("email", getEmail());
+    outgoingEmailMessage.fillEmailVariable("gpgKeys", getGpgKeys());
+    outgoingEmailMessage.fillEmailVariable("keyType", getKeyType());
+    outgoingEmailMessage.fillEmailVariable("sshKey", getSshKey());
+    outgoingEmailMessage.fillEmailVariable("userNameEmail", getUserNameEmail());
   }
 
   @Override

@@ -30,35 +30,37 @@
 /**
  * The .InboundEmailRejection templates will determine the contents of the email related
  * to warning users of error in inbound emails
+ * @param reason
  */
+{template .InboundEmailRejection kind="text"}
+  {if $reason == 'PARSING_ERROR'}
+    Gerrit Code Review was unable to parse your email.{\n}
+    This might be because your email did not quote Gerrit's email,
+    because you are using an unsupported email client,
+    or because of a bug.
+    {call .InboundEmailRejectionFooter /}
+  {/if}
 
-{template .InboundEmailRejection_PARSING_ERROR kind="text"}
-  Gerrit Code Review was unable to parse your email.{\n}
-  This might be because your email did not quote Gerrit's email,
-  because you are using an unsupported email client,
-  or because of a bug.
-  {call .InboundEmailRejectionFooter /}
-{/template}
+  {if $reason == 'UNKNOWN_ACCOUNT' }
+    Gerrit Code Review was unable to match your email to an account.{\n}
+    This may happen if several accounts are linked to this email address.
+    {call .InboundEmailRejectionFooter /}
+  {/if}
 
-{template .InboundEmailRejection_UNKNOWN_ACCOUNT kind="text"}
-  Gerrit Code Review was unable to match your email to an account.{\n}
-  This may happen if several accounts are linked to this email address.
-  {call .InboundEmailRejectionFooter /}
-{/template}
+  {if $reason == 'INACTIVE_ACCOUNT' }
+    Your account on this Gerrit Code Review instance is marked as inactive,
+    so your email has been ignored. {\n}
+    If you think this is an error, please contact your Gerrit instance administrator.
+    {\n}{\n}
+    This email was sent in response to an email coming from this address.
+    In case you did not send Gerrit an email, feel free to ignore this.
+    {call .NoReplyFooter /}
+  {/if}
 
-{template .InboundEmailRejection_INACTIVE_ACCOUNT kind="text"}
-  Your account on this Gerrit Code Review instance is marked as inactive,
-  so your email has been ignored. {\n}
-  If you think this is an error, please contact your Gerrit instance administrator.
-  {\n}{\n}
-  This email was sent in response to an email coming from this address.
-  In case you did not send Gerrit an email, feel free to ignore this.
-  {call .NoReplyFooter /}
-{/template}
-
-{template .InboundEmailRejection_INTERNAL_EXCEPTION kind="text"}
-  Gerrit Code Review encountered an internal exception and was unable to fulfil your request.
-  {\n}
-  This might be caused by an ongoing maintenance or a data corruption.
-  {call .InboundEmailRejectionFooter /}
+  {if $reason == 'INTERNAL_EXCEPTION' }
+    Gerrit Code Review encountered an internal exception and was unable to fulfil your request.
+    {\n}
+    This might be caused by an ongoing maintenance or a data corruption.
+    {call .InboundEmailRejectionFooter /}
+  {/if}
 {/template}

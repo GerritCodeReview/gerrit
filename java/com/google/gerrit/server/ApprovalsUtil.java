@@ -148,8 +148,7 @@ public class ApprovalsUtil {
       PatchSet ps,
       PatchSetInfo info,
       Iterable<Account.Id> wantReviewers,
-      Collection<Account.Id> existingReviewers)
-      throws OrmException {
+      Collection<Account.Id> existingReviewers) {
     return addReviewers(
         update,
         labelTypes,
@@ -191,8 +190,7 @@ public class ApprovalsUtil {
       Account.Id authorId,
       Account.Id committerId,
       Iterable<Account.Id> wantReviewers,
-      Collection<Account.Id> existingReviewers)
-      throws OrmException {
+      Collection<Account.Id> existingReviewers) {
     List<LabelType> allTypes = labelTypes.getLabelTypes();
     if (allTypes.isEmpty()) {
       return ImmutableList.of();

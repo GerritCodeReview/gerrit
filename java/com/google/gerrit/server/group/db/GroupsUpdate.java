@@ -204,6 +204,7 @@ public class GroupsUpdate {
     }
 
     UpdateResult result = updateGroupInNoteDbWithRetry(groupUuid, groupUpdate);
+    updateNameInProjectConfigsIfNecessary(result);
     updateCachesOnGroupUpdate(result);
     dispatchAuditEventsOnGroupUpdate(result, updatedOn.get());
   }
@@ -345,20 +346,37 @@ public class GroupsUpdate {
   }
 
   private void updateCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {
+    // By UUID is used for the index and hence should be evicted before refreshing the index.
     groupCache.evict(createdGroup.getGroupUUID());
+    indexer.get().index(createdGroup.getGroupUUID());
+    // These caches use the result from the index and hence must be evicted after refreshing the
+    // index.
     groupCache.evict(createdGroup.getId());
     groupCache.evict(createdGroup.getNameKey());
-    indexer.get().index(createdGroup.getGroupUUID());
     createdGroup.getMembers().forEach(groupIncludeCache::evictGroupsWithMember);
     createdGroup.getSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
   }
 
   private void updateCachesOnGroupUpdate(UpdateResult result) throws IOException {
+    // By UUID is used for the index and hence should be evicted before refreshing the index.
+    groupCache.evict(result.getGroupUuid());
+    indexer.get().index(result.getGroupUuid());
+    // These caches use the result from the index and hence must be evicted after refreshing the
+    // index.
+    groupCache.evict(result.getGroupId());
+    groupCache.evict(result.getGroupName());
+    result.getPreviousGroupName().ifPresent(groupCache::evict);
+
+    result.getAddedMembers().forEach(groupIncludeCache::evictGroupsWithMember);
+    result.getDeletedMembers().forEach(groupIncludeCache::evictGroupsWithMember);
+    result.getAddedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
+    result.getDeletedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
+  }
+
+  private void updateNameInProjectConfigsIfNecessary(UpdateResult result) {
     if (result.getPreviousGroupName().isPresent()) {
       AccountGroup.NameKey previousName = result.getPreviousGroupName().get();
-      groupCache.evict(previousName);
 
-      // TODO(aliceks): After switching to NoteDb, consider to use a BatchRefUpdate.
       @SuppressWarnings("unused")
       Future<?> possiblyIgnoredError =
           renameGroupOpFactory
@@ -369,15 +387,6 @@ public class GroupsUpdate {
                   result.getGroupName().get())
               .start(0, TimeUnit.MILLISECONDS);
     }
-    groupCache.evict(result.getGroupUuid());
-    groupCache.evict(result.getGroupId());
-    groupCache.evict(result.getGroupName());
-    indexer.get().index(result.getGroupUuid());
-
-    result.getAddedMembers().forEach(groupIncludeCache::evictGroupsWithMember);
-    result.getDeletedMembers().forEach(groupIncludeCache::evictGroupsWithMember);
-    result.getAddedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
-    result.getDeletedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
   }
 
   private void dispatchAuditEventsOnGroupCreation(InternalGroup createdGroup) {

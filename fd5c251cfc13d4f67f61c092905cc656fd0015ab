@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "91e73fc1_41ebda74",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-12-20T11:50:00Z",
+      "side": 1,
+      "message": "I was afraid about the following scenario:\n1. groupCache.evict (line 348)\n2. groupCache.get (from external call - at this point indexer.get().index(...) may or may not be started/finished)) - as a result groupCache caches again invalid value)\n3. indexer.get().index(...) finishes but cache contains empty/previous value\n\n\nI still find it amusing that cache uses index (see GroupCacheImpl.java) to get data and indexer uses cache to get it too (see GroupIndexerImpl.index:\nOptional\u003cInternalGroup\u003e internalGroup \u003d groupCache.get(uuid);\n\nIMHO that leads to unnecessary complexity (evict here, evict there...) and potential circular dependencies... it would be better to directly read data from storage on index operation and call cache to evict it once it is finished, wouldn\u0027t it?",
+      "parentUuid": "af40cb7d_f57e15a1",
+      "range": {
+        "startLine": 348,
+        "startChar": 4,
+        "endLine": 348,
+        "endChar": 48
+      },
+      "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "923eba10_36bd968e",
         "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
         "patchSetId": 2

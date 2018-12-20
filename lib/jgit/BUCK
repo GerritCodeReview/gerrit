@@ -1,7 +1,7 @@
 include_defs('//lib/maven.defs')
 
 REPO = MAVEN_CENTRAL # Leave here even if set to MAVEN_CENTRAL.
-VERS = '4.0.0.201506090130-r'
+VERS = '4.11.5.201810191925-r'
 
 maven_jar(
   name = 'jgit',

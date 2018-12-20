@@ -27,20 +27,6 @@ java_library(
 )
 
 java_library(
-    name = "gwtjsonrpc",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@gwtjsonrpc//jar"],
-)
-
-java_library(
-    name = "gwtjsonrpc_src",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@gwtjsonrpc//jar:src"],
-)
-
-java_library(
     name = "gson",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],

@@ -21,7 +21,7 @@ import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.config.GitwebCgiConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.util.http.CacheHeaders;
-import com.google.gwtjsonrpc.server.RPCServletUtils;
+import com.google.gerrit.util.http.RequestUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -91,7 +91,7 @@ abstract class GitwebCssServlet extends HttpServlet {
       rsp.setContentType("text/css");
       rsp.setCharacterEncoding(UTF_8.name());
       final byte[] toSend;
-      if (RPCServletUtils.acceptsGzipEncoding(req)) {
+      if (RequestUtil.acceptsGzipEncoding(req)) {
         rsp.setHeader("Content-Encoding", "gzip");
         toSend = gz_css;
       } else {

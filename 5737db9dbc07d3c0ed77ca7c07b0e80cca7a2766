@@ -22,6 +22,30 @@
       "revId": "5737db9dbc07d3c0ed77ca7c07b0e80cca7a2766",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d45482c0_c625f353",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1057319
+      },
+      "writtenOn": "2018-12-20T08:22:50Z",
+      "side": 0,
+      "message": "Currently on 2.16, when I am on dashboard/self, in \"Assigned reviews\" category: \n\nI can see reviews that are assigned to me and in WIP.\n\nIn query terms:\n- assignee:${user} \u003d assignee:self \u003d\u003d true\n- (-is:wip OR owner:self OR assigneed:self) \u003d\u003d true because\n  * -is:wip \u003d\u003d false\n  * owner:self \u003d\u003d false\n  * assignee:self \u003d\u003d true\n\nSo by removing assignee:self, (-is:wip OR owner:self OR assigneed:self) becomes false, and the WIP assigned to me change is filtered out of the dashboard.",
+      "parentUuid": "4c2bebb0_8f834e3c",
+      "range": {
+        "startLine": 113,
+        "startChar": 55,
+        "endLine": 113,
+        "endChar": 73
+      },
+      "revId": "5737db9dbc07d3c0ed77ca7c07b0e80cca7a2766",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -14,8 +14,9 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-@SuppressWarnings("serial")
 class SafeHtmlString extends SafeHtml {
+  private static final long serialVersionUID = 1L;
+
   private final String html;
 
   SafeHtmlString(String h) {

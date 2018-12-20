@@ -1544,8 +1544,9 @@ public class RestApiServlet extends HttpServlet {
     return new TemporaryBuffer.Heap(est, max);
   }
 
-  @SuppressWarnings("serial")
   private static class AmbiguousViewException extends Exception {
+    private static final long serialVersionUID = 1L;
+
     AmbiguousViewException(String message) {
       super(message);
     }

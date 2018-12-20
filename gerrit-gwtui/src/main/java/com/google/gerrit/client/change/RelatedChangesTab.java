@@ -248,8 +248,9 @@ class RelatedChangesTab implements IsWidget {
     }
   }
 
-  @SuppressWarnings("serial")
   private class RowSafeHtml implements SafeHtml {
+    private static final long serialVersionUID = 1L;
+
     private String html;
     private ChangeAndCommit info;
     private final boolean notConnected;

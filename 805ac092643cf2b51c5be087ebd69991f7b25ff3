@@ -70,6 +70,30 @@
       "revId": "805ac092643cf2b51c5be087ebd69991f7b25ff3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba798502_8692ad3d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListBranchesIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-20T07:44:23Z",
+      "side": 1,
+      "message": "Done with https://gerrit-review.googlesource.com/c/gerrit/+/208261",
+      "parentUuid": "a8bcd406_1e31340f",
+      "range": {
+        "startLine": 93,
+        "startChar": 57,
+        "endLine": 93,
+        "endChar": 61
+      },
+      "revId": "805ac092643cf2b51c5be087ebd69991f7b25ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

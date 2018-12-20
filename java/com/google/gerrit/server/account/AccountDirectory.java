@@ -50,4 +50,6 @@ public abstract class AccountDirectory {
 
   public abstract void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)
       throws PermissionBackendException;
+
+  private static final long serialVersionUID = 1L;
 }

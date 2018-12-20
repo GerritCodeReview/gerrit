@@ -2,7 +2,7 @@ load("//tools/bzl:java.bzl", "java_library2")
 
 java_library(
     name = "lib",
-    testonly = 1,
+    testonly = True,
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/acceptance"],
     visibility = ["//visibility:public"],
@@ -57,7 +57,7 @@ java_library(
 
 java_binary(
     name = "framework",
-    testonly = 1,
+    testonly = True,
     main_class = "Dummy",
     visibility = ["//visibility:public"],
     runtime_deps = [":framework-lib"],
@@ -65,7 +65,7 @@ java_binary(
 
 java_library2(
     name = "framework-lib",
-    testonly = 1,
+    testonly = True,
     srcs = glob(["**/*.java"]),
     exported_deps = [
         "//java/com/google/gerrit/gpg",
@@ -132,7 +132,7 @@ load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_doc(
     name = "framework-javadoc",
-    testonly = 1,
+    testonly = True,
     libs = [":framework-lib"],
     pkgs = ["com.google.gerrit.acceptance"],
     title = "Gerrit Acceptance Test Framework Documentation",

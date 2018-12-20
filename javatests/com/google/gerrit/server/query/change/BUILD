@@ -4,7 +4,7 @@ ABSTRACT_QUERY_TEST = ["AbstractQueryChangesTest.java"]
 
 java_library(
     name = "abstract_query_tests",
-    testonly = 1,
+    testonly = True,
     srcs = ABSTRACT_QUERY_TEST,
     visibility = ["//visibility:public"],
     runtime_deps = ["//prolog:gerrit-prolog-common"],

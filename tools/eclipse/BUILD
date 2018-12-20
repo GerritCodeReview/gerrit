@@ -25,13 +25,13 @@ DEPS = [
 
 java_library(
     name = "classpath",
-    testonly = 1,
+    testonly = True,
     runtime_deps = LIBS + PGMLIBS + DEPS,
 )
 
 classpath_collector(
     name = "main_classpath_collect",
-    testonly = 1,
+    testonly = True,
     deps = LIBS + PGMLIBS + DEPS + TEST_DEPS +
            ["//plugins/%s:%s__plugin" % (n, n) for n in CORE_PLUGINS + CUSTOM_PLUGINS] +
            ["//plugins/%s:%s__plugin_test_deps" % (n, n) for n in CUSTOM_PLUGINS_TEST_DEPS],

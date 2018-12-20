@@ -21,7 +21,7 @@ acceptance_tests(
 
 java_library(
     name = "util",
-    testonly = 1,
+    testonly = True,
     srcs = ["AbstractMailIT.java"],
     deps = DEPS + ["//java/com/google/gerrit/acceptance:lib"],
 )

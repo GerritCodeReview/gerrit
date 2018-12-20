@@ -38,7 +38,7 @@ java_library(
 
 java_library(
     name = "testcontainers-elasticsearch",
-    testonly = 1,
+    testonly = True,
     data = ["//lib:LICENSE-testcontainers"],
     visibility = ["//visibility:public"],
     exports = ["@testcontainers-elasticsearch//jar"],

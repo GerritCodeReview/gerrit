@@ -1,6 +1,6 @@
 java_library(
     name = "common-test-util",
-    testonly = 1,
+    testonly = True,
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [

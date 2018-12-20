@@ -1,5 +1,5 @@
 package(
-    default_testonly = 1,
+    default_testonly = True,
     default_visibility = ["//visibility:private"],
 )
 

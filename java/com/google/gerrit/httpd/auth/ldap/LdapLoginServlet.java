@@ -46,9 +46,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /** Handles username/password based authentication against the directory. */
-@SuppressWarnings("serial")
 @Singleton
 class LdapLoginServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AccountManager accountManager;

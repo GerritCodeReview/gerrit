@@ -46,6 +46,30 @@
       "revId": "2aebb4ce244d245fe94d4459a6ea25b8fc4b8905",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3660d48_782a0e77",
+        "filename": "java/com/google/gerrit/server/schema/InMemoryAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-20T14:23:54Z",
+      "side": 1,
+      "message": "First of all this class is only for tests.\n\nSecond of all, here\u0027s the implementation of SimpleDataSource#getConnection():\n\n  // ctor has driver \u003d (Driver) Class.forName(name, true, loader).newInstance();\n\n  @Override\n  public Connection getConnection() throws SQLException {\n    if (driver !\u003d null) {\n      return driver.connect(url, connectionInfo);\n    }\n    return DriverManager.getConnection(url, connectionInfo);\n  }\n\nSo this is really just inlining the old implementation. (Unless you\u0027re concerned about calling load() each time which I don\u0027t think is what you\u0027re talking about.)\n\nOf course it\u0027s possible to use BasicDataSource. That would just be more code since we\u0027d have to either call a bunch of methods on it during setup or else set up the GerritServerConfig properly, whereas this is one line.\n\nIt\u0027s conceivable that using a connection pool in tests would be faster if we actually used the AccountPatchReviewStore frequently in tests, but I don\u0027t think we do.",
+      "parentUuid": "22cd2600_c17739e3",
+      "range": {
+        "startLine": 43,
+        "startChar": 10,
+        "endLine": 43,
+        "endChar": 55
+      },
+      "revId": "2aebb4ce244d245fe94d4459a6ea25b8fc4b8905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2710b5c1_d1e0f59f",
+        "filename": "java/com/google/gerrit/server/account/AccountDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-20T15:03:41Z",
+      "side": 1,
+      "message": "This shouldn\u0027t have been added.",
+      "revId": "c34d55b868eaffceff482dad9317b1b813f749aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

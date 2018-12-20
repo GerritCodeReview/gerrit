@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9941f92_cb67c74f",
+        "filename": "java/com/google/gerrit/server/schema/InMemoryAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-20T06:56:26Z",
+      "side": 1,
+      "message": "IIRC, we had performance problems in the past and the reason was just that: we opened every time new H2 connections directly in the driver. H2 is not optimized for that use cases. If the only goal of this change is avoid dependency on gwtorm, can we use org.apache.commons.dbcp.BasicDataSource instead, that gerrit has a a dependency anyway?",
+      "range": {
+        "startLine": 43,
+        "startChar": 10,
+        "endLine": 43,
+        "endChar": 55
+      },
+      "revId": "2aebb4ce244d245fe94d4459a6ea25b8fc4b8905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

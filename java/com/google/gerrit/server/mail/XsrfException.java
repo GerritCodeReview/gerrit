@@ -15,8 +15,9 @@
 package com.google.gerrit.server.mail;
 
 /** Indicates the requested method is not known. */
-@SuppressWarnings("serial")
 public class XsrfException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   XsrfException(final String message, final Throwable why) {
     super(message, why);
   }

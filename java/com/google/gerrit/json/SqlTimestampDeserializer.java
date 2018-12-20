@@ -23,16 +23,15 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
-class SqlTimestampDeserializer
-    implements JsonDeserializer<java.sql.Timestamp>, JsonSerializer<java.sql.Timestamp> {
+class SqlTimestampDeserializer implements JsonDeserializer<Timestamp>, JsonSerializer<Timestamp> {
   private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 
   @Override
-  public java.sql.Timestamp deserialize(
-      final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
+  public Timestamp deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
       throws JsonParseException {
     if (json.isJsonNull()) {
       return null;
@@ -40,7 +39,7 @@ class SqlTimestampDeserializer
     if (!json.isJsonPrimitive()) {
       throw new JsonParseException("Expected string for timestamp type");
     }
-    final JsonPrimitive p = (JsonPrimitive) json;
+    JsonPrimitive p = (JsonPrimitive) json;
     if (!p.isString()) {
       throw new JsonParseException("Expected string for timestamp type");
     }
@@ -49,16 +48,15 @@ class SqlTimestampDeserializer
   }
 
   @Override
-  public JsonElement serialize(
-      final java.sql.Timestamp src, final Type typeOfSrc, final JsonSerializationContext context) {
+  public JsonElement serialize(Timestamp src, Type typeOfSrc, JsonSerializationContext context) {
     if (src == null) {
-      return new JsonNull();
+      return JsonNull.INSTANCE;
     }
     return new JsonPrimitive(newFormat().format(src) + "000000");
   }
 
   private static SimpleDateFormat newFormat() {
-    final SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     f.setTimeZone(UTC);
     f.setLenient(true);
     return f;

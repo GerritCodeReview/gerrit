@@ -1,4 +1,4 @@
-package(default_testonly = 1)
+package(default_testonly = True)
 
 java_library(
     name = "testing",

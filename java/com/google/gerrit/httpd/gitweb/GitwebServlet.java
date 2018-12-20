@@ -89,9 +89,10 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 /** Invokes {@code gitweb.cgi} for the project given in {@code p}. */
-@SuppressWarnings("serial")
 @Singleton
 class GitwebServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String PROJECT_LIST_ACTION = "project_list";

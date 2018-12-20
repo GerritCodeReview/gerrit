@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
@@ -204,6 +205,15 @@ public class GroupsIT extends AbstractDaemonTest {
     Collection<AccountGroup.UUID> groupsWithMemberAfterRemoval =
         groupIncludeCache.getGroupsWithMember(accountId);
     assertThat(groupsWithMemberAfterRemoval).doesNotContain(groupUuid);
+  }
+
+  @Test
+  public void cachedGroupByNameIsUpdatedOnCreation() throws Exception {
+    String newGroupName = name("newGroup");
+    AccountGroup.NameKey nameKey = new AccountGroup.NameKey(newGroupName);
+    assertThat(groupCache.get(nameKey)).isEmpty();
+    gApi.groups().create(newGroupName);
+    assertThat(groupCache.get(nameKey)).isPresent();
   }
 
   @Test

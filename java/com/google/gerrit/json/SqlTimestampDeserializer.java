@@ -52,7 +52,7 @@ class SqlTimestampDeserializer
   public JsonElement serialize(
       final java.sql.Timestamp src, final Type typeOfSrc, final JsonSerializationContext context) {
     if (src == null) {
-      return new JsonNull();
+      return JsonNull.INSTANCE;
     }
     return new JsonPrimitive(newFormat().format(src) + "000000");
   }

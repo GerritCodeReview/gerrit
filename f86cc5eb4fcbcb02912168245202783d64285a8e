@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fe71de7_7eba103e",
+        "filename": "java/com/google/gerrit/acceptance/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-20T10:59:56Z",
+      "side": 1,
+      "message": "As an aside, we could use default_testonly here and define it only once at the top of the file. I\u0027ll leave that cleanup to a separate commit though.",
+      "revId": "f86cc5eb4fcbcb02912168245202783d64285a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

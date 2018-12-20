@@ -187,8 +187,8 @@ maven_jar(
 
 maven_jar(
   name = 'tukaani-xz',
-  id = 'org.tukaani:xz:1.4',
-  sha1 = '18a9a2ce6abf32ea1b5fd31dae5210ad93f4e5e3',
+  id = 'org.tukaani:xz:1.6',
+  sha1 = '05b6f921f1810bdf90e25471968f741f87168b64',
   license = 'xz',
   attach_source = False,
   visibility = ['//lib/jgit:jgit-archive'],

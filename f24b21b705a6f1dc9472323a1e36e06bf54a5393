@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b350df3c_a1aab382",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-20T15:36:54Z",
+      "side": 1,
+      "message": "JGit 4.11.5 depends on JavaEWAH version 1.1.6\n\nhttps://search.maven.org/artifact/org.eclipse.jgit/org.eclipse.jgit-parent/4.11.5.201810191925-r/pom",
+      "range": {
+        "startLine": 65,
+        "startChar": 41,
+        "endLine": 65,
+        "endChar": 46
+      },
+      "revId": "f24b21b705a6f1dc9472323a1e36e06bf54a5393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

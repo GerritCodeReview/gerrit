@@ -50,10 +50,7 @@ public class SetAssigneeSender extends ChangeEmail {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(textTemplate("SetAssignee"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("SetAssigneeHtml"));
-    }
+    outgoingEmailMessage.append(SoyTemplate.SET_ASSIGNEE);
   }
 
   public String getAssigneeName() {
@@ -63,7 +60,7 @@ public class SetAssigneeSender extends ChangeEmail {
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
-    soyContextEmailData.put("assigneeName", getAssigneeName());
+    outgoingEmailMessage.fillEmailVariable("assigneeName", getAssigneeName());
   }
 
   @Override

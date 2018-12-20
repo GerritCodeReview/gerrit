@@ -204,6 +204,7 @@ public class GroupsUpdate {
     }
 
     UpdateResult result = updateGroupInNoteDbWithRetry(groupUuid, groupUpdate);
+    updateNameInProjectConfigsIfNecessary(result);
     updateCachesOnGroupUpdate(result);
     dispatchAuditEventsOnGroupUpdate(result, updatedOn.get());
   }
@@ -357,21 +358,6 @@ public class GroupsUpdate {
   }
 
   private void updateCachesOnGroupUpdate(UpdateResult result) throws IOException {
-    if (result.getPreviousGroupName().isPresent()) {
-      AccountGroup.NameKey previousName = result.getPreviousGroupName().get();
-
-      // TODO(aliceks): After switching to NoteDb, consider to use a BatchRefUpdate.
-      @SuppressWarnings("unused")
-      Future<?> possiblyIgnoredError =
-          renameGroupOpFactory
-              .create(
-                  authorIdent,
-                  result.getGroupUuid(),
-                  previousName.get(),
-                  result.getGroupName().get())
-              .start(0, TimeUnit.MILLISECONDS);
-    }
-
     // By UUID is used for the index and hence should be evicted before refreshing the index.
     groupCache.evict(result.getGroupUuid());
     indexer.get().index(result.getGroupUuid());
@@ -385,6 +371,22 @@ public class GroupsUpdate {
     result.getDeletedMembers().forEach(groupIncludeCache::evictGroupsWithMember);
     result.getAddedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
     result.getDeletedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
+  }
+
+  private void updateNameInProjectConfigsIfNecessary(UpdateResult result) {
+    if (result.getPreviousGroupName().isPresent()) {
+      AccountGroup.NameKey previousName = result.getPreviousGroupName().get();
+
+      @SuppressWarnings("unused")
+      Future<?> possiblyIgnoredError =
+          renameGroupOpFactory
+              .create(
+                  authorIdent,
+                  result.getGroupUuid(),
+                  previousName.get(),
+                  result.getGroupName().get())
+              .start(0, TimeUnit.MILLISECONDS);
+    }
   }
 
   private void dispatchAuditEventsOnGroupCreation(InternalGroup createdGroup) {

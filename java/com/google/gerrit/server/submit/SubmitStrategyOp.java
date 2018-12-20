@@ -21,7 +21,6 @@ import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -393,21 +392,6 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       }
       return new PatchSetApproval(psId, psa);
     };
-  }
-
-  private static Iterable<PatchSetApproval> convertPatchSet(
-      Iterable<PatchSetApproval> approvals, PatchSet.Id psId) {
-    return Iterables.transform(approvals, convertPatchSet(psId));
-  }
-
-  private static Iterable<PatchSetApproval> zero(Iterable<PatchSetApproval> approvals) {
-    return Iterables.transform(
-        approvals,
-        a -> {
-          PatchSetApproval copy = new PatchSetApproval(a.getPatchSetId(), a);
-          copy.setValue((short) 0);
-          return copy;
-        });
   }
 
   private String getByAccountName() {

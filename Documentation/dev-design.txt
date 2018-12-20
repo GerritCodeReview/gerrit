@@ -302,34 +302,6 @@ they choose.
 Gerrit does not integrate with any Google service, or any other
 services other than those listed above.
 
-
-== Standards / Developer APIs
-
-Gerrit uses an XSRF protected variant of JSON-RPC 1.1 to communicate
-between the browser client and the server.
-
-As the protocol is not the proprietry protocol, but is instead a
-self-describing standard JSON format it is easily implemented by
-any 3rd party client application, provided the client has a JSON
-parser and HTTP client library available.
-
-As the entire command set necessary for the standard web browser
-based UI is exposed through JSON-RPC over HTTP, there are no other
-data feeds or command interfaces to the server.
-
-Commands requiring user authentication may require the user agent to
-complete a sign-in cycle through the user's OpenID provider in order
-to establish the HTTP cookie Gerrit uses to track user identity.
-Automating this sign-in process for non-web browser agents is
-outside of the scope of Gerrit, as each OpenID provider uses its own
-sign-in sequence.  Use of OpenID providers which have difficult to
-automate interfaces may make it impossible for non-browser agents
-to be used with the JSON-RPC interface.
-
-* link:http://json-rpc.org/wd/JSON-RPC-1-1-WD-20060807.html[JSON-RPC 1.1]
-* link:https://gerrit.googlesource.com/gwtjsonrpc/+/master/README[XSRF JSON-RPC]
-
-
 == Privacy Considerations
 
 Gerrit stores the following information per user account:

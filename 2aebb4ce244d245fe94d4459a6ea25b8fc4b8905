@@ -22,6 +22,30 @@
       "revId": "2aebb4ce244d245fe94d4459a6ea25b8fc4b8905",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22cd2600_c17739e3",
+        "filename": "java/com/google/gerrit/server/schema/InMemoryAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-20T07:28:13Z",
+      "side": 1,
+      "message": "This is the source: [1]:\n\n\"\nKeep Connections Open or Use a Connection Pool\nIf your application opens and closes connections a lot (for example, for each request), you should consider using a connection pool. Opening a connection using DriverManager.getConnection is specially slow if the database is closed. By default the database is closed if the last connection is closed.\n\"\n\nOr this is only meant to be used in memory-only case, and in real JDBC use case we still use BasicDataSource? Then this should be fine.\n\n* [1] http://www.h2database.com/html/performance.html",
+      "parentUuid": "e9941f92_cb67c74f",
+      "range": {
+        "startLine": 43,
+        "startChar": 10,
+        "endLine": 43,
+        "endChar": 55
+      },
+      "revId": "2aebb4ce244d245fe94d4459a6ea25b8fc4b8905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1545331752 -0800\nnonce AGLkUnCA50TUPR1IMGcPhFAJ/Bd/L2/3viwUAH48t3wNxh3WCz6t1HKLD5yLnzfBWBKBOMdErBNB\n\n0000000000000000000000000000000000000000 910c05bf48d4d2cf21fa7c48dbad709bf8cb16e2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlwb5CgVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMVIUQAIfyTWS7sRt1Xuh2feVgpBDTqLSi\n98kIJgvn8z725r0jDyPI2gP1cNAWKjUOCM8Zw2G/SBb/2HfjVjAUl8/dgPWaUn+9\nv9xvQEsVxNdfI6T4ZnbxMov+WN8Cr7fJYaUllfPLAciT24DfnMfxpVhS1rgBTu0C\nwCN3KgGFpKBMOtSSD6Dd13zZXD9stvr2K3JNVbdo7d3gZLx10VXnInec6npAtAMq\n/NQt8s3pbkifjY+pGmVTtvxbmaWixVZiZLnRKzW2FuQi4uFifo7byrk2hVVVMe3z\nwD8MYd8Wd5g9XufywHSzGf/U8u1/533fM44/5IjLq+NIokgLXxnGzvZGZnycbmfs\nHu7pS6eALp2Vbabso5z27f4xqO8sGq1P5XCGv+j+6zsji6Vi1HdDDIguGhaeQ6NJ\nLqebMbqEzfLlFhySpxPo+898IzEzmM+ZGgvsFExiy27p25Pj2o6peOJ0trG4E9h4\nOtvH+mG7PNm7fxfRSXqxs+WE/9782/dYPkFPyo19r7NmLrrK3GrsBtuRok6icZAi\nZWR6pgL4zB43upXOncpmccLVwsx/6Sukhi0xDGlCgHBJZ7kA9Ae1I8Kf7Anfo9Pc\n6tBgViq03ma4CXHkSk352BIJ7DoWxsWudbheBzJaQ5FLOGPdc721Jvg1QLBdI4UV\nIaXEYwe+cKCAUwFR\n\u003d+/UC\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a36d408_65271fa0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-20T18:55:54Z",
+      "side": 1,
+      "message": "Alas this is not what\u0027s used when running GerritServer.",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "910c05bf48d4d2cf21fa7c48dbad709bf8cb16e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

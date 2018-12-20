@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "daa5185f_80c04065",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-12-20T22:49:08Z",
+      "side": 1,
+      "message": "Should this also be done in InMemoryModule::setDefaults, which is also initialising config for in-memory testing?",
+      "range": {
+        "startLine": 326,
+        "startChar": 34,
+        "endLine": 326,
+        "endChar": 56
+      },
+      "revId": "cb539abe1fb875717bdbb1234a8fe5368d953c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

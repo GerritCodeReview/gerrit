@@ -16,7 +16,6 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-
 {template .InboundEmailRejectionFooterHtml}
   <p>
     Thus, no actions were taken by Gerrit in response to this email,
@@ -31,50 +30,52 @@
 /**
  * The .InboundEmailRejection templates will determine the contents of the email related
  * to warning users of error in inbound emails
+ * @param reason
  */
+{template .InboundEmailRejectionHtml}OutgoingEmailMessage
+  {if $reason == 'PARSING_ERROR'}
+    <p>
+      Gerrit Code Review was unable to parse your email.
+    </p>
+    <p>
+      This might be because your email did not quote Gerrit's email,
+      because you are using an unsupported email client,
+      or because of a bug.
+    </p>
+    {call .InboundEmailRejectionFooterHtml /}
+  {/if}
 
-{template .InboundEmailRejectionHtml_PARSING_ERROR}
-  <p>
-    Gerrit Code Review was unable to parse your email.
-  </p>
-  <p>
-    This might be because your email did not quote Gerrit's email,
-    because you are using an unsupported email client,
-    or because of a bug.
-  </p>
-  {call .InboundEmailRejectionFooterHtml /}
-{/template}
+  {if $reason == 'UNKNOWN_ACCOUNT' }
+    <p>
+      Gerrit Code Review was unable to match your email to an account.
+    </p>
+    <p>
+      This may happen if several accounts are linked to this email address.
+    </p>
+    {call .InboundEmailRejectionFooterHtml /}
+  {/if}
 
-{template .InboundEmailRejectionHtml_UNKNOWN_ACCOUNT}
-  <p>
-    Gerrit Code Review was unable to match your email to an account.
-  </p>
-  <p>
-    This may happen if several accounts are linked to this email address.
-  </p>
-  {call .InboundEmailRejectionFooterHtml /}
-{/template}
+  {if $reason == 'INACTIVE_ACCOUNT' }
+    <p>
+      Your account on this Gerrit Code Review instance is marked as inactive,
+      so your email has been ignored.
+    </p>
+    <p>
+      If you think this is an error, please contact your Gerrit instance administrator.
+    </p>
+    <p>
+      In case you did not send Gerrit an email, feel free to ignore this.
+    </p>
+    {call .NoReplyFooter /}
+  {/if}
 
-{template .InboundEmailRejectionHtml_INACTIVE_ACCOUNT}
-  <p>
-    Your account on this Gerrit Code Review instance is marked as inactive,
-    so your email has been ignored.
-  </p>
-  <p>
-    If you think this is an error, please contact your Gerrit instance administrator.
-  </p>
-  <p>
-    In case you did not send Gerrit an email, feel free to ignore this.
-  </p>
-  {call .NoReplyFooter /}
-{/template}
-
-{template .InboundEmailRejectionHtml_INTERNAL_EXCEPTION}
-  <p>
-    Gerrit Code Review encountered an internal exception and was unable to fulfil your request.
-  </p>
-  <p>
-    This might be caused by an ongoing maintenance or a data corruption.
-  <p>
-  {call .InboundEmailRejectionFooterHtml /}
+  {if $reason == 'INTERNAL_EXCEPTION' }
+    <p>
+      Gerrit Code Review encountered an internal exception and was unable to fulfil your request.
+    </p>
+    <p>
+      This might be caused by an ongoing maintenance or a data corruption.
+    <p>
+    {call .InboundEmailRejectionFooterHtml /}
+  {/if}
 {/template}

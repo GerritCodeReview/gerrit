@@ -32,7 +32,7 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
     PARSING_ERROR,
     INACTIVE_ACCOUNT,
     UNKNOWN_ACCOUNT,
-    INTERNAL_EXCEPTION;
+    INTERNAL_EXCEPTION
   }
 
   public interface Factory {
@@ -75,15 +75,13 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
 
   @Override
   protected void format() throws EmailException {
-    appendText(textTemplate("InboundEmailRejection_" + reason.name()));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("InboundEmailRejectionHtml_" + reason.name()));
-    }
+    outgoingEmailMessage.append(SoyTemplate.INBOUND_EMAIL_REJECTION);
   }
 
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
+    outgoingEmailMessage.fillVariable("reason", reason.name());
     footers.add(MailHeader.MESSAGE_TYPE.withDelimiter() + messageClass);
   }
 

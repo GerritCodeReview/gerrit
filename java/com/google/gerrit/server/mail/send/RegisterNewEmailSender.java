@@ -55,7 +55,7 @@ public class RegisterNewEmailSender extends OutgoingEmail {
 
   @Override
   protected void format() throws EmailException {
-    appendText(textTemplate("RegisterNewEmail"));
+    outgoingEmailMessage.append(SoyTemplate.REGISTER_NEW_EMAIL);
   }
 
   public String getUserNameEmail() {
@@ -76,7 +76,7 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
-    soyContextEmailData.put("emailRegistrationToken", getEmailRegistrationToken());
-    soyContextEmailData.put("userNameEmail", getUserNameEmail());
+    outgoingEmailMessage.fillEmailVariable("emailRegistrationToken", getEmailRegistrationToken());
+    outgoingEmailMessage.fillEmailVariable("userNameEmail", getUserNameEmail());
   }
 }

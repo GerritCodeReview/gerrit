@@ -252,6 +252,9 @@
        * @type {?PolymerDomApi.ObserveHandle}
        */
       _nodeObserver: Object,
+
+      /** Set by Polymer. */
+      isAttached: Boolean,
     },
 
     behaviors: [
@@ -263,6 +266,10 @@
       'render-content': '_handleRenderContent',
     },
 
+    observers: [
+      '_enableSelectionObserver(loggedIn, isAttached)',
+    ],
+
     attached() {
       this._observeNodes();
     },
@@ -270,6 +277,27 @@
     detached() {
       this._unobserveIncrementalNodes();
       this._unobserveNodes();
+    },
+
+    _enableSelectionObserver(loggedIn, isAttached) {
+      if (loggedIn && isAttached) {
+        this.listen(document, 'selectionchange', '_handleSelectionChange');
+      } else {
+        this.unlisten(document, 'selectionchange', '_handleSelectionChange');
+      }
+    },
+
+    _handleSelectionChange() {
+      // When using native shadow DOM, the selection returned by
+      // document.getSelection() cannot reference the actual DOM elements making
+      // up the diff, because they are in the shadow DOM of the gr-diff element.
+      // For this reason, we handle the selectionchange here, and pass the
+      // shadow DOM selection into gr-diff-highlight, where the corresponding
+      // range is determined and normalized.
+      const selection = this.root.getSelection ?
+          this.root.getSelection() :
+          document.getSelection();
+      this.$.highlights.handleSelectionChange(selection);
     },
 
     _observeNodes() {

@@ -48,6 +48,30 @@ limitations under the License.
       sandbox.restore();
     });
 
+    suite('selectionchange event handling', () => {
+      const emulateSelection = function() {
+        document.dispatchEvent(new CustomEvent('selectionchange'));
+      };
+
+      setup(() => {
+        element = fixture('basic');
+        sandbox.stub(element.$.highlights, 'handleSelectionChange');
+      });
+
+      test('enabled if logged in', () => {
+        element.loggedIn = true;
+        emulateSelection();
+        assert.isTrue(element.$.highlights.handleSelectionChange.called);
+      });
+
+      test('ignored if logged out', () => {
+        element.loggedIn = false;
+        emulateSelection();
+        assert.isFalse(element.$.highlights.handleSelectionChange.called);
+      });
+    });
+
+
     test('cancel', () => {
       element = fixture('basic');
       const cancelStub = sandbox.stub(element.$.diffBuilder, 'cancel');

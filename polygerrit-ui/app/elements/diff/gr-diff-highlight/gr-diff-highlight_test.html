@@ -158,33 +158,6 @@ limitations under the License.
       sandbox.restore();
     });
 
-    suite('selectionchange event handling', () => {
-      const emulateSelection = function() {
-        document.dispatchEvent(new CustomEvent('selectionchange'));
-        element.flushDebouncer('selectionChange');
-        element.flushDebouncer('removeActionBox');
-      };
-
-      setup(() => {
-        sandbox.stub(element, '_handleSelection');
-        sandbox.stub(element, '_removeActionBox');
-      });
-
-      test('enabled if logged in', () => {
-        element.loggedIn = true;
-        emulateSelection();
-        assert.isTrue(element._handleSelection.called);
-        assert.isTrue(element._removeActionBox.called);
-      });
-
-      test('ignored if logged out', () => {
-        element.loggedIn = false;
-        emulateSelection();
-        assert.isFalse(element._handleSelection.called);
-        assert.isFalse(element._removeActionBox.called);
-      });
-    });
-
     suite('comment events', () => {
       let builder;
 
@@ -293,7 +266,7 @@ limitations under the License.
         range.setStart(startNode, startOffset);
         range.setEnd(endNode, endOffset);
         selection.addRange(range);
-        element._handleSelection();
+        element._handleSelection(selection);
       };
 
       const getActionRange = () =>
@@ -400,12 +373,12 @@ limitations under the License.
         getRangeAtStub
             .onFirstCall().returns(startRange)
             .onSecondCall().returns(endRange);
-        sandbox.stub(window, 'getSelection').returns({
+        const selection = {
           rangeCount: 2,
           getRangeAt: getRangeAtStub,
           removeAllRanges: sandbox.stub(),
-        });
-        element._handleSelection();
+        };
+        element._handleSelection(selection);
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
           start_line: 119,

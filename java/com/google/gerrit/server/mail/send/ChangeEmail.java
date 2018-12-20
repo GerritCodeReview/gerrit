@@ -117,22 +117,19 @@ public abstract class ChangeEmail extends NotificationEmail {
     timestamp = t;
   }
 
-  /** Format the message body by calling {@link #appendText(String)}. */
+  /** Format the message body by calling {@link OutgoingEmailMessage#append)}. */
   @Override
   protected void format() throws EmailException {
     formatChange();
-    appendText(textTemplate("ChangeFooter"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("ChangeFooterHtml"));
-    }
+    outgoingEmailMessage.append(SoyTemplate.CHANGE_FOOTER);
     formatFooter();
   }
 
-  /** Format the message body by calling {@link #appendText(String)}. */
+  /** Format the message body by calling {@link OutgoingEmailMessage#append)}. */
   protected abstract void formatChange() throws EmailException;
 
   /**
-   * Format the message footer by calling {@link #appendText(String)}.
+   * Format the message body by calling {@link OutgoingEmailMessage#append)}.
    *
    * @throws EmailException if an error occurred.
    */
@@ -213,7 +210,8 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   private void setChangeSubjectHeader() {
-    setHeader(FieldName.SUBJECT, textTemplate("ChangeSubject"));
+    // TODO(hiesel)
+    // setHeader(FieldName.SUBJECT, textTemplate("ChangeSubject"));
   }
 
   /** Get a link to the change; null if the server doesn't know its own address. */
@@ -419,16 +417,16 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected void setupSoyContext() {
     super.setupSoyContext();
 
-    soyContext.put("changeId", change.getKey().get());
-    soyContext.put("coverLetter", getCoverLetter());
-    soyContext.put("fromName", getNameFor(fromId));
-    soyContext.put("fromEmail", getNameEmailFor(fromId));
-    soyContext.put("diffLines", getDiffTemplateData());
+    outgoingEmailMessage.fillVariable("changeId", change.getKey().get());
+    outgoingEmailMessage.fillVariable("coverLetter", getCoverLetter());
+    outgoingEmailMessage.fillVariable("fromName", getNameFor(fromId));
+    outgoingEmailMessage.fillVariable("fromEmail", getNameEmailFor(fromId));
+    outgoingEmailMessage.fillVariable("diffLines", getDiffTemplateData());
 
-    soyContextEmailData.put("unifiedDiff", getUnifiedDiff());
-    soyContextEmailData.put("changeDetail", getChangeDetail());
-    soyContextEmailData.put("changeUrl", getChangeUrl());
-    soyContextEmailData.put("includeDiff", getIncludeDiff());
+    outgoingEmailMessage.fillEmailVariable("unifiedDiff", getUnifiedDiff());
+    outgoingEmailMessage.fillEmailVariable("changeDetail", getChangeDetail());
+    outgoingEmailMessage.fillEmailVariable("changeUrl", getChangeUrl());
+    outgoingEmailMessage.fillEmailVariable("includeDiff", getIncludeDiff());
 
     Map<String, String> changeData = new HashMap<>();
 
@@ -442,17 +440,17 @@ public abstract class ChangeEmail extends NotificationEmail {
     changeData.put("ownerName", getNameFor(change.getOwner()));
     changeData.put("ownerEmail", getNameEmailFor(change.getOwner()));
     changeData.put("changeNumber", Integer.toString(change.getChangeId()));
-    soyContext.put("change", changeData);
+    outgoingEmailMessage.fillVariable("change", changeData);
 
     Map<String, Object> patchSetData = new HashMap<>();
     patchSetData.put("patchSetId", patchSet.getPatchSetId());
     patchSetData.put("refName", patchSet.getRefName());
-    soyContext.put("patchSet", patchSetData);
+    outgoingEmailMessage.fillVariable("patchSet", patchSetData);
 
     Map<String, Object> patchSetInfoData = new HashMap<>();
     patchSetInfoData.put("authorName", patchSetInfo.getAuthor().getName());
     patchSetInfoData.put("authorEmail", patchSetInfo.getAuthor().getEmail());
-    soyContext.put("patchSetInfo", patchSetInfoData);
+    outgoingEmailMessage.fillVariable("patchSetInfo", patchSetInfoData);
 
     footers.add(MailHeader.CHANGE_ID.withDelimiter() + change.getKey().get());
     footers.add(MailHeader.CHANGE_NUMBER.withDelimiter() + Integer.toString(change.getChangeId()));

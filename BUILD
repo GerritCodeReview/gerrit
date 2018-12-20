@@ -110,7 +110,7 @@ API_DEPS = [
 
 genrule2(
     name = "api",
-    testonly = 1,
+    testonly = True,
     srcs = API_DEPS,
     outs = ["api.zip"],
     cmd = " && ".join([

@@ -40,7 +40,7 @@ java_library(
 
 java_library(
     name = "push_tag_util",
-    testonly = 1,
+    testonly = True,
     srcs = [
         "AbstractPushTag.java",
     ],

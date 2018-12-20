@@ -23,7 +23,7 @@ polygerrit_bundle(
 
 bower_component_bundle(
     name = "test_components",
-    testonly = 1,
+    testonly = True,
     deps = [
         "//lib/js:iron-test-helpers",
         "//lib/js:test-fixture",

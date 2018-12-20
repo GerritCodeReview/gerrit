@@ -48,10 +48,7 @@ public class DeleteVoteSender extends ReplyToChangeSender {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(textTemplate("DeleteVote"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("DeleteVoteHtml"));
-    }
+    outgoingEmailMessage.append(SoyTemplate.DELETE_VOTE);
   }
 
   @Override

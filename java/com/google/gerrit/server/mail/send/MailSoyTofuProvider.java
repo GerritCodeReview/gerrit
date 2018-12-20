@@ -33,47 +33,6 @@ import java.nio.file.Path;
 /** Configures Soy Tofu object for rendering email templates. */
 @Singleton
 public class MailSoyTofuProvider implements Provider<SoyTofu> {
-
-  // Note: will fail to construct the tofu object if this array is empty.
-  private static final String[] TEMPLATES = {
-    "Abandoned.soy",
-    "AbandonedHtml.soy",
-    "AddKey.soy",
-    "AddKeyHtml.soy",
-    "ChangeFooter.soy",
-    "ChangeFooterHtml.soy",
-    "ChangeSubject.soy",
-    "Comment.soy",
-    "CommentHtml.soy",
-    "CommentFooter.soy",
-    "CommentFooterHtml.soy",
-    "DeleteReviewer.soy",
-    "DeleteReviewerHtml.soy",
-    "DeleteVote.soy",
-    "DeleteVoteHtml.soy",
-    "InboundEmailRejection.soy",
-    "InboundEmailRejectionHtml.soy",
-    "Footer.soy",
-    "FooterHtml.soy",
-    "HeaderHtml.soy",
-    "Merged.soy",
-    "MergedHtml.soy",
-    "NewChange.soy",
-    "NewChangeHtml.soy",
-    "NoReplyFooter.soy",
-    "NoReplyFooterHtml.soy",
-    "Private.soy",
-    "RegisterNewEmail.soy",
-    "ReplacePatchSet.soy",
-    "ReplacePatchSetHtml.soy",
-    "Restored.soy",
-    "RestoredHtml.soy",
-    "Reverted.soy",
-    "RevertedHtml.soy",
-    "SetAssignee.soy",
-    "SetAssigneeHtml.soy",
-  };
-
   private final SitePaths site;
   private final SoyAstCache cache;
 
@@ -87,8 +46,11 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
   public SoyTofu get() throws ProvisionException {
     SoyFileSet.Builder builder = SoyFileSet.builder();
     builder.setSoyAstCache(cache);
-    for (String name : TEMPLATES) {
-      addTemplate(builder, name);
+    for (SoyTemplate template : SoyTemplate.values()) {
+      addTemplate(builder, template.fileName());
+      if (template.hasHtml()) {
+        addTemplate(builder, template.htmlFileName());
+      }
     }
     return builder.build().compileToTofu();
   }

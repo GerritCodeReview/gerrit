@@ -75,10 +75,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(textTemplate("ReplacePatchSet"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("ReplacePatchSetHtml"));
-    }
+    outgoingEmailMessage.append(SoyTemplate.REPLACE_PATCH_SET);
   }
 
   public List<String> getReviewerNames() {
@@ -98,7 +95,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
-    soyContextEmailData.put("reviewerNames", getReviewerNames());
+    outgoingEmailMessage.fillEmailVariable("reviewerNames", getReviewerNames());
   }
 
   @Override

@@ -48,10 +48,7 @@ public class RestoredSender extends ReplyToChangeSender {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(textTemplate("Restored"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("RestoredHtml"));
-    }
+    outgoingEmailMessage.append(SoyTemplate.RESTORED);
   }
 
   @Override

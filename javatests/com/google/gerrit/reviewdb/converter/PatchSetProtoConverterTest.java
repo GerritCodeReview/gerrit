@@ -20,7 +20,7 @@ import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatS
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.truth.Truth;
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -44,16 +44,16 @@ public class PatchSetProtoConverterTest {
     patchSet.setPushCertificate("my push certificate");
     patchSet.setDescription("This is a patch set description.");
 
-    Reviewdb.PatchSet proto = patchSetProtoConverter.toProto(patchSet);
+    Entities.PatchSet proto = patchSetProtoConverter.toProto(patchSet);
 
-    Reviewdb.PatchSet expectedProto =
-        Reviewdb.PatchSet.newBuilder()
+    Entities.PatchSet expectedProto =
+        Entities.PatchSet.newBuilder()
             .setId(
-                Reviewdb.PatchSet_Id.newBuilder()
-                    .setChangeId(Reviewdb.Change_Id.newBuilder().setId(103))
+                Entities.PatchSet_Id.newBuilder()
+                    .setChangeId(Entities.Change_Id.newBuilder().setId(103))
                     .setPatchSetId(73))
-            .setRevision(Reviewdb.RevId.newBuilder().setId("aabbccddeeff"))
-            .setUploaderAccountId(Reviewdb.Account_Id.newBuilder().setId(452))
+            .setRevision(Entities.RevId.newBuilder().setId("aabbccddeeff"))
+            .setUploaderAccountId(Entities.Account_Id.newBuilder().setId(452))
             .setCreatedOn(930349320L)
             .setGroups("group1, group2")
             .setPushCertificate("my push certificate")
@@ -66,13 +66,13 @@ public class PatchSetProtoConverterTest {
   public void mandatoryValuesConvertedToProto() {
     PatchSet patchSet = new PatchSet(new PatchSet.Id(new Change.Id(103), 73));
 
-    Reviewdb.PatchSet proto = patchSetProtoConverter.toProto(patchSet);
+    Entities.PatchSet proto = patchSetProtoConverter.toProto(patchSet);
 
-    Reviewdb.PatchSet expectedProto =
-        Reviewdb.PatchSet.newBuilder()
+    Entities.PatchSet expectedProto =
+        Entities.PatchSet.newBuilder()
             .setId(
-                Reviewdb.PatchSet_Id.newBuilder()
-                    .setChangeId(Reviewdb.Change_Id.newBuilder().setId(103))
+                Entities.PatchSet_Id.newBuilder()
+                    .setChangeId(Entities.Change_Id.newBuilder().setId(103))
                     .setPatchSetId(73))
             .build();
     assertThat(proto).isEqualTo(expectedProto);
@@ -104,17 +104,17 @@ public class PatchSetProtoConverterTest {
 
   @Test
   public void protoCanBeParsedFromBytes() throws Exception {
-    Reviewdb.PatchSet proto =
-        Reviewdb.PatchSet.newBuilder()
+    Entities.PatchSet proto =
+        Entities.PatchSet.newBuilder()
             .setId(
-                Reviewdb.PatchSet_Id.newBuilder()
-                    .setChangeId(Reviewdb.Change_Id.newBuilder().setId(103))
+                Entities.PatchSet_Id.newBuilder()
+                    .setChangeId(Entities.Change_Id.newBuilder().setId(103))
                     .setPatchSetId(73))
             .build();
     byte[] bytes = proto.toByteArray();
 
-    Parser<Reviewdb.PatchSet> parser = patchSetProtoConverter.getParser();
-    Reviewdb.PatchSet parsedProto = parser.parseFrom(bytes);
+    Parser<Entities.PatchSet> parser = patchSetProtoConverter.getParser();
+    Entities.PatchSet parsedProto = parser.parseFrom(bytes);
 
     assertThat(parsedProto).isEqualTo(proto);
   }

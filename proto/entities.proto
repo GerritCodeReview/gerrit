@@ -16,7 +16,7 @@ syntax = "proto2";
 
 package devtools.gerritcodereview;
 
-option java_package = "com.google.gerrit.proto.reviewdb";
+option java_package = "com.google.gerrit.proto";
 
 // Serialized form of com.google.gerrit.reviewdb.client.Change.Id.
 // Next ID: 2
@@ -80,13 +80,6 @@ message ChangeMessage {
   optional Account_Id real_author = 7;
 }
 
-// Serialized form of com.google.gerrit.reviewdb.client.Patch.Key.
-// Next ID: 3
-message Patch_Key {
-  required PatchSet_Id patch_set_id = 1;
-  required string file_name = 2;
-}
-
 // Serialized form of com.google.gerrit.reviewdb.client.PatchSet.Id.
 // Next ID: 3
 message PatchSet_Id {
@@ -108,30 +101,6 @@ message PatchSet {
   // Deleted fields, should not be reused:
   reserved 5;  // draft
   reserved 7;  // pushCertficate
-}
-
-// Serialized form of com.google.gerrit.reviewdb.client.PatchLineComment.Key.
-// Next ID: 3
-message PatchLineComment_Key {
-  required Patch_Key patch_key = 1;
-  required string uuid = 2;
-}
-
-// Serialized form of com.google.gerrit.reviewdb.client.PatchLineComment.
-// Next ID: 13
-message PatchLineComment {
-  required PatchLineComment_Key key = 1;
-  optional int32 line_nbr = 2;
-  optional Account_Id author_id = 3;
-  optional fixed64 written_on = 4;
-  optional uint32 status = 5;
-  optional int32 side = 6;
-  optional string message = 7;
-  optional string parent_uuid = 8;
-  optional CommentRange range = 9;
-  optional string tag = 10;
-  optional Account_Id real_author = 11;
-  optional bool unresolved = 12;
 }
 
 // Serialized form of com.google.gerrit.reviewdb.client.Account.Id.
@@ -169,19 +138,6 @@ message PatchSetApproval {
   reserved 5;  // changeSortKey
 }
 
-// Serialized form of com.google.gerrit.reviewdb.client.CurrentSchemaVersion.Key.
-// Next ID: 2
-message CurrentSchemaVersion_Key {
-  required string one = 1;
-}
-
-// Serialized form of com.google.gerrit.reviewdb.client.CurrentSchemaVersion.
-// Next ID: 3
-message CurrentSchemaVersion {
-  required CurrentSchemaVersion_Key singleton = 1;
-  optional int32 version_nbr = 2;
-}
-
 // Serialized form of com.google.gerrit.reviewdb.client.Project.NameKey.
 // Next ID: 2
 message Project_NameKey {
@@ -193,15 +149,6 @@ message Project_NameKey {
 message Branch_NameKey {
   optional Project_NameKey project_name = 1;
   optional string branch_name = 2;
-}
-
-// Serialized form of com.google.gerrit.reviewdb.client.CommentRange.
-// Next ID: 5
-message CommentRange {
-  optional int32 start_line = 1;
-  optional int32 start_character = 2;
-  optional int32 end_line = 3;
-  optional int32 end_character = 4;
 }
 
 // Serialized form of com.google.gerrit.reviewdb.client.RevId.

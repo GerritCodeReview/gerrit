@@ -10,6 +10,6 @@ junit_tests(
         "//lib:protobuf",
         "//lib/truth",
         "//lib/truth:truth-proto-extension",
-        "//proto:reviewdb_java_proto",
+        "//proto:entities_java_proto",
     ],
 )

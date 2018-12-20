@@ -14,7 +14,7 @@
 
 package com.google.gerrit.reviewdb.converter;
 
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.protobuf.Parser;
@@ -22,18 +22,18 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public enum PatchSetApprovalProtoConverter
-    implements ProtoConverter<Reviewdb.PatchSetApproval, PatchSetApproval> {
+    implements ProtoConverter<Entities.PatchSetApproval, PatchSetApproval> {
   INSTANCE;
 
-  private final ProtoConverter<Reviewdb.PatchSetApproval_Key, PatchSetApproval.Key>
+  private final ProtoConverter<Entities.PatchSetApproval_Key, PatchSetApproval.Key>
       patchSetApprovalKeyProtoConverter = PatchSetApprovalKeyProtoConverter.INSTANCE;
-  private final ProtoConverter<Reviewdb.Account_Id, Account.Id> accountIdConverter =
+  private final ProtoConverter<Entities.Account_Id, Account.Id> accountIdConverter =
       AccountIdProtoConverter.INSTANCE;
 
   @Override
-  public Reviewdb.PatchSetApproval toProto(PatchSetApproval patchSetApproval) {
-    Reviewdb.PatchSetApproval.Builder builder =
-        Reviewdb.PatchSetApproval.newBuilder()
+  public Entities.PatchSetApproval toProto(PatchSetApproval patchSetApproval) {
+    Entities.PatchSetApproval.Builder builder =
+        Entities.PatchSetApproval.newBuilder()
             .setKey(patchSetApprovalKeyProtoConverter.toProto(patchSetApproval.getKey()))
             .setValue(patchSetApproval.getValue())
             .setGranted(patchSetApproval.getGranted().getTime())
@@ -56,7 +56,7 @@ public enum PatchSetApprovalProtoConverter
   }
 
   @Override
-  public PatchSetApproval fromProto(Reviewdb.PatchSetApproval proto) {
+  public PatchSetApproval fromProto(Entities.PatchSetApproval proto) {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
             patchSetApprovalKeyProtoConverter.fromProto(proto.getKey()),
@@ -75,7 +75,7 @@ public enum PatchSetApprovalProtoConverter
   }
 
   @Override
-  public Parser<Reviewdb.PatchSetApproval> getParser() {
-    return Reviewdb.PatchSetApproval.parser();
+  public Parser<Entities.PatchSetApproval> getParser() {
+    return Entities.PatchSetApproval.parser();
   }
 }

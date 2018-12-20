@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "cf9f3cae_acc6bffe",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-20T13:02:56Z",
+      "side": 1,
+      "message": "Now I see your point. Thanks for pointing this out. The scenario you\u0027re describing only happens for values retrieved by Id or name. So, the correct way would be to evict the cached value for the UUID first, do the index update, and then evict the cached value for the Id/name. If54d0eb0 should correct this.\n\nThe cache and index classes seem to have a circular dependency but the real code paths don\u0027t have it. Only the cached value for ID/name depends on the index while the index reads the cached value for UUID (which in turn is directly read from storage). I agree that it is a bit confusing. Due to efficiency reasons, reading the index value from storage is not an option. What we could do is separate the cache implementation for Id/name from the one for UUID. Thus, the classes wouldn\u0027t appear to have a circular dependency. However, it might be confusing again why the cache implementations are separate while we typically keep those close together. I\u0027m happy to hear further thoughts about this.",
+      "parentUuid": "91e73fc1_41ebda74",
+      "range": {
+        "startLine": 348,
+        "startChar": 4,
+        "endLine": 348,
+        "endChar": 48
+      },
+      "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "923eba10_36bd968e",
         "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
         "patchSetId": 2

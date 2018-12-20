@@ -211,6 +211,30 @@
       "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f0da4e1_11f5a9fd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-20T11:13:07Z",
+      "side": 1,
+      "message": "Thanks. I agree that writing the tests for Id/UUID would be difficult.",
+      "parentUuid": "462e9efd_600bdd95",
+      "range": {
+        "startLine": 327,
+        "startChar": 4,
+        "endLine": 330,
+        "endChar": 52
+      },
+      "revId": "fd5c251cfc13d4f67f61c092905cc656fd0015ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

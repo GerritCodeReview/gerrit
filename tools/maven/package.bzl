@@ -50,7 +50,7 @@ def maven_package(
         srcs = api_targets,
         outs = ["api_install.sh"],
         executable = True,
-        testonly = 1,
+        testonly = True,
     )
 
     if repository and url:
@@ -70,7 +70,7 @@ def maven_package(
             srcs = api_targets,
             outs = ["api_deploy.sh"],
             executable = True,
-            testonly = 1,
+            testonly = True,
         )
 
     war_cmd = mvn_cmd[:]

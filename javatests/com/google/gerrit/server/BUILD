@@ -6,7 +6,7 @@ CUSTOM_TRUTH_SUBJECTS = glob([
 
 java_library(
     name = "custom-truth-subjects",
-    testonly = 1,
+    testonly = True,
     srcs = CUSTOM_TRUTH_SUBJECTS,
     deps = [
         "//java/com/google/gerrit/extensions:api",

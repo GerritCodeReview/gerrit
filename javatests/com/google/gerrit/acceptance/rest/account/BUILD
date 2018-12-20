@@ -9,7 +9,7 @@ acceptance_tests(
 
 java_library(
     name = "util",
-    testonly = 1,
+    testonly = True,
     srcs = [
         "AccountAssert.java",
         "CapabilityInfo.java",

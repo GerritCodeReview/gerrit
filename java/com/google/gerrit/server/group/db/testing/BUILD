@@ -2,7 +2,7 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "testing",
-    testonly = 1,
+    testonly = True,
     srcs = glob(["*.java"]),
     deps = [
         "//java/com/google/gerrit/common:server",

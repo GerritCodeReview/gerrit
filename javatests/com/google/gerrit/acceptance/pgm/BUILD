@@ -41,7 +41,7 @@ acceptance_tests(
 
 java_library(
     name = "util",
-    testonly = 1,
+    testonly = True,
     srcs = [
         "AbstractReindexTests.java",
         "IndexUpgradeController.java",

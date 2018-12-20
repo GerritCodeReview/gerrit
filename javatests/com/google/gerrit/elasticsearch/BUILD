@@ -2,7 +2,7 @@ load("//tools/bzl:junit.bzl", "junit_tests")
 
 java_library(
     name = "elasticsearch_test_utils",
-    testonly = 1,
+    testonly = True,
     srcs = [
         "ElasticContainer.java",
         "ElasticTestUtils.java",

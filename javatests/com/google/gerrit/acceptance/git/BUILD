@@ -12,7 +12,7 @@ acceptance_tests(
 
 java_library(
     name = "push_for_review",
-    testonly = 1,
+    testonly = True,
     srcs = ["AbstractPushForReview.java"],
     deps = [
         "//java/com/google/gerrit/acceptance:lib",
@@ -22,7 +22,7 @@ java_library(
 
 java_library(
     name = "submodule_util",
-    testonly = 1,
+    testonly = True,
     srcs = ["AbstractSubmoduleSubscription.java"],
     deps = ["//java/com/google/gerrit/acceptance:lib"],
 )

@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -37,7 +36,6 @@ import org.eclipse.jgit.lib.Repository;
 
 public class NoteDbSchemaUpdater {
   private final Config cfg;
-  private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
   private final GitRepositoryManager repoManager;
   private final SchemaCreator schemaCreator;
@@ -49,14 +47,12 @@ public class NoteDbSchemaUpdater {
   NoteDbSchemaUpdater(
       @GerritServerConfig Config cfg,
       AllUsersName allUsersName,
-      AllProjectsName allProjectsName,
       GitRepositoryManager repoManager,
       SchemaCreator schemaCreator,
       NoteDbSchemaVersionManager versionManager,
       NoteDbSchemaVersion.Arguments args) {
     this(
         cfg,
-        allProjectsName,
         allUsersName,
         repoManager,
         schemaCreator,
@@ -67,7 +63,6 @@ public class NoteDbSchemaUpdater {
 
   NoteDbSchemaUpdater(
       Config cfg,
-      AllProjectsName allProjectsName,
       AllUsersName allUsersName,
       GitRepositoryManager repoManager,
       SchemaCreator schemaCreator,
@@ -75,7 +70,6 @@ public class NoteDbSchemaUpdater {
       NoteDbSchemaVersion.Arguments args,
       ImmutableSortedMap<Integer, Class<? extends NoteDbSchemaVersion>> schemaVersions) {
     this.cfg = cfg;
-    this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.repoManager = repoManager;
     this.schemaCreator = schemaCreator;

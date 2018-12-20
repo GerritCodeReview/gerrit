@@ -106,7 +106,6 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
       updater =
           new NoteDbSchemaUpdater(
               cfg,
-              allProjectsName,
               allUsersName,
               repoManager,
               new TestSchemaCreator(initialVersion),

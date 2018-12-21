@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b0a1dffd_8211d920",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-21T13:21:00Z",
+      "side": 1,
+      "message": "Why it is working on GWT UI? At least that\u0027s what Issue 10210 is claiming.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "37bca0c18692a1aad7908217a2320d9a144b8a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f1342329_c8ed4cbc",
         "filename": "java/com/google/gerrit/index/FieldType.java",
         "patchSetId": 3
@@ -41,6 +64,75 @@
         "startChar": 8,
         "endLine": 36,
         "endChar": 13
+      },
+      "revId": "37bca0c18692a1aad7908217a2320d9a144b8a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc490a3b_a71b1569",
+        "filename": "java/com/google/gerrit/index/FieldType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-21T13:21:00Z",
+      "side": 1,
+      "message": "The question is whether Google\u0027s own index implementation support that?",
+      "range": {
+        "startLine": 37,
+        "startChar": 72,
+        "endLine": 37,
+        "endChar": 84
+      },
+      "revId": "37bca0c18692a1aad7908217a2320d9a144b8a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbf90557_6a697e24",
+        "filename": "java/com/google/gerrit/index/project/ProjectField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-21T13:21:00Z",
+      "side": 1,
+      "message": "What you are effectively doing here, is changing index schema. That why you have to bump schema version, to trigger online/offline reindexing:\n\nSo what you need to do is to bump schema index version in java/com/google/gerrit/index/project/ProjectSchemaDefinitions.java:\n\n  @Deprecated\n  static final Schema\u003cProjectData\u003e V3 \u003d schema(V2);\n  // Changing type for NAME requires reindexing\n  static final Schema\u003cProjectData\u003e V4 \u003d schema(V3);\n\nUsually we do not update index schema version on stable branch, but only on master.",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 17
+      },
+      "revId": "37bca0c18692a1aad7908217a2320d9a144b8a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f472f9b8_6f9fcc66",
+        "filename": "java/com/google/gerrit/lucene/LuceneProjectIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-21T13:21:00Z",
+      "side": 1,
+      "message": "This isn\u0027t enough for this field to be sorted in QuerySource?",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 119,
+        "endChar": 78
       },
       "revId": "37bca0c18692a1aad7908217a2320d9a144b8a22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

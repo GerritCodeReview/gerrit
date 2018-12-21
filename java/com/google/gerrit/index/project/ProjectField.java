@@ -16,6 +16,7 @@ package com.google.gerrit.index.project;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.index.FieldDef.exact;
+import static com.google.gerrit.index.FieldDef.exactSorted;
 import static com.google.gerrit.index.FieldDef.fullText;
 import static com.google.gerrit.index.FieldDef.prefix;
 import static com.google.gerrit.index.FieldDef.storedOnly;
@@ -34,7 +35,7 @@ public class ProjectField {
   }
 
   public static final FieldDef<ProjectData, String> NAME =
-      exact("name").stored().build(p -> p.getProject().getName());
+      exactSorted("name").stored().build(p -> p.getProject().getName());
 
   public static final FieldDef<ProjectData, String> DESCRIPTION =
       fullText("description").stored().build(p -> p.getProject().getDescription());

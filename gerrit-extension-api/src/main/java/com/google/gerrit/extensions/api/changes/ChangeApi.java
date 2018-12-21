@@ -92,6 +92,10 @@ public interface ChangeApi {
 
   void setPrivate(boolean value, @Nullable String message) throws RestApiException;
 
+  default void setPrivate(boolean value) throws RestApiException {
+    setPrivate(value, null);
+  }
+
   void setWorkInProgress(@Nullable String message) throws RestApiException;
 
   void setReadyForReview(@Nullable String message) throws RestApiException;

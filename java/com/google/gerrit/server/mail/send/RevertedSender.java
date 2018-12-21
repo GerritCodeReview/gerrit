@@ -49,9 +49,4 @@ public class RevertedSender extends ReplyToChangeSender {
   protected void formatChange() throws EmailException {
     outgoingEmailMessage.append(SoyTemplate.REVERTED);
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

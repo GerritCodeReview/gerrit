@@ -561,9 +561,4 @@ public class CommentSender extends ReplyToChangeSender {
     return MailProcessingUtil.rfcDateformatter.format(
         ZonedDateTime.ofInstant(timestamp.toInstant(), ZoneId.of("UTC")));
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

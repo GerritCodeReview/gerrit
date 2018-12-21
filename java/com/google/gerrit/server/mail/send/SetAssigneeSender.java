@@ -62,9 +62,4 @@ public class SetAssigneeSender extends ChangeEmail {
     super.setupSoyContext();
     outgoingEmailMessage.fillEmailVariable("assigneeName", getAssigneeName());
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

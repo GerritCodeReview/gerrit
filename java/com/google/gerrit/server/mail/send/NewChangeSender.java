@@ -99,9 +99,4 @@ public abstract class NewChangeSender extends ChangeEmail {
     outgoingEmailMessage.fillVariable("ownerName", getNameFor(change.getOwner()));
     outgoingEmailMessage.fillEmailVariable("reviewerNames", getReviewerNames());
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

@@ -50,9 +50,4 @@ public class AbandonedSender extends ReplyToChangeSender {
   protected void formatChange() {
     outgoingEmailMessage.append(SoyTemplate.ABANDONED);
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

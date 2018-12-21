@@ -122,6 +122,7 @@ public abstract class OutgoingEmail {
           }
         }
       }
+      boolean useHtml = args.settings.html;
       // Check the preferences of all recipients. If any user has disabled
       // his email notifications then drop him from recipients' list.
       // In addition, check if users only want to receive plaintext email.
@@ -132,7 +133,7 @@ public abstract class OutgoingEmail {
           GeneralPreferencesInfo prefs = thisUser.get().getGeneralPreferences();
           if (prefs == null || prefs.getEmailStrategy() == DISABLED) {
             removeUser(thisUserAccount);
-          } else if (useHtml() && prefs.getEmailFormat() == EmailFormat.PLAINTEXT) {
+          } else if (useHtml && prefs.getEmailFormat() == EmailFormat.PLAINTEXT) {
             removeUser(thisUserAccount);
             smtpRcptToPlaintextOnly.add(
                 new Address(thisUserAccount.getFullName(), thisUserAccount.getPreferredEmail()));
@@ -171,7 +172,7 @@ public abstract class OutgoingEmail {
       }
       va.body += renderTemplates(ContentKind.TEXT);
 
-      if (useHtml()) {
+      if (useHtml) {
         va.htmlBody = renderTemplates(ContentKind.HTML);
       } else {
         va.htmlBody = null;
@@ -524,15 +525,6 @@ public abstract class OutgoingEmail {
         ((AddressList) entry.getValue()).remove(fromEmail);
       }
     }
-  }
-
-  protected final boolean useHtml() {
-    return args.settings.html && supportsHtml();
-  }
-
-  /** Override this method to enable HTML in a subclass. */
-  protected boolean supportsHtml() {
-    return false;
   }
 
   private String renderTemplates(SanitizedContent.ContentKind kind) {

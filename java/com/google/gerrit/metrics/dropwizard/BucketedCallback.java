@@ -120,7 +120,7 @@ abstract class BucketedCallback<V> implements BucketedMetric {
 
   @Override
   public Map<Object, Metric> getCells() {
-    return Maps.transformValues(cells, in -> (Metric) in);
+    return Maps.transformValues(cells, in -> in);
   }
 
   final class ValueGauge implements Gauge<V> {

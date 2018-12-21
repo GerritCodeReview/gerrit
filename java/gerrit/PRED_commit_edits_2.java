@@ -14,6 +14,7 @@
 
 package gerrit;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -97,11 +98,7 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
 
         if (fileRegex.matcher(newName).find()
             || (oldName != null && fileRegex.matcher(oldName).find())) {
-          // This cast still seems to be needed on JDK 8 as workaround for:
-          // https://bugs.openjdk.java.net/browse/JDK-8039214
-          @SuppressWarnings("cast")
-          List<Edit> edits = (List<Edit>) entry.getEdits();
-
+          List<Edit> edits = entry.getEdits();
           if (edits.isEmpty()) {
             continue;
           }

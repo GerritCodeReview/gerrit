@@ -124,7 +124,7 @@ public class MailUtil {
       return Pattern.compile(".*");
     }
 
-    StringBuilder sb = new StringBuilder("");
+    StringBuilder sb = new StringBuilder();
     for (String domain : domains) {
       String quoted = "\\Q" + domain.replace("\\E", "\\E\\\\E\\Q") + "\\E|";
       sb.append(quoted.replace("*", "\\E.*\\Q"));

@@ -33,7 +33,7 @@ public class NoteDbUtil {
     String email = ident.getEmailAddress();
     int at = email.indexOf('@');
     if (at >= 0) {
-      String host = email.substring(at + 1, email.length());
+      String host = email.substring(at + 1);
       if (host.equals(serverId)) {
         Integer id = Ints.tryParse(email.substring(0, at));
         if (id != null) {

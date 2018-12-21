@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a762ded_180e2144",
+        "filename": "java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-21T01:27:47Z",
+      "side": 1,
+      "message": "Can we have a method that adds this?  I see something similar is done in another place too.",
+      "range": {
+        "startLine": 109,
+        "startChar": 49,
+        "endLine": 109,
+        "endChar": 57
+      },
+      "revId": "cf3997e74c5fce8248910fbfe68f41d082312a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78e1239d_92220946",
+        "filename": "java/com/google/gerrit/server/mail/send/SoyTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-21T01:27:47Z",
+      "side": 1,
+      "message": "Missing header.",
+      "revId": "cf3997e74c5fce8248910fbfe68f41d082312a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62bdedd7_152b1dde",
+        "filename": "java/com/google/gerrit/server/mail/send/SoyTemplate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-21T01:27:47Z",
+      "side": 1,
+      "message": "\"has no\" or \"does not have an\"",
+      "range": {
+        "startLine": 47,
+        "startChar": 69,
+        "endLine": 47,
+        "endChar": 77
+      },
+      "revId": "cf3997e74c5fce8248910fbfe68f41d082312a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

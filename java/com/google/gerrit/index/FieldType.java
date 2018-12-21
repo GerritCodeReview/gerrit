@@ -33,6 +33,9 @@ public class FieldType<T> {
   /** A string field searched using exact-match semantics. */
   public static final FieldType<String> EXACT = new FieldType<>("EXACT");
 
+  /** A EXACT field that can be returned lexicographically sorted. */
+  public static final FieldType<String> EXACT_SORTED = new FieldType<>("EXACT_SORTED");
+
   /** A string field searched using prefix. */
   public static final FieldType<String> PREFIX = new FieldType<>("PREFIX");
 

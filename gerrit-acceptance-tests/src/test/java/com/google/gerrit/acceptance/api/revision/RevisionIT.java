@@ -873,6 +873,21 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setUnsetReviewedFlagByFileApi() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/for/master");
+
+    gApi.changes().id(r.getChangeId()).current().file(PushOneCommit.FILE_NAME).setReviewed(true);
+
+    assertThat(Iterables.getOnlyElement(gApi.changes().id(r.getChangeId()).current().reviewed()))
+        .isEqualTo(PushOneCommit.FILE_NAME);
+
+    gApi.changes().id(r.getChangeId()).current().file(PushOneCommit.FILE_NAME).setReviewed(false);
+
+    assertThat(gApi.changes().id(r.getChangeId()).current().reviewed()).isEmpty();
+  }
+
+  @Test
   public void mergeable() throws Exception {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
 

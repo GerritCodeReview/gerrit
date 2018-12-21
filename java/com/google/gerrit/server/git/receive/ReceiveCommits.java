@@ -526,6 +526,8 @@ class ReceiveCommits {
             (tagName, traceId) -> addMessage(tagName + ": " + traceId))) {
       traceContext.addTag(RequestId.Type.RECEIVE_ID, new RequestId(project.getNameKey().get()));
 
+      logger.atFinest().log("Calling user: %s", user.getLoggableName());
+
       // Log the push options here, rather than in parsePushOptions(), so that they are included
       // into the trace if tracing is enabled.
       logger.atFine().log("push options: %s", receivePack.getPushOptions());

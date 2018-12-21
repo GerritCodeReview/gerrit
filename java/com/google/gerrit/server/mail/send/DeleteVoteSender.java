@@ -50,9 +50,4 @@ public class DeleteVoteSender extends ReplyToChangeSender {
   protected void formatChange() throws EmailException {
     outgoingEmailMessage.append(SoyTemplate.DELETE_VOTE);
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

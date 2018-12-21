@@ -143,9 +143,4 @@ public class AddKeySender extends OutgoingEmail {
     outgoingEmailMessage.fillEmailVariable("sshKey", getSshKey());
     outgoingEmailMessage.fillEmailVariable("userNameEmail", getUserNameEmail());
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

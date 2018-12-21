@@ -97,9 +97,4 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     super.setupSoyContext();
     outgoingEmailMessage.fillEmailVariable("reviewerNames", getReviewerNames());
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

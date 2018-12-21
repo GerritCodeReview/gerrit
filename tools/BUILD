@@ -58,7 +58,7 @@ java_package_configuration(
         "-Xep:MissingCasesInEnumSwitch:ERROR",
         "-Xep:MissingFail:ERROR",
         "-Xep:MissingOverride:WARN",
-        "-Xep:MutableConstantField:WARN",
+        "-Xep:MutableConstantField:ERROR",
         "-Xep:NarrowingCompoundAssignment:WARN",
         "-Xep:NonAtomicVolatileUpdate:WARN",
         "-Xep:NonOverridingEquals:WARN",

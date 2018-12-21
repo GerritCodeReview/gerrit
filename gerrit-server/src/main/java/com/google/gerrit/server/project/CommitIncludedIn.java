@@ -26,7 +26,7 @@ import java.io.IOException;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
-class CommitIncludedIn implements RestReadView<CommitResource> {
+public class CommitIncludedIn implements RestReadView<CommitResource> {
   private IncludedIn includedIn;
 
   @Inject

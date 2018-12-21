@@ -19,9 +19,11 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
+import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.api.projects.CommitApi;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.CherryPickCommit;
+import com.google.gerrit.server.project.CommitIncludedIn;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -33,13 +35,18 @@ public class CommitApiImpl implements CommitApi {
 
   private final Changes changes;
   private final CherryPickCommit cherryPickCommit;
+  private final CommitIncludedIn includedIn;
   private final CommitResource commitResource;
 
   @Inject
   CommitApiImpl(
-      Changes changes, CherryPickCommit cherryPickCommit, @Assisted CommitResource commitResource) {
+      Changes changes,
+      CherryPickCommit cherryPickCommit,
+      CommitIncludedIn includedIn,
+      @Assisted CommitResource commitResource) {
     this.changes = changes;
     this.cherryPickCommit = cherryPickCommit;
+    this.includedIn = includedIn;
     this.commitResource = commitResource;
   }
 
@@ -49,6 +56,15 @@ public class CommitApiImpl implements CommitApi {
       return changes.id(cherryPickCommit.apply(commitResource, input)._number);
     } catch (Exception e) {
       throw asRestApiException("Cannot cherry pick", e);
+    }
+  }
+
+  @Override
+  public IncludedInInfo includedIn() throws RestApiException {
+    try {
+      return includedIn.apply(commitResource);
+    } catch (Exception e) {
+      throw asRestApiException("Could not extract IncludedIn data", e);
     }
   }
 }

@@ -18,6 +18,8 @@ import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailSt
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.DISABLED;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -28,6 +30,7 @@ import com.google.gerrit.mail.EmailHeader;
 import com.google.gerrit.mail.EmailHeader.AddressList;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -61,7 +64,7 @@ public abstract class OutgoingEmail {
   private final Set<Account.Id> rcptTo = new HashSet<>();
   private final Set<Address> smtpRcptTo = new HashSet<>();
   private Address smtpFromAddress;
-  private ListMultimap<RecipientType, Account.Id> accountsToNotify = ImmutableListMultimap.of();
+  private ListMultimap<RecipientType, Id> accountsToNotify = ImmutableListMultimap.of();
   protected List<String> footers;
   protected final EmailArguments args;
   protected Account.Id fromId;
@@ -122,6 +125,7 @@ public abstract class OutgoingEmail {
           }
         }
       }
+      boolean useHtml = args.settings.html;
       // Check the preferences of all recipients. If any user has disabled
       // his email notifications then drop him from recipients' list.
       // In addition, check if users only want to receive plaintext email.
@@ -132,7 +136,7 @@ public abstract class OutgoingEmail {
           GeneralPreferencesInfo prefs = thisUser.get().getGeneralPreferences();
           if (prefs == null || prefs.getEmailStrategy() == DISABLED) {
             removeUser(thisUserAccount);
-          } else if (useHtml() && prefs.getEmailFormat() == EmailFormat.PLAINTEXT) {
+          } else if (useHtml && prefs.getEmailFormat() == EmailFormat.PLAINTEXT) {
             removeUser(thisUserAccount);
             smtpRcptToPlaintextOnly.add(
                 new Address(thisUserAccount.getFullName(), thisUserAccount.getPreferredEmail()));
@@ -171,7 +175,7 @@ public abstract class OutgoingEmail {
       }
       va.body += renderTemplates(ContentKind.TEXT);
 
-      if (useHtml()) {
+      if (useHtml) {
         va.htmlBody = renderTemplates(ContentKind.HTML);
       } else {
         va.htmlBody = null;
@@ -524,15 +528,6 @@ public abstract class OutgoingEmail {
         ((AddressList) entry.getValue()).remove(fromEmail);
       }
     }
-  }
-
-  protected final boolean useHtml() {
-    return args.settings.html && supportsHtml();
-  }
-
-  /** Override this method to enable HTML in a subclass. */
-  protected boolean supportsHtml() {
-    return false;
   }
 
   private String renderTemplates(SanitizedContent.ContentKind kind) {

@@ -46,6 +46,30 @@
       "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66524e98_ac86e860",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-21T08:12:20Z",
+      "side": 1,
+      "message": "I think you can just write a plugin that implements the SubmitRule extension point.\nHave a look at the simplesubmitrules plugin for an example.",
+      "parentUuid": "935a1a19_beecec70",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

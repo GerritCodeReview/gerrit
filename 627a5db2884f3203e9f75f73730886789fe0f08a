@@ -70,6 +70,30 @@
       "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81c00394_ec35b92f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-21T08:16:17Z",
+      "side": 1,
+      "message": "Oh wait maybe not. Because you want to prevent applying of new labels while the lock is there.\nThis won\u0027t work with the SubmitRule extension point, which for me is rather a proof that what you are trying to do here shouldn\u0027t be done by labels.\n\nI\u0027m aware of the patchset lock, I think doing this with labels was a mistake too.\n\nSo I would prefer if there was a clean extension point that allows plugin to validate/reject votes that are being done on a change and then have the lock logic in a plugin.",
+      "parentUuid": "66524e98_ac86e860",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -107,17 +107,15 @@ public class BatchProgramModule extends FactoryModule {
 
     // We're just running through each change
     // once, so don't worry about cache removal.
-    bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {})
-        .toInstance(DynamicSet.<CacheRemovalListener>emptySet());
-    bind(new TypeLiteral<DynamicMap<Cache<?, ?>>>() {})
-        .toInstance(DynamicMap.<Cache<?, ?>>emptyMap());
+    bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {}).toInstance(DynamicSet.emptySet());
+    bind(new TypeLiteral<DynamicMap<Cache<?, ?>>>() {}).toInstance(DynamicMap.emptyMap());
     bind(new TypeLiteral<List<CommentLinkInfo>>() {})
         .toProvider(CommentLinkProvider.class)
         .in(SINGLETON);
     bind(new TypeLiteral<DynamicMap<ChangeQueryProcessor.ChangeAttributeFactory>>() {})
-        .toInstance(DynamicMap.<ChangeQueryProcessor.ChangeAttributeFactory>emptyMap());
+        .toInstance(DynamicMap.emptyMap());
     bind(new TypeLiteral<DynamicMap<RestView<CommitResource>>>() {})
-        .toInstance(DynamicMap.<RestView<CommitResource>>emptyMap());
+        .toInstance(DynamicMap.emptyMap());
     bind(String.class)
         .annotatedWith(CanonicalWebUrl.class)
         .toProvider(CanonicalWebUrlProvider.class);
@@ -126,9 +124,8 @@ public class BatchProgramModule extends FactoryModule {
         .toProvider(DisableReverseDnsLookupProvider.class)
         .in(SINGLETON);
     bind(Realm.class).to(FakeRealm.class);
-    bind(IdentifiedUser.class).toProvider(Providers.<IdentifiedUser>of(null));
-    bind(ReplacePatchSetSender.Factory.class)
-        .toProvider(Providers.<ReplacePatchSetSender.Factory>of(null));
+    bind(IdentifiedUser.class).toProvider(Providers.of(null));
+    bind(ReplacePatchSetSender.Factory.class).toProvider(Providers.of(null));
     bind(CurrentUser.class).to(IdentifiedUser.class);
     factory(MergeUtil.Factory.class);
     factory(PatchSetInserter.Factory.class);
@@ -136,17 +133,17 @@ public class BatchProgramModule extends FactoryModule {
 
     // As Reindex is a batch program, don't assume the index is available for
     // the change cache.
-    bind(SearchingChangeCacheImpl.class).toProvider(Providers.<SearchingChangeCacheImpl>of(null));
+    bind(SearchingChangeCacheImpl.class).toProvider(Providers.of(null));
 
     bind(new TypeLiteral<ImmutableSet<GroupReference>>() {})
         .annotatedWith(AdministrateServerGroups.class)
-        .toInstance(ImmutableSet.<GroupReference>of());
+        .toInstance(ImmutableSet.of());
     bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
         .annotatedWith(GitUploadPackGroups.class)
-        .toInstance(Collections.<AccountGroup.UUID>emptySet());
+        .toInstance(Collections.emptySet());
     bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
         .annotatedWith(GitReceivePackGroups.class)
-        .toInstance(Collections.<AccountGroup.UUID>emptySet());
+        .toInstance(Collections.emptySet());
 
     install(new BatchGitModule());
     install(new DefaultPermissionBackendModule());
@@ -174,8 +171,8 @@ public class BatchProgramModule extends FactoryModule {
     install(new DefaultSubmitRule.Module());
     install(new IgnoreSelfApprovalRule.Module());
 
-    bind(ChangeJson.Factory.class).toProvider(Providers.<ChangeJson.Factory>of(null));
-    bind(EventUtil.class).toProvider(Providers.<EventUtil>of(null));
+    bind(ChangeJson.Factory.class).toProvider(Providers.of(null));
+    bind(EventUtil.class).toProvider(Providers.of(null));
     bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
     bind(RevisionCreated.class).toInstance(RevisionCreated.DISABLED);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);

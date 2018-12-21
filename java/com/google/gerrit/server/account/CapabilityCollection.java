@@ -81,7 +81,7 @@ public class CapabilityCollection {
     }
     configureDefaults(tmp, section);
     if (!tmp.containsKey(GlobalCapability.ADMINISTRATE_SERVER) && !admins.isEmpty()) {
-      tmp.put(GlobalCapability.ADMINISTRATE_SERVER, ImmutableList.<PermissionRule>of());
+      tmp.put(GlobalCapability.ADMINISTRATE_SERVER, ImmutableList.of());
     }
 
     ImmutableMap.Builder<String, ImmutableList<PermissionRule>> m = ImmutableMap.builder();
@@ -123,7 +123,7 @@ public class CapabilityCollection {
 
   public ImmutableList<PermissionRule> getPermission(String permissionName) {
     ImmutableList<PermissionRule> r = permissions.get(permissionName);
-    return r != null ? r : ImmutableList.<PermissionRule>of();
+    return r != null ? r : ImmutableList.of();
   }
 
   private void configureDefaults(Map<String, List<PermissionRule>> out, AccessSection section) {

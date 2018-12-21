@@ -99,7 +99,7 @@ public class SubmitStrategyListener implements BatchUpdateListener {
           args.rw,
           args.canMergeFlag,
           args.mergeTip.getCurrentTip(),
-          initialTip == null ? ImmutableSet.<RevCommit>of() : ImmutableSet.of(initialTip));
+          initialTip == null ? ImmutableSet.of() : ImmutableSet.of(initialTip));
     }
   }
 

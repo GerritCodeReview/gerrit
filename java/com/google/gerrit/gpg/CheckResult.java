@@ -31,14 +31,14 @@ public class CheckResult {
   }
 
   static CheckResult trusted() {
-    return new CheckResult(Status.TRUSTED, Collections.<String>emptyList());
+    return new CheckResult(Status.TRUSTED, Collections.emptyList());
   }
 
   static CheckResult create(Status status, String... problems) {
     List<String> problemList =
         problems.length > 0
             ? Collections.unmodifiableList(Arrays.asList(problems))
-            : Collections.<String>emptyList();
+            : Collections.emptyList();
     return new CheckResult(status, problemList);
   }
 

@@ -255,7 +255,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   private static QueryOptions options(int start, int limit) {
-    return IndexedChangeQuery.createOptions(CONFIG, start, limit, ImmutableSet.<String>of());
+    return IndexedChangeQuery.createOptions(CONFIG, start, limit, ImmutableSet.of());
   }
 
   private Set<Change.Status> status(String query) throws QueryParseException {

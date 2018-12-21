@@ -72,7 +72,7 @@ public class PutDescription implements RestModifyView<GroupResource, Description
     }
 
     return Strings.isNullOrEmpty(input.description)
-        ? Response.<String>none()
+        ? Response.none()
         : Response.ok(input.description);
   }
 }

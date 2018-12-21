@@ -109,7 +109,7 @@ public class AddSshKey
       }
 
       user.getUserName().ifPresent(sshKeyCache::evict);
-      return Response.<SshKeyInfo>created(GetSshKeys.newSshKeyInfo(sshKey));
+      return Response.created(GetSshKeys.newSshKeyInfo(sshKey));
     } catch (InvalidSshKeyException e) {
       throw new BadRequestException(e.getMessage());
     }

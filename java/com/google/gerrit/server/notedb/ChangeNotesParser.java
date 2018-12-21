@@ -459,7 +459,7 @@ class ChangeNotesParser {
       throws ConfigInvalidException {
     String line = parseOneFooter(commit, footerKey);
     if (line == null) {
-      throw expectedOneFooter(footerKey, Collections.<String>emptyList());
+      throw expectedOneFooter(footerKey, Collections.emptyList());
     }
     return line;
   }

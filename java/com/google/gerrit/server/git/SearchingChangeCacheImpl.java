@@ -64,8 +64,7 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
     @Override
     protected void configure() {
       if (slave) {
-        bind(SearchingChangeCacheImpl.class)
-            .toProvider(Providers.<SearchingChangeCacheImpl>of(null));
+        bind(SearchingChangeCacheImpl.class).toProvider(Providers.of(null));
       } else {
         cache(ID_CACHE, Project.NameKey.class, new TypeLiteral<List<CachedChange>>() {})
             .maximumWeight(0)

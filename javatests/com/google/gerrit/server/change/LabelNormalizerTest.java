@@ -208,6 +208,6 @@ public class LabelNormalizerTest extends GerritBaseTests {
   }
 
   private static List<PatchSetApproval> list(PatchSetApproval... psas) {
-    return ImmutableList.<PatchSetApproval>copyOf(psas);
+    return ImmutableList.copyOf(psas);
   }
 }

@@ -117,7 +117,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
                     ExternalId.createWithPassword(
                         extId.key(), extId.accountId(), extId.email(), newPassword)));
 
-    return Strings.isNullOrEmpty(newPassword) ? Response.<String>none() : Response.ok(newPassword);
+    return Strings.isNullOrEmpty(newPassword) ? Response.none() : Response.ok(newPassword);
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)

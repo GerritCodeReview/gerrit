@@ -156,7 +156,7 @@ public class CreateGroup
       args.initialMembers =
           ownerUuid == null
               ? Collections.singleton(self.get().getAccountId())
-              : Collections.<Account.Id>emptySet();
+              : Collections.emptySet();
     }
 
     try {

@@ -192,7 +192,7 @@ public class Init extends BaseInit {
 
   @Override
   protected List<String> getSkippedDownloads() {
-    return skippedDownloads != null ? skippedDownloads : Collections.<String>emptyList();
+    return skippedDownloads != null ? skippedDownloads : Collections.emptyList();
   }
 
   @Override

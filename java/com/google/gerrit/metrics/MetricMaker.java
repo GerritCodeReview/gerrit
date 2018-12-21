@@ -136,7 +136,7 @@ public abstract class MetricMaker {
    * @return registration handle
    */
   public RegistrationHandle newTrigger(CallbackMetric<?> metric1, Runnable trigger) {
-    return newTrigger(ImmutableSet.<CallbackMetric<?>>of(metric1), trigger);
+    return newTrigger(ImmutableSet.of(metric1), trigger);
   }
 
   public RegistrationHandle newTrigger(

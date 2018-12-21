@@ -121,6 +121,6 @@ public class AccountIndexerImpl implements AccountIndexer {
       return indexes.getWriteIndexes();
     }
 
-    return index != null ? Collections.singleton(index) : ImmutableSet.<AccountIndex>of();
+    return index != null ? Collections.singleton(index) : ImmutableSet.of();
   }
 }

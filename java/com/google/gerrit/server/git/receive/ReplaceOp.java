@@ -252,7 +252,7 @@ public class ReplaceOp implements BatchUpdateOp {
     }
     if (groups.isEmpty()) {
       PatchSet prevPs = psUtil.current(notes);
-      groups = prevPs != null ? prevPs.getGroups() : ImmutableList.<String>of();
+      groups = prevPs != null ? prevPs.getGroups() : ImmutableList.of();
     }
 
     ChangeData cd = changeDataFactory.create(ctx.getNotes());

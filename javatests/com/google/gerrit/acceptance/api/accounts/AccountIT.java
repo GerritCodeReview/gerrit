@@ -1931,7 +1931,7 @@ public class AccountIT extends AbstractDaemonTest {
       addExternalIdEmail(admin, PushCertificateIdent.parse(key.getFirstUserId()).getEmailAddress());
       toAdd.add(key.getPublicKeyArmored());
     }
-    gApi.accounts().self().putGpgKeys(toAdd, ImmutableList.<String>of());
+    gApi.accounts().self().putGpgKeys(toAdd, ImmutableList.of());
     assertKeys(keys);
     accountIndexedCounter.assertReindexOf(admin);
   }
@@ -2869,13 +2869,13 @@ public class AccountIT extends AbstractDaemonTest {
 
   private Map<String, GpgKeyInfo> addGpgKey(String armored) throws Exception {
     Map<String, GpgKeyInfo> gpgKeys =
-        gApi.accounts().self().putGpgKeys(ImmutableList.of(armored), ImmutableList.<String>of());
+        gApi.accounts().self().putGpgKeys(ImmutableList.of(armored), ImmutableList.of());
     accountIndexedCounter.assertReindexOf(gApi.accounts().self().get());
     return gpgKeys;
   }
 
   private Map<String, GpgKeyInfo> addGpgKeyNoReindex(String armored) throws Exception {
-    return gApi.accounts().self().putGpgKeys(ImmutableList.of(armored), ImmutableList.<String>of());
+    return gApi.accounts().self().putGpgKeys(ImmutableList.of(armored), ImmutableList.of());
   }
 
   private void assertUser(AccountInfo info, TestAccount account) throws Exception {

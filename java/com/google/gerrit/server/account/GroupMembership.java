@@ -24,7 +24,7 @@ import java.util.Set;
  * <p>Different accounts systems (eg. LDAP, gerrit groups) provide concrete implementations.
  */
 public interface GroupMembership {
-  GroupMembership EMPTY = new ListGroupMembership(Collections.<AccountGroup.UUID>emptySet());
+  GroupMembership EMPTY = new ListGroupMembership(Collections.emptySet());
 
   /**
    * Returns {@code true} when the user this object was created for is a member of the specified

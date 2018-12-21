@@ -15,7 +15,6 @@
 package com.google.gerrit.server.index.change;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
@@ -30,8 +29,7 @@ import org.junit.Ignore;
 
 @Ignore
 public class FakeChangeIndex implements ChangeIndex {
-  static final Schema<ChangeData> V1 =
-      new Schema<>(1, ImmutableList.<FieldDef<ChangeData, ?>>of(ChangeField.STATUS));
+  static final Schema<ChangeData> V1 = new Schema<>(1, ImmutableList.of(ChangeField.STATUS));
 
   static final Schema<ChangeData> V2 =
       new Schema<>(2, ImmutableList.of(ChangeField.STATUS, ChangeField.PATH, ChangeField.UPDATED));

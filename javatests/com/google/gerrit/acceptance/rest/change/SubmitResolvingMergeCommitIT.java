@@ -366,8 +366,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
 
   @Override
   protected PushOneCommit.Result createChange(String subject) throws Exception {
-    return createChange(
-        testRepo, subject, "", "", Collections.<RevCommit>emptyList(), "refs/for/master");
+    return createChange(testRepo, subject, "", "", Collections.emptyList(), "refs/for/master");
   }
 
   private PushOneCommit.Result createChange(String subject, List<RevCommit> parents)

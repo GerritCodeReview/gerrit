@@ -95,7 +95,7 @@ public class IsWatchedByPredicate extends AndPredicate<ChangeData> {
     if (user.isIdentifiedUser()) {
       return user.asIdentifiedUser().state().getProjectWatches().keySet();
     }
-    return Collections.<ProjectWatchKey>emptySet();
+    return Collections.emptySet();
   }
 
   protected static List<Predicate<ChangeData>> none() {

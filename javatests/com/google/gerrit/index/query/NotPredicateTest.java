@@ -113,7 +113,7 @@ public class NotPredicateTest extends PredicateTest {
     assertEquals(sb, n.copy(sb).getChildren());
 
     try {
-      n.copy(Collections.<Predicate>emptyList());
+      n.copy(Collections.emptyList());
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException e) {
       assertEquals("Expected exactly one child", e.getMessage());

@@ -154,6 +154,6 @@ public class DeleteTagsIT extends AbstractDaemonTest {
   }
 
   private void assertTagsDeleted() throws Exception {
-    assertTags(ImmutableList.<String>of());
+    assertTags(ImmutableList.of());
   }
 }

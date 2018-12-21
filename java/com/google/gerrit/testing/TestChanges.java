@@ -95,7 +95,7 @@ public class TestChanges {
                     .load(),
                 user,
                 TimeUtil.nowTs(),
-                Ordering.<String>natural());
+                Ordering.natural());
 
     ChangeNotes notes = update.getNotes();
     boolean hasPatchSets = notes.getPatchSets() != null && !notes.getPatchSets().isEmpty();

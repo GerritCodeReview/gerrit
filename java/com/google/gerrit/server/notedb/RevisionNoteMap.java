@@ -64,7 +64,7 @@ class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
   }
 
   static <T extends RevisionNote<? extends Comment>> RevisionNoteMap<T> emptyMap() {
-    return new RevisionNoteMap<>(NoteMap.newEmptyMap(), ImmutableMap.<RevId, T>of());
+    return new RevisionNoteMap<>(NoteMap.newEmptyMap(), ImmutableMap.of());
   }
 
   private RevisionNoteMap(NoteMap noteMap, ImmutableMap<RevId, T> revisionNotes) {

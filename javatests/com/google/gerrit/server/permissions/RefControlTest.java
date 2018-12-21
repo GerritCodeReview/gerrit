@@ -973,8 +973,8 @@ public class RefControlTest extends GerritBaseTests {
   private ProjectControl user(
       ProjectConfig local, @Nullable String name, AccountGroup.UUID... memberOf) {
     return new ProjectControl(
-        Collections.<AccountGroup.UUID>emptySet(),
-        Collections.<AccountGroup.UUID>emptySet(),
+        Collections.emptySet(),
+        Collections.emptySet(),
         sectionSorter,
         changeControlFactory,
         permissionBackend,

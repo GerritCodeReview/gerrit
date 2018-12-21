@@ -34,8 +34,7 @@ import java.sql.Timestamp;
  * state {@link ReviewerStateInternal#REMOVED} are ever exposed by this interface.
  */
 public class ReviewerSet {
-  private static final ReviewerSet EMPTY =
-      new ReviewerSet(ImmutableTable.<ReviewerStateInternal, Account.Id, Timestamp>of());
+  private static final ReviewerSet EMPTY = new ReviewerSet(ImmutableTable.of());
 
   public static ReviewerSet fromApprovals(Iterable<PatchSetApproval> approvals) {
     PatchSetApproval first = null;

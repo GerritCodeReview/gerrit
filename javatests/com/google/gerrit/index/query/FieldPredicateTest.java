@@ -58,7 +58,7 @@ public class FieldPredicateTest extends PredicateTest {
   @Test
   public void testCopy() {
     final OperatorPredicate<String> f = f("author", "alice");
-    assertSame(f, f.copy(Collections.<Predicate<String>>emptyList()));
+    assertSame(f, f.copy(Collections.emptyList()));
     assertSame(f, f.copy(f.getChildren()));
 
     exception.expect(IllegalArgumentException.class);

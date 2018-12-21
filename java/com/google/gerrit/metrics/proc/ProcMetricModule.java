@@ -18,7 +18,6 @@ import com.google.common.base.Strings;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Version;
-import com.google.gerrit.metrics.CallbackMetric;
 import com.google.gerrit.metrics.CallbackMetric0;
 import com.google.gerrit.metrics.CallbackMetric1;
 import com.google.gerrit.metrics.Description;
@@ -135,7 +134,7 @@ public class ProcMetricModule extends MetricModule {
 
     MemoryMXBean memory = ManagementFactory.getMemoryMXBean();
     metrics.newTrigger(
-        ImmutableSet.<CallbackMetric<?>>of(
+        ImmutableSet.of(
             heapCommitted, heapUsed, nonHeapCommitted, nonHeapUsed, objectPendingFinalizationCount),
         () -> {
           try {

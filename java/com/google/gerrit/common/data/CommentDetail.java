@@ -84,7 +84,7 @@ public class CommentDetail {
 
   private static List<Comment> get(Map<Integer, List<Comment>> m, int i) {
     List<Comment> r = m.get(i);
-    return r != null ? orderComments(r) : Collections.<Comment>emptyList();
+    return r != null ? orderComments(r) : Collections.emptyList();
   }
 
   /**

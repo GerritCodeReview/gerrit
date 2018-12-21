@@ -138,7 +138,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                 bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
                 bind(String.class).annotatedWith(GerritServerId.class).toInstance("gerrit");
                 bind(GitRepositoryManager.class).toInstance(repoManager);
-                bind(ProjectCache.class).toProvider(Providers.<ProjectCache>of(null));
+                bind(ProjectCache.class).toProvider(Providers.of(null));
                 bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(testConfig);
                 bind(String.class)
                     .annotatedWith(AnonymousCowardName.class)

@@ -40,7 +40,7 @@ public class ParameterizedString {
   private ParameterizedString(Constant c) {
     pattern = c.text;
     rawPattern = c.text;
-    patternOps = Collections.<Format>singletonList(c);
+    patternOps = Collections.singletonList(c);
     parameters = Collections.emptyList();
   }
 

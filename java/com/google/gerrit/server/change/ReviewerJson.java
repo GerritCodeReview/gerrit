@@ -90,7 +90,7 @@ public class ReviewerJson {
 
   public List<ReviewerInfo> format(ReviewerResource rsrc)
       throws OrmException, PermissionBackendException {
-    return format(ImmutableList.<ReviewerResource>of(rsrc));
+    return format(ImmutableList.of(rsrc));
   }
 
   public ReviewerInfo format(ReviewerInfo out, Account.Id reviewerAccountId, ChangeData cd)

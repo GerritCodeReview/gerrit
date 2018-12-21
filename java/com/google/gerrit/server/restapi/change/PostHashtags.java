@@ -55,7 +55,7 @@ public class PostHashtags
       SetHashtagsOp op = hashtagsFactory.create(input);
       bu.addOp(req.getId(), op);
       bu.execute();
-      return Response.<ImmutableSortedSet<String>>ok(op.getUpdatedHashtags());
+      return Response.ok(op.getUpdatedHashtags());
     }
   }
 

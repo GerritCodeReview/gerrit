@@ -135,7 +135,7 @@ public class DynamicSet<T> implements Iterable<T> {
   }
 
   public static <T> DynamicSet<T> emptySet() {
-    return new DynamicSet<>(Collections.<AtomicReference<Extension<T>>>emptySet());
+    return new DynamicSet<>(Collections.emptySet());
   }
 
   private final CopyOnWriteArrayList<AtomicReference<Extension<T>>> items;

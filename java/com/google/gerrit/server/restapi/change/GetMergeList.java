@@ -76,7 +76,7 @@ public class GetMergeList implements RestReadView<RevisionResource> {
       }
 
       if (commit.getParentCount() < 2) {
-        return createResponse(rsrc, ImmutableList.<CommitInfo>of());
+        return createResponse(rsrc, ImmutableList.of());
       }
 
       List<RevCommit> commits = MergeListBuilder.build(rw, commit, uninterestingParent);

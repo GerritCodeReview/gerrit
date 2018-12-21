@@ -44,7 +44,7 @@ public class LibrariesTest extends GerritBaseTests {
                 return new LibraryDownloader(ui, site, remover);
               }
             },
-            Collections.<String>emptyList(),
+            Collections.emptyList(),
             false);
 
     assertNotNull(lib.mysqlDriver);

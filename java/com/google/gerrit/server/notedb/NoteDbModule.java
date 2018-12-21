@@ -50,7 +50,7 @@ public class NoteDbModule extends FactoryModule {
     } else {
       bind(new TypeLiteral<Cache<ChangeNotesCache.Key, ChangeNotesState>>() {})
           .annotatedWith(Names.named(ChangeNotesCache.CACHE_NAME))
-          .toInstance(CacheBuilder.newBuilder().<ChangeNotesCache.Key, ChangeNotesState>build());
+          .toInstance(CacheBuilder.newBuilder().build());
     }
   }
 }

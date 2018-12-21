@@ -61,14 +61,12 @@ public class ChangeSet {
   }
 
   public ChangeSet(Iterable<ChangeData> changes, Iterable<ChangeData> hiddenChanges) {
-    changeData = index(changes, ImmutableList.<Change.Id>of());
+    changeData = index(changes, ImmutableList.of());
     nonVisibleChanges = index(hiddenChanges, changeData.keySet());
   }
 
   public ChangeSet(ChangeData change, boolean visible) {
-    this(
-        visible ? ImmutableList.of(change) : ImmutableList.<ChangeData>of(),
-        ImmutableList.of(change));
+    this(visible ? ImmutableList.of(change) : ImmutableList.of(), ImmutableList.of(change));
   }
 
   public ImmutableSet<Change.Id> ids() {

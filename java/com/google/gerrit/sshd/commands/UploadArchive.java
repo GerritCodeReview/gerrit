@@ -238,7 +238,7 @@ public class UploadArchive extends AbstractGitCommand {
                   options.level9)
               .indexOf(true);
       if (value >= 0) {
-        return ImmutableMap.<String, Object>of("level", Integer.valueOf(value));
+        return ImmutableMap.of("level", Integer.valueOf(value));
       }
     }
     return Collections.emptyMap();

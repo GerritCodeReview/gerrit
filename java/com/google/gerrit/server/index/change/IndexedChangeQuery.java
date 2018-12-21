@@ -52,7 +52,7 @@ import java.util.Set;
 public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
     implements ChangeDataSource, Matchable<ChangeData> {
   public static QueryOptions oneResult() {
-    return createOptions(IndexConfig.createDefault(), 0, 1, ImmutableSet.<String>of());
+    return createOptions(IndexConfig.createDefault(), 0, 1, ImmutableSet.of());
   }
 
   public static QueryOptions createOptions(

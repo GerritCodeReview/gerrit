@@ -67,7 +67,7 @@ public class CacheMetrics {
             F_NAME);
 
     Set<CallbackMetric<?>> cacheMetrics =
-        ImmutableSet.<CallbackMetric<?>>of(memEnt, memHit, memEvict, perDiskEnt, perDiskHit);
+        ImmutableSet.of(memEnt, memHit, memEvict, perDiskEnt, perDiskHit);
 
     metrics.newTrigger(
         cacheMetrics,

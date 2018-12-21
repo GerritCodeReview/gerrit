@@ -402,7 +402,7 @@ class Helper {
                   groupBase,
                   groupScope,
                   new ParameterizedString(groupMemberPattern),
-                  Collections.<String>emptySet());
+                  Collections.emptySet());
           if (groupMemberQuery.getParameters().isEmpty()) {
             throw new IllegalArgumentException("No variables in ldap.groupMemberPattern");
           }

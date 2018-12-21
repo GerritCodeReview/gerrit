@@ -394,7 +394,7 @@ public class GerritServer implements AutoCloseable {
     daemon.setEnableHttpd(desc.httpd());
     daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0, isSlave(baseConfig)));
     daemon.setDatabaseForTesting(
-        ImmutableList.<Module>of(
+        ImmutableList.of(
             new InMemoryTestingDatabaseModule(cfg, site, inMemoryRepoManager),
             new AbstractModule() {
               @Override

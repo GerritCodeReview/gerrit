@@ -164,7 +164,7 @@ public class CherryPick extends SubmitStrategy {
               ctx.getUpdate(psId),
               psId,
               newCommit,
-              prevPs != null ? prevPs.getGroups() : ImmutableList.<String>of(),
+              prevPs != null ? prevPs.getGroups() : ImmutableList.of(),
               null,
               null);
       ctx.getChange().setCurrentPatchSet(patchSetInfo);

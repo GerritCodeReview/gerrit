@@ -1409,9 +1409,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ReviewInput.CommentInput commentInput = new ReviewInput.CommentInput();
     commentInput.line = 1;
     commentInput.message = "inline";
-    input.comments =
-        ImmutableMap.<String, List<ReviewInput.CommentInput>>of(
-            Patch.COMMIT_MSG, ImmutableList.<ReviewInput.CommentInput>of(commentInput));
+    input.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(commentInput));
     gApi.changes().id(change.getId().get()).current().review(input);
 
     Map<String, List<CommentInfo>> comments =
@@ -1600,7 +1598,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change4 = insert(repo, ins4);
     ReviewInput ri4 = new ReviewInput();
     ri4.message = "toplevel";
-    ri4.labels = ImmutableMap.<String, Short>of("Code-Review", (short) 1);
+    ri4.labels = ImmutableMap.of("Code-Review", (short) 1);
     gApi.changes().id(change4.getId().get()).current().review(ri4);
 
     ChangeInserter ins5 = newChangeWithTopic(repo, "feature5");
@@ -1672,9 +1670,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
     comment.line = 1;
     comment.message = "inline";
-    input.comments =
-        ImmutableMap.<String, List<ReviewInput.CommentInput>>of(
-            Patch.COMMIT_MSG, ImmutableList.<ReviewInput.CommentInput>of(comment));
+    input.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
     gApi.changes().id(change1.getId().get()).current().review(input);
 
     input = new ReviewInput();
@@ -1839,9 +1835,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
     comment.line = 1;
     comment.message = "inline";
-    input.comments =
-        ImmutableMap.<String, List<ReviewInput.CommentInput>>of(
-            Patch.COMMIT_MSG, ImmutableList.<ReviewInput.CommentInput>of(comment));
+    input.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
     gApi.changes().id(change2.getId().get()).current().review(input);
 
     assertQuery("from:" + userId.get(), change2, change1);
@@ -3103,9 +3097,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     comment.line = 1;
     comment.message = message;
     comment.unresolved = unresolved;
-    input.comments =
-        ImmutableMap.<String, List<ReviewInput.CommentInput>>of(
-            Patch.COMMIT_MSG, ImmutableList.<ReviewInput.CommentInput>of(comment));
+    input.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
     gApi.changes().id(changeId).current().review(input);
   }
 

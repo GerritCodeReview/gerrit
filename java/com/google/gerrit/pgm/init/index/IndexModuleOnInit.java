@@ -46,8 +46,7 @@ public class IndexModuleOnInit extends AbstractModule {
   static final String INDEX_MANAGER = "IndexModuleOnInit/IndexManager";
 
   private static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
-      ImmutableList.<SchemaDefinitions<?>>of(
-          AccountSchemaDefinitions.INSTANCE, GroupSchemaDefinitions.INSTANCE);
+      ImmutableList.of(AccountSchemaDefinitions.INSTANCE, GroupSchemaDefinitions.INSTANCE);
 
   @Override
   protected void configure() {
@@ -76,7 +75,7 @@ public class IndexModuleOnInit extends AbstractModule {
 
     bind(new TypeLiteral<Map<String, Integer>>() {})
         .annotatedWith(Names.named(SingleVersionModule.SINGLE_VERSIONS))
-        .toInstance(ImmutableMap.<String, Integer>of());
+        .toInstance(ImmutableMap.of());
     bind(LifecycleListener.class)
         .annotatedWith(Names.named(INDEX_MANAGER))
         .to(SingleVersionListener.class);
@@ -85,8 +84,7 @@ public class IndexModuleOnInit extends AbstractModule {
   @Provides
   Collection<IndexDefinition<?, ?, ?>> getIndexDefinitions(
       AccountIndexDefinition accounts, GroupIndexDefinition groups) {
-    Collection<IndexDefinition<?, ?, ?>> result =
-        ImmutableList.<IndexDefinition<?, ?, ?>>of(accounts, groups);
+    Collection<IndexDefinition<?, ?, ?>> result = ImmutableList.of(accounts, groups);
     Set<String> expected =
         FluentIterable.from(ALL_SCHEMA_DEFS).transform(SchemaDefinitions::getName).toSet();
     Set<String> actual = FluentIterable.from(result).transform(IndexDefinition::getName).toSet();

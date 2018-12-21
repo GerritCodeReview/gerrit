@@ -114,7 +114,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
     for (Class<? extends Annotation> annotoation : annotations) {
       String descr = classObjToClassDescr.get(annotoation);
       Collection<ClassData> discoverdData = rawMap.get(descr);
-      Collection<ClassData> values = firstNonNull(discoverdData, Collections.<ClassData>emptySet());
+      Collection<ClassData> values = firstNonNull(discoverdData, Collections.emptySet());
 
       result.put(
           annotoation,
@@ -144,7 +144,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
         continue;
       }
 
-      ClassData def = new ClassData(Collections.<String>emptySet());
+      ClassData def = new ClassData(Collections.emptySet());
       try {
         new ClassReader(read(jarFile, entry)).accept(def, SKIP_ALL);
       } catch (RuntimeException err) {

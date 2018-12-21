@@ -75,7 +75,7 @@ public class ApprovalCopier {
   Iterable<PatchSetApproval> getForPatchSet(
       ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig)
       throws OrmException {
-    return getForPatchSet(notes, psId, rw, repoConfig, Collections.<PatchSetApproval>emptyList());
+    return getForPatchSet(notes, psId, rw, repoConfig, Collections.emptyList());
   }
 
   Iterable<PatchSetApproval> getForPatchSet(

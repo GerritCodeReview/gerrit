@@ -50,6 +50,14 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void listProjectsWithQuery() throws Exception {
+    Project.NameKey someProject = createProject("some-project");
+    assertThatNameList(filter(gApi.projects().list().get()))
+        .containsExactly(allProjects, allUsers, project, someProject)
+        .inOrder();
+  }
+
+  @Test
   public void listProjectsFiltersInvisibleProjects() throws Exception {
     setApiUser(user);
     assertThatNameList(gApi.projects().list().get()).contains(project);

@@ -66,6 +66,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.LegacyIntField;
 import org.apache.lucene.document.LegacyLongField;
+import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
@@ -83,6 +84,7 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.AlreadyClosedException;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.util.BytesRef;
 
 /** Basic Lucene index implementation. */
 @SuppressWarnings("deprecation")
@@ -333,9 +335,14 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       for (Object value : values.getValues()) {
         doc.add(new LegacyLongField(name, ((Timestamp) value).getTime(), store));
       }
-    } else if (type == FieldType.EXACT || type == FieldType.PREFIX) {
+    } else if (type == FieldType.EXACT
+        || type == FieldType.PREFIX
+        || type == FieldType.EXACT_SORTED) {
       for (Object value : values.getValues()) {
         doc.add(new StringField(name, (String) value, store));
+        if (type == FieldType.EXACT_SORTED) {
+          doc.add(new SortedDocValuesField(name, new BytesRef((String) value)));
+        }
       }
     } else if (type == FieldType.FULL_TEXT) {
       for (Object value : values.getValues()) {

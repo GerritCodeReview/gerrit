@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6baaf96d_e300e9fe",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-21T10:09:35Z",
+      "side": 1,
+      "message": "Why is this \u0027body\u0027 now when the method is called \"formatFooter\"?",
+      "range": {
+        "startLine": 134,
+        "startChar": 24,
+        "endLine": 134,
+        "endChar": 28
+      },
+      "revId": "98a3d1727b2c6dac67ec5cb1ddbe39f303b773f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76243655_ba0373f8",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-21T10:09:35Z",
+      "side": 1,
+      "message": "Use setHeader from OutgoingEmail?",
+      "range": {
+        "startLine": 221,
+        "startChar": 4,
+        "endLine": 221,
+        "endChar": 87
+      },
+      "revId": "98a3d1727b2c6dac67ec5cb1ddbe39f303b773f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ab703be_94bb7088",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-21T10:09:35Z",
+      "side": 1,
+      "message": "Move both methods into OutgoingEmailMessage?",
+      "range": {
+        "startLine": 293,
+        "startChar": 2,
+        "endLine": 300,
+        "endChar": 3
+      },
+      "revId": "98a3d1727b2c6dac67ec5cb1ddbe39f303b773f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c506e123_73e265b7",
+        "filename": "java/com/google/gerrit/server/mail/send/SoyTemplate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-21T10:09:35Z",
+      "side": 1,
+      "message": "In the old code at [1] this didn\u0027t have an html version. Is it a bug that site init forgot to extract the html version?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/208533/4/java/com/google/gerrit/pgm/init/SitePathInitializer.java#b109",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 9
+      },
+      "revId": "98a3d1727b2c6dac67ec5cb1ddbe39f303b773f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d8d1303_c0e7aef4",
+        "filename": "java/com/google/gerrit/server/mail/send/SoyTemplate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-21T10:09:35Z",
+      "side": 1,
+      "message": "These didn\u0027t exist in the old code at [1]. Is it a bug that site init forgot to extract these?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/208533/4/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 17
+      },
+      "revId": "98a3d1727b2c6dac67ec5cb1ddbe39f303b773f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

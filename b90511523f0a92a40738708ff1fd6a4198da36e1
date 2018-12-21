@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83f9368c_f4965d1e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-21T06:23:36Z",
+      "side": 1,
+      "message": "May be have getHead/setHead method names?",
+      "revId": "b90511523f0a92a40738708ff1fd6a4198da36e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

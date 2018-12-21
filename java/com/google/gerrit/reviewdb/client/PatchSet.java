@@ -65,7 +65,7 @@ public final class PatchSet {
     while (true) {
       int idx = joinedGroups.indexOf(',', i);
       if (idx < 0) {
-        groups.add(joinedGroups.substring(i, joinedGroups.length()));
+        groups.add(joinedGroups.substring(i));
         break;
       }
       groups.add(joinedGroups.substring(i, idx));

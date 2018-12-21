@@ -297,7 +297,7 @@ public class ChangeField {
         continue;
       }
 
-      Long l = Longs.tryParse(v.substring(i2 + 1, v.length()));
+      Long l = Longs.tryParse(v.substring(i2 + 1));
       if (l == null) {
         logger.atWarning().log(
             "Failed to parse timestamp of reviewer field from change %s: %s", changeId.get(), v);
@@ -350,7 +350,7 @@ public class ChangeField {
         continue;
       }
 
-      Long l = Longs.tryParse(v.substring(i2 + 1, v.length()));
+      Long l = Longs.tryParse(v.substring(i2 + 1));
       if (l == null) {
         logger.atWarning().log(
             "Failed to parse timestamp of reviewer by email field from change %s: %s",

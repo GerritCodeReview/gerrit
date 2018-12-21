@@ -47,7 +47,7 @@ public class GitmodulesIT extends AbstractDaemonTest {
         .commit()
         .insertChangeId()
         .message("subject: adding new subscription")
-        .add(".gitmodules", config.toText().toString())
+        .add(".gitmodules", config.toText())
         .create();
 
     exception.expectMessage(expectedErrorMessage);

@@ -51,10 +51,9 @@ class OperatingSystemMXBeanProvider {
   private OperatingSystemMXBeanProvider(OperatingSystemMXBean sys)
       throws ReflectiveOperationException {
     this.sys = sys;
-    getProcessCpuTime = sys.getClass().getMethod("getProcessCpuTime", new Class<?>[] {});
+    getProcessCpuTime = sys.getClass().getMethod("getProcessCpuTime");
     getProcessCpuTime.setAccessible(true);
-    getOpenFileDescriptorCount =
-        sys.getClass().getMethod("getOpenFileDescriptorCount", new Class<?>[] {});
+    getOpenFileDescriptorCount = sys.getClass().getMethod("getOpenFileDescriptorCount");
     getOpenFileDescriptorCount.setAccessible(true);
   }
 

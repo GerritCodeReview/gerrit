@@ -725,7 +725,7 @@ public abstract class AbstractDaemonTest {
   }
 
   private static final List<Character> RANDOM =
-      Chars.asList(new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'});
+      Chars.asList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 
   protected PushOneCommit.Result amendChange(String changeId) throws Exception {
     return amendChange(changeId, "refs/for/master", admin, testRepo);

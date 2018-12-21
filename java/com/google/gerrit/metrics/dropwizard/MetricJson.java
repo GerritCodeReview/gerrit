@@ -137,7 +137,7 @@ class MetricJson {
       p99_9 = s.get999thPercentile();
 
       min = (double) s.getMin();
-      avg = (double) s.getMean();
+      avg = s.getMean();
       max = (double) s.getMax();
       sum = s.getMean() * m.getCount();
       std_dev = s.getStdDev();

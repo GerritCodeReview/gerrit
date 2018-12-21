@@ -96,13 +96,13 @@ public class IdentifiedUser extends CurrentUser {
           accountCache,
           groupBackend,
           disableReverseDnsLookup,
-          Providers.of((SocketAddress) null),
+          Providers.of(null),
           state,
           null);
     }
 
     public IdentifiedUser create(Account.Id id) {
-      return create((SocketAddress) null, id);
+      return create(null, id);
     }
 
     public IdentifiedUser create(SocketAddress remotePeer, Account.Id id) {

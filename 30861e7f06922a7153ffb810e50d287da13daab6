@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f63c6628_a476ef4e",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-12-21T08:52:23Z",
+      "side": 1,
+      "message": "This needs a fix and test coverage.",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 3
+      },
+      "revId": "30861e7f06922a7153ffb810e50d287da13daab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

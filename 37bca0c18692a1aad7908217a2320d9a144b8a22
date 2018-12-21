@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f8db4547_38ab9be0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-21T14:22:35Z",
+      "side": 1,
+      "message": "The same REST API (/projects/) has two different implementations, behavior and even JSON body returned is different (JSON object vs. array).\n\nI will mention this in the commit message, taking some inspiration from Issue 10210 description.",
+      "parentUuid": "b0a1dffd_8211d920",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "37bca0c18692a1aad7908217a2320d9a144b8a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f1342329_c8ed4cbc",
         "filename": "java/com/google/gerrit/index/FieldType.java",
         "patchSetId": 3
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "c7fecdb2_aa416e53",
+        "filename": "java/com/google/gerrit/index/FieldType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-21T14:22:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f1342329_c8ed4cbc",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 7
+      },
+      "revId": "37bca0c18692a1aad7908217a2320d9a144b8a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4b9a957_b2075fff",
+        "filename": "java/com/google/gerrit/index/FieldType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-21T14:22:35Z",
+      "side": 1,
+      "message": "Need to put as a link to the \u0027EXACT\u0027 value field.",
+      "parentUuid": "546d1efa_09593ad5",
+      "range": {
+        "startLine": 36,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 13
+      },
+      "revId": "37bca0c18692a1aad7908217a2320d9a144b8a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fc490a3b_a71b1569",
         "filename": "java/com/google/gerrit/index/FieldType.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2018-12-21T13:21:00Z",
       "side": 1,
       "message": "The question is whether Google\u0027s own index implementation support that?",
+      "range": {
+        "startLine": 37,
+        "startChar": 72,
+        "endLine": 37,
+        "endChar": 84
+      },
+      "revId": "37bca0c18692a1aad7908217a2320d9a144b8a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "065121f6_a4c0919b",
+        "filename": "java/com/google/gerrit/index/FieldType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-21T14:22:35Z",
+      "side": 1,
+      "message": "Yes, and the answer is \"I don\u0027t know because Google search index isn\u0027t OpenSource\".\nThe real question is: how this worked in gerrit-review.googlesource.com without the explicit definition of a sort field? @Dave?",
+      "parentUuid": "fc490a3b_a71b1569",
       "range": {
         "startLine": 37,
         "startChar": 72,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "d1ea922f_a50e1b78",
+        "filename": "java/com/google/gerrit/index/project/ProjectField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-21T14:22:35Z",
+      "side": 1,
+      "message": "\u003e What you are effectively doing here, is changing index schema. \n\nYes, and I do not see, at the moment, any other way of fixing the problem without changing the schema.\n\nThe bug *IS* in the schema definition, because forgot to define the sorting on the name field. In Lucene, if you request sorting on a field that isn\u0027t defined for sorting, it just doesn\u0027t work at all. However, I am waiting for @Dave\u0027s feedback, he may have other options on the table.\n\n\u003e That why you have to bump schema version, to trigger online/offline reindexing:\n\u003e \n\u003e So what you need to do is to bump schema index version in java/com/google/gerrit/index/project/ProjectSchemaDefinitions.java:\n\u003e \n\u003e   @Deprecated\n\u003e   static final Schema\u003cProjectData\u003e V3 \u003d schema(V2);\n\u003e   // Changing type for NAME requires reindexing\n\u003e   static final Schema\u003cProjectData\u003e V4 \u003d schema(V3);\n\u003e \n\u003e Usually we do not update index schema version on stable branch, but only on master.\n\nYes, that\u0027s why I did not start investing time in the reindexing yet and this change is flagged as [RFC] waiting for more feedback on the approach.",
+      "parentUuid": "cbf90557_6a697e24",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 17
+      },
+      "revId": "37bca0c18692a1aad7908217a2320d9a144b8a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f472f9b8_6f9fcc66",
         "filename": "java/com/google/gerrit/lucene/LuceneProjectIndex.java",
         "patchSetId": 3
@@ -137,6 +257,30 @@
       "revId": "37bca0c18692a1aad7908217a2320d9a144b8a22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f7a902d_0f463b20",
+        "filename": "java/com/google/gerrit/lucene/LuceneProjectIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-21T14:22:35Z",
+      "side": 1,
+      "message": "Unfortunately, it isn\u0027t. If the field isn\u0027t explicitly defined as sortable in the schema definition, requesting it in the LuceneQuerySource is not enough.",
+      "parentUuid": "f472f9b8_6f9fcc66",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 119,
+        "endChar": 78
+      },
+      "revId": "37bca0c18692a1aad7908217a2320d9a144b8a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

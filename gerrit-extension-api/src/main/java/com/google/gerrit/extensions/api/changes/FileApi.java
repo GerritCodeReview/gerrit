@@ -39,6 +39,9 @@ public interface FileApi {
    */
   DiffRequest diffRequest() throws RestApiException;
 
+  /** Set the file reviewed or not reviewed */
+  void reviewed(boolean reviewed) throws RestApiException;
+
   abstract class DiffRequest {
     private String base;
     private Integer context;
@@ -121,6 +124,11 @@ public interface FileApi {
 
     @Override
     public DiffRequest diffRequest() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void reviewed(boolean reviewed) throws RestApiException {
       throw new NotImplementedException();
     }
   }

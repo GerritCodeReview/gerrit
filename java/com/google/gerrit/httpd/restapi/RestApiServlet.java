@@ -1361,9 +1361,7 @@ public class RestApiServlet extends HttpServlet {
     // generated.
     TraceContext traceContext =
         TraceContext.newTrace(
-            doTrace,
-            traceId1,
-            (tagName, traceId) -> res.setHeader(X_GERRIT_TRACE, traceId.toString()));
+            doTrace, traceId1, (tagName, traceId) -> res.setHeader(X_GERRIT_TRACE, traceId));
     // If a second trace ID was specified, add a tag for it as well.
     if (traceId2 != null) {
       traceContext.addTag(RequestId.Type.TRACE_ID, traceId2);

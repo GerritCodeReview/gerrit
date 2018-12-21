@@ -432,7 +432,7 @@ public class RefNames {
     if (i == 0) {
       return null;
     }
-    return Integer.valueOf(name.substring(i, name.length()));
+    return Integer.valueOf(name.substring(i));
   }
 
   private static StringBuilder newStringBuilder() {

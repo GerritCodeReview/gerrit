@@ -103,6 +103,6 @@ public class MailHeaderParser {
   }
 
   private static String extractFooter(String key, String line) {
-    return line.substring(line.indexOf(key) + key.length(), line.length()).trim();
+    return line.substring(line.indexOf(key) + key.length()).trim();
   }
 }

@@ -60,7 +60,7 @@ public class ParameterizedString {
         break;
       }
 
-      raw.append(pattern.substring(i, b));
+      raw.append(pattern, i, b);
       ops.add(new Constant(pattern.substring(i, b)));
 
       // "${parameter[.functions...]}" -> "parameter[.functions...]"

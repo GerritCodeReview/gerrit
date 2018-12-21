@@ -324,7 +324,7 @@ public final class GerritLauncher {
     }
 
     String name = ze.getName();
-    jars.put(name.substring(name.lastIndexOf('/'), name.length()), tmp.toURI().toURL());
+    jars.put(name.substring(name.lastIndexOf('/')), tmp.toURI().toURL());
   }
 
   private static void move(SortedMap<String, URL> jars, String prefix, List<URL> extapi) {

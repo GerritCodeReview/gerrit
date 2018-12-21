@@ -83,7 +83,6 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
-import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -624,7 +623,7 @@ public class MergeUtil {
     }
 
     try (ObjectInserter ins = new InMemoryInserter(repo)) {
-      return newThreeWayMerger(ins, repo.getConfig()).merge(new AnyObjectId[] {mergeTip, toMerge});
+      return newThreeWayMerger(ins, repo.getConfig()).merge(mergeTip, toMerge);
     } catch (LargeObjectException e) {
       logger.atWarning().log("Cannot merge due to LargeObjectException: %s", toMerge.name());
       return false;
@@ -722,7 +721,7 @@ public class MergeUtil {
       throws IntegrationException {
     ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
     try {
-      if (m.merge(new AnyObjectId[] {mergeTip, n})) {
+      if (m.merge(mergeTip, n)) {
         return writeMergeCommit(
             author, committer, rw, inserter, destBranch, mergeTip, m.getResultTreeId(), n);
       }

@@ -16,6 +16,24 @@
       "revId": "b90511523f0a92a40738708ff1fd6a4198da36e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32b854a1_0e8a19ef",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-21T06:34:12Z",
+      "side": 1,
+      "message": "Agree that might be a better name, but unfortunately we can\u0027t change it here because this is a backport of a commit that was already included in 2.16.  Renaming it would be a breaking API change.",
+      "parentUuid": "83f9368c_f4965d1e",
+      "revId": "b90511523f0a92a40738708ff1fd6a4198da36e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

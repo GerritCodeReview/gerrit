@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f40d95a5_009297ef",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-21T10:50:35Z",
+      "side": 1,
+      "message": "This example is wrong: the returned payload is a list, not a JSON object.\n\nThe correct one is:\n  [\n    {\n       \"id\": \"test\",\n       \"name\": \"test\",\n       \"description\": \"\\u003chtml\\u003e is escaped\"\n    }\n  ]",
+      "range": {
+        "startLine": 352,
+        "startChar": 2,
+        "endLine": 357,
+        "endChar": 3
+      },
+      "revId": "d8dd1532c806263bd39f0c63a20b22c323db6768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff0e884f_6a083b46",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectsCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-21T10:50:35Z",
+      "side": 1,
+      "message": "This is a bad design decision IMHO. The code is saying \"if you specify the query parameter, actually the class \"ProjectsCollection\" isn\u0027t a collection anymore and perform a query\".\n\nIt *would* still be acceptable if, from a user\u0027s perspective, the two results would have been similar or compatible in terms of payload. Unfortunately, this is NOT true.\n\n- Without query, returns a SortedMap, rendered as JSON object vs. the query returns a List, rendered as JSON list\n- Without query, the output is sorted vs. the query returning elements in random order",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 5
+      },
+      "revId": "d8dd1532c806263bd39f0c63a20b22c323db6768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

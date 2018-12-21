@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9913ccb_d366093b",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-12-21T08:45:45Z",
+      "side": 1,
+      "message": "I need to fix this, but it seems odd.\n\nWe have separate headers (e.g. FROM) and this method would add a \n\nFrom: bla\u003cfoo@corp.com\u003e:\\n\\n\n\nWhich I don\u0027t see in the emails I get from Gerrit.",
+      "range": {
+        "startLine": 237,
+        "startChar": 2,
+        "endLine": 239,
+        "endChar": 5
+      },
+      "revId": "3f6b490084f2cec124720f471c22eeb6fe0406f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

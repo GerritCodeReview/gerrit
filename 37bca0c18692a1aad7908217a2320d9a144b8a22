@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1cef5fc2_ea5a50c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-21T23:17:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8db4547_38ab9be0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "37bca0c18692a1aad7908217a2320d9a144b8a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1342329_c8ed4cbc",
         "filename": "java/com/google/gerrit/index/FieldType.java",
         "patchSetId": 3
@@ -237,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "8df0fecf_599f92bd",
+        "filename": "java/com/google/gerrit/index/project/ProjectField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-21T23:17:13Z",
+      "side": 1,
+      "message": "I have moved this change to master and I will then update the schema version.",
+      "parentUuid": "d1ea922f_a50e1b78",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 17
+      },
+      "revId": "37bca0c18692a1aad7908217a2320d9a144b8a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f472f9b8_6f9fcc66",
         "filename": "java/com/google/gerrit/lucene/LuceneProjectIndex.java",
         "patchSetId": 3
@@ -295,6 +343,30 @@
       "writtenOn": "2018-12-21T13:10:38Z",
       "side": 1,
       "message": "This is exactly the same as the listProjects test.",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 3
+      },
+      "revId": "37bca0c18692a1aad7908217a2320d9a144b8a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "769ded93_d3570f37",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-21T23:17:13Z",
+      "side": 1,
+      "message": "Good point, it was a leftover of a tentative fix in a different direction. Will get rid of it.",
+      "parentUuid": "190bbc17_c5b4df87",
       "range": {
         "startLine": 53,
         "startChar": 2,

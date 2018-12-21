@@ -118,6 +118,30 @@
       "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ac18f98_563e25ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-12-21T16:06:40Z",
+      "side": 1,
+      "message": "We prevent applying of new labels, prevent modification of existing labels, and prevent removal of reviewers (and their labels) (except by admins). We view all of those as essential for ensuring a CI system can safely evaluate a change.\n\nI don\u0027t think a single extension point would cover the 4 advantages Sabari listed above. Those are all significant pluses to using labels.\n\nThe Prolog integration is trivial and should be easy to adopt to whatever happens with the rest, so I\u0027m not worried about that.\n\nWe\u0027re happy to do this through a plugin or other method, but currently those other methods either don\u0027t meet our needs or feel like we\u0027d be reimplementing labels.",
+      "parentUuid": "989b4bff_c0a9d1c4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

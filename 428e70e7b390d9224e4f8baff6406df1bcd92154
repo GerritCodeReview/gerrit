@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fade4c91_00cd397e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/project/AbstractQueryProjectsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-21T11:12:25Z",
+      "side": 1,
+      "message": "This isn\u0027t enough: the Google Truth documentation says \"To also test that the contents appear in the given order, make a call to {@code inOrder()} on the object returned by this method\"\n\nWe are basically here ignoring the ordering of the results altogether, opening the door to the bug of having a shuffled project list (see Issue 10210)",
+      "range": {
+        "startLine": 267,
+        "startChar": 9,
+        "endLine": 267,
+        "endChar": 34
+      },
+      "revId": "428e70e7b390d9224e4f8baff6406df1bcd92154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

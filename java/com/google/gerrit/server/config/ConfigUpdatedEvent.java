@@ -37,7 +37,7 @@ import org.eclipse.jgit.lib.Config;
  * (+ various overloaded versions of these)
  */
 public class ConfigUpdatedEvent {
-  public static final Multimap<UpdateResult, ConfigUpdateEntry> NO_UPDATES =
+  public static final ImmutableMultimap<UpdateResult, ConfigUpdateEntry> NO_UPDATES =
       new ImmutableMultimap.Builder<UpdateResult, ConfigUpdateEntry>().build();
   private final Config oldConfig;
   private final Config newConfig;

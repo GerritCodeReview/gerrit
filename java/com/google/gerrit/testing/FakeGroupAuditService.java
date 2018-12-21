@@ -38,6 +38,8 @@ public class FakeGroupAuditService implements GroupAuditService {
   protected final PluginSetContext<GroupAuditListener> groupAuditListeners;
   protected final PluginSetContext<AuditListener> auditListeners;
 
+  public final List<AuditEvent> auditEvents = new ArrayList<>();
+
   public static class Module extends AbstractModule {
     @Override
     public void configure() {
@@ -54,8 +56,6 @@ public class FakeGroupAuditService implements GroupAuditService {
     this.groupAuditListeners = groupAuditListeners;
     this.auditListeners = auditListeners;
   }
-
-  public List<AuditEvent> auditEvents = new ArrayList<>();
 
   public void clearEvents() {
     auditEvents.clear();

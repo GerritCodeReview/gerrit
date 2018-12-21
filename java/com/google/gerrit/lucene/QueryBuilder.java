@@ -149,7 +149,7 @@ public class QueryBuilder<V> {
       return intRangeQuery(p);
     } else if (type == FieldType.TIMESTAMP) {
       return timestampQuery(p);
-    } else if (type == FieldType.EXACT) {
+    } else if (type == FieldType.EXACT || type == FieldType.EXACT_SORTED) {
       return exactQuery(p);
     } else if (type == FieldType.PREFIX) {
       return prefixQuery(p);

@@ -232,6 +232,15 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   }
 
   @Test
+  public void byStatePreservingOrdering() throws Exception {
+    assume().that(getSchemaVersion() >= 2).isTrue();
+
+    ProjectInfo project2 = createProjectWithState(name("project2"), ProjectState.READ_ONLY);
+    ProjectInfo project1 = createProjectWithState(name("project1"), ProjectState.ACTIVE);
+    assertQuery("state:active OR state:read-only", project1, project2);
+  }
+
+  @Test
   public void byState_emptyQuery() throws Exception {
     exception.expect(BadRequestException.class);
     exception.expectMessage("state operator requires a value");
@@ -368,7 +377,8 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     Iterable<String> names = names(result);
     assertThat(names)
         .named(format(query, result, projects))
-        .containsExactlyElementsIn(names(projects));
+        .containsExactlyElementsIn(names(projects))
+        .inOrder();
     return result;
   }
 

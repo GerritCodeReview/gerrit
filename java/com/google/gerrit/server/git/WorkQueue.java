@@ -407,7 +407,7 @@ public class WorkQueue {
           new Supplier<Long>() {
             @Override
             public Long get() {
-              return (long) getTaskCount();
+              return getTaskCount();
             }
           });
       metrics.newCallbackMetric(
@@ -419,7 +419,7 @@ public class WorkQueue {
           new Supplier<Long>() {
             @Override
             public Long get() {
-              return (long) getCompletedTaskCount();
+              return getCompletedTaskCount();
             }
           });
     }
@@ -674,7 +674,7 @@ public class WorkQueue {
                 for (Field innerField : innerObj.getClass().getDeclaredFields()) {
                   if (innerField.getType().isAssignableFrom(Callable.class)) {
                     innerField.setAccessible(true);
-                    return ((Callable<?>) innerField.get(innerObj)).toString();
+                    return innerField.get(innerObj).toString();
                   }
                 }
               }

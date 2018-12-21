@@ -61,7 +61,7 @@ public class InitLabels implements InitStep {
           KEY_LABEL,
           LABEL_VERIFIED,
           KEY_VALUE,
-          Arrays.asList(new String[] {"-1 Fails", "0 No score", "+1 Verified"}));
+          Arrays.asList("-1 Fails", "0 No score", "+1 Verified"));
       cfg.setBoolean(KEY_LABEL, LABEL_VERIFIED, KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE, true);
       allProjectsConfig.save("Configure 'Verified' label");
     }

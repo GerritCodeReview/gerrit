@@ -30,7 +30,6 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.IndexRewriter;
-import com.google.gerrit.index.IndexedQuery;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.metrics.Description;
@@ -40,7 +39,6 @@ import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
-import com.google.gwtorm.server.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -268,7 +266,7 @@ public abstract class QueryProcessor<T> {
 
       out = new ArrayList<>(cnt);
       for (int i = 0; i < cnt; i++) {
-        List<T> matchesList = matches.get(i).toList();
+        ImmutableList<T> matchesList = matches.get(i).toList();
         logger.atFine().log(
             "Matches[%d]:\n%s",
             i, lazy(() -> matchesList.stream().map(this::formatForLogging).collect(toSet())));

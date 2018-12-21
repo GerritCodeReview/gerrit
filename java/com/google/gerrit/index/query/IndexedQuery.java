@@ -12,18 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.index;
+package com.google.gerrit.index.query;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.index.query.DataSource;
-import com.google.gerrit.index.query.FieldBundle;
-import com.google.gerrit.index.query.IndexPredicate;
-import com.google.gerrit.index.query.Paginated;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.Index;
+import com.google.gerrit.index.QueryOptions;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import java.util.Collection;
 import java.util.List;
 

@@ -144,7 +144,9 @@ public class Init extends BaseInit {
         });
     modules.add(new GerritServerConfigModule());
     Guice.createInjector(modules).injectMembers(this);
-    reindexProjects();
+    if (!run.flags.cfg.getBoolean("container", "slave", false)) {
+      reindexProjects();
+    }
     start(run);
   }
 

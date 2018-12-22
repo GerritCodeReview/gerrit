@@ -42,6 +42,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.lib.Constants;
 
 @Singleton
@@ -57,6 +58,7 @@ public class ProjectsCollection
   private final Provider<CurrentUser> user;
 
   private boolean hasQuery;
+  private boolean isDisplayActiveAndReadonlyQuery;
 
   @Inject
   public ProjectsCollection(
@@ -78,11 +80,21 @@ public class ProjectsCollection
   public void setParams(ListMultimap<String, String> params) throws BadRequestException {
     // The --query option is defined in QueryProjects
     this.hasQuery = params.containsKey("query");
+    List<String> queryParams = params.get("query");
+    this.isDisplayActiveAndReadonlyQuery =
+        queryParams.size() == 1
+            && queryParams.get(0).toLowerCase().trim().equals("state:active or state:read-only");
   }
 
   @Override
   public RestView<TopLevelResource> list() {
     if (hasQuery) {
+      // Temporary workaround for v2.16. Should be removed as soon as the Projects Lucene Index
+      // sorting is fixed
+      if (isDisplayActiveAndReadonlyQuery) {
+        ListProjects projectInfoList = list.get();
+        return projectInfoList.setProjectsOutputFormatAsListOfJsonWithDescription();
+      }
       return queryProjects.get();
     }
     return list.get().setFormat(OutputFormat.JSON);

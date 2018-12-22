@@ -33,19 +33,56 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.restapi.project.ListProjects;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.junit.Test;
 
 @NoHttpd
 @Sandboxed
 public class ListProjectsIT extends AbstractDaemonTest {
 
+  @Inject Provider<ListProjects> listProvider;
+
   @Test
   public void listProjects() throws Exception {
     Project.NameKey someProject = createProject("some-project");
     assertThatNameList(filter(gApi.projects().list().get()))
         .containsExactly(allProjects, allUsers, project, someProject)
+        .inOrder();
+  }
+
+  @SuppressWarnings("unchecked")
+  @Test
+  public void listOrderedProjectsAsJsonList() throws Exception {
+    Project.NameKey zProject = createProject("z-project");
+    Project.NameKey yProject = createProject("y-project");
+    Project.NameKey xProject = createProject("x-project");
+    Object listProjectsResult = listProvider.get().setQueryProjectsOutputJsonFormat().apply(null);
+    assertThat(listProjectsResult).isInstanceOf(List.class);
+    assertThatNameList((List<ProjectInfo>) listProjectsResult)
+        .containsExactly(allProjects, allUsers, project, xProject, yProject, zProject)
+        .inOrder();
+  }
+
+  @SuppressWarnings("unchecked")
+  @Test
+  public void listOrderedProjectsAsJsonListWithDescriptions() throws Exception {
+    createProjectWithDescription("z-project", "z-project description");
+    createProjectWithDescription("y-project", "y-project description");
+    createProjectWithDescription("x-project", "x-project description");
+    Object listProjectsResult = listProvider.get().setQueryProjectsOutputJsonFormat().apply(null);
+    assertThat(listProjectsResult).isInstanceOf(List.class);
+    List<String> listProjectsDescriptions =
+        ((List<ProjectInfo>) listProjectsResult)
+            .stream()
+            .map((ProjectInfo pi) -> pi.description)
+            .collect(Collectors.toList());
+    assertThat(listProjectsDescriptions)
+        .containsAllOf("x-project description", "y-project description", "z-project description")
         .inOrder();
   }
 

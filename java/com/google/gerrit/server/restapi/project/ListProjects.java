@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -74,6 +75,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -147,6 +149,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private final PermissionBackend permissionBackend;
   private final ProjectNode.Factory projectNodeFactory;
   private final WebLinks webLinks;
+  private boolean outputJsonArrayFormat;
 
   @Deprecated
   @Option(name = "--format", usage = "(deprecated) output format")
@@ -245,6 +248,12 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.groupUuid = groupUuid;
   }
 
+  @Option(
+      name = "--query",
+      metaVar = "QUERY",
+      usage = "Ignored, kept for syntax compatibility with projects query")
+  private String queryParameterIgnored;
+
   private final List<String> showBranch = new ArrayList<>();
   private boolean showTree;
   private FilterType type = FilterType.ALL;
@@ -309,6 +318,11 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           .setContentType("text/plain")
           .setCharacterEncoding(UTF_8);
     }
+
+    if (outputJsonArrayFormat) {
+      return applyAsProjectInfoList();
+    }
+
     return apply();
   }
 
@@ -316,6 +330,21 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       throws BadRequestException, PermissionBackendException {
     format = OutputFormat.JSON;
     return display(null);
+  }
+
+  private List<ProjectInfo> applyAsProjectInfoList()
+      throws BadRequestException, PermissionBackendException {
+    SortedMap<String, ProjectInfo> projectInfoMap = apply();
+    return projectInfoMap
+        .entrySet()
+        .stream()
+        .map(
+            (Map.Entry<String, ProjectInfo> projectEntry) -> {
+              ProjectInfo projectInfo = projectEntry.getValue();
+              projectInfo.name = projectEntry.getKey();
+              return projectInfo;
+            })
+        .collect(Collectors.toList());
   }
 
   public SortedMap<String, ProjectInfo> display(@Nullable OutputStream displayOutputStream)
@@ -667,5 +696,10 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       }
     }
     return false;
+  }
+
+  public RestView<TopLevelResource> asProjectInfoList() {
+    outputJsonArrayFormat = true;
+    return this;
   }
 }

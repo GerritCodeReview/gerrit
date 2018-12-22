@@ -74,6 +74,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -147,6 +148,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private final PermissionBackend permissionBackend;
   private final ProjectNode.Factory projectNodeFactory;
   private final WebLinks webLinks;
+  private boolean formatListOfProjectInfo;
 
   @Deprecated
   @Option(name = "--format", usage = "(deprecated) output format")
@@ -245,6 +247,12 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.groupUuid = groupUuid;
   }
 
+  @Option(
+      name = "--query",
+      metaVar = "QUERY",
+      usage = "Ignored, kept for syntax compatibility with projects query")
+  private String queryParameterIgnored;
+
   private final List<String> showBranch = new ArrayList<>();
   private boolean showTree;
   private FilterType type = FilterType.ALL;
@@ -309,6 +317,11 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           .setContentType("text/plain")
           .setCharacterEncoding(UTF_8);
     }
+
+    if (formatListOfProjectInfo) {
+      return applyAsProjectInfoList();
+    }
+
     return apply();
   }
 
@@ -316,6 +329,21 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       throws BadRequestException, PermissionBackendException {
     format = OutputFormat.JSON;
     return display(null);
+  }
+
+  private List<ProjectInfo> applyAsProjectInfoList()
+      throws BadRequestException, PermissionBackendException {
+    SortedMap<String, ProjectInfo> projectInfoMap = apply();
+    return projectInfoMap
+        .entrySet()
+        .stream()
+        .map(
+            (Map.Entry<String, ProjectInfo> projectEntry) -> {
+              ProjectInfo projectInfo = projectEntry.getValue();
+              projectInfo.name = projectEntry.getKey();
+              return projectInfo;
+            })
+        .collect(Collectors.toList());
   }
 
   public SortedMap<String, ProjectInfo> display(@Nullable OutputStream displayOutputStream)
@@ -667,5 +695,26 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       }
     }
     return false;
+  }
+
+  /**
+   * Render the project list as JSON array of ProjectInfo objects.
+   *
+   * <p>This method is kept only for allowing a JSON Array of projects info with the same sorting
+   * and format of the QueryProjects, which sorting is temporarily broken in Gerrit v2.16. It should
+   * not be used anymore from v3.0 because it is going to be completely removed.
+   *
+   * <p>Marked as deprecated because it will be removed after the fix of the Projects index in the
+   * next release.
+   *
+   * @return ListProjects object pre-configured with JSON formatting and Array format with project
+   *     description.
+   */
+  @Deprecated
+  public ListProjects setProjectsOutputFormatAsListOfJsonWithDescription() {
+    format = OutputFormat.JSON;
+    showDescription = true;
+    formatListOfProjectInfo = true;
+    return this;
   }
 }

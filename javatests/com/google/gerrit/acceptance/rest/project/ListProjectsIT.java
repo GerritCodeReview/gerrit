@@ -33,19 +33,45 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.restapi.project.ListProjects;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.junit.Test;
 
 @NoHttpd
 @Sandboxed
 public class ListProjectsIT extends AbstractDaemonTest {
 
+  @Inject Provider<ListProjects> listProvider;
+
   @Test
   public void listProjects() throws Exception {
     Project.NameKey someProject = createProject("some-project");
     assertThatNameList(filter(gApi.projects().list().get()))
         .containsExactly(allProjects, allUsers, project, someProject)
+        .inOrder();
+  }
+
+  @SuppressWarnings("unchecked")
+  @Test
+  public void listOrderedProjectsWithDescriptions() throws Exception {
+    createProjectWithDescription("z-project", "z-project description");
+    createProjectWithDescription("y-project", "y-project description");
+    createProjectWithDescription("x-project", "x-project description");
+    @SuppressWarnings("deprecation")
+    Object listProjectsResult =
+        listProvider.get().setProjectsOutputFormatAsListOfJsonWithDescription().apply(null);
+    assertThat(listProjectsResult).isInstanceOf(List.class);
+    List<String> listProjectsDescriptions =
+        ((List<ProjectInfo>) listProjectsResult)
+            .stream()
+            .map((ProjectInfo pi) -> pi.description)
+            .collect(Collectors.toList());
+    assertThat(listProjectsDescriptions)
+        .containsAllOf("x-project description", "y-project description", "z-project description")
         .inOrder();
   }
 

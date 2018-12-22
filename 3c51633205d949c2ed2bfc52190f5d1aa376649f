@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "805b9c98_bf019572",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-22T19:11:26Z",
+      "side": 1,
+      "message": "Why we need to clone items array with items.slice()? It is already a temporary value that was created on line 209 in this method. IOW, couldn\u0027t the line 215 just be:\n\n  links: topMenuLinks[m.name] \u003d items,",
+      "range": {
+        "startLine": 215,
+        "startChar": 19,
+        "endLine": 215,
+        "endChar": 55
+      },
+      "revId": "3c51633205d949c2ed2bfc52190f5d1aa376649f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -550,24 +550,40 @@ public abstract class AbstractDaemonTest {
     return createProject(nameSuffix, null);
   }
 
+  protected Project.NameKey createProjectWithDescription(String nameSuffix, String description)
+      throws RestApiException {
+    return createProject(nameSuffix, null, true, null, description);
+  }
+
   protected Project.NameKey createProject(String nameSuffix, Project.NameKey parent)
       throws RestApiException {
     // Default for createEmptyCommit should match TestProjectConfig.
-    return createProject(nameSuffix, parent, true, null);
+    return createProject(nameSuffix, parent, true, null, null);
   }
 
   protected Project.NameKey createProject(
       String nameSuffix, Project.NameKey parent, boolean createEmptyCommit)
       throws RestApiException {
     // Default for createEmptyCommit should match TestProjectConfig.
-    return createProject(nameSuffix, parent, createEmptyCommit, null);
+    return createProject(nameSuffix, parent, createEmptyCommit, null, null);
   }
 
   protected Project.NameKey createProject(
       String nameSuffix, Project.NameKey parent, boolean createEmptyCommit, SubmitType submitType)
       throws RestApiException {
+    return createProject(nameSuffix, parent, createEmptyCommit, submitType, null);
+  }
+
+  protected Project.NameKey createProject(
+      String nameSuffix,
+      Project.NameKey parent,
+      boolean createEmptyCommit,
+      SubmitType submitType,
+      String description)
+      throws RestApiException {
     ProjectInput in = new ProjectInput();
     in.name = name(nameSuffix);
+    in.description = description;
     in.parent = parent != null ? parent.get() : null;
     in.submitType = submitType;
     in.createEmptyCommit = createEmptyCommit;

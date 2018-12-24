@@ -454,6 +454,67 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   @Test
+  public void sortedByFullname() throws Exception {
+    String appendix = name("name");
+
+    // Use an account creation order that ensures that sorting by fullname differs from sorting by
+    // account ID.
+    AccountInfo userFoo = newAccountWithFullName("user1", "foo-" + appendix);
+    AccountInfo userBar = newAccountWithFullName("user2", "bar-" + appendix);
+    AccountInfo userBaz = newAccountWithFullName("user3", "baz-" + appendix);
+    assertThat(userFoo._accountId).isLessThan(userBar._accountId);
+    assertThat(userBar._accountId).isLessThan(userBaz._accountId);
+
+    String query = "name:" + userFoo.name + " OR name:" + userBar.name + " OR name:" + userBaz.name;
+    // Must request details to populate fullname in the results. If fullname is not set sorting by
+    // fullname is not possible.
+    assertQuery(newQuery(query).withOption(ListAccountsOption.DETAILS), userBar, userBaz, userFoo);
+  }
+
+  @Test
+  public void sortedByPreferredEmail() throws Exception {
+    String appendix = name("name");
+
+    // Use an account creation order that ensures that sorting by preferred email differs from
+    // sorting by account ID. Use the same fullname for all accounts so that sorting must be done by
+    // preferred email.
+    AccountInfo userFoo3 =
+        newAccount("user3", "foo-" + appendix, "foo3-" + appendix + "@test.com", true);
+    AccountInfo userFoo1 =
+        newAccount("user1", "foo-" + appendix, "foo1-" + appendix + "@test.com", true);
+    AccountInfo userFoo2 =
+        newAccount("user2", "foo-" + appendix, "foo2-" + appendix + "@test.com", true);
+    assertThat(userFoo3._accountId).isLessThan(userFoo1._accountId);
+    assertThat(userFoo1._accountId).isLessThan(userFoo2._accountId);
+
+    String query =
+        "name:" + userFoo1.name + " OR name:" + userFoo2.name + " OR name:" + userFoo3.name;
+    // Must request details to populate fullname and preferred email in the results. If fullname and
+    // preferred email are not set sorting by fullname and preferred email is not possible. Since
+    // all 3 accounts have the same fullname we expect sorting by preferred email.
+    assertQuery(
+        newQuery(query).withOption(ListAccountsOption.DETAILS), userFoo1, userFoo2, userFoo3);
+  }
+
+  @Test
+  public void sortedById() throws Exception {
+    String appendix = name("name");
+
+    // Each new account gets a higher account ID. Create the accounts in an order that sorting by
+    // fullname differs from sorting by accout ID.
+    AccountInfo userFoo = newAccountWithFullName("user1", "foo-" + appendix);
+    AccountInfo userBar = newAccountWithFullName("user2", "bar-" + appendix);
+    AccountInfo userBaz = newAccountWithFullName("user3", "baz-" + appendix);
+    assertThat(userFoo._accountId).isLessThan(userBar._accountId);
+    assertThat(userBar._accountId).isLessThan(userBaz._accountId);
+
+    String query = "name:" + userFoo.name + " OR name:" + userBar.name + " OR name:" + userBaz.name;
+    // Normally sorting is done by fullname and preferred email, but if no details are requested
+    // fullname and preferred email are not set and then sorting is done by account ID.
+    assertQuery(newQuery(query), userFoo, userBar, userBaz);
+  }
+
+  @Test
   public void withDetails() throws Exception {
     AccountInfo user1 = newAccount("myuser", "My User", "my.user@example.com", true);
 

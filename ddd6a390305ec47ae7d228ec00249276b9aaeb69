@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6a4d9cf5_663aacff",
+        "filename": "java/com/google/gerrit/index/FieldDef.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-24T09:22:20Z",
+      "side": 1,
+      "message": "I think the answer is that project index, group index and account index are broken from the beginning regarding sorting. It wasn\u0027t discovered until today, because the sorting columns are technical kind (uuid and account_id):\n\n* accounts: ID_SORT_FIELD \u003d sortFieldName(ID);\n* groups: UUID_SORT_FIELD \u003d sortFieldName(UUID);\n\nIn fact the sorting only works for changes. I see, that the sort fields are added explicitly here: [1]:\n\n  @Override\n  void add(Document doc, Values\u003cChangeData\u003e values) {\n    // Add separate DocValues fields for those fields needed for sorting.\n    FieldDef\u003cChangeData, ?\u003e f \u003d values.getField();\n    if (f \u003d\u003d ChangeField.LEGACY_ID) {\n      int v \u003d (Integer) getOnlyElement(values.getValues());\n      doc.add(new NumericDocValuesField(ID_SORT_FIELD, v));\n    } else if (f \u003d\u003d ChangeField.UPDATED) {\n      long t \u003d ((Timestamp) getOnlyElement(values.getValues())).getTime();\n      doc.add(new NumericDocValuesField(UPDATED_SORT_FIELD, t));\n    }\n  [...]\n\nI don\u0027t find this logic for other indexes.\n\n* [1] https://github.com/GerritCodeReview/gerrit/blob/master/java/com/google/gerrit/lucene/ChangeSubIndex.java#L97-L105",
+      "parentUuid": "94e522a4_80d3d0c8",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 3
+      },
+      "revId": "ddd6a390305ec47ae7d228ec00249276b9aaeb69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed357bde_eb73b77f",
         "filename": "java/com/google/gerrit/index/project/ProjectField.java",
         "patchSetId": 7

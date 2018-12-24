@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "5ec85b60_79ac3dd6",
+        "filename": "java/com/google/gerrit/index/FieldDef.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-24T09:40:59Z",
+      "side": 1,
+      "message": "Adding this seesm to help.\nDone in https://gerrit-review.googlesource.com/c/gerrit/+/208716",
+      "parentUuid": "0bbecafe_ccb4c730",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 3
+      },
+      "revId": "ddd6a390305ec47ae7d228ec00249276b9aaeb69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed357bde_eb73b77f",
         "filename": "java/com/google/gerrit/index/project/ProjectField.java",
         "patchSetId": 7

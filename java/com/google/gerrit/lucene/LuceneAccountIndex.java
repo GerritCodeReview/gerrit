@@ -14,10 +14,13 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.index.account.AccountField.ID;
 
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.Schema.Values;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -35,6 +38,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutionException;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.search.Sort;
@@ -90,6 +94,17 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
 
     indexWriterConfig = new GerritIndexWriterConfig(cfg, ACCOUNTS);
     queryBuilder = new QueryBuilder<>(schema, indexWriterConfig.getAnalyzer());
+  }
+
+  @Override
+  void add(Document doc, Values<AccountState> values) {
+    // Add separate DocValues fields for those fields needed for sorting.
+    FieldDef<AccountState, ?> f = values.getField();
+    if (f == ID) {
+      int v = (Integer) getOnlyElement(values.getValues());
+      doc.add(new NumericDocValuesField(ID_SORT_FIELD, v));
+    }
+    super.add(doc, values);
   }
 
   @Override

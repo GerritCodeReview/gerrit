@@ -40,7 +40,10 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
   @Deprecated static final Schema<InternalGroup> V5 = schema(V4, GroupField.REF_STATE);
 
   // Bump Lucene version requires reindexing
-  static final Schema<InternalGroup> V6 = schema(V5);
+  @Deprecated static final Schema<InternalGroup> V6 = schema(V5);
+
+  // Lucene index was changed to add additional fields for sorting.
+  static final Schema<InternalGroup> V7 = schema(V6);
 
   public static final GroupSchemaDefinitions INSTANCE = new GroupSchemaDefinitions();
 

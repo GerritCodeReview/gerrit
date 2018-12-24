@@ -34,7 +34,10 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
   static final Schema<ProjectData> V2 = schema(V1, ProjectField.STATE, ProjectField.REF_STATE);
 
   // Bump Lucene version requires reindexing
-  static final Schema<ProjectData> V3 = schema(V2);
+  @Deprecated static final Schema<ProjectData> V3 = schema(V2);
+
+  // Lucene index was changed to add additional fields for sorting.
+  static final Schema<ProjectData> V4 = schema(V3);
 
   public static final ProjectSchemaDefinitions INSTANCE = new ProjectSchemaDefinitions();
 

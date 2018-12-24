@@ -164,9 +164,9 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     String namePart = getSanitizedMethodName();
     namePart = CharMatcher.is('_').removeFrom(namePart);
 
-    ProjectInfo project1 = createProject(name("project-" + namePart));
-    ProjectInfo project2 = createProject(name("project-" + namePart + "-2"));
-    ProjectInfo project3 = createProject(name("project-" + namePart + "3"));
+    ProjectInfo project1 = createProject(name("project1-" + namePart));
+    ProjectInfo project2 = createProject(name("project2-" + namePart + "-foo"));
+    ProjectInfo project3 = createProject(name("project3-" + namePart + "foo"));
 
     assertQuery("inname:" + namePart, project1, project2, project3);
     assertQuery("inname:" + namePart.toUpperCase(Locale.US), project1, project2, project3);
@@ -253,6 +253,17 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   }
 
   @Test
+  public void sortedByName() throws Exception {
+    ProjectInfo projectFoo = createProject("foo-" + name("project1"));
+    ProjectInfo projectBar = createProject("bar-" + name("project2"));
+    ProjectInfo projectBaz = createProject("baz-" + name("project3"));
+
+    String query =
+        "name:" + projectFoo.name + " OR name:" + projectBar.name + " OR name:" + projectBaz.name;
+    assertQuery(newQuery(query), projectBar, projectBaz, projectFoo);
+  }
+
+  @Test
   public void asAnonymous() throws Exception {
     ProjectInfo project = createProjectRestrictedToRegisteredUsers(name("project"));
 
@@ -335,7 +346,8 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     Iterable<String> names = names(result);
     assertThat(names)
         .named(format(query, result, projects))
-        .containsExactlyElementsIn(names(projects));
+        .containsExactlyElementsIn(names(projects))
+        .inOrder();
     return result;
   }
 

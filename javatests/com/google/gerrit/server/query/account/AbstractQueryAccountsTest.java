@@ -465,6 +465,19 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   @Test
+  public void sortedByFullname() throws Exception {
+    String appendix = name("name");
+    AccountInfo userFoo = newAccountWithFullName("user1", "foo-" + appendix);
+    AccountInfo userBar = newAccountWithFullName("user2", "bar-" + appendix);
+    AccountInfo userBaz = newAccountWithFullName("user3", "baz-" + appendix);
+
+    String query = "name:" + userFoo.name + " OR name:" + userBar.name + " OR name:" + userBaz.name;
+    // Must request details to populate fullname in the results. If fullname is not set sorting by
+    // fullname is not possible.
+    assertQuery(newQuery(query).withOption(ListAccountsOption.DETAILS), userBar, userBaz, userFoo);
+  }
+
+  @Test
   public void withDetails() throws Exception {
     AccountInfo user1 = newAccount("myuser", "My User", "my.user@example.com", true);
 

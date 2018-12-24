@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "6a6f48a2_66c5fe49",
+        "filename": "java/com/google/gerrit/index/FieldDef.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-24T08:45:43Z",
+      "side": 1,
+      "message": "Why do we need this field type now only for the project index?\nHow is sorting done for the other indexes that don\u0027t use this field type?",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 3
+      },
+      "revId": "ddd6a390305ec47ae7d228ec00249276b9aaeb69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed357bde_eb73b77f",
         "filename": "java/com/google/gerrit/index/project/ProjectField.java",
         "patchSetId": 7

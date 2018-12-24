@@ -45,8 +45,10 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   @Deprecated
   static final Schema<AccountState> V8 = schema(V7, AccountField.NAME_PART_NO_SECONDARY_EMAIL);
 
+  @Deprecated static final Schema<AccountState> V9 = schema(V8);
+
   // Bump Lucene version requires reindexing
-  static final Schema<AccountState> V9 = schema(V8);
+  static final Schema<AccountState> V10 = schema(V9);
 
   public static final String NAME = "accounts";
   public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();

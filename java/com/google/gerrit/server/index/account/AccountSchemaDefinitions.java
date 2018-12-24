@@ -46,7 +46,10 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   static final Schema<AccountState> V8 = schema(V7, AccountField.NAME_PART_NO_SECONDARY_EMAIL);
 
   // Bump Lucene version requires reindexing
-  static final Schema<AccountState> V9 = schema(V8);
+  @Deprecated static final Schema<AccountState> V9 = schema(V8);
+
+  // Lucene index was changed to add additional fields for sorting.
+  static final Schema<AccountState> V10 = schema(V9);
 
   public static final String NAME = "accounts";
   public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();

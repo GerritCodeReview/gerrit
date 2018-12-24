@@ -326,6 +326,17 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   }
 
   @Test
+  public void sortedByUuid() throws Exception {
+    GroupInfo group1 = createGroup(name("group1"));
+    GroupInfo group2 = createGroup(name("group2"));
+    GroupInfo group3 = createGroup(name("group3"));
+
+    String query = "uuid:" + group1.id + " OR uuid:" + group2.id + " OR uuid:" + group3.id;
+    // assertQuery sorts the expected groups by UUID
+    assertQuery(newQuery(query), group1, group2, group3);
+  }
+
+  @Test
   public void asAnonymous() throws Exception {
     GroupInfo group = createGroup(name("group"));
 
@@ -459,7 +470,10 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
       throws Exception {
     List<GroupInfo> result = query.get();
     Iterable<String> uuids = uuids(result);
-    assertThat(uuids).named(format(query, result, groups)).containsExactlyElementsIn(uuids(groups));
+    assertThat(uuids)
+        .named(format(query, result, groups))
+        .containsExactlyElementsIn(uuids(groups))
+        .inOrder();
     return result;
   }
 
@@ -524,7 +538,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   }
 
   protected static Iterable<String> uuids(List<GroupInfo> groups) {
-    return groups.stream().map(g -> g.id).collect(toList());
+    return groups.stream().map(g -> g.id).sorted().collect(toList());
   }
 
   protected String name(String name) {

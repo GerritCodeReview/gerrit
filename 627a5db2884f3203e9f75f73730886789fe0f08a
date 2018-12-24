@@ -142,6 +142,30 @@
       "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcb84bab_74ad9b62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-24T08:16:07Z",
+      "side": 1,
+      "message": "I think implementing this by labels is not providing any good user experience.\nIf this feature is done in Gerrit core it should be very obvious in the UI when a change is locked so that users have a chance to understand why they can\u0027t vote. I think a vote an some label isn\u0027t clear enough. It would be quite confusing if some labels lock the change, how would a user know that a label results in a lock? Also for locked changes there shouldn\u0027t be any voting buttons in the UI. Letting the users click and then fail is not a nice UX, and an AuthException is not really appropriate in this case (since authentication worked and the user has all necessary permissions to vote).",
+      "parentUuid": "3ac18f98_563e25ca",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

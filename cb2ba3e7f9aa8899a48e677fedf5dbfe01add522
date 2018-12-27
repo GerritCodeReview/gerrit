@@ -47,6 +47,30 @@
       "revId": "cb2ba3e7f9aa8899a48e677fedf5dbfe01add522",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f69d28db_d1d9b9ee",
+        "filename": "java/com/google/gerrit/server/notedb/CommentJsonMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-27T14:20:16Z",
+      "side": 1,
+      "message": "Thanks for clarifying, I see it now.",
+      "parentUuid": "6bc00747_435a4787",
+      "range": {
+        "startLine": 224,
+        "startChar": 8,
+        "endLine": 226,
+        "endChar": 9
+      },
+      "revId": "cb2ba3e7f9aa8899a48e677fedf5dbfe01add522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -26,36 +26,35 @@ ALIASES = {
 }
 MODULE = 'com.google.gerrit.GerritGwtUI'
 
-DEBUG_OPTS = [
-  '-style', 'PRETTY',
-  '-optimize', '0',
-]
-
-APP_DEPS = [':ui_module']
-
 def gwt_user_agent_permutations(
     name,
     module_name,
-    module_target,
-    compiler_opts = [],
+    modules,
+    style = 'PRETTY',
+    optimize = 0,
+    draft_compile = True,
+    module_deps = [],
     deps = [],
-    browsers = [],
+    browsers = BROWSERS,
     visibility = []):
+  from multiprocessing import cpu_count
   for ua in browsers:
     impl = ua
     if ua in ALIASES:
       impl = ALIASES[ua]
     xml = ''.join([
       "<module rename-to='%s'>" % module_name,
-      "<inherits name='%s'/>" % module_target,
+      "<inherits name='%s'/>" % modules[0],
       "<set-property name='user.agent' value='%s'/>" % impl,
       "<set-property name='locale' value='default'/>",
       "</module>",
     ])
-    gwt = '%s_%s.gwt.xml' % (module_target.replace('.', '/'), ua)
-    jar = '%s_%s.gwtxml.jar' % (name, ua)
+    gwt = '%s_%s.gwt.xml' % (modules[0].replace('.', '/'), ua)
+    gwt_name = '%s_%s' % (name, ua)
+    jar = '%s.gwtxml.jar' % (gwt_name)
+
     genrule(
-      name = '%s_%s_gwtxml_gen' % (name, ua),
+      name = '%s_gwtxml_gen' % gwt_name,
       cmd = 'cd $TMP;' +
         ('mkdir -p $(dirname %s);' % gwt) +
         ('echo "%s">%s;' % (xml, gwt)) +
@@ -63,15 +62,22 @@ def gwt_user_agent_permutations(
       out = jar,
     )
     prebuilt_jar(
-      name = '%s_%s_gwtxml_lib' % (name, ua),
+      name = '%s_gwtxml_lib' % gwt_name,
       binary_jar = genfile(jar),
-      deps = [':%s_%s_gwtxml_gen' % (name, ua)],
+      gwt_jar = genfile(jar),
+      deps = [':%s_gwtxml_gen' % gwt_name],
     )
-    gwt_application(
-      name = '%s_%s' % (name, ua),
-      module_target = module_target + '_' + ua,
-      compiler_opts = compiler_opts,
-      deps = deps + [':%s_%s_gwtxml_lib' % (name, ua)],
+    gwt_binary(
+      name = gwt_name,
+      modules = [modules[0] + '_' + ua],
+      style = style,
+      optimize = optimize,
+      draft_compile = draft_compile,
+      module_deps = module_deps + [':%s_gwtxml_lib' % gwt_name],
+      deps = deps,
+      local_workers = cpu_count(),
+      strict = True,
+      experimental_args = GWT_COMPILER_ARGS,
+      vm_args = GWT_JVM_ARGS,
       visibility = visibility,
     )
-

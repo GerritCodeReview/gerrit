@@ -43,10 +43,10 @@ gwt_module(
   visibility = ['PUBLIC'],
 )
 
-java_library2(
+java_library(
   name = 'linker_server',
   srcs = glob([SRC + 'linker/server/*.java']),
-  compile_deps = ['//lib:servlet-api-3_1'],
+  provided_deps = ['//lib:servlet-api-3_1'],
   visibility = ['PUBLIC'],
 )
 
@@ -74,12 +74,12 @@ java_test(
     'src/test/java/com/google/gwtexpui/safehtml/client/**/*.java',
   ]),
   deps = [
-    ':SafeHtml_lib',
+    ':SafeHtml',
     '//lib:junit',
     '//lib/gwt:user',
     '//lib/gwt:dev',
   ],
-  source_under_test = [':SafeHtml_lib'],
+  source_under_test = [':SafeHtml'],
 )
 
 gwt_module(
@@ -90,9 +90,9 @@ gwt_module(
   visibility = ['PUBLIC'],
 )
 
-java_library2(
+java_library(
   name = 'server',
   srcs = glob([SRC + 'server/*.java']),
-  compile_deps = ['//lib:servlet-api-3_1'],
+  provided_deps = ['//lib:servlet-api-3_1'],
   visibility = ['PUBLIC'],
 )

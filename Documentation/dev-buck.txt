@@ -42,13 +42,6 @@ Verify that `buck` is accessible:
   which buck
 ----
 
-If you plan to use the link:#buck-daemon[Buck daemon] add a symbolic
-link in `~/bin` to the buckd executable:
-
-----
-  ln -s `pwd`/bin/buckd ~/bin/
-----
-
 To enable autocompletion of buck commands, install the autocompletion
 script from `./scripts/bash_completion` in the buck project.  Refer to
 the script's header comments for installation instructions.
@@ -436,8 +429,8 @@ It is safe to run several buck daemons started from different project
 directories and they will not interfere with each other. Buck's documentation
 covers daemon in http://facebook.github.io/buck/command/buckd.html[buckd].
 
-The trivial use case is to run `buckd` from the project's root directory and
-run `buck` as usual:
+To use `buckd` the additional watchman program must be installed, see
+link:https://github.com/facebook/watchman[watchman] for details.
 
 ----
   buckd

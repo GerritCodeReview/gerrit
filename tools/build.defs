@@ -33,7 +33,7 @@ def scan_plugins():
   deps = []
   for n in os.listdir('plugins'):
     if os.path.exists(os.path.join('plugins', n, 'BUCK')):
-      deps.append('//plugins/%s:%s__plugin__compile' % (n, n))
+      deps.append('//plugins/%s:%s__plugin' % (n, n))
   return deps
 
 def war(
@@ -57,15 +57,9 @@ def war(
     dep.extend(DOCS_DEP)
     cmd.extend(['--lib', DOCS_LIB])
   if context:
-    root = get_base_path()
-    if root:
-      root = '/'.join(['..' for _ in root.split('/')]) + '/'
-    for r in context:
-      dep.append(r[:r.rindex('.')])
-      if r.startswith('//'):
-        r = root + r[2:]
-      r = r.replace(':', '/')
-      src.append(genfile(r))
+    for t in context:
+      dep.append(t)
+      cmd.append('$(location %s)' % t)
   if src:
     cmd.append('$SRCS')
 
@@ -84,9 +78,9 @@ def gerrit_war(name, ui = 'ui_optdbg', context = [], docs = False, visibility = 
     libs = LIBS + ['//gerrit-war:version'],
     pgmlibs = PGMLIBS,
     context = [
-      '//gerrit-main:main_bin.jar',
-      '//gerrit-war:webapp_assets.zip',
-      '//gerrit-gwtui:' + ui + '.zip',
+      '//gerrit-main:main_bin',
+      '//gerrit-war:webapp_assets',
+      '//gerrit-gwtui:' + ui,
     ] + context,
     docs = docs,
     visibility = visibility,

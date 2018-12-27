@@ -19,7 +19,7 @@ def prolog_cafe_library(
     visibility = []):
   genrule(
     name = name + '__pl2j',
-    cmd = 'cd $SRCDIR;$(exe //lib/prolog:compiler)' +
+    cmd = '$(exe //lib/prolog:compiler)' +
       ' $TMP $OUT ' +
       ' '.join(srcs),
     srcs = srcs,

@@ -1,20 +1,22 @@
 include_defs('//gerrit-gwtui/gwt.defs')
 include_defs('//tools/gwt-constants.defs')
+from multiprocessing import cpu_count
+
+DEPS = [
+  '//gerrit-gwtexpui:CSS',
+  '//lib:gwtjsonrpc',
+]
 
 genrule(
   name = 'ui_optdbg',
   cmd = 'cd $TMP;' +
-    'unzip -q $SRCDIR/ui_dbg.zip;' +
+    'unzip -q $(location :ui_dbg);' +
     'mv' +
     ' gerrit_ui/gerrit_ui.nocache.js' +
     ' gerrit_ui/gerrit_dbg.nocache.js;' +
-    'unzip -qo $SRCDIR/ui_opt.zip;' +
+    'unzip -qo $(location :ui_opt);' +
     'mkdir -p $(dirname $OUT);' +
     'zip -qr $OUT .',
-  srcs = [
-    genfile('ui_dbg.zip'),
-    genfile('ui_opt.zip'),
-  ],
   deps = [
     ':ui_dbg',
     ':ui_opt',
@@ -23,28 +25,39 @@ genrule(
   visibility = ['PUBLIC'],
 )
 
-gwt_application(
+gwt_binary(
   name = 'ui_opt',
-  module_target = MODULE,
-  compiler_opts = GWT_COMPILER_OPTS,
-  deps = APP_DEPS + [':ui_dbg'],
+  modules = [MODULE],
+  style = 'OBF',
+  optimize = 9,
+  module_deps = [':ui_module'],
+  deps = DEPS + ['//lib/gwt:dev', ':ui_dbg'],
+  local_workers = cpu_count(),
+  strict = True,
+  experimental_args = GWT_COMPILER_ARGS,
+  vm_args = GWT_JVM_ARGS,
 )
 
-gwt_application(
+gwt_binary(
   name = 'ui_dbg',
-  module_target = MODULE,
-  compiler_opts = DEBUG_OPTS + ['-strict'],
-  deps = APP_DEPS,
+  modules = [MODULE],
+  style = 'PRETTY',
+  optimize = 0,
+  module_deps = [':ui_module'],
+  deps = DEPS + ['//lib/gwt:dev'],
+  local_workers = cpu_count(),
+  strict = True,
+  experimental_args = GWT_COMPILER_ARGS,
+  vm_args = GWT_JVM_ARGS,
   visibility = ['//:eclipse'],
 )
 
 gwt_user_agent_permutations(
   name = 'ui',
   module_name = 'gerrit_ui',
-  module_target = MODULE,
-  compiler_opts = DEBUG_OPTS + ['-draftCompile'],
-  browsers = BROWSERS,
-  deps = APP_DEPS,
+  modules = [MODULE],
+  module_deps = [':ui_module'],
+  deps = DEPS,
   visibility = ['//:'],
 )
 
@@ -113,16 +126,16 @@ java_test(
     'src/main/java/com/google/gerrit/GerritGwtUI.gwt.xml',
   ],
   deps = [
-    ':ui_module_lib',
-    '//gerrit-common:client_lib',
-    '//gerrit-extension-api:client_lib',
+    ':ui_module',
+    '//gerrit-common:client',
+    '//gerrit-extension-api:client',
     '//lib:junit',
     '//lib/gwt:dev',
     '//lib/gwt:user',
     '//lib/gwt:gwt-test-utils',
     '//lib/jgit:jgit',
   ],
-  source_under_test = [':ui_module_lib'],
+  source_under_test = [':ui_module'],
   vm_args = ['-Xmx512m'],
   visibility = ['//tools/eclipse:classpath'],
 )

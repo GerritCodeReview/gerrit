@@ -8,14 +8,14 @@ SRCS = glob(
 )
 RESOURCES =  glob(['src/main/resources/**/*'])
 
-java_library2(
+java_library(
   name = 'constants',
   srcs = CONSTANTS_SRC,
   visibility = ['PUBLIC'],
 )
 
 # TODO(sop) break up gerrit-server java_library(), its too big
-java_library2(
+java_library(
   name = 'server',
   srcs = SRCS,
   resources = RESOURCES,
@@ -66,7 +66,7 @@ java_library2(
     '//lib/lucene:core',
     '//lib/lucene:query-parser',
   ],
-  compile_deps = [
+  provided_deps = [
     '//lib/bouncycastle:bcprov',
     '//lib/bouncycastle:bcpg',
     '//lib/bouncycastle:bcpkix',

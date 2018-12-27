@@ -28,10 +28,10 @@ java_library(
   visibility = ['PUBLIC'],
 )
 
-java_library2(
+java_library(
   name = 'api',
   srcs = glob([SRC + '**/*.java']),
-  compile_deps = ['//lib/guice:guice'],
+  provided_deps = ['//lib/guice:guice'],
   visibility = ['PUBLIC'],
 )
 
@@ -45,7 +45,7 @@ java_doc(
   name = 'extension-api-javadoc',
   title = 'Gerrit Review Extension API Documentation',
   pkg = 'com.google.gerrit.extensions',
-  paths = ['$SRCDIR/src/main/java'],
+  paths = ['src/main/java'],
   srcs = SRCS,
   deps = [
     '//lib/guice:javax-inject',

@@ -578,7 +578,13 @@ public class JettyServer {
         String pkg = "gerrit-gwtui";
         String target = "ui_" + rule.select((HttpServletRequest) request);
         String rule = "//" + pkg + ":" + target;
-        File zip = new File(new File(gen, pkg), target + ".zip");
+        // TODO(davido): instead of assuming specific Buck's internal
+        // target directory for gwt_binary() artifacts, ask Buck for
+        // the location of user agent permutation GWT zip, e. g.:
+        // $ buck targets --show_output //gerrit-gwtui:ui_safari \
+        //    | awk '{print $2}'
+        String child = String.format("%s/__gwt_binary_%s__", pkg, target);
+        File zip = new File(new File(gen, child), target + ".zip");
 
         synchronized (this) {
           try {

@@ -21,9 +21,14 @@ from collections import defaultdict, deque
 import re
 from shutil import copyfileobj
 from subprocess import Popen, PIPE
-from sys import stdout
+from sys import stdout, stderr
 
 MAIN = ['//gerrit-pgm:pgm', '//gerrit-gwtui:ui_module']
+KNOWN_PROVIDED_DEPS = [
+  '//lib/bouncycastle:bcpg',
+  '//lib/bouncycastle:bcpkix',
+  '//lib/bouncycastle:bcprov',
+]
 
 def parse_graph():
   graph = defaultdict(list)
@@ -35,7 +40,14 @@ def parse_graph():
     if not m:
       continue
     target, dep = m.group(1), m.group(2)
-    if not target.endswith('__compile'):
+    # Dependencies included in provided_deps set are contained in audit
+    # classpath and must be sorted out. That's safe thing to do because
+    # they are not included in the final artifact.
+    if "DO_NOT_DISTRIBUTE" in dep:
+      if not target in KNOWN_PROVIDED_DEPS:
+        print('DO_NOT_DISTRIBUTE license for tagret: %s' % target, file=stderr)
+        exit(1)
+    else:
       graph[target].append(dep)
   r = p.wait()
   if r != 0:

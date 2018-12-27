@@ -22,12 +22,12 @@ java_library(
   visibility = ['PUBLIC'],
 )
 
-java_library2(
+java_library(
   name = 'gwtui-api-lib2',
   srcs = SRCS,
   resources = glob(['src/main/**/*']),
   deps = ['//gerrit-gwtui-common:client-lib2'],
-  compile_deps = DEPS,
+  provided_deps = DEPS,
   visibility = ['PUBLIC'],
 )
 
@@ -51,8 +51,8 @@ java_doc(
   name = 'gwtui-api-javadoc',
   title = 'Gerrit Review GWT Extension API Documentation',
   pkg = 'com.google.gerrit',
-  paths = ['$SRCDIR/src/main/java'] + COMMON,
-  srcs = SRCS + glob(COMMON),
-  deps = DEPS + ['//gerrit-gwtui-common:client-src-lib'],
+  paths = ['src/main/java'] + COMMON,
+  srcs = SRCS,
+  deps = DEPS + ['//gerrit-gwtui-common:client-lib2'],
   visibility = ['PUBLIC'],
 )

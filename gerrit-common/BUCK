@@ -17,6 +17,7 @@ gwt_module(
   srcs = glob([SRC + 'common/**/*.java']),
   gwtxml = SRC + 'Common.gwt.xml',
   deps = [
+    '//gerrit-extension-api:client',
     '//gerrit-patch-jgit:client',
     '//gerrit-prettify:client',
     '//gerrit-reviewdb:client',

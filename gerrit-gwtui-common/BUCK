@@ -14,11 +14,11 @@ java_library(
   visibility = ['PUBLIC'],
 )
 
-java_library2(
+java_library(
   name = 'client-lib2',
   srcs = glob(['src/main/**/*.java']),
   resources = glob(['src/main/**/*']),
-  compile_deps = ['//lib/gwt:user'],
+  provided_deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
 

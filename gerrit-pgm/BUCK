@@ -51,7 +51,7 @@ INIT_BASE_SRCS = [SRCS + 'BaseInit.java'] + glob(
 
 INIT_BASE_RSRCS = ['src/main/resources/com/google/gerrit/pgm/libraries.config']
 
-java_library2(
+java_library(
   name = 'init-base',
   srcs = INIT_BASE_SRCS,
   resources = INIT_BASE_RSRCS,
@@ -74,14 +74,14 @@ java_library2(
     '//lib:gwtorm',
     '//lib/log:api',
   ],
-  compile_deps = ['//gerrit-launcher:launcher'],
+  provided_deps = ['//gerrit-launcher:launcher'],
   visibility = [
     '//gerrit-war:',
     '//gerrit-acceptance-tests/...',
   ],
 )
 
-java_library2(
+java_library(
   name = 'pgm',
   srcs = glob(
     ['src/main/java/**/*.java'],
@@ -122,7 +122,7 @@ java_library2(
     '//lib/lucene:core',
     '//lib/prolog:prolog-cafe',
   ],
-  compile_deps = ['//gerrit-launcher:launcher'],
+  provided_deps = ['//gerrit-launcher:launcher'],
   visibility = [
     '//:',
     '//gerrit-acceptance-tests/...',

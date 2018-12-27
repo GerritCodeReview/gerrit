@@ -32,12 +32,6 @@ maven_jar(
   visibility = [],
 )
 
-python_binary(
-  name = 'compiler',
-  main = 'compiler.py',
-  visibility = ['PUBLIC'],
-)
-
 maven_jar(
   name = 'gwt-test-utils',
   id = 'com.googlecode.gwt-test-utils:gwt-test-utils:0.47',

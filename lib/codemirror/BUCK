@@ -13,10 +13,10 @@ genrule(
   cmd = ';'.join([
       ':>$OUT',
       "echo '/** @license' >>$OUT",
-      'unzip -p $SRCDIR/%s %s/LICENSE >>$OUT' % (ZIP, TOP),
+      'unzip -p %s %s/LICENSE >>$OUT' % (ZIP, TOP),
       "echo '*/' >>$OUT",
     ] +
-    ['unzip -p $SRCDIR/%s %s/%s >>$OUT' % (ZIP, TOP, n)
+    ['unzip -p %s %s/%s >>$OUT' % (ZIP, TOP, n)
      for n in CM3_CSS + CM3_THEMES]
   ),
   srcs = [genfile(ZIP)],
@@ -30,10 +30,10 @@ genrule(
   cmd = ';'.join([
       ':>$OUT',
       "echo '/** @license' >>$OUT",
-      'unzip -p $SRCDIR/%s %s/LICENSE >>$OUT' % (ZIP, TOP),
+      'unzip -p %s %s/LICENSE >>$OUT' % (ZIP, TOP),
       "echo '*/' >>$OUT",
     ] +
-    ['unzip -p $SRCDIR/%s %s/%s >>$OUT' % (ZIP, TOP, n)
+    ['unzip -p %s %s/%s >>$OUT' % (ZIP, TOP, n)
      for n in CM3_JS]
   ),
   srcs = [genfile(ZIP)],

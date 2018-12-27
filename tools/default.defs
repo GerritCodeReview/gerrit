@@ -14,7 +14,6 @@
 
 # Rule definitions loaded by default into every BUCK file.
 
-include_defs('//tools/buck.defs')
 include_defs('//tools/gwt-constants.defs')
 
 def genantlr(
@@ -44,78 +43,16 @@ def gwt_module(
     resources = resources + [gwtxml]
   java_library(
     name = name,
+    srcs = srcs,
     deps = deps + compile_deps,
     resources = srcs + resources,
-    visibility = visibility,
-  )
-  java_library(
-    name = name + '_lib',
-    srcs = srcs,
-    deps = [':' + name] + [d + '_lib' for d in deps] + compile_deps,
-    visibility = visibility,
-  )
-
-def gwt_application(
-    name,
-    module_target,
-    compiler_opts = [],
-    compiler_jvm_flags = [],
-    deps = [],
-    visibility = []):
-  cmd = ['$(exe //lib/gwt:compiler)', module_target, '$TMP', '$OUT']
-  cmd += compiler_opts + ['--', '$DEPS']
-  genrule(
-    name = name,
-    cmd = ' '.join(cmd),
-    deps = [
-      '//lib/gwt:compiler',
-      '//lib/gwt:dev',
-    ] + deps,
-    out = '%s.zip' % name,
-    visibility = visibility,
-  )
-
-# Compiles a Java library with additional compile-time dependencies
-# that do not show up as transitive dependencies to java_library()
-# or java_binary() rule that depends on this library.
-def java_library2(
-    name,
-    srcs = [],
-    resources = [],
-    deps = [],
-    compile_deps = [],
-    visibility = []):
-  c = name + '__compile'
-  t = name + '__link'
-  j = 'lib__%s__output/%s.jar' % (c, c)
-  o = 'lib__%s__output/%s.jar' % (name, name)
-  java_library(
-    name = c,
-    srcs = srcs,
-    resources = resources,
-    deps = deps + compile_deps,
-    visibility = ['//tools/eclipse:classpath'],
-  )
-  # Break the dependency chain by passing the newly built
-  # JAR to consumers through a prebuilt_jar().
-  genrule(
-    name = t,
-    cmd = 'mkdir -p $(dirname $OUT);ln -s $SRCS $OUT',
-    srcs = [genfile(j)],
-    deps = [':' + c],
-    out = o,
-  )
-  prebuilt_jar(
-    name = name,
-    binary_jar = genfile(o),
-    deps = deps + [':' + t],
     visibility = visibility,
   )
 
 def gerrit_extension(
     name,
     deps = [],
-    compile_deps = [],
+    provided_deps = [],
     srcs = [],
     resources = [],
     manifest_file = None,
@@ -124,7 +61,7 @@ def gerrit_extension(
   gerrit_plugin(
     name = name,
     deps = deps,
-    compile_deps = compile_deps,
+    provided_deps = provided_deps,
     srcs = srcs,
     resources = resources,
     manifest_file = manifest_file,
@@ -136,7 +73,7 @@ def gerrit_extension(
 def gerrit_plugin(
     name,
     deps = [],
-    compile_deps = [],
+    provided_deps = [],
     srcs = [],
     resources = [],
     gwt_module = None,
@@ -144,6 +81,7 @@ def gerrit_plugin(
     manifest_entries = [],
     type = 'plugin',
     visibility = ['PUBLIC']):
+  from multiprocessing import cpu_count
   mf_cmd = 'v=$(git describe HEAD);'
   if manifest_file:
     mf_src = [manifest_file]
@@ -168,12 +106,13 @@ def gerrit_plugin(
   if gwt_module:
     gwt_deps = GWT_PLUGIN_DEPS
     static_jars = [':%s-static-jar' % name]
-  java_library2(
+  java_library(
     name = name + '__plugin',
     srcs = srcs,
     resources = resources,
     deps = deps,
-    compile_deps = ['//gerrit-%s-api:lib' % type] + compile_deps + gwt_deps,
+    provided_deps = ['//gerrit-%s-api:lib' % type] + provided_deps + gwt_deps,
+    visibility = ['//tools/eclipse:classpath'],
   )
   if gwt_module:
     prebuilt_jar(
@@ -191,11 +130,16 @@ def gerrit_plugin(
       out = '%s-static.zip' % name,
       deps = [':%s__gwt_application' % name]
     )
-    gwt_application(
+    gwt_binary(
       name = name + '__gwt_application',
-      module_target = gwt_module,
-      compiler_opts = GWT_COMPILER_OPTS,
+      modules = [gwt_module],
+      style = 'OBF',
+      optimize = 9,
       deps = [':%s__plugin' % name] + gwt_deps,
+      local_workers = cpu_count(),
+      strict = True,
+      experimental_args = GWT_COMPILER_ARGS,
+      vm_args = GWT_JVM_ARGS,
     )
   java_binary(
     name = name,
@@ -225,8 +169,13 @@ def java_doc(
     paths,
     srcs = [],
     deps = [],
-    visibility = []
+    visibility = [],
+    do_it_wrong = False,
   ):
+  if do_it_wrong:
+    sourcepath = paths
+  else:
+    sourcepath = ['$SRCDIR/' + n for n in paths]
   genrule(
     name = name,
     cmd = ' '.join([
@@ -240,7 +189,7 @@ def java_doc(
       '-link http://docs.oracle.com/javase/7/docs/api',
       '-subpackages ' + pkg,
       '-sourcepath ',
-      ':'.join([n for n in paths]),
+      ':'.join(sourcepath),
       ' -classpath ',
       ':'.join(['$(location %s)' % n for n in deps]),
       '-d $TMP',

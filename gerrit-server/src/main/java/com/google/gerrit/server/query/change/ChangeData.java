@@ -441,7 +441,7 @@ public class ChangeData {
         commitMessage = c.getFullMessage();
         commitFooters = c.getFooterLines();
       } finally {
-        walk.release();
+        walk.close();
       }
     } finally {
       repo.close();

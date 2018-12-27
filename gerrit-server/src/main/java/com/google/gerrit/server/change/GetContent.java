@@ -71,10 +71,10 @@ public class GetContent implements RestReadView<FileResource> {
           };
           return result.setContentLength(object.getSize()).base64();
         } finally {
-          tw.release();
+          tw.close();
         }
       } finally {
-        rw.release();
+        rw.close();
       }
     } finally {
       repo.close();

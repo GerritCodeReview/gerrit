@@ -154,7 +154,7 @@ public class ChangeKindCache {
         }
       } finally {
         key.repo = null;
-        walk.release();
+        walk.close();
       }
     }
 

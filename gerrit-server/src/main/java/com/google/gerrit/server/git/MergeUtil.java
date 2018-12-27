@@ -487,7 +487,7 @@ public class MergeUtil {
       }
 
       @Override
-      public void release() {
+      public void close() {
         // Do nothing.
       }
     };
@@ -668,7 +668,7 @@ public class MergeUtil {
       }
 
       @Override
-      public void release() {
+      public void close() {
       }
     });
     return (ThreeWayMerger) m;

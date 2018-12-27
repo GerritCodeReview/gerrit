@@ -232,8 +232,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
         tw.reset();
       }
     } finally {
-      tw.release();
-      rw.release();
+      tw.close();
+      rw.close();
       repo.close();
     }
   }

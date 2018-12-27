@@ -105,9 +105,13 @@ public interface ChangeApi {
 
   void setPrivate(boolean value, @Nullable String message) throws RestApiException;
 
-  void setWorkInProgress(String message) throws RestApiException;
+  default void setPrivate(boolean value) throws RestApiException {
+    setPrivate(value, null);
+  }
 
-  void setReadyForReview(String message) throws RestApiException;
+  void setWorkInProgress(@Nullable String message) throws RestApiException;
+
+  void setReadyForReview(@Nullable String message) throws RestApiException;
 
   default void setWorkInProgress() throws RestApiException {
     setWorkInProgress(null);

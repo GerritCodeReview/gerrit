@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64dc8ed1_27e08ec3",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-12-27T22:08:40Z",
+      "side": 1,
+      "message": "Should be removed.",
+      "range": {
+        "startLine": 217,
+        "startChar": 85,
+        "endLine": 217,
+        "endChar": 98
+      },
+      "revId": "ad2877c00ffce72d0b600e96ecb35ee090b18287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bc3fcc9_ebff2a27",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-12-27T22:08:40Z",
+      "side": 1,
+      "message": "Should be removed.",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 223,
+        "endChar": 5
+      },
+      "revId": "ad2877c00ffce72d0b600e96ecb35ee090b18287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

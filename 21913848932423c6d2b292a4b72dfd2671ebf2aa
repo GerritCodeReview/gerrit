@@ -17,6 +17,24 @@
       "revId": "21913848932423c6d2b292a4b72dfd2671ebf2aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70a9988f_8f96b583",
+        "filename": ".buckversion",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-27T09:53:50Z",
+      "side": 1,
+      "message": "Yes, it\u0027s the version from stable-2.10. But I realised that there were quite some buck related changes in stable-2.10 that seem to be needed for this version. Not sure if it\u0027s a good idea to backport all of them. Maybe the CI can be changed to not set --no-results-cache for validating changes on stable-2.9?",
+      "parentUuid": "9239083a_17864e5e",
+      "revId": "21913848932423c6d2b292a4b72dfd2671ebf2aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

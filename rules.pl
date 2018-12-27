@@ -1,3 +1,4 @@
+is_no_code_style_branch('refs/heads/stable-2.9').
 is_no_code_style_branch('refs/heads/stable-2.10').
 is_no_code_style_branch('refs/heads/stable-2.11').
 is_no_code_style_branch('refs/heads/stable-2.12').

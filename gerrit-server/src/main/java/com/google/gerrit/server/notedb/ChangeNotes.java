@@ -435,7 +435,7 @@ public class ChangeNotes extends VersionedMetaData {
       this.reviewers = reviewers.build();
       submitRecords = ImmutableList.copyOf(parser.submitRecords);
     } finally {
-      walk.release();
+      walk.close();
     }
   }
 

@@ -127,7 +127,7 @@ public class IncludedInResolverTest extends RepositoryTestCase {
 
   @After
   public void tearDown() throws Exception {
-    revWalk.release();
+    revWalk.close();
     super.tearDown();
   }
 

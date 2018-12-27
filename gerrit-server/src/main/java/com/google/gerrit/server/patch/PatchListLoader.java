@@ -165,7 +165,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       return new PatchList(a, b, againstParent,
           entries.toArray(new PatchListEntry[entries.size()]));
     } finally {
-      reader.release();
+      reader.close();
     }
   }
 
@@ -281,7 +281,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         }
 
         @Override
-        public void release() {
+        public void close() {
         }
       });
 
@@ -319,7 +319,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         Map<String, ObjectId> resolved = new HashMap<String, ObjectId>();
         for (Map.Entry<String, MergeResult<? extends Sequence>> entry : r.entrySet()) {
           MergeResult<? extends Sequence> p = entry.getValue();
-          TemporaryBuffer buf = new TemporaryBuffer.LocalFile(10 * 1024 * 1024);
+          TemporaryBuffer buf = new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024);
           try {
             fmt.formatMerge(buf, p, "BASE", oursName, theirsName, "UTF-8");
             buf.close();
@@ -381,7 +381,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       }
       ins.flush();
     } finally {
-      ins.release();
+      ins.close();
     }
 
     if (save) {
@@ -400,7 +400,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       oi.flush();
       return id;
     } finally {
-      oi.release();
+      oi.close();
     }
   }
 }

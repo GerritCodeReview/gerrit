@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1545925591 +0100\nnonce AJbGYzm8XMMWvkyS1hE7Juz4ooduJhpDgl5uiszyJbV91nM7r+x7RPQ46Exu/ImkgBrrpVESCjbD\n\n0000000000000000000000000000000000000000 bf9864ee304d9b1bc52a2095085704212e5497b1 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJcJPPXAAoJEHFVO370GiZWJgwH/3SW7ks1O+Tz1rT+jRtSQz3n\n0VnIhnZTWCG2yEb6xBugooQ7U02Ty4g5Oyov4cnj+EgtGVpZl4vBhQ7LCa4DEA9r\nHSkvftoM4QnaQkRchNwSwFSCxtpr8YVSalBteIEjbF2tsMlh6nRjBW39T0R6NSFA\nQuiq064OPmwdDZV4FGT5AMyMYZXKg4sm700pmo8d9wEm/THae39Dphd7N2c8r6tj\nLa7eFh7M1v8D15HSfmE6fvwakPRlfJjXz/bu3sgUlPkRPr3FyzUMKpzDEm0A0+TU\nKmR3UmZecLLb9xfmYSz6Ajrg+cYnzUA/KsyVL4r8TL1bBr8EH5dh2VHqmCOYxz8\u003d\n\u003dttNC\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "703af541_2fd757c7",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-27T22:10:56Z",
+      "side": 1,
+      "message": "I do not believe we ever waited for all features to be complete to cut the RC0 ;-)\nBut we should definitely wait for them to cut the first stable release (e.g. 2.16) or flag them as experimental (e.g. Polygerrit, NoteDb, Git v2)",
+      "range": {
+        "startLine": 334,
+        "startChar": 11,
+        "endLine": 334,
+        "endChar": 56
+      },
+      "revId": "bf9864ee304d9b1bc52a2095085704212e5497b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f110839c_af9c2a49",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-27T22:10:56Z",
+      "side": 1,
+      "message": "Seems a bit selfish IMHO. Can we change it to \"the Gerrit community\" and if they are \"backward compatible\" with existing configuration, data, and plugins?\n\nPeople may accept to have new non-breaking features on stable branches, but they are definitely not expecting that plugins won\u0027t work anymore because of breaking changes in the APIs.",
+      "range": {
+        "startLine": 341,
+        "startChar": 81,
+        "endLine": 342,
+        "endChar": 16
+      },
+      "revId": "bf9864ee304d9b1bc52a2095085704212e5497b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d37331da_1fea60fa",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-27T22:10:56Z",
+      "side": 1,
+      "message": "Can we add \"and the community on the mailing list?\"",
+      "range": {
+        "startLine": 343,
+        "startChar": 34,
+        "endLine": 343,
+        "endChar": 45
+      },
+      "revId": "bf9864ee304d9b1bc52a2095085704212e5497b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "356f3dbc_b700f047",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-27T22:10:56Z",
+      "side": 1,
+      "message": "After having consulted the Gerrit community on the mailing list.",
+      "range": {
+        "startLine": 345,
+        "startChar": 17,
+        "endLine": 345,
+        "endChar": 32
+      },
+      "revId": "bf9864ee304d9b1bc52a2095085704212e5497b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

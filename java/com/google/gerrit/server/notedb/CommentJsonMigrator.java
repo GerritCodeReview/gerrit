@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.server.notedb.RevisionNote.MAX_NOTE_SZ;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.collect.ImmutableList;
@@ -40,6 +39,7 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -222,7 +222,11 @@ public class CommentJsonMigrator {
       NoteMap noteMap = NoteMap.read(reader, c);
       for (Note note : noteMap) {
         // Match pre-parsing logic in RevisionNote#parse().
-        byte[] raw = reader.open(note.getData(), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
+        ObjectLoader objectLoader = reader.open(note.getData(), OBJ_BLOB);
+        if (objectLoader.isLarge()) {
+          throw new IOException(String.format("Comment note %s is too large", note.name()));
+        }
+        byte[] raw = objectLoader.getCachedBytes();
         MutableInteger p = new MutableInteger();
         RevisionNote.trimLeadingEmptyLines(raw, p);
         if (!ChangeRevisionNote.isJson(raw, p.value)) {

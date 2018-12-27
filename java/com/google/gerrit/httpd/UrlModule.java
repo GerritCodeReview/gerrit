@@ -211,8 +211,16 @@ class UrlModule extends ServletModule {
 
   static void toGerrit(String target, HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
+    toGerrit(target, req, rsp, false);
+  }
+
+  static void toGerrit(String target, HttpServletRequest req, HttpServletResponse rsp, boolean gwt)
+      throws IOException {
     final StringBuilder url = new StringBuilder();
     url.append(req.getContextPath());
+    if (gwt) {
+      url.append("/#");
+    }
     url.append(target);
     rsp.sendRedirect(url.toString());
   }

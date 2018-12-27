@@ -314,7 +314,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public void setWorkInProgress(String message) throws RestApiException {
+  public void setWorkInProgress(@Nullable String message) throws RestApiException {
     try {
       setWip.apply(change, new WorkInProgressOp.Input(message));
     } catch (Exception e) {
@@ -323,7 +323,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public void setReadyForReview(String message) throws RestApiException {
+  public void setReadyForReview(@Nullable String message) throws RestApiException {
     try {
       setReady.apply(change, new WorkInProgressOp.Input(message));
     } catch (Exception e) {

@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest.project;
+package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
-import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
+@NoHttpd
 public class CommitIncludedInIT extends AbstractDaemonTest {
   @Test
   public void includedInOpenChange() throws Exception {
@@ -60,10 +61,6 @@ public class CommitIncludedInIT extends AbstractDaemonTest {
   }
 
   private IncludedInInfo getIncludedIn(ObjectId id) throws Exception {
-    RestResponse r =
-        userRestSession.get("/projects/" + project.get() + "/commits/" + id.name() + "/in");
-    IncludedInInfo result = newGson().fromJson(r.getReader(), IncludedInInfo.class);
-    r.consume();
-    return result;
+    return gApi.projects().name(project.get()).commit(id.name()).includedIn();
   }
 }

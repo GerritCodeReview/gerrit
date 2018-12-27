@@ -128,11 +128,12 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
       throws RestApiException, UpdateException {
     AccountState accountState = user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null;
-    AbandonOp op = abandonOpFactory.create(accountState, msgTxt, notifyHandling, accountsToNotify);
+    AbandonOp op =
+        abandonOpFactory.create(notes, accountState, msgTxt, notifyHandling, accountsToNotify);
     try (BatchUpdate u = updateFactory.create(notes.getProjectName(), user, TimeUtil.nowTs())) {
       u.addOp(notes.getChangeId(), op).execute();
     }
-    return op.getChange();
+    return op.getUpdatedChange();
   }
 
   @Override

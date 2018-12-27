@@ -817,7 +817,13 @@
       // displayed on an earlier change.
       this._showRelatedToggle = false;
 
-      const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
+      let title = change.subject + ' (';
+      if (change.hasOwnProperty('change-id')) {
+        title += change.change_id.substr(0, 9);
+      } else {
+        title += change._number;
+      }
+      title += ')';
       this.fire('title-change', {title});
     },
 
@@ -851,6 +857,12 @@
     },
 
     _computeChangeIdCommitMessageError(commitMessage, change) {
+      if (change.type === 'BRANCH') {
+        // Branch changes should have no Change-Id, and that's ok.
+        // TODO(dborowitz): Unless we decide we should warn if a commit message
+        // *does* have one.
+        return null;
+      }
       if (!commitMessage) { return CHANGE_ID_ERROR.MISSING; }
 
       // Find the last match in the commit message:
@@ -1163,11 +1175,20 @@
             if (!this._patchRange || !this._patchRange.patchNum ||
                 this.patchNumEquals(this._patchRange.patchNum,
                     currentRevision._number)) {
-              // CommitInfo.commit is optional, and may need patching.
-              if (!currentRevision.commit.commit) {
-                currentRevision.commit.commit = latestRevisionSha;
+
+              if (currentRevision.hasOwnProperty('commit')) {
+                this._commitInfo = currentRevision.commit;
+              } else {
+                // Branch change. Assume for now that we should just take the
+                // tip commit of the branch, i.e. the first commit in the list.
+                // TODO(dborowitz): See what breaks.
+                this._commitInfo = currentRevision.commits[0];
               }
-              this._commitInfo = currentRevision.commit;
+              // CommitInfo.commit is optional, and may need patching.
+              if (!this._commitInfo.commit) {
+                this._commitInfo.commit = latestRevisionSha;
+              }
+
               this._currentRevisionActions =
                       this._updateRebaseAction(currentRevision.actions);
               this._selectedRevision = currentRevision;

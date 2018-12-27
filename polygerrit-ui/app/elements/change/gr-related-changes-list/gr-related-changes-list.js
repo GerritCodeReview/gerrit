@@ -57,6 +57,10 @@
         type: Object,
         value() { return {changes: []}; },
       },
+      _changeCommits: {
+        type: Array,
+        value() { return []; },
+      },
       /** @type {?} */
       _submittedTogether: {
         type: Object,
@@ -83,7 +87,7 @@
 
     observers: [
       '_resultsChanged(_relatedResponse, _submittedTogether, ' +
-          '_conflicts, _cherryPicks, _sameTopic)',
+          '_conflicts, _cherryPicks, _sameTopic, _changeCommits)',
     ],
 
     clear() {
@@ -92,6 +96,7 @@
 
       this._relatedResponse = {changes: []};
       this._submittedTogether = {changes: []};
+      this._changeCommits = [];
       this._conflicts = [];
       this._cherryPicks = [];
       this._sameTopic = [];
@@ -103,21 +108,36 @@
       }
       this.loading = true;
       const promises = [
-        this._getRelatedChanges().then(response => {
-          this._relatedResponse = response;
-          this._fireReloadEvent();
-          this.hasParent = this._calculateHasParent(this.change.change_id,
-              response.changes);
-        }),
         this._getSubmittedTogether().then(response => {
           this._submittedTogether = response;
           this._fireReloadEvent();
         }),
-        this._getCherryPicks().then(response => {
+      ];
+
+      if (this.change.type != 'BRANCH') {
+        // TODO(dborowitz): This is a hack to skip showing related changes for
+        // branch changes, but whether we actually want to do this or not is
+        // still unresolved.
+        promises.push(this._getRelatedChanges().then(response => {
+          this._relatedResponse = response;
+          this._fireReloadEvent();
+          this.hasParent = this._calculateHasParent(this.change.change_id,
+              response.changes);
+        }));
+        promises.push(this._getCherryPicks().then(response => {
           this._cherryPicks = response;
           this._fireReloadEvent();
-        }),
-      ];
+        }));
+      } else {
+        this.hasParent = false;
+        for (const revId in this.change.revisions) {
+          const rev = this.change.revisions[revId];
+          if (this.patchNumEquals(rev._number, this.patchNum)) {
+            this._changeCommits = rev.commits;
+            break;
+          }
+        }
+      }
 
       // Get conflicts if change is open and is mergeable.
       if (this.changeIsOpen(this.change.status) && this.mergeable) {
@@ -288,9 +308,10 @@
     },
 
     _resultsChanged(related, submittedTogether, conflicts,
-        cherryPicks, sameTopic) {
+        cherryPicks, sameTopic, changeCommits) {
       const results = [
         related && related.changes,
+        changeCommits,
         submittedTogether && submittedTogether.changes,
         conflicts,
         cherryPicks,
@@ -353,6 +374,10 @@
     _computeNonVisibleChangesNote(n) {
       const noun = n === 1 ? 'change' : 'changes';
       return `(+ ${n} non-visible ${noun})`;
+    },
+
+    _abbreviate(sha) {
+      return sha.substring(0, 8);
     },
   });
 })();

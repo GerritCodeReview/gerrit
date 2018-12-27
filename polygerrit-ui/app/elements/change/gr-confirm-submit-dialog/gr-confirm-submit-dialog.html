@@ -16,7 +16,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -52,6 +52,17 @@ limitations under the License.
           <p>
             Ready to submit &ldquo;<strong>[[change.subject]]</strong>&rdquo;?
           </p>
+          <div hidden$="[[_computeHideDeleteSourceBranch(change)]]" hidden>
+            <label for="deleteSourceBranchInput">
+              Delete source branch <em>[[change.source_branch]]</em>?
+            </label>
+            <input
+                is="iron-input"
+                type="checkbox"
+                id="deleteSourceBranchInput"
+                on-tap="_handleDeleteSourceBranchTap"
+                checked>
+          </div>
           <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
           <gr-endpoint-param name="action" value="[[action]]"></gr-endpoint-param>
         </gr-endpoint-decorator>

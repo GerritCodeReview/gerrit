@@ -166,6 +166,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_REVIEWEDBY = "reviewedby";
   public static final String FIELD_REVIEWER = "reviewer";
   public static final String FIELD_REVIEWERIN = "reviewerin";
+  public static final String FIELD_SOURCE = "source";
   public static final String FIELD_STAR = "star";
   public static final String FIELD_STARBY = "starby";
   public static final String FIELD_STARREDBY = "starredby";
@@ -173,6 +174,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_STATUS = "status";
   public static final String FIELD_SUBMISSIONID = "submissionid";
   public static final String FIELD_TR = "tr";
+  public static final String FIELD_TYPE = "type";
   public static final String FIELD_UNRESOLVED_COMMENT_COUNT = "unresolved";
   public static final String FIELD_VISIBLETO = "visibleto";
   public static final String FIELD_WATCHEDBY = "watchedby";

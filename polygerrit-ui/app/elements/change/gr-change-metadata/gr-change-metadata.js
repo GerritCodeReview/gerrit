@@ -185,6 +185,10 @@
       return !this.changeIsOpen(change.status);
     },
 
+    _computeHideSourceBranch(change) {
+      return change.type === 'COMMIT' || !change.source_branch;
+    },
+
     /**
      * @param {Object} commitInfo
      * @return {?Array} If array is empty, returns null instead so

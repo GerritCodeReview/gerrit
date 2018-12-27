@@ -117,6 +117,8 @@ public class SubmitDryRun {
     CodeReviewCommit tipCommit = rw.parseCommit(tip);
     CodeReviewCommit toMergeCommit = rw.parseCommit(toMerge);
     RevFlag canMerge = rw.newFlag("CAN_MERGE");
+    RevFlag branchChangeFlag = rw.newFlag("BRANCH_CHANGE");
+    rw.carry(branchChangeFlag);
     toMergeCommit.add(canMerge);
     Arguments args =
         new Arguments(
@@ -124,7 +126,12 @@ public class SubmitDryRun {
             rw,
             mergeUtilFactory.create(getProject(destBranch)),
             new MergeSorter(
-                rw, alreadyAccepted, canMerge, queryProvider, ImmutableSet.of(toMergeCommit)));
+                rw,
+                alreadyAccepted,
+                canMerge,
+                branchChangeFlag,
+                queryProvider,
+                ImmutableSet.of(toMergeCommit)));
 
     switch (submitType) {
       case CHERRY_PICK:

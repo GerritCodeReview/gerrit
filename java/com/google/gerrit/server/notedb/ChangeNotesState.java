@@ -93,7 +93,7 @@ public abstract class ChangeNotesState {
   static ChangeNotesState create(
       ObjectId metaId,
       Change.Id changeId,
-      Change.Key changeKey,
+      @Nullable Change.Key changeKey,
       Timestamp createdOn,
       Timestamp lastUpdatedOn,
       Account.Id owner,
@@ -121,7 +121,10 @@ public abstract class ChangeNotesState {
       boolean isPrivate,
       boolean workInProgress,
       boolean reviewStarted,
-      @Nullable Change.Id revertOf) {
+      @Nullable Change.Id revertOf,
+      Change.Type type,
+      @Nullable String source,
+      @Nullable ObjectId submittedAt) {
     requireNonNull(
         metaId,
         () ->
@@ -151,6 +154,8 @@ public abstract class ChangeNotesState {
                 .workInProgress(workInProgress)
                 .reviewStarted(reviewStarted)
                 .revertOf(revertOf)
+                .type(type)
+                .source(source)
                 .build())
         .pastAssignees(pastAssignees)
         .hashtags(hashtags)
@@ -165,6 +170,7 @@ public abstract class ChangeNotesState {
         .submitRecords(submitRecords)
         .changeMessages(changeMessages)
         .publishedComments(publishedComments)
+        .submittedAt(submittedAt)
         .build();
   }
 
@@ -179,6 +185,7 @@ public abstract class ChangeNotesState {
       return new AutoValue_ChangeNotesState_ChangeColumns.Builder();
     }
 
+    @Nullable
     abstract Change.Key changeKey();
 
     abstract Timestamp createdOn();
@@ -220,11 +227,16 @@ public abstract class ChangeNotesState {
     @Nullable
     abstract Change.Id revertOf();
 
+    abstract Change.Type type();
+
+    @Nullable
+    abstract String source();
+
     abstract Builder toBuilder();
 
     @AutoValue.Builder
     abstract static class Builder {
-      abstract Builder changeKey(Change.Key changeKey);
+      abstract Builder changeKey(@Nullable Change.Key changeKey);
 
       abstract Builder createdOn(Timestamp createdOn);
 
@@ -255,6 +267,10 @@ public abstract class ChangeNotesState {
       abstract Builder reviewStarted(boolean reviewStarted);
 
       abstract Builder revertOf(@Nullable Change.Id revertOf);
+
+      abstract Builder type(Change.Type type);
+
+      abstract Builder source(String source);
 
       abstract ChangeColumns build();
     }
@@ -297,6 +313,9 @@ public abstract class ChangeNotesState {
 
   abstract ImmutableListMultimap<RevId, Comment> publishedComments();
 
+  @Nullable
+  abstract ObjectId submittedAt();
+
   Change newChange(Project.NameKey project) {
     ChangeColumns c = requireNonNull(columns(), "columns are required");
     Change change =
@@ -336,6 +355,8 @@ public abstract class ChangeNotesState {
     change.setWorkInProgress(c.workInProgress());
     change.setReviewStarted(c.reviewStarted());
     change.setRevertOf(c.revertOf());
+    change.setType(c.type());
+    change.setSource(c.source());
 
     if (!patchSets().isEmpty()) {
       change.setCurrentPatchSet(c.currentPatchSetId(), c.subject(), c.originalSubject());
@@ -398,6 +419,8 @@ public abstract class ChangeNotesState {
 
     abstract Builder publishedComments(ListMultimap<RevId, Comment> publishedComments);
 
+    abstract Builder submittedAt(ObjectId submittedAt);
+
     abstract ChangeNotesState build();
   }
 
@@ -410,6 +433,8 @@ public abstract class ChangeNotesState {
         Enums.stringConverter(Change.Status.class);
     private static final Converter<String, ReviewerStateInternal> REVIEWER_STATE_CONVERTER =
         Enums.stringConverter(ReviewerStateInternal.class);
+    private static final Converter<String, Change.Type> TYPE_CONVERTER =
+        Enums.stringConverter(Change.Type.class);
 
     @Override
     public byte[] serialize(ChangeNotesState object) {
@@ -472,11 +497,14 @@ public abstract class ChangeNotesState {
     private static ChangeColumnsProto toChangeColumnsProto(ChangeColumns cols) {
       ChangeColumnsProto.Builder b =
           ChangeColumnsProto.newBuilder()
-              .setChangeKey(cols.changeKey().get())
               .setCreatedOn(cols.createdOn().getTime())
               .setLastUpdatedOn(cols.lastUpdatedOn().getTime())
               .setOwner(cols.owner().get())
-              .setBranch(cols.branch());
+              .setBranch(cols.branch())
+              .setType(TYPE_CONVERTER.reverse().convert(cols.type()));
+      if (cols.changeKey() != null) {
+        b.setChangeKey(cols.changeKey().get());
+      }
       if (cols.currentPatchSetId() != null) {
         b.setCurrentPatchSetId(cols.currentPatchSetId().get()).setHasCurrentPatchSetId(true);
       }
@@ -501,6 +529,9 @@ public abstract class ChangeNotesState {
           .setReviewStarted(cols.reviewStarted());
       if (cols.revertOf() != null) {
         b.setRevertOf(cols.revertOf().get()).setHasRevertOf(true);
+      }
+      if (cols.source() != null) {
+        b.setSource(cols.source()).setHasSource(true);
       }
       return b.build();
     }
@@ -604,11 +635,15 @@ public abstract class ChangeNotesState {
     private static ChangeColumns toChangeColumns(Change.Id changeId, ChangeColumnsProto proto) {
       ChangeColumns.Builder b =
           ChangeColumns.builder()
-              .changeKey(new Change.Key(proto.getChangeKey()))
               .createdOn(new Timestamp(proto.getCreatedOn()))
               .lastUpdatedOn(new Timestamp(proto.getLastUpdatedOn()))
               .owner(new Account.Id(proto.getOwner()))
               .branch(proto.getBranch());
+      // TODO(dborowitz): Add has_change_key field? OTOH checking for emptiness should be safe since
+      // the populated value is never empty.
+      if (proto.getChangeKey().isEmpty()) {
+        b.changeKey(new Change.Key(proto.getChangeKey()));
+      }
       if (proto.getHasCurrentPatchSetId()) {
         b.currentPatchSetId(new PatchSet.Id(changeId, proto.getCurrentPatchSetId()));
       }
@@ -633,6 +668,10 @@ public abstract class ChangeNotesState {
           .reviewStarted(proto.getReviewStarted());
       if (proto.getHasRevertOf()) {
         b.revertOf(new Change.Id(proto.getRevertOf()));
+      }
+      b.type(TYPE_CONVERTER.convert(proto.getType()));
+      if (proto.getHasSource()) {
+        b.source(proto.getSource());
       }
       return b.build();
     }

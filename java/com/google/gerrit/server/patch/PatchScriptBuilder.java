@@ -528,6 +528,7 @@ class PatchScriptBuilder {
             mode = FileMode.MISSING;
             displayMethod = DisplayMethod.NONE;
           } else {
+            // TODO(dborowitz): Detect a branch change here
             id = within;
             src = Text.forMergeList(comparisonType, reader, within);
             srcContent = src.getContent();

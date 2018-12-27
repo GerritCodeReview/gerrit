@@ -347,9 +347,8 @@ public class ChangeJson {
   }
 
   private static void finish(ChangeInfo info) {
-    info.id =
-        Joiner.on('~')
-            .join(Url.encode(info.project), Url.encode(info.branch), Url.encode(info.changeId));
+    // TODO(dborowitz): Is this a sane change to make upstream?
+    info.id = Joiner.on('~').join(Url.encode(info.project), info._number);
   }
 
   private static boolean containsAnyOf(
@@ -450,10 +449,14 @@ public class ChangeJson {
     if (c != null) {
       info.project = c.getProject().get();
       info.branch = c.getDest().getShortName();
+      if (c.getSource() != null) {
+        info.sourceBranch = c.getSource().getShortName();
+      }
       info.topic = c.getTopic();
-      info.changeId = c.getKey().get();
+      info.changeId = c.getKeyString();
       info.subject = c.getSubject();
       info.status = c.getStatus().asChangeStatus();
+      info.type = c.getType().name();
       info.owner = new AccountInfo(c.getOwner().get());
       info.created = c.getCreatedOn();
       info.updated = c.getLastUpdatedOn();
@@ -500,10 +503,13 @@ public class ChangeJson {
     Change in = cd.change();
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
+    if (in.getSource() != null) {
+      out.sourceBranch = in.getSource().getShortName();
+    }
     out.topic = in.getTopic();
     out.assignee = in.getAssignee() != null ? accountLoader.get(in.getAssignee()) : null;
     out.hashtags = cd.hashtags();
-    out.changeId = in.getKey().get();
+    out.changeId = in.getKeyString();
     if (in.getStatus().isOpen()) {
       SubmitTypeRecord str = cd.submitTypeRecord();
       if (str.isOk()) {
@@ -526,6 +532,7 @@ public class ChangeJson {
     out.hasReviewStarted = in.hasReviewStarted();
     out.subject = in.getSubject();
     out.status = in.getStatus().asChangeStatus();
+    out.type = in.getType().name();
     out.owner = accountLoader.get(in.getOwner());
     out.created = in.getCreatedOn();
     out.updated = in.getLastUpdatedOn();

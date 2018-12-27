@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -32,13 +33,17 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.extensions.events.ChangeAbandoned;
 import com.google.gerrit.server.mail.send.AbandonedSender;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.RepoContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
+import org.eclipse.jgit.lib.ObjectId;
 
 public class AbandonOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -48,17 +53,19 @@ public class AbandonOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final ChangeAbandoned changeAbandoned;
 
+  private final ChangeNotes origNotes;
   private final String msgTxt;
   private final NotifyHandling notifyHandling;
   private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
   private final AccountState accountState;
 
-  private Change change;
+  private Change updatedChange;
   private PatchSet patchSet;
   private ChangeMessage message;
 
   public interface Factory {
     AbandonOp create(
+        @Assisted ChangeNotes origNotes,
         @Assisted @Nullable AccountState accountState,
         @Assisted @Nullable String msgTxt,
         @Assisted NotifyHandling notifyHandling,
@@ -71,6 +78,7 @@ public class AbandonOp implements BatchUpdateOp {
       ChangeMessagesUtil cmUtil,
       PatchSetUtil psUtil,
       ChangeAbandoned changeAbandoned,
+      @Assisted ChangeNotes origNotes,
       @Assisted @Nullable AccountState accountState,
       @Assisted @Nullable String msgTxt,
       @Assisted NotifyHandling notifyHandling,
@@ -80,6 +88,7 @@ public class AbandonOp implements BatchUpdateOp {
     this.psUtil = psUtil;
     this.changeAbandoned = changeAbandoned;
 
+    this.origNotes = origNotes;
     this.accountState = accountState;
     this.msgTxt = Strings.nullToEmpty(msgTxt);
     this.notifyHandling = notifyHandling;
@@ -87,23 +96,37 @@ public class AbandonOp implements BatchUpdateOp {
   }
 
   @Nullable
-  public Change getChange() {
-    return change;
+  public Change getUpdatedChange() {
+    return updatedChange;
+  }
+
+  @Override
+  public void updateRepo(RepoContext ctx) throws IOException {
+    Branch.NameKey source = origNotes.getChange().getSource();
+    if (source == null) {
+      return;
+    }
+    // TODO(dborowitz): This is racy. This is a pretty strong use case for being able to modify the
+    // repo from within updateChange.
+    ctx.addRefUpdate(
+        ObjectId.fromString(origNotes.getCurrentPatchSet().getRevision().get()),
+        ObjectId.zeroId(),
+        source.get());
   }
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws OrmException, ResourceConflictException {
-    change = ctx.getChange();
-    PatchSet.Id psId = change.currentPatchSetId();
+    updatedChange = ctx.getChange();
+    PatchSet.Id psId = updatedChange.currentPatchSetId();
     ChangeUpdate update = ctx.getUpdate(psId);
-    if (!change.getStatus().isOpen()) {
-      throw new ResourceConflictException("change is " + ChangeUtil.status(change));
+    if (!updatedChange.getStatus().isOpen()) {
+      throw new ResourceConflictException("change is " + ChangeUtil.status(updatedChange));
     }
     patchSet = psUtil.get(ctx.getNotes(), psId);
-    change.setStatus(Change.Status.ABANDONED);
-    change.setLastUpdatedOn(ctx.getWhen());
+    updatedChange.setStatus(Change.Status.ABANDONED);
+    updatedChange.setLastUpdatedOn(ctx.getWhen());
 
-    update.setStatus(change.getStatus());
+    update.setStatus(updatedChange.getStatus());
     message = newMessage(ctx);
     cmUtil.addChangeMessage(update, message);
     return true;
@@ -123,7 +146,8 @@ public class AbandonOp implements BatchUpdateOp {
   @Override
   public void postUpdate(Context ctx) throws OrmException {
     try {
-      ReplyToChangeSender cm = abandonedSenderFactory.create(ctx.getProject(), change.getId());
+      ReplyToChangeSender cm =
+          abandonedSenderFactory.create(ctx.getProject(), updatedChange.getId());
       if (accountState != null) {
         cm.setFrom(accountState.getAccount().getId());
       }
@@ -132,8 +156,10 @@ public class AbandonOp implements BatchUpdateOp {
       cm.setAccountsToNotify(accountsToNotify);
       cm.send();
     } catch (Exception e) {
-      logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
+      logger.atSevere().withCause(e).log(
+          "Cannot email update for change %s", updatedChange.getId());
     }
-    changeAbandoned.fire(change, patchSet, accountState, msgTxt, ctx.getWhen(), notifyHandling);
+    changeAbandoned.fire(
+        updatedChange, patchSet, accountState, msgTxt, ctx.getWhen(), notifyHandling);
   }
 }

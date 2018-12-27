@@ -14,7 +14,10 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -56,7 +59,11 @@ import java.util.Optional;
 import java.util.concurrent.Callable;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 
 public class PatchScriptFactory implements Callable<PatchScript> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -210,9 +217,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
     try (Repository git = repoManager.openRepository(notes.getProjectName())) {
       bId = toObjectId(psEntityB);
-      if (parentNum < 0) {
-        aId = psEntityA != null ? toObjectId(psEntityA) : null;
-      }
+      aId = aIdFor(git, psEntityA);
 
       try {
         final PatchList list = listFor(keyFor(diffPrefs.ignoreWhitespace));
@@ -241,9 +246,53 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private PatchListKey keyFor(Whitespace whitespace) {
     if (parentNum < 0) {
+      if (notes.getChange().isBranchChange()) {
+        return PatchListKey.forBranchChange(requireNonNull(aId), bId, whitespace);
+      }
       return PatchListKey.againstCommit(aId, bId, whitespace);
     }
     return PatchListKey.againstParentNum(parentNum + 1, bId, whitespace);
+  }
+
+  @Nullable
+  private ObjectId aIdFor(Repository git, @Nullable PatchSet psEntityA)
+      throws OrmException, AuthException, IOException {
+    if (parentNum >= 0) {
+      // Comparing against specific parent. Don't populate A side ObjectId directly; instead, keyFor
+      // will just pass the parent number through to the PatchListCache.
+      return null;
+    }
+    if (psEntityA != null) {
+      // Comparing against specific patch set which was passed in to the factory: get the RevId.
+      return toObjectId(psEntityA);
+    }
+    if (notes.getChange().isBranchChange()) {
+      if (notes.getSubmittedAt() != null) {
+        return notes.getSubmittedAt();
+      }
+      // Default base of an unsubmitted  branch change is the merge base with the dest branch. This
+      // is not constant, and we need to recompute on each invocation. The specific merge base
+      // SHA-1 is included in the PatchListKey, so results are cached until the branch advances.
+      // TODO(dborowitz): This may cause heavy load in prod. I guess, um, a merge base cache?
+      return getMergeBase(git, requireNonNull(bId), notes.getChange().getDest().get());
+    }
+    // Comparing against default base of a non-merge change: PatchListKey doesn't contain the base.
+    return null;
+  }
+
+  private static ObjectId getMergeBase(Repository git, ObjectId bId, String destRefName)
+      throws IOException {
+    try (RevWalk rw = new RevWalk(git)) {
+      rw.markStart(rw.parseCommit(bId));
+      Ref destRef = git.exactRef(destRefName);
+      checkState(destRef != null, "dest ref missing: %s", destRefName);
+      rw.markStart(rw.parseCommit(destRef.getObjectId()));
+      rw.setRevFilter(RevFilter.MERGE_BASE);
+      RevCommit mergeBase = rw.next();
+      // TODO(dborowitz): Don't know if zeroId produces the intended diff. Probably this is not the
+      // only thing that breaks if you try to merge a branch change with no common history.
+      return firstNonNull(mergeBase, ObjectId.zeroId());
+    }
   }
 
   private PatchList listFor(PatchListKey key) throws PatchListNotAvailableException {

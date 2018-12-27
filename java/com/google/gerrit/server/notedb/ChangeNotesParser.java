@@ -28,12 +28,15 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DE
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PRIVATE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REVERT_OF;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SOURCE_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_AT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TYPE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
@@ -83,6 +86,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -144,8 +148,10 @@ class ChangeNotesParser {
   private final List<ChangeMessage> allChangeMessages;
 
   // Non-final private members filled in during the parsing process.
-  private String branch;
+  private String destBranch;
+  private String sourceBranch;
   private Change.Status status;
+  private Change.Type type;
   private String topic;
   private Optional<Account.Id> assignee;
   private List<Account.Id> pastAssignees;
@@ -166,6 +172,7 @@ class ChangeNotesParser {
   private ReviewerSet pendingReviewers;
   private ReviewerByEmailSet pendingReviewersByEmail;
   private Change.Id revertOf;
+  private ObjectId submittedAt;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -223,6 +230,7 @@ class ChangeNotesParser {
 
       updatePatchSetStates();
       checkMandatoryFooters();
+      checkMergedChangeInvariants();
     }
 
     return buildState();
@@ -236,11 +244,13 @@ class ChangeNotesParser {
     return ChangeNotesState.create(
         tip.copy(),
         id,
-        new Change.Key(changeId),
+        // TODO(dborowitz): This should probably be an error but I have some branch changes created
+        // in my test site with Change-id.
+        type != Change.Type.BRANCH ? new Change.Key(changeId) : null,
         createdOn,
         lastUpdatedOn,
         ownerId,
-        branch,
+        destBranch,
         buildCurrentPatchSetId(),
         subject,
         topic,
@@ -264,7 +274,10 @@ class ChangeNotesParser {
         firstNonNull(isPrivate, false),
         firstNonNull(workInProgress, false),
         firstNonNull(hasReviewStarted, true),
-        revertOf);
+        revertOf,
+        type,
+        sourceBranch,
+        submittedAt != null ? submittedAt.copy() : submittedAt);
   }
 
   private PatchSet.Id buildCurrentPatchSetId() {
@@ -316,9 +329,10 @@ class ChangeNotesParser {
     createdOn = ts;
     parseTag(commit);
 
-    if (branch == null) {
-      branch = parseBranch(commit);
+    if (destBranch == null) {
+      destBranch = parseDestBranch(commit);
     }
+    parseTypeAndSourceBranch(commit);
 
     PatchSet.Id psId = parsePatchSetId(commit);
     PatchSetState psState = parsePatchSetState(commit);
@@ -359,6 +373,10 @@ class ChangeNotesParser {
 
     if (submissionId == null) {
       submissionId = parseSubmissionId(commit);
+    }
+
+    if (submittedAt == null) {
+      submittedAt = parseSubmittedAt(commit);
     }
 
     ObjectId currRev = parseRevision(commit);
@@ -417,9 +435,41 @@ class ChangeNotesParser {
     return parseOneFooter(commit, FOOTER_SUBMISSION_ID);
   }
 
-  private String parseBranch(ChangeNotesCommit commit) throws ConfigInvalidException {
+  private ObjectId parseSubmittedAt(ChangeNotesCommit commit) throws ConfigInvalidException {
+    String str = parseOneFooter(commit, FOOTER_SUBMITTED_AT);
+    if (str == null) {
+      return null;
+    }
+    checkFooter(ObjectId.isId(str), FOOTER_SUBMITTED_AT, str);
+    return ObjectId.fromString(str);
+  }
+
+  private String parseDestBranch(ChangeNotesCommit commit) throws ConfigInvalidException {
     String branch = parseOneFooter(commit, FOOTER_BRANCH);
     return branch != null ? RefNames.fullName(branch) : null;
+  }
+
+  private void parseTypeAndSourceBranch(ChangeNotesCommit commit) throws ConfigInvalidException {
+    String typeStr = parseOneFooter(commit, FOOTER_TYPE);
+    String branch = parseOneFooter(commit, FOOTER_SOURCE_BRANCH);
+    if (commit.getParentCount() != 0) {
+      if (typeStr != null) {
+        throw parseException("%s only allowed on initial commit", FOOTER_TYPE);
+      }
+      if (branch != null) {
+        throw parseException("%s only allowed on initial commit", FOOTER_SOURCE_BRANCH);
+      }
+      return;
+    }
+    if (typeStr != null) {
+      this.type =
+          Enums.getIfPresent(Change.Type.class, typeStr.toUpperCase(Locale.US))
+              .toJavaUtil()
+              .orElseThrow(() -> invalidFooter(FOOTER_TYPE, typeStr));
+    } else {
+      this.type = Change.Type.COMMIT;
+    }
+    this.sourceBranch = branch;
   }
 
   private String parseChangeId(ChangeNotesCommit commit) throws ConfigInvalidException {
@@ -1057,11 +1107,18 @@ class ChangeNotesParser {
 
   private void checkMandatoryFooters() throws ConfigInvalidException {
     List<FooterKey> missing = new ArrayList<>();
-    if (branch == null) {
+    if (destBranch == null) {
       missing.add(FOOTER_BRANCH);
     }
-    if (changeId == null) {
-      missing.add(FOOTER_CHANGE_ID);
+    if (type == Change.Type.BRANCH) {
+      if (sourceBranch == null) {
+        // TODO(dborowitz): This could be allowed.
+        missing.add(FOOTER_SOURCE_BRANCH);
+      }
+    } else {
+      if (changeId == null) {
+        missing.add(FOOTER_CHANGE_ID);
+      }
     }
     if (originalSubject == null || subject == null) {
       missing.add(FOOTER_SUBJECT);
@@ -1069,6 +1126,15 @@ class ChangeNotesParser {
     if (!missing.isEmpty()) {
       throw parseException(
           "Missing footers: " + missing.stream().map(FooterKey::getName).collect(joining(", ")));
+    }
+  }
+
+  private void checkMergedChangeInvariants() throws ConfigInvalidException {
+    if (status != Change.Status.MERGED) {
+      return;
+    }
+    if (type == Change.Type.BRANCH && submittedAt == null) {
+      throw parseException("branch change was submitted with no %s", FOOTER_SUBMITTED_AT);
     }
   }
 

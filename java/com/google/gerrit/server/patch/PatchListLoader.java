@@ -196,7 +196,7 @@ public class PatchListLoader implements Callable<PatchList> {
           newCommitMessage(
               cmp, reader, comparisonType.isAgainstParentOrAutoMerge() ? null : aCommit, b));
       boolean isMerge = b.getParentCount() > 1;
-      if (isMerge) {
+      if (isMerge || key.includeMergeList()) {
         entries.add(
             newMergeList(
                 cmp,
@@ -261,6 +261,7 @@ public class PatchListLoader implements Callable<PatchList> {
       DiffFormatter df,
       RevWalk rw)
       throws PatchListNotAvailableException, IOException {
+    // TODO(dborowitz): Short-circuit on branch changes as well?
     if (commitA == null
         || isRootOrMergeCommit(commitA)
         || isRootOrMergeCommit(commitB)
@@ -416,7 +417,9 @@ public class PatchListLoader implements Callable<PatchList> {
       return ComparisonType.againstAutoMerge();
     }
 
-    return ComparisonType.againstOtherPatchSet();
+    return key.includeMergeList()
+        ? ComparisonType.againstBaseOfBranchChange()
+        : ComparisonType.againstOtherPatchSet();
   }
 
   private static long getFileSize(ObjectReader reader, FileMode mode, String path, RevTree t)
@@ -492,6 +495,10 @@ public class PatchListLoader implements Callable<PatchList> {
       RevCommit bCommit,
       ComparisonType comparisonType)
       throws IOException {
+    if (comparisonType.isAgainstBaseOfBranchChange()) {
+      Text bText = Text.forMergeListForBranchChange(reader, aCommit, bCommit);
+      return createPatchListEntry(cmp, aCommit, Text.EMPTY, bText, Patch.MERGE_LIST);
+    }
     Text aText = aCommit != null ? Text.forMergeList(comparisonType, reader, aCommit) : Text.EMPTY;
     Text bText = Text.forMergeList(comparisonType, reader, bCommit);
     return createPatchListEntry(cmp, aCommit, aText, bText, Patch.MERGE_LIST);

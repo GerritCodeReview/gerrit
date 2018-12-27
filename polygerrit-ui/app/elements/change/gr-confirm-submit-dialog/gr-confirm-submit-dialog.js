@@ -46,6 +46,11 @@
        *  }}
        */
       action: Object,
+
+      deleteSourceBranch: {
+        type: Boolean,
+        value: true,
+      },
     },
 
     resetFocus(e) {
@@ -60,6 +65,14 @@
     _handleCancelTap(e) {
       e.preventDefault();
       this.dispatchEvent(new CustomEvent('cancel', {bubbles: false}));
+    },
+
+    _computeHideDeleteSourceBranch(change) {
+      return !change.source_branch;
+    },
+
+    _handleDeleteSourceBranchTap(e) {
+      this.set('deleteSourceBranch', Polymer.dom(e).rootTarget.checked);
     },
   });
 })();

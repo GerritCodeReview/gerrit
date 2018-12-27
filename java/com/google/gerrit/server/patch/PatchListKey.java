@@ -15,6 +15,7 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.ObjectIdSerializer.read;
 import static org.eclipse.jgit.lib.ObjectIdSerializer.readWithoutMarker;
 import static org.eclipse.jgit.lib.ObjectIdSerializer.write;
@@ -32,7 +33,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class PatchListKey implements Serializable {
-  public static final long serialVersionUID = 32L;
+  public static final long serialVersionUID = 33L;
 
   public static final ImmutableBiMap<Whitespace, Character> WHITESPACE_TYPES =
       ImmutableBiMap.of(
@@ -46,7 +47,7 @@ public class PatchListKey implements Serializable {
   }
 
   public static PatchListKey againstDefaultBase(AnyObjectId newId, Whitespace ws) {
-    return new PatchListKey(null, newId, ws);
+    return new PatchListKey(null, newId, ws, false);
   }
 
   public static PatchListKey againstParentNum(int parentNum, AnyObjectId newId, Whitespace ws) {
@@ -55,7 +56,12 @@ public class PatchListKey implements Serializable {
 
   public static PatchListKey againstCommit(
       AnyObjectId otherCommitId, AnyObjectId newId, Whitespace whitespace) {
-    return new PatchListKey(otherCommitId, newId, whitespace);
+    return new PatchListKey(otherCommitId, newId, whitespace, false);
+  }
+
+  public static PatchListKey forBranchChange(
+      AnyObjectId otherCommitId, AnyObjectId newId, Whitespace whitespace) {
+    return new PatchListKey(otherCommitId, requireNonNull(newId, "newId"), whitespace, true);
   }
 
   /**
@@ -81,16 +87,20 @@ public class PatchListKey implements Serializable {
   private transient ObjectId newId;
   private transient Whitespace whitespace;
 
-  private PatchListKey(AnyObjectId a, AnyObjectId b, Whitespace ws) {
+  private transient boolean includeMergeList;
+
+  private PatchListKey(AnyObjectId a, AnyObjectId b, Whitespace ws, boolean includeMergeList) {
     oldId = a != null ? a.copy() : null;
     newId = b.copy();
     whitespace = ws;
+    this.includeMergeList = includeMergeList;
   }
 
   private PatchListKey(int parentNum, AnyObjectId b, Whitespace ws) {
     this.parentNum = Integer.valueOf(parentNum);
     newId = b.copy();
     whitespace = ws;
+    this.includeMergeList = true;
   }
 
   /** For use only by DiffSummaryKey. */
@@ -122,9 +132,13 @@ public class PatchListKey implements Serializable {
     return whitespace;
   }
 
+  public boolean includeMergeList() {
+    return includeMergeList;
+  }
+
   @Override
   public int hashCode() {
-    return Objects.hash(oldId, parentNum, newId, whitespace);
+    return Objects.hash(oldId, parentNum, newId, includeMergeList, whitespace);
   }
 
   @Override
@@ -134,6 +148,7 @@ public class PatchListKey implements Serializable {
       return Objects.equals(oldId, k.oldId)
           && Objects.equals(parentNum, k.parentNum)
           && Objects.equals(newId, k.newId)
+          && includeMergeList == k.includeMergeList
           && whitespace == k.whitespace;
     }
     return false;
@@ -151,6 +166,9 @@ public class PatchListKey implements Serializable {
       n.append(parentNum);
       n.append(" ");
     }
+    if (includeMergeList) {
+      n.append("  merge-list");
+    }
     n.append(whitespace.name());
     n.append("]");
     return n.toString();
@@ -165,6 +183,7 @@ public class PatchListKey implements Serializable {
       throw new IOException("Invalid whitespace type: " + whitespace);
     }
     out.writeChar(c);
+    out.writeBoolean(includeMergeList);
   }
 
   private void readObject(ObjectInputStream in) throws IOException {
@@ -177,5 +196,6 @@ public class PatchListKey implements Serializable {
     if (whitespace == null) {
       throw new IOException("Invalid whitespace type code: " + t);
     }
+    includeMergeList = in.readBoolean();
   }
 }

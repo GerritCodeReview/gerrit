@@ -398,6 +398,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.submitRecords();
   }
 
+  /**
+   * @return if the change is merged, tip of the destination branch at the time the change was
+   *     submitted.
+   */
+  @Nullable
+  public ObjectId getSubmittedAt() {
+    return state.submittedAt();
+  }
+
   /** @return all change messages, in chronological order, oldest first. */
   public ImmutableList<ChangeMessage> getChangeMessages() {
     return state.changeMessages();

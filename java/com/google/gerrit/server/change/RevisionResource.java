@@ -52,11 +52,17 @@ public class RevisionResource implements RestResource, HasETag {
   }
 
   private RevisionResource(
-      ChangeResource change, PatchSet ps, Optional<ChangeEdit> edit, boolean cachable) {
+      ChangeResource change, PatchSet ps, Optional<ChangeEdit> edit, boolean cacheable) {
     this.change = change;
     this.ps = ps;
     this.edit = edit;
-    this.cacheable = cachable;
+
+    if (change.getChange().isBranchChange() && change.getChange().getStatus().isOpen()) {
+      // Branch change resources have varying commit sets based on current branch tip.
+      // TODO(dborowitz): Incorporate branch tip into ETag so it can still be cacheable?
+      cacheable = false;
+    }
+    this.cacheable = cacheable;
   }
 
   public boolean isCacheable() {

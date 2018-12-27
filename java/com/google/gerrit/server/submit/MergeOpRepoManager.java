@@ -59,6 +59,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     final Repository repo;
     final CodeReviewRevWalk rw;
     final RevFlag canMergeFlag;
+    final RevFlag branchChangeFlag;
     final ObjectInserter ins;
 
     final ProjectState project;
@@ -78,6 +79,9 @@ public class MergeOpRepoManager implements AutoCloseable {
       rw.setRetainBody(false);
       canMergeFlag = rw.newFlag("CAN_MERGE");
       rw.retainOnReset(canMergeFlag);
+      branchChangeFlag = rw.newFlag("BRANCH_CHANGE");
+      rw.retainOnReset(branchChangeFlag);
+      rw.carry(branchChangeFlag);
 
       branches = Maps.newHashMapWithExpectedSize(1);
     }

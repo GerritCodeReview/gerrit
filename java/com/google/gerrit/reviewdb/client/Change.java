@@ -15,6 +15,7 @@
 package com.google.gerrit.reviewdb.client;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -424,11 +425,16 @@ public final class Change {
     }
   }
 
+  public enum Type {
+    COMMIT,
+    BRANCH;
+  }
+
   /** Locally assigned unique identifier of the change */
   protected Id changeId;
 
   /** Globally assigned unique identifier of the change */
-  protected Key changeKey;
+  @Nullable protected Key changeKey;
 
   /** optimistic locking */
   protected int rowVersion;
@@ -447,8 +453,12 @@ public final class Change {
 
   protected Account.Id owner;
 
+  protected Type type;
+
   /** The branch (and project) this change merges into. */
   protected Branch.NameKey dest;
+
+  @Nullable protected String source;
 
   // DELETED: id = 9 (open)
 
@@ -513,6 +523,7 @@ public final class Change {
     owner = ownedBy;
     dest = forBranch;
     setStatus(Status.NEW);
+    setType(Type.COMMIT);
   }
 
   public Change(Change other) {
@@ -534,6 +545,8 @@ public final class Change {
     workInProgress = other.workInProgress;
     reviewStarted = other.reviewStarted;
     revertOf = other.revertOf;
+    status = other.status;
+    type = other.type;
   }
 
   /** Legacy 32 bit integer identity for a change. */
@@ -547,8 +560,14 @@ public final class Change {
   }
 
   /** The Change-Id tag out of the initial commit, or a natural key. */
+  @Nullable
   public Change.Key getKey() {
     return changeKey;
+  }
+
+  @Nullable
+  public String getKeyString() {
+    return changeKey != null ? changeKey.get() : null;
   }
 
   public void setKey(Change.Key k) {
@@ -597,6 +616,15 @@ public final class Change {
 
   public void setDest(Branch.NameKey dest) {
     this.dest = dest;
+  }
+
+  @Nullable
+  public Branch.NameKey getSource() {
+    return source != null ? new Branch.NameKey(dest.getParentKey(), source) : null;
+  }
+
+  public void setSource(String source) {
+    this.source = source;
   }
 
   public Project.NameKey getProject() {
@@ -669,6 +697,18 @@ public final class Change {
 
   public void setStatus(Status newStatus) {
     status = newStatus.getCode();
+  }
+
+  public Type getType() {
+    return type;
+  }
+
+  public boolean isBranchChange() {
+    return type == Type.BRANCH;
+  }
+
+  public void setType(Type type) {
+    this.type = requireNonNull(type);
   }
 
   public String getTopic() {

@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
@@ -89,6 +91,7 @@ public class Text extends RawText {
 
   public static Text forMergeList(
       ComparisonType comparisonType, ObjectReader reader, AnyObjectId commitId) throws IOException {
+    checkArgument(!comparisonType.isAgainstBaseOfBranchChange(), "use forMergeListForBranchChange");
     try (RevWalk rw = new RevWalk(reader)) {
       RevCommit c = rw.parseCommit(commitId);
       StringBuilder b = new StringBuilder();
@@ -105,15 +108,38 @@ public class Text extends RawText {
 
           b.append("Merge List:\n\n");
           for (RevCommit commit : MergeListBuilder.build(rw, c, uniterestingParent)) {
-            b.append("* ");
-            b.append(reader.abbreviate(commit, 8).name());
-            b.append(" ");
-            b.append(commit.getShortMessage());
-            b.append("\n");
+            appendMergeListEntry(b, reader, commit);
           }
       }
       return new Text(b.toString().getBytes(UTF_8));
     }
+  }
+
+  public static Text forMergeListForBranchChange(
+      ObjectReader reader, @Nullable AnyObjectId uninteresting, AnyObjectId commitId)
+      throws IOException {
+    try (RevWalk rw = new RevWalk(reader)) {
+      RevCommit c = rw.parseCommit(commitId);
+      rw.markStart(c);
+      if (uninteresting != null) {
+        rw.markUninteresting(rw.parseCommit(uninteresting));
+      }
+
+      StringBuilder b = new StringBuilder("Merge List:\n\n");
+      for (RevCommit commit : rw) {
+        appendMergeListEntry(b, reader, commit);
+      }
+      return new Text(b.toString().getBytes(UTF_8));
+    }
+  }
+
+  private static void appendMergeListEntry(StringBuilder b, ObjectReader reader, RevCommit commit)
+      throws IOException {
+    b.append("* ")
+        .append(reader.abbreviate(commit, 8).name())
+        .append(" ")
+        .append(commit.getShortMessage())
+        .append("\n");
   }
 
   private static void appendPersonIdent(StringBuilder b, String field, PersonIdent person) {

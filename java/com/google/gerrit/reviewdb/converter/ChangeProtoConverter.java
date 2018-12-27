@@ -14,6 +14,8 @@
 
 package com.google.gerrit.reviewdb.converter;
 
+import com.google.common.base.Converter;
+import com.google.common.base.Enums;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -33,6 +35,8 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
       AccountIdProtoConverter.INSTANCE;
   private final ProtoConverter<Entities.Branch_NameKey, Branch.NameKey> branchNameConverter =
       BranchNameKeyProtoConverter.INSTANCE;
+  private final Converter<String, Change.Type> changeTypeConverter =
+      Enums.stringConverter(Change.Type.class);
 
   @Override
   public Entities.Change toProto(Change change) {
@@ -40,7 +44,6 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
         Entities.Change.newBuilder()
             .setChangeId(changeIdConverter.toProto(change.getId()))
             .setRowVersion(change.getRowVersion())
-            .setChangeKey(changeKeyConverter.toProto(change.getKey()))
             .setCreatedOn(change.getCreatedOn().getTime())
             .setLastUpdatedOn(change.getLastUpdatedOn().getTime())
             .setOwnerAccountId(accountIdConverter.toProto(change.getOwner()))
@@ -48,7 +51,11 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
             .setStatus(change.getStatus().getCode())
             .setIsPrivate(change.isPrivate())
             .setWorkInProgress(change.isWorkInProgress())
-            .setReviewStarted(change.hasReviewStarted());
+            .setReviewStarted(change.hasReviewStarted())
+            .setType(changeTypeConverter.reverse().convert(change.getType()));
+    if (change.getKey() != null) {
+      builder.setChangeKey(changeKeyConverter.toProto(change.getKey()));
+    }
     PatchSet.Id currentPatchSetId = change.currentPatchSetId();
     // Special behavior necessary to ensure binary compatibility.
     builder.setCurrentPatchSetId(currentPatchSetId == null ? 0 : currentPatchSetId.get());
@@ -76,6 +83,10 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
     if (revertOf != null) {
       builder.setRevertOf(changeIdConverter.toProto(revertOf));
     }
+    Branch.NameKey source = change.getSource();
+    if (source != null) {
+      builder.setSource(source.get());
+    }
     return builder.build();
   }
 
@@ -97,6 +108,7 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
     if (status != null) {
       change.setStatus(status);
     }
+    change.setType(changeTypeConverter.convert(proto.getType()));
     String subject = proto.hasSubject() ? proto.getSubject() : null;
     String originalSubject = proto.hasOriginalSubject() ? proto.getOriginalSubject() : null;
     change.setCurrentPatchSet(
@@ -115,6 +127,9 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
     change.setReviewStarted(proto.getReviewStarted());
     if (proto.hasRevertOf()) {
       change.setRevertOf(changeIdConverter.fromProto(proto.getRevertOf()));
+    }
+    if (proto.hasSource()) {
+      change.setSource(proto.getSource());
     }
     return change;
   }

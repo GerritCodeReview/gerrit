@@ -63,11 +63,22 @@
 
     _computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions,
         changeComments, revisionInfo) {
-      const parentCounts = revisionInfo.getParentCountMap();
-      const currentParentCount = parentCounts.hasOwnProperty(patchNum) ?
-          parentCounts[patchNum] : 1;
-      const maxParents = revisionInfo.getMaxParents();
-      const isMerge = currentParentCount > 1;
+      let isMerge;
+      let maxParents;
+      let currentParentCount;
+
+      if (revisionInfo.isBranchChange()) {
+        // Branch change.
+        isMerge = false;
+        maxParents = 1;
+        currentParentCount = 1;
+      } else {
+        const parentCounts = revisionInfo.getParentCountMap();
+        currentParentCount = parentCounts.hasOwnProperty(patchNum) ?
+            parentCounts[patchNum] : 1;
+        maxParents = revisionInfo.getMaxParents();
+        isMerge = currentParentCount > 1;
+      }
 
       const dropdownContent = [];
       for (const basePatch of availablePatches) {

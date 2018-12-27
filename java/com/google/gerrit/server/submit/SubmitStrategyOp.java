@@ -48,6 +48,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.update.RepoView;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -134,6 +135,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     command =
         new ReceiveCommand(firstNonNull(tipBefore, ObjectId.zeroId()), tipAfter, getDest().get());
     ctx.addRefUpdate(command);
+    deleteSourceRef(ctx.getRepoView(), toMerge.change());
     args.submoduleOp.addBranchTip(getDest(), tipAfter);
   }
 
@@ -330,7 +332,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     LabelNormalizer.Result normalized = approve(ctx, origPsUpdate);
 
     ChangeUpdate newPsUpdate = ctx.getUpdate(newPsId);
-    newPsUpdate.merge(args.submissionId, records);
+    newPsUpdate.merge(args.submissionId, records, args.mergeTip.getInitialTip());
     // If the submit strategy created a new revision (rebase, cherry-pick), copy
     // approvals as well.
     if (!newPsId.equals(oldPsId)) {
@@ -463,6 +465,25 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     if (msg != null) {
       args.cmUtil.addChangeMessage(ctx.getUpdate(msg.getPatchSetId()), msg);
     }
+  }
+
+  private static Optional<ReceiveCommand> deleteSourceRef(RepoView repoView, Change change)
+      throws IOException {
+    if (!change.isBranchChange()) {
+      return Optional.empty();
+    }
+    if (change.getSource() == null) {
+      logger.atFine().log("Change has no source ref; skipping deletion");
+      return Optional.empty();
+    }
+    String source = change.getSource().get();
+    Optional<ObjectId> sourceId = repoView.getRef(source);
+    if (!sourceId.isPresent()) {
+      logger.atFine().log("Change has source ref %s, but ref no longer exists", source);
+      return Optional.empty();
+    }
+    logger.atFine().log("Deleting source ref %s at %s", source, sourceId.get().name());
+    return Optional.of(new ReceiveCommand(sourceId.get(), ObjectId.zeroId(), source));
   }
 
   @Override

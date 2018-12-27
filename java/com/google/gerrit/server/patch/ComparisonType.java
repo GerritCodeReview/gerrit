@@ -29,21 +29,29 @@ public class ComparisonType {
 
   private final boolean autoMerge;
 
+  // TODO
+  private final boolean baseOfBranchChange;
+
   public static ComparisonType againstOtherPatchSet() {
-    return new ComparisonType(null, false);
+    return new ComparisonType(null, false, false);
   }
 
   public static ComparisonType againstParent(int parentNum) {
-    return new ComparisonType(parentNum, false);
+    return new ComparisonType(parentNum, false, false);
   }
 
   public static ComparisonType againstAutoMerge() {
-    return new ComparisonType(null, true);
+    return new ComparisonType(null, true, false);
   }
 
-  private ComparisonType(Integer parentNum, boolean autoMerge) {
+  public static ComparisonType againstBaseOfBranchChange() {
+    return new ComparisonType(null, false, true);
+  }
+
+  private ComparisonType(Integer parentNum, boolean autoMerge, boolean baseOfBranchChange) {
     this.parentNum = parentNum;
     this.autoMerge = autoMerge;
+    this.baseOfBranchChange = baseOfBranchChange;
   }
 
   public boolean isAgainstParentOrAutoMerge() {
@@ -58,6 +66,10 @@ public class ComparisonType {
     return autoMerge;
   }
 
+  public boolean isAgainstBaseOfBranchChange() {
+    return baseOfBranchChange;
+  }
+
   public int getParentNum() {
     requireNonNull(parentNum);
     return parentNum;
@@ -66,12 +78,14 @@ public class ComparisonType {
   void writeTo(OutputStream out) throws IOException {
     writeVarInt32(out, parentNum != null ? parentNum : 0);
     writeVarInt32(out, autoMerge ? 1 : 0);
+    writeVarInt32(out, baseOfBranchChange ? 1 : 0);
   }
 
   static ComparisonType readFrom(InputStream in) throws IOException {
     int p = readVarInt32(in);
     Integer parentNum = p > 0 ? p : null;
     boolean autoMerge = readVarInt32(in) != 0;
-    return new ComparisonType(parentNum, autoMerge);
+    boolean baseOfBranchChange = readVarInt32(in) != 0;
+    return new ComparisonType(parentNum, autoMerge, baseOfBranchChange);
   }
 }

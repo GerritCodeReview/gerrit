@@ -40,12 +40,15 @@ public class ChangeNoteUtil {
       new FooterKey("Patch-set-description");
   public static final FooterKey FOOTER_PRIVATE = new FooterKey("Private");
   public static final FooterKey FOOTER_REAL_USER = new FooterKey("Real-user");
+  public static final FooterKey FOOTER_SOURCE_BRANCH = new FooterKey("Source-branch");
   public static final FooterKey FOOTER_STATUS = new FooterKey("Status");
   public static final FooterKey FOOTER_SUBJECT = new FooterKey("Subject");
   public static final FooterKey FOOTER_SUBMISSION_ID = new FooterKey("Submission-id");
+  public static final FooterKey FOOTER_SUBMITTED_AT = new FooterKey("Submitted-at");
   public static final FooterKey FOOTER_SUBMITTED_WITH = new FooterKey("Submitted-with");
   public static final FooterKey FOOTER_TOPIC = new FooterKey("Topic");
   public static final FooterKey FOOTER_TAG = new FooterKey("Tag");
+  public static final FooterKey FOOTER_TYPE = new FooterKey("Type"); // TODO: Change-type?
   public static final FooterKey FOOTER_WORK_IN_PROGRESS = new FooterKey("Work-in-progress");
   public static final FooterKey FOOTER_REVERT_OF = new FooterKey("Revert-of");
 

@@ -28,12 +28,14 @@ public class ChangeInfo {
   public String id;
   public String project;
   public String branch;
+  public String sourceBranch;
   public String topic;
   public AccountInfo assignee;
   public Collection<String> hashtags;
   public String changeId;
   public String subject;
   public ChangeStatus status;
+  public String type; // TODO(dborowitz): Use an enum, but "ChangeType" is already taken.
   public Timestamp created;
   public Timestamp updated;
   public Timestamp submitted;

@@ -28,6 +28,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFI
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
@@ -44,6 +45,7 @@ import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -203,6 +205,35 @@ public class RevisionJson {
     return info;
   }
 
+  private ImmutableList<CommitInfo> getBranchCommitInfo(
+      Project.NameKey project,
+      Repository repo,
+      RevWalk rw,
+      Branch.NameKey dest,
+      @Nullable ObjectId submittedAt,
+      PatchSet ps,
+      boolean addLinks,
+      boolean fillCommit)
+      throws IOException {
+    rw.reset();
+    rw.markStart(rw.parseCommit(ObjectId.fromString(ps.getRevision().get())));
+    ObjectId tip = submittedAt;
+    if (tip == null) {
+      Ref ref = repo.exactRef(dest.get());
+      if (ref != null) {
+        tip = ref.getObjectId();
+      }
+    }
+    rw.markUninteresting(rw.parseCommit(tip));
+    // TODO(dborowitz): What is the right order?
+    ImmutableList.Builder<CommitInfo> b = ImmutableList.builder();
+    for (RevCommit c : rw) {
+      rw.parseBody(c);
+      b.add(getCommitInfo(project, rw, c, addLinks, fillCommit));
+    }
+    return b.build();
+  }
+
   /**
    * Returns multiple {@link RevisionInfo}s for a single change. Uses the provided {@link
    * AccountLoader} to lazily populate accounts. Callers have to call {@link AccountLoader#fill()}
@@ -299,7 +330,20 @@ public class RevisionJson {
       RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
       rw.parseBody(commit);
       if (setCommit) {
-        out.commit = getCommitInfo(project, rw, commit, has(WEB_LINKS), fillCommit);
+        if (c.isBranchChange()) {
+          out.commits =
+              getBranchCommitInfo(
+                  project,
+                  repo,
+                  rw,
+                  c.getDest(),
+                  cd.notes().getSubmittedAt(),
+                  in,
+                  has(WEB_LINKS),
+                  true);
+        } else {
+          out.commit = getCommitInfo(project, rw, commit, has(WEB_LINKS), fillCommit);
+        }
       }
       if (addFooters) {
         Ref ref = repo.exactRef(cd.change().getDest().get());

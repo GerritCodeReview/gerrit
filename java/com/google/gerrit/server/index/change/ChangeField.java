@@ -28,6 +28,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Ascii;
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
@@ -109,7 +110,7 @@ public class ChangeField {
 
   /** Newer style Change-Id key. */
   public static final FieldDef<ChangeData, String> ID =
-      prefix(ChangeQueryBuilder.FIELD_CHANGE_ID).build(changeGetter(c -> c.getKey().get()));
+      prefix(ChangeQueryBuilder.FIELD_CHANGE_ID).build(changeGetter(c -> c.getKeyString()));
 
   /** Change status string, in the same format as {@code status:}. */
   public static final FieldDef<ChangeData, String> STATUS =
@@ -220,6 +221,21 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Integer> REVERT_OF =
       integer(ChangeQueryBuilder.FIELD_REVERTOF)
           .build(cd -> cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null);
+
+  public static final FieldDef<ChangeData, String> SOURCE_REF =
+      exact(ChangeQueryBuilder.FIELD_SOURCE)
+          .build(
+              cd -> {
+                if (cd.change().getSource() != null) {
+                  return cd.change().getSource().get();
+                } else {
+                  return null;
+                }
+              });
+
+  public static final FieldDef<ChangeData, String> TYPE =
+      exact(ChangeQueryBuilder.FIELD_TYPE)
+          .build(cd -> Ascii.toLowerCase(cd.change().getType().name()));
 
   @VisibleForTesting
   static List<String> getReviewerFieldValues(ReviewerSet reviewers) {

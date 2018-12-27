@@ -1996,6 +1996,25 @@
     },
 
     /**
+     * @param {string} project
+     * @param {string} branch
+     * @param {string} sourceBranch
+     */
+    createBranchChange(project, branch, sourceBranch) {
+      return this._send({
+        method: 'POST',
+        url: '/changes/',
+        body: {
+          project,
+          branch,
+          source_branch: sourceBranch,
+        },
+        parseResponse: true,
+        reportUrlAsIs: true,
+      });
+    },
+
+    /**
      * @param {number|string} changeNum
      * @param {string} path
      * @param {number|string} patchNum

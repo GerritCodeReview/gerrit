@@ -116,6 +116,8 @@ public class ChangeInserter implements InsertChangeOp {
 
   // Fields exposed as setters.
   private Change.Status status;
+  private Change.Type type;
+  private String sourceBranch;
   private String topic;
   private String message;
   private String patchSetDescription;
@@ -186,14 +188,21 @@ public class ChangeInserter implements InsertChangeOp {
 
   @Override
   public Change createChange(Context ctx) throws IOException {
+    Change.Type actualType = MoreObjects.firstNonNull(type, Change.Type.COMMIT);
+    Change.Key changeKey =
+        actualType == Change.Type.COMMIT ? getChangeKey(ctx.getRevWalk(), commitId) : null;
     change =
         new Change(
-            getChangeKey(ctx.getRevWalk(), commitId),
+            changeKey,
             changeId,
             ctx.getAccountId(),
             new Branch.NameKey(ctx.getProject(), refName),
             ctx.getWhen());
     change.setStatus(MoreObjects.firstNonNull(status, Change.Status.NEW));
+    change.setType(actualType);
+    if (sourceBranch != null) {
+      change.setSource(sourceBranch);
+    }
     change.setTopic(topic);
     change.setPrivate(isPrivate);
     change.setWorkInProgress(workInProgress);
@@ -302,6 +311,18 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
+  public ChangeInserter setType(Change.Type type) {
+    checkState(change == null, "setType(Change.Type) only valid before creating change");
+    this.type = type;
+    return this;
+  }
+
+  public ChangeInserter setSourceBranch(String sourceBranch) {
+    checkState(change == null, "setSourceBranch(String) only valid before creating change");
+    this.sourceBranch = sourceBranch;
+    return this;
+  }
+
   public ChangeInserter setGroups(List<String> groups) {
     requireNonNull(groups, "groups may not be empty");
     checkState(patchSet == null, "setGroups(Iterable<String>) only valid before creating change");
@@ -393,7 +414,11 @@ public class ChangeInserter implements InsertChangeOp {
     ctx.getChange().setCurrentPatchSet(patchSetInfo);
 
     ChangeUpdate update = ctx.getUpdate(psId);
-    update.setChangeId(change.getKey().get());
+    if (change.getKey() == null) {
+      checkState(type == Change.Type.BRANCH, "Change-Id is required for non-branch changes");
+    } else {
+      update.setChangeId(change.getKey().get());
+    }
     update.setSubjectForCommit("Create change");
     update.setBranch(change.getDest().get());
     update.setTopic(change.getTopic());
@@ -402,6 +427,16 @@ public class ChangeInserter implements InsertChangeOp {
     update.setWorkInProgress(workInProgress);
     if (revertOf != null) {
       update.setRevertOf(revertOf.get());
+    }
+    if (type != null) {
+      update.setType(type);
+    }
+    if (sourceBranch != null) {
+      // TODO(dborowitz): Validate source branch:
+      // * refs/meta/config?
+      // * NoteDb ref?
+      // * Dest of some other change?
+      update.setSourceBranch(sourceBranch);
     }
 
     List<String> newGroups = groups;

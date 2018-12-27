@@ -51,6 +51,9 @@ limitations under the License.
         content: '➔';
         width: 1.2em;
       }
+      .changeContainer.changeCommit {
+        font-style: italic;
+      }
       h4,
       section div {
         display: flex;
@@ -119,6 +122,14 @@ limitations under the License.
               ([[_computeChangeStatus(related)]])
             </span>
           </div>
+        </template>
+      </section>
+      <section
+          id="changeCommits"
+          hidden$="[[!_changeCommits.length]]" hidden>
+        <h4>Commits in this change</h4>
+        <template is="dom-repeat" items="[[_changeCommits]]" as="commit">
+          <div class="changeContainer changeCommit">[[_abbreviate(commit.commit)]]: [[commit.subject]]</div>
         </template>
       </section>
       <section

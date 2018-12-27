@@ -300,6 +300,12 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
     return query(new SubmissionIdPredicate(cs));
   }
 
+  public List<ChangeData> bySourceBranchOpen(String project, String branch) throws OrmException {
+    Predicate<ChangeData> p =
+        and(new ProjectPredicate(project), new SourceBranchPredicate(branch), open());
+    return query(p);
+  }
+
   private List<ChangeData> byProjectGroups(Project.NameKey project, Collection<String> groups)
       throws OrmException {
     int n = indexConfig.maxTerms() - 1;

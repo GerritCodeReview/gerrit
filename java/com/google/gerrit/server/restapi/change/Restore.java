@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
@@ -111,10 +112,16 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException, ResourceConflictException {
+    public boolean updateChange(ChangeContext ctx) throws OrmException, RestApiException {
       change = ctx.getChange();
       if (change == null || change.getStatus() != Status.ABANDONED) {
         throw new ResourceConflictException("change is " + ChangeUtil.status(change));
+      }
+      if (change.getSource() != null) {
+        // TODO(dborowitz): Could be supported if we either resurrect the source branch or remove
+        // the source branch association.
+        throw new BadRequestException(
+            "can't restore change with source branch " + change.getSource().get());
       }
       PatchSet.Id psId = change.currentPatchSetId();
       ChangeUpdate update = ctx.getUpdate(psId);
@@ -163,6 +170,10 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
 
     Change change = rsrc.getChange();
     if (change.getStatus() != Status.ABANDONED) {
+      return description;
+    }
+
+    if (change.getSource() != null) {
       return description;
     }
 

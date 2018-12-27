@@ -35,6 +35,7 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -107,10 +108,14 @@ public class GetContent implements RestReadView<FileResource> {
     }
 
     try (Repository git = gitManager.openRepository(notes.getProjectName());
-        RevWalk revWalk = new RevWalk(git)) {
+        ObjectReader reader = git.newObjectReader()) {
+      if (notes.getChange().getType() == Change.Type.BRANCH) {
+        // TODO: Need a convenient way to get the base from the ChangeResource.
+        throw new UnsupportedOperationException("TODO");
+      }
       return Text.forMergeList(
               ComparisonType.againstAutoMerge(),
-              revWalk.getObjectReader(),
+              reader,
               ObjectId.fromString(ps.getRevision().get()))
           .getContent();
     } catch (RepositoryNotFoundException e) {

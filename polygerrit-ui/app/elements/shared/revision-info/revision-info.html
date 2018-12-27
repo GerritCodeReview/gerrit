@@ -28,6 +28,13 @@ limitations under the License.
     }
 
     /**
+     * @return {boolean} whether this change is a branch change
+     */
+    RevisionInfo.prototype.isBranchChange = function() {
+      return this._change.type == 'BRANCH';
+    }
+
+    /**
      * Get the largest number of parents of the commit in any revision. For
      * example, with normal changes this will always return 1. For merge changes
      * wherein the revisions are merge commits this will return 2 or potentially

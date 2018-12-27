@@ -31,12 +31,15 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DE
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PRIVATE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REVERT_OF;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SOURCE_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_AT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TYPE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.NoteDbUtil.sanitizeFooter;
 import static java.util.Comparator.comparing;
@@ -44,6 +47,7 @@ import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Ascii;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -133,9 +137,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String subject;
   private String changeId;
   private String branch;
+  private String sourceBranch;
   private Change.Status status;
+  private Change.Type type;
   private List<SubmitRecord> submitRecords;
   private String submissionId;
+  private ObjectId submittedAt;
   private String topic;
   private String commit;
   private Optional<Account.Id> assignee;
@@ -275,9 +282,17 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.branch = branch;
   }
 
+  public void setSourceBranch(String sourceBranch) {
+    this.sourceBranch = sourceBranch;
+  }
+
   public void setStatus(Change.Status status) {
     checkArgument(status != Change.Status.MERGED, "use merge(Iterable<SubmitRecord>)");
     this.status = status;
+  }
+
+  public void setType(Change.Type type) {
+    this.type = type;
   }
 
   public void fixStatus(Change.Status status) {
@@ -300,10 +315,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     approvals.put(label, reviewer, Optional.empty());
   }
 
-  public void merge(RequestId submissionId, Iterable<SubmitRecord> submitRecords) {
+  public void merge(
+      RequestId submissionId, Iterable<SubmitRecord> submitRecords, ObjectId submittedAt) {
     this.status = Change.Status.MERGED;
     this.submissionId = submissionId.toStringForStorage();
     this.submitRecords = ImmutableList.copyOf(submitRecords);
+    this.submittedAt = requireNonNull(submittedAt, "submittedAt");
     checkArgument(!this.submitRecords.isEmpty(), "no submit records specified at submit time");
   }
 
@@ -622,6 +639,18 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_SUBJECT, subject);
     }
 
+    if (type != null) {
+      // Would be nice to have a check that this is the root commit, but that's not currently
+      // exposed by AbstractChangeUpdate to this method.
+      addFooter(msg, FOOTER_TYPE, Ascii.toLowerCase(type.name()));
+    }
+
+    if (sourceBranch != null) {
+      checkState(
+          type == Change.Type.BRANCH, "source branch requires type = %s", Change.Type.BRANCH);
+      addFooter(msg, FOOTER_SOURCE_BRANCH, sourceBranch);
+    }
+
     if (branch != null) {
       addFooter(msg, FOOTER_BRANCH, branch);
     }
@@ -714,6 +743,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
     }
 
+    if (submittedAt != null) {
+      addFooter(msg, FOOTER_SUBMITTED_AT, submittedAt.name());
+    }
+
     if (!Objects.equals(accountId, realAccountId)) {
       addFooter(msg, FOOTER_REAL_USER);
       addIdent(msg, realAccountId).append('\n');
@@ -769,6 +802,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && status == null
         && submissionId == null
         && submitRecords == null
+        && submittedAt == null
         && assignee == null
         && hashtags == null
         && topic == null

@@ -73,6 +73,8 @@ import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryHelper.ActionType;
 import com.google.gerrit.server.update.UpdateException;
@@ -666,6 +668,7 @@ public class MergeOp implements AutoCloseable {
                 submitting.submitType(),
                 or.rw,
                 or.canMergeFlag,
+                or.branchChangeFlag,
                 getAlreadyAccepted(or, ob.oldTip),
                 allCommits,
                 branch,
@@ -679,6 +682,7 @@ public class MergeOp implements AutoCloseable {
                 dryrun);
         strategies.add(strategy);
         strategy.addOps(or.getUpdate(), commitsToSubmit);
+        addDeleteSourceChangeOps(or, branch, commitsToSubmit);
         if (submitting.submitType().equals(SubmitType.FAST_FORWARD_ONLY)
             && submoduleOp.hasSubscription(branch)) {
           submoduleOp.addOp(or.getUpdate(), branch);
@@ -690,6 +694,43 @@ public class MergeOp implements AutoCloseable {
       }
     }
     return strategies;
+  }
+
+  private void addDeleteSourceChangeOps(
+      OpenRepo or, Branch.NameKey branch, Set<CodeReviewCommit> commits) {
+    if (!submitInput.deleteSourceBranch) {
+      return;
+    }
+    for (CodeReviewCommit commit : commits) {
+      if (commit.notes() == null) {
+        continue;
+      }
+      Change c = commit.notes().getChange();
+      Branch.NameKey source = c.getSource();
+      if (source == null) {
+        continue;
+      }
+      if (!c.getDest().equals(branch)) {
+        logger.atWarning().log(
+            "Commit %s is for branch change %s, but that change is for branch %s, expected %s",
+            commit.name(), c.getId(), c.getDest(), branch);
+        continue;
+      }
+      or.getUpdate()
+          .addRepoOnlyOp(
+              new RepoOnlyOp() {
+                @Override
+                public void updateRepo(RepoContext ctx) throws IOException {
+                  // This assumes that notes will only be set on the commit if the commit
+                  // corresponds to the latest revision of the change, and the change is in the
+                  // ChangeSet. It should be possible to submit a different change that would result
+                  // in merging an old patch set of a branch change, but not submit the branch
+                  // change itself. As long as that scenario doesn't result in setting notes on the
+                  // commit, we shouldn't hit this path in that case.
+                  ctx.addRefUpdate(commit, ObjectId.zeroId(), source.get());
+                }
+              });
+    }
   }
 
   private Set<RevCommit> getAlreadyAccepted(OpenRepo or, CodeReviewCommit branchTip)
@@ -846,6 +887,9 @@ public class MergeOp implements AutoCloseable {
         continue;
       }
       commit.add(or.canMergeFlag);
+      if (notes.getChange().isBranchChange()) {
+        commit.add(or.branchChangeFlag);
+      }
       toSubmit.add(commit);
     }
     logger.atFine().log("Submitting on this run: %s", toSubmit);

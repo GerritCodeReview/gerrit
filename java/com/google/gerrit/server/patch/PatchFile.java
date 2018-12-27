@@ -64,6 +64,14 @@ public class PatchFile {
         aTree = null;
         bTree = null;
       } else if (Patch.MERGE_LIST.equals(fileName)) {
+        // TODO(dborowitz): This is super broken for branch changes: there is currently no way to
+        // tell from the PatchList whether MERGE_LIST is present due to it being a branch change.
+        // Ideally for a prototype we would be able to just skip this entirely, but I'm not sure we
+        // can even detect this case.
+        // Possible fixes:
+        //  * encode this info in ComparisonType
+        //  * extract the PatchListKey and pass it to this constructor
+
         // For the initial commit, we have an empty tree on Side A
         RevObject object = rw.parseAny(patchList.getOldId());
         a =

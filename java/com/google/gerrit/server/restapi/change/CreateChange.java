@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.base.Joiner;
@@ -170,7 +171,8 @@ public class CreateChange
     }
 
     String subject = clean(Strings.nullToEmpty(input.subject));
-    if (Strings.isNullOrEmpty(subject)) {
+    String sourceBranch = Strings.emptyToNull(input.sourceBranch.trim());
+    if (Strings.isNullOrEmpty(subject) && sourceBranch == null) {
       throw new BadRequestException("commit message must be non-empty");
     }
 
@@ -182,6 +184,22 @@ public class CreateChange
 
     if (input.baseChange != null && input.baseCommit != null) {
       throw new BadRequestException("only provide one of base_change or base_commit");
+    }
+
+    if (sourceBranch != null) {
+      if (!Strings.isNullOrEmpty(subject)) {
+        // TODO(dborowitz): Implement as cover letter.
+        throw new BadRequestException("subject not supported for branch changes");
+      }
+      if (input.baseChange != null) {
+        throw new BadRequestException("base change not supported for branch changes");
+      }
+      if (input.baseCommit != null) {
+        throw new BadRequestException("base commit not supported for branch changes");
+      }
+      if (input.merge != null) {
+        throw new BadRequestException("merge not supported for branch changes");
+      }
     }
 
     ProjectResource rsrc = projectsCollection.parse(input.project);
@@ -287,8 +305,20 @@ public class CreateChange
                         accountState.getAccount().getNameEmail(anonymousCowardName)));
       }
 
+      Change.Type type = Change.Type.COMMIT;
       RevCommit c;
-      if (input.merge != null) {
+      if (sourceBranch != null) {
+        type = Change.Type.BRANCH;
+        String sourceRefName = RefNames.fullName(sourceBranch);
+        if (!sourceRefName.startsWith(REFS_HEADS)) {
+          throw new BadRequestException("source branch must be a branch: " + sourceRefName);
+        }
+        Ref sourceRef = git.exactRef(sourceRefName);
+        if (sourceRef == null) {
+          throw new BadRequestException("source ref does not exist: " + sourceRefName);
+        }
+        c = rw.parseCommit(sourceRef.getObjectId());
+      } else if (input.merge != null) {
         // create a merge commit
         if (!(submitType.equals(SubmitType.MERGE_ALWAYS)
             || submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
@@ -304,6 +334,7 @@ public class CreateChange
 
       Change.Id changeId = new Change.Id(seq.nextChangeId());
       ChangeInserter ins = changeInserterFactory.create(changeId, c, refName);
+      ins.setSourceBranch(sourceBranch);
       ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));
       String topic = input.topic;
       if (topic != null) {
@@ -315,6 +346,9 @@ public class CreateChange
       ins.setGroups(groups);
       ins.setNotify(input.notify);
       ins.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
+      ins.setType(type);
+      // TODO(dborowitz): Separate sets of validators in CommitValidators for branch changes.
+      ins.setValidate(type == Change.Type.COMMIT);
       try (BatchUpdate bu = updateFactory.create(project, me, now)) {
         bu.setRepository(git, rw, oi);
         bu.insertChange(ins);

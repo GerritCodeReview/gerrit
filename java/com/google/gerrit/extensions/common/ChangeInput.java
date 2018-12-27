@@ -22,6 +22,7 @@ import java.util.Map;
 
 public class ChangeInput {
   public String project;
+  public String sourceBranch;
   public String branch;
   public String subject;
 

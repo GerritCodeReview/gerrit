@@ -213,6 +213,8 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   private ChangeSet byCommitsOnBranchNotMerged(
       OpenRepo or, Branch.NameKey branch, Set<String> visibleHashes, Set<String> nonVisibleHashes)
       throws OrmException, IOException {
+    // TODO(dborowitz): Omit abandoned branch changes somehow, since it's now possible to recreate
+    // a branch change with the same revision as an abandoned branch change.
     List<ChangeData> potentiallyVisibleChanges =
         byCommitsOnBranchNotMerged(or, branch, visibleHashes);
     List<ChangeData> invisibleChanges =

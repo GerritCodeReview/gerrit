@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.ChangeKind;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 
 public class RevisionInfo {
@@ -28,7 +29,13 @@ public class RevisionInfo {
   public AccountInfo uploader;
   public String ref;
   public Map<String, FetchInfo> fetch;
+
+  // Single commit for a commit change.
   public CommitInfo commit;
+
+  // List of commits for a branch change.
+  public List<CommitInfo> commits;
+
   public Map<String, FileInfo> files;
   public Map<String, ActionInfo> actions;
   public String commitWithFooters;

@@ -89,7 +89,8 @@ public abstract class SubmitStrategy {
           CodeReviewRevWalk rw,
           IdentifiedUser caller,
           MergeTip mergeTip,
-          RevFlag canMergeFlag,
+          @Assisted("canMergeFlag") RevFlag canMergeFlag,
+          @Assisted("branchChangeFlag") RevFlag branchChangeFlag,
           Set<RevCommit> alreadyAccepted,
           Set<CodeReviewCommit> incoming,
           RequestId submissionId,
@@ -122,6 +123,7 @@ public abstract class SubmitStrategy {
     final IdentifiedUser caller;
     final MergeTip mergeTip;
     final RevFlag canMergeFlag;
+    final RevFlag branchChangeFlag;
     final Set<RevCommit> alreadyAccepted;
     final RequestId submissionId;
     final SubmitType submitType;
@@ -159,7 +161,8 @@ public abstract class SubmitStrategy {
         @Assisted CodeReviewRevWalk rw,
         @Assisted IdentifiedUser caller,
         @Assisted MergeTip mergeTip,
-        @Assisted RevFlag canMergeFlag,
+        @Assisted("canMergeFlag") RevFlag canMergeFlag,
+        @Assisted("branchChangeFlag") RevFlag branchChangeFlag,
         @Assisted Set<RevCommit> alreadyAccepted,
         @Assisted Set<CodeReviewCommit> incoming,
         @Assisted RequestId submissionId,
@@ -190,6 +193,7 @@ public abstract class SubmitStrategy {
       this.caller = caller;
       this.mergeTip = mergeTip;
       this.canMergeFlag = canMergeFlag;
+      this.branchChangeFlag = branchChangeFlag;
       this.alreadyAccepted = alreadyAccepted;
       this.submissionId = submissionId;
       this.submitType = submitType;
@@ -203,7 +207,8 @@ public abstract class SubmitStrategy {
               projectCache.get(destBranch.getParentKey()),
               () -> String.format("project not found: %s", destBranch.getParentKey()));
       this.mergeSorter =
-          new MergeSorter(rw, alreadyAccepted, canMergeFlag, queryProvider, incoming);
+          new MergeSorter(
+              rw, alreadyAccepted, canMergeFlag, branchChangeFlag, queryProvider, incoming);
       this.rebaseSorter =
           new RebaseSorter(
               rw, mergeTip.getInitialTip(), alreadyAccepted, canMergeFlag, queryProvider, incoming);

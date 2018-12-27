@@ -28,6 +28,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
@@ -71,9 +72,12 @@ public class BatchAbandon {
         }
         u.addOp(
             change.getId(),
-            abandonOpFactory.create(accountState, msgTxt, notifyHandling, accountsToNotify));
+            abandonOpFactory.create(
+                change.notes(), accountState, msgTxt, notifyHandling, accountsToNotify));
       }
       u.execute();
+    } catch (OrmException e) {
+      throw new RestApiException("error abandoning changes", e);
     }
   }
 

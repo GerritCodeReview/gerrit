@@ -31,6 +31,7 @@ import org.eclipse.jgit.revwalk.RevFlag;
 public class MergeSorter {
   private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
+  private final RevFlag branchChangeFlag;
   private final Set<RevCommit> accepted;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Set<CodeReviewCommit> incoming;
@@ -39,10 +40,12 @@ public class MergeSorter {
       CodeReviewRevWalk rw,
       Set<RevCommit> alreadyAccepted,
       RevFlag canMergeFlag,
+      RevFlag branchChangeFlag,
       Provider<InternalChangeQuery> queryProvider,
       Set<CodeReviewCommit> incoming) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
+    this.branchChangeFlag = branchChangeFlag;
     this.accepted = alreadyAccepted;
     this.queryProvider = queryProvider;
     this.incoming = incoming;
@@ -64,7 +67,7 @@ public class MergeSorter {
       CodeReviewCommit c;
       RevCommitList<RevCommit> contents = new RevCommitList<>();
       while ((c = rw.next()) != null) {
-        if (!c.has(canMergeFlag) || !incoming.contains(c)) {
+        if (!canMergeAsBranchChange(c) && !canMergeAsCommitChange(c)) {
           // We cannot merge n as it would bring something we
           // aren't permitted to merge at this time. Drop n.
           //
@@ -89,6 +92,18 @@ public class MergeSorter {
       heads.add(n);
     }
     return heads;
+  }
+
+  private boolean canMergeAsBranchChange(CodeReviewCommit c) {
+    // Any commit reachable from the tip of a branch change can always be merged, regardless of
+    // whether it is in the incoming set.
+    return c.has(branchChangeFlag);
+  }
+
+  private boolean canMergeAsCommitChange(CodeReviewCommit c) {
+    // For individual commit changes, a change can be merged only if it was marked with
+    // canMergeFlag during the initial parse, *and* it is identified in the incoming set.
+    return c.has(canMergeFlag) && incoming.contains(c);
   }
 
   private static <T> T removeOne(Collection<T> c) {

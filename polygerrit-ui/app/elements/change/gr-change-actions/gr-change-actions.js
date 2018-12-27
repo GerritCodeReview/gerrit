@@ -1071,7 +1071,9 @@
     _handleSubmitConfirm() {
       if (!this._canSubmitChange()) { return; }
       this._hideAllDialogs();
-      this._fireAction('/submit', this.revisionActions.submit, true);
+      const el = this.$.confirmSubmitDialog;
+      this._fireAction('/submit', this.revisionActions.submit, true,
+          {delete_source_branch: el.deleteSourceBranch});
     },
 
     _getActionOverflowIndex(type, key) {

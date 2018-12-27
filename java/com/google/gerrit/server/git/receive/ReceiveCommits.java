@@ -121,6 +121,7 @@ import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -565,7 +566,14 @@ class ReceiveCommits {
 
       try {
         if (!regularCommands.isEmpty()) {
-          handleRegularCommands(regularCommands, progress);
+          // TOOD(dborowitz): Probably we want to support some of the other magic branch options on
+          // branch change pushes, e.g. wip/ready. But maybe not others, e.g. base. Find a way to
+          // reuse that code.
+          if (pushOptions.containsKey("dest")) {
+            handleBranchChangeCommands(regularCommands, progress);
+          } else {
+            handleRegularCommands(regularCommands, progress);
+          }
           return;
         }
 
@@ -582,7 +590,10 @@ class ReceiveCommits {
             reject(cmd, "duplicate request");
           }
         }
-      } catch (PermissionBackendException | NoSuchProjectException | IOException err) {
+      } catch (PermissionBackendException
+          | NoSuchProjectException
+          | IOException
+          | OrmException err) {
         logger.atSevere().withCause(err).log("Failed to process refs in %s", project.getName());
         return;
       }
@@ -602,7 +613,7 @@ class ReceiveCommits {
       insertChangesAndPatchSets(newChanges, replaceProgress);
       newProgress.end();
       replaceProgress.end();
-      queueSuccessMessages(newChanges);
+      queueSuccessMessages(newChanges.stream().map(c -> c.change).filter(Objects::nonNull));
 
       logger.atFine().log(
           "Command results: %s",
@@ -621,11 +632,118 @@ class ReceiveCommits {
     }
   }
 
+  private void handleBranchChangeCommands(List<ReceiveCommand> cmds, MultiProgressMonitor progress)
+      throws OrmException, PermissionBackendException, IOException {
+    List<String> dests = pushOptions.get("dest");
+    checkArgument(
+        !dests.isEmpty() && !cmds.isEmpty(),
+        "handleBranchChangeCommands requires exactly one command and dest");
+    if (dests.size() > 1) {
+      logger.atFine().log("Rejecting multiple dest options: %s", dests);
+      addError("Multiple values not allowed for dest option");
+      cmds.forEach(cmd -> reject(cmd, "multiple destinations"));
+      return;
+    }
+    String dest = RefNames.fullName(dests.get(0));
+
+    logger.atFine().log("Handling branch change commands for dest branch: %s", dest);
+    if (cmds.size() > 1) {
+      logger.atFine().log("Rejecting multiple branch change commands: %s", cmds);
+      addError("Multiple branches not allowed"); // TODO(dborowitz): Better message.
+      cmds.forEach(cmd -> reject(cmd, "multiple branches"));
+      return;
+    }
+    ReceiveCommand cmd = cmds.get(0);
+    switch (cmd.getType()) {
+      case CREATE:
+        Change change = handleCreateBranchChange(cmd, dest, progress);
+        if (change != null) {
+          queueSuccessMessages(Stream.of(change));
+        }
+        break;
+      case UPDATE:
+      case UPDATE_NONFASTFORWARD:
+        // Normally -o dest=foo is not required to update a branch change, it'll happen without the
+        // push option.
+        // TODO(dborowitz): Maybe it should be legal to push with -o dest, as long as it matches
+        // the actual dest of this source branch?
+        throw new IllegalStateException("TODO");
+      case DELETE:
+        reject(cmd, "delete not allowed with dest option");
+        break;
+    }
+  }
+
+  private Change handleCreateBranchChange(
+      ReceiveCommand cmd, String dest, MultiProgressMonitor progress)
+      throws OrmException, IOException, PermissionBackendException {
+    // TODO(dborowitz): Does this set of validation checks apply here?
+    // TODO(dborowitz): Permission checks, other checks analogous to parseCreate. Or just merge this
+    // method into ParseCreate.
+    validateRegularPushCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
+    Task newProgress = progress.beginSubTask("new", UNKNOWN);
+    Change.Id changeId = new Change.Id(seq.nextChangeId());
+    Change change = null;
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(
+            project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs())) {
+      ChangeInserter ins =
+          changeInserterFactory
+              .create(changeId, cmd.getNewId(), dest)
+              .setType(Change.Type.BRANCH)
+              .setSourceBranch(cmd.getRefName())
+              .setValidate(false);
+      if (receivePack.getPushCertificate() != null) {
+        ins.setPushCertificate(receivePack.getPushCertificate().toTextWithSignature());
+      }
+      // TODO(dborowitz): Support other options from MagicBranchInput or similar.
+      bu.insertChange(ins);
+      bu.addOp(changeId, new ChangeProgressOp(newProgress));
+      bu.addRepoOnlyOp(new UpdateOneRefOp(cmd));
+      bu.execute();
+      change = ins.getChange();
+    } catch (UpdateException | RestApiException e) {
+      logger.atFine().withCause(e).log("update failed:");
+    } finally {
+      newProgress.end();
+    }
+    return change;
+  }
+
+  private class AbandonRequest {
+    private final Change.Id changeId;
+
+    AbandonRequest(Change.Id changeId) {
+      this.changeId = changeId;
+    }
+
+    void addOps(BatchUpdate bu, Task progress) {
+      bu.addOp(
+          changeId,
+          new BatchUpdateOp() {
+            @Override
+            public boolean updateChange(ChangeContext ctx) {
+              Change c = ctx.getChange();
+              if (ctx.getChange().getStatus().isClosed()) {
+                return false;
+              }
+              ChangeUpdate u = ctx.getUpdate(ctx.getChange().currentPatchSetId());
+              u.setStatus(Change.Status.ABANDONED);
+              u.setChangeMessage(
+                  "Abandoned because source branch \"" + c.getSource().get() + "\" was deleted");
+              return true;
+            }
+          });
+      bu.addOp(changeId, new ChangeProgressOp(progress));
+    }
+  }
+
   private void handleRegularCommands(List<ReceiveCommand> cmds, MultiProgressMonitor progress)
-      throws PermissionBackendException, IOException, NoSuchProjectException {
+      throws PermissionBackendException, IOException, NoSuchProjectException, OrmException {
+    List<AbandonRequest> abandons = new ArrayList<>(cmds.size());
     resultChangeIds.setMagicPush(false);
     for (ReceiveCommand cmd : cmds) {
-      parseRegularCommand(cmd);
+      parseRegularCommand(cmd, abandons);
     }
 
     try (BatchUpdate bu =
@@ -634,6 +752,8 @@ class ReceiveCommits {
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
+      Task replaceProgress = progress.beginSubTask("updated", UNKNOWN);
+      Task abandonProgress = progress.beginSubTask("abandoned", UNKNOWN);
       bu.setRepository(repo, rw, ins);
       bu.setRefLogMessage("push");
 
@@ -645,6 +765,23 @@ class ReceiveCommits {
         }
       }
       logger.atFine().log("Added %d additional ref updates", added);
+
+      // TODO(dborowitz): Handle partial failure.
+      readChangesForReplace();
+      for (ReplaceRequest req : replaceByChange.values()) {
+        if (req.inputCommand.getResult() != NOT_ATTEMPTED) {
+          continue;
+        }
+        req.validateNewPatchSet();
+        req.addOps(bu, replaceProgress);
+      }
+      if (!replaceByChange.isEmpty()) {
+        logger.atFine().log("Added %d branch change updates", replaceByChange.size());
+      }
+      abandons.forEach(req -> req.addOps(bu, abandonProgress));
+      if (!abandons.isEmpty()) {
+        logger.atFine().log("Added %d abandon ops", abandons.size());
+      }
       bu.execute();
     } catch (UpdateException | RestApiException e) {
       rejectRemaining(cmds, "internal server error");
@@ -686,12 +823,13 @@ class ReceiveCommits {
         logger.atSevere().withCause(e).log("Can't update the superprojects");
       }
     }
+
+    queueSuccessMessages(Stream.of());
   }
 
   /** Appends messages for successful change creation/updates. */
-  private void queueSuccessMessages(List<CreateRequest> newChanges) {
-    List<CreateRequest> created =
-        newChanges.stream().filter(r -> r.change != null).collect(toList());
+  private void queueSuccessMessages(Stream<Change> newChanges) {
+    List<Change> created = newChanges.collect(toList());
     List<ReplaceRequest> updated =
         replaceByChange
             .values()
@@ -710,10 +848,9 @@ class ReceiveCommits {
     if (!created.isEmpty()) {
       addMessage("");
       addMessage("New Changes:");
-      for (CreateRequest c : created) {
+      for (Change c : created) {
         addMessage(
-            changeFormatter.newChange(
-                ChangeReportFormatter.Input.builder().setChange(c.change).build()));
+            changeFormatter.newChange(ChangeReportFormatter.Input.builder().setChange(c).build()));
       }
     }
 
@@ -952,8 +1089,8 @@ class ReceiveCommits {
   /*
    * Interpret a normal push.
    */
-  private void parseRegularCommand(ReceiveCommand cmd)
-      throws PermissionBackendException, NoSuchProjectException, IOException {
+  private void parseRegularCommand(ReceiveCommand cmd, List<AbandonRequest> abandons)
+      throws PermissionBackendException, NoSuchProjectException, IOException, OrmException {
     if (cmd.getResult() != NOT_ATTEMPTED) {
       // Already rejected by the core receive process.
       logger.atFine().log("Already processed by core: %s %s", cmd.getResult(), cmd);
@@ -1003,7 +1140,7 @@ class ReceiveCommits {
         break;
 
       case DELETE:
-        parseDelete(cmd);
+        parseDelete(cmd, abandons);
         break;
 
       case UPDATE_NONFASTFORWARD:
@@ -1192,20 +1329,44 @@ class ReceiveCommits {
     }
   }
 
-  private void parseUpdate(ReceiveCommand cmd) throws PermissionBackendException {
+  private void parseUpdate(ReceiveCommand cmd)
+      throws PermissionBackendException, OrmException, IOException {
     logger.atFine().log("Updating %s", cmd);
     Optional<AuthException> err = checkRefPermission(cmd, RefPermission.UPDATE);
-    if (!err.isPresent()) {
-      if (isHead(cmd) && !isCommit(cmd)) {
-        reject(cmd, "head must point to commit");
-        return;
-      }
-      if (validRefOperation(cmd)) {
-        validateRegularPushCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
-      }
-    } else {
+    if (err.isPresent()) {
       rejectProhibited(cmd, err.get());
+      return;
     }
+    if (isHead(cmd) && !isCommit(cmd)) {
+      reject(cmd, "head must point to commit");
+      return;
+    }
+    if (!validRefOperation(cmd)) {
+      return;
+    }
+    validateRegularPushCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
+
+    Optional<Change.Id> maybeChangeId = getOpenBranchChange(cmd.getRefName());
+    if (maybeChangeId.isPresent()) {
+      RevCommit newCommit = receivePack.getRevWalk().parseCommit(cmd.getNewId());
+      replaceByChange.put(
+          maybeChangeId.get(), new ReplaceRequest(maybeChangeId.get(), newCommit, cmd, false));
+    }
+  }
+
+  private Optional<Change.Id> getOpenBranchChange(String sourceRefName) throws OrmException {
+    List<ChangeData> branchChanges =
+        queryProvider.get().bySourceBranchOpen(project.getName(), sourceRefName);
+    // TODO(dborowitz): Multiple open branch changes could happen due to an index or change
+    // replication race, so we should be able to recover. However, naively adding multiple
+    // ReplaceRequests is not the way to go: it would break the replaceByChange map, which assumes a
+    // 1-to-1 mapping.
+    checkState(
+        branchChanges.isEmpty() || branchChanges.size() == 1,
+        "multiple branch changes for source %s: %s",
+        sourceRefName,
+        branchChanges);
+    return branchChanges.stream().findFirst().map(ChangeData::getId);
   }
 
   private boolean isCommit(ReceiveCommand cmd) {
@@ -1226,7 +1387,8 @@ class ReceiveCommits {
     return false;
   }
 
-  private void parseDelete(ReceiveCommand cmd) throws PermissionBackendException {
+  private void parseDelete(ReceiveCommand cmd, List<AbandonRequest> abandons)
+      throws PermissionBackendException, OrmException, IOException {
     logger.atFine().log("Deleting %s", cmd);
     if (cmd.getRefName().startsWith(REFS_CHANGES)) {
       errors.put(CANNOT_DELETE_CHANGES, cmd.getRefName());
@@ -1239,13 +1401,15 @@ class ReceiveCommits {
     Optional<AuthException> err = checkRefPermission(cmd, RefPermission.DELETE);
     if (!err.isPresent()) {
       validRefOperation(cmd);
-
     } else {
       rejectProhibited(cmd, err.get());
     }
+
+    getOpenBranchChange(cmd.getRefName()).ifPresent(id -> abandons.add(new AbandonRequest(id)));
   }
 
   private void parseRewind(ReceiveCommand cmd) throws PermissionBackendException {
+    // TODO(dborowitz): Update branch changes.
     RevCommit newObject;
     try {
       newObject = receivePack.getRevWalk().parseCommit(cmd.getNewId());
@@ -2664,7 +2828,21 @@ class ReceiveCommits {
       if (change.getStatus().isClosed()) {
         reject(inputCommand, "change " + ontoChange + " closed");
         return false;
-      } else if (revisions.containsKey(newCommit)) {
+      }
+
+      return validatePatchSetIsUnique(newCommit);
+    }
+
+    private boolean validatePatchSetIsUnique(RevCommit newCommit) throws IOException {
+      if (notes.getChange().isBranchChange()) {
+        // Patch sets of branch changes need not be unique: we don't want to force users to amend or
+        // create dummy commits just to revert to a previous state.
+        // TODO(dborowitz): May still be an open question whether to allow the same commit as the
+        // tip of multiple open branch changes from different source branches.
+        return true;
+      }
+
+      if (revisions.containsKey(newCommit)) {
         reject(inputCommand, "commit already exists (in the change)");
         return false;
       }
@@ -2685,7 +2863,6 @@ class ReceiveCommits {
           return false;
         }
       }
-
       return true;
     }
 

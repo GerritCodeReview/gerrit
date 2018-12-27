@@ -241,11 +241,24 @@ limitations under the License.
         </span>
       </section>
       <section>
-        <span class="title">Branch</span>
+        <span class="title">
+          <template
+              is="dom-if"
+              if="[[_computeHideSourceBranch(change)]]">Branch</template>
+          <template
+              is="dom-if"
+              if="[[!_computeHideSourceBranch(change)]]">Dest</template>
+        </span>
         <span class="value">
           <a href$="[[_computeBranchURL(change.project, change.branch)]]">
             <gr-limited-text limit="40" text="[[change.branch]]"></gr-limited-text>
           </a>
+        </span>
+      </section>
+      <section hidden$="[[_computeHideSourceBranch(change)]]" hidden>
+        <span class="title">Source</span>
+        <span class="value">
+          <gr-limited-text limit="40" text="[[change.source_branch]]"></gr-limited-text>
         </span>
       </section>
       <section>

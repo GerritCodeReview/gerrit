@@ -100,7 +100,7 @@ class ListDashboards implements RestReadView<ProjectResource> {
         }
         return all;
       } finally {
-        rw.release();
+        rw.close();
       }
     } finally {
       git.close();
@@ -134,7 +134,7 @@ class ListDashboards implements RestReadView<ProjectResource> {
         }
       }
     } finally {
-      tw.release();
+      tw.close();
     }
     return list;
   }

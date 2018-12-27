@@ -69,7 +69,7 @@ public class GetHead implements RestReadView<ProjectResource> {
           }
           throw new AuthException("not allowed to see HEAD");
         } finally {
-          rw.release();
+          rw.close();
         }
       }
       throw new ResourceNotFoundException(Constants.HEAD);

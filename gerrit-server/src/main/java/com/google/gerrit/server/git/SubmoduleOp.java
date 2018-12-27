@@ -380,7 +380,7 @@ public class SubmoduleOp {
             + subscriber.get(), e);
     } finally {
       if (recRw != null) {
-        recRw.release();
+        recRw.close();
       }
       if (pdb != null) {
         pdb.close();
@@ -400,7 +400,7 @@ public class SubmoduleOp {
       b.finish();
       return dc;
     } finally {
-      rw.release();
+      rw.close();
     }
   }
 

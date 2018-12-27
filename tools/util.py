@@ -23,6 +23,7 @@ except ImportError:
 
 REPO_ROOTS = {
   'ATLASSIAN': 'https://maven.atlassian.com/content/repositories/atlassian-3rdparty',
+  'ECLIPSE': 'https://repo.eclipse.org/content/groups/releases',
   'GERRIT': 'http://gerrit-maven.storage.googleapis.com',
   'GERRIT_API': 'https://gerrit-api.commondatastorage.googleapis.com/release',
   'ECLIPSE': 'https://repo.eclipse.org/content/groups/releases',

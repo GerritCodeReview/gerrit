@@ -466,7 +466,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     PushResult pr = GitUtil.pushHead(
         testRepo, "refs/for/foo%base=" + rBase.getCommitId().name(), false, false);
-    assertThat(pr.getMessages()).contains("changes: new: 1, refs: 1, done");
+    assertThat(pr.getMessages()).containsMatch("changes: .*new: 1.*done");
 
     assertTwoChangesWithSameRevision(r);
   }

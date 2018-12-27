@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1545902768 +0100\nnonce AJbGYznnWqtSeMjeWGjmKxZ0ITX8C9KuyUwp4DvQ7WExKs7txhmuVSOXxloSdlZeagRUt9q60CgT\n\n0000000000000000000000000000000000000000 36b0dd087b4b9a588eb0a7275833d2a1e887b50c refs/for/stable-2.9\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJcJJqwAAoJEHFVO370GiZW96AIAIWgD/GtVIinnffzEO+9jI5q\nAORDPbzPDqrv5AQF84/m0CKc/bKvl8a6Bllq2fxYBo41gBMfLHT96YRKRyNmTz+f\nFdHK6Ly9ufLzlbwTsCmCJVSETe+vp2paoy4PEDPucl+zuKy4HoatvQWIBP4XoJ4a\nqvCEuv7Sk0rnGgOc2Yjzz0JzUNTSGpcIN7FO+dm3+Ra2eJXMGT8hkl4TljRXTaCK\nasv4gKHCJfOjRKPc+Xhk33jDF3TJq2IO/TT2JrntA13PKHMVvtx0TteFZXCXtBjH\nkJDYG7lRaQhDO9vTYpuuk0ubxkuiSVnudRvOfHyRXxggM59+C6G5oUpZuHnUUko\u003d\n\u003dmNEI\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9239083a_17864e5e",
+        "filename": ".buckversion",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-27T09:44:07Z",
+      "side": 1,
+      "message": "Is this some spcific Buck version used on another stable gerrit branches?",
+      "revId": "21913848932423c6d2b292a4b72dfd2671ebf2aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -208,7 +208,7 @@ public class ChangeNotesTest {
       assertEquals(author.getWhen(), committer.getWhen());
       assertEquals(author.getTimeZone(), committer.getTimeZone());
     } finally {
-      walk.release();
+      walk.close();
     }
   }
 
@@ -229,7 +229,7 @@ public class ChangeNotesTest {
           + "Label: -Code-Review\n",
           commit.getFullMessage());
     } finally {
-      walk.release();
+      walk.close();
     }
   }
 
@@ -277,7 +277,7 @@ public class ChangeNotesTest {
       assertEquals(author.getWhen(), committer.getWhen());
       assertEquals(author.getTimeZone(), committer.getTimeZone());
     } finally {
-      walk.release();
+      walk.close();
     }
   }
 
@@ -302,7 +302,7 @@ public class ChangeNotesTest {
           + "Submitted-with: RULE_ERROR Problem with patch set: 1\n",
           commit.getFullMessage());
     } finally {
-      walk.release();
+      walk.close();
     }
   }
 

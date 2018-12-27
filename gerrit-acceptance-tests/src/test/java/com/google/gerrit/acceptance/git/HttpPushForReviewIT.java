@@ -15,13 +15,18 @@
 package com.google.gerrit.acceptance.git;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.junit.Before;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class HttpPushForReviewIT extends AbstractPushForReview {
   @Before
   public void selectHttpUrl() throws GitAPIException, IOException {
+    CredentialsProvider.setDefault(new UsernamePasswordCredentialsProvider(
+        admin.username, admin.httpPassword));
     selectProtocol(Protocol.HTTP);
   }
 }

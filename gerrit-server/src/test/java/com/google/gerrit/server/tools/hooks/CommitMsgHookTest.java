@@ -431,7 +431,7 @@ public class CommitMsgHookTest extends HookTestCase {
       oi.flush();
       return e;
     } finally {
-      oi.release();
+      oi.close();
     }
   }
 
@@ -457,7 +457,7 @@ public class CommitMsgHookTest extends HookTestCase {
           fail(Constants.HEAD + " did not change: " + ref.getResult());
       }
     } finally {
-      oi.release();
+      oi.close();
     }
   }
 }

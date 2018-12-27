@@ -301,7 +301,7 @@ public class PerformCreateProject {
               + createProjectArgs.getProjectName(), e);
       throw e;
     } finally {
-      oi.release();
+      oi.close();
     }
   }
 }

@@ -363,20 +363,21 @@ is that we have a structured process for deprecation that users, administrators 
 developers can agree and rely on.
 
 General process:
-* Make sure that the feature (e.g. a field on the API) is not needed anymore or blocks
-  further development or improvement. If in doubt, consult the mailing list.
-* If you can provide a schema migration that moves users to a comparable feature, do
-  so and stop here.
-* Mark the feature as deprecated in the documentation and release notes.
-* If possible, mark the feature deprecated in any user-visible interface. For example,
-  if you are deprecating a Git push option, add a message to the Git response if
-  the user provided the option informing them about deprecation.
-* Annotate the code with `@Deprecated` and `@RemoveAfter(x.xx)` if applicable.
-  Alternatively, use `// DEPRECATED, remove after x.xx` (where x.xx is the version
-  number that has to be branched off before removing the feature)
-* Gate the feature behind a config that is off by default (forcing admins to turn
-  the deprecated feature on explicitly).
-* After the next release was branched off, remove any code that backed the feature.
+
+  * Make sure that the feature (e.g. a field on the API) is not needed anymore or blocks
+    further development or improvement. If in doubt, consult the mailing list.
+  * If you can provide a schema migration that moves users to a comparable feature, do
+    so and stop here.
+  * Mark the feature as deprecated in the documentation and release notes.
+  * If possible, mark the feature deprecated in any user-visible interface. For example,
+    if you are deprecating a Git push option, add a message to the Git response if
+    the user provided the option informing them about deprecation.
+  * Annotate the code with `@Deprecated` and `@RemoveAfter(x.xx)` if applicable.
+    Alternatively, use `// DEPRECATED, remove after x.xx` (where x.xx is the version
+    number that has to be branched off before removing the feature)
+  * Gate the feature behind a config that is off by default (forcing admins to turn
+    the deprecated feature on explicitly).
+  * After the next release was branched off, remove any code that backed the feature.
 
 You can optionally consult the mailing list to ask if there are users of the feature you
 wish to deprecate. If there are no major users, you can remove the feature without

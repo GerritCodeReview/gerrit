@@ -59,24 +59,24 @@ public class BanCommit {
   */
   public static NoteMap loadRejectCommitsMap(Repository repo)
       throws IOException {
-   try {
-     Ref ref = repo.getRef(RefNames.REFS_REJECT_COMMITS);
-     if (ref == null) {
-       return NoteMap.newEmptyMap();
-     }
+    try {
+      Ref ref = repo.getRef(RefNames.REFS_REJECT_COMMITS);
+      if (ref == null) {
+        return NoteMap.newEmptyMap();
+      }
 
-     RevWalk rw = new RevWalk(repo);
-     try {
-       RevCommit map = rw.parseCommit(ref.getObjectId());
-       return NoteMap.read(rw.getObjectReader(), map);
-     } finally {
-       rw.release();
-     }
-   } catch (IOException badMap) {
-     throw new IOException("Cannot load "
-         + RefNames.REFS_REJECT_COMMITS, badMap);
-   }
- }
+      RevWalk rw = new RevWalk(repo);
+      try {
+        RevCommit map = rw.parseCommit(ref.getObjectId());
+        return NoteMap.read(rw.getObjectReader(), map);
+      } finally {
+        rw.close();
+      }
+    } catch (IOException badMap) {
+      throw new IOException("Cannot load " + RefNames.REFS_REJECT_COMMITS,
+          badMap);
+    }
+  }
 
   private final Provider<IdentifiedUser> currentUser;
   private final GitRepositoryManager repoManager;
@@ -139,8 +139,8 @@ public class BanCommit {
         }
         return result;
       } finally {
-        revWalk.release();
-        inserter.release();
+        revWalk.close();
+        inserter.close();
       }
     } finally {
       repo.close();

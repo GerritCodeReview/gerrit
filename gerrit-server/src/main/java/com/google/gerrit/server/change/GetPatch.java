@@ -102,7 +102,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
 
           @Override
           public void close() throws IOException {
-            rw.release();
+            rw.close();
             repo.close();
           }
         };
@@ -123,7 +123,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
         return bin;
       } finally {
         if (close) {
-          rw.release();
+          rw.close();
         }
       }
     } finally {

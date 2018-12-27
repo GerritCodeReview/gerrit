@@ -394,7 +394,7 @@ public class MergeUtil {
       return false;
     }
 
-    final ThreeWayMerger m = newThreeWayMerger(repo, createDryRunInserter());
+    final ThreeWayMerger m = newThreeWayMerger(repo, createDryRunInserter(repo));
     try {
       return m.merge(new AnyObjectId[] {mergeTip, toMerge});
     } catch (NoMergeBaseException e) {
@@ -441,7 +441,7 @@ public class MergeUtil {
       //
       try {
         final ThreeWayMerger m =
-            newThreeWayMerger(repo, createDryRunInserter());
+            newThreeWayMerger(repo, createDryRunInserter(repo));
         m.setBase(toMerge.getParent(0));
         return m.merge(mergeTip, toMerge);
       } catch (IOException e) {
@@ -468,26 +468,19 @@ public class MergeUtil {
     }
   }
 
-  public static ObjectInserter createDryRunInserter() {
-    return new ObjectInserter() {
+  public static ObjectInserter createDryRunInserter(Repository db) {
+    final ObjectInserter delegate = db.newObjectInserter();
+    return new ObjectInserter.Filter() {
       @Override
-      public ObjectId insert(int objectType, long length, InputStream in)
-          throws IOException {
-        return idFor(objectType, length, in);
+      protected ObjectInserter delegate() {
+        return delegate;
       }
-
       @Override
       public PackParser newPackParser(InputStream in) throws IOException {
         throw new UnsupportedOperationException();
       }
-
       @Override
       public void flush() throws IOException {
-        // Do nothing.
-      }
-
-      @Override
-      public void release() {
         // Do nothing.
       }
     };
@@ -668,7 +661,7 @@ public class MergeUtil {
       }
 
       @Override
-      public void release() {
+      public void close() {
       }
     });
     return (ThreeWayMerger) m;

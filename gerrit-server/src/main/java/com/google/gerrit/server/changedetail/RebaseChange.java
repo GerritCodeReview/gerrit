@@ -139,10 +139,10 @@ public class RebaseChange {
       throw new IOException(e.getMessage());
     } finally {
       if (inserter != null) {
-        inserter.release();
+        inserter.close();
       }
       if (rw != null) {
-        rw.release();
+        rw.close();
       }
       if (git != null) {
         git.close();

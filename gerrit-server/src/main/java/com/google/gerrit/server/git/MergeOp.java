@@ -297,10 +297,10 @@ public class MergeOp {
       throw new MergeException("Cannot query the database", e);
     } finally {
       if (inserter != null) {
-        inserter.release();
+        inserter.close();
       }
       if (rw != null) {
-        rw.release();
+        rw.close();
       }
       if (repo != null) {
         repo.close();

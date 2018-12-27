@@ -144,7 +144,7 @@ public class ChangeKindCache {
         // having the same tree as would exist when the prior commit is
         // cherry-picked onto the next commit's new first parent.
         ThreeWayMerger merger = MergeUtil.newThreeWayMerger(
-            key.repo, MergeUtil.createDryRunInserter(), key.strategyName);
+            key.repo, MergeUtil.createDryRunInserter(key.repo), key.strategyName);
         merger.setBase(prior.getParent(0));
         if (merger.merge(next.getParent(0), prior)
             && merger.getResultTreeId().equals(next.getTree())) {
@@ -154,7 +154,7 @@ public class ChangeKindCache {
         }
       } finally {
         key.repo = null;
-        walk.release();
+        walk.close();
       }
     }
 

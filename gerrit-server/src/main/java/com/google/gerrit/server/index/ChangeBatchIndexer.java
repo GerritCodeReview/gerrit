@@ -310,7 +310,7 @@ public class ChangeBatchIndexer {
           getPathsAndIndex(id);
         }
       } finally {
-        walk.release();
+        walk.close();
       }
       return null;
     }
@@ -344,7 +344,7 @@ public class ChangeBatchIndexer {
             }
           }
         } finally {
-          df.release();
+          df.close();
         }
       } catch (Exception e) {
         fail("Failed to index commit " + b.name(), false, e);
@@ -389,7 +389,7 @@ public class ChangeBatchIndexer {
         oi.flush();
         return id;
       } finally {
-        oi.release();
+        oi.close();
       }
     }
 

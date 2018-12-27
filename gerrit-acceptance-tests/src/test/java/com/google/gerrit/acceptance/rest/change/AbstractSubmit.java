@@ -265,7 +265,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
             repo.getRef("refs/heads/master").getObjectId()));
         return Lists.newArrayList(rw);
       } finally {
-        rw.release();
+        rw.close();
       }
     } finally {
       repo.close();
@@ -278,7 +278,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       try {
         return rw.parseCommit(repo.getRef(name).getObjectId());
       } finally {
-        rw.release();
+        rw.close();
       }
     } finally {
       repo.close();
@@ -300,7 +300,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         ObjectId newTreeId = repo.resolve("refs/heads/master^{tree}");
         return getLatestDiff(repo, oldTreeId, newTreeId);
       } finally {
-        rw.release();
+        rw.close();
       }
     } finally {
       repo.close();

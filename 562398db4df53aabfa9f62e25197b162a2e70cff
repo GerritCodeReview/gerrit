@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44df5e94_3e79ae6e",
+        "filename": "tools/util.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-27T18:11:50Z",
+      "side": 1,
+      "message": "This and another related change in tools/bzl/maven_jar.bzl could be extracted as its own change. And ideally done on stable-2.14 and merged up into master.",
+      "revId": "562398db4df53aabfa9f62e25197b162a2e70cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf3f51c0_67d62c03",
+        "filename": "tools/util.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-27T18:11:50Z",
+      "side": 1,
+      "message": "May be name it REPO_ECLIPSE?",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 18,
+        "endChar": 16
+      },
+      "revId": "562398db4df53aabfa9f62e25197b162a2e70cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -321,16 +321,42 @@ especially if changing one without the other will break something!
 [[process]]
 == Process
 
+[[dev-in-stable-branches]]
+=== Development in stable branches
+
+As their name suggests stable branches are intended to be stable. This means that generally
+only bug-fixes should be done on stable branches, however this is not strictly enforced and
+exceptions may apply:
+
+  * When a stable branch is initially created to prepare a new release the Gerrit community
+    discusses on the mailing list if there are pending features which should still make it into the
+    release. Those features are blocking the release and should be implemented on the stable
+    branch before the first release candidate is created.
+  * To stabilize the code before doing a major release several release candidates are created. Once
+    the first release candidate was done no more features should be accepted on the stable branch.
+    If more features are found to be required they should be discussed with the Gerrit maintainers
+    and should only be allowed if the risk of breaking things is considered to be low.
+  * Once a major release is done only bug-fixes and documentation updates should be done on the
+    stable branch. These updates will be included in the next minor release.
+  * For minor releases new features are only acceptable if they are important for major Gerrit
+    stakeholders (e.g. contributing companies), if the risk of breaking things is low and there are
+    no objections from the Gerrit maintainers.
+  * In cases of doubt it's the responsibility of the release maintainer to evaluate the risk of new
+    features and make a decision.
+  * The older a stable branch is the more stable it should be. This means old stable branches
+    should only receive important and low-risk bug-fixes.
+
 === Backporting to stable branches
 
 From time to time bug fix releases are made for existing stable branches.
 
-Developers concerned with stable branches are encouraged to backport or push
-patchsets to these branches, even if no new release is planned.
+Developers concerned with stable branches are encouraged to backport or push fixes to these
+branches, even if no new release is planned. Backporting features is only possible in compliance
+with the rules link:#dev-in-stable-branches[above].
 
-Fixes that are known to be needed for a particular release should be pushed
-for review on that release's stable branch.  It will then be included in
-the master branch when the stable branch is merged back.
+Fixes that are known to be needed for a particular release should be pushed for review on that
+release's stable branch. They will then be included into the master branch when the stable branch
+is merged back.
 
 === Finding starter projects to work on
 

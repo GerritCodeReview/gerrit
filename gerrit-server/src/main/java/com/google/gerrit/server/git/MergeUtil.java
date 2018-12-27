@@ -474,12 +474,10 @@ public class MergeUtil {
       protected ObjectInserter delegate() {
         return delegate;
       }
-
       @Override
       public PackParser newPackParser(InputStream in) throws IOException {
         throw new UnsupportedOperationException();
       }
-
       @Override
       public void flush() throws IOException {
         // Do nothing.

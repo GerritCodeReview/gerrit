@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1545919329 +0100\nnonce AJbGYzk7f844JiOtDYNpucrSuBnF8IQ2uiez9nM2xctmTJnJszaIWzI+3gwtJ5ZTXKihne0014K1\n\n0000000000000000000000000000000000000000 cb2ba3e7f9aa8899a48e677fedf5dbfe01add522 refs/for/stable-2.16\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJcJNthAAoJEHFVO370GiZWGroH/3xr3Lg+RQJmEOt8zWCkHtU0\na550LKaIiwlwdEKrjT0mR/v/yX3v86LtPeH6dFEWz+58guS38AX2tk/cNGYaMBnB\n2kgsbvZUHC0JGxlrEOYI0pir/RDQeAVF9tVn9C+rSsP5t9C/hEr2LxhCRoXMU7WC\nUMJzpnbIE589X8Ljr3IXGArAenx57ftYU2jspx13kSHw8Mj3Xff+6YTBcQi+YlHA\nHpH2DOEl3u6O72aey7e1dYel5lU7Xg4YWeVnoBgZwAMzpA/h5n1OFbwYdT5nQSyS\nK4u4ppfOh+k5/sD3vzPRLoigHlV6RRtE1xoaRgzDHGpGAI3zflUdZTakOAymFJA\u003d\n\u003dYD5x\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ff07279_02d9ce88",
+        "filename": "java/com/google/gerrit/server/notedb/CommentJsonMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-27T14:11:57Z",
+      "side": 1,
+      "message": "Just to ceck my understanding: i`f this check fails we wouldn\u0027t migrate the blob to comment notes, but we would continues with the migration? Commit message is saying: \"After logging the IOException it is\nignored and the migration is attempted despite of it.\" Where is this ignore part?",
+      "range": {
+        "startLine": 224,
+        "startChar": 8,
+        "endLine": 226,
+        "endChar": 9
+      },
+      "revId": "cb2ba3e7f9aa8899a48e677fedf5dbfe01add522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

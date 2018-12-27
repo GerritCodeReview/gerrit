@@ -6,6 +6,8 @@ MAVEN_CENTRAL = "MAVEN_CENTRAL:"
 
 MAVEN_LOCAL = "MAVEN_LOCAL:"
 
+ECLIPSE_ORG = "ECLIPSE_ORG:"
+
 def _maven_release(ctx, parts):
     """induce jar and url name from maven coordinates."""
     if len(parts) not in [3, 4]:

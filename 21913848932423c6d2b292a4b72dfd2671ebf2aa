@@ -53,6 +53,24 @@
       "revId": "21913848932423c6d2b292a4b72dfd2671ebf2aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3351036f_86f9dfb3",
+        "filename": ".buckversion",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-27T10:09:19Z",
+      "side": 1,
+      "message": "Looks like this also requires Buck changes in plugins. At this point I think, it\u0027s better to fix the CI.",
+      "parentUuid": "188c1d4e_7be9170a",
+      "revId": "21913848932423c6d2b292a4b72dfd2671ebf2aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -35,6 +35,24 @@
       "revId": "21913848932423c6d2b292a4b72dfd2671ebf2aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "188c1d4e_7be9170a",
+        "filename": ".buckversion",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-27T09:58:11Z",
+      "side": 1,
+      "message": "Right, that would be a trivial change, but I think, that would require re-building of CI docker images and deploying them to CI production site. @Luca can you help with that? I could look into adapting the CI build tool chain, to only pass  --no-results-cache starting from 2.10 branch.",
+      "parentUuid": "70a9988f_8f96b583",
+      "revId": "21913848932423c6d2b292a4b72dfd2671ebf2aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

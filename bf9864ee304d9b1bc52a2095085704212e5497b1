@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "8cec86df_5872d3af",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-28T07:33:36Z",
+      "side": 1,
+      "message": "I agree with Edwin here. The same holds true for other open source projects, like LibreOffice. If someone would like to influence the direction of the project and decisions, she would have to participate in the project.",
+      "parentUuid": "2c3d6301_93720317",
+      "range": {
+        "startLine": 341,
+        "startChar": 81,
+        "endLine": 342,
+        "endChar": 16
+      },
+      "revId": "bf9864ee304d9b1bc52a2095085704212e5497b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d37331da_1fea60fa",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 2

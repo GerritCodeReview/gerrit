@@ -71,6 +71,30 @@
       "revId": "b73dea251a364301bd578271df0d0e45abce7bf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a834c9f8_6aaeec01",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-28T16:24:07Z",
+      "side": 1,
+      "message": "But maybe it\u0027s more expensive for JGit to build the map than to build the list?",
+      "parentUuid": "fcb4873e_ff86eab1",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 92
+      },
+      "revId": "b73dea251a364301bd578271df0d0e45abce7bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

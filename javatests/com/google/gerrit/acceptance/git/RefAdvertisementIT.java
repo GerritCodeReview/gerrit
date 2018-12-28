@@ -720,14 +720,14 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   /**
-   * Assert that refs seen by a non-admin user match expected.
+   * Assert that refs seen by a non-admin user match the expected refs.
    *
-   * @param expectedWithMeta expected refs, in order.
+   * @param expectedRefs expected refs, in order.
    * @throws Exception
    */
-  private void assertUploadPackRefs(String... expectedWithMeta) throws Exception {
+  private void assertUploadPackRefs(String... expectedRefs) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
-      assertRefs(repo, permissionBackend.user(user(user)).project(project), true, expectedWithMeta);
+      assertRefs(repo, permissionBackend.user(user(user)).project(project), true, expectedRefs);
     }
   }
 
@@ -735,10 +735,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       Repository repo,
       PermissionBackend.ForProject forProject,
       boolean disableDb,
-      String... expectedWithMeta)
+      String... expectedRefs)
       throws Exception {
-    List<String> expected = new ArrayList<>(expectedWithMeta.length);
-    for (String r : expectedWithMeta) {
+    List<String> expected = new ArrayList<>(expectedRefs.length);
+    for (String r : expectedRefs) {
       expected.add(r);
     }
 

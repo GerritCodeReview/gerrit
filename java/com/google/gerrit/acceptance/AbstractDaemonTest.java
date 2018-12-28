@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.acceptance.GitUtil.getAllRefs;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
@@ -1235,7 +1236,7 @@ public abstract class AbstractDaemonTest {
       throws Exception {
     TestRepository<?> localRepo = cloneProject(proj);
     GitUtil.fetch(localRepo, "refs/*:refs/*");
-    Map<String, Ref> refs = localRepo.getRepository().getAllRefs();
+    Map<String, Ref> refs = getAllRefs(localRepo.getRepository());
     Map<Branch.NameKey, RevTree> refValues = new HashMap<>();
 
     for (Branch.NameKey b : trees.keySet()) {

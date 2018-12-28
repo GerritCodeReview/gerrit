@@ -259,8 +259,8 @@ public class ProjectResetter implements AutoCloseable {
         refsPatternByProject.asMap().entrySet()) {
       try (Repository repo = repoManager.openRepository(e.getKey())) {
         Collection<Ref> nonRestoredRefs =
-            repo.getAllRefs()
-                .values()
+            repo.getRefDatabase()
+                .getRefs()
                 .stream()
                 .filter(
                     r ->
@@ -338,7 +338,8 @@ public class ProjectResetter implements AutoCloseable {
         // Make sure all accounts are evicted and reindexed.
         try (Repository repo = repoManager.openRepository(allUsersName)) {
           for (Account.Id id :
-              accountIds(repo.getAllRefs().values().stream().map(Ref::getName).collect(toSet()))) {
+              accountIds(
+                  repo.getRefDatabase().getRefs().stream().map(Ref::getName).collect(toSet()))) {
             evictAndReindexAccount(id);
           }
         }

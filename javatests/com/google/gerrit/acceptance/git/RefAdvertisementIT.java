@@ -18,9 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
+import static com.google.gerrit.acceptance.GitUtil.getAllRefs;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
@@ -54,12 +54,10 @@ import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.TestRepository;
@@ -792,12 +790,5 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     groupInput.members =
         Arrays.stream(members).map(m -> String.valueOf(m.id.get())).collect(toList());
     return new AccountGroup.UUID(gApi.groups().create(groupInput).get().id);
-  }
-
-  private static Map<String, Ref> getAllRefs(Repository repo) throws IOException {
-    return repo.getRefDatabase()
-        .getRefs()
-        .stream()
-        .collect(toMap(Ref::getName, Function.identity()));
   }
 }

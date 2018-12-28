@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -28,10 +29,12 @@ import com.jcraft.jsch.KeyPair;
 import com.jcraft.jsch.Session;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.TagCommand;
@@ -237,5 +240,12 @@ public class GitUtil {
     RevCommit c = tr.getRevWalk().parseCommit(id);
     tr.getRevWalk().parseBody(c);
     return Lists.reverse(c.getFooterLines(FooterConstants.CHANGE_ID)).stream().findFirst();
+  }
+
+  public static Map<String, Ref> getAllRefs(Repository repo) throws IOException {
+    return repo.getRefDatabase()
+        .getRefs()
+        .stream()
+        .collect(toMap(Ref::getName, Function.identity()));
   }
 }

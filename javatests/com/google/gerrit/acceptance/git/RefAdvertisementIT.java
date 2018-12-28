@@ -82,14 +82,21 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   private AccountGroup.UUID admins;
   private AccountGroup.UUID nonInteractiveUsers;
 
-  private ChangeData c1;
-  private ChangeData c2;
-  private ChangeData c3;
-  private ChangeData c4;
-  private String r1;
-  private String r2;
-  private String r3;
-  private String r4;
+  private ChangeData cd1;
+  private String psRef1;
+  private String metaRef1;
+
+  private ChangeData cd2;
+  private String psRef2;
+  private String metaRef2;
+
+  private ChangeData cd3;
+  private String psRef3;
+  private String metaRef3;
+
+  private ChangeData cd4;
+  private String psRef4;
+  private String metaRef4;
 
   @ConfigSuite.Config
   public static Config enableFullRefEvaluation() {
@@ -126,11 +133,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     }
   }
 
-  private static String changeRefPrefix(Change.Id id) {
-    String ps = new PatchSet.Id(id, 1).toRefName();
-    return ps.substring(0, ps.length() - 1);
-  }
-
   private void setUpChanges() throws Exception {
     gApi.projects().name(project.get()).branch("branch").create(new BranchInput());
 
@@ -140,23 +142,27 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     PushOneCommit.Result mr =
         pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master%submit");
     mr.assertOkStatus();
-    c1 = mr.getChange();
-    r1 = changeRefPrefix(c1.getId());
+    cd1 = mr.getChange();
+    psRef1 = cd1.currentPatchSet().getId().toRefName();
+    metaRef1 = RefNames.changeMetaRef(cd1.getId());
     PushOneCommit.Result br =
         pushFactory.create(admin.getIdent(), testRepo).to("refs/for/branch%submit");
     br.assertOkStatus();
-    c2 = br.getChange();
-    r2 = changeRefPrefix(c2.getId());
+    cd2 = br.getChange();
+    psRef2 = cd2.currentPatchSet().getId().toRefName();
+    metaRef2 = RefNames.changeMetaRef(cd2.getId());
 
     // Second 2 changes are unmerged.
     mr = pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master");
     mr.assertOkStatus();
-    c3 = mr.getChange();
-    r3 = changeRefPrefix(c3.getId());
+    cd3 = mr.getChange();
+    psRef3 = cd3.currentPatchSet().getId().toRefName();
+    metaRef3 = RefNames.changeMetaRef(cd3.getId());
     br = pushFactory.create(admin.getIdent(), testRepo).to("refs/for/branch");
     br.assertOkStatus();
-    c4 = br.getChange();
-    r4 = changeRefPrefix(c4.getId());
+    cd4 = br.getChange();
+    psRef4 = cd4.currentPatchSet().getId().toRefName();
+    metaRef4 = RefNames.changeMetaRef(cd4.getId());
 
     try (Repository repo = repoManager.openRepository(project)) {
       // master-tag -> master
@@ -185,14 +191,14 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     setApiUser(user);
     assertUploadPackRefs(
         "HEAD",
-        r1 + "1",
-        r1 + "meta",
-        r2 + "1",
-        r2 + "meta",
-        r3 + "1",
-        r3 + "meta",
-        r4 + "1",
-        r4 + "meta",
+        psRef1,
+        metaRef1,
+        psRef2,
+        metaRef2,
+        psRef3,
+        metaRef3,
+        psRef4,
+        metaRef4,
         "refs/heads/branch",
         "refs/heads/master",
         "refs/tags/branch-tag",
@@ -206,14 +212,14 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     assertUploadPackRefs(
         "HEAD",
-        r1 + "1",
-        r1 + "meta",
-        r2 + "1",
-        r2 + "meta",
-        r3 + "1",
-        r3 + "meta",
-        r4 + "1",
-        r4 + "meta",
+        psRef1,
+        metaRef1,
+        psRef2,
+        metaRef2,
+        psRef3,
+        metaRef3,
+        psRef4,
+        metaRef4,
         "refs/heads/branch",
         "refs/heads/master",
         RefNames.REFS_CONFIG,
@@ -228,13 +234,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     setApiUser(user);
     assertUploadPackRefs(
-        "HEAD",
-        r1 + "1",
-        r1 + "meta",
-        r3 + "1",
-        r3 + "meta",
-        "refs/heads/master",
-        "refs/tags/master-tag");
+        "HEAD", psRef1, metaRef1, psRef3, metaRef3, "refs/heads/master", "refs/tags/master-tag");
   }
 
   @Test
@@ -244,10 +244,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     setApiUser(user);
     assertUploadPackRefs(
-        r2 + "1",
-        r2 + "meta",
-        r4 + "1",
-        r4 + "meta",
+        psRef2,
+        metaRef2,
+        psRef4,
+        metaRef4,
         "refs/heads/branch",
         "refs/tags/branch-tag",
         // master branch is not visible but master-tag is reachable from branch
@@ -259,7 +259,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void uploadPackSubsetOfBranchesVisibleWithEdit() throws Exception {
     allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
 
-    Change c = notesFactory.createChecked(project, c3.getId()).getChange();
+    Change c = notesFactory.createChecked(project, cd3.getId()).getChange();
     String changeId = c.getKey().get();
 
     // Admin's edit is not visible.
@@ -272,14 +272,14 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     assertUploadPackRefs(
         "HEAD",
-        r1 + "1",
-        r1 + "meta",
-        r3 + "1",
-        r3 + "meta",
+        psRef1,
+        metaRef1,
+        psRef3,
+        metaRef3,
         "refs/heads/master",
         "refs/tags/master-tag",
         "refs/tags/branch-tag",
-        "refs/users/01/1000001/edit-" + c3.getId() + "/1");
+        "refs/users/01/1000001/edit-" + cd3.getId() + "/1");
   }
 
   @Test
@@ -287,9 +287,9 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
     allow("refs/*", Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS);
 
-    Change change3 = notesFactory.createChecked(project, c3.getId()).getChange();
+    Change change3 = notesFactory.createChecked(project, cd3.getId()).getChange();
     String changeId3 = change3.getKey().get();
-    Change change4 = notesFactory.createChecked(project, c4.getId()).getChange();
+    Change change4 = notesFactory.createChecked(project, cd4.getId()).getChange();
     String changeId4 = change4.getKey().get();
 
     // Admin's edit on change3 is visible.
@@ -305,15 +305,15 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     assertUploadPackRefs(
         "HEAD",
-        r1 + "1",
-        r1 + "meta",
-        r3 + "1",
-        r3 + "meta",
+        psRef1,
+        metaRef1,
+        psRef3,
+        metaRef3,
         "refs/heads/master",
         "refs/tags/master-tag",
         "refs/tags/branch-tag",
-        "refs/users/00/1000000/edit-" + c3.getId() + "/1",
-        "refs/users/01/1000001/edit-" + c3.getId() + "/1");
+        "refs/users/00/1000000/edit-" + cd3.getId() + "/1",
+        "refs/users/01/1000001/edit-" + cd3.getId() + "/1");
   }
 
   @Test
@@ -322,7 +322,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     deny("refs/heads/master", Permission.READ, REGISTERED_USERS);
     allow("refs/heads/branch", Permission.READ, REGISTERED_USERS);
 
-    String changeId = c3.change().getKey().get();
+    String changeId = cd3.change().getKey().get();
     setApiUser(admin);
     gApi.changes().id(changeId).edit().create();
     setApiUser(user);
@@ -330,20 +330,20 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     assertUploadPackRefs(
         // Change 1 is visible due to accessDatabase capability, even though
         // refs/heads/master is not.
-        r1 + "1",
-        r1 + "meta",
-        r2 + "1",
-        r2 + "meta",
-        r3 + "1",
-        r3 + "meta",
-        r4 + "1",
-        r4 + "meta",
+        psRef1,
+        metaRef1,
+        psRef2,
+        metaRef2,
+        psRef3,
+        metaRef3,
+        psRef4,
+        metaRef4,
         "refs/heads/branch",
         "refs/tags/branch-tag",
         // See comment in subsetOfBranchesVisibleNotIncludingHead.
         "refs/tags/master-tag",
         // All edits are visible due to accessDatabase capability.
-        "refs/users/00/1000000/edit-" + c3.getId() + "/1");
+        "refs/users/00/1000000/edit-" + cd3.getId() + "/1");
   }
 
   @Test
@@ -358,14 +358,14 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
           // Can't use stored values from the index so DB must be enabled.
           false,
           "HEAD",
-          r1 + "1",
-          r1 + "meta",
-          r2 + "1",
-          r2 + "meta",
-          r3 + "1",
-          r3 + "meta",
-          r4 + "1",
-          r4 + "meta",
+          psRef1,
+          metaRef1,
+          psRef2,
+          metaRef2,
+          psRef3,
+          metaRef3,
+          psRef4,
+          metaRef4,
           "refs/heads/branch",
           "refs/heads/master",
           "refs/tags/branch-tag",
@@ -387,19 +387,19 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void uploadPackAllRefsAreVisibleOrphanedTag() throws Exception {
     allow("refs/*", Permission.READ, REGISTERED_USERS);
     // Delete the pending change on 'branch' and 'branch' itself so that the tag gets orphaned
-    gApi.changes().id(c4.getId().id).delete();
+    gApi.changes().id(cd4.getId().id).delete();
     gApi.projects().name(project.get()).branch("refs/heads/branch").delete();
 
     setApiUser(user);
     assertUploadPackRefs(
         "HEAD",
         "refs/meta/config",
-        r1 + "1",
-        r1 + "meta",
-        r2 + "1",
-        r2 + "meta",
-        r3 + "1",
-        r3 + "meta",
+        psRef1,
+        metaRef1,
+        psRef2,
+        metaRef2,
+        psRef3,
+        metaRef3,
         "refs/heads/master",
         "refs/tags/branch-tag",
         "refs/tags/master-tag");
@@ -417,7 +417,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
             "refs/meta/config",
             "refs/tags/branch-tag",
             "refs/tags/master-tag");
-    assertThat(r.additionalHaves()).containsExactly(obj(c3, 1), obj(c4, 1));
+    assertThat(r.additionalHaves()).containsExactly(obj(cd3, 1), obj(cd4, 1));
   }
 
   @Test
@@ -426,16 +426,16 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     deny("refs/heads/branch", Permission.READ, REGISTERED_USERS);
     setApiUser(user);
 
-    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(c3, 1));
+    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(cd3, 1));
   }
 
   @Test
   public void receivePackListsOnlyLatestPatchSet() throws Exception {
-    testRepo.reset(obj(c3, 1));
-    PushOneCommit.Result r = amendChange(c3.change().getKey().get());
+    testRepo.reset(obj(cd3, 1));
+    PushOneCommit.Result r = amendChange(cd3.change().getKey().get());
     r.assertOkStatus();
-    c3 = r.getChange();
-    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(c3, 2), obj(c4, 1));
+    cd3 = r.getChange();
+    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(cd3, 2), obj(cd4, 1));
   }
 
   @Test
@@ -444,14 +444,14 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project)) {
       TestRepository<?> tr = new TestRepository<>(repo);
       String subject = "Subject for missing commit";
-      Change c = new Change(c3.change());
-      PatchSet.Id psId = new PatchSet.Id(c3.getId(), 2);
+      Change c = new Change(cd3.change());
+      PatchSet.Id psId = new PatchSet.Id(cd3.getId(), 2);
       c.setCurrentPatchSet(psId, subject, c.getOriginalSubject());
 
       PersonIdent committer = serverIdent.get();
       PersonIdent author =
           noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), committer);
-      tr.branch(RefNames.changeMetaRef(c3.getId()))
+      tr.branch(RefNames.changeMetaRef(cd3.getId()))
           .commit()
           .author(author)
           .committer(committer)
@@ -473,7 +473,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       indexer.index(c.getProject(), c.getId());
     }
 
-    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(c4, 1));
+    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(cd4, 1));
   }
 
   @Test
@@ -571,10 +571,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     TestRepository<?> userTestRepository = cloneProject(project, user);
     try (Git git = userTestRepository.git()) {
-      String change3RefName = c3.currentPatchSet().getRefName();
+      String change3RefName = cd3.currentPatchSet().getRefName();
       assertWithMessage("Precondition violated").that(getRefs(git)).contains(change3RefName);
 
-      gApi.changes().id(c3.getId().get()).setPrivate(true, null);
+      gApi.changes().id(cd3.getId().get()).setPrivate(true, null);
       assertThat(getRefs(git)).doesNotContain(change3RefName);
     }
   }
@@ -588,10 +588,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     TestRepository<?> userTestRepository = cloneProject(project, user);
     try (Git git = userTestRepository.git()) {
-      String change3RefName = c3.currentPatchSet().getRefName();
+      String change3RefName = cd3.currentPatchSet().getRefName();
       assertWithMessage("Precondition violated").that(getRefs(git)).contains(change3RefName);
 
-      gApi.changes().id(c3.getId().get()).setPrivate(true, null);
+      gApi.changes().id(cd3.getId().get()).setPrivate(true, null);
       assertThat(getRefs(git)).contains(change3RefName);
     }
   }
@@ -604,10 +604,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     TestRepository<?> userTestRepository = cloneProject(project, user);
     try (Git git = userTestRepository.git()) {
-      String change3RefName = c3.currentPatchSet().getRefName();
+      String change3RefName = cd3.currentPatchSet().getRefName();
       assertWithMessage("Precondition violated").that(getRefs(git)).contains(change3RefName);
 
-      gApi.changes().id(c3.getId().get()).setPrivate(true, null);
+      gApi.changes().id(cd3.getId().get()).setPrivate(true, null);
       assertThat(getRefs(git)).doesNotContain(change3RefName);
     }
   }
@@ -622,8 +622,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     draftInput.line = 1;
     draftInput.message = "nit: trailing whitespace";
     draftInput.path = Patch.COMMIT_MSG;
-    gApi.changes().id(c3.getId().get()).current().createDraft(draftInput);
-    String draftCommentRef = RefNames.refsDraftComments(c3.getId(), user.id);
+    gApi.changes().id(cd3.getId().get()).current().createDraft(draftInput);
+    String draftCommentRef = RefNames.refsDraftComments(cd3.getId(), user.id);
 
     // user can see the draft comment ref of the own draft comment
     assertThat(lsRemote(allUsersName, user)).contains(draftCommentRef);
@@ -638,8 +638,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allow(allUsersName, "refs/*", Permission.READ, REGISTERED_USERS);
 
     setApiUser(user);
-    gApi.accounts().self().starChange(c3.getId().toString());
-    String starredChangesRef = RefNames.refsStarredChanges(c3.getId(), user.id);
+    gApi.accounts().self().starChange(cd3.getId().toString());
+    String starredChangesRef = RefNames.refsStarredChanges(cd3.getId(), user.id);
 
     // user can see the starred changes ref of the own star
     assertThat(lsRemote(allUsersName, user)).contains(starredChangesRef);
@@ -677,7 +677,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     List<String> expectedMetaRefs =
         new ArrayList<>(ImmutableList.of(mr.getPatchSetId().toRefName()));
-    expectedMetaRefs.add(changeRefPrefix(mr.getChange().getId()) + "meta");
+    expectedMetaRefs.add(RefNames.changeMetaRef(mr.getChange().getId()));
 
     List<String> expectedAllRefs = new ArrayList<>(expectedNonMetaRefs);
     expectedAllRefs.addAll(expectedMetaRefs);

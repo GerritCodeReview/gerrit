@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.server.AuditEvent;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import java.util.Collections;
@@ -38,6 +39,7 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
   }
 
   @Test
+  @Sandboxed
   public void receivePackAuditEventLog() throws Exception {
     testRepo
         .git()
@@ -59,6 +61,7 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
   }
 
   @Test
+  @Sandboxed
   public void uploadPackAuditEventLog() throws Exception {
     testRepo.git().fetch().call();
     waitForAudit();

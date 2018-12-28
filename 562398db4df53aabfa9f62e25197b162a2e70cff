@@ -39,6 +39,48 @@
       "revId": "562398db4df53aabfa9f62e25197b162a2e70cff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbd5b8fb_145a6379",
+        "filename": "tools/util.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-12-28T00:37:11Z",
+      "side": 1,
+      "message": "Or just ECLIPSE.",
+      "parentUuid": "cf3f51c0_67d62c03",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 18,
+        "endChar": 16
+      },
+      "revId": "562398db4df53aabfa9f62e25197b162a2e70cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f30ddfb7_4136f137",
+        "filename": "tools/util.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-12-28T00:37:11Z",
+      "side": 1,
+      "message": "Yes, that sounds reasonable.\n\nAlternatively we can rely on the jars in maven central (they\u0027ll not be published there until the embargo expires, but it\u0027s presumably fine to reference them before then).",
+      "parentUuid": "44df5e94_3e79ae6e",
+      "revId": "562398db4df53aabfa9f62e25197b162a2e70cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

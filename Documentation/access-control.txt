@@ -834,7 +834,7 @@ file.
 [[category_view_private_changes]]
 === View Private Changes
 
-This category permits users to view all private changes.
+This category permits users to view all private changes and all change edits.
 
 The change owner and any explicitly added reviewers can always see
 private changes (even without having the `View Private Changes` access

@@ -737,11 +737,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       boolean disableDb,
       String... expectedRefs)
       throws Exception {
-    List<String> expected = new ArrayList<>(expectedRefs.length);
-    for (String r : expectedRefs) {
-      expected.add(r);
-    }
-
     AcceptanceTestRequestScope.Context ctx = null;
     if (disableDb) {
       ctx = disableDb();
@@ -749,7 +744,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     try {
       Map<String, Ref> all = getAllRefs(repo);
       assertThat(forProject.filter(all, repo, RefFilterOptions.defaults()).keySet())
-          .containsExactlyElementsIn(expected);
+          .containsExactlyElementsIn(expectedRefs);
     } finally {
       if (disableDb) {
         enableDb(ctx);

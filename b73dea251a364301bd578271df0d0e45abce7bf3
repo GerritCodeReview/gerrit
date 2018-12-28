@@ -47,6 +47,30 @@
       "revId": "b73dea251a364301bd578271df0d0e45abce7bf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcb4873e_ff86eab1",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-28T16:21:21Z",
+      "side": 1,
+      "message": "Hash map is the fastest data structure: search operation on hash map is O(1). List search is always O(n). So that we should better preserve deprecated map usage? But you are right, it depends how often that operation is used and how many refs one have to scan.",
+      "parentUuid": "2a89a970_792d7988",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 92
+      },
+      "revId": "b73dea251a364301bd578271df0d0e45abce7bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

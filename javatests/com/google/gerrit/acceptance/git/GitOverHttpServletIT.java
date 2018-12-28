@@ -16,8 +16,10 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.server.AuditEvent;
 import com.google.gerrit.server.audit.HttpAuditEvent;
+import com.google.gerrit.testing.FakeGroupAuditService;
 import java.util.Collections;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -34,18 +36,19 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
     CredentialsProvider.setDefault(
         new UsernamePasswordCredentialsProvider(admin.username, admin.httpPassword));
     selectProtocol(AbstractPushForReview.Protocol.HTTP);
-    auditService.clearEvents();
   }
 
   @Test
+  @Sandboxed
   public void receivePackAuditEventLog() throws Exception {
+    FakeGroupAuditService auditService = clearAuditService();
     testRepo
         .git()
         .push()
         .setRemote("origin")
         .setRefSpecs(new RefSpec("HEAD:refs/for/master"))
         .call();
-    waitForAudit();
+    waitForAudit(auditService);
 
     // Git smart protocol makes two requests:
     // https://github.com/git/git/blob/master/Documentation/technical/http-protocol.txt
@@ -59,9 +62,11 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
   }
 
   @Test
+  @Sandboxed
   public void uploadPackAuditEventLog() throws Exception {
+    FakeGroupAuditService auditService = clearAuditService();
     testRepo.git().fetch().call();
-    waitForAudit();
+    waitForAudit(auditService);
 
     assertThat(auditService.auditEvents.size()).isEqualTo(1);
 
@@ -73,7 +78,14 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
     assertThat(((HttpAuditEvent) e).httpStatus).isEqualTo(HttpServletResponse.SC_OK);
   }
 
-  private void waitForAudit() throws InterruptedException {
+  private FakeGroupAuditService clearAuditService() {
+    FakeGroupAuditService auditService =
+        server.getTestInjector().getInstance(FakeGroupAuditService.class);
+    auditService.clearEvents();
+    return auditService;
+  }
+
+  private void waitForAudit(FakeGroupAuditService auditService) throws InterruptedException {
     synchronized (auditService.auditEvents) {
       auditService.auditEvents.wait(AUDIT_EVENT_TIMEOUT);
     }

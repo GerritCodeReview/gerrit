@@ -125,7 +125,6 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
-import com.google.gerrit.testing.FakeGroupAuditService;
 import com.google.gerrit.testing.SshMode;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
@@ -242,7 +241,6 @@ public abstract class AbstractDaemonTest {
   @Inject protected ChangeNoteUtil changeNoteUtil;
   @Inject protected ChangeResource.Factory changeResourceFactory;
   @Inject protected FakeEmailSender sender;
-  @Inject protected FakeGroupAuditService auditService;
   @Inject protected GerritApi gApi;
   @Inject protected GitRepositoryManager repoManager;
   @Inject protected GroupBackend groupBackend;

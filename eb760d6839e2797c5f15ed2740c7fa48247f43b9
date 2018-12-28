@@ -23,6 +23,30 @@
       "revId": "eb760d6839e2797c5f15ed2740c7fa48247f43b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4211446d_59db6a52",
+        "filename": "java/com/google/gerrit/lucene/LuceneAccountIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-28T10:11:09Z",
+      "side": 1,
+      "message": "I\u0027ve added an explanation to the commit message.",
+      "parentUuid": "23748ead_bfe53728",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 118,
+        "endChar": 5
+      },
+      "revId": "eb760d6839e2797c5f15ed2740c7fa48247f43b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

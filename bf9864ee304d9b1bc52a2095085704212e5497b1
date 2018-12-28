@@ -212,6 +212,30 @@
       "revId": "bf9864ee304d9b1bc52a2095085704212e5497b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7e38db_8b86a8f4",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-28T11:29:42Z",
+      "side": 1,
+      "message": "SGTM, thanks",
+      "parentUuid": "693270e7_a75dd7a2",
+      "range": {
+        "startLine": 345,
+        "startChar": 17,
+        "endLine": 345,
+        "endChar": 32
+      },
+      "revId": "bf9864ee304d9b1bc52a2095085704212e5497b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,6 +17,24 @@
       "revId": "fed665c9aac25dc0d8966c8444463e1c4cb1e3af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d969e2d8_95c64eb4",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-28T13:48:41Z",
+      "side": 1,
+      "message": "I mean git ls-remote [1,2].\n\n[1] https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/permissions/DefaultRefFilter.java#315\n[2] https://gerrit.googlesource.com/gerrit/+/master/javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java#286",
+      "parentUuid": "3394b0b1_8bc412b0",
+      "revId": "fed665c9aac25dc0d8966c8444463e1c4cb1e3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

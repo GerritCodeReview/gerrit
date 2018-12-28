@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1546002312 +0100\nnonce AJbGYznAGC0Mj8n02p9qy+7L9EWVFwMWt6nFUTCgJ9bUSQvSgMhMKAnRek4iPVA8X1pRyqmvuaBq\n\n0000000000000000000000000000000000000000 fed665c9aac25dc0d8966c8444463e1c4cb1e3af refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJcJh+IAAoJEHFVO370GiZW7sQIAJcKBm7L5+JUa/pik75FF4ay\npQOhZPsDi3TK9I3NF+Oc23HOSmUzCYS+Qfo1mqRY3Y2Fj0sXGHk6vgRNCFnHJ+bw\n5M2pIX5gmPWKOHSyFXXPvGyavzwyTqcNcUjEyNTJ3F5HQ8Ystz5oVAK0ICW2SWC9\nhEhmm/wwCH25zIo01iMCdW8wOPnuo1pGaBDAfDngk0u1NyVUR7gV23zZ3OnirouO\npMsJ/dXcNoBi01ArV2A/MtBLkwhyKpqzkCDZVhD1hgvpJmklvwqFZg2hX1pecAbe\neyFn1FILlcQzWnITCeJex/UcyPh8tNCmdTLmouQKIMYCTZ5iYSCQHX/KlwuBLPk\u003d\n\u003dqRit\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3394b0b1_8bc412b0",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-28T13:37:39Z",
+      "side": 1,
+      "message": "Can you clarify what do exactly you mean here? With or without this capability, If I logged in into gerrit (and this is pre-requisite to see change edits) and when I open a change in change screen, then only my own change edit is shown and never change edits for another person. Or do you mean git ls-remote command?",
+      "revId": "fed665c9aac25dc0d8966c8444463e1c4cb1e3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

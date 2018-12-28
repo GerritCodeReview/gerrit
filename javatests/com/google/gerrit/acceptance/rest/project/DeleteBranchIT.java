@@ -20,7 +20,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
@@ -141,7 +140,6 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "noteDb.groups.write", value = "true")
   public void deleteGroupBranch_Conflict() throws Exception {
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.CREATE, REGISTERED_USERS);
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.PUSH, REGISTERED_USERS);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2edcbe38_020f112f",
+        "filename": "javatests/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-28T15:16:10Z",
+      "side": 1,
+      "message": "This assertion is flaky. It sometimes files with:\n\n1) uploadPackAuditEventLog(com.google.gerrit.acceptance.git.GitOverHttpServletIT)\nexpected: 1\nbut was : 2\n\tat com.google.gerrit.acceptance.git.GitOverHttpServletIT.uploadPackAuditEventLog(GitOverHttpServletIT.java:66)\n\nE.g.: https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/58925/console",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 61
+      },
+      "revId": "0b6c1aebac42ae921e3b7154f83063993a4e2a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

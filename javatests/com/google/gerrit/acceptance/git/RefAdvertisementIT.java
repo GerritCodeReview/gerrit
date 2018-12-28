@@ -401,7 +401,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     ReceiveCommitsAdvertiseRefsHook.Result r = getReceivePackRefs();
     assertThat(r.allRefs().keySet())
         .containsExactly(
-            // meta refs are excluded even when NoteDb is enabled.
+            // meta refs are excluded
             "HEAD",
             "refs/heads/branch",
             "refs/heads/master",

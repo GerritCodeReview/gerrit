@@ -106,9 +106,9 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     setUpChanges();
   }
 
+  // This method is idempotent, so it is safe to call it on every test setup.
   private void setUpPermissions() throws Exception {
-    // Remove read permissions for all users besides admin. This method is idempotent, so is safe
-    // to call on every test setup.
+    // Remove read permissions for all users besides admin.
     try (ProjectConfigUpdate u = updateProject(allProjects)) {
       for (AccessSection sec : u.getConfig().getAccessSections()) {
         sec.removePermission(Permission.READ);
@@ -117,8 +117,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       u.save();
     }
 
-    // Remove all read permissions on All-Users. This method is idempotent, so is safe to call on
-    // every test setup.
+    // Remove all read permissions on All-Users.
     try (ProjectConfigUpdate u = updateProject(allUsers)) {
       for (AccessSection sec : u.getConfig().getAccessSections()) {
         sec.removePermission(Permission.READ);

@@ -22,6 +22,30 @@
       "revId": "0b6c1aebac42ae921e3b7154f83063993a4e2a42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f3dcd80_3512585b",
+        "filename": "javatests/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-28T15:18:26Z",
+      "side": 1,
+      "message": "It\u0027s actually failing quite often on the CI. [1] is another example. Are we running tests in parallel against the same server so that we sometimes get more audit events than expected?\n\n[1] https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/58931/console",
+      "parentUuid": "2edcbe38_020f112f",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 61
+      },
+      "revId": "0b6c1aebac42ae921e3b7154f83063993a4e2a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

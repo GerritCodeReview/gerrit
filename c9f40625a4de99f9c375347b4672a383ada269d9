@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c8f8f5a_79097fc5",
+        "filename": "javatests/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-28T23:44:46Z",
+      "side": 1,
+      "message": "This is still bad because parallel executions of the two test methods would still cause flakiness. Need to get rid of the global auditService and get a singleton instance from the server.",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "c9f40625a4de99f9c375347b4672a383ada269d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

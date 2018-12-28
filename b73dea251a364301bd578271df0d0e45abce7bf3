@@ -23,6 +23,30 @@
       "revId": "b73dea251a364301bd578271df0d0e45abce7bf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a89a970_792d7988",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-28T15:23:59Z",
+      "side": 1,
+      "message": "Um, don\u0027t know, do you?\n\nI don\u0027t think that performance is much relevant for this code. Checking consistency of groups in NoteDb should be a rather rare operation.",
+      "parentUuid": "85b64e55_553b859a",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 92
+      },
+      "revId": "b73dea251a364301bd578271df0d0e45abce7bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

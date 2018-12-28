@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "2ca879c4_cd847415",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-28T06:57:36Z",
+      "side": 1,
+      "message": "Yeah, this is why we have the rule below which allow exceptions for features that are either important or low risk.",
+      "parentUuid": "703af541_2fd757c7",
+      "range": {
+        "startLine": 334,
+        "startChar": 11,
+        "endLine": 334,
+        "endChar": 56
+      },
+      "revId": "bf9864ee304d9b1bc52a2095085704212e5497b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f110839c_af9c2a49",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 2
@@ -46,6 +70,30 @@
       "revId": "bf9864ee304d9b1bc52a2095085704212e5497b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c3d6301_93720317",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-28T06:57:36Z",
+      "side": 1,
+      "message": "Well, I think it\u0027s just natural and matches reality that those that contribute to the project have more influence, but saying \"Gerrit community\" here seems to me as good.\n\nI\u0027ve added \"backwards compatible\" to list of criterias that should be matched, but without explaining what that means in details as I think that would blow up this point too much.",
+      "parentUuid": "f110839c_af9c2a49",
+      "range": {
+        "startLine": 341,
+        "startChar": 81,
+        "endLine": 342,
+        "endChar": 16
+      },
+      "revId": "bf9864ee304d9b1bc52a2095085704212e5497b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "9c9c0fdc_e649a2c4",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-28T06:57:36Z",
+      "side": 1,
+      "message": "I\u0027ve change it to \"Gerrit community\". I think the mailing list should not be mentioned to avoid the impression that each feature on a stable branch must be discussed on the mailing list, e.g. having a discussion on the change that proposes the feature for a stable branch should be sufficient.",
+      "parentUuid": "d37331da_1fea60fa",
+      "range": {
+        "startLine": 343,
+        "startChar": 34,
+        "endLine": 343,
+        "endChar": 45
+      },
+      "revId": "bf9864ee304d9b1bc52a2095085704212e5497b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "356f3dbc_b700f047",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 2
@@ -92,6 +164,30 @@
       "revId": "bf9864ee304d9b1bc52a2095085704212e5497b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "693270e7_a75dd7a2",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-28T06:57:36Z",
+      "side": 1,
+      "message": "I intentionally didn\u0027t want to mention how the decision is made. Especially I think that it should not be required to have a mailing list discussion for each and every little feature that is accepted on a stable branch. Discussing, or even just voting, on Gerrit changes seems better to me, but of course discussions on the mailing are possible when they are needed.\n\nI\u0027ve added that the decision should be based on these rules and opinions from the Gerrit community.",
+      "parentUuid": "356f3dbc_b700f047",
+      "range": {
+        "startLine": 345,
+        "startChar": 17,
+        "endLine": 345,
+        "endChar": 32
+      },
+      "revId": "bf9864ee304d9b1bc52a2095085704212e5497b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

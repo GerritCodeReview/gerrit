@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a96477ba_3b6fa997",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-28T07:14:32Z",
+      "side": 1,
+      "message": "As suggested by Jonathan in another change, I changed ECLIPSE_ORG to just ECLIPSE.",
+      "range": {
+        "startLine": 3,
+        "startChar": 7,
+        "endLine": 3,
+        "endChar": 14
+      },
+      "revId": "e6bedafd1cddeeaa581ac7b5ec4bb6d6b7f8eaac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

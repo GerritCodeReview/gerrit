@@ -720,16 +720,14 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   /**
-   * Assert that refs seen by a non-admin user match expected.
+   * Assert that refs seen by a non-admin user match the expected refs.
    *
-   * @param expectedWithMeta expected refs, in order. If NoteDb is disabled by the configuration,
-   *     any NoteDb refs (i.e. ending in "/meta") are removed from the expected list before
-   *     comparing to the actual results.
+   * @param expectedRefs expected refs.
    * @throws Exception
    */
-  private void assertUploadPackRefs(String... expectedWithMeta) throws Exception {
+  private void assertUploadPackRefs(String... expectedRefs) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
-      assertRefs(repo, permissionBackend.user(user(user)).project(project), true, expectedWithMeta);
+      assertRefs(repo, permissionBackend.user(user(user)).project(project), true, expectedRefs);
     }
   }
 
@@ -737,13 +735,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       Repository repo,
       PermissionBackend.ForProject forProject,
       boolean disableDb,
-      String... expectedWithMeta)
+      String... expectedRefs)
       throws Exception {
-    List<String> expected = new ArrayList<>(expectedWithMeta.length);
-    for (String r : expectedWithMeta) {
-      expected.add(r);
-    }
-
     AcceptanceTestRequestScope.Context ctx = null;
     if (disableDb) {
       ctx = disableDb();
@@ -751,7 +744,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     try {
       Map<String, Ref> all = getAllRefs(repo);
       assertThat(forProject.filter(all, repo, RefFilterOptions.defaults()).keySet())
-          .containsExactlyElementsIn(expected);
+          .containsExactlyElementsIn(expectedRefs);
     } finally {
       if (disableDb) {
         enableDb(ctx);

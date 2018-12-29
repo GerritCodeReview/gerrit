@@ -217,14 +217,9 @@
   };
 
   Plugin.prototype.url = function(opt_path) {
-    const relPath = '/plugins/' + this._name + (opt_path || '/');
-    if (window.location.origin === this._url.origin) {
-      // Plugin loaded from the same origin as gr-app, getBaseUrl in effect.
-      return this._url.origin + Gerrit.BaseUrlBehavior.getBaseUrl() + relPath;
-    } else {
-      // Plugin loaded from assets bundle, expect assets placed along with it.
-      return this._url.href.split('/plugins/' + this._name)[0] + relPath;
-    }
+    const base = Gerrit.BaseUrlBehavior.getBaseUrl();
+    return this._url.origin + base + '/plugins/' +
+        this._name + (opt_path || '/');
   };
 
   Plugin.prototype.screenUrl = function(opt_screenName) {

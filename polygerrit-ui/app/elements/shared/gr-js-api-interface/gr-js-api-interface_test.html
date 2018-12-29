@@ -441,11 +441,11 @@ limitations under the License.
 
     test('installing preloaded plugin', () => {
       let plugin;
-      window.ASSETS_PATH = 'http://blips.com/chitz';
+      window.ASSETS_PATH = 'http://blips.com/chitz/';
       Gerrit.install(p => { plugin = p; }, '0.1', 'preloaded:foo');
       assert.strictEqual(plugin.getPluginName(), 'foo');
       assert.strictEqual(plugin.url('/some/thing.html'),
-          'http://blips.com/chitz/plugins/foo/some/thing.html');
+          'http://blips.com/plugins/foo/some/thing.html');
       delete window.ASSETS_PATH;
     });
 

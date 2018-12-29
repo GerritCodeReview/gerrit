@@ -22,6 +22,30 @@
       "revId": "cb539abe1fb875717bdbb1234a8fe5368d953c00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d103960e_36c03095",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-29T07:49:15Z",
+      "side": 1,
+      "message": "It\u0027s not needed because in case of InMemoryModule, SingleVersionModule module is always used, that does not support online migration (because not multiple versions aware) per definition, see AbstractIndexModule.configure():\n\n  @Override\n  protected void configure() {\n  [...]\n    if (singleVersions \u003d\u003d null) {\n      install(new MultiVersionModule());\n    } else {\n      install(new SingleVersionModule(singleVersions));\n    }\n  }",
+      "parentUuid": "daa5185f_80c04065",
+      "range": {
+        "startLine": 326,
+        "startChar": 34,
+        "endLine": 326,
+        "endChar": 56
+      },
+      "revId": "cb539abe1fb875717bdbb1234a8fe5368d953c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

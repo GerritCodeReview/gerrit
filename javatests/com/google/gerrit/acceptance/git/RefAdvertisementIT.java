@@ -259,16 +259,13 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void uploadPackSubsetOfBranchesVisibleWithEdit() throws Exception {
     allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
 
-    Change c = notesFactory.createChecked(project, cd3.getId()).getChange();
-    String changeId = c.getKey().get();
-
     // Admin's edit is not visible.
     setApiUser(admin);
-    gApi.changes().id(changeId).edit().create();
+    gApi.changes().id(cd3.getId().get()).edit().create();
 
     // User's edit is visible.
     setApiUser(user);
-    gApi.changes().id(changeId).edit().create();
+    gApi.changes().id(cd3.getId().get()).edit().create();
 
     assertUploadPackRefs(
         "HEAD",
@@ -287,21 +284,16 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
     allow("refs/*", Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS);
 
-    Change change3 = notesFactory.createChecked(project, cd3.getId()).getChange();
-    String changeId3 = change3.getKey().get();
-    Change change4 = notesFactory.createChecked(project, cd4.getId()).getChange();
-    String changeId4 = change4.getKey().get();
-
     // Admin's edit on change3 is visible.
     setApiUser(admin);
-    gApi.changes().id(changeId3).edit().create();
+    gApi.changes().id(cd3.getId().get()).edit().create();
 
     // Admin's edit on change4 is not visible since user cannot see the change.
-    gApi.changes().id(changeId4).edit().create();
+    gApi.changes().id(cd4.getId().get()).edit().create();
 
     // User's edit is visible.
     setApiUser(user);
-    gApi.changes().id(changeId3).edit().create();
+    gApi.changes().id(cd3.getId().get()).edit().create();
 
     assertUploadPackRefs(
         "HEAD",
@@ -322,9 +314,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     deny("refs/heads/master", Permission.READ, REGISTERED_USERS);
     allow("refs/heads/branch", Permission.READ, REGISTERED_USERS);
 
-    String changeId = cd3.change().getKey().get();
     setApiUser(admin);
-    gApi.changes().id(changeId).edit().create();
+    gApi.changes().id(cd3.getId().get()).edit().create();
     setApiUser(user);
 
     assertUploadPackRefs(
@@ -410,7 +401,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     ReceiveCommitsAdvertiseRefsHook.Result r = getReceivePackRefs();
     assertThat(r.allRefs().keySet())
         .containsExactly(
-            // meta refs are excluded even when NoteDb is enabled.
+            // meta refs are excluded
             "HEAD",
             "refs/heads/branch",
             "refs/heads/master",

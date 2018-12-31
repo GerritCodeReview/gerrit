@@ -1413,6 +1413,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     PushResult pr =
         GitUtil.pushHead(testRepo, "refs/for/foo%base=" + rBase.getCommit().name(), false, false);
+    assertThat(pr.getMessages()).containsMatch("changes: .*new: 1.*done");
 
     // BatchUpdate implementations differ in how they hook into progress monitors. We mostly just
     // care that there is a new change.

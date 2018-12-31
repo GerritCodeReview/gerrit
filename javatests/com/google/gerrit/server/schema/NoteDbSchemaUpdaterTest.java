@@ -29,7 +29,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.IntBlob;
-import com.google.gerrit.server.notedb.NoteDbSchemaVersionManager;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;

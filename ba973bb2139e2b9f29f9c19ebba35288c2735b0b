@@ -17,6 +17,24 @@
       "revId": "ba973bb2139e2b9f29f9c19ebba35288c2735b0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dde02be_065c3a3a",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1416,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-31T06:55:25Z",
+      "side": 1,
+      "message": "This assertion is like this in master and with the jgit upgrade in stable-2.9 it was changed there to this assertion too. This means all branches \u003e\u003d stable-2.9 except stable-2.16 have this assertion now. So I think 2.16 should have it as well.",
+      "parentUuid": "9f0a396c_d465b17b",
+      "revId": "ba973bb2139e2b9f29f9c19ebba35288c2735b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

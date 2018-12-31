@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7748635_cbce1ef0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-31T08:36:03Z",
+      "side": 1,
+      "message": "Is there an issue that we can reference here? Or can we at least mention in the commit message what the upgrade is fixing?",
+      "revId": "e6bedafd1cddeeaa581ac7b5ec4bb6d6b7f8eaac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a96477ba_3b6fa997",
         "filename": "lib/jgit/BUCK",
         "patchSetId": 2

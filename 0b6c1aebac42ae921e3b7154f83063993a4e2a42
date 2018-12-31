@@ -70,6 +70,30 @@
       "revId": "0b6c1aebac42ae921e3b7154f83063993a4e2a42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa851613_88e4ca6f",
+        "filename": "javatests/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-31T06:37:49Z",
+      "side": 1,
+      "message": "For reference, this was fixed by\n  https://gerrit-review.googlesource.com/c/gerrit/+/208872\n\nThanks, Luca!",
+      "parentUuid": "1460db59_959ab451",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 61
+      },
+      "revId": "0b6c1aebac42ae921e3b7154f83063993a4e2a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

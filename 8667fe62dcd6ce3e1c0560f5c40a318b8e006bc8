@@ -22,6 +22,30 @@
       "revId": "8667fe62dcd6ce3e1c0560f5c40a318b8e006bc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d72964d6_d4250422",
+        "filename": "java/com/google/gerrit/server/notedb/CommentJsonMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-01T23:18:08Z",
+      "side": 1,
+      "message": "Nope, it needs to be a brand-new try/catch of L220",
+      "parentUuid": "c263178c_eeac429c",
+      "range": {
+        "startLine": 161,
+        "startChar": 25,
+        "endLine": 161,
+        "endChar": 48
+      },
+      "revId": "8667fe62dcd6ce3e1c0560f5c40a318b8e006bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

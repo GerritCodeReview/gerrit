@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c263178c_eeac429c",
+        "filename": "java/com/google/gerrit/server/notedb/CommentJsonMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-01T22:54:42Z",
+      "side": 1,
+      "message": "That\u0027s the wrong point, it should be at L204",
+      "range": {
+        "startLine": 161,
+        "startChar": 25,
+        "endLine": 161,
+        "endChar": 48
+      },
+      "revId": "8667fe62dcd6ce3e1c0560f5c40a318b8e006bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

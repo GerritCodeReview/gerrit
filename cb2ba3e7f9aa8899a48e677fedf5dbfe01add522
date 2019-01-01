@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1f34286d_348b9584",
+        "filename": "java/com/google/gerrit/server/notedb/CommentJsonMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-01T23:06:12Z",
+      "side": 1,
+      "message": "Actually it blows up already here when the BLOB is over 5 MBytes for me\n(see Issue 10239).",
+      "range": {
+        "startLine": 219,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 25
+      },
+      "revId": "cb2ba3e7f9aa8899a48e677fedf5dbfe01add522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0ff07279_02d9ce88",
         "filename": "java/com/google/gerrit/server/notedb/CommentJsonMigrator.java",
         "patchSetId": 1

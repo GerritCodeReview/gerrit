@@ -29,6 +29,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.SortedSet;
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
@@ -74,8 +75,10 @@ public class Schema_169 extends SchemaVersion {
       try (Repository repo = repoManager.openRepository(project)) {
         ProjectMigrationResult progress = migrator.migrateProject(project, repo, false);
         skipped += progress.skipped;
-      } catch (IOException e) {
+      } catch (IOException | LargeObjectException e) {
         ok = false;
+        ui.message("Error migrating project " + project);
+        e.printStackTrace();
         logger.atWarning().log("Error migrating project " + project, e);
       }
       pm.update(1);

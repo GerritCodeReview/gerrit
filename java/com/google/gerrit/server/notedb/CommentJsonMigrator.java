@@ -32,6 +32,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -157,7 +158,7 @@ public class CommentJsonMigrator {
       if (!hasAnyLegacyComments(rw, oldId)) {
         return true;
       }
-    } catch (IOException e) {
+    } catch (IOException | LargeObjectException e) {
       logger.atInfo().log(
           String.format(
               "Error reading change %s in %s; attempting migration anyway", changeId, project),
@@ -200,7 +201,7 @@ public class CommentJsonMigrator {
 
       bru.addCommand(new ReceiveCommand(oldId, newId, ref.getName()));
       return true;
-    } catch (ConfigInvalidException | IOException e) {
+    } catch (ConfigInvalidException | IOException | LargeObjectException e) {
       logger.atInfo().log(String.format("Error migrating change %s in %s", changeId, project), e);
       return false;
     }

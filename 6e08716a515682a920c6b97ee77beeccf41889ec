@@ -40,6 +40,30 @@
       "revId": "6e08716a515682a920c6b97ee77beeccf41889ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b0bf98a_31461afc",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-02T20:03:06Z",
+      "side": 1,
+      "message": "\u003e But searching still works even if you don\u0027t specify this field, right? Would it be worth adding a test to check the behavior in this case?\n\nI can provide some sample tests based on the ones I\u0027ve added to the other fixes I have attempted on this problem.",
+      "parentUuid": "0c3a1e35_d99c48b4",
+      "range": {
+        "startLine": 475,
+        "startChar": 65,
+        "endLine": 476,
+        "endChar": 32
+      },
+      "revId": "6e08716a515682a920c6b97ee77beeccf41889ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

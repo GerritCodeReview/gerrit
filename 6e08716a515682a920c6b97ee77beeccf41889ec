@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1545991806 +0100\nnonce AJbGYzn49oMUKbhMxUWEpZqyOLek0NqqEpuWRmPuBkGZySwIOemm7ZTFsqBoM6afUM3eloRMLj2t\n\n0000000000000000000000000000000000000000 6e08716a515682a920c6b97ee77beeccf41889ec refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJcJfZ+AAoJEHFVO370GiZWNlIH/2gPcihEx+r/HZ7M8Fjb9//u\nZp9bhGLIFanysSYnZbY+xgLdlxCuLhYy1K4HirORCPrjTe3Z4d/qJL8cXoa8d0vL\nyOVY7OIrLzpddLDxoRiQbt4Nix2GjD+UP9v8NoZXpymaQqP0WRMdOoC0GOuFsa+d\n0McXJ8HxUb8INBIhPCH1R5aEjnXZ/fEuNNls/j86VTwphEK4gX4neP+7TLNsedQm\nV/vW6Demwp35ncvO+4d+OoipeSgOFhQWxYFLJW3mkjlCcJ6WZj7sFt4BeFzE6vQN\nhVGdY/h9y/cERJe/Gjxt+XsTReG2AWitK6XWTvK9cGXv/J3OFYnpfEJCp+xz858\u003d\n\u003d5c4n\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f53d4a41_d7cfbfaf",
+        "filename": "java/com/google/gerrit/server/index/group/GroupSchemaDefinitions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-02T19:33:47Z",
+      "side": 1,
+      "message": "This comment should stay on V6.\n\nCould also be helpful to add a different comment on V7.",
+      "revId": "6e08716a515682a920c6b97ee77beeccf41889ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c3a1e35_d99c48b4",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-02T19:33:47Z",
+      "side": 1,
+      "message": "But searching still works even if you don\u0027t specify this field, right? Would it be worth adding a test to check the behavior in this case?",
+      "range": {
+        "startLine": 475,
+        "startChar": 65,
+        "endLine": 476,
+        "endChar": 32
+      },
+      "revId": "6e08716a515682a920c6b97ee77beeccf41889ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

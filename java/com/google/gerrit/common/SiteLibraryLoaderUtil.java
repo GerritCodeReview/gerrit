@@ -50,12 +50,9 @@ public final class SiteLibraryLoaderUtil {
 
   public static List<Path> listJars(Path dir) throws IOException {
     DirectoryStream.Filter<Path> filter =
-        new DirectoryStream.Filter<Path>() {
-          @Override
-          public boolean accept(Path entry) throws IOException {
-            String name = entry.getFileName().toString();
-            return (name.endsWith(".jar") || name.endsWith(".zip")) && Files.isRegularFile(entry);
-          }
+        entry -> {
+          String name = entry.getFileName().toString();
+          return (name.endsWith(".jar") || name.endsWith(".zip")) && Files.isRegularFile(entry);
         };
     try (DirectoryStream<Path> jars = Files.newDirectoryStream(dir, filter)) {
       return new Ordering<Path>() {

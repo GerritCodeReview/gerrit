@@ -49,7 +49,6 @@ import org.eclipse.jetty.server.ForwardedRequestCustomizer;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
-import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -241,13 +240,9 @@ public class JettyServer {
         defaultPort = 8080;
         config.addCustomizer(new ForwardedRequestCustomizer());
         config.addCustomizer(
-            new HttpConfiguration.Customizer() {
-              @Override
-              public void customize(
-                  Connector connector, HttpConfiguration channelConfig, Request request) {
-                request.setScheme(HttpScheme.HTTPS.asString());
-                request.setSecure(true);
-              }
+            (connector, channelConfig, request) -> {
+              request.setScheme(HttpScheme.HTTPS.asString());
+              request.setSecure(true);
             });
         c = newServerConnector(server, acceptors, config);
 

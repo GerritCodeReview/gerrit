@@ -90,14 +90,8 @@ public class AccessIT extends AbstractDaemonTest {
     RegistrationHandle handle =
         fileHistoryWebLinkDynamicSet.add(
             "gerrit",
-            new FileHistoryWebLink() {
-              @Override
-              public WebLinkInfo getFileHistoryWebLink(
-                  String projectName, String revision, String fileName) {
-                return new WebLinkInfo(
-                    "name", "imageURL", "http://view/" + projectName + "/" + fileName);
-              }
-            });
+            (projectName, revision, fileName) ->
+                new WebLinkInfo("name", "imageURL", "http://view/" + projectName + "/" + fileName));
     try {
       ProjectAccessInfo info = pApi().access();
       assertThat(info.configWebLinks).hasSize(1);
@@ -113,14 +107,8 @@ public class AccessIT extends AbstractDaemonTest {
     RegistrationHandle handle =
         fileHistoryWebLinkDynamicSet.add(
             "gerrit",
-            new FileHistoryWebLink() {
-              @Override
-              public WebLinkInfo getFileHistoryWebLink(
-                  String projectName, String revision, String fileName) {
-                return new WebLinkInfo(
-                    "name", "imageURL", "http://view/" + projectName + "/" + fileName);
-              }
-            });
+            (projectName, revision, fileName) ->
+                new WebLinkInfo("name", "imageURL", "http://view/" + projectName + "/" + fileName));
     try (Repository repo = repoManager.openRepository(newProjectName)) {
       RefUpdate u = repo.updateRef(RefNames.REFS_CONFIG);
       u.setForceUpdate(true);

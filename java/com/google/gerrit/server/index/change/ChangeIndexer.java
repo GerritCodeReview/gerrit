@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexUtils;
@@ -309,11 +308,8 @@ public class ChangeIndexer {
     public final T call() throws Exception {
       try {
         RequestContext newCtx =
-            new RequestContext() {
-              @Override
-              public CurrentUser getUser() {
-                throw new OutOfScopeException("No user during ChangeIndexer");
-              }
+            () -> {
+              throw new OutOfScopeException("No user during ChangeIndexer");
             };
         RequestContext oldCtx = context.setContext(newCtx);
         try {

@@ -16,7 +16,6 @@ package com.google.gerrit.index;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
@@ -176,24 +175,21 @@ public class Schema<T> {
   public final Iterable<Values<T>> buildFields(T obj) {
     return FluentIterable.from(fields.values())
         .transform(
-            new Function<FieldDef<T, ?>, Values<T>>() {
-              @Override
-              public Values<T> apply(FieldDef<T, ?> f) {
-                Object v;
-                try {
-                  v = f.get(obj);
-                } catch (OrmException e) {
-                  logger.atSevere().withCause(e).log(
-                      "error getting field %s of %s", f.getName(), obj);
-                  return null;
-                }
-                if (v == null) {
-                  return null;
-                } else if (f.isRepeatable()) {
-                  return new Values<>(f, (Iterable<?>) v);
-                } else {
-                  return new Values<>(f, Collections.singleton(v));
-                }
+            f -> {
+              Object v;
+              try {
+                v = f.get(obj);
+              } catch (OrmException e) {
+                logger.atSevere().withCause(e).log(
+                    "error getting field %s of %s", f.getName(), obj);
+                return null;
+              }
+              if (v == null) {
+                return null;
+              } else if (f.isRepeatable()) {
+                return new Values<>(f, (Iterable<?>) v);
+              } else {
+                return new Values<>(f, Collections.singleton(v));
               }
             })
         .filter(Predicates.notNull());

@@ -42,7 +42,6 @@ class H2CacheDefProxy<K, V> implements PersistentCacheDef<K, V> {
     return source.expireFromMemoryAfterAccess();
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public Weigher<K, V> weigher() {
     Weigher<K, V> weigher = source.weigher();
@@ -52,13 +51,10 @@ class H2CacheDefProxy<K, V> implements PersistentCacheDef<K, V> {
 
     // introduce weigher that performs calculations
     // on value that is being stored not on ValueHolder
-    return (Weigher<K, V>)
-        new Weigher<K, ValueHolder<V>>() {
-          @Override
-          public int weigh(K key, ValueHolder<V> value) {
-            return weigher.weigh(key, value.value);
-          }
-        };
+    Weigher<K, ValueHolder<V>> holderWeigher = (k, v) -> weigher.weigh(k, v.value);
+    @SuppressWarnings("unchecked")
+    Weigher<K, V> ret = (Weigher<K, V>) holderWeigher;
+    return ret;
   }
 
   @Override

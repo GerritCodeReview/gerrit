@@ -1173,14 +1173,7 @@ public class RevisionIT extends AbstractDaemonTest {
   public void commit() throws Exception {
     WebLinkInfo expectedWebLinkInfo = new WebLinkInfo("foo", "imageUrl", "url");
     RegistrationHandle handle =
-        patchSetLinks.add(
-            "gerrit",
-            new PatchSetWebLink() {
-              @Override
-              public WebLinkInfo getPatchSetWebLink(String projectName, String commit) {
-                return expectedWebLinkInfo;
-              }
-            });
+        patchSetLinks.add("gerrit", (projectName, commit) -> expectedWebLinkInfo);
 
     try {
       PushOneCommit.Result r = createChange();

@@ -30,7 +30,6 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.submit.CommitMergeStatus;
 import com.google.inject.Inject;
@@ -91,16 +90,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     RegistrationHandle handle =
         changeMessageModifiers.add(
             "gerrit",
-            new ChangeMessageModifier() {
-              @Override
-              public String onSubmit(
-                  String newCommitMessage,
-                  RevCommit original,
-                  RevCommit mergeTip,
-                  Branch.NameKey destination) {
-                return newCommitMessage + "Custom: " + destination.get();
-              }
-            });
+            (newCommitMessage, original, mergeTip, destination) ->
+                newCommitMessage + "Custom: " + destination.get());
     try {
       submit(change.getChangeId());
     } finally {

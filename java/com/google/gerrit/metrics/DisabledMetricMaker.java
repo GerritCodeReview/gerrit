@@ -187,9 +187,6 @@ public class DisabledMetricMaker extends MetricMaker {
 
   @Override
   public RegistrationHandle newTrigger(Set<CallbackMetric<?>> metrics, Runnable trigger) {
-    return new RegistrationHandle() {
-      @Override
-      public void remove() {}
-    };
+    return () -> {};
   }
 }

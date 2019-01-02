@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.inject.Inject;
 import java.util.List;
@@ -88,19 +87,12 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     RegistrationHandle handle =
         changeMessageModifiers.add(
             "gerrit",
-            new ChangeMessageModifier() {
-              @Override
-              public String onSubmit(
-                  String newCommitMessage,
-                  RevCommit original,
-                  RevCommit mergeTip,
-                  Branch.NameKey destination) {
-                List<String> custom = mergeTip.getFooterLines("Custom");
-                if (!custom.isEmpty()) {
-                  newCommitMessage += "Custom-Parent: " + custom.get(0) + "\n";
-                }
-                return newCommitMessage + "Custom: " + destination.get();
+            (newCommitMessage, original, mergeTip, destination) -> {
+              List<String> custom = mergeTip.getFooterLines("Custom");
+              if (!custom.isEmpty()) {
+                newCommitMessage += "Custom-Parent: " + custom.get(0) + "\n";
               }
+              return newCommitMessage + "Custom: " + destination.get();
             });
     try {
       // change1 is a fast-forward, but should be rebased in cherry pick style

@@ -512,11 +512,8 @@ public class IdentifiedUser extends CurrentUser {
       remotePeer = Providers.of(remotePeerProvider.get());
     } catch (OutOfScopeException | ProvisionException e) {
       remotePeer =
-          new Provider<SocketAddress>() {
-            @Override
-            public SocketAddress get() {
-              throw e;
-            }
+          () -> {
+            throw e;
           };
     }
     return new IdentifiedUser(

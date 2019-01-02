@@ -229,12 +229,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected RequestContext newRequestContext(Account.Id requestUserId) {
     final CurrentUser requestUser = userFactory.create(requestUserId);
-    return new RequestContext() {
-      @Override
-      public CurrentUser getUser() {
-        return requestUser;
-      }
-    };
+    return () -> requestUser;
   }
 
   protected void resetUser() {

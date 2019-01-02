@@ -18,7 +18,6 @@ import com.vladsch.flexmark.ast.Heading;
 import com.vladsch.flexmark.ast.Node;
 import com.vladsch.flexmark.ext.anchorlink.AnchorLink;
 import com.vladsch.flexmark.ext.anchorlink.internal.AnchorLinkNodeRenderer;
-import com.vladsch.flexmark.html.CustomNodeRenderer;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.html.HtmlRenderer.HtmlRendererExtension;
 import com.vladsch.flexmark.html.HtmlWriter;
@@ -61,21 +60,8 @@ public class MarkdownFormatterHeader {
           Arrays.asList(
               new NodeRenderingHandler<>(
                   AnchorLink.class,
-                  new CustomNodeRenderer<AnchorLink>() {
-                    @Override
-                    public void render(
-                        AnchorLink node, NodeRendererContext context, HtmlWriter html) {
-                      HeadingNodeRenderer.this.render(node, context);
-                    }
-                  }),
-              new NodeRenderingHandler<>(
-                  Heading.class,
-                  new CustomNodeRenderer<Heading>() {
-                    @Override
-                    public void render(Heading node, NodeRendererContext context, HtmlWriter html) {
-                      HeadingNodeRenderer.this.render(node, context, html);
-                    }
-                  })));
+                  (node, context, html) -> HeadingNodeRenderer.this.render(node, context)),
+              new NodeRenderingHandler<>(Heading.class, HeadingNodeRenderer.this::render)));
     }
 
     void render(final AnchorLink node, final NodeRendererContext context) {
@@ -116,25 +102,15 @@ public class MarkdownFormatterHeader {
               .withAttr()
               .tagLine(
                   "h" + node.getLevel(),
-                  new Runnable() {
-                    @Override
-                    public void run() {
-                      html.srcPos(node.getText()).withAttr().tag("span");
-                      context.renderChildren(node);
-                      html.tag("/span");
-                    }
+                  () -> {
+                    html.srcPos(node.getText()).withAttr().tag("span");
+                    context.renderChildren(node);
+                    html.tag("/span");
                   });
         } else {
           html.srcPos(node.getText())
               .withAttr()
-              .tagLine(
-                  "h" + node.getLevel(),
-                  new Runnable() {
-                    @Override
-                    public void run() {
-                      context.renderChildren(node);
-                    }
-                  });
+              .tagLine("h" + node.getLevel(), () -> context.renderChildren(node));
         }
       } else {
         context.delegateRender();

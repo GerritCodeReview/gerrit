@@ -33,12 +33,7 @@ public final class HostPlatform {
   private static boolean compute(String platform) {
     final String osDotName =
         AccessController.doPrivileged(
-            new PrivilegedAction<String>() {
-              @Override
-              public String run() {
-                return System.getProperty("os.name");
-              }
-            });
+            (PrivilegedAction<String>) () -> System.getProperty("os.name"));
     return osDotName != null && osDotName.toLowerCase().contains(platform);
   }
 

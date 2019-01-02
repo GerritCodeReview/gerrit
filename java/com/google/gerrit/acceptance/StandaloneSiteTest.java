@@ -100,10 +100,8 @@ public abstract class StandaloneSiteTest {
   private final TemporaryFolder tempSiteDir = new TemporaryFolder();
 
   private final TestRule testRunner =
-      new TestRule() {
-        @Override
-        public Statement apply(Statement base, Description description) {
-          return new Statement() {
+      (base, description) ->
+          new Statement() {
             @Override
             public void evaluate() throws Throwable {
               try {
@@ -114,8 +112,6 @@ public abstract class StandaloneSiteTest {
               }
             }
           };
-        }
-      };
 
   @Rule public RuleChain ruleChain = RuleChain.outerRule(tempSiteDir).around(testRunner);
 

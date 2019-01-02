@@ -30,7 +30,6 @@ import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.InternalAccountUpdate.Builder;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes.ExternalIdNotesLoader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -154,12 +153,9 @@ public class AccountsUpdate {
     void update(AccountState accountState, InternalAccountUpdate.Builder update) throws IOException;
 
     static AccountUpdater join(List<AccountUpdater> updaters) {
-      return new AccountUpdater() {
-        @Override
-        public void update(AccountState accountState, Builder update) throws IOException {
-          for (AccountUpdater updater : updaters) {
-            updater.update(accountState, update);
-          }
+      return (accountState, update) -> {
+        for (AccountUpdater updater : updaters) {
+          updater.update(accountState, update);
         }
       };
     }

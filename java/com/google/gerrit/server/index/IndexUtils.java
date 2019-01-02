@@ -39,16 +39,13 @@ public final class IndexUtils {
       ImmutableMap.of("_", " ", ".", " ");
 
   public static final Function<Exception, IOException> MAPPER =
-      new Function<Exception, IOException>() {
-        @Override
-        public IOException apply(Exception in) {
-          if (in instanceof IOException) {
-            return (IOException) in;
-          } else if (in instanceof ExecutionException && in.getCause() instanceof IOException) {
-            return (IOException) in.getCause();
-          } else {
-            return new IOException(in);
-          }
+      in -> {
+        if (in instanceof IOException) {
+          return (IOException) in;
+        } else if (in instanceof ExecutionException && in.getCause() instanceof IOException) {
+          return (IOException) in.getCause();
+        } else {
+          return new IOException(in);
         }
       };
 

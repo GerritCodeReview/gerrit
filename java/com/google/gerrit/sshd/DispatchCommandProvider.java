@@ -50,24 +50,14 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
     if (m.putIfAbsent(name.value(), commandProvider) != null) {
       throw new IllegalArgumentException(name.value() + " exists");
     }
-    return new RegistrationHandle() {
-      @Override
-      public void remove() {
-        m.remove(name.value(), commandProvider);
-      }
-    };
+    return () -> m.remove(name.value(), commandProvider);
   }
 
   public RegistrationHandle replace(CommandName name, Provider<Command> cmd) {
     final ConcurrentMap<String, CommandProvider> m = getMap();
     final CommandProvider commandProvider = new CommandProvider(cmd, null);
     m.put(name.value(), commandProvider);
-    return new RegistrationHandle() {
-      @Override
-      public void remove() {
-        m.remove(name.value(), commandProvider);
-      }
-    };
+    return () -> m.remove(name.value(), commandProvider);
   }
 
   ConcurrentMap<String, CommandProvider> getMap() {

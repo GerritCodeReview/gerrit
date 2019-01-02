@@ -34,17 +34,14 @@ public class PluginUtil {
       return ImmutableList.of();
     }
     DirectoryStream.Filter<Path> filter =
-        new DirectoryStream.Filter<Path>() {
-          @Override
-          public boolean accept(Path entry) throws IOException {
-            String n = entry.getFileName().toString();
-            boolean accept =
-                !n.startsWith(".last_") && !n.startsWith(".next_") && Files.isRegularFile(entry);
-            if (!Strings.isNullOrEmpty(suffix)) {
-              accept &= n.endsWith(suffix);
-            }
-            return accept;
+        entry -> {
+          String n = entry.getFileName().toString();
+          boolean accept =
+              !n.startsWith(".last_") && !n.startsWith(".next_") && Files.isRegularFile(entry);
+          if (!Strings.isNullOrEmpty(suffix)) {
+            accept &= n.endsWith(suffix);
           }
+          return accept;
         };
     try (DirectoryStream<Path> files = Files.newDirectoryStream(pluginsDir, filter)) {
       return Ordering.natural().sortedCopy(files);

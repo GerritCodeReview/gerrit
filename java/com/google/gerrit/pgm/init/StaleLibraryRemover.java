@@ -39,12 +39,7 @@ public class StaleLibraryRemover {
   public void remove(String pattern) {
     if (!Strings.isNullOrEmpty(pattern)) {
       DirectoryStream.Filter<Path> filter =
-          new DirectoryStream.Filter<Path>() {
-            @Override
-            public boolean accept(Path entry) {
-              return entry.getFileName().toString().matches("^" + pattern + "$");
-            }
-          };
+          entry -> entry.getFileName().toString().matches("^" + pattern + "$");
       try (DirectoryStream<Path> paths = Files.newDirectoryStream(lib_dir, filter)) {
         for (Path p : paths) {
           String old = p.getFileName().toString();

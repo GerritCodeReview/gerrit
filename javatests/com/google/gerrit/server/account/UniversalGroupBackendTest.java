@@ -39,7 +39,6 @@ import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Set;
-import org.easymock.IAnswer;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
@@ -113,16 +112,13 @@ public class UniversalGroupBackendTest extends GerritBaseTests {
     expect(backend.handles(not(eq(handled)))).andStubReturn(false);
     expect(backend.membershipsOf(anyObject(IdentifiedUser.class)))
         .andStubAnswer(
-            new IAnswer<GroupMembership>() {
-              @Override
-              public GroupMembership answer() throws Throwable {
-                Object[] args = getCurrentArguments();
-                GroupMembership membership = createMock(GroupMembership.class);
-                expect(membership.contains(eq(handled))).andStubReturn(args[0] == member);
-                expect(membership.contains(not(eq(notHandled)))).andStubReturn(false);
-                replay(membership);
-                return membership;
-              }
+            () -> {
+              Object[] args = getCurrentArguments();
+              GroupMembership membership = createMock(GroupMembership.class);
+              expect(membership.contains(eq(handled))).andStubReturn(args[0] == member);
+              expect(membership.contains(not(eq(notHandled)))).andStubReturn(false);
+              replay(membership);
+              return membership;
             });
     replay(member, notMember, backend);
 

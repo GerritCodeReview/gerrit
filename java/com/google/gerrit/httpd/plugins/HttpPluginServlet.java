@@ -35,7 +35,6 @@ import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteStreams;
 import com.google.common.net.HttpHeaders;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.httpd.resources.ResourceKey;
 import com.google.gerrit.httpd.resources.SmallResource;
@@ -84,8 +83,6 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -174,13 +171,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
     GuiceFilter filter = load(plugin);
     final String name = plugin.getName();
     final PluginHolder holder = new PluginHolder(plugin, filter);
-    plugin.add(
-        new RegistrationHandle() {
-          @Override
-          public void remove() {
-            plugins.remove(name, holder);
-          }
-        });
+    plugin.add(() -> plugins.remove(name, holder));
     plugins.put(name, holder);
   }
 
@@ -234,12 +225,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
 
     HttpServletRequest wr = wrapper.create(req, name);
     FilterChain chain =
-        new FilterChain() {
-          @Override
-          public void doFilter(ServletRequest req, ServletResponse res) throws IOException {
-            onDefault(holder, (HttpServletRequest) req, (HttpServletResponse) res);
-          }
-        };
+        (sreq, sres) -> onDefault(holder, (HttpServletRequest) sreq, (HttpServletResponse) sres);
     if (holder.filter != null) {
       holder.filter.doFilter(wr, res, chain);
     } else {

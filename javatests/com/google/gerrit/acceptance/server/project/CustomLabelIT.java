@@ -80,15 +80,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
       u.save();
     }
 
-    eventListenerRegistration =
-        source.add(
-            "gerrit",
-            new CommentAddedListener() {
-              @Override
-              public void onCommentAdded(Event event) {
-                lastCommentAddedEvent = event;
-              }
-            });
+    eventListenerRegistration = source.add("gerrit", event -> lastCommentAddedEvent = event);
   }
 
   @After

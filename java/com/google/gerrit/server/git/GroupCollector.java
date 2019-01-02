@@ -106,14 +106,11 @@ public class GroupCollector {
       Project.NameKey project) {
     return new GroupCollector(
         transformRefs(changeRefsById),
-        new Lookup() {
-          @Override
-          public List<String> lookup(PatchSet.Id psId) throws OrmException {
-            // TODO(dborowitz): Reuse open repository from caller.
-            ChangeNotes notes = notesFactory.createChecked(project, psId.getParentKey());
-            PatchSet ps = psUtil.get(notes, psId);
-            return ps != null ? ps.getGroups() : null;
-          }
+        psId -> {
+          // TODO(dborowitz): Reuse open repository from caller.
+          ChangeNotes notes = notesFactory.createChecked(project, psId.getParentKey());
+          PatchSet ps = psUtil.get(notes, psId);
+          return ps != null ? ps.getGroups() : null;
         });
   }
 
@@ -135,12 +132,9 @@ public class GroupCollector {
       ListMultimap<PatchSet.Id, String> groupLookup) {
     this(
         patchSetsBySha,
-        new Lookup() {
-          @Override
-          public List<String> lookup(PatchSet.Id psId) {
-            List<String> groups = groupLookup.get(psId);
-            return !groups.isEmpty() ? groups : null;
-          }
+        psId -> {
+          List<String> groups = groupLookup.get(psId);
+          return !groups.isEmpty() ? groups : null;
         });
   }
 

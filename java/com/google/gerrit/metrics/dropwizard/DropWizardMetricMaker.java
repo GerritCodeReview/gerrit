@@ -305,14 +305,7 @@ public class DropWizardMetricMaker extends MetricMaker {
     }
     trigger.run();
 
-    return new RegistrationHandle() {
-      @Override
-      public void remove() {
-        for (CallbackMetricGlue m : all) {
-          m.remove();
-        }
-      }
-    };
+    return () -> all.forEach(CallbackMetricGlue::remove);
   }
 
   synchronized void remove(String name) {

@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CaseFormat;
-import com.google.common.base.Supplier;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -86,12 +85,8 @@ public class WorkQueue {
   }
 
   private static final UncaughtExceptionHandler LOG_UNCAUGHT_EXCEPTION =
-      new UncaughtExceptionHandler() {
-        @Override
-        public void uncaughtException(Thread t, Throwable e) {
+      (t, e) ->
           logger.atSevere().withCause(e).log("WorkQueue thread %s threw exception", t.getName());
-        }
-      };
 
   private final ScheduledExecutorService defaultQueue;
   private final IdGenerator idGenerator;
@@ -360,68 +355,38 @@ public class WorkQueue {
           new Description("Maximum allowed number of threads in the pool")
               .setGauge()
               .setUnit("threads"),
-          new Supplier<Long>() {
-            @Override
-            public Long get() {
-              return (long) getMaximumPoolSize();
-            }
-          });
+          () -> (long) getMaximumPoolSize());
       metrics.newCallbackMetric(
           getMetricName(queueName, "pool_size"),
           Long.class,
           new Description("Current number of threads in the pool").setGauge().setUnit("threads"),
-          new Supplier<Long>() {
-            @Override
-            public Long get() {
-              return (long) getPoolSize();
-            }
-          });
+          () -> (long) getPoolSize());
       metrics.newCallbackMetric(
           getMetricName(queueName, "active_threads"),
           Long.class,
           new Description("Number number of threads that are actively executing tasks")
               .setGauge()
               .setUnit("threads"),
-          new Supplier<Long>() {
-            @Override
-            public Long get() {
-              return (long) getActiveCount();
-            }
-          });
+          () -> (long) getActiveCount());
       metrics.newCallbackMetric(
           getMetricName(queueName, "scheduled_tasks"),
           Integer.class,
           new Description("Number of scheduled tasks in the queue").setGauge().setUnit("tasks"),
-          new Supplier<Integer>() {
-            @Override
-            public Integer get() {
-              return getQueue().size();
-            }
-          });
+          () -> getQueue().size());
       metrics.newCallbackMetric(
           getMetricName(queueName, "total_scheduled_tasks_count"),
           Long.class,
           new Description("Total number of tasks that have been scheduled for execution")
               .setCumulative()
               .setUnit("tasks"),
-          new Supplier<Long>() {
-            @Override
-            public Long get() {
-              return getTaskCount();
-            }
-          });
+          this::getTaskCount);
       metrics.newCallbackMetric(
           getMetricName(queueName, "total_completed_tasks_count"),
           Long.class,
           new Description("Total number of tasks that have completed execution")
               .setCumulative()
               .setUnit("tasks"),
-          new Supplier<Long>() {
-            @Override
-            public Long get() {
-              return getCompletedTaskCount();
-            }
-          });
+          this::getCompletedTaskCount);
     }
 
     private String getMetricName(String queueName, String metricName) {

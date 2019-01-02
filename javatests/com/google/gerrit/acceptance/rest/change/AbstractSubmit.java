@@ -737,18 +737,15 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void submitWithValidation() throws Exception {
     AtomicBoolean called = new AtomicBoolean(false);
     this.addOnSubmitValidationListener(
-        new OnSubmitValidationListener() {
-          @Override
-          public void preBranchUpdate(Arguments args) throws ValidationException {
-            called.set(true);
-            HashSet<String> refs = Sets.newHashSet(args.getCommands().keySet());
-            assertThat(refs).contains("refs/heads/master");
-            refs.remove("refs/heads/master");
-            if (!refs.isEmpty()) {
-              // Some submit strategies need to insert new patchset.
-              assertThat(refs).hasSize(1);
-              assertThat(refs.iterator().next()).startsWith(RefNames.REFS_CHANGES);
-            }
+        args -> {
+          called.set(true);
+          HashSet<String> refs = Sets.newHashSet(args.getCommands().keySet());
+          assertThat(refs).contains("refs/heads/master");
+          refs.remove("refs/heads/master");
+          if (!refs.isEmpty()) {
+            // Some submit strategies need to insert new patchset.
+            assertThat(refs).hasSize(1);
+            assertThat(refs.iterator().next()).startsWith(RefNames.REFS_CHANGES);
           }
         });
 
@@ -791,24 +788,21 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // succeed.
     List<String> projectsCalled = new ArrayList<>(4);
     this.addOnSubmitValidationListener(
-        new OnSubmitValidationListener() {
-          @Override
-          public void preBranchUpdate(Arguments args) throws ValidationException {
-            String master = "refs/heads/master";
-            assertThat(args.getCommands()).containsKey(master);
-            ReceiveCommand cmd = args.getCommands().get(master);
-            ObjectId newMasterId = cmd.getNewId();
-            try (Repository repo = repoManager.openRepository(args.getProject())) {
-              assertThat(repo.exactRef(master).getObjectId()).isEqualTo(cmd.getOldId());
-              assertThat(args.getRef(master)).hasValue(newMasterId);
-              args.getRevWalk().parseBody(args.getRevWalk().parseCommit(newMasterId));
-            } catch (IOException e) {
-              throw new AssertionError("failed checking new ref value", e);
-            }
-            projectsCalled.add(args.getProject().get());
-            if (projectsCalled.size() == 2) {
-              throw new ValidationException("time to fail");
-            }
+        args -> {
+          String master = "refs/heads/master";
+          assertThat(args.getCommands()).containsKey(master);
+          ReceiveCommand cmd = args.getCommands().get(master);
+          ObjectId newMasterId = cmd.getNewId();
+          try (Repository repo = repoManager.openRepository(args.getProject())) {
+            assertThat(repo.exactRef(master).getObjectId()).isEqualTo(cmd.getOldId());
+            assertThat(args.getRef(master)).hasValue(newMasterId);
+            args.getRevWalk().parseBody(args.getRevWalk().parseCommit(newMasterId));
+          } catch (IOException e) {
+            throw new AssertionError("failed checking new ref value", e);
+          }
+          projectsCalled.add(args.getProject().get());
+          if (projectsCalled.size() == 2) {
+            throw new ValidationException("time to fail");
           }
         });
     submitWithConflict(change4.getChangeId(), "time to fail");

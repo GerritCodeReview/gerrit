@@ -14,6 +14,7 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
+import com.codahale.metrics.Gauge;
 import com.codahale.metrics.MetricRegistry;
 import com.google.gerrit.metrics.CallbackMetric0;
 
@@ -71,12 +72,10 @@ class CallbackMetricImpl0<V> extends CallbackMetric0<V> implements CallbackMetri
   public void register(Runnable trigger) {
     registry.register(
         name,
-        new com.codahale.metrics.Gauge<V>() {
-          @Override
-          public V getValue() {
-            trigger.run();
-            return value;
-          }
-        });
+        (Gauge<V>)
+            () -> {
+              trigger.run();
+              return value;
+            });
   }
 }

@@ -345,7 +345,7 @@ public class JettyServer {
             maxThreads,
             minThreads,
             idleTimeout,
-            new BlockingArrayQueue<Runnable>(
+            new BlockingArrayQueue<>(
                 minThreads, // capacity,
                 minThreads, // growBy,
                 maxCapacity // maxCapacity

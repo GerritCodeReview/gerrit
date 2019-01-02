@@ -81,7 +81,7 @@ public class LuceneVersionManager extends VersionManager {
           continue;
         }
         if (!versions.containsKey(v)) {
-          versions.put(v, new Version<V>(null, v, true, cfg.getReady(def.getName(), v)));
+          versions.put(v, new Version<>(null, v, true, cfg.getReady(def.getName(), v)));
         }
       }
     } catch (IOException e) {

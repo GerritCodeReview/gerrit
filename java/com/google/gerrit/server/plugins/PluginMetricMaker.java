@@ -47,7 +47,7 @@ public class PluginMetricMaker extends MetricMaker implements LifecycleListener 
   public PluginMetricMaker(MetricMaker root, String prefix) {
     this.root = root;
     this.prefix = prefix.endsWith("/") ? prefix : prefix + "/";
-    cleanup = Collections.synchronizedSet(new HashSet<RegistrationHandle>());
+    cleanup = Collections.synchronizedSet(new HashSet<>());
   }
 
   @Override

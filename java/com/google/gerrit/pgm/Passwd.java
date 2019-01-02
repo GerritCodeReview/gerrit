@@ -78,7 +78,7 @@ public class Passwd extends SiteProgram {
             bind(Boolean.class).annotatedWith(InstallAllPlugins.class).toInstance(Boolean.FALSE);
             bind(new TypeLiteral<List<String>>() {})
                 .annotatedWith(InstallPlugins.class)
-                .toInstance(new ArrayList<String>());
+                .toInstance(new ArrayList<>());
             bind(String.class)
                 .annotatedWith(SecureStoreClassName.class)
                 .toProvider(Providers.of(getConfiguredSecureStoreClass()));

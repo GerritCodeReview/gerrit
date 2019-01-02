@@ -56,7 +56,7 @@ public class MarkdownFormatterHeader {
 
     @Override
     public Set<NodeRenderingHandler<?>> getNodeRenderingHandlers() {
-      return new HashSet<NodeRenderingHandler<? extends Node>>(
+      return new HashSet<>(
           Arrays.asList(
               new NodeRenderingHandler<>(
                   AnchorLink.class,

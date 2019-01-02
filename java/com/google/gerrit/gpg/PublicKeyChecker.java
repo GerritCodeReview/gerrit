@@ -130,7 +130,7 @@ public class PublicKeyChecker {
     if (store == null) {
       throw new IllegalStateException("PublicKeyStore is required");
     }
-    return check(key, 0, true, trusted != null ? new HashSet<Fingerprint>() : null);
+    return check(key, 0, true, trusted != null ? new HashSet<>() : null);
   }
 
   /**

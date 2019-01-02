@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "08d0f161_ddcf7833",
+        "filename": "java/com/google/gerrit/server/notedb/CommentJsonMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-02T07:01:50Z",
+      "side": 1,
+      "message": "I agree, I hit a different limit during the RevWarlk navigation: seems the Git header is larger than 5 MBytes.",
+      "parentUuid": "563ba63f_085ec3aa",
+      "range": {
+        "startLine": 219,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 25
+      },
+      "revId": "cb2ba3e7f9aa8899a48e677fedf5dbfe01add522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ff07279_02d9ce88",
         "filename": "java/com/google/gerrit/server/notedb/CommentJsonMigrator.java",
         "patchSetId": 1

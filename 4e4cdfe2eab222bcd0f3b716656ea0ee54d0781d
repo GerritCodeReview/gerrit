@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1546456131 -0800\nnonce AJbGYzkeyjZxmCXwYe2XNHuKLkT2s4jJr0ReF9wrjuM9yiz1oelSStm4qhctGX5+oVc2nBiaHHrj\n\n0000000000000000000000000000000000000000 4e4cdfe2eab222bcd0f3b716656ea0ee54d0781d refs/for/master%topic\u003dlambda,r\u003ddpursehouse\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlwtDEMVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM9HwP/iawtxdkK3lMpjAf/DWkRsNAONlK\nPXCi6MvrD/SWOL+rLfRcid8g/5+C1QLWyA+wkQh18E/F0WlTz+LO9Py4Evuq/RSm\ne1z+WE8odcFV2Fsc/IH08hfxFGzmC+3yEo2HBYYhdCqyRuNtzRwc7IV7LiJrairq\nSLf/6k8sKTmAyUY9U/r0jOsSOYVsUHtPbaZUeV41E4bUSWfhpQRyEfgeDL7XsP0O\nDbNTWuF0AnnKQg2uqQfjQV6XqTdEdBLzlr7hafT/QXeESNfD8kl8KzjcYAeRUMBB\nBIk4CPHlgbld98tFxnx9YciMhrMAPNql7TmhXRYYkgwY1wknLy7M04gkPFCWKGjt\nAPm0sxshR+egi8CKUFfAVaJikCdMVt1P4YocVXh5NMqFOZKhfYIQJmax2n3TUTE8\nGJsyqs23OA9mDY5FU5JVLeK4kVX3ViH/44Mx584ovSwf5xfibErdVyk0AlE4MPkV\nrG2DtVEJQ40fVQFbWfvmWrDsojIVM4oIr3Iogg7/bU/KYcfBgMa/DBPuAWTBRhE1\ndaHMDs6RMQmmRIQkluBmsnibeNtsTszydwHKMtBzfhzTA1zlyt8l/YdG/Ejfd1VJ\nLn+ILIRBBvNSzsFyN5jzSwphrXBbBlgcV9AiJGPlzPnLidLjMPcvPAaSTt8vvPOm\nQhlofHxO/++/xh0N\n\u003d/ohC\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f901df5_acdc4612",
+        "filename": "plugins/hooks",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-02T19:12:35Z",
+      "side": 1,
+      "message": "These don\u0027t strictly need to be part of this change, since they\u0027ll compile fine on their own, but this way we get CI to run on the plugin code.",
+      "revId": "4e4cdfe2eab222bcd0f3b716656ea0ee54d0781d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

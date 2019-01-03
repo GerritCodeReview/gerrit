@@ -74,6 +74,8 @@ import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.server.index.OnlineUpgrader;
+import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.receive.MailReceiver;
 import com.google.gerrit.server.mail.send.SmtpEmailSender;
@@ -339,20 +341,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new LocalMergeSuperSetComputation.Module());
     modules.add(new AuditModule());
-
-    // Plugin module needs to be inserted *before* the index module.
-    // There is the concept of LifecycleModule, in Gerrit's own extension
-    // to Guice, which has these:
-    //  listener().to(SomeClassImplementingLifecycleListener.class);
-    // and the start() methods of each such listener are executed in the
-    // order they are declared.
-    // Makes sure that PluginLoader.start() is executed before the
-    // LuceneIndexModule.start() so that plugins get loaded and the respective
-    // Guice modules installed so that the on-line reindexing will happen
-    // with the proper classes (e.g. group backends, custom Prolog
-    // predicates) and the associated rules ready to be evaluated.
     modules.add(new PluginModule());
-
     modules.add(new RestApiModule());
     modules.add(new GpgModule(config));
     modules.add(new StartupChecks.Module());
@@ -392,9 +381,9 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
   private Module createIndexModule() {
     switch (indexType) {
       case LUCENE:
-        return LuceneIndexModule.latestVersionWithOnlineUpgrade(false);
+        return LuceneIndexModule.latestVersion(false);
       case ELASTICSEARCH:
-        return ElasticIndexModule.latestVersionWithOnlineUpgrade(false);
+        return ElasticIndexModule.latestVersion(false);
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }
@@ -433,6 +422,9 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     }
     modules.add(H2CacheBasedWebSession.module());
     modules.add(new HttpPluginModule());
+    if (VersionManager.getOnlineUpgrade(config)) {
+      modules.add(new OnlineUpgrader.Module());
+    }
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     if (authConfig.getAuthType() == AuthType.OPENID) {

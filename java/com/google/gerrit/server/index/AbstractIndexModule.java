@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.index;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.project.ProjectIndex;
@@ -35,17 +33,11 @@ public abstract class AbstractIndexModule extends AbstractModule {
 
   private final int threads;
   private final Map<String, Integer> singleVersions;
-  private final boolean onlineUpgrade;
   private final boolean slave;
 
-  protected AbstractIndexModule(
-      Map<String, Integer> singleVersions, int threads, boolean onlineUpgrade, boolean slave) {
-    if (singleVersions != null) {
-      checkArgument(!onlineUpgrade, "online upgrade is incompatible with single version map");
-    }
+  protected AbstractIndexModule(Map<String, Integer> singleVersions, int threads, boolean slave) {
     this.singleVersions = singleVersions;
     this.threads = threads;
-    this.onlineUpgrade = onlineUpgrade;
     this.slave = slave;
   }
 
@@ -113,9 +105,6 @@ public abstract class AbstractIndexModule extends AbstractModule {
       Class<? extends VersionManager> versionManagerClass = getVersionManager();
       bind(VersionManager.class).to(versionManagerClass);
       listener().to(versionManagerClass);
-      if (onlineUpgrade) {
-        listener().to(OnlineUpgrader.class);
-      }
     }
   }
 }

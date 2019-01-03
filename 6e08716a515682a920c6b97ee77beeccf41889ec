@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "be1fad8f_53c32855",
+        "filename": "java/com/google/gerrit/server/index/group/GroupSchemaDefinitions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-03T08:57:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f53d4a41_d7cfbfaf",
+      "revId": "6e08716a515682a920c6b97ee77beeccf41889ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c3a1e35_d99c48b4",
         "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
         "patchSetId": 4
@@ -64,6 +82,30 @@
       "revId": "6e08716a515682a920c6b97ee77beeccf41889ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7376d35a_02a2364e",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-03T08:57:59Z",
+      "side": 1,
+      "message": "Yes, searching still works. Just sorting is then done by account ID. Added more tests.\n\nDone.",
+      "parentUuid": "8b0bf98a_31461afc",
+      "range": {
+        "startLine": 475,
+        "startChar": 65,
+        "endLine": 476,
+        "endChar": 32
+      },
+      "revId": "6e08716a515682a920c6b97ee77beeccf41889ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

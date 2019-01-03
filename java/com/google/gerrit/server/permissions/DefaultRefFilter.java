@@ -22,7 +22,6 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -352,7 +351,7 @@ class DefaultRefFilter {
       return Collections.emptyMap();
     }
 
-    Map<Change.Id, Branch.NameKey> result = Maps.newHashMapWithExpectedSize((int) s.count());
+    Map<Change.Id, Branch.NameKey> result = new HashMap<>();
     for (ChangeNotesResult notesResult : s.collect(toImmutableList())) {
       ChangeNotes notes = toNotes(notesResult);
       if (notes != null) {

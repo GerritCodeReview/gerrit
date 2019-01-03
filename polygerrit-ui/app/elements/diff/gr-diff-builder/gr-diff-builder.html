@@ -155,6 +155,7 @@ limitations under the License.
           return this.$.processor.process(this.diff.content, isBinary)
               .then(() => {
                 if (this.isImageDiff) {
+                  this._builder = this._getDiffBuilder(this.diff, prefs);
                   this._builder.renderDiff();
                 }
                 this.dispatchEvent(new CustomEvent('render-content',

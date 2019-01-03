@@ -19,8 +19,6 @@ package com.google.gerrit.server.update;
  *
  * <p>When used during execution of multiple batch updates, the {@code after*} methods are called
  * after that phase has been completed for <em>all</em> updates.
- *
- * <p>Listeners are only supported for the {@link Order#REPO_BEFORE_DB} order.
  */
 public interface BatchUpdateListener {
   public static final BatchUpdateListener NONE = new BatchUpdateListener() {};

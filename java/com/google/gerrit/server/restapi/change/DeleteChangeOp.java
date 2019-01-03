@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -29,7 +28,6 @@ import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Order;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -66,12 +64,12 @@ class DeleteChangeOp implements BatchUpdateOp {
     this.id = id;
   }
 
+  // The relative order of updateChange and updateRepo doesn't matter as long as all operations are
+  // executed in a single atomic BatchRefUpdate. Actually deleting the change refs first would not
+  // fail gracefully if the second delete fails, but fortunately that's not what happens.
   @Override
   public boolean updateChange(ChangeContext ctx)
       throws RestApiException, OrmException, IOException {
-    checkState(
-        ctx.getOrder() == Order.DB_BEFORE_REPO, "must use DeleteChangeOp with DB_BEFORE_REPO");
-
     Collection<PatchSet> patchSets = psUtil.byChange(ctx.getNotes());
 
     ensureDeletable(ctx, id, patchSets);

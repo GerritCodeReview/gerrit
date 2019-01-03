@@ -27,7 +27,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.Order;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
@@ -59,7 +58,6 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
     try (BatchUpdate bu =
         updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Change.Id id = rsrc.getChange().getId();
-      bu.setOrder(Order.DB_BEFORE_REPO);
       bu.addOp(id, opFactory.create(id));
       bu.execute();
     }

@@ -86,13 +86,6 @@ public interface Context {
   CurrentUser getUser();
 
   /**
-   * Get the order in which operations are executed in this update.
-   *
-   * @return order of operations.
-   */
-  Order getOrder();
-
-  /**
    * Get the identified user performing the update.
    *
    * <p>Convenience method for {@code getUser().asIdentifiedUser()}.

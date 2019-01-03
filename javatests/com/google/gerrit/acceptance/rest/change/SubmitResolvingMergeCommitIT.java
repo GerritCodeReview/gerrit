@@ -351,7 +351,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
 
   private PushOneCommit.Result createChange(TestRepository<?> repo, String subject)
       throws Exception {
-    return createChange(repo, subject, "x", "x", new ArrayList<RevCommit>(), "refs/for/master");
+    return createChange(repo, subject, "x", "x", new ArrayList<>(), "refs/for/master");
   }
 
   private PushOneCommit.Result createChange(

@@ -67,7 +67,7 @@ public class GroupMembers {
       throw new IllegalStateException("listAccounts called with PROJECT_OWNERS argument");
     }
     try {
-      return listAccounts(groupUUID, null, new HashSet<AccountGroup.UUID>());
+      return listAccounts(groupUUID, null, new HashSet<>());
     } catch (NoSuchProjectException e) {
       throw new IllegalStateException(e);
     }
@@ -81,7 +81,7 @@ public class GroupMembers {
    */
   public Set<Account> listAccounts(AccountGroup.UUID groupUUID, Project.NameKey project)
       throws NoSuchProjectException, IOException {
-    return listAccounts(groupUUID, project, new HashSet<AccountGroup.UUID>());
+    return listAccounts(groupUUID, project, new HashSet<>());
   }
 
   private Set<Account> listAccounts(

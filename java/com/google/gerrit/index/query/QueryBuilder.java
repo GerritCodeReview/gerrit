@@ -101,7 +101,7 @@ public abstract class QueryBuilder<T> {
               && (method.getModifiers() & Modifier.PUBLIC) == Modifier.PUBLIC) {
             final String name = method.getName().toLowerCase();
             if (!opFactories.containsKey(name)) {
-              opFactories.put(name, new ReflectionFactory<T, Q>(name, method));
+              opFactories.put(name, new ReflectionFactory<>(name, method));
             }
           }
         }

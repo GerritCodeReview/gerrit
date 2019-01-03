@@ -90,7 +90,7 @@ public class SysExecutorModule extends AbstractModule {
                     poolSize,
                     10,
                     TimeUnit.MINUTES,
-                    new ArrayBlockingQueue<Runnable>(poolSize),
+                    new ArrayBlockingQueue<>(poolSize),
                     new ThreadFactoryBuilder()
                         .setNameFormat("ChangeUpdate-%d")
                         .setDaemon(true)

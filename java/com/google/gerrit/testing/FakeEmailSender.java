@@ -87,7 +87,7 @@ public class FakeEmailSender implements EmailSender {
   @Inject
   FakeEmailSender(WorkQueue workQueue) {
     this.workQueue = workQueue;
-    messages = Collections.synchronizedList(new ArrayList<Message>());
+    messages = Collections.synchronizedList(new ArrayList<>());
     messagesRead = 0;
   }
 

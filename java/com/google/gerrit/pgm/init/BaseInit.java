@@ -239,8 +239,7 @@ public class BaseInit extends SiteProgram {
           protected void configure() {
             bind(ConsoleUI.class).toInstance(ui);
             bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
-            List<String> plugins =
-                MoreObjects.firstNonNull(getInstallPlugins(), new ArrayList<String>());
+            List<String> plugins = MoreObjects.firstNonNull(getInstallPlugins(), new ArrayList<>());
             bind(new TypeLiteral<List<String>>() {})
                 .annotatedWith(InstallPlugins.class)
                 .toInstance(plugins);

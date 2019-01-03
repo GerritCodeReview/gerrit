@@ -417,7 +417,7 @@ public abstract class AbstractDaemonTest {
 
     server.getTestInjector().injectMembers(this);
     Transport.register(inProcessProtocol);
-    toClose = Collections.synchronizedList(new ArrayList<Repository>());
+    toClose = Collections.synchronizedList(new ArrayList<>());
 
     // All groups which were added during the server start (e.g. in SchemaCreatorImpl) aren't
     // contained in the instance of the group index which is available here and in tests. There are

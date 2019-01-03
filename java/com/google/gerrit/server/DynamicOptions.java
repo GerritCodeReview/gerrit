@@ -171,8 +171,7 @@ public class DynamicOptions {
    * classloaders.
    */
   protected static Map<ClassLoader, Map<ClassLoader, WeakReference<ClassLoader>>> mergedClByCls =
-      Collections.synchronizedMap(
-          new WeakHashMap<ClassLoader, Map<ClassLoader, WeakReference<ClassLoader>>>());
+      Collections.synchronizedMap(new WeakHashMap<>());
 
   protected Object bean;
   protected Map<String, DynamicBean> beansByPlugin;

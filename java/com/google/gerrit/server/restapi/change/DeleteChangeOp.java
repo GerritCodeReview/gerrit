@@ -33,6 +33,7 @@ import com.google.gerrit.server.update.Order;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
@@ -41,23 +42,28 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 class DeleteChangeOp implements BatchUpdateOp {
+  interface Factory {
+    DeleteChangeOp create(Change.Id id);
+  }
+
   private final PatchSetUtil psUtil;
   private final StarredChangesUtil starredChangesUtil;
   private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;
   private final ChangeDeleted changeDeleted;
-
-  private Change.Id id;
+  private final Change.Id id;
 
   @Inject
   DeleteChangeOp(
       PatchSetUtil psUtil,
       StarredChangesUtil starredChangesUtil,
       PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore,
-      ChangeDeleted changeDeleted) {
+      ChangeDeleted changeDeleted,
+      @Assisted Change.Id id) {
     this.psUtil = psUtil;
     this.starredChangesUtil = starredChangesUtil;
     this.accountPatchReviewStore = accountPatchReviewStore;
     this.changeDeleted = changeDeleted;
+    this.id = id;
   }
 
   @Override
@@ -65,9 +71,7 @@ class DeleteChangeOp implements BatchUpdateOp {
       throws RestApiException, OrmException, IOException {
     checkState(
         ctx.getOrder() == Order.DB_BEFORE_REPO, "must use DeleteChangeOp with DB_BEFORE_REPO");
-    checkState(id == null, "cannot reuse DeleteChangeOp");
 
-    id = ctx.getChange().getId();
     Collection<PatchSet> patchSets = psUtil.byChange(ctx.getNotes());
 
     ensureDeletable(ctx, id, patchSets);

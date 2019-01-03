@@ -33,19 +33,18 @@ import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
 public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, Response<?>>
     implements UiAction<ChangeResource> {
 
-  private final Provider<DeleteChangeOp> opProvider;
+  private final DeleteChangeOp.Factory opFactory;
 
   @Inject
-  public DeleteChange(RetryHelper retryHelper, Provider<DeleteChangeOp> opProvider) {
+  public DeleteChange(RetryHelper retryHelper, DeleteChangeOp.Factory opFactory) {
     super(retryHelper);
-    this.opProvider = opProvider;
+    this.opFactory = opFactory;
   }
 
   @Override
@@ -61,7 +60,7 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
         updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Change.Id id = rsrc.getChange().getId();
       bu.setOrder(Order.DB_BEFORE_REPO);
-      bu.addOp(id, opProvider.get());
+      bu.addOp(id, opFactory.create(id));
       bu.execute();
     }
     return Response.none();

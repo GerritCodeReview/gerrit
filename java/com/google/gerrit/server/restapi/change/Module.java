@@ -186,6 +186,7 @@ public class Module extends RestApiModule {
     factory(AccountLoader.Factory.class);
     factory(ChangeInserter.Factory.class);
     factory(ChangeResource.Factory.class);
+    factory(DeleteChangeOp.Factory.class);
     factory(DeleteReviewerByEmailOp.Factory.class);
     factory(DeleteReviewerOp.Factory.class);
     factory(EmailReviewComments.Factory.class);

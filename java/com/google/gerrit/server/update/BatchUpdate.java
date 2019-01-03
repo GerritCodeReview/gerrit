@@ -127,55 +127,20 @@ public class BatchUpdate implements AutoCloseable {
       List<com.google.common.util.concurrent.CheckedFuture<?, IOException>> indexFutures =
           new ArrayList<>();
       List<ChangesHandle> handles = new ArrayList<>(updates.size());
-      Order order = getOrder(updates, listener);
       try {
-        switch (order) {
-          case REPO_BEFORE_DB:
-            for (BatchUpdate u : updates) {
-              u.executeUpdateRepo();
-            }
-            listener.afterUpdateRepos();
-            for (BatchUpdate u : updates) {
-              handles.add(u.executeChangeOps(dryrun));
-            }
-            for (ChangesHandle h : handles) {
-              h.execute();
-              indexFutures.addAll(h.startIndexFutures());
-            }
-            listener.afterUpdateRefs();
-            listener.afterUpdateChanges();
-            break;
-
-          case DB_BEFORE_REPO:
-            // Call updateChange for each op before updateRepo, but defer executing the
-            // NoteDbUpdateManager until after calling updateRepo. They share an inserter and
-            // BatchRefUpdate, so it will all execute as a single batch. But we have to let
-            // NoteDbUpdateManager actually execute the update, since it has to interleave it
-            // properly with All-Users updates.
-            //
-            // TODO(dborowitz): This may still result in multiple updates to All-Users, but that's
-            // currently not a big deal because multi-change batches generally aren't affecting
-            // drafts anyway.
-            for (BatchUpdate u : updates) {
-              handles.add(u.executeChangeOps(dryrun));
-            }
-            for (BatchUpdate u : updates) {
-              u.executeUpdateRepo();
-            }
-            for (ChangesHandle h : handles) {
-              // TODO(dborowitz): This isn't quite good enough: in theory updateRepo may want to
-              // see the results of change meta commands, but they aren't actually added to the
-              // BatchUpdate until the body of execute. To fix this, execute needs to be split up
-              // into a method that returns a BatchRefUpdate before execution. Not a big deal at the
-              // moment, because this order is only used for deleting changes, and those updateRepo
-              // implementations definitely don't need to observe the updated change meta refs.
-              h.execute();
-              indexFutures.addAll(h.startIndexFutures());
-            }
-            break;
-          default:
-            throw new IllegalStateException("invalid execution order: " + order);
+        for (BatchUpdate u : updates) {
+          u.executeUpdateRepo();
         }
+        listener.afterUpdateRepos();
+        for (BatchUpdate u : updates) {
+          handles.add(u.executeChangeOps(dryrun));
+        }
+        for (ChangesHandle h : handles) {
+          h.execute();
+          indexFutures.addAll(h.startIndexFutures());
+        }
+        listener.afterUpdateRefs();
+        listener.afterUpdateChanges();
       } finally {
         for (ChangesHandle h : handles) {
           h.close();
@@ -210,25 +175,6 @@ public class BatchUpdate implements AutoCloseable {
         projectCounts.entrySet().size() == updates.size(),
         "updates must all be for different projects, got: %s",
         projectCounts);
-  }
-
-  private static Order getOrder(
-      Collection<? extends BatchUpdate> updates, BatchUpdateListener listener) {
-    Order o = null;
-    for (BatchUpdate u : updates) {
-      if (o == null) {
-        o = u.order;
-      } else if (u.order != o) {
-        throw new IllegalArgumentException("cannot mix execution orders");
-      }
-    }
-    if (o != Order.REPO_BEFORE_DB) {
-      checkArgument(
-          listener == BatchUpdateListener.NONE,
-          "BatchUpdateListener not supported for order %s",
-          o);
-    }
-    return o;
   }
 
   private static void wrapAndThrowException(Exception e) throws UpdateException, RestApiException {
@@ -282,11 +228,6 @@ public class BatchUpdate implements AutoCloseable {
     @Override
     public CurrentUser getUser() {
       return user;
-    }
-
-    @Override
-    public Order getOrder() {
-      return order;
     }
   }
 
@@ -364,7 +305,6 @@ public class BatchUpdate implements AutoCloseable {
 
   private RepoView repoView;
   private BatchRefUpdate batchRefUpdate;
-  private Order order;
   private OnSubmitValidators onSubmitValidators;
   private PushCertificate pushCert;
   private String refLogMessage;
@@ -391,7 +331,6 @@ public class BatchUpdate implements AutoCloseable {
     this.user = user;
     this.when = when;
     tz = serverIdent.getTimeZone();
-    order = Order.REPO_BEFORE_DB;
   }
 
   @Override
@@ -422,11 +361,6 @@ public class BatchUpdate implements AutoCloseable {
 
   public BatchUpdate setRefLogMessage(@Nullable String refLogMessage) {
     this.refLogMessage = refLogMessage;
-    return this;
-  }
-
-  public BatchUpdate setOrder(Order order) {
-    this.order = order;
     return this;
   }
 

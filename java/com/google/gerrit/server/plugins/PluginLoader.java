@@ -290,12 +290,7 @@ public class PluginLoader implements LifecycleListener {
 
   private void removeStalePluginFiles() {
     DirectoryStream.Filter<Path> filter =
-        new DirectoryStream.Filter<Path>() {
-          @Override
-          public boolean accept(Path entry) throws IOException {
-            return entry.getFileName().toString().startsWith("plugin_");
-          }
-        };
+        entry -> entry.getFileName().toString().startsWith("plugin_");
     try (DirectoryStream<Path> files = Files.newDirectoryStream(tempDir, filter)) {
       for (Path file : files) {
         logger.atInfo().log("Removing stale plugin file: %s", file.toFile().getName());

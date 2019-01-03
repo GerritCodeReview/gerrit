@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -81,16 +80,13 @@ public class SuggestChangeReviewers extends SuggestReviewers
 
   private VisibilityControl getVisibility(ChangeResource rsrc) {
 
-    return new VisibilityControl() {
-      @Override
-      public boolean isVisibleTo(Account.Id account) {
-        // Use the destination reference, not the change, as private changes deny anyone who is not
-        // already a reviewer.
-        return permissionBackend
-            .absentUser(account)
-            .ref(rsrc.getChange().getDest())
-            .testOrFalse(RefPermission.READ);
-      }
+    return account -> {
+      // Use the destination reference, not the change, as private changes deny anyone who is not
+      // already a reviewer.
+      return permissionBackend
+          .absentUser(account)
+          .ref(rsrc.getChange().getDest())
+          .testOrFalse(RefPermission.READ);
     };
   }
 }

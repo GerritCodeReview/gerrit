@@ -212,7 +212,7 @@ public class GitOverHttpServlet extends GitServlet {
     }
     // Explicit cast is required to compile under Servlet API 2.5, where the return type is raw Map.
     @SuppressWarnings("cast")
-    Map<String, String[]> parameterMap = request.getParameterMap();
+    Map<String, String[]> parameterMap = (Map<String, String[]>) request.getParameterMap();
     ImmutableListMultimap.Builder<String, String> b = ImmutableListMultimap.builder();
     parameterMap.forEach(b::putAll);
     return b.build();

@@ -91,16 +91,13 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
 
   @Override
   public CommandFactory get() {
-    return new CommandFactory() {
-      @Override
-      public Command createCommand(String requestCommand) {
-        String c = requestCommand;
-        SshCreateCommandInterceptor interceptor = createCommandInterceptor.get();
-        if (interceptor != null) {
-          c = interceptor.intercept(c);
-        }
-        return new Trampoline(c);
+    return requestCommand -> {
+      String c = requestCommand;
+      SshCreateCommandInterceptor interceptor = createCommandInterceptor.get();
+      if (interceptor != null) {
+        c = interceptor.intercept(c);
       }
+      return new Trampoline(c);
     };
   }
 

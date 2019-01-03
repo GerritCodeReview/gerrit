@@ -18,11 +18,9 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Throwables;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.inject.Key;
-import com.google.inject.Provider;
 import com.google.inject.Scope;
 import com.google.inject.servlet.ServletScopes;
 import java.util.concurrent.Callable;
@@ -167,14 +165,7 @@ public abstract class RequestScopePropagator {
 
   protected <T> Callable<T> context(RequestContext context, Callable<T> callable) {
     return () -> {
-      RequestContext old =
-          local.setContext(
-              new RequestContext() {
-                @Override
-                public CurrentUser getUser() {
-                  return context.getUser();
-                }
-              });
+      RequestContext old = local.setContext(context::getUser);
       try {
         return callable.call();
       } finally {
@@ -186,16 +177,7 @@ public abstract class RequestScopePropagator {
   protected <T> Callable<T> cleanup(Callable<T> callable) {
     return () -> {
       RequestCleanup cleanup =
-          scope
-              .scope(
-                  Key.get(RequestCleanup.class),
-                  new Provider<RequestCleanup>() {
-                    @Override
-                    public RequestCleanup get() {
-                      return new RequestCleanup();
-                    }
-                  })
-              .get();
+          scope.scope(Key.get(RequestCleanup.class), RequestCleanup::new).get();
       try {
         return callable.call();
       } finally {

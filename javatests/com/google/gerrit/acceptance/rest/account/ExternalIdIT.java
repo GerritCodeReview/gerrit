@@ -980,12 +980,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   private AutoCloseable createFailOnLoadContext() {
     externalIdReader.setFailOnLoad(true);
-    return new AutoCloseable() {
-      @Override
-      public void close() {
-        externalIdReader.setFailOnLoad(false);
-      }
-    };
+    return () -> externalIdReader.setFailOnLoad(false);
   }
 
   @FunctionalInterface

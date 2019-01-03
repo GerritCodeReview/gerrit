@@ -36,12 +36,7 @@ public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
     requireNonNull(item);
     final NamePair key = new NamePair(pluginName, exportName);
     items.put(key, item);
-    return new RegistrationHandle() {
-      @Override
-      public void remove() {
-        items.remove(key, item);
-      }
-    };
+    return () -> items.remove(key, item);
   }
 
   /**

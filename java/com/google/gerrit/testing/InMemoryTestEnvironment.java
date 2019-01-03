@@ -16,12 +16,10 @@ package com.google.gerrit.testing;
 
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.schema.SchemaCreator;
-import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -85,13 +83,7 @@ public final class InMemoryTestEnvironment implements MethodRule {
 
   public void setApiUser(Account.Id id) {
     IdentifiedUser user = userFactory.create(id);
-    requestContext.setContext(
-        new RequestContext() {
-          @Override
-          public CurrentUser getUser() {
-            return user;
-          }
-        });
+    requestContext.setContext(() -> user);
   }
 
   private void setUp(Object target) throws Exception {

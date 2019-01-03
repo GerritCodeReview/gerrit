@@ -59,12 +59,6 @@ public class EventDeserializerTest extends GerritBaseTests {
   }
 
   private <T> Supplier<T> createSupplier(T value) {
-    return Suppliers.memoize(
-        new Supplier<T>() {
-          @Override
-          public T get() {
-            return value;
-          }
-        });
+    return Suppliers.memoize(() -> value);
   }
 }

@@ -2698,16 +2698,9 @@ public class ChangeIT extends AbstractDaemonTest {
     RegistrationHandle handle =
         changeMessageModifiers.add(
             "gerrit",
-            new ChangeMessageModifier() {
-              @Override
-              public String onSubmit(
-                  String newCommitMessage,
-                  RevCommit original,
-                  RevCommit mergeTip,
-                  Branch.NameKey destination) {
-                assertThat(original.getName()).isNotEqualTo(mergeTip.getName());
-                return newCommitMessage + "Custom: " + destination.get();
-              }
+            (newCommitMessage, original, mergeTip, destination) -> {
+              assertThat(original.getName()).isNotEqualTo(mergeTip.getName());
+              return newCommitMessage + "Custom: " + destination.get();
             });
     ChangeInfo actual;
     try {

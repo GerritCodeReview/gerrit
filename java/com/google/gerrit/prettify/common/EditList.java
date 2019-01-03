@@ -36,10 +36,8 @@ public class EditList {
   }
 
   public Iterable<Hunk> getHunks() {
-    return new Iterable<Hunk>() {
-      @Override
-      public Iterator<Hunk> iterator() {
-        return new Iterator<Hunk>() {
+    return () ->
+        new Iterator<Hunk>() {
           private int curIdx;
 
           @Override
@@ -60,8 +58,6 @@ public class EditList {
             throw new UnsupportedOperationException();
           }
         };
-      }
-    };
   }
 
   private int findCombinedEnd(int i) {

@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Key;
-import com.google.inject.Provider;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
 import java.io.IOException;
@@ -171,15 +170,7 @@ class UrlModule extends ServletModule {
 
   private Key<HttpServlet> key(HttpServlet servlet) {
     final Key<HttpServlet> srv = Key.get(HttpServlet.class, UniqueAnnotations.create());
-    bind(srv)
-        .toProvider(
-            new Provider<HttpServlet>() {
-              @Override
-              public HttpServlet get() {
-                return servlet;
-              }
-            })
-        .in(SINGLETON);
+    bind(srv).toProvider(() -> servlet).in(SINGLETON);
     return srv;
   }
 

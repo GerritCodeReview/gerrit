@@ -169,22 +169,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   protected RequestContext newRequestContext(Account.Id requestUserId) {
     final CurrentUser requestUser = userFactory.create(requestUserId);
-    return new RequestContext() {
-      @Override
-      public CurrentUser getUser() {
-        return requestUser;
-      }
-    };
+    return () -> requestUser;
   }
 
   protected void setAnonymous() {
-    requestContext.setContext(
-        new RequestContext() {
-          @Override
-          public CurrentUser getUser() {
-            return anonymousUser.get();
-          }
-        });
+    requestContext.setContext(anonymousUser::get);
   }
 
   @After

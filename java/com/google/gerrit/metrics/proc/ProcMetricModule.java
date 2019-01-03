@@ -15,7 +15,6 @@
 package com.google.gerrit.metrics.proc;
 
 import com.google.common.base.Strings;
-import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.metrics.CallbackMetric0;
@@ -74,12 +73,7 @@ public class ProcMetricModule extends MetricModule {
           "proc/cpu/usage",
           Double.class,
           new Description("CPU time used by the process").setCumulative().setUnit(Units.SECONDS),
-          new Supplier<Double>() {
-            @Override
-            public Double get() {
-              return provider.getProcessCpuTime() / 1e9;
-            }
-          });
+          () -> provider.getProcessCpuTime() / 1e9);
     }
 
     if (provider.getOpenFileDescriptorCount() != -1) {

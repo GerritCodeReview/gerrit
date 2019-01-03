@@ -184,12 +184,7 @@ public class DynamicItem<T> {
     }
 
     final Extension<T> defaultItem = old;
-    return new RegistrationHandle() {
-      @Override
-      public void remove() {
-        ref.compareAndSet(item, defaultItem);
-      }
-    };
+    return () -> ref.compareAndSet(item, defaultItem);
   }
 
   /**

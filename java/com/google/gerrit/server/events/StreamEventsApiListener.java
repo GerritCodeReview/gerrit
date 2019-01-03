@@ -50,7 +50,6 @@ import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
-import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
@@ -151,42 +150,32 @@ public class StreamEventsApiListener
 
   private Supplier<ChangeAttribute> changeAttributeSupplier(Change change, ChangeNotes notes) {
     return Suppliers.memoize(
-        new Supplier<ChangeAttribute>() {
-          @Override
-          public ChangeAttribute get() {
-            try {
-              return eventFactory.asChangeAttribute(change, notes);
-            } catch (OrmException e) {
-              throw new RuntimeException(e);
-            }
+        () -> {
+          try {
+            return eventFactory.asChangeAttribute(change, notes);
+          } catch (OrmException e) {
+            throw new RuntimeException(e);
           }
         });
   }
 
   private Supplier<AccountAttribute> accountAttributeSupplier(AccountInfo account) {
     return Suppliers.memoize(
-        new Supplier<AccountAttribute>() {
-          @Override
-          public AccountAttribute get() {
-            return account != null
+        () ->
+            account != null
                 ? eventFactory.asAccountAttribute(new Account.Id(account._accountId))
-                : null;
-          }
-        });
+                : null);
   }
 
   private Supplier<PatchSetAttribute> patchSetAttributeSupplier(
       final Change change, PatchSet patchSet) {
     return Suppliers.memoize(
-        new Supplier<PatchSetAttribute>() {
-          @Override
-          public PatchSetAttribute get() {
-            try (Repository repo = repoManager.openRepository(change.getProject());
-                RevWalk revWalk = new RevWalk(repo)) {
-              return eventFactory.asPatchSetAttribute(revWalk, change, patchSet);
-            } catch (IOException e) {
-              throw new RuntimeException(e);
-            }
+        () -> {
+          try (Repository repo = repoManager.openRepository(change.getProject());
+              RevWalk revWalk = new RevWalk(repo)) {
+            return eventFactory.asPatchSetAttribute(revWalk, change, patchSet);
+          } catch (IOException e) {
+            throw new RuntimeException(e);
           }
         });
   }
@@ -226,21 +215,18 @@ public class StreamEventsApiListener
       final Map<String, ApprovalInfo> oldApprovals) {
     final Map<String, Short> approvals = convertApprovalsMap(newApprovals);
     return Suppliers.memoize(
-        new Supplier<ApprovalAttribute[]>() {
-          @Override
-          public ApprovalAttribute[] get() {
-            LabelTypes labelTypes = projectCache.get(change.getProject()).getLabelTypes();
-            if (approvals.size() > 0) {
-              ApprovalAttribute[] r = new ApprovalAttribute[approvals.size()];
-              int i = 0;
-              for (Map.Entry<String, Short> approval : approvals.entrySet()) {
-                r[i++] =
-                    getApprovalAttribute(labelTypes, approval, convertApprovalsMap(oldApprovals));
-              }
-              return r;
+        () -> {
+          LabelTypes labelTypes = projectCache.get(change.getProject()).getLabelTypes();
+          if (approvals.size() > 0) {
+            ApprovalAttribute[] r = new ApprovalAttribute[approvals.size()];
+            int i = 0;
+            for (Entry<String, Short> approval : approvals.entrySet()) {
+              r[i++] =
+                  getApprovalAttribute(labelTypes, approval, convertApprovalsMap(oldApprovals));
             }
-            return null;
+            return r;
           }
+          return null;
         });
   }
 
@@ -378,15 +364,11 @@ public class StreamEventsApiListener
     final Branch.NameKey refName = new Branch.NameKey(ev.getProjectName(), ev.getRefName());
     event.refUpdate =
         Suppliers.memoize(
-            new Supplier<RefUpdateAttribute>() {
-              @Override
-              public RefUpdateAttribute get() {
-                return eventFactory.asRefUpdateAttribute(
+            () ->
+                eventFactory.asRefUpdateAttribute(
                     ObjectId.fromString(ev.getOldObjectId()),
                     ObjectId.fromString(ev.getNewObjectId()),
-                    refName);
-              }
-            });
+                    refName));
     dispatcher.run(d -> d.postEvent(refName, event));
   }
 

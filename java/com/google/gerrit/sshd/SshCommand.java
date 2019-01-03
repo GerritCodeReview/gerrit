@@ -34,18 +34,15 @@ public abstract class SshCommand extends BaseCommand {
   @Override
   public void start(Environment env) throws IOException {
     startThread(
-        new CommandRunnable() {
-          @Override
-          public void run() throws Exception {
-            parseCommandLine();
-            stdout = toPrintWriter(out);
-            stderr = toPrintWriter(err);
-            try (TraceContext traceContext = enableTracing()) {
-              SshCommand.this.run();
-            } finally {
-              stdout.flush();
-              stderr.flush();
-            }
+        () -> {
+          parseCommandLine();
+          stdout = toPrintWriter(out);
+          stderr = toPrintWriter(err);
+          try (TraceContext traceContext = enableTracing()) {
+            SshCommand.this.run();
+          } finally {
+            stdout.flush();
+            stderr.flush();
           }
         },
         AccessPath.SSH_COMMAND);

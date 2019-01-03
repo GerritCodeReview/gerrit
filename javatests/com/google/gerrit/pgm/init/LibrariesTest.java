@@ -22,7 +22,6 @@ import static org.junit.Assert.assertNotNull;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.testing.GerritBaseTests;
-import com.google.inject.Provider;
 import java.nio.file.Paths;
 import java.util.Collections;
 import org.junit.Test;
@@ -38,14 +37,7 @@ public class LibrariesTest extends GerritBaseTests {
 
     Libraries lib =
         new Libraries(
-            new Provider<LibraryDownloader>() {
-              @Override
-              public LibraryDownloader get() {
-                return new LibraryDownloader(ui, site, remover);
-              }
-            },
-            Collections.emptyList(),
-            false);
+            () -> new LibraryDownloader(ui, site, remover), Collections.emptyList(), false);
 
     assertNotNull(lib.mysqlDriver);
 

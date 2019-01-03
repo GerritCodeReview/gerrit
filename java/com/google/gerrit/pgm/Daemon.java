@@ -114,7 +114,6 @@ import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Stage;
 import java.io.IOException;
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -229,12 +228,7 @@ public class Daemon extends SiteProgram {
     }
     mustHaveValidSite();
     Thread.setDefaultUncaughtExceptionHandler(
-        new UncaughtExceptionHandler() {
-          @Override
-          public void uncaughtException(Thread t, Throwable e) {
-            logger.atSevere().withCause(e).log("Thread %s threw exception", t.getName());
-          }
-        });
+        (t, e) -> logger.atSevere().withCause(e).log("Thread %s threw exception", t.getName()));
 
     if (runId != null) {
       runFile = getSitePath().resolve("logs").resolve("gerrit.run");

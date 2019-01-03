@@ -112,11 +112,6 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
   }
 
   private static <K, V> Weigher<K, V> unitWeight() {
-    return new Weigher<K, V>() {
-      @Override
-      public int weigh(K key, V value) {
-        return 1;
-      }
-    };
+    return (key, value) -> 1;
   }
 }

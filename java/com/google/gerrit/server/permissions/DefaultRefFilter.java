@@ -343,17 +343,17 @@ class DefaultRefFilter {
   private Map<Change.Id, Branch.NameKey> visibleChangesByScan(Repository repo)
       throws PermissionBackendException {
     Project.NameKey p = projectState.getNameKey();
-    Stream<ChangeNotesResult> s;
+    ImmutableList<ChangeNotesResult> changes;
     try {
-      s = changeNotesFactory.scan(repo, db.get(), p);
+      changes = changeNotesFactory.scan(repo, db.get(), p).collect(toImmutableList());
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(
           "Cannot load changes for project %s, assuming no changes are visible", p);
       return Collections.emptyMap();
     }
 
-    Map<Change.Id, Branch.NameKey> result = Maps.newHashMapWithExpectedSize((int) s.count());
-    for (ChangeNotesResult notesResult : s.collect(toImmutableList())) {
+    Map<Change.Id, Branch.NameKey> result = Maps.newHashMapWithExpectedSize(changes.size());
+    for (ChangeNotesResult notesResult : changes) {
       ChangeNotes notes = toNotes(notesResult);
       if (notes != null) {
         result.put(notes.getChangeId(), notes.getChange().getDest());

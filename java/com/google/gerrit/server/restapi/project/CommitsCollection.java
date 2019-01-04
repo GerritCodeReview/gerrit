@@ -105,7 +105,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
   }
 
   /** @return true if {@code commit} is visible to the caller. */
-  public boolean canRead(ProjectState state, Repository repo, RevCommit commit) {
+  public boolean canRead(ProjectState state, Repository repo, RevCommit commit) throws IOException {
     Project.NameKey project = state.getNameKey();
 
     // Look for changes associated with the commit.
@@ -122,6 +122,6 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
       }
     }
 
-    return reachable.fromRefs(project, repo, commit, repo.getAllRefs());
+    return reachable.fromRefs(project, repo, commit, repo.getRefDatabase().getRefs());
   }
 }

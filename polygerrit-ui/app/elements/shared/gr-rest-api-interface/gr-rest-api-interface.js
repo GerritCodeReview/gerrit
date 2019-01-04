@@ -868,6 +868,22 @@
       });
     },
 
+    getAvatarUrl(account, imageSize) {
+      const encodeAccount = encodeURIComponent(account);
+      const url = `/accounts/${encodeAccount}/avatar?s=${imageSize}`;
+      return this._fetchSharedCacheURL({
+        url: url,
+        reportUrlAsIs: true,
+        errFn: resp => {
+          if (!resp || resp.status === 403) {
+            this._cache.delete(url);
+          } else if (resp.status === 404) {
+            return false;
+          }
+        },
+      });
+    },
+
     getAvatarChangeUrl() {
       return this._fetchSharedCacheURL({
         url: '/accounts/self/avatar.change.url',

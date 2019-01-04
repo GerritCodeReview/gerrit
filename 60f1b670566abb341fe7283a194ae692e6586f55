@@ -46,6 +46,30 @@
       "revId": "60f1b670566abb341fe7283a194ae692e6586f55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee98181a_ba97589d",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-04T21:56:30Z",
+      "side": 1,
+      "message": "I don\u0027t see any difference compared to original two commits merged on stable-2.15 branch.",
+      "parentUuid": "2c4ecb02_fcaf20fc",
+      "range": {
+        "startLine": 344,
+        "startChar": 4,
+        "endLine": 344,
+        "endChar": 36
+      },
+      "revId": "60f1b670566abb341fe7283a194ae692e6586f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

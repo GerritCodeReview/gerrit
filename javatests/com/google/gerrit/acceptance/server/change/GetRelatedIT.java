@@ -26,13 +26,20 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.server.restapi.change.GetRelated;
@@ -44,6 +51,9 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.junit.TestRepository;
@@ -64,6 +74,9 @@ public class GetRelatedIT extends AbstractDaemonTest {
     cfg.setInt("index", null, "maxTerms", MAX_TERMS);
     return cfg;
   }
+
+  @Inject private AccountOperations accountOperations;
+  @Inject private GroupOperations groupOperations;
 
   private String systemTimeZone;
 
@@ -574,6 +587,35 @@ public class GetRelatedIT extends AbstractDaemonTest {
     assertRelated(cd.change().currentPatchSetId());
   }
 
+  @Test
+  public void getRelatedManyChanges() throws Exception {
+    List<ObjectId> commitIds = new ArrayList<>();
+    for (int i = 1; i <= 5; i++) {
+      commitIds.add(commitBuilder().add(i + ".txt", "i").message("subject: " + i).create().copy());
+    }
+    pushHead(testRepo, "refs/for/master", false);
+
+    List<RelatedChangeAndCommitInfo> expected = new ArrayList<>(commitIds.size());
+    for (ObjectId commitId : commitIds) {
+      expected.add(changeAndCommit(getPatchSetId(commitId), commitId, 1));
+    }
+    Collections.reverse(expected);
+
+    PatchSet.Id lastPsId = getPatchSetId(Iterables.getLast(commitIds));
+    assertRelated(lastPsId, expected);
+
+    Account.Id accountId = accountOperations.newAccount().create();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().addMember(accountId).create();
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      PermissionRule rule = Util.allow(u.getConfig(), GlobalCapability.QUERY_LIMIT, groupUuid);
+      rule.setRange(0, 2);
+      u.save();
+    }
+    atrScope.set(atrScope.newContext(null, identifiedUserFactory.create(accountId)));
+
+    assertRelated(lastPsId, expected);
+  }
+
   private RevCommit parseBody(RevCommit c) throws Exception {
     testRepo.getRevWalk().parseBody(c);
     return c;
@@ -618,13 +660,18 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   private void assertRelated(PatchSet.Id psId, RelatedChangeAndCommitInfo... expected)
       throws Exception {
+    assertRelated(psId, Arrays.asList(expected));
+  }
+
+  private void assertRelated(PatchSet.Id psId, List<RelatedChangeAndCommitInfo> expected)
+      throws Exception {
     List<RelatedChangeAndCommitInfo> actual =
         gApi.changes().id(psId.getParentKey().get()).revision(psId.get()).related().changes;
-    assertThat(actual).named("related to " + psId).hasSize(expected.length);
+    assertThat(actual).named("related to " + psId).hasSize(expected.size());
     for (int i = 0; i < actual.size(); i++) {
       String name = "index " + i + " related to " + psId;
       RelatedChangeAndCommitInfo a = actual.get(i);
-      RelatedChangeAndCommitInfo e = expected[i];
+      RelatedChangeAndCommitInfo e = expected.get(i);
       assertThat(a.project).named("project of " + name).isEqualTo(e.project);
       assertThat(a._changeNumber).named("change ID of " + name).isEqualTo(e._changeNumber);
       // Don't bother checking changeId; assume _changeNumber is sufficient.

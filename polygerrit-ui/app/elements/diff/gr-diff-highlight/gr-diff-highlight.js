@@ -65,14 +65,17 @@
      *
      * @param {Selection} selection A DOM Selection living in the shadow DOM of
      *     the diff element.
+     * @param {boolean} isMouseUp If true, this is called due to a mouseup
+     *     event, in which case we might want to immediately create a comment.
      */
-    handleSelectionChange(selection) {
+    handleSelectionChange(selection, isMouseUp) {
       // Can't use up or down events to handle selection started and/or ended in
       // in comment threads or outside of diff.
       // Debounce removeActionBox to give it a chance to react to click/tap.
       this._removeActionBoxDebounced();
       this.debounce(
-          'selectionChange', () => this._handleSelection(selection), 200);
+          'selectionChange', () => this._handleSelection(selection, isMouseUp),
+          200);
     },
 
     _getThreadEl(e) {
@@ -112,8 +115,12 @@
 
     _indexOfCommentRange(side, range) {
       function rangesEqual(a, b) {
-        if (!a && !b) { return true; }
-        if (!a || !b) { return false; }
+        if (!a && !b) {
+          return true;
+        }
+        if (!a || !b) {
+          return false;
+        }
         return a.start_line === b.start_line &&
             a.start_character === b.start_character &&
             a.end_line === b.end_line &&
@@ -290,7 +297,7 @@
       actionBox.placeBelow(range);
     },
 
-    _handleSelection(selection) {
+    _handleSelection(selection, isMouseUp) {
       const normalizedRange = this._getNormalizedRange(selection);
       if (!normalizedRange) {
         return;
@@ -312,6 +319,24 @@
       }
 
       // TODO (viktard): Drop empty first and last lines from selection.
+
+      // If this was a mouse-up event, we create a comment immediately if
+      // the selection is from the end of a line to the start of the next line.
+      // Rather than trying to find the line contents, we just check if the
+      // selection is empty to see that it's at the end of a line.
+      // In this case, we select the entire start line.
+      if (isMouseUp && start.line === end.line - 1 && end.column === 0) {
+        const content = domRange.cloneContents().querySelector('.contentText');
+        if (this._getLength(content) === 0) {
+          this.fire('create-range-comment', {side: start.side, range: {
+            start_line: start.line,
+            start_character: 0,
+            end_line: start.line,
+            end_character: start.column,
+          }});
+          return;
+        }
+      }
 
       const actionBox = document.createElement('gr-selection-action-box');
       const root = Polymer.dom(this.root);

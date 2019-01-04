@@ -508,7 +508,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     ChangeNotesCache.Value v =
-        args.cache.get().get(getProjectName(), getChangeId(), rev, handle.walk());
+        args.cache.get().get(getProjectName(), getChangeId(), rev, handle::walk);
     state = v.state();
     state.copyColumnsTo(change);
     revisionNoteMap = v.revisionNoteMap();

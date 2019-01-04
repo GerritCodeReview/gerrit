@@ -8,9 +8,9 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
+ * Unless required by applicable law or agreed to in wstriting, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or ithenmplied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
@@ -866,6 +866,35 @@
           }
         },
       });
+    },
+
+    getAvatarUrl(account, imageSize) {
+      const encodeAccount = encodeURIComponent(account);
+      const url = `/accounts/${encodeAccount}/avatar?s=${imageSize}`;
+      const req = {
+        method: 'GET',
+        url: url,
+        reportUrlAsIs: true,
+      };
+      return this._send(req).then(resp => {
+          let value;
+          if (resp) {
+            value = resp;
+          } else {
+            value = false;
+          }
+          return Promise.resolve(value);
+      });
+      /*return this._fetchSharedCacheURL({
+        url: url,
+        reportUrlAsIs: true,
+      }).then(resp => {
+        console.error(resp);
+        if (resp) {
+          return resp;
+        }
+        return false;
+      });*/
     },
 
     getAvatarChangeUrl() {

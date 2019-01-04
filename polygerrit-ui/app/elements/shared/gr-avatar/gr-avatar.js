@@ -72,16 +72,15 @@
     },
 
     _buildAvatarURL(account) {
-      if (!account) { return ''; }
+      if (!account) { return false; }
       const avatars = account.avatars || [];
       for (let i = 0; i < avatars.length; i++) {
         if (avatars[i].height === this.imageSize) {
           return avatars[i].url;
         }
       }
-      return this.getBaseUrl() + '/accounts/' +
-        encodeURIComponent(this._getAccounts(account)) +
-        '/avatar?s=' + this.imageSize;
+      return this.restAPI.$.getAvatarUrl(
+          this._getAccounts(account), this.imageSize);
     },
   });
 })();

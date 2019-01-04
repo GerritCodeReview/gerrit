@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
@@ -1233,7 +1234,13 @@ public abstract class AbstractDaemonTest {
       throws Exception {
     TestRepository<?> localRepo = cloneProject(proj);
     GitUtil.fetch(localRepo, "refs/*:refs/*");
-    Map<String, Ref> refs = localRepo.getRepository().getAllRefs();
+    ImmutableMap<String, Ref> refs =
+        localRepo
+            .getRepository()
+            .getRefDatabase()
+            .getRefs()
+            .stream()
+            .collect(toImmutableMap(Ref::getName, r -> r));
     Map<Branch.NameKey, RevTree> refValues = new HashMap<>();
 
     for (Branch.NameKey b : trees.keySet()) {

@@ -282,23 +282,38 @@
     _enableSelectionObserver(loggedIn, isAttached) {
       if (loggedIn && isAttached) {
         this.listen(document, 'selectionchange', '_handleSelectionChange');
+        this.listen(document, 'mouseup', '_handleMouseUp');
       } else {
         this.unlisten(document, 'selectionchange', '_handleSelectionChange');
+        this.unlisten(document, 'mouseup', '_handleMouseUp');
       }
     },
 
     _handleSelectionChange() {
+      // Because of shadow DOM selections, we handle the selectionchange here,
+      // and pass the shadow DOM selection into gr-diff-highlight, where the
+      // corresponding range is determined and normalized.
+      const selection = this._getShadowOrDocumentSelection();
+      this.$.highlights.handleSelectionChange(selection, false);
+    },
+
+    _handleMouseUp(e) {
+      // To handle double-click outside of text creating comments, we check on
+      // mouse-up if there's a selection that just covers a line change. We
+      // can't do that on selection change since the user may still be dragging.
+      const selection = this._getShadowOrDocumentSelection();
+      this.$.highlights.handleSelectionChange(selection, true);
+    },
+
+    /** Gets the current selection, preferring the shadow DOM selection. */
+    _getShadowOrDocumentSelection() {
       // When using native shadow DOM, the selection returned by
       // document.getSelection() cannot reference the actual DOM elements making
       // up the diff, because they are in the shadow DOM of the gr-diff element.
-      // For this reason, we handle the selectionchange here, and pass the
-      // shadow DOM selection into gr-diff-highlight, where the corresponding
-      // range is determined and normalized.
-      const selection = this.root.getSelection ?
-          this.root.getSelection() :
-          document.getSelection();
-      this.$.highlights.handleSelectionChange(selection);
-    },
+      // This takes the shadow DOM selection if one exists.
+      return this.root.getSelection ?
+	  this.root.getSelection() :
+	  document.getSelection();
 
     _observeNodes() {
       this._nodeObserver = Polymer.dom(this).observeNodes(info => {

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.permissions;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
@@ -334,6 +335,21 @@ public abstract class PermissionBackend {
     public abstract Map<String, Ref> filter(
         Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
         throws PermissionBackendException;
+
+    /**
+     * Filter a list of references by visibility.
+     *
+     * @param refs a list of references to filter.
+     * @param repo an open {@link Repository} handle for this instance's project
+     * @param opts further options for filtering.
+     * @return a partition of the provided refs that are visible to the user that this instance is
+     *     scoped to.
+     * @throws PermissionBackendException if failure consulting backend configuration.
+     */
+    public Map<String, Ref> filter(List<Ref> refs, Repository repo, RefFilterOptions opts)
+        throws PermissionBackendException {
+      return filter(refs.stream().collect(toMap(Ref::getName, r -> r)), repo, opts);
+    }
   }
 
   /** Options for filtering refs using {@link ForProject}. */

@@ -87,8 +87,12 @@ public class GroupsNoteDbConsistencyChecker {
 
     BiMap<AccountGroup.UUID, String> uuidNameBiMap = HashBiMap.create();
 
-    // Get all refs in an attempt to avoid seeing half committed group updates.
-    Map<String, Ref> refs = allUsersRepo.getAllRefs();
+    // Get group refs and group names ref using the most atomic API available, in an attempt to
+    // avoid seeing half-committed group updates.
+    List<Ref> refs =
+        allUsersRepo
+            .getRefDatabase()
+            .getRefsByPrefix(RefNames.REFS_GROUPS, RefNames.REFS_GROUPNAMES);
     readGroups(allUsersRepo, refs, result);
     readGroupNames(allUsersRepo, refs, result, uuidNameBiMap);
     // The sequential IDs are not keys in NoteDb, so no need to check them.
@@ -103,22 +107,21 @@ public class GroupsNoteDbConsistencyChecker {
     return result;
   }
 
-  private void readGroups(Repository allUsersRepo, Map<String, Ref> refs, Result result)
+  private void readGroups(Repository allUsersRepo, List<Ref> refs, Result result)
       throws IOException {
-    for (Map.Entry<String, Ref> entry : refs.entrySet()) {
-      if (!entry.getKey().startsWith(RefNames.REFS_GROUPS)) {
+    for (Ref ref : refs) {
+      if (!ref.getName().startsWith(RefNames.REFS_GROUPS)) {
         continue;
       }
 
-      AccountGroup.UUID uuid = AccountGroup.UUID.fromRef(entry.getKey());
+      AccountGroup.UUID uuid = AccountGroup.UUID.fromRef(ref.getName());
       if (uuid == null) {
-        result.problems.add(error("null UUID from %s", entry.getKey()));
+        result.problems.add(error("null UUID from %s", ref.getName()));
         continue;
       }
       try {
         GroupConfig cfg =
-            GroupConfig.loadForGroupSnapshot(
-                allUsersName, allUsersRepo, uuid, entry.getValue().getObjectId());
+            GroupConfig.loadForGroupSnapshot(allUsersName, allUsersRepo, uuid, ref.getObjectId());
         result.uuidToGroupMap.put(uuid, cfg.getLoadedGroup().get());
       } catch (ConfigInvalidException e) {
         result.problems.add(error("group %s does not parse: %s", uuid, e.getMessage()));
@@ -128,16 +131,18 @@ public class GroupsNoteDbConsistencyChecker {
 
   private void readGroupNames(
       Repository repo,
-      Map<String, Ref> refs,
+      List<Ref> refs,
       Result result,
       BiMap<AccountGroup.UUID, String> uuidNameBiMap)
       throws IOException {
-    Ref ref = refs.get(RefNames.REFS_GROUPNAMES);
-    if (ref == null) {
+    Optional<Ref> maybeRef =
+        refs.stream().filter(r -> r.getName().equals(RefNames.REFS_GROUPNAMES)).findFirst();
+    if (!maybeRef.isPresent()) {
       String msg = String.format("ref %s does not exist", RefNames.REFS_GROUPNAMES);
       result.problems.add(error(msg));
       return;
     }
+    Ref ref = maybeRef.get();
 
     try (RevWalk rw = new RevWalk(repo)) {
       RevCommit c = rw.parseCommit(ref.getObjectId());

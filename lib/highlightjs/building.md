@@ -32,6 +32,7 @@ languages included. Build it with the following:
           dart \
           erb \
           go \
+          groovy \
           haskell \
           java \
           javascript \

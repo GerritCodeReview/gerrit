@@ -34,6 +34,7 @@
     'text/x-csrc': 'cpp',
     'text/x-d': 'd',
     'text/x-go': 'go',
+    'text/x-groovy': 'groovy',
     'text/x-haskell': 'haskell',
     'text/x-java': 'java',
     'text/x-kotlin': 'kotlin',

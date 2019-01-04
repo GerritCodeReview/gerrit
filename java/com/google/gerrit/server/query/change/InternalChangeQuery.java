@@ -22,6 +22,7 @@ import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.base.Supplier;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -89,6 +90,12 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
     super(queryProcessor, indexes, indexConfig);
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
+  }
+
+  @Override
+  protected InternalChangeQuery setStart(int n) {
+    super.setStart(n);
+    return this;
   }
 
   @Override
@@ -300,34 +307,42 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
     return query(new SubmissionIdPredicate(cs));
   }
 
-  private List<ChangeData> byProjectGroups(Project.NameKey project, Collection<String> groups)
-      throws OrmException {
+  private static Predicate<ChangeData> byProjectGroupsPredicate(
+      IndexConfig indexConfig, Project.NameKey project, Collection<String> groups) {
     int n = indexConfig.maxTerms() - 1;
     checkArgument(groups.size() <= n, "cannot exceed %s groups", n);
     List<GroupPredicate> groupPredicates = new ArrayList<>(groups.size());
     for (String g : groups) {
       groupPredicates.add(new GroupPredicate(g));
     }
-    return query(and(project(project), or(groupPredicates)));
+    return and(project(project), or(groupPredicates));
   }
 
-  // Batching via multiple queries requires passing in a Provider since the underlying
-  // QueryProcessor instance is not reusable.
   public static List<ChangeData> byProjectGroups(
       Provider<InternalChangeQuery> queryProvider,
       IndexConfig indexConfig,
       Project.NameKey project,
       Collection<String> groups)
       throws OrmException {
+    // These queries may be complex along multiple dimensions:
+    //  * Many groups per change, if there are very many patch sets. This requires partitioning the
+    //    list of predicates and combining results.
+    //  * Many changes with the same set of groups, if the relation chain is very long. This
+    //    requires querying exhaustively with pagination.
+    // For both cases, we need to invoke the queryProvider multiple times, since each
+    // InternalChangeQuery is single-use.
+
+    Supplier<InternalChangeQuery> querySupplier = () -> queryProvider.get().enforceVisibility(true);
     int batchSize = indexConfig.maxTerms() - 1;
     if (groups.size() <= batchSize) {
-      return queryProvider.get().enforceVisibility(true).byProjectGroups(project, groups);
+      return queryExhaustively(
+          querySupplier, byProjectGroupsPredicate(indexConfig, project, groups));
     }
     Set<Change.Id> seen = new HashSet<>();
     List<ChangeData> result = new ArrayList<>();
     for (List<String> part : Iterables.partition(groups, batchSize)) {
       for (ChangeData cd :
-          queryProvider.get().enforceVisibility(true).byProjectGroups(project, part)) {
+          queryExhaustively(querySupplier, byProjectGroupsPredicate(indexConfig, project, part))) {
         if (!seen.add(cd.getId())) {
           result.add(cd);
         }

@@ -17,6 +17,7 @@ package com.google.gerrit.index.query;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.gerrit.index.FieldDef;
@@ -27,6 +28,7 @@ import com.google.gerrit.index.Schema;
 import com.google.gwtorm.server.OrmException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * Execute a single query over a secondary index, for use by Gerrit internals.
@@ -53,6 +55,11 @@ public class InternalQuery<T> {
     this.indexConfig = indexConfig;
   }
 
+  protected InternalQuery<T> setStart(int start) {
+    queryProcessor.setStart(start);
+    return this;
+  }
+
   public InternalQuery<T> setLimit(int n) {
     queryProcessor.setUserProvidedLimit(n);
     return this;
@@ -77,8 +84,12 @@ public class InternalQuery<T> {
   }
 
   public List<T> query(Predicate<T> p) throws OrmException {
+    return queryResults(p).entities();
+  }
+
+  private QueryResult<T> queryResults(Predicate<T> p) throws OrmException {
     try {
-      return queryProcessor.query(p).entities();
+      return queryProcessor.query(p);
     } catch (QueryParseException e) {
       throw new OrmException(e);
     }
@@ -105,5 +116,26 @@ public class InternalQuery<T> {
   protected Schema<T> schema() {
     Index<?, T> index = indexes != null ? indexes.getSearchIndex() : null;
     return index != null ? index.getSchema() : null;
+  }
+
+  protected static <T> List<T> queryExhaustively(
+      Supplier<? extends InternalQuery<T>> querySupplier, Predicate<T> predicate)
+      throws OrmException {
+    ImmutableList.Builder<T> b = null;
+    int start = 0;
+    while (true) {
+      QueryResult<T> qr = querySupplier.get().setStart(start).queryResults(predicate);
+      if (b == null) {
+        if (!qr.more()) {
+          return qr.entities();
+        }
+        b = ImmutableList.builder();
+      }
+      b.addAll(qr.entities());
+      if (!qr.more()) {
+        return b.build();
+      }
+      start += qr.entities().size();
+    }
   }
 }

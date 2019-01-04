@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.testsuite.account;
 
+import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.reviewdb.client.Account;
 
 /**
@@ -95,5 +96,14 @@ public interface AccountOperations {
      * @return a builder to update the account
      */
     TestAccountUpdate.Builder forUpdate();
+
+    /**
+     * Sets the request scope so this account is the current API user.
+     *
+     * <p>Does not set an SSH session.
+     *
+     * @return the previous context.
+     */
+    AcceptanceTestRequestScope.Context setAsApiUser();
   }
 }

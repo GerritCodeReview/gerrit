@@ -16,7 +16,10 @@ package com.google.gerrit.acceptance.testsuite.account;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountState;
@@ -40,13 +43,21 @@ public class AccountOperationsImpl implements AccountOperations {
   private final Accounts accounts;
   private final AccountsUpdate accountsUpdate;
   private final Sequences seq;
+  private final AcceptanceTestRequestScope atrScope;
+  private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
   @Inject
   public AccountOperationsImpl(
-      Accounts accounts, @ServerInitiated AccountsUpdate accountsUpdate, Sequences seq) {
+      Accounts accounts,
+      @ServerInitiated AccountsUpdate accountsUpdate,
+      Sequences seq,
+      AcceptanceTestRequestScope atrScope,
+      GenericFactory identifiedUserFactory) {
     this.accounts = accounts;
     this.accountsUpdate = accountsUpdate;
     this.seq = seq;
+    this.atrScope = atrScope;
+    this.identifiedUserFactory = identifiedUserFactory;
   }
 
   @Override
@@ -143,6 +154,11 @@ public class AccountOperationsImpl implements AccountOperations {
     @Override
     public TestAccountUpdate.Builder forUpdate() {
       return TestAccountUpdate.builder(this::updateAccount);
+    }
+
+    @Override
+    public AcceptanceTestRequestScope.Context setAsApiUser() {
+      return atrScope.set(atrScope.newContext(null, identifiedUserFactory.create(accountId)));
     }
 
     private void updateAccount(TestAccountUpdate accountUpdate)

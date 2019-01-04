@@ -612,7 +612,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
       rule.setRange(0, 2);
       u.save();
     }
-    atrScope.set(atrScope.newContext(null, identifiedUserFactory.create(accountId)));
+    accountOperations.account(accountId).setAsApiUser();
 
     assertRelated(lastPsId, expected);
   }

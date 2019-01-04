@@ -22,6 +22,30 @@
       "revId": "60f1b670566abb341fe7283a194ae692e6586f55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c4ecb02_fcaf20fc",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-01-04T16:57:16Z",
+      "side": 1,
+      "message": "\u003e In the source commits merged here from stable-2.15, this line was not moved to after L351 below, as similarly done for Daemon. Is that a problem?\n\nBefore merging, can somebody check this question I had above? If a fix is required, then of course it would be part of another /follow-up change.",
+      "parentUuid": "3a3034da_b4bfb0ad",
+      "range": {
+        "startLine": 344,
+        "startChar": 4,
+        "endLine": 344,
+        "endChar": 36
+      },
+      "revId": "60f1b670566abb341fe7283a194ae692e6586f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

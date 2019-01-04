@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24ecd064_0b45765e",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-04T21:44:22Z",
+      "side": 0,
+      "message": "Unrelated new line change.",
+      "revId": "51ed1c9582e3d46f9de0485f9e3174bd825fe9fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

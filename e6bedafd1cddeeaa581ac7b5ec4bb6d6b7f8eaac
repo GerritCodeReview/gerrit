@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "66125f32_1ceb4640",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-04T22:13:12Z",
+      "side": 1,
+      "message": "I\u0027m not aware of any issue filed for this and there was this comment made by Jonathan in another thread:\n\nIn protocol v0 bidirectional transports, the AdvertiseRefsHook is called at ref advertisement time and all is well. But in protocol v0 HTTP, we\u0027re not seeing the AdvertiseRefsHook called anywhere for the /git-upload-pack request, meaning that wants aren\u0027t validated and I can fetch anything that is pointed to by any ref (using fetch-by-sha1), as long as I can guess the object name.",
+      "parentUuid": "a7748635_cbce1ef0",
+      "revId": "e6bedafd1cddeeaa581ac7b5ec4bb6d6b7f8eaac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a96477ba_3b6fa997",
         "filename": "lib/jgit/BUCK",
         "patchSetId": 2

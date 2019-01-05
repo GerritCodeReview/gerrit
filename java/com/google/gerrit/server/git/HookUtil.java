@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.git;
 
+import static java.util.stream.Collectors.toMap;
+
 import java.io.IOException;
 import java.util.Map;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 
@@ -38,7 +39,12 @@ public class HookUtil {
       return refs;
     }
     try {
-      refs = rp.getRepository().getRefDatabase().getRefs(RefDatabase.ALL);
+      refs =
+          rp.getRepository()
+              .getRefDatabase()
+              .getRefs()
+              .stream()
+              .collect(toMap(Ref::getName, r -> r));
     } catch (ServiceMayNotContinueException e) {
       throw e;
     } catch (IOException e) {

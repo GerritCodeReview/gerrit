@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.receive;
 
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
@@ -78,7 +78,12 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
     Map<String, Ref> r = rp.getAdvertisedRefs();
     if (r == null) {
       try {
-        r = rp.getRepository().getRefDatabase().getRefs(ALL);
+        r =
+            rp.getRepository()
+                .getRefDatabase()
+                .getRefs()
+                .stream()
+                .collect(toMap(Ref::getName, x -> x));
       } catch (ServiceMayNotContinueException e) {
         throw e;
       } catch (IOException e) {

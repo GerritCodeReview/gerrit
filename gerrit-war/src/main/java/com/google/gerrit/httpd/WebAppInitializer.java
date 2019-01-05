@@ -330,8 +330,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
-    modules.add(new PluginModule());
-    modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
     modules.add(new StartupChecks.Module());
@@ -340,6 +338,12 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     // work queue can get stuck waiting on index futures that will never return.
     modules.add(createIndexModule());
 
+    modules.add(new PluginModule());
+    if (VersionManager.getOnlineUpgrade(config)) {
+      modules.add(new OnlineUpgrader.Module());
+    }
+
+    modules.add(new PluginRestApiModule());
     modules.add(new WorkQueue.Module());
     modules.add(
         new CanonicalWebUrlModule() {
@@ -407,9 +411,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     }
     modules.add(H2CacheBasedWebSession.module());
     modules.add(new HttpPluginModule());
-    if (VersionManager.getOnlineUpgrade(config)) {
-      modules.add(new OnlineUpgrader.Module());
-    }
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     if (authConfig.getAuthType() == AuthType.OPENID) {

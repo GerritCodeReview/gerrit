@@ -15,8 +15,8 @@
 package com.google.gerrit.server;
 
 import static java.util.Comparator.comparingInt;
+import static java.util.stream.Collectors.toSet;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.reviewdb.client.Change;
@@ -24,9 +24,11 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Random;
-import org.eclipse.jgit.lib.ObjectId;
+import java.util.Set;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -66,18 +68,25 @@ public class ChangeUtil {
   /**
    * Get the next patch set ID from a previously-read map of refs below the change prefix.
    *
-   * @param changeRefs map of ref suffix to SHA-1, where the keys are ref names with the {@code
-   *     refs/changes/CD/ABCD/} prefix stripped. All refs should be under {@code id}'s change ref
-   *     prefix.
+   * @param changeRefNames existing full change ref names with the same change ID as {@code id}.
    * @param id previous patch set ID.
    * @return next unused patch set ID for the same change, skipping any IDs whose corresponding ref
    *     names appear in the {@code changeRefs} map.
    */
-  public static PatchSet.Id nextPatchSetIdFromChangeRefsMap(
-      Map<String, ObjectId> changeRefs, PatchSet.Id id) {
-    int prefixLen = id.getParentKey().toRefPrefix().length();
+  public static PatchSet.Id nextPatchSetIdFromChangeRefs(
+      Collection<String> changeRefNames, PatchSet.Id id) {
+    return nextPatchSetIdFromChangeRefs(changeRefNames.stream(), id);
+  }
+
+  private static PatchSet.Id nextPatchSetIdFromChangeRefs(
+      Stream<String> changeRefNames, PatchSet.Id id) {
+    Set<PatchSet.Id> existing =
+        changeRefNames
+            .map(PatchSet.Id::fromRef)
+            .filter(psId -> psId != null && psId.getParentKey().equals(id.getParentKey()))
+            .collect(toSet());
     PatchSet.Id next = nextPatchSetId(id);
-    while (changeRefs.containsKey(next.toRefName().substring(prefixLen))) {
+    while (existing.contains(next)) {
       next = nextPatchSetId(next);
     }
     return next;
@@ -88,7 +97,7 @@ public class ChangeUtil {
    *
    * <p>This patch set ID may or may not be available in the database; callers that want a
    * previously-unused ID should use {@link #nextPatchSetIdFromAllRefsMap} or {@link
-   * #nextPatchSetIdFromChangeRefsMap}.
+   * #nextPatchSetIdFromChangeRefs}.
    *
    * @param id previous patch set ID.
    * @return next patch set ID for the same change, incrementing by 1.
@@ -106,9 +115,11 @@ public class ChangeUtil {
    *     names appear in the repository.
    */
   public static PatchSet.Id nextPatchSetId(Repository git, PatchSet.Id id) throws IOException {
-    return nextPatchSetIdFromChangeRefsMap(
-        Maps.transformValues(
-            git.getRefDatabase().getRefs(id.getParentKey().toRefPrefix()), Ref::getObjectId),
+    return nextPatchSetIdFromChangeRefs(
+        git.getRefDatabase()
+            .getRefsByPrefix(id.getParentKey().toRefPrefix())
+            .stream()
+            .map(Ref::getName),
         id);
   }
 

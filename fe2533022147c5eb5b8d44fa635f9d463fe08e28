@@ -17,6 +17,24 @@
       "revId": "fe2533022147c5eb5b8d44fa635f9d463fe08e28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f0b7217_b8538f9c",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-05T01:33:40Z",
+      "side": 1,
+      "message": "I guess this really means I wish Java would add a standard ImmutableList type. :)",
+      "parentUuid": "cf8ff7b3_4099a7a0",
+      "revId": "fe2533022147c5eb5b8d44fa635f9d463fe08e28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

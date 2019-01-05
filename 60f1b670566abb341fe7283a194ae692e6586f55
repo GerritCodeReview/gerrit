@@ -118,6 +118,30 @@
       "revId": "60f1b670566abb341fe7283a194ae692e6586f55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbe87995_c15d5f07",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-01-05T02:06:48Z",
+      "side": 1,
+      "message": "Thanks for confirming. -Above [1] initiated through the new change [2] I6fd4379e. I personally agree with your idea of postponing the merging of this very change, until [2] can also be part of it through rebase. This would allow stable-2.16 and master to get a more complete solution first hand. Will you amend your CR+2 score accordingly then?",
+      "parentUuid": "615b361e_ad9ab1fc",
+      "range": {
+        "startLine": 344,
+        "startChar": 4,
+        "endLine": 344,
+        "endChar": 36
+      },
+      "revId": "60f1b670566abb341fe7283a194ae692e6586f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

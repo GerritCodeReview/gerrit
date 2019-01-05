@@ -20,6 +20,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
@@ -248,7 +249,7 @@ class DefaultRefFilter {
                   repo,
                   opts.filterTagsSeparately()
                       ? filter(
-                              repo.getAllRefs(),
+                              getAllRefsMap(repo),
                               repo,
                               opts.toBuilder().setFilterTagsSeparately(false).build())
                           .values()
@@ -261,6 +262,14 @@ class DefaultRefFilter {
     }
 
     return result;
+  }
+
+  private static Map<String, Ref> getAllRefsMap(Repository repo) throws PermissionBackendException {
+    try {
+      return repo.getRefDatabase().getRefs().stream().collect(toMap(Ref::getName, r -> r));
+    } catch (IOException e) {
+      throw new PermissionBackendException(e);
+    }
   }
 
   private Map<String, Ref> fastHideRefsMetaConfig(Map<String, Ref> refs)

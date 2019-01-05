@@ -97,8 +97,8 @@ public class CherryPick extends SubmitStrategy {
       // tip.
       args.rw.parseBody(toMerge);
       psId =
-          ChangeUtil.nextPatchSetIdFromChangeRefsMap(
-              ctx.getRepoView().getRefs(getId().toRefPrefix()),
+          ChangeUtil.nextPatchSetIdFromChangeRefs(
+              ctx.getRepoView().getRefs(getId().toRefPrefix()).keySet(),
               toMerge.change().currentPatchSetId());
       RevCommit mergeTip = args.mergeTip.getCurrentTip();
       args.rw.parseBody(mergeTip);

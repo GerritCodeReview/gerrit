@@ -174,8 +174,10 @@ public class RebaseChangeOp implements BatchUpdateOp {
             baseCommitId.name());
 
     rebasedPatchSetId =
-        ChangeUtil.nextPatchSetIdFromChangeRefsMap(
-            ctx.getRepoView().getRefs(originalPatchSet.getId().getParentKey().toRefPrefix()),
+        ChangeUtil.nextPatchSetIdFromChangeRefs(
+            ctx.getRepoView()
+                .getRefs(originalPatchSet.getId().getParentKey().toRefPrefix())
+                .keySet(),
             notes.getChange().currentPatchSetId());
     patchSetInserter =
         patchSetInserterFactory

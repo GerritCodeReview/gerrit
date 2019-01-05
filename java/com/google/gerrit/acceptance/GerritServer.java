@@ -388,6 +388,7 @@ public class GerritServer implements AutoCloseable {
     cfg.setBoolean("httpd", null, "requestLog", false);
     cfg.setBoolean("sshd", null, "requestLog", false);
     cfg.setBoolean("index", "lucene", "testInmemory", true);
+    cfg.setBoolean("index", null, "onlineUpgrade", false);
     cfg.setString("gitweb", null, "cgi", "");
     cfg.setString(
         "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);

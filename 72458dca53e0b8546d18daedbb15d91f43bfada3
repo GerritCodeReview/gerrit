@@ -17,6 +17,24 @@
       "revId": "72458dca53e0b8546d18daedbb15d91f43bfada3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "102b0721_cdd96fd4",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-06T23:18:18Z",
+      "side": 1,
+      "message": "It\u0027s a good question. Throughout this series I have erred on the side of producing mutable collections when passing to/implementing JGit APIs. I suspect there are some places in JGit that implicitly expect inputs/outputs to be mutable (not that I know any specific ones related to this functionality), so I figured that was a safer option.",
+      "parentUuid": "bc8e46d1_43026a0f",
+      "revId": "72458dca53e0b8546d18daedbb15d91f43bfada3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

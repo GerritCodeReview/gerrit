@@ -470,13 +470,21 @@ Configuration]
 [[oauth-authentication-provider]]
 === OAuth authentication provider
 This plugin enables Gerrit to use OAuth2 protocol for authentication.
-Two different OAuth providers are supported:
+Several OAuth2 providers are supported:
 
+* AirVantage
+* Bitbucket
+* CAS
+* CoreOS Dex
+* Facebook
 * GitHub
+* GitLab
 * Google
+* Keycloak
+* Office365
 
-https://github.com/davido/gerrit-oauth-provider[Project] |
-https://github.com/davido/gerrit-oauth-provider/wiki/Getting-Started[Configuration]
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/oauth[Project] |
+link:https://gerrit.googlesource.com/plugins/oauth/+doc/master/src/main/resources/Documentation/config.md[Configuration]
 
 [[owners]]
 === owners

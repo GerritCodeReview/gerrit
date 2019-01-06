@@ -612,6 +612,13 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/scripting/groovy-provider/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
+[[saml-authentication-provider]]
+=== SAML2 authentication provider
+
+This plugin enables Gerrit to use SAML2 protocol for authentication.
+
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/saml[Project]
+
 [[scala-provider]]
 === scripting/scala-provider
 

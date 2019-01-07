@@ -63,6 +63,7 @@
     'text/x-objectivec': 'objectivec',
     'text/x-ocaml': 'ocaml',
     'text/x-perl': 'perl',
+    'text/x-pgsql': 'pgsql', // postgresql
     'text/x-php': 'php',
     'text/x-protobuf': 'protobuf',
     'text/x-puppet': 'puppet',

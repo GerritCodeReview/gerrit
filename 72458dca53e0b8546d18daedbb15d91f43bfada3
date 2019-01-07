@@ -35,6 +35,29 @@
       "revId": "72458dca53e0b8546d18daedbb15d91f43bfada3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0936015_7dc932fc",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-07T19:33:24Z",
+      "side": 1,
+      "message": "refs can contain duplicate keys. So:\n\n toMap(Ref::getName, r -\u003e r, (a, b) -\u003e b)",
+      "range": {
+        "startLine": 351,
+        "startChar": 42,
+        "endLine": 351,
+        "endChar": 69
+      },
+      "revId": "72458dca53e0b8546d18daedbb15d91f43bfada3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -20,6 +20,7 @@ public class EditInfo {
   public CommitInfo commit;
   public int basePatchSetNumber;
   public String baseRevision;
+  public String ref;
   public Map<String, FetchInfo> fetch;
   public Map<String, FileInfo> files;
 }

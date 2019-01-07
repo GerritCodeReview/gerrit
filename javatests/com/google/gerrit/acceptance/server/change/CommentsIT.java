@@ -532,7 +532,11 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void publishCommentsAllRevisions() throws Exception {
-    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r1 =
+        pushFactory
+            .create(
+                db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "old uninteresting\ncontent\n")
+            .to("refs/for/master");
 
     PushOneCommit.Result r2 =
         pushFactory
@@ -542,7 +546,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 testRepo,
                 SUBJECT,
                 FILE_NAME,
-                "new\ncntent\n",
+                "new interesting\ncontent\n",
                 r1.getChangeId())
             .to("refs/for/master");
 
@@ -643,7 +647,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + "#/c/"
                 + c
                 + "/1/a.txt@1 \n"
-                + "PS1, Line 1: ew\n"
+                + "PS1, Line 1: ld u\n"
                 + "nit: trailing whitespace\n"
                 + "\n"
                 + "\n"
@@ -673,7 +677,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + "#/c/"
                 + c
                 + "/2/a.txt@1 \n"
-                + "PS2, Line 1: ew\n"
+                + "PS2, Line 1: ew i\n"
                 + "join lines\n"
                 + "\n"
                 + "\n"
@@ -681,7 +685,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + "#/c/"
                 + c
                 + "/2/a.txt@2 \n"
-                + "PS2, Line 2: nten\n"
+                + "PS2, Line 2: onte\n"
                 + "typo: content\n"
                 + "\n"
                 + "\n");

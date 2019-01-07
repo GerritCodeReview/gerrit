@@ -166,6 +166,30 @@
       "revId": "9499658a524463900a1faca60ada75d45784cd4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2ae8e11_00d6b4a3",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-07T11:01:33Z",
+      "side": 1,
+      "message": "OK, so it\u0027s only about including the description in the output, nothing to do with ordering.\n\nIn that case the list projects API can be forced to include the description by calling the withDescription method:\n\n gApi.projects().list().withDescription(true).get()",
+      "parentUuid": "9f97062a_503a4d33",
+      "range": {
+        "startLine": 64,
+        "startChar": 32,
+        "endLine": 64,
+        "endChar": 50
+      },
+      "revId": "9499658a524463900a1faca60ada75d45784cd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

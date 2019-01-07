@@ -38,8 +38,8 @@ import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-class DeleteChangeOp implements BatchUpdateOp {
-  interface Factory {
+public class DeleteChangeOp implements BatchUpdateOp {
+  public interface Factory {
     DeleteChangeOp create(Change.Id id);
   }
 

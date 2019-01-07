@@ -188,6 +188,30 @@
       "revId": "a683d144175a9abc12040c43e489e01115b88cd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "587bf584_d3fbd7bb",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-07T07:54:33Z",
+      "side": 1,
+      "message": "If injection is needed it has to be done in all the classes that derive from this one.  It might be better to just leave it like this for now.",
+      "parentUuid": "e1614188_e3767c63",
+      "range": {
+        "startLine": 289,
+        "startChar": 24,
+        "endLine": 289,
+        "endChar": 82
+      },
+      "revId": "a683d144175a9abc12040c43e489e01115b88cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -2498,7 +2498,8 @@ provided fetch info map is also included.
        "message":"Use an EventBus to manage star icons\n\nImage widgets that need to ..."
     },
     "base_patch_set_number":1,
-    "base_revision":"c35558e0925e6985c91f3a16921537d5e572b7a3"
+    "base_revision":"c35558e0925e6985c91f3a16921537d5e572b7a3",
+    "ref":"refs/users/01/1000001/edit-76482/1"
   }
 ----
 
@@ -4734,6 +4735,7 @@ resulting change edit is returned.
       },
       "base_patch_set_number":1,
       "base_revision":"674ac754f91e64a0efb8087e59a176484bd534d1"
+      "ref":"refs/users/01/1000001/edit-42622/1"
     }
 ----
 
@@ -6182,6 +6184,7 @@ The `EditInfo` entity contains information about a change edit.
 link:#commit-info[CommitInfo] entity.
 |`base_patch_set_number`||The patch set number of the patch set the change edit is based on.
 |`base_revision`        ||The revision of the patch set the change edit is based on.
+|`ref`                  ||The ref of the change edit.
 |`fetch`                |optional|
 Information about how to fetch this patch set. The fetch information is
 provided as a map that maps the protocol name ("`git`", "`http`",

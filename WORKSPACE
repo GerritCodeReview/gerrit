@@ -874,10 +874,24 @@ maven_jar(
     src_sha1 = "7153d7ca38878d971fd90992c303bb7719ba7a21",
 )
 
+ASCIIDOCTOR_VERS = "2.5.1"
+
 maven_jar(
     name = "asciidoctor",
-    artifact = "org.asciidoctor:asciidoctorj:1.5.7",
-    sha1 = "8e8c1d8fc6144405700dd8df3b177f2801ac5987",
+    artifact = "org.asciidoctor:asciidoctorj:" + ASCIIDOCTOR_VERS,
+    sha1 = "71e1310bdea2fbb1d78175ae33d80d21ba4db8f9",
+)
+
+maven_jar(
+    name = "asciidoctor-api",
+    artifact = "org.asciidoctor:asciidoctorj-api:" + ASCIIDOCTOR_VERS,
+    sha1 = "c10ca40ee1f16ee5c542f866b1ea3c0f985efe55",
+)
+
+maven_jar(
+    name = "jruby",
+    artifact = "org.jruby:jruby-complete:9.2.17.0",
+    sha1 = "1715369eb95a3d29cbbedb29c134235c3b00cbfd",
 )
 
 maven_jar(

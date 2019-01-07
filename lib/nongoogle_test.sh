@@ -34,7 +34,6 @@ jackson-annotations
 jackson-core
 jimfs
 jna
-jruby
 lucene-analyzers-common
 lucene-core
 lucene-misc

@@ -17,7 +17,6 @@ package com.google.gerrit.server.notedb;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.metrics.Timer1;
@@ -75,31 +74,38 @@ public abstract class AbstractChangeNotes<T> {
     }
   }
 
-  @AutoValue
-  public abstract static class LoadHandle implements AutoCloseable {
-    public static LoadHandle create(ChangeNotesRevWalk walk, ObjectId id) {
+  public static class LoadHandle implements AutoCloseable {
+    private final Repository repo;
+    private final ObjectId id;
+    private ChangeNotesRevWalk rw;
+
+    private LoadHandle(Repository repo, @Nullable ObjectId id) {
+      this.repo = requireNonNull(repo);
+
       if (ObjectId.zeroId().equals(id)) {
         id = null;
       } else if (id != null) {
         id = id.copy();
       }
-      return new AutoValue_AbstractChangeNotes_LoadHandle(requireNonNull(walk), id);
+      this.id = id;
     }
 
-    public static LoadHandle missing() {
-      return new AutoValue_AbstractChangeNotes_LoadHandle(null, null);
+    public ChangeNotesRevWalk walk() {
+      if (rw == null) {
+        rw = ChangeNotesCommit.newRevWalk(repo);
+      }
+      return rw;
     }
 
     @Nullable
-    public abstract ChangeNotesRevWalk walk();
-
-    @Nullable
-    public abstract ObjectId id();
+    public ObjectId id() {
+      return id;
+    }
 
     @Override
     public void close() {
-      if (walk() != null) {
-        walk().close();
+      if (rw != null) {
+        rw.close();
       }
     }
   }
@@ -166,7 +172,7 @@ public abstract class AbstractChangeNotes<T> {
   }
 
   protected LoadHandle openHandle(Repository repo, ObjectId id) {
-    return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), id);
+    return new LoadHandle(repo, id);
   }
 
   public T reload() throws OrmException {

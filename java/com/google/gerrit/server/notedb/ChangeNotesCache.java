@@ -42,6 +42,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Supplier;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -335,13 +336,13 @@ public class ChangeNotesCache {
 
   private class Loader implements Callable<ChangeNotesState> {
     private final Key key;
-    private final ChangeNotesRevWalk rw;
+    private final Supplier<ChangeNotesRevWalk> walkSupplier;
 
     private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
 
-    private Loader(Key key, ChangeNotesRevWalk rw) {
+    private Loader(Key key, Supplier<ChangeNotesRevWalk> walkSupplier) {
       this.key = key;
-      this.rw = rw;
+      this.walkSupplier = walkSupplier;
     }
 
     @Override
@@ -352,7 +353,7 @@ public class ChangeNotesCache {
           new ChangeNotesParser(
               key.changeId(),
               key.id(),
-              rw,
+              walkSupplier.get(),
               args.changeNoteJson,
               args.legacyChangeNoteRead,
               args.metrics);
@@ -373,11 +374,15 @@ public class ChangeNotesCache {
     this.args = args;
   }
 
-  Value get(Project.NameKey project, Change.Id changeId, ObjectId metaId, ChangeNotesRevWalk rw)
+  Value get(
+      Project.NameKey project,
+      Change.Id changeId,
+      ObjectId metaId,
+      Supplier<ChangeNotesRevWalk> walkSupplier)
       throws IOException {
     try {
       Key key = Key.create(project, changeId, metaId);
-      Loader loader = new Loader(key, rw);
+      Loader loader = new Loader(key, walkSupplier);
       ChangeNotesState s = cache.get(key, loader);
       return new AutoValue_ChangeNotesCache_Value(s, loader.revisionNoteMap);
     } catch (ExecutionException e) {

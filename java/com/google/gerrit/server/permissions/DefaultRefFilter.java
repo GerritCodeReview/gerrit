@@ -21,6 +21,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
@@ -59,7 +60,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -343,17 +343,17 @@ class DefaultRefFilter {
   private Map<Change.Id, Branch.NameKey> visibleChangesByScan(Repository repo)
       throws PermissionBackendException {
     Project.NameKey p = projectState.getNameKey();
-    Stream<ChangeNotesResult> s;
+    ImmutableList<ChangeNotesResult> changes;
     try {
-      s = changeNotesFactory.scan(repo, db.get(), p);
+      changes = changeNotesFactory.scan(repo, db.get(), p).collect(toImmutableList());
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(
           "Cannot load changes for project %s, assuming no changes are visible", p);
       return Collections.emptyMap();
     }
 
-    Map<Change.Id, Branch.NameKey> result = Maps.newHashMapWithExpectedSize((int) s.count());
-    for (ChangeNotesResult notesResult : s.collect(toImmutableList())) {
+    Map<Change.Id, Branch.NameKey> result = Maps.newHashMapWithExpectedSize(changes.size());
+    for (ChangeNotesResult notesResult : changes) {
       ChangeNotes notes = toNotes(notesResult);
       if (notes != null) {
         result.put(notes.getChangeId(), notes.getChange().getDest());

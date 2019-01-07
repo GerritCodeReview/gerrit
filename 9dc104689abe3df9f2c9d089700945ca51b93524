@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "05e8ab4b_36c7bd05",
+        "filename": "java/com/google/gerrit/index/query/InternalQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-07T17:47:21Z",
+      "side": 1,
+      "message": "Purely for my edification, I wanted to learn how to implement a Spliterator. So here\u0027s another way of writing it:\n\n    return StreamSupport.stream(\n            new AbstractSpliterator\u003cT\u003e(Long.MAX_VALUE, IMMUTABLE | NONNULL | ORDERED) {\n              private QueryResult\u003cT\u003e curr \u003d qr;\n              private Iterator\u003cT\u003e it \u003d curr.entities().iterator();\n              private int start \u003d 0;\n\n              @Override\n              public boolean tryAdvance(Consumer\u003c? super T\u003e action) {\n                if (it.hasNext()) {\n                  action.accept(it.next());\n                  return true;\n                }\n                if (!curr.more()) {\n                  return false;\n                }\n                start +\u003d curr.entities().size();\n                try {\n                  curr \u003d querySupplier.get().setStart(start).queryResults(predicate);\n                } catch (OrmException e) {\n                  throw new OrmRuntimeException(e);\n                }\n                it \u003d curr.entities().iterator();\n                return tryAdvance(action);\n              }\n            },\n            false)\n        .collect(toImmutableList());\n\n\nProbably not coincidentally, it turns out AbstractSpliterator is quite similar to AbstractIterator, so my previous comments about readability/performance still apply.",
+      "parentUuid": "e69f365f_d1b17cea",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 5
+      },
+      "revId": "9dc104689abe3df9f2c9d089700945ca51b93524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee0ea13f_779df764",
         "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
         "patchSetId": 2

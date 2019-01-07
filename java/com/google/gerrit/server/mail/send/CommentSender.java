@@ -38,7 +38,6 @@ import com.google.gerrit.server.mail.receive.Protocol;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
@@ -198,17 +197,6 @@ public class CommentSender extends ReplyToChangeSender {
    */
   private List<CommentSender.FileCommentGroup> getGroupedInlineComments(Repository repo) {
     List<CommentSender.FileCommentGroup> groups = new ArrayList<>();
-    // Get the patch list:
-    PatchList patchList = null;
-    if (repo != null) {
-      try {
-        patchList = getPatchList();
-      } catch (PatchListObjectTooLargeException e) {
-        logger.atWarning().log("Failed to get patch list: %s", e.getMessage());
-      } catch (PatchListNotAvailableException e) {
-        logger.atSevere().withCause(e).log("Failed to get patch list");
-      }
-    }
 
     // Loop over the comments and collect them into groups based on the file
     // location of the comment.
@@ -221,6 +209,14 @@ public class CommentSender extends ReplyToChangeSender {
         currentGroup = new FileCommentGroup();
         currentGroup.filename = c.key.filename;
         currentGroup.patchSetId = c.key.patchSetId;
+        // Get the patch list:
+        PatchList patchList = null;
+        try {
+          patchList = getPatchList(c.key.patchSetId);
+        } catch (PatchListNotAvailableException e) {
+          logger.atSevere().withCause(e).log("Failed to get patch list");
+        }
+
         groups.add(currentGroup);
         if (patchList != null) {
           try {

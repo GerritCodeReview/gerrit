@@ -284,6 +284,12 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
+  /** Get the patch list corresponding to patch set patchSetId of this change. */
+  protected PatchList getPatchList(int patchSetId) throws PatchListNotAvailableException {
+    PatchSet patchSet = new PatchSet(new PatchSet.Id(change.getId(), patchSetId));
+    return args.patchListCache.get(change, patchSet);
+  }
+
   /** Get the patch list corresponding to this patch set. */
   protected PatchList getPatchList() throws PatchListNotAvailableException {
     if (patchSet != null) {

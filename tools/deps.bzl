@@ -3,6 +3,7 @@ load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
 CAFFEINE_VERS = "2.9.2"
 ANTLR_VERS = "3.5.2"
+ASCIIDOCTOR_VERS = "2.5.4"
 COMMONMARK_VERS = "0.10.0"
 FLEXMARK_VERS = "0.50.50"
 GREENMAIL_VERS = "1.5.5"
@@ -669,8 +670,14 @@ def java_dependencies():
 
     maven_jar(
         name = "asciidoctor",
-        artifact = "org.asciidoctor:asciidoctorj:1.5.7",
-        sha1 = "8e8c1d8fc6144405700dd8df3b177f2801ac5987",
+        artifact = "org.asciidoctor:asciidoctorj:" + ASCIIDOCTOR_VERS,
+        sha1 = "c075878e58ab68a4c39977ee040619974c48a22a",
+    )
+
+    maven_jar(
+        name = "asciidoctor-api",
+        artifact = "org.asciidoctor:asciidoctorj-api:" + ASCIIDOCTOR_VERS,
+        sha1 = "8717057a8507be831cf50d48dc3458b0bf50e5b7",
     )
 
     maven_jar(

@@ -6,6 +6,7 @@ load("//tools/bzl:maven_jar.bzl", "GERRIT", "maven_jar")
 
 CAFFEINE_VERS = "2.9.2"
 ANTLR_VERS = "3.5.2"
+ASCIIDOCTOR_VERS = "2.5.13"
 COMMONMARK_VERSION = "0.21.0"
 GREENMAIL_VERS = "1.5.5"
 MAIL_VERS = "1.6.0"
@@ -487,8 +488,14 @@ def java_dependencies():
 
     maven_jar(
         name = "asciidoctor",
-        artifact = "org.asciidoctor:asciidoctorj:1.5.7",
-        sha1 = "8e8c1d8fc6144405700dd8df3b177f2801ac5987",
+        artifact = "org.asciidoctor:asciidoctorj:" + ASCIIDOCTOR_VERS,
+        sha1 = "03f9fba7ef863a251600e467d499f4e461fa63e6",
+    )
+
+    maven_jar(
+        name = "asciidoctor-api",
+        artifact = "org.asciidoctor:asciidoctorj-api:" + ASCIIDOCTOR_VERS,
+        sha1 = "632c5d609613fb5756cb65e6cfaa79343abae666",
     )
 
     maven_jar(

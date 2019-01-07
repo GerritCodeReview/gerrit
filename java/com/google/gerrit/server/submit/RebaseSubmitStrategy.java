@@ -137,8 +137,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         // RebaseAlways means we modify commit message.
         args.rw.parseBody(toMerge);
         newPatchSetId =
-            ChangeUtil.nextPatchSetIdFromChangeRefsMap(
-                ctx.getRepoView().getRefs(getId().toRefPrefix()),
+            ChangeUtil.nextPatchSetIdFromChangeRefs(
+                ctx.getRepoView().getRefs(getId().toRefPrefix()).keySet(),
                 toMerge.change().currentPatchSetId());
         RevCommit mergeTip = args.mergeTip.getCurrentTip();
         args.rw.parseBody(mergeTip);

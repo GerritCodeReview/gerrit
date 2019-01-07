@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e3a0673_f272d49a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-07T12:50:52Z",
+      "side": 1,
+      "message": "Can you move this entire comment into the function. It explains a bit more what the two selections are etc.",
+      "range": {
+        "startLine": 293,
+        "startChar": 9,
+        "endLine": 293,
+        "endChar": 64
+      },
+      "revId": "b47f1b6042a9dbcc0180ee75912fc43127fb486a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

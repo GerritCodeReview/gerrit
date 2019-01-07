@@ -364,7 +364,6 @@ public class GerritServer implements AutoCloseable {
     daemon.setAuditEventModuleForTesting(new FakeGroupAuditService.Module());
     daemon.setAdditionalSysModuleForTesting(testSysModule);
     daemon.setEnableSshd(desc.useSsh());
-    daemon.setSlave(isSlave(baseConfig));
 
     if (desc.memory()) {
       checkArgument(additionalArgs.length == 0, "cannot pass args to in-memory server");
@@ -381,6 +380,7 @@ public class GerritServer implements AutoCloseable {
       @Nullable InMemoryRepositoryManager inMemoryRepoManager)
       throws Exception {
     Config cfg = desc.buildConfig(baseConfig);
+    daemon.setSlave(isSlave(baseConfig) || cfg.getBoolean("container", "slave", false));
     mergeTestConfig(cfg);
     // Set the log4j configuration to an invalid one to prevent system logs
     // from getting configured and creating log files.

@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -26,6 +27,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
+import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -42,7 +44,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.lib.Constants;
+import org.kohsuke.args4j.Option;
 
 @Singleton
 public class ProjectsCollection
@@ -51,23 +55,27 @@ public class ProjectsCollection
 
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<ListProjects> list;
+  private final Provider<GerritApi> gApi;
   private final Provider<QueryProjects> queryProjects;
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
 
   private boolean hasQuery;
+  private boolean isDisplayActiveAndReadonlyQuery;
 
   @Inject
   public ProjectsCollection(
       DynamicMap<RestView<ProjectResource>> views,
       Provider<ListProjects> list,
+      Provider<GerritApi> gApi,
       Provider<QueryProjects> queryProjects,
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
       Provider<CurrentUser> user) {
     this.views = views;
     this.list = list;
+    this.gApi = gApi;
     this.queryProjects = queryProjects;
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
@@ -78,11 +86,62 @@ public class ProjectsCollection
   public void setParams(ListMultimap<String, String> params) throws BadRequestException {
     // The --query option is defined in QueryProjects
     this.hasQuery = params.containsKey("query");
+    List<String> queryParams = params.get("query");
+    this.isDisplayActiveAndReadonlyQuery =
+        queryParams.size() == 1
+            && queryParams.get(0).toLowerCase().trim().equals("state:active or state:read-only");
   }
 
   @Override
   public RestView<TopLevelResource> list() {
     if (hasQuery) {
+      // Temporary workaround for v2.16. Should be removed as soon as the Projects Lucene Index
+      // sorting is fixed
+      if (isDisplayActiveAndReadonlyQuery) {
+        return new RestReadView<TopLevelResource>() {
+          private int limit;
+          private int start;
+
+          @Option(
+              name = "--limit",
+              aliases = {"-n"},
+              metaVar = "CNT",
+              usage = "maximum number of projects to list")
+          public void setLimit(int limit) {
+            this.limit = limit;
+          }
+
+          @Option(
+              name = "--start",
+              aliases = {"-S"},
+              metaVar = "CNT",
+              usage = "number of projects to skip")
+          public void setStart(int start) {
+            this.start = start;
+          }
+
+          @SuppressWarnings("unused")
+          @Option(
+              name = "--query",
+              aliases = {"-q"},
+              usage = "project query")
+          public void setQuery(String query) {
+            // Explicitly ignored because this fix is for full listing only
+          }
+
+          @Override
+          public Object apply(TopLevelResource resource)
+              throws AuthException, BadRequestException, ResourceConflictException, Exception {
+            return gApi.get()
+                .projects()
+                .list()
+                .withDescription(true)
+                .withStart(start)
+                .withLimit(limit)
+                .get();
+          }
+        };
+      }
       return queryProjects.get();
     }
     return list.get().setFormat(OutputFormat.JSON);

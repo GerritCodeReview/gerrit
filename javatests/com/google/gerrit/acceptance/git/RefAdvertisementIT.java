@@ -338,7 +338,17 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void uploadPackNoSearchingChangeCacheImpl() throws Exception {
+  public void uploadPackNoSearchingChangeCacheImplMaster() throws Exception {
+    uploadPackNoSearchingChangeCacheImpl();
+  }
+
+  @Test
+  @GerritConfig(name = "container.slave", value = "true")
+  public void uploadPackNoSearchingChangeCacheImplSlave() throws Exception {
+    uploadPackNoSearchingChangeCacheImpl();
+  }
+
+  private void uploadPackNoSearchingChangeCacheImpl() throws Exception {
     allow("refs/heads/*", Permission.READ, REGISTERED_USERS);
 
     setApiUser(user);

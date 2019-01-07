@@ -51,13 +51,8 @@ public class TagMatcher {
     this.updated = updated;
   }
 
-  public boolean isReachable(Ref tagRef) {
-    try {
-      tagRef = db.getRefDatabase().peel(tagRef);
-    } catch (IOException e) {
-      // Ignore
-    }
-
+  public boolean isReachable(Ref tagRef) throws IOException {
+    tagRef = db.getRefDatabase().peel(tagRef);
     ObjectId tagObj = tagRef.getPeeledObjectId();
     if (tagObj == null) {
       tagObj = tagRef.getObjectId();

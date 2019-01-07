@@ -255,8 +255,12 @@ class DefaultRefFilter {
                           .values()
                       : result.values());
       for (Ref tag : deferredTags) {
-        if (tags.isReachable(tag)) {
-          result.put(tag.getName(), tag);
+        try {
+          if (tags.isReachable(tag)) {
+            result.put(tag.getName(), tag);
+          }
+        } catch (IOException e) {
+          throw new PermissionBackendException(e);
         }
       }
     }

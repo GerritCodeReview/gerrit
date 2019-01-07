@@ -34,7 +34,7 @@ import org.asciidoctor.AttributesBuilder;
 import org.asciidoctor.Options;
 import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.SafeMode;
-import org.asciidoctor.internal.JRubyAsciidoctor;
+import org.asciidoctor.jruby.internal.JRubyAsciidoctor;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;

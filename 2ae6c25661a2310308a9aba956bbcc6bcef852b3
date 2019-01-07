@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "418aed39_930eda7e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-07T23:40:51Z",
+      "side": 1,
+      "message": "Nit: this no longer makes sense because the content in the test is not misspelled in the new version.\n\nCan we make it so that the highlighted part is \"old uninteresting\"?  This will probably also make the tests below (see modified lines in this change below) easier to understand.",
+      "range": {
+        "startLine": 568,
+        "startChar": 46,
+        "endLine": 568,
+        "endChar": 61
+      },
+      "revId": "2ae6c25661a2310308a9aba956bbcc6bcef852b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

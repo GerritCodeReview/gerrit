@@ -94,6 +94,30 @@
       "revId": "9499658a524463900a1faca60ada75d45784cd4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11edbba7_67948eb5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-07T10:41:04Z",
+      "side": 1,
+      "message": "\u003e \u003e gApi.projects().list().get() is returning a List\u003cProjectInfo\u003e and its content is asserted with assertThatNameList, same as in this method on L66.\n\u003e \n\u003e Good catch, let me have a look in details. Possibly the fix can be a lot smaller then :-)\n\nI tried and indeed that test would work as well. However, it isn\u0027t enough to cover the project list functionality because the description isn\u0027t there.\nNot sure if it is worth to \"poison\" the GerritApi with this short-term fix and then risking to have people relying on it later on.\n\nThis commit is intended to be reverted on master (i.e. v3.0) when the Lucene index will be fixed on the projects.\n\nWhat do you think?",
+      "parentUuid": "58c31f73_a3a7fbd7",
+      "range": {
+        "startLine": 64,
+        "startChar": 32,
+        "endLine": 64,
+        "endChar": 50
+      },
+      "revId": "9499658a524463900a1faca60ada75d45784cd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

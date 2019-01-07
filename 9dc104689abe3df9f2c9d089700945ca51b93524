@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "e69f365f_d1b17cea",
+        "filename": "java/com/google/gerrit/index/query/InternalQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-07T17:21:22Z",
+      "side": 1,
+      "message": "I\u0027m not sure what implementing a Spliterator would look like, but I came up with this recipe based on Guava\u0027s AbstractIterator:\n\n    return Streams.stream(\n            new AbstractIterator\u003cT\u003e() {\n              private QueryResult\u003cT\u003e curr \u003d qr;\n              private Iterator\u003cT\u003e it \u003d qr.entities().iterator();\n              private int start \u003d 0;\n\n              @Override\n              protected T computeNext() {\n                if (it.hasNext()) {\n                  return it.next();\n                }\n                if (curr.more()) {\n                  start +\u003d qr.entities().size();\n                  try {\n                    curr \u003d querySupplier.get().setStart(start).queryResults(predicate);\n                  } catch (OrmException e) {\n                    throw new OrmRuntimeException(e);\n                  }\n                  it \u003d curr.entities().iterator();\n                } else {\n                  return endOfData();\n                }\n                return computeNext();\n              }\n            })\n        .collect(toImmutableList());\n\n\nI don\u0027t think it\u0027s much of a win. If QueryResult were streaming and we didn\u0027t want to materialize it, the runtime savings might be worth it. But given that we have .size() and .more(), the iterative approach has equivalent performance.",
+      "parentUuid": "b2f5e0a1_eae074c5",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 5
+      },
+      "revId": "9dc104689abe3df9f2c9d089700945ca51b93524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee0ea13f_779df764",
         "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
         "patchSetId": 2

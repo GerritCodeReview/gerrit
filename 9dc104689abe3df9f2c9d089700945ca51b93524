@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1546624475 -0800\nnonce AJbGYzlsoic71DFE1D+o+xfjKU3Kxj9uB3HyFYc135QmeLYYWvwI/MjSNq2uhbOszQXngtY+Qj27\n\n0000000000000000000000000000000000000000 3ee5f606a76fd648de6139c0ab560450d700dbe0 refs/for/master%r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlwvndsVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMgm8P/3Fsf9fNdBPfiJxTIpTI4/PngpWY\n0K0J1xNIBxHgmM1UTwrnwwAW8LN4Jq01GeolNv7otiBBHxZ1HAxmzZ9AVaqAl4oB\nQ4ilIpG/mmuOXLTGQLg1mdfhJEIzZDeYuwYm50/NgHZ+eJLmg1VbxojxNYjAT7VL\nKmirHdcxQRhjoGnbZ0oe2Nc5hrhZlz0MF40IH14dCGnI1HGiKDrR7QZPsVtKMrLr\nUSGO557gNDyBCBUCzvzpWU7QdJ9swVCHZMKYTRUWehMFwm2T2XSEfGlae73w/QuZ\nfxBhimcL20RnjtZvChDxj2GlsQhDJC8r6Mzo0GCoWCnAh2nUUTajtEz4Xi11Pxdb\nS6RurTIOySEsFTxx828OXHIDI/hfHDJfwy0XPrWeFmgASJXDwVch86p+Ei+HnWoD\nmquB1Q/X3+pcGbQf6x2O/2wj3zEAqdm37oYEvszH8lKmht9mWB2zeGpHy33Dihyf\nfgYRJ+7mXMnU3qQCKJoB50nszLTy3m0TKcy+PFgp3yoMLhoG1pVrV60fpsh3R6Eg\ngstQHVTul7anT2K/QlrH55XC1bwvJmsLKjjK4YsgbsyGE3oP0QdVz1rrUkUgqCWc\nr+/fk0ERVMfpeTBU6Qw/VMRqTG8YNxWohpG1BcJ6RmSFZ/zl2c9c7hRUoKVITRwQ\nH0KE1aZJzjRp7Js7\n\u003dDDGx\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2f5e0a1_eae074c5",
+        "filename": "java/com/google/gerrit/index/query/InternalQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-01-07T16:43:00Z",
+      "side": 1,
+      "message": "Would it make sense to implement this as a (simple) Spliterator?",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 5
+      },
+      "revId": "9dc104689abe3df9f2c9d089700945ca51b93524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee0ea13f_779df764",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-01-07T16:43:00Z",
+      "side": 1,
+      "message": "Please use the one from java.util.",
+      "range": {
+        "startLine": 25,
+        "startChar": 7,
+        "endLine": 25,
+        "endChar": 38
+      },
+      "revId": "9dc104689abe3df9f2c9d089700945ca51b93524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86b6eb6b_a3856304",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-01-07T16:43:00Z",
+      "side": 1,
+      "message": "Should we also override this method in InternalAccountQuery? Up to now, InternalAccountQuery overrides all \u0027builder\u0027 methods. Interestingly, InternalGroupQuery does none of that. If possibly, I would at least like to keep classes itself consistent (e.g. InternalAccountQuery overrides all \u0027builder\u0027 methods or none).",
+      "range": {
+        "startLine": 95,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 49
+      },
+      "revId": "9dc104689abe3df9f2c9d089700945ca51b93524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2526d800_34718c34",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-01-07T16:43:00Z",
+      "side": 1,
+      "message": "How the value for this variable is obtained looks a bit complicated. Is there any way to assign its value in a clearer way (e.g. without reassigning its value in between)?",
+      "range": {
+        "startLine": 606,
+        "startChar": 18,
+        "endLine": 606,
+        "endChar": 26
+      },
+      "revId": "9dc104689abe3df9f2c9d089700945ca51b93524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

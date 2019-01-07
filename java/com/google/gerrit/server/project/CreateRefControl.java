@@ -138,9 +138,15 @@ public class CreateRefControl {
       return;
     }
 
-    throw new AuthException(
+    AuthException e =
+        new AuthException(
+            String.format(
+                "%s for creating new commit object not permitted",
+                RefPermission.UPDATE.describeForException()));
+    e.setAdvice(
         String.format(
-            "%s for creating new commit object not permitted",
+            "use a SHA1 visible to you, or get %s permission on the ref",
             RefPermission.UPDATE.describeForException()));
+    throw e;
   }
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "841c86ac_5e0d8cb1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-07T09:48:41Z",
+      "side": 1,
+      "message": "I wonder if this is a problem if isImageDiff is changed after processor.process? Is it really process() that changes it, or is it just some async problem where the then causes it to be executed on the next microtask, and at that point it is set? Maybe it would also help to execute the full thing in a timeout and have it set before process is called?",
+      "range": {
+        "startLine": 150,
+        "startChar": 30,
+        "endLine": 150,
+        "endChar": 46
+      },
+      "revId": "1e1a104fefe92dd9bd70f53e0a5d424decd77639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76acd6f2_a2b3f081",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-07T09:48:41Z",
+      "side": 1,
+      "message": "I would have preferred to move the creation from the top to hear. You mentioned that broke something - can you elaborate? I wonder if we can do anything to make it more clear why _builder is needed by processor.process, given it\u0027s private.",
+      "revId": "1e1a104fefe92dd9bd70f53e0a5d424decd77639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

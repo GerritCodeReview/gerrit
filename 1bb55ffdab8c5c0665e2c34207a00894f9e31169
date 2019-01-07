@@ -46,6 +46,30 @@
       "revId": "1bb55ffdab8c5c0665e2c34207a00894f9e31169",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2447f3de_ca30ee8d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2502,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-07T06:53:55Z",
+      "side": 1,
+      "message": "\u003e The base patch set info was duplicated before; this change doesn\u0027t add any further duplication.\n\nBefore this change: base patch set number 1 was provided only once:\n\n* \"base_patch_set_number\":1\n\nAfter this change it\u0027s is included twice:\n\n* \"base_patch_set_number\":1\n* as part of the ref: \"refs/users/01/1000001/edit-76482/1\". The last number \"/1\" meant base patch set number 1.\n\nSo strictly speaking, we could drop \"base_patch_set_number\" attribute from the response and adapt client to extract the base patch set number form the ref (last number after \u0027/\u0027-char). E.g. refs/users/01/1000001/edit-76482/42 means base patch set number 42.",
+      "parentUuid": "d08670ff_bc962eeb",
+      "range": {
+        "startLine": 2500,
+        "startChar": 4,
+        "endLine": 2502,
+        "endChar": 46
+      },
+      "revId": "1bb55ffdab8c5c0665e2c34207a00894f9e31169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

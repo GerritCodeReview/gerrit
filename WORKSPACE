@@ -893,10 +893,18 @@ maven_jar(
     src_sha1 = "7153d7ca38878d971fd90992c303bb7719ba7a21",
 )
 
+ASCIIDOCTOR_VERS = "1.6.0"
+
 maven_jar(
     name = "asciidoctor",
-    artifact = "org.asciidoctor:asciidoctorj:1.5.7",
-    sha1 = "8e8c1d8fc6144405700dd8df3b177f2801ac5987",
+    artifact = "org.asciidoctor:asciidoctorj:" + ASCIIDOCTOR_VERS,
+    sha1 = "c44813dcbe30a832169640e0e8715c11b927ca39",
+)
+
+maven_jar(
+    name = "asciidoctor-api",
+    artifact = "org.asciidoctor:asciidoctorj-api:" + ASCIIDOCTOR_VERS,
+    sha1 = "d58be2f3d33ee8b978ece39b04f2b1546b53fece",
 )
 
 maven_jar(

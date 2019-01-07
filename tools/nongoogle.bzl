@@ -102,8 +102,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "jruby",
-        artifact = "org.jruby:jruby-complete:9.1.17.0",
-        sha1 = "76716d529710fc03d1d429b43e3cedd4419f78d4",
+        artifact = "org.jruby:jruby-complete:9.2.5.0",
+        sha1 = "c43308e2357eb906acc54405656f5abd820dd4af",
     )
 
     maven_jar(

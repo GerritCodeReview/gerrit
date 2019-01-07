@@ -22,6 +22,30 @@
       "revId": "9499658a524463900a1faca60ada75d45784cd4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d8f314f_91abd832",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-07T08:50:13Z",
+      "side": 1,
+      "message": "This isn’t testing the standard lisProjects but rather the setQueryProjectsOutputJsonFromat.\n\nWhen you apply that option, the output is a sorted list and not a sortedmap.",
+      "parentUuid": "7695ac91_871bab4c",
+      "range": {
+        "startLine": 64,
+        "startChar": 32,
+        "endLine": 64,
+        "endChar": 50
+      },
+      "revId": "9499658a524463900a1faca60ada75d45784cd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

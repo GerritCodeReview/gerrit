@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "40200844_ad9afe71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-07T10:20:00Z",
+      "side": 1,
+      "message": "The documentation even recommends: \"Keep lines no longer than 72 chars\"",
+      "parentUuid": "22243258_501ee9e5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 191
+      },
+      "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9d1a96ae_7176bed3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 2

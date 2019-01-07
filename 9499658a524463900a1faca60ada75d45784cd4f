@@ -142,6 +142,30 @@
       "revId": "9499658a524463900a1faca60ada75d45784cd4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f97062a_503a4d33",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-07T10:57:15Z",
+      "side": 1,
+      "message": "\u003e If the description has some side effect on the ordering of the project list (and if it does, why is that?), then it should also be the same via the API and should be tested.\n\nNope, the description should be returned in the list (the Query projects API) whilst in the Project list API is not. It isn\u0027t suitable for my temporary fix I believe.",
+      "parentUuid": "3dcf5d59_66716cb6",
+      "range": {
+        "startLine": 64,
+        "startChar": 32,
+        "endLine": 64,
+        "endChar": 50
+      },
+      "revId": "9499658a524463900a1faca60ada75d45784cd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

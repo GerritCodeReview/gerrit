@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "fd306e83_07735fb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1077398
+      },
+      "writtenOn": "2019-01-07T12:44:27Z",
+      "side": 1,
+      "message": "Only after a line. Double-clicking whitespace still selects that whitespace.",
+      "parentUuid": "35b96023_5ebca6e7",
+      "range": {
+        "startLine": 7,
+        "startChar": 48,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5099bc41_cbea752d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1077398
+      },
+      "writtenOn": "2019-01-07T12:44:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bcd38bd_afac0157",
+      "range": {
+        "startLine": 7,
+        "startChar": 60,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "22243258_501ee9e5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "e7a16c01_48f97e0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1077398
+      },
+      "writtenOn": "2019-01-07T12:44:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22243258_501ee9e5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 191
+      },
+      "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d1a96ae_7176bed3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 2
@@ -115,6 +187,30 @@
       "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65865d89_6ae13ea0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1077398
+      },
+      "writtenOn": "2019-01-07T12:44:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d1a96ae_7176bed3",
+      "range": {
+        "startLine": 68,
+        "startChar": 13,
+        "endLine": 68,
+        "endChar": 14
+      },
+      "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -141,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "62580627_e0d8ffae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1077398
+      },
+      "writtenOn": "2019-01-07T12:44:27Z",
+      "side": 1,
+      "message": "Yes, this selects the text of the line that was double-clicked. Added comment.",
+      "parentUuid": "8acb788d_d8cf8957",
+      "range": {
+        "startLine": 333,
+        "startChar": 22,
+        "endLine": 333,
+        "endChar": 33
+      },
+      "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f996b06_678dddd1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 2
@@ -152,6 +272,30 @@
       "writtenOn": "2019-01-07T09:43:09Z",
       "side": 1,
       "message": "Interesting. Does that mean if you track, then hold for 200ms to get around the debounce, that opens the comment overlay? Probably not a huge deal, but maybe also not intended...",
+      "range": {
+        "startLine": 308,
+        "startChar": 62,
+        "endLine": 308,
+        "endChar": 79
+      },
+      "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0fde7bc_81ed09df",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1077398
+      },
+      "writtenOn": "2019-01-07T12:44:27Z",
+      "side": 1,
+      "message": "Yes, I had that happen accidentally when just dragging from whitespace down across an empty line. Most disturbing.",
+      "parentUuid": "6f996b06_678dddd1",
       "range": {
         "startLine": 308,
         "startChar": 62,
@@ -184,6 +328,30 @@
       "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d57eaa4e_ecfc123a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1077398
+      },
+      "writtenOn": "2019-01-07T12:44:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "408c742b_9859ba96",
+      "range": {
+        "startLine": 309,
+        "startChar": 6,
+        "endLine": 311,
+        "endChar": 34
+      },
+      "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

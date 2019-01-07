@@ -995,8 +995,8 @@ maven_jar(
 
 maven_jar(
     name = "asciidoctor",
-    artifact = "org.asciidoctor:asciidoctorj:1.5.7",
-    sha1 = "8e8c1d8fc6144405700dd8df3b177f2801ac5987",
+    artifact = "org.asciidoctor:asciidoctorj:1.5.8.1",
+    sha1 = "2998fb617a536f01658740c6e6f54928626e7c3b",
 )
 
 maven_jar(

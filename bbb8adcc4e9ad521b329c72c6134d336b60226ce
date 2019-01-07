@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35b96023_5ebca6e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-07T09:43:09Z",
+      "side": 1,
+      "message": "Is it only after the line, or on any whitespace, such as the indentation in front?",
+      "range": {
+        "startLine": 7,
+        "startChar": 48,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bcd38bd_afac0157",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-07T09:43:09Z",
+      "side": 1,
+      "message": "Drop dot.\nThe official guidelines[1] do not say so, but let\u0027s do it until I figured out if it\u0027s actually important - the former team was quite adamant about it.\n\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#commit-message",
+      "range": {
+        "startLine": 7,
+        "startChar": 60,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22243258_501ee9e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-07T09:43:09Z",
+      "side": 1,
+      "message": "Split to 80 chars (or configure you editor to do that for you).\nThe official guidelines[1] do not say so, but let\u0027s do it until I figured out if it\u0027s actually important - the former team was quite adamant about it.\n\nSame below.\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#commit-message",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 191
+      },
+      "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d1a96ae_7176bed3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-07T09:43:09Z",
+      "side": 1,
+      "message": "Missing type {boolean}.\n\nFor context: The type checking is mostly turned off (WHITESPACE_ONLY, in combination with a funky template checker called fried twinkies), but let\u0027s at least make an effort to keep this consistent and correct, because the day will come (and hopefully soon) where we want to turn the checking on...",
+      "range": {
+        "startLine": 68,
+        "startChar": 13,
+        "endLine": 68,
+        "endChar": 14
+      },
+      "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8acb788d_d8cf8957",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-07T09:43:09Z",
+      "side": 1,
+      "message": "Not end.line? \nI always get confused with these inclusive/exclusive 0-/1-based numbers, because they work different in Critique. Just leaving this comment for you to double check.",
+      "range": {
+        "startLine": 333,
+        "startChar": 22,
+        "endLine": 333,
+        "endChar": 33
+      },
+      "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f996b06_678dddd1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-07T09:43:09Z",
+      "side": 1,
+      "message": "Interesting. Does that mean if you track, then hold for 200ms to get around the debounce, that opens the comment overlay? Probably not a huge deal, but maybe also not intended...",
+      "range": {
+        "startLine": 308,
+        "startChar": 62,
+        "endLine": 308,
+        "endChar": 79
+      },
+      "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "408c742b_9859ba96",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-07T09:43:09Z",
+      "side": 1,
+      "message": "Probably worth putting into a method of it\u0027s own, so that it has the comment about native shadow DOM close to this cryptic code...",
+      "range": {
+        "startLine": 309,
+        "startChar": 6,
+        "endLine": 311,
+        "endChar": 34
+      },
+      "revId": "bbb8adcc4e9ad521b329c72c6134d336b60226ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

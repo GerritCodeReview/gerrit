@@ -1042,16 +1042,24 @@ maven_jar(
     sha1 = "83b5b8a7ba1c08f9e8c8ff2373724e33d3c1e22a",
 )
 
+ASCIIDOCTOR_VERS = "1.6.0"
+
 maven_jar(
     name = "asciidoctor",
-    artifact = "org.asciidoctor:asciidoctorj:1.5.7",
-    sha1 = "8e8c1d8fc6144405700dd8df3b177f2801ac5987",
+    artifact = "org.asciidoctor:asciidoctorj:" + ASCIIDOCTOR_VERS,
+    sha1 = "c44813dcbe30a832169640e0e8715c11b927ca39",
+)
+
+maven_jar(
+    name = "asciidoctor-api",
+    artifact = "org.asciidoctor:asciidoctorj-api:" + ASCIIDOCTOR_VERS,
+    sha1 = "d58be2f3d33ee8b978ece39b04f2b1546b53fece",
 )
 
 maven_jar(
     name = "jruby",
-    artifact = "org.jruby:jruby-complete:9.1.17.0",
-    sha1 = "76716d529710fc03d1d429b43e3cedd4419f78d4",
+    artifact = "org.jruby:jruby-complete:9.2.5.0",
+    sha1 = "c43308e2357eb906acc54405656f5abd820dd4af",
 )
 
 # When upgrading elasticsearch-rest-client, also upgrade http-niocore

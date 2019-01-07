@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25590a59_42f9e93b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-07T13:35:57Z",
+      "side": 1,
+      "message": "This part is not very clear to me - both the change you reference (I16b303e6e) and this change only change the query for \"Assigned reviews\" - why does that affect the CC\u0027ed section?",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "55963e67e2ebf3fdffff13f19b86dfa4d9d36767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "925a7339_14febf3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-07T13:35:57Z",
+      "side": 1,
+      "message": "The commit message of I16b303e6e explicitly calls out WIP changes showing up in \"Assigned reviews\", so maybe it is intended after all? Maybe the correct fix is to instead update the WIP tooltip to say \"will not appear in dashboards unless for assigned users\"?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "55963e67e2ebf3fdffff13f19b86dfa4d9d36767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -348,7 +348,7 @@ public abstract class PermissionBackend {
      */
     public Map<String, Ref> filter(List<Ref> refs, Repository repo, RefFilterOptions opts)
         throws PermissionBackendException {
-      return filter(refs.stream().collect(toMap(Ref::getName, r -> r)), repo, opts);
+      return filter(refs.stream().collect(toMap(Ref::getName, r -> r, (a, b) -> b)), repo, opts);
     }
   }
 

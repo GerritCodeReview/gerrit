@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "224dd087_de687b7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-07T08:05:07Z",
+      "side": 1,
+      "message": "Hmm, as its name says GitPerson is about git data, but account ID is Gerrit data. Hence it doesn\u0027t seem to belong into GitPerson?",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 11,
+        "endChar": 68
+      },
+      "revId": "5f47eae941aaf492808fdd2446200f9ae630b3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5e83bd8_52fae10a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 6461,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-07T08:05:07Z",
+      "side": 1,
+      "message": "Can you add a new column to mark optional fields like we do it in all other places where optional fields can appear?",
+      "range": {
+        "startLine": 6460,
+        "startChar": 0,
+        "endLine": 6461,
+        "endChar": 26
+      },
+      "revId": "5f47eae941aaf492808fdd2446200f9ae630b3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

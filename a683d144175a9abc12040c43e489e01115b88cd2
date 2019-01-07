@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b9c683e1_4fd2db7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-07T07:34:44Z",
+      "side": 1,
+      "message": "Is this the same as issue 4278?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "a683d144175a9abc12040c43e489e01115b88cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "25e90367_367dd53e",
         "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
         "patchSetId": 1
@@ -36,6 +59,54 @@
       "writtenOn": "2019-01-07T07:31:45Z",
       "side": 1,
       "message": "Is it ok to use the same name as a field, or should I rename it ps?",
+      "range": {
+        "startLine": 289,
+        "startChar": 13,
+        "endLine": 289,
+        "endChar": 22
+      },
+      "revId": "a683d144175a9abc12040c43e489e01115b88cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ca6c74d_bb25213d",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-07T07:34:44Z",
+      "side": 1,
+      "message": "Try using PatchSetUtil.get",
+      "parentUuid": "25e90367_367dd53e",
+      "range": {
+        "startLine": 289,
+        "startChar": 24,
+        "endLine": 289,
+        "endChar": 82
+      },
+      "revId": "a683d144175a9abc12040c43e489e01115b88cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bb3d0a3_1fb8c9cd",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-07T07:34:44Z",
+      "side": 1,
+      "message": "I think Eclipse will warn about name hiding, although I\u0027m not sure if we have that enabled.",
+      "parentUuid": "96976fd0_9f874ee9",
       "range": {
         "startLine": 289,
         "startChar": 13,

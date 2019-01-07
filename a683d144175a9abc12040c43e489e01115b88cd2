@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "27dda07f_91f2a1fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-07T08:26:38Z",
+      "side": 1,
+      "message": "OK, please add it in the commit message with the Bug: footer.",
+      "parentUuid": "4ffe0657_23257ca7",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "a683d144175a9abc12040c43e489e01115b88cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "25e90367_367dd53e",
         "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
         "patchSetId": 1

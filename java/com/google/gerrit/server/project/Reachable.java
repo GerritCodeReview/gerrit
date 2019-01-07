@@ -14,10 +14,9 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
@@ -25,11 +24,10 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -50,8 +48,7 @@ public class Reachable {
   }
 
   /** @return true if a commit is reachable from a given set of refs. */
-  public boolean fromRefs(
-      Project.NameKey project, Repository repo, RevCommit commit, Map<String, Ref> refs) {
+  public boolean fromRefs(NameKey project, Repository repo, RevCommit commit, List<Ref> refs) {
     try (RevWalk rw = new RevWalk(repo)) {
       Map<String, Ref> filtered =
           permissionBackend
@@ -69,13 +66,7 @@ public class Reachable {
   /** @return true if a commit is reachable from a repo's branches and tags. */
   boolean fromHeadsOrTags(Project.NameKey project, Repository repo, RevCommit commit) {
     try {
-      RefDatabase refdb = repo.getRefDatabase();
-      Collection<Ref> heads = refdb.getRefsByPrefix(Constants.R_HEADS);
-      Collection<Ref> tags = refdb.getRefsByPrefix(Constants.R_TAGS);
-      Map<String, Ref> refs = Maps.newHashMapWithExpectedSize(heads.size() + tags.size());
-      for (Ref r : Iterables.concat(heads, tags)) {
-        refs.put(r.getName(), r);
-      }
+      List<Ref> refs = repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS, Constants.R_TAGS);
       return fromRefs(project, repo, commit, refs);
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(

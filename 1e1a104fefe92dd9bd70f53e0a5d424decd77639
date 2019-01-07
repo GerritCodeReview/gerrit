@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "efe7290a_6a297da4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1077398
+      },
+      "writtenOn": "2019-01-07T13:55:59Z",
+      "side": 1,
+      "message": "I tried putting the then() part in a timeout instead of moving the builder creation, it broke in Angular in the same way as before this fix ($jscomp$this._builder.renderDiff is not a function)",
+      "parentUuid": "841c86ac_5e0d8cb1",
+      "range": {
+        "startLine": 150,
+        "startChar": 30,
+        "endLine": 150,
+        "endChar": 46
+      },
+      "revId": "1e1a104fefe92dd9bd70f53e0a5d424decd77639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76acd6f2_a2b3f081",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2019-01-07T09:48:41Z",
       "side": 1,
       "message": "I would have preferred to move the creation from the top to hear. You mentioned that broke something - can you elaborate? I wonder if we can do anything to make it more clear why _builder is needed by processor.process, given it\u0027s private.",
+      "revId": "1e1a104fefe92dd9bd70f53e0a5d424decd77639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5643e29_cc670a18",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1077398
+      },
+      "writtenOn": "2019-01-07T13:55:59Z",
+      "side": 1,
+      "message": "I tried moving it, but it broke like this:\n\nTypeError: Cannot read property \u0027groups\u0027 of undefined\n    at HTMLElement._groupsChanged (gr-diff-builder.html:324)\n    at HTMLElement._complexObserverEffect (polymer.html:1626)\n    at HTMLElement._complexObserverPathEffect (polymer.html:2238)\n    at HTMLElement._pathEffector (polymer.html:2217)\n    at HTMLElement._notifyPath (polymer.html:2118)\n    at HTMLElement.\u003canonymous\u003e (polymer.html:1560)\n    at HTMLElement._notifyListener (polymer.html:2086)\n    at HTMLElement.\u003canonymous\u003e (polymer.html:1588)\n    at HTMLElement.fire (polymer.html:1297)\n    at HTMLElement._notifyPathUp (polymer.html:2278)\n\nWith Angular, it seems _builder is not used by processor.process, but this.isImageDiff changes, and so _builder is wrong at this point.",
+      "parentUuid": "76acd6f2_a2b3f081",
       "revId": "1e1a104fefe92dd9bd70f53e0a5d424decd77639",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

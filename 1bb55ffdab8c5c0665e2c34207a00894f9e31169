@@ -22,6 +22,30 @@
       "revId": "1bb55ffdab8c5c0665e2c34207a00894f9e31169",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d08670ff_bc962eeb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2502,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-07T06:44:33Z",
+      "side": 1,
+      "message": "The base patch set info was duplicated before; this change doesn\u0027t add any further duplication.\n\nUnless you meant the edit ref is duplicated?  It is, but only if the edit info is requested by REST and the download_commands option is given.  Then the ref is included as part of each download command.  However that information is not returned in the info when using the java API because there\u0027s no way to set the option.",
+      "parentUuid": "c21c1536_ec0ede3a",
+      "range": {
+        "startLine": 2500,
+        "startChar": 4,
+        "endLine": 2502,
+        "endChar": 46
+      },
+      "revId": "1bb55ffdab8c5c0665e2c34207a00894f9e31169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

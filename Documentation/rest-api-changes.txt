@@ -2497,6 +2497,7 @@ provided fetch info map is also included.
        "subject":"Use an EventBus to manage star icons",
        "message":"Use an EventBus to manage star icons\n\nImage widgets that need to ..."
     },
+    "base_patch_set_number":1,
     "base_revision":"c35558e0925e6985c91f3a16921537d5e572b7a3"
   }
 ----
@@ -4731,6 +4732,7 @@ resulting change edit is returned.
          "subject":"Implement feature X",
          "message":"Implement feature X\n\nWith this feature ..."
       },
+      "base_patch_set_number":1,
       "base_revision":"674ac754f91e64a0efb8087e59a176484bd534d1"
     }
 ----
@@ -6175,15 +6177,16 @@ The `EditInfo` entity contains information about a change edit.
 
 [options="header",cols="1,^1,5"]
 |===========================
-|Field Name     ||Description
-|`commit`       ||The commit of change edit as
+|Field Name             ||Description
+|`commit`               ||The commit of change edit as
 link:#commit-info[CommitInfo] entity.
-|`base_revision`||The revision of the patch set the change edit is based on.
-|`fetch`        |optional|
+|`base_patch_set_number`||The patch set number of the patch set the change edit is based on.
+|`base_revision`        ||The revision of the patch set the change edit is based on.
+|`fetch`                |optional|
 Information about how to fetch this patch set. The fetch information is
 provided as a map that maps the protocol name ("`git`", "`http`",
 "`ssh`") to link:#fetch-info[FetchInfo] entities.
-|`files`        |optional|
+|`files`                |optional|
 The files of the change edit as a map that maps the file names to
 link:#file-info[FileInfo] entities.
 |===========================

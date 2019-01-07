@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "55f7bd68_2b0ff2b4",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-07T19:34:49Z",
+      "side": 1,
+      "message": "JGit\u0027s javadocs try to be clear about where they\u0027re expecting mutability. Where it\u0027s unclear, feel free to file a bug or poke me in some other way.",
+      "parentUuid": "102b0721_cdd96fd4",
+      "revId": "72458dca53e0b8546d18daedbb15d91f43bfada3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c0936015_7dc932fc",
         "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
         "patchSetId": 2

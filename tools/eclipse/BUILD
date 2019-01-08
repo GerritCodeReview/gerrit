@@ -1,5 +1,5 @@
-load("//tools/bzl:pkg_war.bzl", "LIBS", "PGMLIBS")
 load("//tools/bzl:classpath.bzl", "classpath_collector")
+load("//tools/bzl:pkg_war.bzl", "LIBS", "PGMLIBS")
 load(
     "//tools/bzl:plugins.bzl",
     "CORE_PLUGINS",

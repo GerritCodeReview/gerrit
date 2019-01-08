@@ -186,7 +186,7 @@ def _js_component(ctx):
         "zip -Xqr ../%s *" % ctx.outputs.zip.basename,
     ])
 
-    ctx.action(
+    ctx.actions.run_shell(
         inputs = ctx.files.srcs,
         outputs = [ctx.outputs.zip],
         command = cmd,
@@ -256,8 +256,8 @@ def _bower_component_bundle_impl(ctx):
     out_zip = ctx.outputs.zip
     out_versions = ctx.outputs.version_json
 
-    ctx.action(
-        inputs = list(zips),
+    ctx.actions.run_shell(
+        inputs = zips.to_list(),
         outputs = [out_zip],
         command = " && ".join([
             "p=$PWD",
@@ -266,7 +266,7 @@ def _bower_component_bundle_impl(ctx):
             "rm -rf %s.dir" % out_zip.path,
             "mkdir -p %s.dir/bower_components" % out_zip.path,
             "cd %s.dir/bower_components" % out_zip.path,
-            "for z in %s; do unzip -q $p/$z ; done" % " ".join(sorted([z.path for z in zips])),
+            "for z in %s; do unzip -q $p/$z ; done" % " ".join(sorted([z.path for z in zips.to_list()])),
             "cd ..",
             "find . -exec touch -t 198001010000 '{}' ';'",
             "zip -Xqr $p/%s bower_components/*" % out_zip.path,
@@ -274,11 +274,11 @@ def _bower_component_bundle_impl(ctx):
         mnemonic = "BowerCombine",
     )
 
-    ctx.action(
-        inputs = list(versions),
+    ctx.actions.run_shell(
+        inputs = versions.to_list(),
         outputs = [out_versions],
         mnemonic = "BowerVersions",
-        command = "(echo '{' ; for j in  %s ; do cat $j; echo ',' ; done ; echo \\\"\\\":\\\"\\\"; echo '}') > %s" % (" ".join([v.path for v in versions]), out_versions.path),
+        command = "(echo '{' ; for j in  %s ; do cat $j; echo ',' ; done ; echo \\\"\\\":\\\"\\\"; echo '}') > %s" % (" ".join([v.path for v in versions.to_list()]), out_versions.path),
     )
 
     return struct(
@@ -351,7 +351,7 @@ def _vulcanize_impl(ctx):
         use_default_shell_env = True,
         execution_requirements = {"local": "1"},
     )
-    ctx.action(
+    ctx.actions.run_shell(
         mnemonic = "Vulcanize",
         inputs = [
             ctx.file._run_npm,
@@ -376,7 +376,7 @@ def _vulcanize_impl(ctx):
         ctx.outputs.js.path,
     ])
 
-    ctx.action(
+    ctx.actions.run_shell(
         mnemonic = "Crisper",
         inputs = [
             ctx.file._run_npm,
@@ -426,4 +426,4 @@ _vulcanize_rule = rule(
 
 def vulcanize(*args, **kwargs):
     """Vulcanize runs vulcanize and crisper on a set of sources."""
-    _vulcanize_rule(*args, pkg = native.package_name(), **kwargs)
+    _vulcanize_rule(pkg = native.package_name(), *args, **kwargs)

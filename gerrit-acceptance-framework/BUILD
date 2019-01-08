@@ -1,4 +1,5 @@
 load("//tools/bzl:java.bzl", "java_library2")
+load("//tools/bzl:javadoc.bzl", "java_doc")
 
 SRCS = glob(["src/test/java/com/google/gerrit/acceptance/*.java"])
 
@@ -64,8 +65,6 @@ java_library2(
         "//lib/mail:mail",
     ],
 )
-
-load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_doc(
     name = "acceptance-framework-javadoc",

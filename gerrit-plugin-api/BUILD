@@ -1,3 +1,5 @@
+load("//tools/bzl:javadoc.bzl", "java_doc")
+
 SRCS = [
     "gerrit-server/src/main/java/",
     "gerrit-httpd/src/main/java/",
@@ -90,8 +92,6 @@ java_binary(
         "//gerrit-sshd:libsshd-src.jar",
     ],
 )
-
-load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_doc(
     name = "plugin-api-javadoc",

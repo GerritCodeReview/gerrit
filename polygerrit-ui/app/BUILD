@@ -1,14 +1,12 @@
-package(default_visibility = ["//visibility:public"])
-
-load("//tools/bzl:genrule2.bzl", "genrule2")
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library")
+load("//tools/bzl:genrule2.bzl", "genrule2")
 load(
     "//tools/bzl:js.bzl",
-    "bower_component",
     "bower_component_bundle",
-    "js_component",
     "vulcanize",
 )
+
+package(default_visibility = ["//visibility:public"])
 
 vulcanize(
     name = "gr-app",

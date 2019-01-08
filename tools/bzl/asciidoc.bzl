@@ -46,7 +46,7 @@ def _replace_macros_impl(ctx):
         cmd.append("--searchbox")
     else:
         cmd.append("--no-searchbox")
-    ctx.action(
+    ctx.actions.run_shell(
         inputs = [ctx.file._exe, ctx.file.src],
         outputs = [ctx.outputs.out],
         command = cmd,
@@ -114,7 +114,7 @@ def _asciidoc_impl(ctx):
         ".html",
     ]
     args.extend(_generate_asciidoc_args(ctx))
-    ctx.action(
+    ctx.actions.run(
         inputs = ctx.files.srcs + [ctx.executable._exe, ctx.file.version],
         outputs = ctx.outputs.outs,
         executable = ctx.executable._exe,
@@ -221,7 +221,7 @@ def _asciidoc_html_zip_impl(ctx):
         ".html",
     ]
     args.extend(_generate_asciidoc_args(ctx))
-    ctx.action(
+    ctx.actions.run(
         inputs = ctx.files.srcs + [ctx.executable._exe, ctx.file.version],
         outputs = [ctx.outputs.out],
         executable = ctx.executable._exe,
@@ -279,7 +279,7 @@ def _asciidoc_zip_impl(ctx):
         "cd %s" % tmpdir,
         "zip -qr $p/%s *" % ctx.outputs.out.path,
     ])
-    ctx.action(
+    ctx.actions.run_shell(
         inputs = [ctx.file.src] + ctx.files.resources,
         outputs = [ctx.outputs.out],
         command = " && ".join(cmd),

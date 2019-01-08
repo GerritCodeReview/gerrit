@@ -23,6 +23,8 @@ Bazel must be installed as described by
 . Search for the plugin `IntelliJ with Bazel`.
 . Install it.
 . Restart IntelliJ.
+. Go to Preferences -> Other Settings -> Bazel Settings.
+. Set the Bazel binary location.
 
 == Creation of IntelliJ project
 

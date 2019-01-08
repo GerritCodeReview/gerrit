@@ -789,21 +789,6 @@ public abstract class AbstractDaemonTest {
     return atrScope.get();
   }
 
-  @Deprecated // Tests should inject and use their own RequestScopeOperations.
-  protected Context resetCurrentApiUser() {
-    return requestScopeOperations.resetCurrentApiUser();
-  }
-
-  @Deprecated // Tests should inject and use their own RequestScopeOperations.
-  protected Context setApiUser(TestAccount account) {
-    return requestScopeOperations.setApiUser(account.getId());
-  }
-
-  @Deprecated // Tests should inject and use their own RequestScopeOperations.
-  protected Context setApiUserAnonymous() {
-    return requestScopeOperations.setApiUserAnonymous();
-  }
-
   protected Account getAccount(Account.Id accountId) {
     return getAccountState(accountId).getAccount();
   }

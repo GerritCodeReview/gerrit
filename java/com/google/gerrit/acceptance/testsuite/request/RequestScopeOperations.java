@@ -14,8 +14,6 @@
 
 package com.google.gerrit.acceptance.testsuite.request;
 
-import static java.util.Objects.requireNonNull;
-
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.reviewdb.client.Account;
@@ -29,7 +27,10 @@ public interface RequestScopeOperations {
   /**
    * Sets the Guice request scope to the given account.
    *
-   * <p>The resulting scope has no SSH session attached.
+   * <p>The resulting context has an SSH session attached. In order to use the SSH session returned
+   * by {@link AcceptanceTestRequestScope.Context#getSession()}, SSH must be enabled in the test and
+   * the account must have a username set. However, these are not requirements simply to call this
+   * method.
    *
    * @param accountId account ID. Must exist; throws an unchecked exception otherwise.
    * @return the previous request scope.
@@ -39,12 +40,32 @@ public interface RequestScopeOperations {
   /**
    * Sets the Guice request scope to the given account.
    *
-   * <p>The resulting scope has no SSH session attached.
+   * <p>The resulting context has an SSH session attached. In order to use the SSH session returned
+   * by {@link AcceptanceTestRequestScope.Context#getSession()}, SSH must be enabled in the test and
+   * the account must have a username set. However, these are not requirements simply to call this
+   * method.
    *
    * @param testAccount test account from {@code AccountOperations}.
    * @return the previous request scope.
    */
-  default AcceptanceTestRequestScope.Context setApiUser(TestAccount testAccount) {
-    return setApiUser(requireNonNull(testAccount).accountId());
-  }
+  AcceptanceTestRequestScope.Context setApiUser(TestAccount testAccount);
+
+  /**
+   * Enforces a new request context for the current API user.
+   *
+   * <p>This recreates the {@code IdentifiedUser}, hence everything which is cached in the {@code
+   * IdentifiedUser} is reloaded (e.g. the email addresses of the user).
+   *
+   * <p>The current user must be an identified user.
+   *
+   * @return the previous request scope.
+   */
+  AcceptanceTestRequestScope.Context resetCurrentApiUser();
+
+  /**
+   * Sets the Guice request scope to the anonymous user.
+   *
+   * @return the previous request scope.
+   */
+  AcceptanceTestRequestScope.Context setApiUserAnonymous();
 }

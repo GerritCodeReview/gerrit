@@ -24,6 +24,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -54,9 +55,9 @@ public class ActionsIT extends AbstractDaemonTest {
     return submitWholeTopicEnabledConfig();
   }
 
-  @Inject private RevisionJson.Factory revisionJsonFactory;
-
   @Inject private DynamicSet<ActionVisitor> actionVisitors;
+  @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private RevisionJson.Factory revisionJsonFactory;
 
   private RegistrationHandle visitorHandle;
 
@@ -156,25 +157,25 @@ public class ActionsIT extends AbstractDaemonTest {
     String change = createChangeWithTopic().getChangeId();
     approve(change);
 
-    setApiUserAnonymous();
+    requestScopeOperations.setApiUserAnonymous();
     String etag1 = getETag(change);
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     approve(parent);
 
-    setApiUserAnonymous();
+    requestScopeOperations.setApiUserAnonymous();
     String etag2 = getETag(change);
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     String changeWithSameTopic = createChangeWithTopic().getChangeId();
 
-    setApiUserAnonymous();
+    requestScopeOperations.setApiUserAnonymous();
     String etag3 = getETag(change);
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     approve(changeWithSameTopic);
 
-    setApiUserAnonymous();
+    requestScopeOperations.setApiUserAnonymous();
     String etag4 = getETag(change);
 
     if (isSubmitWholeTopicEnabled()) {
@@ -193,13 +194,13 @@ public class ActionsIT extends AbstractDaemonTest {
     String change = createChange().getChangeId();
     approve(change);
 
-    setApiUserAnonymous();
+    requestScopeOperations.setApiUserAnonymous();
     String etag1 = getETag(change);
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     approve(parent);
 
-    setApiUserAnonymous();
+    requestScopeOperations.setApiUserAnonymous();
     String etag2 = getETag(change);
     assertThat(etag2).isEqualTo(etag1);
   }

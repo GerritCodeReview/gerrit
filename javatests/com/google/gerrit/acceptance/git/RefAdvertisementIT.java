@@ -30,6 +30,7 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -75,9 +76,10 @@ import org.junit.Test;
 
 @NoHttpd
 public class RefAdvertisementIT extends AbstractDaemonTest {
-  @Inject private PermissionBackend permissionBackend;
-  @Inject private ChangeNoteUtil noteUtil;
   @Inject private AllUsersName allUsersName;
+  @Inject private ChangeNoteUtil noteUtil;
+  @Inject private PermissionBackend permissionBackend;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   private AccountGroup.UUID admins;
   private AccountGroup.UUID nonInteractiveUsers;
@@ -188,7 +190,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       u.save();
     }
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertUploadPackRefs(
         "HEAD",
         psRef1,
@@ -232,7 +234,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
     deny("refs/heads/branch", Permission.READ, REGISTERED_USERS);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertUploadPackRefs(
         "HEAD", psRef1, metaRef1, psRef3, metaRef3, "refs/heads/master", "refs/tags/master-tag");
   }
@@ -242,7 +244,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     deny("refs/heads/master", Permission.READ, REGISTERED_USERS);
     allow("refs/heads/branch", Permission.READ, REGISTERED_USERS);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertUploadPackRefs(
         psRef2,
         metaRef2,
@@ -260,11 +262,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
 
     // Admin's edit is not visible.
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(cd3.getId().get()).edit().create();
 
     // User's edit is visible.
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(cd3.getId().get()).edit().create();
 
     assertUploadPackRefs(
@@ -285,14 +287,14 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allow("refs/*", Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS);
 
     // Admin's edit on change3 is visible.
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(cd3.getId().get()).edit().create();
 
     // Admin's edit on change4 is not visible since user cannot see the change.
     gApi.changes().id(cd4.getId().get()).edit().create();
 
     // User's edit is visible.
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(cd3.getId().get()).edit().create();
 
     assertUploadPackRefs(
@@ -314,9 +316,9 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     deny("refs/heads/master", Permission.READ, REGISTERED_USERS);
     allow("refs/heads/branch", Permission.READ, REGISTERED_USERS);
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(cd3.getId().get()).edit().create();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
 
     assertUploadPackRefs(
         // Change 1 is visible due to accessDatabase capability, even though
@@ -351,7 +353,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   private void uploadPackNoSearchingChangeCacheImpl() throws Exception {
     allow("refs/heads/*", Permission.READ, REGISTERED_USERS);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     try (Repository repo = repoManager.openRepository(project)) {
       assertRefs(
           repo,
@@ -391,7 +393,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     gApi.changes().id(cd4.getId().id).delete();
     gApi.projects().name(project.get()).branch("refs/heads/branch").delete();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertUploadPackRefs(
         "HEAD",
         "refs/meta/config",
@@ -425,7 +427,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void receivePackRespectsVisibilityOfOpenChanges() throws Exception {
     allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
     deny("refs/heads/branch", Permission.READ, REGISTERED_USERS);
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
 
     assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(cd3, 1));
   }
@@ -618,7 +620,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allow(project, "refs/*", Permission.READ, REGISTERED_USERS);
     allow(allUsersName, "refs/*", Permission.READ, REGISTERED_USERS);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     DraftInput draftInput = new DraftInput();
     draftInput.line = 1;
     draftInput.message = "nit: trailing whitespace";
@@ -638,7 +640,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allow(project, "refs/*", Permission.READ, REGISTERED_USERS);
     allow(allUsersName, "refs/*", Permission.READ, REGISTERED_USERS);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.accounts().self().starChange(cd3.getId().toString());
     String starredChangesRef = RefNames.refsStarredChanges(cd3.getId(), user.id);
 

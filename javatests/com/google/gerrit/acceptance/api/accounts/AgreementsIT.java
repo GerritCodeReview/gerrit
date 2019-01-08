@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
@@ -62,6 +63,7 @@ public class AgreementsIT extends AbstractDaemonTest {
   private ContributorAgreement caAutoVerify;
   private ContributorAgreement caNoAutoVerify;
   @Inject private GroupOperations groupOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   protected void setUseContributorAgreements(InheritableBoolean value) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
@@ -123,7 +125,7 @@ public class AgreementsIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     caAutoVerify = configureContributorAgreement(true);
     caNoAutoVerify = configureContributorAgreement(false);
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
   }
 
   @Test
@@ -168,7 +170,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     gApi.accounts().self().signAgreement(caAutoVerify.getName());
 
     // Explicitly reset the user to force a new request context
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
 
     // Verify that the agreement was signed
     result = gApi.accounts().self().listAgreements();
@@ -193,7 +195,7 @@ public class AgreementsIT extends AbstractDaemonTest {
 
   @Test
   public void signAgreementAnonymous() throws Exception {
-    setApiUserAnonymous();
+    requestScopeOperations.setApiUserAnonymous();
     exception.expect(AuthException.class);
     exception.expectMessage("Authentication required");
     gApi.accounts().self().signAgreement(caAutoVerify.getName());
@@ -224,12 +226,12 @@ public class AgreementsIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().create(newChangeInput()).get();
 
     // Approve and submit it
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(change.changeId).current().review(ReviewInput.approve());
     gApi.changes().id(change.changeId).current().submit(new SubmitInput());
 
     // Revert is not allowed when CLA is required but not signed
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     setUseContributorAgreements(InheritableBoolean.TRUE);
     exception.expect(AuthException.class);
     exception.expectMessage("Contributor Agreement");
@@ -248,12 +250,12 @@ public class AgreementsIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().create(newChangeInput()).get();
 
     // Approve and submit it
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(change.changeId).current().review(ReviewInput.approve());
     gApi.changes().id(change.changeId).current().submit(new SubmitInput());
 
     // Revert in excluded project is allowed even when CLA is required but not signed
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     setUseContributorAgreements(InheritableBoolean.TRUE);
     gApi.changes().id(change.changeId).revert();
   }
@@ -263,7 +265,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     assume().that(isContributorAgreementsEnabled()).isTrue();
 
     // Create a new branch
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     BranchInfo dest =
         gApi.projects()
             .name(project.get())
@@ -280,7 +282,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     gApi.changes().id(change.changeId).current().submit(new SubmitInput());
 
     // Cherry-pick is not allowed when CLA is required but not signed
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     setUseContributorAgreements(InheritableBoolean.TRUE);
     CherryPickInput in = new CherryPickInput();
     in.destination = dest.ref;
@@ -311,7 +313,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     gApi.accounts().self().signAgreement(caAutoVerify.getName());
 
     // Explicitly reset the user to force a new request context
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
 
     // Create a change succeeds after signing the agreement
     gApi.changes().create(newChangeInput());
@@ -350,7 +352,7 @@ public class AgreementsIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "auth.contributorAgreements", value = "true")
   public void anonymousAccessServerInfoEvenWithCLAs() throws Exception {
-    setApiUserAnonymous();
+    requestScopeOperations.setApiUserAnonymous();
     gApi.config().server().getInfo();
   }
 

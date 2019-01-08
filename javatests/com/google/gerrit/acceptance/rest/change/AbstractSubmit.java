@@ -38,6 +38,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -116,15 +117,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Inject private ApprovalsUtil approvalsUtil;
-
-  @Inject private Submit submitHandler;
-
+  @Inject private DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private Submit submitHandler;
 
-  @Inject private DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
   private RegistrationHandle onSubmitValidatorHandle;
-
   private String systemTimeZone;
 
   @Before
@@ -343,7 +342,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     submit(result.getChangeId(), new SubmitInput(), AuthException.class, "submit not permitted");
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     submit(result.getChangeId());
   }
 
@@ -367,10 +366,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
     assertThat(change.owner._accountId).isEqualTo(admin.id.get());
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     submit(result.getChangeId(), new SubmitInput(), AuthException.class, "submit not permitted");
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     submit(result.getChangeId());
   }
 

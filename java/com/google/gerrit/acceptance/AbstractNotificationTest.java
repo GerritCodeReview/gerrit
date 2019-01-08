@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
 import com.google.common.truth.Truth;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -41,6 +42,7 @@ import com.google.gerrit.mail.EmailHeader.AddressList;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,9 +56,11 @@ import org.junit.After;
 import org.junit.Before;
 
 public abstract class AbstractNotificationTest extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   @Before
   public void enableReviewerByEmail() throws Exception {
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
     gApi.projects().name(project.get()).config(conf);
@@ -82,7 +86,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     if (record) {
       accountsModifyingEmailStrategy.add(account);
     }
-    setApiUser(account);
+    requestScopeOperations.setApiUser(account.getId());
     GeneralPreferencesInfo prefs = gApi.accounts().self().getPreferences();
     prefs.emailStrategy = strategy;
     gApi.accounts().self().setPreferences(prefs);
@@ -356,7 +360,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
         assignee = testAccount("assignee");
 
         watchingProjectOwner = testAccount("watchingProjectOwner", "Administrators");
-        setApiUser(watchingProjectOwner);
+        requestScopeOperations.setApiUser(watchingProjectOwner.getId());
         watch(allProjects.get(), pwi -> pwi.notifyNewChanges = true);
 
         for (NotifyType watch : NotifyType.values()) {
@@ -364,7 +368,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
             continue;
           }
           TestAccount watcher = testAccount(watch.toString());
-          setApiUser(watcher);
+          requestScopeOperations.setApiUser(watcher.getId());
           watch(
               allProjects.get(),
               pwi -> {
@@ -457,7 +461,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       if (pushOptions != null) {
         ref = ref + '%' + Joiner.on(',').join(pushOptions);
       }
-      setApiUser(owner);
+      requestScopeOperations.setApiUser(owner.getId());
       repo = cloneProject(project, owner);
       PushOneCommit push = pushFactory.create(owner.getIdent(), repo);
       result = push.to(ref);
@@ -479,10 +483,10 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     StagedChange(String ref) throws Exception {
       super(ref);
 
-      setApiUser(starrer);
+      requestScopeOperations.setApiUser(starrer.getId());
       gApi.accounts().self().starChange(result.getChangeId());
 
-      setApiUser(owner);
+      requestScopeOperations.setApiUser(owner.getId());
       addReviewers(result);
       sender.clear();
     }
@@ -498,14 +502,14 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
   protected StagedChange stageReviewableWipChange() throws Exception {
     StagedChange sc = stageReviewableChange();
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     gApi.changes().id(sc.changeId).setWorkInProgress();
     return sc;
   }
 
   protected StagedChange stageAbandonedReviewableChange() throws Exception {
     StagedChange sc = stageReviewableChange();
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     gApi.changes().id(sc.changeId).abandon();
     sender.clear();
     return sc;
@@ -513,7 +517,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
   protected StagedChange stageAbandonedReviewableWipChange() throws Exception {
     StagedChange sc = stageReviewableWipChange();
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     gApi.changes().id(sc.changeId).abandon();
     sender.clear();
     return sc;
@@ -521,7 +525,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
   protected StagedChange stageAbandonedWipChange() throws Exception {
     StagedChange sc = stageWipChange();
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     gApi.changes().id(sc.changeId).abandon();
     sender.clear();
     return sc;

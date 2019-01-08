@@ -30,6 +30,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
@@ -48,6 +49,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.inject.Inject;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
@@ -70,6 +72,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Test;
 
 public class CreateProjectIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   @Test
   public void createProjectHttp() throws Exception {
     String newProjectName = name("newProject");
@@ -299,7 +303,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void createProjectWithCapability() throws Exception {
     allowGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS, GlobalCapability.CREATE_PROJECT);
     try {
-      setApiUser(user);
+      requestScopeOperations.setApiUser(user.getId());
       ProjectInput in = new ProjectInput();
       in.name = name("newProject");
       ProjectInfo p = gApi.projects().create(in).get();
@@ -312,7 +316,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void createProjectWithoutCapability_Forbidden() throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     ProjectInput in = new ProjectInput();
     in.name = name("newProject");
     assertCreateFails(in, AuthException.class);
@@ -331,7 +335,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     parent.setState(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
     allowGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS, GlobalCapability.CREATE_PROJECT);
     try {
-      setApiUser(user);
+      requestScopeOperations.setApiUser(user.getId());
       ProjectInput in = new ProjectInput();
       in.name = name("newProject");
       ProjectInfo p = gApi.projects().create(in).get();

@@ -20,6 +20,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
@@ -29,6 +30,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.inject.Inject;
 import java.io.File;
 import java.util.List;
 import org.eclipse.jgit.lib.ReflogEntry;
@@ -37,6 +39,8 @@ import org.junit.Test;
 
 @UseLocalDisk
 public class ReflogIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   @Test
   public void guessRestApiInReflog() throws Exception {
     PushOneCommit.Result r = createChange();
@@ -80,7 +84,7 @@ public class ReflogIT extends AbstractDaemonTest {
 
   @Test
   public void regularUserIsNotAllowedToGetReflog() throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     gApi.projects().name(project.get()).branch("master").reflog();
   }
@@ -96,13 +100,13 @@ public class ReflogIT extends AbstractDaemonTest {
       u.save();
     }
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.projects().name(project.get()).branch("master").reflog();
   }
 
   @Test
   public void adminUserIsAllowedToGetReflog() throws Exception {
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.projects().name(project.get()).branch("master").reflog();
   }
 }

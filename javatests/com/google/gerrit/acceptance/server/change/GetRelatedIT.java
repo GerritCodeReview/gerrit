@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRule;
@@ -77,6 +78,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   @Inject private AccountOperations accountOperations;
   @Inject private GroupOperations groupOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   private String systemTimeZone;
 
@@ -611,7 +613,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
       rule.setRange(0, 2);
       u.save();
     }
-    atrScope.set(atrScope.newContext(null, identifiedUserFactory.create(accountId)));
+    requestScopeOperations.setApiUser(accountId);
 
     assertRelated(lastPsId, expected);
   }

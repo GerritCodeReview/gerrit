@@ -55,7 +55,7 @@ public class AcceptanceTestRequestScope {
       finished = p.finished;
     }
 
-    SshSession getSession() {
+    public SshSession getSession() {
       return session;
     }
 

@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -35,9 +36,9 @@ public class SshSession {
   private Session session;
   private String error;
 
-  public SshSession(TestSshKeys sshKeys, GerritServer server, TestAccount account) {
+  public SshSession(TestSshKeys sshKeys, InetSocketAddress addr, TestAccount account) {
     this.sshKeys = sshKeys;
-    this.addr = server.getSshdAddress();
+    this.addr = addr;
     this.account = account;
   }
 
@@ -112,8 +113,14 @@ public class SshSession {
       JSch jsch = new JSch();
       jsch.addIdentity(
           "KeyPair", TestSshKeys.privateKey(keyPair), keyPair.getPublicKeyBlob(), null);
-      session =
-          jsch.getSession(account.username, addr.getAddress().getHostAddress(), addr.getPort());
+      String username =
+          account
+              .username()
+              .orElseThrow(
+                  () ->
+                      new IllegalStateException(
+                          "account " + account.accountId() + " must have a username to use SSH"));
+      session = jsch.getSession(username, addr.getAddress().getHostAddress(), addr.getPort());
       session.setConfig("StrictHostKeyChecking", "no");
       session.connect();
     }

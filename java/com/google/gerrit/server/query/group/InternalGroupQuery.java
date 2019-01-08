@@ -37,7 +37,7 @@ import java.util.Optional;
  * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
  * holding on to a single instance.
  */
-public class InternalGroupQuery extends InternalQuery<InternalGroup> {
+public class InternalGroupQuery extends InternalQuery<InternalGroup, InternalGroupQuery> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Inject

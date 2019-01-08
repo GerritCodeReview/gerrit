@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -36,12 +37,14 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.reflect.TypeToken;
+import com.google.inject.Inject;
 import java.lang.reflect.Type;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Before
   public void setUp() throws Exception {
@@ -195,9 +198,9 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       // Review change as user
       ReviewInput reviewInput = new ReviewInput();
       reviewInput.message = "I have a comment";
-      setApiUser(user);
+      requestScopeOperations.setApiUser(user.getId());
       revision(r).review(reviewInput);
-      setApiUser(admin);
+      requestScopeOperations.setApiUser(admin.getId());
 
       sender.clear();
 

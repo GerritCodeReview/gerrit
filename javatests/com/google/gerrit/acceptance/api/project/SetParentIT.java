@@ -20,6 +20,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -35,11 +36,12 @@ import org.junit.Test;
 public class SetParentIT extends AbstractDaemonTest {
 
   @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void setParentNotAllowed() throws Exception {
     String parent = projectOperations.newProject().create().get();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     gApi.projects().name(project.get()).parent(parent);
   }
@@ -48,7 +50,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @GerritConfig(name = "receive.allowProjectOwnersToChangeParent", value = "true")
   public void setParentNotAllowedForNonOwners() throws Exception {
     String parent = projectOperations.newProject().create().get();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     gApi.projects().name(project.get()).parent(parent);
   }
@@ -72,7 +74,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @GerritConfig(name = "receive.allowProjectOwnersToChangeParent", value = "true")
   public void setParentAllowedForOwners() throws Exception {
     String parent = projectOperations.newProject().create().get();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     grant(project, "refs/*", Permission.OWNER, false, SystemGroupBackend.REGISTERED_USERS);
     gApi.projects().name(project.get()).parent(parent);
     assertThat(gApi.projects().name(project.get()).parent()).isEqualTo(parent);

@@ -42,6 +42,7 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
@@ -118,17 +119,18 @@ import org.junit.Test;
 
 @NoHttpd
 public class GroupsIT extends AbstractDaemonTest {
-  @Inject private Groups groups;
   @Inject @ServerInitiated private GroupsUpdate groupsUpdate;
+  @Inject private AccountOperations accountOperations;
+  @Inject private DynamicSet<GroupIndexedListener> groupIndexedListeners;
   @Inject private GroupIncludeCache groupIncludeCache;
-  @Inject private StalenessChecker stalenessChecker;
   @Inject private GroupIndexer groupIndexer;
+  @Inject private GroupOperations groupOperations;
+  @Inject private Groups groups;
   @Inject private GroupsConsistencyChecker consistencyChecker;
   @Inject private PeriodicGroupIndexer slaveGroupIndexer;
-  @Inject private DynamicSet<GroupIndexedListener> groupIndexedListeners;
+  @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private Sequences seq;
-  @Inject private AccountOperations accountOperations;
-  @Inject private GroupOperations groupOperations;
+  @Inject private StalenessChecker stalenessChecker;
 
   @Before
   public void setTimeForTesting() {
@@ -408,7 +410,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void createGroupWithoutCapability_Forbidden() throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     gApi.groups().create(name("newGroup"));
   }
@@ -730,7 +732,7 @@ public class GroupsIT extends AbstractDaemonTest {
     AccountGroup.UUID group = groupOperations.newGroup().create();
     gApi.groups().id(group.get()).addMembers(user.username);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertMembers(gApi.groups().id(group.get()).members(true), user.fullName);
   }
 
@@ -741,7 +743,7 @@ public class GroupsIT extends AbstractDaemonTest {
     gApi.groups().id(group1.get()).addGroups(group2.get());
     gApi.groups().id(group2.get()).addMembers(user.username);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     List<AccountInfo> listedMembers = gApi.groups().id(group1.get()).members(true);
 
     assertMembers(listedMembers);
@@ -769,7 +771,7 @@ public class GroupsIT extends AbstractDaemonTest {
     gApi.groups().id(ownerGroup.get()).addMembers(user.username);
     gApi.groups().id(group2.get()).addMembers(user.username);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     List<AccountInfo> listedMembers = gApi.groups().id(group1.get()).members(true);
 
     assertMembers(listedMembers, user.fullName);
@@ -830,13 +832,13 @@ public class GroupsIT extends AbstractDaemonTest {
     in.ownerId = adminGroupUuid().get();
     gApi.groups().create(in);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertThat(gApi.groups().list().getAsMap()).doesNotContainKey(newGroupName);
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.groups().id(newGroupName).addMembers(user.username);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertThat(gApi.groups().list().getAsMap()).containsKey(newGroupName);
   }
 
@@ -1009,15 +1011,15 @@ public class GroupsIT extends AbstractDaemonTest {
     GroupInfo group = gApi.groups().create(in).get();
 
     // admin can reindex any group
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.groups().id(group.id).index();
 
     // group owner can reindex own group (group is owned by itself)
-    setApiUser(groupOwner);
+    requestScopeOperations.setApiUser(groupOwner.getId());
     gApi.groups().id(group.id).index();
 
     // user cannot reindex any group
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to index group");
     gApi.groups().id(group.id).index();
@@ -1291,7 +1293,7 @@ public class GroupsIT extends AbstractDaemonTest {
     gApi.groups().create(groupInput).get();
     restartAsSlave();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     List<GroupInfo> groups = gApi.groups().list().withUser(user.username).get();
     ImmutableList<String> groupNames =
         groups.stream().map(group -> group.name).collect(toImmutableList());

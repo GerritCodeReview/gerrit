@@ -52,6 +52,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
@@ -94,6 +95,7 @@ import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
+import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -130,6 +132,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     HTTP
   }
 
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   private LabelType patchSetLock;
 
   @BeforeClass
@@ -162,7 +166,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @After
   public void resetPublishCommentOnPushOption() throws Exception {
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id.get()).getPreferences();
     prefs.publishCommentsOnPush = false;
     gApi.accounts().id(admin.id.get()).setPreferences(prefs);
@@ -520,7 +524,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pwi.filter = "*";
     pwi.notifyNewChanges = true;
     projectsToWatch.add(pwi);
-    setApiUser(user3);
+    requestScopeOperations.setApiUser(user3.getId());
     gApi.accounts().self().setWatchedProjects(projectsToWatch);
 
     TestAccount user2 = accountCreator.user2();

@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -31,6 +32,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.inject.Inject;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -38,6 +40,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public abstract class AbstractSubmitByRebase extends AbstractSubmit {
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Override
   protected abstract SubmitType getSubmitType();
@@ -68,7 +71,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
   }
 
   private void submitWithRebase(TestAccount submitter) throws Exception {
-    setApiUser(submitter);
+    requestScopeOperations.setApiUser(submitter.getId());
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());

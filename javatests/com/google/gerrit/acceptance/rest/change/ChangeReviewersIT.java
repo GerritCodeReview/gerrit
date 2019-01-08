@@ -31,6 +31,7 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
@@ -64,7 +65,8 @@ import org.junit.Test;
 
 public class ChangeReviewersIT extends AbstractDaemonTest {
 
-  @Inject protected GroupOperations groupOperations;
+  @Inject private GroupOperations groupOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void addGroupAsReviewer() throws Exception {
@@ -499,7 +501,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     gApi.changes().id(changeId).current().review(ReviewInput.dislike());
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     // NoteDb adds reviewer to a change on every review.
     gApi.changes().id(changeId).current().review(ReviewInput.dislike());
 
@@ -657,9 +659,9 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     TestAccount newUser = createAccounts(1, name("foo")).get(0);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 1));
-    setApiUser(newUser);
+    requestScopeOperations.setApiUser(newUser.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("remove reviewer not permitted");
     gApi.changes().id(r.getChangeId()).reviewer(user.email).remove();
@@ -676,7 +678,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     gApi.changes().id(r.getChangeId()).addReviewer(user.email);
     assertThatUserIsOnlyReviewer(r.getChangeId());
-    setApiUser(newUser);
+    requestScopeOperations.setApiUser(newUser.getId());
     gApi.changes().id(r.getChangeId()).reviewer(user.email).remove();
     assertThat(gApi.changes().id(r.getChangeId()).get().reviewers).isEmpty();
   }
@@ -687,7 +689,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     TestAccount newUser = createAccounts(1, name("foo")).get(0);
 
     gApi.changes().id(r.getChangeId()).addReviewer(user.email);
-    setApiUser(newUser);
+    requestScopeOperations.setApiUser(newUser.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("remove reviewer not permitted");
     gApi.changes().id(r.getChangeId()).reviewer(user.email).remove();
@@ -702,7 +704,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     input.reviewer = user.email;
     input.state = ReviewerState.CC;
     gApi.changes().id(r.getChangeId()).addReviewer(input);
-    setApiUser(newUser);
+    requestScopeOperations.setApiUser(newUser.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("remove reviewer not permitted");
     gApi.changes().id(r.getChangeId()).reviewer(user.email).remove();

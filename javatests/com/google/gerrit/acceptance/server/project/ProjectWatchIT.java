@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
@@ -43,6 +44,7 @@ import org.junit.Test;
 @NoHttpd
 public class ProjectWatchIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void newPatchSetsNotifyConfig() throws Exception {
@@ -108,7 +110,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     assertThat(sender.getMessages()).isEmpty();
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     ReviewInput in = new ReviewInput();
     in.message = "comment";
     gApi.changes().id(r.getChangeId()).current().review(in);
@@ -169,7 +171,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     assertThat(sender.getMessages()).isEmpty();
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     ReviewInput in = new ReviewInput();
     in.message = "comment";
     gApi.changes().id(r.getChangeId()).current().review(in);
@@ -210,11 +212,11 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   public void watchProject() throws Exception {
     // watch project
     String watchedProject = projectOperations.newProject().create().get();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     watch(watchedProject);
 
     // push a change to watched project -> should trigger email notification
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
@@ -247,7 +249,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   public void watchFile() throws Exception {
     String watchedProject = projectOperations.newProject().create().get();
     String otherWatchedProject = projectOperations.newProject().create().get();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
 
     // watch file in project as user
     watch(watchedProject, "file:a.txt");
@@ -257,7 +259,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // push a change to watched file -> should trigger email notification for
     // user
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
@@ -277,7 +279,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // watch project as user2
     TestAccount user2 = accountCreator.create("user2", "user2@test.com", "User2");
-    setApiUser(user2);
+    requestScopeOperations.setApiUser(user2.getId());
     watch(watchedProject);
 
     // push a change to non-watched file -> should not trigger email
@@ -300,13 +302,13 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void watchKeyword() throws Exception {
     String watchedProject = projectOperations.newProject().create().get();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
 
     // watch keyword in project as user
     watch(watchedProject, "multimaster");
 
     // push a change with keyword -> should trigger email notification
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
@@ -338,13 +340,13 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void watchAllProjects() throws Exception {
     String anyProject = projectOperations.newProject().create().get();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
 
     // watch the All-Projects project to watch all projects
     watch(allProjects.get());
 
     // push a change to any project -> should trigger email notification
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     TestRepository<InMemoryRepository> anyRepo =
         cloneProject(new Project.NameKey(anyProject), admin);
     PushOneCommit.Result r =
@@ -363,7 +365,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void watchFileAllProjects() throws Exception {
     String anyProject = projectOperations.newProject().create().get();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
 
     // watch file in All-Projects project as user to watch the file in all
     // projects
@@ -371,7 +373,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // push a change to watched file in any project -> should trigger email
     // notification for user
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     TestRepository<InMemoryRepository> anyRepo =
         cloneProject(new Project.NameKey(anyProject), admin);
     PushOneCommit.Result r =
@@ -391,7 +393,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // watch project as user2
     TestAccount user2 = accountCreator.create("user2", "user2@test.com", "User2");
-    setApiUser(user2);
+    requestScopeOperations.setApiUser(user2.getId());
     watch(anyProject);
 
     // push a change to non-watched file in any project -> should not trigger
@@ -414,14 +416,14 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void watchKeywordAllProjects() throws Exception {
     String anyProject = projectOperations.newProject().create().get();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
 
     // watch keyword in project as user
     watch(allProjects.get(), "multimaster");
 
     // push a change with keyword to any project -> should trigger email
     // notification
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     TestRepository<InMemoryRepository> anyRepo =
         cloneProject(new Project.NameKey(anyProject), admin);
     PushOneCommit.Result r =
@@ -455,11 +457,11 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   public void watchProjectNoNotificationForIgnoredChange() throws Exception {
     // watch project
     String watchedProject = projectOperations.newProject().create().get();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     watch(watchedProject);
 
     // push a change to watched project
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
@@ -469,13 +471,13 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     // ignore the change
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.accounts().self().setStars(r.getChangeId(), new StarsInput(ImmutableSet.of(IGNORE_LABEL)));
 
     sender.clear();
 
     // post a comment -> should not trigger email notification since user ignored the change
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     ReviewInput in = new ReviewInput();
     in.message = "comment";
     gApi.changes().id(r.getChangeId()).current().review(in);
@@ -488,11 +490,11 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   public void watchProjectNoNotificationForPrivateChange() throws Exception {
     // watch project
     String watchedProject = projectOperations.newProject().create().get();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     watch(watchedProject);
 
     // push a private change to watched project -> should not trigger email notification
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
@@ -520,19 +522,19 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         new AccountGroup.UUID(groupThatCanViewPrivateChanges.id));
 
     // watch project as user that can't view private changes
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     watch(watchedProject);
 
     // watch project as user that can view all private change
     TestAccount userThatCanViewPrivateChanges =
         accountCreator.create(
             "user2", "user2@test.com", "User2", groupThatCanViewPrivateChanges.name);
-    setApiUser(userThatCanViewPrivateChanges);
+    requestScopeOperations.setApiUser(userThatCanViewPrivateChanges.getId());
     watch(watchedProject);
 
     // push a private change to watched project -> should trigger email notification for
     // userThatCanViewPrivateChanges, but not for user
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =

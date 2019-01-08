@@ -22,6 +22,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -29,12 +30,15 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gson.reflect.TypeToken;
+import com.google.inject.Inject;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 
 public class DeleteVoteIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   @Test
   public void deleteVoteOnChange() throws Exception {
     deleteVote(false);
@@ -51,7 +55,7 @@ public class DeleteVoteIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r2 = amendChange(r.getChangeId());
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     recommend(r.getChangeId());
 
     sender.clear();

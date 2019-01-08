@@ -32,6 +32,7 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -76,6 +77,7 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Inject private DynamicSet<ProjectIndexedListener> projectIndexedListeners;
   @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Inject
   @IndexExecutor(BATCH)
@@ -351,7 +353,7 @@ public class ProjectIT extends AbstractDaemonTest {
   @Test
   public void nonOwnerCannotSetConfig() throws Exception {
     ConfigInput input = createTestConfigInput();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("write refs/meta/config not permitted");
     gApi.projects().name(project.get()).config(input);
@@ -386,7 +388,7 @@ public class ProjectIT extends AbstractDaemonTest {
   @Test
   public void setHeadNotAllowed() throws Exception {
     gApi.projects().name(project.get()).branch("test").create(new BranchInput());
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("not permitted: set HEAD on refs/heads/test");
     gApi.projects().name(project.get()).head("test");

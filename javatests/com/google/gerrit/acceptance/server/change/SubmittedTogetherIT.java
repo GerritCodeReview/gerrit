@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -44,6 +45,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   }
 
   @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void doesNotIncludeCurrentFiles() throws Exception {
@@ -104,7 +106,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     RevCommit b = commitBuilder().add("b", "1").message("change 2").create();
     pushHead(testRepo, "refs/for/master", false);
 
-    setApiUserAnonymous();
+    requestScopeOperations.setApiUserAnonymous();
     assertSubmittedTogether(getChangeId(a));
     assertSubmittedTogether(getChangeId(b), getChangeId(b), getChangeId(a));
   }
@@ -143,7 +145,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     pushHead(testRepo, "refs/for/master/" + name("topic"), false);
     String id2 = getChangeId(b);
 
-    setApiUserAnonymous();
+    requestScopeOperations.setApiUserAnonymous();
     if (isSubmitWholeTopicEnabled()) {
       assertSubmittedTogether(id1, id2, id1);
       assertSubmittedTogether(id2, id2, id1);

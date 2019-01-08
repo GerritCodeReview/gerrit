@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -29,6 +30,7 @@ import org.junit.Test;
 
 public class WatchedProjectsIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   private static final String NEW_PROJECT_NAME = "newProjectAccess";
 
@@ -154,7 +156,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     String projectName = project.get();
 
     // Let another user watch a project
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
@@ -171,7 +173,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     gApi.accounts().self().deleteWatchedProjects(d);
 
     // Check that trying to delete a non-existing watch doesn't fail
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.accounts().self().deleteWatchedProjects(d);
   }
 
@@ -180,7 +182,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     String projectName = project.get();
 
     // Let another user watch a project
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();

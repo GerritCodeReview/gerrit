@@ -20,6 +20,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.mail.EmailHeader;
@@ -27,6 +28,7 @@ import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.TestTimeUtil;
+import com.google.inject.Inject;
 import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -41,6 +43,8 @@ import org.junit.Test;
 
 /** Tests the presence of required metadata in email headers, text and html. */
 public class MailMetadataIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   private String systemTimeZone;
 
   @Before
@@ -92,7 +96,7 @@ public class MailMetadataIT extends AbstractDaemonTest {
     ReviewInput input = new ReviewInput();
     input.message = "Test";
     revision(newChange).review(input);
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     Collection<ChangeMessageInfo> result =
         gApi.changes().id(newChange.getChangeId()).get().messages;
     assertThat(result).isNotEmpty();

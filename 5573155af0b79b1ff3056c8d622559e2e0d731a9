@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "788f4b9e_c66d49bd",
+        "filename": "javatests/com/google/gerrit/server/query/project/AbstractQueryProjectsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-08T07:42:09Z",
+      "side": 1,
+      "message": "Sorting is tested by the new \"sortedByName\" test. That test already creates the projects in the wrong order and then checks that the results are returned in the correct order. No need to do the same here again.",
+      "parentUuid": "4b08b4ab_278cdce4",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 79
+      },
+      "revId": "5573155af0b79b1ff3056c8d622559e2e0d731a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8dce6490_d5139e04",
         "filename": "javatests/com/google/gerrit/server/query/project/AbstractQueryProjectsTest.java",
         "patchSetId": 7

@@ -31,6 +31,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.truth.Truth;
 import com.google.gerrit.acceptance.AbstractNotificationTest;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
@@ -52,10 +53,13 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.restapi.change.PostReview;
+import com.google.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeNotificationsIT extends AbstractNotificationTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   /*
    * Set up for extra standard test accounts and permissions.
    */
@@ -242,7 +246,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
       String changeId, TestAccount by, EmailStrategy emailStrategy, @Nullable NotifyHandling notify)
       throws Exception {
     setEmailStrategy(by, emailStrategy);
-    setApiUser(by);
+    requestScopeOperations.setApiUser(by.getId());
     AbandonInput in = new AbandonInput();
     if (notify != null) {
       in.notify = notify;
@@ -585,7 +589,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
       @Nullable NotifyHandling notify)
       throws Exception {
     setEmailStrategy(by, emailStrategy);
-    setApiUser(by);
+    requestScopeOperations.setApiUser(by.getId());
     adder.addReviewer(changeId, reviewer, notify);
   }
 
@@ -1017,7 +1021,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   @Test
   public void deleteReviewerFromReviewableChange() throws Exception {
     StagedChange sc = stageReviewableChangeWithExtraReviewer();
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     removeReviewer(sc, extraReviewer);
     assertThat(sender)
         .sent("deleteReviewer", sc)
@@ -1047,7 +1051,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   @Test
   public void deleteReviewerFromReviewableChangeByAdmin() throws Exception {
     StagedChange sc = stageReviewableChangeWithExtraReviewer();
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     removeReviewer(sc, extraReviewer);
     assertThat(sender)
         .sent("deleteReviewer", sc)
@@ -1063,7 +1067,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void deleteReviewerFromReviewableChangeByAdminCcingSelf() throws Exception {
     StagedChange sc = stageReviewableChangeWithExtraReviewer();
     setEmailStrategy(admin, EmailStrategy.CC_ON_OWN_COMMENTS);
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     removeReviewer(sc, extraReviewer);
     assertThat(sender)
         .sent("deleteReviewer", sc)
@@ -1078,7 +1082,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   @Test
   public void deleteCcerFromReviewableChange() throws Exception {
     StagedChange sc = stageReviewableChangeWithExtraReviewer();
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     removeReviewer(sc, extraCcer);
     assertThat(sender)
         .sent("deleteReviewer", sc)
@@ -1093,7 +1097,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   @Test
   public void deleteReviewerFromReviewableChangeNotifyOwnerReviewers() throws Exception {
     StagedChange sc = stageReviewableChangeWithExtraReviewer();
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     removeReviewer(sc, extraReviewer, NotifyHandling.OWNER_REVIEWERS);
     assertThat(sender)
         .sent("deleteReviewer", sc)
@@ -1150,7 +1154,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   @Test
   public void deleteReviewerFromWipChangeNotifyAll() throws Exception {
     StagedChange sc = stageWipChangeWithExtraReviewer();
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     removeReviewer(sc, extraReviewer, NotifyHandling.ALL);
     assertThat(sender)
         .sent("deleteReviewer", sc)
@@ -1166,7 +1170,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void deleteReviewerWithApprovalFromWipChange() throws Exception {
     StagedChange sc = stageWipChangeWithExtraReviewer();
     recommend(sc, extraReviewer);
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     removeReviewer(sc, extraReviewer);
     assertThat(sender).sent("deleteReviewer", sc).to(extraReviewer).noOneElse();
   }
@@ -1187,7 +1191,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   private void recommend(StagedChange sc, TestAccount by) throws Exception {
-    setApiUser(by);
+    requestScopeOperations.setApiUser(by.getId());
     gApi.changes().id(sc.changeId).revision("current").review(ReviewInput.recommend());
   }
 
@@ -1201,7 +1205,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         ReviewInput.noScore()
             .reviewer(extraReviewer.email)
             .reviewer(extraCcer.email, ReviewerState.CC, false);
-    setApiUser(extraReviewer);
+    requestScopeOperations.setApiUser(extraReviewer.getId());
     gApi.changes().id(sc.changeId).revision("current").review(in);
     return sc;
   }
@@ -1239,7 +1243,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void deleteVoteFromReviewableChange() throws Exception {
     StagedChange sc = stageReviewableChangeWithExtraReviewer();
     recommend(sc, extraReviewer);
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     deleteVote(sc, extraReviewer);
     assertThat(sender)
         .sent("deleteVote", sc)
@@ -1255,7 +1259,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedChange sc = stageReviewableChangeWithExtraReviewer();
     recommend(sc, extraReviewer);
     setEmailStrategy(sc.owner, CC_ON_OWN_COMMENTS);
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     deleteVote(sc, extraReviewer);
     assertThat(sender)
         .sent("deleteVote", sc)
@@ -1271,7 +1275,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void deleteVoteFromReviewableChangeByAdmin() throws Exception {
     StagedChange sc = stageReviewableChangeWithExtraReviewer();
     recommend(sc, extraReviewer);
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     deleteVote(sc, extraReviewer);
     assertThat(sender)
         .sent("deleteVote", sc)
@@ -1288,7 +1292,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedChange sc = stageReviewableChangeWithExtraReviewer();
     recommend(sc, extraReviewer);
     setEmailStrategy(admin, EmailStrategy.CC_ON_OWN_COMMENTS);
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     deleteVote(sc, extraReviewer);
     assertThat(sender)
         .sent("deleteVote", sc)
@@ -1304,7 +1308,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void deleteVoteFromReviewableChangeNotifyOwnerReviewers() throws Exception {
     StagedChange sc = stageReviewableChangeWithExtraReviewer();
     recommend(sc, extraReviewer);
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     deleteVote(sc, extraReviewer, NotifyHandling.OWNER_REVIEWERS);
     assertThat(sender)
         .sent("deleteVote", sc)
@@ -1318,7 +1322,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedChange sc = stageReviewableChangeWithExtraReviewer();
     recommend(sc, extraReviewer);
     setEmailStrategy(sc.owner, CC_ON_OWN_COMMENTS);
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     deleteVote(sc, extraReviewer, NotifyHandling.OWNER_REVIEWERS);
     assertThat(sender)
         .sent("deleteVote", sc)
@@ -1332,7 +1336,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void deleteVoteFromReviewableChangeNotifyOwner() throws Exception {
     StagedChange sc = stageReviewableChangeWithExtraReviewer();
     recommend(sc, extraReviewer);
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     deleteVote(sc, extraReviewer, NotifyHandling.OWNER);
     assertThat(sender).sent("deleteVote", sc).to(sc.owner).noOneElse();
   }
@@ -1341,7 +1345,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void deleteVoteFromReviewableChangeNotifyNone() throws Exception {
     StagedChange sc = stageReviewableChangeWithExtraReviewer();
     recommend(sc, extraReviewer);
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     deleteVote(sc, extraReviewer, NotifyHandling.NONE);
     assertThat(sender).notSent();
   }
@@ -1351,7 +1355,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedChange sc = stageReviewableChangeWithExtraReviewer();
     recommend(sc, extraReviewer);
     setEmailStrategy(sc.owner, CC_ON_OWN_COMMENTS);
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     deleteVote(sc, extraReviewer, NotifyHandling.NONE);
     assertThat(sender).notSent();
   }
@@ -1360,7 +1364,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void deleteVoteFromReviewableWipChange() throws Exception {
     StagedChange sc = stageReviewableWipChangeWithExtraReviewer();
     recommend(sc, extraReviewer);
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     deleteVote(sc, extraReviewer);
     assertThat(sender)
         .sent("deleteVote", sc)
@@ -1375,7 +1379,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void deleteVoteFromWipChange() throws Exception {
     StagedChange sc = stageWipChangeWithExtraReviewer();
     recommend(sc, extraReviewer);
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     deleteVote(sc, extraReviewer);
     assertThat(sender)
         .sent("deleteVote", sc)
@@ -1508,7 +1512,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   private void merge(String changeId, TestAccount by, EmailStrategy emailStrategy)
       throws Exception {
     setEmailStrategy(by, emailStrategy);
-    setApiUser(by);
+    requestScopeOperations.setApiUser(by.getId());
     gApi.changes().id(changeId).revision("current").submit();
   }
 
@@ -1520,7 +1524,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
       String changeId, TestAccount by, EmailStrategy emailStrategy, NotifyHandling notify)
       throws Exception {
     setEmailStrategy(by, emailStrategy);
-    setApiUser(by);
+    requestScopeOperations.setApiUser(by.getId());
     SubmitInput in = new SubmitInput();
     in.notify = notify;
     gApi.changes().id(changeId).revision("current").submit(in);
@@ -1528,7 +1532,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   private StagedChange stageChangeReadyForMerge() throws Exception {
     StagedChange sc = stageReviewableChange();
-    setApiUser(sc.reviewer);
+    requestScopeOperations.setApiUser(sc.reviewer.getId());
     gApi.changes().id(sc.changeId).revision("current").review(ReviewInput.approve());
     sender.clear();
     return sc;
@@ -2004,7 +2008,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   private void restore(String changeId, TestAccount by, EmailStrategy emailStrategy)
       throws Exception {
     setEmailStrategy(by, emailStrategy);
-    setApiUser(by);
+    requestScopeOperations.setApiUser(by.getId());
     gApi.changes().id(changeId).restore();
   }
 
@@ -2109,7 +2113,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   private StagedChange stageChange() throws Exception {
     StagedChange sc = stageReviewableChange();
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(sc.changeId).revision("current").review(ReviewInput.approve());
     gApi.changes().id(sc.changeId).revision("current").submit();
     sender.clear();
@@ -2123,7 +2127,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   private void revert(StagedChange sc, TestAccount by, EmailStrategy emailStrategy)
       throws Exception {
     setEmailStrategy(by, emailStrategy);
-    setApiUser(by);
+    requestScopeOperations.setApiUser(by.getId());
     gApi.changes().id(sc.changeId).revert();
   }
 
@@ -2242,7 +2246,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   private void assign(StagedChange sc, TestAccount by, TestAccount to, EmailStrategy emailStrategy)
       throws Exception {
     setEmailStrategy(by, emailStrategy);
-    setApiUser(by);
+    requestScopeOperations.setApiUser(by.getId());
     AssigneeInput in = new AssigneeInput();
     in.assignee = to.email;
     gApi.changes().id(sc.changeId).setAssignee(in);
@@ -2288,7 +2292,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   private void startReview(StagedChange sc) throws Exception {
-    setApiUser(sc.owner);
+    requestScopeOperations.setApiUser(sc.owner.getId());
     gApi.changes().id(sc.changeId).setReadyForReview();
     // PolyGerrit current immediately follows up with a review.
     gApi.changes().id(sc.changeId).revision("current").review(ReviewInput.noScore());

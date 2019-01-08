@@ -68,6 +68,7 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
@@ -181,17 +182,14 @@ import org.junit.Test;
 public class ChangeIT extends AbstractDaemonTest {
   private String systemTimeZone;
 
-  @Inject private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
-
-  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
-
   @Inject private AccountOperations accountOperations;
-
   @Inject private ChangeIndexCollection changeIndexCollection;
+  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
+  @Inject private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
+  @Inject private GroupOperations groupOperations;
   @Inject private IndexConfig indexConfig;
-
-  @Inject protected GroupOperations groupOperations;
   @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   private ChangeIndexedCounter changeIndexedCounter;
   private RegistrationHandle changeIndexedCounterHandle;
@@ -261,7 +259,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result =
         pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     String changeId = result.getChangeId();
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
 
@@ -302,7 +300,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
 
     gApi.changes().id(changeId).setPrivate(true, null);
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     ChangeInfo info = gApi.changes().id(changeId).get();
     assertThat(info.isPrivate).isTrue();
   }
@@ -310,7 +308,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void cannotSetOtherUsersChangePrivate() throws Exception {
     PushOneCommit.Result result = createChange();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to mark private");
     gApi.changes().id(result.getChangeId()).setPrivate(true, null);
@@ -322,7 +320,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result =
         pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(result.getChangeId()).setPrivate(true, null);
     // Owner can always access its private changes.
     assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
@@ -331,7 +329,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(result.getChangeId()).addReviewer(admin.getId().toString());
 
     // This change should be visible for admin as a reviewer.
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
 
     // Remove admin from reviewers.
@@ -349,7 +347,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(result.getChangeId()).setPrivate(true, null);
 
     allow("refs/*", Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS);
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
   }
 
@@ -385,7 +383,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     merge(result);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to mark private");
     gApi.changes().id(changeId).setPrivate(true, null);
@@ -405,7 +403,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     merge(result);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(changeId).setPrivate(false, null);
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
   }
@@ -415,7 +413,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result rwip = createChange();
     String changeId = rwip.getChangeId();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to toggle work in progress");
     gApi.changes().id(changeId).setWorkInProgress();
@@ -423,24 +421,24 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void setWorkInProgressAllowedAsAdmin() throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     String changeId =
         gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(changeId).setWorkInProgress();
     assertThat(gApi.changes().id(changeId).get().workInProgress).isTrue();
   }
 
   @Test
   public void setWorkInProgressAllowedAsProjectOwner() throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     String changeId =
         gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
 
     com.google.gerrit.acceptance.TestAccount user2 = accountCreator.user2();
     grant(project, "refs/*", Permission.OWNER, false, REGISTERED_USERS);
-    setApiUser(user2);
+    requestScopeOperations.setApiUser(user2.getId());
     gApi.changes().id(changeId).setWorkInProgress();
     assertThat(gApi.changes().id(changeId).get().workInProgress).isTrue();
   }
@@ -461,7 +459,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = rready.getChangeId();
     gApi.changes().id(changeId).setWorkInProgress();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to toggle work in progress");
     gApi.changes().id(changeId).setReadyForReview();
@@ -469,26 +467,26 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void setReadyForReviewAllowedAsAdmin() throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     String changeId =
         gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
     gApi.changes().id(changeId).setWorkInProgress();
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(changeId).setReadyForReview();
     assertThat(gApi.changes().id(changeId).get().workInProgress).isNull();
   }
 
   @Test
   public void setReadyForReviewAllowedAsProjectOwner() throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     String changeId =
         gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
     gApi.changes().id(changeId).setWorkInProgress();
 
     com.google.gerrit.acceptance.TestAccount user2 = accountCreator.user2();
     grant(project, "refs/*", Permission.OWNER, false, REGISTERED_USERS);
-    setApiUser(user2);
+    requestScopeOperations.setApiUser(user2.getId());
     gApi.changes().id(changeId).setReadyForReview();
     assertThat(gApi.changes().id(changeId).get().workInProgress).isNull();
   }
@@ -700,7 +698,7 @@ public class ChangeIT extends AbstractDaemonTest {
     r.assertOkStatus();
     assertThat(r.getChange().change().getOwner()).isEqualTo(user.id);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
     gApi.changes().id(r.getChangeId()).current().review(in);
     ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
@@ -715,7 +713,7 @@ public class ChangeIT extends AbstractDaemonTest {
     r.assertOkStatus();
     assertThat(r.getChange().change().getOwner()).isEqualTo(user.id);
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
     gApi.changes().id(r.getChangeId()).current().review(in);
     ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
@@ -726,7 +724,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void reviewWithWorkInProgressByNonOwnerReturnsError() throws Exception {
     PushOneCommit.Result r = createChange();
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to toggle work in progress");
     gApi.changes().id(r.getChangeId()).current().review(in);
@@ -736,7 +734,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void reviewWithReadyByNonOwnerReturnsError() throws Exception {
     PushOneCommit.Result r = createChange();
     ReviewInput in = ReviewInput.noScore().setReady(true);
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to toggle work in progress");
     gApi.changes().id(r.getChangeId()).current().review(in);
@@ -838,7 +836,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // expect both the original reviewers and CCs to be preserved
     // original owner should be added as reviewer, user requesting the revert (new owner) removed
-    setApiUser(accountCreator.admin2());
+    requestScopeOperations.setApiUser(accountCreator.admin2().getId());
     Map<ReviewerState, Collection<AccountInfo>> result =
         gApi.changes().id(r.getChangeId()).revert().get().reviewers;
     assertThat(result).containsKey(ReviewerState.REVIEWER);
@@ -1020,7 +1018,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Rebase the second
     String changeId = r2.getChangeId();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("rebase not permitted");
     gApi.changes().id(changeId).rebase();
@@ -1042,7 +1040,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Rebase the second
     String changeId = r2.getChangeId();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(changeId).rebase();
   }
 
@@ -1063,7 +1061,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Rebase the second
     String changeId = r2.getChangeId();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("rebase not permitted");
     gApi.changes().id(changeId).rebase();
@@ -1102,7 +1100,7 @@ public class ChangeIT extends AbstractDaemonTest {
         pushFactory.create(user.getIdent(), testRepo).to("refs/for/master");
     String changeId = changeResult.getChangeId();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("delete not permitted");
     gApi.changes().id(changeId).delete();
@@ -1161,7 +1159,7 @@ public class ChangeIT extends AbstractDaemonTest {
       com.google.gerrit.acceptance.TestAccount deleteAs)
       throws Exception {
     try {
-      setApiUser(owner);
+      requestScopeOperations.setApiUser(owner.getId());
       ChangeInput in = new ChangeInput();
       in.project = projectName.get();
       in.branch = "refs/heads/master";
@@ -1173,7 +1171,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
       assertThat(gApi.changes().id(changeId).info().owner._accountId).isEqualTo(owner.id.get());
 
-      setApiUser(deleteAs);
+      requestScopeOperations.setApiUser(deleteAs.getId());
       gApi.changes().id(changeId).delete();
 
       assertThat(query(changeId)).isEmpty();
@@ -1200,7 +1198,7 @@ public class ChangeIT extends AbstractDaemonTest {
       PushOneCommit.Result changeResult = createChange();
       String changeId = changeResult.getChangeId();
 
-      setApiUser(user);
+      requestScopeOperations.setApiUser(user.getId());
       exception.expect(AuthException.class);
       exception.expectMessage("delete not permitted");
       gApi.changes().id(changeId).delete();
@@ -1227,7 +1225,7 @@ public class ChangeIT extends AbstractDaemonTest {
         pushFactory.create(user.getIdent(), testRepo).to("refs/for/master");
     String changeId = changeResult.getChangeId();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(changeId).abandon();
 
     exception.expect(AuthException.class);
@@ -1273,7 +1271,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
       merge(changeResult);
 
-      setApiUser(user);
+      requestScopeOperations.setApiUser(user.getId());
       exception.expect(MethodNotAllowedException.class);
       exception.expectMessage("delete not permitted");
       gApi.changes().id(changeId).delete();
@@ -1536,7 +1534,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(commit.committer.email).isEqualTo(user.email);
 
     // check the user cannot see the change
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     try {
       gApi.changes().id(result.getChangeId()).get();
       fail("Expected ResourceNotFoundException");
@@ -1613,7 +1611,7 @@ public class ChangeIT extends AbstractDaemonTest {
     result.assertOkStatus();
 
     // check that 'user' cannot see the change
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     try {
       gApi.changes().id(result.getChangeId()).get();
       fail("Expected ResourceNotFoundException");
@@ -1622,7 +1620,7 @@ public class ChangeIT extends AbstractDaemonTest {
     }
 
     // check that 'user' was NOT added as cc ('user' can't see the change)
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
     assertThat(change.reviewers.get(REVIEWER)).isNull();
     assertThat(change.reviewers.get(CC)).isNull();
@@ -1646,7 +1644,7 @@ public class ChangeIT extends AbstractDaemonTest {
     result.assertOkStatus();
 
     // check the user cannot see the change
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     try {
       gApi.changes().id(result.getChangeId()).get();
       fail("Expected ResourceNotFoundException");
@@ -1655,7 +1653,7 @@ public class ChangeIT extends AbstractDaemonTest {
     }
 
     // try to add user as reviewer
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
     AddReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
@@ -1907,7 +1905,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
     // There should be no email notification when adding self
@@ -1944,7 +1942,7 @@ public class ChangeIT extends AbstractDaemonTest {
   private void testImplicitlyCcOnNonVotingReviewPgStyle(
       com.google.gerrit.acceptance.TestAccount testAccount) throws Exception {
     PushOneCommit.Result r = createChange();
-    setApiUser(testAccount);
+    requestScopeOperations.setApiUser(testAccount.getId());
     assertThat(getReviewerState(r.getChangeId(), testAccount.id)).isEmpty();
 
     // Exact request format made by PG UI at ddc6b7160fe416fed9e7e3180489d44c82fd64f8.
@@ -1961,7 +1959,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void implicitlyAddReviewerOnVotingReview() throws Exception {
     PushOneCommit.Result r = createChange();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().name())
@@ -1973,12 +1971,12 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Further test: remove the vote, then comment again. The user should be
     // implicitly re-added to the ReviewerSet, as a CC if we're using NoteDb.
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(r.getChangeId()).reviewer(user.getId().toString()).remove();
     c = gApi.changes().id(r.getChangeId()).get();
     assertThat(c.reviewers.values()).isEmpty();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().name())
@@ -2080,7 +2078,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(m).hasSize(1);
     assertThat(m).containsEntry("Code-Review", Short.valueOf((short) 2));
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.dislike());
 
     m = gApi.changes().id(r.getChangeId()).reviewer(user.getId().toString()).votes();
@@ -2152,7 +2150,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     gApi.changes().id(changeId).revision(r.getCommit().name()).review(ReviewInput.approve());
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(changeId).revision(r.getCommit().name()).review(ReviewInput.recommend());
 
     Collection<AccountInfo> reviewers = gApi.changes().id(changeId).get().reviewers.get(REVIEWER);
@@ -2163,7 +2161,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewerIt.next()._accountId).isEqualTo(user.getId().get());
 
     sender.clear();
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     DeleteReviewerInput input = new DeleteReviewerInput();
     if (!notify) {
       input.notify = NotifyHandling.NONE;
@@ -2194,7 +2192,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     gApi.changes().id(changeId).revision(r.getCommit().name()).review(ReviewInput.approve());
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("remove reviewer not permitted");
     gApi.changes().id(r.getChangeId()).reviewer(admin.getId().toString()).remove();
@@ -2205,14 +2203,14 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     recommend(changeId);
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     approve(changeId);
     gApi.changes().id(changeId).revision(r.getCommit().name()).submit();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("remove reviewer not permitted");
     gApi.changes().id(r.getChangeId()).reviewer("self").remove();
@@ -2223,13 +2221,13 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     recommend(changeId);
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(changeId).abandon();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(r.getChangeId()).reviewer("self").remove();
     eventRecorder.assertReviewerDeletedEvents(changeId, user.email);
   }
@@ -2239,14 +2237,14 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     recommend(changeId);
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     approve(changeId);
     gApi.changes().id(changeId).abandon();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("remove reviewer not permitted");
     gApi.changes().id(r.getChangeId()).reviewer(admin.getId().toString()).remove();
@@ -2257,10 +2255,10 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     recommend(r.getChangeId());
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     sender.clear();
     gApi.changes().id(r.getChangeId()).reviewer(user.getId().toString()).deleteVote("Code-Review");
 
@@ -2292,10 +2290,10 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     recommend(r.getChangeId());
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     sender.clear();
     DeleteVoteInput in = new DeleteVoteInput();
     in.label = "Code-Review";
@@ -2321,9 +2319,9 @@ public class ChangeIT extends AbstractDaemonTest {
         .preferredEmail(email)
         .fullname("User2")
         .create();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     recommend(r.getChangeId());
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     sender.clear();
     in.notifyDetails = new HashMap<>();
     in.notifyDetails.put(RecipientType.TO, new NotifyInfo(ImmutableList.of(email)));
@@ -2331,9 +2329,9 @@ public class ChangeIT extends AbstractDaemonTest {
     assertNotifyTo(email, "User2");
 
     // notify unrelated account as CC
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     recommend(r.getChangeId());
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     sender.clear();
     in.notifyDetails = new HashMap<>();
     in.notifyDetails.put(RecipientType.CC, new NotifyInfo(ImmutableList.of(email)));
@@ -2341,9 +2339,9 @@ public class ChangeIT extends AbstractDaemonTest {
     assertNotifyCc(email, "User2");
 
     // notify unrelated account as BCC
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     recommend(r.getChangeId());
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     sender.clear();
     in.notifyDetails = new HashMap<>();
     in.notifyDetails.put(RecipientType.BCC, new NotifyInfo(ImmutableList.of(email)));
@@ -2356,7 +2354,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("delete vote not permitted");
     gApi.changes().id(r.getChangeId()).reviewer(admin.getId().toString()).deleteVote("Code-Review");
@@ -2400,12 +2398,12 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Approve the change as user, then remove the approval
     // (only to confirm that the user does have Code-Review+2 permission)
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(changeId).revision(commit).review(ReviewInput.approve());
     gApi.changes().id(changeId).revision(commit).review(ReviewInput.noScore());
 
     // Submit the change
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(changeId).revision(commit).submit();
 
     // User should still be on the change
@@ -2522,7 +2520,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(
             Iterables.getOnlyElement(query("project:{" + project.get() + "} owner:self")).changeId)
         .isEqualTo(r.getChangeId());
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertThat(query("owner:self project:{" + project.get() + "}")).isEmpty();
   }
 
@@ -2533,7 +2531,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.reviewer = user.email;
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertThat(get(r.getChangeId(), REVIEWED).reviewed).isNull();
 
     revision(r).review(ReviewInput.recommend());
@@ -2554,7 +2552,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void editTopicWithoutPermissionNotAllowed() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(gApi.changes().id(r.getChangeId()).topic()).isEqualTo("");
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("edit topic name not permitted");
     gApi.changes().id(r.getChangeId()).topic("mytopic");
@@ -2565,7 +2563,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     assertThat(gApi.changes().id(r.getChangeId()).topic()).isEqualTo("");
     grant(project, "refs/heads/master", Permission.EDIT_TOPIC_NAME, false, REGISTERED_USERS);
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(r.getChangeId()).topic("mytopic");
     assertThat(gApi.changes().id(r.getChangeId()).topic()).isEqualTo("mytopic");
   }
@@ -2609,7 +2607,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void submitNotAllowedWithoutPermission() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("submit not permitted");
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
@@ -2620,7 +2618,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
     grant(project, "refs/heads/master", Permission.SUBMIT, false, REGISTERED_USERS);
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
     assertThat(gApi.changes().id(r.getChangeId()).info().status).isEqualTo(ChangeStatus.MERGED);
   }
@@ -2726,7 +2724,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void defaultSearchDoesNotTouchDatabase() throws Exception {
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     PushOneCommit.Result r1 = createChange();
     gApi.changes()
         .id(r1.getChangeId())
@@ -2736,7 +2734,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     createChange();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     AcceptanceTestRequestScope.Context ctx = disableDb();
     try {
       assertThat(
@@ -2803,7 +2801,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void anonymousRestApi() throws Exception {
-    setApiUserAnonymous();
+    requestScopeOperations.setApiUserAnonymous();
     PushOneCommit.Result r = createChange();
 
     ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
@@ -3038,7 +3036,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(baseChange).setPrivate(true, "set private");
 
     // Create the destination change on 'master' branch.
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     testRepo.reset(initialHead);
     String changeId = createChange().getChangeId();
 
@@ -3259,10 +3257,10 @@ public class ChangeIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r = createChange();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
 
     ChangeInfo change = gApi.changes().id(r.getChangeId()).get();
@@ -3482,7 +3480,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
 
     for (com.google.gerrit.acceptance.TestAccount acc : ImmutableList.of(admin, user)) {
-      setApiUser(acc);
+      requestScopeOperations.setApiUser(acc.getId());
       String newMessage =
           "modified commit by " + acc.username + "\n\nChange-Id: " + r.getChangeId() + "\n";
       gApi.changes().id(r.getChangeId()).setMessage(newMessage);
@@ -3501,7 +3499,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Move the change to WIP and edit the commit message again, to observe a
     // different tag. Must switch to change owner to move into WIP.
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(r.getChangeId()).setWorkInProgress();
     String newMessage = "modified commit in WIP change\n\nChange-Id: " + r.getChangeId() + "\n";
     gApi.changes().id(r.getChangeId()).setMessage(newMessage);
@@ -3747,7 +3745,7 @@ public class ChangeIT extends AbstractDaemonTest {
       u.save();
     }
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
 
@@ -3767,7 +3765,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .containsExactly((short) 2, (short) 1);
     assertThat(gApi.changes().id(changeId).get().submittable).isTrue();
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     // Remove user's permission for 'Label'.
     try (ProjectConfigUpdate u = updateProject(project)) {
       Util.remove(u.getConfig(), Permission.forLabel(label), registered, "refs/heads/*");
@@ -3779,7 +3777,7 @@ public class ChangeIT extends AbstractDaemonTest {
     }
 
     // Verify user's new permitted range.
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     change = gApi.changes().id(changeId).get();
     assertPermitted(change, label);
     assertPermitted(change, codeReviewLabel, -1, 0, 1);
@@ -3788,7 +3786,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .containsExactly((short) 2, (short) 1);
     assertThat(gApi.changes().id(changeId).get().submittable).isTrue();
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(changeId).current().submit();
   }
 
@@ -3964,18 +3962,18 @@ public class ChangeIT extends AbstractDaemonTest {
     in.reviewer = email;
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(r.getChangeId()).ignore(true);
     assertThat(gApi.changes().id(r.getChangeId()).ignored()).isTrue();
 
     sender.clear();
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(r.getChangeId()).abandon();
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     assertThat(messages.get(0).rcpt()).containsExactly(new Address(fullname, email));
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(r.getChangeId()).ignore(false);
     assertThat(gApi.changes().id(r.getChangeId()).ignored()).isFalse();
   }
@@ -3993,7 +3991,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void cannotIgnoreStarredChange() throws Exception {
     String changeId = createChange().getChangeId();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.accounts().self().starChange(changeId);
     assertThat(gApi.changes().id(changeId).get().starred).isTrue();
 
@@ -4011,7 +4009,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void cannotStarIgnoredChange() throws Exception {
     String changeId = createChange().getChangeId();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(changeId).ignore(true);
     assertThat(gApi.changes().id(changeId).ignored()).isTrue();
 
@@ -4035,16 +4033,16 @@ public class ChangeIT extends AbstractDaemonTest {
     in.reviewer = user.email;
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertThat(gApi.changes().id(r.getChangeId()).get().reviewed).isNull();
     gApi.changes().id(r.getChangeId()).markAsReviewed(true);
     assertThat(gApi.changes().id(r.getChangeId()).get().reviewed).isTrue();
 
-    setApiUser(user2);
+    requestScopeOperations.setApiUser(user2.getId());
     sender.clear();
     amendChange(r.getChangeId());
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertThat(gApi.changes().id(r.getChangeId()).get().reviewed).isNull();
 
     List<Message> messages = sender.getMessages();
@@ -4056,7 +4054,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void cannotSetUnreviewedLabelForPatchSetThatAlreadyHasReviewedLabel() throws Exception {
     String changeId = createChange().getChangeId();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(changeId).markAsReviewed(true);
     assertThat(gApi.changes().id(changeId).get().reviewed).isTrue();
 
@@ -4081,7 +4079,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void cannotSetReviewedLabelForPatchSetThatAlreadyHasUnreviewedLabel() throws Exception {
     String changeId = createChange().getChangeId();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(changeId).markAsReviewed(false);
     assertThat(gApi.changes().id(changeId).get().reviewed).isNull();
 
@@ -4106,7 +4104,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void setReviewedAndUnreviewedLabelsForDifferentPatchSets() throws Exception {
     String changeId = createChange().getChangeId();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(changeId).markAsReviewed(true);
     assertThat(gApi.changes().id(changeId).get().reviewed).isTrue();
 

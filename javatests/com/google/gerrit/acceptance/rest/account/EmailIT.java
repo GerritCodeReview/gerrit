@@ -23,6 +23,7 @@ import com.google.common.collect.Multimap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.accounts.EmailApi;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.EmailInfo;
@@ -52,14 +53,15 @@ import java.util.Set;
 import org.junit.Test;
 
 public class EmailIT extends AbstractDaemonTest {
-  @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
-  @Inject private ExternalIds externalIds;
-  @Inject private AuthConfig authConfig;
   @Inject private @AnonymousCowardName String anonymousCowardName;
   @Inject private @CanonicalWebUrl Provider<String> canonicalUrl;
   @Inject private @DisableReverseDnsLookup Boolean disableReverseDnsLookup;
+  @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
+  @Inject private AuthConfig authConfig;
   @Inject private EmailExpander emailExpander;
+  @Inject private ExternalIds externalIds;
   @Inject private Provider<Emails> emails;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void addEmail() throws Exception {
@@ -120,7 +122,7 @@ public class EmailIT extends AbstractDaemonTest {
     createEmail(email);
     assertThat(gApi.accounts().self().get().email).isNotEqualTo(email);
 
-    resetCurrentApiUser();
+    requestScopeOperations.resetCurrentApiUser();
     gApi.accounts().self().email(email).setPreferred();
     assertThat(gApi.accounts().self().get().email).isEqualTo(email);
   }
@@ -139,7 +141,7 @@ public class EmailIT extends AbstractDaemonTest {
                         ExternalId.SCHEME_EXTERNAL, "foo", admin.id, email)));
     assertThat(gApi.accounts().self().get().email).isNotEqualTo(email);
 
-    resetCurrentApiUser();
+    requestScopeOperations.resetCurrentApiUser();
     gApi.accounts().self().email(email).setPreferred();
     assertThat(gApi.accounts().self().get().email).isEqualTo(email);
   }
@@ -165,7 +167,7 @@ public class EmailIT extends AbstractDaemonTest {
     createEmail(email);
     assertThat(gApi.accounts().self().get().email).isNotEqualTo(email);
 
-    resetCurrentApiUser();
+    requestScopeOperations.resetCurrentApiUser();
     String emailOtherCase = email.toUpperCase();
     gApi.accounts().self().email(emailOtherCase).setPreferred();
     assertThat(gApi.accounts().self().get().email).isEqualTo(email);
@@ -221,7 +223,7 @@ public class EmailIT extends AbstractDaemonTest {
     assertThat(gApi.accounts().self().get().email).isNotEqualTo(email);
 
     // Get email
-    resetCurrentApiUser();
+    requestScopeOperations.resetCurrentApiUser();
     EmailApi emailApi = gApi.accounts().self().email(email);
     EmailInfo emailInfo = emailApi.get();
     assertThat(emailInfo.email).isEqualTo(email);
@@ -233,7 +235,7 @@ public class EmailIT extends AbstractDaemonTest {
     assertThat(gApi.accounts().self().get().email).isEqualTo(email);
 
     // Get email again (now it's the preferred email)
-    resetCurrentApiUser();
+    requestScopeOperations.resetCurrentApiUser();
     emailApi = gApi.accounts().self().email(email);
     emailInfo = emailApi.get();
     assertThat(emailInfo.email).isEqualTo(email);
@@ -245,7 +247,7 @@ public class EmailIT extends AbstractDaemonTest {
     assertThat(getEmails()).doesNotContain(email);
 
     // Now the email is no longer found
-    resetCurrentApiUser();
+    requestScopeOperations.resetCurrentApiUser();
     emailApi = gApi.accounts().self().email(email);
     exception.expect(ResourceNotFoundException.class);
     emailApi.get();

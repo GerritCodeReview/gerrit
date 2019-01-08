@@ -20,15 +20,19 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.inject.Inject;
 import org.junit.Test;
 
 @NoHttpd
 public class ListBranchesIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   @Test
   public void listBranchesOfNonExistingProject_NotFound() throws Exception {
     exception.expect(ResourceNotFoundException.class);
@@ -38,7 +42,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   @Test
   public void listBranchesOfNonVisibleProject_NotFound() throws Exception {
     blockRead("refs/*");
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(ResourceNotFoundException.class);
     gApi.projects().name(project.get()).branches().get();
   }
@@ -70,7 +74,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     blockRead("refs/heads/dev");
     String master = pushTo("refs/heads/master").getCommit().name();
     pushTo("refs/heads/dev");
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     // refs/meta/config is hidden since user is no project owner
     assertRefs(
         ImmutableList.of(
@@ -83,7 +87,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     blockRead("refs/heads/master");
     pushTo("refs/heads/master");
     String dev = pushTo("refs/heads/dev").getCommit().name();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     // refs/meta/config is hidden since user is no project owner
     assertRefs(ImmutableList.of(branch("refs/heads/dev", dev, false)), list().get());
   }

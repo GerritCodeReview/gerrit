@@ -23,6 +23,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -32,6 +33,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
+import com.google.inject.Inject;
 import java.util.Iterator;
 import java.util.List;
 import org.eclipse.jgit.transport.RefSpec;
@@ -41,6 +43,7 @@ import org.junit.Test;
 
 @NoHttpd
 public class AssigneeIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @BeforeClass
   public static void setTimeForTesting() {
@@ -144,7 +147,7 @@ public class AssigneeIT extends AbstractDaemonTest {
   @Test
   public void setAssigneeNotAllowedWithoutPermission() throws Exception {
     PushOneCommit.Result r = createChange();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("not permitted");
     setAssignee(r, user.email);
@@ -154,7 +157,7 @@ public class AssigneeIT extends AbstractDaemonTest {
   public void setAssigneeAllowedWithPermission() throws Exception {
     PushOneCommit.Result r = createChange();
     grant(project, "refs/heads/master", Permission.EDIT_ASSIGNEE, false, REGISTERED_USERS);
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertThat(setAssignee(r, user.email)._accountId).isEqualTo(user.getId().get());
   }
 

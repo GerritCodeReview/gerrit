@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.plugins.InstallPluginInput;
 import com.google.gerrit.extensions.api.plugins.PluginApi;
@@ -33,6 +34,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.inject.Inject;
 import java.util.List;
 import org.junit.Test;
 
@@ -48,6 +50,8 @@ public class PluginIT extends AbstractDaemonTest {
   private static final ImmutableList<String> PLUGINS =
       ImmutableList.of(
           "plugin-a.js", "plugin-b.html", "plugin-c.js", "plugin-d.html", "plugin_e.js");
+
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")
@@ -112,7 +116,7 @@ public class PluginIT extends AbstractDaemonTest {
     deprecatedInput();
 
     // Non-admin cannot disable
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     try {
       gApi.plugins().name("plugin-a").disable();
       fail("Expected AuthException");

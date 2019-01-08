@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
@@ -43,6 +44,7 @@ import org.junit.Test;
 @Sandboxed
 public class ListProjectsIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void listProjects() throws Exception {
@@ -54,7 +56,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listProjectsFiltersInvisibleProjects() throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertThatNameList(gApi.projects().list().get()).contains(project);
 
     try (ProjectConfigUpdate u = updateProject(project)) {

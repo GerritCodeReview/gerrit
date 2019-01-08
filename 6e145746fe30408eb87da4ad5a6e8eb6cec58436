@@ -16,6 +16,24 @@
       "revId": "6e145746fe30408eb87da4ad5a6e8eb6cec58436",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c9c0737_2d32e47b",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2019-01-08T18:14:35Z",
+      "side": 1,
+      "message": "Why isn\u0027t this done by google-java-format? :/",
+      "parentUuid": "820511e3_77f45f10",
+      "revId": "6e145746fe30408eb87da4ad5a6e8eb6cec58436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

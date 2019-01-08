@@ -20,7 +20,9 @@
   // Prevent redefinition.
   if (window.GrDiffBuilderImage) { return; }
 
-  const IMAGE_MIME_PATTERN = /^image\/(bmp|gif|jpeg|jpg|png|tiff|webp)$/;
+  // MIME types for images we allow showing. Do not include SVG, it can contain
+  // arbitrary JavaScript.
+  const IMAGE_MIME_PATTERN = /^image\/(bmp|gif|x-icon|jpeg|jpg|png|tiff|webp)$/;
 
   function GrDiffBuilderImage(diff, comments, createThreadGroupFn, prefs,
       outputEl, baseImage, revisionImage) {

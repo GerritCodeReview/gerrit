@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.rest.util.RestCall;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.gpg.testing.TestKey;
 import com.google.gerrit.server.ServerInitiated;
@@ -41,6 +42,7 @@ import org.junit.Test;
  */
 public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   /**
    * Account REST endpoints to be tested, each URL contains a placeholder for the account
@@ -169,7 +171,7 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
                 u.addExternalId(
                     ExternalId.createWithEmail(name("test"), email, admin.getId(), email)));
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.accounts()
         .self()
         .putGpgKeys(ImmutableList.of(key.getPublicKeyArmored()), ImmutableList.of());

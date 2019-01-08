@@ -26,6 +26,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -44,6 +45,7 @@ import org.junit.Test;
 
 public class AbandonIT extends AbstractDaemonTest {
   @Inject private AbandonUtil abandonUtil;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void abandon() throws Exception {
@@ -127,7 +129,7 @@ public class AbandonIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("abandon not permitted");
     gApi.changes().id(changeId).abandon();
@@ -139,7 +141,7 @@ public class AbandonIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
     grant(project, "refs/heads/master", Permission.ABANDON, false, REGISTERED_USERS);
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(changeId).abandon();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
     gApi.changes().id(changeId).restore();
@@ -170,7 +172,7 @@ public class AbandonIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
     gApi.changes().id(changeId).abandon();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
     exception.expect(AuthException.class);
     exception.expectMessage("restore not permitted");

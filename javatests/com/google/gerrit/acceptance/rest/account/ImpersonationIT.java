@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
@@ -70,12 +71,10 @@ import org.junit.Test;
 
 public class ImpersonationIT extends AbstractDaemonTest {
   @Inject private AccountControl.Factory accountControlFactory;
-
   @Inject private ApprovalsUtil approvalsUtil;
-
   @Inject private ChangeMessagesUtil cmUtil;
-
   @Inject private CommentsUtil commentsUtil;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   private RestSession anonRestSession;
   private TestAccount admin2;
@@ -254,7 +253,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     allowCodeReviewOnBehalfOf();
     PushOneCommit.Result r = createChange();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     DraftInput di = new DraftInput();
     di.path = Patch.COMMIT_MSG;
     di.side = Side.REVISION;
@@ -262,7 +261,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     di.message = "message";
     gApi.changes().id(r.getChangeId()).current().createDraft(di);
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     ReviewInput in = new ReviewInput();
     in.onBehalfOf = user.id.toString();
     in.label("Code-Review", 1);
@@ -310,7 +309,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Test
   public void voteOnBehalfOfInvisibleUserNotAllowed() throws Exception {
     allowCodeReviewOnBehalfOf();
-    setApiUser(accountCreator.user2());
+    requestScopeOperations.setApiUser(accountCreator.user2().getId());
     assertThat(accountControlFactory.get().canSee(user.id)).isFalse();
 
     PushOneCommit.Result r = createChange();
@@ -391,7 +390,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Test
   public void submitOnBehalfOfInvisibleUserNotAllowed() throws Exception {
     allowSubmitOnBehalfOf();
-    setApiUser(accountCreator.user2());
+    requestScopeOperations.setApiUser(accountCreator.user2().getId());
     assertThat(accountControlFactory.get().canSee(user.id)).isFalse();
 
     PushOneCommit.Result r = createChange();
@@ -452,14 +451,14 @@ public class ImpersonationIT extends AbstractDaemonTest {
     allowRunAs();
     PushOneCommit.Result r = createChange();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     DraftInput di = new DraftInput();
     di.path = Patch.COMMIT_MSG;
     di.side = Side.REVISION;
     di.line = 1;
     di.message = "inline comment";
     gApi.changes().id(r.getChangeId()).current().createDraft(di);
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
 
     // Things that aren't allowed with on_behalf_of:
     //  - no labels.
@@ -481,7 +480,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(c.author._accountId).isEqualTo(user.id.get());
     assertThat(c.message).isEqualTo(di.message);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertThat(gApi.changes().id(r.getChangeId()).drafts()).isEmpty();
   }
 
@@ -533,7 +532,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.message = "Message on behalf of";
     in.label("Code-Review", 1);
 
-    setApiUser(accountCreator.user2());
+    requestScopeOperations.setApiUser(accountCreator.user2().getId());
     gApi.changes().id(r.getChangeId()).revision(r.getPatchSetId().getId()).review(in);
 
     ChangeInfo info = gApi.changes().id(r.getChangeId()).get(MESSAGES);

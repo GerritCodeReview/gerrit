@@ -18,17 +18,20 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.mail.MailMessage;
+import com.google.inject.Inject;
 import java.time.Instant;
 import java.util.HashMap;
 import org.junit.Ignore;
 
 @Ignore
 public class AbstractMailIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   protected MailMessage.Builder messageBuilderWithDefaultFields() {
     MailMessage.Builder b = MailMessage.builder();
@@ -54,7 +57,7 @@ public class AbstractMailIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
 
     // Review it
-    setApiUser(reviewer);
+    requestScopeOperations.setApiUser(reviewer.getId());
     ReviewInput input = new ReviewInput();
     input.message = "I have two comments";
     input.comments = new HashMap<>();

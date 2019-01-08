@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagApi;
@@ -33,6 +34,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.inject.Inject;
 import java.sql.Timestamp;
 import java.util.List;
 import org.junit.Test;
@@ -56,6 +58,8 @@ public class TagsIT extends AbstractDaemonTest {
           + "=XFeC\n"
           + "-----END PGP SIGNATURE-----";
 
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   @Test
   public void listTagsOfNonExistingProject() throws Exception {
     exception.expect(ResourceNotFoundException.class);
@@ -71,7 +75,7 @@ public class TagsIT extends AbstractDaemonTest {
   @Test
   public void listTagsOfNonVisibleProject() throws Exception {
     blockRead("refs/*");
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(ResourceNotFoundException.class);
     gApi.projects().name(project.get()).tags().get();
   }
@@ -187,7 +191,7 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result.canDelete).isTrue();
     assertThat(result.created).isEqualTo(timestamp(r));
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     result = tag(input.ref).get();
     assertThat(result.canDelete).isNull();
 

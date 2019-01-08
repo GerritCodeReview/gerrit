@@ -40,6 +40,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -112,9 +113,10 @@ import org.junit.Test;
 
 public class RevisionIT extends AbstractDaemonTest {
 
-  @Inject private GetRevisionActions getRevisionActions;
-  @Inject private DynamicSet<PatchSetWebLink> patchSetLinks;
   @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
+  @Inject private DynamicSet<PatchSetWebLink> patchSetLinks;
+  @Inject private GetRevisionActions getRevisionActions;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void reviewTriplet() throws Exception {
@@ -215,13 +217,13 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = project.get() + "~master~" + r.getChangeId();
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     revision(r).review(ReviewInput.approve());
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     revision(r).review(ReviewInput.recommend());
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(changeId).reviewer(user.username).deleteVote("Code-Review");
     Optional<ApprovalInfo> crUser =
         get(changeId, DETAILED_LABELS)
@@ -236,7 +238,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     revision(r).submit();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     ReviewInput in = new ReviewInput();
     in.label("Code-Review", 1);
     in.message = "Still LGTM";
@@ -302,7 +304,7 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void voteNotAllowedWithoutPermission() throws Exception {
     PushOneCommit.Result r = createChange();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("is restricted");
     gApi.changes().id(r.getChange().getId().get()).current().review(ReviewInput.approve());
@@ -736,7 +738,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     // 'user' cherry-picks the change to a new branch, the source change's author/committer('admin')
     // will be added as a reviewer of the newly created change.
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     CherryPickInput input = new CherryPickInput();
     input.message = "it goes to a new branch";
 
@@ -772,13 +774,13 @@ public class RevisionIT extends AbstractDaemonTest {
     // Change is created by 'admin'.
     PushOneCommit.Result r = createChange();
     // Change is approved by 'admin2'. Change is CC'd to 'user'.
-    setApiUser(accountCreator.admin2());
+    requestScopeOperations.setApiUser(accountCreator.admin2().getId());
     ReviewInput in = ReviewInput.approve();
     in.reviewer(user.email, ReviewerState.CC, true);
     gApi.changes().id(r.getChangeId()).current().review(in);
 
     // Change is cherrypicked by 'user2'.
-    setApiUser(accountCreator.user2());
+    requestScopeOperations.setApiUser(accountCreator.user2().getId());
     CherryPickInput cin = new CherryPickInput();
     cin.message = "this need to go to stable";
     cin.destination = "stable";
@@ -857,7 +859,7 @@ public class RevisionIT extends AbstractDaemonTest {
     input.base = dstChange.getCommit().name();
     input.message = srcChange.getCommit().getFullMessage();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage(
         String.format("Commit %s does not exist on branch refs/heads/foo", input.base));
@@ -1123,7 +1125,7 @@ public class RevisionIT extends AbstractDaemonTest {
   public void setDescriptionNotAllowedWithoutPermission() throws Exception {
     PushOneCommit.Result r = createChange();
     assertDescription(r, "");
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("edit description not permitted");
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("test");
@@ -1134,7 +1136,7 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     assertDescription(r, "");
     grant(project, "refs/heads/master", Permission.OWNER, false, REGISTERED_USERS);
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("test");
     assertDescription(r, "test");
   }
@@ -1397,11 +1399,11 @@ public class RevisionIT extends AbstractDaemonTest {
     amendChange(r.getChangeId());
 
     // code-review
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     recommend(r.getChangeId());
 
     // check if it's blocked to delete a vote on a non-current patch set.
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage("Cannot access on non-current patch set");
     gApi.changes()
@@ -1420,10 +1422,10 @@ public class RevisionIT extends AbstractDaemonTest {
     amendChange(r.getChangeId());
 
     // code-review
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     recommend(r.getChangeId());
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes()
         .id(r.getChangeId())
         .current()

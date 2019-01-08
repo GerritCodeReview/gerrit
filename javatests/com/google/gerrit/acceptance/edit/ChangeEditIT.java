@@ -35,6 +35,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
@@ -91,6 +92,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private static final byte[] CONTENT_NEW2 = CONTENT_NEW2_STR.getBytes(UTF_8);
 
   @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   private String changeId;
   private String changeId2;
@@ -625,11 +627,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
     gApi.changes().id(changeId2).edit().publish(publishInput);
     assertThat(queryEdits()).isEmpty();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     createEmptyEditFor(changeId);
     assertThat(queryEdits()).hasSize(1);
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     assertThat(queryEdits()).isEmpty();
   }
 

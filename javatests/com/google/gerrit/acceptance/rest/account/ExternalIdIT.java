@@ -33,6 +33,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
@@ -90,6 +91,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private ExternalIds externalIds;
   @Inject private ExternalIdReader externalIdReader;
   @Inject private ExternalIdNotes.Factory externalIdNotesFactory;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void getExternalIds() throws Exception {
@@ -109,7 +111,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void getExternalIdsOfOtherUserNotAllowed() throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("access database not permitted");
     gApi.accounts().id(admin.id.get()).getExternalIds();
@@ -135,7 +137,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void deleteExternalIds() throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     List<AccountExternalIdInfo> externalIds = gApi.accounts().self().getExternalIds();
 
     List<String> toDelete = new ArrayList<>();
@@ -162,7 +164,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void deleteExternalIdsOfOtherUserNotAllowed() throws Exception {
     List<AccountExternalIdInfo> extIds = gApi.accounts().self().getExternalIds();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("access database not permitted");
     gApi.accounts()
@@ -173,7 +175,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void deleteExternalIdOfOtherUserUnderOwnAccount_UnprocessableEntity() throws Exception {
     List<AccountExternalIdInfo> extIds = gApi.accounts().self().getExternalIds();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage(String.format("External id %s does not exist", extIds.get(0).identity));
     gApi.accounts()
@@ -199,7 +201,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
     assertThat(toDelete).hasSize(1);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     RestResponse response =
         userRestSession.post("/accounts/" + admin.id + "/external.ids:delete", toDelete);
     response.assertNoContent();
@@ -402,7 +404,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void readExternalIdsWhenInvalidExternalIdsExist() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-    resetCurrentApiUser();
+    requestScopeOperations.resetCurrentApiUser();
 
     insertValidExternalIds();
     insertInvalidButParsableExternalIds();
@@ -423,7 +425,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void checkConsistency() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-    resetCurrentApiUser();
+    requestScopeOperations.resetCurrentApiUser();
 
     insertValidExternalIds();
 

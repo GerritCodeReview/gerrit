@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -33,9 +34,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   private Project.NameKey project1;
   private Project.NameKey project2;
-  @Inject private ProjectOperations projectOperations;
 
   @Before
   public void setUp() throws Exception {
@@ -45,7 +48,7 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
 
   @After
   public void tearDown() throws Exception {
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id.get()).getPreferences();
     prefs.workInProgressByDefault = false;
     gApi.accounts().id(admin.id.get()).setPreferences(prefs);

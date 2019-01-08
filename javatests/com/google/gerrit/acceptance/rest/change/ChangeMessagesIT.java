@@ -28,6 +28,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.changes.DeleteChangeMessageInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -40,6 +41,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
+import com.google.inject.Inject;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -54,6 +56,8 @@ import org.junit.runner.RunWith;
 
 @RunWith(ConfigSuite.class)
 public class ChangeMessagesIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   private String systemTimeZone;
 
   @Before
@@ -139,7 +143,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   @Test
   public void deleteCannotBeAppliedWithoutAdministrateServerCapability() throws Exception {
     int changeNum = createOneChangeWithMultipleChangeMessagesInHistory();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
 
     try {
       deleteOneChangeMessage(changeNum, 0, user, "spam");
@@ -153,7 +157,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   public void deleteCanBeAppliedWithAdministrateServerCapability() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ADMINISTRATE_SERVER);
     int changeNum = createOneChangeWithMultipleChangeMessagesInHistory();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     deleteOneChangeMessage(changeNum, 0, user, "spam");
   }
 
@@ -209,22 +213,22 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   private int createOneChangeWithMultipleChangeMessagesInHistory() throws Exception {
     // Creates the following commit history on the meta branch of the test change.
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     // Commit 1: create a change.
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
     // Commit 2: post a review with message "message 1".
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     addOneReview(changeId, "message 1");
     // Commit 3: amend a new patch set.
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     amendChange(changeId);
     // Commit 4: post a review with message "message 2".
     addOneReview(changeId, "message 2");
     // Commit 5: amend a new patch set.
     amendChange(changeId);
     // Commit 6: approve the change.
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
     // commit 7: submit the change.
     gApi.changes().id(changeId).current().submit();

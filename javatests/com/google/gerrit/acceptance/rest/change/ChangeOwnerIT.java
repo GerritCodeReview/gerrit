@@ -20,6 +20,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -32,13 +33,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeOwnerIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   private TestAccount user2;
-  @Inject private ProjectOperations projectOperations;
 
   @Before
   public void setUp() throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     user2 = accountCreator.user2();
   }
 
@@ -64,22 +66,22 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
 
   @Test
   public void testChangeOwner_OwnerACLGrantedOnParentProject() throws Exception {
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     grantApproveToChangeOwner(project);
     Project.NameKey child = projectOperations.newProject().parent(project).create();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     TestRepository<InMemoryRepository> childRepo = cloneProject(child, user);
     approve(user, createMyChange(childRepo));
   }
 
   @Test
   public void testChangeOwner_BlockedOnParentProject() throws Exception {
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     blockApproveForChangeOwner(project);
     Project.NameKey child = projectOperations.newProject().parent(project).create();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     grantApproveToAll(child);
     TestRepository<InMemoryRepository> childRepo = cloneProject(child, user);
     String changeId = createMyChange(childRepo);
@@ -93,11 +95,11 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
 
   @Test
   public void testChangeOwner_BlockedOnParentProjectAndExclusiveAllowOnChild() throws Exception {
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     blockApproveForChangeOwner(project);
     Project.NameKey child = projectOperations.newProject().parent(project).create();
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     grantExclusiveApproveToAll(child);
     TestRepository<InMemoryRepository> childRepo = cloneProject(child, user);
     String changeId = createMyChange(childRepo);
@@ -110,7 +112,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   }
 
   private void approve(TestAccount a, String changeId) throws Exception {
-    Context old = setApiUser(a);
+    Context old = requestScopeOperations.setApiUser(a.getId());
     try {
       gApi.changes().id(changeId).current().review(ReviewInput.approve());
     } finally {

@@ -22,6 +22,7 @@ import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -37,6 +38,7 @@ import org.junit.Test;
 
 public class DeleteBranchIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   private Branch.NameKey testBranch;
 
@@ -49,7 +51,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
   @Test
   public void deleteBranch_Forbidden() throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertDeleteForbidden(testBranch);
   }
 
@@ -61,7 +63,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   @Test
   public void deleteBranchByProjectOwner() throws Exception {
     grantOwner();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertDeleteSucceeds(testBranch);
   }
 
@@ -75,21 +77,21 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   public void deleteBranchByProjectOwnerForcePushBlocked_Forbidden() throws Exception {
     grantOwner();
     blockForcePush();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertDeleteForbidden(testBranch);
   }
 
   @Test
   public void deleteBranchByUserWithForcePushPermission() throws Exception {
     grantForcePush();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertDeleteSucceeds(testBranch);
   }
 
   @Test
   public void deleteBranchByUserWithDeletePermission() throws Exception {
     grantDelete();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertDeleteSucceeds(testBranch);
   }
 

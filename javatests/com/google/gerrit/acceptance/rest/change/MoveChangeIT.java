@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
@@ -38,6 +39,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.inject.Inject;
 import java.util.Arrays;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -46,6 +48,8 @@ import org.junit.Test;
 
 @NoHttpd
 public class MoveChangeIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   @Test
   public void moveChangeWithShortRef() throws Exception {
     // Move change to a different branch using short ref name
@@ -182,7 +186,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
         r.getChange().change().getDest().get(),
         Permission.ABANDON,
         systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     exception.expectMessage("move not permitted");
     move(r.getChangeId(), newBranch.get());

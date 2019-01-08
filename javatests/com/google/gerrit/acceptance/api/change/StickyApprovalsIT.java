@@ -34,6 +34,7 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -46,6 +47,7 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.inject.Inject;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -58,6 +60,7 @@ import org.junit.Test;
 
 @NoHttpd
 public class StickyApprovalsIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Before
   public void setup() throws Exception {
@@ -455,7 +458,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   private void trivialRebase(String changeId) throws Exception {
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     testRepo.reset(getRemoteHead());
     PushOneCommit push =
         pushFactory.create(
@@ -553,20 +556,20 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   private void vote(TestAccount user, String changeId, String label, int vote) throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(changeId).current().review(new ReviewInput().label(label, vote));
   }
 
   private void vote(TestAccount user, String changeId, int codeReviewVote, int verifiedVote)
       throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     ReviewInput in =
         new ReviewInput().label("Code-Review", codeReviewVote).label("Verified", verifiedVote);
     gApi.changes().id(changeId).current().review(in);
   }
 
   private void deleteVote(TestAccount user, String changeId, String label) throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(changeId).reviewer(user.getId().toString()).deleteVote(label);
   }
 

@@ -789,20 +789,17 @@ public abstract class AbstractDaemonTest {
     return atrScope.get();
   }
 
-  /**
-   * Enforce a new request context for the current API user.
-   *
-   * <p>This recreates the IdentifiedUser, hence everything which is cached in the IdentifiedUser is
-   * reloaded (e.g. the email addresses of the user).
-   */
+  @Deprecated // Tests should inject and use their own RequestScopeOperations.
   protected Context resetCurrentApiUser() {
     return requestScopeOperations.resetCurrentApiUser();
   }
 
+  @Deprecated // Tests should inject and use their own RequestScopeOperations.
   protected Context setApiUser(TestAccount account) {
     return requestScopeOperations.setApiUser(account.getId());
   }
 
+  @Deprecated // Tests should inject and use their own RequestScopeOperations.
   protected Context setApiUserAnonymous() {
     return requestScopeOperations.setApiUserAnonymous();
   }

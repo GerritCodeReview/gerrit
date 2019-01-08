@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b08b4ab_278cdce4",
+        "filename": "javatests/com/google/gerrit/server/query/project/AbstractQueryProjectsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-08T07:31:37Z",
+      "side": 1,
+      "message": "It is best to first create them in the wrong order and *then* check if the query returns them ordered.",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 79
+      },
+      "revId": "5573155af0b79b1ff3056c8d622559e2e0d731a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dce6490_d5139e04",
+        "filename": "javatests/com/google/gerrit/server/query/project/AbstractQueryProjectsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-08T07:31:37Z",
+      "side": 1,
+      "message": "Exactly this was missing in the previous tests: that\u0027s why they were passing even if the feature was broken.",
+      "range": {
+        "startLine": 350,
+        "startChar": 8,
+        "endLine": 350,
+        "endChar": 19
+      },
+      "revId": "5573155af0b79b1ff3056c8d622559e2e0d731a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

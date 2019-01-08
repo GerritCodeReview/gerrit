@@ -35,6 +35,9 @@
     </script>{\n}
   {/if}
 
+  // works around a issue where window.Polymer sometimes did not work in the if check.
+  window.USE_POLYMER = true;
+
   <link rel="icon" type="image/x-icon" href="{$canonicalPath}/favicon.ico">{\n}
 
   // RobotoMono fonts are used in styles/fonts.css

@@ -38,7 +38,7 @@ import java.util.List;
  * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
  * holding on to a single instance.
  */
-public class InternalQuery<T> {
+public class InternalQuery<T, Q extends InternalQuery<T, Q>> {
   private final QueryProcessor<T> queryProcessor;
   private final IndexCollection<?, T, ? extends Index<?, T>> indexes;
 
@@ -53,30 +53,35 @@ public class InternalQuery<T> {
     this.indexConfig = indexConfig;
   }
 
-  public InternalQuery<T> setLimit(int n) {
+  @SuppressWarnings("unchecked")
+  protected final Q self() {
+    return (Q) this;
+  }
+
+  public final Q setLimit(int n) {
     queryProcessor.setUserProvidedLimit(n);
-    return this;
+    return self();
   }
 
-  public InternalQuery<T> enforceVisibility(boolean enforce) {
+  public final Q enforceVisibility(boolean enforce) {
     queryProcessor.enforceVisibility(enforce);
-    return this;
+    return self();
   }
 
-  @SuppressWarnings("unchecked") // Can't set @SafeVarargs on a non-final method.
-  public InternalQuery<T> setRequestedFields(FieldDef<T, ?>... fields) {
+  @SafeVarargs
+  public final Q setRequestedFields(FieldDef<T, ?>... fields) {
     checkArgument(fields.length > 0, "requested field list is empty");
     queryProcessor.setRequestedFields(
         Arrays.stream(fields).map(FieldDef::getName).collect(toSet()));
-    return this;
+    return self();
   }
 
-  public InternalQuery<T> noFields() {
+  public final Q noFields() {
     queryProcessor.setRequestedFields(ImmutableSet.of());
-    return this;
+    return self();
   }
 
-  public List<T> query(Predicate<T> p) throws OrmException {
+  public final List<T> query(Predicate<T> p) throws OrmException {
     try {
       return queryProcessor.query(p).entities();
     } catch (QueryParseException e) {
@@ -94,7 +99,7 @@ public class InternalQuery<T> {
    * @return results of the queries, one list of results per input query, in the same order as the
    *     input.
    */
-  public List<List<T>> query(List<Predicate<T>> queries) throws OrmException {
+  public final List<List<T>> query(List<Predicate<T>> queries) throws OrmException {
     try {
       return Lists.transform(queryProcessor.query(queries), QueryResult::entities);
     } catch (QueryParseException e) {
@@ -102,7 +107,7 @@ public class InternalQuery<T> {
     }
   }
 
-  protected Schema<T> schema() {
+  protected final Schema<T> schema() {
     Index<?, T> index = indexes != null ? indexes.getSearchIndex() : null;
     return index != null ? index.getSchema() : null;
   }

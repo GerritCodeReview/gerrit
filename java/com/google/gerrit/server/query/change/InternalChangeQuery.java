@@ -25,7 +25,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.index.query.Predicate;
@@ -55,7 +54,7 @@ import org.eclipse.jgit.lib.Repository;
  * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
  * holding on to a single instance.
  */
-public class InternalChangeQuery extends InternalQuery<ChangeData> {
+public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChangeQuery> {
   private static Predicate<ChangeData> ref(Branch.NameKey branch) {
     return new RefPredicate(branch.get());
   }
@@ -89,31 +88,6 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
     super(queryProcessor, indexes, indexConfig);
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
-  }
-
-  @Override
-  public InternalChangeQuery setLimit(int n) {
-    super.setLimit(n);
-    return this;
-  }
-
-  @Override
-  public InternalChangeQuery enforceVisibility(boolean enforce) {
-    super.enforceVisibility(enforce);
-    return this;
-  }
-
-  @SafeVarargs
-  @Override
-  public final InternalChangeQuery setRequestedFields(FieldDef<ChangeData, ?>... fields) {
-    super.setRequestedFields(fields);
-    return this;
-  }
-
-  @Override
-  public InternalChangeQuery noFields() {
-    super.noFields();
-    return this;
   }
 
   public List<ChangeData> byKey(Change.Key key) throws OrmException {

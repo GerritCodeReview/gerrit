@@ -42,38 +42,13 @@ import java.util.Set;
  * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
  * holding on to a single instance.
  */
-public class InternalAccountQuery extends InternalQuery<AccountState> {
+public class InternalAccountQuery extends InternalQuery<AccountState, InternalAccountQuery> {
   @Inject
   InternalAccountQuery(
       AccountQueryProcessor queryProcessor,
       AccountIndexCollection indexes,
       IndexConfig indexConfig) {
     super(queryProcessor, indexes, indexConfig);
-  }
-
-  @Override
-  public InternalAccountQuery setLimit(int n) {
-    super.setLimit(n);
-    return this;
-  }
-
-  @Override
-  public InternalAccountQuery enforceVisibility(boolean enforce) {
-    super.enforceVisibility(enforce);
-    return this;
-  }
-
-  @SafeVarargs
-  @Override
-  public final InternalAccountQuery setRequestedFields(FieldDef<AccountState, ?>... fields) {
-    super.setRequestedFields(fields);
-    return this;
-  }
-
-  @Override
-  public InternalAccountQuery noFields() {
-    super.noFields();
-    return this;
   }
 
   public List<AccountState> byDefault(String query) throws OrmException {

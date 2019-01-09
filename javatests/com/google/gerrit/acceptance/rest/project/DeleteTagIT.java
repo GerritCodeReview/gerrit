@@ -21,17 +21,21 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 
 public class DeleteTagIT extends AbstractDaemonTest {
   private static final String TAG = "refs/tags/test";
+
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Before
   public void setUp() throws Exception {
@@ -40,7 +44,7 @@ public class DeleteTagIT extends AbstractDaemonTest {
 
   @Test
   public void deleteTag_Forbidden() throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertDeleteForbidden();
   }
 
@@ -52,7 +56,7 @@ public class DeleteTagIT extends AbstractDaemonTest {
   @Test
   public void deleteTagByProjectOwner() throws Exception {
     grantOwner();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertDeleteSucceeds();
   }
 
@@ -66,21 +70,21 @@ public class DeleteTagIT extends AbstractDaemonTest {
   public void deleteTagByProjectOwnerForcePushBlocked_Forbidden() throws Exception {
     grantOwner();
     blockForcePush();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertDeleteForbidden();
   }
 
   @Test
   public void deleteTagByUserWithForcePushPermission() throws Exception {
     grantForcePush();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertDeleteSucceeds();
   }
 
   @Test
   public void deleteTagByUserWithDeletePermission() throws Exception {
     grantDelete();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertDeleteSucceeds();
   }
 

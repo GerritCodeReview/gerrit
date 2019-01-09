@@ -40,6 +40,7 @@ import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
@@ -82,7 +83,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -277,17 +277,17 @@ public abstract class AbstractDaemonTest {
   protected boolean testRequiresSsh;
   protected BlockStrategy noSleepBlockStrategy = t -> {}; // Don't sleep in tests.
 
-  @Inject private ChangeIndexCollection changeIndexes;
-  @Inject private AccountIndexCollection accountIndexes;
-  @Inject private ProjectIndexCollection projectIndexes;
-  @Inject private EventRecorder.Factory eventRecorderFactory;
-  @Inject private InProcessProtocol inProcessProtocol;
-  @Inject private Provider<AnonymousUser> anonymousUser;
-  @Inject private AccountIndexer accountIndexer;
-  @Inject private Groups groups;
-  @Inject private GroupIndexer groupIndexer;
   @Inject private AbstractChangeNotes.Args changeNotesArgs;
+  @Inject private AccountIndexCollection accountIndexes;
+  @Inject private AccountIndexer accountIndexer;
+  @Inject private ChangeIndexCollection changeIndexes;
+  @Inject private EventRecorder.Factory eventRecorderFactory;
+  @Inject private GroupIndexer groupIndexer;
+  @Inject private Groups groups;
+  @Inject private InProcessProtocol inProcessProtocol;
+  @Inject private ProjectIndexCollection projectIndexes;
   @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   private ProjectResetter resetter;
   private List<Repository> toClose;
@@ -785,26 +785,23 @@ public abstract class AbstractDaemonTest {
   }
 
   private Context newRequestContext(TestAccount account) {
-    return atrScope.newContext(
-        new SshSession(sshKeys, server, account), identifiedUserFactory.create(account.getId()));
+    requestScopeOperations.setApiUser(account.getId());
+    return atrScope.get();
   }
 
-  /**
-   * Enforce a new request context for the current API user.
-   *
-   * <p>This recreates the IdentifiedUser, hence everything which is cached in the IdentifiedUser is
-   * reloaded (e.g. the email addresses of the user).
-   */
+  @Deprecated // Tests should inject and use their own RequestScopeOperations.
   protected Context resetCurrentApiUser() {
-    return atrScope.set(newRequestContext(atrScope.get().getSession().getAccount()));
+    return requestScopeOperations.resetCurrentApiUser();
   }
 
+  @Deprecated // Tests should inject and use their own RequestScopeOperations.
   protected Context setApiUser(TestAccount account) {
-    return atrScope.set(newRequestContext(account));
+    return requestScopeOperations.setApiUser(account.getId());
   }
 
+  @Deprecated // Tests should inject and use their own RequestScopeOperations.
   protected Context setApiUserAnonymous() {
-    return atrScope.set(atrScope.newContext(null, anonymousUser.get()));
+    return requestScopeOperations.setApiUserAnonymous();
   }
 
   protected Account getAccount(Account.Id accountId) {

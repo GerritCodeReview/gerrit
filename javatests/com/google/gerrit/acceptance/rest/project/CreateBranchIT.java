@@ -22,6 +22,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
@@ -33,10 +34,13 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 
 public class CreateBranchIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   private Branch.NameKey testBranch;
 
   @Before
@@ -59,7 +63,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
 
   @Test
   public void createBranch_Forbidden() throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertCreateFails(testBranch, AuthException.class, "not permitted: create on refs/heads/test");
   }
 
@@ -77,7 +81,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   @Test
   public void createBranchByProjectOwner() throws Exception {
     grantOwner();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertCreateSucceeds(testBranch);
   }
 
@@ -91,7 +95,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   public void createBranchByProjectOwnerCreateReferenceBlocked_Forbidden() throws Exception {
     grantOwner();
     blockCreateReference();
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     assertCreateFails(testBranch, AuthException.class, "not permitted: create on refs/heads/test");
   }
 

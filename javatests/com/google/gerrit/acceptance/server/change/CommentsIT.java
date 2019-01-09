@@ -30,6 +30,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -76,20 +77,17 @@ import org.junit.Test;
 
 @NoHttpd
 public class CommentsIT extends AbstractDaemonTest {
-
-  @Inject private Provider<ChangesCollection> changes;
-
-  @Inject private Provider<PostReview> postReview;
-
-  @Inject private FakeEmailSender email;
-
   @Inject private ChangeNoteUtil noteUtil;
+  @Inject private FakeEmailSender email;
+  @Inject private Provider<ChangesCollection> changes;
+  @Inject private Provider<PostReview> postReview;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   private final Integer[] lines = {0, 1};
 
   @Before
   public void setUp() {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
   }
 
   @Test
@@ -445,7 +443,7 @@ public class CommentsIT extends AbstractDaemonTest {
             .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
             .to("refs/for/master");
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     addDraft(
         r1.getChangeId(),
         r1.getCommit().getName(),
@@ -455,13 +453,13 @@ public class CommentsIT extends AbstractDaemonTest {
         r2.getCommit().getName(),
         newDraft(FILE_NAME, Side.REVISION, 1, "typo: content"));
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
         newDraft(FILE_NAME, Side.REVISION, 1, "+1, please fix"));
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     Map<String, List<CommentInfo>> actual = gApi.changes().id(r1.getChangeId()).drafts();
     assertThat(actual.keySet()).containsExactly(FILE_NAME);
     List<CommentInfo> comments = actual.get(FILE_NAME);
@@ -569,11 +567,11 @@ public class CommentsIT extends AbstractDaemonTest {
         other.getCommit().getName(),
         newDraft(FILE_NAME, Side.REVISION, 1, "unrelated comment"));
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     // Drafts by other users aren't returned.
     addDraft(
         r2.getChangeId(), r2.getCommit().getName(), newDraft(FILE_NAME, Side.REVISION, 2, "oops"));
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
 
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
@@ -766,7 +764,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String uuid = commentsMap.get(targetComment.path).get(0).id;
     DeleteCommentInput input = new DeleteCommentInput("contains confidential information");
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
     gApi.changes().id(result.getChangeId()).current().comment(uuid).delete(input);
   }
@@ -837,7 +835,7 @@ public class CommentsIT extends AbstractDaemonTest {
     // PS4 has comments [c7, c8].
     assertThat(getRevisionComments(changeId, ps4)).hasSize(2);
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     for (int i = 0; i < commentsBeforeDelete.size(); i++) {
       List<RevCommit> commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(id);
 
@@ -907,7 +905,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     List<RevCommit> commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(id);
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     for (int i = 0; i < 3; i++) {
       DeleteCommentInput input = new DeleteCommentInput("delete comment 2, iteration: " + i);
       gApi.changes().id(changeId).revision(ps1).comment(uuid).delete(input);

@@ -24,6 +24,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -36,6 +37,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.function.Consumer;
 import org.eclipse.jgit.api.PushCommand;
@@ -52,6 +54,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PushPermissionsIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   @Before
   public void setUp() throws Exception {
     try (ProjectConfigUpdate u = updateProject(allProjects)) {
@@ -264,14 +268,14 @@ public class PushPermissionsIT extends AbstractDaemonTest {
   @Test
   public void addPatchSetDenied() throws Exception {
     grant(project, "refs/for/refs/heads/*", Permission.PUSH, false, REGISTERED_USERS);
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     ChangeInput ci = new ChangeInput();
     ci.project = project.get();
     ci.branch = "master";
     ci.subject = "A change";
     Change.Id id = new Change.Id(gApi.changes().create(ci).get()._number);
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     ObjectId ps1Id = forceFetch(new PatchSet.Id(id, 1).toRefName());
     ObjectId ps2Id = testRepo.amend(ps1Id).add("file", "content").create();
     PushResult r = push(ps2Id.name() + ":refs/for/master");

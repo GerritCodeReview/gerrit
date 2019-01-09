@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -31,6 +32,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -43,6 +45,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ConfigChangeIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   @Before
   public void setUp() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
@@ -52,7 +56,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
       u.save();
     }
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     fetchRefsMetaConfig();
   }
 
@@ -96,13 +100,13 @@ public class ConfigChangeIT extends AbstractDaemonTest {
   @Test
   @TestProjectInput(cloneAs = "user")
   public void onlyAdminMayUpdateProjectParent() throws Exception {
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     ProjectInput parent = new ProjectInput();
     parent.name = name("parent");
     parent.permissionsOnly = true;
     gApi.projects().create(parent);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     Config cfg = readProjectConfig();
     assertThat(cfg.getString("access", null, "inheritFrom")).isAnyOf(null, allProjects.get());
     cfg.setString("access", null, "inheritFrom", parent.name);
@@ -132,7 +136,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     assertThat(readProjectConfig().getString("access", null, "inheritFrom"))
         .isAnyOf(null, allProjects.get());
 
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(id).current().submit();
     assertThat(gApi.changes().id(id).info().status).isEqualTo(ChangeStatus.MERGED);
     assertThat(gApi.projects().name(project.get()).get().parent).isEqualTo(parent.name);
@@ -142,7 +146,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
 
   @Test
   public void rejectDoubleInheritance() throws Exception {
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     // Create separate projects to test the config
     Project.NameKey parent = createProjectOverAPI("projectToInheritFrom", null, true, null);
     Project.NameKey child = createProjectOverAPI("projectWithMalformedConfig", null, true, null);

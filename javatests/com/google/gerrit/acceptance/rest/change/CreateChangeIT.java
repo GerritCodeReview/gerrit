@@ -27,6 +27,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -50,6 +51,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
+import com.google.inject.Inject;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +66,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CreateChangeIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   @BeforeClass
   public static void setTimeForTesting() {
     TestTimeUtil.resetWithClockStep(1, SECONDS);
@@ -149,11 +153,11 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void notificationsOnChangeCreation() throws Exception {
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     watch(project.get());
 
     // check that watcher is notified
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
 
     List<Message> messages = sender.getMessages();
@@ -502,7 +506,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
       assertThat(o.signedOffBy).isNull();
     }
 
-    resetCurrentApiUser();
+    requestScopeOperations.resetCurrentApiUser();
   }
 
   private ChangeInput newMergeChangeInput(String targetBranch, String sourceRef, String strategy) {

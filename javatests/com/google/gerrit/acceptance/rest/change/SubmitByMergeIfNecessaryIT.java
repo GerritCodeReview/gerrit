@@ -22,6 +22,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -54,6 +55,7 @@ import org.junit.Test;
 
 public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Override
   protected SubmitType getSubmitType() {
@@ -628,7 +630,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     gApi.changes().id(changeResult.getChangeId()).move(secretBranch.get());
     block(secretBranch.get(), "read", ANONYMOUS_USERS);
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
 
     // Verify that user cannot see the first change.
     try {
@@ -675,7 +677,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     // Mark the first change private so that it's not visible to user.
     gApi.changes().id(changeResult.getChangeId()).setPrivate(true, "nobody should see this");
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
 
     // Verify that user cannot see the first change.
     try {
@@ -735,7 +737,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     // Mark change2a private so that it's not visible to user.
     gApi.changes().id(change2a.getChangeId()).setPrivate(true, "nobody should see this");
 
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
 
     // Verify that user cannot see change2a
     try {

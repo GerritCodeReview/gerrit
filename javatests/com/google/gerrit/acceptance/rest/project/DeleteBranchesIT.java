@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
@@ -32,6 +33,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.inject.Inject;
 import java.util.HashMap;
 import java.util.List;
 import org.eclipse.jgit.lib.Repository;
@@ -43,6 +45,8 @@ import org.junit.Test;
 public class DeleteBranchesIT extends AbstractDaemonTest {
   private static final ImmutableList<String> BRANCHES =
       ImmutableList.of("refs/heads/test-1", "refs/heads/test-2", "test-3", "refs/meta/foo");
+
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Before
   public void setUp() throws Exception {
@@ -70,14 +74,14 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
 
     DeleteBranchesInput input = new DeleteBranchesInput();
     input.branches = branchToDelete;
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     try {
       project().deleteBranches(input);
       fail("Expected AuthException");
     } catch (AuthException e) {
       assertThat(e).hasMessageThat().isEqualTo("not permitted: delete on refs/heads/test-1");
     }
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     assertBranches(BRANCHES);
   }
 
@@ -85,14 +89,14 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
   public void deleteMultiBranchesWithoutPermissionForbidden() throws Exception {
     DeleteBranchesInput input = new DeleteBranchesInput();
     input.branches = BRANCHES;
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     try {
       project().deleteBranches(input);
       fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
       assertThat(e).hasMessageThat().isEqualTo(errorMessageForBranches(BRANCHES));
     }
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     assertBranches(BRANCHES);
   }
 

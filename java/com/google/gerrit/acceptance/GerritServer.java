@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.util.Objects.requireNonNull;
 import static org.apache.log4j.Logger.getLogger;
 
@@ -30,6 +31,8 @@ import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperationsImpl;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperationsImpl;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperationsImpl;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -48,10 +51,14 @@ import com.google.gerrit.testing.FakeGroupAuditService;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.SshMode;
 import com.google.inject.AbstractModule;
+import com.google.inject.BindingAnnotation;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
 import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -86,6 +93,11 @@ public class GerritServer implements AutoCloseable {
       super(msg, cause);
     }
   }
+
+  /** Marker on {@link InetSocketAddress} for test SSH server. */
+  @Retention(RUNTIME)
+  @BindingAnnotation
+  public @interface TestSshServerAddress {}
 
   @AutoValue
   public abstract static class Description {
@@ -502,11 +514,24 @@ public class GerritServer implements AutoCloseable {
             bind(AccountOperations.class).to(AccountOperationsImpl.class);
             bind(GroupOperations.class).to(GroupOperationsImpl.class);
             bind(ProjectOperations.class).to(ProjectOperationsImpl.class);
+            bind(RequestScopeOperations.class).to(RequestScopeOperationsImpl.class);
             factory(PushOneCommit.Factory.class);
             install(InProcessProtocol.module());
             install(new NoSshModule());
             install(new AsyncReceiveCommits.Module());
             factory(ProjectResetter.Builder.Factory.class);
+          }
+
+          @Provides
+          @Singleton
+          @Nullable
+          @TestSshServerAddress
+          InetSocketAddress getSshAddress(@GerritServerConfig Config cfg) {
+            String addr = cfg.getString("sshd", null, "listenAddress");
+            // We do not use InitSshd.isOff to avoid coupling GerritServer to the SSH code.
+            return !"off".equalsIgnoreCase(addr)
+                ? SocketUtil.resolve(cfg.getString("sshd", null, "listenAddress"), 0)
+                : null;
           }
         };
     return sysInjector.createChildInjector(module);
@@ -532,7 +557,6 @@ public class GerritServer implements AutoCloseable {
   private ExecutorService daemonService;
   private Injector testInjector;
   private String url;
-  private InetSocketAddress sshdAddress;
   private InetSocketAddress httpAddress;
 
   private GerritServer(
@@ -550,21 +574,11 @@ public class GerritServer implements AutoCloseable {
     Config cfg = testInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     url = cfg.getString("gerrit", null, "canonicalWebUrl");
     URI uri = URI.create(url);
-
-    String addr = cfg.getString("sshd", null, "listenAddress");
-    // We do not use InitSshd.isOff to avoid coupling GerritServer to the SSH code.
-    if (!"off".equalsIgnoreCase(addr)) {
-      sshdAddress = SocketUtil.resolve(cfg.getString("sshd", null, "listenAddress"), 0);
-    }
     httpAddress = new InetSocketAddress(uri.getHost(), uri.getPort());
   }
 
   String getUrl() {
     return url;
-  }
-
-  InetSocketAddress getSshdAddress() {
-    return sshdAddress;
   }
 
   InetSocketAddress getHttpAddress() {

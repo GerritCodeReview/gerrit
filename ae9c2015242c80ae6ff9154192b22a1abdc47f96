@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59bfeacd_25012ab7",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-09T23:21:52Z",
+      "side": 1,
+      "message": "nit: it didn\u0027t unwrap this line.  perhaps should be reported as an issue?",
+      "revId": "ae9c2015242c80ae6ff9154192b22a1abdc47f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

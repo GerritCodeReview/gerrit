@@ -1,8 +1,8 @@
+load("//lib/js:npm.bzl", "NPM_SHA1S", "NPM_VERSIONS")
+
 NPMJS = "NPMJS"
 
 GERRIT = "GERRIT:"
-
-load("//lib/js:npm.bzl", "NPM_SHA1S", "NPM_VERSIONS")
 
 def _npm_tarball(name):
     return "%s@%s.npm_binary.tgz" % (name, NPM_VERSIONS[name])

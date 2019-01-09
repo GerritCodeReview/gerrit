@@ -46,6 +46,30 @@
       "revId": "930f29e2fde16e546cbf4f895ad304d1318f2cb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af3ce217_c52d90f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-09T05:52:04Z",
+      "side": 1,
+      "message": "I\u0027ve overlooked your comment [1] that --lint\u003dfix is not working in 0.20.0.  This is unfortunate, since the PR to upgrade buildifier to 0.20.0 in homebrew was just merged :/\n\n[1] https://github.com/bazelbuild/bazel/issues/6611#issuecomment-452436263",
+      "parentUuid": "38ee49a1_f8115d40",
+      "range": {
+        "startLine": 14,
+        "startChar": 48,
+        "endLine": 14,
+        "endChar": 54
+      },
+      "revId": "930f29e2fde16e546cbf4f895ad304d1318f2cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

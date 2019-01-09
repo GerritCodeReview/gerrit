@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d516b008_844785a1",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-09T23:39:11Z",
+      "side": 1,
+      "message": "Extract this to a constant and reuse here and L1004.",
+      "revId": "a94831d05bb4355be6af5cdb04c8663159d160b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

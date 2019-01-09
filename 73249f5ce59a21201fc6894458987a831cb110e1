@@ -47,6 +47,30 @@
       "revId": "73249f5ce59a21201fc6894458987a831cb110e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "430f9d30_aa525c11",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/request/RequestScopeOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-01-09T16:06:26Z",
+      "side": 1,
+      "message": "I wasn\u0027t aware of that. Good to know.",
+      "parentUuid": "b5c6ec63_116c1604",
+      "range": {
+        "startLine": 17,
+        "startChar": 14,
+        "endLine": 17,
+        "endChar": 46
+      },
+      "revId": "73249f5ce59a21201fc6894458987a831cb110e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

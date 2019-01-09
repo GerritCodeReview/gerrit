@@ -819,18 +819,22 @@ for the client to use as potential delta bases.  Push over smart HTTP
 requires two HTTP requests, and this cache tries to carry state from
 the first request into the second to ensure it can complete.
 
-cache `"changes"`::
+cache `"change_refs"`::
++
+Cache entries are used to compute change ref visibility efficiently. Entries
+contain the minimal required information for this task.
 +
 The size of `memoryLimit` determines the number of projects for which
 all changes will be cached. If the cache is set to 1024, this means all
-changes for up to 1024 projects can be held in the cache.
+at maximum 1024 changes can be held in the cache.
 +
-Default value is 0 (disabled). It is disabled by default due to the fact
-that change updates are not communicated between Gerrit servers. Hence
-this cache should be disabled in an multi-master/multi-slave setup.
+Default value is 10.000.
 +
-The cache should be flushed whenever the database changes table is modified
-outside of Gerrit.
+If the size is set to 0, the cache is disabled. The change index will not
+be used at all. Instead, the change notes cache is used directly.
++
+A good size for this cache is the number of changes that the Gerrit
+instance has.
 
 cache `"diff"`::
 +

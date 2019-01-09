@@ -36,9 +36,9 @@ def _npm_binary_impl(ctx):
 
 npm_binary = repository_rule(
     attrs = {
+        "repository": attr.string(default = NPMJS),
         # Label resolves within repo of the .bzl file.
         "_download_script": attr.label(default = Label("//tools:download_file.py")),
-        "repository": attr.string(default = NPMJS),
     },
     local = True,
     implementation = _npm_binary_impl,
@@ -119,13 +119,13 @@ def _bash(ctx, cmd):
 bower_archive = repository_rule(
     _bower_archive,
     attrs = {
-        "_bower_archive": attr.label(default = Label("@bower//:%s" % _npm_tarball("bower"))),
-        "_run_npm": attr.label(default = Label("//tools/js:run_npm_binary.py")),
-        "_download_bower": attr.label(default = Label("//tools/js:download_bower.py")),
-        "sha1": attr.string(mandatory = True),
-        "version": attr.string(mandatory = True),
         "package": attr.string(mandatory = True),
         "semver": attr.string(),
+        "sha1": attr.string(mandatory = True),
+        "version": attr.string(mandatory = True),
+        "_bower_archive": attr.label(default = Label("@bower//:%s" % _npm_tarball("bower"))),
+        "_download_bower": attr.label(default = Label("//tools/js:download_bower.py")),
+        "_run_npm": attr.label(default = Label("//tools/js:run_npm_binary.py")),
     },
 )
 
@@ -206,12 +206,12 @@ js_component = rule(
 _bower_component = rule(
     _bower_component_impl,
     attrs = dict(_common_attrs.items() + {
-        "zipfile": attr.label(allow_single_file = [".zip"]),
         "license": attr.label(allow_single_file = True),
-        "version_json": attr.label(allow_files = [".json"]),
 
         # If set, define by hand, and don't regenerate this entry in bower2bazel.
         "seed": attr.bool(default = False),
+        "version_json": attr.label(allow_files = [".json"]),
+        "zipfile": attr.label(allow_single_file = [".zip"]),
     }.items()),
 )
 
@@ -246,7 +246,7 @@ def _bower_component_bundle_impl(ctx):
     out_versions = ctx.outputs.version_json
 
     ctx.actions.run_shell(
-        inputs = list(zips),
+        inputs = zips.to_list(),
         outputs = [out_zip],
         command = " && ".join([
             "p=$PWD",
@@ -255,7 +255,7 @@ def _bower_component_bundle_impl(ctx):
             "rm -rf %s.dir" % out_zip.path,
             "mkdir -p %s.dir/bower_components" % out_zip.path,
             "cd %s.dir/bower_components" % out_zip.path,
-            "for z in %s; do unzip -q $p/$z ; done" % " ".join(sorted([z.path for z in zips])),
+            "for z in %s; do unzip -q $p/$z ; done" % " ".join(sorted([z.path for z in zips.to_list()])),
             "cd ..",
             "find . -exec touch -t 198001010000 '{}' ';'",
             "zip -Xqr $p/%s bower_components/*" % out_zip.path,
@@ -264,10 +264,10 @@ def _bower_component_bundle_impl(ctx):
     )
 
     ctx.actions.run_shell(
-        inputs = list(versions),
+        inputs = versions.to_list(),
         outputs = [out_versions],
         mnemonic = "BowerVersions",
-        command = "(echo '{' ; for j in  %s ; do cat $j; echo ',' ; done ; echo \\\"\\\":\\\"\\\"; echo '}') > %s" % (" ".join([v.path for v in versions]), out_versions.path),
+        command = "(echo '{' ; for j in  %s ; do cat $j; echo ',' ; done ; echo \\\"\\\":\\\"\\\"; echo '}') > %s" % (" ".join([v.path for v in versions.to_list()]), out_versions.path),
     )
 
     return struct(
@@ -280,8 +280,8 @@ bower_component_bundle = rule(
     _bower_component_bundle_impl,
     attrs = _common_attrs,
     outputs = {
-        "zip": "%{name}.zip",
         "version_json": "%{name}-versions.json",
+        "zip": "%{name}.zip",
     },
 )
 """Groups a set of bower components together in a zip file.
@@ -296,10 +296,8 @@ Outputs:
 
 def _vulcanize_impl(ctx):
     # intermediate artifact.
-    vulcanized = ctx.new_file(
-        ctx.configuration.genfiles_dir,
-        ctx.outputs.html,
-        ".vulcanized.html",
+    vulcanized = ctx.actions.declare_file(
+        ctx.outputs.html.path + ".vulcanized.html",
     )
     destdir = ctx.outputs.html.path + ".dir"
     zips = [z for d in ctx.attr.deps for z in d.transitive_zipfiles]
@@ -381,11 +379,6 @@ def _vulcanize_impl(ctx):
 _vulcanize_rule = rule(
     _vulcanize_impl,
     attrs = {
-        "deps": attr.label_list(providers = ["transitive_zipfiles"]),
-        "app": attr.label(
-            mandatory = True,
-            allow_single_file = True,
-        ),
         "srcs": attr.label_list(allow_files = [
             ".js",
             ".html",
@@ -393,17 +386,22 @@ _vulcanize_rule = rule(
             ".css",
             ".ico",
         ]),
+        "app": attr.label(
+            mandatory = True,
+            allow_single_file = True,
+        ),
         "pkg": attr.string(mandatory = True),
+        "deps": attr.label_list(providers = ["transitive_zipfiles"]),
+        "_crisper_archive": attr.label(
+            default = Label("@crisper//:%s" % _npm_tarball("crisper")),
+            allow_single_file = True,
+        ),
         "_run_npm": attr.label(
             default = Label("//tools/js:run_npm_binary.py"),
             allow_single_file = True,
         ),
         "_vulcanize_archive": attr.label(
             default = Label("@vulcanize//:%s" % _npm_tarball("vulcanize")),
-            allow_single_file = True,
-        ),
-        "_crisper_archive": attr.label(
-            default = Label("@crisper//:%s" % _npm_tarball("crisper")),
             allow_single_file = True,
         ),
     },
@@ -415,4 +413,4 @@ _vulcanize_rule = rule(
 
 def vulcanize(*args, **kwargs):
     """Vulcanize runs vulcanize and crisper on a set of sources."""
-    _vulcanize_rule(*args, pkg = native.package_name(), **kwargs)
+    _vulcanize_rule(pkg = native.package_name(), *args, **kwargs)

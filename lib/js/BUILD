@@ -1,6 +1,7 @@
-package(default_visibility = ["//visibility:public"])
+load("//lib/js:bower_components.bzl", "define_bower_components")
+load("//tools/bzl:js.bzl", "js_component")
 
-load("//tools/bzl:js.bzl", "bower_component", "js_component")
+package(default_visibility = ["//visibility:public"])
 
 # For importing new versions of existing bower packages,
 #
@@ -19,8 +20,6 @@ load("//tools/bzl:js.bzl", "bower_component", "js_component")
 #
 # 4) remove bower_component(name="my_new_dependency", .. ) here
 #
-
-load("//lib/js:bower_components.bzl", "define_bower_components")
 
 define_bower_components()
 

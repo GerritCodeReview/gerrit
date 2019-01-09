@@ -1,3 +1,5 @@
+load("//tools/bzl:javadoc.bzl", "java_doc")
+
 PLUGIN_API = [
     "//gerrit-httpd:httpd",
     "//gerrit-pgm:init-api",
@@ -89,8 +91,6 @@ java_binary(
         "//gerrit-sshd:libsshd-src.jar",
     ],
 )
-
-load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_doc(
     name = "plugin-api-javadoc",

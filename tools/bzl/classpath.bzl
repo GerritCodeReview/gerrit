@@ -7,8 +7,8 @@ def _classpath_collector(ctx):
         elif hasattr(d, "files"):
             all += d.files
 
-    as_strs = [c.path for c in all]
-    ctx.file_action(
+    as_strs = [c.path for c in all.to_list()]
+    ctx.actions.write(
         output = ctx.outputs.runtime,
         content = "\n".join(sorted(as_strs)),
     )

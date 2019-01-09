@@ -23,6 +23,30 @@
       "revId": "73249f5ce59a21201fc6894458987a831cb110e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5c6ec63_116c1604",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/request/RequestScopeOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-09T16:04:36Z",
+      "side": 1,
+      "message": "Converting to requireNonNull was done as a one-shot cleanup in I1d4a6b34. I don\u0027t mind reopening the discussion, but for now, this is consistent with the rest of Gerrit.",
+      "parentUuid": "e0cff2e1_b8057bbe",
+      "range": {
+        "startLine": 17,
+        "startChar": 14,
+        "endLine": 17,
+        "endChar": 46
+      },
+      "revId": "73249f5ce59a21201fc6894458987a831cb110e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

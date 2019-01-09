@@ -22,6 +22,30 @@
       "revId": "930f29e2fde16e546cbf4f895ad304d1318f2cb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81da200b_44bdfbc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-09T05:50:46Z",
+      "side": 1,
+      "message": "I tried to use 0.20.0 and --lint\u003dfix was broken there. I will file an issue upstream.",
+      "parentUuid": "38ee49a1_f8115d40",
+      "range": {
+        "startLine": 14,
+        "startChar": 48,
+        "endLine": 14,
+        "endChar": 54
+      },
+      "revId": "930f29e2fde16e546cbf4f895ad304d1318f2cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

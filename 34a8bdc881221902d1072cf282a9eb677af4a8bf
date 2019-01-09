@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1940133_278a8554",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-09T21:31:06Z",
+      "side": 1,
+      "message": "I have a plan how we may fix the issue:\n\n* 1. Cherry pick the proper fix to 2.16: [1], and include the fix in. 2.16.3 fix release. Announce, that this is an exception from our rule and that minor fix upgrade require offline or online re-indexing. In practice that is not really an issue, because the major gerrit users are still on 2.13 release anyway (ow even older).\n* 2. Merge the Lucene Upgrade to master: [2]. That would bump the index schema version on upcoming 3.0 release. That way we guarantee, that in both cases:\n\n* a) Gerrit site stay on 2.16.2 and never uprade to 2.16.3 and older\n* b) Gerrit site upgrade to 2.16.3 first (or later 2.16.x release) before upgrading to 3.0\n\nthe intermediate index schema upgrade would work and the next release (3.0) would have hight schema index version for all indexes.\n\nThe only problem with that plan that LC Vote was rejected on Lucene upgrade change: [2].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/208716\n* [2] https://gerrit-review.googlesource.com/c/gerrit/+/178051",
+      "revId": "34a8bdc881221902d1072cf282a9eb677af4a8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

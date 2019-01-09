@@ -200,7 +200,7 @@ The parameter names match the names that are used in the preferences REST API:
 * link:rest-api-accounts.html#edit-preferences-info[Edit Preferences]
 
 If the value for a preference is the same as the default value for this
-preference, it can be omitted in the `preference.config` file.
+preference, it can be omitted in the `preferences.config` file.
 
 Defaults for general and diff preferences that apply for all accounts
 can be configured in the `refs/users/default` branch in the `All-Users`

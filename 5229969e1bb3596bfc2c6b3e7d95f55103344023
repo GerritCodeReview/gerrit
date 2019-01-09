@@ -39,6 +39,24 @@
     },
     {
       "key": {
+        "uuid": "3c6501fc_010de53e",
+        "filename": "java/com/google/gerrit/index/query/InternalQuery.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-01-09T15:53:37Z",
+      "side": 1,
+      "message": "Interesting. Thanks for the explanation.",
+      "parentUuid": "35c71535_b5c23c40",
+      "revId": "5229969e1bb3596bfc2c6b3e7d95f55103344023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdf1d638_a363c002",
         "filename": "java/com/google/gerrit/index/query/InternalQuery.java",
         "patchSetId": 4

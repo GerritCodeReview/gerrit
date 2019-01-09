@@ -58,10 +58,10 @@ import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
+import com.google.gerrit.server.git.ChangeRefCache;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
-import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
@@ -168,7 +168,7 @@ public class InMemoryModule extends FactoryModule {
     factory(PluginUser.Factory.class);
     install(new PluginApiModule());
     install(new DefaultPermissionBackendModule());
-    install(new SearchingChangeCacheImpl.Module());
+    install(new ChangeRefCache.Module());
     factory(GarbageCollection.Factory.class);
     install(new AuditModule());
 

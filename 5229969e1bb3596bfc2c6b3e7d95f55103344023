@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1546967516 -0800\nnonce AJbGYzkl96ArpYmrbjAUWJmQpiyVmKwuXv4fshV8Cj9xUXlvoCuCLGqTmeq3UVjnxBIikc8UIsPY\n\n0000000000000000000000000000000000000000 4987eb901ed0c6c666935470eea70974b714b217 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlw02dwVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMeXMP+QEb6szT2NDh4OLN+eObcZRjShqB\nF1QD2Ya0vD55rsiNoOnlZQKmYegHM4TPGouExHVJej7kii2q9ins8McKGTvcCy7l\nnT2szsWcTZh8MGyxkzDy7DxotmllECu8pVzwWP7bl5p5HlPdQ1/PG5RrOMcgpt0m\nw1DSJZXlhcPz4ll92qSKtzfnqBGIafJKVIT1WnF2lo7GzdsCVUGgotQy/ptkGyC/\nzg+sXdbKMSkepMwZzSFkj8FLzXg/B4HqlAiooMLGx6gWlWRA7suptZ2ulNYwZUJe\nxOtw/DjNaYEYb1c9gOE0/wmrvTCcCO5Glg3pjkCpVq6HNZ72AzbfDXOc2Nn6qWXA\nc9mnHNfcf0O+6kMteKR5DrAhYVw/tWZSOcjtI9qAfzsp/tIZudkgULJNcbMbksR2\nWx5BPrpd+W+bx6gVk79Jxm1e+MtCY9Noqswe7yudWx/qUOwdT+DmzKvI4FrL/c0i\nBSna/U1/k4oKFr1tKBbKx9biLqa8bYHzVTiqIZkbQjmc0biSCteXEfCdUeUqhqod\nj5H7kDxXl2A6UqAOu/hiRhwkI8zIRywU24kEU0MsMvyJrwQZgPn7BMnI2BoP2c6/\n1JBKpwhwhJuZv2vWnofDKohCqMzRhiynrzOnKAD+fW7v7pUkBDPu5UCgn0dhnAKR\nASCITxeRz3dsUnCE\n\u003dRz6+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2c2f1f2_be0c0c30",
+        "filename": "java/com/google/gerrit/index/query/InternalQuery.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-01-09T15:41:03Z",
+      "side": 1,
+      "message": "optional: Is there any reason that the private modifier was dropped compared to e.g. patch set 3?",
+      "revId": "5229969e1bb3596bfc2c6b3e7d95f55103344023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdf1d638_a363c002",
+        "filename": "java/com/google/gerrit/index/query/InternalQuery.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-01-09T15:41:03Z",
+      "side": 1,
+      "message": "The brackets \u003c\u003e don\u0027t show up properly. \u0026lt; and \u0026gt; only format to \u003c and \u003e outside of a {@code} region. Inside of such a region, \u003c\u003e can be used without issues.",
+      "range": {
+        "startLine": 141,
+        "startChar": 20,
+        "endLine": 141,
+        "endChar": 60
+      },
+      "revId": "5229969e1bb3596bfc2c6b3e7d95f55103344023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

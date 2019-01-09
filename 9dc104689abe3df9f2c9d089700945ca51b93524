@@ -123,6 +123,30 @@
     },
     {
       "key": {
+        "uuid": "10404e97_448655b0",
+        "filename": "java/com/google/gerrit/index/query/InternalQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-01-09T15:41:03Z",
+      "side": 1,
+      "message": "We were already on the same page. That\u0027s why I had marked the comment as resolved. :-)\nI only posted my code for future reference.",
+      "parentUuid": "b7a079f8_a4ce1b5f",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 5
+      },
+      "revId": "9dc104689abe3df9f2c9d089700945ca51b93524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0ea13f_779df764",
         "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
         "patchSetId": 2

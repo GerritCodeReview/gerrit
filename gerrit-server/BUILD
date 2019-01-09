@@ -1,4 +1,5 @@
 load("//lib/prolog:prolog.bzl", "prolog_cafe_library")
+load("//tools/bzl:javadoc.bzl", "java_doc")
 load("//tools/bzl:junit.bzl", "junit_tests")
 
 CONSTANTS_SRC = [
@@ -192,8 +193,9 @@ TESTUTIL_DEPS = [
 
 TESTUTIL = glob([
     "src/test/java/com/google/gerrit/testutil/**/*.java",
+]) + [
     "src/test/java/com/google/gerrit/server/project/Util.java",
-])
+]
 
 java_library(
     name = "testutil",
@@ -333,6 +335,7 @@ junit_tests(
     ],
 )
 
+<<<<<<< HEAD
 junit_tests(
     name = "testutil_test",
     size = "small",
@@ -347,6 +350,8 @@ junit_tests(
 
 load("//tools/bzl:javadoc.bzl", "java_doc")
 
+=======
+>>>>>>> stable-2.14
 java_doc(
     name = "doc",
     libs = [":server"],

@@ -1,9 +1,7 @@
-package(default_visibility = ["//visibility:public"])
-
-load("//tools/bzl:asciidoc.bzl", "documentation_attributes")
-load("//tools/bzl:asciidoc.bzl", "genasciidoc")
-load("//tools/bzl:asciidoc.bzl", "genasciidoc_zip")
+load("//tools/bzl:asciidoc.bzl", "documentation_attributes", "genasciidoc", "genasciidoc_zip")
 load("//tools/bzl:license.bzl", "license_map")
+
+package(default_visibility = ["//visibility:public"])
 
 exports_files([
     "replace_macros.py",

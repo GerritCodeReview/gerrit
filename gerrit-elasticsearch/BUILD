@@ -1,3 +1,5 @@
+load("//tools/bzl:junit.bzl", "junit_tests")
+
 java_library(
     name = "elasticsearch",
     srcs = glob(["src/main/java/**/*.java"]),
@@ -25,8 +27,6 @@ java_library(
         "//lib/log:api",
     ],
 )
-
-load("//tools/bzl:junit.bzl", "junit_tests")
 
 java_library(
     name = "elasticsearch_test_utils",

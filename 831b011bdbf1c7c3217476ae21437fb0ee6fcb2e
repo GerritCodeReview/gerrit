@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "886594dd_646a9835",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-09T06:55:31Z",
+      "side": 1,
+      "message": "Before merging this we should confirm that it doesn\u0027t re-introduce the bug that was fixed in [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/207310",
+      "range": {
+        "startLine": 795,
+        "startChar": 4,
+        "endLine": 800,
+        "endChar": 5
+      },
+      "revId": "831b011bdbf1c7c3217476ae21437fb0ee6fcb2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ddb34de_24d15435",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SuccessCommitMessagesIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-09T06:55:31Z",
+      "side": 1,
+      "message": "Why does this need to be a separate class extending AbstractPushForReview?  This class only contains 1 test, but because it extends from AbstractPushForReview all the tests from there are also (unnecessarily) executed.\n\nCan\u0027t we just move the sequentialCommitMessages test into AbstractPushForReview?",
+      "revId": "831b011bdbf1c7c3217476ae21437fb0ee6fcb2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

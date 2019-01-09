@@ -63,10 +63,10 @@ def _impl(ctx):
 
 java_doc = rule(
     attrs = {
+        "external_docs": attr.string_list(),
         "libs": attr.label_list(allow_files = False),
         "pkgs": attr.string_list(),
         "title": attr.string(),
-        "external_docs": attr.string_list(),
         "_jdk": attr.label(
             default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
             allow_files = True,

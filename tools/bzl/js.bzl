@@ -47,9 +47,9 @@ def _npm_binary_impl(ctx):
 
 npm_binary = repository_rule(
     attrs = {
+        "repository": attr.string(default = NPMJS),
         # Label resolves within repo of the .bzl file.
         "_download_script": attr.label(default = Label("//tools:download_file.py")),
-        "repository": attr.string(default = NPMJS),
     },
     local = True,
     implementation = _npm_binary_impl,
@@ -130,13 +130,13 @@ def _bash(ctx, cmd):
 bower_archive = repository_rule(
     _bower_archive,
     attrs = {
-        "_bower_archive": attr.label(default = Label("@bower//:%s" % _npm_tarball("bower"))),
-        "_run_npm": attr.label(default = Label("//tools/js:run_npm_binary.py")),
-        "_download_bower": attr.label(default = Label("//tools/js:download_bower.py")),
-        "sha1": attr.string(mandatory = True),
-        "version": attr.string(mandatory = True),
         "package": attr.string(mandatory = True),
         "semver": attr.string(),
+        "sha1": attr.string(mandatory = True),
+        "version": attr.string(mandatory = True),
+        "_bower_archive": attr.label(default = Label("@bower//:%s" % _npm_tarball("bower"))),
+        "_download_bower": attr.label(default = Label("//tools/js:download_bower.py")),
+        "_run_npm": attr.label(default = Label("//tools/js:run_npm_binary.py")),
     },
 )
 
@@ -217,12 +217,12 @@ js_component = rule(
 _bower_component = rule(
     _bower_component_impl,
     attrs = dict(_common_attrs.items() + {
-        "zipfile": attr.label(allow_single_file = [".zip"]),
         "license": attr.label(allow_single_file = True),
-        "version_json": attr.label(allow_files = [".json"]),
 
         # If set, define by hand, and don't regenerate this entry in bower2bazel.
         "seed": attr.bool(default = False),
+        "version_json": attr.label(allow_files = [".json"]),
+        "zipfile": attr.label(allow_single_file = [".zip"]),
     }.items()),
 )
 
@@ -291,8 +291,8 @@ bower_component_bundle = rule(
     _bower_component_bundle_impl,
     attrs = _common_attrs,
     outputs = {
-        "zip": "%{name}.zip",
         "version_json": "%{name}-versions.json",
+        "zip": "%{name}.zip",
     },
 )
 """Groups a set of bower components together in a zip file.
@@ -392,11 +392,6 @@ def _vulcanize_impl(ctx):
 _vulcanize_rule = rule(
     _vulcanize_impl,
     attrs = {
-        "deps": attr.label_list(providers = ["transitive_zipfiles"]),
-        "app": attr.label(
-            mandatory = True,
-            allow_single_file = True,
-        ),
         "srcs": attr.label_list(allow_files = [
             ".js",
             ".html",
@@ -404,17 +399,22 @@ _vulcanize_rule = rule(
             ".css",
             ".ico",
         ]),
+        "app": attr.label(
+            mandatory = True,
+            allow_single_file = True,
+        ),
         "pkg": attr.string(mandatory = True),
+        "deps": attr.label_list(providers = ["transitive_zipfiles"]),
+        "_crisper_archive": attr.label(
+            default = Label("@crisper//:%s" % _npm_tarball("crisper")),
+            allow_single_file = True,
+        ),
         "_run_npm": attr.label(
             default = Label("//tools/js:run_npm_binary.py"),
             allow_single_file = True,
         ),
         "_vulcanize_archive": attr.label(
             default = Label("@vulcanize//:%s" % _npm_tarball("vulcanize")),
-            allow_single_file = True,
-        ),
-        "_crisper_archive": attr.label(
-            default = Label("@crisper//:%s" % _npm_tarball("crisper")),
             allow_single_file = True,
         ),
     },

@@ -33,9 +33,9 @@ BROWSERS = [
 
 ALIASES = {
     "chrome": "safari",
+    "edge": "gecko1_8",
     "firefox": "gecko1_8",
     "msie": "ie10",
-    "edge": "gecko1_8",
 }
 
 MODULE = "com.google.gerrit.GerritGwtUI"
@@ -213,14 +213,14 @@ def _get_transitive_closure(ctx):
 
 gwt_binary = rule(
     attrs = {
-        "user_agent": attr.string(),
-        "style": attr.string(default = "OBF"),
-        "optimize": attr.string(default = "9"),
-        "deps": attr.label_list(allow_files = jar_filetype),
-        "module": attr.string_list(default = [MODULE]),
-        "module_deps": attr.label_list(allow_files = jar_filetype),
         "compiler_args": attr.string_list(),
         "jvm_args": attr.string_list(),
+        "module": attr.string_list(default = [MODULE]),
+        "module_deps": attr.label_list(allow_files = jar_filetype),
+        "optimize": attr.string(default = "9"),
+        "style": attr.string(default = "OBF"),
+        "user_agent": attr.string(),
+        "deps": attr.label_list(allow_files = jar_filetype),
         "_jdk": attr.label(
             default = Label("//tools/defaults:jdk"),
         ),

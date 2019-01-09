@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "483c2157_604f39df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-09T21:17:49Z",
+      "side": 1,
+      "message": "Not really, it is still 78 chars. performance should be moved to the next line. On the old change screen, we supported to edit commit message in context of change edit in codemirror editor. That feature is lost, unfortunately.",
+      "revId": "b3a83909655b4cb5c44101a3a0ffd9a9c7990a36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -183,6 +183,11 @@ public interface ChangeApi {
 
   SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException;
 
+  /**
+   * Retrieve reviewers ({@code ReviewerState.REVIEWER} and {@code ReviewerState.CC}) on the change.
+   */
+  List<ReviewerInfo> reviewers() throws RestApiException;
+
   ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException;
 
   default ChangeInfo get(Iterable<ListChangesOption> options) throws RestApiException {
@@ -450,6 +455,11 @@ public interface ChangeApi {
 
     @Override
     public SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<ReviewerInfo> reviewers() throws RestApiException {
       throw new NotImplementedException();
     }
 

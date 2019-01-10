@@ -117,6 +117,7 @@ public class AllProjectsCreator {
               ? input.commitMessage().get()
               : "Initialized Gerrit Code Review " + Version.getVersion());
 
+      // init basic project configs.
       ProjectConfig config = projectConfigFactory.read(md);
       Project p = config.getProject();
       p.setDescription(
@@ -124,73 +125,83 @@ public class AllProjectsCreator {
               ? input.projectDescription().get()
               : "Access inherited by all other projects.");
 
+      // init boolean project configs.
       input.booleanProjectConfigs().forEach(p::setBooleanConfig);
 
-      AccessSection cap = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
-      AccessSection all = config.getAccessSection(AccessSection.ALL, true);
-      AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
-      AccessSection tags = config.getAccessSection("refs/tags/*", true);
-      AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);
-      AccessSection refsFor = config.getAccessSection("refs/for/*", true);
-      AccessSection magic = config.getAccessSection("refs/for/" + AccessSection.ALL, true);
+      // init labels.
+      initLabels(config, input.codeReviewLabel(), input.additionalLabelType());
 
-      Optional<GroupReference> admin = input.administratorsGroup();
-      Optional<GroupReference> batch = input.batchUsersGroup();
-      if (admin.isPresent()) {
-        grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin.get());
-        grant(config, all, Permission.READ, admin.get(), anonymous);
-      }
+      // init access sections.
+      initDefaultACLs(config, input);
 
-      grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
-
-      if (batch.isPresent()) {
-        Permission priority = cap.getPermission(GlobalCapability.PRIORITY, true);
-        PermissionRule r = rule(config, batch.get());
-        r.setAction(Action.BATCH);
-        priority.add(r);
-
-        Permission stream = cap.getPermission(GlobalCapability.STREAM_EVENTS, true);
-        stream.add(rule(config, batch.get()));
-      }
-
-      LabelType codeReviewLabel = input.codeReviewLabel();
-      initLabels(config, codeReviewLabel, input.additionalLabelType());
-
-      grant(config, heads, codeReviewLabel, -1, 1, registered);
-
-      if (admin.isPresent()) {
-        grant(config, heads, codeReviewLabel, -2, 2, admin.get(), owners);
-        grant(config, heads, Permission.CREATE, admin.get(), owners);
-        grant(config, heads, Permission.PUSH, admin.get(), owners);
-        grant(config, heads, Permission.SUBMIT, admin.get(), owners);
-        grant(config, heads, Permission.FORGE_COMMITTER, admin.get(), owners);
-        grant(config, heads, Permission.EDIT_TOPIC_NAME, true, admin.get(), owners);
-
-        grant(config, tags, Permission.CREATE, admin.get(), owners);
-        grant(config, tags, Permission.CREATE_TAG, admin.get(), owners);
-        grant(config, tags, Permission.CREATE_SIGNED_TAG, admin.get(), owners);
-      }
-      grant(config, heads, Permission.FORGE_AUTHOR, registered);
-
-      grant(config, magic, Permission.PUSH, registered);
-      grant(config, magic, Permission.PUSH_MERGE, registered);
-
-      meta.getPermission(Permission.READ, true).setExclusiveGroup(true);
-      if (admin.isPresent()) {
-        grant(config, meta, Permission.READ, admin.get(), owners);
-        grant(config, meta, codeReviewLabel, -2, 2, admin.get(), owners);
-        grant(config, meta, Permission.CREATE, admin.get(), owners);
-        grant(config, meta, Permission.PUSH, admin.get(), owners);
-        grant(config, meta, Permission.SUBMIT, admin.get(), owners);
-      }
-
+      // commit all the above configs as a commit in "refs/meta/config" branch of the All-Projects.
       config.commitToNewRef(md, RefNames.REFS_CONFIG);
+
+      // init sequence number.
       initSequences(git, bru, input.firstChangeIdForNoteDb());
 
       // init schema
       versionManager.init();
 
       execute(git, bru);
+    }
+  }
+
+  private void initDefaultACLs(ProjectConfig config, AllProjectsCreatorInput input) {
+    AccessSection cap = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
+    AccessSection all = config.getAccessSection(AccessSection.ALL, true);
+    AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
+    AccessSection tags = config.getAccessSection("refs/tags/*", true);
+    AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);
+    AccessSection refsFor = config.getAccessSection("refs/for/*", true);
+    AccessSection magic = config.getAccessSection("refs/for/" + AccessSection.ALL, true);
+
+    Optional<GroupReference> admin = input.administratorsGroup();
+    Optional<GroupReference> batch = input.batchUsersGroup();
+    if (admin.isPresent()) {
+      grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin.get());
+      grant(config, all, Permission.READ, admin.get(), anonymous);
+    }
+
+    grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
+
+    if (batch.isPresent()) {
+      Permission priority = cap.getPermission(GlobalCapability.PRIORITY, true);
+      PermissionRule r = rule(config, batch.get());
+      r.setAction(Action.BATCH);
+      priority.add(r);
+
+      Permission stream = cap.getPermission(GlobalCapability.STREAM_EVENTS, true);
+      stream.add(rule(config, batch.get()));
+    }
+
+    LabelType codeReviewLabel = input.codeReviewLabel();
+    grant(config, heads, codeReviewLabel, -1, 1, registered);
+
+    if (admin.isPresent()) {
+      grant(config, heads, codeReviewLabel, -2, 2, admin.get(), owners);
+      grant(config, heads, Permission.CREATE, admin.get(), owners);
+      grant(config, heads, Permission.PUSH, admin.get(), owners);
+      grant(config, heads, Permission.SUBMIT, admin.get(), owners);
+      grant(config, heads, Permission.FORGE_COMMITTER, admin.get(), owners);
+      grant(config, heads, Permission.EDIT_TOPIC_NAME, true, admin.get(), owners);
+
+      grant(config, tags, Permission.CREATE, admin.get(), owners);
+      grant(config, tags, Permission.CREATE_TAG, admin.get(), owners);
+      grant(config, tags, Permission.CREATE_SIGNED_TAG, admin.get(), owners);
+    }
+    grant(config, heads, Permission.FORGE_AUTHOR, registered);
+
+    grant(config, magic, Permission.PUSH, registered);
+    grant(config, magic, Permission.PUSH_MERGE, registered);
+
+    meta.getPermission(Permission.READ, true).setExclusiveGroup(true);
+    if (admin.isPresent()) {
+      grant(config, meta, Permission.READ, admin.get(), owners);
+      grant(config, meta, codeReviewLabel, -2, 2, admin.get(), owners);
+      grant(config, meta, Permission.CREATE, admin.get(), owners);
+      grant(config, meta, Permission.PUSH, admin.get(), owners);
+      grant(config, meta, Permission.SUBMIT, admin.get(), owners);
     }
   }
 

@@ -122,7 +122,7 @@ limitations under the License.
             id="saveButton"
             primary
             link
-            disabled="[[_computeSaveDisabled(_account.name, _account.email, _saving)]]"
+            disabled="[[_computeSaveDisabled(_account.name, _account.email, _account.username, _saving)]]"
             on-tap="_handleSave">Save</gr-button>
       </footer>
     </div>

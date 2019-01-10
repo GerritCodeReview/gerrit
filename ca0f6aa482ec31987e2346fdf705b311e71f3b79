@@ -321,6 +321,75 @@
       "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dcbf2f6_158a0e41",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ChangeRefCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:56:51Z",
+      "side": 1,
+      "message": "why is iterative fetching special? Your code is written in terms of single-change lookups, right?",
+      "range": {
+        "startLine": 104,
+        "startChar": 14,
+        "endLine": 104,
+        "endChar": 63
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c84f34f0_88c12a58",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ChangeRefCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:56:51Z",
+      "side": 1,
+      "message": "s/database/NoteDB/ throughout",
+      "range": {
+        "startLine": 118,
+        "startChar": 70,
+        "endLine": 118,
+        "endChar": 78
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19225742_4b73cbba",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ChangeRefCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:56:51Z",
+      "side": 1,
+      "message": "shouldn\u0027t you disable the DB to verify that?",
+      "range": {
+        "startLine": 139,
+        "startChar": 21,
+        "endLine": 139,
+        "endChar": 29
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

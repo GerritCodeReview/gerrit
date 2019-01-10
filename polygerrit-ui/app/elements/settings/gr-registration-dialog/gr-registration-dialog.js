@@ -43,10 +43,6 @@
           return {email: null, name: null, username: null};
         },
       },
-      _usernameMutable: {
-        type: Boolean,
-        computed: '_computeUsernameMutable(_serverConfig, _account.username)',
-      },
       _loading: {
         type: Boolean,
         value: true,
@@ -57,6 +53,10 @@
         value: false,
       },
       _serverConfig: Object,
+      _usernameMutable: {
+        type: Boolean,
+        computed: '_computeUsernameMutable(_serverConfig)',
+      },
     },
 
     hostAttributes: {
@@ -114,13 +114,11 @@
       this.fire('close');
     },
 
-    _computeSaveDisabled(name, email, saving) {
-      return !name || !email || saving;
-    },
-
-    _computeUsernameMutable(config, username) {
-      return config.auth.editable_account_fields.includes('USER_NAME') &&
-          !username;
+    _computeUsernameMutable(config) {
+      if (!config || !config.auth || !config.auth.editable_account_fields) {
+        return false;
+      }
+      return config.auth.editable_account_fields.includes('USER_NAME');
     },
 
     _computeUsernameClass(usernameMutable) {

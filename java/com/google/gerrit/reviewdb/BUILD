@@ -1,8 +1,8 @@
+load("//tools/bzl:gwt.bzl", "gwt_module")
+
 package(
     default_visibility = ["//visibility:public"],
 )
-
-load("//tools/bzl:gwt.bzl", "gwt_module")
 
 gwt_module(
     name = "client",

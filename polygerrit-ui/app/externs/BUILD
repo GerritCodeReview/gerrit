@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_library")
+
 package(
     default_visibility = ["//visibility:public"],
 )
-
-load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_library")
 
 closure_js_library(
     name = "plugin",

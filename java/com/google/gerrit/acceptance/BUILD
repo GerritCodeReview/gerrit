@@ -1,4 +1,5 @@
 load("//tools/bzl:java.bzl", "java_library2")
+load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_library(
     name = "lib",
@@ -124,8 +125,6 @@ java_library2(
         "//lib/mina:sshd",
     ],
 )
-
-load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_doc(
     name = "framework-javadoc",

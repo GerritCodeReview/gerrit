@@ -1,6 +1,7 @@
-load("//lib:guava.bzl", "GUAVA_DOC_URL")
 load("//lib/jgit:jgit.bzl", "JGIT_DOC_URL")
+load("//lib:guava.bzl", "GUAVA_DOC_URL")
 load("//tools/bzl:gwt.bzl", "gwt_module")
+load("//tools/bzl:javadoc.bzl", "java_doc")
 
 EXT_API_SRCS = glob(["client/*.java"])
 
@@ -43,8 +44,6 @@ java_library(
         "//lib/guice:guice-assistedinject",
     ],
 )
-
-load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_doc(
     name = "extension-api-javadoc",

@@ -1,3 +1,5 @@
+load("//tools/bzl:javadoc.bzl", "java_doc")
+
 CONSTANTS_SRC = [
     "documentation/Constants.java",
 ]
@@ -140,8 +142,6 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )
-
-load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_doc(
     name = "doc",

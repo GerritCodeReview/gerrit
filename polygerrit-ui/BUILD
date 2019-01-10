@@ -1,8 +1,8 @@
-package(default_visibility = ["//visibility:public"])
-
 load("@io_bazel_rules_go//go:def.bzl", "go_binary")
-load("//tools/bzl:js.bzl", "bower_component_bundle")
 load("//tools/bzl:genrule2.bzl", "genrule2")
+load("//tools/bzl:js.bzl", "bower_component_bundle")
+
+package(default_visibility = ["//visibility:public"])
 
 bower_component_bundle(
     name = "polygerrit_components.bower_components",

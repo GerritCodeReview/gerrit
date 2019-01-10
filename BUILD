@@ -1,11 +1,9 @@
-package(default_visibility = ["//visibility:public"])
-
-load("//tools/bzl:genrule2.bzl", "genrule2")
-load("//tools/bzl:pkg_war.bzl", "pkg_war")
 load(
     "@bazel_tools//tools/jdk:default_java_toolchain.bzl",
     "default_java_toolchain",
 )
+load("//tools/bzl:genrule2.bzl", "genrule2")
+load("//tools/bzl:pkg_war.bzl", "pkg_war")
 
 config_setting(
     name = "java9",
@@ -35,8 +33,8 @@ config_setting(
 java_runtime(
     name = "absolute_javabase",
     java_home = select({
-        ":use_absolute_javabase": "$(ABSOLUTE_JAVABASE)",
         "//conditions:default": "",
+        ":use_absolute_javabase": "$(ABSOLUTE_JAVABASE)",
     }),
     visibility = ["//visibility:public"],
 )
@@ -50,6 +48,8 @@ default_java_toolchain(
     javabuilder = ["@bazel_tools//tools/jdk:VanillaJavaBuilder_deploy.jar"],
     jvm_opts = [],
 )
+
+package(default_visibility = ["//visibility:public"])
 
 genrule(
     name = "gen_version",

@@ -799,14 +799,16 @@ public abstract class AbstractDaemonTest {
     return accountState.get();
   }
 
-  protected Context disableDb() {
+  protected AutoCloseable disableNoteDb() {
     changeNotesArgs.failOnLoadForTest.set(true);
-    return atrScope.disableDb();
-  }
-
-  protected void enableDb(Context preDisableContext) {
-    changeNotesArgs.failOnLoadForTest.set(false);
-    atrScope.set(preDisableContext);
+    Context oldContext = atrScope.disableNoteDb();
+    return new AutoCloseable() {
+      @Override
+      public void close() throws Exception {
+        changeNotesArgs.failOnLoadForTest.set(false);
+        atrScope.set(oldContext);
+      }
+    };
   }
 
   protected void disableChangeIndexWrites() {

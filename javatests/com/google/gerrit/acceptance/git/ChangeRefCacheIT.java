@@ -19,7 +19,6 @@ import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -67,15 +66,12 @@ public class ChangeRefCacheIT extends AbstractDaemonTest {
     ChangeData change = createChange().getChange();
     // TODO(hiesel) Rework as AutoClosable. Here and below.
     changeRefCache.resetBootstrappedProjects();
-    AcceptanceTestRequestScope.Context ctx = disableDb();
-    try {
+    try (AutoCloseable ignored = disableNoteDb()) {
       assertUploadPackRefs(
           "HEAD",
           "refs/heads/master",
           RefNames.changeMetaRef(change.getId()),
           change.currentPatchSet().getId().toRefName());
-    } finally {
-      enableDb(ctx);
     }
   }
 
@@ -87,29 +83,22 @@ public class ChangeRefCacheIT extends AbstractDaemonTest {
   public void serveResultsFromCacheAfterInitialBootstrap() throws Exception {
     ChangeData change = createChange().getChange();
     changeRefCache.resetBootstrappedProjects();
-    AcceptanceTestRequestScope.Context ctx = disableDb();
-    try {
+    try (AutoCloseable ignored = disableNoteDb()) {
       assertUploadPackRefs(
           "HEAD",
           "refs/heads/master",
           RefNames.changeMetaRef(change.getId()),
           change.currentPatchSet().getId().toRefName());
-    } finally {
-      enableDb(ctx);
     }
 
-    // No change since our first call, so this time we don't bootstrap or touch NoteDb
-    AcceptanceTestRequestScope.Context ctx2 = disableDb();
-    try {
-      try (AutoCloseable ignored = disableChangeIndex()) {
-        assertUploadPackRefs(
-            "HEAD",
-            "refs/heads/master",
-            RefNames.changeMetaRef(change.getId()),
-            change.currentPatchSet().getId().toRefName());
-      }
-    } finally {
-      enableDb(ctx2);
+    // No change since our first call, so this time we don't bootstrap or touch the NoteDb
+    try (AutoCloseable ignored = disableChangeIndex();
+        AutoCloseable ignored2 = disableNoteDb()) {
+      assertUploadPackRefs(
+          "HEAD",
+          "refs/heads/master",
+          RefNames.changeMetaRef(change.getId()),
+          change.currentPatchSet().getId().toRefName());
     }
   }
 
@@ -120,17 +109,14 @@ public class ChangeRefCacheIT extends AbstractDaemonTest {
   @Test
   public void useIndexForBootstrappingAndDbForDeltaReload() throws Exception {
     ChangeData change1 = createChange().getChange();
-    AcceptanceTestRequestScope.Context ctx = disableDb();
     // Bootstrap: No NoteDb access as we expect it to use the index.
     changeRefCache.resetBootstrappedProjects();
-    try {
+    try (AutoCloseable ignored = disableNoteDb()) {
       assertUploadPackRefs(
           "HEAD",
           "refs/heads/master",
           RefNames.changeMetaRef(change1.getId()),
           change1.currentPatchSet().getId().toRefName());
-    } finally {
-      enableDb(ctx);
     }
     // Delta reload: No index access as we expect it to use NoteDb.
     ChangeData change2 = createChange().getChange();
@@ -157,17 +143,14 @@ public class ChangeRefCacheIT extends AbstractDaemonTest {
             .to("refs/for/master")
             .getChange();
 
-    AcceptanceTestRequestScope.Context ctx = disableDb();
     // Bootstrap: No NoteDb access as we expect it to use the index.
     changeRefCache.resetBootstrappedProjects();
-    try {
+    try (AutoCloseable ignored = disableNoteDb()) {
       assertUploadPackRefs(
           "HEAD",
           "refs/heads/master",
           RefNames.changeMetaRef(change1.getId()),
           change1.currentPatchSet().getId().toRefName());
-    } finally {
-      enableDb(ctx);
     }
 
     // Delta reload: No index access as we expect it to use NoteDb.
@@ -201,16 +184,13 @@ public class ChangeRefCacheIT extends AbstractDaemonTest {
             .to("refs/for/master")
             .getChange();
     // Bootstrap: No NoteDb access as we expect it to use the index.
-    AcceptanceTestRequestScope.Context ctx = disableDb();
-    try {
+    try (AutoCloseable ignored = disableNoteDb()) {
       changeRefCache.resetBootstrappedProjects();
       assertUploadPackRefs(
           "HEAD",
           "refs/heads/master",
           RefNames.changeMetaRef(change1.getId()),
           change1.currentPatchSet().getId().toRefName());
-    } finally {
-      enableDb(ctx);
     }
 
     try (AutoCloseable ignored = disableChangeIndex()) {

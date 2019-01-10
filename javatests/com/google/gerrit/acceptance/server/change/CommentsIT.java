@@ -27,7 +27,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -734,8 +733,7 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(comments.get(FILE_NAME)).hasSize(1);
     addComment(result, "comment 2", false, true, comments.get(FILE_NAME).get(0).id);
 
-    AcceptanceTestRequestScope.Context ctx = disableDb();
-    try {
+    try (AutoCloseable ignored = disableNoteDb()) {
       ChangeInfo changeInfo1 = Iterables.getOnlyElement(query(changeId1));
       ChangeInfo changeInfo2 = Iterables.getOnlyElement(query(changeId2));
       ChangeInfo changeInfo3 = Iterables.getOnlyElement(query(changeId3));
@@ -745,8 +743,6 @@ public class CommentsIT extends AbstractDaemonTest {
       assertThat(changeInfo2.totalCommentCount).isEqualTo(2);
       assertThat(changeInfo3.unresolvedCommentCount).isEqualTo(1);
       assertThat(changeInfo3.totalCommentCount).isEqualTo(2);
-    } finally {
-      enableDb(ctx);
     }
   }
 

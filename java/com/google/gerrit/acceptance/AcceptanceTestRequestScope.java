@@ -145,7 +145,10 @@ public class AcceptanceTestRequestScope {
     return current.get();
   }
 
-  public Context disableDb() {
+  /**
+   * Disables read and write access to NoteDb and returns the context prior to that modification.
+   */
+  public Context disableNoteDb() {
     Context old = current.get();
     Context ctx = new Context(old.session, old.user, old.created);
 

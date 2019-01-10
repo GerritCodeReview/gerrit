@@ -239,6 +239,7 @@ public class AllProjectsCreatorTest extends GerritBaseTests {
             .codeReviewLabel(getDefaultCodeReviewLabel())
             .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
             .additionalLabelType(ImmutableList.of())
+            .initDefaultACLs(true)
             .addBooleanProjectConfigs(
                 BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.TRUE)
             .build();
@@ -246,6 +247,17 @@ public class AllProjectsCreatorTest extends GerritBaseTests {
 
     Config config = readAllProjectsConfig();
     assertThat(config.getBoolean("receive", null, "requireChangeId", false)).isTrue();
+  }
+
+  @Test
+  public void createAllProjectsWithoutInitializingDefaultACLs() throws Exception {
+    AllProjectsInput allProjectsInput =
+        AllProjectsInput.builderWithDefaults().initDefaultACLs(false).build();
+    allProjectsCreator.create(allProjectsInput);
+
+    Config config = readAllProjectsConfig();
+    assertThat(config.getSections()).doesNotContain("capability");
+    assertThat(config.getSections()).doesNotContain("access");
   }
 
   // Loads the "project.config" from the All-Projects repo.

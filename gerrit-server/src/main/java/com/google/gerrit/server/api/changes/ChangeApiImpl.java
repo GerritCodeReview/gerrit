@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.ReviewerApi;
+import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherOption;
@@ -69,6 +70,7 @@ import com.google.gerrit.server.change.Index;
 import com.google.gerrit.server.change.ListChangeComments;
 import com.google.gerrit.server.change.ListChangeDrafts;
 import com.google.gerrit.server.change.ListChangeRobotComments;
+import com.google.gerrit.server.change.ListReviewers;
 import com.google.gerrit.server.change.MarkAsReviewed;
 import com.google.gerrit.server.change.MarkAsUnreviewed;
 import com.google.gerrit.server.change.Move;
@@ -110,6 +112,7 @@ class ChangeApiImpl implements ChangeApi {
   private final ReviewerApiImpl.Factory reviewerApi;
   private final RevisionApiImpl.Factory revisionApi;
   private final SuggestChangeReviewers suggestReviewers;
+  private final ListReviewers listReviewers;
   private final ChangeResource change;
   private final Abandon abandon;
   private final Revert revert;
@@ -156,6 +159,7 @@ class ChangeApiImpl implements ChangeApi {
       ReviewerApiImpl.Factory reviewerApi,
       RevisionApiImpl.Factory revisionApi,
       SuggestChangeReviewers suggestReviewers,
+      ListReviewers listReviewers,
       Abandon abandon,
       Revert revert,
       Restore restore,
@@ -200,6 +204,7 @@ class ChangeApiImpl implements ChangeApi {
     this.reviewerApi = reviewerApi;
     this.revisionApi = revisionApi;
     this.suggestReviewers = suggestReviewers;
+    this.listReviewers = listReviewers;
     this.abandon = abandon;
     this.restore = restore;
     this.updateByMerge = updateByMerge;
@@ -492,6 +497,15 @@ class ChangeApiImpl implements ChangeApi {
       return suggestReviewers.apply(change);
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve suggested reviewers", e);
+    }
+  }
+
+  @Override
+  public List<ReviewerInfo> reviewers() throws RestApiException {
+    try {
+      return listReviewers.apply(change);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve reviewers", e);
     }
   }
 

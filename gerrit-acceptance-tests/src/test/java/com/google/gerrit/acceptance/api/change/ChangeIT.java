@@ -799,6 +799,8 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(reviewers)
           .containsExactly(user.id.get(), admin.id.get(), accountCreator.user2().id.get());
     }
+
+    assertThat(gApi.changes().id(r.getChangeId()).reviewers()).hasSize(4);
   }
 
   @Test
@@ -1355,6 +1357,8 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewers.iterator().next()._accountId).isEqualTo(user.getId().get());
     assertThat(change.reviewers.get(CC)).isNull();
 
+    assertThat(gApi.changes().id(result.getChangeId()).reviewers()).hasSize(1);
+
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
@@ -1560,6 +1564,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.reviewer = username;
     in.state = ReviewerState.CC;
     AddReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+    assertThat(gApi.changes().id(result.getChangeId()).reviewers()).hasSize(1);
 
     assertThat(r.input).isEqualTo(username);
     assertThat(r.error).isNull();

@@ -62,7 +62,7 @@
       /**
        * Because  we request one more than the projectsPerPage, _shownProjects
        * maybe one less than _projects.
-       * */
+       */
       _shownItems: {
         type: Array,
         computed: 'computeShownItems(_items)',
@@ -90,7 +90,7 @@
     _determineIfOwner(repo) {
       return this.$.restAPI.getRepoAccess(repo)
           .then(access =>
-                this._isOwner = access && access[repo].is_owner);
+                this._isOwner = access && !!access[repo].is_owner);
     },
 
     _paramsChanged(params) {
@@ -194,6 +194,11 @@
         if (res.status < 400) {
           this._isEditing = false;
           e.model.set('item.revision', ref);
+          // This is needed to refresh _items property with fresh data,
+          // specifically can_delete from the json response.
+          this._getItems(
+              this._filter, this._repo, this._itemsPerPage,
+              this._offset, this.detailType);
         }
       });
     },
@@ -240,10 +245,11 @@
       this.$.overlay.open();
     },
 
-    _computeHideDeleteClass(owner, deleteRef) {
-      if (owner && !deleteRef || owner && deleteRef || deleteRef || owner) {
+    _computeHideDeleteClass(owner, canDelete) {
+      if (canDelete || owner) {
         return 'show';
       }
+
       return '';
     },
 

@@ -62,7 +62,8 @@
       /**
        * Because  we request one more than the projectsPerPage, _shownProjects
        * maybe one less than _projects.
-       * */
+       *
+       */
       _shownItems: {
         type: Array,
         computed: 'computeShownItems(_items)',
@@ -88,9 +89,12 @@
     ],
 
     _determineIfOwner(repo) {
-      return this.$.restAPI.getRepoAccess(repo)
-          .then(access =>
-                this._isOwner = access && access[repo].is_owner);
+      return this.$.restAPI.getRepoAccess(repo).then(access => {
+          if (access) {
+            this._isOwner = typeof access[repo].is_owner !== 'undefined' ?
+              access[repo].is_owner : false;
+          }
+      });
     },
 
     _paramsChanged(params) {
@@ -125,14 +129,14 @@
         return this.$.restAPI.getRepoBranches(
             filter, repo, itemsPerPage, offset, errFn).then(items => {
               if (!items) { return; }
-              this._items = items;
+              this.set('_items', items);
               this._loading = false;
             });
       } else if (detailType === DETAIL_TYPES.TAGS) {
         return this.$.restAPI.getRepoTags(
             filter, repo, itemsPerPage, offset, errFn).then(items => {
               if (!items) { return; }
-              this._items = items;
+              this.set('_items', items);
               this._loading = false;
             });
       }
@@ -240,10 +244,11 @@
       this.$.overlay.open();
     },
 
-    _computeHideDeleteClass(owner, deleteRef) {
-      if (owner && !deleteRef || owner && deleteRef || deleteRef || owner) {
+    _computeHideDeleteClass(owner, canDelete) {
+      if (owner && !canDelete || owner && canDelete || canDelete || owner) {
         return 'show';
       }
+
       return '';
     },
 

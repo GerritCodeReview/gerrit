@@ -549,5 +549,10 @@ limitations under the License.
         element._paramsChanged(params);
       });
     });
+
+    test('test _computeHideDeleteClass', () => {
+      assert.deepEqual(element._computeHideDeleteClass(true), 'show');
+      assert.deepEqual(element._computeHideDeleteClass(false), '');
+    });
   });
 </script>

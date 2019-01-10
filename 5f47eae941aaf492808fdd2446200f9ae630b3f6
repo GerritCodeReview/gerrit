@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d554580a_5bb84e7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-10T14:28:15Z",
+      "side": 1,
+      "message": "In that case maybe the alternative approach mentioned below would be better?",
+      "parentUuid": "224dd087_de687b7a",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 11,
+        "endChar": 68
+      },
+      "revId": "5f47eae941aaf492808fdd2446200f9ae630b3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b5e83bd8_52fae10a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7

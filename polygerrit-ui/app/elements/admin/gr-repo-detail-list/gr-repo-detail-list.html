@@ -171,8 +171,10 @@ limitations under the License.
               <td class="delete">
                 <gr-button
                     link
-                    class$="deleteButton [[_computeHideDeleteClass(_isOwner, item.can_delete)]]"
-                    on-tap="_handleDeleteItem">
+                    class="deleteButton"
+                    on-tap="_handleDeleteItem"
+                    hidden$="[[!canDelete || !owner]]"
+                    hidden>
                   Delete
                 </gr-button>
               </td>

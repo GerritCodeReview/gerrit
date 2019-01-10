@@ -58,7 +58,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.ChangeIndexedCounter;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
@@ -2735,8 +2734,7 @@ public class ChangeIT extends AbstractDaemonTest {
     createChange();
 
     requestScopeOperations.setApiUser(user.getId());
-    AcceptanceTestRequestScope.Context ctx = disableDb();
-    try {
+    try (AutoCloseable ignored = disableNoteDb()) {
       assertThat(
               gApi.changes()
                   .query()
@@ -2747,8 +2745,6 @@ public class ChangeIT extends AbstractDaemonTest {
                   .withOption(REVIEWED)
                   .get())
           .hasSize(2);
-    } finally {
-      enableDb(ctx);
     }
   }
 

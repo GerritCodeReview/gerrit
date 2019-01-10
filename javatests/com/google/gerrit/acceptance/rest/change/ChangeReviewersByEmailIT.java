@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -323,14 +322,11 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       input.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(input);
 
-      Context oldCtx = disableDb();
-      try {
+      try (AutoCloseable ignored = disableNoteDb()) {
         ChangeInfo info =
             Iterables.getOnlyElement(
                 gApi.changes().query(r.getChangeId()).withOption(DETAILED_LABELS).get());
         assertThat(info.reviewers).isEqualTo(ImmutableMap.of(state, ImmutableList.of(acc)));
-      } finally {
-        enableDb(oldCtx);
       }
     }
   }

@@ -145,7 +145,7 @@ public class AcceptanceTestRequestScope {
     return current.get();
   }
 
-  public Context disableDb() {
+  public Context disableNoteDb() {
     Context old = current.get();
     Context ctx = new Context(old.session, old.user, old.created);
 

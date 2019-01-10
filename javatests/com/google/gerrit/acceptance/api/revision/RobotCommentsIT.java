@@ -24,7 +24,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -923,16 +922,13 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     addRobotComment(r2.getChangeId(), createRobotCommentInputWithMandatoryFields());
 
-    AcceptanceTestRequestScope.Context ctx = disableDb();
-    try {
+    try (AutoCloseable ignored = disableNoteDb()) {
       ChangeInfo result = Iterables.getOnlyElement(query(r2.getChangeId()));
       // currently, we create all robot comments as 'resolved' by default.
       // if we allow users to resolve a robot comment, then this test should
       // be modified.
       assertThat(result.unresolvedCommentCount).isEqualTo(0);
       assertThat(result.totalCommentCount).isEqualTo(1);
-    } finally {
-      enableDb(ctx);
     }
   }
 

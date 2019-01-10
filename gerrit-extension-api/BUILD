@@ -1,11 +1,10 @@
-load("//lib:guava.bzl", "GUAVA_DOC_URL")
 load("//lib/jgit:jgit.bzl", "JGIT_DOC_URL")
+load("//lib:guava.bzl", "GUAVA_DOC_URL")
 load("//tools/bzl:gwt.bzl", "gwt_module")
+load("//tools/bzl:javadoc.bzl", "java_doc")
 load("//tools/bzl:junit.bzl", "junit_tests")
 
 SRC = "src/main/java/com/google/gerrit/extensions/"
-
-SRCS = glob([SRC + "**/*.java"])
 
 EXT_API_SRCS = glob([SRC + "client/*.java"])
 
@@ -59,8 +58,6 @@ junit_tests(
         "//lib/guice",
     ],
 )
-
-load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_doc(
     name = "extension-api-javadoc",

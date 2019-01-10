@@ -56,17 +56,17 @@ def _replace_macros_impl(ctx):
 
 _replace_macros = rule(
     attrs = {
-        "_exe": attr.label(
-            default = Label("//Documentation:replace_macros.py"),
-            allow_single_file = True,
-        ),
         "src": attr.label(
             mandatory = True,
             allow_single_file = [".txt"],
         ),
-        "suffix": attr.string(mandatory = True),
-        "searchbox": attr.bool(default = True),
         "out": attr.output(mandatory = True),
+        "searchbox": attr.bool(default = True),
+        "suffix": attr.string(mandatory = True),
+        "_exe": attr.label(
+            default = Label("//Documentation:replace_macros.py"),
+            allow_single_file = True,
+        ),
     },
     implementation = _replace_macros_impl,
 )
@@ -123,23 +123,23 @@ def _asciidoc_impl(ctx):
     )
 
 _asciidoc_attrs = {
+    "srcs": attr.label_list(
+        mandatory = True,
+        allow_files = True,
+    ),
+    "attributes": attr.string_list(),
+    "backend": attr.string(),
+    "suffix": attr.string(mandatory = True),
+    "version": attr.label(
+        default = Label("//:version.txt"),
+        allow_single_file = True,
+    ),
     "_exe": attr.label(
         default = Label("//lib/asciidoctor:asciidoc"),
         cfg = "host",
         allow_files = True,
         executable = True,
     ),
-    "srcs": attr.label_list(
-        mandatory = True,
-        allow_files = True,
-    ),
-    "version": attr.label(
-        default = Label("//:version.txt"),
-        allow_single_file = True,
-    ),
-    "suffix": attr.string(mandatory = True),
-    "backend": attr.string(),
-    "attributes": attr.string_list(),
 }
 
 _asciidoc = rule(
@@ -293,11 +293,11 @@ _asciidoc_zip = rule(
             mandatory = True,
             allow_single_file = [".zip"],
         ),
+        "directory": attr.string(mandatory = True),
         "resources": attr.label_list(
             mandatory = True,
             allow_files = True,
         ),
-        "directory": attr.string(mandatory = True),
     },
     outputs = {
         "out": "%{name}.zip",

@@ -1,4 +1,5 @@
 load("//tools/bzl:java.bzl", "java_library2")
+load("//tools/bzl:javadoc.bzl", "java_doc")
 load("//tools/bzl:junit.bzl", "junit_tests")
 
 TEST_SRCS = ["src/test/java/com/google/gerrit/acceptance/MergeableFileBasedConfigTest.java"]
@@ -73,8 +74,6 @@ java_library2(
         "//lib/mail:mail",
     ],
 )
-
-load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_doc(
     name = "acceptance-framework-javadoc",

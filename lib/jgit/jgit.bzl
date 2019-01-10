@@ -1,4 +1,4 @@
-load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_CENTRAL", "MAVEN_LOCAL", "maven_jar")
+load("//tools/bzl:maven_jar.bzl", "MAVEN_CENTRAL", "maven_jar")
 
 _JGIT_VERS = "4.9.7.201810191756-r"
 
@@ -62,11 +62,11 @@ def jgit_maven_repos():
 
 def jgit_dep(name):
     mapping = {
-        "@jgit-junit//jar": "@jgit//org.eclipse.jgit.junit:junit",
-        "@jgit-lib//jar:src": "@jgit//org.eclipse.jgit:libjgit-src.jar",
-        "@jgit-lib//jar": "@jgit//org.eclipse.jgit:jgit",
-        "@jgit-servlet//jar": "@jgit//org.eclipse.jgit.http.server:jgit-servlet",
         "@jgit-archive//jar": "@jgit//org.eclipse.jgit.archive:jgit-archive",
+        "@jgit-junit//jar": "@jgit//org.eclipse.jgit.junit:junit",
+        "@jgit-lib//jar": "@jgit//org.eclipse.jgit:jgit",
+        "@jgit-lib//jar:src": "@jgit//org.eclipse.jgit:libjgit-src.jar",
+        "@jgit-servlet//jar": "@jgit//org.eclipse.jgit.http.server:jgit-servlet",
     }
 
     if LOCAL_JGIT_REPO:

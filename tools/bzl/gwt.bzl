@@ -33,9 +33,9 @@ BROWSERS = [
 
 ALIASES = {
     "chrome": "safari",
+    "edge": "gecko1_8",
     "firefox": "gecko1_8",
     "msie": "ie10",
-    "edge": "gecko1_8",
 }
 
 MODULE = "com.google.gerrit.GerritGwtUI"
@@ -113,14 +113,14 @@ def _gwt_user_agent_module(ctx):
         impl = ALIASES[ua]
 
     # intermediate artifact: user agent speific GWT xml file
-    gwt_user_agent_xml = ctx.new_file(ctx.label.name + "_gwt.xml")
-    ctx.file_action(
+    gwt_user_agent_xml = ctx.actions.declare_file(ctx.label.name + "_gwt.xml")
+    ctx.actions.write(
         output = gwt_user_agent_xml,
         content = USER_AGENT_XML % (MODULE, impl),
     )
 
     # intermediate artifact: user agent specific zip with GWT module
-    gwt_user_agent_zip = ctx.new_file(ctx.label.name + "_gwt.zip")
+    gwt_user_agent_zip = ctx.actions.declare_file(ctx.label.name + "_gwt.zip")
     gwt = "%s_%s.gwt.xml" % (MODULE.replace(".", "/"), ua)
     dir = gwt_user_agent_zip.path + ".dir"
     cmd = " && ".join([
@@ -209,14 +209,14 @@ def _get_transitive_closure(ctx):
 
 gwt_binary = rule(
     attrs = {
-        "user_agent": attr.string(),
-        "style": attr.string(default = "OBF"),
-        "optimize": attr.string(default = "9"),
-        "deps": attr.label_list(allow_files = jar_filetype),
-        "module": attr.string_list(default = [MODULE]),
-        "module_deps": attr.label_list(allow_files = jar_filetype),
         "compiler_args": attr.string_list(),
         "jvm_args": attr.string_list(),
+        "module": attr.string_list(default = [MODULE]),
+        "module_deps": attr.label_list(allow_files = jar_filetype),
+        "optimize": attr.string(default = "9"),
+        "style": attr.string(default = "OBF"),
+        "user_agent": attr.string(),
+        "deps": attr.label_list(allow_files = jar_filetype),
         "_jdk": attr.label(
             default = Label("//tools/defaults:jdk"),
         ),

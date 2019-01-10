@@ -224,11 +224,22 @@ public class AllProjectsCreatorTest extends GerritBaseTests {
             .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
             .addBooleanProjectConfig(
                 BooleanProjectConfig.REJECT_EMPTY_COMMIT, InheritableBoolean.TRUE)
+            .initDefaultAcls(true)
             .build();
     allProjectsCreator.create(allProjectsInput);
 
     Config config = readAllProjectsConfig();
     assertThat(config.getBoolean("submit", null, "rejectEmptyCommit", false)).isTrue();
+  }
+
+  @Test
+  public void createAllProjectsWithoutInitializingDefaultACLs() throws Exception {
+    AllProjectsInput allProjectsInput = AllProjectsInput.builder().initDefaultAcls(false).build();
+    allProjectsCreator.create(allProjectsInput);
+
+    Config config = readAllProjectsConfig();
+    assertThat(config.getSections()).doesNotContain("capability");
+    assertThat(config.getSections()).doesNotContain("access");
   }
 
   // Loads the "project.config" from the All-Projects repo.

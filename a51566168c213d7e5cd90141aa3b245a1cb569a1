@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81b3d790_36c4cbe2",
+        "filename": "contrib/mitm-ui/mitm-theme.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-10T23:46:25Z",
+      "side": 1,
+      "message": "would be good to quote this",
+      "range": {
+        "startLine": 24,
+        "startChar": 17,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "a51566168c213d7e5cd90141aa3b245a1cb569a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31f18c97_dfa9ecac",
+        "filename": "contrib/mitm-ui/mitm-theme.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-10T23:46:25Z",
+      "side": 1,
+      "message": "likewise",
+      "range": {
+        "startLine": 25,
+        "startChar": 20,
+        "endLine": 25,
+        "endChar": 28
+      },
+      "revId": "a51566168c213d7e5cd90141aa3b245a1cb569a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30e2ea0c_73142511",
+        "filename": "contrib/mitm-ui/mitm-theme.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-10T23:46:25Z",
+      "side": 1,
+      "message": "likewise for the variable expansions in these, too",
+      "revId": "a51566168c213d7e5cd90141aa3b245a1cb569a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

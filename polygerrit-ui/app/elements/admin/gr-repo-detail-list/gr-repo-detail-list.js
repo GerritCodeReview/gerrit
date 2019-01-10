@@ -241,9 +241,10 @@
     },
 
     _computeHideDeleteClass(owner, deleteRef) {
-      if (owner && !deleteRef || owner && deleteRef || deleteRef || owner) {
+      if (owner || deleteRef ) {
         return 'show';
       }
+
       return '';
     },
 

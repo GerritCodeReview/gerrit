@@ -16,6 +16,24 @@
       "revId": "34a8bdc881221902d1072cf282a9eb677af4a8bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e58e013e_f41087d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-10T07:36:01Z",
+      "side": 1,
+      "message": "With 1. I agree but with the exception that we should wait a bit more and get more feedback, including Dave Borowitz on this. Let\u0027s not rush into 2.16.3.\n\nNot clear how 2. is related though: is it because of the ability to do on-line reindexing?",
+      "parentUuid": "b1940133_278a8554",
+      "revId": "34a8bdc881221902d1072cf282a9eb677af4a8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -131,8 +131,10 @@ public class AllProjectsCreator {
       // init labels.
       initLabels(config, input.codeReviewLabel(), input.additionalLabelType());
 
-      // init access sections.
-      initDefaultACLs(config, input);
+      if (input.initDefaultACLs()) {
+        // init access sections.
+        initDefaultACLs(config, input);
+      }
 
       // commit all the above configs as a commit in "refs/meta/config" branch of the All-Projects.
       config.commitToNewRef(md, RefNames.REFS_CONFIG);
@@ -145,6 +147,14 @@ public class AllProjectsCreator {
 
       execute(git, bru);
     }
+  }
+
+  private void initLabels(
+      ProjectConfig projectConfig,
+      LabelType codeReviewLabel,
+      ImmutableList<LabelType> additionalLabelType) {
+    projectConfig.getLabelSections().put(codeReviewLabel.getName(), codeReviewLabel);
+    additionalLabelType.forEach(t -> projectConfig.getLabelSections().put(t.getName(), t));
   }
 
   private void initDefaultACLs(ProjectConfig config, AllProjectsCreatorInput input) {
@@ -203,14 +213,6 @@ public class AllProjectsCreator {
       grant(config, meta, Permission.PUSH, admin.get(), owners);
       grant(config, meta, Permission.SUBMIT, admin.get(), owners);
     }
-  }
-
-  private void initLabels(
-      ProjectConfig projectConfig,
-      LabelType codeReviewLabel,
-      ImmutableList<LabelType> additionalLabelType) {
-    projectConfig.getLabelSections().put(codeReviewLabel.getName(), codeReviewLabel);
-    additionalLabelType.forEach(t -> projectConfig.getLabelSections().put(t.getName(), t));
   }
 
   private void initSequences(Repository git, BatchRefUpdate bru, int firstChangeId)

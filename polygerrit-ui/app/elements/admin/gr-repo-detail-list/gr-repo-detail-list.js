@@ -49,6 +49,10 @@
         type: Boolean,
         value: false,
       },
+      /*_isOwner: {
+        type: Boolean,
+        computed: '_computeLoggedIn(params)',
+      },*/
       _loggedIn: {
         type: Boolean,
         value: false,
@@ -62,7 +66,8 @@
       /**
        * Because  we request one more than the projectsPerPage, _shownProjects
        * maybe one less than _projects.
-       * */
+       *
+       */
       _shownItems: {
         type: Array,
         computed: 'computeShownItems(_items)',
@@ -125,14 +130,16 @@
         return this.$.restAPI.getRepoBranches(
             filter, repo, itemsPerPage, offset, errFn).then(items => {
               if (!items) { return; }
-              this._items = items;
+              //this._items = items;
+              this.set('_items', items);
               this._loading = false;
             });
       } else if (detailType === DETAIL_TYPES.TAGS) {
         return this.$.restAPI.getRepoTags(
             filter, repo, itemsPerPage, offset, errFn).then(items => {
               if (!items) { return; }
-              this._items = items;
+              //this._items = items;
+              this.set('_items', items);
               this._loading = false;
             });
       }
@@ -240,10 +247,13 @@
       this.$.overlay.open();
     },
 
-    _computeHideDeleteClass(owner, deleteRef) {
-      if (owner && !deleteRef || owner && deleteRef || deleteRef || owner) {
+    _computeHideDeleteClass(owner, canDelete) {
+      console.log(canDelete);
+      //if (owner || item && item.can_delete) {
+      if (owner && !canDelete || owner && canDelete || canDelete || owner) {
         return 'show';
       }
+
       return '';
     },
 

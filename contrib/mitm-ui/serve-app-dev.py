@@ -32,9 +32,10 @@ import re
 import argparse
 import os.path
 import json
+import mimetypes
 
 class Server:
-    def __init__(self, devpath, plugins, pluginroot, assets, strip_assets):
+    def __init__(self, devpath, plugins, pluginroot, assets, strip_assets, theme):
         if devpath:
             print("Serving app from " + devpath)
         if pluginroot:
@@ -53,6 +54,7 @@ class Server:
         self.devpath = devpath
         self.pluginroot = pluginroot
         self.strip_assets = strip_assets
+        self.theme = theme
 
     def readfile(self, path):
         with open(path, 'rb') as contentfile:
@@ -92,6 +94,8 @@ def response(flow: http.HTTPFlow) -> None:
     localfile = ""
     if flow.request.path == "/config/server/info":
         config = json.loads(flow.response.content[5:].decode('utf8'))
+        if server.theme:
+            config['default_theme'] = '/static/gerrit-theme.html'
         for filename, path in server.plugins.items():
             pluginname = filename.split(".")[0]
             payload = config["plugin"]["js_resource_paths" if filename.endswith(".js") else "html_resource_paths"]
@@ -115,13 +119,23 @@ def response(flow: http.HTTPFlow) -> None:
                 localfile = server.pluginroot + pluginfile
             elif os.path.isfile(server.pluginroot + pluginurl):
                 localfile = server.pluginroot + pluginurl
+
+    if server.theme:
+        if flow.request.path.endswith('/gerrit-theme.html'):
+            localfile = server.theme
+        else:
+            match = re.match("^/static(/[\w\.]+)$", flow.request.path)
+            if match is not None:
+                localfile = os.path.dirname(server.theme) + match.group(1)
+
     if localfile and os.path.isfile(localfile):
         if pluginmatch is not None:
             print("Serving " + flow.request.path + " from " + localfile)
         flow.response.content = server.readfile(localfile)
         flow.response.status_code = 200
-        if localfile.endswith('.js'):
-            flow.response.headers['Content-type'] = 'text/javascript'
+        localtype = mimetypes.guess_type(localfile)
+        if localtype and localtype[0]:
+            flow.response.headers['Content-type'] = localtype[0]
 
 def expandpath(path):
     return os.path.realpath(os.path.expanduser(path))
@@ -132,8 +146,11 @@ parser.add_argument("--plugins", type=str, default="", help="Comma-separated lis
 parser.add_argument("--plugin_root", type=str, default="", help="Path containing individual plugin files to replace")
 parser.add_argument("--assets", type=str, default="", help="Path containing assets file to import.")
 parser.add_argument("--strip_assets", action="store_true", help="Strip plugin bundles from the response.")
+parser.add_argument("--theme", type=str, help="Path to the default site theme to be used.")
 args = parser.parse_args()
 server = Server(expandpath(args.app) + '/',
-                args.plugins, expandpath(args.plugin_root) + '/',
+                args.plugins,
+                expandpath(args.plugin_root) + '/',
                 args.assets and expandpath(args.assets),
-                args.strip_assets)
+                args.strip_assets,
+                expandpath(args.theme))

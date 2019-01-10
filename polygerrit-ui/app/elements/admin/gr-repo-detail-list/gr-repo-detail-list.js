@@ -49,6 +49,10 @@
         type: Boolean,
         value: false,
       },
+      /*_isOwner: {
+        type: Boolean,
+        computed: '_computeLoggedIn(params)',
+      },*/
       _loggedIn: {
         type: Boolean,
         value: false,
@@ -63,10 +67,10 @@
        * Because  we request one more than the projectsPerPage, _shownProjects
        * maybe one less than _projects.
        * */
-      _shownItems: {
-        type: Array,
+      /*_shownItems: {
+        type: Object,
         computed: 'computeShownItems(_items)',
-      },
+      },*/
       _itemsPerPage: {
         type: Number,
         value: 25,
@@ -240,10 +244,13 @@
       this.$.overlay.open();
     },
 
-    _computeHideDeleteClass(owner, deleteRef) {
-      if (owner && !deleteRef || owner && deleteRef || deleteRef || owner) {
+    _computeHideDeleteClass(owner, canDelete) {
+      console.log(item);
+      //if (owner || item && item.can_delete) {
+      if (owner && !canDelete || owner && canDelete || canDelete || owner) {
         return 'show';
       }
+
       return '';
     },
 
@@ -270,6 +277,11 @@
 
     _computeHideTagger(tagger) {
       return tagger ? '' : 'hide';
+    },
+
+    _shownItems(_items) {
+      if (!_items) { return; }
+      return this.computeShownItems(_items);
     },
   });
 })();

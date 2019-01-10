@@ -107,7 +107,7 @@ limitations under the License.
           <td>Loading...</td>
         </tr>
         <tbody class$="[[computeLoadingClass(_loading)]]">
-          <template is="dom-repeat" items="[[_shownItems]]">
+          <template is="dom-repeat" items="[[_shownItems(_items)]]">
             <tr class="table">
               <td class$="[[detailType]] name">[[_stripRefs(item.ref, detailType)]]</td>
               <td class$="[[detailType]] revision [[_computeCanEditClass(item.ref, detailType, _isOwner)]]">

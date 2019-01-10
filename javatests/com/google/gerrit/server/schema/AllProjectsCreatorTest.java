@@ -227,11 +227,23 @@ public class AllProjectsCreatorTest extends GerritBaseTests {
             .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
             .addBooleanProjectConfig(
                 BooleanProjectConfig.REJECT_EMPTY_COMMIT, InheritableBoolean.TRUE)
+            .initDefaultAcls(true)
             .build();
     allProjectsCreator.create(allProjectsInput);
 
     Config config = readAllProjectsConfig();
     assertThat(config.getBoolean("submit", null, "rejectEmptyCommit", false)).isTrue();
+  }
+
+  @Test
+  public void createAllProjectsWithoutInitializingDefaultACLs() throws Exception {
+    AllProjectsInput allProjectsInput = AllProjectsInput.builder().initDefaultAcls(false).build();
+    allProjectsCreator.create(allProjectsInput);
+
+    Config expectedConfig = new Config();
+    expectedConfig.fromText(getAllProjectsWithoutDefaultAcls());
+    Config config = readAllProjectsConfig();
+    assertTwoConfigsEquivalent(config, expectedConfig);
   }
 
   // Loads the "project.config" from the All-Projects repo.
@@ -240,6 +252,16 @@ public class AllProjectsCreatorTest extends GerritBaseTests {
       Ref configRef = repo.findRef(RefNames.REFS_CONFIG);
       return new BlobBasedConfig(null, repo, configRef.getObjectId(), "project.config");
     }
+  }
+
+  private static String getAllProjectsWithoutDefaultAcls() {
+    return Streams.stream(
+            Iterables.concat(
+                DEFAULT_ALL_PROJECTS_PROJECT_SECTION,
+                DEFAULT_ALL_PROJECTS_RECEIVE_SECTION,
+                DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
+                DEFAULT_ALL_PROJECTS_LABEL_SECTION))
+        .collect(Collectors.joining("\n"));
   }
 
   private static void assertTwoConfigsEquivalent(Config config1, Config config2) {

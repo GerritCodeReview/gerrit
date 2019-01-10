@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "918982e5_14646fdf",
+        "filename": "java/com/google/gerrit/server/git/ChangeRefCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T15:18:57Z",
+      "side": 1,
+      "message": "do we need metrics to keep track of hit rates, or do we get those for free?",
+      "range": {
+        "startLine": 60,
+        "startChar": 13,
+        "endLine": 60,
+        "endChar": 27
+      },
+      "revId": "a480474ed177a3de11dcaac4182451815bbd5df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27649ce5_285dbfab",
+        "filename": "java/com/google/gerrit/server/git/ChangeRefCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T15:18:57Z",
+      "side": 1,
+      "message": "move this to the declaration of the set.",
+      "range": {
+        "startLine": 149,
+        "startChar": 15,
+        "endLine": 149,
+        "endChar": 34
+      },
+      "revId": "a480474ed177a3de11dcaac4182451815bbd5df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21b5ae86_9b2332f5",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ChangeRefCacheIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T15:18:57Z",
+      "side": 1,
+      "message": "s/the//",
+      "range": {
+        "startLine": 219,
+        "startChar": 60,
+        "endLine": 219,
+        "endChar": 63
+      },
+      "revId": "a480474ed177a3de11dcaac4182451815bbd5df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

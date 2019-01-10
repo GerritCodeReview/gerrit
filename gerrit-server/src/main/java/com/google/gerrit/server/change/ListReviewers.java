@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
-class ListReviewers implements RestReadView<ChangeResource> {
+public class ListReviewers implements RestReadView<ChangeResource> {
   private final Provider<ReviewDb> dbProvider;
   private final ApprovalsUtil approvalsUtil;
   private final ReviewerJson json;

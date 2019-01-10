@@ -1,0 +1,326 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "234fd0ed_19501753",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:42:12Z",
+      "side": 1,
+      "message": "are you talking about the replicas here? Or gerrit in general?\n(you just said there is no index, so how can you issue an index call?)",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 0
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc85ea52_7d3036c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:42:12Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 32,
+        "startChar": 21,
+        "endLine": 32,
+        "endChar": 30
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41233f6d_cf86e364",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:42:12Z",
+      "side": 1,
+      "message": "once per JVM invocation?",
+      "range": {
+        "startLine": 38,
+        "startChar": 50,
+        "endLine": 38,
+        "endChar": 54
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fe02f6e_df60cdfb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:42:12Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 54,
+        "startChar": 35,
+        "endLine": 54,
+        "endChar": 39
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5845dcbb_da7177ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:42:12Z",
+      "side": 1,
+      "message": "drop ,",
+      "range": {
+        "startLine": 57,
+        "startChar": 43,
+        "endLine": 57,
+        "endChar": 44
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a18b743c_c7c50942",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:42:12Z",
+      "side": 1,
+      "message": "is 2x the number.\n\n(for growth.)",
+      "range": {
+        "startLine": 836,
+        "startChar": 34,
+        "endLine": 836,
+        "endChar": 40
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b548658e_86b5c2dd",
+        "filename": "java/com/google/gerrit/server/git/ChangeRefCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:42:12Z",
+      "side": 1,
+      "message": "can these be static?",
+      "range": {
+        "startLine": 96,
+        "startChar": 10,
+        "endLine": 96,
+        "endChar": 15
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdb990eb_d1c48b8c",
+        "filename": "java/com/google/gerrit/server/git/ChangeRefCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:42:12Z",
+      "side": 1,
+      "message": "finish sentence.",
+      "range": {
+        "startLine": 132,
+        "startChar": 41,
+        "endLine": 132,
+        "endChar": 45
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cb83217_37cabfb6",
+        "filename": "java/com/google/gerrit/server/git/ChangeRefCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:42:12Z",
+      "side": 1,
+      "message": "comment/javadoc? \n\nexplain why it\u0027s OK to use CopyonwriteArray (which seems like it would normally be expensive.)",
+      "range": {
+        "startLine": 145,
+        "startChar": 2,
+        "endLine": 145,
+        "endChar": 8
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "729a3a5c_bbe41123",
+        "filename": "java/com/google/gerrit/server/git/ChangeRefCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:42:12Z",
+      "side": 1,
+      "message": "can you check for existence of the index directly?",
+      "range": {
+        "startLine": 147,
+        "startChar": 77,
+        "endLine": 147,
+        "endChar": 78
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef1be455_c356f34b",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:42:12Z",
+      "side": 1,
+      "message": "in a similar change \n\n  https://gerrit-review.googlesource.com/c/gerrit/+/209372\n\nit was suggested to propagate I/O as fatal error, because a 500 is easier to debug than a mysteriously disappearing single ref.",
+      "range": {
+        "startLine": 330,
+        "startChar": 72,
+        "endLine": 330,
+        "endChar": 80
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac7d18ef_266318b4",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ChangeRefCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:42:12Z",
+      "side": 1,
+      "message": "don\u0027t we have a @GerritConfig annotation for this? How do you know this setting is applied early enough?",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 14
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a9f245f_862ce82a",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ChangeRefCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:42:12Z",
+      "side": 1,
+      "message": "I have trouble following all what these tests do.",
+      "range": {
+        "startLine": 57,
+        "startChar": 14,
+        "endLine": 57,
+        "endChar": 38
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37f80e60_0031a07e",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ChangeRefCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-10T13:42:12Z",
+      "side": 1,
+      "message": "side note: what does this do? Which Db is this?",
+      "range": {
+        "startLine": 77,
+        "startChar": 45,
+        "endLine": 77,
+        "endChar": 54
+      },
+      "revId": "ca0f6aa482ec31987e2346fdf705b311e71f3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

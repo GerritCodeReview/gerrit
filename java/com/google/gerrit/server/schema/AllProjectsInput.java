@@ -83,13 +83,17 @@ public abstract class AllProjectsInput {
   /** Boolean project configs to be set in All-Projects. */
   public abstract ImmutableMap<BooleanProjectConfig, InheritableBoolean> booleanProjectConfigs();
 
+  /** Whether initializing default access sections in All-Projects. */
+  public abstract boolean initDefaultAcls();
+
   public abstract Builder toBuilder();
 
   public static Builder builder() {
     Builder builder =
         new AutoValue_AllProjectsInput.Builder()
             .codeReviewLabel(getDefaultCodeReviewLabel())
-            .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID);
+            .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
+            .initDefaultAcls(true);
     DEFAULT_BOOLEAN_PROJECT_CONFIGS.forEach(builder::addBooleanProjectConfig);
 
     return builder;
@@ -123,6 +127,9 @@ public abstract class AllProjectsInput {
       booleanProjectConfigsBuilder().put(booleanProjectConfig, inheritableBoolean);
       return this;
     }
+
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public abstract Builder initDefaultAcls(boolean initDefaultACLs);
 
     public abstract AllProjectsInput build();
   }

@@ -128,8 +128,10 @@ public class AllProjectsCreator {
       LabelType codeReviewLabel = input.codeReviewLabel();
       config.getLabelSections().put(codeReviewLabel.getName(), codeReviewLabel);
 
-      // init access sections.
-      initDefaultAcls(config, input);
+      if (input.initDefaultAcls()) {
+        // init access sections.
+        initDefaultAcls(config, input);
+      }
 
       // commit all the above configs as a commit in "refs/meta/config" branch of the All-Projects.
       config.commitToNewRef(md, RefNames.REFS_CONFIG);

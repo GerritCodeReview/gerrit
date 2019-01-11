@@ -16,6 +16,24 @@
       "revId": "5b558e38493963b16503908a41927c57c0bfbb29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee418393_b96c57b0",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-11T00:25:00Z",
+      "side": 0,
+      "message": "This was intentionally removed.  See the original change here: https://gerrit-review.googlesource.com/c/gerrit/+/209089/5/gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+      "parentUuid": "25094bfd_fe4a8c1c",
+      "revId": "5b558e38493963b16503908a41927c57c0bfbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

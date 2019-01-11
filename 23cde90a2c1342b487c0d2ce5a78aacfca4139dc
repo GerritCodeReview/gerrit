@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9399f845_3e935d92",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-11T15:22:35Z",
+      "side": 1,
+      "message": ".orElse",
+      "range": {
+        "startLine": 123,
+        "startChar": 37,
+        "endLine": 123,
+        "endChar": 46
+      },
+      "revId": "23cde90a2c1342b487c0d2ce5a78aacfca4139dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54a5fb65_2961c1d4",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreatorInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-11T15:22:35Z",
+      "side": 1,
+      "message": "I believe it knows how to generate a method like:\n\n public abstract ImmutableMap.Builder\u003c...\u003e booleanProjectConfigsBuilder();\n\nwhich should make it easier on your callers.\n\nI guess the downside is that makes it harder for you to fill in the default values when building. Play around with it and see what works best.",
+      "revId": "23cde90a2c1342b487c0d2ce5a78aacfca4139dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

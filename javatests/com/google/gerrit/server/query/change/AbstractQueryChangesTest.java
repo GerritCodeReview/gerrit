@@ -126,6 +126,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -1323,14 +1324,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byFileExact() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    RevCommit commit =
-        repo.parseBody(
-            repo.commit()
-                .message("one")
-                .add("dir/file1", "contents1")
-                .add("dir/file2", "contents2")
-                .create());
-    Change change = insert(repo, newChangeForCommit(repo, commit));
+    Change change = insert(repo, newChangeWithFiles(repo, "dir/file1", "dir/file2"));
 
     assertQuery("file:file");
     assertQuery("file:dir", change);
@@ -1343,14 +1337,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byFileRegex() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    RevCommit commit =
-        repo.parseBody(
-            repo.commit()
-                .message("one")
-                .add("dir/file1", "contents1")
-                .add("dir/file2", "contents2")
-                .create());
-    Change change = insert(repo, newChangeForCommit(repo, commit));
+    Change change = insert(repo, newChangeWithFiles(repo, "dir/file1", "dir/file2"));
 
     assertQuery("file:.*file.*");
     assertQuery("file:^file.*"); // Whole path only.
@@ -1360,14 +1347,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byPathExact() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    RevCommit commit =
-        repo.parseBody(
-            repo.commit()
-                .message("one")
-                .add("dir/file1", "contents1")
-                .add("dir/file2", "contents2")
-                .create());
-    Change change = insert(repo, newChangeForCommit(repo, commit));
+    Change change = insert(repo, newChangeWithFiles(repo, "dir/file1", "dir/file2"));
 
     assertQuery("path:file");
     assertQuery("path:dir");
@@ -1380,14 +1360,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byPathRegex() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    RevCommit commit =
-        repo.parseBody(
-            repo.commit()
-                .message("one")
-                .add("dir/file1", "contents1")
-                .add("dir/file2", "contents2")
-                .create());
-    Change change = insert(repo, newChangeForCommit(repo, commit));
+    Change change = insert(repo, newChangeWithFiles(repo, "dir/file1", "dir/file2"));
 
     assertQuery("path:.*file.*");
     assertQuery("path:^dir.file.*", change);
@@ -2877,6 +2850,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   protected ChangeInserter newChangeForCommit(TestRepository<Repo> repo, RevCommit commit)
       throws Exception {
     return newChange(repo, commit, null, null, null, false);
+  }
+
+  protected ChangeInserter newChangeWithFiles(TestRepository<Repo> repo, String... paths)
+      throws Exception {
+    CommitBuilder b = repo.commit().message("Change with files");
+    for (String path : paths) {
+      b.add(path, "contents of " + path);
+    }
+    return newChangeForCommit(repo, repo.parseBody(b.create()));
   }
 
   protected ChangeInserter newChangeForBranch(TestRepository<Repo> repo, String branch)

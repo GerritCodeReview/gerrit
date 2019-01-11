@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ae38bb1_3ccffe01",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1857,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-11T15:22:02Z",
+      "side": 1,
+      "message": "On stable-2.16 this test should probably be moved to AccountManagerIT",
+      "revId": "f238f8eea9090969498ac0564e2d0f703aec9631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

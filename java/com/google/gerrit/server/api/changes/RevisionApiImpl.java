@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.api.changes.DraftApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
+import com.google.gerrit.extensions.api.changes.RelatedChangesInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
@@ -64,6 +65,7 @@ import com.google.gerrit.server.restapi.change.GetCommit;
 import com.google.gerrit.server.restapi.change.GetDescription;
 import com.google.gerrit.server.restapi.change.GetMergeList;
 import com.google.gerrit.server.restapi.change.GetPatch;
+import com.google.gerrit.server.restapi.change.GetRelated;
 import com.google.gerrit.server.restapi.change.GetRevisionActions;
 import com.google.gerrit.server.restapi.change.ListRevisionComments;
 import com.google.gerrit.server.restapi.change.ListRevisionDrafts;
@@ -129,6 +131,7 @@ class RevisionApiImpl implements RevisionApi {
   private final TestSubmitType.Get getSubmitType;
   private final Provider<TestSubmitRule> testSubmitRule;
   private final Provider<GetMergeList> getMergeList;
+  private final GetRelated getRelated;
   private final PutDescription putDescription;
   private final GetDescription getDescription;
 
@@ -169,6 +172,7 @@ class RevisionApiImpl implements RevisionApi {
       TestSubmitType.Get getSubmitType,
       Provider<TestSubmitRule> testSubmitRule,
       Provider<GetMergeList> getMergeList,
+      GetRelated getRelated,
       PutDescription putDescription,
       GetDescription getDescription,
       @Assisted RevisionResource r) {
@@ -207,6 +211,7 @@ class RevisionApiImpl implements RevisionApi {
     this.getSubmitType = getSubmitType;
     this.testSubmitRule = testSubmitRule;
     this.getMergeList = getMergeList;
+    this.getRelated = getRelated;
     this.putDescription = putDescription;
     this.getDescription = getDescription;
     this.revision = r;
@@ -587,6 +592,15 @@ class RevisionApiImpl implements RevisionApi {
         }
       }
     };
+  }
+
+  @Override
+  public RelatedChangesInfo related() throws RestApiException {
+    try {
+      return getRelated.apply(revision);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get related changes", e);
+    }
   }
 
   @Override

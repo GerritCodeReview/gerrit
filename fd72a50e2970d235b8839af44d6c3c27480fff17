@@ -34,6 +34,24 @@
       "revId": "fd72a50e2970d235b8839af44d6c3c27480fff17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f81108_e46287fd",
+        "filename": "contrib/mitm-ui/mitm-theme.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-11T00:18:12Z",
+      "side": 1,
+      "message": "Filenames with double-quotes or backslashes.\n\nThat use of rev-parse is just as a scripting helper. I agree that this has nothing to do with Git.",
+      "parentUuid": "5953203f_a1c42522",
+      "revId": "fd72a50e2970d235b8839af44d6c3c27480fff17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

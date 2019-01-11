@@ -141,6 +141,30 @@
       "revId": "f781f2218504d94f8a538bf54ea43389d3d2d646",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c50758a_d15bf21b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-11T19:20:45Z",
+      "side": 1,
+      "message": "I see, thanks, then let first add property mime type only on master, as a follow-up change.",
+      "parentUuid": "0382bd7a_0140bbd3",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "f781f2218504d94f8a538bf54ea43389d3d2d646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

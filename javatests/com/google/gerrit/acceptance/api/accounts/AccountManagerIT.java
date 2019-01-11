@@ -36,6 +36,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.inject.Inject;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Repository;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class AccountManagerIT extends AbstractDaemonTest {
@@ -193,6 +194,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Ignore
   public void authenticateWhenUsernameExtIdAlreadyExists() throws Exception {
     String username = "foo";
     ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);

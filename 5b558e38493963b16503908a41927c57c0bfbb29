@@ -70,6 +70,24 @@
       "revId": "5b558e38493963b16503908a41927c57c0bfbb29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d694efff_c65fbf4d",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-11T00:38:51Z",
+      "side": 0,
+      "message": "I think it shows up in auto merge because this file had a conflict that was resolved.",
+      "parentUuid": "78b2ab50_2e44c700",
+      "revId": "5b558e38493963b16503908a41927c57c0bfbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

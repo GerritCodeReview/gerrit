@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5efa6126_250b390e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.8.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-11T17:21:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e289f03f_50be5af1",
+      "range": {
+        "startLine": 19,
+        "startChar": 45,
+        "endLine": 19,
+        "endChar": 85
+      },
+      "revId": "07be7a1b95e97283ef361ce1cbb11ae0793804e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "825dc02b_0462495a",
         "filename": "ReleaseNotes/ReleaseNotes-2.10.8.txt",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "07be7a1b95e97283ef361ce1cbb11ae0793804e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2155320b_f9829ebf",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.8.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-11T17:21:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "825dc02b_0462495a",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 126
+      },
+      "revId": "07be7a1b95e97283ef361ce1cbb11ae0793804e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,17 @@
+Release notes for Gerrit 2.10.8
+===============================
+
+There are no schema changes from link:ReleaseNotes-2.10.7.html[2.10.7].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.8.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.10.8.war]
+
+Bug Fixes
+---------
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=10262[Issue 10262]: Fix validation of wants in git-upload-pack for protocol v0 stateless transports.
+
+* Includes all the fixes from Gerrit v2.9.5
++
+See the details of the fixes on the link:http://gerrit-documentation.storage.googleapis.com/ReleaseNotes/ReleaseNotes-2.9.5.html:[v2.9.5 Release Notes]

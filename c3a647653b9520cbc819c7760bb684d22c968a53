@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e66a5ae_4ffab427",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-11T08:49:42Z",
+      "side": 1,
+      "message": "This change has broken the test that was added in [1]\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/201450",
+      "revId": "c3a647653b9520cbc819c7760bb684d22c968a53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

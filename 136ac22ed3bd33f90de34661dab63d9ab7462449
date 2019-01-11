@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffa53363_02dca809",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-11T15:26:11Z",
+      "side": 1,
+      "message": "Unrelated?",
+      "revId": "136ac22ed3bd33f90de34661dab63d9ab7462449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "567739c5_264f7d89",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreatorInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-11T15:26:11Z",
+      "side": 1,
+      "message": "This hunk belongs in a previous change.",
+      "revId": "136ac22ed3bd33f90de34661dab63d9ab7462449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22a9bd3d_969d4fe8",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreatorInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-11T15:26:11Z",
+      "side": 1,
+      "message": "\"Whether to initialize default access sections in All-Projects.\"",
+      "revId": "136ac22ed3bd33f90de34661dab63d9ab7462449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4195ed2_dace2be0",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreatorInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-11T15:26:11Z",
+      "side": 1,
+      "message": "Nit: \"initDefaultAcls\"",
+      "range": {
+        "startLine": 92,
+        "startChar": 26,
+        "endLine": 92,
+        "endChar": 41
+      },
+      "revId": "136ac22ed3bd33f90de34661dab63d9ab7462449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

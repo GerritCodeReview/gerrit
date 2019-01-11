@@ -36,6 +36,8 @@
     'conflicts:',
     'deleted:',
     'delta:',
+    'ext:',
+    'extension:',
     'file:',
     'from:',
     'has:',

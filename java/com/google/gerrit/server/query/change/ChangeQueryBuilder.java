@@ -137,6 +137,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_COMMIT = "commit";
   public static final String FIELD_COMMITTER = "committer";
   public static final String FIELD_EXACTCOMMITTER = "exactcommitter";
+  public static final String FIELD_EXTENSION = "extension";
   public static final String FIELD_CONFLICTS = "conflicts";
   public static final String FIELD_DELETED = "deleted";
   public static final String FIELD_DELTA = "delta";
@@ -730,6 +731,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new RegexPathPredicate(path);
     }
     return new EqualsPathPredicate(FIELD_PATH, path);
+  }
+
+  @Operator
+  public Predicate<ChangeData> ext(String ext) {
+    return extension(ext);
+  }
+
+  @Operator
+  public Predicate<ChangeData> extension(String ext) {
+    return new FileExtensionPredicate(ext);
   }
 
   @Operator

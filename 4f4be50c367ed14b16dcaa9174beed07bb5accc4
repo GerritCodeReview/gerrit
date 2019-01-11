@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "258feece_4c97f9b8",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-11T15:23:57Z",
+      "side": 1,
+      "message": "While we\u0027re here, can we also rename these variables like batchGroup? I was confusing this with the BatchRefUpdate.",
+      "range": {
+        "startLine": 160,
+        "startChar": 29,
+        "endLine": 160,
+        "endChar": 34
+      },
+      "revId": "4f4be50c367ed14b16dcaa9174beed07bb5accc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4d09ec2_a771139d",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-11T15:23:57Z",
+      "side": 1,
+      "message": "I would go one step further and split out the admin \u0026 batch group setup into separate methods.",
+      "revId": "4f4be50c367ed14b16dcaa9174beed07bb5accc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

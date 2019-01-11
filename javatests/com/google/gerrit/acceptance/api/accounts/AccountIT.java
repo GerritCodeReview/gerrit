@@ -178,6 +178,7 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class AccountIT extends AbstractDaemonTest {
@@ -2749,6 +2750,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Ignore
   public void updateDisplayName() throws Exception {
     String name = name("test");
     gApi.accounts().create(name);

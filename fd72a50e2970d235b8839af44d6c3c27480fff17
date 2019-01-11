@@ -16,6 +16,24 @@
       "revId": "fd72a50e2970d235b8839af44d6c3c27480fff17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5953203f_a1c42522",
+        "filename": "contrib/mitm-ui/mitm-theme.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-01-11T00:05:57Z",
+      "side": 1,
+      "message": "Hm, interesting. What kind of exotic filenames are we talking about here?\n${theme} is a path to a local file, not sure why it involves git rev-parse.\nIn fact, it\u0027s not even part of gerrit/ source code.",
+      "parentUuid": "11f6605a_ee64de47",
+      "revId": "fd72a50e2970d235b8839af44d6c3c27480fff17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

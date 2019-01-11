@@ -55,6 +55,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -89,6 +90,7 @@ import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
@@ -140,7 +142,6 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class AccountIT extends AbstractDaemonTest {
@@ -1853,16 +1854,26 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Ignore
   public void updateDisplayName() throws Exception {
-    String name = name("test");
-    gApi.accounts().create(name);
-    AuthRequest who = AuthRequest.forUser(name);
-    accountManager.authenticate(who);
-    assertThat(gApi.accounts().id(name).get().name).isEqualTo(name);
+    AccountInput input = new AccountInput();
+    input.username = name("test");
+    input.email = "user@gerrit.com";
+    gApi.accounts().create(input);
+    AuthRequest who = AuthRequest.forEmail(input.email);
+    AuthResult authResult = accountManager.authenticate(who);
+    assertThat(authResult.isNew()).isFalse();
+    AccountInfo info = gApi.accounts().id(input.email).get();
+    assertThat(info.username).isEqualTo(input.username);
+    assertThat(info.email).isEqualTo(input.email);
+    assertThat(info.name).isEqualTo(input.username);
     who.setDisplayName("Something Else");
-    accountManager.authenticate(who);
-    assertThat(gApi.accounts().id(name).get().name).isEqualTo("Something Else");
+    AuthResult authResult2 = accountManager.authenticate(who);
+    assertThat(authResult2.isNew()).isFalse();
+    assertThat(authResult2.getAccountId()).isEqualTo(authResult.getAccountId());
+    info = gApi.accounts().id(input.email).get();
+    assertThat(info.username).isEqualTo(input.username);
+    assertThat(info.email).isEqualTo(input.email);
+    assertThat(info.name).isEqualTo("Something Else");
   }
 
   private void assertGroups(String user, List<String> expected) throws Exception {

@@ -1,0 +1,18 @@
+Release notes for Gerrit 2.10.8
+===============================
+
+There are no schema changes from link:ReleaseNotes-2.10.7.html[2.10.7].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.8.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.10.8.war]
+
+Bug Fixes
+---------
+
+* [Issue 10262](https://bugs.chromium.org/p/gerrit/issues/detail?id=10262) Update JGit to 4.5.5.201812240535-r
++
+This JGit fix validation of wants in git-upload-pack for protocol v0 stateless transports.
+AdvertiseRefsHook was not called for git-upload-pack in protocol v0 stateless transports,
+meaning that wants were not validated and a user could fetch anything that is pointed to
+by any ref (using fetch-by-sha1), as long as they could guess the object name.

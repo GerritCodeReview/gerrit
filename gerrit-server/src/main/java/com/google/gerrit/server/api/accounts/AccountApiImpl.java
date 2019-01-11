@@ -209,7 +209,7 @@ public class AccountApiImpl implements AccountApi {
       accountLoader.fill();
       return ai;
     } catch (Exception e) {
-      throw asRestApiException("Cannot parse change", e);
+      throw asRestApiException("Cannot parse account", e);
     }
   }
 

@@ -36,6 +36,17 @@ This flow assumes no additional .html/.js are needed, i.e. the plugin is a singl
 2. Open any *.googlesource.com domain in proxied window
 3. plugin.html and more.js are served
 
+### Force or replace default site theme for *.googlesource.com
+
+1. Create a new proxied browser window and start mitmproxy via Docker:
+   ```
+   ~/mitm-gerrit/mitm-theme.sh ./path/to/theme.html
+   ```
+2. Open any *.googlesource.com domain in proxied window
+3. Default site themes are enabled.
+4. Local `theme.html` content replaces `/static/gerrit-theme.html`
+5. `/static/*` URLs are served from local theme directory, i.e. `./path/to/`
+
 ### Serve uncompiled PolyGerrit
 
 1. Create a new proxied browser window and start mitmproxy via Docker:

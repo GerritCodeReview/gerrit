@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.ChangeRefCache;
@@ -48,8 +49,9 @@ import org.junit.Test;
 @NoHttpd
 public class ChangeRefCacheIT extends AbstractDaemonTest {
 
-  @Inject private PermissionBackend permissionBackend;
   @Inject private ChangeRefCache changeRefCache;
+  @Inject private PermissionBackend permissionBackend;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Before
   public void setUp() throws Exception {
@@ -213,7 +215,7 @@ public class ChangeRefCacheIT extends AbstractDaemonTest {
 
     try (AutoCloseable ignored = disableChangeIndex()) {
       // user can see public change
-      setApiUser(user);
+      requestScopeOperations.setApiUser(user.getId());
       assertUploadPackRefs(
           "HEAD",
           "refs/heads/master",
@@ -222,22 +224,22 @@ public class ChangeRefCacheIT extends AbstractDaemonTest {
     }
 
     // Delta reload: No index access as we expect it to use NoteDb.
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(change1.getId().id).setPrivate(true);
 
     try (AutoCloseable ignored = disableChangeIndex()) {
       // user can't see private change from admin
-      setApiUser(user);
+      requestScopeOperations.setApiUser(user.getId());
       assertUploadPackRefs("HEAD", "refs/heads/master");
     }
 
     // admin adds the user as reviewer
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(change1.getId().id).addReviewer(user.email);
 
     try (AutoCloseable ignored = disableChangeIndex()) {
       // Use can see private change
-      setApiUser(user);
+      requestScopeOperations.setApiUser(user.getId());
       assertUploadPackRefs(
           "HEAD",
           "refs/heads/master",

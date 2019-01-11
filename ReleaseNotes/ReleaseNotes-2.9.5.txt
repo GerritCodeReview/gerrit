@@ -1,0 +1,67 @@
+Release notes for Gerrit 2.9.5
+==============================
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.9.5.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.9.5.war]
+
+Important Notes
+---------------
+
+*WARNING:* There are no schema changes from
+link:ReleaseNotes-2.9.4.html[2.9.4], but when upgrading from an existing site
+that was initialized with Gerrit version 2.6 to version 2.9.1 the primary key
+column order will be updated for some tables. It is therefore important to
+upgrade the site with the `init` program, rather than only copying the .war file
+over the existing one.
+
+It is recommended to run the `init` program in interactive mode. Warnings will
+be suppressed in batch mode.
+
+----
+  java -jar gerrit.war init -d site_path
+----
+
+Bug Fixes
+---------
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=10262[Issue 10262]: Fix validation of wants in git-upload-pack for protocol v0 stateless transports.
++
+See the following section for details.
+
+* Upgrade JGit to 4.5.5.201812240535-r.
++
+This upgrade includes several major versions since 3.4.2 used in Gerrit version 2.9.4. Important fixes are summarized below. Please refer to the corresponding JGit release notes for full details.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/4.5.5[JGit 4.5.5]: link:https://bugs.chromium.org/p/gerrit/issues/detail?id=10262[Issue 10262]: Fix validation of wants in git-upload-pack for protocol v0 stateless transports.
++
+AdvertiseRefsHook was not called for git-upload-pack in protocol v0 stateless transports, meaning that wants were not validated and a user could fetch anything that is pointed to by any ref (using fetch-by-sha1), as long as they could guess the object name.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/4.5.4[JGit 4.5.4]: Fix LockFile semantics when running on NFS.
++
+Honor trustFolderStats also when reading packed-refs.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/4.5.3[JGit 4.5.3]: Fix exception handling for opening bitmap index files.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/4.5.2[JGit 4.5.2]: Fix pack marked as corrupted even if it isn’t.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/4.5.1[JGit 4.5.1]: Don’t remove Pack when FileNotFoundException is transient.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/4.1.0[JGit 4.1.0]: Handle stale NFS file handles on packed-refs file.
++
+Use java.io.File instead of NIO to check existence of loose objects in ObjectDirectory to speed up inserting of loose objects.
+Reduce memory consumption when creating bitmaps during writing pack files.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/3.7.1[JGit 3.7.1]: Fix massive performance problem in Gerrit caused by ObjectWalk.markUninteresting marking the root tree as uninteresting.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/3.7.0[JGit 3.7.0]: Provide more details in exceptions thrown when packfile is invalid.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/3.6.2[JGit 3.6.2]: link:[Issue 3094]: Don’t remove pack from pack list for problems which could be transient.
++
+Log reason for ignoring pack when IOException occurred.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/3.5.3[JGit 3.5.3]: Fix for vulnerability CVE-2014-9390.
+
+* Fix resource exhaustion due to unclosed LDAP connection.
++
+When auth.type is set to LDAP (not LDAP_BIND), two LDAP connections are made, but one was not being closed. This eventually caused resource exhaustion and LDAP authentications failed.

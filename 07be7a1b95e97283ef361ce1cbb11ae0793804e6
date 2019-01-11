@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e289f03f_50be5af1",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.8.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-11T16:17:35Z",
+      "side": 1,
+      "message": "copy and paste from the 2.9.5 release notes.  should be:\n\n since 4.0.0 used in Gerrit version 2.10.7",
+      "range": {
+        "startLine": 19,
+        "startChar": 45,
+        "endLine": 19,
+        "endChar": 85
+      },
+      "revId": "07be7a1b95e97283ef361ce1cbb11ae0793804e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "825dc02b_0462495a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.8.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-11T16:17:35Z",
+      "side": 1,
+      "message": "Remove these.  They are not relevant since the upgrade is from 4.0.0 and these are earlier.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 126
+      },
+      "revId": "07be7a1b95e97283ef361ce1cbb11ae0793804e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1367,6 +1367,24 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byExtension() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.EXTENSION)).isTrue();
+
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChangeWithFiles(repo, "foo.h", "foo.cc"));
+    Change change2 = insert(repo, newChangeWithFiles(repo, "bar.H", "bar.CC"));
+    Change change3 = insert(repo, newChangeWithFiles(repo, "dir/baz.h", "dir/baz.cc"));
+    Change change4 = insert(repo, newChangeWithFiles(repo, "Quux.java"));
+
+    assertQuery("extension:java", change4);
+    assertQuery("ext:java", change4);
+    assertQuery("ext:.java", change4);
+    assertQuery("ext:jAvA", change4);
+    assertQuery("ext:.jAvA", change4);
+    assertQuery("ext:cc", change3, change2, change1);
+  }
+
+  @Test
   public void byComment() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo);

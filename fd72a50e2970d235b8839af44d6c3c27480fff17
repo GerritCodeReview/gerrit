@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11f6605a_ee64de47",
+        "filename": "contrib/mitm-ui/mitm-theme.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-11T00:02:03Z",
+      "side": 1,
+      "message": "This bit won\u0027t work well with exotic filenames (you\u0027d need to use something like\n\n  \"serve-app-dev.py --strip-assets --theme $(git rev-parse --sq-quote \"${theme}\")\"\n\ninstead) but caring is probably going a bit too far. :)",
+      "revId": "fd72a50e2970d235b8839af44d6c3c27480fff17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

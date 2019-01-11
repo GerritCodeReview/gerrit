@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b08ffda5_46897c52",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.8.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-11T15:24:34Z",
+      "side": 1,
+      "message": "It\u0027s better to explicitly include the details here rather than forcing the reader to click through to another page.",
+      "revId": "f8b74e3343ecc1c6455c8753e1ef9788e221e2da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99afdd53_a76b1c8e",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreatorInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-11T15:18:51Z",
+      "side": 1,
+      "message": "I wonder if we really need this internally. I feel like we could either start at 1 for new googlesource.com sites, or if we have a real justification something other than 1, we should just change upstream.",
+      "revId": "04ff5d3782f7fbebcd3fec461ef4082e690f2cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df363072_5fecc241",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreatorInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-11T15:18:51Z",
+      "side": 1,
+      "message": "I don\u0027t see this being used in the CL you sent me? I suppose you\u0027re just keeping it feature-compatible with the old version, but I wouldn\u0027t mind seeing this go away somewhere in this series if we really don\u0027t need it.\n\n(I actually thought this would be useful for implementing the InitLabels step in core, since there is already a question during init that asks whether we want to install the Verified label. But it\u0027s not trivial to do that, and I think it\u0027s not worth it to refactor that now.)",
+      "revId": "04ff5d3782f7fbebcd3fec461ef4082e690f2cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4251ee67_bcd4fd73",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreatorInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-11T15:18:51Z",
+      "side": 1,
+      "message": "I think you could just call this \"builder\"",
+      "range": {
+        "startLine": 68,
+        "startChar": 24,
+        "endLine": 68,
+        "endChar": 43
+      },
+      "revId": "04ff5d3782f7fbebcd3fec461ef4082e690f2cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a340e53_8109d33e",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreatorInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-11T15:18:51Z",
+      "side": 1,
+      "message": "CreatorInputBuilder is a little too much for me :)\n\nCan we shorten this by maybe renaming the class AllProjectsInput? AllProjectsInput describes the specification of an All-Projects repo. AllProjectsCreator creates an All-Projects repo, using an AllProjectsInput as input.",
+      "revId": "04ff5d3782f7fbebcd3fec461ef4082e690f2cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

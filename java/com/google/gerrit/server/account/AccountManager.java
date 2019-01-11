@@ -136,21 +136,7 @@ public class AccountManager {
     try {
       Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
       if (!optionalExtId.isPresent()) {
-        if (who.getUserName().isPresent()) {
-          ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, who.getUserName().get());
-          Optional<ExternalId> existingId = externalIds.get(key);
-          if (existingId.isPresent()) {
-            // An inconsistency is detected in the database, having a record for scheme "username:"
-            // but no record for scheme "gerrit:". Try to recover by linking
-            // "gerrit:" identity to the existing account.
-            logger.atWarning().log(
-                "User %s already has an account; link new identity to the existing account.",
-                who.getUserName());
-            return link(existingId.get().accountId(), who);
-          }
-        }
         // New account, automatically create and return.
-        logger.atFine().log("External ID not found. Attempting to create new account.");
         return create(who);
       }
 
@@ -416,7 +402,6 @@ public class AccountManager {
   public AuthResult link(Account.Id to, AuthRequest who)
       throws AccountException, OrmException, IOException, ConfigInvalidException {
     Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
-    logger.atFine().log("Link another authentication identity to an existing account");
     if (optionalExtId.isPresent()) {
       ExternalId extId = optionalExtId.get();
       if (!extId.accountId().equals(to)) {
@@ -425,7 +410,6 @@ public class AccountManager {
       }
       update(who, extId);
     } else {
-      logger.atFine().log("Linking new external ID to the existing account");
       ExternalId newExtId =
           ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress());
       checkEmailNotUsed(newExtId);

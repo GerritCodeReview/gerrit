@@ -66,6 +66,7 @@
     'text/x-pgsql': 'pgsql', // postgresql
     'text/x-php': 'php',
     'text/x-protobuf': 'protobuf',
+    'text/x-properties': 'properties',
     'text/x-puppet': 'puppet',
     'text/x-python': 'python',
     'text/x-q': 'q',

@@ -30,6 +30,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Argument;
 
 public abstract class AbstractGitCommand extends BaseCommand {
+  private static final String GIT_PROTOCOL = "GIT_PROTOCOL";
+
   @Argument(index = 0, metaVar = "PROJECT.git", required = true, usage = "project name")
   protected ProjectState projectState;
 
@@ -46,9 +48,15 @@ public abstract class AbstractGitCommand extends BaseCommand {
   protected Repository repo;
   protected Project.NameKey projectName;
   protected Project project;
+  protected String[] extraParameters;
 
   @Override
   public void start(Environment env) {
+    String gitProtocol = env.getEnv().get(GIT_PROTOCOL);
+    if (gitProtocol != null) {
+      extraParameters = gitProtocol.split(":");
+    }
+
     Context ctx = context.subContext(newSession(), context.getCommandLine());
     final Context old = sshScope.set(ctx);
     try {

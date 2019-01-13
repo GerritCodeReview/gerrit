@@ -29,7 +29,6 @@ public class TransferConfig {
   private final long maxObjectSizeLimit;
   private final String maxObjectSizeLimitFormatted;
   private final boolean inheritProjectMaxObjectSizeLimit;
-  private final boolean enableProtocolV2;
 
   @Inject
   TransferConfig(@GerritServerConfig Config cfg) {
@@ -46,7 +45,6 @@ public class TransferConfig {
     maxObjectSizeLimitFormatted = cfg.getString("receive", null, "maxObjectSizeLimit");
     inheritProjectMaxObjectSizeLimit =
         cfg.getBoolean("receive", "inheritProjectMaxObjectSizeLimit", false);
-    enableProtocolV2 = cfg.getBoolean("receive", "enableProtocolV2", false);
 
     packConfig = new PackConfig();
     packConfig.setDeltaCompress(false);
@@ -73,9 +71,5 @@ public class TransferConfig {
 
   public boolean inheritProjectMaxObjectSizeLimit() {
     return inheritProjectMaxObjectSizeLimit;
-  }
-
-  public boolean enableProtocolV2() {
-    return enableProtocolV2;
   }
 }

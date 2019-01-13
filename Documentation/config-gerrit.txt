@@ -3663,25 +3663,6 @@ link:https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.ht
 If no keys are specified, web-of-trust checks are disabled. This is the
 default behavior.
 
-[[receive.enableProtocolV2]]receive.enableProtocolV2::
-+
-[NOTE]
-Support for Git protocol version 2 is still experimental. Do not use it in
-production!
-+
-Enable support for git protocol version 2.
-+
-When this option is enabled, clients may send upload pack using git
-protocol version 2.
-+
-The repository must also be configured on the server side to use protocol
-version 2 by setting `protocol.version = 2` either in the gerrit user's
-`~/.gitconfig` file (which will enable it for all repositories) or on
-a per repository basis by setting the option in the `.git/config` file
-of the repository.
-+
-Defaults to false, git protocol version 2 is not enabled.
-
 [[repository]]
 === Section repository
 

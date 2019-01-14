@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7e3f7ab_bc74af6f",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-14T12:38:07Z",
+      "side": 1,
+      "message": "nit: maybe oldContext?",
+      "range": {
+        "startLine": 804,
+        "startChar": 12,
+        "endLine": 804,
+        "endChar": 15
+      },
+      "revId": "98e0975ff4c3ed1cb0e40869effbc37b33130bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f53f03ee_ff6ae3b4",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-14T12:38:07Z",
+      "side": 1,
+      "message": "other code return new AutoCloseable() { .. }. Maybe fix in follow-up change?",
+      "range": {
+        "startLine": 805,
+        "startChar": 10,
+        "endLine": 805,
+        "endChar": 18
+      },
+      "revId": "98e0975ff4c3ed1cb0e40869effbc37b33130bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d32f794_23e6582c",
+        "filename": "java/com/google/gerrit/acceptance/AcceptanceTestRequestScope.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-14T12:38:07Z",
+      "side": 1,
+      "message": "javadoc.",
+      "range": {
+        "startLine": 148,
+        "startChar": 2,
+        "endLine": 148,
+        "endChar": 8
+      },
+      "revId": "98e0975ff4c3ed1cb0e40869effbc37b33130bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

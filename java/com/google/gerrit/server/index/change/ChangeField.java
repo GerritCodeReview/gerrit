@@ -37,6 +37,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.io.Files;
 import com.google.common.primitives.Longs;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
@@ -184,6 +185,26 @@ public class ChangeField {
   /** Components of each file path modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> FILE_PART =
       exact(ChangeQueryBuilder.FIELD_FILEPART).buildRepeatable(ChangeField::getFileParts);
+
+  /** File extensions of each file modified in the current patch set. */
+  public static final FieldDef<ChangeData, Iterable<String>> EXTENSION =
+      exact(ChangeQueryBuilder.FIELD_EXTENSION).buildRepeatable(ChangeField::getExtensions);
+
+  public static Set<String> getExtensions(ChangeData cd) throws OrmException {
+    try {
+      return cd.currentFilePaths()
+          .stream()
+          // Use case-insensitive file extensions even though other file fields are case-sensitive.
+          // If we want to find "all Java files", we want to match both .java and .JAVA, even if we
+          // normally care about case sensitivity. (Whether we should change the existing file/path
+          // predicates to be case insensitive is a separate question.)
+          .map(f -> Files.getFileExtension(f).toLowerCase(Locale.US))
+          .filter(e -> !e.isEmpty())
+          .collect(toSet());
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+  }
 
   /** Owner/creator of the change. */
   public static final FieldDef<ChangeData, Integer> OWNER =

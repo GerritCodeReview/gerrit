@@ -289,6 +289,14 @@ named exactly `Foo.java` and does not match `AbstractFoo.java`.
 Regular expression matching can be enabled by starting the string
 with `^`. In this mode `file:` is an alias of `path:` (see above).
 
+[[extension]]
+extension:'EXT', ext:'EXT'::
++
+Matches any change touching a file with extension 'EXT', case-insensitive. The
+extension is defined as the portion of the filename following the final `.`.
+Files with no `.` in their name have no extension and cannot be matched with
+this operator; use `file:` instead.
+
 [[star]]
 star:'LABEL'::
 +

@@ -150,7 +150,7 @@ public final class Account {
   /**
    * Create a new account.
    *
-   * @param newId unique id, see {@link com.google.gerrit.server.Sequences#nextAccountId()}.
+   * @param newId unique id, see {@link com.google.gerrit.server.notedb.Sequences#nextAccountId()}.
    * @param registeredOn when the account was registered.
    */
   public Account(Account.Id newId, Timestamp registeredOn) {

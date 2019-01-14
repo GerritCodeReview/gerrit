@@ -37,6 +37,8 @@ public class NoteDbModule extends FactoryModule {
 
   @Override
   public void configure() {
+    bind(Sequences.class);
+
     factory(ChangeDraftUpdate.Factory.class);
     factory(ChangeUpdate.Factory.class);
     factory(DeleteCommentRewriter.Factory.class);

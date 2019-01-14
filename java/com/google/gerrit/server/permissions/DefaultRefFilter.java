@@ -22,6 +22,7 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.metrics.Counter0;
@@ -62,6 +63,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
 
 class DefaultRefFilter {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   interface Factory {
     DefaultRefFilter create(ProjectControl projectControl);
   }
@@ -311,9 +314,15 @@ class DefaultRefFilter {
 
     Project.NameKey project = projectState.getNameKey();
     try {
-      ChangeData cd =
-          changeCache.getChangeData(
-              project, changeId, repo.exactRef(RefNames.changeMetaRef(changeId)).getObjectId());
+      Ref metaRef = repo.exactRef(RefNames.changeMetaRef(changeId));
+      if (metaRef == null) {
+        logger.atWarning().log(
+            "can't read change meta ref for change %s on project %s", project, changeId);
+        inVisibleChanges.add(changeId);
+        return false;
+      }
+
+      ChangeData cd = changeCache.getChangeData(project, changeId, metaRef.getObjectId());
       ChangeNotes notes = changeNotesFactory.createFromIndexedChange(cd.change());
       try {
         permissionBackendForProject.indexedChange(cd, notes).check(ChangePermission.READ);

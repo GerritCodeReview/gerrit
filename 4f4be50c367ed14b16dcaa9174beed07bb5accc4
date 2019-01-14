@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eeecaa58_567d27b4",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-14T17:23:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "258feece_4c97f9b8",
+      "range": {
+        "startLine": 160,
+        "startChar": 29,
+        "endLine": 160,
+        "endChar": 34
+      },
+      "revId": "4f4be50c367ed14b16dcaa9174beed07bb5accc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4d09ec2_a771139d",
         "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "4f4be50c367ed14b16dcaa9174beed07bb5accc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "046aa8db_47bd08b5",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-14T17:23:06Z",
+      "side": 1,
+      "message": "I go even further to break this big method to several small methods. :)",
+      "parentUuid": "a4d09ec2_a771139d",
+      "revId": "4f4be50c367ed14b16dcaa9174beed07bb5accc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

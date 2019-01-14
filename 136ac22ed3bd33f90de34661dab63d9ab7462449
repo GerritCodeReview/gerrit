@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5635f2a7_719ea0f7",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-14T17:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffa53363_02dca809",
+      "revId": "136ac22ed3bd33f90de34661dab63d9ab7462449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "567739c5_264f7d89",
         "filename": "java/com/google/gerrit/server/schema/AllProjectsCreatorInput.java",
         "patchSetId": 4

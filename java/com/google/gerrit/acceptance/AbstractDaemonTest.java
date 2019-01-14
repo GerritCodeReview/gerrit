@@ -802,12 +802,9 @@ public abstract class AbstractDaemonTest {
   protected AutoCloseable disableNoteDb() {
     changeNotesArgs.failOnLoadForTest.set(true);
     Context oldContext = atrScope.disableNoteDb();
-    return new AutoCloseable() {
-      @Override
-      public void close() throws Exception {
-        changeNotesArgs.failOnLoadForTest.set(false);
-        atrScope.set(oldContext);
-      }
+    return () -> {
+      changeNotesArgs.failOnLoadForTest.set(false);
+      atrScope.set(oldContext);
     };
   }
 
@@ -829,55 +826,49 @@ public abstract class AbstractDaemonTest {
 
   protected AutoCloseable disableChangeIndex() {
     disableChangeIndexWrites();
-    ChangeIndex searchIndex = changeIndexes.getSearchIndex();
-    if (!(searchIndex instanceof DisabledChangeIndex)) {
-      changeIndexes.setSearchIndex(new DisabledChangeIndex(searchIndex), false);
+    ChangeIndex maybeDisabledSearchIndex = changeIndexes.getSearchIndex();
+    if (!(maybeDisabledSearchIndex instanceof DisabledChangeIndex)) {
+      changeIndexes.setSearchIndex(new DisabledChangeIndex(maybeDisabledSearchIndex), false);
     }
 
-    return new AutoCloseable() {
-      @Override
-      public void close() throws Exception {
-        enableChangeIndexWrites();
-        ChangeIndex searchIndex = changeIndexes.getSearchIndex();
-        if (searchIndex instanceof DisabledChangeIndex) {
-          changeIndexes.setSearchIndex(((DisabledChangeIndex) searchIndex).unwrap(), false);
-        }
+    return () -> {
+      enableChangeIndexWrites();
+      ChangeIndex maybeEnabledSearchIndex = changeIndexes.getSearchIndex();
+      if (maybeEnabledSearchIndex instanceof DisabledChangeIndex) {
+        changeIndexes.setSearchIndex(
+            ((DisabledChangeIndex) maybeEnabledSearchIndex).unwrap(), false);
       }
     };
   }
 
   protected AutoCloseable disableAccountIndex() {
-    AccountIndex searchIndex = accountIndexes.getSearchIndex();
-    if (!(searchIndex instanceof DisabledAccountIndex)) {
-      accountIndexes.setSearchIndex(new DisabledAccountIndex(searchIndex), false);
+    AccountIndex maybeDisabledSearchIndex = accountIndexes.getSearchIndex();
+    if (!(maybeDisabledSearchIndex instanceof DisabledAccountIndex)) {
+      accountIndexes.setSearchIndex(new DisabledAccountIndex(maybeDisabledSearchIndex), false);
     }
 
-    return new AutoCloseable() {
-      @Override
-      public void close() {
-        AccountIndex searchIndex = accountIndexes.getSearchIndex();
-        if (searchIndex instanceof DisabledAccountIndex) {
-          accountIndexes.setSearchIndex(((DisabledAccountIndex) searchIndex).unwrap(), false);
-        }
+    return () -> {
+      AccountIndex maybeEnabledSearchIndex = accountIndexes.getSearchIndex();
+      if (maybeEnabledSearchIndex instanceof DisabledAccountIndex) {
+        accountIndexes.setSearchIndex(
+            ((DisabledAccountIndex) maybeEnabledSearchIndex).unwrap(), false);
       }
     };
   }
 
   protected AutoCloseable disableProjectIndex() {
     disableProjectIndexWrites();
-    ProjectIndex searchIndex = projectIndexes.getSearchIndex();
-    if (!(searchIndex instanceof DisabledProjectIndex)) {
-      projectIndexes.setSearchIndex(new DisabledProjectIndex(searchIndex), false);
+    ProjectIndex maybeDisabledSearchIndex = projectIndexes.getSearchIndex();
+    if (!(maybeDisabledSearchIndex instanceof DisabledProjectIndex)) {
+      projectIndexes.setSearchIndex(new DisabledProjectIndex(maybeDisabledSearchIndex), false);
     }
 
-    return new AutoCloseable() {
-      @Override
-      public void close() {
-        enableProjectIndexWrites();
-        ProjectIndex searchIndex = projectIndexes.getSearchIndex();
-        if (searchIndex instanceof DisabledProjectIndex) {
-          projectIndexes.setSearchIndex(((DisabledProjectIndex) searchIndex).unwrap(), false);
-        }
+    return () -> {
+      enableProjectIndexWrites();
+      ProjectIndex maybeEnabledSearchIndex = projectIndexes.getSearchIndex();
+      if (maybeEnabledSearchIndex instanceof DisabledProjectIndex) {
+        projectIndexes.setSearchIndex(
+            ((DisabledProjectIndex) maybeEnabledSearchIndex).unwrap(), false);
       }
     };
   }

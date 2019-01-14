@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
@@ -38,6 +39,7 @@ public class NoteDbModule extends FactoryModule {
   @Override
   public void configure() {
     bind(Sequences.class);
+    DynamicSet.setOf(binder(), ChangeNumberValidator.class);
 
     factory(ChangeDraftUpdate.Factory.class);
     factory(ChangeUpdate.Factory.class);

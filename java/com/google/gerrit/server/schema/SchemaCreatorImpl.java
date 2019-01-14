@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
@@ -107,7 +108,9 @@ public class SchemaCreatorImpl implements SchemaCreator {
             GitReferenceUpdated.DISABLED,
             allProjectsName,
             allUsersName,
-            metricMaker);
+            metricMaker,
+            // Plugins aren't available during init, so no validation on the initial change number.
+            ImmutableList.of());
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       createAdminsGroup(seqs, allUsersRepo, admins);
       createBatchUsersGroup(seqs, allUsersRepo, batchUsers, admins.getUUID());

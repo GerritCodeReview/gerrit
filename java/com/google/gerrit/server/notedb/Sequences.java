@@ -14,7 +14,10 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
@@ -50,16 +53,35 @@ public class Sequences {
   private final RepoSequence changeSeq;
   private final RepoSequence groupSeq;
   private final Timer2<SequenceType, Boolean> nextIdLatency;
+  private final Iterable<ChangeNumberValidator> changeNumberValidators;
 
   @Inject
-  public Sequences(
+  Sequences(
       @GerritServerConfig Config cfg,
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
       AllProjectsName allProjects,
       AllUsersName allUsers,
-      MetricMaker metrics) {
+      MetricMaker metrics,
+      DynamicSet<ChangeNumberValidator> changeNumberValidators) {
+    this(
+        cfg,
+        repoManager,
+        gitRefUpdated,
+        allProjects,
+        allUsers,
+        metrics,
+        (Iterable<ChangeNumberValidator>) changeNumberValidators);
+  }
 
+  public Sequences(
+      Config cfg,
+      GitRepositoryManager repoManager,
+      GitReferenceUpdated gitRefUpdated,
+      AllProjectsName allProjects,
+      AllUsersName allUsers,
+      MetricMaker metrics,
+      Iterable<ChangeNumberValidator> changeNumberValidators) {
     int accountBatchSize = cfg.getInt("noteDb", "accounts", "sequenceBatchSize", 1);
     accountSeq =
         new RepoSequence(
@@ -98,6 +120,8 @@ public class Sequences {
                 .setUnit(Units.MILLISECONDS),
             Field.ofEnum(SequenceType.class, "sequence"),
             Field.ofBoolean("multiple"));
+
+    this.changeNumberValidators = changeNumberValidators;
   }
 
   public int nextAccountId() throws OrmException {
@@ -108,13 +132,55 @@ public class Sequences {
 
   public int nextChangeId() throws OrmException {
     try (Timer2.Context timer = nextIdLatency.start(SequenceType.CHANGES, false)) {
-      return changeSeq.next();
+      return nextChangeIdImpl(ImmutableList.copyOf(changeNumberValidators));
     }
   }
 
+  private int nextChangeIdImpl(ImmutableList<ChangeNumberValidator> validators)
+      throws OrmException {
+    int n = changeSeq.next();
+    while (!isValid(validators, n)) {
+      n = changeSeq.next();
+    }
+    return n;
+  }
+
+  private static boolean isValid(ImmutableList<ChangeNumberValidator> validators, int candidate)
+      throws OrmException {
+    for (ChangeNumberValidator validator : validators) {
+      if (!validator.isValidChangeNumber(candidate)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   public ImmutableList<Integer> nextChangeIds(int count) throws OrmException {
+    checkArgument(count >= 0, "count must be positive: " + count);
+    if (count == 0) {
+      return ImmutableList.of();
+    }
     try (Timer2.Context timer = nextIdLatency.start(SequenceType.CHANGES, count > 1)) {
-      return changeSeq.next(count);
+      ImmutableList<Integer> candidates = changeSeq.next(count);
+      ImmutableList<ChangeNumberValidator> validators =
+          ImmutableList.copyOf(changeNumberValidators);
+      if (validators.isEmpty()) {
+        return candidates;
+      }
+
+      int need = 0;
+      ImmutableList.Builder<Integer> result = ImmutableList.builderWithExpectedSize(count);
+      for (int candidate : candidates) {
+        if (isValid(validators, candidate)) {
+          result.add(candidate);
+        } else {
+          need++;
+        }
+      }
+      for (int i = 0; i < need; i++) {
+        result.add(nextChangeIdImpl(validators));
+      }
+      return result.build();
     }
   }
 

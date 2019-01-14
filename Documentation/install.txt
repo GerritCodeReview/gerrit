@@ -61,8 +61,7 @@ the notes under link:dev-readme.html[developer setup].
 
 Gerrit stores configuration files, the server's SSH keys, and the
 managed Git repositories under a local directory, typically referred
-to as `'$site_path'`.  If the embedded H2 database is being used,
-its data files will also be stored under this directory.
+to as `'$site_path'`.
 
 You also have to decide where to store your server side git repositories. This
 can either be a relative path under `'$site_path'` or an absolute path
@@ -87,11 +86,10 @@ have any privileges, you may have to manually create the directory first and
 then give ownership of that location to the `'gerrit'` user.
 
 If run from an interactive terminal, the init command will prompt through a
-series of configuration questions, including gathering information
-about the database created above.  If the terminal is not interactive,
-running the init command will choose some reasonable default selections,
-and will use the embedded H2 database. Once the init phase is complete,
-you can review your settings in the file `'$site_path/etc/gerrit.config'`.
+series of configuration questions.  If the terminal is not interactive,
+running the init command will choose some reasonable default selections.
+Once the init phase is complete, you can review your settings in the file
+`'$site_path/etc/gerrit.config'`.
 
 When running the init command, additional JARs might be downloaded to
 support optional selected functionality.  If a download fails a URL will

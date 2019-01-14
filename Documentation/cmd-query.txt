@@ -1,7 +1,7 @@
 = gerrit query
 
 == NAME
-gerrit query - Query the change database
+gerrit query - Query the change search index
 
 == SYNOPSIS
 [verse]
@@ -24,7 +24,7 @@ _ssh_ -p <port> <host> _gerrit query_
 
 == DESCRIPTION
 
-Queries the change database and returns results describing changes
+Queries the change search index and returns results describing changes
 that match the input query.  More recently updated changes appear
 before older changes, which is the same order presented in the
 web interface.  For each matching change, the result contains data

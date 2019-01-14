@@ -76,7 +76,6 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDeactivator;
@@ -222,7 +221,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(IdGenerator.class);
     bind(RulesCache.class);
     bind(BlameCache.class).to(BlameCacheImpl.class);
-    bind(Sequences.class);
     install(authModule);
     install(AccountCacheImpl.module());
     install(BatchUpdate.module());

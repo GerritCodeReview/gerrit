@@ -38,6 +38,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
+import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryHelper.Action;
 import com.google.gerrit.server.update.RetryHelper.ActionType;
@@ -80,7 +81,7 @@ import org.eclipse.jgit.lib.Repository;
  * commit in the user branch, and thus help debugging.
  *
  * <p>For creating a new account a new account ID can be retrieved from {@link
- * com.google.gerrit.server.Sequences#nextAccountId()}.
+ * Sequences#nextAccountId()}.
  *
  * <p>The account updates are written to NoteDb. In NoteDb accounts are represented as user branches
  * in the {@code All-Users} repository. Optionally a user branch can contain a 'account.config' file

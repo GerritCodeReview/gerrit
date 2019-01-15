@@ -33,7 +33,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -80,7 +79,7 @@ public class NotifyUtil {
     }
 
     ListMultimap<RecipientType, Account.Id> m = null;
-    for (Entry<RecipientType, NotifyInfo> e : notifyDetails.entrySet()) {
+    for (Map.Entry<RecipientType, NotifyInfo> e : notifyDetails.entrySet()) {
       List<String> accounts = e.getValue().accounts;
       if (accounts != null) {
         if (m == null) {

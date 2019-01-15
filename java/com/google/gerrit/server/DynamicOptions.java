@@ -26,7 +26,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.WeakHashMap;
 
 /** Helper class to define and parse options from plugins on ssh and RestAPI commands. */
@@ -267,7 +266,7 @@ public class DynamicOptions {
   }
 
   public void parseDynamicBeans(CmdLineParser clp) {
-    for (Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
+    for (Map.Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
       clp.parseWithPrefix("--" + e.getKey(), e.getValue());
     }
     clp.drainOptionQueue();
@@ -276,14 +275,14 @@ public class DynamicOptions {
   public void setDynamicBeans() {
     if (bean instanceof BeanReceiver) {
       BeanReceiver receiver = (BeanReceiver) bean;
-      for (Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
+      for (Map.Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
         receiver.setDynamicBean(e.getKey(), e.getValue());
       }
     }
   }
 
   public void onBeanParseStart() {
-    for (Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
+    for (Map.Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
       DynamicBean instance = e.getValue();
       if (instance instanceof BeanParseListener) {
         BeanParseListener listener = (BeanParseListener) instance;
@@ -293,7 +292,7 @@ public class DynamicOptions {
   }
 
   public void onBeanParseEnd() {
-    for (Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
+    for (Map.Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
       DynamicBean instance = e.getValue();
       if (instance instanceof BeanParseListener) {
         BeanParseListener listener = (BeanParseListener) instance;

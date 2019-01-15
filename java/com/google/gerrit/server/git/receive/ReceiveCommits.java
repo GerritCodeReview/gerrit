@@ -111,7 +111,6 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.ValidationError;
-import com.google.gerrit.server.git.receive.ResultChangeIds.Key;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.RefOperationValidationException;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
@@ -810,8 +809,10 @@ class ReceiveCommits {
       replaceByChange
           .values()
           .stream()
-          .forEach(req -> resultChangeIds.add(Key.REPLACED, req.ontoChange));
-      newChanges.stream().forEach(req -> resultChangeIds.add(Key.CREATED, req.changeId));
+          .forEach(req -> resultChangeIds.add(ResultChangeIds.Key.REPLACED, req.ontoChange));
+      newChanges
+          .stream()
+          .forEach(req -> resultChangeIds.add(ResultChangeIds.Key.CREATED, req.changeId));
 
       if (magicBranchCmd != null) {
         magicBranchCmd.setResult(OK);

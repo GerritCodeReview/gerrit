@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance.testsuite.project;
 import com.google.common.base.Preconditions;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation.Builder;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.CreateProjectArgs;
@@ -63,7 +62,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
   }
 
   @Override
-  public ProjectOperations.PerProjectOperations project(NameKey key) {
+  public ProjectOperations.PerProjectOperations project(Project.NameKey key) {
     return new PerProjectOperations(key);
   }
 

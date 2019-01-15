@@ -41,7 +41,6 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -287,7 +286,8 @@ public class LabelsJson {
     }
 
     Set<String> labelNames = new HashSet<>();
-    SetMultimap<Id, PatchSetApproval> current = MultimapBuilder.hashKeys().hashSetValues().build();
+    SetMultimap<Account.Id, PatchSetApproval> current =
+        MultimapBuilder.hashKeys().hashSetValues().build();
     for (PatchSetApproval a : cd.currentApprovals()) {
       allUsers.add(a.getAccountId());
       LabelType type = labelTypes.byLabel(a.getLabelId());
@@ -441,13 +441,13 @@ public class LabelsJson {
     // Include a user in the output for this label if either:
     //  - They are an explicit reviewer.
     //  - They ever voted on this change.
-    Set<Id> allUsers = new HashSet<>();
+    Set<Account.Id> allUsers = new HashSet<>();
     allUsers.addAll(cd.reviewers().byState(ReviewerStateInternal.REVIEWER));
     for (PatchSetApproval psa : cd.approvals().values()) {
       allUsers.add(psa.getAccountId());
     }
 
-    Table<Id, String, PatchSetApproval> current =
+    Table<Account.Id, String, PatchSetApproval> current =
         HashBasedTable.create(allUsers.size(), cd.getLabelTypes().getLabelTypes().size());
     for (PatchSetApproval psa : cd.currentApprovals()) {
       current.put(psa.getAccountId(), psa.getLabel(), psa);

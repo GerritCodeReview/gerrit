@@ -71,7 +71,6 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -2424,7 +2423,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       return this;
     }
 
-    DashboardChangeState draftAndDeleteCommentBy(Id commenterId) {
+    DashboardChangeState draftAndDeleteCommentBy(Account.Id commenterId) {
       deleteDraftCommentBy.add(commenterId);
       return this;
     }

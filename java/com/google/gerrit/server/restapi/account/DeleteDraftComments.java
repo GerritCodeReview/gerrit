@@ -32,7 +32,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -170,7 +169,7 @@ public class DeleteDraftComments
     private final Account.Id accountId;
     private DeletedDraftCommentInfo result;
 
-    Op(CommentFormatter commentFormatter, Id accountId) {
+    Op(CommentFormatter commentFormatter, Account.Id accountId) {
       this.commentFormatter = commentFormatter;
       this.accountId = accountId;
     }

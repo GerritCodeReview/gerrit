@@ -18,7 +18,7 @@ import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.ServerInitiated;

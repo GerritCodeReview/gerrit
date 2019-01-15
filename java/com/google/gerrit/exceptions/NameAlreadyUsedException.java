@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.errors;
+package com.google.gerrit.exceptions;
 
 /** Error indicating entity name is already taken by another entity. */
 public class NameAlreadyUsedException extends Exception {

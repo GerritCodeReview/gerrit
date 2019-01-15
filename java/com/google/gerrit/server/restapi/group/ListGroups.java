@@ -23,7 +23,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.GroupInfo;

@@ -96,7 +96,41 @@ The project section includes configuration of project settings.
 
 These are the keys:
 
-- Description
+[[description]]description::
++
+A description for the project.
+
+[[state]]state:
++
+This setting defines the state of the project. A project can have the
+following states:
+
+- `Active`:
++
+The project is active and users can see and modify the project according
+to their access rights on the project.
+
+- `Read Only`:
++
+The project is read only and all modifying operations on it are
+disabled. E.g. this means that pushing to this project fails for all
+users even if they have push permissions assigned on it.
++
+Setting a project to this state is an easy way to temporary close a
+project, as you can keep all write access rights in place and they will
+become active again as soon as the project state is set back to
+`Active`.
++
+This state also makes sense if a project was moved to another location.
+In this case all new development should happen in the new project and
+you want to prevent that somebody accidentally works on the old
+project, while keeping the old project around for old references.
+
+- `Hidden`:
++
+The project is hidden and only visible to project owners. Other users
+are not able to see the project even if they have read permissions
+granted on the project.
 
 
 [[receive-section]]

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b853a3d_7b23f08e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-15T23:31:57Z",
+      "side": 1,
+      "message": "I know this is a cherry pick from a change already merged on master, but please expand the commit message to mention what this upgrade fixes and why we need it.",
+      "revId": "09311b7d982a26cb1721627e5cb223ce8d53fa5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

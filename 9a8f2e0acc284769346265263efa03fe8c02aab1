@@ -23,6 +23,30 @@
       "revId": "9a8f2e0acc284769346265263efa03fe8c02aab1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cae54f7c_62006d7c",
+        "filename": "java/com/google/gerrit/server/notedb/Sequences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-15T15:11:09Z",
+      "side": 1,
+      "message": "The logic is trivial and this way you don\u0027t have to worry if you accidentally install multiple plugins that implement this validator. But of course we only have one use case in mind so this may be overkill. Do you think I should remove it?",
+      "parentUuid": "5fbcee62_7dbe874d",
+      "range": {
+        "startLine": 56,
+        "startChar": 25,
+        "endLine": 56,
+        "endChar": 46
+      },
+      "revId": "9a8f2e0acc284769346265263efa03fe8c02aab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

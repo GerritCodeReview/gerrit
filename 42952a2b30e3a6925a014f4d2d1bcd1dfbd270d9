@@ -16,6 +16,24 @@
       "revId": "42952a2b30e3a6925a014f4d2d1bcd1dfbd270d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b2e9fba_b06d9604",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-15T10:58:51Z",
+      "side": 1,
+      "message": "I\u0027ll update the commit message later when I get back to my computer.\n\nNote that the options already exist on the REST implementation, they were just not exposed via the API.",
+      "parentUuid": "892a4c8f_4bd63ccf",
+      "revId": "42952a2b30e3a6925a014f4d2d1bcd1dfbd270d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

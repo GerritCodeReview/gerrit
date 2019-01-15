@@ -34,6 +34,7 @@ import com.google.gerrit.server.change.PublishChangeEdit;
 import com.google.gerrit.server.change.RebaseChangeEdit;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Optional;
@@ -43,42 +44,42 @@ public class ChangeEditApiImpl implements ChangeEditApi {
     ChangeEditApiImpl create(ChangeResource changeResource);
   }
 
-  private final ChangeEdits.Detail editDetail;
+  private final Provider<ChangeEdits.Detail> editDetailProvider;
   private final ChangeEdits.Post changeEditsPost;
   private final DeleteChangeEdit deleteChangeEdit;
   private final RebaseChangeEdit.Rebase rebaseChangeEdit;
   private final PublishChangeEdit.Publish publishChangeEdit;
-  private final ChangeEdits.Get changeEditsGet;
+  private final Provider<ChangeEdits.Get> changeEditsGetProvider;
   private final ChangeEdits.Put changeEditsPut;
   private final ChangeEdits.DeleteContent changeEditDeleteContent;
-  private final ChangeEdits.GetMessage getChangeEditCommitMessage;
+  private final Provider<ChangeEdits.GetMessage> getChangeEditCommitMessageProvider;
   private final ChangeEdits.EditMessage modifyChangeEditCommitMessage;
   private final ChangeEdits changeEdits;
   private final ChangeResource changeResource;
 
   @Inject
   public ChangeEditApiImpl(
-      ChangeEdits.Detail editDetail,
+      Provider<ChangeEdits.Detail> editDetailProvider,
       ChangeEdits.Post changeEditsPost,
       DeleteChangeEdit deleteChangeEdit,
       RebaseChangeEdit.Rebase rebaseChangeEdit,
       PublishChangeEdit.Publish publishChangeEdit,
-      ChangeEdits.Get changeEditsGet,
+      Provider<ChangeEdits.Get> changeEditsGetProvider,
       ChangeEdits.Put changeEditsPut,
       ChangeEdits.DeleteContent changeEditDeleteContent,
-      ChangeEdits.GetMessage getChangeEditCommitMessage,
+      Provider<ChangeEdits.GetMessage> getChangeEditCommitMessageProvider,
       ChangeEdits.EditMessage modifyChangeEditCommitMessage,
       ChangeEdits changeEdits,
       @Assisted ChangeResource changeResource) {
-    this.editDetail = editDetail;
+    this.editDetailProvider = editDetailProvider;
     this.changeEditsPost = changeEditsPost;
     this.deleteChangeEdit = deleteChangeEdit;
     this.rebaseChangeEdit = rebaseChangeEdit;
     this.publishChangeEdit = publishChangeEdit;
-    this.changeEditsGet = changeEditsGet;
+    this.changeEditsGetProvider = changeEditsGetProvider;
     this.changeEditsPut = changeEditsPut;
     this.changeEditDeleteContent = changeEditDeleteContent;
-    this.getChangeEditCommitMessage = getChangeEditCommitMessage;
+    this.getChangeEditCommitMessageProvider = getChangeEditCommitMessageProvider;
     this.modifyChangeEditCommitMessage = modifyChangeEditCommitMessage;
     this.changeEdits = changeEdits;
     this.changeResource = changeResource;
@@ -87,7 +88,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   @Override
   public Optional<EditInfo> get() throws RestApiException {
     try {
-      Response<EditInfo> edit = editDetail.apply(changeResource);
+      Response<EditInfo> edit = editDetailProvider.get().apply(changeResource);
       return edit.isNone() ? Optional.empty() : Optional.of(edit.value());
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve change edit", e);
@@ -139,7 +140,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   public Optional<BinaryResult> getFile(String filePath) throws RestApiException {
     try {
       ChangeEditResource changeEditResource = getChangeEditResource(filePath);
-      Response<BinaryResult> fileResponse = changeEditsGet.apply(changeEditResource);
+      Response<BinaryResult> fileResponse = changeEditsGetProvider.get().apply(changeEditResource);
       return fileResponse.isNone() ? Optional.empty() : Optional.of(fileResponse.value());
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve file of change edit", e);
@@ -190,7 +191,8 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   @Override
   public String getCommitMessage() throws RestApiException {
     try {
-      try (BinaryResult binaryResult = getChangeEditCommitMessage.apply(changeResource)) {
+      try (BinaryResult binaryResult =
+          getChangeEditCommitMessageProvider.get().apply(changeResource)) {
         return binaryResult.asString();
       }
     } catch (Exception e) {

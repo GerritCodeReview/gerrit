@@ -16,7 +16,7 @@ package com.google.gerrit.acceptance.testsuite.group;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.ServerInitiated;

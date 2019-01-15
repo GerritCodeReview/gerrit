@@ -16,7 +16,7 @@ package com.google.gerrit.server.util;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.errors.NotSignedInException;
+import com.google.gerrit.exceptions.NotSignedInException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.AbstractModule;

@@ -21,7 +21,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;

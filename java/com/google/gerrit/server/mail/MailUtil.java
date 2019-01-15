@@ -18,7 +18,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.gerrit.common.FooterConstants;
-import com.google.gerrit.common.errors.NoSuchAccountException;
+import com.google.gerrit.exceptions.NoSuchAccountException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;

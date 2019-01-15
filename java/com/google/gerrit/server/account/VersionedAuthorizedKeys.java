@@ -20,7 +20,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
-import com.google.gerrit.common.errors.InvalidSshKeyException;
+import com.google.gerrit.exceptions.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;

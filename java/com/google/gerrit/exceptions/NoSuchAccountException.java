@@ -12,19 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.errors;
+package com.google.gerrit.exceptions;
 
-/** Error indicating the entity name is invalid as supplied. */
-public class InvalidNameException extends Exception {
+/** Error indicating the account requested doesn't exist. */
+public class NoSuchAccountException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public static final String MESSAGE = "Invalid Name";
+  public static final String MESSAGE = "Not Found: ";
 
-  public InvalidNameException() {
-    super(MESSAGE);
-  }
-
-  public InvalidNameException(String invalidName) {
-    super(MESSAGE + ": " + invalidName);
+  public NoSuchAccountException(String who) {
+    super(MESSAGE + who);
   }
 }

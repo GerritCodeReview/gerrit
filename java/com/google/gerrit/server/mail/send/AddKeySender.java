@@ -15,7 +15,7 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.common.base.Joiner;
-import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.mail.Address;

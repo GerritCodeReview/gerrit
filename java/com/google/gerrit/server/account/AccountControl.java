@@ -17,7 +17,7 @@ package com.google.gerrit.server.account;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;

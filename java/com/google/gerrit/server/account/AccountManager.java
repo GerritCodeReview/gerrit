@@ -25,7 +25,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;

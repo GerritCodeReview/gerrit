@@ -12,18 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.errors;
+package com.google.gerrit.exceptions;
 
-public class EmailException extends Exception {
+/** Error indicating the SSH key string is invalid as supplied. */
+public class InvalidSshKeyException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public static final String MESSAGE = "Mail Error: ";
+  public static final String MESSAGE = "Invalid SSH Key";
 
-  public EmailException(String msg) {
-    super(MESSAGE + msg);
-  }
-
-  public EmailException(String msg, Throwable why) {
-    super(MESSAGE + msg, why);
+  public InvalidSshKeyException() {
+    super(MESSAGE);
   }
 }

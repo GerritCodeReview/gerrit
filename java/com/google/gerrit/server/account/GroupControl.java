@@ -15,7 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;

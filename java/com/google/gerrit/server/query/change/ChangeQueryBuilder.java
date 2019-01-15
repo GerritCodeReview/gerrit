@@ -29,7 +29,7 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.common.errors.NotSignedInException;
+import com.google.gerrit.exceptions.NotSignedInException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.index.IndexConfig;

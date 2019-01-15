@@ -16,7 +16,7 @@ package com.google.gerrit.server.restapi.group;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.api.groups.OwnerInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;

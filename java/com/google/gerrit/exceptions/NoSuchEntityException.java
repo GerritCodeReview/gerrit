@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2008 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.errors;
+package com.google.gerrit.exceptions;
 
-/** Error indicating the account requested doesn't exist. */
-public class NoSuchAccountException extends Exception {
+/** Error indicating the entity requested doesn't exist. */
+public class NoSuchEntityException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public static final String MESSAGE = "Not Found: ";
+  public static final String MESSAGE = "Not Found";
 
-  public NoSuchAccountException(String who) {
-    super(MESSAGE + who);
+  public NoSuchEntityException() {
+    super(MESSAGE);
+  }
+
+  public NoSuchEntityException(String message) {
+    super(message);
   }
 }

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.errors;
+package com.google.gerrit.exceptions;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 

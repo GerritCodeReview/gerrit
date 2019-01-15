@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "892a4c8f_4bd63ccf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-15T09:08:28Z",
+      "side": 1,
+      "message": "Can you add some details about the use-cases for these options?",
+      "revId": "42952a2b30e3a6925a014f4d2d1bcd1dfbd270d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -48,55 +48,7 @@ Either restart the server, or flush the `project_list` cache:
 [[project_options]]
 == Project Options
 
-[[submit_type]]
-=== Submit Type
-
-See details at link:config-project-config.html#submit-type[submit type].
-
-[[project-state]]
-=== State
-
 See details at link:config-project-config.html#project-section[project section].
-
-=== Use target branch when determining new changes to open
-
-See details at
-link:config-project-config.html#receive.createNewChangeForAllNotInTarget[
-create new change for all not intarget].
-
-[[require-change-id]]
-=== Require Change-Id
-
-See details at
-link:config-project-config.html#receive.requireChangeId[require change id].
-
-=== Maximum Git Object Size Limit
-
-This option defines the maximum allowed Git object size that
-receive-pack will accept. If an object is larger than the given size
-the pack-parsing will abort and the push operation will fail.
-
-With this option users can be prevented from uploading commits that
-contain files which are too large.
-
-Normally the link:config-gerrit.html#receive.maxObjectSizeLimit[maximum
-Git object size limit] is configured globally for a Gerrit server. At
-the project level, the maximum Git object size limit can be further
-reduced, but not extended. The displayed effective limit shows the
-maximum Git object size limit that is actually used on the project.
-
-The defined maximum Git object size limit is inherited by any child
-project.
-
-[[require-signed-off-by]]
-=== Require Signed-off-by
-
-The `Require Signed-off-by in commit message` option defines whether a
-link:user-signedoffby.html[Signed-off-by] line in the commit message is
-required for pushing a commit. If this option is set, trying to push a
-commit that doesn't contain a Signed-off-by line in the commit message
-fails with link:error-not-signed-off-by.html[not Signed-off-by
-author/committer/uploader in commit message footer].
 
 [[branch-admin]]
 == Branch Administration

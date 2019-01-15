@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.errors;
+package com.google.gerrit.exceptions;
 
-/** Error stating the user must be signed-in in order to perform this action. */
-public class NotSignedInException extends Exception {
+public class EmailException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public static final String MESSAGE = "Not Signed In";
+  public static final String MESSAGE = "Mail Error: ";
 
-  public NotSignedInException() {
-    super(MESSAGE);
+  public EmailException(String msg) {
+    super(MESSAGE + msg);
+  }
+
+  public EmailException(String msg, Throwable why) {
+    super(MESSAGE + msg, why);
   }
 }

@@ -124,6 +124,24 @@
       "revId": "ed0ad28d619d5379613b55da3f05f88fcc637926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97156216_7cc5094e",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-01-15T17:07:41Z",
+      "side": 1,
+      "message": "I agree, but for this to make a difference we would have to convert the internals of DefaultRefFilter to treat the stream right. I would not do this here for now.",
+      "parentUuid": "2993f05c_7ec7e844",
+      "revId": "ed0ad28d619d5379613b55da3f05f88fcc637926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -18,6 +18,7 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
+import com.google.gerrit.extensions.client.ChangeEditDetailOption;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -83,6 +84,34 @@ public class ChangeEditApiImpl implements ChangeEditApi {
     this.modifyChangeEditCommitMessage = modifyChangeEditCommitMessage;
     this.changeEdits = changeEdits;
     this.changeResource = changeResource;
+  }
+
+  @Override
+  public ChangeEditDetailRequest detail() throws RestApiException {
+    try {
+      return new ChangeEditDetailRequest() {
+        @Override
+        public Optional<EditInfo> get() throws RestApiException {
+          return ChangeEditApiImpl.this.get(this);
+        }
+      };
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve change edit", e);
+    }
+  }
+
+  private Optional<EditInfo> get(ChangeEditDetailRequest r) throws RestApiException {
+    try {
+      ChangeEdits.Detail editDetail = editDetailProvider.get();
+      editDetail.setBase(r.getBase());
+      editDetail.setList(r.options().contains(ChangeEditDetailOption.LIST_FILES));
+      editDetail.setDownloadCommands(
+          r.options().contains(ChangeEditDetailOption.DOWNLOAD_COMMANDS));
+      Response<EditInfo> edit = editDetail.apply(changeResource);
+      return edit.isNone() ? Optional.empty() : Optional.of(edit.value());
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve change edit", e);
+    }
   }
 
   @Override

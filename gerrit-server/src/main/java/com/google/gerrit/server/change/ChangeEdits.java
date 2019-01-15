@@ -191,14 +191,24 @@ public class ChangeEdits
     private final FileInfoJson fileInfoJson;
     private final Revisions revisions;
 
+    private String base;
+    private boolean list;
+    private boolean downloadCommands;
+
     @Option(name = "--base", metaVar = "revision-id")
-    String base;
+    public void setBase(String base) {
+      this.base = base;
+    }
 
     @Option(name = "--list")
-    boolean list;
+    public void setList(boolean list) {
+      this.list = list;
+    }
 
     @Option(name = "--download-commands")
-    boolean downloadCommands;
+    public void setDownloadCommands(boolean downloadCommands) {
+      this.downloadCommands = downloadCommands;
+    }
 
     @Inject
     Detail(

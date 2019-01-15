@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75822712_6b79f380",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-15T16:12:58Z",
+      "side": 1,
+      "message": "remove whitespace",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 7
+      },
+      "revId": "e9970751c776289c292d2d3ab60dbadcb48b2e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d70eac2_7b9f7649",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-15T16:12:58Z",
+      "side": 1,
+      "message": "That is the same as \"return false;\". And since you don\u0027t actually the \"false\" value for anything I would even recommend removing the entire return statement.\n\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then#Return_value",
+      "range": {
+        "startLine": 134,
+        "startChar": 16,
+        "endLine": 134,
+        "endChar": 46
+      },
+      "revId": "e9970751c776289c292d2d3ab60dbadcb48b2e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f8d39b1_25c382fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-15T16:12:58Z",
+      "side": 1,
+      "message": "use spaces instead of tabs",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 11
+      },
+      "revId": "e9970751c776289c292d2d3ab60dbadcb48b2e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "347e79ff_550d13b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-15T16:12:58Z",
+      "side": 1,
+      "message": "Shared code goes either into behaviors/ or elements/shared/. behaviors/ is probably the better choice here. Maybe gr-config-behavior. But feel free to add a TODO for that.",
+      "range": {
+        "startLine": 163,
+        "startChar": 7,
+        "endLine": 163,
+        "endChar": 41
+      },
+      "revId": "e9970751c776289c292d2d3ab60dbadcb48b2e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

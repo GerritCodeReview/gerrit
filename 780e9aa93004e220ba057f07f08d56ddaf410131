@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38437961_71a4d94f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-15T23:15:23Z",
+      "side": 1,
+      "message": "Wrap this line. Note: google-java-format doesn\u0027t automatically adjust string constants that exceed the limit.",
+      "revId": "780e9aa93004e220ba057f07f08d56ddaf410131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3357219_0bda3e9a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-15T23:15:23Z",
+      "side": 1,
+      "message": "same here.",
+      "revId": "780e9aa93004e220ba057f07f08d56ddaf410131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

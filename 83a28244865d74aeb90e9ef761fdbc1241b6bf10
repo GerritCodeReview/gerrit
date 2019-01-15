@@ -17,6 +17,24 @@
       "revId": "83a28244865d74aeb90e9ef761fdbc1241b6bf10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af71879b_5882f5dd",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-15T05:46:20Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/210316",
+      "parentUuid": "db357dea_8ac6a9b6",
+      "revId": "83a28244865d74aeb90e9ef761fdbc1241b6bf10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

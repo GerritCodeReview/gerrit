@@ -383,7 +383,7 @@ rules] to control when a change becomes submittable.
 
 How the code modification is applied to the target branch when a change
 is submitted is controlled by the
-link:project-configuration.html#submit_type[submit type] which can be
+link:config-project-config.html#submit-type[submit type] which can be
 link:intro-project-owner.html#submit-type[configured on project-level].
 
 Submitting a change may fail with conflicts. In this case you need to

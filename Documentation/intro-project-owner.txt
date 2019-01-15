@@ -209,7 +209,7 @@ verifications from a build server] before changes are merged. In
 addition you can benefit from Gerrit's merge strategies that can
 automatically merge/rebase commits on server side if necessary. You can
 control the merge strategy by configuring the
-link:project-configuration.html#submit_type[submit type] on the project. If you
+link:config-project-config.html#submit-type[submit type] on the project. If you
 bypass code review you always need to merge/rebase manually if the tip
 of the destination branch has moved. Please keep this in mind if you
 choose to not work with code review because you think it's easier to
@@ -239,7 +239,7 @@ To see the options of your project:
 
 An important decision for a project is the choice of the submit type
 and the content merge setting (see the `Allow content merges` option).
-The link:project-configuration.html#submit_type[submit type] is the method
+The link:config-project-config.html#submit-type[submit type] is the method
 Gerrit uses to submit a change to the project. The submit type defines
 what Gerrit should do on submit of a change if the destination branch
 has moved while the change was in review. The
@@ -281,7 +281,7 @@ link:#prolog-submit-type[Prolog]. This way you can use different submit
 types for different branches.
 
 Please note that there are other submit types available; they are
-described in the link:project-configuration.html#submit_type[Submit Type]
+described in the link:config-project-config.html#submit-type[Submit Type]
 section.
 
 [[labels]]

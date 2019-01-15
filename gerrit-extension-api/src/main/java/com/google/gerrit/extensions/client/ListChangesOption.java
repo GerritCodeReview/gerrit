@@ -17,7 +17,7 @@ package com.google.gerrit.extensions.client;
 import java.util.EnumSet;
 import java.util.Set;
 
-/** Output options available for retrieval change details. */
+/** Output options available for retrieval of change details. */
 public enum ListChangesOption {
   LABELS(0),
   DETAILED_LABELS(8),

@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.testing.ConfigSuite;
 import java.util.ArrayDeque;
@@ -273,7 +272,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
   @Test
   public void updateManySubmodules() throws Exception {
     final int NUM = 3;
-    Project.NameKey subKey[] = new NameKey[NUM];
+    Project.NameKey subKey[] = new Project.NameKey[NUM];
     TestRepository<?> sub[] = new TestRepository[NUM];
     String prefix = RandomStringUtils.randomAlphabetic(8);
     for (int i = 0; i < subKey.length; i++) {

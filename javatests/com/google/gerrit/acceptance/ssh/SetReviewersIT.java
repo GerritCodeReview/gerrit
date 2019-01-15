@@ -21,7 +21,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseSsh;
-import com.google.gerrit.reviewdb.client.Account.Id;
+import com.google.gerrit.reviewdb.client.Account;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,7 +52,7 @@ public class SetReviewersIT extends AbstractDaemonTest {
     adminSshSession.exec(
         String.format("gerrit set-reviewers -%s %s %s", add ? "a" : "r", user.email, id));
     adminSshSession.assertSuccess();
-    ImmutableSet<Id> reviewers = change.getChange().getReviewers().all();
+    ImmutableSet<Account.Id> reviewers = change.getChange().getReviewers().all();
     if (add) {
       assertThat(reviewers).contains(user.id);
     } else {

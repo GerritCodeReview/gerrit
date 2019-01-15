@@ -24,7 +24,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import java.lang.reflect.ParameterizedType;
-import java.util.Map.Entry;
+import java.util.Map;
 
 @Singleton
 public class OptionHandlers {
@@ -53,7 +53,7 @@ public class OptionHandlers {
   private static ImmutableMap<Class<?>, Provider<OptionHandlerFactory<?>>> build(Injector i) {
     ImmutableMap.Builder<Class<?>, Provider<OptionHandlerFactory<?>>> map = ImmutableMap.builder();
     for (; i != null; i = i.getParent()) {
-      for (Entry<Key<?>, Binding<?>> e : i.getBindings().entrySet()) {
+      for (Map.Entry<Key<?>, Binding<?>> e : i.getBindings().entrySet()) {
         TypeLiteral<?> type = e.getKey().getTypeLiteral();
         if (type.getRawType() == OptionHandlerFactory.class
             && e.getKey().getAnnotation() == null

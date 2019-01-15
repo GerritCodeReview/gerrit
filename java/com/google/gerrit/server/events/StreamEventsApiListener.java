@@ -63,7 +63,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -182,7 +181,7 @@ public class StreamEventsApiListener
 
   private static Map<String, Short> convertApprovalsMap(Map<String, ApprovalInfo> approvals) {
     Map<String, Short> result = new HashMap<>();
-    for (Entry<String, ApprovalInfo> e : approvals.entrySet()) {
+    for (Map.Entry<String, ApprovalInfo> e : approvals.entrySet()) {
       Short value = e.getValue().value == null ? null : e.getValue().value.shortValue();
       result.put(e.getKey(), value);
     }
@@ -190,7 +189,7 @@ public class StreamEventsApiListener
   }
 
   private ApprovalAttribute getApprovalAttribute(
-      LabelTypes labelTypes, Entry<String, Short> approval, Map<String, Short> oldApprovals) {
+      LabelTypes labelTypes, Map.Entry<String, Short> approval, Map<String, Short> oldApprovals) {
     ApprovalAttribute a = new ApprovalAttribute();
     a.type = approval.getKey();
 
@@ -220,7 +219,7 @@ public class StreamEventsApiListener
           if (approvals.size() > 0) {
             ApprovalAttribute[] r = new ApprovalAttribute[approvals.size()];
             int i = 0;
-            for (Entry<String, Short> approval : approvals.entrySet()) {
+            for (Map.Entry<String, Short> approval : approvals.entrySet()) {
               r[i++] =
                   getApprovalAttribute(labelTypes, approval, convertApprovalsMap(oldApprovals));
             }

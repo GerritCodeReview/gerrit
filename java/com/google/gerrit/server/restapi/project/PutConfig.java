@@ -55,7 +55,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -192,10 +191,10 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       ProjectConfig projectConfig,
       Map<String, Map<String, ConfigValue>> pluginConfigValues)
       throws BadRequestException {
-    for (Entry<String, Map<String, ConfigValue>> e : pluginConfigValues.entrySet()) {
+    for (Map.Entry<String, Map<String, ConfigValue>> e : pluginConfigValues.entrySet()) {
       String pluginName = e.getKey();
       PluginConfig cfg = projectConfig.getPluginConfig(pluginName);
-      for (Entry<String, ConfigValue> v : e.getValue().entrySet()) {
+      for (Map.Entry<String, ConfigValue> v : e.getValue().entrySet()) {
         ProjectConfigEntry projectConfigEntry = pluginConfigEntries.get(pluginName, v.getKey());
         if (projectConfigEntry != null) {
           if (!PARAMETER_NAME_PATTERN.matcher(v.getKey()).matches()) {

@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.testing.GerritBaseTests;
 import java.sql.Date;
@@ -103,7 +102,8 @@ public class LabelFunctionTest extends GerritBaseTests {
     return new PatchSetApproval(key, (short) value, Date.from(Instant.now()));
   }
 
-  private static PatchSetApproval.Key makeKey(Id psId, Account.Id accountId, LabelId labelId) {
+  private static PatchSetApproval.Key makeKey(
+      PatchSet.Id psId, Account.Id accountId, LabelId labelId) {
     return new PatchSetApproval.Key(psId, accountId, labelId);
   }
 

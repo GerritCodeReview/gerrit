@@ -47,7 +47,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -212,7 +211,7 @@ public class RevisionJson {
       AccountLoader accountLoader,
       ChangeData cd,
       Map<PatchSet.Id, PatchSet> map,
-      Optional<Id> limitToPsId,
+      Optional<PatchSet.Id> limitToPsId,
       ChangeInfo changeInfo)
       throws PatchListNotAvailableException, GpgException, OrmException, IOException,
           PermissionBackendException {

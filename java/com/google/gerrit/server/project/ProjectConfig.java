@@ -75,7 +75,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -1481,7 +1480,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       rc.unsetSection(PLUGIN, name);
     }
 
-    for (Entry<String, Config> e : pluginConfigs.entrySet()) {
+    for (Map.Entry<String, Config> e : pluginConfigs.entrySet()) {
       String plugin = e.getKey();
       Config pluginConfig = e.getValue();
       for (String name : pluginConfig.getNames(PLUGIN, plugin)) {

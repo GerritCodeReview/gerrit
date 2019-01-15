@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -22,6 +24,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.project.CommitResource;
@@ -39,6 +42,7 @@ import java.util.List;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -122,6 +126,16 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
       }
     }
 
-    return reachable.fromRefs(project, repo, commit, repo.getRefDatabase().getRefs());
+    // If we have already checked change refs using the change index, spare any further checks for
+    // changes.
+    List<Ref> refs =
+        indexes.getSearchIndex() != null
+            ? repo.getRefDatabase()
+                .getRefs()
+                .stream()
+                .filter(r -> !r.getName().startsWith(RefNames.REFS_CHANGES))
+                .collect(toImmutableList())
+            : repo.getRefDatabase().getRefs();
+    return reachable.fromRefs(project, repo, commit, refs);
   }
 }

@@ -313,12 +313,11 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     Change.Id id1 = r1.getChange().getId();
     Change.Id id2 = r2.getChange().getId();
 
-    String invalidState = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     try (ReviewDb db = schemaFactory.open()) {
       Change c1 = db.changes().get(id1);
-      c1.setNoteDbState(invalidState);
+      c1.setNoteDbState(INVALID_STATE);
       Change c2 = db.changes().get(id2);
-      c2.setNoteDbState(invalidState);
+      c2.setNoteDbState(INVALID_STATE);
       db.changes().update(ImmutableList.of(c1, c2));
     }
 
@@ -326,10 +325,10 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
 
     try (ReviewDb db = schemaFactory.open()) {
       NoteDbChangeState s1 = NoteDbChangeState.parse(db.changes().get(id1));
-      assertThat(s1.getChangeMetaId().name()).isEqualTo(invalidState);
+      assertThat(s1.getChangeMetaId().name()).isEqualTo(INVALID_STATE);
 
       NoteDbChangeState s2 = NoteDbChangeState.parse(db.changes().get(id2));
-      assertThat(s2.getChangeMetaId().name()).isNotEqualTo(invalidState);
+      assertThat(s2.getChangeMetaId().name()).isNotEqualTo(INVALID_STATE);
     }
   }
 

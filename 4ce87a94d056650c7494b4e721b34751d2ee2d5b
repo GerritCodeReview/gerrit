@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29b88305_3b3d8c85",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-15T18:15:47Z",
+      "side": 1,
+      "message": "Style guide says this should be initDefaultAcls.",
+      "range": {
+        "startLine": 92,
+        "startChar": 26,
+        "endLine": 92,
+        "endChar": 41
+      },
+      "revId": "4ce87a94d056650c7494b4e721b34751d2ee2d5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

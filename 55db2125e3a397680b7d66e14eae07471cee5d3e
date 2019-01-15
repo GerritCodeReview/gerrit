@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd8627ce_d1332cea",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-15T18:14:28Z",
+      "side": 1,
+      "message": "Nit: addBooleanProjectConfig, because this is just adding one.\n\nAlthough I\u0027m not sure this method is actually necessary. The AutoValue docs suggest introducing such a method when it returns a Builder so you can chain multiple calls together, but that\u0027s not how it\u0027s used here. Your method reference on line 99 could instead be:\n\n forEach(builder.booleanProjectConfigsBuilder()::put)",
+      "range": {
+        "startLine": 125,
+        "startChar": 16,
+        "endLine": 125,
+        "endChar": 40
+      },
+      "revId": "55db2125e3a397680b7d66e14eae07471cee5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

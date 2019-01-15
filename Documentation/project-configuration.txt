@@ -48,38 +48,7 @@ Either restart the server, or flush the `project_list` cache:
 [[project_options]]
 == Project Options
 
-[[submit_type]]
-=== Submit Type
-
-See details at link:config-project-config.html#submit-type[submit type].
-
-[[project-state]]
-=== State
-
 See details at link:config-project-config.html#project-section[project section].
-
-=== Use target branch when determining new changes to open
-
-See details at
-link:config-project-config.html#receive.createNewChangeForAllNotInTarget[
-create new change for all not intarget].
-
-[[require-change-id]]
-=== Require Change-Id
-
-See details at
-link:config-project-config.html#receive.requireChangeId[require change id].
-
-=== Maximum Git Object Size Limit
-
-See details at
-link:config-project-config.html#receive.maxObjectSizeLimit[max object size limit].
-
-[[require-signed-off-by]]
-=== Require Signed-off-by
-
-See details at
-link:config-project-config.html#receive.requireSignedOffBy[require sign off by].
 
 [[branch-admin]]
 == Branch Administration

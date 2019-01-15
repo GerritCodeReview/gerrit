@@ -16,7 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.errors.InvalidNameException;
+import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;

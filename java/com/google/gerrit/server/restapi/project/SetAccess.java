@@ -17,7 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.errors.InvalidNameException;
+import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.restapi.AuthException;

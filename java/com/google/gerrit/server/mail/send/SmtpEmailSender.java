@@ -20,7 +20,7 @@ import com.google.common.io.BaseEncoding;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.Version;
-import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.mail.EmailHeader;
 import com.google.gerrit.server.config.ConfigUtil;

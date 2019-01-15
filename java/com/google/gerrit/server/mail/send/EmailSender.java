@@ -15,7 +15,7 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.mail.EmailHeader;
 import java.util.Collection;

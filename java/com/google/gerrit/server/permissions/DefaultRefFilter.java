@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.permissions;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CACHE_AUTOMERGE;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
@@ -21,7 +22,9 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -38,11 +41,12 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.ChangeRefCache;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TagMatcher;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -51,11 +55,10 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -71,7 +74,7 @@ class DefaultRefFilter {
 
   private final TagCache tagCache;
   private final ChangeNotes.Factory changeNotesFactory;
-  @Nullable private final ChangeRefCache changeCache;
+  @Nullable private final SearchingChangeCacheImpl changeCache;
   private final GroupCache groupCache;
   private final PermissionBackend permissionBackend;
   private final ProjectControl projectControl;
@@ -81,14 +84,14 @@ class DefaultRefFilter {
   private final Counter0 fullFilterCount;
   private final Counter0 skipFilterCount;
   private final boolean skipFullRefEvaluationIfAllRefsAreVisible;
-  private final Map<Change.Id, Branch.NameKey> visibleChanges;
-  private final Set<Change.Id> inVisibleChanges;
+
+  private Map<Change.Id, Branch.NameKey> visibleChanges;
 
   @Inject
   DefaultRefFilter(
       TagCache tagCache,
       ChangeNotes.Factory changeNotesFactory,
-      @Nullable ChangeRefCache changeCache,
+      @Nullable SearchingChangeCacheImpl changeCache,
       GroupCache groupCache,
       PermissionBackend permissionBackend,
       @GerritServerConfig Config config,
@@ -118,9 +121,6 @@ class DefaultRefFilter {
                     "Rate of ref filter operations where we skip full evaluation"
                         + " because the user can read all refs")
                 .setRate());
-    // TODO(hiesel): Rework who can see change edits so that we can keep just a single set here.
-    this.visibleChanges = new HashMap<>();
-    this.inVisibleChanges = new HashSet<>();
   }
 
   Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
@@ -161,7 +161,6 @@ class DefaultRefFilter {
 
     Map<String, Ref> result = new HashMap<>();
     List<Ref> deferredTags = new ArrayList<>();
-    changeCache.bootstrapIfNecessary(projectState.getNameKey());
 
     for (Ref ref : refs.values()) {
       String name = ref.getName();
@@ -300,70 +299,111 @@ class DefaultRefFilter {
   }
 
   private boolean visible(Repository repo, Change.Id changeId) throws PermissionBackendException {
-    if (visibleChanges.containsKey(changeId)) {
-      return true;
-    }
-    if (inVisibleChanges.contains(changeId)) {
-      return false;
-    }
-    // TODO(hiesel): The project state should be checked once in the beginning an left alone
-    // thereafter.
-    if (!projectState.statePermitsRead()) {
-      return false;
-    }
-
-    Project.NameKey project = projectState.getNameKey();
-    try {
-      Ref metaRef = repo.exactRef(RefNames.changeMetaRef(changeId));
-      if (metaRef == null) {
-        logger.atWarning().log(
-            "can't read change meta ref for change %s on project %s", project, changeId);
-        inVisibleChanges.add(changeId);
-        return false;
+    if (visibleChanges == null) {
+      if (changeCache == null) {
+        visibleChanges = visibleChangesByScan(repo);
+      } else {
+        visibleChanges = visibleChangesBySearch();
       }
-
-      ChangeData cd = changeCache.getChangeData(project, changeId, metaRef.getObjectId());
-      ChangeNotes notes = changeNotesFactory.createFromIndexedChange(cd.change());
-      try {
-        permissionBackendForProject.indexedChange(cd, notes).check(ChangePermission.READ);
-        visibleChanges.put(cd.getId(), cd.change().getDest());
-        return true;
-      } catch (AuthException e) {
-        inVisibleChanges.add(changeId);
-        return false;
-      }
-    } catch (OrmException | IOException e) {
-      throw new PermissionBackendException(
-          "Cannot load change " + changeId + " for project " + project + ", assuming not visible",
-          e);
     }
+    return visibleChanges.containsKey(changeId);
   }
 
   private boolean visibleEdit(Repository repo, String name) throws PermissionBackendException {
     Change.Id id = Change.Id.fromEditRefPart(name);
-    if (id == null) {
-      return false;
+    // Initialize if it wasn't yet
+    if (visibleChanges == null) {
+      visible(repo, id);
     }
-    if (!visible(repo, id)) {
-      // Can't see the change, so can't see the edit.
+    if (id == null) {
       return false;
     }
 
     if (user.isIdentifiedUser()
-        && name.startsWith(RefNames.refsEditPrefix(user.asIdentifiedUser().getAccountId()))) {
-      // Own edit
+        && name.startsWith(RefNames.refsEditPrefix(user.asIdentifiedUser().getAccountId()))
+        && visible(repo, id)) {
       return true;
+    }
+    if (visibleChanges.containsKey(id)) {
+      try {
+        // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
+        permissionBackendForProject
+            .ref(visibleChanges.get(id).get())
+            .check(RefPermission.READ_PRIVATE_CHANGES);
+        return true;
+      } catch (AuthException e) {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  private Map<Change.Id, Branch.NameKey> visibleChangesBySearch()
+      throws PermissionBackendException {
+    Project.NameKey project = projectState.getNameKey();
+    try {
+      Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
+      for (ChangeData cd : changeCache.getChangeData(project)) {
+        ChangeNotes notes = changeNotesFactory.createFromIndexedChange(cd.change());
+        if (!projectState.statePermitsRead()) {
+          continue;
+        }
+        try {
+          permissionBackendForProject.indexedChange(cd, notes).check(ChangePermission.READ);
+          visibleChanges.put(cd.getId(), cd.change().getDest());
+        } catch (AuthException e) {
+          // Do nothing.
+        }
+      }
+      return visibleChanges;
+    } catch (OrmException e) {
+      logger.atSevere().withCause(e).log(
+          "Cannot load changes for project %s, assuming no changes are visible", project);
+      return Collections.emptyMap();
+    }
+  }
+
+  private Map<Change.Id, Branch.NameKey> visibleChangesByScan(Repository repo)
+      throws PermissionBackendException {
+    Project.NameKey p = projectState.getNameKey();
+    ImmutableList<ChangeNotesResult> changes;
+    try {
+      changes = changeNotesFactory.scan(repo, p).collect(toImmutableList());
+    } catch (IOException e) {
+      logger.atSevere().withCause(e).log(
+          "Cannot load changes for project %s, assuming no changes are visible", p);
+      return Collections.emptyMap();
+    }
+
+    Map<Change.Id, Branch.NameKey> result = Maps.newHashMapWithExpectedSize(changes.size());
+    for (ChangeNotesResult notesResult : changes) {
+      ChangeNotes notes = toNotes(notesResult);
+      if (notes != null) {
+        result.put(notes.getChangeId(), notes.getChange().getDest());
+      }
+    }
+    return result;
+  }
+
+  @Nullable
+  private ChangeNotes toNotes(ChangeNotesResult r) throws PermissionBackendException {
+    if (r.error().isPresent()) {
+      logger.atWarning().withCause(r.error().get()).log(
+          "Failed to load change %s in %s", r.id(), projectState.getName());
+      return null;
+    }
+
+    if (!projectState.statePermitsRead()) {
+      return null;
     }
 
     try {
-      // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
-      permissionBackendForProject
-          .ref(visibleChanges.get(id).get())
-          .check(RefPermission.READ_PRIVATE_CHANGES);
-      return true;
+      permissionBackendForProject.change(r.notes()).check(ChangePermission.READ);
+      return r.notes();
     } catch (AuthException e) {
-      return false;
+      // Skip.
     }
+    return null;
   }
 
   private boolean isMetadata(String name) {

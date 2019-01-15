@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -121,7 +122,7 @@ public class CreateRefControl {
    */
   private void checkCreateCommit(
       Repository repo, RevCommit commit, Project.NameKey project, PermissionBackend.ForRef forRef)
-      throws AuthException, PermissionBackendException {
+      throws AuthException, PermissionBackendException, IOException {
     try {
       // If the user has update (push) permission, they can create the ref regardless
       // of whether they are pushing any new objects along with the create.
@@ -130,7 +131,11 @@ public class CreateRefControl {
     } catch (AuthException denied) {
       // Fall through to check reachability.
     }
-    if (reachable.fromHeadsOrTags(project, repo, commit)) {
+    if (reachable.fromRefs(
+        project,
+        repo,
+        commit,
+        repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS, Constants.R_TAGS))) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are
       // not effectively "pushing" more objects, so they can create the ref

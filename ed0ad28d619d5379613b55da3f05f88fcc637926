@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a64f20ac_7ff7d96b",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-15T16:44:51Z",
+      "side": 1,
+      "message": "Unrelated to this change: this should have limit:1",
+      "revId": "ed0ad28d619d5379613b55da3f05f88fcc637926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6cc3ff4_45e6d030",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-15T16:44:51Z",
+      "side": 1,
+      "message": "Can we just propagate this exception?",
+      "revId": "ed0ad28d619d5379613b55da3f05f88fcc637926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d59b2d9f_470e3155",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-15T16:44:51Z",
+      "side": 1,
+      "message": "This is fine but at this point the method\u0027s logic is getting a little hard to follow. Can we restructure the whole thing?\n\n if (indexes.getSearchIndex() \u003d\u003d null) {\n   // No index in slaves, fall back to scanning refs.\n   return reachable.fromRefs(project, repo, commit, repo.getRefDatabase().getRefs());\n }\n Optional\u003cChangeData\u003e maybeChange \u003d search(project, commit);\n if (maybeChange.isPresent()) {\n   return true;\n }\n return reachable.fromRefs(project, repo, commit, getNonChangeRefs(index));",
+      "revId": "ed0ad28d619d5379613b55da3f05f88fcc637926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2993f05c_7ec7e844",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-15T16:44:51Z",
+      "side": 1,
+      "message": "Optional: the filter method immediately converts this to a Map. We could avoid the intermediate copy if we added a variant of filter that takes a Stream.",
+      "revId": "ed0ad28d619d5379613b55da3f05f88fcc637926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

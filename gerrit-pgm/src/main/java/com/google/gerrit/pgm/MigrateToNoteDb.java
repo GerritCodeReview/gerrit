@@ -59,15 +59,20 @@ public class MigrateToNoteDb extends SiteProgram {
   @Option(
       name = "--project",
       usage =
-          "Only rebuild these projects, do no other migration; incompatible with --change;"
-              + " recommended for debugging only")
+          "Only rebuild these projects, do no other migration; incompatible with --change"
+              + " and --skip-project; recommended for debugging only")
   private List<String> projects = new ArrayList<>();
+
+  @Option(
+      name = "--skip-project",
+      usage = "Rebuild all projects except these; incompatible with the --project and --change")
+  private List<String> skipProjects = new ArrayList<>();
 
   @Option(
       name = "--change",
       usage =
-          "Only rebuild these changes, do no other migration; incompatible with --project;"
-              + " recommended for debugging only")
+          "Only rebuild these changes, do no other migration; incompatible with --project and"
+              + " --skip-project; recommended for debugging only")
   private List<Integer> changes = new ArrayList<>();
 
   @Option(
@@ -128,12 +133,13 @@ public class MigrateToNoteDb extends SiteProgram {
               .setThreads(threads)
               .setProgressOut(System.err)
               .setProjects(projects.stream().map(Project.NameKey::new).collect(toList()))
+              .setSkipProjects(skipProjects.stream().map(Project.NameKey::new).collect(toList()))
               .setChanges(changes.stream().map(Change.Id::new).collect(toList()))
               .setTrialMode(trial)
               .setForceRebuild(force)
               .setSequenceGap(sequenceGap)
               .build()) {
-        if (!projects.isEmpty() || !changes.isEmpty()) {
+        if (!projects.isEmpty() || !changes.isEmpty() || !skipProjects.isEmpty()) {
           migrator.rebuild();
         } else {
           migrator.migrate();

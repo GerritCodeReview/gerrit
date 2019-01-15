@@ -69,6 +69,7 @@ java_library2(
     testonly = True,
     srcs = glob(["**/*.java"]),
     exported_deps = [
+        "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/gpg",
         "//java/com/google/gerrit/httpd/auth/openid",
         "//java/com/google/gerrit/index:query_exception",

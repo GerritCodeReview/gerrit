@@ -58,25 +58,11 @@ See details at link:config-project-config.html#submit-type[submit type].
 
 See details at link:config-project-config.html#project-section[project section].
 
-
 === Use target branch when determining new changes to open
 
-The `create-new-change-for-all-not-in-target` option provides a
-convenience for selecting link:user-upload.html#base[the merge base]
-by setting it automatically to the target branch's tip so you can
-create new changes for all commits not in the target branch.
-
-This option is disabled if the tip of the push is a merge commit.
-
-This option also only works if there are no merge commits in the
-commit chain, in such cases it fails warning the user that such
-pushes can only be performed by manually specifying
-link:user-upload.html#base[bases]
-
-This option is useful if you want to push a change to your personal
-branch first and for review to another branch for example. Or in cases
-where a commit is already merged into a branch and you want to create
-a new open change for that commit on another branch.
+See details at
+link:config-project-config.html#receive.createNewChangeForAllNotInTarget[
+create new change for all not intarget].
 
 [[require-change-id]]
 === Require Change-Id

@@ -47,7 +47,8 @@ public class Reachable {
 
   /**
    * @return true if a commit is reachable from a given set of refs. This method enforces
-   *     permissions on the given set of refs and performs a reachability check.
+   *     permissions on the given set of refs and performs a reachability check. Tags are not
+   *     filtered separately and will only be returned if reachable by a provided ref.
    */
   public boolean fromRefs(NameKey project, Repository repo, RevCommit commit, List<Ref> refs) {
     try (RevWalk rw = new RevWalk(repo)) {
@@ -55,7 +56,7 @@ public class Reachable {
           permissionBackend
               .currentUser()
               .project(project)
-              .filter(refs, repo, RefFilterOptions.builder().setFilterTagsSeparately(true).build());
+              .filter(refs, repo, RefFilterOptions.defaults());
       return IncludedInResolver.includedInAny(repo, rw, commit, filtered.values());
     } catch (IOException | PermissionBackendException e) {
       logger.atSevere().withCause(e).log(

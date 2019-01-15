@@ -358,6 +358,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
           repo,
           permissionBackend.user(user(user)).project(project),
           // Can't use stored values from the index so DB must be enabled.
+          false,
           "HEAD",
           psRef1,
           metaRef1,
@@ -377,10 +378,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Test
   public void uploadPackSequencesWithAccessDatabase() throws Exception {
     try (Repository repo = repoManager.openRepository(allProjects)) {
-      assertRefs(repo, newFilter(allProjects, user));
+      assertRefs(repo, newFilter(allProjects, user), true);
 
       allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-      assertRefs(repo, newFilter(allProjects, user), "refs/sequences/changes");
+      assertRefs(repo, newFilter(allProjects, user), true, "refs/sequences/changes");
     }
   }
 
@@ -728,16 +729,29 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
    */
   private void assertUploadPackRefs(String... expectedRefs) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
-      assertRefs(repo, permissionBackend.user(user(user)).project(project), expectedRefs);
+      assertRefs(repo, permissionBackend.user(user(user)).project(project), true, expectedRefs);
     }
   }
 
   private void assertRefs(
-      Repository repo, PermissionBackend.ForProject forProject, String... expectedRefs)
+      Repository repo,
+      PermissionBackend.ForProject forProject,
+      boolean disableDb,
+      String... expectedRefs)
       throws Exception {
-    Map<String, Ref> all = getAllRefs(repo);
-    assertThat(forProject.filter(all, repo, RefFilterOptions.defaults()).keySet())
-        .containsExactlyElementsIn(expectedRefs);
+    AutoCloseable ctx = null;
+    if (disableDb) {
+      ctx = disableNoteDb();
+    }
+    try {
+      Map<String, Ref> all = getAllRefs(repo);
+      assertThat(forProject.filter(all, repo, RefFilterOptions.defaults()).keySet())
+          .containsExactlyElementsIn(expectedRefs);
+    } finally {
+      if (disableDb) {
+        ctx.close();
+      }
+    }
   }
 
   private ReceiveCommitsAdvertiseRefsHook.Result getReceivePackRefs() throws Exception {

@@ -72,21 +72,8 @@ link:config-project-config.html#receive.requireChangeId[require change id].
 
 === Maximum Git Object Size Limit
 
-This option defines the maximum allowed Git object size that
-receive-pack will accept. If an object is larger than the given size
-the pack-parsing will abort and the push operation will fail.
-
-With this option users can be prevented from uploading commits that
-contain files which are too large.
-
-Normally the link:config-gerrit.html#receive.maxObjectSizeLimit[maximum
-Git object size limit] is configured globally for a Gerrit server. At
-the project level, the maximum Git object size limit can be further
-reduced, but not extended. The displayed effective limit shows the
-maximum Git object size limit that is actually used on the project.
-
-The defined maximum Git object size limit is inherited by any child
-project.
+See details at
+link:config-project-config.html#receive.maxObjectSizeLimit[max object size limit].
 
 [[require-signed-off-by]]
 === Require Signed-off-by

@@ -78,12 +78,8 @@ link:config-project-config.html#receive.maxObjectSizeLimit[max object size limit
 [[require-signed-off-by]]
 === Require Signed-off-by
 
-The `Require Signed-off-by in commit message` option defines whether a
-link:user-signedoffby.html[Signed-off-by] line in the commit message is
-required for pushing a commit. If this option is set, trying to push a
-commit that doesn't contain a Signed-off-by line in the commit message
-fails with link:error-not-signed-off-by.html[not Signed-off-by
-author/committer/uploader in commit message footer].
+See details at
+link:config-project-config.html#receive.requireSignedOffBy[require sign off by].
 
 [[branch-admin]]
 == Branch Administration

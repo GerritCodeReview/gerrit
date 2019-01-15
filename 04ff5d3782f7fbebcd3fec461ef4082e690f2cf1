@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "90c50e48_20444515",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreatorInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-15T18:12:05Z",
+      "side": 1,
+      "message": "I would prefer to remove it if it\u0027s not used.",
+      "parentUuid": "57b37405_004b5b30",
+      "revId": "04ff5d3782f7fbebcd3fec461ef4082e690f2cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4251ee67_bcd4fd73",
         "filename": "java/com/google/gerrit/server/schema/AllProjectsCreatorInput.java",
         "patchSetId": 4
@@ -107,6 +125,30 @@
       "side": 1,
       "message": "I called it \"builder\" before. But when I saw more defaults added into this method, I felt a simple \"builder\" was not accurate for what it\u0027s doing. \"builderWithDefault\" has an effect to remind callers that this method initializes some default they may want to check. How do you think?",
       "parentUuid": "4251ee67_bcd4fd73",
+      "range": {
+        "startLine": 68,
+        "startChar": 24,
+        "endLine": 68,
+        "endChar": 43
+      },
+      "revId": "04ff5d3782f7fbebcd3fec461ef4082e690f2cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b5beb79_16ffed04",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreatorInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-15T18:12:05Z",
+      "side": 1,
+      "message": "I think \"builder()\" already implies that it sets some defaults.\n\nAnother way to think of it is that some fields are optional, meaning if you don\u0027t call a setter then it falls back to some default value. I think the reader can understand that behavior without having \"WithDefaults\" in the name.",
+      "parentUuid": "e6e63627_f6b68ebe",
       "range": {
         "startLine": 68,
         "startChar": 24,

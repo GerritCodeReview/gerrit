@@ -1333,7 +1333,6 @@ public abstract class AbstractDaemonTest {
       throws Exception {
     TestRepository<?> localRepo = cloneProject(proj);
     GitUtil.fetch(localRepo, "refs/*:refs/*");
-    Map<String, Ref> refs = localRepo.getRepository().getAllRefs();
     Map<Branch.NameKey, RevTree> refValues = new HashMap<>();
 
     for (Branch.NameKey b : trees.keySet()) {
@@ -1341,7 +1340,7 @@ public abstract class AbstractDaemonTest {
         continue;
       }
 
-      Ref r = refs.get(b.get());
+      Ref r = localRepo.getRepository().exactRef(b.get());
       assertThat(r).isNotNull();
       RevWalk rw = localRepo.getRevWalk();
       RevCommit c = rw.parseCommit(r.getObjectId());

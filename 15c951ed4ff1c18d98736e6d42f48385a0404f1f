@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50688f0d_1168cbcf",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-15T18:09:31Z",
+      "side": 1,
+      "message": "Acceptance tests generally go in the acceptance package.\n\nOTOH, what is preventing this from being a small test? If you don\u0027t want to do all the injection manually, I think InMemoryModule should have all or almost all of what you want.",
+      "revId": "15c951ed4ff1c18d98736e6d42f48385a0404f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "821bab0a_33fb9fe4",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-15T18:09:31Z",
+      "side": 1,
+      "message": "Optional: I often find golden file contents like this easier to read if they are expressed as a list that you then join with \"\\n\" later. This has two advantages:\n\n* A single trailing , is less noisy than using + and \\n.\n* It\u0027s impossible to forget the trailing , because it\u0027s a syntax error.",
+      "revId": "15c951ed4ff1c18d98736e6d42f48385a0404f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c2a3c1f_d74a5172",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-15T18:09:31Z",
+      "side": 1,
+      "message": "I think this would be simpler if you use BlobBasedConfig.",
+      "revId": "15c951ed4ff1c18d98736e6d42f48385a0404f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "794c650b_9d30512e",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-15T18:09:31Z",
+      "side": 1,
+      "message": "Please add a .named here",
+      "revId": "15c951ed4ff1c18d98736e6d42f48385a0404f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5baa5d68_89e5e1e9",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-15T18:09:31Z",
+      "side": 1,
+      "message": "Please add a .named here",
+      "revId": "15c951ed4ff1c18d98736e6d42f48385a0404f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4969082_21f7daa1",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-15T18:09:31Z",
+      "side": 1,
+      "message": "Why is this necessary? There is an assertThat(T[]) method.",
+      "range": {
+        "startLine": 157,
+        "startChar": 23,
+        "endLine": 157,
+        "endChar": 36
+      },
+      "revId": "15c951ed4ff1c18d98736e6d42f48385a0404f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

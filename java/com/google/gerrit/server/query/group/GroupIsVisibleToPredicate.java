@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.group;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupControl;

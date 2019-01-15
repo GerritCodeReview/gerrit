@@ -17,7 +17,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
-import com.google.gerrit.common.errors.NotSignedInException;
+import com.google.gerrit.exceptions.NotSignedInException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.Schema;

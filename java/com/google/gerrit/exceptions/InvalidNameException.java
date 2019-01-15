@@ -12,15 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.errors;
+package com.google.gerrit.exceptions;
 
-/** Error indicating the SSH key string is invalid as supplied. */
-public class InvalidSshKeyException extends Exception {
+/** Error indicating the entity name is invalid as supplied. */
+public class InvalidNameException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public static final String MESSAGE = "Invalid SSH Key";
+  public static final String MESSAGE = "Invalid Name";
 
-  public InvalidSshKeyException() {
+  public InvalidNameException() {
     super(MESSAGE);
+  }
+
+  public InvalidNameException(String invalidName) {
+    super(MESSAGE + ": " + invalidName);
   }
 }

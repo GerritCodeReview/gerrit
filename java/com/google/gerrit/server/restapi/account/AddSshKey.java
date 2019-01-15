@@ -18,8 +18,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteSource;
-import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.common.errors.InvalidSshKeyException;
+import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.exceptions.InvalidSshKeyException;
 import com.google.gerrit.extensions.api.accounts.SshKeyInput;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.AuthException;

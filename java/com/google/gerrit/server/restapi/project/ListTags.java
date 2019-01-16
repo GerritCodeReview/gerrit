@@ -226,9 +226,6 @@ public class ListTags implements RestReadView<ProjectResource> {
     return permissionBackend
         .currentUser()
         .project(project)
-        .filter(
-            tags,
-            repo,
-            RefFilterOptions.builder().setFilterMeta(true).setFilterTagsSeparately(true).build());
+        .filter(tags, repo, RefFilterOptions.builder().setFilterMeta(true).build());
   }
 }

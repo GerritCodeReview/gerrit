@@ -743,13 +743,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     }
     try {
       Map<String, Ref> all = getAllRefs(repo);
-      assertThat(
-              forProject
-                  .filter(
-                      all,
-                      repo,
-                      RefFilterOptions.defaults().toBuilder().setFilterTagsSeparately(true).build())
-                  .keySet())
+      assertThat(forProject.filter(all, repo, RefFilterOptions.defaults()).keySet())
           .containsExactlyElementsIn(expectedRefs);
     } finally {
       if (disableDb) {

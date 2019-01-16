@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
@@ -135,7 +134,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
         return checkIdsForExpectedUser(key);
       }
       return checkIdsForArbitraryUser(key);
-    } catch (PGPException | StorageException e) {
+    } catch (PGPException | RuntimeException e) {
       String msg = "Error checking user IDs for key";
       logger.atWarning().withCause(e).log("%s %s", msg, keyIdToString(key.getKeyID()));
       return CheckResult.bad(msg);

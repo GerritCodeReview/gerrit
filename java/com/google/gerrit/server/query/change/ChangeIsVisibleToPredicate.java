@@ -58,7 +58,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
   }
 
   @Override
-  public boolean match(ChangeData cd) throws StorageException {
+  public boolean match(ChangeData cd) {
     if (cd.fastIsVisibleTo(user)) {
       return true;
     }

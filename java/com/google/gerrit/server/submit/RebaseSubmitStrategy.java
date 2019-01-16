@@ -119,7 +119,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
     @Override
     public void updateRepoImpl(RepoContext ctx)
         throws IntegrationException, InvalidChangeOperationException, RestApiException, IOException,
-            StorageException, PermissionBackendException {
+            PermissionBackendException {
       if (args.mergeUtil.canFastForward(
           args.mergeSorter, args.mergeTip.getCurrentTip(), args.rw, toMerge)) {
         if (!rebaseAlways) {
@@ -213,7 +213,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
 
     @Override
     public PatchSet updateChangeImpl(ChangeContext ctx)
-        throws NoSuchChangeException, ResourceConflictException, StorageException, IOException {
+        throws NoSuchChangeException, ResourceConflictException, IOException {
       if (newCommit == null) {
         checkState(!rebaseAlways, "RebaseAlways must never fast forward");
         // otherwise, took the fast-forward option, nothing to do.
@@ -245,7 +245,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
     }
 
     @Override
-    public void postUpdateImpl(Context ctx) throws StorageException {
+    public void postUpdateImpl(Context ctx) {
       if (rebaseOp != null) {
         rebaseOp.postUpdate(ctx);
       }

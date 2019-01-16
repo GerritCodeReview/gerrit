@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -72,7 +71,7 @@ public class CreateDraftComment
   @Override
   protected Response<CommentInfo> applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource rsrc, DraftInput in)
-      throws RestApiException, UpdateException, StorageException, PermissionBackendException {
+      throws RestApiException, UpdateException, PermissionBackendException {
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");
     } else if (in.message == null || in.message.trim().isEmpty()) {
@@ -106,7 +105,7 @@ public class CreateDraftComment
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, StorageException, UnprocessableEntityException,
+        throws ResourceNotFoundException, UnprocessableEntityException,
             PatchListNotAvailableException {
       PatchSet ps = psUtil.get(ctx.getNotes(), psId);
       if (ps == null) {

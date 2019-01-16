@@ -21,7 +21,6 @@ import static java.util.stream.Collectors.toMap;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -86,7 +85,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
 
   @Override
   public ObjectId rewriteCommitHistory(RevWalk revWalk, ObjectInserter inserter, ObjectId currTip)
-      throws IOException, ConfigInvalidException, StorageException {
+      throws IOException, ConfigInvalidException {
     checkArgument(!currTip.equals(ObjectId.zeroId()));
 
     // Walk from the first commit of the branch.

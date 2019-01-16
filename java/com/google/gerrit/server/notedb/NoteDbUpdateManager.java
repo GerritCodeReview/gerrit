@@ -348,10 +348,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
   /**
    * Stage updates in the manager's internal list of commands.
    *
-   * @throws StorageException if a database layer error occurs.
    * @throws IOException if a storage layer error occurs.
    */
-  private void stage() throws StorageException, IOException {
+  private void stage() throws IOException {
     try (Timer1.Context timer = metrics.stageUpdateLatency.start(CHANGES)) {
       if (isEmpty()) {
         return;
@@ -376,12 +375,12 @@ public class NoteDbUpdateManager implements AutoCloseable {
   }
 
   @Nullable
-  public BatchRefUpdate execute() throws StorageException, IOException {
+  public BatchRefUpdate execute() throws IOException {
     return execute(false);
   }
 
   @Nullable
-  public BatchRefUpdate execute(boolean dryrun) throws StorageException, IOException {
+  public BatchRefUpdate execute(boolean dryrun) throws IOException {
     checkNotExecuted();
     if (isEmpty()) {
       executed = true;
@@ -476,7 +475,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     return -1;
   }
 
-  private void addCommands() throws StorageException, IOException {
+  private void addCommands() throws IOException {
     if (isEmpty()) {
       return;
     }
@@ -522,7 +521,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   }
 
   private static <U extends AbstractChangeUpdate> void addUpdates(
-      ListMultimap<String, U> all, OpenRepo or) throws StorageException, IOException {
+      ListMultimap<String, U> all, OpenRepo or) throws IOException {
     for (Map.Entry<String, Collection<U>> e : all.asMap().entrySet()) {
       String refName = e.getKey();
       Collection<U> updates = e.getValue();
@@ -552,7 +551,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   }
 
   private static void addRewrites(ListMultimap<String, NoteDbRewriter> rewriters, OpenRepo openRepo)
-      throws StorageException, IOException {
+      throws IOException {
     for (Map.Entry<String, Collection<NoteDbRewriter>> entry : rewriters.asMap().entrySet()) {
       String refName = entry.getKey();
       ObjectId oldTip = openRepo.cmds.get(refName).orElse(ObjectId.zeroId());

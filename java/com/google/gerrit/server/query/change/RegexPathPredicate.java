@@ -26,7 +26,7 @@ public class RegexPathPredicate extends ChangeRegexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws StorageException {
+  public boolean match(ChangeData object) {
     List<String> files;
     try {
       files = object.currentFilePaths();

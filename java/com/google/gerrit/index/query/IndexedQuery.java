@@ -77,17 +77,17 @@ public class IndexedQuery<I, T> extends Predicate<T> implements DataSource<T>, P
   }
 
   @Override
-  public ResultSet<T> read() throws StorageException {
+  public ResultSet<T> read() {
     return source.read();
   }
 
   @Override
-  public ResultSet<FieldBundle> readRaw() throws StorageException {
+  public ResultSet<FieldBundle> readRaw() {
     return source.readRaw();
   }
 
   @Override
-  public ResultSet<T> restart(int start) throws StorageException {
+  public ResultSet<T> restart(int start) {
     opts = opts.withStart(start);
     try {
       source = index.getSource(pred, opts);

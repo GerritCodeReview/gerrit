@@ -134,7 +134,7 @@ public class AndSource<T> extends AndPredicate<T>
   }
 
   @Override
-  public boolean match(T object) throws StorageException {
+  public boolean match(T object) {
     if (isVisibleToPredicate != null && !isVisibleToPredicate.match(object)) {
       return false;
     }

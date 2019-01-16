@@ -29,7 +29,6 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -165,8 +164,7 @@ public class AddReviewersOp implements BatchUpdateOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, StorageException, IOException {
+  public boolean updateChange(ChangeContext ctx) throws RestApiException, IOException {
     change = ctx.getChange();
     if (!accountIds.isEmpty()) {
       if (state == CC) {

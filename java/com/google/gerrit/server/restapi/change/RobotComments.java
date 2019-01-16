@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -56,7 +55,7 @@ public class RobotComments implements ChildCollection<RevisionResource, RobotCom
 
   @Override
   public RobotCommentResource parse(RevisionResource rev, IdString id)
-      throws ResourceNotFoundException, StorageException {
+      throws ResourceNotFoundException {
     String uuid = id.get();
     ChangeNotes notes = rev.getNotes();
 

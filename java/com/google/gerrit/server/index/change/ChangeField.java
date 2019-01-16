@@ -153,7 +153,7 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_FILE)
           .buildRepeatable(cd -> firstNonNull(cd.currentFilePaths(), ImmutableList.of()));
 
-  public static Set<String> getFileParts(ChangeData cd) throws StorageException {
+  public static Set<String> getFileParts(ChangeData cd) {
     List<String> paths;
     try {
       paths = cd.currentFilePaths();
@@ -190,7 +190,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> EXTENSION =
       exact(ChangeQueryBuilder.FIELD_EXTENSION).buildRepeatable(ChangeField::getExtensions);
 
-  public static Set<String> getExtensions(ChangeData cd) throws StorageException {
+  public static Set<String> getExtensions(ChangeData cd) {
     try {
       return cd.currentFilePaths()
           .stream()
@@ -393,7 +393,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMIT =
       exact(ChangeQueryBuilder.FIELD_EXACTCOMMIT).buildRepeatable(ChangeField::getRevisions);
 
-  private static Set<String> getRevisions(ChangeData cd) throws StorageException {
+  private static Set<String> getRevisions(ChangeData cd) {
     Set<String> revisions = new HashSet<>();
     for (PatchSet ps : cd.patchSets()) {
       if (ps.getRevision() != null) {
@@ -412,7 +412,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> LABEL =
       exact("label2").buildRepeatable(cd -> getLabels(cd, true));
 
-  private static Iterable<String> getLabels(ChangeData cd, boolean owners) throws StorageException {
+  private static Iterable<String> getLabels(ChangeData cd, boolean owners) {
     Set<String> allApprovals = new HashSet<>();
     Set<String> distinctApprovals = new HashSet<>();
     for (PatchSetApproval a : cd.currentApprovals()) {
@@ -429,21 +429,19 @@ public class ChangeField {
     return allApprovals;
   }
 
-  public static Set<String> getAuthorParts(ChangeData cd) throws StorageException, IOException {
+  public static Set<String> getAuthorParts(ChangeData cd) throws IOException {
     return SchemaUtil.getPersonParts(cd.getAuthor());
   }
 
-  public static Set<String> getAuthorNameAndEmail(ChangeData cd)
-      throws StorageException, IOException {
+  public static Set<String> getAuthorNameAndEmail(ChangeData cd) throws IOException {
     return getNameAndEmail(cd.getAuthor());
   }
 
-  public static Set<String> getCommitterParts(ChangeData cd) throws StorageException, IOException {
+  public static Set<String> getCommitterParts(ChangeData cd) throws IOException {
     return SchemaUtil.getPersonParts(cd.getCommitter());
   }
 
-  public static Set<String> getCommitterNameAndEmail(ChangeData cd)
-      throws StorageException, IOException {
+  public static Set<String> getCommitterNameAndEmail(ChangeData cd) throws IOException {
     return getNameAndEmail(cd.getCommitter());
   }
 
@@ -780,7 +778,7 @@ public class ChangeField {
     return storedSubmitRecords(cd.submitRecords(opts));
   }
 
-  public static List<String> formatSubmitRecordValues(ChangeData cd) throws StorageException {
+  public static List<String> formatSubmitRecordValues(ChangeData cd) {
     return formatSubmitRecordValues(
         cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT), cd.change().getOwner());
   }
@@ -868,7 +866,7 @@ public class ChangeField {
                 return result;
               });
 
-  private static String getTopic(ChangeData cd) throws StorageException {
+  private static String getTopic(ChangeData cd) {
     Change c = cd.change();
     if (c == null) {
       return null;

@@ -17,7 +17,6 @@ package com.google.gerrit.sshd.commands;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -102,8 +101,7 @@ final class CreateGroupCommand extends SshCommand {
 
   @Override
   protected void run()
-      throws Failure, StorageException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws Failure, IOException, ConfigInvalidException, PermissionBackendException {
     try {
       GroupResource rsrc = createGroup();
 
@@ -120,8 +118,7 @@ final class CreateGroupCommand extends SshCommand {
   }
 
   private GroupResource createGroup()
-      throws RestApiException, StorageException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     GroupInput input = new GroupInput();
     input.description = groupDescription;
     input.visibleToAll = visibleToAll;
@@ -136,8 +133,7 @@ final class CreateGroupCommand extends SshCommand {
   }
 
   private void addMembers(GroupResource rsrc)
-      throws RestApiException, StorageException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     AddMembers.Input input =
         AddMembers.Input.fromMembers(
             initialMembers.stream().map(Object::toString).collect(toList()));
@@ -145,8 +141,7 @@ final class CreateGroupCommand extends SshCommand {
   }
 
   private void addSubgroups(GroupResource rsrc)
-      throws RestApiException, StorageException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     AddSubgroups.Input input =
         AddSubgroups.Input.fromGroups(
             initialGroups.stream().map(AccountGroup.UUID::get).collect(toList()));

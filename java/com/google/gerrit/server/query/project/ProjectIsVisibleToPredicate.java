@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.project;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.server.CurrentUser;
@@ -37,7 +36,7 @@ public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectDat
   }
 
   @Override
-  public boolean match(ProjectData pd) throws StorageException {
+  public boolean match(ProjectData pd) {
     if (!pd.getProject().getState().permitsRead()) {
       logger.atFine().log("Filter out non-readable project: %s", pd);
       return false;

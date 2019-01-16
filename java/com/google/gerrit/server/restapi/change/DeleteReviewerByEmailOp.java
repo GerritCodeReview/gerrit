@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.mail.Address;
@@ -60,7 +59,7 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws StorageException {
+  public boolean updateChange(ChangeContext ctx) {
     change = ctx.getChange();
     PatchSet.Id psId = ctx.getChange().currentPatchSetId();
     String msg = "Removed reviewer " + reviewer;

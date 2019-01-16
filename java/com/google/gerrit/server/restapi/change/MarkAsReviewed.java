@@ -52,7 +52,7 @@ public class MarkAsReviewed
 
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input)
-      throws RestApiException, StorageException, IllegalLabelException {
+      throws RestApiException, IllegalLabelException {
     stars.markAsReviewed(rsrc);
     return Response.ok("");
   }

@@ -47,7 +47,7 @@ public class ConflictsPredicate {
   private ConflictsPredicate() {}
 
   public static Predicate<ChangeData> create(Arguments args, String value, Change c)
-      throws QueryParseException, StorageException {
+      throws QueryParseException {
     ChangeData cd;
     List<String> files;
     try {
@@ -95,7 +95,7 @@ public class ConflictsPredicate {
     }
 
     @Override
-    public boolean match(ChangeData object) throws StorageException {
+    public boolean match(ChangeData object) {
       Change otherChange = object.change();
       if (otherChange == null || !otherChange.getDest().equals(dest)) {
         return false;
@@ -177,7 +177,7 @@ public class ConflictsPredicate {
       this.projectCache = projectCache;
     }
 
-    ObjectId getTestAgainst() throws StorageException {
+    ObjectId getTestAgainst() {
       if (testAgainst == null) {
         testAgainst = ObjectId.fromString(cd.currentPatchSet().getRevision().get());
       }

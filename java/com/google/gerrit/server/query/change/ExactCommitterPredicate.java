@@ -28,7 +28,7 @@ public class ExactCommitterPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws StorageException {
+  public boolean match(ChangeData object) {
     try {
       return ChangeField.getCommitterNameAndEmail(object).contains(getValue());
     } catch (IOException e) {

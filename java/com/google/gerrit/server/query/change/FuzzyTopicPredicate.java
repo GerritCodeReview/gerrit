@@ -33,7 +33,7 @@ public class FuzzyTopicPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) throws StorageException {
+  public boolean match(ChangeData cd) {
     Change change = cd.change();
     if (change == null) {
       return false;

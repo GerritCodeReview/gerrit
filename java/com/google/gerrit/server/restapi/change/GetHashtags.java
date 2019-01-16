@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -30,7 +29,7 @@ import java.util.Set;
 public class GetHashtags implements RestReadView<ChangeResource> {
   @Override
   public Response<Set<String>> apply(ChangeResource req)
-      throws AuthException, StorageException, IOException, BadRequestException {
+      throws AuthException, IOException, BadRequestException {
     ChangeNotes notes = req.getNotes().load();
     Set<String> hashtags = notes.getHashtags();
     if (hashtags == null) {

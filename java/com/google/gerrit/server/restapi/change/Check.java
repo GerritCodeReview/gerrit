@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -47,14 +46,13 @@ public class Check
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource rsrc) throws RestApiException, StorageException {
+  public Response<ChangeInfo> apply(ChangeResource rsrc) throws RestApiException {
     return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, FixInput input)
-      throws RestApiException, StorageException, PermissionBackendException, NoSuchProjectException,
-          IOException {
+      throws RestApiException, PermissionBackendException, NoSuchProjectException, IOException {
     PermissionBackend.WithUser perm = permissionBackend.currentUser();
     if (!rsrc.isUserOwner()) {
       try {

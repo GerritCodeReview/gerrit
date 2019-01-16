@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.config;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.CheckAccountExternalIdsResultInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.CheckAccountsResultInfo;
@@ -56,8 +55,7 @@ public class CheckConsistency implements RestModifyView<ConfigResource, Consiste
 
   @Override
   public ConsistencyCheckInfo apply(ConfigResource resource, ConsistencyCheckInput input)
-      throws RestApiException, IOException, StorageException, PermissionBackendException,
-          ConfigInvalidException {
+      throws RestApiException, IOException, PermissionBackendException, ConfigInvalidException {
     permissionBackend.currentUser().check(GlobalPermission.ACCESS_DATABASE);
 
     if (input == null

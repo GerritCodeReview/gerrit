@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
@@ -68,7 +67,7 @@ public class DeleteAssignee
   @Override
   protected Response<AccountInfo> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
-      throws RestApiException, UpdateException, StorageException, PermissionBackendException {
+      throws RestApiException, UpdateException, PermissionBackendException {
     rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
 
     try (BatchUpdate bu =
@@ -88,7 +87,7 @@ public class DeleteAssignee
     private AccountState deletedAssignee;
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws RestApiException, StorageException {
+    public boolean updateChange(ChangeContext ctx) throws RestApiException {
       change = ctx.getChange();
       ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
       Account.Id currentAssigneeId = change.getAssignee();
@@ -120,7 +119,7 @@ public class DeleteAssignee
     }
 
     @Override
-    public void postUpdate(Context ctx) throws StorageException {
+    public void postUpdate(Context ctx) {
       assigneeChanged.fire(change, ctx.getAccount(), deletedAssignee, ctx.getWhen());
     }
   }

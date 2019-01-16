@@ -30,7 +30,6 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multiset;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -465,7 +464,7 @@ public class BatchUpdate implements AutoCloseable {
       checkArgument(old == null, "result for change %s already set: %s", id, old);
     }
 
-    void execute() throws StorageException, IOException {
+    void execute() throws IOException {
       BatchUpdate.this.batchRefUpdate = manager.execute(dryrun);
     }
 
@@ -548,7 +547,7 @@ public class BatchUpdate implements AutoCloseable {
     return handle;
   }
 
-  private ChangeContextImpl newChangeContext(Change.Id id) throws StorageException {
+  private ChangeContextImpl newChangeContext(Change.Id id) {
     logDebug("Opening change %s for update", id);
     Change c = newChanges.get(id);
     boolean isNew = c != null;

@@ -16,7 +16,6 @@ package com.google.gerrit.server.submit;
 
 import static java.util.stream.Collectors.toSet;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -88,8 +87,7 @@ public enum CommitMergeStatus {
   }
 
   public static String createMissingDependencyMessage(
-      Provider<InternalChangeQuery> queryProvider, String commit, String otherCommit)
-      throws StorageException {
+      Provider<InternalChangeQuery> queryProvider, String commit, String otherCommit) {
     List<ChangeData> changes = queryProvider.get().enforceVisibility(true).byCommit(otherCommit);
 
     if (changes.isEmpty()) {

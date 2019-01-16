@@ -24,7 +24,6 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.exceptions.InvalidSshKeyException;
 import com.google.gerrit.exceptions.NoSuchGroupException;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -103,13 +102,13 @@ public class CreateAccount
   public Response<AccountInfo> apply(
       TopLevelResource rsrc, IdString id, @Nullable AccountInput input)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
-          StorageException, IOException, ConfigInvalidException, PermissionBackendException {
+          IOException, ConfigInvalidException, PermissionBackendException {
     return apply(id, input != null ? input : new AccountInput());
   }
 
   public Response<AccountInfo> apply(IdString id, AccountInput input)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
-          StorageException, IOException, ConfigInvalidException, PermissionBackendException {
+          IOException, ConfigInvalidException, PermissionBackendException {
     String username = id.get();
     if (input.username != null && !username.equals(input.username)) {
       throw new BadRequestException("username must match URL");
@@ -189,7 +188,7 @@ public class CreateAccount
   }
 
   private void addGroupMember(AccountGroup.UUID groupUuid, Account.Id accountId)
-      throws StorageException, IOException, NoSuchGroupException, ConfigInvalidException {
+      throws IOException, NoSuchGroupException, ConfigInvalidException {
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
             .setMemberModification(memberIds -> Sets.union(memberIds, ImmutableSet.of(accountId)))

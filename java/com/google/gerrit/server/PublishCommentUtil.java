@@ -47,8 +47,7 @@ public class PublishCommentUtil {
   }
 
   public void publish(
-      ChangeContext ctx, PatchSet.Id psId, Collection<Comment> drafts, @Nullable String tag)
-      throws StorageException {
+      ChangeContext ctx, PatchSet.Id psId, Collection<Comment> drafts, @Nullable String tag) {
     ChangeNotes notes = ctx.getNotes();
     checkArgument(notes != null);
     if (drafts.isEmpty()) {

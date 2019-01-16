@@ -19,7 +19,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
@@ -213,7 +212,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     return update;
   }
 
-  protected ChangeNotes newNotes(Change c) throws StorageException {
+  protected ChangeNotes newNotes(Change c) {
     return new ChangeNotes(args, c, true, null).load();
   }
 

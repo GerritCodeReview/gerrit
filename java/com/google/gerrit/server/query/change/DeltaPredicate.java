@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
 
@@ -24,7 +23,7 @@ public class DeltaPredicate extends IntegerRangeChangePredicate {
   }
 
   @Override
-  protected Integer getValueInt(ChangeData changeData) throws StorageException {
+  protected Integer getValueInt(ChangeData changeData) {
     return ChangeField.DELTA.get(changeData);
   }
 }

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -57,7 +56,7 @@ public class SetEditPreferences implements RestModifyView<AccountResource, EditP
   @Override
   public EditPreferencesInfo apply(AccountResource rsrc, EditPreferencesInfo input)
       throws RestApiException, RepositoryNotFoundException, IOException, ConfigInvalidException,
-          PermissionBackendException, StorageException {
+          PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -37,8 +36,7 @@ public class GetDetail implements RestReadView<AccountResource> {
   }
 
   @Override
-  public AccountDetailInfo apply(AccountResource rsrc)
-      throws StorageException, PermissionBackendException {
+  public AccountDetailInfo apply(AccountResource rsrc) throws PermissionBackendException {
     Account a = rsrc.getUser().getAccount();
     AccountDetailInfo info = new AccountDetailInfo(a.getId().get());
     info.registeredOn = a.getRegisteredOn();

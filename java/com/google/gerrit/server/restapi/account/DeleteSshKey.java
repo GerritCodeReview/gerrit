@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -55,8 +54,8 @@ public class DeleteSshKey implements RestModifyView<AccountResource.SshKey, Inpu
 
   @Override
   public Response<?> apply(AccountResource.SshKey rsrc, Input input)
-      throws AuthException, StorageException, RepositoryNotFoundException, IOException,
-          ConfigInvalidException, PermissionBackendException {
+      throws AuthException, RepositoryNotFoundException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }

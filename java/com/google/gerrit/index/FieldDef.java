@@ -60,7 +60,7 @@ public final class FieldDef<I, T> {
 
   @FunctionalInterface
   public interface Getter<I, T> {
-    T get(I input) throws StorageException, IOException;
+    T get(I input) throws IOException;
   }
 
   public static class Builder<T> {
@@ -131,9 +131,8 @@ public final class FieldDef<I, T> {
    *
    * @param input input object.
    * @return the field value(s) to index.
-   * @throws StorageException
    */
-  public T get(I input) throws StorageException {
+  public T get(I input) {
     try {
       return getter.get(input);
     } catch (IOException e) {

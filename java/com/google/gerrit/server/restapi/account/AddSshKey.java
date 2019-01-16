@@ -20,7 +20,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteSource;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.InvalidSshKeyException;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.accounts.SshKeyInput;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -72,8 +71,8 @@ public class AddSshKey
 
   @Override
   public Response<SshKeyInfo> apply(AccountResource rsrc, SshKeyInput input)
-      throws AuthException, BadRequestException, StorageException, IOException,
-          ConfigInvalidException, PermissionBackendException {
+      throws AuthException, BadRequestException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }

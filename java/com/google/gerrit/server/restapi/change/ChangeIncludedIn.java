@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -38,8 +37,7 @@ public class ChangeIncludedIn implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public IncludedInInfo apply(ChangeResource rsrc)
-      throws RestApiException, StorageException, IOException {
+  public IncludedInInfo apply(ChangeResource rsrc) throws RestApiException, IOException {
     PatchSet ps = psUtil.current(rsrc.getNotes());
     return includedIn.apply(rsrc.getProject(), ps.getRevision().get());
   }

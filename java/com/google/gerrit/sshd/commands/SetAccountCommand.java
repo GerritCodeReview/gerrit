@@ -19,7 +19,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.exceptions.EmailException;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.SshKeyInput;
 import com.google.gerrit.extensions.common.EmailInfo;
@@ -213,8 +212,7 @@ final class SetAccountCommand extends SshCommand {
   }
 
   private void setAccount()
-      throws StorageException, IOException, UnloggedFailure, ConfigInvalidException,
-          PermissionBackendException {
+      throws IOException, UnloggedFailure, ConfigInvalidException, PermissionBackendException {
     user = genericUserFactory.create(id);
     rsrc = new AccountResource(user.asIdentifiedUser());
     try {
@@ -273,8 +271,7 @@ final class SetAccountCommand extends SshCommand {
   }
 
   private void addSshKeys(List<String> sshKeys)
-      throws RestApiException, StorageException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     for (String sshKey : sshKeys) {
       SshKeyInput in = new SshKeyInput();
       in.raw = RawInputUtil.create(sshKey.getBytes(UTF_8), "plain/text");
@@ -283,8 +280,8 @@ final class SetAccountCommand extends SshCommand {
   }
 
   private void deleteSshKeys(List<String> sshKeys)
-      throws RestApiException, StorageException, RepositoryNotFoundException, IOException,
-          ConfigInvalidException, PermissionBackendException {
+      throws RestApiException, RepositoryNotFoundException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     List<SshKeyInfo> infos = getSshKeys.apply(rsrc);
     if (sshKeys.contains("ALL")) {
       for (SshKeyInfo i : infos) {
@@ -302,15 +299,15 @@ final class SetAccountCommand extends SshCommand {
   }
 
   private void deleteSshKey(SshKeyInfo i)
-      throws AuthException, StorageException, RepositoryNotFoundException, IOException,
-          ConfigInvalidException, PermissionBackendException {
+      throws AuthException, RepositoryNotFoundException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     AccountSshKey sshKey = AccountSshKey.create(user.getAccountId(), i.seq, i.sshPublicKey);
     deleteSshKey.apply(new AccountResource.SshKey(user.asIdentifiedUser(), sshKey), null);
   }
 
   private void addEmail(String email)
-      throws UnloggedFailure, RestApiException, StorageException, IOException,
-          ConfigInvalidException, PermissionBackendException {
+      throws UnloggedFailure, RestApiException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     EmailInput in = new EmailInput();
     in.email = email;
     in.noConfirmation = true;
@@ -322,8 +319,7 @@ final class SetAccountCommand extends SshCommand {
   }
 
   private void deleteEmail(String email)
-      throws RestApiException, StorageException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     if (email.equals("ALL")) {
       List<EmailInfo> emails = getEmails.apply(rsrc);
       for (EmailInfo e : emails) {
@@ -335,8 +331,7 @@ final class SetAccountCommand extends SshCommand {
   }
 
   private void putPreferred(String email)
-      throws RestApiException, StorageException, IOException, PermissionBackendException,
-          ConfigInvalidException {
+      throws RestApiException, IOException, PermissionBackendException, ConfigInvalidException {
     for (EmailInfo e : getEmails.apply(rsrc)) {
       if (e.email.equals(email)) {
         putPreferred.apply(new AccountResource.Email(user.asIdentifiedUser(), email), null);

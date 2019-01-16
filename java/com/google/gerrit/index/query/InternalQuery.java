@@ -88,11 +88,11 @@ public class InternalQuery<T, Q extends InternalQuery<T, Q>> {
     return self();
   }
 
-  public final List<T> query(Predicate<T> p) throws StorageException {
+  public final List<T> query(Predicate<T> p) {
     return queryResults(p).entities();
   }
 
-  final QueryResult<T> queryResults(Predicate<T> p) throws StorageException {
+  final QueryResult<T> queryResults(Predicate<T> p) {
     try {
       return queryProcessor.query(p);
     } catch (QueryParseException e) {
@@ -110,7 +110,7 @@ public class InternalQuery<T, Q extends InternalQuery<T, Q>> {
    * @return results of the queries, one list of results per input query, in the same order as the
    *     input.
    */
-  public final List<List<T>> query(List<Predicate<T>> queries) throws StorageException {
+  public final List<List<T>> query(List<Predicate<T>> queries) {
     try {
       return Lists.transform(queryProcessor.query(queries), QueryResult::entities);
     } catch (QueryParseException e) {
@@ -144,11 +144,9 @@ public class InternalQuery<T, Q extends InternalQuery<T, Q>> {
    * @param predicate predicate to search for.
    * @param <T> result type.
    * @return exhaustive list of results, subject to the race condition described above.
-   * @throws StorageException if an error occurred.
    */
   protected static <T> ImmutableList<T> queryExhaustively(
-      Supplier<? extends InternalQuery<T, ?>> querySupplier, Predicate<T> predicate)
-      throws StorageException {
+      Supplier<? extends InternalQuery<T, ?>> querySupplier, Predicate<T> predicate) {
     ImmutableList.Builder<T> b = null;
     int start = 0;
     while (true) {

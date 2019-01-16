@@ -22,7 +22,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.DataSource;
@@ -81,7 +80,7 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
   }
 
   @Override
-  public ResultSet<ChangeData> read() throws StorageException {
+  public ResultSet<ChangeData> read() {
     final DataSource<ChangeData> currSource = source;
     final ResultSet<ChangeData> rs = currSource.read();
 
@@ -114,7 +113,7 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
   }
 
   @Override
-  public boolean match(ChangeData cd) throws StorageException {
+  public boolean match(ChangeData cd) {
     if (source != null && fromSource.get(cd) == source) {
       return true;
     }

@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -102,7 +101,7 @@ public class ReviewerRecommender {
       SuggestReviewers suggestReviewers,
       ProjectState projectState,
       List<Account.Id> candidateList)
-      throws StorageException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     logger.atFine().log("Candidates %s", candidateList);
 
     String query = suggestReviewers.getQuery();
@@ -201,7 +200,7 @@ public class ReviewerRecommender {
   }
 
   private Map<Account.Id, MutableDouble> baseRankingForEmptyQuery(double baseWeight)
-      throws StorageException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     // Get the user's last 25 changes, check approvals
     try {
       List<ChangeData> result =
@@ -231,7 +230,7 @@ public class ReviewerRecommender {
 
   private Map<Account.Id, MutableDouble> baseRankingForCandidateList(
       List<Account.Id> candidates, ProjectState projectState, double baseWeight)
-      throws StorageException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     // Get each reviewer's activity based on number of applied labels
     // (weighted 10d), number of comments (weighted 0.5d) and number of owned
     // changes (weighted 1d).

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.group;
 
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -56,8 +55,8 @@ public class MembersCollection implements ChildCollection<GroupResource, MemberR
 
   @Override
   public MemberResource parse(GroupResource parent, IdString id)
-      throws NotInternalGroupException, AuthException, ResourceNotFoundException, StorageException,
-          IOException, ConfigInvalidException {
+      throws NotInternalGroupException, AuthException, ResourceNotFoundException, IOException,
+          ConfigInvalidException {
     GroupDescription.Internal group =
         parent.asInternalGroup().orElseThrow(NotInternalGroupException::new);
 

@@ -294,8 +294,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     return true;
   }
 
-  private PatchSet getOrCreateAlreadyMergedPatchSet(ChangeContext ctx)
-      throws IOException, StorageException {
+  private PatchSet getOrCreateAlreadyMergedPatchSet(ChangeContext ctx) throws IOException {
     PatchSet.Id psId = alreadyMergedCommit.getPatchsetId();
     logger.atFine().log("Fixing up already-merged patch set %s", psId);
     PatchSet prevPs = args.psUtil.current(ctx.getNotes());
@@ -317,8 +316,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         ctx.getRevWalk(), ctx.getUpdate(psId), psId, alreadyMergedCommit, groups, null, null);
   }
 
-  private void setApproval(ChangeContext ctx, IdentifiedUser user)
-      throws StorageException, IOException {
+  private void setApproval(ChangeContext ctx, IdentifiedUser user) throws IOException {
     Change.Id id = ctx.getChange().getId();
     List<SubmitRecord> records = args.commitStatus.getSubmitRecords(id);
     PatchSet.Id oldPsId = toMerge.getPatchsetId();
@@ -340,7 +338,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   private LabelNormalizer.Result approve(ChangeContext ctx, ChangeUpdate update)
-      throws StorageException, IOException {
+      throws IOException {
     PatchSet.Id psId = update.getPatchSetId();
     Map<PatchSetApproval.Key, PatchSetApproval> byKey = new HashMap<>();
     for (PatchSetApproval psa :
@@ -404,8 +402,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     return "";
   }
 
-  private ChangeMessage message(ChangeContext ctx, CodeReviewCommit commit, CommitMergeStatus s)
-      throws StorageException {
+  private ChangeMessage message(ChangeContext ctx, CodeReviewCommit commit, CommitMergeStatus s) {
     requireNonNull(s, "CommitMergeStatus may not be null");
     String txt = s.getDescription();
     if (s == CommitMergeStatus.CLEAN_MERGE) {

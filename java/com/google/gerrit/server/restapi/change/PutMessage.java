@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.common.FooterConstants;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -100,7 +99,7 @@ public class PutMessage
   protected Response<String> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource resource, CommitMessageInput input)
       throws IOException, RestApiException, UpdateException, PermissionBackendException,
-          StorageException, ConfigInvalidException {
+          ConfigInvalidException {
     PatchSet ps = psUtil.current(resource.getNotes());
     if (ps == null) {
       throw new ResourceConflictException("current revision is missing");
@@ -172,8 +171,7 @@ public class PutMessage
   }
 
   private void ensureCanEditCommitMessage(ChangeNotes changeNotes)
-      throws AuthException, PermissionBackendException, IOException, ResourceConflictException,
-          StorageException {
+      throws AuthException, PermissionBackendException, IOException, ResourceConflictException {
     if (!userProvider.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

@@ -45,7 +45,7 @@ public class NoteDbSchemaVersionManager {
     this.repoManager = repoManager;
   }
 
-  public int read() throws StorageException {
+  public int read() {
     try (Repository repo = repoManager.openRepository(allProjectsName)) {
       return IntBlob.parse(repo, REFS_VERSION).map(IntBlob::value).orElse(0);
     } catch (IOException e) {
@@ -53,7 +53,7 @@ public class NoteDbSchemaVersionManager {
     }
   }
 
-  public void init() throws IOException, StorageException {
+  public void init() throws IOException {
     try (Repository repo = repoManager.openRepository(allProjectsName);
         RevWalk rw = new RevWalk(repo)) {
       Optional<IntBlob> old = IntBlob.parse(repo, REFS_VERSION, rw);
@@ -73,7 +73,7 @@ public class NoteDbSchemaVersionManager {
     }
   }
 
-  public void increment(int expectedOldVersion) throws IOException, StorageException {
+  public void increment(int expectedOldVersion) throws IOException {
     try (Repository repo = repoManager.openRepository(allProjectsName);
         RevWalk rw = new RevWalk(repo)) {
       Optional<IntBlob> old = IntBlob.parse(repo, REFS_VERSION, rw);

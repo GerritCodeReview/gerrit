@@ -18,7 +18,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
@@ -70,7 +69,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
 
   @Override
   public List<TestSubmitRuleInfo> apply(RevisionResource rsrc, TestSubmitRuleInput input)
-      throws AuthException, StorageException, PermissionBackendException, BadRequestException {
+      throws AuthException, PermissionBackendException, BadRequestException {
     if (input == null) {
       input = new TestSubmitRuleInput();
     }

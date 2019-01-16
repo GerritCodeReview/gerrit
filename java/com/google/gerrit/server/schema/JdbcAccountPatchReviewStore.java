@@ -176,7 +176,7 @@ public abstract class JdbcAccountPatchReviewStore
     return ds.getConnection();
   }
 
-  public void createTableIfNotExists() throws StorageException {
+  public void createTableIfNotExists() {
     try (Connection con = ds.getConnection();
         Statement stmt = con.createStatement()) {
       doCreateTable(stmt);
@@ -197,7 +197,7 @@ public abstract class JdbcAccountPatchReviewStore
             + ")");
   }
 
-  public void dropTableIfExists() throws StorageException {
+  public void dropTableIfExists() {
     try (Connection con = ds.getConnection();
         Statement stmt = con.createStatement()) {
       stmt.executeUpdate("DROP TABLE IF EXISTS account_patch_reviews");
@@ -210,8 +210,7 @@ public abstract class JdbcAccountPatchReviewStore
   public void stop() {}
 
   @Override
-  public boolean markReviewed(PatchSet.Id psId, Account.Id accountId, String path)
-      throws StorageException {
+  public boolean markReviewed(PatchSet.Id psId, Account.Id accountId, String path) {
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
@@ -234,8 +233,7 @@ public abstract class JdbcAccountPatchReviewStore
   }
 
   @Override
-  public void markReviewed(PatchSet.Id psId, Account.Id accountId, Collection<String> paths)
-      throws StorageException {
+  public void markReviewed(PatchSet.Id psId, Account.Id accountId, Collection<String> paths) {
     if (paths == null || paths.isEmpty()) {
       return;
     }
@@ -264,8 +262,7 @@ public abstract class JdbcAccountPatchReviewStore
   }
 
   @Override
-  public void clearReviewed(PatchSet.Id psId, Account.Id accountId, String path)
-      throws StorageException {
+  public void clearReviewed(PatchSet.Id psId, Account.Id accountId, String path) {
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
@@ -283,7 +280,7 @@ public abstract class JdbcAccountPatchReviewStore
   }
 
   @Override
-  public void clearReviewed(PatchSet.Id psId) throws StorageException {
+  public void clearReviewed(PatchSet.Id psId) {
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
@@ -298,8 +295,7 @@ public abstract class JdbcAccountPatchReviewStore
   }
 
   @Override
-  public Optional<PatchSetWithReviewedFiles> findReviewed(PatchSet.Id psId, Account.Id accountId)
-      throws StorageException {
+  public Optional<PatchSetWithReviewedFiles> findReviewed(PatchSet.Id psId, Account.Id accountId) {
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(

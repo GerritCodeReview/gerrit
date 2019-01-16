@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.exceptions.NoSuchGroupException;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -57,7 +56,7 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
   @Override
   public Response<?> apply(GroupResource resource, Input input)
       throws AuthException, NotInternalGroupException, UnprocessableEntityException,
-          StorageException, ResourceNotFoundException, IOException, ConfigInvalidException {
+          ResourceNotFoundException, IOException, ConfigInvalidException {
     GroupDescription.Internal internalGroup =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     input = Input.init(input);
@@ -86,7 +85,7 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
 
   private void removeSubgroups(
       AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> removedSubgroupUuids)
-      throws StorageException, NoSuchGroupException, IOException, ConfigInvalidException {
+      throws NoSuchGroupException, IOException, ConfigInvalidException {
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
             .setSubgroupModification(
@@ -108,7 +107,7 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
     @Override
     public Response<?> apply(SubgroupResource resource, Input input)
         throws AuthException, MethodNotAllowedException, UnprocessableEntityException,
-            StorageException, ResourceNotFoundException, IOException, ConfigInvalidException {
+            ResourceNotFoundException, IOException, ConfigInvalidException {
       AddSubgroups.Input in = new AddSubgroups.Input();
       in.groups = ImmutableList.of(resource.getMember().get());
       return delete.get().apply(resource, in);

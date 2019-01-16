@@ -34,7 +34,7 @@ public class CanSeeChangePredicate extends PostFilterPredicate<AccountState> {
   }
 
   @Override
-  public boolean match(AccountState accountState) throws StorageException {
+  public boolean match(AccountState accountState) {
     try {
       permissionBackend
           .absentUser(accountState.getAccount().getId())

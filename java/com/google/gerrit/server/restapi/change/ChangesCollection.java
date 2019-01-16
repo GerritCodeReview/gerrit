@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -81,7 +80,7 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
 
   @Override
   public ChangeResource parse(TopLevelResource root, IdString id)
-      throws RestApiException, StorageException, PermissionBackendException, IOException {
+      throws RestApiException, PermissionBackendException, IOException {
     List<ChangeNotes> notes = changeFinder.find(id.encoded(), true);
     if (notes.isEmpty()) {
       throw new ResourceNotFoundException(id);
@@ -98,8 +97,8 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
   }
 
   public ChangeResource parse(Change.Id id)
-      throws ResourceConflictException, ResourceNotFoundException, StorageException,
-          PermissionBackendException, IOException {
+      throws ResourceConflictException, ResourceNotFoundException, PermissionBackendException,
+          IOException {
     List<ChangeNotes> notes = changeFinder.find(id);
     if (notes.isEmpty()) {
       throw new ResourceNotFoundException(toIdString(id));

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.group;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.group.SubgroupResource;
@@ -32,8 +31,7 @@ public class GetSubgroup implements RestReadView<SubgroupResource> {
   }
 
   @Override
-  public GroupInfo apply(SubgroupResource rsrc)
-      throws StorageException, PermissionBackendException {
+  public GroupInfo apply(SubgroupResource rsrc) throws PermissionBackendException {
     return json.format(rsrc.getMemberDescription());
   }
 }

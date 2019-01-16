@@ -18,7 +18,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -158,8 +157,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws StorageException, AuthException, ResourceNotFoundException, IOException,
-            PermissionBackendException {
+        throws AuthException, ResourceNotFoundException, IOException, PermissionBackendException {
       change = ctx.getChange();
       PatchSet.Id psId = change.currentPatchSetId();
       ps = psUtil.current(ctx.getNotes());

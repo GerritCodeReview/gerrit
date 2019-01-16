@@ -18,7 +18,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.exceptions.InvalidNameException;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -83,8 +82,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   @Override
   public ProjectAccessInfo apply(ProjectResource rsrc, ProjectAccessInput input)
       throws ResourceNotFoundException, ResourceConflictException, IOException, AuthException,
-          BadRequestException, UnprocessableEntityException, StorageException,
-          PermissionBackendException {
+          BadRequestException, UnprocessableEntityException, PermissionBackendException {
     MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();
 
     ProjectConfig config;

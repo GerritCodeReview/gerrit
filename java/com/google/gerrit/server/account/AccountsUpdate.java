@@ -259,12 +259,11 @@ public class AccountsUpdate {
    * @return the newly created account
    * @throws DuplicateKeyException if the account already exists
    * @throws IOException if creating the user branch fails due to an IO error
-   * @throws StorageException if creating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public AccountState insert(
       String message, Account.Id accountId, Consumer<InternalAccountUpdate.Builder> init)
-      throws StorageException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     return insert(message, accountId, AccountUpdater.fromConsumer(init));
   }
 
@@ -277,11 +276,10 @@ public class AccountsUpdate {
    * @return the newly created account
    * @throws DuplicateKeyException if the account already exists
    * @throws IOException if creating the user branch fails due to an IO error
-   * @throws StorageException if creating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public AccountState insert(String message, Account.Id accountId, AccountUpdater updater)
-      throws StorageException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     return updateAccount(
             r -> {
               AccountConfig accountConfig = read(r, accountId);
@@ -315,12 +313,11 @@ public class AccountsUpdate {
    * @throws IOException if updating the user branch fails due to an IO error
    * @throws LockFailureException if updating the user branch still fails due to concurrent updates
    *     after the retry timeout exceeded
-   * @throws StorageException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public Optional<AccountState> update(
       String message, Account.Id accountId, Consumer<InternalAccountUpdate.Builder> update)
-      throws StorageException, LockFailureException, IOException, ConfigInvalidException {
+      throws LockFailureException, IOException, ConfigInvalidException {
     return update(message, accountId, AccountUpdater.fromConsumer(update));
   }
 
@@ -336,11 +333,10 @@ public class AccountsUpdate {
    * @throws IOException if updating the user branch fails due to an IO error
    * @throws LockFailureException if updating the user branch still fails due to concurrent updates
    *     after the retry timeout exceeded
-   * @throws StorageException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public Optional<AccountState> update(String message, Account.Id accountId, AccountUpdater updater)
-      throws StorageException, LockFailureException, IOException, ConfigInvalidException {
+      throws LockFailureException, IOException, ConfigInvalidException {
     return updateAccount(
         r -> {
           AccountConfig accountConfig = read(r, accountId);
@@ -371,7 +367,7 @@ public class AccountsUpdate {
   }
 
   private Optional<AccountState> updateAccount(AccountUpdate accountUpdate)
-      throws IOException, ConfigInvalidException, StorageException {
+      throws IOException, ConfigInvalidException {
     return executeAccountUpdate(
         () -> {
           try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
@@ -387,7 +383,7 @@ public class AccountsUpdate {
   }
 
   private Optional<AccountState> executeAccountUpdate(Action<Optional<AccountState>> action)
-      throws IOException, ConfigInvalidException, StorageException {
+      throws IOException, ConfigInvalidException {
     try {
       return retryHelper.execute(
           ActionType.ACCOUNT_UPDATE, action, LockFailureException.class::isInstance);

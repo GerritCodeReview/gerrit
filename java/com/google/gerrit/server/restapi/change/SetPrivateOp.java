@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -70,8 +69,7 @@ public class SetPrivateOp implements BatchUpdateOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx)
-      throws ResourceConflictException, StorageException {
+  public boolean updateChange(ChangeContext ctx) throws ResourceConflictException {
     change = ctx.getChange();
     ChangeNotes notes = ctx.getNotes();
     ps = psUtil.get(notes, change.currentPatchSetId());

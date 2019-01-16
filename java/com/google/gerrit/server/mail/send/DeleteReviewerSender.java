@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.exceptions.EmailException;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
@@ -42,8 +41,7 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
 
   @Inject
   public DeleteReviewerSender(
-      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
-      throws StorageException {
+      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id) {
     super(ea, "deleteReviewer", newChangeData(ea, project, id));
   }
 

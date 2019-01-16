@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.change.HashtagsUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 
@@ -26,7 +25,7 @@ public class HashtagPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws StorageException {
+  public boolean match(ChangeData object) {
     for (String hashtag : object.notes().load().getHashtags()) {
       if (hashtag.equalsIgnoreCase(getValue())) {
         return true;

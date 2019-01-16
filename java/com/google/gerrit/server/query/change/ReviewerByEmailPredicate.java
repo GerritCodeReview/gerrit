@@ -16,7 +16,6 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -43,7 +42,7 @@ class ReviewerByEmailPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) throws StorageException {
+  public boolean match(ChangeData cd) {
     return cd.reviewersByEmail().asTable().get(state, adr) != null;
   }
 

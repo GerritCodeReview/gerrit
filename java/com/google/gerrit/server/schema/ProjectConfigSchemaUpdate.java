@@ -115,7 +115,7 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
     return true;
   }
 
-  public void save(PersonIdent personIdent, String commitMessage) throws StorageException {
+  public void save(PersonIdent personIdent, String commitMessage) {
     if (!updated) {
       return;
     }

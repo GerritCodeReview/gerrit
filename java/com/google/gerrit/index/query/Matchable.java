@@ -17,11 +17,7 @@ package com.google.gerrit.index.query;
 import com.google.gerrit.exceptions.StorageException;
 
 public interface Matchable<T> {
-  /**
-   * Does this predicate match this object?
-   *
-   * @throws StorageException
-   */
+  /** Does this predicate match this object? */
   boolean match(T object) throws StorageException;
 
   /** @return a cost estimate to run this predicate, higher figures cost more. */

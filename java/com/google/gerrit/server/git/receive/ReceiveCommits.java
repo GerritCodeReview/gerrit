@@ -2232,7 +2232,7 @@ class ReceiveCommits {
     return newChanges;
   }
 
-  private boolean foundInExistingRef(Collection<Ref> existingRefs) throws StorageException {
+  private boolean foundInExistingRef(Collection<Ref> existingRefs) {
     for (Ref ref : existingRefs) {
       ChangeNotes notes =
           notesFactory.create(project.getNameKey(), Change.Id.fromRef(ref.getName()));
@@ -2352,11 +2352,11 @@ class ReceiveCommits {
     }
   }
 
-  private ChangeLookup lookupByChangeKey(RevCommit c, Change.Key key) throws StorageException {
+  private ChangeLookup lookupByChangeKey(RevCommit c, Change.Key key) {
     return new ChangeLookup(c, key, queryProvider.get().byBranchKey(magicBranch.dest, key));
   }
 
-  private ChangeLookup lookupByCommit(RevCommit c) throws StorageException {
+  private ChangeLookup lookupByCommit(RevCommit c) {
     return new ChangeLookup(
         c, null, queryProvider.get().byBranchCommit(magicBranch.dest, c.getName()));
   }
@@ -2484,8 +2484,8 @@ class ReceiveCommits {
   }
 
   private void submit(Collection<CreateRequest> create, Collection<ReplaceRequest> replace)
-      throws StorageException, RestApiException, UpdateException, IOException,
-          ConfigInvalidException, PermissionBackendException {
+      throws RestApiException, UpdateException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     Map<ObjectId, Change> bySha = Maps.newHashMapWithExpectedSize(create.size() + replace.size());
     for (CreateRequest r : create) {
       requireNonNull(
@@ -2541,7 +2541,7 @@ class ReceiveCommits {
     }
   }
 
-  private void readChangesForReplace() throws StorageException {
+  private void readChangesForReplace() {
     Collection<ChangeNotes> allNotes =
         notesFactory.create(
             replaceByChange.values().stream().map(r -> r.ontoChange).collect(toList()));
@@ -2599,10 +2599,9 @@ class ReceiveCommits {
      *
      * @return whether the new commit is valid
      * @throws IOException
-     * @throws StorageException
      * @throws PermissionBackendException
      */
-    boolean validateNewPatchSet() throws IOException, StorageException, PermissionBackendException {
+    boolean validateNewPatchSet() throws IOException, PermissionBackendException {
       if (!validateNewPatchSetNoteDb()) {
         return false;
       }
@@ -2623,8 +2622,7 @@ class ReceiveCommits {
       return true;
     }
 
-    boolean validateNewPatchSetForAutoClose()
-        throws IOException, StorageException, PermissionBackendException {
+    boolean validateNewPatchSetForAutoClose() throws IOException, PermissionBackendException {
       if (!validateNewPatchSetNoteDb()) {
         return false;
       }
@@ -2634,8 +2632,7 @@ class ReceiveCommits {
     }
 
     /** Validates the new PS against permissions and notedb status. */
-    private boolean validateNewPatchSetNoteDb()
-        throws IOException, StorageException, PermissionBackendException {
+    private boolean validateNewPatchSetNoteDb() throws IOException, PermissionBackendException {
       if (notes == null) {
         reject(inputCommand, "change " + ontoChange + " not found");
         return false;
@@ -2798,7 +2795,7 @@ class ReceiveCommits {
     }
 
     /** Updates 'this' to add a new patchset. */
-    private void newPatchSet() throws IOException, StorageException {
+    private void newPatchSet() throws IOException {
       RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
       psId =
           ChangeUtil.nextPatchSetIdFromAllRefsMap(allRefs(), notes.getChange().currentPatchSetId());
@@ -2862,7 +2859,7 @@ class ReceiveCommits {
           psId.getParentKey(),
           new BatchUpdateOp() {
             @Override
-            public boolean updateChange(ChangeContext ctx) throws StorageException {
+            public boolean updateChange(ChangeContext ctx) {
               PatchSet ps = psUtil.get(ctx.getNotes(), psId);
               List<String> oldGroups = ps.getGroups();
               if (oldGroups == null) {
@@ -3192,7 +3189,7 @@ class ReceiveCommits {
     }
   }
 
-  private Optional<ChangeNotes> getChangeNotes(Change.Id changeId) throws StorageException {
+  private Optional<ChangeNotes> getChangeNotes(Change.Id changeId) {
     try {
       return Optional.of(notesFactory.createChecked(project.getNameKey(), changeId));
     } catch (NoSuchChangeException e) {
@@ -3200,7 +3197,7 @@ class ReceiveCommits {
     }
   }
 
-  private <T> T executeIndexQuery(Action<T> action) throws StorageException {
+  private <T> T executeIndexQuery(Action<T> action) {
     try {
       return retryHelper.execute(
           ActionType.INDEX_QUERY, action, StorageException.class::isInstance);
@@ -3211,8 +3208,7 @@ class ReceiveCommits {
     }
   }
 
-  private Map<Change.Key, ChangeNotes> openChangesByKeyByBranch(Branch.NameKey branch)
-      throws StorageException {
+  private Map<Change.Key, ChangeNotes> openChangesByKeyByBranch(Branch.NameKey branch) {
     Map<Change.Key, ChangeNotes> r = new HashMap<>();
     for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
       try {

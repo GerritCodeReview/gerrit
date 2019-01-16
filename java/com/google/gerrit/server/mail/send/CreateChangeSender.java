@@ -44,8 +44,7 @@ public class CreateChangeSender extends NewChangeSender {
       EmailArguments ea,
       PermissionBackend permissionBackend,
       @Assisted Project.NameKey project,
-      @Assisted Change.Id id)
-      throws StorageException {
+      @Assisted Change.Id id) {
     super(ea, newChangeData(ea, project, id));
     this.permissionBackend = permissionBackend;
   }

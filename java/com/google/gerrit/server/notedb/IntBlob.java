@@ -41,20 +41,19 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 @AutoValue
 public abstract class IntBlob {
-  public static Optional<IntBlob> parse(Repository repo, String refName)
-      throws IOException, StorageException {
+  public static Optional<IntBlob> parse(Repository repo, String refName) throws IOException {
     try (ObjectReader or = repo.newObjectReader()) {
       return parse(repo, refName, or);
     }
   }
 
   public static Optional<IntBlob> parse(Repository repo, String refName, RevWalk rw)
-      throws IOException, StorageException {
+      throws IOException {
     return parse(repo, refName, rw.getObjectReader());
   }
 
   private static Optional<IntBlob> parse(Repository repo, String refName, ObjectReader or)
-      throws IOException, StorageException {
+      throws IOException {
     Ref ref = repo.exactRef(refName);
     if (ref == null) {
       return Optional.empty();

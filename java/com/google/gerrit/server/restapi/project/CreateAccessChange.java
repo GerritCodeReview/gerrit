@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.project;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.exceptions.InvalidNameException;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -93,7 +92,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
   @Override
   public Response<ChangeInfo> apply(ProjectResource rsrc, ProjectAccessInput input)
       throws PermissionBackendException, AuthException, IOException, ConfigInvalidException,
-          StorageException, InvalidNameException, UpdateException, RestApiException {
+          InvalidNameException, UpdateException, RestApiException {
     PermissionBackend.ForProject forProject =
         permissionBackend.user(rsrc.getUser()).project(rsrc.getNameKey());
     if (!check(forProject, ProjectPermission.READ_CONFIG)) {

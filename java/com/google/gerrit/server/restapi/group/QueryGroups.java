@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.group;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -95,8 +94,7 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
 
   @Override
   public List<GroupInfo> apply(TopLevelResource resource)
-      throws BadRequestException, MethodNotAllowedException, StorageException,
-          PermissionBackendException {
+      throws BadRequestException, MethodNotAllowedException, PermissionBackendException {
     if (Strings.isNullOrEmpty(query)) {
       throw new BadRequestException("missing query field");
     }

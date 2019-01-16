@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -50,8 +49,7 @@ public class CheckAccessReadView implements RestReadView<ProjectResource> {
 
   @Override
   public AccessCheckInfo apply(ProjectResource rsrc)
-      throws StorageException, PermissionBackendException, RestApiException, IOException,
-          ConfigInvalidException {
+      throws PermissionBackendException, RestApiException, IOException, ConfigInvalidException {
 
     AccessCheckInput input = new AccessCheckInput();
     input.ref = refName;

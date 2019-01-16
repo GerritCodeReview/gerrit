@@ -198,7 +198,7 @@ public class GroupCollector {
     }
   }
 
-  public SortedSetMultimap<ObjectId, String> getGroups() throws StorageException {
+  public SortedSetMultimap<ObjectId, String> getGroups() {
     done = true;
     SortedSetMultimap<ObjectId, String> result =
         MultimapBuilder.hashKeys(groups.keySet().size()).treeSetValues().build();
@@ -224,8 +224,7 @@ public class GroupCollector {
     return id != null && patchSetsBySha.containsKey(id);
   }
 
-  private Set<String> resolveGroups(ObjectId forCommit, Collection<String> candidates)
-      throws StorageException {
+  private Set<String> resolveGroups(ObjectId forCommit, Collection<String> candidates) {
     Set<String> actual = Sets.newTreeSet();
     Set<String> done = Sets.newHashSetWithExpectedSize(candidates.size());
     Set<String> seen = Sets.newHashSetWithExpectedSize(candidates.size());
@@ -260,7 +259,7 @@ public class GroupCollector {
     }
   }
 
-  private Iterable<String> resolveGroup(ObjectId forCommit, String group) throws StorageException {
+  private Iterable<String> resolveGroup(ObjectId forCommit, String group) {
     ObjectId id = parseGroup(forCommit, group);
     if (id != null) {
       PatchSet.Id psId = Iterables.getFirst(patchSetsBySha.get(id), null);

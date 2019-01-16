@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -77,8 +76,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
 
   @Override
   public RevisionResource parse(ChangeResource change, IdString id)
-      throws ResourceNotFoundException, AuthException, StorageException, IOException,
-          PermissionBackendException {
+      throws ResourceNotFoundException, AuthException, IOException, PermissionBackendException {
     if (id.get().equals("current")) {
       PatchSet ps = psUtil.current(change.getNotes());
       if (ps != null && visible(change)) {
@@ -117,7 +115,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   }
 
   private List<RevisionResource> find(ChangeResource change, String id)
-      throws StorageException, IOException, AuthException {
+      throws IOException, AuthException {
     if (id.equals("0") || id.equals("edit")) {
       return loadEdit(change, null);
     } else if (id.length() < 6 && id.matches("^[1-9][0-9]{0,4}$")) {
@@ -142,8 +140,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     }
   }
 
-  private List<RevisionResource> byLegacyPatchSetId(ChangeResource change, String id)
-      throws StorageException {
+  private List<RevisionResource> byLegacyPatchSetId(ChangeResource change, String id) {
     PatchSet ps =
         psUtil.get(change.getNotes(), new PatchSet.Id(change.getId(), Integer.parseInt(id)));
     if (ps != null) {

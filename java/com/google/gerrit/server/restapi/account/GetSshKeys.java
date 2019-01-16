@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.account;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -55,8 +54,8 @@ public class GetSshKeys implements RestReadView<AccountResource> {
 
   @Override
   public List<SshKeyInfo> apply(AccountResource rsrc)
-      throws AuthException, StorageException, RepositoryNotFoundException, IOException,
-          ConfigInvalidException, PermissionBackendException {
+      throws AuthException, RepositoryNotFoundException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }

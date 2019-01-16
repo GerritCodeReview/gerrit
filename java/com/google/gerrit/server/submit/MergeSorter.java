@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.submit;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -49,7 +48,7 @@ public class MergeSorter {
   }
 
   public Collection<CodeReviewCommit> sort(Collection<CodeReviewCommit> toMerge)
-      throws IOException, StorageException {
+      throws IOException {
     final Set<CodeReviewCommit> heads = new HashSet<>();
     final Set<CodeReviewCommit> sort = new HashSet<>(toMerge);
     while (!sort.isEmpty()) {

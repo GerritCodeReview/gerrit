@@ -119,8 +119,7 @@ public class CommentSender extends ReplyToChangeSender {
       CommentsUtil commentsUtil,
       @GerritServerConfig Config cfg,
       @Assisted Project.NameKey project,
-      @Assisted Change.Id id)
-      throws StorageException {
+      @Assisted Change.Id id) {
     super(ea, "comment", newChangeData(ea, project, id));
     this.commentsUtil = commentsUtil;
     this.incomingEmailEnabled =
@@ -129,7 +128,7 @@ public class CommentSender extends ReplyToChangeSender {
     this.replyToAddress = cfg.getString("sendemail", null, "replyToAddress");
   }
 
-  public void setComments(List<Comment> comments) throws StorageException {
+  public void setComments(List<Comment> comments) {
     inlineComments = comments;
 
     Set<String> paths = new HashSet<>();

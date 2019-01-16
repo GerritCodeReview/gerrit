@@ -35,7 +35,7 @@ public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSourc
   }
 
   @Override
-  public ResultSet<ChangeData> read() throws StorageException {
+  public ResultSet<ChangeData> read() {
     // TODO(spearce) This probably should be more lazy.
     //
     List<ChangeData> r = new ArrayList<>();
@@ -55,7 +55,7 @@ public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSourc
   }
 
   @Override
-  public ResultSet<FieldBundle> readRaw() throws StorageException {
+  public ResultSet<FieldBundle> readRaw() {
     throw new UnsupportedOperationException("not implemented");
   }
 

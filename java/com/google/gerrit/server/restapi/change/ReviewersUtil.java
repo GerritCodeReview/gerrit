@@ -165,7 +165,7 @@ public class ReviewersUtil {
       ProjectState projectState,
       VisibilityControl visibilityControl,
       boolean excludeGroups)
-      throws IOException, StorageException, ConfigInvalidException, PermissionBackendException {
+      throws IOException, ConfigInvalidException, PermissionBackendException {
     CurrentUser currentUser = self.get();
     if (changeNotes != null) {
       logger.atFine().log(
@@ -224,8 +224,7 @@ public class ReviewersUtil {
     return suggestedReviewers;
   }
 
-  private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers)
-      throws StorageException {
+  private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers) {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
       try {
         // For performance reasons we don't use AccountQueryProvider as it would always load the
@@ -267,7 +266,7 @@ public class ReviewersUtil {
       VisibilityControl visibilityControl,
       boolean excludeGroups,
       List<Account.Id> filteredRecommendations)
-      throws StorageException, PermissionBackendException, IOException {
+      throws PermissionBackendException, IOException {
     List<SuggestedReviewerInfo> suggestedReviewers = loadAccounts(filteredRecommendations);
 
     int limit = suggestReviewers.getLimit();
@@ -296,7 +295,7 @@ public class ReviewersUtil {
       SuggestReviewers suggestReviewers,
       ProjectState projectState,
       List<Account.Id> candidateList)
-      throws StorageException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     try (Timer0.Context ctx = metrics.recommendAccountsLatency.start()) {
       return reviewerRecommender.suggestReviewers(
           changeNotes, suggestReviewers, projectState, candidateList);
@@ -333,7 +332,7 @@ public class ReviewersUtil {
       ProjectState projectState,
       VisibilityControl visibilityControl,
       int limit)
-      throws StorageException, IOException {
+      throws IOException {
     try (Timer0.Context ctx = metrics.queryGroupsLatency.start()) {
       List<SuggestedReviewerInfo> groups = new ArrayList<>();
       for (GroupReference g : suggestAccountGroups(suggestReviewers, projectState)) {
@@ -379,7 +378,7 @@ public class ReviewersUtil {
       Project project,
       GroupReference group,
       VisibilityControl visibilityControl)
-      throws StorageException, IOException {
+      throws IOException {
     GroupAsReviewer result = new GroupAsReviewer();
     int maxAllowed = suggestReviewers.getMaxAllowed();
     int maxAllowedWithoutConfirmation = suggestReviewers.getMaxAllowedWithoutConfirmation();

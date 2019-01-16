@@ -19,7 +19,6 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.exceptions.NoSuchAccountException;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
@@ -35,8 +34,7 @@ import org.eclipse.jgit.revwalk.FooterLine;
 public class MailUtil {
 
   public static MailRecipients getRecipientsFromFooters(
-      AccountResolver accountResolver, List<FooterLine> footerLines)
-      throws StorageException, IOException {
+      AccountResolver accountResolver, List<FooterLine> footerLines) throws IOException {
     MailRecipients recipients = new MailRecipients();
     for (FooterLine footerLine : footerLines) {
       try {
@@ -60,7 +58,7 @@ public class MailUtil {
   }
 
   private static Account.Id toAccountId(AccountResolver accountResolver, String nameOrEmail)
-      throws StorageException, NoSuchAccountException, IOException {
+      throws NoSuchAccountException, IOException {
     Account a = accountResolver.findByNameOrEmail(nameOrEmail);
     if (a == null) {
       throw new NoSuchAccountException("\"" + nameOrEmail + "\" is not registered");

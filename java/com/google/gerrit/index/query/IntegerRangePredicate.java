@@ -32,7 +32,7 @@ public abstract class IntegerRangePredicate<T> extends IndexPredicate<T> {
 
   protected abstract Integer getValueInt(T object) throws StorageException;
 
-  public boolean match(T object) throws StorageException {
+  public boolean match(T object) {
     Integer valueInt = getValueInt(object);
     if (valueInt == null) {
       return false;

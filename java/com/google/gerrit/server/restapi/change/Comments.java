@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -55,8 +54,7 @@ public class Comments implements ChildCollection<RevisionResource, CommentResour
   }
 
   @Override
-  public CommentResource parse(RevisionResource rev, IdString id)
-      throws ResourceNotFoundException, StorageException {
+  public CommentResource parse(RevisionResource rev, IdString id) throws ResourceNotFoundException {
     String uuid = id.get();
     ChangeNotes notes = rev.getNotes();
 

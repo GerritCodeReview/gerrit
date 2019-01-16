@@ -146,7 +146,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
     @Override
     public Response<?> apply(RevisionResource resource)
-        throws AuthException, BadRequestException, ResourceNotFoundException, StorageException,
+        throws AuthException, BadRequestException, ResourceNotFoundException,
             RepositoryNotFoundException, IOException, PatchListNotAvailableException,
             PermissionBackendException {
       checkOptions();
@@ -223,8 +223,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       }
     }
 
-    private Collection<String> reviewed(RevisionResource resource)
-        throws AuthException, StorageException {
+    private Collection<String> reviewed(RevisionResource resource) throws AuthException {
       CurrentUser user = self.get();
       if (!(user.isIdentifiedUser())) {
         throw new AuthException("Authentication required");
@@ -257,7 +256,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
     private List<String> copy(
         Set<String> paths, PatchSet.Id old, RevisionResource resource, Account.Id userId)
-        throws IOException, PatchListNotAvailableException, StorageException {
+        throws IOException, PatchListNotAvailableException {
       Project.NameKey project = resource.getChange().getProject();
       try (Repository git = gitManager.openRepository(project);
           ObjectReader reader = git.newObjectReader();

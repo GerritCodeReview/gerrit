@@ -54,7 +54,6 @@ public interface AccountPatchReviewStore {
    * @param path file path
    * @return {@code true} if the reviewed flag was updated, {@code false} if the reviewed flag was
    *     already set
-   * @throws StorageException thrown if updating the reviewed flag failed
    */
   boolean markReviewed(PatchSet.Id psId, Account.Id accountId, String path) throws StorageException;
 
@@ -64,7 +63,6 @@ public interface AccountPatchReviewStore {
    * @param psId patch set ID
    * @param accountId account ID of the user
    * @param paths file paths
-   * @throws StorageException thrown if updating the reviewed flag failed
    */
   void markReviewed(PatchSet.Id psId, Account.Id accountId, Collection<String> paths)
       throws StorageException;
@@ -75,7 +73,6 @@ public interface AccountPatchReviewStore {
    * @param psId patch set ID
    * @param accountId account ID of the user
    * @param path file path
-   * @throws StorageException thrown if clearing the reviewed flag failed
    */
   void clearReviewed(PatchSet.Id psId, Account.Id accountId, String path) throws StorageException;
 
@@ -83,7 +80,6 @@ public interface AccountPatchReviewStore {
    * Clears the reviewed flags for all files in the given patch set for all users.
    *
    * @param psId patch set ID
-   * @throws StorageException thrown if clearing the reviewed flags failed
    */
   void clearReviewed(PatchSet.Id psId) throws StorageException;
 
@@ -95,7 +91,6 @@ public interface AccountPatchReviewStore {
    * @param accountId account ID of the user
    * @return optionally, all files the have been reviewed by the given user that belong to the patch
    *     set that is smaller or equals to the given patch set
-   * @throws StorageException thrown if accessing the reviewed flags failed
    */
   Optional<PatchSetWithReviewedFiles> findReviewed(PatchSet.Id psId, Account.Id accountId)
       throws StorageException;

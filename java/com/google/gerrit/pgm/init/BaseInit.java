@@ -22,7 +22,6 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.common.IoUtil;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
@@ -350,7 +349,7 @@ public class BaseInit extends SiteProgram {
       this.repositoryManager = repositoryManager;
     }
 
-    void upgradeSchema() throws StorageException {
+    void upgradeSchema() {
       noteDbSchemaUpdater.update(new UpdateUIImpl(ui));
     }
 

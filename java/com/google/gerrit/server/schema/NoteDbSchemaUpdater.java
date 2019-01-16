@@ -77,7 +77,7 @@ public class NoteDbSchemaUpdater {
     this.schemaVersions = schemaVersions;
   }
 
-  public void update(UpdateUI ui) throws StorageException {
+  public void update(UpdateUI ui) {
     ensureSchemaCreated();
 
     int currentVersion = versionManager.read();
@@ -100,7 +100,7 @@ public class NoteDbSchemaUpdater {
     }
   }
 
-  private void ensureSchemaCreated() throws StorageException {
+  private void ensureSchemaCreated() {
     try {
       schemaCreator.ensureCreated();
     } catch (IOException | ConfigInvalidException e) {
@@ -114,7 +114,7 @@ public class NoteDbSchemaUpdater {
     NOTE_DB
   }
 
-  private void checkNoteDbConfigFor216() throws StorageException {
+  private void checkNoteDbConfigFor216() {
     // Check that the NoteDb migration config matches what we expect from a site that both:
     // * Completed the change migration to NoteDB.
     // * Ran schema upgrades from a 2.16 final release.
@@ -160,7 +160,7 @@ public class NoteDbSchemaUpdater {
 
   @VisibleForTesting
   static ImmutableList<Integer> requiredUpgrades(
-      int currentVersion, ImmutableSortedSet<Integer> allVersions) throws StorageException {
+      int currentVersion, ImmutableSortedSet<Integer> allVersions) {
     int firstVersion = allVersions.first();
     int latestVersion = allVersions.last();
     if (currentVersion == latestVersion) {

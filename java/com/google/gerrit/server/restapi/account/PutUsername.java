@@ -18,7 +18,6 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 
 import com.google.common.base.Strings;
 import com.google.gerrit.exceptions.DuplicateKeyException;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.accounts.UsernameInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -73,7 +72,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
   @Override
   public String apply(AccountResource rsrc, UsernameInput input)
       throws AuthException, MethodNotAllowedException, UnprocessableEntityException,
-          ResourceConflictException, StorageException, IOException, ConfigInvalidException,
+          ResourceConflictException, IOException, ConfigInvalidException,
           PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);

@@ -36,7 +36,7 @@ public class Reviewed {
     }
 
     @Override
-    public Response<String> apply(FileResource resource, Input input) throws StorageException {
+    public Response<String> apply(FileResource resource, Input input) {
       boolean reviewFlagUpdated =
           accountPatchReviewStore.call(
               s ->
@@ -59,7 +59,7 @@ public class Reviewed {
     }
 
     @Override
-    public Response<?> apply(FileResource resource, Input input) throws StorageException {
+    public Response<?> apply(FileResource resource, Input input) {
       accountPatchReviewStore.run(
           s ->
               s.clearReviewed(

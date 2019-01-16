@@ -152,7 +152,7 @@ class HttpLoginServlet extends HttpServlet {
   }
 
   private void updateRemoteExternalId(AuthResult arsp, String remoteAuthToken)
-      throws AccountException, StorageException, IOException, ConfigInvalidException {
+      throws AccountException, IOException, ConfigInvalidException {
     accountManager.updateLink(
         arsp.getAccountId(),
         new AuthRequest(ExternalId.Key.create(SCHEME_EXTERNAL, remoteAuthToken)));

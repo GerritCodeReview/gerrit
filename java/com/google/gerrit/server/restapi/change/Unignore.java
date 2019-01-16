@@ -46,8 +46,7 @@ public class Unignore implements RestModifyView<ChangeResource, Input>, UiAction
   }
 
   @Override
-  public Response<String> apply(ChangeResource rsrc, Input input)
-      throws StorageException, IllegalLabelException {
+  public Response<String> apply(ChangeResource rsrc, Input input) throws IllegalLabelException {
     if (isIgnored(rsrc)) {
       stars.unignore(rsrc);
     }

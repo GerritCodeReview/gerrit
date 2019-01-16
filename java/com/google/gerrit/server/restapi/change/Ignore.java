@@ -51,7 +51,7 @@ public class Ignore implements RestModifyView<ChangeResource, Input>, UiAction<C
 
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input)
-      throws RestApiException, StorageException, IllegalLabelException {
+      throws RestApiException, IllegalLabelException {
     try {
       if (rsrc.isUserOwner()) {
         throw new BadRequestException("cannot ignore own change");

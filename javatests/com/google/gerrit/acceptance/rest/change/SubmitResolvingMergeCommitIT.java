@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -305,7 +304,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
   }
 
   private void assertChangeSetMergeable(ChangeData change, boolean expected)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException, StorageException,
+      throws MissingObjectException, IncorrectObjectTypeException, IOException,
           PermissionBackendException {
     ChangeSet cs = mergeSuperSet.get().completeChangeSet(change.change(), user(admin));
     assertThat(submit.unmergeableChanges(cs).isEmpty()).isEqualTo(expected);

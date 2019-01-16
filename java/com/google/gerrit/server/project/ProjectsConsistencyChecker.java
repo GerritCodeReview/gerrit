@@ -94,7 +94,7 @@ public class ProjectsConsistencyChecker {
   }
 
   public CheckProjectResultInfo check(Project.NameKey projectName, CheckProjectInput input)
-      throws IOException, StorageException, RestApiException {
+      throws IOException, RestApiException {
     CheckProjectResultInfo r = new CheckProjectResultInfo();
     if (input.autoCloseableChangesCheck != null) {
       r.autoCloseableChangesCheckResult =
@@ -105,7 +105,7 @@ public class ProjectsConsistencyChecker {
 
   private AutoCloseableChangesCheckResult checkForAutoCloseableChanges(
       Project.NameKey projectName, AutoCloseableChangesCheckInput input)
-      throws IOException, StorageException, RestApiException {
+      throws IOException, RestApiException {
     AutoCloseableChangesCheckResult r = new AutoCloseableChangesCheckResult();
     if (Strings.isNullOrEmpty(input.branch)) {
       throw new BadRequestException("branch is required");
@@ -256,8 +256,7 @@ public class ProjectsConsistencyChecker {
       List<Predicate<ChangeData>> predicates,
       boolean fix,
       Map<Change.Key, ObjectId> changeIdToMergedSha1,
-      List<ObjectId> mergedSha1s)
-      throws StorageException {
+      List<ObjectId> mergedSha1s) {
     if (predicates.isEmpty()) {
       return ImmutableList.of();
     }

@@ -564,7 +564,7 @@ public class ConsistencyChecker {
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws StorageException {
+    public boolean updateChange(ChangeContext ctx) {
       ctx.getChange().setStatus(Change.Status.MERGED);
       ctx.getUpdate(ctx.getChange().currentPatchSetId()).fixStatus(Change.Status.MERGED);
       p.status = Status.FIXED;
@@ -662,8 +662,7 @@ public class ConsistencyChecker {
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws StorageException, PatchSetInfoNotAvailableException {
+    public boolean updateChange(ChangeContext ctx) throws PatchSetInfoNotAvailableException {
       // Delete dangling key references.
       accountPatchReviewStore.run(s -> s.clearReviewed(psId), StorageException.class);
 
@@ -696,8 +695,7 @@ public class ConsistencyChecker {
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws StorageException, PatchSetInfoNotAvailableException,
-            NoPatchSetsWouldRemainException {
+        throws PatchSetInfoNotAvailableException, NoPatchSetsWouldRemainException {
       if (!toDelete.contains(ctx.getChange().currentPatchSetId())) {
         return false;
       }

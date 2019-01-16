@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -109,7 +108,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
 
   @Override
   public List<?> apply(TopLevelResource rsrc)
-      throws BadRequestException, AuthException, StorageException, PermissionBackendException {
+      throws BadRequestException, AuthException, PermissionBackendException {
     List<List<ChangeInfo>> out;
     try {
       out = query();
@@ -122,8 +121,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     return out.size() == 1 ? out.get(0) : out;
   }
 
-  private List<List<ChangeInfo>> query()
-      throws StorageException, QueryParseException, PermissionBackendException {
+  private List<List<ChangeInfo>> query() throws QueryParseException, PermissionBackendException {
     if (imp.isDisabled()) {
       throw new QueryParseException("query disabled");
     }

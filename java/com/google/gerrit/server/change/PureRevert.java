@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -64,7 +63,7 @@ public class PureRevert {
   }
 
   public PureRevertInfo get(ChangeNotes notes, @Nullable String claimedOriginal)
-      throws StorageException, IOException, BadRequestException, ResourceConflictException {
+      throws IOException, BadRequestException, ResourceConflictException {
     PatchSet currentPatchSet = psUtil.current(notes);
     if (currentPatchSet == null) {
       throw new ResourceConflictException("current revision is missing");

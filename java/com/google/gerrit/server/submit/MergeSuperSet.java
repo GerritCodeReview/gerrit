@@ -19,7 +19,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -93,7 +92,7 @@ public class MergeSuperSet {
   }
 
   public ChangeSet completeChangeSet(Change change, CurrentUser user)
-      throws IOException, StorageException, PermissionBackendException {
+      throws IOException, PermissionBackendException {
     try {
       if (orm == null) {
         orm = repoManagerProvider.get();
@@ -146,7 +145,7 @@ public class MergeSuperSet {
    */
   private ChangeSet topicClosure(
       ChangeSet changeSet, CurrentUser user, Set<String> topicsSeen, Set<String> visibleTopicsSeen)
-      throws StorageException, PermissionBackendException, IOException {
+      throws PermissionBackendException, IOException {
     List<ChangeData> visibleChanges = new ArrayList<>();
     List<ChangeData> nonVisibleChanges = new ArrayList<>();
 
@@ -181,7 +180,7 @@ public class MergeSuperSet {
   }
 
   private ChangeSet completeChangeSetIncludingTopics(ChangeSet changeSet, CurrentUser user)
-      throws IOException, StorageException, PermissionBackendException {
+      throws IOException, PermissionBackendException {
     Set<String> topicsSeen = new HashSet<>();
     Set<String> visibleTopicsSeen = new HashSet<>();
     int oldSeen;
@@ -201,7 +200,7 @@ public class MergeSuperSet {
     return changeSet;
   }
 
-  private List<ChangeData> byTopicOpen(String topic) throws StorageException {
+  private List<ChangeData> byTopicOpen(String topic) {
     return queryProvider.get().byTopicOpen(topic);
   }
 

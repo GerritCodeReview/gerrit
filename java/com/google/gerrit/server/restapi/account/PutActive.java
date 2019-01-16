@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
@@ -41,7 +40,7 @@ public class PutActive implements RestModifyView<AccountResource, Input> {
 
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
-      throws RestApiException, StorageException, IOException, ConfigInvalidException {
+      throws RestApiException, IOException, ConfigInvalidException {
     return setInactiveFlag.activate(rsrc.getUser().getAccountId());
   }
 }

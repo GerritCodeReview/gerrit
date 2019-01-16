@@ -17,6 +17,7 @@ package com.google.gerrit.server.index.group;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -74,7 +75,7 @@ public class GroupIndexerImpl implements GroupIndexer {
   }
 
   @Override
-  public void index(AccountGroup.UUID uuid) throws IOException {
+  public void index(AccountGroup.UUID uuid) {
     // Evict the cache to get an up-to-date value for sure.
     groupCache.evict(uuid);
     Optional<InternalGroup> internalGroup = groupCache.get(uuid);
@@ -104,10 +105,14 @@ public class GroupIndexerImpl implements GroupIndexer {
   }
 
   @Override
-  public boolean reindexIfStale(AccountGroup.UUID uuid) throws IOException {
-    if (stalenessChecker.isStale(uuid)) {
-      index(uuid);
-      return true;
+  public boolean reindexIfStale(AccountGroup.UUID uuid) {
+    try {
+      if (stalenessChecker.isStale(uuid)) {
+        index(uuid);
+        return true;
+      }
+    } catch (IOException e) {
+      throw new StorageException(e);
     }
     return false;
   }

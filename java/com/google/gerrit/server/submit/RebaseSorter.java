@@ -17,6 +17,7 @@ package com.google.gerrit.server.submit;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change.Status;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -37,6 +38,7 @@ import org.eclipse.jgit.revwalk.RevFlag;
 public class RebaseSorter {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final CurrentUser caller;
   private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
   private final RevCommit initialTip;
@@ -45,12 +47,14 @@ public class RebaseSorter {
   private final Set<CodeReviewCommit> incoming;
 
   public RebaseSorter(
+      CurrentUser caller,
       CodeReviewRevWalk rw,
       RevCommit initialTip,
       Set<RevCommit> alreadyAccepted,
       RevFlag canMergeFlag,
       Provider<InternalChangeQuery> queryProvider,
       Set<CodeReviewCommit> incoming) {
+    this.caller = caller;
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.initialTip = initialTip;
@@ -85,7 +89,7 @@ public class RebaseSorter {
             n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
             n.setStatusMessage(
                 CommitMergeStatus.createMissingDependencyMessage(
-                    queryProvider, n.name(), c.name()));
+                    caller, queryProvider, n.name(), c.name()));
           }
           // Stop RevWalk because c is either a merged commit or a missing
           // dependency. Not need to walk further.

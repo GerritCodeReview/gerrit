@@ -16,7 +16,9 @@ package com.google.gerrit.server.submit;
 
 import static java.util.stream.Collectors.toSet;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -88,15 +90,18 @@ public enum CommitMergeStatus {
   }
 
   public static String createMissingDependencyMessage(
-      Provider<InternalChangeQuery> queryProvider, String commit, String otherCommit)
+      @Nullable CurrentUser caller,
+      Provider<InternalChangeQuery> queryProvider,
+      String commit,
+      String otherCommit)
       throws OrmException {
     List<ChangeData> changes = queryProvider.get().enforceVisibility(true).byCommit(otherCommit);
 
     if (changes.isEmpty()) {
       return String.format(
           "Commit %s depends on commit %s which cannot be merged."
-              + " Is the change of this commit not visible or was it deleted?",
-          commit, otherCommit);
+              + " Is the change of this commit not visible to '%s' or was it deleted?",
+          commit, otherCommit, caller != null ? caller.getLoggableName() : "<user-not-available>");
     } else if (changes.size() == 1) {
       ChangeData cd = changes.get(0);
       if (cd.currentPatchSet().getRevision().get().equals(otherCommit)) {

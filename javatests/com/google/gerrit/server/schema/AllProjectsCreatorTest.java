@@ -260,6 +260,26 @@ public class AllProjectsCreatorTest extends GerritBaseTests {
     assertThat(config.getSections()).doesNotContain("access");
   }
 
+  @Test
+  public void createAllProjectsOnlyInitializingProjectDescription() throws Exception {
+    String description = "a project.config with just a project description";
+    AllProjectsInput allProjectsInput =
+        AllProjectsInput.builder()
+            .projectDescription(description)
+            .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
+            .additionalLabelType(ImmutableList.of())
+            .initDefaultACLs(false)
+            .build();
+    allProjectsCreator.create(allProjectsInput);
+
+    Config config = readAllProjectsConfig();
+    assertThat(config.getSections()).containsExactly("project");
+    assertThat(config.getNames("project", null)).containsExactly("description");
+    assertThat(config.getStringList("project", null, "description"))
+        .asList()
+        .containsExactly(description);
+  }
+
   // Loads the "project.config" from the All-Projects repo.
   private Config readAllProjectsConfig() throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allProjectsName);

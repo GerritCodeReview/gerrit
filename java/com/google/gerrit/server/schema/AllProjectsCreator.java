@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_SEQUENCES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
@@ -44,6 +45,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -150,7 +152,8 @@ public class AllProjectsCreator {
     AccessSection capabilities = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
     AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
 
-    LabelType codeReviewLabel = input.codeReviewLabel();
+    checkArgument(input.codeReviewLabel().isPresent());
+    LabelType codeReviewLabel = input.codeReviewLabel().get();
 
     initDefaultAclsForRegisteredUsers(heads, codeReviewLabel, config);
 
@@ -223,9 +226,10 @@ public class AllProjectsCreator {
 
   private void initLabels(
       ProjectConfig projectConfig,
-      LabelType codeReviewLabel,
+      Optional<LabelType> codeReviewLabel,
       ImmutableList<LabelType> additionalLabelType) {
-    projectConfig.getLabelSections().put(codeReviewLabel.getName(), codeReviewLabel);
+    codeReviewLabel.ifPresent(
+        labelType -> projectConfig.getLabelSections().put(labelType.getName(), labelType));
     additionalLabelType.forEach(t -> projectConfig.getLabelSections().put(t.getName(), t));
   }
 

@@ -154,6 +154,7 @@ public class NoteDbMigrator implements AutoCloseable {
 
     private int threads;
     private ImmutableList<Project.NameKey> projects = ImmutableList.of();
+    private ImmutableList<Project.NameKey> skipProjects = ImmutableList.of();
     private ImmutableList<Change.Id> changes = ImmutableList.of();
     private OutputStream progressOut = NullOutputStream.INSTANCE;
     private NotesMigrationState stopAtState;
@@ -232,6 +233,22 @@ public class NoteDbMigrator implements AutoCloseable {
      */
     public Builder setProjects(@Nullable Collection<Project.NameKey> projects) {
       this.projects = projects != null ? ImmutableList.copyOf(projects) : ImmutableList.of();
+      return this;
+    }
+
+    /**
+     * Process all projects except these
+     *
+     * <p>Incompatible with {@link #setProjects(Collection)} and {@link #setChanges(Collection)}
+     *
+     * <p>By default, all projects will be processed.
+     *
+     * @param skipProjects set of projects; if null or empty all project will be processed
+     * @return this.
+     */
+    public Builder setSkipProjects(@Nullable Collection<Project.NameKey> skipProjects) {
+      this.skipProjects =
+          skipProjects != null ? ImmutableList.copyOf(skipProjects) : ImmutableList.of();
       return this;
     }
 
@@ -366,6 +383,7 @@ public class NoteDbMigrator implements AutoCloseable {
                   workQueue.createQueue(threads, "RebuildChange", true))
               : MoreExecutors.newDirectExecutorService(),
           projects,
+          skipProjects,
           changes,
           progressOut,
           stopAtState,
@@ -394,6 +412,7 @@ public class NoteDbMigrator implements AutoCloseable {
 
   private final ListeningExecutorService executor;
   private final ImmutableList<Project.NameKey> projects;
+  private final ImmutableList<Project.NameKey> skipProjects;
   private final ImmutableList<Change.Id> changes;
   private final OutputStream progressOut;
   private final NotesMigrationState stopAtState;
@@ -419,6 +438,7 @@ public class NoteDbMigrator implements AutoCloseable {
       DynamicSet<NotesMigrationStateListener> listeners,
       ListeningExecutorService executor,
       ImmutableList<Project.NameKey> projects,
+      ImmutableList<Project.NameKey> skipProjects,
       ImmutableList<Change.Id> changes,
       OutputStream progressOut,
       NotesMigrationState stopAtState,
@@ -427,8 +447,12 @@ public class NoteDbMigrator implements AutoCloseable {
       int sequenceGap,
       boolean autoMigrate)
       throws MigrationException {
-    if (!changes.isEmpty() && !projects.isEmpty()) {
-      throw new MigrationException("Cannot set both changes and projects");
+    if (ImmutableList.of(!changes.isEmpty(), !projects.isEmpty(), !skipProjects.isEmpty())
+            .stream()
+            .filter(e -> e)
+            .count()
+        > 1) {
+      throw new MigrationException("Cannot combine changes, projects and skipProjects");
     }
     if (sequenceGap < 0) {
       throw new MigrationException("Sequence gap must be non-negative: " + sequenceGap);
@@ -449,6 +473,7 @@ public class NoteDbMigrator implements AutoCloseable {
     this.listeners = listeners;
     this.executor = executor;
     this.projects = projects;
+    this.skipProjects = skipProjects;
     this.changes = changes;
     this.progressOut = progressOut;
     this.stopAtState = stopAtState;
@@ -469,9 +494,9 @@ public class NoteDbMigrator implements AutoCloseable {
   }
 
   public void migrate() throws OrmException, IOException {
-    if (!changes.isEmpty() || !projects.isEmpty()) {
+    if (!changes.isEmpty() || !projects.isEmpty() || !skipProjects.isEmpty()) {
       throw new MigrationException(
-          "Cannot set changes or projects during full migration; call rebuild() instead");
+          "Cannot set changes or projects or skipProjects during full migration; call rebuild() instead");
     }
     Optional<NotesMigrationState> maybeState = loadState();
     if (!maybeState.isPresent()) {
@@ -582,7 +607,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private NotesMigrationState setNoteDbPrimary(NotesMigrationState prev)
       throws MigrationException, OrmException, IOException {
     checkState(
-        projects.isEmpty() && changes.isEmpty(),
+        projects.isEmpty() && changes.isEmpty() && skipProjects.isEmpty(),
         "Should not have attempted setNoteDbPrimary with a subset of changes");
     checkState(
         prev == READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY
@@ -803,6 +828,9 @@ public class NoteDbMigrator implements AutoCloseable {
     try (ReviewDb db = unwrapDb(schemaFactory.open())) {
       if (!projects.isEmpty()) {
         return byProject(db.changes().all(), c -> projects.contains(c.getProject()), out);
+      }
+      if (!skipProjects.isEmpty()) {
+        return byProject(db.changes().all(), c -> !skipProjects.contains(c.getProject()), out);
       }
       if (!changes.isEmpty()) {
         return byProject(db.changes().get(changes), c -> true, out);

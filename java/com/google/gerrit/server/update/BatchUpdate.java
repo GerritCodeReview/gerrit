@@ -29,6 +29,8 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multiset;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -124,9 +126,7 @@ public class BatchUpdate implements AutoCloseable {
     checkDifferentProject(updates);
 
     try {
-      @SuppressWarnings("deprecation")
-      List<com.google.common.util.concurrent.CheckedFuture<?, IOException>> indexFutures =
-          new ArrayList<>();
+      List<ListenableFuture<?>> indexFutures = new ArrayList<>();
       List<ChangesHandle> handles = new ArrayList<>(updates.size());
       try {
         for (BatchUpdate u : updates) {
@@ -148,7 +148,7 @@ public class BatchUpdate implements AutoCloseable {
         }
       }
 
-      ChangeIndexer.allAsList(indexFutures).get();
+      ((ListenableFuture<?>) Futures.allAsList(indexFutures)).get();
 
       // Fire ref update events only after all mutations are finished, since callers may assume a
       // patch set ref being created means the change was created, or a branch advancing meaning
@@ -504,13 +504,12 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     @SuppressWarnings("deprecation")
-    List<com.google.common.util.concurrent.CheckedFuture<?, IOException>> startIndexFutures() {
+    List<ListenableFuture<?>> startIndexFutures() {
       if (dryrun) {
         return ImmutableList.of();
       }
       logDebug("Reindexing %d changes", results.size());
-      List<com.google.common.util.concurrent.CheckedFuture<?, IOException>> indexFutures =
-          new ArrayList<>(results.size());
+      List<ListenableFuture<?>> indexFutures = new ArrayList<>(results.size());
       for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
         Change.Id id = e.getKey();
         switch (e.getValue()) {

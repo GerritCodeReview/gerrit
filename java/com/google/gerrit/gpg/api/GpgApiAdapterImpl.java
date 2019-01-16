@@ -14,7 +14,6 @@
 
 package com.google.gerrit.gpg.api;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.api.accounts.GpgKeysInput;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
@@ -67,7 +66,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
       throws RestApiException, GpgException {
     try {
       return gpgKeys.get().list().apply(account);
-    } catch (StorageException | PGPException | IOException e) {
+    } catch (PGPException | IOException e) {
       throw new GpgException(e);
     }
   }
@@ -81,7 +80,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
     in.delete = delete;
     try {
       return postGpgKeys.get().apply(account, in);
-    } catch (PGPException | StorageException | IOException | ConfigInvalidException e) {
+    } catch (PGPException | IOException | ConfigInvalidException e) {
       throw new GpgException(e);
     }
   }
@@ -91,7 +90,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
       throws RestApiException, GpgException {
     try {
       return gpgKeyApiFactory.create(gpgKeys.get().parse(account, idStr));
-    } catch (PGPException | StorageException | IOException e) {
+    } catch (PGPException | IOException e) {
       throw new GpgException(e);
     }
   }

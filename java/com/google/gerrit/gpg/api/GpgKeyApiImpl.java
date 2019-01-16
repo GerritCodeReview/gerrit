@@ -14,7 +14,6 @@
 
 package com.google.gerrit.gpg.api;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.Input;
@@ -57,7 +56,7 @@ public class GpgKeyApiImpl implements GpgKeyApi {
   public void delete() throws RestApiException {
     try {
       delete.apply(rsrc, new Input());
-    } catch (PGPException | StorageException | IOException | ConfigInvalidException e) {
+    } catch (PGPException | IOException | ConfigInvalidException e) {
       throw new RestApiException("Cannot delete GPG key", e);
     }
   }

@@ -19,7 +19,6 @@ import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -106,7 +105,7 @@ class RunAsFilter implements Filter {
       Account target;
       try {
         target = accountResolver.find(runas);
-      } catch (StorageException | IOException | ConfigInvalidException e) {
+      } catch (IOException | ConfigInvalidException | RuntimeException e) {
         logger.atWarning().withCause(e).log("cannot resolve account for %s", RUN_AS);
         replyError(req, res, SC_INTERNAL_SERVER_ERROR, "cannot resolve " + RUN_AS, e);
         return;

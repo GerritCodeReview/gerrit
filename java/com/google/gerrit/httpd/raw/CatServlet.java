@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.raw;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Url;
@@ -145,7 +144,7 @@ public class CatServlet extends HttpServlet {
     } catch (ResourceConflictException | NoSuchChangeException | AuthException e) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
-    } catch (StorageException | PermissionBackendException | IOException e) {
+    } catch (PermissionBackendException | IOException e) {
       getServletContext().log("Cannot query database", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;

@@ -74,6 +74,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
@@ -158,7 +159,6 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -2544,7 +2544,7 @@ public class ChangeIT extends AbstractDaemonTest {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(ChangeData cd) throws StorageException {
         return Objects.equals(cd.change().getTopic(), value);
       }
 

@@ -10,6 +10,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/json",
@@ -26,7 +27,6 @@ java_library(
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/util/cli",
         "//java/com/google/gerrit/util/http",
-        "//java/com/google/gwtorm",
         "//java/org/eclipse/jgit:server",
         "//lib:args4j",
         "//lib:gson",

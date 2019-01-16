@@ -31,6 +31,7 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -46,7 +47,6 @@ import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -187,11 +187,11 @@ public class StarredChangesUtil {
   }
 
   public ImmutableSortedSet<String> getLabels(Account.Id accountId, Change.Id changeId)
-      throws OrmException {
+      throws StorageException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       return readLabels(repo, RefNames.refsStarredChanges(changeId, accountId)).labels();
     } catch (IOException e) {
-      throw new OrmException(
+      throw new StorageException(
           String.format(
               "Reading stars from change %d for account %d failed",
               changeId.get(), accountId.get()),
@@ -205,7 +205,7 @@ public class StarredChangesUtil {
       Change.Id changeId,
       Set<String> labelsToAdd,
       Set<String> labelsToRemove)
-      throws OrmException, IllegalLabelException {
+      throws StorageException, IllegalLabelException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       String refName = RefNames.refsStarredChanges(changeId, accountId);
       StarRef old = readLabels(repo, refName);
@@ -228,13 +228,13 @@ public class StarredChangesUtil {
       indexer.index(project, changeId);
       return ImmutableSortedSet.copyOf(labels);
     } catch (IOException e) {
-      throw new OrmException(
+      throw new StorageException(
           String.format("Star change %d for account %d failed", changeId.get(), accountId.get()),
           e);
     }
   }
 
-  public void unstarAll(Project.NameKey project, Change.Id changeId) throws OrmException {
+  public void unstarAll(Project.NameKey project, Change.Id changeId) throws StorageException {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       BatchRefUpdate batchUpdate = repo.getRefDatabase().newBatchUpdate();
@@ -257,11 +257,11 @@ public class StarredChangesUtil {
       }
       indexer.index(project, changeId);
     } catch (IOException e) {
-      throw new OrmException(String.format("Unstar change %d failed", changeId.get()), e);
+      throw new StorageException(String.format("Unstar change %d failed", changeId.get()), e);
     }
   }
 
-  public ImmutableMap<Account.Id, StarRef> byChange(Change.Id changeId) throws OrmException {
+  public ImmutableMap<Account.Id, StarRef> byChange(Change.Id changeId) throws StorageException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       ImmutableMap.Builder<Account.Id, StarRef> builder = ImmutableMap.builder();
       for (String refPart : getRefNames(repo, RefNames.refsStarredChangesPrefix(changeId))) {
@@ -274,13 +274,13 @@ public class StarredChangesUtil {
       }
       return builder.build();
     } catch (IOException e) {
-      throw new OrmException(
+      throw new StorageException(
           String.format("Get accounts that starred change %d failed", changeId.get()), e);
     }
   }
 
   public ImmutableListMultimap<Account.Id, String> byChangeFromIndex(Change.Id changeId)
-      throws OrmException {
+      throws StorageException {
     List<ChangeData> changeData =
         queryProvider
             .get()
@@ -311,7 +311,7 @@ public class StarredChangesUtil {
     }
   }
 
-  public void ignore(ChangeResource rsrc) throws OrmException, IllegalLabelException {
+  public void ignore(ChangeResource rsrc) throws StorageException, IllegalLabelException {
     star(
         rsrc.getUser().asIdentifiedUser().getAccountId(),
         rsrc.getProject(),
@@ -320,7 +320,7 @@ public class StarredChangesUtil {
         ImmutableSet.of());
   }
 
-  public void unignore(ChangeResource rsrc) throws OrmException, IllegalLabelException {
+  public void unignore(ChangeResource rsrc) throws StorageException, IllegalLabelException {
     star(
         rsrc.getUser().asIdentifiedUser().getAccountId(),
         rsrc.getProject(),
@@ -329,11 +329,11 @@ public class StarredChangesUtil {
         ImmutableSet.of(IGNORE_LABEL));
   }
 
-  public boolean isIgnoredBy(Change.Id changeId, Account.Id accountId) throws OrmException {
+  public boolean isIgnoredBy(Change.Id changeId, Account.Id accountId) throws StorageException {
     return getLabels(accountId, changeId).contains(IGNORE_LABEL);
   }
 
-  public boolean isIgnored(ChangeResource rsrc) throws OrmException {
+  public boolean isIgnored(ChangeResource rsrc) throws StorageException {
     return isIgnoredBy(rsrc.getChange().getId(), rsrc.getUser().asIdentifiedUser().getAccountId());
   }
 
@@ -353,7 +353,7 @@ public class StarredChangesUtil {
     return UNREVIEWED_LABEL + "/" + ps;
   }
 
-  public void markAsReviewed(ChangeResource rsrc) throws OrmException, IllegalLabelException {
+  public void markAsReviewed(ChangeResource rsrc) throws StorageException, IllegalLabelException {
     star(
         rsrc.getUser().asIdentifiedUser().getAccountId(),
         rsrc.getProject(),
@@ -362,7 +362,7 @@ public class StarredChangesUtil {
         ImmutableSet.of(getUnreviewedLabel(rsrc.getChange())));
   }
 
-  public void markAsUnreviewed(ChangeResource rsrc) throws OrmException, IllegalLabelException {
+  public void markAsUnreviewed(ChangeResource rsrc) throws StorageException, IllegalLabelException {
     star(
         rsrc.getUser().asIdentifiedUser().getAccountId(),
         rsrc.getProject(),
@@ -444,7 +444,7 @@ public class StarredChangesUtil {
 
   private void updateLabels(
       Repository repo, String refName, ObjectId oldObjectId, Collection<String> labels)
-      throws IOException, OrmException, InvalidLabelsException {
+      throws IOException, StorageException, InvalidLabelsException {
     try (TraceTimer traceTimer =
             TraceContext.newTimer("Update star labels in %s (labels=%s)", refName, labels);
         RevWalk rw = new RevWalk(repo)) {
@@ -471,14 +471,14 @@ public class StarredChangesUtil {
         case REJECTED_MISSING_OBJECT:
         case REJECTED_OTHER_REASON:
         default:
-          throw new OrmException(
+          throw new StorageException(
               String.format("Update star labels on ref %s failed: %s", refName, result.name()));
       }
     }
   }
 
   private void deleteRef(Repository repo, String refName, ObjectId oldObjectId)
-      throws IOException, OrmException {
+      throws IOException, StorageException {
     if (ObjectId.zeroId().equals(oldObjectId)) {
       // ref doesn't exist
       return;
@@ -507,7 +507,7 @@ public class StarredChangesUtil {
         case REJECTED_MISSING_OBJECT:
         case REJECTED_OTHER_REASON:
         default:
-          throw new OrmException(
+          throw new StorageException(
               String.format("Delete star ref %s failed: %s", refName, result.name()));
       }
     }

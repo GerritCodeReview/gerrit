@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.auto.value.AutoValue;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -28,7 +29,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -62,7 +62,7 @@ public class RebaseUtil {
       return true;
     } catch (RestApiException e) {
       return false;
-    } catch (OrmException | IOException e) {
+    } catch (StorageException | IOException e) {
       logger.atWarning().withCause(e).log(
           "Error checking if patch set %s on %s can be rebased", patchSet.getId(), dest);
       return false;
@@ -83,7 +83,7 @@ public class RebaseUtil {
     public abstract PatchSet patchSet();
   }
 
-  public Base parseBase(RevisionResource rsrc, String base) throws OrmException {
+  public Base parseBase(RevisionResource rsrc, String base) throws StorageException {
     // Try parsing the base as a ref string.
     PatchSet.Id basePatchSetId = PatchSet.Id.fromRef(base);
     if (basePatchSetId != null) {
@@ -119,7 +119,7 @@ public class RebaseUtil {
     return ret;
   }
 
-  private ChangeNotes notesFor(RevisionResource rsrc, Change.Id id) throws OrmException {
+  private ChangeNotes notesFor(RevisionResource rsrc, Change.Id id) throws StorageException {
     if (rsrc.getChange().getId().equals(id)) {
       return rsrc.getNotes();
     }
@@ -139,11 +139,11 @@ public class RebaseUtil {
    * @return the commit onto which the patch set should be rebased.
    * @throws RestApiException if rebase is not possible.
    * @throws IOException if accessing the repository fails.
-   * @throws OrmException if accessing the database fails.
+   * @throws StorageException if accessing the database fails.
    */
   public ObjectId findBaseRevision(
       PatchSet patchSet, Branch.NameKey destBranch, Repository git, RevWalk rw)
-      throws RestApiException, IOException, OrmException {
+      throws RestApiException, IOException, StorageException {
     String baseRev = null;
     RevCommit commit = rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
 

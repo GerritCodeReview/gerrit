@@ -17,12 +17,12 @@ package com.google.gerrit.server.args4j;
 import static com.google.gerrit.util.cli.Localizable.localizable;
 
 import com.google.common.base.Splitter;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -67,7 +67,7 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
       }
     } catch (IllegalArgumentException e) {
       throw new CmdLineException(owner, localizable("Change-Id is not valid"));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       throw new CmdLineException(owner, localizable("Database error: %s"), e.getMessage());
     }
 

@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth8.assertThat;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.exceptions.NoSuchGroupException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.ServerInitiated;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -92,7 +92,7 @@ public class GroupsUpdateIT {
   }
 
   private void createGroup(InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws StorageException, IOException, ConfigInvalidException {
     groupsUpdateProvider.get().createGroup(groupCreation, groupUpdate);
   }
 
@@ -138,7 +138,7 @@ public class GroupsUpdateIT {
       InternalGroupUpdate groupUpdate = InternalGroupUpdate.builder().build();
       try {
         groupsUpdateProvider.get().createGroup(groupCreation, groupUpdate);
-      } catch (OrmException | IOException | ConfigInvalidException e) {
+      } catch (StorageException | IOException | ConfigInvalidException e) {
         throw new IllegalStateException(e);
       }
     }

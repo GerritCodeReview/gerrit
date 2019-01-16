@@ -26,6 +26,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.exceptions.StorageRuntimeException;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.index.IndexConfig;
@@ -37,8 +39,6 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.logging.CallerFinder;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.OrmRuntimeException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -173,7 +173,7 @@ public abstract class QueryProcessor<T> {
    * @param query the query.
    * @return results of the query.
    */
-  public QueryResult<T> query(Predicate<T> query) throws OrmException, QueryParseException {
+  public QueryResult<T> query(Predicate<T> query) throws StorageException, QueryParseException {
     return query(ImmutableList.of(query)).get(0);
   }
 
@@ -189,12 +189,12 @@ public abstract class QueryProcessor<T> {
    *     input.
    */
   public List<QueryResult<T>> query(List<Predicate<T>> queries)
-      throws OrmException, QueryParseException {
+      throws StorageException, QueryParseException {
     try {
       return query(null, queries);
-    } catch (OrmRuntimeException e) {
-      throw new OrmException(e.getMessage(), e);
-    } catch (OrmException e) {
+    } catch (StorageRuntimeException e) {
+      throw new StorageException(e.getMessage(), e);
+    } catch (StorageException e) {
       if (e.getCause() != null) {
         Throwables.throwIfInstanceOf(e.getCause(), QueryParseException.class);
       }
@@ -204,7 +204,7 @@ public abstract class QueryProcessor<T> {
 
   private List<QueryResult<T>> query(
       @Nullable List<String> queryStrings, List<Predicate<T>> queries)
-      throws OrmException, QueryParseException {
+      throws StorageException, QueryParseException {
     long startNanos = System.nanoTime();
     checkState(!used.getAndSet(true), "%s has already been used", getClass().getSimpleName());
     int cnt = queries.size();
@@ -287,7 +287,7 @@ public abstract class QueryProcessor<T> {
       // Only measure successful queries that actually touched the index.
       metrics.executionTime.record(
           schemaDef.getName(), System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
-    } catch (OrmException | OrmRuntimeException e) {
+    } catch (StorageException | StorageRuntimeException e) {
       Optional<QueryParseException> qpe = findQueryParseException(e);
       if (qpe.isPresent()) {
         throw new QueryParseException(qpe.get().getMessage(), e);

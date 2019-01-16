@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -59,7 +60,6 @@ import com.google.gerrit.server.submit.MergeIdenticalTreeException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -141,7 +141,7 @@ public class CherryPickChange {
       PatchSet patch,
       CherryPickInput input,
       Branch.NameKey dest)
-      throws OrmException, IOException, InvalidChangeOperationException, IntegrationException,
+      throws StorageException, IOException, InvalidChangeOperationException, IntegrationException,
           UpdateException, RestApiException, ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
         batchUpdateFactory,
@@ -159,7 +159,7 @@ public class CherryPickChange {
       ObjectId sourceCommit,
       CherryPickInput input,
       Branch.NameKey dest)
-      throws OrmException, IOException, InvalidChangeOperationException, IntegrationException,
+      throws StorageException, IOException, InvalidChangeOperationException, IntegrationException,
           UpdateException, RestApiException, ConfigInvalidException, NoSuchProjectException {
 
     IdentifiedUser identifiedUser = user.get();
@@ -275,7 +275,7 @@ public class CherryPickChange {
   }
 
   private RevCommit getBaseCommit(Ref destRef, String project, RevWalk revWalk, String base)
-      throws RestApiException, IOException, OrmException {
+      throws RestApiException, IOException, StorageException {
     RevCommit destRefTip = revWalk.parseCommit(destRef.getObjectId());
     // The tip commit of the destination ref is the default base for the newly created change.
     if (Strings.isNullOrEmpty(base)) {
@@ -336,7 +336,7 @@ public class CherryPickChange {
       @Nullable Change sourceChange,
       ObjectId sourceCommit,
       CherryPickInput input)
-      throws OrmException, IOException {
+      throws StorageException, IOException {
     Change.Id changeId = new Change.Id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
     Branch.NameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
@@ -363,7 +363,7 @@ public class CherryPickChange {
   }
 
   private NotifyResolver.Result resolveNotify(CherryPickInput input)
-      throws BadRequestException, OrmException, ConfigInvalidException, IOException {
+      throws BadRequestException, StorageException, ConfigInvalidException, IOException {
     return notifyResolver.resolve(
         firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
   }

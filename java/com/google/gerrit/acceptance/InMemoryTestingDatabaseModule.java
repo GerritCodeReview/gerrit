@@ -17,6 +17,8 @@ package com.google.gerrit.acceptance;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.exceptions.StorageRuntimeException;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -30,8 +32,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 import java.io.IOException;
@@ -91,8 +91,8 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     public void start() {
       try {
         schemaCreator.ensureCreated();
-      } catch (OrmException | IOException | ConfigInvalidException e) {
-        throw new OrmRuntimeException(e);
+      } catch (StorageException | IOException | ConfigInvalidException e) {
+        throw new StorageRuntimeException(e);
       }
     }
 

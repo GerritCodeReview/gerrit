@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -39,7 +40,6 @@ import com.google.gerrit.server.submit.MergeOp;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.update.UpdateException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -82,8 +82,8 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
 
   @Override
   public BinaryResult apply(RevisionResource rsrc)
-      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws StorageException, RestApiException, UpdateException, IOException,
+          ConfigInvalidException, PermissionBackendException {
     if (Strings.isNullOrEmpty(format)) {
       throw new BadRequestException("format is not specified");
     }
@@ -110,8 +110,8 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   }
 
   private BinaryResult getBundles(RevisionResource rsrc, ArchiveFormat f)
-      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws StorageException, RestApiException, UpdateException, IOException,
+          ConfigInvalidException, PermissionBackendException {
     IdentifiedUser caller = rsrc.getUser().asIdentifiedUser();
     Change change = rsrc.getChange();
 
@@ -124,7 +124,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
           .setContentType(f.getMimeType())
           .setAttachmentName("submit-preview-" + change.getChangeId() + "." + format);
       return bin;
-    } catch (OrmException
+    } catch (StorageException
         | RestApiException
         | UpdateException
         | IOException

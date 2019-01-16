@@ -22,6 +22,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.DataSource;
@@ -34,7 +35,6 @@ import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
-import com.google.gwtorm.server.OrmException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -81,7 +81,7 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
   }
 
   @Override
-  public ResultSet<ChangeData> read() throws OrmException {
+  public ResultSet<ChangeData> read() throws StorageException {
     final DataSource<ChangeData> currSource = source;
     final ResultSet<ChangeData> rs = currSource.read();
 
@@ -114,7 +114,7 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
   }
 
   @Override
-  public boolean match(ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) throws StorageException {
     if (source != null && fromSource.get(cd) == source) {
       return true;
     }

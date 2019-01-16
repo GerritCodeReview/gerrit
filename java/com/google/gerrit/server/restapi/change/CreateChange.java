@@ -21,6 +21,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -71,7 +72,6 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestCollectionModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -159,7 +159,7 @@ public class CreateChange
   @Override
   protected Response<ChangeInfo> applyImpl(
       BatchUpdate.Factory updateFactory, TopLevelResource parent, ChangeInput input)
-      throws OrmException, IOException, InvalidChangeOperationException, RestApiException,
+      throws StorageException, IOException, InvalidChangeOperationException, RestApiException,
           UpdateException, PermissionBackendException, ConfigInvalidException {
     IdentifiedUser me = user.get().asIdentifiedUser();
     checkAndSanitizeChangeInput(input, me);
@@ -267,7 +267,7 @@ public class CreateChange
       IdentifiedUser me,
       ProjectState projectState,
       BatchUpdate.Factory updateFactory)
-      throws RestApiException, OrmException, PermissionBackendException, IOException,
+      throws RestApiException, StorageException, PermissionBackendException, IOException,
           ConfigInvalidException, UpdateException {
     try (Repository git = gitManager.openRepository(projectState.getNameKey());
         ObjectInserter oi = git.newObjectInserter();
@@ -320,7 +320,7 @@ public class CreateChange
   }
 
   private ChangeNotes getBaseChange(String baseChange)
-      throws OrmException, UnprocessableEntityException, PermissionBackendException {
+      throws StorageException, UnprocessableEntityException, PermissionBackendException {
     List<ChangeNotes> notes = changeFinder.find(baseChange);
     if (notes.size() != 1) {
       throw new UnprocessableEntityException("Base change not found: " + baseChange);
@@ -442,7 +442,7 @@ public class CreateChange
       MergeInput merge,
       PersonIdent authorIdent,
       String commitMessage)
-      throws RestApiException, IOException, OrmException {
+      throws RestApiException, IOException, StorageException {
     if (Strings.isNullOrEmpty(merge.source)) {
       throw new BadRequestException("merge.source must be non-empty");
     }

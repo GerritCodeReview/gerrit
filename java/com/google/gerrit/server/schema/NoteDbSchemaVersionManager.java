@@ -17,11 +17,11 @@ package com.google.gerrit.server.schema;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_VERSION;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.IntBlob;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;
@@ -45,20 +45,20 @@ public class NoteDbSchemaVersionManager {
     this.repoManager = repoManager;
   }
 
-  public int read() throws OrmException {
+  public int read() throws StorageException {
     try (Repository repo = repoManager.openRepository(allProjectsName)) {
       return IntBlob.parse(repo, REFS_VERSION).map(IntBlob::value).orElse(0);
     } catch (IOException e) {
-      throw new OrmException("Failed to read " + REFS_VERSION, e);
+      throw new StorageException("Failed to read " + REFS_VERSION, e);
     }
   }
 
-  public void init() throws IOException, OrmException {
+  public void init() throws IOException, StorageException {
     try (Repository repo = repoManager.openRepository(allProjectsName);
         RevWalk rw = new RevWalk(repo)) {
       Optional<IntBlob> old = IntBlob.parse(repo, REFS_VERSION, rw);
       if (old.isPresent()) {
-        throw new OrmException(
+        throw new StorageException(
             String.format(
                 "Expected no old version for %s, found %s", REFS_VERSION, old.get().value()));
       }
@@ -73,12 +73,12 @@ public class NoteDbSchemaVersionManager {
     }
   }
 
-  public void increment(int expectedOldVersion) throws IOException, OrmException {
+  public void increment(int expectedOldVersion) throws IOException, StorageException {
     try (Repository repo = repoManager.openRepository(allProjectsName);
         RevWalk rw = new RevWalk(repo)) {
       Optional<IntBlob> old = IntBlob.parse(repo, REFS_VERSION, rw);
       if (old.isPresent() && old.get().value() != expectedOldVersion) {
-        throw new OrmException(
+        throw new StorageException(
             String.format(
                 "Expected old version %d for %s, found %d",
                 expectedOldVersion, REFS_VERSION, old.get().value()));

@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -33,7 +34,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -77,7 +77,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
 
   @Override
   public RevisionResource parse(ChangeResource change, IdString id)
-      throws ResourceNotFoundException, AuthException, OrmException, IOException,
+      throws ResourceNotFoundException, AuthException, StorageException, IOException,
           PermissionBackendException {
     if (id.get().equals("current")) {
       PatchSet ps = psUtil.current(change.getNotes());
@@ -117,7 +117,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   }
 
   private List<RevisionResource> find(ChangeResource change, String id)
-      throws OrmException, IOException, AuthException {
+      throws StorageException, IOException, AuthException {
     if (id.equals("0") || id.equals("edit")) {
       return loadEdit(change, null);
     } else if (id.length() < 6 && id.matches("^[1-9][0-9]{0,4}$")) {
@@ -143,7 +143,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   }
 
   private List<RevisionResource> byLegacyPatchSetId(ChangeResource change, String id)
-      throws OrmException {
+      throws StorageException {
     PatchSet ps =
         psUtil.get(change.getNotes(), new PatchSet.Id(change.getId(), Integer.parseInt(id)));
     if (ps != null) {

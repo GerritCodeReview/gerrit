@@ -16,6 +16,8 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
+import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.exceptions.StorageRuntimeException;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.Response;
@@ -28,8 +30,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.submit.ChangeSet;
 import com.google.gerrit.server.submit.MergeSuperSet;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -57,7 +57,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
   }
 
   @Override
-  public Response<Map<String, ActionInfo>> apply(RevisionResource rsrc) throws OrmException {
+  public Response<Map<String, ActionInfo>> apply(RevisionResource rsrc) throws StorageException {
     return Response.withMustRevalidate(delegate.format(rsrc));
   }
 
@@ -73,8 +73,8 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
         changeResourceFactory.create(cd.notes(), user).prepareETag(h, user);
       }
       h.putBoolean(cs.furtherHiddenChanges());
-    } catch (IOException | OrmException | PermissionBackendException e) {
-      throw new OrmRuntimeException(e);
+    } catch (IOException | StorageException | PermissionBackendException e) {
+      throw new StorageRuntimeException(e);
     }
     return h.hash().toString();
   }

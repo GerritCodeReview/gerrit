@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -23,7 +24,6 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.change.ChangeMessageResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.List;
@@ -52,7 +52,7 @@ public class ChangeMessages implements ChildCollection<ChangeResource, ChangeMes
 
   @Override
   public ChangeMessageResource parse(ChangeResource parent, IdString id)
-      throws OrmException, ResourceNotFoundException, PermissionBackendException {
+      throws StorageException, ResourceNotFoundException, PermissionBackendException {
     String uuid = id.get();
 
     List<ChangeMessageInfo> changeMessages = listChangeMessages.apply(parent);

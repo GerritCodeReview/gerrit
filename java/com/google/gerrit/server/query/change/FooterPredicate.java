@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 import java.util.Locale;
 
 public class FooterPredicate extends ChangeIndexPredicate {
@@ -35,7 +35,7 @@ public class FooterPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) throws StorageException {
     return ChangeField.getFooters(cd).contains(value);
   }
 

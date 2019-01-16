@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ChildProjects;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
@@ -67,7 +67,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
 
   @Override
   public List<ProjectInfo> apply(ProjectResource rsrc)
-      throws PermissionBackendException, OrmException, RestApiException {
+      throws PermissionBackendException, StorageException, RestApiException {
     if (limit < 0) {
       throw new BadRequestException("limit must be a positive number");
     }
@@ -83,7 +83,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   }
 
   private List<ProjectInfo> directChildProjects(Project.NameKey parent)
-      throws OrmException, RestApiException {
+      throws StorageException, RestApiException {
     PermissionBackend.WithUser currentUser = permissionBackend.currentUser();
     return queryProvider.get().withQuery("parent:" + parent.get()).withLimit(limit).apply().stream()
         .filter(

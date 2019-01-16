@@ -18,6 +18,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
@@ -35,7 +36,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.DefaultSubmitRule;
 import com.google.gerrit.server.rules.PrologRule;
 import com.google.gerrit.server.rules.RulesCache;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -70,7 +70,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
 
   @Override
   public List<TestSubmitRuleInfo> apply(RevisionResource rsrc, TestSubmitRuleInput input)
-      throws AuthException, OrmException, PermissionBackendException, BadRequestException {
+      throws AuthException, StorageException, PermissionBackendException, BadRequestException {
     if (input == null) {
       input = new TestSubmitRuleInput();
     }

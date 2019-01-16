@@ -20,12 +20,12 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
-import com.google.gwtorm.server.OrmException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
@@ -88,15 +88,15 @@ public class InternalQuery<T, Q extends InternalQuery<T, Q>> {
     return self();
   }
 
-  public final List<T> query(Predicate<T> p) throws OrmException {
+  public final List<T> query(Predicate<T> p) throws StorageException {
     return queryResults(p).entities();
   }
 
-  final QueryResult<T> queryResults(Predicate<T> p) throws OrmException {
+  final QueryResult<T> queryResults(Predicate<T> p) throws StorageException {
     try {
       return queryProcessor.query(p);
     } catch (QueryParseException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
   }
 
@@ -110,11 +110,11 @@ public class InternalQuery<T, Q extends InternalQuery<T, Q>> {
    * @return results of the queries, one list of results per input query, in the same order as the
    *     input.
    */
-  public final List<List<T>> query(List<Predicate<T>> queries) throws OrmException {
+  public final List<List<T>> query(List<Predicate<T>> queries) throws StorageException {
     try {
       return Lists.transform(queryProcessor.query(queries), QueryResult::entities);
     } catch (QueryParseException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
   }
 
@@ -144,11 +144,11 @@ public class InternalQuery<T, Q extends InternalQuery<T, Q>> {
    * @param predicate predicate to search for.
    * @param <T> result type.
    * @return exhaustive list of results, subject to the race condition described above.
-   * @throws OrmException if an error occurred.
+   * @throws StorageException if an error occurred.
    */
   protected static <T> ImmutableList<T> queryExhaustively(
       Supplier<? extends InternalQuery<T, ?>> querySupplier, Predicate<T> predicate)
-      throws OrmException {
+      throws StorageException {
     ImmutableList.Builder<T> b = null;
     int start = 0;
     while (true) {

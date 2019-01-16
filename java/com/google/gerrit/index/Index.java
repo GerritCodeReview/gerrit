@@ -15,12 +15,12 @@
 package com.google.gerrit.index;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -100,7 +100,7 @@ public interface Index<K, V> {
       results = getSource(keyPredicate(key), opts).read().toList();
     } catch (QueryParseException e) {
       throw new IOException("Unexpected QueryParseException during get()", e);
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       throw new IOException(e);
     }
     if (results.size() > 1) {
@@ -125,7 +125,7 @@ public interface Index<K, V> {
       results = getSource(keyPredicate(key), opts).readRaw().toList();
     } catch (QueryParseException e) {
       throw new IOException("Unexpected QueryParseException during get()", e);
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       throw new IOException(e);
     }
     if (results.size() > 1) {

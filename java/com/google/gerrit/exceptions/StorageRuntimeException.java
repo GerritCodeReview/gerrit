@@ -12,21 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gwtorm.server;
+package com.google.gerrit.exceptions;
 
 /** Any data store read or write error. */
-public class OrmRuntimeException extends RuntimeException {
+public class StorageRuntimeException extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
-  public OrmRuntimeException(String message) {
+  public StorageRuntimeException(String message) {
     super(message);
   }
 
-  public OrmRuntimeException(String message, Throwable why) {
+  public StorageRuntimeException(String message, Throwable why) {
     super(message, why);
   }
 
-  public OrmRuntimeException(Throwable why) {
+  public StorageRuntimeException(Throwable why) {
     super(why);
   }
 }

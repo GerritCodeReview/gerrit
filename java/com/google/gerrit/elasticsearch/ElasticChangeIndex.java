@@ -33,6 +33,7 @@ import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -60,7 +61,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -107,7 +107,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   }
 
   @Override
-  public void replace(ChangeData cd) throws IOException {
+  public void replace(ChangeData cd) {
     String deleteIndex;
     String insertIndex;
 
@@ -131,7 +131,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     Response response = postRequest(uri, bulk, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
-      throw new IOException(
+      throw new StorageException(
           String.format(
               "Failed to replace change %s in index %s: %s", cd.getId(), indexName, statusCode));
     }

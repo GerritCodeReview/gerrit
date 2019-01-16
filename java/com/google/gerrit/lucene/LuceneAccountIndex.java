@@ -19,6 +19,7 @@ import static com.google.gerrit.server.index.account.AccountField.FULL_NAME;
 import static com.google.gerrit.server.index.account.AccountField.ID;
 import static com.google.gerrit.server.index.account.AccountField.PREFERRED_EMAIL_EXACT;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
@@ -120,20 +121,20 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   }
 
   @Override
-  public void replace(AccountState as) throws IOException {
+  public void replace(AccountState as) {
     try {
       replace(idTerm(as), toDocument(as)).get();
     } catch (ExecutionException | InterruptedException e) {
-      throw new IOException(e);
+      throw new StorageException(e);
     }
   }
 
   @Override
-  public void delete(Account.Id key) throws IOException {
+  public void delete(Account.Id key) {
     try {
       delete(idTerm(key)).get();
     } catch (ExecutionException | InterruptedException e) {
-      throw new IOException(e);
+      throw new StorageException(e);
     }
   }
 

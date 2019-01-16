@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.query.change.ChangeData;
-import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -54,17 +53,17 @@ public class DisabledChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public void replace(ChangeData obj) throws IOException {
+  public void replace(ChangeData obj) {
     throw new UnsupportedOperationException("ChangeIndex is disabled");
   }
 
   @Override
-  public void delete(Id key) throws IOException {
+  public void delete(Id key) {
     throw new UnsupportedOperationException("ChangeIndex is disabled");
   }
 
   @Override
-  public void deleteAll() throws IOException {
+  public void deleteAll() {
     throw new UnsupportedOperationException("ChangeIndex is disabled");
   }
 
@@ -75,12 +74,12 @@ public class DisabledChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public void markReady(boolean ready) throws IOException {
+  public void markReady(boolean ready) {
     throw new UnsupportedOperationException("ChangeIndex is disabled");
   }
 
   @Override
-  public Optional<ChangeData> get(Change.Id key, QueryOptions opts) throws IOException {
+  public Optional<ChangeData> get(Change.Id key, QueryOptions opts) {
     throw new UnsupportedOperationException("ChangeIndex is disabled");
   }
 }

@@ -120,11 +120,7 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
   public void activateIndex() {
     indexes.setSearchIndex(index);
     logger.atInfo().log("Using %s schema version %s", name, version(index));
-    try {
-      index.markReady(true);
-    } catch (IOException e) {
-      logger.atWarning().log("Error activating new %s schema version %s", name, version(index));
-    }
+    index.markReady(true);
 
     List<I> toRemove = Lists.newArrayListWithExpectedSize(1);
     for (I i : indexes.getWriteIndexes()) {
@@ -133,12 +129,8 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
       }
     }
     for (I i : toRemove) {
-      try {
-        i.markReady(false);
-        indexes.removeWriteIndex(version(i));
-      } catch (IOException e) {
-        logger.atWarning().log("Error deactivating old %s schema version %s", name, version(i));
-      }
+      i.markReady(false);
+      indexes.removeWriteIndex(version(i));
     }
   }
 }

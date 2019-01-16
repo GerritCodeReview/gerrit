@@ -18,6 +18,7 @@ import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -36,7 +37,6 @@ import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
 import java.util.Set;
 import org.apache.http.HttpStatus;
 import org.elasticsearch.client.Response;
@@ -71,7 +71,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
   }
 
   @Override
-  public void replace(InternalGroup group) throws IOException {
+  public void replace(InternalGroup group) {
     BulkRequest bulk =
         new IndexRequest(getId(group), indexName, type, client.adapter())
             .add(new UpdateRequest<>(schema, group));
@@ -80,7 +80,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
     Response response = postRequest(uri, bulk, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
-      throw new IOException(
+      throw new StorageException(
           String.format(
               "Failed to replace group %s in index %s: %s",
               group.getGroupUUID().get(), indexName, statusCode));

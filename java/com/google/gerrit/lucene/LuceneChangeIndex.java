@@ -200,7 +200,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public void replace(ChangeData cd) throws IOException {
+  public void replace(ChangeData cd) {
     Term id = LuceneChangeIndex.idTerm(cd);
     // toDocument is essentially static and doesn't depend on the specific
     // sub-index, so just pick one.
@@ -211,23 +211,23 @@ public class LuceneChangeIndex implements ChangeIndex {
       } else {
         Futures.allAsList(openIndex.delete(id), closedIndex.replace(id, doc)).get();
       }
-    } catch (StorageException | ExecutionException | InterruptedException e) {
-      throw new IOException(e);
+    } catch (ExecutionException | InterruptedException e) {
+      throw new StorageException(e);
     }
   }
 
   @Override
-  public void delete(Change.Id id) throws IOException {
+  public void delete(Change.Id id) {
     Term idTerm = LuceneChangeIndex.idTerm(id);
     try {
       Futures.allAsList(openIndex.delete(idTerm), closedIndex.delete(idTerm)).get();
     } catch (ExecutionException | InterruptedException e) {
-      throw new IOException(e);
+      throw new StorageException(e);
     }
   }
 
   @Override
-  public void deleteAll() throws IOException {
+  public void deleteAll() {
     openIndex.deleteAll();
     closedIndex.deleteAll();
   }
@@ -247,7 +247,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public void markReady(boolean ready) throws IOException {
+  public void markReady(boolean ready) {
     // Arbitrary done on open index, as ready bit is set
     // per index and not sub index
     openIndex.markReady(ready);

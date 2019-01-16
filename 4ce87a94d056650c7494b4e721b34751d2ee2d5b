@@ -22,6 +22,30 @@
       "revId": "4ce87a94d056650c7494b4e721b34751d2ee2d5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "776bafba_4e1b0c23",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-16T14:21:29Z",
+      "side": 1,
+      "message": "Done. \n\nSorry for forgetting this guide from time to time.",
+      "parentUuid": "29b88305_3b3d8c85",
+      "range": {
+        "startLine": 92,
+        "startChar": 26,
+        "endLine": 92,
+        "endChar": 41
+      },
+      "revId": "4ce87a94d056650c7494b4e721b34751d2ee2d5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

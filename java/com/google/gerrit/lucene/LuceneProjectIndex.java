@@ -17,6 +17,7 @@ package com.google.gerrit.lucene;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.index.project.ProjectField.NAME;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
@@ -110,20 +111,20 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
   }
 
   @Override
-  public void replace(ProjectData projectState) throws IOException {
+  public void replace(ProjectData projectState) {
     try {
       replace(idTerm(projectState), toDocument(projectState)).get();
     } catch (ExecutionException | InterruptedException e) {
-      throw new IOException(e);
+      throw new StorageException(e);
     }
   }
 
   @Override
-  public void delete(Project.NameKey nameKey) throws IOException {
+  public void delete(Project.NameKey nameKey) {
     try {
       delete(idTerm(nameKey)).get();
     } catch (ExecutionException | InterruptedException e) {
-      throw new IOException(e);
+      throw new StorageException(e);
     }
   }
 

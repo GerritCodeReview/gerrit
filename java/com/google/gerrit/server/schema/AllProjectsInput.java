@@ -75,7 +75,7 @@ public abstract class AllProjectsInput {
 
   /** The "Code-Review" label to be defined in All-Projects. */
   @UsedAt(UsedAt.Project.GOOGLE)
-  public abstract LabelType codeReviewLabel();
+  public abstract Optional<LabelType> codeReviewLabel();
 
   /** Description for the All-Projects. */
   public abstract Optional<String> projectDescription();

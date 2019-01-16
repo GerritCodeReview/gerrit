@@ -21,7 +21,6 @@ import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -48,24 +47,18 @@ public interface Index<K, V> {
    * searchers, but should be visible within a reasonable amount of time.
    *
    * @param obj document object
-   * @throws IOException
    */
-  void replace(V obj) throws IOException;
+  void replace(V obj);
 
   /**
    * Delete a document from the index by key.
    *
    * @param key document key
-   * @throws IOException
    */
-  void delete(K key) throws IOException;
+  void delete(K key);
 
-  /**
-   * Delete all documents from the index.
-   *
-   * @throws IOException
-   */
-  void deleteAll() throws IOException;
+  /** Delete all documents from the index. */
+  void deleteAll();
 
   /**
    * Convert the given operator predicate into a source searching the index and returning only the
@@ -91,20 +84,17 @@ public interface Index<K, V> {
    * @param opts query options. Options that do not make sense in the context of a single document,
    *     such as start, will be ignored.
    * @return a single document if present.
-   * @throws IOException
    */
-  default Optional<V> get(K key, QueryOptions opts) throws IOException {
+  default Optional<V> get(K key, QueryOptions opts) {
     opts = opts.withStart(0).withLimit(2);
     ImmutableList<V> results;
     try {
       results = getSource(keyPredicate(key), opts).read().toList();
     } catch (QueryParseException e) {
-      throw new IOException("Unexpected QueryParseException during get()", e);
-    } catch (StorageException e) {
-      throw new IOException(e);
+      throw new StorageException("Unexpected QueryParseException during get()", e);
     }
     if (results.size() > 1) {
-      throw new IOException("Multiple results found in index for key " + key + ": " + results);
+      throw new StorageException("Multiple results found in index for key " + key + ": " + results);
     }
     return results.stream().findFirst();
   }
@@ -116,20 +106,17 @@ public interface Index<K, V> {
    * @param opts query options. Options that do not make sense in the context of a single document,
    *     such as start, will be ignored.
    * @return an abstraction of a raw index document to retrieve fields from.
-   * @throws IOException
    */
-  default Optional<FieldBundle> getRaw(K key, QueryOptions opts) throws IOException {
+  default Optional<FieldBundle> getRaw(K key, QueryOptions opts) {
     opts = opts.withStart(0).withLimit(2);
     ImmutableList<FieldBundle> results;
     try {
       results = getSource(keyPredicate(key), opts).readRaw().toList();
     } catch (QueryParseException e) {
-      throw new IOException("Unexpected QueryParseException during get()", e);
-    } catch (StorageException e) {
-      throw new IOException(e);
+      throw new StorageException("Unexpected QueryParseException during get()", e);
     }
     if (results.size() > 1) {
-      throw new IOException("Multiple results found in index for key " + key + ": " + results);
+      throw new StorageException("Multiple results found in index for key " + key + ": " + results);
     }
     return results.stream().findFirst();
   }
@@ -146,7 +133,6 @@ public interface Index<K, V> {
    * Mark whether this index is up-to-date and ready to serve reads.
    *
    * @param ready whether the index is ready
-   * @throws IOException
    */
-  void markReady(boolean ready) throws IOException;
+  void markReady(boolean ready);
 }

@@ -17,9 +17,7 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.index.change.ChangeField.EXACT_COMMITTER;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_EXACTCOMMITTER;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.index.change.ChangeField;
-import java.io.IOException;
 import java.util.Locale;
 
 public class ExactCommitterPredicate extends ChangeIndexPredicate {
@@ -29,11 +27,7 @@ public class ExactCommitterPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData object) {
-    try {
-      return ChangeField.getCommitterNameAndEmail(object).contains(getValue());
-    } catch (IOException e) {
-      throw new StorageException(e);
-    }
+    return ChangeField.getCommitterNameAndEmail(object).contains(getValue());
   }
 
   @Override

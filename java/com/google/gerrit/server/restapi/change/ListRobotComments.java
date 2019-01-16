@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.RobotComment;
@@ -41,7 +40,7 @@ public class ListRobotComments implements RestReadView<RevisionResource> {
 
   @Override
   public Map<String, List<RobotCommentInfo>> apply(RevisionResource rsrc)
-      throws StorageException, PermissionBackendException {
+      throws PermissionBackendException {
     return commentJson
         .get()
         .setFillAccounts(true)
@@ -50,7 +49,7 @@ public class ListRobotComments implements RestReadView<RevisionResource> {
   }
 
   public ImmutableList<RobotCommentInfo> getComments(RevisionResource rsrc)
-      throws StorageException, PermissionBackendException {
+      throws PermissionBackendException {
     return commentJson
         .get()
         .setFillAccounts(true)
@@ -58,7 +57,7 @@ public class ListRobotComments implements RestReadView<RevisionResource> {
         .formatAsList(listComments(rsrc));
   }
 
-  private Iterable<RobotComment> listComments(RevisionResource rsrc) throws StorageException {
+  private Iterable<RobotComment> listComments(RevisionResource rsrc) {
     return commentsUtil.robotCommentsByPatchSet(rsrc.getNotes(), rsrc.getPatchSet().getId());
   }
 }

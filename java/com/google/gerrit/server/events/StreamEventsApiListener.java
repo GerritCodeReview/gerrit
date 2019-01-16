@@ -135,7 +135,7 @@ public class StreamEventsApiListener
     this.changeNotesFactory = changeNotesFactory;
   }
 
-  private ChangeNotes getNotes(ChangeInfo info) throws StorageException {
+  private ChangeNotes getNotes(ChangeInfo info) {
     try {
       return changeNotesFactory.createChecked(new Change.Id(info._number));
     } catch (NoSuchChangeException e) {
@@ -143,7 +143,7 @@ public class StreamEventsApiListener
     }
   }
 
-  private PatchSet getPatchSet(ChangeNotes notes, RevisionInfo info) throws StorageException {
+  private PatchSet getPatchSet(ChangeNotes notes, RevisionInfo info) {
     return psUtil.get(notes, PatchSet.Id.fromRef(info.ref));
   }
 

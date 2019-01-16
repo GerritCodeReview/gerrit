@@ -77,8 +77,7 @@ public abstract class NotificationEmail extends OutgoingEmail {
   }
 
   /** Returns all watchers that are relevant */
-  protected abstract Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig)
-      throws StorageException;
+  protected abstract Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig);
 
   /** Add users or email addresses to the TO, CC, or BCC list. */
   protected void add(RecipientType type, Watchers.List list) {

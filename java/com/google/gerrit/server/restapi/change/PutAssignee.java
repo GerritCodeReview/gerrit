@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -74,8 +73,8 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
   @Override
   protected AccountInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, AssigneeInput input)
-      throws RestApiException, UpdateException, StorageException, IOException,
-          PermissionBackendException, ConfigInvalidException {
+      throws RestApiException, UpdateException, IOException, PermissionBackendException,
+          ConfigInvalidException {
     rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
 
     input.assignee = Strings.nullToEmpty(input.assignee).trim();
@@ -108,7 +107,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
   }
 
   private ReviewerAddition addAssigneeAsCC(ChangeResource rsrc, String assignee)
-      throws StorageException, IOException, PermissionBackendException, ConfigInvalidException {
+      throws IOException, PermissionBackendException, ConfigInvalidException {
     AddReviewerInput reviewerInput = new AddReviewerInput();
     reviewerInput.reviewer = assignee;
     reviewerInput.state = ReviewerState.CC;

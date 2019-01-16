@@ -18,7 +18,6 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.UsedAt;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.HttpPasswordInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -75,8 +74,8 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
 
   @Override
   public Response<String> apply(AccountResource rsrc, HttpPasswordInput input)
-      throws AuthException, ResourceNotFoundException, ResourceConflictException, StorageException,
-          IOException, ConfigInvalidException, PermissionBackendException {
+      throws AuthException, ResourceNotFoundException, ResourceConflictException, IOException,
+          ConfigInvalidException, PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
@@ -100,7 +99,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
   }
 
   public Response<String> apply(IdentifiedUser user, String newPassword)
-      throws ResourceNotFoundException, ResourceConflictException, StorageException, IOException,
+      throws ResourceNotFoundException, ResourceConflictException, IOException,
           ConfigInvalidException {
     String userName =
         user.getUserName().orElseThrow(() -> new ResourceConflictException("username must be set"));

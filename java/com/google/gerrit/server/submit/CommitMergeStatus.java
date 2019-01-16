@@ -17,7 +17,6 @@ package com.google.gerrit.server.submit;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -93,8 +92,7 @@ public enum CommitMergeStatus {
       @Nullable CurrentUser caller,
       Provider<InternalChangeQuery> queryProvider,
       String commit,
-      String otherCommit)
-      throws StorageException {
+      String otherCommit) {
     List<ChangeData> changes = queryProvider.get().enforceVisibility(true).byCommit(otherCommit);
 
     if (changes.isEmpty()) {

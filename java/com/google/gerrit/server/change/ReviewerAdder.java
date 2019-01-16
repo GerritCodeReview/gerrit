@@ -31,7 +31,6 @@ import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -188,14 +187,13 @@ public class ReviewerAdder {
    * @return handle describing the addition operation. If the {@code op} field is present, this
    *     operation may be added to a {@code BatchUpdate}. Otherwise, the {@code error} field
    *     contains information about an error that occurred
-   * @throws StorageException
    * @throws IOException
    * @throws PermissionBackendException
    * @throws ConfigInvalidException
    */
   public ReviewerAddition prepare(
       ChangeNotes notes, CurrentUser user, AddReviewerInput input, boolean allowGroup)
-      throws StorageException, IOException, PermissionBackendException, ConfigInvalidException {
+      throws IOException, PermissionBackendException, ConfigInvalidException {
     requireNonNull(input.reviewer);
     boolean confirmed = input.confirmed();
     boolean allowByEmail =
@@ -245,7 +243,7 @@ public class ReviewerAdder {
   @Nullable
   private ReviewerAddition addByAccountId(
       AddReviewerInput input, ChangeNotes notes, CurrentUser user)
-      throws StorageException, PermissionBackendException, IOException, ConfigInvalidException {
+      throws PermissionBackendException, IOException, ConfigInvalidException {
     IdentifiedUser reviewerUser;
     boolean exactMatchFound = false;
     try {
@@ -449,7 +447,7 @@ public class ReviewerAdder {
           : ImmutableSet.of();
     }
 
-    public void gatherResults(ChangeData cd) throws StorageException, PermissionBackendException {
+    public void gatherResults(ChangeData cd) throws PermissionBackendException {
       checkState(op != null, "addition did not result in an update op");
       checkState(op.getResult() != null, "op did not return a result");
 
@@ -510,7 +508,7 @@ public class ReviewerAdder {
       CurrentUser user,
       Iterable<? extends AddReviewerInput> inputs,
       boolean allowGroup)
-      throws StorageException, IOException, PermissionBackendException, ConfigInvalidException {
+      throws IOException, PermissionBackendException, ConfigInvalidException {
     // Process CC ops before reviewer ops, so a user that appears in both lists ends up as a
     // reviewer; the last call to ChangeUpdate#putReviewer wins. This can happen if the caller
     // specifies the same string twice, or less obviously if they specify multiple groups with
@@ -558,7 +556,7 @@ public class ReviewerAdder {
     // We never call updateRepo on the addition ops, which is only ok because it's a no-op.
 
     public void updateChange(ChangeContext ctx, PatchSet patchSet)
-        throws StorageException, RestApiException, IOException {
+        throws RestApiException, IOException {
       for (ReviewerAddition addition : additions()) {
         addition.op.setPatchSet(patchSet);
         addition.op.updateChange(ctx);

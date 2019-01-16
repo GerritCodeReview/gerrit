@@ -196,7 +196,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.approvals = approvals(labelNameComparator);
   }
 
-  public ObjectId commit() throws IOException, StorageException {
+  public ObjectId commit() throws IOException {
     try (NoteDbUpdateManager updateManager = updateManagerFactory.create(getProjectName())) {
       updateManager.add(this);
       updateManager.execute();
@@ -429,7 +429,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   /** @return the tree id for the updated tree */
   private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
-      throws ConfigInvalidException, StorageException, IOException {
+      throws ConfigInvalidException, IOException {
     if (comments.isEmpty() && pushCert == null) {
       return null;
     }
@@ -456,7 +456,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap(RevWalk rw, ObjectId curr)
-      throws ConfigInvalidException, StorageException, IOException {
+      throws ConfigInvalidException, IOException {
     if (curr.equals(ObjectId.zeroId())) {
       return RevisionNoteMap.emptyMap();
     }
@@ -482,8 +482,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private void checkComments(
-      Map<RevId, ChangeRevisionNote> existingNotes, Map<RevId, RevisionNoteBuilder> toUpdate)
-      throws StorageException {
+      Map<RevId, ChangeRevisionNote> existingNotes, Map<RevId, RevisionNoteBuilder> toUpdate) {
     // Prohibit various kinds of illegal operations on comments.
     Set<Comment.Key> existing = new HashSet<>();
     for (ChangeRevisionNote rn : existingNotes.values()) {
@@ -526,7 +525,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @Override
   protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
-      throws StorageException, IOException {
+      throws IOException {
     checkState(
         deleteCommentRewriter == null && deleteChangeMessageRewriter == null,
         "cannot update and rewrite ref in one BatchUpdate");

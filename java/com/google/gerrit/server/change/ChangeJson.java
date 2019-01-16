@@ -268,23 +268,23 @@ public class ChangeJson {
     return this;
   }
 
-  public ChangeInfo format(ChangeResource rsrc) throws StorageException {
+  public ChangeInfo format(ChangeResource rsrc) {
     return format(changeDataFactory.create(rsrc.getNotes()));
   }
 
-  public ChangeInfo format(Change change) throws StorageException {
+  public ChangeInfo format(Change change) {
     return format(changeDataFactory.create(change));
   }
 
-  public ChangeInfo format(Project.NameKey project, Change.Id id) throws StorageException {
+  public ChangeInfo format(Project.NameKey project, Change.Id id) {
     return format(project, id, ChangeInfo::new);
   }
 
-  public ChangeInfo format(ChangeData cd) throws StorageException {
+  public ChangeInfo format(ChangeData cd) {
     return format(cd, Optional.empty(), true, ChangeInfo::new);
   }
 
-  public ChangeInfo format(RevisionResource rsrc) throws StorageException {
+  public ChangeInfo format(RevisionResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     return format(cd, Optional.of(rsrc.getPatchSet().getId()), true, ChangeInfo::new);
   }
@@ -308,8 +308,7 @@ public class ChangeJson {
     }
   }
 
-  public List<ChangeInfo> format(Collection<ChangeData> in)
-      throws StorageException, PermissionBackendException {
+  public List<ChangeInfo> format(Collection<ChangeData> in) throws PermissionBackendException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     ensureLoaded(in);
     List<ChangeInfo> out = new ArrayList<>(in.size());
@@ -321,8 +320,7 @@ public class ChangeJson {
   }
 
   public <I extends ChangeInfo> I format(
-      Project.NameKey project, Change.Id id, Supplier<I> changeInfoSupplier)
-      throws StorageException {
+      Project.NameKey project, Change.Id id, Supplier<I> changeInfoSupplier) {
     ChangeNotes notes;
     try {
       notes = notesFactory.createChecked(project, id);
@@ -367,8 +365,7 @@ public class ChangeJson {
       ChangeData cd,
       Optional<PatchSet.Id> limitToPsId,
       boolean fillAccountLoader,
-      Supplier<I> changeInfoSupplier)
-      throws StorageException {
+      Supplier<I> changeInfoSupplier) {
     try {
       if (fillAccountLoader) {
         accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
@@ -390,7 +387,7 @@ public class ChangeJson {
     }
   }
 
-  private void ensureLoaded(Iterable<ChangeData> all) throws StorageException {
+  private void ensureLoaded(Iterable<ChangeData> all) {
     if (lazyLoad) {
       ChangeData.ensureChangeLoaded(all);
       if (has(ALL_REVISIONS)) {
@@ -477,8 +474,7 @@ public class ChangeJson {
 
   private <I extends ChangeInfo> I toChangeInfo(
       ChangeData cd, Optional<PatchSet.Id> limitToPsId, Supplier<I> changeInfoSupplier)
-      throws PatchListNotAvailableException, GpgException, StorageException,
-          PermissionBackendException, IOException {
+      throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException {
     try (Timer0.Context ignored = metrics.toChangeInfoLatency.start()) {
       return toChangeInfoImpl(cd, limitToPsId, changeInfoSupplier);
     }
@@ -486,8 +482,7 @@ public class ChangeJson {
 
   private <I extends ChangeInfo> I toChangeInfoImpl(
       ChangeData cd, Optional<PatchSet.Id> limitToPsId, Supplier<I> changeInfoSupplier)
-      throws PatchListNotAvailableException, GpgException, StorageException,
-          PermissionBackendException, IOException {
+      throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException {
     I out = changeInfoSupplier.get();
     CurrentUser user = userProvider.get();
 
@@ -638,7 +633,7 @@ public class ChangeJson {
     return reviewerMap;
   }
 
-  private Collection<ReviewerUpdateInfo> reviewerUpdates(ChangeData cd) throws StorageException {
+  private Collection<ReviewerUpdateInfo> reviewerUpdates(ChangeData cd) {
     List<ReviewerStatusUpdate> reviewerUpdates = cd.reviewerUpdates();
     List<ReviewerUpdateInfo> result = new ArrayList<>(reviewerUpdates.size());
     for (ReviewerStatusUpdate c : reviewerUpdates) {
@@ -656,7 +651,7 @@ public class ChangeJson {
     return SubmitRecord.allRecordsOK(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT));
   }
 
-  private void setSubmitter(ChangeData cd, ChangeInfo out) throws StorageException {
+  private void setSubmitter(ChangeData cd, ChangeInfo out) {
     Optional<PatchSetApproval> s = cd.getSubmitApproval();
     if (!s.isPresent()) {
       return;
@@ -665,7 +660,7 @@ public class ChangeJson {
     out.submitter = accountLoader.get(s.get().getAccountId());
   }
 
-  private Collection<ChangeMessageInfo> messages(ChangeData cd) throws StorageException {
+  private Collection<ChangeMessageInfo> messages(ChangeData cd) {
     List<ChangeMessage> messages = cmUtil.byChange(cd.notes());
     if (messages.isEmpty()) {
       return Collections.emptyList();
@@ -679,7 +674,7 @@ public class ChangeJson {
   }
 
   private Collection<AccountInfo> removableReviewers(ChangeData cd, ChangeInfo out)
-      throws PermissionBackendException, StorageException {
+      throws PermissionBackendException {
     // Although this is called removableReviewers, this method also determines
     // which CCs are removable.
     //
@@ -767,8 +762,8 @@ public class ChangeJson {
         .collect(toList());
   }
 
-  private Map<PatchSet.Id, PatchSet> loadPatchSets(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
-      throws StorageException {
+  private Map<PatchSet.Id, PatchSet> loadPatchSets(
+      ChangeData cd, Optional<PatchSet.Id> limitToPsId) {
     Collection<PatchSet> src;
     if (has(ALL_REVISIONS) || has(MESSAGES)) {
       src = cd.patchSets();
@@ -799,8 +794,7 @@ public class ChangeJson {
    *     from either an index-backed or a database-backed {@link ChangeData} depending on {@code
    *     lazyload}.
    */
-  private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
-      throws StorageException {
+  private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd) {
     PermissionBackend.WithUser withUser = permissionBackend.user(user);
     return lazyLoad
         ? withUser.change(cd)

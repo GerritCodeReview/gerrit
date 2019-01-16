@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.exceptions.EmailException;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Account;
@@ -41,8 +40,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
 
   @Inject
   public ReplacePatchSetSender(
-      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
-      throws StorageException {
+      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id) {
     super(ea, "newpatchset", newChangeData(ea, project, id));
   }
 

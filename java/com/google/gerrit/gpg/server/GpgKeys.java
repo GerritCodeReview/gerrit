@@ -21,7 +21,6 @@ import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -86,7 +85,7 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
 
   @Override
   public GpgKey parse(AccountResource parent, IdString id)
-      throws ResourceNotFoundException, PGPException, StorageException, IOException {
+      throws ResourceNotFoundException, PGPException, IOException {
     checkVisible(self, parent);
 
     ExternalId gpgKeyExtId = findGpgKey(id.get(), getGpgExtIds(parent));
@@ -142,7 +141,7 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
   public class ListGpgKeys implements RestReadView<AccountResource> {
     @Override
     public Map<String, GpgKeyInfo> apply(AccountResource rsrc)
-        throws StorageException, PGPException, IOException, ResourceNotFoundException {
+        throws PGPException, IOException, ResourceNotFoundException {
       checkVisible(self, rsrc);
       Map<String, GpgKeyInfo> keys = new HashMap<>();
       try (PublicKeyStore store = storeProvider.get()) {

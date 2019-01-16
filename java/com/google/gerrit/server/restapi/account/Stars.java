@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -68,7 +67,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
 
   @Override
   public Star parse(AccountResource parent, IdString id)
-      throws RestApiException, StorageException, PermissionBackendException, IOException {
+      throws RestApiException, PermissionBackendException, IOException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     Set<String> labels = starredChangesUtil.getLabels(user.getAccountId(), change.getId());
@@ -99,7 +98,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
     @Override
     @SuppressWarnings("unchecked")
     public List<ChangeInfo> apply(AccountResource rsrc)
-        throws BadRequestException, AuthException, StorageException, PermissionBackendException {
+        throws BadRequestException, AuthException, PermissionBackendException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to list stars of another account");
       }
@@ -121,8 +120,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
     }
 
     @Override
-    public SortedSet<String> apply(AccountResource.Star rsrc)
-        throws AuthException, StorageException {
+    public SortedSet<String> apply(AccountResource.Star rsrc) throws AuthException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to get stars of another account");
       }
@@ -143,7 +141,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
 
     @Override
     public Collection<String> apply(AccountResource.Star rsrc, StarsInput in)
-        throws AuthException, BadRequestException, StorageException {
+        throws AuthException, BadRequestException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to update stars of another account");
       }

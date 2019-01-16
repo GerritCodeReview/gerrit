@@ -38,7 +38,6 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -220,15 +219,15 @@ public class PostReview
   @Override
   protected Response<ReviewResult> applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input)
-      throws RestApiException, UpdateException, StorageException, IOException,
-          PermissionBackendException, ConfigInvalidException, PatchListNotAvailableException {
+      throws RestApiException, UpdateException, IOException, PermissionBackendException,
+          ConfigInvalidException, PatchListNotAvailableException {
     return apply(updateFactory, revision, input, TimeUtil.nowTs());
   }
 
   public Response<ReviewResult> apply(
       BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input, Timestamp ts)
-      throws RestApiException, UpdateException, StorageException, IOException,
-          PermissionBackendException, ConfigInvalidException, PatchListNotAvailableException {
+      throws RestApiException, UpdateException, IOException, PermissionBackendException,
+          ConfigInvalidException, PatchListNotAvailableException {
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
     if (revision.getEdit().isPresent()) {
@@ -438,7 +437,7 @@ public class PostReview
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, LabelTypes labelTypes, ReviewInput in)
-      throws BadRequestException, AuthException, UnprocessableEntityException, StorageException,
+      throws BadRequestException, AuthException, UnprocessableEntityException,
           PermissionBackendException, IOException, ConfigInvalidException {
     if (in.labels == null || in.labels.isEmpty()) {
       throw new AuthException(
@@ -854,8 +853,8 @@ public class PostReview
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws StorageException, ResourceConflictException, UnprocessableEntityException,
-            IOException, PatchListNotAvailableException {
+        throws ResourceConflictException, UnprocessableEntityException, IOException,
+            PatchListNotAvailableException {
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getNotes(), psId);
@@ -868,7 +867,7 @@ public class PostReview
     }
 
     @Override
-    public void postUpdate(Context ctx) throws StorageException {
+    public void postUpdate(Context ctx) {
       if (message == null) {
         return;
       }
@@ -889,7 +888,7 @@ public class PostReview
     }
 
     private boolean insertComments(ChangeContext ctx)
-        throws StorageException, UnprocessableEntityException, PatchListNotAvailableException {
+        throws UnprocessableEntityException, PatchListNotAvailableException {
       Map<String, List<CommentInput>> map = in.comments;
       if (map == null) {
         map = Collections.emptyMap();
@@ -949,8 +948,7 @@ public class PostReview
       return !toPublish.isEmpty();
     }
 
-    private boolean insertRobotComments(ChangeContext ctx)
-        throws StorageException, PatchListNotAvailableException {
+    private boolean insertRobotComments(ChangeContext ctx) throws PatchListNotAvailableException {
       if (in.robotComments == null) {
         return false;
       }
@@ -962,7 +960,7 @@ public class PostReview
     }
 
     private List<RobotComment> getNewRobotComments(ChangeContext ctx)
-        throws StorageException, PatchListNotAvailableException {
+        throws PatchListNotAvailableException {
       List<RobotComment> toAdd = new ArrayList<>(in.robotComments.size());
 
       Set<CommentSetEntry> existingIds =
@@ -1031,20 +1029,19 @@ public class PostReview
       return new FixReplacement(fixReplacementInfo.path, range, fixReplacementInfo.replacement);
     }
 
-    private Set<CommentSetEntry> readExistingComments(ChangeContext ctx) throws StorageException {
+    private Set<CommentSetEntry> readExistingComments(ChangeContext ctx) {
       return commentsUtil.publishedByChange(ctx.getNotes()).stream()
           .map(CommentSetEntry::create)
           .collect(toSet());
     }
 
-    private Set<CommentSetEntry> readExistingRobotComments(ChangeContext ctx)
-        throws StorageException {
+    private Set<CommentSetEntry> readExistingRobotComments(ChangeContext ctx) {
       return commentsUtil.robotCommentsByChange(ctx.getNotes()).stream()
           .map(CommentSetEntry::create)
           .collect(toSet());
     }
 
-    private Map<String, Comment> changeDrafts(ChangeContext ctx) throws StorageException {
+    private Map<String, Comment> changeDrafts(ChangeContext ctx) {
       Map<String, Comment> drafts = new HashMap<>();
       for (Comment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), user.getAccountId())) {
         c.tag = in.tag;
@@ -1053,7 +1050,7 @@ public class PostReview
       return drafts;
     }
 
-    private Map<String, Comment> patchSetDrafts(ChangeContext ctx) throws StorageException {
+    private Map<String, Comment> patchSetDrafts(ChangeContext ctx) {
       Map<String, Comment> drafts = new HashMap<>();
       for (Comment c :
           commentsUtil.draftByPatchSetAuthor(psId, user.getAccountId(), ctx.getNotes())) {
@@ -1101,7 +1098,7 @@ public class PostReview
       return previous;
     }
 
-    private boolean isReviewer(ChangeContext ctx) throws StorageException {
+    private boolean isReviewer(ChangeContext ctx) {
       if (ctx.getAccountId().equals(ctx.getChange().getOwner())) {
         return true;
       }
@@ -1114,7 +1111,7 @@ public class PostReview
     }
 
     private boolean updateLabels(ProjectState projectState, ChangeContext ctx)
-        throws StorageException, ResourceConflictException, IOException {
+        throws ResourceConflictException, IOException {
       Map<String, Short> inLabels = firstNonNull(in.labels, Collections.emptyMap());
 
       // If no labels were modified and change is closed, abort early.
@@ -1298,7 +1295,7 @@ public class PostReview
 
     private Map<String, PatchSetApproval> scanLabels(
         ProjectState projectState, ChangeContext ctx, List<PatchSetApproval> del)
-        throws StorageException, IOException {
+        throws IOException {
       LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes());
       Map<String, PatchSetApproval> current = new HashMap<>();
 

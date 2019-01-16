@@ -53,8 +53,7 @@ public class PatchSetInfoFactory {
     this.emails = emails;
   }
 
-  public PatchSetInfo get(RevWalk rw, RevCommit src, PatchSet.Id psi)
-      throws IOException, StorageException {
+  public PatchSetInfo get(RevWalk rw, RevCommit src, PatchSet.Id psi) throws IOException {
     rw.parseBody(src);
     PatchSetInfo info = new PatchSetInfo(psi);
     info.setSubject(src.getShortMessage());
@@ -89,7 +88,7 @@ public class PatchSetInfoFactory {
   }
 
   // TODO: The same method exists in EventFactory, find a common place for it
-  private UserIdentity toUserIdentity(PersonIdent who) throws IOException, StorageException {
+  private UserIdentity toUserIdentity(PersonIdent who) throws IOException {
     final UserIdentity u = new UserIdentity();
     u.setName(who.getName());
     u.setEmail(who.getEmailAddress());

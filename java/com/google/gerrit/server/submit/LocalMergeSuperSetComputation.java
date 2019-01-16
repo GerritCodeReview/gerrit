@@ -109,7 +109,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   @Override
   public ChangeSet completeWithoutTopic(
       MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user)
-      throws StorageException, IOException, PermissionBackendException {
+      throws IOException, PermissionBackendException {
     Collection<ChangeData> visibleChanges = new ArrayList<>();
     Collection<ChangeData> nonVisibleChanges = new ArrayList<>();
 
@@ -161,7 +161,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private static ImmutableListMultimap<Branch.NameKey, ChangeData> byBranch(
-      Iterable<ChangeData> changes) throws StorageException {
+      Iterable<ChangeData> changes) {
     ImmutableListMultimap.Builder<Branch.NameKey, ChangeData> builder =
         ImmutableListMultimap.builder();
     for (ChangeData cd : changes) {
@@ -202,7 +202,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     }
   }
 
-  private SubmitType submitType(ChangeData cd) throws StorageException {
+  private SubmitType submitType(ChangeData cd) {
     SubmitTypeRecord str = cd.submitTypeRecord();
     if (!str.isOk()) {
       logErrorAndThrow("Failed to get submit type for " + cd.getId() + ": " + str.errorMessage);
@@ -212,7 +212,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
 
   private ChangeSet byCommitsOnBranchNotMerged(
       OpenRepo or, Branch.NameKey branch, Set<String> visibleHashes, Set<String> nonVisibleHashes)
-      throws StorageException, IOException {
+      throws IOException {
     List<ChangeData> potentiallyVisibleChanges =
         byCommitsOnBranchNotMerged(or, branch, visibleHashes);
     List<ChangeData> invisibleChanges =
@@ -229,7 +229,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private ImmutableList<ChangeData> byCommitsOnBranchNotMerged(
-      OpenRepo or, Branch.NameKey branch, Set<String> hashes) throws StorageException, IOException {
+      OpenRepo or, Branch.NameKey branch, Set<String> hashes) throws IOException {
     if (hashes.isEmpty()) {
       return ImmutableList.of();
     }
@@ -281,7 +281,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     }
   }
 
-  private void logErrorAndThrow(String msg) throws StorageException {
+  private void logErrorAndThrow(String msg) {
     logger.atSevere().log(msg);
     throw new StorageException(msg);
   }

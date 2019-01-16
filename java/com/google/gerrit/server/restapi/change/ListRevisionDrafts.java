@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -39,7 +38,7 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
     this.commentsUtil = commentsUtil;
   }
 
-  protected Iterable<Comment> listComments(RevisionResource rsrc) throws StorageException {
+  protected Iterable<Comment> listComments(RevisionResource rsrc) {
     return commentsUtil.draftByPatchSetAuthor(
         rsrc.getPatchSet().getId(), rsrc.getAccountId(), rsrc.getNotes());
   }
@@ -50,7 +49,7 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
 
   @Override
   public Map<String, List<CommentInfo>> apply(RevisionResource rsrc)
-      throws StorageException, PermissionBackendException {
+      throws PermissionBackendException {
     return commentJson
         .get()
         .setFillAccounts(includeAuthorInfo())
@@ -59,7 +58,7 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
   }
 
   public ImmutableList<CommentInfo> getComments(RevisionResource rsrc)
-      throws StorageException, PermissionBackendException {
+      throws PermissionBackendException {
     return commentJson
         .get()
         .setFillAccounts(includeAuthorInfo())

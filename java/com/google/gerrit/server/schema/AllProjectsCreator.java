@@ -30,7 +30,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -86,8 +85,7 @@ public class AllProjectsCreator {
     this.owners = systemGroupBackend.getGroup(PROJECT_OWNERS);
   }
 
-  public void create(AllProjectsInput input)
-      throws IOException, ConfigInvalidException, StorageException {
+  public void create(AllProjectsInput input) throws IOException, ConfigInvalidException {
     try (Repository git = repositoryManager.openRepository(allProjectsName)) {
       initAllProjects(git, input);
     } catch (RepositoryNotFoundException notFound) {
@@ -105,7 +103,7 @@ public class AllProjectsCreator {
   }
 
   private void initAllProjects(Repository git, AllProjectsInput input)
-      throws IOException, ConfigInvalidException, StorageException {
+      throws ConfigInvalidException, IOException {
     BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
     try (MetaDataUpdate md =
         new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git, bru)) {

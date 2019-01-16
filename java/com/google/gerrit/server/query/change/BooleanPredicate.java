@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 
 public class BooleanPredicate extends ChangeIndexPredicate {
@@ -23,7 +22,7 @@ public class BooleanPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws StorageException {
+  public boolean match(ChangeData object) {
     return getValue().equals(getField().get(object));
   }
 

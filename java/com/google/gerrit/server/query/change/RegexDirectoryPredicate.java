@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.index.change.ChangeField;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
@@ -37,7 +36,7 @@ public class RegexDirectoryPredicate extends ChangeRegexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) throws StorageException {
+  public boolean match(ChangeData cd) {
     return ChangeField.getDirectories(cd).stream().anyMatch(pattern::run);
   }
 

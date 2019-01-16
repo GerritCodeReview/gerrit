@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -77,7 +76,7 @@ public class CheckMergeability implements RestReadView<BranchResource> {
 
   @Override
   public MergeableInfo apply(BranchResource resource)
-      throws IOException, StorageException, BadRequestException, ResourceNotFoundException {
+      throws IOException, BadRequestException, ResourceNotFoundException {
     if (!(submitType.equals(SubmitType.MERGE_ALWAYS)
         || submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
       throw new BadRequestException("Submit type: " + submitType + " is not supported");

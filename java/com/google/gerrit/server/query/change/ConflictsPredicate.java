@@ -205,7 +205,7 @@ public class ConflictsPredicate {
       this.projectCache = projectCache;
     }
 
-    ObjectId getTestAgainst() throws StorageException {
+    ObjectId getTestAgainst() {
       if (testAgainst == null) {
         testAgainst = ObjectId.fromString(cd.currentPatchSet().getRevision().get());
       }

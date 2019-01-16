@@ -19,7 +19,6 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.RelatedChangesInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
@@ -70,7 +69,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   @Override
   public RelatedChangesInfo apply(RevisionResource rsrc)
-      throws RepositoryNotFoundException, IOException, StorageException, NoSuchProjectException,
+      throws RepositoryNotFoundException, IOException, NoSuchProjectException,
           PermissionBackendException {
     RelatedChangesInfo relatedChangesInfo = new RelatedChangesInfo();
     relatedChangesInfo.changes = getRelated(rsrc);
@@ -78,7 +77,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
   }
 
   private List<RelatedChangeAndCommitInfo> getRelated(RevisionResource rsrc)
-      throws StorageException, IOException, PermissionBackendException {
+      throws IOException, PermissionBackendException {
     Set<String> groups = getAllGroups(rsrc.getNotes(), psUtil);
     if (groups.isEmpty()) {
       return Collections.emptyList();
@@ -123,13 +122,11 @@ public class GetRelated implements RestReadView<RevisionResource> {
   }
 
   @VisibleForTesting
-  public static Set<String> getAllGroups(ChangeNotes notes, PatchSetUtil psUtil)
-      throws StorageException {
+  public static Set<String> getAllGroups(ChangeNotes notes, PatchSetUtil psUtil) {
     return psUtil.byChange(notes).stream().flatMap(ps -> ps.getGroups().stream()).collect(toSet());
   }
 
-  private void reloadChangeIfStale(List<ChangeData> cds, PatchSet wantedPs)
-      throws StorageException {
+  private void reloadChangeIfStale(List<ChangeData> cds, PatchSet wantedPs) {
     for (ChangeData cd : cds) {
       if (cd.getId().equals(wantedPs.getId().getParentKey())) {
         if (cd.patchSet(wantedPs.getId()) == null) {

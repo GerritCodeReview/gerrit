@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.config;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.Response;
@@ -55,8 +54,7 @@ public class ConfirmEmail implements RestModifyView<ConfigResource, Input> {
 
   @Override
   public Response<?> apply(ConfigResource rsrc, Input input)
-      throws AuthException, UnprocessableEntityException, StorageException, IOException,
-          ConfigInvalidException {
+      throws AuthException, UnprocessableEntityException, IOException, ConfigInvalidException {
     CurrentUser user = self.get();
     if (!user.isIdentifiedUser()) {
       throw new AuthException("Authentication required");

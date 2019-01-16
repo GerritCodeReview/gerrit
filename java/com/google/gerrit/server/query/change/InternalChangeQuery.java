@@ -25,7 +25,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.index.query.Predicate;
@@ -91,19 +90,19 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     this.notesFactory = notesFactory;
   }
 
-  public List<ChangeData> byKey(Change.Key key) throws StorageException {
+  public List<ChangeData> byKey(Change.Key key) {
     return byKeyPrefix(key.get());
   }
 
-  public List<ChangeData> byKeyPrefix(String prefix) throws StorageException {
+  public List<ChangeData> byKeyPrefix(String prefix) {
     return query(new ChangeIdPredicate(prefix));
   }
 
-  public List<ChangeData> byLegacyChangeId(Change.Id id) throws StorageException {
+  public List<ChangeData> byLegacyChangeId(Change.Id id) {
     return query(new LegacyChangeIdPredicate(id));
   }
 
-  public List<ChangeData> byLegacyChangeIds(Collection<Change.Id> ids) throws StorageException {
+  public List<ChangeData> byLegacyChangeIds(Collection<Change.Id> ids) {
     List<Predicate<ChangeData>> preds = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
       preds.add(new LegacyChangeIdPredicate(id));
@@ -111,13 +110,11 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return query(or(preds));
   }
 
-  public List<ChangeData> byBranchKey(Branch.NameKey branch, Change.Key key)
-      throws StorageException {
+  public List<ChangeData> byBranchKey(Branch.NameKey branch, Change.Key key) {
     return query(byBranchKeyPred(branch, key));
   }
 
-  public List<ChangeData> byBranchKeyOpen(Project.NameKey project, String branch, Change.Key key)
-      throws StorageException {
+  public List<ChangeData> byBranchKeyOpen(Project.NameKey project, String branch, Change.Key key) {
     return query(and(byBranchKeyPred(new Branch.NameKey(project, branch), key), open()));
   }
 
@@ -130,21 +127,20 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return and(ref(branch), project(branch.getParentKey()), change(key));
   }
 
-  public List<ChangeData> byProject(Project.NameKey project) throws StorageException {
+  public List<ChangeData> byProject(Project.NameKey project) {
     return query(project(project));
   }
 
-  public List<ChangeData> byBranchOpen(Branch.NameKey branch) throws StorageException {
+  public List<ChangeData> byBranchOpen(Branch.NameKey branch) {
     return query(and(ref(branch), project(branch.getParentKey()), open()));
   }
 
-  public List<ChangeData> byBranchNew(Branch.NameKey branch) throws StorageException {
+  public List<ChangeData> byBranchNew(Branch.NameKey branch) {
     return query(and(ref(branch), project(branch.getParentKey()), status(Change.Status.NEW)));
   }
 
   public Iterable<ChangeData> byCommitsOnBranchNotMerged(
-      Repository repo, Branch.NameKey branch, Collection<String> hashes)
-      throws StorageException, IOException {
+      Repository repo, Branch.NameKey branch, Collection<String> hashes) throws IOException {
     return byCommitsOnBranchNotMerged(
         repo,
         branch,
@@ -156,7 +152,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   @VisibleForTesting
   Iterable<ChangeData> byCommitsOnBranchNotMerged(
       Repository repo, Branch.NameKey branch, Collection<String> hashes, int indexLimit)
-      throws StorageException, IOException {
+      throws IOException {
     if (hashes.size() > indexLimit) {
       return byCommitsOnBranchNotMergedFromDatabase(repo, branch, hashes);
     }
@@ -164,8 +160,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromDatabase(
-      Repository repo, Branch.NameKey branch, Collection<String> hashes)
-      throws StorageException, IOException {
+      Repository repo, Branch.NameKey branch, Collection<String> hashes) throws IOException {
     Set<Change.Id> changeIds = Sets.newHashSetWithExpectedSize(hashes.size());
     String lastPrefix = null;
     for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {
@@ -195,7 +190,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromIndex(
-      Branch.NameKey branch, Collection<String> hashes) throws StorageException {
+      Branch.NameKey branch, Collection<String> hashes) {
     return query(
         and(
             ref(branch),
@@ -212,51 +207,45 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return commits;
   }
 
-  public List<ChangeData> byProjectOpen(Project.NameKey project) throws StorageException {
+  public List<ChangeData> byProjectOpen(Project.NameKey project) {
     return query(and(project(project), open()));
   }
 
-  public List<ChangeData> byTopicOpen(String topic) throws StorageException {
+  public List<ChangeData> byTopicOpen(String topic) {
     return query(and(new ExactTopicPredicate(topic), open()));
   }
 
-  public List<ChangeData> byCommit(ObjectId id) throws StorageException {
+  public List<ChangeData> byCommit(ObjectId id) {
     return byCommit(id.name());
   }
 
-  public List<ChangeData> byCommit(String hash) throws StorageException {
+  public List<ChangeData> byCommit(String hash) {
     return query(commit(hash));
   }
 
-  public List<ChangeData> byProjectCommit(Project.NameKey project, ObjectId id)
-      throws StorageException {
+  public List<ChangeData> byProjectCommit(Project.NameKey project, ObjectId id) {
     return byProjectCommit(project, id.name());
   }
 
-  public List<ChangeData> byProjectCommit(Project.NameKey project, String hash)
-      throws StorageException {
+  public List<ChangeData> byProjectCommit(Project.NameKey project, String hash) {
     return query(and(project(project), commit(hash)));
   }
 
-  public List<ChangeData> byProjectCommits(Project.NameKey project, List<String> hashes)
-      throws StorageException {
+  public List<ChangeData> byProjectCommits(Project.NameKey project, List<String> hashes) {
     int n = indexConfig.maxTerms() - 1;
     checkArgument(hashes.size() <= n, "cannot exceed %s commits", n);
     return query(and(project(project), or(commits(hashes))));
   }
 
-  public List<ChangeData> byBranchCommit(String project, String branch, String hash)
-      throws StorageException {
+  public List<ChangeData> byBranchCommit(String project, String branch, String hash) {
     return query(byBranchCommitPred(project, branch, hash));
   }
 
-  public List<ChangeData> byBranchCommit(Branch.NameKey branch, String hash)
-      throws StorageException {
+  public List<ChangeData> byBranchCommit(Branch.NameKey branch, String hash) {
     return byBranchCommit(branch.getParentKey().get(), branch.get(), hash);
   }
 
-  public List<ChangeData> byBranchCommitOpen(String project, String branch, String hash)
-      throws StorageException {
+  public List<ChangeData> byBranchCommitOpen(String project, String branch, String hash) {
     return query(and(byBranchCommitPred(project, branch, hash), open()));
   }
 
@@ -270,7 +259,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return and(new ProjectPredicate(project), new RefPredicate(branch), commit(hash));
   }
 
-  public List<ChangeData> bySubmissionId(String cs) throws StorageException {
+  public List<ChangeData> bySubmissionId(String cs) {
     if (Strings.isNullOrEmpty(cs)) {
       return Collections.emptyList();
     }
@@ -292,8 +281,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
       Provider<InternalChangeQuery> queryProvider,
       IndexConfig indexConfig,
       Project.NameKey project,
-      Collection<String> groups)
-      throws StorageException {
+      Collection<String> groups) {
     // These queries may be complex along multiple dimensions:
     //  * Many groups per change, if there are very many patch sets. This requires partitioning the
     //    list of predicates and combining results.

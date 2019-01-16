@@ -242,7 +242,7 @@ public class OutputStreamQuery {
 
   private ChangeAttribute buildChangeAttribute(
       ChangeData d, Map<Project.NameKey, Repository> repos, Map<Project.NameKey, RevWalk> revWalks)
-      throws StorageException, IOException {
+      throws IOException {
     LabelTypes labelTypes = d.getLabelTypes();
     ChangeAttribute c = eventFactory.asChangeAttribute(d.change(), d.notes());
     eventFactory.extend(c, d.change());

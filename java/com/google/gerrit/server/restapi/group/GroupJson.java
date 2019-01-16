@@ -20,7 +20,6 @@ import static com.google.gerrit.extensions.client.ListGroupsOption.MEMBERS;
 import com.google.common.base.Strings;
 import com.google.common.base.Suppliers;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
@@ -76,18 +75,17 @@ public class GroupJson {
     return this;
   }
 
-  public GroupInfo format(GroupResource rsrc) throws StorageException, PermissionBackendException {
+  public GroupInfo format(GroupResource rsrc) throws PermissionBackendException {
     return createGroupInfo(rsrc.getGroup(), rsrc::getControl);
   }
 
-  public GroupInfo format(GroupDescription.Basic group)
-      throws StorageException, PermissionBackendException {
+  public GroupInfo format(GroupDescription.Basic group) throws PermissionBackendException {
     return createGroupInfo(group, Suppliers.memoize(() -> groupControlFactory.controlFor(group)));
   }
 
   private GroupInfo createGroupInfo(
       GroupDescription.Basic group, Supplier<GroupControl> groupControlSupplier)
-      throws StorageException, PermissionBackendException {
+      throws PermissionBackendException {
     GroupInfo info = createBasicGroupInfo(group);
 
     if (group instanceof GroupDescription.Internal) {
@@ -110,7 +108,7 @@ public class GroupJson {
       GroupInfo info,
       GroupDescription.Internal internalGroup,
       Supplier<GroupControl> groupControlSupplier)
-      throws StorageException, PermissionBackendException {
+      throws PermissionBackendException {
     info.description = Strings.emptyToNull(internalGroup.getDescription());
     info.groupId = internalGroup.getId().get();
 

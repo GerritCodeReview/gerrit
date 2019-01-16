@@ -214,7 +214,7 @@ public class AccountManager {
   }
 
   private void update(AuthRequest who, ExternalId extId)
-      throws StorageException, IOException, ConfigInvalidException, AccountException {
+      throws IOException, ConfigInvalidException, AccountException {
     IdentifiedUser user = userFactory.create(extId.accountId());
     List<Consumer<InternalAccountUpdate.Builder>> accountUpdates = new ArrayList<>();
 
@@ -271,7 +271,7 @@ public class AccountManager {
   }
 
   private AuthResult create(AuthRequest who)
-      throws StorageException, AccountException, IOException, ConfigInvalidException {
+      throws AccountException, IOException, ConfigInvalidException {
     Account.Id newId = new Account.Id(sequences.nextAccountId());
     logger.atFine().log("Assigning new Id %s to account", newId);
 
@@ -375,7 +375,7 @@ public class AccountManager {
   }
 
   private void addGroupMember(AccountGroup.UUID groupUuid, IdentifiedUser user)
-      throws StorageException, IOException, ConfigInvalidException, AccountException {
+      throws IOException, ConfigInvalidException, AccountException {
     // The user initiated this request by logging in. -> Attribute all modifications to that user.
     GroupsUpdate groupsUpdate = groupsUpdateFactory.create(user);
     InternalGroupUpdate groupUpdate =
@@ -400,7 +400,7 @@ public class AccountManager {
    *     this time.
    */
   public AuthResult link(Account.Id to, AuthRequest who)
-      throws AccountException, StorageException, IOException, ConfigInvalidException {
+      throws AccountException, IOException, ConfigInvalidException {
     Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
     if (optionalExtId.isPresent()) {
       ExternalId extId = optionalExtId.get();
@@ -437,12 +437,11 @@ public class AccountManager {
    * @param to account to link the identity onto.
    * @param who the additional identity.
    * @return the result of linking the identity to the user.
-   * @throws StorageException
    * @throws AccountException the identity belongs to a different account, or it cannot be linked at
    *     this time.
    */
   public AuthResult updateLink(Account.Id to, AuthRequest who)
-      throws StorageException, AccountException, IOException, ConfigInvalidException {
+      throws AccountException, IOException, ConfigInvalidException {
     accountsUpdateProvider
         .get()
         .update(
@@ -474,7 +473,7 @@ public class AccountManager {
    *     found
    */
   public void unlink(Account.Id from, ExternalId.Key extIdKey)
-      throws AccountException, StorageException, IOException, ConfigInvalidException {
+      throws AccountException, IOException, ConfigInvalidException {
     unlink(from, ImmutableList.of(extIdKey));
   }
 
@@ -487,7 +486,7 @@ public class AccountManager {
    *     identity was not found
    */
   public void unlink(Account.Id from, Collection<ExternalId.Key> extIdKeys)
-      throws AccountException, StorageException, IOException, ConfigInvalidException {
+      throws AccountException, IOException, ConfigInvalidException {
     if (extIdKeys.isEmpty()) {
       return;
     }

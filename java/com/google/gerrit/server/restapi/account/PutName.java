@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -60,8 +59,8 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
 
   @Override
   public Response<String> apply(AccountResource rsrc, NameInput input)
-      throws AuthException, MethodNotAllowedException, ResourceNotFoundException, StorageException,
-          IOException, PermissionBackendException, ConfigInvalidException {
+      throws AuthException, MethodNotAllowedException, ResourceNotFoundException, IOException,
+          PermissionBackendException, ConfigInvalidException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
@@ -70,7 +69,7 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
 
   public Response<String> apply(IdentifiedUser user, NameInput input)
       throws MethodNotAllowedException, ResourceNotFoundException, IOException,
-          ConfigInvalidException, StorageException {
+          ConfigInvalidException {
     if (input == null) {
       input = new NameInput();
     }

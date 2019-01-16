@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -74,8 +73,8 @@ public class DeleteComment
   @Override
   public CommentInfo applyImpl(
       BatchUpdate.Factory batchUpdateFactory, CommentResource rsrc, DeleteCommentInput input)
-      throws RestApiException, IOException, ConfigInvalidException, StorageException,
-          PermissionBackendException, UpdateException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException,
+          UpdateException {
     CurrentUser user = userProvider.get();
     permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
 

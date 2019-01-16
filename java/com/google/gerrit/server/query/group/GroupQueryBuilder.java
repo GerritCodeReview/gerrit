@@ -20,7 +20,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
@@ -135,7 +134,7 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup, GroupQueryBui
 
   @Operator
   public Predicate<InternalGroup> member(String query)
-      throws QueryParseException, StorageException, ConfigInvalidException, IOException {
+      throws QueryParseException, ConfigInvalidException, IOException {
     Set<Account.Id> accounts = parseAccount(query);
     List<Predicate<InternalGroup>> predicates =
         accounts.stream().map(GroupPredicates::member).collect(toImmutableList());
@@ -158,7 +157,7 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup, GroupQueryBui
   }
 
   private Set<Account.Id> parseAccount(String nameOrEmail)
-      throws QueryParseException, StorageException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     try {
       return args.accountResolver.resolve(nameOrEmail).asNonEmptyIdSet();
     } catch (UnresolvableAccountException e) {

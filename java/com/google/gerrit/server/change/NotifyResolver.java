@@ -21,7 +21,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -81,7 +80,7 @@ public class NotifyResolver {
 
   public Result resolve(
       NotifyHandling handling, @Nullable Map<RecipientType, NotifyInfo> notifyDetails)
-      throws BadRequestException, StorageException, IOException, ConfigInvalidException {
+      throws BadRequestException, IOException, ConfigInvalidException {
     requireNonNull(handling);
     ImmutableSetMultimap.Builder<RecipientType, Account.Id> b = ImmutableSetMultimap.builder();
     if (notifyDetails != null) {
@@ -93,7 +92,7 @@ public class NotifyResolver {
   }
 
   private ImmutableList<Account.Id> find(@Nullable List<String> inputs)
-      throws StorageException, BadRequestException, IOException, ConfigInvalidException {
+      throws BadRequestException, IOException, ConfigInvalidException {
     if (inputs == null || inputs.isEmpty()) {
       return ImmutableList.of();
     }

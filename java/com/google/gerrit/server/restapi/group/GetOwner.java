@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.group;
 
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.exceptions.NoSuchGroupException;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -40,8 +39,7 @@ public class GetOwner implements RestReadView<GroupResource> {
 
   @Override
   public GroupInfo apply(GroupResource resource)
-      throws NotInternalGroupException, ResourceNotFoundException, StorageException,
-          PermissionBackendException {
+      throws NotInternalGroupException, ResourceNotFoundException, PermissionBackendException {
     GroupDescription.Internal group =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     try {

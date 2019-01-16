@@ -66,8 +66,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
   // executed in a single atomic BatchRefUpdate. Actually deleting the change refs first would not
   // fail gracefully if the second delete fails, but fortunately that's not what happens.
   @Override
-  public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, StorageException, IOException {
+  public boolean updateChange(ChangeContext ctx) throws RestApiException, IOException {
     Collection<PatchSet> patchSets = psUtil.byChange(ctx.getNotes());
 
     ensureDeletable(ctx, id, patchSets);
@@ -107,7 +106,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
   }
 
   private void cleanUpReferences(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)
-      throws StorageException, NoSuchChangeException {
+      throws NoSuchChangeException {
     for (PatchSet ps : patchSets) {
       accountPatchReviewStore.run(s -> s.clearReviewed(ps.getId()), StorageException.class);
     }

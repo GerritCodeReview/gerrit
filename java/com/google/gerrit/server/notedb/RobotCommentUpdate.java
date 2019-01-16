@@ -101,7 +101,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
 
   private CommitBuilder storeCommentsInNotes(
       RevWalk rw, ObjectInserter ins, ObjectId curr, CommitBuilder cb)
-      throws ConfigInvalidException, StorageException, IOException {
+      throws ConfigInvalidException, IOException {
     RevisionNoteMap<RobotCommentsRevisionNote> rnm = getRevisionNoteMap(rw, curr);
     Set<RevId> updatedRevs = Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
@@ -148,7 +148,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
   }
 
   private RevisionNoteMap<RobotCommentsRevisionNote> getRevisionNoteMap(RevWalk rw, ObjectId curr)
-      throws ConfigInvalidException, StorageException, IOException {
+      throws ConfigInvalidException, IOException {
     if (curr.equals(ObjectId.zeroId())) {
       return RevisionNoteMap.emptyMap();
     }
@@ -179,7 +179,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
 
   @Override
   protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
-      throws StorageException, IOException {
+      throws IOException {
     CommitBuilder cb = new CommitBuilder();
     cb.setMessage("Update robot comments");
     try {

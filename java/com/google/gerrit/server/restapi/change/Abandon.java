@@ -69,8 +69,8 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, AbandonInput input)
-      throws RestApiException, UpdateException, StorageException, PermissionBackendException,
-          IOException, ConfigInvalidException {
+      throws RestApiException, UpdateException, PermissionBackendException, IOException,
+          ConfigInvalidException {
     // Not allowed to abandon if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
 

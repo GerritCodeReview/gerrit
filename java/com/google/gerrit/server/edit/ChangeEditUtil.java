@@ -146,7 +146,6 @@ public class ChangeEditUtil {
    * @param notify Notify handling that defines to whom email notifications should be sent after the
    *     change edit is published.
    * @throws IOException
-   * @throws StorageException
    * @throws UpdateException
    * @throws RestApiException
    */
@@ -156,7 +155,7 @@ public class ChangeEditUtil {
       CurrentUser user,
       ChangeEdit edit,
       NotifyResolver.Result notify)
-      throws IOException, StorageException, RestApiException, UpdateException {
+      throws IOException, RestApiException, UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
         ObjectInserter oi = repo.newObjectInserter();
@@ -210,9 +209,8 @@ public class ChangeEditUtil {
    *
    * @param edit change edit to delete
    * @throws IOException
-   * @throws StorageException
    */
-  public void delete(ChangeEdit edit) throws IOException, StorageException {
+  public void delete(ChangeEdit edit) throws IOException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject())) {
       deleteRef(repo, edit);

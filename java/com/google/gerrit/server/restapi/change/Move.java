@@ -116,8 +116,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, MoveInput input)
-      throws RestApiException, StorageException, UpdateException, PermissionBackendException,
-          IOException {
+      throws RestApiException, UpdateException, PermissionBackendException, IOException {
     if (!moveEnabled) {
       // This will be removed with the above config once we reach consensus for the move change
       // behavior. See: https://bugs.chromium.org/p/gerrit/issues/detail?id=9877
@@ -177,8 +176,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws StorageException, ResourceConflictException, IOException {
+    public boolean updateChange(ChangeContext ctx) throws ResourceConflictException, IOException {
       change = ctx.getChange();
       if (!change.isNew()) {
         throw new ResourceConflictException("Change is " + ChangeUtil.status(change));
@@ -258,7 +256,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
      */
     private void updateApprovals(
         ChangeContext ctx, ChangeUpdate update, PatchSet.Id psId, Project.NameKey project)
-        throws IOException, StorageException {
+        throws IOException {
       List<PatchSetApproval> approvals = new ArrayList<>();
       for (PatchSetApproval psa :
           approvalsUtil.byPatchSet(

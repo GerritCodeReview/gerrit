@@ -213,7 +213,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   }
 
   @Override
-  public void markReady(boolean ready) throws IOException {
+  public void markReady(boolean ready) {
     IndexUtils.setReady(sitePaths, name, schema.getVersion(), ready);
   }
 
@@ -287,8 +287,12 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   }
 
   @Override
-  public void deleteAll() throws IOException {
-    writer.deleteAll();
+  public void deleteAll() {
+    try {
+      writer.deleteAll();
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
   }
 
   public IndexWriter getWriter() {

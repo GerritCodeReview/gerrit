@@ -23,7 +23,6 @@ import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.SiteIndexer;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -62,7 +61,7 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
               try {
                 reindex();
                 ok = true;
-              } catch (IOException e) {
+              } catch (RuntimeException e) {
                 logger.atSevere().withCause(e).log(
                     "Online reindex of %s schema version %s failed", name, version(index));
               } finally {
@@ -91,7 +90,7 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
     return i.getSchema().getVersion();
   }
 
-  private void reindex() throws IOException {
+  private void reindex() {
     listeners.runEach(listener -> listener.onStart(name, oldVersion, newVersion));
     index =
         requireNonNull(

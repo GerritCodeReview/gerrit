@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import com.google.gwtorm.server.OrmDuplicateKeyException;
+import com.google.gerrit.exceptions.DuplicateKeyException;
 
 /**
  * Exception that is thrown if an external ID cannot be inserted because an external ID with the
  * same key already exists.
  */
-public class DuplicateExternalIdKeyException extends OrmDuplicateKeyException {
+public class DuplicateExternalIdKeyException extends DuplicateKeyException {
   private static final long serialVersionUID = 1L;
 
   private final ExternalId.Key duplicateKey;

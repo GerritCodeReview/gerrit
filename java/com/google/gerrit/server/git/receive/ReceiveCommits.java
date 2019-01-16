@@ -64,6 +64,7 @@ import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -158,7 +159,6 @@ import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.util.cli.CmdLineParser;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -897,7 +897,7 @@ class ReceiveCommits {
         addError(e.getMessage());
         reject(magicBranchCmd, "conflict");
       } catch (RestApiException
-          | OrmException
+          | StorageException
           | UpdateException
           | IOException
           | ConfigInvalidException
@@ -1938,7 +1938,7 @@ class ReceiveCommits {
       logger.atSevere().withCause(e).log("Change not found %s", changeId);
       reject(cmd, "change " + changeId + " not found");
       return;
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Cannot lookup existing change %s", changeId);
       reject(cmd, "database error");
       return;
@@ -2237,7 +2237,7 @@ class ReceiveCommits {
       magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
       logger.atSevere().withCause(e).log("Invalid pack upload; one or more objects weren't sent");
       return Collections.emptyList();
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Cannot query database to locate prior changes");
       reject(magicBranch.cmd, "database error");
       return Collections.emptyList();
@@ -2267,14 +2267,14 @@ class ReceiveCommits {
         update.groups = ImmutableList.copyOf((groups.get(update.commit)));
       }
       logger.atFine().log("Finished updating groups from GroupCollector");
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Error collecting groups for changes");
       reject(magicBranch.cmd, "internal server error");
     }
     return newChanges;
   }
 
-  private boolean foundInExistingRef(Collection<Ref> existingRefs) throws OrmException {
+  private boolean foundInExistingRef(Collection<Ref> existingRefs) throws StorageException {
     for (Ref ref : existingRefs) {
       ChangeNotes notes =
           notesFactory.create(project.getNameKey(), Change.Id.fromRef(ref.getName()));
@@ -2394,11 +2394,11 @@ class ReceiveCommits {
     }
   }
 
-  private ChangeLookup lookupByChangeKey(RevCommit c, Change.Key key) throws OrmException {
+  private ChangeLookup lookupByChangeKey(RevCommit c, Change.Key key) throws StorageException {
     return new ChangeLookup(c, key, queryProvider.get().byBranchKey(magicBranch.dest, key));
   }
 
-  private ChangeLookup lookupByCommit(RevCommit c) throws OrmException {
+  private ChangeLookup lookupByCommit(RevCommit c) throws StorageException {
     return new ChangeLookup(
         c, null, queryProvider.get().byBranchCommit(magicBranch.dest, c.getName()));
   }
@@ -2525,8 +2525,8 @@ class ReceiveCommits {
   }
 
   private void submit(Collection<CreateRequest> create, Collection<ReplaceRequest> replace)
-      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws StorageException, RestApiException, UpdateException, IOException,
+          ConfigInvalidException, PermissionBackendException {
     Map<ObjectId, Change> bySha = Maps.newHashMapWithExpectedSize(create.size() + replace.size());
     for (CreateRequest r : create) {
       requireNonNull(
@@ -2558,7 +2558,7 @@ class ReceiveCommits {
           req.validateNewPatchSet();
         }
       }
-    } catch (OrmException err) {
+    } catch (StorageException err) {
       logger.atSevere().withCause(err).log(
           "Cannot read database before replacement for project %s", project.getName());
       rejectRemainingRequests(replaceByChange.values(), "internal server error");
@@ -2582,7 +2582,7 @@ class ReceiveCommits {
     }
   }
 
-  private void readChangesForReplace() throws OrmException {
+  private void readChangesForReplace() throws StorageException {
     Collection<ChangeNotes> allNotes =
         notesFactory.create(
             replaceByChange.values().stream().map(r -> r.ontoChange).collect(toList()));
@@ -2646,10 +2646,10 @@ class ReceiveCommits {
      *
      * @return whether the new commit is valid
      * @throws IOException
-     * @throws OrmException
+     * @throws StorageException
      * @throws PermissionBackendException
      */
-    boolean validateNewPatchSet() throws IOException, OrmException, PermissionBackendException {
+    boolean validateNewPatchSet() throws IOException, StorageException, PermissionBackendException {
       if (!validateNewPatchSetNoteDb()) {
         return false;
       }
@@ -2671,7 +2671,7 @@ class ReceiveCommits {
     }
 
     boolean validateNewPatchSetForAutoClose()
-        throws IOException, OrmException, PermissionBackendException {
+        throws IOException, StorageException, PermissionBackendException {
       if (!validateNewPatchSetNoteDb()) {
         return false;
       }
@@ -2682,7 +2682,7 @@ class ReceiveCommits {
 
     /** Validates the new PS against permissions and notedb status. */
     private boolean validateNewPatchSetNoteDb()
-        throws IOException, OrmException, PermissionBackendException {
+        throws IOException, StorageException, PermissionBackendException {
       if (notes == null) {
         reject(inputCommand, "change " + ontoChange + " not found");
         return false;
@@ -2845,7 +2845,7 @@ class ReceiveCommits {
     }
 
     /** Updates 'this' to add a new patchset. */
-    private void newPatchSet() throws IOException, OrmException {
+    private void newPatchSet() throws IOException, StorageException {
       RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
       psId =
           ChangeUtil.nextPatchSetIdFromAllRefsMap(allRefs(), notes.getChange().currentPatchSetId());
@@ -2909,7 +2909,7 @@ class ReceiveCommits {
           psId.getParentKey(),
           new BatchUpdateOp() {
             @Override
-            public boolean updateChange(ChangeContext ctx) throws OrmException {
+            public boolean updateChange(ChangeContext ctx) throws StorageException {
               PatchSet ps = psUtil.get(ctx.getNotes(), psId);
               List<String> oldGroups = ps.getGroups();
               if (oldGroups == null) {
@@ -3217,7 +3217,7 @@ class ReceiveCommits {
                   "Auto-closing %s changes with existing patch sets and %s with new patch sets",
                   existingPatchSets, newPatchSets);
               bu.execute();
-            } catch (IOException | OrmException | PermissionBackendException e) {
+            } catch (IOException | StorageException | PermissionBackendException e) {
               logger.atSevere().withCause(e).log("Failed to auto-close changes");
               return null;
             }
@@ -3241,7 +3241,7 @@ class ReceiveCommits {
     }
   }
 
-  private Optional<ChangeNotes> getChangeNotes(Change.Id changeId) throws OrmException {
+  private Optional<ChangeNotes> getChangeNotes(Change.Id changeId) throws StorageException {
     try {
       return Optional.of(notesFactory.createChecked(project.getNameKey(), changeId));
     } catch (NoSuchChangeException e) {
@@ -3249,18 +3249,19 @@ class ReceiveCommits {
     }
   }
 
-  private <T> T executeIndexQuery(Action<T> action) throws OrmException {
+  private <T> T executeIndexQuery(Action<T> action) throws StorageException {
     try {
-      return retryHelper.execute(ActionType.INDEX_QUERY, action, OrmException.class::isInstance);
+      return retryHelper.execute(
+          ActionType.INDEX_QUERY, action, StorageException.class::isInstance);
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
-      Throwables.throwIfInstanceOf(e, OrmException.class);
-      throw new OrmException(e);
+      Throwables.throwIfInstanceOf(e, StorageException.class);
+      throw new StorageException(e);
     }
   }
 
   private Map<Change.Key, ChangeNotes> openChangesByKeyByBranch(Branch.NameKey branch)
-      throws OrmException {
+      throws StorageException {
     Map<Change.Key, ChangeNotes> r = new HashMap<>();
     for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
       try {

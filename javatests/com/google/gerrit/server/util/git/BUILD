@@ -12,7 +12,6 @@ junit_tests(
         "//java/com/google/gerrit/server/util/git",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//java/com/google/gerrit/truth",
-        "//java/com/google/gwtorm",
         "//java/org/eclipse/jgit:server",
         "//lib:gson",
         "//lib:guava",

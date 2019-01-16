@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.testsuite.account;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountState;
@@ -24,7 +25,6 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.notedb.Sequences;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;
@@ -68,7 +68,7 @@ public class AccountOperationsImpl implements AccountOperations {
   }
 
   private AccountState createAccount(AccountsUpdate.AccountUpdater accountUpdater)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws StorageException, IOException, ConfigInvalidException {
     Account.Id accountId = new Account.Id(seq.nextAccountId());
     return accountsUpdate.insert("Create Test Account", accountId, accountUpdater);
   }
@@ -146,7 +146,7 @@ public class AccountOperationsImpl implements AccountOperations {
     }
 
     private void updateAccount(TestAccountUpdate accountUpdate)
-        throws OrmException, IOException, ConfigInvalidException {
+        throws StorageException, IOException, ConfigInvalidException {
       AccountsUpdate.AccountUpdater accountUpdater =
           (account, updateBuilder) -> fillBuilder(updateBuilder, accountUpdate, accountId);
       Optional<AccountState> updatedAccount = updateAccount(accountUpdater);
@@ -154,7 +154,7 @@ public class AccountOperationsImpl implements AccountOperations {
     }
 
     private Optional<AccountState> updateAccount(AccountsUpdate.AccountUpdater accountUpdater)
-        throws OrmException, IOException, ConfigInvalidException {
+        throws StorageException, IOException, ConfigInvalidException {
       return accountsUpdate.update("Update Test Account", accountId, accountUpdater);
     }
 

@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.projects.ParentInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -33,7 +34,6 @@ import com.google.gerrit.server.restapi.project.ListChildProjects;
 import com.google.gerrit.server.restapi.project.SetParent;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -112,7 +112,7 @@ final class SetParentCommand extends SshCommand {
         childProjects.addAll(getChildrenForReparenting(oldParent));
       } catch (PermissionBackendException e) {
         throw new Failure(1, "permissions unavailable", e);
-      } catch (OrmException | RestApiException e) {
+      } catch (StorageException | RestApiException e) {
         throw new Failure(1, "failure in request", e);
       }
     }
@@ -149,7 +149,7 @@ final class SetParentCommand extends SshCommand {
    * reparenting.
    */
   private List<Project.NameKey> getChildrenForReparenting(ProjectState parent)
-      throws PermissionBackendException, OrmException, RestApiException {
+      throws PermissionBackendException, StorageException, RestApiException {
     final List<Project.NameKey> childProjects = new ArrayList<>();
     final List<Project.NameKey> excluded = new ArrayList<>(excludedChildren.size());
     for (ProjectState excludedChild : excludedChildren) {

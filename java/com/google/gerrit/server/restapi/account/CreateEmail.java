@@ -18,6 +18,7 @@ import static com.google.gerrit.extensions.client.AuthType.DEVELOPMENT_BECOME_AN
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.common.EmailInfo;
@@ -41,7 +42,6 @@ import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -84,8 +84,8 @@ public class CreateEmail
 
   @Override
   public Response<EmailInfo> apply(AccountResource rsrc, IdString id, EmailInput input)
-      throws RestApiException, OrmException, EmailException, MethodNotAllowedException, IOException,
-          ConfigInvalidException, PermissionBackendException {
+      throws RestApiException, StorageException, EmailException, MethodNotAllowedException,
+          IOException, ConfigInvalidException, PermissionBackendException {
     if (input == null) {
       input = new EmailInput();
     }
@@ -103,8 +103,8 @@ public class CreateEmail
 
   /** To be used from plugins that want to create emails without permission checks. */
   public Response<EmailInfo> apply(IdentifiedUser user, IdString id, EmailInput input)
-      throws RestApiException, OrmException, EmailException, MethodNotAllowedException, IOException,
-          ConfigInvalidException, PermissionBackendException {
+      throws RestApiException, StorageException, EmailException, MethodNotAllowedException,
+          IOException, ConfigInvalidException, PermissionBackendException {
     String email = id.get().trim();
 
     if (input == null) {

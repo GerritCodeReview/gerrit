@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 import java.util.Objects;
 
 public class CommentByPredicate extends ChangeIndexPredicate {
@@ -34,7 +34,7 @@ public class CommentByPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) throws StorageException {
     for (ChangeMessage m : cd.messages()) {
       if (Objects.equals(m.getAuthor(), id)) {
         return true;

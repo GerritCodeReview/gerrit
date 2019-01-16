@@ -20,6 +20,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteSource;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.InvalidSshKeyException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.accounts.SshKeyInput;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -37,7 +38,6 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.ssh.SshKeyCache;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -72,8 +72,8 @@ public class AddSshKey
 
   @Override
   public Response<SshKeyInfo> apply(AccountResource rsrc, SshKeyInput input)
-      throws AuthException, BadRequestException, OrmException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws AuthException, BadRequestException, StorageException, IOException,
+          ConfigInvalidException, PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }

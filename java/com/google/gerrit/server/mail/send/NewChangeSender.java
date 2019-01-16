@@ -15,11 +15,11 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -33,7 +33,7 @@ public abstract class NewChangeSender extends ChangeEmail {
   private final Set<Account.Id> extraCC = new HashSet<>();
   private final Set<Address> extraCCByEmail = new HashSet<>();
 
-  protected NewChangeSender(EmailArguments ea, ChangeData cd) throws OrmException {
+  protected NewChangeSender(EmailArguments ea, ChangeData cd) throws StorageException {
     super(ea, "newchange", cd);
   }
 

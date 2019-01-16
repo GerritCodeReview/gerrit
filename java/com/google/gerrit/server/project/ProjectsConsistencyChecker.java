@@ -24,6 +24,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.api.projects.CheckProjectInput;
 import com.google.gerrit.extensions.api.projects.CheckProjectInput.AutoCloseableChangesCheckInput;
@@ -51,7 +52,6 @@ import com.google.gerrit.server.query.change.ProjectPredicate;
 import com.google.gerrit.server.query.change.RefPredicate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryHelper.ActionType;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -94,7 +94,7 @@ public class ProjectsConsistencyChecker {
   }
 
   public CheckProjectResultInfo check(Project.NameKey projectName, CheckProjectInput input)
-      throws IOException, OrmException, RestApiException {
+      throws IOException, StorageException, RestApiException {
     CheckProjectResultInfo r = new CheckProjectResultInfo();
     if (input.autoCloseableChangesCheck != null) {
       r.autoCloseableChangesCheckResult =
@@ -105,7 +105,7 @@ public class ProjectsConsistencyChecker {
 
   private AutoCloseableChangesCheckResult checkForAutoCloseableChanges(
       Project.NameKey projectName, AutoCloseableChangesCheckInput input)
-      throws IOException, OrmException, RestApiException {
+      throws IOException, StorageException, RestApiException {
     AutoCloseableChangesCheckResult r = new AutoCloseableChangesCheckResult();
     if (Strings.isNullOrEmpty(input.branch)) {
       throw new BadRequestException("branch is required");
@@ -257,7 +257,7 @@ public class ProjectsConsistencyChecker {
       boolean fix,
       Map<Change.Key, ObjectId> changeIdToMergedSha1,
       List<ObjectId> mergedSha1s)
-      throws OrmException {
+      throws StorageException {
     if (predicates.isEmpty()) {
       return ImmutableList.of();
     }
@@ -273,7 +273,7 @@ public class ProjectsConsistencyChecker {
                     .setRequestedFields(ChangeField.CHANGE, ChangeField.PATCH_SET)
                     .query(and(basePredicate, or(predicates)));
               },
-              OrmException.class::isInstance);
+              StorageException.class::isInstance);
 
       // Result for this query that we want to return to the client.
       List<ChangeInfo> autoCloseableChangesByBranch = new ArrayList<>();
@@ -307,15 +307,15 @@ public class ProjectsConsistencyChecker {
                 }
                 return null;
               },
-              OrmException.class::isInstance);
+              StorageException.class::isInstance);
         }
       }
 
       return autoCloseableChangesByBranch;
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
-      Throwables.throwIfInstanceOf(e, OrmException.class);
-      throw new OrmException(e);
+      Throwables.throwIfInstanceOf(e, StorageException.class);
+      throw new StorageException(e);
     }
   }
 

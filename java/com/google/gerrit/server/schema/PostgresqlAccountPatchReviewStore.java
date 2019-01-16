@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.exceptions.DuplicateKeyException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.ThreadSettingsConfig;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.SQLException;
@@ -36,10 +36,10 @@ public class PostgresqlAccountPatchReviewStore extends JdbcAccountPatchReviewSto
   }
 
   @Override
-  public OrmException convertError(String op, SQLException err) {
+  public StorageException convertError(String op, SQLException err) {
     switch (getSQLStateInt(err)) {
       case 23505: // DUPLICATE_KEY_1
-        return new OrmDuplicateKeyException("ACCOUNT_PATCH_REVIEWS", err);
+        return new DuplicateKeyException("ACCOUNT_PATCH_REVIEWS", err);
 
       case 23514: // CHECK CONSTRAINT VIOLATION
       case 23503: // FOREIGN KEY CONSTRAINT VIOLATION
@@ -49,7 +49,7 @@ public class PostgresqlAccountPatchReviewStore extends JdbcAccountPatchReviewSto
         if (err.getCause() == null && err.getNextException() != null) {
           err.initCause(err.getNextException());
         }
-        return new OrmException(op + " failure on ACCOUNT_PATCH_REVIEWS", err);
+        return new StorageException(op + " failure on ACCOUNT_PATCH_REVIEWS", err);
     }
   }
 }

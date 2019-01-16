@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -35,5 +35,5 @@ public interface NoteDbRewriter {
    * @return the {@code ObjectId} of the ref's new tip commit.
    */
   ObjectId rewriteCommitHistory(RevWalk revWalk, ObjectInserter inserter, ObjectId currTip)
-      throws IOException, ConfigInvalidException, OrmException;
+      throws IOException, ConfigInvalidException, StorageException;
 }

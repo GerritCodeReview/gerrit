@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.account;
 
 import static java.util.stream.Collectors.toSet;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -35,7 +36,6 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -69,7 +69,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
   @Override
   public Response<?> apply(AccountResource.Email rsrc, Input input)
       throws AuthException, ResourceNotFoundException, ResourceConflictException,
-          MethodNotAllowedException, OrmException, IOException, ConfigInvalidException,
+          MethodNotAllowedException, StorageException, IOException, ConfigInvalidException,
           PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
@@ -79,7 +79,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
 
   public Response<?> apply(IdentifiedUser user, String email)
       throws ResourceNotFoundException, ResourceConflictException, MethodNotAllowedException,
-          OrmException, IOException, ConfigInvalidException {
+          StorageException, IOException, ConfigInvalidException {
     if (!realm.allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL)) {
       throw new MethodNotAllowedException("realm does not allow deleting emails");
     }

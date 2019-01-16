@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -31,7 +32,6 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -60,8 +60,8 @@ public class PublishChangeEdit
   @Override
   protected Response<?> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, PublishChangeEditInput in)
-      throws IOException, OrmException, RestApiException, UpdateException, ConfigInvalidException,
-          NoSuchProjectException {
+      throws IOException, StorageException, RestApiException, UpdateException,
+          ConfigInvalidException, NoSuchProjectException {
     contributorAgreementsChecker.check(rsrc.getProject(), rsrc.getUser());
     Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
     if (!edit.isPresent()) {

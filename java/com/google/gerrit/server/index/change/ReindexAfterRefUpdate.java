@@ -21,6 +21,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -39,7 +40,6 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -152,7 +152,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     }
 
     @Override
-    protected List<Change> impl(RequestContext ctx) throws OrmException {
+    protected List<Change> impl(RequestContext ctx) throws StorageException {
       String ref = event.getRefName();
       Project.NameKey project = new Project.NameKey(event.getProjectName());
       if (ref.equals(RefNames.REFS_CONFIG)) {
@@ -179,7 +179,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     }
 
     @Override
-    protected Void impl(RequestContext ctx) throws OrmException, IOException {
+    protected Void impl(RequestContext ctx) throws StorageException, IOException {
       // Reload change, as some time may have passed since GetChanges.
       try {
         Change c =

@@ -34,6 +34,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -73,7 +74,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -101,7 +101,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class ChangeData {
-  public static List<Change> asChanges(List<ChangeData> changeDatas) throws OrmException {
+  public static List<Change> asChanges(List<ChangeData> changeDatas) throws StorageException {
     List<Change> result = new ArrayList<>(changeDatas.size());
     for (ChangeData cd : changeDatas) {
       result.add(cd.change());
@@ -113,7 +113,7 @@ public class ChangeData {
     return changes.stream().collect(toMap(ChangeData::getId, Function.identity()));
   }
 
-  public static void ensureChangeLoaded(Iterable<ChangeData> changes) throws OrmException {
+  public static void ensureChangeLoaded(Iterable<ChangeData> changes) throws StorageException {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
@@ -124,7 +124,8 @@ public class ChangeData {
     }
   }
 
-  public static void ensureAllPatchSetsLoaded(Iterable<ChangeData> changes) throws OrmException {
+  public static void ensureAllPatchSetsLoaded(Iterable<ChangeData> changes)
+      throws StorageException {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
@@ -135,7 +136,8 @@ public class ChangeData {
     }
   }
 
-  public static void ensureCurrentPatchSetLoaded(Iterable<ChangeData> changes) throws OrmException {
+  public static void ensureCurrentPatchSetLoaded(Iterable<ChangeData> changes)
+      throws StorageException {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
@@ -147,7 +149,7 @@ public class ChangeData {
   }
 
   public static void ensureCurrentApprovalsLoaded(Iterable<ChangeData> changes)
-      throws OrmException {
+      throws StorageException {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
@@ -158,7 +160,7 @@ public class ChangeData {
     }
   }
 
-  public static void ensureMessagesLoaded(Iterable<ChangeData> changes) throws OrmException {
+  public static void ensureMessagesLoaded(Iterable<ChangeData> changes) throws StorageException {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
@@ -170,7 +172,7 @@ public class ChangeData {
   }
 
   public static void ensureReviewedByLoadedForOpenChanges(Iterable<ChangeData> changes)
-      throws OrmException {
+      throws StorageException {
     List<ChangeData> pending = new ArrayList<>();
     for (ChangeData cd : changes) {
       if (cd.reviewedBy == null && cd.change().isNew()) {
@@ -362,14 +364,14 @@ public class ChangeData {
     return allUsersName;
   }
 
-  public void setCurrentFilePaths(List<String> filePaths) throws OrmException {
+  public void setCurrentFilePaths(List<String> filePaths) throws StorageException {
     PatchSet ps = currentPatchSet();
     if (ps != null) {
       currentFiles = ImmutableList.copyOf(filePaths);
     }
   }
 
-  public List<String> currentFilePaths() throws IOException, OrmException {
+  public List<String> currentFilePaths() throws IOException, StorageException {
     if (currentFiles == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
@@ -380,7 +382,7 @@ public class ChangeData {
     return currentFiles;
   }
 
-  private Optional<DiffSummary> getDiffSummary() throws OrmException, IOException {
+  private Optional<DiffSummary> getDiffSummary() throws StorageException, IOException {
     if (diffSummary == null) {
       if (!lazyLoad) {
         return Optional.empty();
@@ -408,7 +410,7 @@ public class ChangeData {
     return diffSummary;
   }
 
-  private Optional<ChangedLines> computeChangedLines() throws OrmException, IOException {
+  private Optional<ChangedLines> computeChangedLines() throws StorageException, IOException {
     Optional<DiffSummary> ds = getDiffSummary();
     if (ds.isPresent()) {
       return Optional.of(ds.get().getChangedLines());
@@ -416,7 +418,7 @@ public class ChangeData {
     return Optional.empty();
   }
 
-  public Optional<ChangedLines> changedLines() throws OrmException, IOException {
+  public Optional<ChangedLines> changedLines() throws StorageException, IOException {
     if (changedLines == null) {
       if (!lazyLoad) {
         return Optional.empty();
@@ -450,7 +452,7 @@ public class ChangeData {
     visibleTo = user;
   }
 
-  public Change change() throws OrmException {
+  public Change change() throws StorageException {
     if (change == null && lazyLoad) {
       reloadChange();
     }
@@ -461,41 +463,41 @@ public class ChangeData {
     change = c;
   }
 
-  public Change reloadChange() throws OrmException {
+  public Change reloadChange() throws StorageException {
     try {
       notes = notesFactory.createChecked(project, legacyId);
     } catch (NoSuchChangeException e) {
-      throw new OrmException("Unable to load change " + legacyId, e);
+      throw new StorageException("Unable to load change " + legacyId, e);
     }
     change = notes.getChange();
     setPatchSets(null);
     return change;
   }
 
-  public LabelTypes getLabelTypes() throws OrmException {
+  public LabelTypes getLabelTypes() throws StorageException {
     if (labelTypes == null) {
       ProjectState state;
       try {
         state = projectCache.checkedGet(project());
       } catch (IOException e) {
-        throw new OrmException("project state not available", e);
+        throw new StorageException("project state not available", e);
       }
       labelTypes = state.getLabelTypes(change().getDest());
     }
     return labelTypes;
   }
 
-  public ChangeNotes notes() throws OrmException {
+  public ChangeNotes notes() throws StorageException {
     if (notes == null) {
       if (!lazyLoad) {
-        throw new OrmException("ChangeNotes not available, lazyLoad = false");
+        throw new StorageException("ChangeNotes not available, lazyLoad = false");
       }
       notes = notesFactory.create(project(), legacyId);
     }
     return notes;
   }
 
-  public PatchSet currentPatchSet() throws OrmException {
+  public PatchSet currentPatchSet() throws StorageException {
     if (currentPatchSet == null) {
       Change c = change();
       if (c == null) {
@@ -511,7 +513,7 @@ public class ChangeData {
     return currentPatchSet;
   }
 
-  public List<PatchSetApproval> currentApprovals() throws OrmException {
+  public List<PatchSetApproval> currentApprovals() throws StorageException {
     if (currentApprovals == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
@@ -524,7 +526,7 @@ public class ChangeData {
           currentApprovals =
               ImmutableList.copyOf(
                   approvalsUtil.byPatchSet(notes(), c.currentPatchSetId(), null, null));
-        } catch (OrmException e) {
+        } catch (StorageException e) {
           if (e.getCause() instanceof NoSuchChangeException) {
             currentApprovals = Collections.emptyList();
           } else {
@@ -540,7 +542,7 @@ public class ChangeData {
     currentApprovals = approvals;
   }
 
-  public String commitMessage() throws IOException, OrmException {
+  public String commitMessage() throws IOException, StorageException {
     if (commitMessage == null) {
       if (!loadCommitData()) {
         return null;
@@ -549,7 +551,7 @@ public class ChangeData {
     return commitMessage;
   }
 
-  public List<FooterLine> commitFooters() throws IOException, OrmException {
+  public List<FooterLine> commitFooters() throws IOException, StorageException {
     if (commitFooters == null) {
       if (!loadCommitData()) {
         return null;
@@ -558,11 +560,11 @@ public class ChangeData {
     return commitFooters;
   }
 
-  public ListMultimap<String, String> trackingFooters() throws IOException, OrmException {
+  public ListMultimap<String, String> trackingFooters() throws IOException, StorageException {
     return trackingFooters.extract(commitFooters());
   }
 
-  public PersonIdent getAuthor() throws IOException, OrmException {
+  public PersonIdent getAuthor() throws IOException, StorageException {
     if (author == null) {
       if (!loadCommitData()) {
         return null;
@@ -571,7 +573,7 @@ public class ChangeData {
     return author;
   }
 
-  public PersonIdent getCommitter() throws IOException, OrmException {
+  public PersonIdent getCommitter() throws IOException, StorageException {
     if (committer == null) {
       if (!loadCommitData()) {
         return null;
@@ -581,7 +583,7 @@ public class ChangeData {
   }
 
   private boolean loadCommitData()
-      throws OrmException, RepositoryNotFoundException, IOException, MissingObjectException,
+      throws StorageException, RepositoryNotFoundException, IOException, MissingObjectException,
           IncorrectObjectTypeException {
     PatchSet ps = currentPatchSet();
     if (ps == null) {
@@ -602,9 +604,9 @@ public class ChangeData {
 
   /**
    * @return patches for the change, in patch set ID order.
-   * @throws OrmException an error occurred reading the database.
+   * @throws StorageException an error occurred reading the database.
    */
-  public Collection<PatchSet> patchSets() throws OrmException {
+  public Collection<PatchSet> patchSets() throws StorageException {
     if (patchSets == null) {
       patchSets = psUtil.byChange(notes());
     }
@@ -618,9 +620,9 @@ public class ChangeData {
 
   /**
    * @return patch with the given ID, or null if it does not exist.
-   * @throws OrmException an error occurred reading the database.
+   * @throws StorageException an error occurred reading the database.
    */
-  public PatchSet patchSet(PatchSet.Id psId) throws OrmException {
+  public PatchSet patchSet(PatchSet.Id psId) throws StorageException {
     if (currentPatchSet != null && currentPatchSet.getId().equals(psId)) {
       return currentPatchSet;
     }
@@ -635,9 +637,9 @@ public class ChangeData {
   /**
    * @return all patch set approvals for the change, keyed by ID, ordered by timestamp within each
    *     patch set.
-   * @throws OrmException an error occurred reading the database.
+   * @throws StorageException an error occurred reading the database.
    */
-  public ListMultimap<PatchSet.Id, PatchSetApproval> approvals() throws OrmException {
+  public ListMultimap<PatchSet.Id, PatchSetApproval> approvals() throws StorageException {
     if (allApprovals == null) {
       if (!lazyLoad) {
         return ImmutableListMultimap.of();
@@ -649,13 +651,13 @@ public class ChangeData {
 
   /**
    * @return The submit ('SUBM') approval label
-   * @throws OrmException an error occurred reading the database.
+   * @throws StorageException an error occurred reading the database.
    */
-  public Optional<PatchSetApproval> getSubmitApproval() throws OrmException {
+  public Optional<PatchSetApproval> getSubmitApproval() throws StorageException {
     return currentApprovals().stream().filter(PatchSetApproval::isLegacySubmit).findFirst();
   }
 
-  public ReviewerSet reviewers() throws OrmException {
+  public ReviewerSet reviewers() throws StorageException {
     if (reviewers == null) {
       if (!lazyLoad) {
         return ReviewerSet.empty();
@@ -673,7 +675,7 @@ public class ChangeData {
     return reviewers;
   }
 
-  public ReviewerByEmailSet reviewersByEmail() throws OrmException {
+  public ReviewerByEmailSet reviewersByEmail() throws StorageException {
     if (reviewersByEmail == null) {
       if (!lazyLoad) {
         return ReviewerByEmailSet.empty();
@@ -699,7 +701,7 @@ public class ChangeData {
     return this.pendingReviewers;
   }
 
-  public ReviewerSet pendingReviewers() throws OrmException {
+  public ReviewerSet pendingReviewers() throws StorageException {
     if (pendingReviewers == null) {
       if (!lazyLoad) {
         return ReviewerSet.empty();
@@ -717,7 +719,7 @@ public class ChangeData {
     return pendingReviewersByEmail;
   }
 
-  public ReviewerByEmailSet pendingReviewersByEmail() throws OrmException {
+  public ReviewerByEmailSet pendingReviewersByEmail() throws StorageException {
     if (pendingReviewersByEmail == null) {
       if (!lazyLoad) {
         return ReviewerByEmailSet.empty();
@@ -727,7 +729,7 @@ public class ChangeData {
     return pendingReviewersByEmail;
   }
 
-  public List<ReviewerStatusUpdate> reviewerUpdates() throws OrmException {
+  public List<ReviewerStatusUpdate> reviewerUpdates() throws StorageException {
     if (reviewerUpdates == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
@@ -745,7 +747,7 @@ public class ChangeData {
     return reviewerUpdates;
   }
 
-  public Collection<Comment> publishedComments() throws OrmException {
+  public Collection<Comment> publishedComments() throws StorageException {
     if (publishedComments == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
@@ -755,7 +757,7 @@ public class ChangeData {
     return publishedComments;
   }
 
-  public Collection<RobotComment> robotComments() throws OrmException {
+  public Collection<RobotComment> robotComments() throws StorageException {
     if (robotComments == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
@@ -765,7 +767,7 @@ public class ChangeData {
     return robotComments;
   }
 
-  public Integer unresolvedCommentCount() throws OrmException {
+  public Integer unresolvedCommentCount() throws StorageException {
     if (unresolvedCommentCount == null) {
       if (!lazyLoad) {
         return null;
@@ -819,7 +821,7 @@ public class ChangeData {
     this.unresolvedCommentCount = count;
   }
 
-  public Integer totalCommentCount() throws OrmException {
+  public Integer totalCommentCount() throws StorageException {
     if (totalCommentCount == null) {
       if (!lazyLoad) {
         return null;
@@ -836,7 +838,7 @@ public class ChangeData {
     this.totalCommentCount = count;
   }
 
-  public List<ChangeMessage> messages() throws OrmException {
+  public List<ChangeMessage> messages() throws StorageException {
     if (messages == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
@@ -880,7 +882,7 @@ public class ChangeData {
   }
 
   @Nullable
-  public Boolean isMergeable() throws OrmException {
+  public Boolean isMergeable() throws StorageException {
     if (mergeable == null) {
       Change c = change();
       if (c == null) {
@@ -920,18 +922,18 @@ public class ChangeData {
                   c.getDest(),
                   repo);
         } catch (IOException e) {
-          throw new OrmException(e);
+          throw new StorageException(e);
         }
       }
     }
     return mergeable;
   }
 
-  public Set<Account.Id> editsByUser() throws OrmException {
+  public Set<Account.Id> editsByUser() throws StorageException {
     return editRefs().keySet();
   }
 
-  public Map<Account.Id, Ref> editRefs() throws OrmException {
+  public Map<Account.Id, Ref> editRefs() throws StorageException {
     if (editsByUser == null) {
       if (!lazyLoad) {
         return Collections.emptyMap();
@@ -953,17 +955,17 @@ public class ChangeData {
           }
         }
       } catch (IOException e) {
-        throw new OrmException(e);
+        throw new StorageException(e);
       }
     }
     return editsByUser;
   }
 
-  public Set<Account.Id> draftsByUser() throws OrmException {
+  public Set<Account.Id> draftsByUser() throws StorageException {
     return draftRefs().keySet();
   }
 
-  public Map<Account.Id, Ref> draftRefs() throws OrmException {
+  public Map<Account.Id, Ref> draftRefs() throws StorageException {
     if (draftsByUser == null) {
       if (!lazyLoad) {
         return Collections.emptyMap();
@@ -991,7 +993,7 @@ public class ChangeData {
     return draftsByUser;
   }
 
-  public boolean isReviewedBy(Account.Id accountId) throws OrmException {
+  public boolean isReviewedBy(Account.Id accountId) throws StorageException {
     Collection<String> stars = stars(accountId);
 
     PatchSet ps = currentPatchSet();
@@ -1008,7 +1010,7 @@ public class ChangeData {
     return reviewedBy().contains(accountId);
   }
 
-  public Set<Account.Id> reviewedBy() throws OrmException {
+  public Set<Account.Id> reviewedBy() throws StorageException {
     if (reviewedBy == null) {
       if (!lazyLoad) {
         return Collections.emptySet();
@@ -1040,7 +1042,7 @@ public class ChangeData {
     this.reviewedBy = reviewedBy;
   }
 
-  public Set<String> hashtags() throws OrmException {
+  public Set<String> hashtags() throws StorageException {
     if (hashtags == null) {
       if (!lazyLoad) {
         return Collections.emptySet();
@@ -1054,7 +1056,7 @@ public class ChangeData {
     this.hashtags = hashtags;
   }
 
-  public ImmutableListMultimap<Account.Id, String> stars() throws OrmException {
+  public ImmutableListMultimap<Account.Id, String> stars() throws StorageException {
     if (stars == null) {
       if (!lazyLoad) {
         return ImmutableListMultimap.of();
@@ -1072,7 +1074,7 @@ public class ChangeData {
     this.stars = ImmutableListMultimap.copyOf(stars);
   }
 
-  public ImmutableMap<Account.Id, StarRef> starRefs() throws OrmException {
+  public ImmutableMap<Account.Id, StarRef> starRefs() throws StorageException {
     if (starRefs == null) {
       if (!lazyLoad) {
         return ImmutableMap.of();
@@ -1082,7 +1084,7 @@ public class ChangeData {
     return starRefs;
   }
 
-  public Set<String> stars(Account.Id accountId) throws OrmException {
+  public Set<String> stars(Account.Id accountId) throws StorageException {
     if (starsOf != null) {
       if (!starsOf.accountId().equals(accountId)) {
         starsOf = null;
@@ -1106,14 +1108,14 @@ public class ChangeData {
    *     false otherwise.
    */
   @Nullable
-  public Boolean isPureRevert() throws OrmException {
+  public Boolean isPureRevert() throws StorageException {
     if (change().getRevertOf() == null) {
       return null;
     }
     try {
       return pureRevert.get(notes(), Optional.empty());
     } catch (IOException | BadRequestException | ResourceConflictException e) {
-      throw new OrmException("could not compute pure revert", e);
+      throw new StorageException("could not compute pure revert", e);
     }
   }
 

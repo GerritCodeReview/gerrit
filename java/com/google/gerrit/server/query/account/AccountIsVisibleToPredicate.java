@@ -15,11 +15,11 @@
 package com.google.gerrit.server.query.account;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.IndexUtils;
-import com.google.gwtorm.server.OrmException;
 
 public class AccountIsVisibleToPredicate extends IsVisibleToPredicate<AccountState> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -32,7 +32,7 @@ public class AccountIsVisibleToPredicate extends IsVisibleToPredicate<AccountSta
   }
 
   @Override
-  public boolean match(AccountState accountState) throws OrmException {
+  public boolean match(AccountState accountState) throws StorageException {
     boolean canSee = accountControl.canSee(accountState);
     if (!canSee) {
       logger.atFine().log("Filter out non-visisble account: %s", accountState);

@@ -21,6 +21,8 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.exceptions.DuplicateKeyException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -31,8 +33,6 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.ThreadSettingsConfig;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.gwtorm.server.OrmException;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -167,7 +167,7 @@ public abstract class JdbcAccountPatchReviewStore
   public void start() {
     try {
       createTableIfNotExists();
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to create table to store account patch reviews");
     }
   }
@@ -176,7 +176,7 @@ public abstract class JdbcAccountPatchReviewStore
     return ds.getConnection();
   }
 
-  public void createTableIfNotExists() throws OrmException {
+  public void createTableIfNotExists() throws StorageException {
     try (Connection con = ds.getConnection();
         Statement stmt = con.createStatement()) {
       doCreateTable(stmt);
@@ -197,7 +197,7 @@ public abstract class JdbcAccountPatchReviewStore
             + ")");
   }
 
-  public void dropTableIfExists() throws OrmException {
+  public void dropTableIfExists() throws StorageException {
     try (Connection con = ds.getConnection();
         Statement stmt = con.createStatement()) {
       stmt.executeUpdate("DROP TABLE IF EXISTS account_patch_reviews");
@@ -211,7 +211,7 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public boolean markReviewed(PatchSet.Id psId, Account.Id accountId, String path)
-      throws OrmException {
+      throws StorageException {
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
@@ -225,8 +225,8 @@ public abstract class JdbcAccountPatchReviewStore
       stmt.executeUpdate();
       return true;
     } catch (SQLException e) {
-      OrmException ormException = convertError("insert", e);
-      if (ormException instanceof OrmDuplicateKeyException) {
+      StorageException ormException = convertError("insert", e);
+      if (ormException instanceof DuplicateKeyException) {
         return false;
       }
       throw ormException;
@@ -235,7 +235,7 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public void markReviewed(PatchSet.Id psId, Account.Id accountId, Collection<String> paths)
-      throws OrmException {
+      throws StorageException {
     if (paths == null || paths.isEmpty()) {
       return;
     }
@@ -255,8 +255,8 @@ public abstract class JdbcAccountPatchReviewStore
       }
       stmt.executeBatch();
     } catch (SQLException e) {
-      OrmException ormException = convertError("insert", e);
-      if (ormException instanceof OrmDuplicateKeyException) {
+      StorageException ormException = convertError("insert", e);
+      if (ormException instanceof DuplicateKeyException) {
         return;
       }
       throw ormException;
@@ -265,7 +265,7 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public void clearReviewed(PatchSet.Id psId, Account.Id accountId, String path)
-      throws OrmException {
+      throws StorageException {
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
@@ -283,7 +283,7 @@ public abstract class JdbcAccountPatchReviewStore
   }
 
   @Override
-  public void clearReviewed(PatchSet.Id psId) throws OrmException {
+  public void clearReviewed(PatchSet.Id psId) throws StorageException {
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
@@ -299,7 +299,7 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public Optional<PatchSetWithReviewedFiles> findReviewed(PatchSet.Id psId, Account.Id accountId)
-      throws OrmException {
+      throws StorageException {
     try (Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
@@ -331,11 +331,11 @@ public abstract class JdbcAccountPatchReviewStore
     }
   }
 
-  public OrmException convertError(String op, SQLException err) {
+  public StorageException convertError(String op, SQLException err) {
     if (err.getCause() == null && err.getNextException() != null) {
       err.initCause(err.getNextException());
     }
-    return new OrmException(op + " failure on account_patch_reviews", err);
+    return new StorageException(op + " failure on account_patch_reviews", err);
   }
 
   private static String getSQLState(SQLException err) {

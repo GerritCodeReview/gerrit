@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.account;
 
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.IndexPredicate;
@@ -27,7 +28,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gwtorm.server.OrmException;
 import java.util.List;
 
 public class AccountPredicates {
@@ -140,7 +140,7 @@ public class AccountPredicates {
     }
 
     @Override
-    public boolean match(AccountState object) throws OrmException {
+    public boolean match(AccountState object) throws StorageException {
       return true;
     }
 

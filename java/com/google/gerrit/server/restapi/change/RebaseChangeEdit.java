@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class RebaseChangeEdit extends RetryingRestModifyView<ChangeResource, Inp
 
   @Override
   protected Response<?> applyImpl(BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input in)
-      throws AuthException, ResourceConflictException, IOException, OrmException,
+      throws AuthException, ResourceConflictException, IOException, StorageException,
           PermissionBackendException {
     Project.NameKey project = rsrc.getProject();
     try (Repository repository = repositoryManager.openRepository(project)) {

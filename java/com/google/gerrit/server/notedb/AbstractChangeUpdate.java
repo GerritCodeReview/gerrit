@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -27,7 +28,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.Date;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -194,11 +194,11 @@ public abstract class AbstractChangeUpdate {
    * @return commit ID produced by inserting this update's commit, or null if this update is a no-op
    *     and should be skipped. The zero ID is a valid return value, and indicates the ref should be
    *     deleted.
-   * @throws OrmException if a Gerrit-level error occurred.
+   * @throws StorageException if a Gerrit-level error occurred.
    * @throws IOException if a lower-level error occurred.
    */
   final ObjectId apply(RevWalk rw, ObjectInserter ins, ObjectId curr)
-      throws OrmException, IOException {
+      throws StorageException, IOException {
     if (isEmpty()) {
       return null;
     }
@@ -246,11 +246,11 @@ public abstract class AbstractChangeUpdate {
    *     indicates to the caller that it should be copied from the parent commit. To indicate that
    *     this update is a no-op (but this could not be determined by {@link #isEmpty()}), return the
    *     sentinel {@link #NO_OP_UPDATE}.
-   * @throws OrmException if a Gerrit-level error occurred.
+   * @throws StorageException if a Gerrit-level error occurred.
    * @throws IOException if a lower-level error occurred.
    */
   protected abstract CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
-      throws OrmException, IOException;
+      throws StorageException, IOException;
 
   protected static final CommitBuilder NO_OP_UPDATE = new CommitBuilder();
 

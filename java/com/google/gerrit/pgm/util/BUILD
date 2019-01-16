@@ -17,7 +17,6 @@ java_library(
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/util/cli",
-        "//java/com/google/gwtorm",
         "//lib:args4j",
         "//lib:guava",
         "//lib/flogger:api",

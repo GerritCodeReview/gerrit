@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -39,7 +40,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
@@ -159,7 +159,7 @@ public class ChangeResource implements RestResource, HasETag {
       // message is automatically added as reviewer. Hence if we include removed reviewers we can
       // be sure that we have all accounts that posted messages on the change.
       accounts.addAll(approvalUtil.getReviewers(notes).all());
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       // This ETag will be invalidated if it loads next time.
     }
 
@@ -175,7 +175,7 @@ public class ChangeResource implements RestResource, HasETag {
     ObjectId noteId;
     try {
       noteId = notes.loadRevision();
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       noteId = null; // This ETag will be invalidated if it loads next time.
     }
     hashObjectId(h, noteId, buf);

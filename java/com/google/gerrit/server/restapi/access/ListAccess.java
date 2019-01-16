@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.access;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -22,7 +23,6 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.project.GetAccess;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
   @Override
   public Map<String, ProjectAccessInfo> apply(TopLevelResource resource)
       throws ResourceNotFoundException, ResourceConflictException, IOException,
-          PermissionBackendException, OrmException {
+          PermissionBackendException, StorageException {
     Map<String, ProjectAccessInfo> access = new TreeMap<>();
     for (String p : projects) {
       access.put(p, getAccess.apply(new Project.NameKey(p)));

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -21,7 +22,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.IncludedIn;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class ChangeIncludedIn implements RestReadView<ChangeResource> {
 
   @Override
   public IncludedInInfo apply(ChangeResource rsrc)
-      throws RestApiException, OrmException, IOException {
+      throws RestApiException, StorageException, IOException {
     PatchSet ps = psUtil.current(rsrc.getNotes());
     return includedIn.apply(rsrc.getProject(), ps.getRevision().get());
   }

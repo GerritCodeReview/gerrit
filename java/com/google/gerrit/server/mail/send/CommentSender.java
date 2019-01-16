@@ -22,6 +22,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.FilenameComparator;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.NoSuchEntityException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.mail.MailProcessingUtil;
@@ -41,7 +42,6 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -120,7 +120,7 @@ public class CommentSender extends ReplyToChangeSender {
       @GerritServerConfig Config cfg,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id)
-      throws OrmException {
+      throws StorageException {
     super(ea, "comment", newChangeData(ea, project, id));
     this.commentsUtil = commentsUtil;
     this.incomingEmailEnabled =
@@ -129,7 +129,7 @@ public class CommentSender extends ReplyToChangeSender {
     this.replyToAddress = cfg.getString("sendemail", null, "replyToAddress");
   }
 
-  public void setComments(List<Comment> comments) throws OrmException {
+  public void setComments(List<Comment> comments) throws StorageException {
     inlineComments = comments;
 
     Set<String> paths = new HashSet<>();
@@ -316,7 +316,7 @@ public class CommentSender extends ReplyToChangeSender {
     Comment.Key key = new Comment.Key(child.parentUuid, child.key.filename, child.key.patchSetId);
     try {
       return commentsUtil.getPublished(changeData.notes(), key);
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atWarning().log("Could not find the parent of this comment: %s", child);
       return Optional.empty();
     }

@@ -23,7 +23,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.project.GroupList;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
-import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -55,21 +54,21 @@ public class AllProjectsConfig extends VersionedMetaDataOnInit {
   }
 
   @Override
-  public AllProjectsConfig load() throws IOException, ConfigInvalidException {
+  public AllProjectsConfig load() throws ConfigInvalidException {
     super.load();
     return this;
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad() throws ConfigInvalidException {
     if (baseConfig != null) {
-      baseConfig.load();
+      loadStoredConfig(baseConfig);
     }
     groupList = readGroupList();
     cfg = readConfig(ProjectConfig.PROJECT_CONFIG, baseConfig);
   }
 
-  private GroupList readGroupList() throws IOException {
+  private GroupList readGroupList() {
     return GroupList.parse(
         new Project.NameKey(project),
         readUTF8(GroupList.FILE_NAME),
@@ -78,14 +77,14 @@ public class AllProjectsConfig extends VersionedMetaDataOnInit {
                 "Error parsing file %s: %s", GroupList.FILE_NAME, error.getMessage()));
   }
 
-  public void save(String pluginName, String message) throws IOException, ConfigInvalidException {
+  public void save(String pluginName, String message) throws ConfigInvalidException {
     save(
         new PersonIdent(pluginName, pluginName + "@gerrit"),
         "Update from plugin " + pluginName + ": " + message);
   }
 
   @Override
-  protected void save(PersonIdent ident, String msg) throws IOException, ConfigInvalidException {
+  protected void save(PersonIdent ident, String msg) throws ConfigInvalidException {
     super.save(ident, msg);
 
     // we need to invalidate the JGit cache if the group list is invalidated in
@@ -94,13 +93,13 @@ public class AllProjectsConfig extends VersionedMetaDataOnInit {
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) {
     saveConfig(ProjectConfig.PROJECT_CONFIG, cfg);
     saveGroupList();
     return true;
   }
 
-  private void saveGroupList() throws IOException {
+  private void saveGroupList() {
     saveUTF8(GroupList.FILE_NAME, groupList.asText());
   }
 }

@@ -544,9 +544,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad() throws ConfigInvalidException {
     if (baseConfig != null) {
-      baseConfig.load();
+      loadStoredConfig(baseConfig);
     }
     readGroupList();
     groupsByName = mapGroupReferences();
@@ -1087,7 +1087,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return new PluginConfig(pluginName, pluginConfig, this);
   }
 
-  private void readGroupList() throws IOException {
+  private void readGroupList() {
     groupList = GroupList.parse(projectName, readUTF8(GroupList.FILE_NAME), this);
   }
 
@@ -1102,7 +1102,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) throws ConfigInvalidException {
     if (commit.getMessage() == null || "".equals(commit.getMessage())) {
       commit.setMessage("Updated project configuration\n");
     }
@@ -1504,7 +1504,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  private void saveGroupList() throws IOException {
+  private void saveGroupList() {
     saveUTF8(GroupList.FILE_NAME, groupList.asText());
   }
 

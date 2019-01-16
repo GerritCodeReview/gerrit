@@ -17,7 +17,9 @@ package com.google.gerrit.server.git.meta;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Throwables;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.logging.TraceContext;
@@ -35,8 +37,6 @@ import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -50,6 +50,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -94,17 +95,16 @@ public abstract class VersionedMetaData {
   protected abstract String getRefName();
 
   /** Set up the metadata, parsing any state from the loaded revision. */
-  protected abstract void onLoad() throws IOException, ConfigInvalidException;
+  protected abstract void onLoad() throws ConfigInvalidException;
 
   /**
    * Save any changes to the metadata in a commit.
    *
    * @return true if the commit should proceed, false to abort.
-   * @throws IOException
-   * @throws ConfigInvalidException
+   * @throws ConfigInvalidException if an invalid config was encountered, with a user-visible
+   *     message.
    */
-  protected abstract boolean onSave(CommitBuilder commit)
-      throws IOException, ConfigInvalidException;
+  protected abstract boolean onSave(CommitBuilder commit) throws ConfigInvalidException;
 
   /** @return revision of the metadata that was loaded. */
   @Nullable
@@ -120,12 +120,9 @@ public abstract class VersionedMetaData {
    *
    * @param projectName the name of the project
    * @param db repository to access.
-   * @throws IOException
-   * @throws ConfigInvalidException
    */
-  public void load(Project.NameKey projectName, Repository db)
-      throws IOException, ConfigInvalidException {
-    Ref ref = db.getRefDatabase().exactRef(getRefName());
+  public void load(Project.NameKey projectName, Repository db) throws ConfigInvalidException {
+    Ref ref = call(() -> db.getRefDatabase().exactRef(getRefName()));
     load(projectName, db, ref != null ? ref.getObjectId() : null);
   }
 
@@ -142,11 +139,11 @@ public abstract class VersionedMetaData {
    * @param projectName the name of the project
    * @param db repository to access.
    * @param id revision to load.
-   * @throws IOException
-   * @throws ConfigInvalidException
+   * @throws ConfigInvalidException if an invalid config was encountered, with a user-visible
+   *     message.
    */
   public void load(Project.NameKey projectName, Repository db, @Nullable ObjectId id)
-      throws IOException, ConfigInvalidException {
+      throws ConfigInvalidException {
     try (RevWalk walk = new RevWalk(db)) {
       load(projectName, walk, id);
     }
@@ -166,28 +163,30 @@ public abstract class VersionedMetaData {
    * @param projectName the name of the project
    * @param walk open walk to access to access.
    * @param id revision to load.
-   * @throws IOException
-   * @throws ConfigInvalidException
+   * @throws ConfigInvalidException if an invalid config was encountered, with a user-visible
+   *     message.
    */
   public void load(Project.NameKey projectName, RevWalk walk, ObjectId id)
-      throws IOException, ConfigInvalidException {
+      throws ConfigInvalidException {
     this.projectName = projectName;
     this.rw = walk;
     this.reader = walk.getObjectReader();
     try {
       revision = id != null ? walk.parseCommit(id) : null;
       onLoad();
+    } catch (IOException e) {
+      throw new StorageException(e);
     } finally {
       this.rw = null;
       this.reader = null;
     }
   }
 
-  public void load(MetaDataUpdate update) throws IOException, ConfigInvalidException {
+  public void load(MetaDataUpdate update) throws ConfigInvalidException {
     load(update.getProjectName(), update.getRepository());
   }
 
-  public void load(MetaDataUpdate update, ObjectId id) throws IOException, ConfigInvalidException {
+  public void load(MetaDataUpdate update, ObjectId id) throws ConfigInvalidException {
     load(update.getProjectName(), update.getRepository(), id);
   }
 
@@ -197,10 +196,13 @@ public abstract class VersionedMetaData {
    *
    * @param update helper information to define the update that will occur.
    * @return the commit that was created
-   * @throws IOException if there is a storage problem and the update cannot be executed as
-   *     requested or if it failed because of a concurrent update to the same reference
+   * @throws ConfigInvalidException if an invalid config was encountered, with a user-visible
+   *     message.
+   * @throws LockFailureException if the ref update failed because of a concurrent update to the
+   *     same reference
    */
-  public RevCommit commit(MetaDataUpdate update) throws IOException {
+  public RevCommit commit(MetaDataUpdate update)
+      throws ConfigInvalidException, LockFailureException {
     try (BatchMetaDataUpdate batch = openUpdate(update)) {
       batch.write(update.getCommitBuilder());
       return batch.commit();
@@ -213,10 +215,13 @@ public abstract class VersionedMetaData {
    * @param update helper information to define the update that will occur.
    * @param refName name of the ref that should be created
    * @return the commit that was created
-   * @throws IOException if there is a storage problem and the update cannot be executed as
-   *     requested or if it failed because of a concurrent update to the same reference
+   * @throws ConfigInvalidException if an invalid config was encountered, with a user-visible
+   *     message.
+   * @throws LockFailureException if the ref update failed because of a concurrent update to the
+   *     same reference
    */
-  public RevCommit commitToNewRef(MetaDataUpdate update, String refName) throws IOException {
+  public RevCommit commitToNewRef(MetaDataUpdate update, String refName)
+      throws ConfigInvalidException, LockFailureException {
     try (BatchMetaDataUpdate batch = openUpdate(update)) {
       batch.write(update.getCommitBuilder());
       return batch.createRef(refName);
@@ -224,18 +229,44 @@ public abstract class VersionedMetaData {
   }
 
   public interface BatchMetaDataUpdate extends AutoCloseable {
-    void write(CommitBuilder commit) throws IOException;
+    void write(CommitBuilder commit) throws ConfigInvalidException;
 
-    void write(VersionedMetaData config, CommitBuilder commit) throws IOException;
+    void write(VersionedMetaData config, CommitBuilder commit) throws ConfigInvalidException;
 
-    RevCommit createRef(String refName) throws IOException;
+    RevCommit createRef(String refName) throws LockFailureException;
 
-    RevCommit commit() throws IOException;
+    RevCommit commit() throws LockFailureException;
 
-    RevCommit commitAt(ObjectId revision) throws IOException;
+    RevCommit commitAt(ObjectId revision) throws LockFailureException;
 
     @Override
     void close();
+  }
+
+  @FunctionalInterface
+  protected interface JGitRunnable {
+    void run() throws IOException;
+  }
+
+  @FunctionalInterface
+  protected interface JGitCallable<T> {
+    T call() throws IOException;
+  }
+
+  protected static void call(JGitRunnable runnable) {
+    call(
+        () -> {
+          runnable.run();
+          return null;
+        });
+  }
+
+  protected static <T> T call(JGitCallable<T> callable) {
+    try {
+      return callable.call();
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
   }
 
   /**
@@ -251,26 +282,27 @@ public abstract class VersionedMetaData {
    * if there is an associated batch.
    *
    * @param update helper info about the update.
-   * @throws IOException if the update failed.
+   * @throws LockFailureException if the update failed due to lock failure on a ref.
    */
-  public BatchMetaDataUpdate openUpdate(MetaDataUpdate update) throws IOException {
-    final Repository db = update.getRepository();
+  public BatchMetaDataUpdate openUpdate(MetaDataUpdate update) {
+    Repository db = update.getRepository();
 
     inserter = db.newObjectInserter();
     reader = inserter.newReader();
-    final RevWalk rw = new RevWalk(reader);
-    final RevTree tree = revision != null ? rw.parseTree(revision) : null;
+    RevWalk rw = new RevWalk(reader);
+    RevTree tree = revision != null ? call(() -> rw.parseTree(revision)) : null;
     newTree = readTree(tree);
     return new BatchMetaDataUpdate() {
       RevCommit src = revision;
       AnyObjectId srcTree = tree;
 
       @Override
-      public void write(CommitBuilder commit) throws IOException {
+      public void write(CommitBuilder commit) throws ConfigInvalidException {
         write(VersionedMetaData.this, commit);
       }
 
-      private boolean doSave(VersionedMetaData config, CommitBuilder commit) throws IOException {
+      private boolean doSave(VersionedMetaData config, CommitBuilder commit)
+          throws ConfigInvalidException {
         DirCache nt = config.newTree;
         ObjectReader r = config.reader;
         ObjectInserter i = config.inserter;
@@ -281,10 +313,6 @@ public abstract class VersionedMetaData {
           config.inserter = inserter;
           config.revision = src;
           return config.onSave(commit);
-        } catch (ConfigInvalidException e) {
-          throw new IOException(
-              "Cannot update " + getRefName() + " in " + db.getDirectory() + ": " + e.getMessage(),
-              e);
         } finally {
           config.newTree = nt;
           config.reader = r;
@@ -294,13 +322,14 @@ public abstract class VersionedMetaData {
       }
 
       @Override
-      public void write(VersionedMetaData config, CommitBuilder commit) throws IOException {
+      public void write(VersionedMetaData config, CommitBuilder commit)
+          throws ConfigInvalidException {
         checkSameRef(config);
         if (!doSave(config, commit)) {
           return;
         }
 
-        ObjectId res = newTree.writeTree(inserter);
+        ObjectId res = call(() -> newTree.writeTree(inserter));
         if (res.equals(srcTree) && !update.allowEmpty() && (commit.getTreeId() == null)) {
           // If there are no changes to the content, don't create the commit.
           return;
@@ -335,7 +364,7 @@ public abstract class VersionedMetaData {
           commit.setMessage(ChangeIdUtil.insertId(commit.getMessage(), id));
         }
 
-        src = rw.parseCommit(inserter.insert(commit));
+        src = call(() -> rw.parseCommit(inserter.insert(commit)));
         srcTree = res;
       }
 
@@ -352,7 +381,7 @@ public abstract class VersionedMetaData {
       }
 
       @Override
-      public RevCommit createRef(String refName) throws IOException {
+      public RevCommit createRef(String refName) throws LockFailureException {
         if (Objects.equals(src, revision)) {
           return revision;
         }
@@ -360,12 +389,12 @@ public abstract class VersionedMetaData {
       }
 
       @Override
-      public RevCommit commit() throws IOException {
+      public RevCommit commit() throws LockFailureException {
         return commitAt(revision);
       }
 
       @Override
-      public RevCommit commitAt(ObjectId expected) throws IOException {
+      public RevCommit commitAt(ObjectId expected) throws LockFailureException {
         if (Objects.equals(src, expected)) {
           return revision;
         }
@@ -389,6 +418,16 @@ public abstract class VersionedMetaData {
       }
 
       private RevCommit updateRef(AnyObjectId oldId, AnyObjectId newId, String refName)
+          throws LockFailureException {
+        try {
+          return updateRefImpl(oldId, newId, refName);
+        } catch (IOException e) {
+          Throwables.propagateIfInstanceOf(e, LockFailureException.class);
+          throw new StorageException(e);
+        }
+      }
+
+      private RevCommit updateRefImpl(AnyObjectId oldId, AnyObjectId newId, String refName)
           throws IOException {
         BatchRefUpdate bru = update.getBatch();
         if (bru != null) {
@@ -437,7 +476,7 @@ public abstract class VersionedMetaData {
           case REJECTED_MISSING_OBJECT:
           case REJECTED_OTHER_REASON:
           default:
-            throw new IOException(
+            throw new StorageException(
                 "Cannot update "
                     + ru.getName()
                     + " in "
@@ -449,23 +488,21 @@ public abstract class VersionedMetaData {
     };
   }
 
-  protected DirCache readTree(RevTree tree)
-      throws IOException, MissingObjectException, IncorrectObjectTypeException {
+  protected DirCache readTree(RevTree tree) {
     DirCache dc = DirCache.newInCore();
     if (tree != null) {
       DirCacheBuilder b = dc.builder();
-      b.addTree(new byte[0], DirCacheEntry.STAGE_0, reader, tree);
+      call(() -> b.addTree(new byte[0], DirCacheEntry.STAGE_0, reader, tree));
       b.finish();
     }
     return dc;
   }
 
-  protected Config readConfig(String fileName) throws IOException, ConfigInvalidException {
+  protected Config readConfig(String fileName) throws ConfigInvalidException {
     return readConfig(fileName, null);
   }
 
-  protected Config readConfig(String fileName, Config baseConfig)
-      throws IOException, ConfigInvalidException {
+  protected Config readConfig(String fileName, Config baseConfig) throws ConfigInvalidException {
     Config rc = new Config(baseConfig);
     String text = readUTF8(fileName);
     if (!text.isEmpty()) {
@@ -486,12 +523,20 @@ public abstract class VersionedMetaData {
     return rc;
   }
 
-  protected String readUTF8(String fileName) throws IOException {
+  protected static void loadStoredConfig(StoredConfig cfg) throws ConfigInvalidException {
+    try {
+      cfg.load();
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
+  }
+
+  protected String readUTF8(String fileName) {
     byte[] raw = readFile(fileName);
     return raw.length != 0 ? RawParseUtils.decode(raw) : "";
   }
 
-  protected byte[] readFile(String fileName) throws IOException {
+  protected byte[] readFile(String fileName) {
     if (revision == null) {
       return new byte[] {};
     }
@@ -505,17 +550,19 @@ public abstract class VersionedMetaData {
         ObjectLoader obj = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
         return obj.getCachedBytes(Integer.MAX_VALUE);
       }
+    } catch (IOException e) {
+      throw new StorageException(e);
     }
     return new byte[] {};
   }
 
   @Nullable
-  protected ObjectId getObjectId(String fileName) throws IOException {
+  protected ObjectId getObjectId(String fileName) {
     if (revision == null) {
       return null;
     }
 
-    try (TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree())) {
+    try (TreeWalk tw = call(() -> TreeWalk.forPath(reader, fileName, revision.getTree()))) {
       if (tw != null) {
         return tw.getObjectId(0);
       }
@@ -524,7 +571,7 @@ public abstract class VersionedMetaData {
     return null;
   }
 
-  public List<PathInfo> getPathInfos(boolean recursive) throws IOException {
+  public List<PathInfo> getPathInfos(boolean recursive) {
     try (TreeWalk tw = new TreeWalk(reader)) {
       tw.addTree(revision.getTree());
       tw.setRecursive(recursive);
@@ -533,6 +580,8 @@ public abstract class VersionedMetaData {
         paths.add(new PathInfo(tw));
       }
       return paths;
+    } catch (IOException e) {
+      throw new StorageException(e);
     }
   }
 
@@ -563,11 +612,11 @@ public abstract class VersionedMetaData {
     }
   }
 
-  protected void saveConfig(String fileName, Config cfg) throws IOException {
+  protected void saveConfig(String fileName, Config cfg) {
     saveUTF8(fileName, cfg.toText());
   }
 
-  protected void saveUTF8(String fileName, String text) throws IOException {
+  protected void saveUTF8(String fileName, String text) {
     saveFile(fileName, text != null ? Constants.encode(text) : null);
   }
 
@@ -577,7 +626,7 @@ public abstract class VersionedMetaData {
             "Save file '%s' in ref '%s' of project '%s'", fileName, getRefName(), projectName)) {
       DirCacheEditor editor = newTree.editor();
       if (raw != null && 0 < raw.length) {
-        final ObjectId blobId = inserter.insert(Constants.OBJ_BLOB, raw);
+        final ObjectId blobId = call(() -> inserter.insert(Constants.OBJ_BLOB, raw));
         editor.add(
             new PathEdit(fileName) {
               @Override

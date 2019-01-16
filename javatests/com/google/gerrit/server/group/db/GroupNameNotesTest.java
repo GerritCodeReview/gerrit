@@ -44,7 +44,6 @@ import com.google.gerrit.testing.GitTestUtil;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gerrit.truth.ListSubject;
 import com.google.gerrit.truth.OptionalSubject;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -518,7 +517,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
     return GroupNameNotes.loadGroup(repo, groupName);
   }
 
-  private void commit(GroupNameNotes groupNameNotes) throws IOException {
+  private void commit(GroupNameNotes groupNameNotes) throws Exception {
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       groupNameNotes.commit(metaDataUpdate);
     }

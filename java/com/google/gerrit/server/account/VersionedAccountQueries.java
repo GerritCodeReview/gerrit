@@ -18,8 +18,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
-import java.io.IOException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 
 /** Named Queries for user accounts. */
@@ -47,7 +45,7 @@ public class VersionedAccountQueries extends VersionedMetaData {
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad() {
     queryList =
         QueryList.parse(
             readUTF8(QueryList.FILE_NAME),
@@ -57,7 +55,7 @@ public class VersionedAccountQueries extends VersionedMetaData {
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) {
     throw new UnsupportedOperationException("Cannot yet save named queries");
   }
 }

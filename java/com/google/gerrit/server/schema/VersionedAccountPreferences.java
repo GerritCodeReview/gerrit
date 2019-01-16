@@ -18,7 +18,6 @@ import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
-import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -52,12 +51,12 @@ class VersionedAccountPreferences extends VersionedMetaData {
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad() throws ConfigInvalidException {
     cfg = readConfig(PREFERENCES);
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) {
     if (Strings.isNullOrEmpty(commit.getMessage())) {
       commit.setMessage("Updated preferences\n");
     }

@@ -294,12 +294,13 @@ public class AccountsUpdate {
    * @param init consumer to populate the new account
    * @return the newly created account
    * @throws DuplicateKeyException if the account already exists
-   * @throws IOException if creating the user branch fails due to an IO error
+   * @throws LockFailureException if updating the user branch still fails due to concurrent updates
+   *     after the retry timeout exceeded
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public AccountState insert(
       String message, Account.Id accountId, Consumer<InternalAccountUpdate.Builder> init)
-      throws IOException, ConfigInvalidException {
+      throws LockFailureException, ConfigInvalidException {
     return insert(message, accountId, AccountUpdater.fromConsumer(init));
   }
 
@@ -311,11 +312,12 @@ public class AccountsUpdate {
    * @param updater updater to populate the new account
    * @return the newly created account
    * @throws DuplicateKeyException if the account already exists
-   * @throws IOException if creating the user branch fails due to an IO error
+   * @throws LockFailureException if updating the user branch still fails due to concurrent updates
+   *     after the retry timeout exceeded
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public AccountState insert(String message, Account.Id accountId, AccountUpdater updater)
-      throws IOException, ConfigInvalidException {
+      throws LockFailureException, ConfigInvalidException {
     return updateAccount(
             r -> {
               AccountConfig accountConfig = read(r, accountId);
@@ -346,14 +348,13 @@ public class AccountsUpdate {
    * @param accountId ID of the account
    * @param update consumer to update the account, only invoked if the account exists
    * @return the updated account, {@link Optional#empty()} if the account doesn't exist
-   * @throws IOException if updating the user branch fails due to an IO error
    * @throws LockFailureException if updating the user branch still fails due to concurrent updates
    *     after the retry timeout exceeded
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public Optional<AccountState> update(
       String message, Account.Id accountId, Consumer<InternalAccountUpdate.Builder> update)
-      throws LockFailureException, IOException, ConfigInvalidException {
+      throws LockFailureException, ConfigInvalidException {
     return update(message, accountId, AccountUpdater.fromConsumer(update));
   }
 
@@ -366,13 +367,12 @@ public class AccountsUpdate {
    * @param accountId ID of the account
    * @param updater updater to update the account, only invoked if the account exists
    * @return the updated account, {@link Optional#empty} if the account doesn't exist
-   * @throws IOException if updating the user branch fails due to an IO error
    * @throws LockFailureException if updating the user branch still fails due to concurrent updates
    *     after the retry timeout exceeded
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public Optional<AccountState> update(String message, Account.Id accountId, AccountUpdater updater)
-      throws LockFailureException, IOException, ConfigInvalidException {
+      throws ConfigInvalidException, LockFailureException {
     return updateAccount(
         r -> {
           AccountConfig accountConfig = read(r, accountId);
@@ -403,7 +403,7 @@ public class AccountsUpdate {
   }
 
   private Optional<AccountState> updateAccount(AccountUpdate accountUpdate)
-      throws IOException, ConfigInvalidException {
+      throws ConfigInvalidException, LockFailureException {
     return executeAccountUpdate(
         () -> {
           try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
@@ -419,14 +419,14 @@ public class AccountsUpdate {
   }
 
   private Optional<AccountState> executeAccountUpdate(Action<Optional<AccountState>> action)
-      throws IOException, ConfigInvalidException {
+      throws ConfigInvalidException, LockFailureException {
     try {
       return retryHelper.execute(
           ActionType.ACCOUNT_UPDATE, action, LockFailureException.class::isInstance);
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
-      Throwables.throwIfInstanceOf(e, IOException.class);
       Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
+      Throwables.throwIfInstanceOf(e, LockFailureException.class);
       throw new StorageException(e);
     }
   }
@@ -450,7 +450,8 @@ public class AccountsUpdate {
     return extIdNotes;
   }
 
-  private void commit(Repository allUsersRepo, UpdatedAccount updatedAccount) throws IOException {
+  private void commit(Repository allUsersRepo, UpdatedAccount updatedAccount)
+      throws ConfigInvalidException, LockFailureException {
     beforeCommit.run();
 
     BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
@@ -475,7 +476,7 @@ public class AccountsUpdate {
         batchRefUpdate,
         updatedAccount.getExternalIdNotes());
 
-    RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
+    RefUpdateUtil.execute(batchRefUpdate, allUsersRepo);
 
     // Skip accounts that are updated when evicting the account cache via ExternalIdNotes to avoid
     // double reindexing. The updated accounts will already be reindexed by ReindexAfterRefUpdate.
@@ -501,7 +502,7 @@ public class AccountsUpdate {
       Repository allUsersRepo,
       BatchRefUpdate batchRefUpdate,
       AccountConfig accountConfig)
-      throws IOException {
+      throws ConfigInvalidException, LockFailureException {
     // When creating a new account we must allow empty commits so that the user branch gets created
     // with an empty commit when no account properties are set and hence no 'account.config' file
     // will be created.
@@ -513,7 +514,7 @@ public class AccountsUpdate {
       Repository allUsersRepo,
       BatchRefUpdate batchRefUpdate,
       AccountConfig accountConfig)
-      throws IOException {
+      throws ConfigInvalidException, LockFailureException {
     commitAccountConfig(message, allUsersRepo, batchRefUpdate, accountConfig, false);
   }
 
@@ -523,7 +524,7 @@ public class AccountsUpdate {
       BatchRefUpdate batchRefUpdate,
       AccountConfig accountConfig,
       boolean allowEmptyCommit)
-      throws IOException {
+      throws ConfigInvalidException, LockFailureException {
     try (MetaDataUpdate md = createMetaDataUpdate(message, allUsersRepo, batchRefUpdate)) {
       md.setAllowEmpty(allowEmptyCommit);
       accountConfig.commit(md);
@@ -535,7 +536,7 @@ public class AccountsUpdate {
       Repository allUsersRepo,
       BatchRefUpdate batchRefUpdate,
       ExternalIdNotes extIdNotes)
-      throws IOException {
+      throws ConfigInvalidException, LockFailureException {
     try (MetaDataUpdate md = createMetaDataUpdate(message, allUsersRepo, batchRefUpdate)) {
       extIdNotes.commit(md);
     }
@@ -591,9 +592,13 @@ public class AccountsUpdate {
       return accountConfig;
     }
 
-    public AccountState getAccount() throws IOException {
-      return AccountState.fromAccountConfig(allUsersName, externalIds, accountConfig, extIdNotes)
-          .get();
+    public AccountState getAccount() {
+      try {
+        return AccountState.fromAccountConfig(allUsersName, externalIds, accountConfig, extIdNotes)
+            .get();
+      } catch (IOException e) {
+        throw new StorageException(e);
+      }
     }
 
     public ExternalIdNotes getExternalIdNotes() {

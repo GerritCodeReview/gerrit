@@ -416,7 +416,7 @@ public class GroupsUpdate {
 
   private void commit(
       Repository allUsersRepo, GroupConfig groupConfig, @Nullable GroupNameNotes groupNameNotes)
-      throws IOException {
+      throws ConfigInvalidException, LockFailureException {
     BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
     try (MetaDataUpdate metaDataUpdate =
         metaDataUpdateFactory.create(allUsersName, allUsersRepo, batchRefUpdate)) {
@@ -430,7 +430,7 @@ public class GroupsUpdate {
       }
     }
 
-    RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
+    RefUpdateUtil.execute(batchRefUpdate, allUsersRepo);
     gitRefUpdated.fire(
         allUsersName, batchRefUpdate, currentUser.map(user -> user.state()).orElse(null));
   }
@@ -540,8 +540,7 @@ public class GroupsUpdate {
   @FunctionalInterface
   private interface MetaDataUpdateFactory {
     MetaDataUpdate create(
-        Project.NameKey projectName, Repository repository, BatchRefUpdate batchRefUpdate)
-        throws IOException;
+        Project.NameKey projectName, Repository repository, BatchRefUpdate batchRefUpdate);
   }
 
   @AutoValue

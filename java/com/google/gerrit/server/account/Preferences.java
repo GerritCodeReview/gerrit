@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
@@ -44,7 +45,6 @@ import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -415,32 +415,30 @@ public class Preferences {
   }
 
   public static GeneralPreferencesInfo readDefaultGeneralPreferences(
-      AllUsersName allUsersName, Repository allUsersRepo)
-      throws IOException, ConfigInvalidException {
+      AllUsersName allUsersName, Repository allUsersRepo) throws ConfigInvalidException {
     return parseGeneralPreferences(readDefaultConfig(allUsersName, allUsersRepo), null, null);
   }
 
   public static DiffPreferencesInfo readDefaultDiffPreferences(
-      AllUsersName allUsersName, Repository allUsersRepo)
-      throws IOException, ConfigInvalidException {
+      AllUsersName allUsersName, Repository allUsersRepo) throws ConfigInvalidException {
     return parseDiffPreferences(readDefaultConfig(allUsersName, allUsersRepo), null, null);
   }
 
   public static EditPreferencesInfo readDefaultEditPreferences(
-      AllUsersName allUsersName, Repository allUsersRepo)
-      throws IOException, ConfigInvalidException {
+      AllUsersName allUsersName, Repository allUsersRepo) throws ConfigInvalidException {
     return parseEditPreferences(readDefaultConfig(allUsersName, allUsersRepo), null, null);
   }
 
   static Config readDefaultConfig(AllUsersName allUsersName, Repository allUsersRepo)
-      throws IOException, ConfigInvalidException {
+      throws ConfigInvalidException {
     VersionedDefaultPreferences defaultPrefs = new VersionedDefaultPreferences();
     defaultPrefs.load(allUsersName, allUsersRepo);
     return defaultPrefs.getConfig();
   }
 
   public static GeneralPreferencesInfo updateDefaultGeneralPreferences(
-      MetaDataUpdate md, GeneralPreferencesInfo input) throws IOException, ConfigInvalidException {
+      MetaDataUpdate md, GeneralPreferencesInfo input)
+      throws ConfigInvalidException, LockFailureException {
     VersionedDefaultPreferences defaultPrefs = new VersionedDefaultPreferences();
     defaultPrefs.load(md);
     storeSection(
@@ -458,7 +456,8 @@ public class Preferences {
   }
 
   public static DiffPreferencesInfo updateDefaultDiffPreferences(
-      MetaDataUpdate md, DiffPreferencesInfo input) throws IOException, ConfigInvalidException {
+      MetaDataUpdate md, DiffPreferencesInfo input)
+      throws ConfigInvalidException, LockFailureException {
     VersionedDefaultPreferences defaultPrefs = new VersionedDefaultPreferences();
     defaultPrefs.load(md);
     storeSection(
@@ -473,7 +472,8 @@ public class Preferences {
   }
 
   public static EditPreferencesInfo updateDefaultEditPreferences(
-      MetaDataUpdate md, EditPreferencesInfo input) throws IOException, ConfigInvalidException {
+      MetaDataUpdate md, EditPreferencesInfo input)
+      throws ConfigInvalidException, LockFailureException {
     VersionedDefaultPreferences defaultPrefs = new VersionedDefaultPreferences();
     defaultPrefs.load(md);
     storeSection(
@@ -602,12 +602,12 @@ public class Preferences {
     }
 
     @Override
-    protected void onLoad() throws IOException, ConfigInvalidException {
+    protected void onLoad() throws ConfigInvalidException {
       cfg = readConfig(PREFERENCES_CONFIG);
     }
 
     @Override
-    protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+    protected boolean onSave(CommitBuilder commit) {
       if (Strings.isNullOrEmpty(commit.getMessage())) {
         commit.setMessage("Update default preferences\n");
       }

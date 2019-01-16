@@ -182,7 +182,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
 
   private void commit(
       Repository allUsersRepo, GroupConfig groupConfig, GroupNameNotes groupNameNotes)
-      throws IOException {
+      throws ConfigInvalidException, IOException {
     BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate(allUsersRepo, batchRefUpdate)) {
       groupConfig.commit(metaDataUpdate);

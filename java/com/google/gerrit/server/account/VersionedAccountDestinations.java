@@ -18,8 +18,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
-import java.io.IOException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.FileMode;
 
@@ -48,7 +46,7 @@ public class VersionedAccountDestinations extends VersionedMetaData {
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad() {
     if (revision == null) {
       return;
     }
@@ -69,7 +67,7 @@ public class VersionedAccountDestinations extends VersionedMetaData {
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) {
     throw new UnsupportedOperationException("Cannot yet save destinations");
   }
 }

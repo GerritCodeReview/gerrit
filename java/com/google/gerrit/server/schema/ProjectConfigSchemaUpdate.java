@@ -49,8 +49,7 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
       this.allProjectsName = allProjectsName;
     }
 
-    ProjectConfigSchemaUpdate read(MetaDataUpdate update)
-        throws IOException, ConfigInvalidException {
+    ProjectConfigSchemaUpdate read(MetaDataUpdate update) throws ConfigInvalidException {
       ProjectConfigSchemaUpdate r =
           new ProjectConfigSchemaUpdate(
               update,
@@ -76,9 +75,9 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad() throws ConfigInvalidException {
     if (baseConfig != null) {
-      baseConfig.load();
+      loadStoredConfig(baseConfig);
     }
     config = readConfig(ProjectConfig.PROJECT_CONFIG, baseConfig);
   }
@@ -110,12 +109,12 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) {
     saveConfig(ProjectConfig.PROJECT_CONFIG, config);
     return true;
   }
 
-  public void save(PersonIdent personIdent, String commitMessage) {
+  public void save(PersonIdent personIdent, String commitMessage) throws ConfigInvalidException {
     if (!updated) {
       return;
     }

@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class GerritServerIdProvider implements Provider<String> {
 
   @Inject
   public GerritServerIdProvider(@GerritServerConfig Config cfg, SitePaths sitePaths)
-      throws IOException, ConfigInvalidException {
+      throws ConfigInvalidException {
     String origId = cfg.getString(SECTION, null, KEY);
     if (!Strings.isNullOrEmpty(origId)) {
       id = origId;
@@ -50,9 +51,13 @@ public class GerritServerIdProvider implements Provider<String> {
     // special case because we really need to have the ID available by the time the dbInjector
     // is created. Fortunately, it's not much work, and it happens once.
     id = generate();
-    Config newCfg = readGerritConfig(sitePaths);
-    newCfg.setString(SECTION, null, KEY, id);
-    Files.write(sitePaths.gerrit_config, newCfg.toText().getBytes(UTF_8));
+    try {
+      Config newCfg = readGerritConfig(sitePaths);
+      newCfg.setString(SECTION, null, KEY, id);
+      Files.write(sitePaths.gerrit_config, newCfg.toText().getBytes(UTF_8));
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
   }
 
   @Override
@@ -61,7 +66,7 @@ public class GerritServerIdProvider implements Provider<String> {
   }
 
   private static Config readGerritConfig(SitePaths sitePaths)
-      throws IOException, ConfigInvalidException {
+      throws ConfigInvalidException, IOException {
     // Reread gerrit.config from disk before writing. We can't just use
     // cfg.toText(), as the @GerritServerConfig only has gerrit.config as a
     // fallback.

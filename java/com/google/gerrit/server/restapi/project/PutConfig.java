@@ -180,7 +180,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(projectName.get());
     } catch (ConfigInvalidException err) {
-      throw new ResourceConflictException("Cannot read project " + projectName, err);
+      throw new ResourceConflictException(err.getMessage(), err);
     } catch (IOException err) {
       throw new ResourceConflictException("Cannot update project " + projectName, err);
     }

@@ -29,7 +29,6 @@ import com.google.gerrit.server.git.meta.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.TestTimeUtil;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.TimeZone;
@@ -274,7 +273,7 @@ public class VersionedMetaDataTest extends GerritBaseTests {
     private Optional<Integer> increment = Optional.empty();
 
     @Override
-    protected void onLoad() throws IOException, ConfigInvalidException {
+    protected void onLoad() throws ConfigInvalidException {
       Config cfg = readConfig(CONFIG_FILE);
       curr = cfg.getInt(SECTION, null, NAME, 0);
     }
@@ -289,7 +288,7 @@ public class VersionedMetaDataTest extends GerritBaseTests {
     }
 
     @Override
-    protected boolean onSave(CommitBuilder cb) throws IOException, ConfigInvalidException {
+    protected boolean onSave(CommitBuilder cb) throws ConfigInvalidException {
       // Two ways to produce a no-op: don't call setIncrement, and call setIncrement(0);
       if (!increment.isPresent()) {
         return false;

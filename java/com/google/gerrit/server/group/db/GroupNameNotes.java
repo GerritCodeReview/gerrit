@@ -30,6 +30,7 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.exceptions.DuplicateKeyException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -111,7 +112,6 @@ public class GroupNameNotes extends VersionedMetaData {
    * @param oldName the current name of the group
    * @param newName the new name of the group
    * @return an instance of {@code GroupNameNotes} configured for a specific renaming of a group
-   * @throws IOException if the repository can't be accessed for some reason
    * @throws ConfigInvalidException if the note for the specified group doesn't exist or is in an
    *     invalid state
    * @throws DuplicateKeyException if a group with the new name already exists
@@ -122,7 +122,7 @@ public class GroupNameNotes extends VersionedMetaData {
       AccountGroup.UUID groupUuid,
       AccountGroup.NameKey oldName,
       AccountGroup.NameKey newName)
-      throws IOException, ConfigInvalidException, DuplicateKeyException {
+      throws ConfigInvalidException, DuplicateKeyException {
     requireNonNull(oldName);
     requireNonNull(newName);
 
@@ -144,7 +144,6 @@ public class GroupNameNotes extends VersionedMetaData {
    * @param groupUuid the UUID of the new group
    * @param groupName the name of the new group
    * @return an instance of {@code GroupNameNotes} configured for a specific group creation
-   * @throws IOException if the repository can't be accessed for some reason
    * @throws ConfigInvalidException in no case so far
    * @throws DuplicateKeyException if a group with the new name already exists
    */
@@ -153,7 +152,7 @@ public class GroupNameNotes extends VersionedMetaData {
       Repository repository,
       AccountGroup.UUID groupUuid,
       AccountGroup.NameKey groupName)
-      throws IOException, ConfigInvalidException, DuplicateKeyException {
+      throws ConfigInvalidException, DuplicateKeyException {
     requireNonNull(groupName);
 
     GroupNameNotes groupNameNotes = new GroupNameNotes(groupUuid, null, groupName);
@@ -172,9 +171,8 @@ public class GroupNameNotes extends VersionedMetaData {
    * @throws ConfigInvalidException if the note for the specified group is in an invalid state
    */
   public static Optional<GroupReference> loadGroup(
-      Repository repository, AccountGroup.NameKey groupName)
-      throws IOException, ConfigInvalidException {
-    Ref ref = repository.exactRef(RefNames.REFS_GROUPNAMES);
+      Repository repository, AccountGroup.NameKey groupName) throws ConfigInvalidException {
+    Ref ref = call(() -> repository.exactRef(RefNames.REFS_GROUPNAMES));
     if (ref == null) {
       return Optional.empty();
     }
@@ -188,6 +186,8 @@ public class GroupNameNotes extends VersionedMetaData {
         return Optional.empty();
       }
       return Optional.of(getGroupReference(reader, noteDataBlobId));
+    } catch (IOException e) {
+      throw new StorageException(e);
     }
   }
 
@@ -329,26 +329,26 @@ public class GroupNameNotes extends VersionedMetaData {
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad() throws ConfigInvalidException {
     nameConflicting = false;
 
     logger.atFine().log("Reading group notes");
 
     if (revision != null) {
-      NoteMap noteMap = NoteMap.read(reader, revision);
+      NoteMap noteMap = call(() -> NoteMap.read(reader, revision));
       if (newGroupName.isPresent()) {
         ObjectId newNameId = getNoteKey(newGroupName.get());
-        nameConflicting = noteMap.contains(newNameId);
+        nameConflicting = call(() -> noteMap.contains(newNameId));
       }
       ensureOldNameIsPresent(noteMap);
     }
   }
 
-  private void ensureOldNameIsPresent(NoteMap noteMap) throws IOException, ConfigInvalidException {
+  private void ensureOldNameIsPresent(NoteMap noteMap) throws ConfigInvalidException {
     if (oldGroupName.isPresent()) {
       AccountGroup.NameKey oldName = oldGroupName.get();
       ObjectId noteKey = getNoteKey(oldName);
-      ObjectId noteDataBlobId = noteMap.get(noteKey);
+      ObjectId noteDataBlobId = call(() -> noteMap.get(noteKey));
       if (noteDataBlobId == null) {
         throw new ConfigInvalidException(
             String.format("Group name '%s' doesn't exist in the list of all names", oldName));
@@ -371,14 +371,15 @@ public class GroupNameNotes extends VersionedMetaData {
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) {
     if (!oldGroupName.isPresent() && !newGroupName.isPresent()) {
       return false;
     }
 
     logger.atFine().log("Updating group notes");
 
-    NoteMap noteMap = revision == null ? NoteMap.newEmptyMap() : NoteMap.read(reader, revision);
+    NoteMap noteMap =
+        revision == null ? NoteMap.newEmptyMap() : call(() -> NoteMap.read(reader, revision));
     if (oldGroupName.isPresent()) {
       removeNote(noteMap, oldGroupName.get(), inserter);
     }
@@ -387,7 +388,7 @@ public class GroupNameNotes extends VersionedMetaData {
       addNote(noteMap, newGroupName.get(), groupUuid, inserter);
     }
 
-    commit.setTreeId(noteMap.writeTree(inserter));
+    commit.setTreeId(call(() -> noteMap.writeTree(inserter)));
     commit.setMessage(getCommitMessage());
 
     oldGroupName = Optional.empty();
@@ -397,19 +398,18 @@ public class GroupNameNotes extends VersionedMetaData {
   }
 
   private static void removeNote(
-      NoteMap noteMap, AccountGroup.NameKey groupName, ObjectInserter inserter) throws IOException {
+      NoteMap noteMap, AccountGroup.NameKey groupName, ObjectInserter inserter) {
     ObjectId noteKey = getNoteKey(groupName);
-    noteMap.set(noteKey, null, inserter);
+    call(() -> noteMap.set(noteKey, null, inserter));
   }
 
   private static void addNote(
       NoteMap noteMap,
       AccountGroup.NameKey groupName,
       AccountGroup.UUID groupUuid,
-      ObjectInserter inserter)
-      throws IOException {
+      ObjectInserter inserter) {
     ObjectId noteKey = getNoteKey(groupName);
-    noteMap.set(noteKey, getAsNoteData(groupUuid, groupName), inserter);
+    call(() -> noteMap.set(noteKey, getAsNoteData(groupUuid, groupName), inserter));
   }
 
   // Use the same approach as ExternalId.Key.sha1().
@@ -427,8 +427,8 @@ public class GroupNameNotes extends VersionedMetaData {
   }
 
   private static GroupReference getGroupReference(ObjectReader reader, ObjectId noteDataBlobId)
-      throws IOException, ConfigInvalidException {
-    byte[] noteData = reader.open(noteDataBlobId, OBJ_BLOB).getCachedBytes();
+      throws ConfigInvalidException {
+    byte[] noteData = call(() -> reader.open(noteDataBlobId, OBJ_BLOB).getCachedBytes());
     return getFromNoteData(noteData);
   }
 

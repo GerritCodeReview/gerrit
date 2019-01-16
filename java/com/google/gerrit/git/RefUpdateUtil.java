@@ -15,6 +15,8 @@
 package com.google.gerrit.git;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Throwables;
+import com.google.gerrit.exceptions.StorageException;
 import java.io.IOException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -40,6 +42,17 @@ public class RefUpdateUtil {
   public static void executeChecked(BatchRefUpdate bru, Repository repo) throws IOException {
     try (RevWalk rw = new RevWalk(repo)) {
       executeChecked(bru, rw);
+    }
+  }
+
+  public static void execute(BatchRefUpdate bru, Repository repo) throws LockFailureException {
+    // TODO(dborowitz): Consider getting rid of executeChecked, or else flipping the implementation
+    // dependency.
+    try {
+      executeChecked(bru, repo);
+    } catch (IOException e) {
+      Throwables.propagateIfInstanceOf(e, LockFailureException.class);
+      throw new StorageException(e);
     }
   }
 

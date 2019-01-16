@@ -45,8 +45,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -653,8 +651,7 @@ public class ProjectConfigTest extends GerritBaseTests {
     return cfg;
   }
 
-  private RevCommit commit(ProjectConfig cfg)
-      throws IOException, MissingObjectException, IncorrectObjectTypeException {
+  private RevCommit commit(ProjectConfig cfg) throws ConfigInvalidException, IOException {
     try (MetaDataUpdate md =
         new MetaDataUpdate(GitReferenceUpdated.DISABLED, cfg.getProject().getNameKey(), db)) {
       tr.tick(5);

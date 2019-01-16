@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.init.api;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.SitePaths;
@@ -54,24 +55,24 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
     return ref;
   }
 
-  public VersionedMetaDataOnInit load() throws IOException, ConfigInvalidException {
+  public VersionedMetaDataOnInit load() throws ConfigInvalidException {
     File path = getPath();
     if (path != null) {
-      try (Repository repo = new FileRepository(path)) {
+      try (Repository repo = call(() -> new FileRepository(path))) {
         load(new Project.NameKey(project), repo);
       }
     }
     return this;
   }
 
-  public void save(String message) throws IOException, ConfigInvalidException {
+  public void save(String message) throws ConfigInvalidException {
     save(new GerritPersonIdentProvider(flags.cfg).get(), message);
   }
 
-  protected void save(PersonIdent ident, String msg) throws IOException, ConfigInvalidException {
+  protected void save(PersonIdent ident, String msg) throws ConfigInvalidException {
     File path = getPath();
     if (path == null) {
-      throw new IOException(project + " does not exist.");
+      throw new StorageException(project + " does not exist.");
     }
 
     try (Repository repo = new FileRepository(path);
@@ -103,20 +104,22 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
       ObjectId newRevision = inserter.insert(commit);
       updateRef(repo, ident, newRevision, "commit: " + msg);
       revision = rw.parseCommit(newRevision);
+    } catch (IOException e) {
+      throw new StorageException(e);
     } finally {
       inserter = null;
       reader = null;
     }
   }
 
-  private void updateRef(Repository repo, PersonIdent ident, ObjectId newRevision, String refLogMsg)
-      throws IOException {
-    RefUpdate ru = repo.updateRef(getRefName());
+  private void updateRef(
+      Repository repo, PersonIdent ident, ObjectId newRevision, String refLogMsg) {
+    RefUpdate ru = call(() -> repo.updateRef(getRefName()));
     ru.setRefLogIdent(ident);
     ru.setNewObjectId(newRevision);
     ru.setExpectedOldObjectId(revision);
     ru.setRefLogMessage(refLogMsg, false);
-    RefUpdate.Result r = ru.update();
+    RefUpdate.Result r = call(() -> ru.update());
     switch (r) {
       case FAST_FORWARD:
       case NEW:
@@ -132,7 +135,7 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
       case REJECTED_MISSING_OBJECT:
       case REJECTED_OTHER_REASON:
       default:
-        throw new IOException(
+        throw new StorageException(
             "Failed to update " + getRefName() + " of " + project + ": " + r.name());
     }
   }

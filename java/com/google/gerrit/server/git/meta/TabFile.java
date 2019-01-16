@@ -17,6 +17,7 @@ package com.google.gerrit.server.git.meta;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.git.ValidationError;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,12 +47,11 @@ public class TabFile {
   }
 
   protected static List<Row> parse(
-      String text, String filename, Parser left, Parser right, ValidationError.Sink errors)
-      throws IOException {
+      String text, String filename, Parser left, Parser right, ValidationError.Sink errors) {
     List<Row> rows = new ArrayList<>();
     BufferedReader br = new BufferedReader(new StringReader(text));
     String s;
-    for (int lineNumber = 1; (s = br.readLine()) != null; lineNumber++) {
+    for (int lineNumber = 1; (s = readLine(br)) != null; lineNumber++) {
       if (s.isEmpty() || s.startsWith("#")) {
         continue;
       }
@@ -73,6 +73,14 @@ public class TabFile {
       }
     }
     return rows;
+  }
+
+  private static String readLine(BufferedReader br) {
+    try {
+      return br.readLine();
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
   }
 
   protected static Map<String, String> toMap(List<Row> rows) {

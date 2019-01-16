@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -23,7 +24,6 @@ import com.google.gerrit.server.change.ChangeEditResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class DeleteChangeEdit
 
   @Override
   public Response<?> apply(ChangeResource rsrc, Input input)
-      throws AuthException, ResourceNotFoundException, IOException, OrmException {
+      throws AuthException, ResourceNotFoundException, IOException, StorageException {
     Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
     if (edit.isPresent()) {
       editUtil.delete(edit.get());

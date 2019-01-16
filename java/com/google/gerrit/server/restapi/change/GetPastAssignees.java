@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -23,7 +24,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collections;
@@ -41,7 +41,7 @@ public class GetPastAssignees implements RestReadView<ChangeResource> {
 
   @Override
   public Response<List<AccountInfo>> apply(ChangeResource rsrc)
-      throws OrmException, PermissionBackendException {
+      throws StorageException, PermissionBackendException {
 
     Set<Account.Id> pastAssignees = rsrc.getNotes().load().getPastAssignees();
     if (pastAssignees == null) {

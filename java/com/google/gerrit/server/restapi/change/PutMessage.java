@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -43,7 +44,6 @@ import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -100,7 +100,7 @@ public class PutMessage
   protected Response<String> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource resource, CommitMessageInput input)
       throws IOException, RestApiException, UpdateException, PermissionBackendException,
-          OrmException, ConfigInvalidException {
+          StorageException, ConfigInvalidException {
     PatchSet ps = psUtil.current(resource.getNotes());
     if (ps == null) {
       throw new ResourceConflictException("current revision is missing");
@@ -149,7 +149,7 @@ public class PutMessage
   }
 
   private NotifyResolver.Result resolveNotify(CommitMessageInput input, ChangeResource resource)
-      throws BadRequestException, OrmException, ConfigInvalidException, IOException {
+      throws BadRequestException, StorageException, ConfigInvalidException, IOException {
     NotifyHandling notifyHandling = input.notify;
     if (notifyHandling == null) {
       notifyHandling =
@@ -177,7 +177,7 @@ public class PutMessage
 
   private void ensureCanEditCommitMessage(ChangeNotes changeNotes)
       throws AuthException, PermissionBackendException, IOException, ResourceConflictException,
-          OrmException {
+          StorageException {
     if (!userProvider.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

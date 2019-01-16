@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 
 public class HasStarsPredicate extends ChangeIndexPredicate {
   protected final Account.Id accountId;
@@ -27,7 +27,7 @@ public class HasStarsPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) throws StorageException {
     return cd.stars().containsKey(accountId);
   }
 

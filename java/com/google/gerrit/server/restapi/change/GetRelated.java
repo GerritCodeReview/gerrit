@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.RelatedChangesInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
@@ -36,7 +37,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -70,7 +70,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   @Override
   public RelatedChangesInfo apply(RevisionResource rsrc)
-      throws RepositoryNotFoundException, IOException, OrmException, NoSuchProjectException,
+      throws RepositoryNotFoundException, IOException, StorageException, NoSuchProjectException,
           PermissionBackendException {
     RelatedChangesInfo relatedChangesInfo = new RelatedChangesInfo();
     relatedChangesInfo.changes = getRelated(rsrc);
@@ -78,7 +78,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
   }
 
   private List<RelatedChangeAndCommitInfo> getRelated(RevisionResource rsrc)
-      throws OrmException, IOException, PermissionBackendException {
+      throws StorageException, IOException, PermissionBackendException {
     Set<String> groups = getAllGroups(rsrc.getNotes(), psUtil);
     if (groups.isEmpty()) {
       return Collections.emptyList();
@@ -124,11 +124,12 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   @VisibleForTesting
   public static Set<String> getAllGroups(ChangeNotes notes, PatchSetUtil psUtil)
-      throws OrmException {
+      throws StorageException {
     return psUtil.byChange(notes).stream().flatMap(ps -> ps.getGroups().stream()).collect(toSet());
   }
 
-  private void reloadChangeIfStale(List<ChangeData> cds, PatchSet wantedPs) throws OrmException {
+  private void reloadChangeIfStale(List<ChangeData> cds, PatchSet wantedPs)
+      throws StorageException {
     for (ChangeData cd : cds) {
       if (cd.getId().equals(wantedPs.getId().getParentKey())) {
         if (cd.patchSet(wantedPs.getId()) == null) {

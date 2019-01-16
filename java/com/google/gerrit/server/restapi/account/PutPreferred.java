@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -34,7 +35,6 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -69,7 +69,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
 
   @Override
   public Response<String> apply(AccountResource.Email rsrc, Input input)
-      throws RestApiException, OrmException, IOException, PermissionBackendException,
+      throws RestApiException, StorageException, IOException, PermissionBackendException,
           ConfigInvalidException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
@@ -78,7 +78,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
   }
 
   public Response<String> apply(IdentifiedUser user, String preferredEmail)
-      throws RestApiException, IOException, ConfigInvalidException, OrmException {
+      throws RestApiException, IOException, ConfigInvalidException, StorageException {
     AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());
     AtomicBoolean alreadyPreferred = new AtomicBoolean(false);
     accountsUpdateProvider

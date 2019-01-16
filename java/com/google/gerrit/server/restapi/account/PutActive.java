@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
@@ -22,7 +23,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.SetInactiveFlag;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class PutActive implements RestModifyView<AccountResource, Input> {
 
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
-      throws RestApiException, OrmException, IOException, ConfigInvalidException {
+      throws RestApiException, StorageException, IOException, ConfigInvalidException {
     return setInactiveFlag.activate(rsrc.getUser().getAccountId());
   }
 }

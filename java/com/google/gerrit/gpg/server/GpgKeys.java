@@ -21,6 +21,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -39,7 +40,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -86,7 +86,7 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
 
   @Override
   public GpgKey parse(AccountResource parent, IdString id)
-      throws ResourceNotFoundException, PGPException, OrmException, IOException {
+      throws ResourceNotFoundException, PGPException, StorageException, IOException {
     checkVisible(self, parent);
 
     ExternalId gpgKeyExtId = findGpgKey(id.get(), getGpgExtIds(parent));
@@ -142,7 +142,7 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
   public class ListGpgKeys implements RestReadView<AccountResource> {
     @Override
     public Map<String, GpgKeyInfo> apply(AccountResource rsrc)
-        throws OrmException, PGPException, IOException, ResourceNotFoundException {
+        throws StorageException, PGPException, IOException, ResourceNotFoundException {
       checkVisible(self, rsrc);
       Map<String, GpgKeyInfo> keys = new HashMap<>();
       try (PublicKeyStore store = storeProvider.get()) {

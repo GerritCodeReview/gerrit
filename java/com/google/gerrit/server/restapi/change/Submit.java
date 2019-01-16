@@ -23,6 +23,8 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.exceptions.StorageRuntimeException;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -59,8 +61,6 @@ import com.google.gerrit.server.submit.ChangeSet;
 import com.google.gerrit.server.submit.MergeOp;
 import com.google.gerrit.server.submit.MergeSuperSet;
 import com.google.gerrit.server.update.UpdateException;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -176,7 +176,7 @@ public class Submit
 
   @Override
   public Output apply(RevisionResource rsrc, SubmitInput input)
-      throws RestApiException, RepositoryNotFoundException, IOException, OrmException,
+      throws RestApiException, RepositoryNotFoundException, IOException, StorageException,
           PermissionBackendException, UpdateException, ConfigInvalidException {
     input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
     IdentifiedUser submitter;
@@ -192,8 +192,8 @@ public class Submit
   }
 
   public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
-      throws OrmException, RestApiException, IOException, UpdateException, ConfigInvalidException,
-          PermissionBackendException {
+      throws StorageException, RestApiException, IOException, UpdateException,
+          ConfigInvalidException, PermissionBackendException {
     Change change = rsrc.getChange();
     if (!change.isNew()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
@@ -290,9 +290,9 @@ public class Submit
         return "Problems with change(s): "
             + unmergeable.stream().map(c -> c.getId().toString()).collect(joining(", "));
       }
-    } catch (PermissionBackendException | OrmException | IOException e) {
+    } catch (PermissionBackendException | StorageException | IOException e) {
       logger.atSevere().withCause(e).log("Error checking if change is submittable");
-      throw new OrmRuntimeException("Could not determine problems for the change", e);
+      throw new StorageRuntimeException("Could not determine problems for the change", e);
     }
     return null;
   }
@@ -313,7 +313,7 @@ public class Submit
       }
     } catch (IOException e) {
       logger.atSevere().withCause(e).log("Error checking if change is submittable");
-      throw new OrmRuntimeException("Could not determine problems for the change", e);
+      throw new StorageRuntimeException("Could not determine problems for the change", e);
     }
 
     ChangeData cd = changeDataFactory.create(resource.getNotes());
@@ -321,16 +321,16 @@ public class Submit
       MergeOp.checkSubmitRule(cd, false);
     } catch (ResourceConflictException e) {
       return null; // submit not visible
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Error checking if change is submittable");
-      throw new OrmRuntimeException("Could not determine problems for the change", e);
+      throw new StorageRuntimeException("Could not determine problems for the change", e);
     }
 
     ChangeSet cs;
     try {
       cs = mergeSuperSet.get().completeChangeSet(cd.change(), resource.getUser());
-    } catch (OrmException | IOException | PermissionBackendException e) {
-      throw new OrmRuntimeException(
+    } catch (StorageException | IOException | PermissionBackendException e) {
+      throw new StorageRuntimeException(
           "Could not determine complete set of changes to be submitted", e);
     }
 
@@ -354,8 +354,8 @@ public class Submit
       // problemsForSubmittingChangeset, so now it is safe to read from
       // the cache, as it yields the same result.
       enabled = cd.isMergeable();
-    } catch (OrmException e) {
-      throw new OrmRuntimeException("Could not determine mergeability", e);
+    } catch (StorageException e) {
+      throw new StorageRuntimeException("Could not determine mergeability", e);
     }
 
     if (submitProblems != null) {
@@ -392,7 +392,8 @@ public class Submit
         .setEnabled(Boolean.TRUE.equals(enabled));
   }
 
-  public Collection<ChangeData> unmergeableChanges(ChangeSet cs) throws OrmException, IOException {
+  public Collection<ChangeData> unmergeableChanges(ChangeSet cs)
+      throws StorageException, IOException {
     Set<ChangeData> mergeabilityMap = new HashSet<>();
     for (ChangeData change : cs.changes()) {
       mergeabilityMap.add(change);
@@ -441,7 +442,8 @@ public class Submit
   }
 
   private HashMap<Change.Id, RevCommit> findCommits(
-      Collection<ChangeData> changes, Project.NameKey project) throws IOException, OrmException {
+      Collection<ChangeData> changes, Project.NameKey project)
+      throws IOException, StorageException {
     HashMap<Change.Id, RevCommit> commits = new HashMap<>();
     try (Repository repo = repoManager.openRepository(project);
         RevWalk walk = new RevWalk(repo)) {
@@ -456,8 +458,8 @@ public class Submit
   }
 
   private IdentifiedUser onBehalfOf(RevisionResource rsrc, SubmitInput in)
-      throws AuthException, UnprocessableEntityException, OrmException, PermissionBackendException,
-          IOException, ConfigInvalidException {
+      throws AuthException, UnprocessableEntityException, StorageException,
+          PermissionBackendException, IOException, ConfigInvalidException {
     PermissionBackend.ForChange perm = rsrc.permissions();
     perm.check(ChangePermission.SUBMIT);
     perm.check(ChangePermission.SUBMIT_AS);
@@ -477,8 +479,8 @@ public class Submit
   private List<ChangeData> getChangesByTopic(String topic) {
     try {
       return queryProvider.get().byTopicOpen(topic);
-    } catch (OrmException e) {
-      throw new OrmRuntimeException(e);
+    } catch (StorageException e) {
+      throw new StorageRuntimeException(e);
     }
   }
 
@@ -496,7 +498,7 @@ public class Submit
 
     @Override
     public ChangeInfo apply(ChangeResource rsrc, SubmitInput input)
-        throws RestApiException, RepositoryNotFoundException, IOException, OrmException,
+        throws RestApiException, RepositoryNotFoundException, IOException, StorageException,
             PermissionBackendException, UpdateException, ConfigInvalidException {
       PatchSet ps = psUtil.current(rsrc.getNotes());
       if (ps == null) {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -24,7 +25,6 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.CommentResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -56,7 +56,7 @@ public class Comments implements ChildCollection<RevisionResource, CommentResour
 
   @Override
   public CommentResource parse(RevisionResource rev, IdString id)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, StorageException {
     String uuid = id.get();
     ChangeNotes notes = rev.getNotes();
 

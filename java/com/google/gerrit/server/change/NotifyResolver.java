@@ -21,6 +21,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -28,7 +29,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -81,7 +81,7 @@ public class NotifyResolver {
 
   public Result resolve(
       NotifyHandling handling, @Nullable Map<RecipientType, NotifyInfo> notifyDetails)
-      throws BadRequestException, OrmException, IOException, ConfigInvalidException {
+      throws BadRequestException, StorageException, IOException, ConfigInvalidException {
     requireNonNull(handling);
     ImmutableSetMultimap.Builder<RecipientType, Account.Id> b = ImmutableSetMultimap.builder();
     if (notifyDetails != null) {
@@ -93,7 +93,7 @@ public class NotifyResolver {
   }
 
   private ImmutableList<Account.Id> find(@Nullable List<String> inputs)
-      throws OrmException, BadRequestException, IOException, ConfigInvalidException {
+      throws StorageException, BadRequestException, IOException, ConfigInvalidException {
     if (inputs == null || inputs.isEmpty()) {
       return ImmutableList.of();
     }

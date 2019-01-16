@@ -19,6 +19,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -43,7 +44,6 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.template.soy.data.SoyListData;
 import com.google.template.soy.data.SoyMapData;
 import java.io.IOException;
@@ -84,7 +84,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected Set<Account.Id> authors;
   protected boolean emailOnlyAuthors;
 
-  protected ChangeEmail(EmailArguments ea, String mc, ChangeData cd) throws OrmException {
+  protected ChangeEmail(EmailArguments ea, String mc, ChangeData cd) throws StorageException {
     super(ea, mc, cd.change().getDest());
     changeData = cd;
     change = cd.change();
@@ -150,7 +150,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     if (patchSet == null) {
       try {
         patchSet = changeData.currentPatchSet();
-      } catch (OrmException err) {
+      } catch (StorageException err) {
         patchSet = null;
       }
     }
@@ -160,7 +160,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       if (patchSetInfo == null) {
         try {
           patchSetInfo = args.patchSetInfoFactory.get(changeData.notes(), patchSet.getId());
-        } catch (PatchSetInfoNotAvailableException | OrmException err) {
+        } catch (PatchSetInfoNotAvailableException | StorageException err) {
           patchSetInfo = null;
         }
       }
@@ -169,7 +169,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     try {
       stars = changeData.stars();
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       throw new EmailException("Failed to load stars for change " + change.getChangeId(), e);
     }
 
@@ -190,7 +190,7 @@ public abstract class ChangeEmail extends NotificationEmail {
         addByEmail(
             RecipientType.CC,
             changeData.reviewersByEmail().byState(ReviewerStateInternal.REVIEWER));
-      } catch (OrmException e) {
+      } catch (StorageException e) {
         throw new EmailException("Failed to add unregistered CCs " + change.getChangeId(), e);
       }
     }
@@ -294,7 +294,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     } else {
       try {
         ps = args.patchSetUtil.get(changeData.notes(), new PatchSet.Id(change.getId(), patchSetId));
-      } catch (OrmException e) {
+      } catch (StorageException e) {
         throw new PatchListNotAvailableException("Failed to get patchSet");
       }
     }
@@ -344,7 +344,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   @Override
   protected final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig)
-      throws OrmException {
+      throws StorageException {
     if (!NotifyHandling.ALL.equals(notify.handling())) {
       return new Watchers();
     }
@@ -364,7 +364,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       for (Account.Id id : changeData.reviewers().all()) {
         add(RecipientType.CC, id);
       }
-    } catch (OrmException err) {
+    } catch (StorageException err) {
       logger.atWarning().withCause(err).log("Cannot CC users that reviewed updated change");
     }
   }
@@ -380,7 +380,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       for (Account.Id id : changeData.reviewers().byState(ReviewerStateInternal.REVIEWER)) {
         add(RecipientType.CC, id);
       }
-    } catch (OrmException err) {
+    } catch (StorageException err) {
       logger.atWarning().withCause(err).log("Cannot CC users that commented on updated change");
     }
   }
@@ -506,7 +506,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       for (Account.Id who : changeData.reviewers().byState(state)) {
         reviewers.add(getNameEmailFor(who));
       }
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atWarning().withCause(e).log("Cannot get change reviewers");
     }
     return reviewers;

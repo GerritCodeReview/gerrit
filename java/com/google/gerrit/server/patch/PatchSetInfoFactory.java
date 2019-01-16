@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -24,7 +25,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -54,7 +54,7 @@ public class PatchSetInfoFactory {
   }
 
   public PatchSetInfo get(RevWalk rw, RevCommit src, PatchSet.Id psi)
-      throws IOException, OrmException {
+      throws IOException, StorageException {
     rw.parseBody(src);
     PatchSetInfo info = new PatchSetInfo(psi);
     info.setSubject(src.getShortMessage());
@@ -70,7 +70,7 @@ public class PatchSetInfoFactory {
     try {
       PatchSet patchSet = psUtil.get(notes, psId);
       return get(notes.getProjectName(), patchSet);
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       throw new PatchSetInfoNotAvailableException(e);
     }
   }
@@ -83,13 +83,13 @@ public class PatchSetInfoFactory {
       PatchSetInfo info = get(rw, src, patchSet.getId());
       info.setParents(toParentInfos(src.getParents(), rw));
       return info;
-    } catch (IOException | OrmException e) {
+    } catch (IOException | StorageException e) {
       throw new PatchSetInfoNotAvailableException(e);
     }
   }
 
   // TODO: The same method exists in EventFactory, find a common place for it
-  private UserIdentity toUserIdentity(PersonIdent who) throws IOException, OrmException {
+  private UserIdentity toUserIdentity(PersonIdent who) throws IOException, StorageException {
     final UserIdentity u = new UserIdentity();
     u.setName(who.getName());
     u.setEmail(who.getEmailAddress());

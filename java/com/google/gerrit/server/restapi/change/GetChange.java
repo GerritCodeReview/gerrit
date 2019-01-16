@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -31,7 +32,6 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PluginDefinedAttributesFactories;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -74,11 +74,11 @@ public class GetChange
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
+  public Response<ChangeInfo> apply(ChangeResource rsrc) throws StorageException {
     return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 
-  Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException {
+  Response<ChangeInfo> apply(RevisionResource rsrc) throws StorageException {
     return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 

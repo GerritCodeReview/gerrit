@@ -22,6 +22,7 @@ import static com.google.gerrit.server.schema.NoteDbSchemaUpdater.requiredUpgrad
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -33,7 +34,6 @@ import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestUpdateUI;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,8 +64,8 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
   public void downgradeNotSupported() throws Exception {
     try {
       requiredUpgrades(14, versions(10, 11, 12, 13));
-      assert_().fail("expected OrmException");
-    } catch (OrmException e) {
+      assert_().fail("expected StorageException");
+    } catch (StorageException e) {
       assertThat(e)
           .hasMessageThat()
           .contains("Cannot downgrade NoteDb schema from version 14 to 13");
@@ -78,8 +78,8 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
     assertThat(requiredUpgrades(9, versions)).containsExactly(10, 11, 12).inOrder();
     try {
       requiredUpgrades(8, versions);
-      assert_().fail("expected OrmException");
-    } catch (OrmException e) {
+      assert_().fail("expected StorageException");
+    } catch (StorageException e) {
       assertThat(e).hasMessageThat().contains("Cannot skip NoteDb schema from version 8 to 10");
     }
   }
@@ -122,21 +122,21 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
       }
 
       @Override
-      public void create() throws OrmException, IOException {
+      public void create() throws StorageException, IOException {
         try (Repository repo = repoManager.createRepository(allProjectsName)) {
           if (initialVersion.isPresent()) {
             TestRepository<?> tr = new TestRepository<>(repo);
             tr.update(RefNames.REFS_VERSION, tr.blob(initialVersion.get().toString()));
           }
         } catch (Exception e) {
-          throw new OrmException(e);
+          throw new StorageException(e);
         }
         repoManager.createRepository(allUsersName).close();
         setUp();
       }
 
       @Override
-      public void ensureCreated() throws OrmException, IOException {
+      public void ensureCreated() throws StorageException, IOException {
         try {
           repoManager.openRepository(allProjectsName).close();
         } catch (RepositoryNotFoundException e) {
@@ -152,7 +152,7 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
       cfg.setString("noteDb", "changes", "disableReviewDb", "true");
     }
 
-    protected void seedGroupSequenceRef() throws OrmException {
+    protected void seedGroupSequenceRef() throws StorageException {
       new RepoSequence(
               repoManager,
               GitReferenceUpdated.DISABLED,
@@ -166,9 +166,9 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
     /**
      * Test-specific setup.
      *
-     * @throws OrmException if an error occurs.
+     * @throws StorageException if an error occurs.
      */
-    protected void setUp() throws OrmException {}
+    protected void setUp() throws StorageException {}
 
     ImmutableList<String> update() throws Exception {
       updater.update(
@@ -211,7 +211,7 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
     TestUpdate u =
         new TestUpdate(Optional.empty()) {
           @Override
-          public void setUp() throws OrmException {
+          public void setUp() throws StorageException {
             setNotesMigrationConfig();
             seedGroupSequenceRef();
           }
@@ -231,14 +231,14 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
     TestUpdate u =
         new TestUpdate(Optional.empty()) {
           @Override
-          public void setUp() throws OrmException {
+          public void setUp() throws StorageException {
             seedGroupSequenceRef();
           }
         };
     try {
       u.update();
-      assert_().fail("expected OrmException");
-    } catch (OrmException e) {
+      assert_().fail("expected StorageException");
+    } catch (StorageException e) {
       assertThat(e).hasMessageThat().contains("NoteDb change migration was not completed");
     }
     assertThat(u.getMessages()).isEmpty();
@@ -256,8 +256,8 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
         };
     try {
       u.update();
-      assert_().fail("expected OrmException");
-    } catch (OrmException e) {
+      assert_().fail("expected StorageException");
+    } catch (StorageException e) {
       assertThat(e).hasMessageThat().contains("upgrade to 2.16.x first");
     }
     assertThat(u.getMessages()).isEmpty();

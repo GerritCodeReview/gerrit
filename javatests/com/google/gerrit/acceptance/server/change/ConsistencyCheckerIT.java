@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -48,7 +49,6 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestChanges;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -313,7 +313,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
           notes.getChangeId(),
           new BatchUpdateOp() {
             @Override
-            public boolean updateChange(ChangeContext ctx) throws OrmException {
+            public boolean updateChange(ChangeContext ctx) throws StorageException {
               ctx.getChange().setStatus(Change.Status.MERGED);
               ctx.getUpdate(ctx.getChange().currentPatchSetId()).fixStatus(Change.Status.MERGED);
               return true;
@@ -862,7 +862,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
             }
 
             @Override
-            public boolean updateChange(ChangeContext ctx) throws OrmException {
+            public boolean updateChange(ChangeContext ctx) throws StorageException {
               ctx.getChange().setStatus(Change.Status.MERGED);
               ctx.getUpdate(ctx.getChange().currentPatchSetId()).fixStatus(Change.Status.MERGED);
               return true;

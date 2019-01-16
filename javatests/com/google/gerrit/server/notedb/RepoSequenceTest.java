@@ -23,12 +23,12 @@ import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.google.common.util.concurrent.Runnables;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -67,7 +67,7 @@ public class RepoSequenceTest extends GerritBaseTests {
       for (int i = 1; i <= max; i++) {
         try {
           assertThat(s.next()).named("i=" + i + " for " + name).isEqualTo(i);
-        } catch (OrmException e) {
+        } catch (StorageException e) {
           throw new AssertionError("failed batchSize=" + batchSize + ", i=" + i, e);
         }
       }
@@ -168,7 +168,7 @@ public class RepoSequenceTest extends GerritBaseTests {
   @Test
   public void failOnInvalidValue() throws Exception {
     ObjectId id = writeBlob("id", "not a number");
-    exception.expect(OrmException.class);
+    exception.expect(StorageException.class);
     exception.expectMessage("invalid value in refs/sequences/id blob at " + id.name());
     newSequence("id", 1, 3).next();
   }
@@ -181,7 +181,7 @@ public class RepoSequenceTest extends GerritBaseTests {
       try {
         newSequence("id", 1, 3).next();
         fail();
-      } catch (OrmException e) {
+      } catch (StorageException e) {
         assertThat(e.getCause()).isInstanceOf(ExecutionException.class);
         assertThat(e.getCause().getCause()).isInstanceOf(IncorrectObjectTypeException.class);
       }
@@ -200,7 +200,7 @@ public class RepoSequenceTest extends GerritBaseTests {
             RetryerBuilder.<RefUpdate>newBuilder()
                 .withStopStrategy(StopStrategies.stopAfterAttempt(3))
                 .build());
-    exception.expect(OrmException.class);
+    exception.expect(StorageException.class);
     exception.expectMessage("Failed to update refs/sequences/id: LOCK_FAILURE");
     s.next();
   }
@@ -335,7 +335,7 @@ public class RepoSequenceTest extends GerritBaseTests {
             RetryerBuilder.<RefUpdate>newBuilder()
                 .withStopStrategy(StopStrategies.stopAfterAttempt(3))
                 .build());
-    exception.expect(OrmException.class);
+    exception.expect(StorageException.class);
     exception.expectMessage("Failed to update refs/sequences/id: LOCK_FAILURE");
     s.increaseTo(2);
   }

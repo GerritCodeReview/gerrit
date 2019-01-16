@@ -15,7 +15,6 @@
 package com.google.gerrit.server.index.group;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import java.io.IOException;
 
 public interface GroupIndexer {
 
@@ -24,7 +23,7 @@ public interface GroupIndexer {
    *
    * @param uuid group UUID to index.
    */
-  void index(AccountGroup.UUID uuid) throws IOException;
+  void index(AccountGroup.UUID uuid);
 
   /**
    * Synchronously reindex a group if it is stale.
@@ -32,5 +31,5 @@ public interface GroupIndexer {
    * @param uuid group UUID to index.
    * @return whether the group was reindexed
    */
-  boolean reindexIfStale(AccountGroup.UUID uuid) throws IOException;
+  boolean reindexIfStale(AccountGroup.UUID uuid);
 }

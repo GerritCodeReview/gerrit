@@ -17,6 +17,7 @@ package com.google.gerrit.server.index.account;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.Account;
@@ -74,7 +75,7 @@ public class AccountIndexerImpl implements AccountIndexer {
   }
 
   @Override
-  public void index(Account.Id id) throws IOException {
+  public void index(Account.Id id) {
     byIdCache.evict(id);
     Optional<AccountState> accountState = byIdCache.get(id);
 
@@ -104,10 +105,14 @@ public class AccountIndexerImpl implements AccountIndexer {
   }
 
   @Override
-  public boolean reindexIfStale(Account.Id id) throws IOException {
-    if (stalenessChecker.isStale(id)) {
-      index(id);
-      return true;
+  public boolean reindexIfStale(Account.Id id) {
+    try {
+      if (stalenessChecker.isStale(id)) {
+        index(id);
+        return true;
+      }
+    } catch (IOException e) {
+      throw new StorageException(e);
     }
     return false;
   }

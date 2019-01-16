@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
-import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -37,7 +36,6 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -60,16 +58,6 @@ public class ChangeIndexer {
     ChangeIndexer create(ListeningExecutorService executor, ChangeIndex index);
 
     ChangeIndexer create(ListeningExecutorService executor, ChangeIndexCollection indexes);
-  }
-
-  @SuppressWarnings("deprecation")
-  public static com.google.common.util.concurrent.CheckedFuture<?, IOException> allAsList(
-      List<? extends ListenableFuture<?>> futures) {
-    // allAsList propagates the first seen exception, wrapped in
-    // ExecutionException, so we can reuse the same mapper as for a single
-    // future. Assume the actual contents of the exception are not useful to
-    // callers. All exceptions are already logged by IndexTask.
-    return Futures.makeChecked(Futures.allAsList(futures), IndexUtils.MAPPER);
   }
 
   @Nullable private final ChangeIndexCollection indexes;
@@ -134,9 +122,7 @@ public class ChangeIndexer {
    * @param id change to index.
    * @return future for the indexing task.
    */
-  @SuppressWarnings("deprecation")
-  public com.google.common.util.concurrent.CheckedFuture<?, IOException> indexAsync(
-      Project.NameKey project, Change.Id id) {
+  public ListenableFuture<?> indexAsync(Project.NameKey project, Change.Id id) {
     return submit(new IndexTask(project, id));
   }
 
@@ -146,14 +132,12 @@ public class ChangeIndexer {
    * @param ids changes to index.
    * @return future for completing indexing of all changes.
    */
-  @SuppressWarnings("deprecation")
-  public com.google.common.util.concurrent.CheckedFuture<?, IOException> indexAsync(
-      Project.NameKey project, Collection<Change.Id> ids) {
+  public ListenableFuture<?> indexAsync(Project.NameKey project, Collection<Change.Id> ids) {
     List<ListenableFuture<?>> futures = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
       futures.add(indexAsync(project, id));
     }
-    return allAsList(futures);
+    return Futures.allAsList(futures);
   }
 
   /**
@@ -161,7 +145,7 @@ public class ChangeIndexer {
    *
    * @param cd change to index.
    */
-  public void index(ChangeData cd) throws IOException {
+  public void index(ChangeData cd) {
     indexImpl(cd);
 
     // Always double-check whether the change might be stale immediately after
@@ -185,7 +169,7 @@ public class ChangeIndexer {
     autoReindexIfStale(cd);
   }
 
-  private void indexImpl(ChangeData cd) throws IOException {
+  private void indexImpl(ChangeData cd) {
     logger.atFine().log("Replace change %d in index.", cd.getId().get());
     for (Index<?, ChangeData> i : getWriteIndexes()) {
       try (TraceTimer traceTimer =
@@ -211,7 +195,7 @@ public class ChangeIndexer {
    *
    * @param change change to index.
    */
-  public void index(Change change) throws IOException {
+  public void index(Change change) {
     index(changeDataFactory.create(change));
   }
 
@@ -221,7 +205,7 @@ public class ChangeIndexer {
    * @param project the project to which the change belongs.
    * @param changeId ID of the change to index.
    */
-  public void index(Project.NameKey project, Change.Id changeId) throws IOException {
+  public void index(Project.NameKey project, Change.Id changeId) {
     index(changeDataFactory.create(project, changeId));
   }
 
@@ -231,8 +215,7 @@ public class ChangeIndexer {
    * @param id change to delete.
    * @return future for the deleting task.
    */
-  @SuppressWarnings("deprecation")
-  public com.google.common.util.concurrent.CheckedFuture<?, IOException> deleteAsync(Change.Id id) {
+  public ListenableFuture<?> deleteAsync(Change.Id id) {
     return submit(new DeleteTask(id));
   }
 
@@ -241,7 +224,7 @@ public class ChangeIndexer {
    *
    * @param id change ID to delete.
    */
-  public void delete(Change.Id id) throws IOException {
+  public void delete(Change.Id id) {
     new DeleteTask(id).call();
   }
 
@@ -255,9 +238,7 @@ public class ChangeIndexer {
    * @param id ID of the change to index.
    * @return future for reindexing the change; returns true if the change was stale.
    */
-  @SuppressWarnings("deprecation")
-  public com.google.common.util.concurrent.CheckedFuture<Boolean, IOException> reindexIfStale(
-      Project.NameKey project, Change.Id id) {
+  public ListenableFuture<Boolean> reindexIfStale(Project.NameKey project, Change.Id id) {
     return submit(new ReindexIfStaleTask(project, id), batchExecutor);
   }
 
@@ -277,17 +258,13 @@ public class ChangeIndexer {
     return indexes != null ? indexes.getWriteIndexes() : Collections.singleton(index);
   }
 
-  @SuppressWarnings("deprecation")
-  private <T> com.google.common.util.concurrent.CheckedFuture<T, IOException> submit(
-      Callable<T> task) {
+  private <T> ListenableFuture<T> submit(Callable<T> task) {
     return submit(task, executor);
   }
 
-  @SuppressWarnings("deprecation")
-  private static <T> com.google.common.util.concurrent.CheckedFuture<T, IOException> submit(
+  private static <T> ListenableFuture<T> submit(
       Callable<T> task, ListeningExecutorService executor) {
-    return Futures.makeChecked(
-        Futures.nonCancellationPropagating(executor.submit(task)), IndexUtils.MAPPER);
+    return Futures.nonCancellationPropagating(executor.submit(task));
   }
 
   private abstract class AbstractIndexTask<T> implements Callable<T> {
@@ -351,7 +328,7 @@ public class ChangeIndexer {
     }
 
     @Override
-    public Void call() throws IOException {
+    public Void call() {
       logger.atFine().log("Delete change %d from index.", id.get());
       // Don't bother setting a RequestContext to provide the DB.
       // Implementations should not need to access the DB in order to delete a

@@ -30,7 +30,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -71,7 +70,7 @@ public class ProjectIndexerImpl implements ProjectIndexer {
   }
 
   @Override
-  public void index(Project.NameKey nameKey) throws IOException {
+  public void index(Project.NameKey nameKey) {
     ProjectState projectState = projectCache.get(nameKey);
     if (projectState != null) {
       logger.atFine().log("Replace project %s in index", nameKey.get());

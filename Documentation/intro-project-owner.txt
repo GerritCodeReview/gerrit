@@ -123,6 +123,11 @@ under `refs/heads/` and all tags under `refs/tags/`. In addition there
 are a number of link:access-control.html#references_special[special refs]
 and link:access-control.html#references_magic[magic refs].
 
+Gerrit only supports tags that are reachable by any ref under
+`refs/heads/` (branches). When filtering tags by visibility, Gerrit
+performs a reachability check and will present the user ony with tags that
+are reachable by any ref they can see.
+
 Access rights can be assigned on a concrete ref, e.g.
 `refs/heads/master` but also on ref patterns and regular expressions
 for ref names.

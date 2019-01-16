@@ -249,7 +249,7 @@ class DefaultRefFilter {
                   repo,
                   opts.filterTagsSeparately()
                       ? filter(
-                              getAllRefsMap(repo),
+                              getHeadRefsMap(repo),
                               repo,
                               opts.toBuilder().setFilterTagsSeparately(false).build())
                           .values()
@@ -268,9 +268,13 @@ class DefaultRefFilter {
     return result;
   }
 
-  private static Map<String, Ref> getAllRefsMap(Repository repo) throws PermissionBackendException {
+  private static Map<String, Ref> getHeadRefsMap(Repository repo)
+      throws PermissionBackendException {
     try {
-      return repo.getRefDatabase().getRefs().stream().collect(toMap(Ref::getName, r -> r));
+      return repo.getRefDatabase()
+          .getRefsByPrefix(Constants.R_HEADS)
+          .stream()
+          .collect(toMap(Ref::getName, r -> r));
     } catch (IOException e) {
       throw new PermissionBackendException(e);
     }

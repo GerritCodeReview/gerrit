@@ -16,9 +16,7 @@ package gerrit;
 
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.rules.StoredValues;
-import com.googlecode.prolog_cafe.exceptions.JavaException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.ListTerm;
@@ -53,12 +51,7 @@ class PRED_get_legacy_label_types_1 extends Predicate.P1 {
   public Operation exec(Prolog engine) throws PrologException {
     engine.setB0();
     Term a1 = arg1.dereference();
-    List<LabelType> list;
-    try {
-      list = StoredValues.CHANGE_DATA.get(engine).getLabelTypes().getLabelTypes();
-    } catch (StorageException err) {
-      throw new JavaException(this, 1, err);
-    }
+    List<LabelType> list = StoredValues.CHANGE_DATA.get(engine).getLabelTypes().getLabelTypes();
     Term head = Prolog.Nil;
     for (int idx = list.size() - 1; 0 <= idx; idx--) {
       head = new ListTerm(export(list.get(idx)), head);

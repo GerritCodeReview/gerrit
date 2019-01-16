@@ -22,6 +22,30 @@
       "revId": "55db2125e3a397680b7d66e14eae07471cee5d3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34290356_1cb7e1fc",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-16T14:22:03Z",
+      "side": 1,
+      "message": "This is necessary because this is the only way the call has to add boolean configs. But it should return a Builder though.",
+      "parentUuid": "bd8627ce_d1332cea",
+      "range": {
+        "startLine": 125,
+        "startChar": 16,
+        "endLine": 125,
+        "endChar": 40
+      },
+      "revId": "55db2125e3a397680b7d66e14eae07471cee5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

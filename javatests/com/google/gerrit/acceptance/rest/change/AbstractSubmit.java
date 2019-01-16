@@ -40,7 +40,6 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -1104,7 +1103,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
             change.getChange().getId(),
             new BatchUpdateOp() {
               @Override
-              public boolean updateChange(ChangeContext ctx) throws StorageException {
+              public boolean updateChange(ChangeContext ctx) {
                 ctx.getChange().setStatus(Change.Status.NEW);
                 ctx.getUpdate(ctx.getChange().currentPatchSetId()).setStatus(Change.Status.NEW);
                 return true;

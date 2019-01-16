@@ -14,7 +14,6 @@
 
 package com.google.gerrit.index.query;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.RangeUtil.Range;
 
@@ -30,9 +29,9 @@ public abstract class IntegerRangePredicate<T> extends IndexPredicate<T> {
     }
   }
 
-  protected abstract Integer getValueInt(T object) throws StorageException;
+  protected abstract Integer getValueInt(T object);
 
-  public boolean match(T object) throws StorageException {
+  public boolean match(T object) {
     Integer valueInt = getValueInt(object);
     if (valueInt == null) {
       return false;

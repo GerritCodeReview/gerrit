@@ -16,7 +16,6 @@ package com.google.gerrit.server.api.changes;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.client.ChangeEditDetailOption;
@@ -242,7 +241,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   }
 
   private ChangeEditResource getChangeEditResource(String filePath)
-      throws ResourceNotFoundException, AuthException, IOException, StorageException {
+      throws ResourceNotFoundException, AuthException, IOException {
     return changeEdits.parse(changeResource, IdString.fromDecoded(filePath));
   }
 }

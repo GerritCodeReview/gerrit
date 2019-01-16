@@ -69,7 +69,7 @@ public class Emails {
    *
    * @see #getAccountsFor(String...)
    */
-  public ImmutableSet<Account.Id> getAccountFor(String email) throws IOException, StorageException {
+  public ImmutableSet<Account.Id> getAccountFor(String email) throws IOException {
     return Streams.concat(
             externalIds.byEmail(email).stream().map(ExternalId::accountId),
             executeIndexQuery(() -> queryProvider.get().byPreferredEmail(email).stream())
@@ -83,7 +83,7 @@ public class Emails {
    * @see #getAccountFor(String)
    */
   public ImmutableSetMultimap<String, Account.Id> getAccountsFor(String... emails)
-      throws IOException, StorageException {
+      throws IOException {
     ImmutableSetMultimap.Builder<String, Account.Id> builder = ImmutableSetMultimap.builder();
     externalIds.byEmails(emails).entries().stream()
         .forEach(e -> builder.put(e.getKey(), e.getValue().accountId()));
@@ -102,7 +102,7 @@ public class Emails {
     return externalIds.byEmail(email).stream().map(ExternalId::accountId).collect(toImmutableSet());
   }
 
-  private <T> T executeIndexQuery(Action<T> action) throws StorageException {
+  private <T> T executeIndexQuery(Action<T> action) {
     try {
       return retryHelper.execute(
           ActionType.INDEX_QUERY, action, StorageException.class::isInstance);

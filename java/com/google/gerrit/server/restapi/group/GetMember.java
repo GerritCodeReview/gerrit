@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.group;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.AccountLoader;
@@ -33,8 +32,7 @@ public class GetMember implements RestReadView<MemberResource> {
   }
 
   @Override
-  public AccountInfo apply(MemberResource rsrc)
-      throws StorageException, PermissionBackendException {
+  public AccountInfo apply(MemberResource rsrc) throws PermissionBackendException {
     AccountLoader loader = infoFactory.create(true);
     AccountInfo info = loader.get(rsrc.getMember().getAccountId());
     loader.fill();

@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.exceptions.DuplicateKeyException;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -90,7 +89,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
   }
 
   @Override
-  public void create() throws StorageException, IOException, ConfigInvalidException {
+  public void create() throws IOException, ConfigInvalidException {
     GroupReference admins = createGroupReference("Administrators");
     GroupReference batchUsers = createGroupReference("Non-Interactive Users");
 
@@ -117,7 +116,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
   }
 
   @Override
-  public void ensureCreated() throws StorageException, IOException, ConfigInvalidException {
+  public void ensureCreated() throws IOException, ConfigInvalidException {
     try {
       repoManager.openRepository(allProjectsName).close();
     } catch (RepositoryNotFoundException e) {
@@ -127,7 +126,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
 
   private void createAdminsGroup(
       Sequences seqs, Repository allUsersRepo, GroupReference groupReference)
-      throws StorageException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder().setDescription("Gerrit Site Administrators").build();
@@ -140,7 +139,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
       Repository allUsersRepo,
       GroupReference groupReference,
       AccountGroup.UUID adminsGroupUuid)
-      throws StorageException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
@@ -153,7 +152,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
 
   private void createGroup(
       Repository allUsersRepo, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
-      throws StorageException, ConfigInvalidException, IOException {
+      throws ConfigInvalidException, IOException {
     InternalGroup createdGroup = createGroupInNoteDb(allUsersRepo, groupCreation, groupUpdate);
     index(createdGroup);
   }
@@ -216,8 +215,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
     return new GroupReference(groupUuid, name);
   }
 
-  private InternalGroupCreation getGroupCreation(Sequences seqs, GroupReference groupReference)
-      throws StorageException {
+  private InternalGroupCreation getGroupCreation(Sequences seqs, GroupReference groupReference) {
     int next = seqs.nextGroupId();
     return InternalGroupCreation.builder()
         .setNameKey(new AccountGroup.NameKey(groupReference.getName()))

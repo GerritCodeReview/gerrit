@@ -73,8 +73,7 @@ public class ApprovalCopier {
   }
 
   Iterable<PatchSetApproval> getForPatchSet(
-      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig)
-      throws StorageException {
+      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
     return getForPatchSet(notes, psId, rw, repoConfig, Collections.emptyList());
   }
 
@@ -83,8 +82,7 @@ public class ApprovalCopier {
       PatchSet.Id psId,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig,
-      Iterable<PatchSetApproval> dontCopy)
-      throws StorageException {
+      Iterable<PatchSetApproval> dontCopy) {
     PatchSet ps = psUtil.get(notes, psId);
     if (ps == null) {
       return Collections.emptyList();
@@ -97,8 +95,7 @@ public class ApprovalCopier {
       PatchSet ps,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig,
-      Iterable<PatchSetApproval> dontCopy)
-      throws StorageException {
+      Iterable<PatchSetApproval> dontCopy) {
     requireNonNull(ps, "ps should not be null");
     ChangeData cd = changeDataFactory.create(notes);
     try {
@@ -157,7 +154,7 @@ public class ApprovalCopier {
     }
   }
 
-  private static TreeMap<Integer, PatchSet> getPatchSets(ChangeData cd) throws StorageException {
+  private static TreeMap<Integer, PatchSet> getPatchSets(ChangeData cd) {
     Collection<PatchSet> patchSets = cd.patchSets();
     TreeMap<Integer, PatchSet> result = new TreeMap<>();
     for (PatchSet ps : patchSets) {

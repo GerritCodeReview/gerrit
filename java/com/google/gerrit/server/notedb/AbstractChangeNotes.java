@@ -131,7 +131,7 @@ public abstract class AbstractChangeNotes<T> {
     return revision;
   }
 
-  public T load() throws StorageException {
+  public T load() {
     if (loaded) {
       return self();
     }
@@ -176,12 +176,12 @@ public abstract class AbstractChangeNotes<T> {
     return new LoadHandle(repo, id);
   }
 
-  public T reload() throws StorageException {
+  public T reload() {
     loaded = false;
     return load();
   }
 
-  public ObjectId loadRevision() throws StorageException {
+  public ObjectId loadRevision() {
     if (loaded) {
       return getRevision();
     }

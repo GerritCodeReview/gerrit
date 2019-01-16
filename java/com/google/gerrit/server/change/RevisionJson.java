@@ -32,7 +32,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
@@ -155,8 +154,7 @@ public class RevisionJson {
    * depending on the options provided when constructing this instance.
    */
   public RevisionInfo getRevisionInfo(ChangeData cd, PatchSet in)
-      throws PatchListNotAvailableException, GpgException, StorageException, IOException,
-          PermissionBackendException {
+      throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
     AccountLoader accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     try (Repository repo = openRepoIfNecessary(cd.project());
         RevWalk rw = newRevWalk(repo)) {
@@ -213,8 +211,7 @@ public class RevisionJson {
       Map<PatchSet.Id, PatchSet> map,
       Optional<PatchSet.Id> limitToPsId,
       ChangeInfo changeInfo)
-      throws PatchListNotAvailableException, GpgException, StorageException, IOException,
-          PermissionBackendException {
+      throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
     Map<String, RevisionInfo> res = new LinkedHashMap<>();
     try (Repository repo = openRepoIfNecessary(cd.project());
         RevWalk rw = newRevWalk(repo)) {
@@ -239,7 +236,7 @@ public class RevisionJson {
   }
 
   private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in)
-      throws PermissionBackendException, StorageException, IOException {
+      throws PermissionBackendException, IOException {
     Map<String, FetchInfo> r = new LinkedHashMap<>();
     for (Extension<DownloadScheme> e : downloadSchemes) {
       String schemeName = e.getExportName();
@@ -275,8 +272,7 @@ public class RevisionJson {
       @Nullable RevWalk rw,
       boolean fillCommit,
       @Nullable ChangeInfo changeInfo)
-      throws PatchListNotAvailableException, GpgException, StorageException, IOException,
-          PermissionBackendException {
+      throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
     Change c = cd.change();
     RevisionInfo out = new RevisionInfo();
     out.isCurrent = in.getId().equals(c.currentPatchSetId());
@@ -350,14 +346,13 @@ public class RevisionJson {
    *     lazyload}.
    */
   private PermissionBackend.ForChange permissionBackendForChange(
-      PermissionBackend.WithUser withUser, ChangeData cd) throws StorageException {
+      PermissionBackend.WithUser withUser, ChangeData cd) {
     return lazyLoad
         ? withUser.change(cd)
         : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));
   }
 
-  private boolean isWorldReadable(ChangeData cd)
-      throws StorageException, PermissionBackendException, IOException {
+  private boolean isWorldReadable(ChangeData cd) throws PermissionBackendException, IOException {
     try {
       permissionBackendForChange(permissionBackend.user(anonymous), cd)
           .check(ChangePermission.READ);

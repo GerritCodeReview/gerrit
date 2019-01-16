@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -74,11 +73,11 @@ public class GetChange
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource rsrc) throws StorageException {
+  public Response<ChangeInfo> apply(ChangeResource rsrc) {
     return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 
-  Response<ChangeInfo> apply(RevisionResource rsrc) throws StorageException {
+  Response<ChangeInfo> apply(RevisionResource rsrc) {
     return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 

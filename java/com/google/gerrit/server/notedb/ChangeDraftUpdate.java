@@ -132,7 +132,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   private CommitBuilder storeCommentsInNotes(
       RevWalk rw, ObjectInserter ins, ObjectId curr, CommitBuilder cb)
-      throws ConfigInvalidException, StorageException, IOException {
+      throws ConfigInvalidException, IOException {
     RevisionNoteMap<ChangeRevisionNote> rnm = getRevisionNoteMap(rw, curr);
     Set<RevId> updatedRevs = Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
@@ -184,7 +184,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   }
 
   private RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap(RevWalk rw, ObjectId curr)
-      throws ConfigInvalidException, StorageException, IOException {
+      throws ConfigInvalidException, IOException {
     // The old DraftCommentNotes already parsed the revision notes. We can reuse them as long as
     // the ref hasn't advanced.
     ChangeNotes changeNotes = getNotes();
@@ -217,7 +217,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   @Override
   protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
-      throws StorageException, IOException {
+      throws IOException {
     CommitBuilder cb = new CommitBuilder();
     cb.setMessage("Update draft comments");
     try {

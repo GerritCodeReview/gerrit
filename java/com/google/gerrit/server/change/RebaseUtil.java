@@ -83,7 +83,7 @@ public class RebaseUtil {
     public abstract PatchSet patchSet();
   }
 
-  public Base parseBase(RevisionResource rsrc, String base) throws StorageException {
+  public Base parseBase(RevisionResource rsrc, String base) {
     // Try parsing the base as a ref string.
     PatchSet.Id basePatchSetId = PatchSet.Id.fromRef(base);
     if (basePatchSetId != null) {
@@ -119,7 +119,7 @@ public class RebaseUtil {
     return ret;
   }
 
-  private ChangeNotes notesFor(RevisionResource rsrc, Change.Id id) throws StorageException {
+  private ChangeNotes notesFor(RevisionResource rsrc, Change.Id id) {
     if (rsrc.getChange().getId().equals(id)) {
       return rsrc.getNotes();
     }
@@ -139,11 +139,10 @@ public class RebaseUtil {
    * @return the commit onto which the patch set should be rebased.
    * @throws RestApiException if rebase is not possible.
    * @throws IOException if accessing the repository fails.
-   * @throws StorageException if accessing the database fails.
    */
   public ObjectId findBaseRevision(
       PatchSet patchSet, Branch.NameKey destBranch, Repository git, RevWalk rw)
-      throws RestApiException, IOException, StorageException {
+      throws RestApiException, IOException {
     String baseRev = null;
     RevCommit commit = rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
 

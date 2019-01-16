@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -62,7 +61,7 @@ public class DraftComments implements ChildCollection<RevisionResource, DraftCom
 
   @Override
   public DraftCommentResource parse(RevisionResource rev, IdString id)
-      throws ResourceNotFoundException, StorageException, AuthException {
+      throws ResourceNotFoundException, AuthException {
     checkIdentifiedUser();
     String uuid = id.get();
     for (Comment c :

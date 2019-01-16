@@ -149,7 +149,7 @@ final class SetParentCommand extends SshCommand {
    * reparenting.
    */
   private List<Project.NameKey> getChildrenForReparenting(ProjectState parent)
-      throws PermissionBackendException, StorageException, RestApiException {
+      throws PermissionBackendException, RestApiException {
     final List<Project.NameKey> childProjects = new ArrayList<>();
     final List<Project.NameKey> excluded = new ArrayList<>(excludedChildren.size());
     for (ProjectState excludedChild : excludedChildren) {

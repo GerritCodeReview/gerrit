@@ -92,7 +92,7 @@ public class GroupsUpdateIT {
   }
 
   private void createGroup(InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
-      throws StorageException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     groupsUpdateProvider.get().createGroup(groupCreation, groupUpdate);
   }
 

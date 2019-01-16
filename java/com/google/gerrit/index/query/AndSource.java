@@ -74,7 +74,7 @@ public class AndSource<T> extends AndPredicate<T>
   }
 
   @Override
-  public ResultSet<T> read() throws StorageException {
+  public ResultSet<T> read() {
     if (source == null) {
       throw new StorageException("No DataSource: " + this);
     }
@@ -123,7 +123,7 @@ public class AndSource<T> extends AndPredicate<T>
   }
 
   @Override
-  public ResultSet<FieldBundle> readRaw() throws StorageException {
+  public ResultSet<FieldBundle> readRaw() {
     // TOOD(hiesel): Implement
     throw new UnsupportedOperationException("not implemented");
   }
@@ -134,7 +134,7 @@ public class AndSource<T> extends AndPredicate<T>
   }
 
   @Override
-  public boolean match(T object) throws StorageException {
+  public boolean match(T object) {
     if (isVisibleToPredicate != null && !isVisibleToPredicate.match(object)) {
       return false;
     }

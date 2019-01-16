@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -75,7 +74,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
 
   @Override
   public CommitResource parse(ProjectResource parent, IdString id)
-      throws RestApiException, IOException, StorageException {
+      throws RestApiException, IOException {
     parent.getProjectState().checkStatePermitsRead();
     ObjectId objectId;
     try {
@@ -106,8 +105,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
   }
 
   /** @return true if {@code commit} is visible to the caller. */
-  public boolean canRead(ProjectState state, Repository repo, RevCommit commit)
-      throws StorageException, IOException {
+  public boolean canRead(ProjectState state, Repository repo, RevCommit commit) throws IOException {
     Project.NameKey project = state.getNameKey();
     if (indexes.getSearchIndex() == null) {
       // No index in slaves, fall back to scanning refs.

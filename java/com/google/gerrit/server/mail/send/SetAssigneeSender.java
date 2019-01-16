@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.exceptions.EmailException;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -35,8 +34,7 @@ public class SetAssigneeSender extends ChangeEmail {
       EmailArguments ea,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id,
-      @Assisted Account.Id assignee)
-      throws StorageException {
+      @Assisted Account.Id assignee) {
     super(ea, "setassignee", newChangeData(ea, project, id));
     this.assignee = assignee;
   }

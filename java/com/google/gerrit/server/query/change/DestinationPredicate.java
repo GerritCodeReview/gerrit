@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -29,7 +28,7 @@ public class DestinationPredicate extends PostFilterPredicate<ChangeData> {
   }
 
   @Override
-  public boolean match(ChangeData object) throws StorageException {
+  public boolean match(ChangeData object) {
     Change change = object.change();
     if (change == null) {
       return false;

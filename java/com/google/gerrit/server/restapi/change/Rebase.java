@@ -99,8 +99,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource rsrc, RebaseInput input)
-      throws StorageException, UpdateException, RestApiException, IOException,
-          PermissionBackendException {
+      throws UpdateException, RestApiException, IOException, PermissionBackendException {
     // Not allowed to rebase if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
@@ -136,7 +135,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
 
   private ObjectId findBaseRev(
       Repository repo, RevWalk rw, RevisionResource rsrc, RebaseInput input)
-      throws RestApiException, StorageException, IOException, NoSuchChangeException, AuthException,
+      throws RestApiException, IOException, NoSuchChangeException, AuthException,
           PermissionBackendException {
     Branch.NameKey destRefKey = rsrc.getChange().getDest();
     if (input == null || input.base == null) {
@@ -267,8 +266,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     @Override
     protected ChangeInfo applyImpl(
         BatchUpdate.Factory updateFactory, ChangeResource rsrc, RebaseInput input)
-        throws StorageException, UpdateException, RestApiException, IOException,
-            PermissionBackendException {
+        throws UpdateException, RestApiException, IOException, PermissionBackendException {
       PatchSet ps = psUtil.current(rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");

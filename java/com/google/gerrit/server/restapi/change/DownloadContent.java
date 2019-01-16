@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -43,7 +42,7 @@ public class DownloadContent implements RestReadView<FileResource> {
 
   @Override
   public BinaryResult apply(FileResource rsrc)
-      throws ResourceNotFoundException, IOException, NoSuchChangeException, StorageException {
+      throws ResourceNotFoundException, IOException, NoSuchChangeException {
     String path = rsrc.getPatchKey().get();
     RevisionResource rev = rsrc.getRevision();
     ObjectId revstr = ObjectId.fromString(rev.getPatchSet().getRevision().get());

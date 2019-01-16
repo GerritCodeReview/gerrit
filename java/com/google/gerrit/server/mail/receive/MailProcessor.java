@@ -147,7 +147,7 @@ public class MailProcessor {
   }
 
   private void processImpl(BatchUpdate.Factory buf, MailMessage message)
-      throws StorageException, UpdateException, RestApiException, IOException {
+      throws UpdateException, RestApiException, IOException {
     for (Extension<MailFilter> filter : mailFilters) {
       if (!filter.getProvider().get().shouldProcessMessage(message)) {
         logger.atWarning().log(
@@ -208,7 +208,7 @@ public class MailProcessor {
 
   private void persistComments(
       BatchUpdate.Factory buf, MailMessage message, MailMetadata metadata, Account.Id sender)
-      throws StorageException, UpdateException, RestApiException {
+      throws UpdateException, RestApiException {
     try (ManualRequestContext ctx = oneOffRequestContext.openAs(sender)) {
       List<ChangeData> changeDataList =
           queryProvider.get().byLegacyChangeId(new Change.Id(metadata.changeNumber));
@@ -283,7 +283,7 @@ public class MailProcessor {
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws StorageException, UnprocessableEntityException, PatchListNotAvailableException {
+        throws UnprocessableEntityException, PatchListNotAvailableException {
       patchSet = psUtil.get(ctx.getNotes(), psId);
       notes = ctx.getNotes();
       if (patchSet == null) {
@@ -358,7 +358,7 @@ public class MailProcessor {
     }
 
     private PatchSet targetPatchSetForComment(
-        ChangeContext ctx, MailComment mailComment, PatchSet current) throws StorageException {
+        ChangeContext ctx, MailComment mailComment, PatchSet current) {
       if (mailComment.getInReplyTo() != null) {
         return psUtil.get(
             ctx.getNotes(),
@@ -369,7 +369,7 @@ public class MailProcessor {
 
     private Comment persistentCommentFromMailComment(
         ChangeContext ctx, MailComment mailComment, PatchSet patchSetForComment)
-        throws StorageException, UnprocessableEntityException, PatchListNotAvailableException {
+        throws UnprocessableEntityException, PatchListNotAvailableException {
       String fileName;
       // The patch set that this comment is based on is different if this
       // comment was sent in reply to a comment on a previous patch set.
@@ -412,7 +412,7 @@ public class MailProcessor {
     return "(" + numComments + (numComments > 1 ? " comments)" : " comment)");
   }
 
-  private Set<String> existingMessageIds(ChangeData cd) throws StorageException {
+  private Set<String> existingMessageIds(ChangeData cd) {
     Set<String> existingMessageIds = new HashSet<>();
     cd.messages().stream()
         .forEach(

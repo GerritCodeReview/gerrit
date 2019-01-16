@@ -21,7 +21,6 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.mail.Address;
@@ -65,7 +64,7 @@ public class ReviewerJson {
   }
 
   public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs)
-      throws StorageException, PermissionBackendException {
+      throws PermissionBackendException {
     List<ReviewerInfo> infos = Lists.newArrayListWithCapacity(rsrcs.size());
     AccountLoader loader = accountLoaderFactory.create(true);
     ChangeData cd = null;
@@ -88,13 +87,12 @@ public class ReviewerJson {
     return infos;
   }
 
-  public List<ReviewerInfo> format(ReviewerResource rsrc)
-      throws StorageException, PermissionBackendException {
+  public List<ReviewerInfo> format(ReviewerResource rsrc) throws PermissionBackendException {
     return format(ImmutableList.of(rsrc));
   }
 
   public ReviewerInfo format(ReviewerInfo out, Account.Id reviewerAccountId, ChangeData cd)
-      throws StorageException, PermissionBackendException {
+      throws PermissionBackendException {
     PatchSet.Id psId = cd.change().currentPatchSetId();
     return format(
         out,
@@ -108,7 +106,7 @@ public class ReviewerJson {
       Account.Id reviewerAccountId,
       ChangeData cd,
       Iterable<PatchSetApproval> approvals)
-      throws StorageException, PermissionBackendException {
+      throws PermissionBackendException {
     LabelTypes labelTypes = cd.getLabelTypes();
 
     out.approvals = new TreeMap<>(labelTypes.nameComparator());

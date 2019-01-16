@@ -108,7 +108,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   @Override
   public Object apply(ChangeResource resource)
       throws AuthException, BadRequestException, ResourceConflictException, IOException,
-          StorageException, PermissionBackendException {
+          PermissionBackendException {
     SubmittedTogetherInfo info = applyInfo(resource);
     if (options.isEmpty()) {
       return info.changes;
@@ -117,7 +117,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   }
 
   public SubmittedTogetherInfo applyInfo(ChangeResource resource)
-      throws AuthException, IOException, StorageException, PermissionBackendException {
+      throws AuthException, IOException, PermissionBackendException {
     Change c = resource.getChange();
     try {
       List<ChangeData> cds;
@@ -150,8 +150,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     }
   }
 
-  private List<ChangeData> sort(List<ChangeData> cds, int hidden)
-      throws StorageException, IOException {
+  private List<ChangeData> sort(List<ChangeData> cds, int hidden) throws IOException {
     if (cds.size() <= 1 && hidden == 0) {
       // Skip sorting for singleton lists, to avoid WalkSorter opening the
       // repo just to fill out the commit field in PatchSetData.
@@ -176,8 +175,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     return sorted;
   }
 
-  private static List<ChangeData> ensureRequiredDataIsLoaded(List<ChangeData> cds)
-      throws StorageException {
+  private static List<ChangeData> ensureRequiredDataIsLoaded(List<ChangeData> cds) {
     // TODO(hiesel): Instead of calling these manually, either implement a helper that brings a
     // database-backed change on-par with an index-backed change in terms of the populated fields in
     // ChangeData or check if any of the ChangeDatas was loaded from the database and allow

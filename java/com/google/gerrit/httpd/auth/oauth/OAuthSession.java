@@ -19,7 +19,6 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
@@ -188,7 +187,7 @@ class OAuthSession {
       logger.atInfo().log("OAuth2: linking claimed identity to %s", claimedId.get().toString());
       try {
         accountManager.link(claimedId.get(), req);
-      } catch (StorageException | ConfigInvalidException e) {
+      } catch (ConfigInvalidException e) {
         logger.atSevere().log(
             "Cannot link: %s to user identity:\n  Claimed ID: %s is %s",
             user.getExternalId(), claimedId.get(), claimedIdentifier);
@@ -203,7 +202,7 @@ class OAuthSession {
       throws AccountException, IOException {
     try {
       accountManager.link(identifiedUser.get().getAccountId(), areq);
-    } catch (StorageException | ConfigInvalidException e) {
+    } catch (ConfigInvalidException e) {
       logger.atSevere().log(
           "Cannot link: %s to user identity: %s",
           user.getExternalId(), identifiedUser.get().getAccountId());

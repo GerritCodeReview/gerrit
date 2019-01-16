@@ -17,6 +17,8 @@ package com.google.gerrit.server.schema;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.exceptions.DuplicateKeyException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -36,8 +38,6 @@ import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.notedb.Sequences;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -90,7 +90,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
   }
 
   @Override
-  public void create() throws OrmException, IOException, ConfigInvalidException {
+  public void create() throws StorageException, IOException, ConfigInvalidException {
     GroupReference admins = createGroupReference("Administrators");
     GroupReference batchUsers = createGroupReference("Non-Interactive Users");
 
@@ -117,7 +117,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
   }
 
   @Override
-  public void ensureCreated() throws OrmException, IOException, ConfigInvalidException {
+  public void ensureCreated() throws StorageException, IOException, ConfigInvalidException {
     try {
       repoManager.openRepository(allProjectsName).close();
     } catch (RepositoryNotFoundException e) {
@@ -127,7 +127,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
 
   private void createAdminsGroup(
       Sequences seqs, Repository allUsersRepo, GroupReference groupReference)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws StorageException, IOException, ConfigInvalidException {
     InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder().setDescription("Gerrit Site Administrators").build();
@@ -140,7 +140,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
       Repository allUsersRepo,
       GroupReference groupReference,
       AccountGroup.UUID adminsGroupUuid)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws StorageException, IOException, ConfigInvalidException {
     InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
@@ -153,14 +153,14 @@ public class SchemaCreatorImpl implements SchemaCreator {
 
   private void createGroup(
       Repository allUsersRepo, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
-      throws OrmException, ConfigInvalidException, IOException {
+      throws StorageException, ConfigInvalidException, IOException {
     InternalGroup createdGroup = createGroupInNoteDb(allUsersRepo, groupCreation, groupUpdate);
     index(createdGroup);
   }
 
   private InternalGroup createGroupInNoteDb(
       Repository allUsersRepo, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
-      throws ConfigInvalidException, IOException, OrmDuplicateKeyException {
+      throws ConfigInvalidException, IOException, DuplicateKeyException {
     // This method is only executed on a new server which doesn't have any accounts or groups.
     AuditLogFormatter auditLogFormatter =
         AuditLogFormatter.createBackedBy(ImmutableSet.of(), ImmutableSet.of(), serverId);
@@ -217,7 +217,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
   }
 
   private InternalGroupCreation getGroupCreation(Sequences seqs, GroupReference groupReference)
-      throws OrmException {
+      throws StorageException {
     int next = seqs.nextGroupId();
     return InternalGroupCreation.builder()
         .setNameKey(new AccountGroup.NameKey(groupReference.getName()))

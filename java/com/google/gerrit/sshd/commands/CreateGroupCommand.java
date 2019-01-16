@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -33,7 +34,6 @@ import com.google.gerrit.server.restapi.group.CreateGroup;
 import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.HashSet;
@@ -102,7 +102,7 @@ final class CreateGroupCommand extends SshCommand {
 
   @Override
   protected void run()
-      throws Failure, OrmException, IOException, ConfigInvalidException,
+      throws Failure, StorageException, IOException, ConfigInvalidException,
           PermissionBackendException {
     try {
       GroupResource rsrc = createGroup();
@@ -120,7 +120,7 @@ final class CreateGroupCommand extends SshCommand {
   }
 
   private GroupResource createGroup()
-      throws RestApiException, OrmException, IOException, ConfigInvalidException,
+      throws RestApiException, StorageException, IOException, ConfigInvalidException,
           PermissionBackendException {
     GroupInput input = new GroupInput();
     input.description = groupDescription;
@@ -136,7 +136,7 @@ final class CreateGroupCommand extends SshCommand {
   }
 
   private void addMembers(GroupResource rsrc)
-      throws RestApiException, OrmException, IOException, ConfigInvalidException,
+      throws RestApiException, StorageException, IOException, ConfigInvalidException,
           PermissionBackendException {
     AddMembers.Input input =
         AddMembers.Input.fromMembers(
@@ -145,7 +145,7 @@ final class CreateGroupCommand extends SshCommand {
   }
 
   private void addSubgroups(GroupResource rsrc)
-      throws RestApiException, OrmException, IOException, ConfigInvalidException,
+      throws RestApiException, StorageException, IOException, ConfigInvalidException,
           PermissionBackendException {
     AddSubgroups.Input input =
         AddSubgroups.Input.fromGroups(

@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.common.IoUtil;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
@@ -44,7 +45,6 @@ import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gerrit.server.securestore.SecureStoreProvider;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -350,7 +350,7 @@ public class BaseInit extends SiteProgram {
       this.repositoryManager = repositoryManager;
     }
 
-    void upgradeSchema() throws OrmException {
+    void upgradeSchema() throws StorageException {
       noteDbSchemaUpdater.update(new UpdateUIImpl(ui));
     }
 

@@ -32,6 +32,7 @@ import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.builders.QueryBuilder;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
 import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
@@ -53,7 +54,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gwtorm.server.OrmException;
 import com.google.protobuf.MessageLite;
 import java.io.IOException;
 import java.io.InputStream;
@@ -377,16 +377,16 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     }
 
     @Override
-    public ResultSet<V> read() throws OrmException {
+    public ResultSet<V> read() throws StorageException {
       return readImpl((doc) -> AbstractElasticIndex.this.fromDocument(doc, opts.fields()));
     }
 
     @Override
-    public ResultSet<FieldBundle> readRaw() throws OrmException {
+    public ResultSet<FieldBundle> readRaw() throws StorageException {
       return readImpl(AbstractElasticIndex.this::toFieldBundle);
     }
 
-    private <T> ResultSet<T> readImpl(Function<JsonObject, T> mapper) throws OrmException {
+    private <T> ResultSet<T> readImpl(Function<JsonObject, T> mapper) throws StorageException {
       try {
         String uri = getURI(index, SEARCH);
         Response response =
@@ -412,7 +412,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
         }
         return new ListResultSet<>(ImmutableList.of());
       } catch (IOException e) {
-        throw new OrmException(e);
+        throw new StorageException(e);
       }
     }
   }

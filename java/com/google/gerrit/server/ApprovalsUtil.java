@@ -29,6 +29,7 @@ import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -47,7 +48,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -112,9 +112,9 @@ public class ApprovalsUtil {
    *
    * @param notes change notes.
    * @return reviewers for the change.
-   * @throws OrmException if reviewers for the change could not be read.
+   * @throws StorageException if reviewers for the change could not be read.
    */
-  public ReviewerSet getReviewers(ChangeNotes notes) throws OrmException {
+  public ReviewerSet getReviewers(ChangeNotes notes) throws StorageException {
     return notes.load().getReviewers();
   }
 
@@ -123,10 +123,10 @@ public class ApprovalsUtil {
    *
    * @param allApprovals all approvals to consider; must all belong to the same change.
    * @return reviewers for the change.
-   * @throws OrmException if reviewers for the change could not be read.
+   * @throws StorageException if reviewers for the change could not be read.
    */
   public ReviewerSet getReviewers(ChangeNotes notes, Iterable<PatchSetApproval> allApprovals)
-      throws OrmException {
+      throws StorageException {
     return notes.load().getReviewers();
   }
 
@@ -135,9 +135,9 @@ public class ApprovalsUtil {
    *
    * @param notes change notes.
    * @return reviewer updates for the change.
-   * @throws OrmException if reviewer updates for the change could not be read.
+   * @throws StorageException if reviewer updates for the change could not be read.
    */
-  public List<ReviewerStatusUpdate> getReviewerUpdates(ChangeNotes notes) throws OrmException {
+  public List<ReviewerStatusUpdate> getReviewerUpdates(ChangeNotes notes) throws StorageException {
     return notes.load().getReviewerUpdates();
   }
 
@@ -166,7 +166,7 @@ public class ApprovalsUtil {
       LabelTypes labelTypes,
       Change change,
       Iterable<Account.Id> wantReviewers)
-      throws OrmException {
+      throws StorageException {
     PatchSet.Id psId = change.currentPatchSetId();
     Collection<Account.Id> existingReviewers;
     existingReviewers = notes.load().getReviewers().byState(REVIEWER);
@@ -245,10 +245,11 @@ public class ApprovalsUtil {
    * @param update change update.
    * @param wantCCs accounts to CC.
    * @return whether a change was made.
-   * @throws OrmException
+   * @throws StorageException
    */
   public Collection<Account.Id> addCcs(
-      ChangeNotes notes, ChangeUpdate update, Collection<Account.Id> wantCCs) throws OrmException {
+      ChangeNotes notes, ChangeUpdate update, Collection<Account.Id> wantCCs)
+      throws StorageException {
     return addCcs(update, wantCCs, notes.load().getReviewers());
   }
 
@@ -272,7 +273,7 @@ public class ApprovalsUtil {
    * @param user user adding approvals.
    * @param approvals approvals to add.
    * @throws RestApiException
-   * @throws OrmException
+   * @throws StorageException
    */
   public Iterable<PatchSetApproval> addApprovalsForNewPatchSet(
       ChangeUpdate update,
@@ -280,7 +281,7 @@ public class ApprovalsUtil {
       PatchSet ps,
       CurrentUser user,
       Map<String, Short> approvals)
-      throws RestApiException, OrmException, PermissionBackendException {
+      throws RestApiException, StorageException, PermissionBackendException {
     Account.Id accountId = user.getAccountId();
     checkArgument(
         accountId.equals(ps.getUploader()),
@@ -331,13 +332,13 @@ public class ApprovalsUtil {
   }
 
   public ListMultimap<PatchSet.Id, PatchSetApproval> byChange(ChangeNotes notes)
-      throws OrmException {
+      throws StorageException {
     return notes.load().getApprovals();
   }
 
   public Iterable<PatchSetApproval> byPatchSet(
       ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig)
-      throws OrmException {
+      throws StorageException {
     return copier.getForPatchSet(notes, psId, rw, repoConfig);
   }
 
@@ -347,7 +348,7 @@ public class ApprovalsUtil {
       Account.Id accountId,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig)
-      throws OrmException {
+      throws StorageException {
     return filterApprovals(byPatchSet(notes, psId, rw, repoConfig), accountId);
   }
 
@@ -358,7 +359,7 @@ public class ApprovalsUtil {
     try {
       // Submit approval is never copied, so bypass expensive byPatchSet call.
       return getSubmitter(c, byChange(notes).get(c));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       return null;
     }
   }

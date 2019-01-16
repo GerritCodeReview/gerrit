@@ -32,6 +32,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
@@ -65,7 +66,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -155,7 +155,7 @@ public class RevisionJson {
    * depending on the options provided when constructing this instance.
    */
   public RevisionInfo getRevisionInfo(ChangeData cd, PatchSet in)
-      throws PatchListNotAvailableException, GpgException, OrmException, IOException,
+      throws PatchListNotAvailableException, GpgException, StorageException, IOException,
           PermissionBackendException {
     AccountLoader accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     try (Repository repo = openRepoIfNecessary(cd.project());
@@ -213,7 +213,7 @@ public class RevisionJson {
       Map<PatchSet.Id, PatchSet> map,
       Optional<PatchSet.Id> limitToPsId,
       ChangeInfo changeInfo)
-      throws PatchListNotAvailableException, GpgException, OrmException, IOException,
+      throws PatchListNotAvailableException, GpgException, StorageException, IOException,
           PermissionBackendException {
     Map<String, RevisionInfo> res = new LinkedHashMap<>();
     try (Repository repo = openRepoIfNecessary(cd.project());
@@ -239,7 +239,7 @@ public class RevisionJson {
   }
 
   private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in)
-      throws PermissionBackendException, OrmException, IOException {
+      throws PermissionBackendException, StorageException, IOException {
     Map<String, FetchInfo> r = new LinkedHashMap<>();
     for (Extension<DownloadScheme> e : downloadSchemes) {
       String schemeName = e.getExportName();
@@ -275,7 +275,7 @@ public class RevisionJson {
       @Nullable RevWalk rw,
       boolean fillCommit,
       @Nullable ChangeInfo changeInfo)
-      throws PatchListNotAvailableException, GpgException, OrmException, IOException,
+      throws PatchListNotAvailableException, GpgException, StorageException, IOException,
           PermissionBackendException {
     Change c = cd.change();
     RevisionInfo out = new RevisionInfo();
@@ -350,14 +350,14 @@ public class RevisionJson {
    *     lazyload}.
    */
   private PermissionBackend.ForChange permissionBackendForChange(
-      PermissionBackend.WithUser withUser, ChangeData cd) throws OrmException {
+      PermissionBackend.WithUser withUser, ChangeData cd) throws StorageException {
     return lazyLoad
         ? withUser.change(cd)
         : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));
   }
 
   private boolean isWorldReadable(ChangeData cd)
-      throws OrmException, PermissionBackendException, IOException {
+      throws StorageException, PermissionBackendException, IOException {
     try {
       permissionBackendForChange(permissionBackend.user(anonymous), cd)
           .check(ChangePermission.READ);

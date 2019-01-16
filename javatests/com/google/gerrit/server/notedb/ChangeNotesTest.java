@@ -35,6 +35,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -54,7 +55,6 @@ import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestChanges;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
 import java.util.LinkedHashSet;
@@ -993,7 +993,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     try {
       newNotes(c);
       fail("Expected IOException");
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       assertCause(
           e,
           ConfigInvalidException.class,
@@ -3016,7 +3016,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setRevertOf(newChange().getId().get());
-    exception.expect(OrmException.class);
+    exception.expect(StorageException.class);
     exception.expectMessage("Given ChangeUpdate is only allowed on initial commit");
     update.commit();
   }

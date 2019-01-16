@@ -50,6 +50,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -64,7 +65,6 @@ import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.client.IntKey;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -196,7 +196,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.approvals = approvals(labelNameComparator);
   }
 
-  public ObjectId commit() throws IOException, OrmException {
+  public ObjectId commit() throws IOException, StorageException {
     try (NoteDbUpdateManager updateManager = updateManagerFactory.create(getProjectName())) {
       updateManager.add(this);
       updateManager.execute();
@@ -429,7 +429,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   /** @return the tree id for the updated tree */
   private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
-      throws ConfigInvalidException, OrmException, IOException {
+      throws ConfigInvalidException, StorageException, IOException {
     if (comments.isEmpty() && pushCert == null) {
       return null;
     }
@@ -456,7 +456,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap(RevWalk rw, ObjectId curr)
-      throws ConfigInvalidException, OrmException, IOException {
+      throws ConfigInvalidException, StorageException, IOException {
     if (curr.equals(ObjectId.zeroId())) {
       return RevisionNoteMap.emptyMap();
     }
@@ -483,7 +483,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private void checkComments(
       Map<RevId, ChangeRevisionNote> existingNotes, Map<RevId, RevisionNoteBuilder> toUpdate)
-      throws OrmException {
+      throws StorageException {
     // Prohibit various kinds of illegal operations on comments.
     Set<Comment.Key> existing = new HashSet<>();
     for (ChangeRevisionNote rn : existingNotes.values()) {
@@ -513,7 +513,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     for (RevisionNoteBuilder b : toUpdate.values()) {
       for (Comment c : b.put.values()) {
         if (existing.contains(c.key)) {
-          throw new OrmException("Cannot update existing published comment: " + c);
+          throw new StorageException("Cannot update existing published comment: " + c);
         }
       }
     }
@@ -526,7 +526,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @Override
   protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
-      throws OrmException, IOException {
+      throws StorageException, IOException {
     checkState(
         deleteCommentRewriter == null && deleteChangeMessageRewriter == null,
         "cannot update and rewrite ref in one BatchUpdate");
@@ -681,7 +681,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         cb.setTreeId(treeId);
       }
     } catch (ConfigInvalidException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
     return cb;
   }

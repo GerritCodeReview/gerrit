@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 
 public class OwnerPredicate extends ChangeIndexPredicate {
   protected final Account.Id id;
@@ -32,7 +32,7 @@ public class OwnerPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) throws StorageException {
     Change change = object.change();
     return change != null && id.equals(change.getOwner());
   }

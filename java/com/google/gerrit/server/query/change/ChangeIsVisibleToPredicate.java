@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.reviewdb.client.Change;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -58,7 +58,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
   }
 
   @Override
-  public boolean match(ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) throws StorageException {
     if (cd.fastIsVisibleTo(user)) {
       return true;
     }
@@ -80,7 +80,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
         return false;
       }
     } catch (IOException e) {
-      throw new OrmException("unable to read project state", e);
+      throw new StorageException("unable to read project state", e);
     }
 
     PermissionBackend.WithUser withUser =
@@ -97,7 +97,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
             cd, cd.project());
         return false;
       }
-      throw new OrmException("unable to check permissions on change " + cd.getId(), e);
+      throw new StorageException("unable to check permissions on change " + cd.getId(), e);
     } catch (AuthException e) {
       logger.atFine().log("Filter out non-visisble change: %s", cd);
       return false;

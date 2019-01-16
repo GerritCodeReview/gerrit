@@ -18,6 +18,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.mail.MailHeader;
@@ -25,7 +26,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
-import com.google.gwtorm.server.OrmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,7 +68,7 @@ public abstract class NotificationEmail extends OutgoingEmail {
       add(RecipientType.TO, matching.to);
       add(RecipientType.CC, matching.cc);
       add(RecipientType.BCC, matching.bcc);
-    } catch (OrmException err) {
+    } catch (StorageException err) {
       // Just don't CC everyone. Better to send a partial message to those
       // we already have queued up then to fail deliver entirely to people
       // who have a lower interest in the change.
@@ -78,7 +78,7 @@ public abstract class NotificationEmail extends OutgoingEmail {
 
   /** Returns all watchers that are relevant */
   protected abstract Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig)
-      throws OrmException;
+      throws StorageException;
 
   /** Add users or email addresses to the TO, CC, or BCC list. */
   protected void add(RecipientType type, Watchers.List list) {

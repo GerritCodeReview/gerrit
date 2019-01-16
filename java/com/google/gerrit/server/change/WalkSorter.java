@@ -24,11 +24,11 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayDeque;
@@ -73,7 +73,7 @@ public class WalkSorter {
                 }
                 try {
                   return in.get(0).data().change().getProject();
-                } catch (OrmException e) {
+                } catch (StorageException e) {
                   throw new IllegalStateException(e);
                 }
               });
@@ -98,7 +98,7 @@ public class WalkSorter {
     return this;
   }
 
-  public Iterable<PatchSetData> sort(Iterable<ChangeData> in) throws OrmException, IOException {
+  public Iterable<PatchSetData> sort(Iterable<ChangeData> in) throws StorageException, IOException {
     ListMultimap<Project.NameKey, ChangeData> byProject =
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeData cd : in) {
@@ -114,7 +114,7 @@ public class WalkSorter {
   }
 
   private List<PatchSetData> sortProject(Project.NameKey project, Collection<ChangeData> in)
-      throws OrmException, IOException {
+      throws StorageException, IOException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.setRetainBody(retainBody);
@@ -217,7 +217,7 @@ public class WalkSorter {
   }
 
   private ListMultimap<RevCommit, PatchSetData> byCommit(RevWalk rw, Collection<ChangeData> in)
-      throws OrmException, IOException {
+      throws StorageException, IOException {
     ListMultimap<RevCommit, PatchSetData> byCommit =
         MultimapBuilder.hashKeys(in.size()).arrayListValues(1).build();
     for (ChangeData cd : in) {

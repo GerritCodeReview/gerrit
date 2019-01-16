@@ -24,6 +24,7 @@ import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.exceptions.NoSuchGroupException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -46,7 +47,6 @@ import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.account.GetGroups;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -249,7 +249,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   @Override
   public SortedMap<String, GroupInfo> apply(TopLevelResource resource)
-      throws OrmException, RestApiException, IOException, ConfigInvalidException,
+      throws StorageException, RestApiException, IOException, ConfigInvalidException,
           PermissionBackendException {
     SortedMap<String, GroupInfo> output = new TreeMap<>();
     for (GroupInfo info : get()) {
@@ -260,7 +260,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   public List<GroupInfo> get()
-      throws OrmException, RestApiException, IOException, ConfigInvalidException,
+      throws StorageException, RestApiException, IOException, ConfigInvalidException,
           PermissionBackendException {
     if (!Strings.isNullOrEmpty(suggest)) {
       return suggestGroups();
@@ -286,7 +286,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   private List<GroupInfo> getAllGroups()
-      throws OrmException, IOException, ConfigInvalidException, PermissionBackendException {
+      throws StorageException, IOException, ConfigInvalidException, PermissionBackendException {
     Pattern pattern = getRegexPattern();
     Stream<GroupDescription.Internal> existingGroups =
         getAllExistingGroups()
@@ -318,7 +318,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   private List<GroupInfo> suggestGroups()
-      throws OrmException, BadRequestException, PermissionBackendException {
+      throws StorageException, BadRequestException, PermissionBackendException {
     if (conflictingSuggestParameters()) {
       throw new BadRequestException(
           "You should only have no more than one --project and -n with --suggest");
@@ -374,7 +374,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   private List<GroupInfo> filterGroupsOwnedBy(Predicate<GroupDescription.Internal> filter)
-      throws OrmException, IOException, ConfigInvalidException, PermissionBackendException {
+      throws StorageException, IOException, ConfigInvalidException, PermissionBackendException {
     Pattern pattern = getRegexPattern();
     Stream<? extends GroupDescription.Internal> foundGroups =
         groups
@@ -402,14 +402,14 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   private List<GroupInfo> getGroupsOwnedBy(String id)
-      throws OrmException, RestApiException, IOException, ConfigInvalidException,
+      throws StorageException, RestApiException, IOException, ConfigInvalidException,
           PermissionBackendException {
     String uuid = groupResolver.parse(id).getGroupUUID().get();
     return filterGroupsOwnedBy(group -> group.getOwnerGroupUUID().get().equals(uuid));
   }
 
   private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user)
-      throws OrmException, IOException, ConfigInvalidException, PermissionBackendException {
+      throws StorageException, IOException, ConfigInvalidException, PermissionBackendException {
     return filterGroupsOwnedBy(group -> isOwner(user, group));
   }
 

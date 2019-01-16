@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.restapi.account.AccountsCollection;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -68,7 +68,7 @@ public class Reviewers implements ChildCollection<ChangeResource, ReviewerResour
 
   @Override
   public ReviewerResource parse(ChangeResource rsrc, IdString id)
-      throws OrmException, ResourceNotFoundException, AuthException, IOException,
+      throws StorageException, ResourceNotFoundException, AuthException, IOException,
           ConfigInvalidException {
     Address address = Address.tryParse(id.get());
 
@@ -93,7 +93,7 @@ public class Reviewers implements ChildCollection<ChangeResource, ReviewerResour
     throw new ResourceNotFoundException(id);
   }
 
-  private Collection<Account.Id> fetchAccountIds(ChangeResource rsrc) throws OrmException {
+  private Collection<Account.Id> fetchAccountIds(ChangeResource rsrc) throws StorageException {
     return approvalsUtil.getReviewers(rsrc.getNotes()).all();
   }
 }

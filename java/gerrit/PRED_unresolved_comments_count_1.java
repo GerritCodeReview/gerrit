@@ -14,8 +14,8 @@
 
 package gerrit;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.rules.StoredValues;
-import com.google.gwtorm.server.OrmException;
 import com.googlecode.prolog_cafe.exceptions.JavaException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -40,7 +40,7 @@ public class PRED_unresolved_comments_count_1 extends Predicate.P1 {
       if (!a1.unify(new IntegerTerm(count != null ? count : 0), engine.trail)) {
         return engine.fail();
       }
-    } catch (OrmException err) {
+    } catch (StorageException err) {
       throw new JavaException(this, 1, err);
     }
     return cont;

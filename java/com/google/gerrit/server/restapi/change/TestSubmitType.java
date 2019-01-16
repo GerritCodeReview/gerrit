@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput.Filters;
@@ -28,7 +29,6 @@ import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.RulesCache;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import org.kohsuke.args4j.Option;
 
@@ -52,7 +52,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
 
   @Override
   public SubmitType apply(RevisionResource rsrc, TestSubmitRuleInput input)
-      throws AuthException, BadRequestException, OrmException {
+      throws AuthException, BadRequestException, StorageException {
     if (input == null) {
       input = new TestSubmitRuleInput();
     }
@@ -89,7 +89,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
 
     @Override
     public SubmitType apply(RevisionResource resource)
-        throws AuthException, BadRequestException, OrmException {
+        throws AuthException, BadRequestException, StorageException {
       return test.apply(resource, null);
     }
   }

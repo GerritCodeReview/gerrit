@@ -18,11 +18,11 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
@@ -37,7 +37,7 @@ public class MailUtil {
 
   public static MailRecipients getRecipientsFromFooters(
       AccountResolver accountResolver, List<FooterLine> footerLines)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws StorageException, IOException, ConfigInvalidException {
     MailRecipients recipients = new MailRecipients();
     for (FooterLine footerLine : footerLines) {
       try {
@@ -62,7 +62,7 @@ public class MailUtil {
 
   @SuppressWarnings("deprecation")
   private static Account.Id toAccountId(AccountResolver accountResolver, String nameOrEmail)
-      throws OrmException, UnprocessableEntityException, IOException, ConfigInvalidException {
+      throws StorageException, UnprocessableEntityException, IOException, ConfigInvalidException {
     return accountResolver.resolveByNameOrEmail(nameOrEmail).asUnique().getAccount().getId();
   }
 

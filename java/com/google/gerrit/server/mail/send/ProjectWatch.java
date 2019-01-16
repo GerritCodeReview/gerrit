@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.mail.Address;
@@ -35,7 +36,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.SingleGroupUser;
-import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -63,7 +63,7 @@ public class ProjectWatch {
 
   /** Returns all watchers that are relevant */
   public final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig)
-      throws OrmException {
+      throws StorageException {
     Watchers matching = new Watchers();
     Set<Account.Id> projectWatchers = new HashSet<>();
 
@@ -148,7 +148,8 @@ public class ProjectWatch {
     }
   }
 
-  private void add(Watchers matching, NotifyConfig nc) throws OrmException, QueryParseException {
+  private void add(Watchers matching, NotifyConfig nc)
+      throws StorageException, QueryParseException {
     for (GroupReference ref : nc.getGroups()) {
       CurrentUser user = new SingleGroupUser(ref.getUUID());
       if (filterMatch(user, nc.getFilter())) {
@@ -203,7 +204,7 @@ public class ProjectWatch {
       ProjectWatchKey key,
       Set<NotifyType> watchedTypes,
       NotifyType type)
-      throws OrmException {
+      throws StorageException {
     IdentifiedUser user = args.identifiedUserFactory.create(accountId);
 
     try {
@@ -222,7 +223,7 @@ public class ProjectWatch {
   }
 
   private boolean filterMatch(CurrentUser user, String filter)
-      throws OrmException, QueryParseException {
+      throws StorageException, QueryParseException {
     ChangeQueryBuilder qb;
     Predicate<ChangeData> p = null;
 

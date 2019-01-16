@@ -455,7 +455,7 @@ its own custom event class derived from
 ----
 import com.google.gerrit.common.EventDispatcher;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gwtorm.server.OrmException;
+import com.google.exceptions.StorageException;
 import com.google.inject.Inject;
 
 class MyPlugin {
@@ -469,7 +469,7 @@ class MyPlugin {
   private void postEvent(MyPluginEvent event) {
     try {
       eventDispatcher.get().postEvent(event);
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       // error handling
     }
   }

@@ -24,6 +24,7 @@ import static java.util.stream.Collectors.toMap;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -689,6 +690,22 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
                   .filter(all, repo, RefFilterOptions.builder().setFilterMeta(true).build())
                   .keySet())
           .containsExactlyElementsIn(expectedNonMetaRefs);
+    }
+  }
+
+  @Test
+  public void fetchSingleChangeWithoutIndexAccess() throws Exception {
+    PushOneCommit.Result change = createChange();
+    String patchSetRef = change.getPatchSetId().toRefName();
+    try (AutoCloseable ignored = disableChangeIndex();
+        Repository repo = repoManager.openRepository(project)) {
+      Map<String, Ref> singleRef = ImmutableMap.of(patchSetRef, repo.exactRef(patchSetRef));
+      Map<String, Ref> filteredRefs =
+          permissionBackend
+              .user(user(admin))
+              .project(project)
+              .filter(singleRef, repo, RefFilterOptions.defaults());
+      assertThat(filteredRefs).isEqualTo(singleRef);
     }
   }
 

@@ -124,7 +124,7 @@ public class CommentsUtil {
       String message,
       @Nullable Boolean unresolved,
       @Nullable String parentUuid)
-      throws StorageException, UnprocessableEntityException {
+      throws UnprocessableEntityException {
     if (unresolved == null) {
       if (parentUuid == null) {
         // Default to false if comment is not descended from another.
@@ -175,29 +175,27 @@ public class CommentsUtil {
     return c;
   }
 
-  public Optional<Comment> getPublished(ChangeNotes notes, Comment.Key key)
-      throws StorageException {
+  public Optional<Comment> getPublished(ChangeNotes notes, Comment.Key key) {
     return publishedByChange(notes).stream().filter(c -> key.equals(c.key)).findFirst();
   }
 
-  public Optional<Comment> getDraft(ChangeNotes notes, IdentifiedUser user, Comment.Key key)
-      throws StorageException {
+  public Optional<Comment> getDraft(ChangeNotes notes, IdentifiedUser user, Comment.Key key) {
     return draftByChangeAuthor(notes, user.getAccountId()).stream()
         .filter(c -> key.equals(c.key))
         .findFirst();
   }
 
-  public List<Comment> publishedByChange(ChangeNotes notes) throws StorageException {
+  public List<Comment> publishedByChange(ChangeNotes notes) {
     notes.load();
     return sort(Lists.newArrayList(notes.getComments().values()));
   }
 
-  public List<RobotComment> robotCommentsByChange(ChangeNotes notes) throws StorageException {
+  public List<RobotComment> robotCommentsByChange(ChangeNotes notes) {
     notes.load();
     return sort(Lists.newArrayList(notes.getRobotComments().values()));
   }
 
-  public List<Comment> draftByChange(ChangeNotes notes) throws StorageException {
+  public List<Comment> draftByChange(ChangeNotes notes) {
     List<Comment> comments = new ArrayList<>();
     for (Ref ref : getDraftRefs(notes.getChangeId())) {
       Account.Id account = Account.Id.fromRefSuffix(ref.getName());
@@ -208,7 +206,7 @@ public class CommentsUtil {
     return sort(comments);
   }
 
-  public List<Comment> byPatchSet(ChangeNotes notes, PatchSet.Id psId) throws StorageException {
+  public List<Comment> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {
     List<Comment> comments = new ArrayList<>();
     comments.addAll(publishedByPatchSet(notes, psId));
 
@@ -221,19 +219,16 @@ public class CommentsUtil {
     return sort(comments);
   }
 
-  public List<Comment> publishedByChangeFile(ChangeNotes notes, String file)
-      throws StorageException {
+  public List<Comment> publishedByChangeFile(ChangeNotes notes, String file) {
     return commentsOnFile(notes.load().getComments().values(), file);
   }
 
-  public List<Comment> publishedByPatchSet(ChangeNotes notes, PatchSet.Id psId)
-      throws StorageException {
+  public List<Comment> publishedByPatchSet(ChangeNotes notes, PatchSet.Id psId) {
     return removeCommentsOnAncestorOfCommitMessage(
         commentsOnPatchSet(notes.load().getComments().values(), psId));
   }
 
-  public List<RobotComment> robotCommentsByPatchSet(ChangeNotes notes, PatchSet.Id psId)
-      throws StorageException {
+  public List<RobotComment> robotCommentsByPatchSet(ChangeNotes notes, PatchSet.Id psId) {
     return commentsOnPatchSet(notes.load().getRobotComments().values(), psId);
   }
 
@@ -250,18 +245,16 @@ public class CommentsUtil {
         .collect(toList());
   }
 
-  public List<Comment> draftByPatchSetAuthor(PatchSet.Id psId, Account.Id author, ChangeNotes notes)
-      throws StorageException {
+  public List<Comment> draftByPatchSetAuthor(
+      PatchSet.Id psId, Account.Id author, ChangeNotes notes) {
     return commentsOnPatchSet(notes.load().getDraftComments(author).values(), psId);
   }
 
-  public List<Comment> draftByChangeFileAuthor(ChangeNotes notes, String file, Account.Id author)
-      throws StorageException {
+  public List<Comment> draftByChangeFileAuthor(ChangeNotes notes, String file, Account.Id author) {
     return commentsOnFile(notes.load().getDraftComments(author).values(), file);
   }
 
-  public List<Comment> draftByChangeAuthor(ChangeNotes notes, Account.Id author)
-      throws StorageException {
+  public List<Comment> draftByChangeAuthor(ChangeNotes notes, Account.Id author) {
     List<Comment> comments = new ArrayList<>();
     comments.addAll(notes.getDraftComments(author).values());
     return sort(comments);
@@ -345,7 +338,7 @@ public class CommentsUtil {
    * @param changeId change ID.
    * @return raw refs from All-Users repo.
    */
-  public Collection<Ref> getDraftRefs(Change.Id changeId) throws StorageException {
+  public Collection<Ref> getDraftRefs(Change.Id changeId) {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       return getDraftRefs(repo, changeId);
     } catch (IOException e) {

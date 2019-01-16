@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -45,7 +44,7 @@ public class Index extends RetryingRestModifyView<ChangeResource, Input, Respons
   @Override
   protected Response<?> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
-      throws IOException, AuthException, StorageException, PermissionBackendException {
+      throws IOException, AuthException, PermissionBackendException {
     permissionBackend.currentUser().check(GlobalPermission.MAINTAIN_SERVER);
     indexer.index(rsrc.getChange());
     return Response.none();

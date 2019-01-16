@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeField;
 
@@ -24,7 +23,7 @@ public class ProjectPrefixPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws StorageException {
+  public boolean match(ChangeData object) {
     Change c = object.change();
     return c != null && c.getDest().getParentKey().get().startsWith(getValue());
   }

@@ -56,7 +56,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
   }
 
   @Override
-  public Response<Map<String, ActionInfo>> apply(RevisionResource rsrc) throws StorageException {
+  public Response<Map<String, ActionInfo>> apply(RevisionResource rsrc) {
     return Response.withMustRevalidate(delegate.format(rsrc));
   }
 

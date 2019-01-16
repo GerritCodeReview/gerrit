@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -62,8 +61,8 @@ public class PostReviewers
   @Override
   protected AddReviewerResult applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, AddReviewerInput input)
-      throws IOException, StorageException, RestApiException, UpdateException,
-          PermissionBackendException, ConfigInvalidException {
+      throws IOException, RestApiException, UpdateException, PermissionBackendException,
+          ConfigInvalidException {
     if (input.reviewer == null) {
       throw new BadRequestException("missing reviewer field");
     }
@@ -86,7 +85,7 @@ public class PostReviewers
   }
 
   private NotifyResolver.Result resolveNotify(ChangeResource rsrc, AddReviewerInput input)
-      throws BadRequestException, StorageException, ConfigInvalidException, IOException {
+      throws BadRequestException, ConfigInvalidException, IOException {
     NotifyHandling notifyHandling = input.notify;
     if (notifyHandling == null) {
       notifyHandling =

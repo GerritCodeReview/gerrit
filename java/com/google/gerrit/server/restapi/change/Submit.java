@@ -174,8 +174,8 @@ public class Submit
 
   @Override
   public Output apply(RevisionResource rsrc, SubmitInput input)
-      throws RestApiException, RepositoryNotFoundException, IOException, StorageException,
-          PermissionBackendException, UpdateException, ConfigInvalidException {
+      throws RestApiException, RepositoryNotFoundException, IOException, PermissionBackendException,
+          UpdateException, ConfigInvalidException {
     input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
     IdentifiedUser submitter;
     if (input.onBehalfOf != null) {
@@ -190,8 +190,8 @@ public class Submit
   }
 
   public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
-      throws StorageException, RestApiException, IOException, UpdateException,
-          ConfigInvalidException, PermissionBackendException {
+      throws RestApiException, IOException, UpdateException, ConfigInvalidException,
+          PermissionBackendException {
     Change change = rsrc.getChange();
     if (!change.isNew()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
@@ -379,8 +379,7 @@ public class Submit
         .setEnabled(Boolean.TRUE.equals(enabled));
   }
 
-  public Collection<ChangeData> unmergeableChanges(ChangeSet cs)
-      throws StorageException, IOException {
+  public Collection<ChangeData> unmergeableChanges(ChangeSet cs) throws IOException {
     Set<ChangeData> mergeabilityMap = new HashSet<>();
     for (ChangeData change : cs.changes()) {
       mergeabilityMap.add(change);
@@ -429,8 +428,7 @@ public class Submit
   }
 
   private HashMap<Change.Id, RevCommit> findCommits(
-      Collection<ChangeData> changes, Project.NameKey project)
-      throws IOException, StorageException {
+      Collection<ChangeData> changes, Project.NameKey project) throws IOException {
     HashMap<Change.Id, RevCommit> commits = new HashMap<>();
     try (Repository repo = repoManager.openRepository(project);
         RevWalk walk = new RevWalk(repo)) {
@@ -445,8 +443,8 @@ public class Submit
   }
 
   private IdentifiedUser onBehalfOf(RevisionResource rsrc, SubmitInput in)
-      throws AuthException, UnprocessableEntityException, StorageException,
-          PermissionBackendException, IOException, ConfigInvalidException {
+      throws AuthException, UnprocessableEntityException, PermissionBackendException, IOException,
+          ConfigInvalidException {
     PermissionBackend.ForChange perm = rsrc.permissions();
     perm.check(ChangePermission.SUBMIT);
     perm.check(ChangePermission.SUBMIT_AS);
@@ -477,7 +475,7 @@ public class Submit
 
     @Override
     public ChangeInfo apply(ChangeResource rsrc, SubmitInput input)
-        throws RestApiException, RepositoryNotFoundException, IOException, StorageException,
+        throws RestApiException, RepositoryNotFoundException, IOException,
             PermissionBackendException, UpdateException, ConfigInvalidException {
       PatchSet ps = psUtil.current(rsrc.getNotes());
       if (ps == null) {

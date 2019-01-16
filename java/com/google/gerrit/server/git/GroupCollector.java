@@ -28,7 +28,6 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.PatchSetUtil;
@@ -89,7 +88,7 @@ public class GroupCollector {
   }
 
   private interface Lookup {
-    List<String> lookup(PatchSet.Id psId) throws StorageException;
+    List<String> lookup(PatchSet.Id psId);
   }
 
   private final ListMultimap<ObjectId, PatchSet.Id> patchSetsBySha;
@@ -198,7 +197,7 @@ public class GroupCollector {
     }
   }
 
-  public SortedSetMultimap<ObjectId, String> getGroups() throws StorageException {
+  public SortedSetMultimap<ObjectId, String> getGroups() {
     done = true;
     SortedSetMultimap<ObjectId, String> result =
         MultimapBuilder.hashKeys(groups.keySet().size()).treeSetValues().build();
@@ -224,8 +223,7 @@ public class GroupCollector {
     return id != null && patchSetsBySha.containsKey(id);
   }
 
-  private Set<String> resolveGroups(ObjectId forCommit, Collection<String> candidates)
-      throws StorageException {
+  private Set<String> resolveGroups(ObjectId forCommit, Collection<String> candidates) {
     Set<String> actual = Sets.newTreeSet();
     Set<String> done = Sets.newHashSetWithExpectedSize(candidates.size());
     Set<String> seen = Sets.newHashSetWithExpectedSize(candidates.size());
@@ -260,7 +258,7 @@ public class GroupCollector {
     }
   }
 
-  private Iterable<String> resolveGroup(ObjectId forCommit, String group) throws StorageException {
+  private Iterable<String> resolveGroup(ObjectId forCommit, String group) {
     ObjectId id = parseGroup(forCommit, group);
     if (id != null) {
       PatchSet.Id psId = Iterables.getFirst(patchSetsBySha.get(id), null);

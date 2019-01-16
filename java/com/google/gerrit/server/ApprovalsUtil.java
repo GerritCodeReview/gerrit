@@ -112,9 +112,8 @@ public class ApprovalsUtil {
    *
    * @param notes change notes.
    * @return reviewers for the change.
-   * @throws StorageException if reviewers for the change could not be read.
    */
-  public ReviewerSet getReviewers(ChangeNotes notes) throws StorageException {
+  public ReviewerSet getReviewers(ChangeNotes notes) {
     return notes.load().getReviewers();
   }
 
@@ -123,10 +122,8 @@ public class ApprovalsUtil {
    *
    * @param allApprovals all approvals to consider; must all belong to the same change.
    * @return reviewers for the change.
-   * @throws StorageException if reviewers for the change could not be read.
    */
-  public ReviewerSet getReviewers(ChangeNotes notes, Iterable<PatchSetApproval> allApprovals)
-      throws StorageException {
+  public ReviewerSet getReviewers(ChangeNotes notes, Iterable<PatchSetApproval> allApprovals) {
     return notes.load().getReviewers();
   }
 
@@ -135,9 +132,8 @@ public class ApprovalsUtil {
    *
    * @param notes change notes.
    * @return reviewer updates for the change.
-   * @throws StorageException if reviewer updates for the change could not be read.
    */
-  public List<ReviewerStatusUpdate> getReviewerUpdates(ChangeNotes notes) throws StorageException {
+  public List<ReviewerStatusUpdate> getReviewerUpdates(ChangeNotes notes) {
     return notes.load().getReviewerUpdates();
   }
 
@@ -165,8 +161,7 @@ public class ApprovalsUtil {
       ChangeUpdate update,
       LabelTypes labelTypes,
       Change change,
-      Iterable<Account.Id> wantReviewers)
-      throws StorageException {
+      Iterable<Account.Id> wantReviewers) {
     PatchSet.Id psId = change.currentPatchSetId();
     Collection<Account.Id> existingReviewers;
     existingReviewers = notes.load().getReviewers().byState(REVIEWER);
@@ -245,11 +240,9 @@ public class ApprovalsUtil {
    * @param update change update.
    * @param wantCCs accounts to CC.
    * @return whether a change was made.
-   * @throws StorageException
    */
   public Collection<Account.Id> addCcs(
-      ChangeNotes notes, ChangeUpdate update, Collection<Account.Id> wantCCs)
-      throws StorageException {
+      ChangeNotes notes, ChangeUpdate update, Collection<Account.Id> wantCCs) {
     return addCcs(update, wantCCs, notes.load().getReviewers());
   }
 
@@ -273,7 +266,6 @@ public class ApprovalsUtil {
    * @param user user adding approvals.
    * @param approvals approvals to add.
    * @throws RestApiException
-   * @throws StorageException
    */
   public Iterable<PatchSetApproval> addApprovalsForNewPatchSet(
       ChangeUpdate update,
@@ -281,7 +273,7 @@ public class ApprovalsUtil {
       PatchSet ps,
       CurrentUser user,
       Map<String, Short> approvals)
-      throws RestApiException, StorageException, PermissionBackendException {
+      throws RestApiException, PermissionBackendException {
     Account.Id accountId = user.getAccountId();
     checkArgument(
         accountId.equals(ps.getUploader()),
@@ -331,14 +323,12 @@ public class ApprovalsUtil {
     }
   }
 
-  public ListMultimap<PatchSet.Id, PatchSetApproval> byChange(ChangeNotes notes)
-      throws StorageException {
+  public ListMultimap<PatchSet.Id, PatchSetApproval> byChange(ChangeNotes notes) {
     return notes.load().getApprovals();
   }
 
   public Iterable<PatchSetApproval> byPatchSet(
-      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig)
-      throws StorageException {
+      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
     return copier.getForPatchSet(notes, psId, rw, repoConfig);
   }
 
@@ -347,8 +337,7 @@ public class ApprovalsUtil {
       PatchSet.Id psId,
       Account.Id accountId,
       @Nullable RevWalk rw,
-      @Nullable Config repoConfig)
-      throws StorageException {
+      @Nullable Config repoConfig) {
     return filterApprovals(byPatchSet(notes, psId, rw, repoConfig), accountId);
   }
 

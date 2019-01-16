@@ -386,7 +386,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   private Stream<String> newProjectsNamesStream(String query)
-      throws StorageException, MethodNotAllowedException, BadRequestException {
+      throws MethodNotAllowedException, BadRequestException {
     Stream<String> projects =
         queryProjectsProvider.get().withQuery(query).apply().stream().map(p -> p.name).skip(start);
     if (limit > 0) {

@@ -30,7 +30,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -369,8 +368,7 @@ public class ChangeInserter implements InsertChangeOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, StorageException, IOException, PermissionBackendException,
-          ConfigInvalidException {
+      throws RestApiException, IOException, PermissionBackendException, ConfigInvalidException {
     change = ctx.getChange(); // Use defensive copy created by ChangeControl.
     patchSetInfo =
         patchSetInfoFactory.get(ctx.getRevWalk(), ctx.getRevWalk().parseCommit(commitId), psId);

@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -83,7 +82,7 @@ public class DeleteDraftComment
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, StorageException, PatchListNotAvailableException {
+        throws ResourceNotFoundException, PatchListNotAvailableException {
       Optional<Comment> maybeComment =
           commentsUtil.getDraft(ctx.getNotes(), ctx.getIdentifiedUser(), key);
       if (!maybeComment.isPresent()) {

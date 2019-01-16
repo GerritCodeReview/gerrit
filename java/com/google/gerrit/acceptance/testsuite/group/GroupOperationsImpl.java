@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.exceptions.NoSuchGroupException;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.ServerInitiated;
@@ -70,7 +69,7 @@ public class GroupOperationsImpl implements GroupOperations {
   }
 
   private AccountGroup.UUID createNewGroup(TestGroupCreation groupCreation)
-      throws ConfigInvalidException, IOException, StorageException {
+      throws ConfigInvalidException, IOException {
     InternalGroupCreation internalGroupCreation = toInternalGroupCreation(groupCreation);
     InternalGroupUpdate internalGroupUpdate = toInternalGroupUpdate(groupCreation);
     InternalGroup internalGroup =
@@ -78,8 +77,7 @@ public class GroupOperationsImpl implements GroupOperations {
     return internalGroup.getGroupUUID();
   }
 
-  private InternalGroupCreation toInternalGroupCreation(TestGroupCreation groupCreation)
-      throws StorageException {
+  private InternalGroupCreation toInternalGroupCreation(TestGroupCreation groupCreation) {
     AccountGroup.Id groupId = new AccountGroup.Id(seq.nextGroupId());
     String groupName = groupCreation.name().orElse("group-with-id-" + groupId.get());
     AccountGroup.UUID groupUuid = GroupUUID.make(groupName, serverIdent);

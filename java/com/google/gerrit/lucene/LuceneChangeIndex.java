@@ -302,7 +302,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
 
     @Override
-    public ResultSet<ChangeData> read() throws StorageException {
+    public ResultSet<ChangeData> read() {
       if (Thread.interrupted()) {
         Thread.currentThread().interrupt();
         throw new StorageException("interrupted");
@@ -326,7 +326,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
 
     @Override
-    public ResultSet<FieldBundle> readRaw() throws StorageException {
+    public ResultSet<FieldBundle> readRaw() {
       List<Document> documents;
       try {
         documents = doRead(IndexUtils.changeFields(opts));

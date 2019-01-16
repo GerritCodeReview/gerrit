@@ -21,7 +21,6 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -82,8 +81,7 @@ public class SetHashtagsOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws AuthException, BadRequestException, MethodNotAllowedException, StorageException,
-          IOException {
+      throws AuthException, BadRequestException, MethodNotAllowedException, IOException {
     if (input == null || (input.add == null && input.remove == null)) {
       updatedHashtags = ImmutableSortedSet.of();
       return false;
@@ -146,7 +144,7 @@ public class SetHashtagsOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws StorageException {
+  public void postUpdate(Context ctx) {
     if (updated() && fireEvent) {
       hashtagsEdited.fire(
           change, ctx.getAccount(), updatedHashtags, toAdd, toRemove, ctx.getWhen());

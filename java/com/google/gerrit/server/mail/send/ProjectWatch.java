@@ -19,7 +19,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.mail.Address;
@@ -62,8 +61,7 @@ public class ProjectWatch {
   }
 
   /** Returns all watchers that are relevant */
-  public final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig)
-      throws StorageException {
+  public final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig) {
     Watchers matching = new Watchers();
     Set<Account.Id> projectWatchers = new HashSet<>();
 
@@ -148,8 +146,7 @@ public class ProjectWatch {
     }
   }
 
-  private void add(Watchers matching, NotifyConfig nc)
-      throws StorageException, QueryParseException {
+  private void add(Watchers matching, NotifyConfig nc) throws QueryParseException {
     for (GroupReference ref : nc.getGroups()) {
       CurrentUser user = new SingleGroupUser(ref.getUUID());
       if (filterMatch(user, nc.getFilter())) {
@@ -203,8 +200,7 @@ public class ProjectWatch {
       Account.Id accountId,
       ProjectWatchKey key,
       Set<NotifyType> watchedTypes,
-      NotifyType type)
-      throws StorageException {
+      NotifyType type) {
     IdentifiedUser user = args.identifiedUserFactory.create(accountId);
 
     try {
@@ -222,8 +218,7 @@ public class ProjectWatch {
     return false;
   }
 
-  private boolean filterMatch(CurrentUser user, String filter)
-      throws StorageException, QueryParseException {
+  private boolean filterMatch(CurrentUser user, String filter) throws QueryParseException {
     ChangeQueryBuilder qb;
     Predicate<ChangeData> p = null;
 

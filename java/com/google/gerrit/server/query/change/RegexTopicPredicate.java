@@ -16,7 +16,6 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.index.change.ChangeField.EXACT_TOPIC;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Change;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
@@ -39,7 +38,7 @@ public class RegexTopicPredicate extends ChangeRegexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws StorageException {
+  public boolean match(ChangeData object) {
     Change change = object.change();
     if (change == null || change.getTopic() == null) {
       return false;

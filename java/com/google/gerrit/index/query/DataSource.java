@@ -14,15 +14,13 @@
 
 package com.google.gerrit.index.query;
 
-import com.google.gerrit.exceptions.StorageException;
-
 public interface DataSource<T> {
   /** @return an estimate of the number of results from {@link #read()}. */
   int getCardinality();
 
   /** @return read from the database and return the results. */
-  ResultSet<T> read() throws StorageException;
+  ResultSet<T> read();
 
   /** @return read from the database and return the raw results. */
-  ResultSet<FieldBundle> readRaw() throws StorageException;
+  ResultSet<FieldBundle> readRaw();
 }

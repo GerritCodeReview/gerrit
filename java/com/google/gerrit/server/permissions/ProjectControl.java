@@ -99,7 +99,7 @@ class ProjectControl {
     return new ForProjectImpl();
   }
 
-  ChangeControl controlFor(Change change) throws StorageException {
+  ChangeControl controlFor(Change change) {
     return changeControlFactory.create(
         controlForRef(change.getDest()), change.getProject(), change.getId());
   }

@@ -154,7 +154,7 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_FILE)
           .buildRepeatable(cd -> firstNonNull(cd.currentFilePaths(), ImmutableList.of()));
 
-  public static Set<String> getFileParts(ChangeData cd) throws StorageException {
+  public static Set<String> getFileParts(ChangeData cd) {
     List<String> paths;
     try {
       paths = cd.currentFilePaths();
@@ -191,7 +191,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> EXTENSION =
       exact(ChangeQueryBuilder.FIELD_EXTENSION).buildRepeatable(ChangeField::getExtensions);
 
-  public static Set<String> getExtensions(ChangeData cd) throws StorageException {
+  public static Set<String> getExtensions(ChangeData cd) {
     return extensions(cd).collect(toSet());
   }
 
@@ -202,7 +202,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, String> ONLY_EXTENSIONS =
       exact(ChangeQueryBuilder.FIELD_ONLY_EXTENSIONS).build(ChangeField::getAllExtensionsAsList);
 
-  public static String getAllExtensionsAsList(ChangeData cd) throws StorageException {
+  public static String getAllExtensionsAsList(ChangeData cd) {
     return extensions(cd).distinct().sorted().collect(joining(","));
   }
 
@@ -214,7 +214,7 @@ public class ChangeField {
    * <p>If the change contains multiple files with the same extension the extension is returned
    * multiple times in the stream (once per file).
    */
-  private static Stream<String> extensions(ChangeData cd) throws StorageException {
+  private static Stream<String> extensions(ChangeData cd) {
     try {
       return cd.currentFilePaths().stream()
           // Use case-insensitive file extensions even though other file fields are case-sensitive.
@@ -231,7 +231,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> FOOTER =
       exact(ChangeQueryBuilder.FIELD_FOOTER).buildRepeatable(ChangeField::getFooters);
 
-  public static Set<String> getFooters(ChangeData cd) throws StorageException {
+  public static Set<String> getFooters(ChangeData cd) {
     try {
       return cd.commitFooters().stream()
           .map(f -> f.toString().toLowerCase(Locale.US))
@@ -245,7 +245,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> DIRECTORY =
       exact(ChangeQueryBuilder.FIELD_DIRECTORY).buildRepeatable(ChangeField::getDirectories);
 
-  public static Set<String> getDirectories(ChangeData cd) throws StorageException {
+  public static Set<String> getDirectories(ChangeData cd) {
     List<String> paths;
     try {
       paths = cd.currentFilePaths();
@@ -470,7 +470,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMIT =
       exact(ChangeQueryBuilder.FIELD_EXACTCOMMIT).buildRepeatable(ChangeField::getRevisions);
 
-  private static Set<String> getRevisions(ChangeData cd) throws StorageException {
+  private static Set<String> getRevisions(ChangeData cd) {
     Set<String> revisions = new HashSet<>();
     for (PatchSet ps : cd.patchSets()) {
       if (ps.getRevision() != null) {
@@ -489,7 +489,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> LABEL =
       exact("label2").buildRepeatable(cd -> getLabels(cd, true));
 
-  private static Iterable<String> getLabels(ChangeData cd, boolean owners) throws StorageException {
+  private static Iterable<String> getLabels(ChangeData cd, boolean owners) {
     Set<String> allApprovals = new HashSet<>();
     Set<String> distinctApprovals = new HashSet<>();
     for (PatchSetApproval a : cd.currentApprovals()) {
@@ -506,21 +506,19 @@ public class ChangeField {
     return allApprovals;
   }
 
-  public static Set<String> getAuthorParts(ChangeData cd) throws StorageException, IOException {
+  public static Set<String> getAuthorParts(ChangeData cd) throws IOException {
     return SchemaUtil.getPersonParts(cd.getAuthor());
   }
 
-  public static Set<String> getAuthorNameAndEmail(ChangeData cd)
-      throws StorageException, IOException {
+  public static Set<String> getAuthorNameAndEmail(ChangeData cd) throws IOException {
     return getNameAndEmail(cd.getAuthor());
   }
 
-  public static Set<String> getCommitterParts(ChangeData cd) throws StorageException, IOException {
+  public static Set<String> getCommitterParts(ChangeData cd) throws IOException {
     return SchemaUtil.getPersonParts(cd.getCommitter());
   }
 
-  public static Set<String> getCommitterNameAndEmail(ChangeData cd)
-      throws StorageException, IOException {
+  public static Set<String> getCommitterNameAndEmail(ChangeData cd) throws IOException {
     return getNameAndEmail(cd.getCommitter());
   }
 
@@ -856,7 +854,7 @@ public class ChangeField {
     return storedSubmitRecords(cd.submitRecords(opts));
   }
 
-  public static List<String> formatSubmitRecordValues(ChangeData cd) throws StorageException {
+  public static List<String> formatSubmitRecordValues(ChangeData cd) {
     return formatSubmitRecordValues(
         cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT), cd.change().getOwner());
   }
@@ -944,7 +942,7 @@ public class ChangeField {
                 return result;
               });
 
-  private static String getTopic(ChangeData cd) throws StorageException {
+  private static String getTopic(ChangeData cd) {
     Change c = cd.change();
     if (c == null) {
       return null;

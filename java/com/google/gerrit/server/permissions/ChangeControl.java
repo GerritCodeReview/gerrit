@@ -52,8 +52,7 @@ class ChangeControl {
       this.notesFactory = notesFactory;
     }
 
-    ChangeControl create(RefControl refControl, Project.NameKey project, Change.Id changeId)
-        throws StorageException {
+    ChangeControl create(RefControl refControl, Project.NameKey project, Change.Id changeId) {
       return create(refControl, notesFactory.create(project, changeId));
     }
 
@@ -90,7 +89,7 @@ class ChangeControl {
   }
 
   /** Can this user see this change? */
-  private boolean isVisible(@Nullable ChangeData cd) throws StorageException {
+  private boolean isVisible(@Nullable ChangeData cd) {
     if (getChange().isPrivate() && !isPrivateVisible(cd)) {
       return false;
     }
@@ -154,7 +153,7 @@ class ChangeControl {
   }
 
   /** Is this user a reviewer for the change? */
-  private boolean isReviewer(@Nullable ChangeData cd) throws StorageException {
+  private boolean isReviewer(@Nullable ChangeData cd) {
     if (getUser().isIdentifiedUser()) {
       cd = cd != null ? cd : changeDataFactory.create(notes);
       Collection<Account.Id> results = cd.reviewers().all();
@@ -212,7 +211,7 @@ class ChangeControl {
         || getProjectControl().isAdmin();
   }
 
-  private boolean isPrivateVisible(ChangeData cd) throws StorageException {
+  private boolean isPrivateVisible(ChangeData cd) {
     return isOwner()
         || isReviewer(cd)
         || refControl.canPerform(Permission.VIEW_PRIVATE_CHANGES)

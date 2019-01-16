@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -77,7 +76,7 @@ public class PutDraftComment
   @Override
   protected Response<CommentInfo> applyImpl(
       BatchUpdate.Factory updateFactory, DraftCommentResource rsrc, DraftInput in)
-      throws RestApiException, UpdateException, StorageException, PermissionBackendException {
+      throws RestApiException, UpdateException, PermissionBackendException {
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
       return delete.applyImpl(updateFactory, rsrc, null);
     } else if (in.id != null && !rsrc.getId().equals(in.id)) {
@@ -111,7 +110,7 @@ public class PutDraftComment
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, StorageException, PatchListNotAvailableException {
+        throws ResourceNotFoundException, PatchListNotAvailableException {
       Optional<Comment> maybeComment =
           commentsUtil.getDraft(ctx.getNotes(), ctx.getIdentifiedUser(), key);
       if (!maybeComment.isPresent()) {

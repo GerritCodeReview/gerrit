@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -66,8 +65,7 @@ public class PostWatchedProjects
 
   @Override
   public List<ProjectWatchInfo> apply(AccountResource rsrc, List<ProjectWatchInfo> input)
-      throws StorageException, RestApiException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }

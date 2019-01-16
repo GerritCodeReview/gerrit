@@ -63,15 +63,7 @@ public class ReindexGroupsAtStartup implements LifecycleListener {
       throw new IllegalStateException("Unable to reindex groups, tests may fail", e);
     }
 
-    allGroupReferences.forEach(
-        group -> {
-          try {
-            groupIndexer.index(group.getUUID());
-          } catch (IOException e) {
-            throw new IllegalStateException(
-                String.format("Unable to index %s, tests may fail", group), e);
-          }
-        });
+    allGroupReferences.forEach(group -> groupIndexer.index(group.getUUID()));
   }
 
   @Override

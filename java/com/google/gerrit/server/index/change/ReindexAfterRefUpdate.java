@@ -90,12 +90,8 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     if (allUsersName.get().equals(event.getProjectName())) {
       Account.Id accountId = Account.Id.fromRef(event.getRefName());
       if (accountId != null && !event.getRefName().startsWith(RefNames.REFS_STARRED_CHANGES)) {
-        try {
-          accountCache.evict(accountId);
-          indexer.get().index(accountId);
-        } catch (IOException e) {
-          logger.atSevere().withCause(e).log("Reindex account %s failed.", accountId);
-        }
+        accountCache.evict(accountId);
+        indexer.get().index(accountId);
       }
     }
 

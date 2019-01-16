@@ -71,18 +71,10 @@ public class Index implements RestModifyView<ProjectResource, IndexProjectInput>
     return Response.accepted(response);
   }
 
-  private void reindex(Project.NameKey project, Boolean async) throws IOException {
+  private void reindex(Project.NameKey project, Boolean async) {
     if (Boolean.TRUE.equals(async)) {
       @SuppressWarnings("unused")
-      Future<?> possiblyIgnoredError =
-          executor.submit(
-              () -> {
-                try {
-                  indexer.index(project);
-                } catch (IOException e) {
-                  logger.atWarning().withCause(e).log("reindexing project %s failed", project);
-                }
-              });
+      Future<?> possiblyIgnoredError = executor.submit(() -> indexer.index(project));
     } else {
       indexer.index(project);
     }

@@ -20,7 +20,6 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
-import java.io.IOException;
 
 /** Reindex all projects at Gerrit daemon startup. */
 public class ReindexProjectsAtStartup implements LifecycleListener {
@@ -42,16 +41,7 @@ public class ReindexProjectsAtStartup implements LifecycleListener {
 
   @Override
   public void start() {
-    repoMgr.list().stream()
-        .forEach(
-            projectName -> {
-              try {
-                projectIndexer.index(projectName);
-              } catch (IOException e) {
-                throw new IllegalStateException(
-                    String.format("Unable to index %s, tests may fail", projectName), e);
-              }
-            });
+    repoMgr.list().stream().forEach(projectIndexer::index);
   }
 
   @Override

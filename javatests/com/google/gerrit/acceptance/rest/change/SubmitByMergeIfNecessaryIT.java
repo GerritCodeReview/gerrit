@@ -599,7 +599,9 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
             + " depends on commit "
             + changeResult.getCommit().name()
             + " which cannot be merged."
-            + " Is the change of this commit not visible or was it deleted?");
+            + " Is the change of this commit not visible to '"
+            + admin.username
+            + "' or was it deleted?");
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
@@ -652,7 +654,9 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
             + " depends on commit "
             + changeResult.getCommit().name()
             + " which cannot be merged."
-            + " Is the change of this commit not visible or was it deleted?");
+            + " Is the change of this commit not visible to '"
+            + user.username
+            + "' or was it deleted?");
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();

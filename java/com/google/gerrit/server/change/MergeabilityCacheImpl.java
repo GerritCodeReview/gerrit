@@ -207,7 +207,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
               accepted.add(rw.parseCommit(key.into));
               accepted.addAll(Arrays.asList(rw.parseCommit(key.commit).getParents()));
               return submitDryRun.run(
-                  key.submitType, repo, rw, dest, key.into, key.commit, accepted);
+                  null, key.submitType, repo, rw, dest, key.into, key.commit, accepted);
             }
           });
     } catch (ExecutionException | UncheckedExecutionException e) {

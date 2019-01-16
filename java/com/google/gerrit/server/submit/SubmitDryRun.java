@@ -19,8 +19,10 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.MergeUtil;
@@ -106,6 +108,7 @@ public class SubmitDryRun {
   }
 
   public boolean run(
+      @Nullable CurrentUser caller,
       SubmitType submitType,
       Repository repo,
       CodeReviewRevWalk rw,
@@ -124,7 +127,12 @@ public class SubmitDryRun {
             rw,
             mergeUtilFactory.create(getProject(destBranch)),
             new MergeSorter(
-                rw, alreadyAccepted, canMerge, queryProvider, ImmutableSet.of(toMergeCommit)));
+                caller,
+                rw,
+                alreadyAccepted,
+                canMerge,
+                queryProvider,
+                ImmutableSet.of(toMergeCommit)));
 
     switch (submitType) {
       case CHERRY_PICK:

@@ -129,6 +129,7 @@ public class ConflictsPredicate {
           CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
         boolean conflicts =
             !args.submitDryRun.run(
+                null,
                 str.type,
                 repo,
                 rw,

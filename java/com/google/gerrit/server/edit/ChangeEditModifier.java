@@ -15,7 +15,6 @@
 package com.google.gerrit.server.edit;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
@@ -114,7 +113,7 @@ public class ChangeEditModifier {
    * @throws PermissionBackendException
    */
   public void createEdit(Repository repository, ChangeNotes notes)
-      throws AuthException, IOException, InvalidChangeOperationException, StorageException,
+      throws AuthException, IOException, InvalidChangeOperationException,
           PermissionBackendException, ResourceConflictException {
     assertCanEdit(notes);
 
@@ -142,8 +141,8 @@ public class ChangeEditModifier {
    * @throws PermissionBackendException
    */
   public void rebaseEdit(Repository repository, ChangeNotes notes)
-      throws AuthException, InvalidChangeOperationException, IOException, StorageException,
-          MergeConflictException, PermissionBackendException, ResourceConflictException {
+      throws AuthException, InvalidChangeOperationException, IOException, MergeConflictException,
+          PermissionBackendException, ResourceConflictException {
     assertCanEdit(notes);
 
     Optional<ChangeEdit> optionalChangeEdit = lookupChangeEdit(notes);
@@ -207,7 +206,7 @@ public class ChangeEditModifier {
    * @throws BadRequestException if the commit message is malformed
    */
   public void modifyMessage(Repository repository, ChangeNotes notes, String newCommitMessage)
-      throws AuthException, IOException, UnchangedCommitMessageException, StorageException,
+      throws AuthException, IOException, UnchangedCommitMessageException,
           PermissionBackendException, BadRequestException, ResourceConflictException {
     assertCanEdit(notes);
     newCommitMessage = CommitMessageUtil.checkAndSanitizeCommitMessage(newCommitMessage);
@@ -250,7 +249,7 @@ public class ChangeEditModifier {
    */
   public void modifyFile(
       Repository repository, ChangeNotes notes, String filePath, RawInput newContent)
-      throws AuthException, InvalidChangeOperationException, IOException, StorageException,
+      throws AuthException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceConflictException {
     modifyTree(repository, notes, new ChangeFileContentModification(filePath, newContent));
   }
@@ -268,7 +267,7 @@ public class ChangeEditModifier {
    * @throws ResourceConflictException if the project state does not permit the operation
    */
   public void deleteFile(Repository repository, ChangeNotes notes, String file)
-      throws AuthException, InvalidChangeOperationException, IOException, StorageException,
+      throws AuthException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceConflictException {
     modifyTree(repository, notes, new DeleteFileModification(file));
   }
@@ -289,7 +288,7 @@ public class ChangeEditModifier {
    */
   public void renameFile(
       Repository repository, ChangeNotes notes, String currentFilePath, String newFilePath)
-      throws AuthException, InvalidChangeOperationException, IOException, StorageException,
+      throws AuthException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceConflictException {
     modifyTree(repository, notes, new RenameFileModification(currentFilePath, newFilePath));
   }
@@ -307,14 +306,14 @@ public class ChangeEditModifier {
    * @throws PermissionBackendException
    */
   public void restoreFile(Repository repository, ChangeNotes notes, String file)
-      throws AuthException, InvalidChangeOperationException, IOException, StorageException,
+      throws AuthException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceConflictException {
     modifyTree(repository, notes, new RestoreFileModification(file));
   }
 
   private void modifyTree(
       Repository repository, ChangeNotes notes, TreeModification treeModification)
-      throws AuthException, IOException, StorageException, InvalidChangeOperationException,
+      throws AuthException, IOException, InvalidChangeOperationException,
           PermissionBackendException, ResourceConflictException {
     assertCanEdit(notes);
 
@@ -360,7 +359,7 @@ public class ChangeEditModifier {
       PatchSet patchSet,
       List<TreeModification> treeModifications)
       throws AuthException, IOException, InvalidChangeOperationException, MergeConflictException,
-          StorageException, PermissionBackendException, ResourceConflictException {
+          PermissionBackendException, ResourceConflictException {
     assertCanEdit(notes);
 
     Optional<ChangeEdit> optionalChangeEdit = lookupChangeEdit(notes);
@@ -391,8 +390,7 @@ public class ChangeEditModifier {
   }
 
   private void assertCanEdit(ChangeNotes notes)
-      throws AuthException, PermissionBackendException, IOException, ResourceConflictException,
-          StorageException {
+      throws AuthException, PermissionBackendException, IOException, ResourceConflictException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
@@ -442,13 +440,12 @@ public class ChangeEditModifier {
     return changeEditUtil.byChange(notes);
   }
 
-  private PatchSet getBasePatchSet(Optional<ChangeEdit> optionalChangeEdit, ChangeNotes notes)
-      throws StorageException {
+  private PatchSet getBasePatchSet(Optional<ChangeEdit> optionalChangeEdit, ChangeNotes notes) {
     Optional<PatchSet> editBasePatchSet = optionalChangeEdit.map(ChangeEdit::getBasePatchSet);
     return editBasePatchSet.isPresent() ? editBasePatchSet.get() : lookupCurrentPatchSet(notes);
   }
 
-  private PatchSet lookupCurrentPatchSet(ChangeNotes notes) throws StorageException {
+  private PatchSet lookupCurrentPatchSet(ChangeNotes notes) {
     return patchSetUtil.current(notes);
   }
 

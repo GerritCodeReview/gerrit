@@ -24,7 +24,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -334,15 +333,15 @@ public class PushOneCommit {
       this.resSubj = subject;
     }
 
-    public ChangeData getChange() throws StorageException {
+    public ChangeData getChange() {
       return Iterables.getOnlyElement(queryProvider.get().byKeyPrefix(changeId));
     }
 
-    public PatchSet getPatchSet() throws StorageException {
+    public PatchSet getPatchSet() {
       return getChange().currentPatchSet();
     }
 
-    public PatchSet.Id getPatchSetId() throws StorageException {
+    public PatchSet.Id getPatchSetId() {
       return getChange().change().currentPatchSetId();
     }
 
@@ -359,8 +358,7 @@ public class PushOneCommit {
     }
 
     public void assertChange(
-        Change.Status expectedStatus, String expectedTopic, TestAccount... expectedReviewers)
-        throws StorageException {
+        Change.Status expectedStatus, String expectedTopic, TestAccount... expectedReviewers) {
       assertChange(
           expectedStatus, expectedTopic, Arrays.asList(expectedReviewers), ImmutableList.of());
     }
@@ -369,8 +367,7 @@ public class PushOneCommit {
         Change.Status expectedStatus,
         String expectedTopic,
         List<TestAccount> expectedReviewers,
-        List<TestAccount> expectedCcs)
-        throws StorageException {
+        List<TestAccount> expectedCcs) {
       Change c = getChange().change();
       assertThat(c.getSubject()).isEqualTo(resSubj);
       assertThat(c.getStatus()).isEqualTo(expectedStatus);
@@ -380,8 +377,7 @@ public class PushOneCommit {
     }
 
     private void assertReviewers(
-        Change c, ReviewerStateInternal state, List<TestAccount> expectedReviewers)
-        throws StorageException {
+        Change c, ReviewerStateInternal state, List<TestAccount> expectedReviewers) {
       Iterable<Account.Id> actualIds =
           approvalsUtil.getReviewers(notesFactory.createChecked(c)).byState(state);
       assertThat(actualIds)

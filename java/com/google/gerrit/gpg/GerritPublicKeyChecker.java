@@ -156,8 +156,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     return CheckResult.bad(missingUserIds(allowedUserIds));
   }
 
-  private CheckResult checkIdsForArbitraryUser(PGPPublicKey key)
-      throws PGPException, StorageException {
+  private CheckResult checkIdsForArbitraryUser(PGPPublicKey key) throws PGPException {
     List<AccountState> accountStates = accountQueryProvider.get().byExternalId(toExtIdKey(key));
     if (accountStates.isEmpty()) {
       return CheckResult.bad("Key is not associated with any users");

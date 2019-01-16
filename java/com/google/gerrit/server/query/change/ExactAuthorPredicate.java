@@ -28,7 +28,7 @@ public class ExactAuthorPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws StorageException {
+  public boolean match(ChangeData object) {
     try {
       return ChangeField.getAuthorNameAndEmail(object).contains(getValue());
     } catch (IOException e) {

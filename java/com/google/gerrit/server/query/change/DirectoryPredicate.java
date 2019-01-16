@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.base.CharMatcher;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.index.change.ChangeField;
 import java.util.Locale;
 
@@ -29,7 +28,7 @@ public class DirectoryPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) throws StorageException {
+  public boolean match(ChangeData cd) {
     return ChangeField.getDirectories(cd).contains(value);
   }
 

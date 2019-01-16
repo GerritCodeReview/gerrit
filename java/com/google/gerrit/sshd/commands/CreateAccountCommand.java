@@ -18,7 +18,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -72,8 +71,7 @@ final class CreateAccountCommand extends SshCommand {
 
   @Override
   protected void run()
-      throws StorageException, IOException, ConfigInvalidException, UnloggedFailure,
-          PermissionBackendException {
+      throws IOException, ConfigInvalidException, UnloggedFailure, PermissionBackendException {
     AccountInput input = new AccountInput();
     input.username = username;
     input.email = email;

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -65,8 +64,8 @@ public class SuggestChangeReviewers extends SuggestReviewers
 
   @Override
   public List<SuggestedReviewerInfo> apply(ChangeResource rsrc)
-      throws AuthException, BadRequestException, StorageException, IOException,
-          ConfigInvalidException, PermissionBackendException {
+      throws AuthException, BadRequestException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     if (!self.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

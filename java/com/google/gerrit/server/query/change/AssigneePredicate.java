@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
 
@@ -27,7 +26,7 @@ public class AssigneePredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws StorageException {
+  public boolean match(ChangeData object) {
     if (id.get() == ChangeField.NO_ASSIGNEE) {
       Account.Id assignee = object.change().getAssignee();
       return assignee == null;

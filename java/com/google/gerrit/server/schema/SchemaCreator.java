@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.exceptions.StorageException;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -26,20 +25,18 @@ public interface SchemaCreator {
    *
    * <p>Fails if the schema does exist.
    *
-   * @throws StorageException an error occurred.
    * @throws IOException an error occurred.
    * @throws ConfigInvalidException an error occurred.
    */
-  void create() throws StorageException, IOException, ConfigInvalidException;
+  void create() throws IOException, ConfigInvalidException;
 
   /**
    * Create the schema only if it does not already exist.
    *
    * <p>Succeeds if the schema does exist.
    *
-   * @throws StorageException an error occurred.
    * @throws IOException an error occurred.
    * @throws ConfigInvalidException an error occurred.
    */
-  void ensureCreated() throws StorageException, IOException, ConfigInvalidException;
+  void ensureCreated() throws IOException, ConfigInvalidException;
 }

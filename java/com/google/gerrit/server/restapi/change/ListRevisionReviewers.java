@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -47,7 +46,7 @@ class ListRevisionReviewers implements RestReadView<RevisionResource> {
 
   @Override
   public List<ReviewerInfo> apply(RevisionResource rsrc)
-      throws StorageException, MethodNotAllowedException, PermissionBackendException {
+      throws MethodNotAllowedException, PermissionBackendException {
     if (!rsrc.isCurrent()) {
       throw new MethodNotAllowedException("Cannot list reviewers on non-current patch set");
     }

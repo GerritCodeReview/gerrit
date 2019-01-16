@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -36,8 +35,7 @@ public class GetAssignee implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Response<AccountInfo> apply(ChangeResource rsrc)
-      throws StorageException, PermissionBackendException {
+  public Response<AccountInfo> apply(ChangeResource rsrc) throws PermissionBackendException {
     Optional<Account.Id> assignee = Optional.ofNullable(rsrc.getChange().getAssignee());
     if (assignee.isPresent()) {
       return Response.ok(accountLoaderFactory.create(true).fillOne(assignee.get()));

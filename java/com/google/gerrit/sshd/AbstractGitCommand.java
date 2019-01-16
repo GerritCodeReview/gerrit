@@ -14,7 +14,6 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.IdentifiedUser;
@@ -85,7 +84,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
     return n;
   }
 
-  private void service() throws IOException, StorageException, PermissionBackendException, Failure {
+  private void service() throws IOException, PermissionBackendException, Failure {
     project = projectState.getProject();
     projectName = project.getNameKey();
 
@@ -102,6 +101,5 @@ public abstract class AbstractGitCommand extends BaseCommand {
     }
   }
 
-  protected abstract void runImpl()
-      throws IOException, StorageException, PermissionBackendException, Failure;
+  protected abstract void runImpl() throws IOException, PermissionBackendException, Failure;
 }

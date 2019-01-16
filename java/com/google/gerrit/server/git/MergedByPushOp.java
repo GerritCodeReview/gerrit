@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.LabelId;
@@ -105,7 +104,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws StorageException, IOException {
+  public boolean updateChange(ChangeContext ctx) throws IOException {
     change = ctx.getChange();
     correctBranch = refName.equals(change.getDest().get());
     if (!correctBranch) {
@@ -193,7 +192,7 @@ public class MergedByPushOp implements BatchUpdateOp {
         change, patchSet, ctx.getAccount(), patchSet.getRevision().get(), ctx.getWhen());
   }
 
-  private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException, StorageException {
+  private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {
     RevWalk rw = ctx.getRevWalk();
     RevCommit commit =
         rw.parseCommit(ObjectId.fromString(requireNonNull(patchSet).getRevision().get()));

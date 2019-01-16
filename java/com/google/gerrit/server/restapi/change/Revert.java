@@ -20,7 +20,6 @@ import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -142,9 +141,8 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   @Override
   public ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, RevertInput input)
-      throws IOException, StorageException, RestApiException, UpdateException,
-          NoSuchChangeException, PermissionBackendException, NoSuchProjectException,
-          ConfigInvalidException {
+      throws IOException, RestApiException, UpdateException, NoSuchChangeException,
+          PermissionBackendException, NoSuchProjectException, ConfigInvalidException {
     Change change = rsrc.getChange();
     if (!change.isMerged()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
@@ -160,8 +158,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
 
   private Change.Id revert(
       BatchUpdate.Factory updateFactory, ChangeNotes notes, CurrentUser user, RevertInput input)
-      throws StorageException, IOException, RestApiException, UpdateException,
-          ConfigInvalidException {
+      throws IOException, RestApiException, UpdateException, ConfigInvalidException {
     String message = Strings.emptyToNull(input.message);
     Change.Id changeIdToRevert = notes.getChangeId();
     PatchSet.Id patchSetId = notes.getChange().currentPatchSetId();

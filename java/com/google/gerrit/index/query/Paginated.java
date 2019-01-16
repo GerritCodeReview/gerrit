@@ -14,11 +14,10 @@
 
 package com.google.gerrit.index.query;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.QueryOptions;
 
 public interface Paginated<T> {
   QueryOptions getOptions();
 
-  ResultSet<T> restart(int start) throws StorageException;
+  ResultSet<T> restart(int start);
 }

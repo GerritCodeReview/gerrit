@@ -38,8 +38,8 @@ public class MergedSender extends ReplyToChangeSender {
   private final LabelTypes labelTypes;
 
   @Inject
-  public MergedSender(EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
-      throws StorageException {
+  public MergedSender(
+      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id) {
     super(ea, "merged", newChangeData(ea, project, id));
     labelTypes = changeData.getLabelTypes();
   }

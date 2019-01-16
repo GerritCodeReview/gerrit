@@ -106,7 +106,7 @@ public class ChangeFinder {
     this.allowedIdTypes = ImmutableSet.copyOf(configuredChangeIdTypes);
   }
 
-  public ChangeNotes findOne(String id) throws StorageException {
+  public ChangeNotes findOne(String id) {
     List<ChangeNotes> ctls = find(id);
     if (ctls.size() != 1) {
       return null;
@@ -119,9 +119,8 @@ public class ChangeFinder {
    *
    * @param id change identifier.
    * @return possibly-empty list of notes for all matching changes; may or may not be visible.
-   * @throws StorageException if an error occurred querying the database.
    */
-  public List<ChangeNotes> find(String id) throws StorageException {
+  public List<ChangeNotes> find(String id) {
     try {
       return find(id, false);
     } catch (DeprecatedIdentifierException e) {
@@ -137,11 +136,10 @@ public class ChangeFinder {
    * @param enforceDeprecation boolean to see if we should throw {@link
    *     DeprecatedIdentifierException} in case the identifier is deprecated
    * @return possibly-empty list of notes for all matching changes; may or may not be visible.
-   * @throws StorageException if an error occurred querying the database
    * @throws DeprecatedIdentifierException if the identifier is deprecated.
    */
   public List<ChangeNotes> find(String id, boolean enforceDeprecation)
-      throws StorageException, DeprecatedIdentifierException {
+      throws DeprecatedIdentifierException {
     if (id.isEmpty()) {
       return Collections.emptyList();
     }
@@ -194,8 +192,7 @@ public class ChangeFinder {
     return notes;
   }
 
-  private List<ChangeNotes> fromProjectNumber(String project, int changeNumber)
-      throws StorageException {
+  private List<ChangeNotes> fromProjectNumber(String project, int changeNumber) {
     Change.Id cId = new Change.Id(changeNumber);
     try {
       return ImmutableList.of(
@@ -212,7 +209,7 @@ public class ChangeFinder {
     }
   }
 
-  public ChangeNotes findOne(Change.Id id) throws StorageException {
+  public ChangeNotes findOne(Change.Id id) {
     List<ChangeNotes> notes = find(id);
     if (notes.size() != 1) {
       throw new NoSuchChangeException(id);
@@ -220,7 +217,7 @@ public class ChangeFinder {
     return notes.get(0);
   }
 
-  public List<ChangeNotes> find(Change.Id id) throws StorageException {
+  public List<ChangeNotes> find(Change.Id id) {
     String project = changeIdProjectCache.getIfPresent(id);
     if (project != null) {
       return fromProjectNumber(project, id.get());
@@ -236,7 +233,7 @@ public class ChangeFinder {
     return asChangeNotes(r);
   }
 
-  private List<ChangeNotes> asChangeNotes(List<ChangeData> cds) throws StorageException {
+  private List<ChangeNotes> asChangeNotes(List<ChangeData> cds) {
     List<ChangeNotes> notes = new ArrayList<>(cds.size());
     if (!indexConfig.separateChangeSubIndexes()) {
       for (ChangeData cd : cds) {

@@ -486,16 +486,16 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     }
 
     @Override
-    public ResultSet<V> read() throws StorageException {
+    public ResultSet<V> read() {
       return readImpl(AbstractLuceneIndex.this::fromDocument);
     }
 
     @Override
-    public ResultSet<FieldBundle> readRaw() throws StorageException {
+    public ResultSet<FieldBundle> readRaw() {
       return readImpl(AbstractLuceneIndex.this::toFieldBundle);
     }
 
-    private <T> ResultSet<T> readImpl(Function<Document, T> mapper) throws StorageException {
+    private <T> ResultSet<T> readImpl(Function<Document, T> mapper) {
       IndexSearcher searcher = null;
       try {
         searcher = acquire();

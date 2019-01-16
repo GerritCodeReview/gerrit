@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import java.util.Collection;
@@ -54,9 +53,8 @@ public interface AccountPatchReviewStore {
    * @param path file path
    * @return {@code true} if the reviewed flag was updated, {@code false} if the reviewed flag was
    *     already set
-   * @throws StorageException thrown if updating the reviewed flag failed
    */
-  boolean markReviewed(PatchSet.Id psId, Account.Id accountId, String path) throws StorageException;
+  boolean markReviewed(PatchSet.Id psId, Account.Id accountId, String path);
 
   /**
    * Marks the given files in the given patch set as reviewed by the given user.
@@ -64,10 +62,8 @@ public interface AccountPatchReviewStore {
    * @param psId patch set ID
    * @param accountId account ID of the user
    * @param paths file paths
-   * @throws StorageException thrown if updating the reviewed flag failed
    */
-  void markReviewed(PatchSet.Id psId, Account.Id accountId, Collection<String> paths)
-      throws StorageException;
+  void markReviewed(PatchSet.Id psId, Account.Id accountId, Collection<String> paths);
 
   /**
    * Clears the reviewed flag for the given file in the given patch set for the given user.
@@ -75,17 +71,15 @@ public interface AccountPatchReviewStore {
    * @param psId patch set ID
    * @param accountId account ID of the user
    * @param path file path
-   * @throws StorageException thrown if clearing the reviewed flag failed
    */
-  void clearReviewed(PatchSet.Id psId, Account.Id accountId, String path) throws StorageException;
+  void clearReviewed(PatchSet.Id psId, Account.Id accountId, String path);
 
   /**
    * Clears the reviewed flags for all files in the given patch set for all users.
    *
    * @param psId patch set ID
-   * @throws StorageException thrown if clearing the reviewed flags failed
    */
-  void clearReviewed(PatchSet.Id psId) throws StorageException;
+  void clearReviewed(PatchSet.Id psId);
 
   /**
    * Find the latest patch set, that is smaller or equals to the given patch set, where at least,
@@ -95,8 +89,6 @@ public interface AccountPatchReviewStore {
    * @param accountId account ID of the user
    * @return optionally, all files the have been reviewed by the given user that belong to the patch
    *     set that is smaller or equals to the given patch set
-   * @throws StorageException thrown if accessing the reviewed flags failed
    */
-  Optional<PatchSetWithReviewedFiles> findReviewed(PatchSet.Id psId, Account.Id accountId)
-      throws StorageException;
+  Optional<PatchSetWithReviewedFiles> findReviewed(PatchSet.Id psId, Account.Id accountId);
 }

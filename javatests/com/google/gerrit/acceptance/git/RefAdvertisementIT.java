@@ -748,7 +748,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
                   .filter(
                       all,
                       repo,
-                      RefFilterOptions.defaults().toBuilder().setFilterTagsSeparately(true).build())
+                      RefFilterOptions.defaults())
                   .keySet())
           .containsExactlyElementsIn(expectedRefs);
     } finally {

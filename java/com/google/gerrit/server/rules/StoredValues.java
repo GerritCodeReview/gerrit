@@ -16,6 +16,7 @@ package com.google.gerrit.server.rules;
 
 import static com.google.gerrit.server.rules.StoredValue.create;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -36,7 +37,6 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.googlecode.prolog_cafe.exceptions.SystemException;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import java.io.IOException;
@@ -57,7 +57,7 @@ public final class StoredValues {
     ChangeData cd = CHANGE_DATA.get(engine);
     try {
       return cd.change();
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       throw new SystemException("Cannot load change " + cd.getId());
     }
   }
@@ -66,7 +66,7 @@ public final class StoredValues {
     ChangeData cd = CHANGE_DATA.get(engine);
     try {
       return cd.currentPatchSet();
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       throw new SystemException(e.getMessage());
     }
   }

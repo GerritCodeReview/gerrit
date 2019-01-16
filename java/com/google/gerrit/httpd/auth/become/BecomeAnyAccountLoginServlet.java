@@ -18,6 +18,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
 
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.LoginUrlToken;
@@ -34,7 +35,6 @@ import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.util.http.CacheHeaders;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -200,7 +200,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
         return null;
       }
       return auth(accountStates.get(0).getAccount().getId());
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       getServletContext().log("cannot query account index", e);
       return null;
     }
@@ -211,7 +211,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
       Optional<AccountState> match =
           queryProvider.get().byPreferredEmail(email).stream().findFirst();
       return auth(match);
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       getServletContext().log("cannot query database", e);
       return Optional.empty();
     }

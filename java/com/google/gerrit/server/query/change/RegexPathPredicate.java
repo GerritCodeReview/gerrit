@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.ioutil.RegexListSearcher;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,12 +26,12 @@ public class RegexPathPredicate extends ChangeRegexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) throws StorageException {
     List<String> files;
     try {
       files = object.currentFilePaths();
     } catch (IOException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
     return RegexListSearcher.ofStrings(getValue()).search(files).findAny().isPresent();
   }

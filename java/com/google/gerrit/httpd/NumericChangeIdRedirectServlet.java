@@ -15,13 +15,13 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -61,7 +61,7 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
     } catch (ResourceConflictException | ResourceNotFoundException e) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (StorageException | PermissionBackendException e) {
       throw new IOException("Unable to lookup change " + id.id, e);
     }
     String path =

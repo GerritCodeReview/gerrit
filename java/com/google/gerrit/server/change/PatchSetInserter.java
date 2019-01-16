@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -49,7 +50,6 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -187,7 +187,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   @Override
   public void updateRepo(RepoContext ctx)
-      throws AuthException, ResourceConflictException, IOException, OrmException,
+      throws AuthException, ResourceConflictException, IOException, StorageException,
           PermissionBackendException {
     validate(ctx);
     ctx.addRefUpdate(ObjectId.zeroId(), commitId, getPatchSetId().toRefName());
@@ -195,7 +195,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws ResourceConflictException, OrmException, IOException {
+      throws ResourceConflictException, StorageException, IOException {
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(psId);
     update.setSubjectForCommit("Create patch set " + psId.get());
@@ -272,7 +272,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   private void validate(RepoContext ctx)
       throws AuthException, ResourceConflictException, IOException, PermissionBackendException,
-          OrmException {
+          StorageException {
     // Not allowed to create a new patch set if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(origNotes);
 

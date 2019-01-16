@@ -24,6 +24,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -35,7 +36,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -72,7 +72,7 @@ class RelatedChangesSorter {
   }
 
   public List<PatchSetData> sort(List<ChangeData> in, PatchSet startPs)
-      throws OrmException, IOException, PermissionBackendException {
+      throws StorageException, IOException, PermissionBackendException {
     checkArgument(!in.isEmpty(), "Input may not be empty");
     // Map of all patch sets, keyed by commit SHA-1.
     Map<String, PatchSetData> byId = collectById(in);
@@ -114,7 +114,7 @@ class RelatedChangesSorter {
   }
 
   private Map<String, PatchSetData> collectById(List<ChangeData> in)
-      throws OrmException, IOException {
+      throws StorageException, IOException {
     Project.NameKey project = in.get(0).change().getProject();
     Map<String, PatchSetData> result = Maps.newHashMapWithExpectedSize(in.size() * 3);
     try (Repository repo = repoManager.openRepository(project);

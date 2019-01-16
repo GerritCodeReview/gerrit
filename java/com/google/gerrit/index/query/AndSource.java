@@ -21,8 +21,8 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.OrmRuntimeException;
+import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.exceptions.StorageRuntimeException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -76,26 +76,26 @@ public class AndSource<T> extends AndPredicate<T>
   }
 
   @Override
-  public ResultSet<T> read() throws OrmException {
+  public ResultSet<T> read() throws StorageException {
     try {
       return readImpl();
-    } catch (OrmRuntimeException err) {
+    } catch (StorageRuntimeException err) {
       if (err.getCause() != null) {
-        Throwables.throwIfInstanceOf(err.getCause(), OrmException.class);
+        Throwables.throwIfInstanceOf(err.getCause(), StorageException.class);
       }
-      throw new OrmException(err);
+      throw new StorageException(err);
     }
   }
 
   @Override
-  public ResultSet<FieldBundle> readRaw() throws OrmException {
+  public ResultSet<FieldBundle> readRaw() throws StorageException {
     // TOOD(hiesel): Implement
     throw new UnsupportedOperationException("not implemented");
   }
 
-  private ResultSet<T> readImpl() throws OrmException {
+  private ResultSet<T> readImpl() throws StorageException {
     if (source == null) {
-      throw new OrmException("No DataSource: " + this);
+      throw new StorageException("No DataSource: " + this);
     }
     List<T> r = new ArrayList<>();
     T last = null;
@@ -147,7 +147,7 @@ public class AndSource<T> extends AndPredicate<T>
   }
 
   @Override
-  public boolean match(T object) throws OrmException {
+  public boolean match(T object) throws StorageException {
     if (isVisibleToPredicate != null && !isVisibleToPredicate.match(object)) {
       return false;
     }
@@ -164,7 +164,7 @@ public class AndSource<T> extends AndPredicate<T>
         .transformAndConcat(this::transformBuffer);
   }
 
-  protected List<T> transformBuffer(List<T> buffer) throws OrmRuntimeException {
+  protected List<T> transformBuffer(List<T> buffer) throws StorageRuntimeException {
     return buffer;
   }
 

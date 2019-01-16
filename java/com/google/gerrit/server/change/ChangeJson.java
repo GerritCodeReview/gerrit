@@ -48,6 +48,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRecord.Status;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -96,7 +97,6 @@ import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -268,23 +268,23 @@ public class ChangeJson {
     return this;
   }
 
-  public ChangeInfo format(ChangeResource rsrc) throws OrmException {
+  public ChangeInfo format(ChangeResource rsrc) throws StorageException {
     return format(changeDataFactory.create(rsrc.getNotes()));
   }
 
-  public ChangeInfo format(Change change) throws OrmException {
+  public ChangeInfo format(Change change) throws StorageException {
     return format(changeDataFactory.create(change));
   }
 
-  public ChangeInfo format(Project.NameKey project, Change.Id id) throws OrmException {
+  public ChangeInfo format(Project.NameKey project, Change.Id id) throws StorageException {
     return format(project, id, ChangeInfo::new);
   }
 
-  public ChangeInfo format(ChangeData cd) throws OrmException {
+  public ChangeInfo format(ChangeData cd) throws StorageException {
     return format(cd, Optional.empty(), true, ChangeInfo::new);
   }
 
-  public ChangeInfo format(RevisionResource rsrc) throws OrmException {
+  public ChangeInfo format(RevisionResource rsrc) throws StorageException {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     return format(cd, Optional.of(rsrc.getPatchSet().getId()), true, ChangeInfo::new);
   }
@@ -309,7 +309,7 @@ public class ChangeJson {
   }
 
   public List<ChangeInfo> format(Collection<ChangeData> in)
-      throws OrmException, PermissionBackendException {
+      throws StorageException, PermissionBackendException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     ensureLoaded(in);
     List<ChangeInfo> out = new ArrayList<>(in.size());
@@ -321,11 +321,12 @@ public class ChangeJson {
   }
 
   public <I extends ChangeInfo> I format(
-      Project.NameKey project, Change.Id id, Supplier<I> changeInfoSupplier) throws OrmException {
+      Project.NameKey project, Change.Id id, Supplier<I> changeInfoSupplier)
+      throws StorageException {
     ChangeNotes notes;
     try {
       notes = notesFactory.createChecked(project, id);
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       if (!has(CHECK)) {
         throw e;
       }
@@ -367,7 +368,7 @@ public class ChangeJson {
       Optional<PatchSet.Id> limitToPsId,
       boolean fillAccountLoader,
       Supplier<I> changeInfoSupplier)
-      throws OrmException {
+      throws StorageException {
     try {
       if (fillAccountLoader) {
         accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
@@ -378,19 +379,19 @@ public class ChangeJson {
       return toChangeInfo(cd, limitToPsId, changeInfoSupplier);
     } catch (PatchListNotAvailableException
         | GpgException
-        | OrmException
+        | StorageException
         | IOException
         | PermissionBackendException
         | RuntimeException e) {
       if (!has(CHECK)) {
-        Throwables.throwIfInstanceOf(e, OrmException.class);
-        throw new OrmException(e);
+        Throwables.throwIfInstanceOf(e, StorageException.class);
+        throw new StorageException(e);
       }
       return checkOnly(cd, changeInfoSupplier);
     }
   }
 
-  private void ensureLoaded(Iterable<ChangeData> all) throws OrmException {
+  private void ensureLoaded(Iterable<ChangeData> all) throws StorageException {
     if (lazyLoad) {
       ChangeData.ensureChangeLoaded(all);
       if (has(ALL_REVISIONS)) {
@@ -425,7 +426,7 @@ public class ChangeJson {
         try {
           ensureLoaded(Collections.singleton(cd));
           changeInfos.add(format(cd, Optional.empty(), false, ChangeInfo::new));
-        } catch (OrmException | RuntimeException e) {
+        } catch (StorageException | RuntimeException e) {
           logger.atWarning().withCause(e).log(
               "Omitting corrupt change %s from results", cd.getId());
         }
@@ -438,7 +439,7 @@ public class ChangeJson {
     ChangeNotes notes;
     try {
       notes = cd.notes();
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       String msg = "Error loading change";
       logger.atWarning().withCause(e).log(msg + " %s", cd.getId());
       I info = changeInfoSupplier.get();
@@ -477,8 +478,8 @@ public class ChangeJson {
 
   private <I extends ChangeInfo> I toChangeInfo(
       ChangeData cd, Optional<PatchSet.Id> limitToPsId, Supplier<I> changeInfoSupplier)
-      throws PatchListNotAvailableException, GpgException, OrmException, PermissionBackendException,
-          IOException {
+      throws PatchListNotAvailableException, GpgException, StorageException,
+          PermissionBackendException, IOException {
     try (Timer0.Context ignored = metrics.toChangeInfoLatency.start()) {
       return toChangeInfoImpl(cd, limitToPsId, changeInfoSupplier);
     }
@@ -486,8 +487,8 @@ public class ChangeJson {
 
   private <I extends ChangeInfo> I toChangeInfoImpl(
       ChangeData cd, Optional<PatchSet.Id> limitToPsId, Supplier<I> changeInfoSupplier)
-      throws PatchListNotAvailableException, GpgException, OrmException, PermissionBackendException,
-          IOException {
+      throws PatchListNotAvailableException, GpgException, StorageException,
+          PermissionBackendException, IOException {
     I out = changeInfoSupplier.get();
     CurrentUser user = userProvider.get();
 
@@ -638,7 +639,7 @@ public class ChangeJson {
     return reviewerMap;
   }
 
-  private Collection<ReviewerUpdateInfo> reviewerUpdates(ChangeData cd) throws OrmException {
+  private Collection<ReviewerUpdateInfo> reviewerUpdates(ChangeData cd) throws StorageException {
     List<ReviewerStatusUpdate> reviewerUpdates = cd.reviewerUpdates();
     List<ReviewerUpdateInfo> result = new ArrayList<>(reviewerUpdates.size());
     for (ReviewerStatusUpdate c : reviewerUpdates) {
@@ -656,7 +657,7 @@ public class ChangeJson {
     return SubmitRecord.allRecordsOK(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT));
   }
 
-  private void setSubmitter(ChangeData cd, ChangeInfo out) throws OrmException {
+  private void setSubmitter(ChangeData cd, ChangeInfo out) throws StorageException {
     Optional<PatchSetApproval> s = cd.getSubmitApproval();
     if (!s.isPresent()) {
       return;
@@ -665,7 +666,7 @@ public class ChangeJson {
     out.submitter = accountLoader.get(s.get().getAccountId());
   }
 
-  private Collection<ChangeMessageInfo> messages(ChangeData cd) throws OrmException {
+  private Collection<ChangeMessageInfo> messages(ChangeData cd) throws StorageException {
     List<ChangeMessage> messages = cmUtil.byChange(cd.notes());
     if (messages.isEmpty()) {
       return Collections.emptyList();
@@ -679,7 +680,7 @@ public class ChangeJson {
   }
 
   private Collection<AccountInfo> removableReviewers(ChangeData cd, ChangeInfo out)
-      throws PermissionBackendException, OrmException {
+      throws PermissionBackendException, StorageException {
     // Although this is called removableReviewers, this method also determines
     // which CCs are removable.
     //
@@ -768,7 +769,7 @@ public class ChangeJson {
   }
 
   private Map<PatchSet.Id, PatchSet> loadPatchSets(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
-      throws OrmException {
+      throws StorageException {
     Collection<PatchSet> src;
     if (has(ALL_REVISIONS) || has(MESSAGES)) {
       src = cd.patchSets();
@@ -777,12 +778,12 @@ public class ChangeJson {
       if (limitToPsId.isPresent()) {
         ps = cd.patchSet(limitToPsId.get());
         if (ps == null) {
-          throw new OrmException("missing patch set " + limitToPsId.get());
+          throw new StorageException("missing patch set " + limitToPsId.get());
         }
       } else {
         ps = cd.currentPatchSet();
         if (ps == null) {
-          throw new OrmException("missing current patch set for change " + cd.getId());
+          throw new StorageException("missing current patch set for change " + cd.getId());
         }
       }
       src = Collections.singletonList(ps);
@@ -800,7 +801,7 @@ public class ChangeJson {
    *     lazyload}.
    */
   private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
-      throws OrmException {
+      throws StorageException {
     PermissionBackend.WithUser withUser = permissionBackend.user(user);
     return lazyLoad
         ? withUser.change(cd)

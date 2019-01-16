@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -25,7 +26,6 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.FixResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.List;
@@ -50,7 +50,7 @@ public class Fixes implements ChildCollection<RevisionResource, FixResource> {
 
   @Override
   public FixResource parse(RevisionResource revisionResource, IdString id)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, StorageException {
     String fixId = id.get();
     ChangeNotes changeNotes = revisionResource.getNotes();
 

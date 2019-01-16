@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -29,7 +30,6 @@ import com.google.gerrit.server.restapi.change.PostReviewers;
 import com.google.gerrit.sshd.ChangeArgumentParser;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,7 +75,7 @@ public class SetReviewersCommand extends SshCommand {
       changeArgumentParser.addChange(token, changes, projectState);
     } catch (IOException | UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       throw new IllegalArgumentException("database is down", e);
     } catch (PermissionBackendException e) {
       throw new IllegalArgumentException("can't check permissions", e);

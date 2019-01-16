@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -39,7 +40,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -109,7 +109,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   @Override
   public ChangeSet completeWithoutTopic(
       MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user)
-      throws OrmException, IOException, PermissionBackendException {
+      throws StorageException, IOException, PermissionBackendException {
     Collection<ChangeData> visibleChanges = new ArrayList<>();
     Collection<ChangeData> nonVisibleChanges = new ArrayList<>();
 
@@ -161,7 +161,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private static ImmutableListMultimap<Branch.NameKey, ChangeData> byBranch(
-      Iterable<ChangeData> changes) throws OrmException {
+      Iterable<ChangeData> changes) throws StorageException {
     ImmutableListMultimap.Builder<Branch.NameKey, ChangeData> builder =
         ImmutableListMultimap.builder();
     for (ChangeData cd : changes) {
@@ -202,7 +202,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     }
   }
 
-  private SubmitType submitType(ChangeData cd) throws OrmException {
+  private SubmitType submitType(ChangeData cd) throws StorageException {
     SubmitTypeRecord str = cd.submitTypeRecord();
     if (!str.isOk()) {
       logErrorAndThrow("Failed to get submit type for " + cd.getId() + ": " + str.errorMessage);
@@ -212,7 +212,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
 
   private ChangeSet byCommitsOnBranchNotMerged(
       OpenRepo or, Branch.NameKey branch, Set<String> visibleHashes, Set<String> nonVisibleHashes)
-      throws OrmException, IOException {
+      throws StorageException, IOException {
     List<ChangeData> potentiallyVisibleChanges =
         byCommitsOnBranchNotMerged(or, branch, visibleHashes);
     List<ChangeData> invisibleChanges =
@@ -229,7 +229,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private ImmutableList<ChangeData> byCommitsOnBranchNotMerged(
-      OpenRepo or, Branch.NameKey branch, Set<String> hashes) throws OrmException, IOException {
+      OpenRepo or, Branch.NameKey branch, Set<String> hashes) throws StorageException, IOException {
     if (hashes.isEmpty()) {
       return ImmutableList.of();
     }
@@ -281,8 +281,8 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     }
   }
 
-  private void logErrorAndThrow(String msg) throws OrmException {
+  private void logErrorAndThrow(String msg) throws StorageException {
     logger.atSevere().log(msg);
-    throw new OrmException(msg);
+    throw new StorageException(msg);
   }
 }

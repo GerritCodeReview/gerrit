@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -32,7 +33,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -115,7 +115,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
 
   @Override
   public List<?> apply(TopLevelResource rsrc)
-      throws BadRequestException, AuthException, OrmException, PermissionBackendException {
+      throws BadRequestException, AuthException, StorageException, PermissionBackendException {
     List<List<ChangeInfo>> out;
     try {
       out = query();
@@ -129,7 +129,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
   }
 
   private List<List<ChangeInfo>> query()
-      throws OrmException, QueryParseException, PermissionBackendException {
+      throws StorageException, QueryParseException, PermissionBackendException {
     if (imp.isDisabled()) {
       throw new QueryParseException("query disabled");
     }

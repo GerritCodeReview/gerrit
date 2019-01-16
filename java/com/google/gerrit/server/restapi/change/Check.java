@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -29,7 +30,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -47,13 +47,13 @@ public class Check
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource rsrc) throws RestApiException, OrmException {
+  public Response<ChangeInfo> apply(ChangeResource rsrc) throws RestApiException, StorageException {
     return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, FixInput input)
-      throws RestApiException, OrmException, PermissionBackendException, NoSuchProjectException,
+      throws RestApiException, StorageException, PermissionBackendException, NoSuchProjectException,
           IOException {
     PermissionBackend.WithUser perm = permissionBackend.currentUser();
     if (!rsrc.isUserOwner()) {

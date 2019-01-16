@@ -21,6 +21,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
@@ -30,7 +31,6 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
@@ -51,19 +51,19 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
     super(queryProcessor, indexes, indexConfig);
   }
 
-  public List<AccountState> byDefault(String query) throws OrmException {
+  public List<AccountState> byDefault(String query) throws StorageException {
     return query(AccountPredicates.defaultPredicate(schema(), true, query));
   }
 
-  public List<AccountState> byExternalId(String scheme, String id) throws OrmException {
+  public List<AccountState> byExternalId(String scheme, String id) throws StorageException {
     return byExternalId(ExternalId.Key.create(scheme, id));
   }
 
-  public List<AccountState> byExternalId(ExternalId.Key externalId) throws OrmException {
+  public List<AccountState> byExternalId(ExternalId.Key externalId) throws StorageException {
     return query(AccountPredicates.externalIdIncludingSecondaryEmails(externalId.toString()));
   }
 
-  public List<AccountState> byFullName(String fullName) throws OrmException {
+  public List<AccountState> byFullName(String fullName) throws StorageException {
     return query(AccountPredicates.fullName(fullName));
   }
 
@@ -72,9 +72,9 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
    *
    * @param email preferred email by which accounts should be found
    * @return list of accounts that have a preferred email that exactly matches the given email
-   * @throws OrmException if query cannot be parsed
+   * @throws StorageException if query cannot be parsed
    */
-  public List<AccountState> byPreferredEmail(String email) throws OrmException {
+  public List<AccountState> byPreferredEmail(String email) throws StorageException {
     if (hasPreferredEmailExact()) {
       return query(AccountPredicates.preferredEmailExact(email));
     }
@@ -94,9 +94,9 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
    * @param emails preferred emails by which accounts should be found
    * @return multimap of the given emails to accounts that have a preferred email that exactly
    *     matches this email
-   * @throws OrmException if query cannot be parsed
+   * @throws StorageException if query cannot be parsed
    */
-  public Multimap<String, AccountState> byPreferredEmail(String... emails) throws OrmException {
+  public Multimap<String, AccountState> byPreferredEmail(String... emails) throws StorageException {
     List<String> emailList = Arrays.asList(emails);
 
     if (hasPreferredEmailExact()) {
@@ -127,7 +127,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
     return accountsByEmail;
   }
 
-  public List<AccountState> byWatchedProject(Project.NameKey project) throws OrmException {
+  public List<AccountState> byWatchedProject(Project.NameKey project) throws StorageException {
     return query(AccountPredicates.watchedProject(project));
   }
 

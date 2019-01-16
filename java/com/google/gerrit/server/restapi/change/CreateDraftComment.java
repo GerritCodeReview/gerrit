@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -41,7 +42,6 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -72,7 +72,7 @@ public class CreateDraftComment
   @Override
   protected Response<CommentInfo> applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource rsrc, DraftInput in)
-      throws RestApiException, UpdateException, OrmException, PermissionBackendException {
+      throws RestApiException, UpdateException, StorageException, PermissionBackendException {
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");
     } else if (in.message == null || in.message.trim().isEmpty()) {
@@ -106,7 +106,7 @@ public class CreateDraftComment
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, OrmException, UnprocessableEntityException,
+        throws ResourceNotFoundException, StorageException, UnprocessableEntityException,
             PatchListNotAvailableException {
       PatchSet ps = psUtil.get(ctx.getNotes(), psId);
       if (ps == null) {

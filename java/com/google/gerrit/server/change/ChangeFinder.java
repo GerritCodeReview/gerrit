@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.DeprecatedIdentifierException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.IndexConfig;
@@ -37,7 +38,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -106,7 +106,7 @@ public class ChangeFinder {
     this.allowedIdTypes = ImmutableSet.copyOf(configuredChangeIdTypes);
   }
 
-  public ChangeNotes findOne(String id) throws OrmException {
+  public ChangeNotes findOne(String id) throws StorageException {
     List<ChangeNotes> ctls = find(id);
     if (ctls.size() != 1) {
       return null;
@@ -119,14 +119,14 @@ public class ChangeFinder {
    *
    * @param id change identifier.
    * @return possibly-empty list of notes for all matching changes; may or may not be visible.
-   * @throws OrmException if an error occurred querying the database.
+   * @throws StorageException if an error occurred querying the database.
    */
-  public List<ChangeNotes> find(String id) throws OrmException {
+  public List<ChangeNotes> find(String id) throws StorageException {
     try {
       return find(id, false);
     } catch (DeprecatedIdentifierException e) {
       // This can't happen because we don't enforce deprecation
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
   }
 
@@ -137,11 +137,11 @@ public class ChangeFinder {
    * @param enforceDeprecation boolean to see if we should throw {@link
    *     DeprecatedIdentifierException} in case the identifier is deprecated
    * @return possibly-empty list of notes for all matching changes; may or may not be visible.
-   * @throws OrmException if an error occurred querying the database
+   * @throws StorageException if an error occurred querying the database
    * @throws DeprecatedIdentifierException if the identifier is deprecated.
    */
   public List<ChangeNotes> find(String id, boolean enforceDeprecation)
-      throws OrmException, DeprecatedIdentifierException {
+      throws StorageException, DeprecatedIdentifierException {
     if (id.isEmpty()) {
       return Collections.emptyList();
     }
@@ -195,16 +195,16 @@ public class ChangeFinder {
   }
 
   private List<ChangeNotes> fromProjectNumber(String project, int changeNumber)
-      throws OrmException {
+      throws StorageException {
     Change.Id cId = new Change.Id(changeNumber);
     try {
       return ImmutableList.of(
           changeNotesFactory.createChecked(Project.NameKey.parse(project), cId));
     } catch (NoSuchChangeException e) {
       return Collections.emptyList();
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       // Distinguish between a RepositoryNotFoundException (project argument invalid) and
-      // other OrmExceptions (failure in the persistence layer).
+      // other StorageExceptions (failure in the persistence layer).
       if (Throwables.getRootCause(e) instanceof RepositoryNotFoundException) {
         return Collections.emptyList();
       }
@@ -212,7 +212,7 @@ public class ChangeFinder {
     }
   }
 
-  public ChangeNotes findOne(Change.Id id) throws OrmException {
+  public ChangeNotes findOne(Change.Id id) throws StorageException {
     List<ChangeNotes> notes = find(id);
     if (notes.size() != 1) {
       throw new NoSuchChangeException(id);
@@ -220,7 +220,7 @@ public class ChangeFinder {
     return notes.get(0);
   }
 
-  public List<ChangeNotes> find(Change.Id id) throws OrmException {
+  public List<ChangeNotes> find(Change.Id id) throws StorageException {
     String project = changeIdProjectCache.getIfPresent(id);
     if (project != null) {
       return fromProjectNumber(project, id.get());
@@ -236,7 +236,7 @@ public class ChangeFinder {
     return asChangeNotes(r);
   }
 
-  private List<ChangeNotes> asChangeNotes(List<ChangeData> cds) throws OrmException {
+  private List<ChangeNotes> asChangeNotes(List<ChangeData> cds) throws StorageException {
     List<ChangeNotes> notes = new ArrayList<>(cds.size());
     if (!indexConfig.separateChangeSubIndexes()) {
       for (ChangeData cd : cds) {

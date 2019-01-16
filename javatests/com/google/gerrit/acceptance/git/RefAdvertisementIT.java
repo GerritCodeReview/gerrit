@@ -276,7 +276,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         metaRef3,
         "refs/heads/master",
         "refs/tags/master-tag",
-        "refs/tags/branch-tag",
         "refs/users/01/1000001/edit-" + cd3.getId() + "/1");
   }
 
@@ -304,7 +303,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         metaRef3,
         "refs/heads/master",
         "refs/tags/master-tag",
-        "refs/tags/branch-tag",
         "refs/users/00/1000000/edit-" + cd3.getId() + "/1",
         "refs/users/01/1000001/edit-" + cd3.getId() + "/1");
   }
@@ -745,7 +743,13 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     }
     try {
       Map<String, Ref> all = getAllRefs(repo);
-      assertThat(forProject.filter(all, repo, RefFilterOptions.defaults()).keySet())
+      assertThat(
+              forProject
+                  .filter(
+                      all,
+                      repo,
+                      RefFilterOptions.defaults().toBuilder().setFilterTagsSeparately(true).build())
+                  .keySet())
           .containsExactlyElementsIn(expectedRefs);
     } finally {
       if (disableDb) {

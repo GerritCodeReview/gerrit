@@ -16,6 +16,24 @@
       "revId": "9d1a25c5d13e5cbf52667e234172aaa65fd10699",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b352cc1c_66f9b3c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-16T05:51:25Z",
+      "side": 1,
+      "message": "Actually the code where this issue was reported looks like plain C to me.\n\nhttps://boringssl-review.googlesource.com/c/boringssl/+/15365/1/crypto/bn/div.c",
+      "parentUuid": "e8b1f9b9_80b873cc",
+      "revId": "9d1a25c5d13e5cbf52667e234172aaa65fd10699",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

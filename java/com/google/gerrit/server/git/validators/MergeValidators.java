@@ -301,7 +301,7 @@ public class MergeValidators {
         if (!cd.currentFilePaths().contains(AccountProperties.ACCOUNT_CONFIG)) {
           return;
         }
-      } catch (IOException | StorageException e) {
+      } catch (StorageException e) {
         logger.atSevere().withCause(e).log("Cannot validate account update");
         throw new MergeValidationException("account validation unavailable");
       }

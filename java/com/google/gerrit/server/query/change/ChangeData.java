@@ -89,9 +89,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -367,7 +364,7 @@ public class ChangeData {
     }
   }
 
-  public List<String> currentFilePaths() throws IOException {
+  public List<String> currentFilePaths() {
     if (currentFiles == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
@@ -378,7 +375,7 @@ public class ChangeData {
     return currentFiles;
   }
 
-  private Optional<DiffSummary> getDiffSummary() throws IOException {
+  private Optional<DiffSummary> getDiffSummary() {
     if (diffSummary == null) {
       if (!lazyLoad) {
         return Optional.empty();
@@ -406,7 +403,7 @@ public class ChangeData {
     return diffSummary;
   }
 
-  private Optional<ChangedLines> computeChangedLines() throws IOException {
+  private Optional<ChangedLines> computeChangedLines() {
     Optional<DiffSummary> ds = getDiffSummary();
     if (ds.isPresent()) {
       return Optional.of(ds.get().getChangedLines());
@@ -414,7 +411,7 @@ public class ChangeData {
     return Optional.empty();
   }
 
-  public Optional<ChangedLines> changedLines() throws IOException {
+  public Optional<ChangedLines> changedLines() {
     if (changedLines == null) {
       if (!lazyLoad) {
         return Optional.empty();
@@ -538,7 +535,7 @@ public class ChangeData {
     currentApprovals = approvals;
   }
 
-  public String commitMessage() throws IOException {
+  public String commitMessage() {
     if (commitMessage == null) {
       if (!loadCommitData()) {
         return null;
@@ -547,7 +544,7 @@ public class ChangeData {
     return commitMessage;
   }
 
-  public List<FooterLine> commitFooters() throws IOException {
+  public List<FooterLine> commitFooters() {
     if (commitFooters == null) {
       if (!loadCommitData()) {
         return null;
@@ -556,11 +553,11 @@ public class ChangeData {
     return commitFooters;
   }
 
-  public ListMultimap<String, String> trackingFooters() throws IOException {
+  public ListMultimap<String, String> trackingFooters() {
     return trackingFooters.extract(commitFooters());
   }
 
-  public PersonIdent getAuthor() throws IOException {
+  public PersonIdent getAuthor() {
     if (author == null) {
       if (!loadCommitData()) {
         return null;
@@ -569,7 +566,7 @@ public class ChangeData {
     return author;
   }
 
-  public PersonIdent getCommitter() throws IOException {
+  public PersonIdent getCommitter() {
     if (committer == null) {
       if (!loadCommitData()) {
         return null;
@@ -578,9 +575,7 @@ public class ChangeData {
     return committer;
   }
 
-  private boolean loadCommitData()
-      throws RepositoryNotFoundException, IOException, MissingObjectException,
-          IncorrectObjectTypeException {
+  private boolean loadCommitData() {
     PatchSet ps = currentPatchSet();
     if (ps == null) {
       return false;
@@ -594,6 +589,8 @@ public class ChangeData {
       author = c.getAuthorIdent();
       committer = c.getCommitterIdent();
       parentCount = c.getParentCount();
+    } catch (IOException e) {
+      throw new StorageException(e);
     }
     return true;
   }

@@ -48,14 +48,8 @@ public class ConflictsPredicate {
 
   public static Predicate<ChangeData> create(Arguments args, String value, Change c)
       throws QueryParseException {
-    ChangeData cd;
-    List<String> files;
-    try {
-      cd = args.changeDataFactory.create(c);
-      files = cd.currentFilePaths();
-    } catch (IOException e) {
-      throw new StorageException(e);
-    }
+    ChangeData cd = args.changeDataFactory.create(c);
+    List<String> files = cd.currentFilePaths();
 
     if (3 + files.size() > args.indexConfig.maxTerms()) {
       // Short-circuit with a nice error message if we exceed the index

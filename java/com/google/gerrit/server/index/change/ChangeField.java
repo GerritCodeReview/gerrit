@@ -41,7 +41,6 @@ import com.google.common.io.Files;
 import com.google.common.primitives.Longs;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
@@ -72,7 +71,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gson.Gson;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -154,12 +152,7 @@ public class ChangeField {
           .buildRepeatable(cd -> firstNonNull(cd.currentFilePaths(), ImmutableList.of()));
 
   public static Set<String> getFileParts(ChangeData cd) {
-    List<String> paths;
-    try {
-      paths = cd.currentFilePaths();
-    } catch (IOException e) {
-      throw new StorageException(e);
-    }
+    List<String> paths = cd.currentFilePaths();
 
     Splitter s = Splitter.on('/').omitEmptyStrings();
     Set<String> r = new HashSet<>();
@@ -191,19 +184,15 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_EXTENSION).buildRepeatable(ChangeField::getExtensions);
 
   public static Set<String> getExtensions(ChangeData cd) {
-    try {
-      return cd.currentFilePaths()
-          .stream()
-          // Use case-insensitive file extensions even though other file fields are case-sensitive.
-          // If we want to find "all Java files", we want to match both .java and .JAVA, even if we
-          // normally care about case sensitivity. (Whether we should change the existing file/path
-          // predicates to be case insensitive is a separate question.)
-          .map(f -> Files.getFileExtension(f).toLowerCase(Locale.US))
-          .filter(e -> !e.isEmpty())
-          .collect(toSet());
-    } catch (IOException e) {
-      throw new StorageException(e);
-    }
+    return cd.currentFilePaths()
+        .stream()
+        // Use case-insensitive file extensions even though other file fields are case-sensitive.
+        // If we want to find "all Java files", we want to match both .java and .JAVA, even if we
+        // normally care about case sensitivity. (Whether we should change the existing file/path
+        // predicates to be case insensitive is a separate question.)
+        .map(f -> Files.getFileExtension(f).toLowerCase(Locale.US))
+        .filter(e -> !e.isEmpty())
+        .collect(toSet());
   }
 
   /** Owner/creator of the change. */
@@ -429,19 +418,19 @@ public class ChangeField {
     return allApprovals;
   }
 
-  public static Set<String> getAuthorParts(ChangeData cd) throws IOException {
+  public static Set<String> getAuthorParts(ChangeData cd) {
     return SchemaUtil.getPersonParts(cd.getAuthor());
   }
 
-  public static Set<String> getAuthorNameAndEmail(ChangeData cd) throws IOException {
+  public static Set<String> getAuthorNameAndEmail(ChangeData cd) {
     return getNameAndEmail(cd.getAuthor());
   }
 
-  public static Set<String> getCommitterParts(ChangeData cd) throws IOException {
+  public static Set<String> getCommitterParts(ChangeData cd) {
     return SchemaUtil.getPersonParts(cd.getCommitter());
   }
 
-  public static Set<String> getCommitterNameAndEmail(ChangeData cd) throws IOException {
+  public static Set<String> getCommitterNameAndEmail(ChangeData cd) {
     return getNameAndEmail(cd.getCommitter());
   }
 

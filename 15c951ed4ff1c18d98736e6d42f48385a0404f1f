@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fcfbd7e6_848c7b6e",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-16T09:31:38Z",
+      "side": 1,
+      "message": "My original motivation is to verify a site is initialized with a default All-Projects. But yes, it makes sense to be a small tests given that we also want to test more detailed behaviors of this class.",
+      "parentUuid": "50688f0d_1168cbcf",
+      "revId": "15c951ed4ff1c18d98736e6d42f48385a0404f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "821bab0a_33fb9fe4",
         "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-01-15T18:09:31Z",
       "side": 1,
       "message": "Optional: I often find golden file contents like this easier to read if they are expressed as a list that you then join with \"\\n\" later. This has two advantages:\n\n* A single trailing , is less noisy than using + and \\n.\n* It\u0027s impossible to forget the trailing , because it\u0027s a syntax error.",
+      "revId": "15c951ed4ff1c18d98736e6d42f48385a0404f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17ec8553_3024e263",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-16T09:31:38Z",
+      "side": 1,
+      "message": "Done.\n\nAlso let\u0027s split them into multiple sub-list so that we can verify more detailed behavior of this class.",
+      "parentUuid": "821bab0a_33fb9fe4",
       "revId": "15c951ed4ff1c18d98736e6d42f48385a0404f1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "2f080e77_0bee88d7",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-16T09:31:38Z",
+      "side": 1,
+      "message": "good suggestion.",
+      "parentUuid": "9c2a3c1f_d74a5172",
+      "revId": "15c951ed4ff1c18d98736e6d42f48385a0404f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "794c650b_9d30512e",
         "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "097ad0a9_887d8415",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-16T09:31:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "794c650b_9d30512e",
+      "revId": "15c951ed4ff1c18d98736e6d42f48385a0404f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5baa5d68_89e5e1e9",
         "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
         "patchSetId": 1
@@ -84,6 +156,24 @@
       "revId": "15c951ed4ff1c18d98736e6d42f48385a0404f1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4de91c19_1eae2080",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-16T09:31:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5baa5d68_89e5e1e9",
+      "revId": "15c951ed4ff1c18d98736e6d42f48385a0404f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -107,6 +197,30 @@
       "revId": "15c951ed4ff1c18d98736e6d42f48385a0404f1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12aa7cbb_ea6cd771",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-16T09:31:38Z",
+      "side": 1,
+      "message": "done. updated to a simpler one.",
+      "parentUuid": "c4969082_21f7daa1",
+      "range": {
+        "startLine": 157,
+        "startChar": 23,
+        "endLine": 157,
+        "endChar": 36
+      },
+      "revId": "15c951ed4ff1c18d98736e6d42f48385a0404f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -266,6 +266,24 @@ public class RefNames {
     return REFS_CONFIG.equals(ref);
   }
 
+  /**
+   * Whether the ref is managed by Gerrit. Covers all Gerrit-internal refs like refs/cache-automerge
+   * and refs/meta as well as refs/changes. Does not cover user-created refs like branches or custom
+   * ref namespaces like refs/my-company.
+   */
+  public static boolean isGerritRef(String ref) {
+    return ref.startsWith(REFS_CHANGES)
+        || ref.startsWith(REFS_META)
+        || ref.startsWith(REFS_CACHE_AUTOMERGE)
+        || ref.startsWith(REFS_DRAFT_COMMENTS)
+        || ref.startsWith(REFS_DELETED_GROUPS)
+        || ref.startsWith(REFS_SEQUENCES)
+        || ref.startsWith(REFS_GROUPS)
+        || ref.startsWith(REFS_GROUPNAMES)
+        || ref.startsWith(REFS_USERS)
+        || ref.startsWith(REFS_STARRED_CHANGES);
+  }
+
   static Integer parseShardedRefPart(String name) {
     if (name == null) {
       return null;

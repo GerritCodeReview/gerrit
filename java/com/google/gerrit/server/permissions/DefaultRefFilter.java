@@ -249,7 +249,7 @@ class DefaultRefFilter {
                   repo,
                   opts.filterTagsSeparately()
                       ? filter(
-                              getAllRefsMap(repo),
+                              getTaggableRefsMap(repo),
                               repo,
                               opts.toBuilder().setFilterTagsSeparately(false).build())
                           .values()
@@ -268,9 +268,20 @@ class DefaultRefFilter {
     return result;
   }
 
-  private static Map<String, Ref> getAllRefsMap(Repository repo) throws PermissionBackendException {
+  /**
+   * Returns all refs tag we regard as starting points for reachability computation for tags. In
+   * general, these are all refs not managed by Gerrit.
+   */
+  private static Map<String, Ref> getTaggableRefsMap(Repository repo)
+      throws PermissionBackendException {
     try {
-      return repo.getRefDatabase().getRefs().stream().collect(toMap(Ref::getName, r -> r));
+      return repo.getRefDatabase()
+          .getRefs()
+          .stream()
+          .filter(
+              r ->
+                  !RefNames.isGerritRef(r.getName()) && !r.getName().startsWith(RefNames.REFS_TAGS))
+          .collect(toMap(Ref::getName, r -> r));
     } catch (IOException e) {
       throw new PermissionBackendException(e);
     }

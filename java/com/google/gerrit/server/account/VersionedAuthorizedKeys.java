@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.exceptions.InvalidSshKeyException;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
@@ -126,11 +127,10 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
       }
     }
 
-    private void commit(VersionedAuthorizedKeys authorizedKeys) throws IOException {
-      try (MetaDataUpdate md =
-          metaDataUpdateFactory
-              .get()
-              .create(allUsersName, userFactory.create(authorizedKeys.accountId))) {
+    private void commit(VersionedAuthorizedKeys authorizedKeys)
+        throws ConfigInvalidException, LockFailureException {
+      IdentifiedUser user = userFactory.create(authorizedKeys.accountId);
+      try (MetaDataUpdate md = call(() -> metaDataUpdateFactory.get().create(allUsersName, user))) {
         authorizedKeys.commit(md);
       }
     }
@@ -165,12 +165,12 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   }
 
   @Override
-  protected void onLoad() throws IOException {
+  protected void onLoad() {
     keys = AuthorizedKeys.parse(accountId, readUTF8(AuthorizedKeys.FILE_NAME));
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException {
+  protected boolean onSave(CommitBuilder commit) {
     if (Strings.isNullOrEmpty(commit.getMessage())) {
       commit.setMessage("Updated SSH keys\n");
     }

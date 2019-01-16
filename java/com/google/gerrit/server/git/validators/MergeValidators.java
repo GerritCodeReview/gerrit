@@ -230,7 +230,7 @@ public class MergeValidators {
               throw new MergeValidationException(PLUGIN_VALUE_NOT_PERMITTED);
             }
           }
-        } catch (ConfigInvalidException | IOException e) {
+        } catch (ConfigInvalidException e) {
           throw new MergeValidationException(INVALID_CONFIG);
         }
       }

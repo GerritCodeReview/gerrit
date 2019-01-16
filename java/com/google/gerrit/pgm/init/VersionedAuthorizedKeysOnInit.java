@@ -28,7 +28,6 @@ import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -53,13 +52,13 @@ public class VersionedAuthorizedKeysOnInit extends VersionedMetaDataOnInit {
   }
 
   @Override
-  public VersionedAuthorizedKeysOnInit load() throws IOException, ConfigInvalidException {
+  public VersionedAuthorizedKeysOnInit load() throws ConfigInvalidException {
     super.load();
     return this;
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad() {
     keys = AuthorizedKeys.parse(accountId, readUTF8(AuthorizedKeys.FILE_NAME));
   }
 
@@ -73,7 +72,7 @@ public class VersionedAuthorizedKeysOnInit extends VersionedMetaDataOnInit {
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException {
+  protected boolean onSave(CommitBuilder commit) {
     if (Strings.isNullOrEmpty(commit.getMessage())) {
       commit.setMessage("Updated SSH keys\n");
     }

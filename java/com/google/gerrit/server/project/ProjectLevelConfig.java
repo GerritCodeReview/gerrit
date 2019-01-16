@@ -20,7 +20,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -45,7 +44,7 @@ public class ProjectLevelConfig extends VersionedMetaData {
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad() throws ConfigInvalidException {
     cfg = readConfig(fileName);
   }
 
@@ -129,7 +128,7 @@ public class ProjectLevelConfig extends VersionedMetaData {
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) {
     if (commit.getMessage() == null || "".equals(commit.getMessage())) {
       commit.setMessage("Updated configuration\n");
     }

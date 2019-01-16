@@ -28,6 +28,8 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -411,8 +413,8 @@ public class ExternalIdNotes extends VersionedMetaData {
     return noteMap;
   }
 
-  static byte[] readNoteData(RevWalk rw, ObjectId noteDataId) throws IOException {
-    return rw.getObjectReader().open(noteDataId, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
+  static byte[] readNoteData(RevWalk rw, ObjectId noteDataId) {
+    return call(() -> rw.getObjectReader().open(noteDataId, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ));
   }
 
   /**
@@ -431,8 +433,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    * @throws IOException on IO error while checking if external IDs already exist
    * @throws DuplicateExternalIdKeyException if any of the external ID already exists
    */
-  public void insert(Collection<ExternalId> extIds)
-      throws IOException, DuplicateExternalIdKeyException {
+  public void insert(Collection<ExternalId> extIds) throws DuplicateExternalIdKeyException {
     checkLoaded();
     checkExternalIdsDontExist(extIds);
 
@@ -565,7 +566,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   public void replace(
       Account.Id accountId, Collection<ExternalId.Key> toDelete, Collection<ExternalId> toAdd)
-      throws IOException, DuplicateExternalIdKeyException {
+      throws DuplicateExternalIdKeyException {
     checkLoaded();
     checkSameAccount(toAdd, accountId);
     checkExternalIdKeysDontExist(ExternalId.Key.from(toAdd), toDelete);
@@ -600,7 +601,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    * <p>The external IDs are replaced regardless of which account they belong to.
    */
   public void replaceByKeys(Collection<ExternalId.Key> toDelete, Collection<ExternalId> toAdd)
-      throws IOException, DuplicateExternalIdKeyException {
+      throws DuplicateExternalIdKeyException {
     checkLoaded();
     checkExternalIdKeysDontExist(ExternalId.Key.from(toAdd), toDelete);
 
@@ -628,7 +629,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    *     accounts.
    */
   public void replace(ExternalId toDelete, ExternalId toAdd)
-      throws IOException, DuplicateExternalIdKeyException {
+      throws DuplicateExternalIdKeyException {
     replace(Collections.singleton(toDelete), Collections.singleton(toAdd));
   }
 
@@ -644,7 +645,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    *     accounts.
    */
   public void replace(Collection<ExternalId> toDelete, Collection<ExternalId> toAdd)
-      throws IOException, DuplicateExternalIdKeyException {
+      throws DuplicateExternalIdKeyException {
     Account.Id accountId = checkSameAccount(Iterables.concat(toDelete, toAdd));
     if (accountId == null) {
       // toDelete and toAdd are empty -> nothing to do
@@ -655,10 +656,10 @@ public class ExternalIdNotes extends VersionedMetaData {
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad() {
     logger.atFine().log("Reading external ID note map");
 
-    noteMap = revision != null ? NoteMap.read(reader, revision) : NoteMap.newEmptyMap();
+    noteMap = revision != null ? call(() -> NoteMap.read(reader, revision)) : NoteMap.newEmptyMap();
 
     if (afterReadRevision != null) {
       afterReadRevision.run();
@@ -666,7 +667,8 @@ public class ExternalIdNotes extends VersionedMetaData {
   }
 
   @Override
-  public RevCommit commit(MetaDataUpdate update) throws IOException {
+  public RevCommit commit(MetaDataUpdate update)
+      throws ConfigInvalidException, LockFailureException {
     oldRev = revision != null ? revision.copy() : ObjectId.zeroId();
     RevCommit commit = super.commit(update);
     updateCount.increment();
@@ -684,7 +686,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    * <p>No eviction from account cache and no reindex if this instance was created by {@link
    * FactoryNoReindex}.
    */
-  public void updateCaches() throws IOException {
+  public void updateCaches() {
     updateCaches(ImmutableSet.of());
   }
 
@@ -701,7 +703,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    * @param accountsToSkip set of accounts that should not be evicted from the account cache, in
    *     this case the caller must take care to evict them otherwise
    */
-  public void updateCaches(Collection<Account.Id> accountsToSkip) throws IOException {
+  public void updateCaches(Collection<Account.Id> accountsToSkip) {
     checkState(oldRev != null, "no changes committed yet");
 
     ExternalIdCacheUpdates externalIdCacheUpdates = new ExternalIdCacheUpdates();
@@ -737,7 +739,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) throws ConfigInvalidException {
     checkState(!readOnly, "Updating external IDs is disabled");
 
     if (noteMapUpdates.isEmpty()) {
@@ -755,8 +757,8 @@ public class ExternalIdNotes extends VersionedMetaData {
       for (NoteMapUpdate noteMapUpdate : noteMapUpdates) {
         try {
           noteMapUpdate.execute(rw, noteMap, footers);
-        } catch (DuplicateExternalIdKeyException e) {
-          throw new IOException(e);
+        } catch (IOException | DuplicateExternalIdKeyException e) {
+          throw new StorageException(e);
         }
       }
       noteMapUpdates.clear();
@@ -768,8 +770,8 @@ public class ExternalIdNotes extends VersionedMetaData {
                 .collect(joining("\n", commit.getMessage().trim() + "\n\n", "")));
       }
 
-      RevTree oldTree = revision != null ? rw.parseTree(revision) : null;
-      ObjectId newTreeId = noteMap.writeTree(inserter);
+      RevTree oldTree = revision != null ? call(() -> rw.parseTree(revision)) : null;
+      ObjectId newTreeId = call(() -> noteMap.writeTree(inserter));
       if (newTreeId.equals(oldTree)) {
         return false;
       }
@@ -914,24 +916,28 @@ public class ExternalIdNotes extends VersionedMetaData {
   }
 
   private void checkExternalIdsDontExist(Collection<ExternalId> extIds)
-      throws DuplicateExternalIdKeyException, IOException {
+      throws DuplicateExternalIdKeyException {
     checkExternalIdKeysDontExist(ExternalId.Key.from(extIds));
   }
 
   private void checkExternalIdKeysDontExist(
       Collection<ExternalId.Key> extIdKeysToAdd, Collection<ExternalId.Key> extIdKeysToDelete)
-      throws DuplicateExternalIdKeyException, IOException {
+      throws DuplicateExternalIdKeyException {
     HashSet<ExternalId.Key> newKeys = new HashSet<>(extIdKeysToAdd);
     newKeys.removeAll(extIdKeysToDelete);
     checkExternalIdKeysDontExist(newKeys);
   }
 
   private void checkExternalIdKeysDontExist(Collection<ExternalId.Key> extIdKeys)
-      throws IOException, DuplicateExternalIdKeyException {
-    for (ExternalId.Key extIdKey : extIdKeys) {
-      if (noteMap.contains(extIdKey.sha1())) {
-        throw new DuplicateExternalIdKeyException(extIdKey);
+      throws DuplicateExternalIdKeyException {
+    try {
+      for (ExternalId.Key extIdKey : extIdKeys) {
+        if (noteMap.contains(extIdKey.sha1())) {
+          throw new DuplicateExternalIdKeyException(extIdKey);
+        }
       }
+    } catch (IOException e) {
+      throw new StorageException(e);
     }
   }
 
@@ -947,7 +953,7 @@ public class ExternalIdNotes extends VersionedMetaData {
 
   @FunctionalInterface
   private interface CacheUpdate {
-    void execute(ExternalIdCacheUpdates cacheUpdates) throws IOException;
+    void execute(ExternalIdCacheUpdates cacheUpdates);
   }
 
   private static class ExternalIdCacheUpdates {

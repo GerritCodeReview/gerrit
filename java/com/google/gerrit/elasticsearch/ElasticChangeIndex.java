@@ -33,7 +33,6 @@ import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -112,16 +111,12 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     String deleteIndex;
     String insertIndex;
 
-    try {
-      if (cd.change().getStatus().isOpen()) {
-        insertIndex = OPEN_CHANGES;
-        deleteIndex = CLOSED_CHANGES;
-      } else {
-        insertIndex = CLOSED_CHANGES;
-        deleteIndex = OPEN_CHANGES;
-      }
-    } catch (StorageException e) {
-      throw new IOException(e);
+    if (cd.change().getStatus().isOpen()) {
+      insertIndex = OPEN_CHANGES;
+      deleteIndex = CLOSED_CHANGES;
+    } else {
+      insertIndex = CLOSED_CHANGES;
+      deleteIndex = OPEN_CHANGES;
     }
 
     ElasticQueryAdapter adapter = client.adapter();

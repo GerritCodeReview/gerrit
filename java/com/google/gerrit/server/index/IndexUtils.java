@@ -22,6 +22,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.project.ProjectField;
 import com.google.gerrit.server.CurrentUser;
@@ -49,23 +50,22 @@ public final class IndexUtils {
         }
       };
 
-  public static void setReady(SitePaths sitePaths, String name, int version, boolean ready)
-      throws IOException {
+  public static void setReady(SitePaths sitePaths, String name, int version, boolean ready) {
     try {
       GerritIndexStatus cfg = new GerritIndexStatus(sitePaths);
       cfg.setReady(name, version, ready);
       cfg.save();
-    } catch (ConfigInvalidException e) {
-      throw new IOException(e);
+    } catch (ConfigInvalidException | IOException e) {
+      throw new StorageException(e);
     }
   }
 
-  public static boolean getReady(SitePaths sitePaths, String name, int version) throws IOException {
+  public static boolean getReady(SitePaths sitePaths, String name, int version) {
     try {
       GerritIndexStatus cfg = new GerritIndexStatus(sitePaths);
       return cfg.getReady(name, version);
-    } catch (ConfigInvalidException e) {
-      throw new IOException(e);
+    } catch (ConfigInvalidException | IOException e) {
+      throw new StorageException(e);
     }
   }
 

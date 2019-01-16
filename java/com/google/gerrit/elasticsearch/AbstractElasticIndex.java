@@ -167,23 +167,23 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   @Override
-  public void markReady(boolean ready) throws IOException {
+  public void markReady(boolean ready) {
     IndexUtils.setReady(sitePaths, indexNameRaw, schema.getVersion(), ready);
   }
 
   @Override
-  public void delete(K id) throws IOException {
+  public void delete(K id) {
     String uri = getURI(type, BULK);
     Response response = postRequest(uri, getDeleteActions(id), getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
-      throw new IOException(
+      throw new StorageException(
           String.format("Failed to delete %s from index %s: %s", id, indexName, statusCode));
     }
   }
 
   @Override
-  public void deleteAll() throws IOException {
+  public void deleteAll() {
     // Delete the index, if it exists.
     String endpoint = indexName + client.adapter().indicesExistParam();
     Response response = performRequest("HEAD", endpoint);
@@ -192,7 +192,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       response = performRequest("DELETE", indexName);
       statusCode = response.getStatusLine().getStatusCode();
       if (statusCode != HttpStatus.SC_OK) {
-        throw new IOException(
+        throw new StorageException(
             String.format("Failed to delete index %s: %s", indexName, statusCode));
       }
     }
@@ -205,7 +205,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       String error = String.format("Failed to create index %s: %s", indexName, statusCode);
-      throw new IOException(error);
+      throw new StorageException(error);
     }
   }
 
@@ -307,21 +307,24 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     return sortArray;
   }
 
-  protected String getURI(String type, String request) throws UnsupportedEncodingException {
-    String encodedIndexName = URLEncoder.encode(indexName, UTF_8.toString());
-    if (SEARCH.equals(request) && client.adapter().omitTypeFromSearch()) {
-      return encodedIndexName + "/" + request;
+  protected String getURI(String type, String request) {
+    try {
+      String encodedIndexName = URLEncoder.encode(indexName, UTF_8.toString());
+      if (SEARCH.equals(request) && client.adapter().omitTypeFromSearch()) {
+        return encodedIndexName + "/" + request;
+      }
+      String encodedType = URLEncoder.encode(type, UTF_8.toString());
+      return encodedIndexName + "/" + encodedType + "/" + request;
+    } catch (UnsupportedEncodingException e) {
+      throw new StorageException(e);
     }
-    String encodedType = URLEncoder.encode(type, UTF_8.toString());
-    return encodedIndexName + "/" + encodedType + "/" + request;
   }
 
-  protected Response postRequest(String uri, Object payload) throws IOException {
+  protected Response postRequest(String uri, Object payload) {
     return performRequest("POST", uri, payload);
   }
 
-  protected Response postRequest(String uri, Object payload, Map<String, String> params)
-      throws IOException {
+  protected Response postRequest(String uri, Object payload, Map<String, String> params) {
     return performRequest("POST", uri, payload, params);
   }
 
@@ -329,18 +332,16 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     return target.substring(0, target.length() - 1) + "," + addition.substring(1);
   }
 
-  private Response performRequest(String method, String uri) throws IOException {
+  private Response performRequest(String method, String uri) {
     return performRequest(method, uri, null);
   }
 
-  private Response performRequest(String method, String uri, @Nullable Object payload)
-      throws IOException {
+  private Response performRequest(String method, String uri, @Nullable Object payload) {
     return performRequest(method, uri, payload, Collections.emptyMap());
   }
 
   private Response performRequest(
-      String method, String uri, @Nullable Object payload, Map<String, String> params)
-      throws IOException {
+      String method, String uri, @Nullable Object payload, Map<String, String> params) {
     Request request = new Request(method, uri.startsWith("/") ? uri : "/" + uri);
     if (payload != null) {
       String payloadStr = payload instanceof String ? (String) payload : payload.toString();
@@ -349,7 +350,11 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     for (Map.Entry<String, String> entry : params.entrySet()) {
       request.addParameter(entry.getKey(), entry.getValue());
     }
-    return client.get().performRequest(request);
+    try {
+      return client.get().performRequest(request);
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
   }
 
   protected class ElasticQuerySource implements DataSource<V> {

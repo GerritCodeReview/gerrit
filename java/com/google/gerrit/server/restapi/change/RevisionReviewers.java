@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -28,7 +29,6 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.restapi.account.AccountsCollection;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -69,7 +69,7 @@ public class RevisionReviewers implements ChildCollection<RevisionResource, Revi
 
   @Override
   public ReviewerResource parse(RevisionResource rsrc, IdString id)
-      throws OrmException, ResourceNotFoundException, AuthException, MethodNotAllowedException,
+      throws StorageException, ResourceNotFoundException, AuthException, MethodNotAllowedException,
           IOException, ConfigInvalidException {
     if (!rsrc.isCurrent()) {
       throw new MethodNotAllowedException("Cannot access on non-current patch set");

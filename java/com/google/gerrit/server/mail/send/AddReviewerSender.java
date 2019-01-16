@@ -15,9 +15,9 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -30,7 +30,7 @@ public class AddReviewerSender extends NewChangeSender {
   @Inject
   public AddReviewerSender(
       EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
-      throws OrmException {
+      throws StorageException {
     super(ea, newChangeData(ea, project, id));
   }
 

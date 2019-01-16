@@ -25,7 +25,6 @@ java_library(
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/sshd",
-        "//java/com/google/gwtorm",
         "//lib:guava",
         "//lib:servlet-api-3_1",
         "//lib/flogger:api",

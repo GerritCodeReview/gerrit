@@ -15,8 +15,8 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 
 public class TrackingIdPredicate extends ChangeIndexPredicate {
@@ -27,7 +27,7 @@ public class TrackingIdPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) throws StorageException {
     try {
       return cd.trackingFooters().containsValue(getValue());
     } catch (IOException e) {

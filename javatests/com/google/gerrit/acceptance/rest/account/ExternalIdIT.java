@@ -36,6 +36,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
@@ -54,7 +55,6 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gson.reflect.TypeToken;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -941,7 +941,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   private void addExtId(TestRepository<?> testRepo, ExternalId... extIds)
-      throws IOException, OrmDuplicateKeyException, ConfigInvalidException {
+      throws IOException, DuplicateKeyException, ConfigInvalidException {
     ExternalIdNotes extIdNotes = externalIdNotesFactory.load(testRepo.getRepository());
     extIdNotes.insert(Arrays.asList(extIds));
     try (MetaDataUpdate metaDataUpdate =

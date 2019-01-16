@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.IdentifiedUser;
@@ -21,7 +22,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.SshScope.Context;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.apache.sshd.server.Environment;
@@ -85,7 +85,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
     return n;
   }
 
-  private void service() throws IOException, OrmException, PermissionBackendException, Failure {
+  private void service() throws IOException, StorageException, PermissionBackendException, Failure {
     project = projectState.getProject();
     projectName = project.getNameKey();
 
@@ -103,5 +103,5 @@ public abstract class AbstractGitCommand extends BaseCommand {
   }
 
   protected abstract void runImpl()
-      throws IOException, OrmException, PermissionBackendException, Failure;
+      throws IOException, StorageException, PermissionBackendException, Failure;
 }

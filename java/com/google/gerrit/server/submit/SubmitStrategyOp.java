@@ -23,6 +23,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.Function;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -48,7 +49,6 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -283,7 +283,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
             : alreadyMergedCommit;
     try {
       setMerged(ctx, message(ctx, commit, s));
-    } catch (OrmException err) {
+    } catch (StorageException err) {
       String msg = "Error updating change status for " + id;
       logger.atSevere().withCause(err).log(msg);
       args.commitStatus.logProblem(id, msg);
@@ -295,7 +295,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   private PatchSet getOrCreateAlreadyMergedPatchSet(ChangeContext ctx)
-      throws IOException, OrmException {
+      throws IOException, StorageException {
     PatchSet.Id psId = alreadyMergedCommit.getPatchsetId();
     logger.atFine().log("Fixing up already-merged patch set %s", psId);
     PatchSet prevPs = args.psUtil.current(ctx.getNotes());
@@ -318,7 +318,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   private void setApproval(ChangeContext ctx, IdentifiedUser user)
-      throws OrmException, IOException {
+      throws StorageException, IOException {
     Change.Id id = ctx.getChange().getId();
     List<SubmitRecord> records = args.commitStatus.getSubmitRecords(id);
     PatchSet.Id oldPsId = toMerge.getPatchsetId();
@@ -340,7 +340,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   private LabelNormalizer.Result approve(ChangeContext ctx, ChangeUpdate update)
-      throws OrmException, IOException {
+      throws StorageException, IOException {
     PatchSet.Id psId = update.getPatchSetId();
     Map<PatchSetApproval.Key, PatchSetApproval> byKey = new HashMap<>();
     for (PatchSetApproval psa :
@@ -405,7 +405,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   private ChangeMessage message(ChangeContext ctx, CodeReviewCommit commit, CommitMergeStatus s)
-      throws OrmException {
+      throws StorageException {
     requireNonNull(s, "CommitMergeStatus may not be null");
     String txt = s.getDescription();
     if (s == CommitMergeStatus.CLEAN_MERGE) {

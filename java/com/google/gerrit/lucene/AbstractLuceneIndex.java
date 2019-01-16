@@ -31,6 +31,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
@@ -45,7 +46,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorService;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Map;
@@ -486,16 +486,16 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     }
 
     @Override
-    public ResultSet<V> read() throws OrmException {
+    public ResultSet<V> read() throws StorageException {
       return readImpl(AbstractLuceneIndex.this::fromDocument);
     }
 
     @Override
-    public ResultSet<FieldBundle> readRaw() throws OrmException {
+    public ResultSet<FieldBundle> readRaw() throws StorageException {
       return readImpl(AbstractLuceneIndex.this::toFieldBundle);
     }
 
-    private <T> ResultSet<T> readImpl(Function<Document, T> mapper) throws OrmException {
+    private <T> ResultSet<T> readImpl(Function<Document, T> mapper) throws StorageException {
       IndexSearcher searcher = null;
       try {
         searcher = acquire();
@@ -512,7 +512,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
         }
         return new ListResultSet<>(b.build());
       } catch (IOException e) {
-        throw new OrmException(e);
+        throw new StorageException(e);
       } finally {
         if (searcher != null) {
           try {

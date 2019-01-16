@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -24,7 +25,6 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -49,7 +49,7 @@ public class AccountsCollection implements RestCollection<TopLevelResource, Acco
 
   @Override
   public AccountResource parse(TopLevelResource root, IdString id)
-      throws ResourceNotFoundException, AuthException, OrmException, IOException,
+      throws ResourceNotFoundException, AuthException, StorageException, IOException,
           ConfigInvalidException {
     try {
       return new AccountResource(accountResolver.resolve(id.get()).asUniqueUser());

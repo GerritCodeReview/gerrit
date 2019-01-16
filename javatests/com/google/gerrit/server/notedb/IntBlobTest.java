@@ -18,10 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -87,8 +87,8 @@ public class IntBlobTest {
     ObjectId id = tr.update(refName, tr.blob("1 2 3"));
     try {
       IntBlob.parse(repo, refName);
-      assert_().fail("Expected OrmException");
-    } catch (OrmException e) {
+      assert_().fail("Expected StorageException");
+    } catch (StorageException e) {
       assertThat(e).hasMessageThat().isEqualTo("invalid value in refs/foo blob at " + id.name());
     }
   }

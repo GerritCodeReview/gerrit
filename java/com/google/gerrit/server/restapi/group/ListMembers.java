@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -33,7 +34,6 @@ import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -67,7 +67,7 @@ public class ListMembers implements RestReadView<GroupResource> {
 
   @Override
   public List<AccountInfo> apply(GroupResource resource)
-      throws NotInternalGroupException, OrmException, PermissionBackendException {
+      throws NotInternalGroupException, StorageException, PermissionBackendException {
     GroupDescription.Internal group =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     if (recursive) {

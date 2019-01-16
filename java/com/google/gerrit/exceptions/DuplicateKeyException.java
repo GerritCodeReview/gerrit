@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gwtorm.server;
+package com.google.gerrit.exceptions;
 
 /** Indicates one or more entities were concurrently inserted with the same key. */
-public class OrmDuplicateKeyException extends OrmException {
+public class DuplicateKeyException extends StorageException {
   private static final long serialVersionUID = 1L;
 
-  public OrmDuplicateKeyException(String msg) {
+  public DuplicateKeyException(String msg) {
     super(msg);
   }
 
-  public OrmDuplicateKeyException(String msg, Throwable why) {
+  public DuplicateKeyException(String msg, Throwable why) {
     super(msg, why);
   }
 }

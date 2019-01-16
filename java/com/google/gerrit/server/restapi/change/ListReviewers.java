@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.mail.Address;
@@ -23,7 +24,6 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ReviewerJson;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.LinkedHashMap;
@@ -46,7 +46,7 @@ public class ListReviewers implements RestReadView<ChangeResource> {
 
   @Override
   public List<ReviewerInfo> apply(ChangeResource rsrc)
-      throws OrmException, PermissionBackendException {
+      throws StorageException, PermissionBackendException {
     Map<String, ReviewerResource> reviewers = new LinkedHashMap<>();
     for (Account.Id accountId : approvalsUtil.getReviewers(rsrc.getNotes()).all()) {
       if (!reviewers.containsKey(accountId.toString())) {

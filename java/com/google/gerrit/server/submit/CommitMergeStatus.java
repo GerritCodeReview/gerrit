@@ -17,11 +17,11 @@ package com.google.gerrit.server.submit;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import java.util.List;
 import java.util.Optional;
@@ -94,7 +94,7 @@ public enum CommitMergeStatus {
       Provider<InternalChangeQuery> queryProvider,
       String commit,
       String otherCommit)
-      throws OrmException {
+      throws StorageException {
     List<ChangeData> changes = queryProvider.get().enforceVisibility(true).byCommit(otherCommit);
 
     if (changes.isEmpty()) {

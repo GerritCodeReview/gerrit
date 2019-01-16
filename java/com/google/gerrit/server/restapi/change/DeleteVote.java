@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -56,7 +57,6 @@ import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -105,7 +105,8 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
   @Override
   protected Response<?> applyImpl(
       BatchUpdate.Factory updateFactory, VoteResource rsrc, DeleteVoteInput input)
-      throws RestApiException, UpdateException, IOException, OrmException, ConfigInvalidException {
+      throws RestApiException, UpdateException, IOException, StorageException,
+          ConfigInvalidException {
     if (input == null) {
       input = new DeleteVoteInput();
     }
@@ -163,7 +164,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, AuthException, ResourceNotFoundException, IOException,
+        throws StorageException, AuthException, ResourceNotFoundException, IOException,
             PermissionBackendException {
       change = ctx.getChange();
       PatchSet.Id psId = change.currentPatchSetId();

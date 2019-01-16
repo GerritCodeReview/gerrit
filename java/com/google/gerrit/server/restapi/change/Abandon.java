@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -36,7 +37,6 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -69,7 +69,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, AbandonInput input)
-      throws RestApiException, UpdateException, OrmException, PermissionBackendException,
+      throws RestApiException, UpdateException, StorageException, PermissionBackendException,
           IOException, ConfigInvalidException {
     // Not allowed to abandon if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
@@ -145,7 +145,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
       if (patchSetUtil.isPatchSetLocked(rsrc.getNotes())) {
         return description;
       }
-    } catch (OrmException | IOException e) {
+    } catch (StorageException | IOException e) {
       logger.atSevere().withCause(e).log(
           "Failed to check if the current patch set of change %s is locked", change.getId());
       return description;

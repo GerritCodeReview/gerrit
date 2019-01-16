@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 
 /** Predicate over Change-Id strings (aka Change.Key). */
 public class ChangeIdPredicate extends ChangeIndexPredicate {
@@ -25,7 +25,7 @@ public class ChangeIdPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) throws StorageException {
     Change change = cd.change();
     if (change == null) {
       return false;

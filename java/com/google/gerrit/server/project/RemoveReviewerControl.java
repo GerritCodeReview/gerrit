@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -26,7 +27,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -66,7 +66,7 @@ public class RemoveReviewerControl {
   /** @return true if the user is allowed to remove this reviewer. */
   public boolean testRemoveReviewer(
       ChangeData cd, CurrentUser currentUser, Account.Id reviewer, int value)
-      throws PermissionBackendException, OrmException {
+      throws PermissionBackendException, StorageException {
     if (canRemoveReviewerWithoutPermissionCheck(
         permissionBackend, cd.change(), currentUser, reviewer, value)) {
       return true;

@@ -14,9 +14,9 @@
 
 package com.google.gerrit.index.query;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.RangeUtil.Range;
-import com.google.gwtorm.server.OrmException;
 
 public abstract class IntegerRangePredicate<T> extends IndexPredicate<T> {
   private final Range range;
@@ -30,9 +30,9 @@ public abstract class IntegerRangePredicate<T> extends IndexPredicate<T> {
     }
   }
 
-  protected abstract Integer getValueInt(T object) throws OrmException;
+  protected abstract Integer getValueInt(T object) throws StorageException;
 
-  public boolean match(T object) throws OrmException {
+  public boolean match(T object) throws StorageException {
     Integer valueInt = getValueInt(object);
     if (valueInt == null) {
       return false;

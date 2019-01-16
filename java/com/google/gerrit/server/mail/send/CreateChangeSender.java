@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail.send;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -24,7 +25,6 @@ import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.stream.StreamSupport;
@@ -45,7 +45,7 @@ public class CreateChangeSender extends NewChangeSender {
       PermissionBackend permissionBackend,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id)
-      throws OrmException {
+      throws StorageException {
     super(ea, newChangeData(ea, project, id));
     this.permissionBackend = permissionBackend;
   }
@@ -66,7 +66,7 @@ public class CreateChangeSender extends NewChangeSender {
       add(RecipientType.TO, matching.to);
       add(RecipientType.CC, matching.cc);
       add(RecipientType.BCC, matching.bcc);
-    } catch (OrmException err) {
+    } catch (StorageException err) {
       // Just don't CC everyone. Better to send a partial message to those
       // we already have queued up then to fail deliver entirely to people
       // who have a lower interest in the change.

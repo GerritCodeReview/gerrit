@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.MergeInput;
@@ -57,7 +58,6 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -121,7 +121,7 @@ public class CreateMergePatchSet
   @Override
   protected Response<ChangeInfo> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, MergePatchSetInput in)
-      throws OrmException, IOException, RestApiException, UpdateException,
+      throws StorageException, IOException, RestApiException, UpdateException,
           PermissionBackendException {
     // Not allowed to create a new patch set if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());
@@ -200,7 +200,7 @@ public class CreateMergePatchSet
   }
 
   private PatchSet findBasePatchSet(String baseChange)
-      throws PermissionBackendException, OrmException, UnprocessableEntityException {
+      throws PermissionBackendException, StorageException, UnprocessableEntityException {
     List<ChangeNotes> notes = changeFinder.find(baseChange);
     if (notes.size() != 1) {
       throw new UnprocessableEntityException("Base change not found: " + baseChange);

@@ -27,6 +27,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.testing.GroupReferenceSubject;
+import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.testing.CommitInfoSubject;
 import com.google.gerrit.git.RefUpdateUtil;
@@ -43,7 +44,6 @@ import com.google.gerrit.testing.GitTestUtil;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gerrit.truth.ListSubject;
 import com.google.gerrit.truth.OptionalSubject;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -129,7 +129,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
     createGroup(groupUuid, groupName);
 
     AccountGroup.UUID anotherGroupUuid = new AccountGroup.UUID("AnotherGroup");
-    exception.expect(OrmDuplicateKeyException.class);
+    exception.expect(DuplicateKeyException.class);
     exception.expectMessage(groupName.get());
     GroupNameNotes.forNewGroup(allUsersName, repo, anotherGroupUuid, groupName);
   }
@@ -205,7 +205,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
     AccountGroup.NameKey anotherGroupName = new AccountGroup.NameKey("admins");
     createGroup(anotherGroupUuid, anotherGroupName);
 
-    exception.expect(OrmDuplicateKeyException.class);
+    exception.expect(DuplicateKeyException.class);
     exception.expectMessage(anotherGroupName.get());
     GroupNameNotes.forRename(allUsersName, repo, groupUuid, groupName, anotherGroupName);
   }

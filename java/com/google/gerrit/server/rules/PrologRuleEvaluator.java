@@ -24,6 +24,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -36,7 +37,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RuleEvalException;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
@@ -149,13 +149,13 @@ public class PrologRuleEvaluator {
     try {
       change = cd.change();
       if (change == null) {
-        throw new OrmException("No change found");
+        throw new StorageException("No change found");
       }
 
       if (projectState == null) {
         throw new NoSuchProjectException(cd.project());
       }
-    } catch (OrmException | NoSuchProjectException e) {
+    } catch (StorageException | NoSuchProjectException e) {
       return ruleError("Error looking up change " + cd.getId(), e);
     }
 

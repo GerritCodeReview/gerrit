@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.common.CherryPickChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -37,7 +38,6 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -73,7 +73,7 @@ public class CherryPickCommit
   @Override
   public CherryPickChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, CommitResource rsrc, CherryPickInput input)
-      throws OrmException, IOException, UpdateException, RestApiException,
+      throws StorageException, IOException, UpdateException, RestApiException,
           PermissionBackendException, ConfigInvalidException, NoSuchProjectException {
     RevCommit commit = rsrc.getCommit();
     String message = Strings.nullToEmpty(input.message).trim();

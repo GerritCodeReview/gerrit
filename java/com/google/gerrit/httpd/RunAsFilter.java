@@ -19,6 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -29,7 +30,6 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
@@ -110,7 +110,7 @@ class RunAsFilter implements Filter {
       } catch (UnprocessableEntityException e) {
         replyError(req, res, SC_FORBIDDEN, "no account matches " + RUN_AS, null);
         return;
-      } catch (OrmException | IOException | ConfigInvalidException e) {
+      } catch (StorageException | IOException | ConfigInvalidException e) {
         logger.atWarning().withCause(e).log("cannot resolve account for %s", RUN_AS);
         replyError(req, res, SC_INTERNAL_SERVER_ERROR, "cannot resolve " + RUN_AS, e);
         return;

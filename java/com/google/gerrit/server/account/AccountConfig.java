@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -34,7 +35,6 @@ import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -200,9 +200,9 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    * Creates a new account.
    *
    * @return the new account
-   * @throws OrmDuplicateKeyException if the user branch already exists
+   * @throws DuplicateKeyException if the user branch already exists
    */
-  public Account getNewAccount() throws OrmDuplicateKeyException {
+  public Account getNewAccount() throws DuplicateKeyException {
     return getNewAccount(TimeUtil.nowTs());
   }
 
@@ -210,12 +210,12 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    * Creates a new account.
    *
    * @return the new account
-   * @throws OrmDuplicateKeyException if the user branch already exists
+   * @throws DuplicateKeyException if the user branch already exists
    */
-  Account getNewAccount(Timestamp registeredOn) throws OrmDuplicateKeyException {
+  Account getNewAccount(Timestamp registeredOn) throws DuplicateKeyException {
     checkLoaded();
     if (revision != null) {
-      throw new OrmDuplicateKeyException(String.format("account %s already exists", accountId));
+      throw new DuplicateKeyException(String.format("account %s already exists", accountId));
     }
     this.loadedAccountProperties =
         Optional.of(new AccountProperties(accountId, registeredOn, new Config(), null));

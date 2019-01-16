@@ -31,6 +31,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
@@ -54,7 +55,6 @@ import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -393,7 +393,7 @@ class DefaultRefFilter {
         }
       }
       return visibleChanges;
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log(
           "Cannot load changes for project %s, assuming no changes are visible", project);
       return Collections.emptyMap();
@@ -503,7 +503,7 @@ class DefaultRefFilter {
     ChangeNotes notes;
     try {
       notes = changeNotesFactory.create(projectState.getNameKey(), cId);
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       throw new PermissionBackendException("can't construct change notes", e);
     }
     try {

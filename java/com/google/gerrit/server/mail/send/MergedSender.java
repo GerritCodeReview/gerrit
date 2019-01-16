@@ -20,12 +20,12 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -39,7 +39,7 @@ public class MergedSender extends ReplyToChangeSender {
 
   @Inject
   public MergedSender(EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
-      throws OrmException {
+      throws StorageException {
     super(ea, "merged", newChangeData(ea, project, id));
     labelTypes = changeData.getLabelTypes();
   }
@@ -82,7 +82,7 @@ public class MergedSender extends ReplyToChangeSender {
       }
 
       return format("Approvals", pos) + format("Objections", neg);
-    } catch (OrmException err) {
+    } catch (StorageException err) {
       // Don't list the approvals
     }
     return "";

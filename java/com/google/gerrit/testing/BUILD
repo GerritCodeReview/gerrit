@@ -34,7 +34,6 @@ java_library(
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/util/time",
-        "//java/com/google/gwtorm",
         "//lib:guava",
         "//lib:h2",
         "//lib:junit",

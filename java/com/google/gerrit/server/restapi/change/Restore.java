@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -45,7 +46,6 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -83,7 +83,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, RestoreInput input)
-      throws RestApiException, UpdateException, OrmException, PermissionBackendException,
+      throws RestApiException, UpdateException, StorageException, PermissionBackendException,
           IOException {
     // Not allowed to restore if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());
@@ -111,7 +111,8 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException, ResourceConflictException {
+    public boolean updateChange(ChangeContext ctx)
+        throws StorageException, ResourceConflictException {
       change = ctx.getChange();
       if (change == null || !change.isAbandoned()) {
         throw new ResourceConflictException("change is " + ChangeUtil.status(change));
@@ -139,7 +140,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
     }
 
     @Override
-    public void postUpdate(Context ctx) throws OrmException {
+    public void postUpdate(Context ctx) throws StorageException {
       try {
         ReplyToChangeSender cm = restoredSenderFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());
@@ -180,7 +181,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
       if (psUtil.isPatchSetLocked(rsrc.getNotes())) {
         return description;
       }
-    } catch (OrmException | IOException e) {
+    } catch (StorageException | IOException e) {
       logger.atSevere().withCause(e).log(
           "Failed to check if the current patch set of change %s is locked", change.getId());
       return description;

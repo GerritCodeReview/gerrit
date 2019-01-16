@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -32,7 +33,6 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -60,7 +60,7 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
 
   @Override
   public Response<String> apply(AccountResource rsrc, NameInput input)
-      throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
+      throws AuthException, MethodNotAllowedException, ResourceNotFoundException, StorageException,
           IOException, PermissionBackendException, ConfigInvalidException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
@@ -70,7 +70,7 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
 
   public Response<String> apply(IdentifiedUser user, NameInput input)
       throws MethodNotAllowedException, ResourceNotFoundException, IOException,
-          ConfigInvalidException, OrmException {
+          ConfigInvalidException, StorageException {
     if (input == null) {
       input = new NameInput();
     }

@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.NoSuchGroupException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.ServerInitiated;
@@ -31,7 +32,6 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.notedb.Sequences;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -157,7 +157,7 @@ public class AccountCreator {
   }
 
   private void addGroupMember(AccountGroup.UUID groupUuid, Account.Id accountId)
-      throws OrmException, IOException, NoSuchGroupException, ConfigInvalidException {
+      throws StorageException, IOException, NoSuchGroupException, ConfigInvalidException {
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
             .setMemberModification(memberIds -> Sets.union(memberIds, ImmutableSet.of(accountId)))

@@ -30,6 +30,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multiset;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -54,7 +55,6 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
@@ -500,7 +500,7 @@ public class BatchUpdate implements AutoCloseable {
       checkArgument(old == null, "result for change %s already set: %s", id, old);
     }
 
-    void execute() throws OrmException, IOException {
+    void execute() throws StorageException, IOException {
       BatchUpdate.this.batchRefUpdate = manager.execute(dryrun);
     }
 
@@ -583,7 +583,7 @@ public class BatchUpdate implements AutoCloseable {
     return handle;
   }
 
-  private ChangeContextImpl newChangeContext(Change.Id id) throws OrmException {
+  private ChangeContextImpl newChangeContext(Change.Id id) throws StorageException {
     logDebug("Opening change %s for update", id);
     Change c = newChanges.get(id);
     boolean isNew = c != null;

@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 
 public class AddedPredicate extends IntegerRangeChangePredicate {
   public AddedPredicate(String value) throws QueryParseException {
@@ -24,7 +24,7 @@ public class AddedPredicate extends IntegerRangeChangePredicate {
   }
 
   @Override
-  protected Integer getValueInt(ChangeData changeData) throws OrmException {
+  protected Integer getValueInt(ChangeData changeData) throws StorageException {
     return ChangeField.ADDED.get(changeData);
   }
 }

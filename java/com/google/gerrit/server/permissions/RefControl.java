@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -33,7 +34,6 @@ import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.MagicBranch;
-import com.google.gwtorm.server.OrmException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
@@ -442,7 +442,7 @@ class RefControl {
       try {
         // TODO(hiesel) Force callers to call database() and use db instead of cd.db()
         return getProjectControl().controlFor(cd.change()).asForChange(cd);
-      } catch (OrmException e) {
+      } catch (StorageException e) {
         return FailedPermissionBackend.change("unavailable", e);
       }
     }

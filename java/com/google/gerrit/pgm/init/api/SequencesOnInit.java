@@ -14,12 +14,12 @@
 
 package com.google.gerrit.pgm.init.api;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.Sequences;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -34,7 +34,7 @@ public class SequencesOnInit {
     this.allUsersName = allUsersName;
   }
 
-  public int nextAccountId() throws OrmException {
+  public int nextAccountId() throws StorageException {
     RepoSequence accountSeq =
         new RepoSequence(
             repoManager,

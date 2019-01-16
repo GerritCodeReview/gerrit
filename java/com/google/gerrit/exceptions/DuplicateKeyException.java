@@ -1,4 +1,4 @@
-// Copyright 2008 Google Inc.
+// Copyright 2009 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,21 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gwtorm.server;
+package com.google.gerrit.exceptions;
 
-/** Any data store read or write error. */
-public class OrmException extends Exception {
+/** Indicates one or more entities were concurrently inserted with the same key. */
+public class DuplicateKeyException extends StorageException {
   private static final long serialVersionUID = 1L;
 
-  public OrmException(String message) {
-    super(message);
+  public DuplicateKeyException(String msg) {
+    super(msg);
   }
 
-  public OrmException(String message, Throwable why) {
-    super(message, why);
-  }
-
-  public OrmException(Throwable why) {
-    super(why);
+  public DuplicateKeyException(String msg, Throwable why) {
+    super(msg, why);
   }
 }

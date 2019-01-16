@@ -14,15 +14,15 @@
 
 package com.google.gerrit.index.query;
 
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 
 public interface Matchable<T> {
   /**
    * Does this predicate match this object?
    *
-   * @throws OrmException
+   * @throws StorageException
    */
-  boolean match(T object) throws OrmException;
+  boolean match(T object) throws StorageException;
 
   /** @return a cost estimate to run this predicate, higher figures cost more. */
   int getCost();

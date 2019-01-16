@@ -18,9 +18,9 @@ import static com.google.gerrit.server.index.change.ChangeField.COMMIT;
 import static com.google.gerrit.server.index.change.ChangeField.EXACT_COMMIT;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gwtorm.server.OrmException;
 
 public class CommitPredicate extends ChangeIndexPredicate {
   static FieldDef<ChangeData, ?> commitField(String id) {
@@ -35,7 +35,7 @@ public class CommitPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) throws StorageException {
     String id = getValue().toLowerCase();
     for (PatchSet p : object.patchSets()) {
       if (equals(p, id)) {

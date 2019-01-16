@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
-import com.google.gwtorm.server.OrmException;
 
 /** Predicate to match changes that contains specified text in commit messages body. */
 public class MessagePredicate extends ChangeIndexPredicate {
@@ -31,7 +31,7 @@ public class MessagePredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) throws StorageException {
     try {
       Predicate<ChangeData> p = Predicate.and(new LegacyChangeIdPredicate(object.getId()), this);
       for (ChangeData cData : index.getSource(p, IndexedChangeQuery.oneResult()).read()) {
@@ -40,7 +40,7 @@ public class MessagePredicate extends ChangeIndexPredicate {
         }
       }
     } catch (QueryParseException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
 
     return false;

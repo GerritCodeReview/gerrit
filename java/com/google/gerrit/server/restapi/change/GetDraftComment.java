@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -35,7 +35,7 @@ public class GetDraftComment implements RestReadView<DraftCommentResource> {
 
   @Override
   public CommentInfo apply(DraftCommentResource rsrc)
-      throws OrmException, PermissionBackendException {
+      throws StorageException, PermissionBackendException {
     return commentJson.get().newCommentFormatter().format(rsrc.getComment());
   }
 }

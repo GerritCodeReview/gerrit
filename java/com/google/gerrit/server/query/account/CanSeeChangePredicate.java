@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.account;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.server.account.AccountState;
@@ -21,7 +22,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 
 public class CanSeeChangePredicate extends PostFilterPredicate<AccountState> {
   private final PermissionBackend permissionBackend;
@@ -34,7 +34,7 @@ public class CanSeeChangePredicate extends PostFilterPredicate<AccountState> {
   }
 
   @Override
-  public boolean match(AccountState accountState) throws OrmException {
+  public boolean match(AccountState accountState) throws StorageException {
     try {
       permissionBackend
           .absentUser(accountState.getAccount().getId())
@@ -42,7 +42,7 @@ public class CanSeeChangePredicate extends PostFilterPredicate<AccountState> {
           .check(ChangePermission.READ);
       return true;
     } catch (PermissionBackendException e) {
-      throw new OrmException("Failed to check if account can see change", e);
+      throw new StorageException("Failed to check if account can see change", e);
     } catch (AuthException e) {
       return false;
     }

@@ -19,6 +19,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.MagicBranch;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import java.util.Collections;
 import java.util.Map;
@@ -118,7 +118,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
         }
       }
       return r;
-    } catch (OrmException err) {
+    } catch (StorageException err) {
       logger.atSevere().withCause(err).log("Cannot list open changes of %s", projectName);
       return Collections.emptySet();
     }

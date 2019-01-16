@@ -15,6 +15,7 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -34,7 +35,6 @@ import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -78,7 +78,7 @@ public class EventBroker implements EventDispatcher {
 
   @Override
   public void postEvent(Change change, ChangeEvent event)
-      throws OrmException, PermissionBackendException {
+      throws StorageException, PermissionBackendException {
     fireEvent(change, event);
   }
 
@@ -94,7 +94,7 @@ public class EventBroker implements EventDispatcher {
   }
 
   @Override
-  public void postEvent(Event event) throws OrmException, PermissionBackendException {
+  public void postEvent(Event event) throws StorageException, PermissionBackendException {
     fireEvent(event);
   }
 
@@ -103,7 +103,7 @@ public class EventBroker implements EventDispatcher {
   }
 
   protected void fireEvent(Change change, ChangeEvent event)
-      throws OrmException, PermissionBackendException {
+      throws StorageException, PermissionBackendException {
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
       CurrentUser user = c.call(UserScopedEventListener::getUser);
       if (isVisibleTo(change, user)) {
@@ -134,7 +134,7 @@ public class EventBroker implements EventDispatcher {
     fireEventForUnrestrictedListeners(event);
   }
 
-  protected void fireEvent(Event event) throws OrmException, PermissionBackendException {
+  protected void fireEvent(Event event) throws StorageException, PermissionBackendException {
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
       CurrentUser user = c.call(UserScopedEventListener::getUser);
       if (isVisibleTo(event, user)) {
@@ -159,7 +159,7 @@ public class EventBroker implements EventDispatcher {
   }
 
   protected boolean isVisibleTo(Change change, CurrentUser user)
-      throws OrmException, PermissionBackendException {
+      throws StorageException, PermissionBackendException {
     if (change == null) {
       return false;
     }
@@ -194,7 +194,7 @@ public class EventBroker implements EventDispatcher {
   }
 
   protected boolean isVisibleTo(Event event, CurrentUser user)
-      throws OrmException, PermissionBackendException {
+      throws StorageException, PermissionBackendException {
     if (event instanceof RefEvent) {
       RefEvent refEvent = (RefEvent) event;
       String ref = refEvent.getRefName();

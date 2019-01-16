@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.exceptions.InvalidNameException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -38,7 +39,6 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -83,7 +83,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   @Override
   public ProjectAccessInfo apply(ProjectResource rsrc, ProjectAccessInput input)
       throws ResourceNotFoundException, ResourceConflictException, IOException, AuthException,
-          BadRequestException, UnprocessableEntityException, OrmException,
+          BadRequestException, UnprocessableEntityException, StorageException,
           PermissionBackendException {
     MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();
 

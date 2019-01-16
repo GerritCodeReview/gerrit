@@ -30,6 +30,7 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ProblemInfo.Status;
@@ -55,7 +56,6 @@ import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -232,7 +232,7 @@ public class ConsistencyChecker {
         problem(
             String.format("Current patch set %d not found", change().currentPatchSetId().get()));
       }
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       error("Failed to look up current patch set", e);
     }
   }
@@ -256,7 +256,7 @@ public class ConsistencyChecker {
     try {
       // Iterate in descending order.
       all = PS_ID_ORDER.sortedCopy(psUtil.byChange(notes));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       return error("Failed to look up patch sets", e);
     }
     patchSetsBySha = MultimapBuilder.hashKeys(all.size()).treeSetValues(PS_ID_ORDER).build();
@@ -425,7 +425,7 @@ public class ConsistencyChecker {
           if (!c.getDest().equals(change().getDest())) {
             continue;
           }
-        } catch (OrmException e) {
+        } catch (StorageException e) {
           warn(e);
           // Include this patch set; should cause an error below, which is good.
         }
@@ -556,7 +556,7 @@ public class ConsistencyChecker {
       notes = notesFactory.createChecked(inserter.getChange());
       insertPatchSetProblem.status = Status.FIXED;
       insertPatchSetProblem.outcome = "Inserted as patch set " + psId.get();
-    } catch (OrmException | IOException | UpdateException | RestApiException e) {
+    } catch (StorageException | IOException | UpdateException | RestApiException e) {
       warn(e);
       for (ProblemInfo pi : currProblems) {
         pi.status = Status.FIX_FAILED;
@@ -574,7 +574,7 @@ public class ConsistencyChecker {
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException {
+    public boolean updateChange(ChangeContext ctx) throws StorageException {
       ctx.getChange().setStatus(Change.Status.MERGED);
       ctx.getUpdate(ctx.getChange().currentPatchSetId()).fixStatus(Change.Status.MERGED);
       p.status = Status.FIXED;
@@ -673,9 +673,9 @@ public class ConsistencyChecker {
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, PatchSetInfoNotAvailableException {
+        throws StorageException, PatchSetInfoNotAvailableException {
       // Delete dangling key references.
-      accountPatchReviewStore.run(s -> s.clearReviewed(psId), OrmException.class);
+      accountPatchReviewStore.run(s -> s.clearReviewed(psId), StorageException.class);
 
       // For NoteDb setting the state to deleted is sufficient to filter everything out.
       ctx.getUpdate(psId).setPatchSetState(PatchSetState.DELETED);
@@ -706,7 +706,8 @@ public class ConsistencyChecker {
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, PatchSetInfoNotAvailableException, NoPatchSetsWouldRemainException {
+        throws StorageException, PatchSetInfoNotAvailableException,
+            NoPatchSetsWouldRemainException {
       if (!toDelete.contains(ctx.getChange().currentPatchSetId())) {
         return false;
       }

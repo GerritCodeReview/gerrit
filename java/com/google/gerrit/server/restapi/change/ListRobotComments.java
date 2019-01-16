@@ -15,13 +15,13 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -41,7 +41,7 @@ public class ListRobotComments implements RestReadView<RevisionResource> {
 
   @Override
   public Map<String, List<RobotCommentInfo>> apply(RevisionResource rsrc)
-      throws OrmException, PermissionBackendException {
+      throws StorageException, PermissionBackendException {
     return commentJson
         .get()
         .setFillAccounts(true)
@@ -50,7 +50,7 @@ public class ListRobotComments implements RestReadView<RevisionResource> {
   }
 
   public ImmutableList<RobotCommentInfo> getComments(RevisionResource rsrc)
-      throws OrmException, PermissionBackendException {
+      throws StorageException, PermissionBackendException {
     return commentJson
         .get()
         .setFillAccounts(true)
@@ -58,7 +58,7 @@ public class ListRobotComments implements RestReadView<RevisionResource> {
         .formatAsList(listComments(rsrc));
   }
 
-  private Iterable<RobotComment> listComments(RevisionResource rsrc) throws OrmException {
+  private Iterable<RobotComment> listComments(RevisionResource rsrc) throws StorageException {
     return commentsUtil.robotCommentsByPatchSet(rsrc.getNotes(), rsrc.getPatchSet().getId());
   }
 }

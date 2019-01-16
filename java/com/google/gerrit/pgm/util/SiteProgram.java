@@ -27,7 +27,6 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -38,14 +37,11 @@ import com.google.inject.util.Providers;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import org.kohsuke.args4j.Option;
 
 public abstract class SiteProgram extends AbstractProgram {
-  private static final String CONNECTION_ERROR = "Cannot connect to SQL database";
-
   @Option(
       name = "--site-path",
       aliases = {"-d"},
@@ -127,19 +123,6 @@ public abstract class SiteProgram extends AbstractProgram {
       Message first = ce.getErrorMessages().iterator().next();
       Throwable why = first.getCause();
 
-      if (why instanceof SQLException) {
-        throw die(CONNECTION_ERROR, why);
-      }
-      if (why instanceof OrmException
-          && why.getCause() != null
-          && "Unable to determine driver URL".equals(why.getMessage())) {
-        why = why.getCause();
-        if (isCannotCreatePoolException(why)) {
-          throw die(CONNECTION_ERROR, why.getCause());
-        }
-        throw die(CONNECTION_ERROR, why);
-      }
-
       StringBuilder buf = new StringBuilder();
       if (why != null) {
         buf.append(why.getMessage());
@@ -163,12 +146,5 @@ public abstract class SiteProgram extends AbstractProgram {
 
   protected final String getConfiguredSecureStoreClass() {
     return getSecureStoreClassName(sitePath);
-  }
-
-  @SuppressWarnings("deprecation")
-  private static boolean isCannotCreatePoolException(Throwable why) {
-    return why instanceof org.apache.commons.dbcp.SQLNestedException
-        && why.getCause() != null
-        && why.getMessage().startsWith("Cannot create PoolableConnectionFactory");
   }
 }

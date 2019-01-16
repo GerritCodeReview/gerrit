@@ -246,6 +246,23 @@ public class AllProjectsCreatorTest extends GerritBaseTests {
     assertTwoConfigsEquivalent(config, expectedConfig);
   }
 
+  @Test
+  public void createAllProjectsOnlyInitializingProjectDescription() throws Exception {
+    String description = "a project.config with just a project description";
+    AllProjectsInput allProjectsInput =
+        AllProjectsInput.builderWithNoDefault()
+            .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
+            .projectDescription(description)
+            .initDefaultAcls(false)
+            .build();
+    allProjectsCreator.create(allProjectsInput);
+
+    Config expectedConfig = new Config();
+    expectedConfig.setString("project", null, "description", description);
+    Config config = readAllProjectsConfig();
+    assertTwoConfigsEquivalent(config, expectedConfig);
+  }
+
   // Loads the "project.config" from the All-Projects repo.
   private Config readAllProjectsConfig() throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allProjectsName)) {

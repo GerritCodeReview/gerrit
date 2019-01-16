@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.TabFile;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,7 @@ public class QueryList extends TabFile {
     this.queriesByName = toMap(queriesByName);
   }
 
-  static QueryList parse(String text, ValidationError.Sink errors) throws IOException {
+  static QueryList parse(String text, ValidationError.Sink errors) {
     return new QueryList(parse(text, FILE_NAME, TRIM, TRIM, errors));
   }
 

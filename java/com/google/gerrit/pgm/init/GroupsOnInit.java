@@ -21,6 +21,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.exceptions.NoSuchGroupException;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Account;
@@ -159,14 +160,13 @@ public class GroupsOnInit {
         .build();
   }
 
-  private AuditLogFormatter getAuditLogFormatter(Account account)
-      throws IOException, ConfigInvalidException {
+  private AuditLogFormatter getAuditLogFormatter(Account account) throws ConfigInvalidException {
     String serverId = new GerritServerIdProvider(flags.cfg, site).get();
     return AuditLogFormatter.createBackedBy(ImmutableSet.of(account), ImmutableSet.of(), serverId);
   }
 
   private void commit(Repository repository, GroupConfig groupConfig, Timestamp groupCreatedOn)
-      throws IOException {
+      throws ConfigInvalidException, LockFailureException {
     PersonIdent personIdent =
         new PersonIdent(new GerritPersonIdentProvider(flags.cfg).get(), groupCreatedOn);
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate(repository, personIdent)) {

@@ -1609,7 +1609,7 @@ public class GroupConfigTest extends GerritBaseTests {
     return groupConfig.getLoadedGroup();
   }
 
-  private void commit(GroupConfig groupConfig) throws IOException {
+  private void commit(GroupConfig groupConfig) throws Exception {
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       groupConfig.commit(metaDataUpdate);
     }

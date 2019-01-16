@@ -25,6 +25,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.gerrit.exceptions.DuplicateKeyException;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
@@ -256,12 +257,12 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad() throws ConfigInvalidException {
     if (revision != null) {
       rw.reset();
-      rw.markStart(revision);
+      call(() -> rw.markStart(revision));
       rw.sort(RevSort.REVERSE);
-      RevCommit earliestCommit = rw.next();
+      RevCommit earliestCommit = call(() -> rw.next());
       Timestamp createdOn = new Timestamp(earliestCommit.getCommitTime() * 1000L);
 
       Config config = readConfig(GROUP_CONFIG_FILE);
@@ -276,14 +277,15 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   @Override
-  public RevCommit commit(MetaDataUpdate update) throws IOException {
+  public RevCommit commit(MetaDataUpdate update)
+      throws ConfigInvalidException, LockFailureException {
     RevCommit c = super.commit(update);
     loadedGroup = Optional.of(loadedGroup.get().toBuilder().setRefState(c.toObjectId()).build());
     return c;
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) throws ConfigInvalidException {
     checkLoaded();
     if (!groupCreation.isPresent() && !groupUpdate.isPresent()) {
       // Group was neither created nor changed. -> A new commit isn't necessary.
@@ -329,8 +331,7 @@ public class GroupConfig extends VersionedMetaData {
     return Optional.empty();
   }
 
-  private InternalGroup updateGroup(Timestamp commitTimestamp)
-      throws IOException, ConfigInvalidException {
+  private InternalGroup updateGroup(Timestamp commitTimestamp) throws ConfigInvalidException {
     Config config = updateGroupProperties();
 
     ImmutableSet<Account.Id> originalMembers =
@@ -352,7 +353,7 @@ public class GroupConfig extends VersionedMetaData {
         null);
   }
 
-  private Config updateGroupProperties() throws IOException, ConfigInvalidException {
+  private Config updateGroupProperties() throws ConfigInvalidException {
     Config config = readConfig(GROUP_CONFIG_FILE);
     groupCreation.ifPresent(
         internalGroupCreation ->
@@ -367,8 +368,8 @@ public class GroupConfig extends VersionedMetaData {
     return config;
   }
 
-  private Optional<ImmutableSet<Account.Id>> updateMembers(ImmutableSet<Account.Id> originalMembers)
-      throws IOException {
+  private Optional<ImmutableSet<Account.Id>> updateMembers(
+      ImmutableSet<Account.Id> originalMembers) {
     Optional<ImmutableSet<Account.Id>> updatedMembers =
         groupUpdate
             .map(InternalGroupUpdate::getMemberModification)
@@ -382,7 +383,7 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   private Optional<ImmutableSet<AccountGroup.UUID>> updateSubgroups(
-      ImmutableSet<AccountGroup.UUID> originalSubgroups) throws IOException {
+      ImmutableSet<AccountGroup.UUID> originalSubgroups) {
     Optional<ImmutableSet<AccountGroup.UUID>> updatedSubgroups =
         groupUpdate
             .map(InternalGroupUpdate::getSubgroupModification)
@@ -395,32 +396,30 @@ public class GroupConfig extends VersionedMetaData {
     return updatedSubgroups;
   }
 
-  private void saveMembers(ImmutableSet<Account.Id> members) throws IOException {
+  private void saveMembers(ImmutableSet<Account.Id> members) {
     saveToFile(MEMBERS_FILE, members, member -> String.valueOf(member.get()));
   }
 
-  private void saveSubgroups(ImmutableSet<AccountGroup.UUID> subgroups) throws IOException {
+  private void saveSubgroups(ImmutableSet<AccountGroup.UUID> subgroups) {
     saveToFile(SUBGROUPS_FILE, subgroups, AccountGroup.UUID::get);
   }
 
   private <E> void saveToFile(
-      String filePath, ImmutableSet<E> elements, Function<E, String> toStringFunction)
-      throws IOException {
+      String filePath, ImmutableSet<E> elements, Function<E, String> toStringFunction) {
     String fileContent = elements.stream().map(toStringFunction).collect(joining("\n"));
     saveUTF8(filePath, fileContent);
   }
 
-  private ImmutableSet<Account.Id> readMembers() throws IOException, ConfigInvalidException {
+  private ImmutableSet<Account.Id> readMembers() throws ConfigInvalidException {
     return readFromFile(MEMBERS_FILE, entry -> new Account.Id(Integer.parseInt(entry)));
   }
 
-  private ImmutableSet<AccountGroup.UUID> readSubgroups()
-      throws IOException, ConfigInvalidException {
+  private ImmutableSet<AccountGroup.UUID> readSubgroups() throws ConfigInvalidException {
     return readFromFile(SUBGROUPS_FILE, AccountGroup.UUID::new);
   }
 
   private <E> ImmutableSet<E> readFromFile(String filePath, Function<String, E> fromStringFunction)
-      throws IOException, ConfigInvalidException {
+      throws ConfigInvalidException {
     String fileContent = readUTF8(filePath);
     try {
       Iterable<String> lines =

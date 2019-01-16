@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.TabFile;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -39,8 +38,7 @@ public class GroupList extends TabFile {
     this.byUUID = byUUID;
   }
 
-  public static GroupList parse(Project.NameKey project, String text, ValidationError.Sink errors)
-      throws IOException {
+  public static GroupList parse(Project.NameKey project, String text, ValidationError.Sink errors) {
     List<Row> rows = parse(text, FILE_NAME, TRIM, TRIM, errors);
     Map<AccountGroup.UUID, GroupReference> groupsByUUID = new HashMap<>(rows.size());
     for (Row row : rows) {

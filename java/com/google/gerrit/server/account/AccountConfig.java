@@ -25,6 +25,7 @@ import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
@@ -228,12 +229,12 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad() throws ConfigInvalidException {
     if (revision != null) {
       rw.reset();
-      rw.markStart(revision);
+      call(() -> rw.markStart(revision));
       rw.sort(RevSort.REVERSE);
-      Timestamp registeredOn = new Timestamp(rw.next().getCommitTime() * 1000L);
+      Timestamp registeredOn = new Timestamp(call(() -> rw.next()).getCommitTime() * 1000L);
 
       Config accountConfig = readConfig(AccountProperties.ACCOUNT_CONFIG);
       loadedAccountProperties =
@@ -260,19 +261,20 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
               accountId, new Config(), Preferences.readDefaultConfig(allUsersName, repo), this);
     }
 
-    Ref externalIdsRef = repo.exactRef(RefNames.REFS_EXTERNAL_IDS);
+    Ref externalIdsRef = call(() -> repo.exactRef(RefNames.REFS_EXTERNAL_IDS));
     externalIdsRev = Optional.ofNullable(externalIdsRef).map(Ref::getObjectId);
   }
 
   @Override
-  public RevCommit commit(MetaDataUpdate update) throws IOException {
+  public RevCommit commit(MetaDataUpdate update)
+      throws ConfigInvalidException, LockFailureException {
     RevCommit c = super.commit(update);
     loadedAccountProperties.get().setMetaId(c);
     return c;
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) throws ConfigInvalidException {
     checkLoaded();
 
     if (!loadedAccountProperties.isPresent()) {
@@ -302,7 +304,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     return true;
   }
 
-  private void saveAccount() throws IOException {
+  private void saveAccount() {
     if (accountUpdate.isPresent()) {
       saveConfig(
           AccountProperties.ACCOUNT_CONFIG,
@@ -310,7 +312,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  private void saveProjectWatches() throws IOException {
+  private void saveProjectWatches() {
     if (accountUpdate.isPresent()
         && (!accountUpdate.get().getDeletedProjectWatches().isEmpty()
             || !accountUpdate.get().getUpdatedProjectWatches().isEmpty())) {
@@ -322,7 +324,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  private void savePreferences() throws IOException, ConfigInvalidException {
+  private void savePreferences() throws ConfigInvalidException {
     if (!accountUpdate.isPresent()
         || (!accountUpdate.get().getGeneralPreferences().isPresent()
             && !accountUpdate.get().getDiffPreferences().isPresent()

@@ -38,7 +38,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.testing.ConfigSuite;
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.api.Git;
@@ -69,12 +68,12 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     }
 
     @Override
-    protected void onLoad() throws IOException, ConfigInvalidException {
+    protected void onLoad() {
       rule = readUTF8(FILENAME);
     }
 
     @Override
-    protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+    protected boolean onSave(CommitBuilder commit) throws ConfigInvalidException {
       TestSubmitRuleInput in = new TestSubmitRuleInput();
       in.rule = rule;
       try {

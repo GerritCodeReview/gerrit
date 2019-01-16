@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.TabFile;
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -35,7 +34,7 @@ public class DestinationList extends TabFile {
     return destinations.get(label);
   }
 
-  void parseLabel(String label, String text, ValidationError.Sink errors) throws IOException {
+  void parseLabel(String label, String text, ValidationError.Sink errors) {
     destinations.replaceValues(label, toSet(parse(text, DIR_NAME + label, TRIM, null, errors)));
   }
 

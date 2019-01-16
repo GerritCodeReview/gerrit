@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_SEQUENCES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
@@ -125,8 +126,11 @@ public class AllProjectsCreator {
       input.booleanProjectConfigs().forEach(p::setBooleanConfig);
 
       // init labels.
-      LabelType codeReviewLabel = input.codeReviewLabel();
-      config.getLabelSections().put(codeReviewLabel.getName(), codeReviewLabel);
+      input
+          .codeReviewLabel()
+          .ifPresent(
+              codeReviewLabel ->
+                  config.getLabelSections().put(codeReviewLabel.getName(), codeReviewLabel));
 
       if (input.initDefaultAcls()) {
         // init access sections.
@@ -150,7 +154,8 @@ public class AllProjectsCreator {
     AccessSection capabilities = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
     AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
 
-    LabelType codeReviewLabel = input.codeReviewLabel();
+    checkArgument(input.codeReviewLabel().isPresent());
+    LabelType codeReviewLabel = input.codeReviewLabel().get();
 
     initDefaultAclsForRegisteredUsers(heads, codeReviewLabel, config);
 

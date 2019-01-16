@@ -17,7 +17,7 @@ package com.google.gerrit.server.restapi.group;
 import static java.util.Comparator.comparing;
 
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -76,7 +76,7 @@ public class GetAuditLog implements RestReadView<GroupResource> {
 
   @Override
   public List<? extends GroupAuditEventInfo> apply(GroupResource rsrc)
-      throws AuthException, NotInternalGroupException, OrmException, IOException,
+      throws AuthException, NotInternalGroupException, StorageException, IOException,
           ConfigInvalidException, PermissionBackendException {
     GroupDescription.Internal group =
         rsrc.asInternalGroup().orElseThrow(NotInternalGroupException::new);

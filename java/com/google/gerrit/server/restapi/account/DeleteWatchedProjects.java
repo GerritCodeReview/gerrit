@@ -16,7 +16,7 @@ package com.google.gerrit.server.restapi.account;
 
 import static java.util.stream.Collectors.toList;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -59,7 +59,7 @@ public class DeleteWatchedProjects
 
   @Override
   public Response<?> apply(AccountResource rsrc, List<ProjectWatchInfo> input)
-      throws AuthException, UnprocessableEntityException, OrmException, IOException,
+      throws AuthException, UnprocessableEntityException, StorageException, IOException,
           ConfigInvalidException, PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);

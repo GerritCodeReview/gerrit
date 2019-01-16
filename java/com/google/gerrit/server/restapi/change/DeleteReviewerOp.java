@@ -18,7 +18,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -111,7 +111,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws AuthException, ResourceNotFoundException, OrmException, PermissionBackendException,
+      throws AuthException, ResourceNotFoundException, StorageException, PermissionBackendException,
           IOException {
     Account.Id reviewerId = reviewer.getAccount().getId();
     // Check of removing this reviewer (even if there is no vote processed by the loop below) is OK
@@ -192,7 +192,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   }
 
   private Iterable<PatchSetApproval> approvals(ChangeContext ctx, Account.Id accountId)
-      throws OrmException {
+      throws StorageException {
     Iterable<PatchSetApproval> approvals;
     approvals = approvalsUtil.byChange(ctx.getNotes()).values();
     return Iterables.filter(approvals, psa -> accountId.equals(psa.getAccountId()));

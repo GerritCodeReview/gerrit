@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.index.change.ChangeField;
 import java.io.IOException;
 import java.util.Collections;
@@ -26,12 +26,12 @@ public class EqualsPathPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) throws StorageException {
     List<String> files;
     try {
       files = object.currentFilePaths();
     } catch (IOException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
     return Collections.binarySearch(files, value) >= 0;
   }

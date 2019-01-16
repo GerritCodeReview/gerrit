@@ -19,7 +19,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.index.query.Predicate;
@@ -46,24 +46,24 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup, InternalGro
     super(queryProcessor, indexes, indexConfig);
   }
 
-  public Optional<InternalGroup> byName(AccountGroup.NameKey groupName) throws OrmException {
+  public Optional<InternalGroup> byName(AccountGroup.NameKey groupName) throws StorageException {
     return getOnlyGroup(GroupPredicates.name(groupName.get()), "group name '" + groupName + "'");
   }
 
-  public Optional<InternalGroup> byId(AccountGroup.Id groupId) throws OrmException {
+  public Optional<InternalGroup> byId(AccountGroup.Id groupId) throws StorageException {
     return getOnlyGroup(GroupPredicates.id(groupId), "group id '" + groupId + "'");
   }
 
-  public List<InternalGroup> byMember(Account.Id memberId) throws OrmException {
+  public List<InternalGroup> byMember(Account.Id memberId) throws StorageException {
     return query(GroupPredicates.member(memberId));
   }
 
-  public List<InternalGroup> bySubgroup(AccountGroup.UUID subgroupId) throws OrmException {
+  public List<InternalGroup> bySubgroup(AccountGroup.UUID subgroupId) throws StorageException {
     return query(GroupPredicates.subgroup(subgroupId));
   }
 
   private Optional<InternalGroup> getOnlyGroup(
-      Predicate<InternalGroup> predicate, String groupDescription) throws OrmException {
+      Predicate<InternalGroup> predicate, String groupDescription) throws StorageException {
     List<InternalGroup> groups = query(predicate);
     if (groups.isEmpty()) {
       return Optional.empty();

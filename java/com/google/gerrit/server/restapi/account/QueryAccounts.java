@@ -16,7 +16,7 @@ package com.google.gerrit.server.restapi.account;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AccountVisibility;
@@ -148,7 +148,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
 
   @Override
   public List<AccountInfo> apply(TopLevelResource rsrc)
-      throws OrmException, RestApiException, PermissionBackendException {
+      throws StorageException, RestApiException, PermissionBackendException {
     if (Strings.isNullOrEmpty(query)) {
       throw new BadRequestException("missing query field");
     }

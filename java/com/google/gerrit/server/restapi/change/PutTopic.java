@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.TopicInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -93,7 +93,7 @@ public class PutTopic extends RetryingRestModifyView<ChangeResource, TopicInput,
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException {
+    public boolean updateChange(ChangeContext ctx) throws StorageException {
       change = ctx.getChange();
       ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
       newTopicName = Strings.nullToEmpty(input.topic);

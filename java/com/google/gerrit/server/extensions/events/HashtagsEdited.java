@@ -16,7 +16,7 @@ package com.google.gerrit.server.extensions.events;
 
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -58,7 +58,7 @@ public class HashtagsEdited {
           new Event(
               util.changeInfo(change), util.accountInfo(editor), hashtags, added, removed, when);
       listeners.runEach(l -> l.onHashtagsEdited(event));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }
   }

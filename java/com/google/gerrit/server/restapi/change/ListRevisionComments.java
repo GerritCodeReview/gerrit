@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.RevisionResource;
@@ -36,7 +36,7 @@ public class ListRevisionComments extends ListRevisionDrafts {
   }
 
   @Override
-  protected Iterable<Comment> listComments(RevisionResource rsrc) throws OrmException {
+  protected Iterable<Comment> listComments(RevisionResource rsrc) throws StorageException {
     ChangeNotes notes = rsrc.getNotes();
     return commentsUtil.publishedByPatchSet(notes, rsrc.getPatchSet().getId());
   }

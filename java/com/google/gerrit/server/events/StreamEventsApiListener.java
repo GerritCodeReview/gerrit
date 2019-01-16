@@ -20,7 +20,7 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -136,15 +136,15 @@ public class StreamEventsApiListener
     this.changeNotesFactory = changeNotesFactory;
   }
 
-  private ChangeNotes getNotes(ChangeInfo info) throws OrmException {
+  private ChangeNotes getNotes(ChangeInfo info) throws StorageException {
     try {
       return changeNotesFactory.createChecked(new Change.Id(info._number));
     } catch (NoSuchChangeException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
   }
 
-  private PatchSet getPatchSet(ChangeNotes notes, RevisionInfo info) throws OrmException {
+  private PatchSet getPatchSet(ChangeNotes notes, RevisionInfo info) throws StorageException {
     return psUtil.get(notes, PatchSet.Id.fromRef(info.ref));
   }
 
@@ -153,7 +153,7 @@ public class StreamEventsApiListener
         () -> {
           try {
             return eventFactory.asChangeAttribute(change, notes);
-          } catch (OrmException e) {
+          } catch (StorageException e) {
             throw new RuntimeException(e);
           }
         });
@@ -249,7 +249,7 @@ public class StreamEventsApiListener
       event.oldAssignee = accountAttributeSupplier(ev.getOldAssignee());
 
       dispatcher.run(d -> d.postEvent(change, event));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -266,7 +266,7 @@ public class StreamEventsApiListener
       event.oldTopic = ev.getOldTopic();
 
       dispatcher.run(d -> d.postEvent(change, event));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -284,7 +284,7 @@ public class StreamEventsApiListener
       event.uploader = accountAttributeSupplier(ev.getWho());
 
       dispatcher.run(d -> d.postEvent(change, event));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -304,7 +304,7 @@ public class StreamEventsApiListener
           approvalsAttributeSupplier(change, ev.getNewApprovals(), ev.getOldApprovals());
 
       dispatcher.run(d -> d.postEvent(change, event));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -322,7 +322,7 @@ public class StreamEventsApiListener
         event.reviewer = accountAttributeSupplier(reviewer);
         dispatcher.run(d -> d.postEvent(event));
       }
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -350,7 +350,7 @@ public class StreamEventsApiListener
       event.removed = hashtagArray(ev.getRemovedHashtags());
 
       dispatcher.run(d -> d.postEvent(change, event));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -387,7 +387,7 @@ public class StreamEventsApiListener
       event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
 
       dispatcher.run(d -> d.postEvent(change, event));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -405,7 +405,7 @@ public class StreamEventsApiListener
       event.reason = ev.getReason();
 
       dispatcher.run(d -> d.postEvent(change, event));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -423,7 +423,7 @@ public class StreamEventsApiListener
       event.newRev = ev.getNewRevisionId();
 
       dispatcher.run(d -> d.postEvent(change, event));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -441,7 +441,7 @@ public class StreamEventsApiListener
       event.reason = ev.getReason();
 
       dispatcher.run(d -> d.postEvent(change, event));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -459,7 +459,7 @@ public class StreamEventsApiListener
       event.patchSet = patchSetAttributeSupplier(change, patchSet);
 
       dispatcher.run(d -> d.postEvent(change, event));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -477,7 +477,7 @@ public class StreamEventsApiListener
       event.patchSet = patchSetAttributeSupplier(change, patchSet);
 
       dispatcher.run(d -> d.postEvent(change, event));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -497,7 +497,7 @@ public class StreamEventsApiListener
       event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
 
       dispatcher.run(d -> d.postEvent(change, event));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -513,7 +513,7 @@ public class StreamEventsApiListener
       event.deleter = accountAttributeSupplier(ev.getWho());
 
       dispatcher.run(d -> d.postEvent(change, event));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }

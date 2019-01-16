@@ -19,7 +19,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.exceptions.NoSuchAccountException;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
@@ -36,7 +36,7 @@ public class MailUtil {
 
   public static MailRecipients getRecipientsFromFooters(
       AccountResolver accountResolver, List<FooterLine> footerLines)
-      throws OrmException, IOException {
+      throws StorageException, IOException {
     MailRecipients recipients = new MailRecipients();
     for (FooterLine footerLine : footerLines) {
       try {
@@ -60,7 +60,7 @@ public class MailUtil {
   }
 
   private static Account.Id toAccountId(AccountResolver accountResolver, String nameOrEmail)
-      throws OrmException, NoSuchAccountException, IOException {
+      throws StorageException, NoSuchAccountException, IOException {
     Account a = accountResolver.findByNameOrEmail(nameOrEmail);
     if (a == null) {
       throw new NoSuchAccountException("\"" + nameOrEmail + "\" is not registered");

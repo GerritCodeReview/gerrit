@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -55,7 +55,7 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
 
   @Override
   public VoteResource parse(ReviewerResource reviewer, IdString id)
-      throws ResourceNotFoundException, OrmException, AuthException, MethodNotAllowedException {
+      throws ResourceNotFoundException, StorageException, AuthException, MethodNotAllowedException {
     if (reviewer.getRevisionResource() != null && !reviewer.getRevisionResource().isCurrent()) {
       throw new MethodNotAllowedException("Cannot access on non-current patch set");
     }
@@ -73,7 +73,7 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
 
     @Override
     public Map<String, Short> apply(ReviewerResource rsrc)
-        throws OrmException, MethodNotAllowedException {
+        throws StorageException, MethodNotAllowedException {
       if (rsrc.getRevisionResource() != null && !rsrc.getRevisionResource().isCurrent()) {
         throw new MethodNotAllowedException("Cannot list votes on non-current patch set");
       }

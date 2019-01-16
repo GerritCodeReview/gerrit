@@ -66,7 +66,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule.Action;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.accounts.DeletedDraftCommentInfo;
@@ -2276,7 +2276,7 @@ public class AccountIT extends AbstractDaemonTest {
                   accountsUpdateProvider
                       .get()
                       .update("Set Status", admin.id, u -> u.setStatus(status));
-                } catch (IOException | ConfigInvalidException | OrmException e) {
+                } catch (IOException | ConfigInvalidException | StorageException e) {
                   // Ignore, the successful update of the account is asserted later
                 }
               }
@@ -2333,7 +2333,7 @@ public class AccountIT extends AbstractDaemonTest {
                         "Set Status",
                         admin.id,
                         u -> u.setStatus(status.get(bgCounter.getAndAdd(1))));
-              } catch (IOException | ConfigInvalidException | OrmException e) {
+              } catch (IOException | ConfigInvalidException | StorageException e) {
                 // Ignore, the expected exception is asserted later
               }
             },
@@ -2386,7 +2386,7 @@ public class AccountIT extends AbstractDaemonTest {
                 accountsUpdateProvider
                     .get()
                     .update("Set Status", admin.id, u -> u.setStatus("A-2"));
-              } catch (IOException | ConfigInvalidException | OrmException e) {
+              } catch (IOException | ConfigInvalidException | StorageException e) {
                 // Ignore, the expected exception is asserted later
               }
             });
@@ -2455,7 +2455,7 @@ public class AccountIT extends AbstractDaemonTest {
                         "Update External ID",
                         accountId,
                         u -> u.replaceExternalId(extIdA1, extIdA2));
-              } catch (IOException | ConfigInvalidException | OrmException e) {
+              } catch (IOException | ConfigInvalidException | StorageException e) {
                 // Ignore, the expected exception is asserted later
               }
             });

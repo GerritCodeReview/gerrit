@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -61,7 +61,7 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
     } catch (ResourceConflictException | ResourceNotFoundException e) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (StorageException | PermissionBackendException e) {
       throw new IOException("Unable to lookup change " + id.id, e);
     }
     String path =

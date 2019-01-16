@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.server.GerritPersonIdentProvider;
@@ -49,7 +49,7 @@ public class ExternalIdsOnInit {
   }
 
   public synchronized void insert(String commitMessage, Collection<ExternalId> extIds)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws StorageException, IOException, ConfigInvalidException {
     File path = getPath();
     if (path != null) {
       try (Repository allUsersRepo = new FileRepository(path)) {

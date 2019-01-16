@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -48,7 +48,7 @@ public class SetInactiveFlag {
   }
 
   public Response<?> deactivate(Account.Id accountId)
-      throws RestApiException, IOException, ConfigInvalidException, OrmException {
+      throws RestApiException, IOException, ConfigInvalidException, StorageException {
     AtomicBoolean alreadyInactive = new AtomicBoolean(false);
     AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());
     accountsUpdateProvider
@@ -81,7 +81,7 @@ public class SetInactiveFlag {
   }
 
   public Response<String> activate(Account.Id accountId)
-      throws RestApiException, IOException, ConfigInvalidException, OrmException {
+      throws RestApiException, IOException, ConfigInvalidException, StorageException {
     AtomicBoolean alreadyActive = new AtomicBoolean(false);
     AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());
     accountsUpdateProvider

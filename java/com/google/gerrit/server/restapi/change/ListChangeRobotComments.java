@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -44,7 +44,7 @@ public class ListChangeRobotComments implements RestReadView<ChangeResource> {
 
   @Override
   public Map<String, List<RobotCommentInfo>> apply(ChangeResource rsrc)
-      throws AuthException, OrmException, PermissionBackendException {
+      throws AuthException, StorageException, PermissionBackendException {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     return commentJson
         .get()

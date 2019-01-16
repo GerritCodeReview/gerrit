@@ -33,7 +33,7 @@ import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -120,7 +120,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         insertIndex = CLOSED_CHANGES;
         deleteIndex = OPEN_CHANGES;
       }
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       throw new IOException(e);
     }
 

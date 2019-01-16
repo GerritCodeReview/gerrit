@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -36,7 +36,7 @@ public class Reviewed {
     }
 
     @Override
-    public Response<String> apply(FileResource resource, Input input) throws OrmException {
+    public Response<String> apply(FileResource resource, Input input) throws StorageException {
       boolean reviewFlagUpdated =
           accountPatchReviewStore.call(
               s ->
@@ -44,7 +44,7 @@ public class Reviewed {
                       resource.getPatchKey().getParentKey(),
                       resource.getAccountId(),
                       resource.getPatchKey().getFileName()),
-              OrmException.class);
+              StorageException.class);
       return reviewFlagUpdated ? Response.created("") : Response.ok("");
     }
   }
@@ -59,14 +59,14 @@ public class Reviewed {
     }
 
     @Override
-    public Response<?> apply(FileResource resource, Input input) throws OrmException {
+    public Response<?> apply(FileResource resource, Input input) throws StorageException {
       accountPatchReviewStore.run(
           s ->
               s.clearReviewed(
                   resource.getPatchKey().getParentKey(),
                   resource.getAccountId(),
                   resource.getPatchKey().getFileName()),
-          OrmException.class);
+          StorageException.class);
       return Response.none();
     }
   }

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -82,7 +82,7 @@ public class PutDescription
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException {
+    public boolean updateChange(ChangeContext ctx) throws StorageException {
       ChangeUpdate update = ctx.getUpdate(psId);
       newDescription = Strings.nullToEmpty(input.description);
       oldDescription = Strings.nullToEmpty(psUtil.get(ctx.getNotes(), psId).getDescription());

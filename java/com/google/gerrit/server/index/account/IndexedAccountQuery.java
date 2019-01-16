@@ -16,7 +16,7 @@ package com.google.gerrit.server.index.account;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.DataSource;
@@ -37,7 +37,7 @@ public class IndexedAccountQuery extends IndexedQuery<Account.Id, AccountState>
   }
 
   @Override
-  public boolean match(AccountState accountState) throws OrmException {
+  public boolean match(AccountState accountState) throws StorageException {
     Predicate<AccountState> pred = getChild(0);
     checkState(
         pred.isMatchable(),

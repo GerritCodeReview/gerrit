@@ -15,7 +15,7 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -59,7 +59,7 @@ public class WorkInProgressStateChanged {
               util.accountInfo(account),
               when);
       listeners.runEach(l -> l.onWorkInProgressStateChanged(event));
-    } catch (OrmException
+    } catch (StorageException
         | PatchListNotAvailableException
         | GpgException
         | IOException

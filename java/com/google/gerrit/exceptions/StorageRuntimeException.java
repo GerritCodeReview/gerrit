@@ -1,4 +1,4 @@
-// Copyright (C) 2018 The Android Open Source Project
+// Copyright 2008 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,18 +15,18 @@
 package com.google.gerrit.exceptions;
 
 /** Any data store read or write error. */
-public class OrmException extends Exception {
+public class StorageRuntimeException extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
-  public OrmException(String message) {
+  public StorageRuntimeException(String message) {
     super(message);
   }
 
-  public OrmException(String message, Throwable cause) {
+  public StorageRuntimeException(String message, Throwable cause) {
     super(message, cause);
   }
 
-  public OrmException(Throwable cause) {
+  public StorageRuntimeException(Throwable cause) {
     super(cause);
   }
 }

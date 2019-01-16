@@ -4,7 +4,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_VERSION;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.testing.GerritBaseTests;
@@ -43,8 +43,8 @@ public class NoteDbSchemaVersionManagerTest extends GerritBaseTests {
     tr.update(REFS_VERSION, blobId);
     try {
       manager.read();
-      assert_().fail("expected OrmException");
-    } catch (OrmException e) {
+      assert_().fail("expected StorageException");
+    } catch (StorageException e) {
       assertThat(e)
           .hasMessageThat()
           .isEqualTo("invalid value in refs/meta/version blob at " + blobId.name());
@@ -69,8 +69,8 @@ public class NoteDbSchemaVersionManagerTest extends GerritBaseTests {
     tr.update(REFS_VERSION, tr.blob("123"));
     try {
       manager.increment(456);
-      assert_().fail("expected OrmException");
-    } catch (OrmException e) {
+      assert_().fail("expected StorageException");
+    } catch (StorageException e) {
       assertThat(e)
           .hasMessageThat()
           .isEqualTo("Expected old version 456 for refs/meta/version, found 123");

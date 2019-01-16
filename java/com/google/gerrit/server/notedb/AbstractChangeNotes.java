@@ -19,7 +19,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -130,13 +130,13 @@ public abstract class AbstractChangeNotes<T> {
     return revision;
   }
 
-  public T load() throws OrmException {
+  public T load() throws StorageException {
     if (loaded) {
       return self();
     }
 
     if (args.failOnLoadForTest.get()) {
-      throw new OrmException("Reading from NoteDb is disabled");
+      throw new StorageException("Reading from NoteDb is disabled");
     }
     try (Timer1.Context timer = args.metrics.readLatency.start(CHANGES);
         Repository repo = args.repoManager.openRepository(getProjectName());
@@ -147,7 +147,7 @@ public abstract class AbstractChangeNotes<T> {
       onLoad(handle);
       loaded = true;
     } catch (ConfigInvalidException | IOException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
     return self();
   }
@@ -175,12 +175,12 @@ public abstract class AbstractChangeNotes<T> {
     return new LoadHandle(repo, id);
   }
 
-  public T reload() throws OrmException {
+  public T reload() throws StorageException {
     loaded = false;
     return load();
   }
 
-  public ObjectId loadRevision() throws OrmException {
+  public ObjectId loadRevision() throws StorageException {
     if (loaded) {
       return getRevision();
     }
@@ -188,7 +188,7 @@ public abstract class AbstractChangeNotes<T> {
       Ref ref = repo.getRefDatabase().exactRef(getRefName());
       return ref != null ? ref.getObjectId() : null;
     } catch (IOException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
   }
 

@@ -17,7 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.InternalUser;
@@ -96,14 +96,14 @@ public class AbandonUtil {
         }
       }
       logger.atInfo().log("Auto-Abandoned %d of %d changes.", count, changesToAbandon.size());
-    } catch (QueryParseException | OrmException e) {
+    } catch (QueryParseException | StorageException e) {
       logger.atSevere().withCause(e).log(
           "Failed to query inactive open changes for auto-abandoning.");
     }
   }
 
   private Collection<ChangeData> getValidChanges(Collection<ChangeData> changes, String query)
-      throws OrmException, QueryParseException {
+      throws StorageException, QueryParseException {
     Collection<ChangeData> validChanges = new ArrayList<>();
     for (ChangeData cd : changes) {
       String newQuery = query + " change:" + cd.getId();

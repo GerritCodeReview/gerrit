@@ -18,7 +18,7 @@ import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -91,14 +91,14 @@ public class SubmitRuleEvaluator {
     try {
       change = cd.change();
       if (change == null) {
-        throw new OrmException("Change not found");
+        throw new StorageException("Change not found");
       }
 
       projectState = projectCache.get(cd.project());
       if (projectState == null) {
         throw new NoSuchProjectException(cd.project());
       }
-    } catch (OrmException | NoSuchProjectException e) {
+    } catch (StorageException | NoSuchProjectException e) {
       return ruleError("Error looking up change " + cd.getId(), e);
     }
 

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -51,7 +51,7 @@ public class Ignore implements RestModifyView<ChangeResource, Input>, UiAction<C
 
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input)
-      throws RestApiException, OrmException, IllegalLabelException {
+      throws RestApiException, StorageException, IllegalLabelException {
     try {
       if (rsrc.isUserOwner()) {
         throw new BadRequestException("cannot ignore own change");
@@ -73,7 +73,7 @@ public class Ignore implements RestModifyView<ChangeResource, Input>, UiAction<C
   private boolean isIgnored(ChangeResource rsrc) {
     try {
       return stars.isIgnored(rsrc);
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("failed to check ignored star");
     }
     return false;

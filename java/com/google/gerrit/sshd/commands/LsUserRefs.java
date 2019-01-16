@@ -17,7 +17,7 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
@@ -76,7 +76,7 @@ public class LsUserRefs extends SshCommand {
     Account userAccount;
     try {
       userAccount = accountResolver.find(userName);
-    } catch (OrmException | IOException | ConfigInvalidException e) {
+    } catch (StorageException | IOException | ConfigInvalidException e) {
       throw die(e);
     }
     if (userAccount == null) {

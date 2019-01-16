@@ -16,7 +16,7 @@ package com.google.gerrit.server.query.account;
 
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.IndexPredicate;
@@ -140,7 +140,7 @@ public class AccountPredicates {
     }
 
     @Override
-    public boolean match(AccountState object) throws OrmException {
+    public boolean match(AccountState object) throws StorageException {
       return true;
     }
 

@@ -19,7 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.HtmlDomUtil;
@@ -128,7 +128,7 @@ class HttpLoginServlet extends HttpServlet {
         logger.atFine().log(
             "Associating external identity \"%s\" to user \"%s\"", remoteExternalId, user);
         updateRemoteExternalId(arsp, remoteExternalId);
-      } catch (AccountException | OrmException | ConfigInvalidException e) {
+      } catch (AccountException | StorageException | ConfigInvalidException e) {
         logger.atSevere().withCause(e).log(
             "Unable to associate external identity \"%s\" to user \"%s\"", remoteExternalId, user);
         rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
@@ -152,7 +152,7 @@ class HttpLoginServlet extends HttpServlet {
   }
 
   private void updateRemoteExternalId(AuthResult arsp, String remoteAuthToken)
-      throws AccountException, OrmException, IOException, ConfigInvalidException {
+      throws AccountException, StorageException, IOException, ConfigInvalidException {
     accountManager.updateLink(
         arsp.getAccountId(),
         new AuthRequest(ExternalId.Key.create(SCHEME_EXTERNAL, remoteAuthToken)));

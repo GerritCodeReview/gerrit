@@ -22,7 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -134,7 +134,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
         return checkIdsForExpectedUser(key);
       }
       return checkIdsForArbitraryUser(key);
-    } catch (PGPException | OrmException e) {
+    } catch (PGPException | StorageException e) {
       String msg = "Error checking user IDs for key";
       logger.atWarning().withCause(e).log("%s %s", msg, keyIdToString(key.getKeyID()));
       return CheckResult.bad(msg);
@@ -155,7 +155,8 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     return CheckResult.bad(missingUserIds(allowedUserIds));
   }
 
-  private CheckResult checkIdsForArbitraryUser(PGPPublicKey key) throws PGPException, OrmException {
+  private CheckResult checkIdsForArbitraryUser(PGPPublicKey key)
+      throws PGPException, StorageException {
     List<AccountState> accountStates = accountQueryProvider.get().byExternalId(toExtIdKey(key));
     if (accountStates.isEmpty()) {
       return CheckResult.bad("Key is not associated with any users");

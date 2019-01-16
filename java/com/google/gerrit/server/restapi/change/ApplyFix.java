@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -67,7 +67,7 @@ public class ApplyFix implements RestModifyView<FixResource, Void> {
 
   @Override
   public Response<EditInfo> apply(FixResource fixResource, Void nothing)
-      throws AuthException, OrmException, ResourceConflictException, IOException,
+      throws AuthException, StorageException, ResourceConflictException, IOException,
           ResourceNotFoundException, PermissionBackendException {
     RevisionResource revisionResource = fixResource.getRevisionResource();
     Project.NameKey project = revisionResource.getProject();

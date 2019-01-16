@@ -21,7 +21,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
@@ -82,7 +82,7 @@ public class ReviewCommand extends SshCommand {
       patchSets.add(ps);
     } catch (UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       throw new IllegalArgumentException("database error", e);
     }
   }

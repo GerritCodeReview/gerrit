@@ -19,7 +19,7 @@ import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.projects.IndexProjectInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -59,7 +59,7 @@ public class Index implements RestModifyView<ProjectResource, IndexProjectInput>
 
   @Override
   public Response.Accepted apply(ProjectResource rsrc, IndexProjectInput input)
-      throws IOException, AuthException, OrmException, PermissionBackendException,
+      throws IOException, AuthException, StorageException, PermissionBackendException,
           ResourceConflictException {
     String response = "Project " + rsrc.getName() + " submitted for reindexing";
 

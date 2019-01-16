@@ -36,8 +36,8 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.gerrit.exceptions.OrmException;
-import com.google.gerrit.exceptions.OrmRuntimeException;
+import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.exceptions.StorageRuntimeException;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
@@ -212,7 +212,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       } else {
         Futures.allAsList(openIndex.delete(id), closedIndex.replace(id, doc)).get();
       }
-    } catch (OrmException | ExecutionException | InterruptedException e) {
+    } catch (StorageException | ExecutionException | InterruptedException e) {
       throw new IOException(e);
     }
   }
@@ -303,10 +303,10 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
 
     @Override
-    public ResultSet<ChangeData> read() throws OrmException {
+    public ResultSet<ChangeData> read() throws StorageException {
       if (Thread.interrupted()) {
         Thread.currentThread().interrupt();
-        throw new OrmException("interrupted");
+        throw new StorageException("interrupted");
       }
 
       final Set<String> fields = IndexUtils.changeFields(opts);
@@ -327,12 +327,12 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
 
     @Override
-    public ResultSet<FieldBundle> readRaw() throws OrmException {
+    public ResultSet<FieldBundle> readRaw() throws StorageException {
       List<Document> documents;
       try {
         documents = doRead(IndexUtils.changeFields(opts));
       } catch (IOException e) {
-        throw new OrmException(e);
+        throw new StorageException(e);
       }
       ImmutableList<FieldBundle> fieldBundles =
           documents.stream().map(rawDocumentMapper).collect(toImmutableList());
@@ -415,10 +415,10 @@ public class LuceneChangeIndex implements ChangeIndex {
         return result.build();
       } catch (InterruptedException e) {
         close();
-        throw new OrmRuntimeException(e);
+        throw new StorageRuntimeException(e);
       } catch (ExecutionException e) {
         Throwables.throwIfUnchecked(e.getCause());
-        throw new OrmRuntimeException(e.getCause());
+        throw new StorageRuntimeException(e.getCause());
       }
     }
 

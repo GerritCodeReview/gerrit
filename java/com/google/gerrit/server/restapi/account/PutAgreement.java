@@ -18,7 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.exceptions.NoSuchGroupException;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.accounts.AgreementInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -67,7 +67,7 @@ public class PutAgreement implements RestModifyView<AccountResource, AgreementIn
 
   @Override
   public Response<String> apply(AccountResource resource, AgreementInput input)
-      throws IOException, OrmException, RestApiException, ConfigInvalidException {
+      throws IOException, StorageException, RestApiException, ConfigInvalidException {
     if (!agreementsEnabled) {
       throw new MethodNotAllowedException("contributor agreements disabled");
     }

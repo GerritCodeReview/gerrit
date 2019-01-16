@@ -15,7 +15,7 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.exceptions.EmailException;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
@@ -32,7 +32,7 @@ public class RestoredSender extends ReplyToChangeSender {
   @Inject
   public RestoredSender(
       EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
-      throws OrmException {
+      throws StorageException {
     super(ea, "restore", ChangeEmail.newChangeData(ea, project, id));
   }
 

@@ -25,7 +25,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -180,14 +180,14 @@ public class DeleteRef {
    * @param projectState the {@code ProjectState} of the project whose refs are to be deleted.
    * @param refsToDelete the refs to be deleted.
    * @param prefix the prefix of the refs.
-   * @throws OrmException
+   * @throws StorageException
    * @throws IOException
    * @throws ResourceConflictException
    * @throws PermissionBackendException
    */
   public void deleteMultipleRefs(
       ProjectState projectState, ImmutableSet<String> refsToDelete, String prefix)
-      throws OrmException, IOException, ResourceConflictException, PermissionBackendException,
+      throws StorageException, IOException, ResourceConflictException, PermissionBackendException,
           AuthException {
     if (refsToDelete.isEmpty()) {
       return;
@@ -230,7 +230,7 @@ public class DeleteRef {
 
   private ReceiveCommand createDeleteCommand(
       ProjectState projectState, Repository r, String refName)
-      throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
+      throws StorageException, IOException, ResourceConflictException, PermissionBackendException {
     Ref ref = r.getRefDatabase().getRef(refName);
     ReceiveCommand command;
     if (ref == null) {

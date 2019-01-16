@@ -19,7 +19,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -118,7 +118,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
         }
       }
       return r;
-    } catch (OrmException err) {
+    } catch (StorageException err) {
       logger.atSevere().withCause(err).log("Cannot list open changes of %s", projectName);
       return Collections.emptySet();
     }

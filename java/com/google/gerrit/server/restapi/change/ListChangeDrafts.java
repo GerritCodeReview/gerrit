@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -47,7 +47,7 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
 
   @Override
   public Map<String, List<CommentInfo>> apply(ChangeResource rsrc)
-      throws AuthException, OrmException, PermissionBackendException {
+      throws AuthException, StorageException, PermissionBackendException {
     if (!rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

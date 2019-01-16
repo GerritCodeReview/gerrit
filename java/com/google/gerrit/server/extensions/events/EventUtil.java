@@ -16,7 +16,7 @@ package com.google.gerrit.server.extensions.events;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -74,18 +74,18 @@ public class EventUtil {
     this.revisionJsonFactory = revisionJsonFactory;
   }
 
-  public ChangeInfo changeInfo(Change change) throws OrmException {
+  public ChangeInfo changeInfo(Change change) throws StorageException {
     return changeJsonFactory.create(CHANGE_OPTIONS).format(change);
   }
 
   public RevisionInfo revisionInfo(Project project, PatchSet ps)
-      throws OrmException, PatchListNotAvailableException, GpgException, IOException,
+      throws StorageException, PatchListNotAvailableException, GpgException, IOException,
           PermissionBackendException {
     return revisionInfo(project.getNameKey(), ps);
   }
 
   public RevisionInfo revisionInfo(Project.NameKey project, PatchSet ps)
-      throws OrmException, PatchListNotAvailableException, GpgException, IOException,
+      throws StorageException, PatchListNotAvailableException, GpgException, IOException,
           PermissionBackendException {
     ChangeData cd = changeDataFactory.create(project, ps.getId().getParentKey());
     return revisionJsonFactory.create(CHANGE_OPTIONS).getRevisionInfo(cd, ps);

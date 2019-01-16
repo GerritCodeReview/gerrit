@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -30,7 +30,7 @@ public class CommentPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) throws StorageException {
     try {
       Predicate<ChangeData> p = Predicate.and(new LegacyChangeIdPredicate(object.getId()), this);
       for (ChangeData cData : index.getSource(p, IndexedChangeQuery.oneResult()).read()) {
@@ -39,7 +39,7 @@ public class CommentPredicate extends ChangeIndexPredicate {
         }
       }
     } catch (QueryParseException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
 
     return false;

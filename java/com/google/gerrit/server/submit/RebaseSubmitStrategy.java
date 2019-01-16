@@ -19,7 +19,7 @@ import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 import static com.google.gerrit.server.submit.CommitMergeStatus.SKIPPED_IDENTICAL_TREE;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -59,7 +59,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
     List<CodeReviewCommit> sorted;
     try {
       sorted = args.rebaseSorter.sort(toMerge);
-    } catch (IOException | OrmException e) {
+    } catch (IOException | StorageException e) {
       throw new IntegrationException("Commit sorting failed", e);
     }
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
@@ -119,7 +119,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
     @Override
     public void updateRepoImpl(RepoContext ctx)
         throws IntegrationException, InvalidChangeOperationException, RestApiException, IOException,
-            OrmException, PermissionBackendException {
+            StorageException, PermissionBackendException {
       if (args.mergeUtil.canFastForward(
           args.mergeSorter, args.mergeTip.getCurrentTip(), args.rw, toMerge)) {
         if (!rebaseAlways) {
@@ -213,7 +213,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
 
     @Override
     public PatchSet updateChangeImpl(ChangeContext ctx)
-        throws NoSuchChangeException, ResourceConflictException, OrmException, IOException {
+        throws NoSuchChangeException, ResourceConflictException, StorageException, IOException {
       if (newCommit == null) {
         checkState(!rebaseAlways, "RebaseAlways must never fast forward");
         // otherwise, took the fast-forward option, nothing to do.
@@ -245,7 +245,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
     }
 
     @Override
-    public void postUpdateImpl(Context ctx) throws OrmException {
+    public void postUpdateImpl(Context ctx) throws StorageException {
       if (rebaseOp != null) {
         rebaseOp.postUpdate(ctx);
       }

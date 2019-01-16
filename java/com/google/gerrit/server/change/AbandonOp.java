@@ -18,7 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -92,7 +92,8 @@ public class AbandonOp implements BatchUpdateOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws OrmException, ResourceConflictException {
+  public boolean updateChange(ChangeContext ctx)
+      throws StorageException, ResourceConflictException {
     change = ctx.getChange();
     PatchSet.Id psId = change.currentPatchSetId();
     ChangeUpdate update = ctx.getUpdate(psId);
@@ -121,7 +122,7 @@ public class AbandonOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws OrmException {
+  public void postUpdate(Context ctx) throws StorageException {
     try {
       ReplyToChangeSender cm = abandonedSenderFactory.create(ctx.getProject(), change.getId());
       if (accountState != null) {

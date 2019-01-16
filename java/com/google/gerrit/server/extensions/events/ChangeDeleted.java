@@ -15,7 +15,7 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -47,7 +47,7 @@ public class ChangeDeleted {
     try {
       Event event = new Event(util.changeInfo(change), util.accountInfo(deleter), when);
       listeners.runEach(l -> l.onChangeDeleted(event));
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }
   }

@@ -17,7 +17,7 @@ package com.google.gerrit.server.api.changes;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
@@ -582,7 +582,7 @@ class ChangeApiImpl implements ChangeApi {
       } else {
         unignore.apply(change, new Input());
       }
-    } catch (OrmException | IllegalLabelException e) {
+    } catch (StorageException | IllegalLabelException e) {
       throw asRestApiException("Cannot ignore change", e);
     }
   }
@@ -591,7 +591,7 @@ class ChangeApiImpl implements ChangeApi {
   public boolean ignored() throws RestApiException {
     try {
       return stars.isIgnored(change);
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       throw asRestApiException("Cannot check if ignored", e);
     }
   }
@@ -606,7 +606,7 @@ class ChangeApiImpl implements ChangeApi {
       } else {
         markAsUnreviewed.apply(change, new Input());
       }
-    } catch (OrmException | IllegalLabelException e) {
+    } catch (StorageException | IllegalLabelException e) {
       throw asRestApiException(
           "Cannot mark change as " + (reviewed ? "reviewed" : "unreviewed"), e);
     }

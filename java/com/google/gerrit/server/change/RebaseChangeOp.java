@@ -16,7 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -145,7 +145,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   @Override
   public void updateRepo(RepoContext ctx)
       throws MergeConflictException, InvalidChangeOperationException, RestApiException, IOException,
-          OrmException, NoSuchChangeException, PermissionBackendException {
+          StorageException, NoSuchChangeException, PermissionBackendException {
     // Ok that originalPatchSet was not read in a transaction, since we just
     // need its revision.
     RevId oldRev = originalPatchSet.getRevision();
@@ -210,14 +210,14 @@ public class RebaseChangeOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws ResourceConflictException, OrmException, IOException {
+      throws ResourceConflictException, StorageException, IOException {
     boolean ret = patchSetInserter.updateChange(ctx);
     rebasedPatchSet = patchSetInserter.getPatchSet();
     return ret;
   }
 
   @Override
-  public void postUpdate(Context ctx) throws OrmException {
+  public void postUpdate(Context ctx) throws StorageException {
     patchSetInserter.postUpdate(ctx);
   }
 

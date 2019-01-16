@@ -19,7 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -213,7 +213,7 @@ public class OutputStreamQuery {
         stats.moreChanges = results.more();
         stats.runTimeMilliseconds = TimeUtil.nowMs() - stats.runTimeMilliseconds;
         show(stats);
-      } catch (OrmException err) {
+      } catch (StorageException err) {
         logger.atSevere().withCause(err).log("Cannot execute query: %s", queryString);
 
         ErrorMessage m = new ErrorMessage();
@@ -236,7 +236,7 @@ public class OutputStreamQuery {
 
   private ChangeAttribute buildChangeAttribute(
       ChangeData d, Map<Project.NameKey, Repository> repos, Map<Project.NameKey, RevWalk> revWalks)
-      throws OrmException, IOException {
+      throws StorageException, IOException {
     LabelTypes labelTypes = d.getLabelTypes();
     ChangeAttribute c = eventFactory.asChangeAttribute(d.change(), d.notes());
     eventFactory.extend(c, d.change());

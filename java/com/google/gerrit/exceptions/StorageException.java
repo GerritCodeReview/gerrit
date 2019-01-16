@@ -1,4 +1,4 @@
-// Copyright 2008 Google Inc.
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,19 +14,31 @@
 
 package com.google.gerrit.exceptions;
 
-/** Any data store read or write error. */
-public class OrmRuntimeException extends RuntimeException {
+/**
+ * Any read/write error in a storage layer.
+ *
+ * <p>This includes but is not limited to:
+ *
+ * <ul>
+ *   <li>NoteDb exceptions
+ *   <li>Secondary index exceptions
+ *   <li>{@code AccountPatchReviewStore} exceptions
+ *   <li>Wrapped JGit exceptions
+ *   <li>Other wrapped {@code IOException}s
+ * </ul>
+ */
+public class StorageException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public OrmRuntimeException(String message) {
+  public StorageException(String message) {
     super(message);
   }
 
-  public OrmRuntimeException(String message, Throwable cause) {
+  public StorageException(String message, Throwable cause) {
     super(message, cause);
   }
 
-  public OrmRuntimeException(Throwable cause) {
+  public StorageException(Throwable cause) {
     super(cause);
   }
 }

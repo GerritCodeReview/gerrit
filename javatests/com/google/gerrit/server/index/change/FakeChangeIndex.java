@@ -15,7 +15,7 @@
 package com.google.gerrit.server.index.change;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
@@ -52,12 +52,12 @@ public class FakeChangeIndex implements ChangeIndex {
     }
 
     @Override
-    public ResultSet<ChangeData> read() throws OrmException {
+    public ResultSet<ChangeData> read() throws StorageException {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResultSet<FieldBundle> readRaw() throws OrmException {
+    public ResultSet<FieldBundle> readRaw() throws StorageException {
       throw new UnsupportedOperationException("not implemented");
     }
 

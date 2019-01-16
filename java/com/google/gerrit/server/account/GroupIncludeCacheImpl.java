@@ -22,7 +22,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.cache.CacheModule;
@@ -152,7 +152,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
 
     @Override
-    public ImmutableSet<AccountGroup.UUID> load(Account.Id memberId) throws OrmException {
+    public ImmutableSet<AccountGroup.UUID> load(Account.Id memberId) throws StorageException {
       try (TraceTimer timer = TraceContext.newTimer("Loading groups with member %s", memberId)) {
         return groupQueryProvider
             .get()
@@ -174,7 +174,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
 
     @Override
-    public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) throws OrmException {
+    public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) throws StorageException {
       try (TraceTimer timer = TraceContext.newTimer("Loading parent groups of %s", key)) {
         return groupQueryProvider
             .get()

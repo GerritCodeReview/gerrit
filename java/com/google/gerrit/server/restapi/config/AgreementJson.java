@@ -18,7 +18,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.exceptions.NoSuchGroupException;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -61,7 +61,7 @@ public class AgreementJson {
         GroupControl gc = genericGroupControlFactory.controlFor(user, autoVerifyGroup.getUUID());
         GroupResource group = new GroupResource(gc);
         info.autoVerifyGroup = groupJson.format(group);
-      } catch (NoSuchGroupException | OrmException e) {
+      } catch (NoSuchGroupException | StorageException e) {
         logger.atWarning().log(
             "autoverify group \"%s\" does not exist, referenced in CLA \"%s\"",
             autoVerifyGroup.getName(), ca.getName());

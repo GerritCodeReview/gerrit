@@ -19,7 +19,7 @@ import static com.google.gerrit.reviewdb.client.PatchLineComment.Status.PUBLISHE
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSet.Id;
@@ -48,7 +48,7 @@ public class PublishCommentUtil {
 
   public void publish(
       ChangeContext ctx, PatchSet.Id psId, Collection<Comment> drafts, @Nullable String tag)
-      throws OrmException {
+      throws StorageException {
     ChangeNotes notes = ctx.getNotes();
     checkArgument(notes != null);
     if (drafts.isEmpty()) {
@@ -60,7 +60,7 @@ public class PublishCommentUtil {
     for (Comment d : drafts) {
       PatchSet ps = patchSets.get(psId(notes, d));
       if (ps == null) {
-        throw new OrmException("patch set " + ps + " not found");
+        throw new StorageException("patch set " + ps + " not found");
       }
       d.writtenOn = ctx.getWhen();
       d.tag = tag;
@@ -70,7 +70,7 @@ public class PublishCommentUtil {
       try {
         CommentsUtil.setCommentRevId(d, patchListCache, notes.getChange(), ps);
       } catch (PatchListNotAvailableException e) {
-        throw new OrmException(e);
+        throw new StorageException(e);
       }
     }
     commentsUtil.putComments(ctx.getUpdate(psId), PUBLISHED, drafts);

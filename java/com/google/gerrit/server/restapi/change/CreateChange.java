@@ -20,7 +20,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -159,7 +159,7 @@ public class CreateChange
   @Override
   protected Response<ChangeInfo> applyImpl(
       BatchUpdate.Factory updateFactory, TopLevelResource parent, ChangeInput input)
-      throws OrmException, IOException, InvalidChangeOperationException, RestApiException,
+      throws StorageException, IOException, InvalidChangeOperationException, RestApiException,
           UpdateException, PermissionBackendException, ConfigInvalidException {
     if (Strings.isNullOrEmpty(input.project)) {
       throw new BadRequestException("project must be non-empty");

@@ -19,7 +19,7 @@ import static java.util.Collections.reverseOrder;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherOption;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -109,7 +109,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   @Override
   public Object apply(ChangeResource resource)
       throws AuthException, BadRequestException, ResourceConflictException, IOException,
-          OrmException, PermissionBackendException {
+          StorageException, PermissionBackendException {
     SubmittedTogetherInfo info = applyInfo(resource);
     if (options.isEmpty()) {
       return info.changes;
@@ -118,7 +118,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   }
 
   public SubmittedTogetherInfo applyInfo(ChangeResource resource)
-      throws AuthException, IOException, OrmException, PermissionBackendException {
+      throws AuthException, IOException, StorageException, PermissionBackendException {
     Change c = resource.getChange();
     try {
       List<ChangeData> cds;
@@ -145,13 +145,14 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       info.changes = json.create(jsonOpt).format(cds);
       info.nonVisibleChanges = hidden;
       return info;
-    } catch (OrmException | IOException e) {
+    } catch (StorageException | IOException e) {
       logger.atSevere().withCause(e).log("Error on getting a ChangeSet");
       throw e;
     }
   }
 
-  private List<ChangeData> sort(List<ChangeData> cds, int hidden) throws OrmException, IOException {
+  private List<ChangeData> sort(List<ChangeData> cds, int hidden)
+      throws StorageException, IOException {
     if (cds.size() <= 1 && hidden == 0) {
       // Skip sorting for singleton lists, to avoid WalkSorter opening the
       // repo just to fill out the commit field in PatchSetData.
@@ -177,7 +178,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   }
 
   private static List<ChangeData> ensureRequiredDataIsLoaded(List<ChangeData> cds)
-      throws OrmException {
+      throws StorageException {
     // TODO(hiesel): Instead of calling these manually, either implement a helper that brings a
     // database-backed change on-par with an index-backed change in terms of the populated fields in
     // ChangeData or check if any of the ChangeDatas was loaded from the database and allow

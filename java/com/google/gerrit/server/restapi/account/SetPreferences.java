@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -63,7 +63,7 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
   @Override
   public GeneralPreferencesInfo apply(AccountResource rsrc, GeneralPreferencesInfo input)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException,
-          OrmException {
+          StorageException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }

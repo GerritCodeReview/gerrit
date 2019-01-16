@@ -16,7 +16,7 @@ package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 
-import com.google.gerrit.exceptions.OrmDuplicateKeyException;
+import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -96,7 +96,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
   }
 
   private void convertLocalUserToLowerCase(ExternalIdNotes extIdNotes, ExternalId extId)
-      throws OrmDuplicateKeyException, IOException {
+      throws DuplicateKeyException, IOException {
     if (extId.isScheme(SCHEME_GERRIT)) {
       String localUser = extId.key().id();
       String localUserLowerCase = localUser.toLowerCase(Locale.US);

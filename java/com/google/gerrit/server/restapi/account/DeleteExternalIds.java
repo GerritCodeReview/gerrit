@@ -18,7 +18,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -66,7 +66,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
 
   @Override
   public Response<?> apply(AccountResource resource, List<String> extIds)
-      throws RestApiException, IOException, OrmException, ConfigInvalidException,
+      throws RestApiException, IOException, StorageException, ConfigInvalidException,
           PermissionBackendException {
     if (!self.get().hasSameAccountId(resource.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ACCESS_DATABASE);

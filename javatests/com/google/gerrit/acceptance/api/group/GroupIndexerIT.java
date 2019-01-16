@@ -20,7 +20,7 @@ import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.exceptions.NoSuchGroupException;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -157,7 +157,7 @@ public class GroupIndexerIT {
 
   private void updateGroupWithoutCacheOrIndex(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
-      throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
+      throws StorageException, NoSuchGroupException, IOException, ConfigInvalidException {
     groupsUpdate.updateGroupInNoteDb(groupUuid, groupUpdate);
   }
 

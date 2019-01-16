@@ -32,7 +32,7 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -650,7 +650,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
           psId.getParentKey(),
           new BatchUpdateOp() {
             @Override
-            public boolean updateChange(ChangeContext ctx) throws OrmException {
+            public boolean updateChange(ChangeContext ctx) throws StorageException {
               PatchSet ps = psUtil.get(ctx.getNotes(), psId);
               psUtil.setGroups(ctx.getUpdate(psId), ps, ImmutableList.of());
               return true;

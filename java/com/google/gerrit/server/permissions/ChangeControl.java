@@ -22,7 +22,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -53,7 +53,7 @@ class ChangeControl {
     }
 
     ChangeControl create(RefControl refControl, Project.NameKey project, Change.Id changeId)
-        throws OrmException {
+        throws StorageException {
       return create(refControl, notesFactory.create(project, changeId));
     }
 
@@ -90,7 +90,7 @@ class ChangeControl {
   }
 
   /** Can this user see this change? */
-  private boolean isVisible(@Nullable ChangeData cd) throws OrmException {
+  private boolean isVisible(@Nullable ChangeData cd) throws StorageException {
     if (getChange().isPrivate() && !isPrivateVisible(cd)) {
       return false;
     }
@@ -154,7 +154,7 @@ class ChangeControl {
   }
 
   /** Is this user a reviewer for the change? */
-  private boolean isReviewer(@Nullable ChangeData cd) throws OrmException {
+  private boolean isReviewer(@Nullable ChangeData cd) throws StorageException {
     if (getUser().isIdentifiedUser()) {
       cd = cd != null ? cd : changeDataFactory.create(notes);
       Collection<Account.Id> results = cd.reviewers().all();
@@ -204,7 +204,7 @@ class ChangeControl {
         || getProjectControl().isAdmin();
   }
 
-  private boolean isPrivateVisible(ChangeData cd) throws OrmException {
+  private boolean isPrivateVisible(ChangeData cd) throws StorageException {
     return isOwner()
         || isReviewer(cd)
         || refControl.canPerform(Permission.VIEW_PRIVATE_CHANGES)
@@ -304,7 +304,7 @@ class ChangeControl {
           case SUBMIT_AS:
             return refControl.canPerform(changePermissionName(perm));
         }
-      } catch (OrmException e) {
+      } catch (StorageException e) {
         throw new PermissionBackendException("unavailable", e);
       }
       throw new PermissionBackendException(perm + " unsupported");

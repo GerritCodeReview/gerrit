@@ -17,7 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -99,7 +99,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource rsrc, RebaseInput input)
-      throws OrmException, UpdateException, RestApiException, IOException,
+      throws StorageException, UpdateException, RestApiException, IOException,
           PermissionBackendException {
     // Not allowed to rebase if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
@@ -134,7 +134,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
 
   private ObjectId findBaseRev(
       Repository repo, RevWalk rw, RevisionResource rsrc, RebaseInput input)
-      throws RestApiException, OrmException, IOException, NoSuchChangeException, AuthException,
+      throws RestApiException, StorageException, IOException, NoSuchChangeException, AuthException,
           PermissionBackendException {
     Branch.NameKey destRefKey = rsrc.getChange().getDest();
     if (input == null || input.base == null) {
@@ -222,7 +222,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       if (patchSetUtil.isPatchSetLocked(rsrc.getNotes())) {
         return description;
       }
-    } catch (OrmException | IOException e) {
+    } catch (StorageException | IOException e) {
       logger.atSevere().withCause(e).log(
           "Failed to check if the current patch set of change %s is locked", change.getId());
       return description;
@@ -261,7 +261,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     @Override
     protected ChangeInfo applyImpl(
         BatchUpdate.Factory updateFactory, ChangeResource rsrc, RebaseInput input)
-        throws OrmException, UpdateException, RestApiException, IOException,
+        throws StorageException, UpdateException, RestApiException, IOException,
             PermissionBackendException {
       PatchSet ps = psUtil.current(rsrc.getNotes());
       if (ps == null) {

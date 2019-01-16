@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.Response;
@@ -35,7 +35,7 @@ public class GetReview implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException {
+  public Response<ChangeInfo> apply(RevisionResource rsrc) throws StorageException {
     return delegate.apply(rsrc);
   }
 }

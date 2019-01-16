@@ -17,7 +17,7 @@ package com.google.gerrit.server.edit;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.ListMultimap;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.ChangeKind;
@@ -150,7 +150,7 @@ public class ChangeEditUtil {
    *     change edit is published.
    * @param accountsToNotify Accounts that should be notified after the change edit is published.
    * @throws IOException
-   * @throws OrmException
+   * @throws StorageException
    * @throws UpdateException
    * @throws RestApiException
    */
@@ -161,7 +161,7 @@ public class ChangeEditUtil {
       final ChangeEdit edit,
       NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
-      throws IOException, OrmException, RestApiException, UpdateException {
+      throws IOException, StorageException, RestApiException, UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
         ObjectInserter oi = repo.newObjectInserter();
@@ -218,9 +218,9 @@ public class ChangeEditUtil {
    *
    * @param edit change edit to delete
    * @throws IOException
-   * @throws OrmException
+   * @throws StorageException
    */
-  public void delete(ChangeEdit edit) throws IOException, OrmException {
+  public void delete(ChangeEdit edit) throws IOException, StorageException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject())) {
       deleteRef(repo, edit);
@@ -234,7 +234,7 @@ public class ChangeEditUtil {
       checkArgument(pos > 0, "invalid edit ref: %s", ref.getName());
       String psId = ref.getName().substring(pos + 1);
       return psUtil.get(notes, new PatchSet.Id(notes.getChange().getId(), Integer.parseInt(psId)));
-    } catch (OrmException | NumberFormatException e) {
+    } catch (StorageException | NumberFormatException e) {
       throw new IOException(e);
     }
   }

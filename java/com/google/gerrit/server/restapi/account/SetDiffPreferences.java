@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -56,7 +56,7 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, DiffP
   @Override
   public DiffPreferencesInfo apply(AccountResource rsrc, DiffPreferencesInfo input)
       throws RestApiException, ConfigInvalidException, RepositoryNotFoundException, IOException,
-          PermissionBackendException, OrmException {
+          PermissionBackendException, StorageException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }

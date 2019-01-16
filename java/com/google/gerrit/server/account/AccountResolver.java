@@ -20,7 +20,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -83,7 +83,7 @@ public class AccountResolver {
    *     candidates. If {@code input} is a numeric string, returns an account if and only if that
    *     number corresponds to an actual account ID.
    */
-  public Account find(String input) throws OrmException, IOException, ConfigInvalidException {
+  public Account find(String input) throws StorageException, IOException, ConfigInvalidException {
     Set<Account.Id> r = findAll(input);
     if (r.size() == 1) {
       return byId.get(r.iterator().next()).map(AccountState::getAccount).orElse(null);
@@ -114,7 +114,7 @@ public class AccountResolver {
    *     empty set otherwise if it does not.
    */
   public Set<Account.Id> findAll(String input)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws StorageException, IOException, ConfigInvalidException {
     Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(input);
     if (m.matches()) {
       Optional<Account.Id> id = Account.Id.tryParse(m.group(1));
@@ -152,7 +152,7 @@ public class AccountResolver {
    * @return the single account that matches; null if no account matches or there are multiple
    *     candidates.
    */
-  public Account findByNameOrEmail(String nameOrEmail) throws OrmException, IOException {
+  public Account findByNameOrEmail(String nameOrEmail) throws StorageException, IOException {
     Set<Account.Id> r = findAllByNameOrEmail(nameOrEmail);
     return r.size() == 1
         ? byId.get(r.iterator().next()).map(AccountState::getAccount).orElse(null)
@@ -166,7 +166,8 @@ public class AccountResolver {
    *     address ("email@example"), a full name ("Full Name").
    * @return the accounts that match, empty collection if none. Never null.
    */
-  public Set<Account.Id> findAllByNameOrEmail(String nameOrEmail) throws OrmException, IOException {
+  public Set<Account.Id> findAllByNameOrEmail(String nameOrEmail)
+      throws StorageException, IOException {
     int lt = nameOrEmail.indexOf('<');
     int gt = nameOrEmail.indexOf('>');
     if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {
@@ -224,7 +225,7 @@ public class AccountResolver {
    *     account is not visible to the calling user
    */
   public IdentifiedUser parse(String id)
-      throws AuthException, UnprocessableEntityException, OrmException, IOException,
+      throws AuthException, UnprocessableEntityException, StorageException, IOException,
           ConfigInvalidException {
     return parseOnBehalfOf(null, id);
   }
@@ -239,12 +240,12 @@ public class AccountResolver {
    * @return the user, null if no user is found for the given account ID
    * @throws AuthException thrown if 'self' is used as account ID and the current user is not
    *     authenticated
-   * @throws OrmException
+   * @throws StorageException
    * @throws ConfigInvalidException
    * @throws IOException
    */
   public IdentifiedUser parseId(String id)
-      throws AuthException, OrmException, IOException, ConfigInvalidException {
+      throws AuthException, StorageException, IOException, ConfigInvalidException {
     return parseIdOnBehalfOf(null, id);
   }
 
@@ -252,7 +253,7 @@ public class AccountResolver {
    * Like {@link #parse(String)}, but also sets the {@link CurrentUser#getRealUser()} on the result.
    */
   public IdentifiedUser parseOnBehalfOf(@Nullable CurrentUser caller, String id)
-      throws AuthException, UnprocessableEntityException, OrmException, IOException,
+      throws AuthException, UnprocessableEntityException, StorageException, IOException,
           ConfigInvalidException {
     IdentifiedUser user = parseIdOnBehalfOf(caller, id);
     if (user == null || !accountControlFactory.get().canSee(user.getAccount())) {
@@ -263,7 +264,7 @@ public class AccountResolver {
   }
 
   private IdentifiedUser parseIdOnBehalfOf(@Nullable CurrentUser caller, String id)
-      throws AuthException, OrmException, IOException, ConfigInvalidException {
+      throws AuthException, StorageException, IOException, ConfigInvalidException {
     if (id.equals("self")) {
       CurrentUser user = self.get();
       if (user.isIdentifiedUser()) {

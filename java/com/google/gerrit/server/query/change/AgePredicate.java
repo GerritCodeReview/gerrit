@@ -17,7 +17,7 @@ package com.google.gerrit.server.query.change;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -46,7 +46,7 @@ public class AgePredicate extends TimestampRangeChangePredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) throws StorageException {
     Change change = object.change();
     return change != null && change.getLastUpdatedOn().getTime() <= cut;
   }

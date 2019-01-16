@@ -22,7 +22,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -198,7 +198,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   @Override
   public void updateRepo(RepoContext ctx)
-      throws AuthException, ResourceConflictException, IOException, OrmException,
+      throws AuthException, ResourceConflictException, IOException, StorageException,
           PermissionBackendException {
     validate(ctx);
     ctx.addRefUpdate(ObjectId.zeroId(), commitId, getPatchSetId().toRefName());
@@ -206,7 +206,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws ResourceConflictException, OrmException, IOException {
+      throws ResourceConflictException, StorageException, IOException {
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(psId);
     update.setSubjectForCommit("Create patch set " + psId.get());
@@ -257,7 +257,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws OrmException {
+  public void postUpdate(Context ctx) throws StorageException {
     if (notify != NotifyHandling.NONE || !accountsToNotify.isEmpty()) {
       try {
         ReplacePatchSetSender cm = replacePatchSetFactory.create(ctx.getProject(), change.getId());
@@ -282,7 +282,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   private void validate(RepoContext ctx)
       throws AuthException, ResourceConflictException, IOException, PermissionBackendException,
-          OrmException {
+          StorageException {
     // Not allowed to create a new patch set if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(origNotes);
 

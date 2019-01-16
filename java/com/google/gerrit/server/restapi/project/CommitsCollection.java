@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -116,7 +116,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
         if (!changes.isEmpty()) {
           return true;
         }
-      } catch (OrmException e) {
+      } catch (StorageException e) {
         logger.atSevere().withCause(e).log(
             "Cannot look up change for commit %s in %s", commit.name(), project);
       }

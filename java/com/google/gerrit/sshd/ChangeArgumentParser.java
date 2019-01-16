@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -55,13 +55,13 @@ public class ChangeArgumentParser {
   }
 
   public void addChange(String id, Map<Change.Id, ChangeResource> changes)
-      throws UnloggedFailure, OrmException, PermissionBackendException, IOException {
+      throws UnloggedFailure, StorageException, PermissionBackendException, IOException {
     addChange(id, changes, null);
   }
 
   public void addChange(
       String id, Map<Change.Id, ChangeResource> changes, ProjectState projectState)
-      throws UnloggedFailure, OrmException, PermissionBackendException, IOException {
+      throws UnloggedFailure, StorageException, PermissionBackendException, IOException {
     addChange(id, changes, projectState, true);
   }
 
@@ -70,7 +70,7 @@ public class ChangeArgumentParser {
       Map<Change.Id, ChangeResource> changes,
       ProjectState projectState,
       boolean useIndex)
-      throws UnloggedFailure, OrmException, PermissionBackendException, IOException {
+      throws UnloggedFailure, StorageException, PermissionBackendException, IOException {
     List<ChangeNotes> matched = useIndex ? changeFinder.find(id) : changeFromNotesFactory(id);
     List<ChangeNotes> toAdd = new ArrayList<>(changes.size());
     boolean canMaintainServer;
@@ -116,7 +116,8 @@ public class ChangeArgumentParser {
     changes.put(cId, changeResource);
   }
 
-  private List<ChangeNotes> changeFromNotesFactory(String id) throws OrmException, UnloggedFailure {
+  private List<ChangeNotes> changeFromNotesFactory(String id)
+      throws StorageException, UnloggedFailure {
     return changeNotesFactory.create(parseId(id));
   }
 

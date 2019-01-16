@@ -20,8 +20,8 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.exceptions.NoSuchGroupException;
-import com.google.gerrit.exceptions.OrmDuplicateKeyException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.reviewdb.client.Account;
@@ -172,13 +172,13 @@ public class GroupsUpdate {
    * @param groupUpdate an {@code InternalGroupUpdate} which specifies optional properties of the
    *     group. If this {@code InternalGroupUpdate} updates a property which was already specified
    *     by the {@code InternalGroupCreation}, the value of this {@code InternalGroupUpdate} wins.
-   * @throws OrmDuplicateKeyException if a group with the chosen name already exists
+   * @throws DuplicateKeyException if a group with the chosen name already exists
    * @throws IOException if indexing fails, or an error occurs while reading/writing from/to NoteDb
    * @return the created {@code InternalGroup}
    */
   public InternalGroup createGroup(
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
-      throws OrmDuplicateKeyException, IOException, ConfigInvalidException {
+      throws DuplicateKeyException, IOException, ConfigInvalidException {
     InternalGroup createdGroup = createGroupInNoteDbWithRetry(groupCreation, groupUpdate);
     updateCachesOnGroupCreation(createdGroup);
     dispatchAuditEventsOnGroupCreation(createdGroup);
@@ -191,12 +191,12 @@ public class GroupsUpdate {
    * @param groupUuid the UUID of the group to update
    * @param groupUpdate an {@code InternalGroupUpdate} which indicates the desired updates on the
    *     group
-   * @throws OrmDuplicateKeyException if the new name of the group is used by another group
+   * @throws DuplicateKeyException if the new name of the group is used by another group
    * @throws IOException if indexing fails, or an error occurs while reading/writing from/to NoteDb
    * @throws NoSuchGroupException if the specified group doesn't exist
    */
   public void updateGroup(AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
-      throws OrmDuplicateKeyException, IOException, NoSuchGroupException, ConfigInvalidException {
+      throws DuplicateKeyException, IOException, NoSuchGroupException, ConfigInvalidException {
     Optional<Timestamp> updatedOn = groupUpdate.getUpdatedOn();
     if (!updatedOn.isPresent()) {
       updatedOn = Optional.of(TimeUtil.nowTs());
@@ -211,7 +211,7 @@ public class GroupsUpdate {
 
   private InternalGroup createGroupInNoteDbWithRetry(
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+      throws IOException, ConfigInvalidException, DuplicateKeyException {
     try {
       return retryHelper.execute(
           RetryHelper.ActionType.GROUP_UPDATE,
@@ -221,7 +221,7 @@ public class GroupsUpdate {
       Throwables.throwIfUnchecked(e);
       Throwables.throwIfInstanceOf(e, IOException.class);
       Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
-      Throwables.throwIfInstanceOf(e, OrmDuplicateKeyException.class);
+      Throwables.throwIfInstanceOf(e, DuplicateKeyException.class);
       throw new IOException(e);
     }
   }
@@ -229,7 +229,7 @@ public class GroupsUpdate {
   @VisibleForTesting
   public InternalGroup createGroupInNoteDb(
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+      throws IOException, ConfigInvalidException, DuplicateKeyException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       AccountGroup.NameKey groupName = groupUpdate.getName().orElseGet(groupCreation::getNameKey);
       GroupNameNotes groupNameNotes =
@@ -251,7 +251,7 @@ public class GroupsUpdate {
 
   private UpdateResult updateGroupInNoteDbWithRetry(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException, NoSuchGroupException {
+      throws IOException, ConfigInvalidException, DuplicateKeyException, NoSuchGroupException {
     try {
       return retryHelper.execute(
           RetryHelper.ActionType.GROUP_UPDATE,
@@ -261,7 +261,7 @@ public class GroupsUpdate {
       Throwables.throwIfUnchecked(e);
       Throwables.throwIfInstanceOf(e, IOException.class);
       Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
-      Throwables.throwIfInstanceOf(e, OrmDuplicateKeyException.class);
+      Throwables.throwIfInstanceOf(e, DuplicateKeyException.class);
       Throwables.throwIfInstanceOf(e, NoSuchGroupException.class);
       throw new IOException(e);
     }
@@ -270,7 +270,7 @@ public class GroupsUpdate {
   @VisibleForTesting
   public UpdateResult updateGroupInNoteDb(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException, NoSuchGroupException {
+      throws IOException, ConfigInvalidException, DuplicateKeyException, NoSuchGroupException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersName, allUsersRepo, groupUuid);
       groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);

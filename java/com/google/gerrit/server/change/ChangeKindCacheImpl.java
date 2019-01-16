@@ -23,7 +23,7 @@ import com.google.common.cache.Weigher;
 import com.google.common.collect.FluentIterable;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.reviewdb.client.Change;
@@ -393,7 +393,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
                   ObjectId.fromString(priorPs.getRevision().get()),
                   ObjectId.fromString(patch.getRevision().get()));
         }
-      } catch (OrmException e) {
+      } catch (StorageException e) {
         // Do nothing; assume we have a complex change
         logger.atWarning().withCause(e).log(
             "Unable to get change kind for patchSet %s of change %s",

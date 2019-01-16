@@ -15,7 +15,7 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.exceptions.EmailException;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -27,7 +27,8 @@ public abstract class ReplyToChangeSender extends ChangeEmail {
     T create(Project.NameKey project, Change.Id id);
   }
 
-  protected ReplyToChangeSender(EmailArguments ea, String mc, ChangeData cd) throws OrmException {
+  protected ReplyToChangeSender(EmailArguments ea, String mc, ChangeData cd)
+      throws StorageException {
     super(ea, mc, cd);
   }
 

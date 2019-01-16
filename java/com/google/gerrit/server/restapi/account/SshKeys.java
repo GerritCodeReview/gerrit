@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -64,7 +64,7 @@ public class SshKeys implements ChildCollection<AccountResource, AccountResource
 
   @Override
   public AccountResource.SshKey parse(AccountResource rsrc, IdString id)
-      throws ResourceNotFoundException, OrmException, IOException, ConfigInvalidException,
+      throws ResourceNotFoundException, StorageException, IOException, ConfigInvalidException,
           PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       try {

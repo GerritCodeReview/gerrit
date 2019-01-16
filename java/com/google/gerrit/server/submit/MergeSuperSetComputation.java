@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.submit;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -46,5 +46,5 @@ public interface MergeSuperSetComputation {
    * @return the completed set of changes that should be submitted together
    */
   ChangeSet completeWithoutTopic(MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user)
-      throws OrmException, IOException, PermissionBackendException;
+      throws StorageException, IOException, PermissionBackendException;
 }

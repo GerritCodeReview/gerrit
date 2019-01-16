@@ -17,8 +17,8 @@ package com.google.gerrit.server.restapi.account;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.exceptions.OrmDuplicateKeyException;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.DuplicateKeyException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.accounts.UsernameInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -73,7 +73,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
   @Override
   public String apply(AccountResource rsrc, UsernameInput input)
       throws AuthException, MethodNotAllowedException, UnprocessableEntityException,
-          ResourceConflictException, OrmException, IOException, ConfigInvalidException,
+          ResourceConflictException, StorageException, IOException, ConfigInvalidException,
           PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
@@ -108,7 +108,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
               "Set Username via API",
               accountId,
               u -> u.addExternalId(ExternalId.create(key, accountId, null, null)));
-    } catch (OrmDuplicateKeyException dupeErr) {
+    } catch (DuplicateKeyException dupeErr) {
       // If we are using this identity, don't report the exception.
       Optional<ExternalId> other = externalIds.get(key);
       if (other.isPresent() && other.get().accountId().equals(accountId)) {

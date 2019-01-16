@@ -19,7 +19,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -120,7 +120,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws OrmException {
+  public boolean updateChange(ChangeContext ctx) throws StorageException {
     change = ctx.getChange();
     notes = ctx.getNotes();
     ps = psUtil.get(ctx.getNotes(), change.currentPatchSetId());

@@ -27,7 +27,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
@@ -356,7 +356,7 @@ class DefaultRefFilter {
         }
       }
       return visibleChanges;
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log(
           "Cannot load changes for project %s, assuming no changes are visible", project);
       return Collections.emptyMap();

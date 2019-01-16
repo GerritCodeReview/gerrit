@@ -35,7 +35,7 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
@@ -144,7 +144,7 @@ public class AllProjectsCreator {
     return this;
   }
 
-  public void create() throws IOException, ConfigInvalidException, OrmException {
+  public void create() throws IOException, ConfigInvalidException, StorageException {
     try (Repository git = repositoryManager.openRepository(allProjectsName)) {
       initAllProjects(git);
     } catch (RepositoryNotFoundException notFound) {
@@ -162,7 +162,7 @@ public class AllProjectsCreator {
   }
 
   private void initAllProjects(Repository git)
-      throws IOException, ConfigInvalidException, OrmException {
+      throws IOException, ConfigInvalidException, StorageException {
     BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
     try (MetaDataUpdate md =
         new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git, bru)) {

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
@@ -100,25 +100,25 @@ public class Sequences {
             Field.ofBoolean("multiple"));
   }
 
-  public int nextAccountId() throws OrmException {
+  public int nextAccountId() throws StorageException {
     try (Timer2.Context timer = nextIdLatency.start(SequenceType.ACCOUNTS, false)) {
       return accountSeq.next();
     }
   }
 
-  public int nextChangeId() throws OrmException {
+  public int nextChangeId() throws StorageException {
     try (Timer2.Context timer = nextIdLatency.start(SequenceType.CHANGES, false)) {
       return changeSeq.next();
     }
   }
 
-  public ImmutableList<Integer> nextChangeIds(int count) throws OrmException {
+  public ImmutableList<Integer> nextChangeIds(int count) throws StorageException {
     try (Timer2.Context timer = nextIdLatency.start(SequenceType.CHANGES, count > 1)) {
       return changeSeq.next(count);
     }
   }
 
-  public int nextGroupId() throws OrmException {
+  public int nextGroupId() throws StorageException {
     try (Timer2.Context timer = nextIdLatency.start(SequenceType.GROUPS, false)) {
       return groupSeq.next();
     }

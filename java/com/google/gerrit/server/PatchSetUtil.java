@@ -22,7 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -63,24 +63,25 @@ public class PatchSetUtil {
     this.repoManager = repoManager;
   }
 
-  public PatchSet current(ChangeNotes notes) throws OrmException {
+  public PatchSet current(ChangeNotes notes) throws StorageException {
     return get(notes, notes.getChange().currentPatchSetId());
   }
 
-  public PatchSet get(ChangeNotes notes, PatchSet.Id psId) throws OrmException {
+  public PatchSet get(ChangeNotes notes, PatchSet.Id psId) throws StorageException {
     return notes.load().getPatchSets().get(psId);
   }
 
-  public ImmutableCollection<PatchSet> byChange(ChangeNotes notes) throws OrmException {
+  public ImmutableCollection<PatchSet> byChange(ChangeNotes notes) throws StorageException {
     return notes.load().getPatchSets().values();
   }
 
-  public ImmutableMap<PatchSet.Id, PatchSet> byChangeAsMap(ChangeNotes notes) throws OrmException {
+  public ImmutableMap<PatchSet.Id, PatchSet> byChangeAsMap(ChangeNotes notes)
+      throws StorageException {
     return notes.load().getPatchSets();
   }
 
   public ImmutableMap<PatchSet.Id, PatchSet> getAsMap(
-      ChangeNotes notes, Set<PatchSet.Id> patchSetIds) throws OrmException {
+      ChangeNotes notes, Set<PatchSet.Id> patchSetIds) throws StorageException {
     return ImmutableMap.copyOf(Maps.filterKeys(notes.load().getPatchSets(), patchSetIds::contains));
   }
 
@@ -135,7 +136,7 @@ public class PatchSetUtil {
 
   /** Check if the current patch set of the change is locked. */
   public void checkPatchSetNotLocked(ChangeNotes notes)
-      throws OrmException, IOException, ResourceConflictException {
+      throws StorageException, IOException, ResourceConflictException {
     if (isPatchSetLocked(notes)) {
       throw new ResourceConflictException(
           String.format("The current patch set of change %s is locked", notes.getChangeId()));
@@ -143,7 +144,7 @@ public class PatchSetUtil {
   }
 
   /** Is the current patch set locked against state changes? */
-  public boolean isPatchSetLocked(ChangeNotes notes) throws OrmException, IOException {
+  public boolean isPatchSetLocked(ChangeNotes notes) throws StorageException, IOException {
     Change change = notes.getChange();
     if (change.getStatus() == Change.Status.MERGED) {
       return false;

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.index.change.ChangeField;
 import java.util.List;
@@ -25,7 +25,7 @@ public class GroupPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) throws StorageException {
     for (PatchSet ps : cd.patchSets()) {
       List<String> groups = ps.getGroups();
       if (groups != null && groups.contains(getValue())) {

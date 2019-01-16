@@ -16,7 +16,7 @@ package com.google.gerrit.server.query.group;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.NoSuchGroupException;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupControl;
@@ -38,7 +38,7 @@ public class GroupIsVisibleToPredicate extends IsVisibleToPredicate<InternalGrou
   }
 
   @Override
-  public boolean match(InternalGroup group) throws OrmException {
+  public boolean match(InternalGroup group) throws StorageException {
     try {
       boolean canSee = groupControlFactory.controlFor(user, group.getGroupUUID()).isVisible();
       if (!canSee) {

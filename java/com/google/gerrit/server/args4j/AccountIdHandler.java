@@ -16,7 +16,7 @@ package com.google.gerrit.server.args4j;
 
 import static com.google.gerrit.util.cli.Localizable.localizable;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountException;
@@ -81,7 +81,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
             throw new CmdLineException(owner, localizable("user \"%s\" not found"), token);
         }
       }
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       throw new CmdLineException(owner, localizable("database is down"));
     } catch (IOException e) {
       throw new CmdLineException(owner, "Failed to load account", e);

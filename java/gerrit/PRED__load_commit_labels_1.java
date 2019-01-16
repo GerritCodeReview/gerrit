@@ -4,7 +4,7 @@ package gerrit;
 
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.StoredValues;
@@ -55,7 +55,7 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
 
         listHead = new ListTerm(new StructureTerm(sym_commit_label, labelTerm, userTerm), listHead);
       }
-    } catch (OrmException err) {
+    } catch (StorageException err) {
       throw new JavaException(this, 1, err);
     }
 

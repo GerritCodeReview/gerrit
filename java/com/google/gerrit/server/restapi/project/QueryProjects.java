@@ -16,7 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -85,7 +85,7 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
 
   @Override
   public List<ProjectInfo> apply(TopLevelResource resource)
-      throws BadRequestException, MethodNotAllowedException, OrmException {
+      throws BadRequestException, MethodNotAllowedException, StorageException {
     if (Strings.isNullOrEmpty(query)) {
       throw new BadRequestException("missing query field");
     }

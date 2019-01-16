@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.index.change.ChangeField;
 
 public class RevertOfPredicate extends ChangeIndexPredicate {
@@ -23,7 +23,7 @@ public class RevertOfPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) throws StorageException {
     if (cd.change().getRevertOf() == null) {
       return false;
     }

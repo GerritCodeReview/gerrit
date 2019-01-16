@@ -25,7 +25,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -313,7 +313,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
           notes.getChangeId(),
           new BatchUpdateOp() {
             @Override
-            public boolean updateChange(ChangeContext ctx) throws OrmException {
+            public boolean updateChange(ChangeContext ctx) throws StorageException {
               ctx.getChange().setStatus(Change.Status.MERGED);
               ctx.getUpdate(ctx.getChange().currentPatchSetId()).fixStatus(Change.Status.MERGED);
               return true;
@@ -863,7 +863,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
             }
 
             @Override
-            public boolean updateChange(ChangeContext ctx) throws OrmException {
+            public boolean updateChange(ChangeContext ctx) throws StorageException {
               ctx.getChange().setStatus(Change.Status.MERGED);
               ctx.getUpdate(ctx.getChange().currentPatchSetId()).fixStatus(Change.Status.MERGED);
               return true;

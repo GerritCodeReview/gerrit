@@ -16,7 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.index.change.ChangeField.REVIEWEDBY;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -48,7 +48,7 @@ public class IsReviewedPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) throws StorageException {
     Set<Account.Id> reviewedBy = cd.reviewedBy();
     return !reviewedBy.isEmpty() ? reviewedBy.contains(id) : id.equals(NOT_REVIEWED);
   }

@@ -17,7 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -40,7 +40,7 @@ public class DeleteBranches implements RestModifyView<ProjectResource, DeleteBra
 
   @Override
   public Response<?> apply(ProjectResource project, DeleteBranchesInput input)
-      throws OrmException, IOException, RestApiException, PermissionBackendException {
+      throws StorageException, IOException, RestApiException, PermissionBackendException {
     if (input == null || input.branches == null || input.branches.isEmpty()) {
       throw new BadRequestException("branches must be specified");
     }

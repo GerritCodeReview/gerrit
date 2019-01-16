@@ -17,7 +17,7 @@ package com.google.gerrit.server.git.validators;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
@@ -301,7 +301,7 @@ public class MergeValidators {
         if (!cd.currentFilePaths().contains(AccountProperties.ACCOUNT_CONFIG)) {
           return;
         }
-      } catch (IOException | OrmException e) {
+      } catch (IOException | StorageException e) {
         logger.atSevere().withCause(e).log("Cannot validate account update");
         throw new MergeValidationException("account validation unavailable");
       }

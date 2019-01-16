@@ -20,7 +20,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.SitePaths;
@@ -115,7 +115,7 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
     return true;
   }
 
-  public void save(PersonIdent personIdent, String commitMessage) throws OrmException {
+  public void save(PersonIdent personIdent, String commitMessage) throws StorageException {
     if (!updated) {
       return;
     }
@@ -126,7 +126,7 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
     try {
       commit(update);
     } catch (IOException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
   }
 

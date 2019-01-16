@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.SubmitTypeRecord;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -47,14 +47,14 @@ public class ConflictsPredicate {
   private ConflictsPredicate() {}
 
   public static Predicate<ChangeData> create(Arguments args, String value, Change c)
-      throws QueryParseException, OrmException {
+      throws QueryParseException, StorageException {
     ChangeData cd;
     List<String> files;
     try {
       cd = args.changeDataFactory.create(c);
       files = cd.currentFilePaths();
     } catch (IOException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
 
     if (3 + files.size() > args.indexConfig.maxTerms()) {
@@ -95,7 +95,7 @@ public class ConflictsPredicate {
     }
 
     @Override
-    public boolean match(ChangeData object) throws OrmException {
+    public boolean match(ChangeData object) throws StorageException {
       Change otherChange = object.change();
       if (otherChange == null || !otherChange.getDest().equals(dest)) {
         return false;
@@ -139,7 +139,7 @@ public class ConflictsPredicate {
         args.conflictsCache.put(conflictsKey, conflicts);
         return conflicts;
       } catch (IntegrationException | NoSuchProjectException | IOException e) {
-        throw new OrmException(e);
+        throw new StorageException(e);
       }
     }
 
@@ -158,7 +158,7 @@ public class ConflictsPredicate {
           accepted.add(rw.parseCommit(tip));
         }
         return accepted;
-      } catch (OrmException | IOException e) {
+      } catch (StorageException | IOException e) {
         throw new IntegrationException("Failed to determine already accepted commits.", e);
       }
     }
@@ -177,7 +177,7 @@ public class ConflictsPredicate {
       this.projectCache = projectCache;
     }
 
-    ObjectId getTestAgainst() throws OrmException {
+    ObjectId getTestAgainst() throws StorageException {
       if (testAgainst == null) {
         testAgainst = ObjectId.fromString(cd.currentPatchSet().getRevision().get());
       }

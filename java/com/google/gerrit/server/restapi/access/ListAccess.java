@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.access;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -50,7 +50,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
   @Override
   public Map<String, ProjectAccessInfo> apply(TopLevelResource resource)
       throws ResourceNotFoundException, ResourceConflictException, IOException,
-          PermissionBackendException, OrmException {
+          PermissionBackendException, StorageException {
     Map<String, ProjectAccessInfo> access = new TreeMap<>();
     for (String p : projects) {
       access.put(p, getAccess.apply(new Project.NameKey(p)));

@@ -24,7 +24,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.ChangeType;
@@ -126,7 +126,7 @@ public class GetDiff implements RestReadView<FileResource> {
 
   @Override
   public Response<DiffInfo> apply(FileResource resource)
-      throws ResourceConflictException, ResourceNotFoundException, OrmException, AuthException,
+      throws ResourceConflictException, ResourceNotFoundException, StorageException, AuthException,
           InvalidChangeOperationException, IOException, PermissionBackendException {
     DiffPreferencesInfo prefs = new DiffPreferencesInfo();
     if (whitespace != null) {

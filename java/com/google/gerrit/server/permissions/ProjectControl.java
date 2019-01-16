@@ -20,7 +20,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_TAGS;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -97,7 +97,7 @@ class ProjectControl {
     return new ForProjectImpl();
   }
 
-  ChangeControl controlFor(Change change) throws OrmException {
+  ChangeControl controlFor(Change change) throws StorageException {
     return changeControlFactory.create(
         controlForRef(change.getDest()), change.getProject(), change.getId());
   }
@@ -351,7 +351,7 @@ class ProjectControl {
       try {
         checkProject(cd.change());
         return super.change(cd);
-      } catch (OrmException e) {
+      } catch (StorageException e) {
         return FailedPermissionBackend.change("unavailable", e);
       }
     }

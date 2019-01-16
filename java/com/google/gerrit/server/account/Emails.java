@@ -20,7 +20,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Streams;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -69,7 +69,7 @@ public class Emails {
    *
    * @see #getAccountsFor(String...)
    */
-  public ImmutableSet<Account.Id> getAccountFor(String email) throws IOException, OrmException {
+  public ImmutableSet<Account.Id> getAccountFor(String email) throws IOException, StorageException {
     return Streams.concat(
             externalIds.byEmail(email).stream().map(ExternalId::accountId),
             executeIndexQuery(() -> queryProvider.get().byPreferredEmail(email).stream())
@@ -83,7 +83,7 @@ public class Emails {
    * @see #getAccountFor(String)
    */
   public ImmutableSetMultimap<String, Account.Id> getAccountsFor(String... emails)
-      throws IOException, OrmException {
+      throws IOException, StorageException {
     ImmutableSetMultimap.Builder<String, Account.Id> builder = ImmutableSetMultimap.builder();
     externalIds
         .byEmails(emails)
@@ -105,13 +105,14 @@ public class Emails {
     return externalIds.byEmail(email).stream().map(ExternalId::accountId).collect(toImmutableSet());
   }
 
-  private <T> T executeIndexQuery(Action<T> action) throws OrmException {
+  private <T> T executeIndexQuery(Action<T> action) throws StorageException {
     try {
-      return retryHelper.execute(ActionType.INDEX_QUERY, action, OrmException.class::isInstance);
+      return retryHelper.execute(
+          ActionType.INDEX_QUERY, action, StorageException.class::isInstance);
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
-      Throwables.throwIfInstanceOf(e, OrmException.class);
-      throw new OrmException(e);
+      Throwables.throwIfInstanceOf(e, StorageException.class);
+      throw new StorageException(e);
     }
   }
 }

@@ -25,8 +25,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.OrmDuplicateKeyException;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.DuplicateKeyException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.reviewdb.client.Account;
@@ -257,14 +257,14 @@ public class AccountsUpdate {
    * @param accountId ID of the new account
    * @param init consumer to populate the new account
    * @return the newly created account
-   * @throws OrmDuplicateKeyException if the account already exists
+   * @throws DuplicateKeyException if the account already exists
    * @throws IOException if creating the user branch fails due to an IO error
-   * @throws OrmException if creating the user branch fails
+   * @throws StorageException if creating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public AccountState insert(
       String message, Account.Id accountId, Consumer<InternalAccountUpdate.Builder> init)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws StorageException, IOException, ConfigInvalidException {
     return insert(message, accountId, AccountUpdater.fromConsumer(init));
   }
 
@@ -275,13 +275,13 @@ public class AccountsUpdate {
    * @param accountId ID of the new account
    * @param updater updater to populate the new account
    * @return the newly created account
-   * @throws OrmDuplicateKeyException if the account already exists
+   * @throws DuplicateKeyException if the account already exists
    * @throws IOException if creating the user branch fails due to an IO error
-   * @throws OrmException if creating the user branch fails
+   * @throws StorageException if creating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public AccountState insert(String message, Account.Id accountId, AccountUpdater updater)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws StorageException, IOException, ConfigInvalidException {
     return updateAccount(
             r -> {
               AccountConfig accountConfig = read(r, accountId);
@@ -315,12 +315,12 @@ public class AccountsUpdate {
    * @throws IOException if updating the user branch fails due to an IO error
    * @throws LockFailureException if updating the user branch still fails due to concurrent updates
    *     after the retry timeout exceeded
-   * @throws OrmException if updating the user branch fails
+   * @throws StorageException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public Optional<AccountState> update(
       String message, Account.Id accountId, Consumer<InternalAccountUpdate.Builder> update)
-      throws OrmException, LockFailureException, IOException, ConfigInvalidException {
+      throws StorageException, LockFailureException, IOException, ConfigInvalidException {
     return update(message, accountId, AccountUpdater.fromConsumer(update));
   }
 
@@ -336,11 +336,11 @@ public class AccountsUpdate {
    * @throws IOException if updating the user branch fails due to an IO error
    * @throws LockFailureException if updating the user branch still fails due to concurrent updates
    *     after the retry timeout exceeded
-   * @throws OrmException if updating the user branch fails
+   * @throws StorageException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public Optional<AccountState> update(String message, Account.Id accountId, AccountUpdater updater)
-      throws OrmException, LockFailureException, IOException, ConfigInvalidException {
+      throws StorageException, LockFailureException, IOException, ConfigInvalidException {
     return updateAccount(
         r -> {
           AccountConfig accountConfig = read(r, accountId);
@@ -371,7 +371,7 @@ public class AccountsUpdate {
   }
 
   private Optional<AccountState> updateAccount(AccountUpdate accountUpdate)
-      throws IOException, ConfigInvalidException, OrmException {
+      throws IOException, ConfigInvalidException, StorageException {
     return executeAccountUpdate(
         () -> {
           try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
@@ -387,7 +387,7 @@ public class AccountsUpdate {
   }
 
   private Optional<AccountState> executeAccountUpdate(Action<Optional<AccountState>> action)
-      throws IOException, ConfigInvalidException, OrmException {
+      throws IOException, ConfigInvalidException, StorageException {
     try {
       return retryHelper.execute(
           ActionType.ACCOUNT_UPDATE, action, LockFailureException.class::isInstance);
@@ -395,8 +395,8 @@ public class AccountsUpdate {
       Throwables.throwIfUnchecked(e);
       Throwables.throwIfInstanceOf(e, IOException.class);
       Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
-      Throwables.throwIfInstanceOf(e, OrmException.class);
-      throw new OrmException(e);
+      Throwables.throwIfInstanceOf(e, StorageException.class);
+      throw new StorageException(e);
     }
   }
 
@@ -405,7 +405,7 @@ public class AccountsUpdate {
       Optional<ObjectId> rev,
       Account.Id accountId,
       InternalAccountUpdate update)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+      throws IOException, ConfigInvalidException, DuplicateKeyException {
     ExternalIdNotes.checkSameAccount(
         Iterables.concat(
             update.getCreatedExternalIds(),
@@ -529,7 +529,7 @@ public class AccountsUpdate {
   @FunctionalInterface
   private static interface AccountUpdate {
     UpdatedAccount update(Repository allUsersRepo)
-        throws IOException, ConfigInvalidException, OrmException;
+        throws IOException, ConfigInvalidException, StorageException;
   }
 
   private static class UpdatedAccount {

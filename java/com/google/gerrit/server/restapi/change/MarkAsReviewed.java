@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -52,7 +52,7 @@ public class MarkAsReviewed
 
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input)
-      throws RestApiException, OrmException, IllegalLabelException {
+      throws RestApiException, StorageException, IllegalLabelException {
     stars.markAsReviewed(rsrc);
     return Response.ok("");
   }
@@ -62,7 +62,7 @@ public class MarkAsReviewed
       return changeDataFactory
           .create(rsrc.getNotes())
           .isReviewedBy(rsrc.getUser().asIdentifiedUser().getAccountId());
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("failed to check if change is reviewed");
     }
     return false;

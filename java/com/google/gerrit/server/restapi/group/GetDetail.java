@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.group;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -33,7 +33,7 @@ public class GetDetail implements RestReadView<GroupResource> {
   }
 
   @Override
-  public GroupInfo apply(GroupResource rsrc) throws OrmException, PermissionBackendException {
+  public GroupInfo apply(GroupResource rsrc) throws StorageException, PermissionBackendException {
     return json.format(rsrc);
   }
 }

@@ -20,7 +20,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -80,7 +80,7 @@ public final class DefaultSubmitRule implements SubmitRule {
     try {
       labelTypes = cd.getLabelTypes().getLabelTypes();
       approvals = cd.currentApprovals();
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log(
           "Unable to fetch labels and approvals for change %s", cd.getId());
 

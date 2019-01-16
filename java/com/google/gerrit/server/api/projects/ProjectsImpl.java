@@ -16,7 +16,7 @@ package com.google.gerrit.server.api.projects;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.Projects;
@@ -159,7 +159,7 @@ class ProjectsImpl implements Projects {
       myQueryProjects.setStart(r.getStart());
 
       return myQueryProjects.apply(TopLevelResource.INSTANCE);
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       throw new RestApiException("Cannot query projects", e);
     }
   }

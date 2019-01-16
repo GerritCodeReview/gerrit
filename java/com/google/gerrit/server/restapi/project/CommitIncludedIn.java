@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -37,7 +37,7 @@ public class CommitIncludedIn implements RestReadView<CommitResource> {
 
   @Override
   public IncludedInInfo apply(CommitResource rsrc)
-      throws RestApiException, OrmException, IOException {
+      throws RestApiException, StorageException, IOException {
     RevCommit commit = rsrc.getCommit();
     Project.NameKey project = rsrc.getProjectState().getNameKey();
     return includedIn.apply(project, commit.getId().getName());

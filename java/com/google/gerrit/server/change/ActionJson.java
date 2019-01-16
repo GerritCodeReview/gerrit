@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -71,7 +71,7 @@ public class ActionJson {
     this.userProvider = userProvider;
   }
 
-  public Map<String, ActionInfo> format(RevisionResource rsrc) throws OrmException {
+  public Map<String, ActionInfo> format(RevisionResource rsrc) throws StorageException {
     ChangeInfo changeInfo = null;
     RevisionInfo revisionInfo = null;
     List<ActionVisitor> visitors = visitors();
@@ -98,7 +98,8 @@ public class ActionJson {
   }
 
   public RevisionInfo addRevisionActions(
-      @Nullable ChangeInfo changeInfo, RevisionInfo to, RevisionResource rsrc) throws OrmException {
+      @Nullable ChangeInfo changeInfo, RevisionInfo to, RevisionResource rsrc)
+      throws StorageException {
     List<ActionVisitor> visitors = visitors();
     if (!visitors.isEmpty()) {
       if (changeInfo != null) {

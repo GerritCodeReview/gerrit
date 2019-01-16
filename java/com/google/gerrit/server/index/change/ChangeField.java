@@ -41,7 +41,7 @@ import com.google.common.io.Files;
 import com.google.common.primitives.Longs;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
@@ -153,12 +153,12 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_FILE)
           .buildRepeatable(cd -> firstNonNull(cd.currentFilePaths(), ImmutableList.of()));
 
-  public static Set<String> getFileParts(ChangeData cd) throws OrmException {
+  public static Set<String> getFileParts(ChangeData cd) throws StorageException {
     List<String> paths;
     try {
       paths = cd.currentFilePaths();
     } catch (IOException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
 
     Splitter s = Splitter.on('/').omitEmptyStrings();
@@ -190,7 +190,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> EXTENSION =
       exact(ChangeQueryBuilder.FIELD_EXTENSION).buildRepeatable(ChangeField::getExtensions);
 
-  public static Set<String> getExtensions(ChangeData cd) throws OrmException {
+  public static Set<String> getExtensions(ChangeData cd) throws StorageException {
     try {
       return cd.currentFilePaths()
           .stream()
@@ -202,7 +202,7 @@ public class ChangeField {
           .filter(e -> !e.isEmpty())
           .collect(toSet());
     } catch (IOException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
   }
 
@@ -393,7 +393,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMIT =
       exact(ChangeQueryBuilder.FIELD_EXACTCOMMIT).buildRepeatable(ChangeField::getRevisions);
 
-  private static Set<String> getRevisions(ChangeData cd) throws OrmException {
+  private static Set<String> getRevisions(ChangeData cd) throws StorageException {
     Set<String> revisions = new HashSet<>();
     for (PatchSet ps : cd.patchSets()) {
       if (ps.getRevision() != null) {
@@ -412,7 +412,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> LABEL =
       exact("label2").buildRepeatable(cd -> getLabels(cd, true));
 
-  private static Iterable<String> getLabels(ChangeData cd, boolean owners) throws OrmException {
+  private static Iterable<String> getLabels(ChangeData cd, boolean owners) throws StorageException {
     Set<String> allApprovals = new HashSet<>();
     Set<String> distinctApprovals = new HashSet<>();
     for (PatchSetApproval a : cd.currentApprovals()) {
@@ -429,20 +429,21 @@ public class ChangeField {
     return allApprovals;
   }
 
-  public static Set<String> getAuthorParts(ChangeData cd) throws OrmException, IOException {
+  public static Set<String> getAuthorParts(ChangeData cd) throws StorageException, IOException {
     return SchemaUtil.getPersonParts(cd.getAuthor());
   }
 
-  public static Set<String> getAuthorNameAndEmail(ChangeData cd) throws OrmException, IOException {
+  public static Set<String> getAuthorNameAndEmail(ChangeData cd)
+      throws StorageException, IOException {
     return getNameAndEmail(cd.getAuthor());
   }
 
-  public static Set<String> getCommitterParts(ChangeData cd) throws OrmException, IOException {
+  public static Set<String> getCommitterParts(ChangeData cd) throws StorageException, IOException {
     return SchemaUtil.getPersonParts(cd.getCommitter());
   }
 
   public static Set<String> getCommitterNameAndEmail(ChangeData cd)
-      throws OrmException, IOException {
+      throws StorageException, IOException {
     return getNameAndEmail(cd.getCommitter());
   }
 
@@ -779,7 +780,7 @@ public class ChangeField {
     return storedSubmitRecords(cd.submitRecords(opts));
   }
 
-  public static List<String> formatSubmitRecordValues(ChangeData cd) throws OrmException {
+  public static List<String> formatSubmitRecordValues(ChangeData cd) throws StorageException {
     return formatSubmitRecordValues(
         cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT), cd.change().getOwner());
   }
@@ -867,7 +868,7 @@ public class ChangeField {
                 return result;
               });
 
-  private static String getTopic(ChangeData cd) throws OrmException {
+  private static String getTopic(ChangeData cd) throws StorageException {
     Change c = cd.change();
     if (c == null) {
       return null;

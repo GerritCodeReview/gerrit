@@ -26,7 +26,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.exceptions.NoSuchGroupException;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -177,7 +177,7 @@ public class AccountManager {
       // return the identity to the caller.
       update(who, extId);
       return new AuthResult(extId.accountId(), who.getExternalIdKey(), false);
-    } catch (OrmException | ConfigInvalidException e) {
+    } catch (StorageException | ConfigInvalidException e) {
       throw new AccountException("Authentication error", e);
     }
   }
@@ -228,7 +228,7 @@ public class AccountManager {
   }
 
   private void update(AuthRequest who, ExternalId extId)
-      throws OrmException, IOException, ConfigInvalidException, AccountException {
+      throws StorageException, IOException, ConfigInvalidException, AccountException {
     IdentifiedUser user = userFactory.create(extId.accountId());
     List<Consumer<InternalAccountUpdate.Builder>> accountUpdates = new ArrayList<>();
 
@@ -280,12 +280,12 @@ public class AccountManager {
               user.getAccountId(),
               AccountUpdater.joinConsumers(accountUpdates))
           .orElseThrow(
-              () -> new OrmException("Account " + user.getAccountId() + " has been deleted"));
+              () -> new StorageException("Account " + user.getAccountId() + " has been deleted"));
     }
   }
 
   private AuthResult create(AuthRequest who)
-      throws OrmException, AccountException, IOException, ConfigInvalidException {
+      throws StorageException, AccountException, IOException, ConfigInvalidException {
     Account.Id newId = new Account.Id(sequences.nextAccountId());
     logger.atFine().log("Assigning new Id %s to account", newId);
 
@@ -389,7 +389,7 @@ public class AccountManager {
   }
 
   private void addGroupMember(AccountGroup.UUID groupUuid, IdentifiedUser user)
-      throws OrmException, IOException, ConfigInvalidException, AccountException {
+      throws StorageException, IOException, ConfigInvalidException, AccountException {
     // The user initiated this request by logging in. -> Attribute all modifications to that user.
     GroupsUpdate groupsUpdate = groupsUpdateFactory.create(user);
     InternalGroupUpdate groupUpdate =
@@ -414,7 +414,7 @@ public class AccountManager {
    *     this time.
    */
   public AuthResult link(Account.Id to, AuthRequest who)
-      throws AccountException, OrmException, IOException, ConfigInvalidException {
+      throws AccountException, StorageException, IOException, ConfigInvalidException {
     Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
     logger.atFine().log("Link another authentication identity to an existing account");
     if (optionalExtId.isPresent()) {
@@ -453,12 +453,12 @@ public class AccountManager {
    * @param to account to link the identity onto.
    * @param who the additional identity.
    * @return the result of linking the identity to the user.
-   * @throws OrmException
+   * @throws StorageException
    * @throws AccountException the identity belongs to a different account, or it cannot be linked at
    *     this time.
    */
   public AuthResult updateLink(Account.Id to, AuthRequest who)
-      throws OrmException, AccountException, IOException, ConfigInvalidException {
+      throws StorageException, AccountException, IOException, ConfigInvalidException {
     accountsUpdateProvider
         .get()
         .update(
@@ -491,7 +491,7 @@ public class AccountManager {
    *     found
    */
   public void unlink(Account.Id from, ExternalId.Key extIdKey)
-      throws AccountException, OrmException, IOException, ConfigInvalidException {
+      throws AccountException, StorageException, IOException, ConfigInvalidException {
     unlink(from, ImmutableList.of(extIdKey));
   }
 
@@ -504,7 +504,7 @@ public class AccountManager {
    *     identity was not found
    */
   public void unlink(Account.Id from, Collection<ExternalId.Key> extIdKeys)
-      throws AccountException, OrmException, IOException, ConfigInvalidException {
+      throws AccountException, StorageException, IOException, ConfigInvalidException {
     if (extIdKeys.isEmpty()) {
       return;
     }

@@ -24,7 +24,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
-import com.google.gerrit.exceptions.OrmDuplicateKeyException;
+import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
@@ -110,11 +110,11 @@ public class GroupConfig extends VersionedMetaData {
    * @throws IOException if the repository can't be accessed for some reason
    * @throws ConfigInvalidException if a group with the same UUID already exists but can't be read
    *     due to an invalid format
-   * @throws OrmDuplicateKeyException if a group with the same UUID already exists
+   * @throws DuplicateKeyException if a group with the same UUID already exists
    */
   public static GroupConfig createForNewGroup(
       Project.NameKey projectName, Repository repository, InternalGroupCreation groupCreation)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+      throws IOException, ConfigInvalidException, DuplicateKeyException {
     GroupConfig groupConfig = new GroupConfig(groupCreation.getGroupUUID());
     groupConfig.load(projectName, repository);
     groupConfig.setGroupCreation(groupCreation);
@@ -241,11 +241,10 @@ public class GroupConfig extends VersionedMetaData {
     this.allowSaveEmptyName = true;
   }
 
-  private void setGroupCreation(InternalGroupCreation groupCreation)
-      throws OrmDuplicateKeyException {
+  private void setGroupCreation(InternalGroupCreation groupCreation) throws DuplicateKeyException {
     checkLoaded();
     if (loadedGroup.isPresent()) {
-      throw new OrmDuplicateKeyException(String.format("Group %s already exists", groupUuid.get()));
+      throw new DuplicateKeyException(String.format("Group %s already exists", groupUuid.get()));
     }
 
     this.groupCreation = Optional.of(groupCreation);

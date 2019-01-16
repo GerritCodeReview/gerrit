@@ -16,7 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitTypeRecord;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -90,7 +90,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
   @Override
   public MergeableInfo apply(RevisionResource resource)
-      throws AuthException, ResourceConflictException, BadRequestException, OrmException,
+      throws AuthException, ResourceConflictException, BadRequestException, StorageException,
           IOException {
     Change change = resource.getChange();
     PatchSet ps = resource.getPatchSet();
@@ -136,10 +136,10 @@ public class Mergeable implements RestReadView<RevisionResource> {
     return result;
   }
 
-  private SubmitType getSubmitType(ChangeData cd) throws OrmException {
+  private SubmitType getSubmitType(ChangeData cd) throws StorageException {
     SubmitTypeRecord rec = submitRuleEvaluator.getSubmitType(cd);
     if (rec.status != SubmitTypeRecord.Status.OK) {
-      throw new OrmException("Submit type rule failed: " + rec);
+      throw new StorageException("Submit type rule failed: " + rec);
     }
     return rec.type;
   }

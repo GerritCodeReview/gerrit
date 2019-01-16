@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -68,7 +68,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
   // fail gracefully if the second delete fails, but fortunately that's not what happens.
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, OrmException, IOException {
+      throws RestApiException, StorageException, IOException {
     Collection<PatchSet> patchSets = psUtil.byChange(ctx.getNotes());
 
     ensureDeletable(ctx, id, patchSets);
@@ -109,9 +109,9 @@ public class DeleteChangeOp implements BatchUpdateOp {
   }
 
   private void cleanUpReferences(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)
-      throws OrmException, NoSuchChangeException {
+      throws StorageException, NoSuchChangeException {
     for (PatchSet ps : patchSets) {
-      accountPatchReviewStore.run(s -> s.clearReviewed(ps.getId()), OrmException.class);
+      accountPatchReviewStore.run(s -> s.clearReviewed(ps.getId()), StorageException.class);
     }
 
     // Non-atomic operation on Accounts table; not much we can do to make it

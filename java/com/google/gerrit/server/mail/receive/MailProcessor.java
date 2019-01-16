@@ -20,7 +20,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -148,7 +148,7 @@ public class MailProcessor {
   }
 
   private void processImpl(BatchUpdate.Factory buf, MailMessage message)
-      throws OrmException, UpdateException, RestApiException, IOException {
+      throws StorageException, UpdateException, RestApiException, IOException {
     for (Extension<MailFilter> filter : mailFilters) {
       if (!filter.getProvider().get().shouldProcessMessage(message)) {
         logger.atWarning().log(
@@ -209,7 +209,7 @@ public class MailProcessor {
 
   private void persistComments(
       BatchUpdate.Factory buf, MailMessage message, MailMetadata metadata, Account.Id sender)
-      throws OrmException, UpdateException, RestApiException {
+      throws StorageException, UpdateException, RestApiException {
     try (ManualRequestContext ctx = oneOffRequestContext.openAs(sender)) {
       List<ChangeData> changeDataList =
           queryProvider.get().byLegacyChangeId(new Change.Id(metadata.changeNumber));
@@ -282,11 +282,11 @@ public class MailProcessor {
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, UnprocessableEntityException, PatchListNotAvailableException {
+        throws StorageException, UnprocessableEntityException, PatchListNotAvailableException {
       patchSet = psUtil.get(ctx.getNotes(), psId);
       notes = ctx.getNotes();
       if (patchSet == null) {
-        throw new OrmException("patch set not found: " + psId);
+        throw new StorageException("patch set not found: " + psId);
       }
 
       changeMessage = generateChangeMessage(ctx);
@@ -358,7 +358,7 @@ public class MailProcessor {
     }
 
     private PatchSet targetPatchSetForComment(
-        ChangeContext ctx, MailComment mailComment, PatchSet current) throws OrmException {
+        ChangeContext ctx, MailComment mailComment, PatchSet current) throws StorageException {
       if (mailComment.getInReplyTo() != null) {
         return psUtil.get(
             ctx.getNotes(),
@@ -369,7 +369,7 @@ public class MailProcessor {
 
     private Comment persistentCommentFromMailComment(
         ChangeContext ctx, MailComment mailComment, PatchSet patchSetForComment)
-        throws OrmException, UnprocessableEntityException, PatchListNotAvailableException {
+        throws StorageException, UnprocessableEntityException, PatchListNotAvailableException {
       String fileName;
       // The patch set that this comment is based on is different if this
       // comment was sent in reply to a comment on a previous patch set.
@@ -412,7 +412,7 @@ public class MailProcessor {
     return "(" + numComments + (numComments > 1 ? " comments)" : " comment)");
   }
 
-  private Set<String> existingMessageIds(ChangeData cd) throws OrmException {
+  private Set<String> existingMessageIds(ChangeData cd) throws StorageException {
     Set<String> existingMessageIds = new HashSet<>();
     cd.messages()
         .stream()

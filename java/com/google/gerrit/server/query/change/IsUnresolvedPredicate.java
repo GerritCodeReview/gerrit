@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
 
@@ -28,7 +28,7 @@ public class IsUnresolvedPredicate extends IntegerRangeChangePredicate {
   }
 
   @Override
-  protected Integer getValueInt(ChangeData changeData) throws OrmException {
+  protected Integer getValueInt(ChangeData changeData) throws StorageException {
     return ChangeField.UNRESOLVED_COMMENT_COUNT.get(changeData);
   }
 }

@@ -15,7 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -54,7 +54,7 @@ public class PatchSetParser {
   }
 
   public PatchSet parsePatchSet(String token, ProjectState projectState, String branch)
-      throws UnloggedFailure, OrmException {
+      throws UnloggedFailure, StorageException {
     // By commit?
     //
     if (token.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
@@ -123,7 +123,7 @@ public class PatchSetParser {
   }
 
   private ChangeNotes getNotes(@Nullable ProjectState projectState, Change.Id changeId)
-      throws OrmException, UnloggedFailure {
+      throws StorageException, UnloggedFailure {
     if (projectState != null) {
       return notesFactory.create(projectState.getNameKey(), changeId);
     }

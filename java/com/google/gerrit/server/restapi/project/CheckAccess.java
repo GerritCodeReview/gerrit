@@ -17,7 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -62,7 +62,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
 
   @Override
   public AccessCheckInfo apply(ProjectResource rsrc, AccessCheckInput input)
-      throws OrmException, PermissionBackendException, RestApiException, IOException,
+      throws StorageException, PermissionBackendException, RestApiException, IOException,
           ConfigInvalidException {
     permissionBackend.user(rsrc.getUser()).check(GlobalPermission.VIEW_ACCESS);
 

@@ -17,7 +17,7 @@ package com.google.gerrit.server.query.change;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -42,7 +42,7 @@ public class SubmitRecordPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData in) throws OrmException {
+  public boolean match(ChangeData in) throws StorageException {
     return ChangeField.formatSubmitRecordValues(in).contains(getValue());
   }
 

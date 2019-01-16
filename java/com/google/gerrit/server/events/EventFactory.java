@@ -24,7 +24,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -154,7 +154,8 @@ public class EventFactory {
    * @param notes
    * @return object suitable for serialization to JSON
    */
-  public ChangeAttribute asChangeAttribute(Change change, ChangeNotes notes) throws OrmException {
+  public ChangeAttribute asChangeAttribute(Change change, ChangeNotes notes)
+      throws StorageException {
     ChangeAttribute a = asChangeAttribute(change);
     Set<String> hashtags = notes.load().getHashtags();
     if (!hashtags.isEmpty()) {
@@ -199,7 +200,7 @@ public class EventFactory {
    * @param a
    * @param notes
    */
-  public void addAllReviewers(ChangeAttribute a, ChangeNotes notes) throws OrmException {
+  public void addAllReviewers(ChangeAttribute a, ChangeNotes notes) throws StorageException {
     Collection<Account.Id> reviewers = approvalsUtil.getReviewers(notes).all();
     if (!reviewers.isEmpty()) {
       a.allReviewers = Lists.newArrayListWithCapacity(reviewers.size());
@@ -270,7 +271,7 @@ public class EventFactory {
     try {
       addDependsOn(rw, ca, change, currentPs);
       addNeededBy(rw, ca, change, currentPs);
-    } catch (OrmException | IOException e) {
+    } catch (StorageException | IOException e) {
       // Squash DB exceptions and leave dependency lists partially filled.
     }
     // Remove empty lists so a confusing label won't be displayed in the output.
@@ -283,7 +284,7 @@ public class EventFactory {
   }
 
   private void addDependsOn(RevWalk rw, ChangeAttribute ca, Change change, PatchSet currentPs)
-      throws OrmException, IOException {
+      throws StorageException, IOException {
     RevCommit commit = rw.parseCommit(ObjectId.fromString(currentPs.getRevision().get()));
     final List<String> parentNames = new ArrayList<>(commit.getParentCount());
     for (RevCommit p : commit.getParents()) {
@@ -316,7 +317,7 @@ public class EventFactory {
   }
 
   private void addNeededBy(RevWalk rw, ChangeAttribute ca, Change change, PatchSet currentPs)
-      throws OrmException, IOException {
+      throws StorageException, IOException {
     if (currentPs.getGroups().isEmpty()) {
       return;
     }
@@ -493,7 +494,7 @@ public class EventFactory {
         }
       }
       p.kind = changeKindCache.getChangeKind(change, patchSet);
-    } catch (IOException | OrmException e) {
+    } catch (IOException | StorageException e) {
       logger.atSevere().withCause(e).log("Cannot load patch set data for %s", patchSet.getId());
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Cannot get size information for %s: %s", pId, e.getMessage());
@@ -505,7 +506,7 @@ public class EventFactory {
 
   // TODO: The same method exists in PatchSetInfoFactory, find a common place
   // for it
-  private UserIdentity toUserIdentity(PersonIdent who) throws IOException, OrmException {
+  private UserIdentity toUserIdentity(PersonIdent who) throws IOException, StorageException {
     UserIdentity u = new UserIdentity();
     u.setName(who.getName());
     u.setEmail(who.getEmailAddress());

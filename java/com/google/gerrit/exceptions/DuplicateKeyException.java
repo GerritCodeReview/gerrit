@@ -15,14 +15,14 @@
 package com.google.gerrit.exceptions;
 
 /** Indicates one or more entities were concurrently inserted with the same key. */
-public class OrmDuplicateKeyException extends OrmException {
+public class DuplicateKeyException extends StorageException {
   private static final long serialVersionUID = 1L;
 
-  public OrmDuplicateKeyException(String msg) {
+  public DuplicateKeyException(String msg) {
     super(msg);
   }
 
-  public OrmDuplicateKeyException(String msg, Throwable cause) {
+  public DuplicateKeyException(String msg, Throwable cause) {
     super(msg, cause);
   }
 }

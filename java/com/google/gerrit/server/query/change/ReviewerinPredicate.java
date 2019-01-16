@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -36,7 +36,7 @@ public class ReviewerinPredicate extends PostFilterPredicate<ChangeData> {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) throws StorageException {
     for (Account.Id accountId : object.reviewers().byState(ReviewerStateInternal.REVIEWER)) {
       IdentifiedUser reviewer = userFactory.create(accountId);
       if (reviewer.getEffectiveGroups().contains(uuid)) {

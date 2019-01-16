@@ -50,7 +50,7 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
@@ -1093,7 +1093,7 @@ public abstract class AbstractDaemonTest {
         .inOrder();
   }
 
-  protected PatchSet getPatchSet(PatchSet.Id psId) throws OrmException {
+  protected PatchSet getPatchSet(PatchSet.Id psId) throws StorageException {
     return changeDataFactory.create(project, psId.getParentKey()).patchSet(psId);
   }
 
@@ -1422,7 +1422,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void watch(PushOneCommit.Result r, ProjectWatchInfoConfiguration config)
-      throws OrmException, RestApiException {
+      throws StorageException, RestApiException {
     watch(r.getChange().project().get(), config);
   }
 

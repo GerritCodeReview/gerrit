@@ -15,7 +15,7 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -76,7 +76,7 @@ public class CommentAdded {
     } catch (PatchListNotAvailableException
         | GpgException
         | IOException
-        | OrmException
+        | StorageException
         | PermissionBackendException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }

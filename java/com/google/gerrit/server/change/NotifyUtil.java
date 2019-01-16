@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -74,7 +74,7 @@ public class NotifyUtil {
 
   public ListMultimap<RecipientType, Account.Id> resolveAccounts(
       @Nullable Map<RecipientType, NotifyInfo> notifyDetails)
-      throws OrmException, BadRequestException, IOException, ConfigInvalidException {
+      throws StorageException, BadRequestException, IOException, ConfigInvalidException {
     if (isNullOrEmpty(notifyDetails)) {
       return ImmutableListMultimap.of();
     }
@@ -94,7 +94,7 @@ public class NotifyUtil {
   }
 
   private List<Account.Id> find(List<String> nameOrEmails)
-      throws OrmException, BadRequestException, IOException, ConfigInvalidException {
+      throws StorageException, BadRequestException, IOException, ConfigInvalidException {
     List<String> missing = new ArrayList<>(nameOrEmails.size());
     List<Account.Id> r = new ArrayList<>(nameOrEmails.size());
     for (String nameOrEmail : nameOrEmails) {

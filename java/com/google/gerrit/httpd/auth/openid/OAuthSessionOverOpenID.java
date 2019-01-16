@@ -18,7 +18,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
@@ -164,7 +164,7 @@ class OAuthSessionOverOpenID {
           logger.atFine().log("Claimed account already exists: link to it.");
           try {
             accountManager.link(claimedId.get(), areq);
-          } catch (OrmException | ConfigInvalidException e) {
+          } catch (StorageException | ConfigInvalidException e) {
             logger.atSevere().log(
                 "Cannot link: %s to user identity:\n  Claimed ID: %s is %s",
                 user.getExternalId(), claimedId.get(), claimedIdentifier);
@@ -178,7 +178,7 @@ class OAuthSessionOverOpenID {
         try {
           logger.atFine().log("Linking \"%s\" to \"%s\"", user.getExternalId(), accountId);
           accountManager.link(accountId, areq);
-        } catch (OrmException | ConfigInvalidException e) {
+        } catch (StorageException | ConfigInvalidException e) {
           logger.atSevere().log(
               "Cannot link: %s to user identity: %s", user.getExternalId(), accountId);
           rsp.sendError(HttpServletResponse.SC_FORBIDDEN);

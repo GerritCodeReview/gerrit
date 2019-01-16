@@ -30,7 +30,7 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
@@ -225,7 +225,7 @@ public class MergeUtil {
     List<CodeReviewCommit> result = new ArrayList<>();
     try {
       result.addAll(mergeSorter.sort(toSort));
-    } catch (IOException | OrmException e) {
+    } catch (IOException | StorageException e) {
       throw new IntegrationException("Branch head sorting failed", e);
     }
     result.sort(CodeReviewCommit.ORDER);
@@ -591,7 +591,7 @@ public class MergeUtil {
   private Iterable<PatchSetApproval> safeGetApprovals(ChangeNotes notes, PatchSet.Id psId) {
     try {
       return approvalsUtil.byPatchSet(notes, psId, null, null);
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Can't read approval records for %s", psId);
       return Collections.emptyList();
     }
@@ -704,7 +704,7 @@ public class MergeUtil {
       throws IntegrationException {
     try {
       return !mergeSorter.sort(Collections.singleton(toMerge)).contains(toMerge);
-    } catch (IOException | OrmException e) {
+    } catch (IOException | StorageException e) {
       throw new IntegrationException("Branch head sorting failed", e);
     }
   }

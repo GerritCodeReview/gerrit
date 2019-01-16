@@ -23,7 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.exceptions.OrmException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -164,7 +164,7 @@ public abstract class PermissionBackend {
     public ForChange change(ChangeData cd) {
       try {
         return ref(cd.change().getDest()).change(cd);
-      } catch (OrmException e) {
+      } catch (StorageException e) {
         return FailedPermissionBackend.change("unavailable", e);
       }
     }
@@ -280,7 +280,7 @@ public abstract class PermissionBackend {
     public ForChange change(ChangeData cd) {
       try {
         return ref(cd.change().getDest().get()).change(cd);
-      } catch (OrmException e) {
+      } catch (StorageException e) {
         return FailedPermissionBackend.change("unavailable", e);
       }
     }

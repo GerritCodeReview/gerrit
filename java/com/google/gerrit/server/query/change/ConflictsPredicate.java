@@ -61,7 +61,7 @@ public class ConflictsPredicate {
     try {
       cd = args.changeDataFactory.create(c);
       files = cd.currentFilePaths();
-    } catch (IOException | StorageException e) {
+    } catch (StorageException e) {
       warnWithOccasionalStackTrace(
           e,
           "Error constructing conflicts predicates for change %s in %s",

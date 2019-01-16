@@ -14,25 +14,16 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.index.change.ChangeField;
-import java.io.IOException;
 
 public class TrackingIdPredicate extends ChangeIndexPredicate {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   public TrackingIdPredicate(String trackingId) {
     super(ChangeField.TR, trackingId);
   }
 
   @Override
   public boolean match(ChangeData cd) {
-    try {
-      return cd.trackingFooters().containsValue(getValue());
-    } catch (IOException e) {
-      logger.atWarning().withCause(e).log("Cannot extract footers from %s", cd.getId());
-    }
-    return false;
+    return cd.trackingFooters().containsValue(getValue());
   }
 
   @Override

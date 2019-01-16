@@ -114,7 +114,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
 
   @Operator
   public Predicate<AccountState> cansee(String change)
-      throws QueryParseException, StorageException, PermissionBackendException {
+      throws QueryParseException, PermissionBackendException {
     ChangeNotes changeNotes = args.changeFinder.findOne(change);
     if (changeNotes == null) {
       throw error(String.format("change %s not found", change));

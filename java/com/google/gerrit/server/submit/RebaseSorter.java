@@ -62,8 +62,7 @@ public class RebaseSorter {
     this.incoming = incoming;
   }
 
-  public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort)
-      throws IOException, StorageException {
+  public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort) throws IOException {
     final List<CodeReviewCommit> sorted = new ArrayList<>();
     final Set<CodeReviewCommit> sort = new HashSet<>(toSort);
     while (!sort.isEmpty()) {

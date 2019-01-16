@@ -30,7 +30,7 @@ public class CommentPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws StorageException {
+  public boolean match(ChangeData object) {
     try {
       Predicate<ChangeData> p = Predicate.and(new LegacyChangeIdPredicate(object.getId()), this);
       for (ChangeData cData : index.getSource(p, IndexedChangeQuery.oneResult()).read()) {

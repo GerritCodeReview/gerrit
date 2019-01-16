@@ -98,7 +98,7 @@ public class WalkSorter {
     return this;
   }
 
-  public Iterable<PatchSetData> sort(Iterable<ChangeData> in) throws StorageException, IOException {
+  public Iterable<PatchSetData> sort(Iterable<ChangeData> in) throws IOException {
     ListMultimap<Project.NameKey, ChangeData> byProject =
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeData cd : in) {
@@ -114,7 +114,7 @@ public class WalkSorter {
   }
 
   private List<PatchSetData> sortProject(Project.NameKey project, Collection<ChangeData> in)
-      throws StorageException, IOException {
+      throws IOException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.setRetainBody(retainBody);
@@ -217,7 +217,7 @@ public class WalkSorter {
   }
 
   private ListMultimap<RevCommit, PatchSetData> byCommit(RevWalk rw, Collection<ChangeData> in)
-      throws StorageException, IOException {
+      throws IOException {
     ListMultimap<RevCommit, PatchSetData> byCommit =
         MultimapBuilder.hashKeys(in.size()).arrayListValues(1).build();
     for (ChangeData cd : in) {

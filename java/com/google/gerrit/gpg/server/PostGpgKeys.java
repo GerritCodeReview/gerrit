@@ -27,7 +27,6 @@ import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.exceptions.EmailException;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.accounts.GpgKeysInput;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -108,7 +107,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
   @Override
   public Map<String, GpgKeyInfo> apply(AccountResource rsrc, GpgKeysInput input)
       throws ResourceNotFoundException, BadRequestException, ResourceConflictException,
-          PGPException, StorageException, IOException, ConfigInvalidException {
+          PGPException, IOException, ConfigInvalidException {
     GpgKeys.checkVisible(self, rsrc);
 
     Collection<ExternalId> existingExtIds =
@@ -249,7 +248,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
     return ExternalId.Key.create(SCHEME_GPGKEY, BaseEncoding.base16().encode(fp));
   }
 
-  private Account getAccountByExternalId(ExternalId.Key extIdKey) throws StorageException {
+  private Account getAccountByExternalId(ExternalId.Key extIdKey) {
     List<AccountState> accountStates = accountQueryProvider.get().byExternalId(extIdKey);
 
     if (accountStates.isEmpty()) {

@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.testsuite.account;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountState;
@@ -68,7 +67,7 @@ public class AccountOperationsImpl implements AccountOperations {
   }
 
   private AccountState createAccount(AccountsUpdate.AccountUpdater accountUpdater)
-      throws StorageException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     Account.Id accountId = new Account.Id(seq.nextAccountId());
     return accountsUpdate.insert("Create Test Account", accountId, accountUpdater);
   }
@@ -146,7 +145,7 @@ public class AccountOperationsImpl implements AccountOperations {
     }
 
     private void updateAccount(TestAccountUpdate accountUpdate)
-        throws StorageException, IOException, ConfigInvalidException {
+        throws IOException, ConfigInvalidException {
       AccountsUpdate.AccountUpdater accountUpdater =
           (account, updateBuilder) -> fillBuilder(updateBuilder, accountUpdate, accountId);
       Optional<AccountState> updatedAccount = updateAccount(accountUpdater);
@@ -154,7 +153,7 @@ public class AccountOperationsImpl implements AccountOperations {
     }
 
     private Optional<AccountState> updateAccount(AccountsUpdate.AccountUpdater accountUpdater)
-        throws StorageException, IOException, ConfigInvalidException {
+        throws IOException, ConfigInvalidException {
       return accountsUpdate.update("Update Test Account", accountId, accountUpdater);
     }
 

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.Input;
@@ -95,7 +94,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
   @Override
   public ChangeEditResource parse(ChangeResource rsrc, IdString id)
-      throws ResourceNotFoundException, AuthException, IOException, StorageException {
+      throws ResourceNotFoundException, AuthException, IOException {
     Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
     if (!edit.isPresent()) {
       throw new ResourceNotFoundException(id);
@@ -119,8 +118,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<?> apply(ChangeResource resource, IdString id, Put.Input input)
-        throws AuthException, ResourceConflictException, IOException, StorageException,
-            PermissionBackendException {
+        throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
       putEdit.apply(resource, id.get(), input.content);
       return Response.none();
     }
@@ -137,8 +135,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<?> apply(ChangeResource rsrc, IdString id, Input in)
-        throws IOException, AuthException, ResourceConflictException, StorageException,
-            PermissionBackendException {
+        throws IOException, AuthException, ResourceConflictException, PermissionBackendException {
       return deleteContent.apply(rsrc, id.get());
     }
   }
@@ -184,8 +181,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<EditInfo> apply(ChangeResource rsrc)
-        throws AuthException, IOException, ResourceNotFoundException, StorageException,
-            PermissionBackendException {
+        throws AuthException, IOException, ResourceNotFoundException, PermissionBackendException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
       if (!edit.isPresent()) {
         return Response.none();
@@ -240,8 +236,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<?> apply(ChangeResource resource, Post.Input input)
-        throws AuthException, IOException, ResourceConflictException, StorageException,
-            PermissionBackendException {
+        throws AuthException, IOException, ResourceConflictException, PermissionBackendException {
       Project.NameKey project = resource.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
         if (isRestoreFile(input)) {
@@ -286,14 +281,12 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<?> apply(ChangeEditResource rsrc, Input input)
-        throws AuthException, ResourceConflictException, IOException, StorageException,
-            PermissionBackendException {
+        throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
       return apply(rsrc.getChangeResource(), rsrc.getPath(), input.content);
     }
 
     public Response<?> apply(ChangeResource rsrc, String path, RawInput newContent)
-        throws ResourceConflictException, AuthException, IOException, StorageException,
-            PermissionBackendException {
+        throws ResourceConflictException, AuthException, IOException, PermissionBackendException {
       if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
         throw new ResourceConflictException("Invalid path: " + path);
       }
@@ -327,14 +320,12 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<?> apply(ChangeEditResource rsrc, Input input)
-        throws AuthException, ResourceConflictException, StorageException, IOException,
-            PermissionBackendException {
+        throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
       return apply(rsrc.getChangeResource(), rsrc.getPath());
     }
 
     public Response<?> apply(ChangeResource rsrc, String filePath)
-        throws AuthException, IOException, StorageException, ResourceConflictException,
-            PermissionBackendException {
+        throws AuthException, IOException, ResourceConflictException, PermissionBackendException {
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
         editModifier.deleteFile(repository, rsrc.getNotes(), filePath);
       } catch (InvalidChangeOperationException e) {
@@ -429,7 +420,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     @Override
     public Object apply(ChangeResource rsrc, Input input)
         throws AuthException, IOException, BadRequestException, ResourceConflictException,
-            StorageException, PermissionBackendException {
+            PermissionBackendException {
       if (input == null || Strings.isNullOrEmpty(input.message)) {
         throw new BadRequestException("commit message must be provided");
       }
@@ -463,7 +454,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public BinaryResult apply(ChangeResource rsrc)
-        throws AuthException, IOException, ResourceNotFoundException, StorageException {
+        throws AuthException, IOException, ResourceNotFoundException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
       String msg;
       if (edit.isPresent()) {

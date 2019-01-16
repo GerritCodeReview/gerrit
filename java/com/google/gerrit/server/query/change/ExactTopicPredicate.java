@@ -16,7 +16,6 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.index.change.ChangeField.EXACT_TOPIC;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Change;
 
 public class ExactTopicPredicate extends ChangeIndexPredicate {
@@ -25,7 +24,7 @@ public class ExactTopicPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws StorageException {
+  public boolean match(ChangeData object) {
     Change change = object.change();
     if (change == null) {
       return false;

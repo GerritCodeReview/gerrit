@@ -83,8 +83,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, RestoreInput input)
-      throws RestApiException, UpdateException, StorageException, PermissionBackendException,
-          IOException {
+      throws RestApiException, UpdateException, PermissionBackendException, IOException {
     // Not allowed to restore if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
@@ -111,8 +110,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws StorageException, ResourceConflictException {
+    public boolean updateChange(ChangeContext ctx) throws ResourceConflictException {
       change = ctx.getChange();
       if (change == null || !change.isAbandoned()) {
         throw new ResourceConflictException("change is " + ChangeUtil.status(change));
@@ -140,7 +138,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
     }
 
     @Override
-    public void postUpdate(Context ctx) throws StorageException {
+    public void postUpdate(Context ctx) {
       try {
         ReplyToChangeSender cm = restoredSenderFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());

@@ -84,7 +84,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected Set<Account.Id> authors;
   protected boolean emailOnlyAuthors;
 
-  protected ChangeEmail(EmailArguments ea, String mc, ChangeData cd) throws StorageException {
+  protected ChangeEmail(EmailArguments ea, String mc, ChangeData cd) {
     super(ea, mc, cd.change().getDest());
     changeData = cd;
     change = cd.change();
@@ -343,8 +343,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   @Override
-  protected final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig)
-      throws StorageException {
+  protected final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig) {
     if (!NotifyHandling.ALL.equals(notify.handling())) {
       return new Watchers();
     }

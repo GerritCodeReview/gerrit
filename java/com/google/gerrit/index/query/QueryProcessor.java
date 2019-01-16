@@ -172,7 +172,7 @@ public abstract class QueryProcessor<T> {
    * @param query the query.
    * @return results of the query.
    */
-  public QueryResult<T> query(Predicate<T> query) throws StorageException, QueryParseException {
+  public QueryResult<T> query(Predicate<T> query) throws QueryParseException {
     return query(ImmutableList.of(query)).get(0);
   }
 
@@ -187,8 +187,7 @@ public abstract class QueryProcessor<T> {
    * @return results of the queries, one QueryResult per input query, in the same order as the
    *     input.
    */
-  public List<QueryResult<T>> query(List<Predicate<T>> queries)
-      throws StorageException, QueryParseException {
+  public List<QueryResult<T>> query(List<Predicate<T>> queries) throws QueryParseException {
     try {
       return query(null, queries);
     } catch (StorageException e) {
@@ -200,8 +199,7 @@ public abstract class QueryProcessor<T> {
   }
 
   private List<QueryResult<T>> query(
-      @Nullable List<String> queryStrings, List<Predicate<T>> queries)
-      throws StorageException, QueryParseException {
+      @Nullable List<String> queryStrings, List<Predicate<T>> queries) throws QueryParseException {
     long startNanos = System.nanoTime();
     checkState(!used.getAndSet(true), "%s has already been used", getClass().getSimpleName());
     int cnt = queries.size();

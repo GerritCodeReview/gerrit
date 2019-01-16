@@ -19,7 +19,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -165,8 +164,7 @@ public class UploadArchive extends AbstractGitCommand {
   }
 
   @Override
-  protected void runImpl()
-      throws IOException, StorageException, PermissionBackendException, Failure {
+  protected void runImpl() throws IOException, PermissionBackendException, Failure {
     PacketLineOut packetOut = new PacketLineOut(out);
     packetOut.setFlushOnEnd(true);
     packetOut.writeString("ACK");
@@ -246,8 +244,7 @@ public class UploadArchive extends AbstractGitCommand {
     return Collections.emptyMap();
   }
 
-  private boolean canRead(ObjectId revId)
-      throws IOException, StorageException, PermissionBackendException {
+  private boolean canRead(ObjectId revId) throws IOException, PermissionBackendException {
     ProjectState projectState = projectCache.get(projectName);
     requireNonNull(projectState, () -> String.format("Failed to load project %s", projectName));
 

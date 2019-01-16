@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -87,7 +86,7 @@ public class ChangeMessagesUtil {
     return workInProgress ? TAG_UPLOADED_WIP_PATCH_SET : TAG_UPLOADED_PATCH_SET;
   }
 
-  public List<ChangeMessage> byChange(ChangeNotes notes) throws StorageException {
+  public List<ChangeMessage> byChange(ChangeNotes notes) {
     return notes.load().getChangeMessages();
   }
 

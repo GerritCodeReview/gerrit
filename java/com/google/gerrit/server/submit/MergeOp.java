@@ -124,7 +124,7 @@ public class MergeOp implements AutoCloseable {
     private final ListMultimap<Change.Id, String> problems;
     private final boolean allowClosed;
 
-    private CommitStatus(ChangeSet cs, boolean allowClosed) throws StorageException {
+    private CommitStatus(ChangeSet cs, boolean allowClosed) {
       checkArgument(
           !cs.furtherHiddenChanges(), "CommitStatus must not be called with hidden changes");
       changes = cs.changesById();
@@ -283,7 +283,7 @@ public class MergeOp implements AutoCloseable {
   }
 
   public static void checkSubmitRule(ChangeData cd, boolean allowClosed)
-      throws ResourceConflictException, StorageException {
+      throws ResourceConflictException {
     PatchSet patchSet = cd.currentPatchSet();
     if (patchSet == null) {
       throw new ResourceConflictException("missing current patch set for change " + cd.getId());
@@ -332,8 +332,7 @@ public class MergeOp implements AutoCloseable {
     return cd.submitRecords(submitRuleOptions(allowClosed));
   }
 
-  private static String describeNotReady(ChangeData cd, SubmitRecord record)
-      throws StorageException {
+  private static String describeNotReady(ChangeData cd, SubmitRecord record) {
     List<String> blockingConditions = new ArrayList<>();
     if (record.labels != null) {
       blockingConditions.add(describeLabels(cd, record.labels));
@@ -346,8 +345,7 @@ public class MergeOp implements AutoCloseable {
     return Joiner.on("; ").join(blockingConditions);
   }
 
-  private static String describeLabels(ChangeData cd, List<SubmitRecord.Label> labels)
-      throws StorageException {
+  private static String describeLabels(ChangeData cd, List<SubmitRecord.Label> labels) {
     List<String> labelResults = new ArrayList<>();
     for (SubmitRecord.Label lbl : labels) {
       switch (lbl.status) {
@@ -427,7 +425,6 @@ public class MergeOp implements AutoCloseable {
    * @param caller the identity of the caller
    * @param checkSubmitRules whether the prolog submit rules should be evaluated
    * @param submitInput parameters regarding the merge
-   * @throws StorageException an error occurred reading or writing the database.
    * @throws RestApiException if an error occurred.
    * @throws PermissionBackendException if permissions can't be checked
    * @throws IOException an error occurred reading from NoteDb.
@@ -438,8 +435,8 @@ public class MergeOp implements AutoCloseable {
       boolean checkSubmitRules,
       SubmitInput submitInput,
       boolean dryrun)
-      throws StorageException, RestApiException, UpdateException, IOException,
-          ConfigInvalidException, PermissionBackendException {
+      throws RestApiException, UpdateException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     this.submitInput = submitInput;
     this.notify =
         notifyResolver.resolve(

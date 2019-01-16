@@ -19,7 +19,6 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -57,8 +56,8 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
 
   @Override
   public List<ProjectWatchInfo> apply(AccountResource rsrc)
-      throws StorageException, AuthException, IOException, ConfigInvalidException,
-          PermissionBackendException, ResourceNotFoundException {
+      throws AuthException, IOException, ConfigInvalidException, PermissionBackendException,
+          ResourceNotFoundException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }

@@ -122,7 +122,7 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
       }
 
       @Override
-      public void create() throws StorageException, IOException {
+      public void create() throws IOException {
         try (Repository repo = repoManager.createRepository(allProjectsName)) {
           if (initialVersion.isPresent()) {
             TestRepository<?> tr = new TestRepository<>(repo);
@@ -136,7 +136,7 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
       }
 
       @Override
-      public void ensureCreated() throws StorageException, IOException {
+      public void ensureCreated() throws IOException {
         try {
           repoManager.openRepository(allProjectsName).close();
         } catch (RepositoryNotFoundException e) {
@@ -152,7 +152,7 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
       cfg.setString("noteDb", "changes", "disableReviewDb", "true");
     }
 
-    protected void seedGroupSequenceRef() throws StorageException {
+    protected void seedGroupSequenceRef() {
       new RepoSequence(
               repoManager,
               GitReferenceUpdated.DISABLED,
@@ -163,12 +163,8 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
           .next();
     }
 
-    /**
-     * Test-specific setup.
-     *
-     * @throws StorageException if an error occurs.
-     */
-    protected void setUp() throws StorageException {}
+    /** Test-specific setup. */
+    protected void setUp() {}
 
     ImmutableList<String> update() throws Exception {
       updater.update(
@@ -211,7 +207,7 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
     TestUpdate u =
         new TestUpdate(Optional.empty()) {
           @Override
-          public void setUp() throws StorageException {
+          public void setUp() {
             setNotesMigrationConfig();
             seedGroupSequenceRef();
           }
@@ -231,7 +227,7 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
     TestUpdate u =
         new TestUpdate(Optional.empty()) {
           @Override
-          public void setUp() throws StorageException {
+          public void setUp() {
             seedGroupSequenceRef();
           }
         };

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -46,7 +45,7 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
 
   @Override
   public Response<?> apply(AccountResource rsrc, Input input)
-      throws RestApiException, StorageException, IOException, ConfigInvalidException {
+      throws RestApiException, IOException, ConfigInvalidException {
     if (self.get().hasSameAccountId(rsrc.getUser())) {
       throw new ResourceConflictException("cannot deactivate own account");
     }

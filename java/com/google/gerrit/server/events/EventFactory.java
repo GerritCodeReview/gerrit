@@ -155,8 +155,7 @@ public class EventFactory {
    * @param notes
    * @return object suitable for serialization to JSON
    */
-  public ChangeAttribute asChangeAttribute(Change change, ChangeNotes notes)
-      throws StorageException {
+  public ChangeAttribute asChangeAttribute(Change change, ChangeNotes notes) {
     ChangeAttribute a = asChangeAttribute(change);
     Set<String> hashtags = notes.load().getHashtags();
     if (!hashtags.isEmpty()) {
@@ -201,7 +200,7 @@ public class EventFactory {
    * @param a
    * @param notes
    */
-  public void addAllReviewers(ChangeAttribute a, ChangeNotes notes) throws StorageException {
+  public void addAllReviewers(ChangeAttribute a, ChangeNotes notes) {
     Collection<Account.Id> reviewers = approvalsUtil.getReviewers(notes).all();
     if (!reviewers.isEmpty()) {
       a.allReviewers = Lists.newArrayListWithCapacity(reviewers.size());
@@ -285,7 +284,7 @@ public class EventFactory {
   }
 
   private void addDependsOn(RevWalk rw, ChangeAttribute ca, Change change, PatchSet currentPs)
-      throws StorageException, IOException {
+      throws IOException {
     RevCommit commit = rw.parseCommit(ObjectId.fromString(currentPs.getRevision().get()));
     final List<String> parentNames = new ArrayList<>(commit.getParentCount());
     for (RevCommit p : commit.getParents()) {
@@ -318,7 +317,7 @@ public class EventFactory {
   }
 
   private void addNeededBy(RevWalk rw, ChangeAttribute ca, Change change, PatchSet currentPs)
-      throws StorageException, IOException {
+      throws IOException {
     if (currentPs.getGroups().isEmpty()) {
       return;
     }
@@ -507,7 +506,7 @@ public class EventFactory {
 
   // TODO: The same method exists in PatchSetInfoFactory, find a common place
   // for it
-  private UserIdentity toUserIdentity(PersonIdent who) throws IOException, StorageException {
+  private UserIdentity toUserIdentity(PersonIdent who) throws IOException {
     UserIdentity u = new UserIdentity();
     u.setName(who.getName());
     u.setEmail(who.getEmailAddress());

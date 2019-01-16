@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -67,7 +66,7 @@ public class ListMembers implements RestReadView<GroupResource> {
 
   @Override
   public List<AccountInfo> apply(GroupResource resource)
-      throws NotInternalGroupException, StorageException, PermissionBackendException {
+      throws NotInternalGroupException, PermissionBackendException {
     GroupDescription.Internal group =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     if (recursive) {

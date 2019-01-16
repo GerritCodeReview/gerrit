@@ -90,8 +90,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
   @Override
   public MergeableInfo apply(RevisionResource resource)
-      throws AuthException, ResourceConflictException, BadRequestException, StorageException,
-          IOException {
+      throws AuthException, ResourceConflictException, BadRequestException, IOException {
     Change change = resource.getChange();
     PatchSet ps = resource.getPatchSet();
     MergeableInfo result = new MergeableInfo();
@@ -136,7 +135,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     return result;
   }
 
-  private SubmitType getSubmitType(ChangeData cd) throws StorageException {
+  private SubmitType getSubmitType(ChangeData cd) {
     SubmitTypeRecord rec = submitRuleEvaluator.getSubmitType(cd);
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new StorageException("Submit type rule failed: " + rec);

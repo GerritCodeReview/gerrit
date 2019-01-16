@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -77,7 +76,7 @@ public class ChangeSet {
     return changeData;
   }
 
-  public ListMultimap<Branch.NameKey, ChangeData> changesByBranch() throws StorageException {
+  public ListMultimap<Branch.NameKey, ChangeData> changesByBranch() {
     ListMultimap<Branch.NameKey, ChangeData> ret =
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeData cd : changeData.values()) {

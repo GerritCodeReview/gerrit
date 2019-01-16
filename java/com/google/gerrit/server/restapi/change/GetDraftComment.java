@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.DraftCommentResource;
@@ -34,8 +33,7 @@ public class GetDraftComment implements RestReadView<DraftCommentResource> {
   }
 
   @Override
-  public CommentInfo apply(DraftCommentResource rsrc)
-      throws StorageException, PermissionBackendException {
+  public CommentInfo apply(DraftCommentResource rsrc) throws PermissionBackendException {
     return commentJson.get().newCommentFormatter().format(rsrc.getComment());
   }
 }

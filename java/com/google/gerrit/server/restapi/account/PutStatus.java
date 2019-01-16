@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.accounts.StatusInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -54,8 +53,8 @@ public class PutStatus implements RestModifyView<AccountResource, StatusInput> {
 
   @Override
   public Response<String> apply(AccountResource rsrc, StatusInput input)
-      throws AuthException, ResourceNotFoundException, StorageException, IOException,
-          PermissionBackendException, ConfigInvalidException {
+      throws AuthException, ResourceNotFoundException, IOException, PermissionBackendException,
+          ConfigInvalidException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
@@ -63,7 +62,7 @@ public class PutStatus implements RestModifyView<AccountResource, StatusInput> {
   }
 
   public Response<String> apply(IdentifiedUser user, StatusInput input)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException, StorageException {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException {
     if (input == null) {
       input = new StatusInput();
     }

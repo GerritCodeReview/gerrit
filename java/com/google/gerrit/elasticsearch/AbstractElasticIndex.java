@@ -377,16 +377,16 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     }
 
     @Override
-    public ResultSet<V> read() throws StorageException {
+    public ResultSet<V> read() {
       return readImpl((doc) -> AbstractElasticIndex.this.fromDocument(doc, opts.fields()));
     }
 
     @Override
-    public ResultSet<FieldBundle> readRaw() throws StorageException {
+    public ResultSet<FieldBundle> readRaw() {
       return readImpl(AbstractElasticIndex.this::toFieldBundle);
     }
 
-    private <T> ResultSet<T> readImpl(Function<JsonObject, T> mapper) throws StorageException {
+    private <T> ResultSet<T> readImpl(Function<JsonObject, T> mapper) {
       try {
         String uri = getURI(index, SEARCH);
         Response response =

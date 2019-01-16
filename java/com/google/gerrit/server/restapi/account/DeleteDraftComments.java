@@ -21,7 +21,6 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.accounts.DeletedDraftCommentInfo;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -110,7 +109,7 @@ public class DeleteDraftComments
   @Override
   public ImmutableList<DeletedDraftCommentInfo> apply(
       AccountResource rsrc, DeleteDraftCommentsInput input)
-      throws RestApiException, StorageException, UpdateException {
+      throws RestApiException, UpdateException {
     CurrentUser user = userProvider.get();
     if (!user.isIdentifiedUser()) {
       throw new AuthException("Authentication required");
@@ -176,7 +175,7 @@ public class DeleteDraftComments
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws StorageException, PatchListNotAvailableException, PermissionBackendException {
+        throws PatchListNotAvailableException, PermissionBackendException {
       ImmutableList.Builder<CommentInfo> comments = ImmutableList.builder();
       boolean dirty = false;
       for (Comment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), accountId)) {

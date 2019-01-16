@@ -65,7 +65,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 public class RepoSequence {
   @FunctionalInterface
   public interface Seed {
-    int get() throws StorageException;
+    int get();
   }
 
   @VisibleForTesting
@@ -184,7 +184,7 @@ public class RepoSequence {
     counterLock = new ReentrantLock(true);
   }
 
-  public int next() throws StorageException {
+  public int next() {
     counterLock.lock();
     try {
       if (counter >= limit) {
@@ -196,7 +196,7 @@ public class RepoSequence {
     }
   }
 
-  public ImmutableList<Integer> next(int count) throws StorageException {
+  public ImmutableList<Integer> next(int count) {
     if (count == 0) {
       return ImmutableList.of();
     }
@@ -221,7 +221,7 @@ public class RepoSequence {
   }
 
   @VisibleForTesting
-  public void set(int val) throws StorageException {
+  public void set(int val) {
     // Don't bother spinning. This is only for tests, and a test that calls set
     // concurrently with other writes is doing it wrong.
     counterLock.lock();
@@ -238,7 +238,7 @@ public class RepoSequence {
     }
   }
 
-  public void increaseTo(int val) throws StorageException {
+  public void increaseTo(int val) {
     counterLock.lock();
     try {
       try (Repository repo = repoManager.openRepository(projectName);
@@ -263,7 +263,7 @@ public class RepoSequence {
     }
   }
 
-  private void acquire(int count) throws StorageException {
+  private void acquire(int count) {
     try (Repository repo = repoManager.openRepository(projectName);
         RevWalk rw = new RevWalk(repo)) {
       TryAcquire attempt = new TryAcquire(repo, rw, count);

@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -85,7 +84,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws StorageException {
+  public boolean updateChange(ChangeContext ctx) {
     change = ctx.getChange();
     notes = ctx.getNotes();
     ps = psUtil.get(ctx.getNotes(), change.currentPatchSetId());

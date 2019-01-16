@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.ChangeMessagesUtil.createChangeMessageInfo;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -42,8 +41,7 @@ public class ListChangeMessages implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public List<ChangeMessageInfo> apply(ChangeResource resource)
-      throws StorageException, PermissionBackendException {
+  public List<ChangeMessageInfo> apply(ChangeResource resource) throws PermissionBackendException {
     List<ChangeMessage> messages = changeMessagesUtil.byChange(resource.getNotes());
     List<ChangeMessageInfo> messageInfos =
         messages.stream()

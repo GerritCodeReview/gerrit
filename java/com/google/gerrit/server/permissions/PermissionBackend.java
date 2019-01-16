@@ -358,9 +358,6 @@ public abstract class PermissionBackend {
     /** Remove all NoteDb refs (refs/changes/*, refs/users/*, edit refs) from the result. */
     public abstract boolean filterMeta();
 
-    /** Separately add reachable tags. */
-    public abstract boolean filterTagsSeparately();
-
     /**
      * Select only refs with names matching prefixes per {@link
      * org.eclipse.jgit.lib.RefDatabase#getRefsByPrefix}.
@@ -372,15 +369,12 @@ public abstract class PermissionBackend {
     public static Builder builder() {
       return new AutoValue_PermissionBackend_RefFilterOptions.Builder()
           .setFilterMeta(false)
-          .setFilterTagsSeparately(false)
           .setPrefixes(Collections.singletonList(""));
     }
 
     @AutoValue.Builder
     public abstract static class Builder {
       public abstract Builder setFilterMeta(boolean val);
-
-      public abstract Builder setFilterTagsSeparately(boolean val);
 
       public abstract Builder setPrefixes(List<String> prefixes);
 

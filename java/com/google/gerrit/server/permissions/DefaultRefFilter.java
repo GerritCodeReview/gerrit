@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.permissions;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CACHE_AUTOMERGE;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
@@ -22,6 +23,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
@@ -123,21 +125,59 @@ class DefaultRefFilter {
                 .setRate());
   }
 
+  /** Filters given refs and tags by visibility. */
   Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+      throws PermissionBackendException {
+    // Perform an initial ref filtering with all the refs the caller asked for. If we find tags that
+    // we have to investigate (deferred tags) separately then perform a reachability check starting
+    // from all visible branches (refs/heads/*).
+    Result initialRefFilter = filterRefs(refs, repo, opts);
+    Map<String, Ref> visibleRefs = initialRefFilter.visibleRefs();
+    if (!initialRefFilter.deferredTags().isEmpty()) {
+      Result allVisibleBranches = filterRefs(getTaggableRefsMap(repo), repo, opts);
+      checkState(
+          allVisibleBranches.deferredTags().isEmpty(),
+          "unexpected tags found when filtering refs/heads/* " + allVisibleBranches.deferredTags());
+
+      TagMatcher tags =
+          tagCache
+              .get(projectState.getNameKey())
+              .matcher(tagCache, repo, allVisibleBranches.visibleRefs().values());
+      for (Ref tag : initialRefFilter.deferredTags()) {
+        try {
+          if (tags.isReachable(tag)) {
+            visibleRefs.put(tag.getName(), tag);
+          }
+        } catch (IOException e) {
+          throw new PermissionBackendException(e);
+        }
+      }
+    }
+    return visibleRefs;
+  }
+
+  /**
+   * Filters refs by visibility. Returns tags where visibility can't be trivially computed
+   * separately for later ref-walk-based visibility computation. Tags where visibility is trivial to
+   * compute will be returned as part of {@link Result#visibleRefs()}.
+   */
+  Result filterRefs(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
     if (projectState.isAllUsers()) {
       refs = addUsersSelfSymref(refs);
     }
 
+    // TODO(hiesel): Remove when optimization is done.
     boolean hasReadOnRefsStar =
         checkProjectPermission(permissionBackendForProject, ProjectPermission.READ);
     if (skipFullRefEvaluationIfAllRefsAreVisible && !projectState.isAllUsers()) {
       if (projectState.statePermitsRead() && hasReadOnRefsStar) {
         skipFilterCount.increment();
-        return refs;
+        return new AutoValue_DefaultRefFilter_Result(refs, ImmutableList.of());
       } else if (projectControl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
         skipFilterCount.increment();
-        return fastHideRefsMetaConfig(refs);
+        return new AutoValue_DefaultRefFilter_Result(
+            fastHideRefsMetaConfig(refs), ImmutableList.of());
       }
     }
     fullFilterCount.increment();
@@ -161,7 +201,6 @@ class DefaultRefFilter {
 
     Map<String, Ref> result = new HashMap<>();
     List<Ref> deferredTags = new ArrayList<>();
-
     for (Ref ref : refs.values()) {
       String name = ref.getName();
       Change.Id changeId;
@@ -236,41 +275,15 @@ class DefaultRefFilter {
         }
       }
     }
-
-    // If we have tags that were deferred, we need to do a revision walk
-    // to identify what tags we can actually reach, and what we cannot.
-    //
-    if (!deferredTags.isEmpty() && (!result.isEmpty() || opts.filterTagsSeparately())) {
-      TagMatcher tags =
-          tagCache
-              .get(projectState.getNameKey())
-              .matcher(
-                  tagCache,
-                  repo,
-                  opts.filterTagsSeparately()
-                      ? filter(
-                              getTaggableRefsMap(repo),
-                              repo,
-                              opts.toBuilder().setFilterTagsSeparately(false).build())
-                          .values()
-                      : result.values());
-      for (Ref tag : deferredTags) {
-        try {
-          if (tags.isReachable(tag)) {
-            result.put(tag.getName(), tag);
-          }
-        } catch (IOException e) {
-          throw new PermissionBackendException(e);
-        }
-      }
-    }
-
-    return result;
+    return new AutoValue_DefaultRefFilter_Result(result, deferredTags);
   }
 
   /**
    * Returns all refs tag we regard as starting points for reachability computation for tags. In
-   * general, these are all refs not managed by Gerrit.
+   * general, these are all refs not managed by Gerrit excluding symbolic refs and tags.
+   *
+   * <p>We exclude symbolic refs because their target will be included and this will suffice for
+   * computing reachability.
    */
   private static Map<String, Ref> getTaggableRefsMap(Repository repo)
       throws PermissionBackendException {
@@ -280,7 +293,9 @@ class DefaultRefFilter {
           .stream()
           .filter(
               r ->
-                  !RefNames.isGerritRef(r.getName()) && !r.getName().startsWith(RefNames.REFS_TAGS))
+                  !RefNames.isGerritRef(r.getName())
+                      && !r.getName().startsWith(RefNames.REFS_TAGS)
+                      && !r.isSymbolic())
           .collect(toMap(Ref::getName, r -> r));
     } catch (IOException e) {
       throw new PermissionBackendException(e);
@@ -456,5 +471,17 @@ class DefaultRefFilter {
     // Keep this logic in sync with GroupControl#isOwner().
     return isAdmin
         || (user != null && user.getEffectiveGroups().contains(group.getOwnerGroupUUID()));
+  }
+
+  @AutoValue
+  abstract static class Result {
+    /** Subset of the refs passed into the computation that is visible to the user. */
+    abstract Map<String, Ref> visibleRefs();
+
+    /**
+     * List of tags where we couldn't figure out visibility in the first pass and need to do an
+     * expensive ref walk.
+     */
+    abstract List<Ref> deferredTags();
   }
 }

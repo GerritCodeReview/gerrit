@@ -191,6 +191,13 @@
       }
     },
 
+    _getLanguage(diffFileMetaInfo) {
+      // The Gerrit API provides only content-type, but for other users of
+      // gr-diff it may be more convenient to specify the language directly.
+      return diffFileMetaInfo.language ||
+          LANGUAGE_MAP[diffFileMetaInfo.content_type];
+    },
+
     /**
      * Start processing symtax for the loaded diff and notify layer listeners
      * as syntax info comes online.
@@ -208,10 +215,10 @@
       this.cancel();
 
       if (this.diff.meta_a) {
-        this._baseLanguage = LANGUAGE_MAP[this.diff.meta_a.content_type];
+        this._baseLanguage = this._getLanguage(this.diff.meta_a);
       }
       if (this.diff.meta_b) {
-        this._revisionLanguage = LANGUAGE_MAP[this.diff.meta_b.content_type];
+        this._revisionLanguage = this._getLanguage(this.diff.meta_b);
       }
       if (!this._baseLanguage && !this._revisionLanguage) {
         return Promise.resolve();

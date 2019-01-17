@@ -5760,7 +5760,7 @@ change. The labels are lexicographically sorted.
 Whether the change was reviewed by the calling user.
 Only set if link:#reviewed[reviewed] is requested.
 |`submit_type`        |optional|
-The link:project-configuration.html#submit_type[submit type] of the change. +
+The link:config-project-config.html#submit-type[submit type] of the change. +
 Not set for merged changes.
 |`mergeable`          |optional|
 Whether the change is mergeable. +

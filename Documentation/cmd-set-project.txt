@@ -59,7 +59,7 @@ Description values containing spaces should be quoted in single quotes
 
 +
 For more details see
-link:project-configuration.html#submit_type[Submit Types].
+link:config-project-config.html#submit-type[Submit Types].
 
 --content-merge::
     If enabled, Gerrit will try to perform a 3-way merge of text

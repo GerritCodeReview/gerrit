@@ -118,7 +118,7 @@ Description values containing spaces should be quoted in single quotes
 Defaults to MERGE_IF_NECESSARY unless
 link:config-gerrit.html#repository.name.defaultSubmitType[
 repository.<name>.defaultSubmitType] is set to a different value.
-For more details see link:project-configuration.html#submit_type[
+For more details see link:config-project-config.html#submit-type[
 Submit Types].
 
 --use-content-merge::

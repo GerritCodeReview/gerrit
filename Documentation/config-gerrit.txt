@@ -3666,9 +3666,9 @@ The default submit type for newly created projects. Supported values
 are `INHERIT`, `MERGE_IF_NECESSARY`, `FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`,
 `REBASE_ALWAYS`, `MERGE_ALWAYS` and `CHERRY_PICK`.
 +
-For more details see link:project-configuration.html#submit_type[Submit Types].
+For more details see link:config-project-config.html#submit-type[Submit Types].
 +
-Default is link:project-configuration.html#submit_type_inherit[`INHERIT`].
+Default is link:config-project-config.html#submit_type_inherit[`INHERIT`].
 +
 This submit type is only applied at project creation time if a submit type is
 omitted from the link:rest-api-projects.html#project-input[ProjectInput]. If the

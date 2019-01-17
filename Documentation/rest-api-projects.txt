@@ -3626,7 +3626,7 @@ statistics of a Git repository.
 
 [[submit-type-info]]
 === SubmitTypeInfo
-Information about the link:project-configuration.html#submit_type[default submit
+Information about the link:config-project-config.html#submit-type[default submit
 type of a project], taking into account project inheritance.
 
 Valid values for each field are `MERGE_IF_NECESSARY`, `FAST_FORWARD_ONLY`,

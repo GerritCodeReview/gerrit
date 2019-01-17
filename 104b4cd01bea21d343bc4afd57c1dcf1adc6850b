@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcb1d550_5fa2d584",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-17T07:27:49Z",
+      "side": 1,
+      "message": "See my comment on the similar change for GWT UI: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/210653/1//COMMIT_MSG#15",
+      "revId": "104b4cd01bea21d343bc4afd57c1dcf1adc6850b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

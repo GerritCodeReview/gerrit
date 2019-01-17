@@ -70,6 +70,30 @@
       "revId": "136955f103ba45b846395095ac815e62246f9004",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34e2a08d_d63cfe8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-17T08:16:09Z",
+      "side": 1,
+      "message": "This seems like something that should rather be done on master.",
+      "parentUuid": "b8bd6de5_5b816efc",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "136955f103ba45b846395095ac815e62246f9004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

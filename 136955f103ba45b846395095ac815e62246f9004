@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e11832e_1b3e0a70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-17T07:27:12Z",
+      "side": 1,
+      "message": "I see, that the same issue is fixed on the client side for PG UI here: [1]. So that the conclusion is: this rendering logic (only show related changes \u003e 1) makes absolutely sense for GWT UI, and for PG UI and probably for any other Gerrit UIs. This raises the question why don\u0027t  we change the REST endpoint logic and only returns results \u003e 1. We could do it hard coded, or, alternatively we could pass a new request parameter: minimum threshold. For all Gerrit UIs, the threshold would be 2. That way the client code would be as simple as it\u0027s today. And it would consume less resources: we wouldn\u0027t need to transfer data over the wire in vain, because it would be discarded by the client anyway.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/210692/8/polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js#358",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "136955f103ba45b846395095ac815e62246f9004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

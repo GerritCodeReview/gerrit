@@ -22,6 +22,30 @@
       "revId": "136955f103ba45b846395095ac815e62246f9004",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b077c16_7a3f29f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-17T07:30:16Z",
+      "side": 1,
+      "message": "It isn\u0027t using a specific \"related\" endpoint in this case.  It\u0027s using the change query with \"status:open topic:topicname\".",
+      "parentUuid": "3e11832e_1b3e0a70",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "136955f103ba45b846395095ac815e62246f9004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

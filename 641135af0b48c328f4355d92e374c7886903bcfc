@@ -22,6 +22,30 @@
       "revId": "641135af0b48c328f4355d92e374c7886903bcfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c0f9602_dbe8b628",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-17T07:05:49Z",
+      "side": 1,
+      "message": "This difference is subtle indeed, both methods are called withOptionsm and only depending on the type of the parameters, the methods are adding o replacing the options. One way to make it more obvious is to change the method name from withOptions)\u003d to setOptions() for the method that replacing the options instead of adding them.",
+      "parentUuid": "d7a972cf_9759e08b",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 9
+      },
+      "revId": "641135af0b48c328f4355d92e374c7886903bcfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "7112c687943bc3afc6d6750204b8c4d15bb5c39f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95b4fb08_c2784c93",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 1898,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-17T23:53:18Z",
+      "side": 1,
+      "message": "I haven\u0027t tested three changes all with the same topic, but with the 2 i have, this showed correctly.",
+      "parentUuid": "e65bbfb1_0ae22d40",
+      "range": {
+        "startLine": 1898,
+        "startChar": 8,
+        "endLine": 1898,
+        "endChar": 31
+      },
+      "revId": "7112c687943bc3afc6d6750204b8c4d15bb5c39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

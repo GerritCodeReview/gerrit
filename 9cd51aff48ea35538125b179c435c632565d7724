@@ -23,6 +23,29 @@
       "revId": "9cd51aff48ea35538125b179c435c632565d7724",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28cb8edf_73ea864a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-17T14:04:13Z",
+      "side": 1,
+      "message": "I swear this was an overeager search and replace and not an attempt at a bad pun.",
+      "range": {
+        "startLine": 42,
+        "startChar": 9,
+        "endLine": 42,
+        "endChar": 14
+      },
+      "revId": "9cd51aff48ea35538125b179c435c632565d7724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

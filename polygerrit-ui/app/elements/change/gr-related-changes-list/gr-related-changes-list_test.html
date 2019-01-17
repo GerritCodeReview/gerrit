@@ -467,6 +467,18 @@ limitations under the License.
       assert.isTrue(getUrlStub.called);
     });
 
+    test('_hideSameTopic', () => {
+      const sameTopic1 = [];
+      assert.deepEqual(element._hideSameTopic(sameTopic1), 'hidden');
+
+      const sameTopic2 = [
+        {
+          'topic': 'gerrit',
+        }
+      ];
+      assert.deepEqual(element._hideSameTopic(sameTopic2), 'hidden');
+    });
+
     suite('submitted together changes', () => {
       const change = {
         project: 'foo/bar',

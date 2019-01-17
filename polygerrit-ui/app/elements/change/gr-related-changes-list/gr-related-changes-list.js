@@ -190,7 +190,8 @@
     },
 
     _getChangesWithSameTopic() {
-      return this.$.restAPI.getChangesWithSameTopic(this.change.topic);
+      return this.$.restAPI.getChangesWithSameTopic(this.change.topic,
+          this.change._number);
     },
 
     /**
@@ -354,5 +355,13 @@
       const noun = n === 1 ? 'change' : 'changes';
       return `(+ ${n} non-visible ${noun})`;
     },
+
+    _hideSameTopic(topic) {
+      if (!topic.length) {
+        return 'hidden';
+      }
+
+      return '';
+    }
   });
 })();

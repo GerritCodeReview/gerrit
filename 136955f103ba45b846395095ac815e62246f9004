@@ -46,6 +46,30 @@
       "revId": "136955f103ba45b846395095ac815e62246f9004",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8bd6de5_5b816efc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-17T07:42:54Z",
+      "side": 1,
+      "message": "In which case we could add threshold on hit count to this REST endpoint to stop server to produce results that are discarded by this (and all other) Gerrit client.",
+      "parentUuid": "0b077c16_7a3f29f9",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "136955f103ba45b846395095ac815e62246f9004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

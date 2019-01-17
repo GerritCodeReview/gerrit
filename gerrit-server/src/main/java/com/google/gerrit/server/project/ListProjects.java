@@ -16,12 +16,11 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.toList;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -59,20 +58,19 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -302,14 +300,13 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     return apply();
   }
 
-  public SortedMap<String, ProjectInfo> apply()
-      throws BadRequestException, PermissionBackendException {
+  public SortedMap<String, ProjectInfo> apply() throws BadRequestException {
     format = OutputFormat.JSON;
     return display(null);
   }
 
   public SortedMap<String, ProjectInfo> display(@Nullable OutputStream displayOutputStream)
-      throws BadRequestException, PermissionBackendException {
+      throws BadRequestException {
     if (groupUuid != null) {
       try {
         if (!groupControlFactory.controlFor(groupUuid).isVisible()) {
@@ -320,10 +317,12 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       }
     }
 
-    PrintWriter stdout = null;
+    PrintWriter stdout;
     if (displayOutputStream != null) {
       stdout =
           new PrintWriter(new BufferedWriter(new OutputStreamWriter(displayOutputStream, UTF_8)));
+    } else {
+      stdout = null;
     }
 
     if (type == FilterType.PARENT_CANDIDATES) {
@@ -331,129 +330,121 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       showDescription = true;
     }
 
-    int foundIndex = 0;
-    int found = 0;
     TreeMap<String, ProjectInfo> output = new TreeMap<>();
     Map<String, String> hiddenNames = new HashMap<>();
     Map<Project.NameKey, Boolean> accessibleParents = new HashMap<>();
     PermissionBackend.WithUser perm = permissionBackend.user(currentUser);
     final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
     try {
-      for (Project.NameKey projectName : filter(perm)) {
-        final ProjectState e = projectCache.get(projectName);
-        if (e == null || (!all && e.getProject().getState() == HIDDEN)) {
-          // If we can't get it from the cache, pretend its not present.
-          // If all wasn't selected, and its HIDDEN, pretend its not present.
-          continue;
-        }
+      Stream<ProjectState> projects =
+          filter(perm).filter(Objects::nonNull).filter(this::isNotHidden);
 
-        final ProjectControl pctl = e.controlFor(currentUser);
-        if (groupUuid != null
-            && !pctl.getProjectState()
-                .getLocalGroups()
-                .contains(GroupReference.forGroup(groupsCollection.parseId(groupUuid.get())))) {
-          continue;
-        }
+      if (groupUuid != null) {
+        projects =
+            projects.filter(
+                e ->
+                    !e.controlFor(currentUser)
+                        .getProjectState()
+                        .getLocalGroups()
+                        .contains(
+                            GroupReference.forGroup(groupsCollection.parseId(groupUuid.get()))));
+      }
 
-        ProjectInfo info = new ProjectInfo();
-        if (showTree && !format.isJson()) {
-          treeMap.put(projectName, projectNodeFactory.create(pctl.getProject(), true));
-          continue;
-        }
+      if (showTree && !format.isJson()) {
+        projects.forEach(
+            e -> {
+              treeMap.put(
+                  e.getNameKey(),
+                  projectNodeFactory.create(e.controlFor(currentUser).getProject(), true));
+            });
 
-        info.name = projectName.get();
-        if (showTree && format.isJson()) {
-          ProjectState parent = Iterables.getFirst(e.parents(), null);
-          if (parent != null) {
-            if (isParentAccessible(accessibleParents, perm, parent)) {
-              info.parent = parent.getName();
-            } else {
-              info.parent = hiddenNames.get(parent.getName());
-              if (info.parent == null) {
-                info.parent = "?-" + (hiddenNames.size() + 1);
-                hiddenNames.put(parent.getName(), info.parent);
-              }
-            }
-          }
-        }
-
-        if (showDescription) {
-          info.description = Strings.emptyToNull(e.getProject().getDescription());
-        }
-        info.state = e.getProject().getState();
-
-        try {
-          if (!showBranch.isEmpty()) {
-            try (Repository git = repoManager.openRepository(projectName)) {
-              if (!type.matches(git)) {
-                continue;
-              }
-
-              List<Ref> refs = getBranchRefs(projectName, pctl);
-              if (!hasValidRef(refs)) {
-                continue;
-              }
-
-              for (int i = 0; i < showBranch.size(); i++) {
-                Ref ref = refs.get(i);
-                if (ref != null && ref.getObjectId() != null) {
-                  if (info.branches == null) {
-                    info.branches = new LinkedHashMap<>();
-                  }
-                  info.branches.put(showBranch.get(i), ref.getObjectId().name());
-                }
-              }
-            }
-          } else if (!showTree && type.useMatch()) {
-            try (Repository git = repoManager.openRepository(projectName)) {
-              if (!type.matches(git)) {
-                continue;
-              }
-            }
-          }
-        } catch (RepositoryNotFoundException err) {
-          // If the Git repository is gone, the project doesn't actually exist anymore.
-          continue;
-        } catch (IOException err) {
-          log.warn("Unexpected error reading " + projectName, err);
-          continue;
-        }
-
-        if (type != FilterType.PARENT_CANDIDATES) {
-          List<WebLinkInfo> links = webLinks.getProjectLinks(projectName.get());
-          info.webLinks = links.isEmpty() ? null : links;
-        }
-
-        if (foundIndex++ < start) {
-          continue;
-        }
-        if (limit > 0 && ++found > limit) {
-          break;
-        }
-
-        if (stdout == null || format.isJson()) {
-          output.put(info.name, info);
-          continue;
-        }
+      } else {
 
         if (!showBranch.isEmpty()) {
-          for (String name : showBranch) {
-            String ref = info.branches != null ? info.branches.get(name) : null;
-            if (ref == null) {
-              // Print stub (forty '-' symbols)
-              ref = "----------------------------------------";
-            }
-            stdout.print(ref);
-            stdout.print(' ');
-          }
+          projects =
+              projects
+                  .filter(this::matchesGitFilterType)
+                  .filter(p -> gitRepoHasValidRefs(p, p.controlFor(currentUser)));
+        } else if (!showTree && type.useMatch()) {
+          projects = projects.filter(this::matchesGitFilterType);
         }
-        stdout.print(info.name);
 
-        if (info.description != null) {
-          // We still want to list every project as one-liners, hence escaping \n.
-          stdout.print(" - " + StringUtil.escapeString(info.description));
+        projects = projects.skip(start);
+
+        if (limit > 0) {
+          projects = projects.limit(limit);
         }
-        stdout.print('\n');
+
+        projects.forEach(
+            projectState -> {
+              Project.NameKey projectName = projectState.getNameKey();
+
+              ProjectInfo info = new ProjectInfo();
+              info.name = projectName.get();
+              if (showTree && format.isJson()) {
+                ProjectState parent = Iterables.getFirst(projectState.parents(), null);
+                if (parent != null) {
+                  boolean parentAccessible = false;
+                  try {
+                    parentAccessible = isParentAccessible(accessibleParents, perm, parent);
+                  } catch (PermissionBackendException e) {
+                    log.warn(
+                        "Exception while checking parent permissions on project {}",
+                        projectName,
+                        e);
+                  }
+
+                  if (parentAccessible) {
+                    info.parent = parent.getName();
+                  } else {
+                    info.parent = hiddenNames.get(parent.getName());
+                    if (info.parent == null) {
+                      info.parent = "?-" + (hiddenNames.size() + 1);
+                      hiddenNames.put(parent.getName(), info.parent);
+                    }
+                  }
+                }
+              }
+
+              if (showDescription) {
+                info.description = Strings.emptyToNull(projectState.getProject().getDescription());
+              }
+              info.state = projectState.getProject().getState();
+
+              if (!showBranch.isEmpty()) {
+                extractBranches(projectState, info);
+              }
+
+              if (type != FilterType.PARENT_CANDIDATES) {
+                List<WebLinkInfo> links = webLinks.getProjectLinks(projectName.get());
+                info.webLinks = links.isEmpty() ? null : links;
+              }
+
+              if (stdout == null || format.isJson()) {
+                output.put(info.name, info);
+              } else {
+
+                if (!showBranch.isEmpty()) {
+                  for (String name : showBranch) {
+                    String ref = info.branches != null ? info.branches.get(name) : null;
+                    if (ref == null) {
+                      // Print stub (forty '-' symbols)
+                      ref = "----------------------------------------";
+                    }
+                    stdout.print(ref);
+                    stdout.print(' ');
+                  }
+                }
+                stdout.print(info.name);
+
+                if (info.description != null) {
+                  // We still want to list every project as one-liners, hence escaping
+                  // \n.
+                  stdout.print(" - " + StringUtil.escapeString(info.description));
+                }
+                stdout.print('\n');
+              }
+            });
       }
 
       for (ProjectInfo info : output.values()) {
@@ -478,31 +469,93 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     }
   }
 
-  private Collection<Project.NameKey> filter(PermissionBackend.WithUser perm)
-      throws BadRequestException, PermissionBackendException {
-    Collection<Project.NameKey> matches = Lists.newArrayList(scan());
+  private void extractBranches(ProjectState projectState, ProjectInfo info) {
+    Project.NameKey projectName = projectState.getNameKey();
+    try (Repository git = repoManager.openRepository(projectName)) {
+
+      List<Ref> refs = getBranchRefs(projectName, projectState.controlFor(currentUser));
+
+      for (int i = 0; i < showBranch.size(); i++) {
+        Ref ref = refs.get(i);
+        if (ref != null && ref.getObjectId() != null) {
+          if (info.branches == null) {
+            info.branches = new LinkedHashMap<>();
+          }
+          info.branches.put(showBranch.get(i), ref.getObjectId().name());
+        }
+      }
+    } catch (IOException error) {
+      log.warn("Error trying to extract branches for repository {}", projectName, error);
+    }
+  }
+
+  private boolean gitRepoHasValidRefs(ProjectState projectState, ProjectControl projectControl) {
+    Project.NameKey projectName = projectState.getNameKey();
+    try (Repository git = repoManager.openRepository(projectName)) {
+      List<Ref> refs = getBranchRefs(projectName, projectControl);
+      return hasValidRef(refs);
+    } catch (IOException e) {
+      log.warn("Error trying to extract branches for repository {}", projectName, log);
+      return false;
+    }
+  }
+
+  private boolean matchesGitFilterType(ProjectState projectState) {
+    Project.NameKey projectName = projectState.getNameKey();
+    try (Repository git = repoManager.openRepository(projectName)) {
+      return type.matches(git);
+    } catch (IOException e) {
+      log.warn("Unexpected error reading %s", projectName, e);
+      return false;
+    }
+  }
+
+  private boolean isNotHidden(ProjectState projectState) {
+    return (projectState.getProject().getState() != HIDDEN || all);
+  }
+
+  private Stream<ProjectState> filter(PermissionBackend.WithUser perm) throws BadRequestException {
+    Stream<Project.NameKey> matches = scan();
     if (type == FilterType.PARENT_CANDIDATES) {
       matches = parentsOf(matches);
     }
-    return perm.filter(ProjectPermission.ACCESS, matches).stream().sorted().collect(toList());
+
+    return matches
+        .map(nameKey -> projectCache.get(nameKey))
+        .filter(projectName -> isVisible(perm, projectName));
   }
 
-  private Collection<Project.NameKey> parentsOf(Collection<Project.NameKey> matches) {
-    Set<Project.NameKey> parents = new HashSet<>();
-    for (Project.NameKey p : matches) {
-      ProjectState ps = projectCache.get(p);
-      if (ps != null) {
-        Project.NameKey parent = ps.getProject().getParent();
-        if (parent != null) {
-          if (projectCache.get(parent) != null) {
-            parents.add(parent);
-          } else {
-            log.warn("parent project {} of project {} not found", parent.get(), ps.getName());
-          }
-        }
-      }
-    }
-    return parents;
+  private boolean isVisible(PermissionBackend.WithUser perm, ProjectState state) {
+    requireNonNull(state, () -> String.format("Failed to load project %s", state.getName()));
+
+    // Hidden projects(permitsRead = false) should only be accessible by the
+    // project owners.
+    // READ_CONFIG is checked here because it's only allowed to project
+    // owners(ACCESS may also
+    // be allowed for other users). Allowing project owners to access here will
+    // help them to view
+    // and update the config of hidden projects easily.
+    return perm.project(state.getNameKey()).testOrFalse(ProjectPermission.ACCESS);
+  }
+
+  private Stream<Project.NameKey> parentsOf(Stream<Project.NameKey> matches) {
+    return matches
+        .map(
+            p -> {
+              ProjectState ps = projectCache.get(p);
+              if (ps != null) {
+                Project.NameKey parent = ps.getProject().getParent();
+                if (parent != null) {
+                  if (projectCache.get(parent) != null) {
+                    return parent;
+                  }
+                  log.warn("parent project %s of project %s not found", parent.get(), ps.getName());
+                }
+              }
+              return null;
+            })
+        .filter(Objects::nonNull)
+        .distinct();
   }
 
   private boolean isParentAccessible(
@@ -522,15 +575,15 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     return b;
   }
 
-  private Iterable<Project.NameKey> scan() throws BadRequestException {
+  private Stream<Project.NameKey> scan() throws BadRequestException {
     if (matchPrefix != null) {
       checkMatchOptions(matchSubstring == null && matchRegex == null);
-      return projectCache.byName(matchPrefix);
+      return StreamSupport.stream(projectCache.byName(matchPrefix).spliterator(), false);
     } else if (matchSubstring != null) {
       checkMatchOptions(matchPrefix == null && matchRegex == null);
-      return Iterables.filter(
-          projectCache.all(),
-          p -> p.get().toLowerCase(Locale.US).contains(matchSubstring.toLowerCase(Locale.US)));
+      return StreamSupport.stream(projectCache.all().spliterator(), false)
+          .filter(
+              p -> p.get().toLowerCase(Locale.US).contains(matchSubstring.toLowerCase(Locale.US)));
     } else if (matchRegex != null) {
       checkMatchOptions(matchPrefix == null && matchSubstring == null);
       RegexListSearcher<Project.NameKey> searcher;
@@ -545,9 +598,10 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       } catch (IllegalArgumentException e) {
         throw new BadRequestException(e.getMessage());
       }
-      return searcher.search(ImmutableList.copyOf(projectCache.all()));
+      return StreamSupport.stream(
+          searcher.search(ImmutableList.copyOf(projectCache.all())).spliterator(), false);
     } else {
-      return projectCache.all();
+      return StreamSupport.stream(projectCache.all().spliterator(), false);
     }
   }
 

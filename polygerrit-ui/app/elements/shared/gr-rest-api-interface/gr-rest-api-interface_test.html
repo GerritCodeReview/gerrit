@@ -1043,7 +1043,7 @@ limitations under the License.
 
       element._cache.set(url, {});
 
-      element.invalidateGroupsCache('test', 25);
+      element.invalidateGroupsCache();
 
       assert.isUndefined(element._sharedFetchPromises[url]);
 

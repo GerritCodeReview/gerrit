@@ -38,6 +38,10 @@
     return getRestApi().getVersion();
   };
 
+  GrPluginRestApi.prototype.invalidateReposCache = function() {
+    getRestApi().invalidateReposCache();
+  };
+
   /**
    * Fetch and return native browser REST API Response.
    * @param {string} method HTTP Method (GET, POST, etc)

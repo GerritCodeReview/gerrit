@@ -242,7 +242,7 @@ public class RelatedChanges extends TabPanel {
               ListChangesOption.CURRENT_COMMIT,
               ListChangesOption.DETAILED_LABELS,
               ListChangesOption.LABELS),
-          new TabChangeListCallback(Tab.SAME_TOPIC, info.project(), revision));
+          new TabChangeListCallback(Tab.SAME_TOPIC, info.project(), revision, 1));
     }
   }
 
@@ -299,12 +299,18 @@ public class RelatedChanges extends TabPanel {
     private final Tab tabInfo;
     private final String project;
     private final String revision;
+    private final int threshold;
 
-    TabCallback(Tab tabInfo, String project, String revision) {
+    TabCallback(Tab tabInfo, String project, String revision, int threshold) {
       this.tabInfo = tabInfo;
       this.project = project;
       this.revision = revision;
+      this.threshold = threshold;
       outstandingCallbacks++;
+    }
+
+    TabCallback(Tab tabInfo, String project, String revision) {
+      this(tabInfo, project, revision, 0);
     }
 
     protected abstract JsArray<ChangeAndCommit> convert(T result);
@@ -313,11 +319,12 @@ public class RelatedChanges extends TabPanel {
     public void onSuccess(T result) {
       if (isAttached()) {
         JsArray<ChangeAndCommit> changes = convert(result);
-        if (changes.length() > 0) {
+        boolean show = changes.length() > threshold;
+        if (show) {
           setTabTitle(tabInfo, tabInfo.getTitle(changes.length()));
           getTab(tabInfo).setChanges(project, revision, changes);
         }
-        onDone(changes.length() > 0);
+        onDone(show);
       }
     }
 
@@ -354,6 +361,10 @@ public class RelatedChanges extends TabPanel {
   private class TabChangeListCallback extends TabCallback<ChangeList> {
     TabChangeListCallback(Tab tabInfo, String project, String revision) {
       super(tabInfo, project, revision);
+    }
+
+    TabChangeListCallback(Tab tabInfo, String project, String revision, int threshold) {
+      super(tabInfo, project, revision, threshold);
     }
 
     @Override

@@ -362,18 +362,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
         info.name = projectName.get();
         if (showTree && format.isJson()) {
-          ProjectState parent = Iterables.getFirst(e.parents(), null);
-          if (parent != null) {
-            if (isParentAccessible(accessibleParents, perm, parent)) {
-              info.parent = parent.getName();
-            } else {
-              info.parent = hiddenNames.get(parent.getName());
-              if (info.parent == null) {
-                info.parent = "?-" + (hiddenNames.size() + 1);
-                hiddenNames.put(parent.getName(), info.parent);
-              }
-            }
-          }
+          addParentProjectInfo(hiddenNames, accessibleParents, perm, e, info);
         }
 
         if (showDescription) {
@@ -388,32 +377,12 @@ public class ListProjects implements RestReadView<TopLevelResource> {
                 continue;
               }
 
-              boolean canReadAllRefs = e.statePermitsRead();
-              if (canReadAllRefs) {
-                try {
-                  permissionBackend
-                      .user(currentUser)
-                      .project(e.getNameKey())
-                      .check(ProjectPermission.READ);
-                } catch (AuthException exp) {
-                  canReadAllRefs = false;
-                }
-              }
-
-              List<Ref> refs = getBranchRefs(projectName, canReadAllRefs);
+              List<Ref> refs = retieveBranchRefs(e);
               if (!hasValidRef(refs)) {
                 continue;
               }
 
-              for (int i = 0; i < showBranch.size(); i++) {
-                Ref ref = refs.get(i);
-                if (ref != null && ref.getObjectId() != null) {
-                  if (info.branches == null) {
-                    info.branches = new LinkedHashMap<>();
-                  }
-                  info.branches.put(showBranch.get(i), ref.getObjectId().name());
-                }
-              }
+              addProjectBranchesInfo(info, refs);
             }
           } else if (!showTree && type.useMatch()) {
             try (Repository git = repoManager.openRepository(projectName)) {
@@ -446,15 +415,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         }
 
         if (!showBranch.isEmpty()) {
-          for (String name : showBranch) {
-            String ref = info.branches != null ? info.branches.get(name) : null;
-            if (ref == null) {
-              // Print stub (forty '-' symbols)
-              ref = "----------------------------------------";
-            }
-            stdout.print(ref);
-            stdout.print(' ');
-          }
+          printProjectBranches(stdout, info);
         }
         stdout.print(info.name);
 
@@ -483,6 +444,64 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     } finally {
       if (stdout != null) {
         stdout.flush();
+      }
+    }
+  }
+
+  private void printProjectBranches(PrintWriter stdout, ProjectInfo info) {
+    for (String name : showBranch) {
+      String ref = info.branches != null ? info.branches.get(name) : null;
+      if (ref == null) {
+        // Print stub (forty '-' symbols)
+        ref = "----------------------------------------";
+      }
+      stdout.print(ref);
+      stdout.print(' ');
+    }
+  }
+
+  private void addProjectBranchesInfo(ProjectInfo info, List<Ref> refs) {
+    for (int i = 0; i < showBranch.size(); i++) {
+      Ref ref = refs.get(i);
+      if (ref != null && ref.getObjectId() != null) {
+        if (info.branches == null) {
+          info.branches = new LinkedHashMap<>();
+        }
+        info.branches.put(showBranch.get(i), ref.getObjectId().name());
+      }
+    }
+  }
+
+  private List<Ref> retieveBranchRefs(ProjectState e) throws PermissionBackendException {
+    boolean canReadAllRefs = e.statePermitsRead();
+    if (canReadAllRefs) {
+      try {
+        permissionBackend.user(currentUser).project(e.getNameKey()).check(ProjectPermission.READ);
+      } catch (AuthException exp) {
+        canReadAllRefs = false;
+      }
+    }
+
+    return getBranchRefs(e.getNameKey(), canReadAllRefs);
+  }
+
+  private void addParentProjectInfo(
+      Map<String, String> hiddenNames,
+      Map<Project.NameKey, Boolean> accessibleParents,
+      PermissionBackend.WithUser perm,
+      ProjectState e,
+      ProjectInfo info)
+      throws PermissionBackendException {
+    ProjectState parent = Iterables.getFirst(e.parents(), null);
+    if (parent != null) {
+      if (isParentAccessible(accessibleParents, perm, parent)) {
+        info.parent = parent.getName();
+      } else {
+        info.parent = hiddenNames.get(parent.getName());
+        if (info.parent == null) {
+          info.parent = "?-" + (hiddenNames.size() + 1);
+          hiddenNames.put(parent.getName(), info.parent);
+        }
       }
     }
   }

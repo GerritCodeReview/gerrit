@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf2c6d16_f9603867",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-17T19:41:50Z",
+      "side": 1,
+      "message": "Optional: this is fine, but I think it would be shorter and maybe easier to read if you just created a new Config() and set exactly on field on it, then call assertTwoConfigsEquivalent.",
+      "revId": "a9bcb39bc9000bc1fd2d049d0eddeaf7ff77b0b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

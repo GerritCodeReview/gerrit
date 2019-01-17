@@ -467,6 +467,13 @@ limitations under the License.
       assert.isTrue(getUrlStub.called);
     });
 
+    test('_hideSameTopic', () => {
+      assert.deepEqual(element._hideSameTopic(false), 'hidden');
+      assert.deepEqual(element._hideSameTopic([]), 'hidden');
+      assert.deepEqual(element._hideSameTopic(['test']), 'hidden');
+      assert.deepEqual(element._hideSameTopic(['test', 'test']), '');
+    });
+
     suite('submitted together changes', () => {
       const change = {
         project: 'foo/bar',

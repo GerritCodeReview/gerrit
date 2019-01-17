@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb7caa1d_d8d911fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-17T14:19:49Z",
+      "side": 1,
+      "message": "I don\u0027t understand why is_owner\u003dundefined was causing a problem.\n\n$ let owner \u003d undefined;\n$ let deleteRef \u003d true;\n$ if (owner \u0026\u0026 !deleteRef || owner \u0026\u0026 deleteRef || deleteRef || owner) { console.log(\u0027success\u0027); }\nsuccess",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 78
+      },
+      "revId": "dc28efbd9f09afaf9323b3499c8357616ff92a08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a7042ab_16d5dd63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-17T14:19:49Z",
+      "side": 1,
+      "message": "This is referring to *subproperties*, which I think is not applicable here.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 0
+      },
+      "revId": "dc28efbd9f09afaf9323b3499c8357616ff92a08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e6bc75d_855341e0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-17T14:19:49Z",
+      "side": 1,
+      "message": "Maybe remove empty line 65.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 8
+      },
+      "revId": "dc28efbd9f09afaf9323b3499c8357616ff92a08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf0e3ff6_d2762c70",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-17T14:19:49Z",
+      "side": 1,
+      "message": "Even after reading through the referenced documentation, I don\u0027t understand why calling set() is required. Can you explain more or move this change to a separate change?",
+      "range": {
+        "startLine": 132,
+        "startChar": 14,
+        "endLine": 132,
+        "endChar": 40
+      },
+      "revId": "dc28efbd9f09afaf9323b3499c8357616ff92a08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f47a120_99cc0be3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-17T14:19:49Z",
+      "side": 1,
+      "message": "Typically _getItems() is called when one of the five parameters have changed, but this does not seem to be the case here. Can you add a comment to the code why calling _getItems() is required?",
+      "range": {
+        "startLine": 201,
+        "startChar": 10,
+        "endLine": 201,
+        "endChar": 25
+      },
+      "revId": "dc28efbd9f09afaf9323b3499c8357616ff92a08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d781a19b_2d264bcb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-17T14:19:49Z",
+      "side": 1,
+      "message": "Is this the same? If yes, then maybe simplify.\n\nif (canDelete || owner) {",
+      "range": {
+        "startLine": 251,
+        "startChar": 6,
+        "endLine": 251,
+        "endChar": 76
+      },
+      "revId": "dc28efbd9f09afaf9323b3499c8357616ff92a08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

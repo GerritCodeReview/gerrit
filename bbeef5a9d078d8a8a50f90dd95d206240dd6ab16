@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4773081d_0c107f9f",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-17T19:39:05Z",
+      "side": 1,
+      "message": "How about an assertion over the entire contents of the file? I thought that was the whole reason for splitting up the list into separate smaller lists, so you can mix and match them.",
+      "revId": "bbeef5a9d078d8a8a50f90dd95d206240dd6ab16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

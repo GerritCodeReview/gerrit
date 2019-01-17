@@ -46,6 +46,30 @@
       "revId": "641135af0b48c328f4355d92e374c7886903bcfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd5d19dd_d2ffbf0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-17T07:08:36Z",
+      "side": 1,
+      "message": "Changing the method name will break existing users, so I would prefer not to do that.",
+      "parentUuid": "5c0f9602_dbe8b628",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 9
+      },
+      "revId": "641135af0b48c328f4355d92e374c7886903bcfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

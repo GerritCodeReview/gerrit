@@ -243,16 +243,19 @@ public interface Groups {
       return this;
     }
 
+    /** Set an option on the request, appending to existing options. */
     public QueryRequest withOption(ListGroupsOption options) {
       this.options.add(options);
       return this;
     }
 
+    /** Set options on the request, appending to existing options. */
     public QueryRequest withOptions(ListGroupsOption... options) {
       this.options.addAll(Arrays.asList(options));
       return this;
     }
 
+    /** Set options on the request, replacing existing options. */
     public QueryRequest withOptions(EnumSet<ListGroupsOption> options) {
       this.options = options;
       return this;

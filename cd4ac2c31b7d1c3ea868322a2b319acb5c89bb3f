@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "74a08437_fee37515",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-17T21:23:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e7cd9e_86b66f1e",
+      "revId": "cd4ac2c31b7d1c3ea868322a2b319acb5c89bb3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99ff1de2_3aca46d8",
         "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "cd4ac2c31b7d1c3ea868322a2b319acb5c89bb3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f70e98d1_ada94f44",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-17T21:23:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99ff1de2_3aca46d8",
+      "revId": "cd4ac2c31b7d1c3ea868322a2b319acb5c89bb3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "18f7087b_9f9cdf70",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-17T21:23:53Z",
+      "side": 1,
+      "message": "We can, but that requires we pass in \"serverUser\" which is an injected variable.",
+      "parentUuid": "b2f5f2e4_08e4f233",
+      "revId": "cd4ac2c31b7d1c3ea868322a2b319acb5c89bb3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb24d59b_8299855e",
         "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
         "patchSetId": 2
@@ -93,6 +147,30 @@
     },
     {
       "key": {
+        "uuid": "b6f8d4e9_2653a674",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-17T21:23:53Z",
+      "side": 1,
+      "message": "great!",
+      "parentUuid": "bb24d59b_8299855e",
+      "range": {
+        "startLine": 171,
+        "startChar": 45,
+        "endLine": 171,
+        "endChar": 61
+      },
+      "revId": "cd4ac2c31b7d1c3ea868322a2b319acb5c89bb3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0000fa4_dd35c771",
         "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
         "patchSetId": 2
@@ -107,6 +185,24 @@
       "revId": "cd4ac2c31b7d1c3ea868322a2b319acb5c89bb3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9e36e36_6034b986",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-17T21:23:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0000fa4_dd35c771",
+      "revId": "cd4ac2c31b7d1c3ea868322a2b319acb5c89bb3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -133,6 +229,30 @@
     },
     {
       "key": {
+        "uuid": "7a299bb4_8ba7404a",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-17T21:23:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "802a446d_1a697abb",
+      "range": {
+        "startLine": 183,
+        "startChar": 2,
+        "endLine": 183,
+        "endChar": 9
+      },
+      "revId": "cd4ac2c31b7d1c3ea868322a2b319acb5c89bb3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16c46370_ebdcf3c0",
         "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
         "patchSetId": 2
@@ -147,6 +267,24 @@
       "revId": "cd4ac2c31b7d1c3ea868322a2b319acb5c89bb3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f79ad5d_ec13904b",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-17T21:23:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16c46370_ebdcf3c0",
+      "revId": "cd4ac2c31b7d1c3ea868322a2b319acb5c89bb3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

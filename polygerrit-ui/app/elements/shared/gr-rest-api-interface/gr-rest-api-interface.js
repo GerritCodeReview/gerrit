@@ -1605,7 +1605,7 @@
       this._invalidateSharedFetchPromisesPrefix('/groups/?');
     },
 
-    invalidateReposCache(filter, reposPerPage, opt_offset) {
+    invalidateReposCache() {
       this._invalidateSharedFetchPromisesPrefix('/projects/?');
     },
 

@@ -956,7 +956,7 @@ limitations under the License.
 
       element._cache.set(url, {});
 
-      element.invalidateReposCache('test', 25);
+      element.invalidateReposCache();
 
       assert.isUndefined(element._sharedFetchPromises[url]);
 

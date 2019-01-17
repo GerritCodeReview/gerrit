@@ -144,7 +144,7 @@ limitations under the License.
           </div>
         </template>
       </section>
-      <section hidden$="[[!_sameTopic.length]]" hidden>
+      <section class="[[_hideSameTopic(_sameTopic)]]" hidden$="[[!_sameTopic.length]]" hidden>
         <h4>Same topic</h4>
         <template is="dom-repeat" items="[[_sameTopic]]" as="change">
           <div>

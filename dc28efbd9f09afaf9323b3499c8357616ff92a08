@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a37e8c3d_69b846ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-17T15:32:30Z",
+      "side": 1,
+      "message": "Im not entirely sure (though note it goes through Polymer not directly through js).\n\nIe:\n\n              \u003ctd class\u003d\"delete\"\u003e\n                \u003cgr-button\n                    link\n                    class$\u003d\"deleteButton [[_computeHideDeleteClass(_isOwner, item.can_delete)]]\"\n                    on-tap\u003d\"_handleDeleteItem\"\u003e\n                  Delete\n                \u003c/gr-button\u003e\n              \u003c/td\u003e\n\nI found that undefined is not working (im not sure why exactly that is the case)",
+      "parentUuid": "bb7caa1d_d8d911fa",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 78
+      },
+      "revId": "dc28efbd9f09afaf9323b3499c8357616ff92a08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0a7042ab_16d5dd63",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "b023a6c1_3e1f4bc8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-17T15:32:30Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9e6bc75d_855341e0",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 8
+      },
+      "revId": "dc28efbd9f09afaf9323b3499c8357616ff92a08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf0e3ff6_d2762c70",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.js",
         "patchSetId": 16
@@ -91,6 +139,30 @@
       "revId": "dc28efbd9f09afaf9323b3499c8357616ff92a08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ab612cb_899f71b2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-17T15:32:30Z",
+      "side": 1,
+      "message": "Yup, dosen\u0027t seem to be required. (But set is used for when dealing with arrays).",
+      "parentUuid": "cf0e3ff6_d2762c70",
+      "range": {
+        "startLine": 132,
+        "startChar": 14,
+        "endLine": 132,
+        "endChar": 40
+      },
+      "revId": "dc28efbd9f09afaf9323b3499c8357616ff92a08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "2f02622b_c9f7ea89",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-17T15:32:30Z",
+      "side": 1,
+      "message": "Thanks, i\u0027ll leave a comment on why this is needed.",
+      "parentUuid": "6f47a120_99cc0be3",
+      "range": {
+        "startLine": 201,
+        "startChar": 10,
+        "endLine": 201,
+        "endChar": 25
+      },
+      "revId": "dc28efbd9f09afaf9323b3499c8357616ff92a08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d781a19b_2d264bcb",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.js",
         "patchSetId": 16
@@ -137,6 +233,30 @@
       "revId": "dc28efbd9f09afaf9323b3499c8357616ff92a08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90757064_4252448c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-17T15:32:30Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d781a19b_2d264bcb",
+      "range": {
+        "startLine": 251,
+        "startChar": 6,
+        "endLine": 251,
+        "endChar": 76
+      },
+      "revId": "dc28efbd9f09afaf9323b3499c8357616ff92a08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -354,5 +354,13 @@
       const noun = n === 1 ? 'change' : 'changes';
       return `(+ ${n} non-visible ${noun})`;
     },
+
+    _hideSameTopic(topic) {
+      if (!topic && !topic.length || topic.length === 1) {
+        return 'hidden';
+      }
+
+      return '';
+    }
   });
 })();

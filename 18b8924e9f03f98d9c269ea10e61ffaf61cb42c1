@@ -93,6 +93,30 @@
       "revId": "18b8924e9f03f98d9c269ea10e61ffaf61cb42c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "774b0296_14e9ae45",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-18T04:26:01Z",
+      "side": 1,
+      "message": "Seems doing that fails the lint tests.",
+      "parentUuid": "f1063600_ccff4f4b",
+      "range": {
+        "startLine": 249,
+        "startChar": 6,
+        "endLine": 249,
+        "endChar": 31
+      },
+      "revId": "18b8924e9f03f98d9c269ea10e61ffaf61cb42c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

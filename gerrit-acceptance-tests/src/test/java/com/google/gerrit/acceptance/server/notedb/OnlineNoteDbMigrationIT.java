@@ -61,6 +61,7 @@ import com.google.gerrit.server.notedb.rebuild.NotesMigrationStateListener;
 import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbMode;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -296,23 +297,10 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     Change.Id id1 = r1.getChange().getId();
     Change.Id id2 = r2.getChange().getId();
 
-    try (ReviewDb db = schemaFactory.open()) {
-      Change c1 = db.changes().get(id1);
-      c1.setNoteDbState(INVALID_STATE);
-      Change c2 = db.changes().get(id2);
-      c2.setNoteDbState(INVALID_STATE);
-      db.changes().update(ImmutableList.of(c1, c2));
-    }
-
+    invalidateNoteDbState(id1, id2);
     migrate(b -> b.setChanges(ImmutableList.of(id2)), NoteDbMigrator::rebuild);
-
-    try (ReviewDb db = schemaFactory.open()) {
-      NoteDbChangeState s1 = NoteDbChangeState.parse(db.changes().get(id1));
-      assertThat(s1.getChangeMetaId().name()).isEqualTo(INVALID_STATE);
-
-      NoteDbChangeState s2 = NoteDbChangeState.parse(db.changes().get(id2));
-      assertThat(s2.getChangeMetaId().name()).isNotEqualTo(INVALID_STATE);
-    }
+    assertNotRebuilt(id1);
+    assertRebuilt(id2);
   }
 
   @Test
@@ -327,23 +315,10 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     Change.Id id1 = r1.getChange().getId();
     Change.Id id2 = r2.getChange().getId();
 
-    try (ReviewDb db = schemaFactory.open()) {
-      Change c1 = db.changes().get(id1);
-      c1.setNoteDbState(INVALID_STATE);
-      Change c2 = db.changes().get(id2);
-      c2.setNoteDbState(INVALID_STATE);
-      db.changes().update(ImmutableList.of(c1, c2));
-    }
-
+    invalidateNoteDbState(id1, id2);
     migrate(b -> b.setProjects(ImmutableList.of(p2)), NoteDbMigrator::rebuild);
-
-    try (ReviewDb db = schemaFactory.open()) {
-      NoteDbChangeState s1 = NoteDbChangeState.parse(db.changes().get(id1));
-      assertThat(s1.getChangeMetaId().name()).isEqualTo(INVALID_STATE);
-
-      NoteDbChangeState s2 = NoteDbChangeState.parse(db.changes().get(id2));
-      assertThat(s2.getChangeMetaId().name()).isNotEqualTo(INVALID_STATE);
-    }
+    assertNotRebuilt(id1);
+    assertRebuilt(id2);
   }
 
   @Test
@@ -362,27 +337,39 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     Change.Id id2 = r2.getChange().getId();
     Change.Id id3 = r3.getChange().getId();
 
-    try (ReviewDb db = schemaFactory.open()) {
-      Change c1 = db.changes().get(id1);
-      c1.setNoteDbState(INVALID_STATE);
-      Change c2 = db.changes().get(id2);
-      c2.setNoteDbState(INVALID_STATE);
-      Change c3 = db.changes().get(id3);
-      c3.setNoteDbState(INVALID_STATE);
-      db.changes().update(ImmutableList.of(c1, c2, c3));
-    }
-
+    invalidateNoteDbState(id1, id2, id3);
     migrate(b -> b.setSkipProjects(ImmutableList.of(p3)), NoteDbMigrator::rebuild);
+    assertRebuilt(id1, id2);
+    assertNotRebuilt(id3);
+  }
 
+  private void invalidateNoteDbState(Change.Id... ids) throws OrmException {
+    List<Change> list = new ArrayList<>(ids.length);
     try (ReviewDb db = schemaFactory.open()) {
-      NoteDbChangeState s1 = NoteDbChangeState.parse(db.changes().get(id1));
-      assertThat(s1.getChangeMetaId().name()).isNotEqualTo(INVALID_STATE);
+      for (Change.Id id : ids) {
+        Change c = db.changes().get(id);
+        c.setNoteDbState(INVALID_STATE);
+        list.add(c);
+      }
+      db.changes().update(list);
+    }
+  }
 
-      NoteDbChangeState s2 = NoteDbChangeState.parse(db.changes().get(id2));
-      assertThat(s2.getChangeMetaId().name()).isNotEqualTo(INVALID_STATE);
+  private void assertRebuilt(Change.Id... ids) throws OrmException {
+    try (ReviewDb db = schemaFactory.open()) {
+      for (Change.Id id : ids) {
+        NoteDbChangeState s = NoteDbChangeState.parse(db.changes().get(id));
+        assertThat(s.getChangeMetaId().name()).isNotEqualTo(INVALID_STATE);
+      }
+    }
+  }
 
-      NoteDbChangeState s3 = NoteDbChangeState.parse(db.changes().get(id3));
-      assertThat(s3.getChangeMetaId().name()).isEqualTo(INVALID_STATE);
+  private void assertNotRebuilt(Change.Id... ids) throws OrmException {
+    try (ReviewDb db = schemaFactory.open()) {
+      for (Change.Id id : ids) {
+        NoteDbChangeState s = NoteDbChangeState.parse(db.changes().get(id));
+        assertThat(s.getChangeMetaId().name()).isEqualTo(INVALID_STATE);
+      }
     }
   }
 

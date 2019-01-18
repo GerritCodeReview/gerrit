@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
@@ -48,7 +47,8 @@ public class Reachable {
   }
 
   /** @return true if a commit is reachable from a given set of refs. */
-  public boolean fromRefs(NameKey project, Repository repo, RevCommit commit, List<Ref> refs) {
+  public boolean fromRefs(
+      Project.NameKey project, Repository repo, RevCommit commit, List<Ref> refs) {
     try (RevWalk rw = new RevWalk(repo)) {
       Map<String, Ref> filtered =
           permissionBackend

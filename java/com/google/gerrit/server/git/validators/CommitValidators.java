@@ -32,7 +32,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -158,7 +157,7 @@ public class CommitValidators {
 
     public CommitValidators forGerritCommits(
         PermissionBackend.ForProject forProject,
-        NameKey branch,
+        Branch.NameKey branch,
         IdentifiedUser user,
         SshInfo sshInfo,
         RevWalk rw,

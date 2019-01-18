@@ -20,7 +20,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.reviewdb.client.Account.Id;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.restapi.config.ListCapabilities;
@@ -88,7 +88,7 @@ public class ListCapabilitiesTest extends GerritBaseTests {
     }
 
     @Override
-    public WithUser absentUser(Id id) {
+    public WithUser absentUser(Account.Id id) {
       throw new UnsupportedOperationException();
     }
 

@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
@@ -125,13 +125,13 @@ public class DefaultQuotaBackend implements QuotaBackend {
     }
 
     @Override
-    public QuotaBackend.WithResource project(NameKey project) {
+    public QuotaBackend.WithResource project(Project.NameKey project) {
       QuotaRequestContext ctx = requestContext.toBuilder().project(project).build();
       return new WithResource(quotaEnforcers, ctx);
     }
 
     @Override
-    public QuotaBackend.WithResource change(Change.Id change, NameKey project) {
+    public QuotaBackend.WithResource change(Change.Id change, Project.NameKey project) {
       QuotaRequestContext ctx = requestContext.toBuilder().change(change).project(project).build();
       return new WithResource(quotaEnforcers, ctx);
     }

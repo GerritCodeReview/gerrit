@@ -50,7 +50,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -574,7 +573,7 @@ public class Preferences {
       }
 
       int i = 1;
-      for (Entry<String, String> e : urlAliases.entrySet()) {
+      for (Map.Entry<String, String> e : urlAliases.entrySet()) {
         cfg.setString(URL_ALIAS, URL_ALIAS + i, KEY_MATCH, e.getKey());
         cfg.setString(URL_ALIAS, URL_ALIAS + i, KEY_TOKEN, e.getValue());
         i++;

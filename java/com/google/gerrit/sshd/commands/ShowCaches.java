@@ -47,7 +47,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
-import java.util.Map.Entry;
 import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.mina.MinaSession;
@@ -267,7 +266,7 @@ final class ShowCaches extends SshCommand {
         stdout.print(String.format(" %14s", s.name()));
       }
       stdout.print('\n');
-      for (Entry<String, Map<Thread.State, Integer>> e : threadSummary.counts.entrySet()) {
+      for (Map.Entry<String, Map<Thread.State, Integer>> e : threadSummary.counts.entrySet()) {
         stdout.print(String.format("  %-22s", e.getKey()));
         for (Thread.State s : Thread.State.values()) {
           stdout.print(String.format(" %14d", nullToZero(e.getValue().get(s))));

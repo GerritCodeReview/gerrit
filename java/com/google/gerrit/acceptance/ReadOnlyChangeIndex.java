@@ -19,7 +19,7 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.reviewdb.client.Change.Id;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
@@ -51,7 +51,7 @@ class ReadOnlyChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public void delete(Id key) throws IOException {
+  public void delete(Change.Id key) throws IOException {
     // do nothing
   }
 

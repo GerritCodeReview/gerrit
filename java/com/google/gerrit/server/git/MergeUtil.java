@@ -41,7 +41,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -575,7 +574,7 @@ public class MergeUtil {
    * @return new message
    */
   public String createCommitMessageOnSubmit(
-      RevCommit n, RevCommit mergeTip, ChangeNotes notes, Id id) {
+      RevCommit n, RevCommit mergeTip, ChangeNotes notes, PatchSet.Id id) {
     return commitMessageGenerator.generate(
         n, mergeTip, notes.getChange().getDest(), createDetailedCommitMessage(n, notes, id));
   }

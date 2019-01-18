@@ -40,7 +40,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.converter.ChangeProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
@@ -181,7 +180,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   }
 
   @Override
-  protected String getDeleteActions(Id c) {
+  protected String getDeleteActions(Change.Id c) {
     if (client.adapter().usePostV5Type()) {
       return delete(ElasticQueryAdapter.POST_V5_TYPE, c);
     }

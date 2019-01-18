@@ -110,7 +110,6 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.ValidationError;
-import com.google.gerrit.server.git.receive.ResultChangeIds.Key;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.RefOperationValidationException;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
@@ -810,8 +809,10 @@ class ReceiveCommits {
       replaceByChange
           .values()
           .stream()
-          .forEach(req -> resultChangeIds.add(Key.REPLACED, req.ontoChange));
-      newChanges.stream().forEach(req -> resultChangeIds.add(Key.CREATED, req.changeId));
+          .forEach(req -> resultChangeIds.add(ResultChangeIds.Key.REPLACED, req.ontoChange));
+      newChanges
+          .stream()
+          .forEach(req -> resultChangeIds.add(ResultChangeIds.Key.CREATED, req.changeId));
 
       if (magicBranchCmd != null) {
         magicBranchCmd.setResult(OK);
@@ -3176,7 +3177,7 @@ class ReceiveCommits {
             // If we are here, we didn't throw UpdateException. Record the result.
             // The ordering is indeterminate due to the HashSet; unfortunately, Change.Id doesn't
             // fit into TreeSet.
-            ids.stream().forEach(id -> resultChangeIds.add(Key.AUTOCLOSED, id));
+            ids.stream().forEach(id -> resultChangeIds.add(ResultChangeIds.Key.AUTOCLOSED, id));
 
             return null;
           },

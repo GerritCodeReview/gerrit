@@ -21,7 +21,6 @@ import static java.util.stream.Collectors.toSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -55,7 +54,7 @@ public class PublishCommentUtil {
       return;
     }
 
-    Map<Id, PatchSet> patchSets =
+    Map<PatchSet.Id, PatchSet> patchSets =
         psUtil.getAsMap(notes, drafts.stream().map(d -> psId(notes, d)).collect(toSet()));
     for (Comment d : drafts) {
       PatchSet ps = patchSets.get(psId(notes, d));

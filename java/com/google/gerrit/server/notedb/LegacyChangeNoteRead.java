@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.Comment.Key;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -71,7 +70,7 @@ public class LegacyChangeNoteRead {
     if (p.value >= note.length) {
       return ImmutableList.of();
     }
-    Set<Key> seen = new HashSet<>();
+    Set<Comment.Key> seen = new HashSet<>();
     List<Comment> result = new ArrayList<>();
     int sizeOfNote = note.length;
     byte[] psb = ChangeNoteUtil.PATCH_SET.getBytes(UTF_8);

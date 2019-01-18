@@ -25,7 +25,6 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_PRAGMA;
 
 import com.google.gerrit.common.Version;
 import com.google.gerrit.server.tools.ToolsCatalog;
-import com.google.gerrit.server.tools.ToolsCatalog.Entry;
 import com.google.gerrit.util.http.RequestUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -50,7 +49,7 @@ public class ToolServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-    Entry ent = toc.get(req.getPathInfo());
+    ToolsCatalog.Entry ent = toc.get(req.getPathInfo());
     if (ent == null) {
       rsp.sendError(SC_NOT_FOUND);
       return;
@@ -71,7 +70,7 @@ public class ToolServlet extends HttpServlet {
     }
   }
 
-  private void doGetFile(Entry ent, HttpServletResponse rsp) throws IOException {
+  private void doGetFile(ToolsCatalog.Entry ent, HttpServletResponse rsp) throws IOException {
     byte[] tosend = ent.getBytes();
 
     rsp.setDateHeader(HDR_EXPIRES, 0L);
@@ -84,8 +83,8 @@ public class ToolServlet extends HttpServlet {
     }
   }
 
-  private void doGetDirectory(Entry ent, HttpServletRequest req, HttpServletResponse rsp)
-      throws IOException {
+  private void doGetDirectory(
+      ToolsCatalog.Entry ent, HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     String path = "/tools/" + ent.getPath();
     Document page = newDocument();
 
@@ -108,9 +107,9 @@ public class ToolServlet extends HttpServlet {
     Element ul = page.createElement("ul");
     body.appendChild(ul);
 
-    for (Entry e : ent.getChildren()) {
+    for (ToolsCatalog.Entry e : ent.getChildren()) {
       String name = e.getName();
-      if (e.getType() == Entry.Type.DIR && !name.endsWith("/")) {
+      if (e.getType() == ToolsCatalog.Entry.Type.DIR && !name.endsWith("/")) {
         name += "/";
       }
 

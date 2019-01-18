@@ -131,6 +131,14 @@ This plugin provides a group per user. This is useful to assign access
 rights directly to a single user, since in Gerrit access rights can
 only be assigned to groups.
 
+[[gitiles]]
+=== gitiles
+
+Plugin running Gitiles alongside a Gerrit server.
+
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/gitiles[
+Project]
+
 [[other-plugins]]
 == Other Plugins
 
@@ -262,14 +270,6 @@ Project]
 Plugin to integrate with GitHub: replication, pull-request to Change-Sets
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/github[
-Project]
-
-[[gitiles]]
-=== gitiles
-
-Plugin running Gitiles alongside a Gerrit server.
-
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/gitiles[
 Project]
 
 [[imagare]]

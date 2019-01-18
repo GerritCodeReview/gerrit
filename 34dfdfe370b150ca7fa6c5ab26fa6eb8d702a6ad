@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2ae497a_dd9a5b12",
+        "filename": "ReleaseNotes/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-18T11:44:36Z",
+      "side": 0,
+      "message": "Why is this removed?",
+      "revId": "34dfdfe370b150ca7fa6c5ab26fa6eb8d702a6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6331e287_ad78a2cf",
+        "filename": "ReleaseNotes/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-18T11:44:36Z",
+      "side": 0,
+      "message": "Why is this removed?",
+      "revId": "34dfdfe370b150ca7fa6c5ab26fa6eb8d702a6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

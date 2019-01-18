@@ -1,0 +1,70 @@
+java_library(
+    name = "gitiles",
+    visibility = ["//visibility:public"],
+    exports = [
+        ":autolink",
+        ":cm-autolink",
+        ":commonmark",
+        ":commons-text",
+        ":gfm-strikethrough",
+        ":gfm-tables",
+        ":gitiles-servlet",
+        ":prettify",
+    ],
+)
+
+java_library(
+    name = "autolink",
+    data = ["//lib:LICENSE-autolink"],
+    visibility = ["//visibility:public"],
+    exports = ["@autolink//jar"],
+)
+
+java_library(
+    name = "cm-autolink",
+    data = ["//lib:LICENSE-commonmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@cm-autolink//jar"],
+)
+
+java_library(
+    name = "commons-text",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@commons-text//jar"],
+)
+
+java_library(
+    name = "commonmark",
+    data = ["//lib:LICENSE-commonmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@autolink//jar"],
+)
+
+java_library(
+    name = "gfm-strikethrough",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@gfm-strikethrough//jar"],
+)
+
+java_library(
+    name = "gfm-tables",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@gfm-tables//jar"],
+)
+
+java_library(
+    name = "gitiles-servlet",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@gitiles-servlet//jar"],
+)
+
+java_library(
+    name = "prettify",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@prettify//jar"],
+)

@@ -232,9 +232,13 @@ public class RelatedChanges extends TabPanel {
     if (!Gerrit.info().change().isSubmitWholeTopicEnabled()
         && info.topic() != null
         && !"".equals(info.topic())) {
-      StringBuilder topicQuery = new StringBuilder();
-      topicQuery.append("status:open");
-      topicQuery.append(" ").append(op("topic", info.topic()));
+      StringBuilder topicQuery =
+          new StringBuilder()
+              .append("status:open")
+              .append(" ")
+              .append(op("-change", info.legacyId().get()))
+              .append(" ")
+              .append(op("topic", info.topic()));
       ChangeList.query(
           topicQuery.toString(),
           EnumSet.of(

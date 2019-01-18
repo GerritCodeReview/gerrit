@@ -303,6 +303,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "commons-text",
+    artifact = "org.apache.commons:commons-text:1.2",
+    sha1 = "74acdec7237f576c4803fff0c1008ab8a3808b2b",
+)
+
+maven_jar(
     name = "commons-dbcp",
     artifact = "commons-dbcp:commons-dbcp:1.4",
     sha1 = "30be73c965cc990b153a100aaaaafcf239f82d39",
@@ -332,6 +338,33 @@ maven_jar(
     name = "automaton",
     artifact = "dk.brics:automaton:1.12-1",
     sha1 = "959a0c62f9a5c2309e0ad0b0589c74d69e101241",
+)
+
+COMMONMARK_VERS = "0.10.0"
+
+# commonmark must match the version used in Gitiles
+maven_jar(
+    name = "commonmark",
+    artifact = "com.atlassian.commonmark:commonmark:" + COMMONMARK_VERS,
+    sha1 = "119cb7bedc3570d9ecb64ec69ab7686b5c20559b",
+)
+
+maven_jar(
+    name = "cm-autolink",
+    artifact = "com.atlassian.commonmark:commonmark-ext-autolink:" + COMMONMARK_VERS,
+    sha1 = "a6056a5efbd68f57d420bc51bbc54b28a5d3c56b",
+)
+
+maven_jar(
+    name = "gfm-strikethrough",
+    artifact = "com.atlassian.commonmark:commonmark-ext-gfm-strikethrough:" + COMMONMARK_VERS,
+    sha1 = "40837da951b421b545edddac57012e15fcc9e63c",
+)
+
+maven_jar(
+    name = "gfm-tables",
+    artifact = "com.atlassian.commonmark:commonmark-ext-gfm-tables:" + COMMONMARK_VERS,
+    sha1 = "c075db2a3301100cf70c7dced8ecf86b494458a2",
 )
 
 FLEXMARK_VERS = "0.34.18"
@@ -486,7 +519,7 @@ maven_jar(
     sha1 = "31e2e1fbe8273d7c913506eafeb06b1a7badb062",
 )
 
-# Transitive dependency of flexmark
+# Transitive dependency of flexmark and gitiles
 maven_jar(
     name = "autolink",
     artifact = "org.nibor.autolink:autolink:0.7.0",
@@ -669,12 +702,28 @@ maven_jar(
     sha1 = "f7be08ec23c21485b9b5a1cf1654c2ec8c58168d",
 )
 
+GITILES_VERS = "0.2-7"
+
 maven_jar(
     name = "blame-cache",
-    artifact = "com/google/gitiles:blame-cache:0.2-7",
+    artifact = "com.google.gitiles:blame-cache:" + GITILES_VERS,
     attach_source = False,
     repository = GERRIT,
     sha1 = "8170f33b8b1db6f55e41d7069fa050a4d102a62b",
+)
+
+maven_jar(
+    name = "gitiles-servlet",
+    artifact = "com.google.gitiles:gitiles-servlet:" + GITILES_VERS,
+    repository = GERRIT,
+    sha1 = "f23b22cb27fe5c4a78f761492082159d17873f57",
+)
+
+# prettify must match the version used in Gitiles
+maven_jar(
+    name = "prettify",
+    artifact = "com.github.twalcari:java-prettify:1.2.2",
+    sha1 = "b8ba1c1eb8b2e45cfd465d01218c6060e887572e",
 )
 
 # Keep this version of Soy synchronized with the version used in Gitiles.

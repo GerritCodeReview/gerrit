@@ -1,6 +1,6 @@
 include_defs('//lib/maven.defs')
 
-REPO = ECLIPSE # Leave here even if set to MAVEN_CENTRAL.
+REPO = MAVEN_CENTRAL # Leave here even if set to MAVEN_CENTRAL.
 VERS = '4.5.5.201812240535-r'
 
 maven_jar(

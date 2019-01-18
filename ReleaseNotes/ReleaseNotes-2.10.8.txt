@@ -1,0 +1,39 @@
+Release notes for Gerrit 2.10.8
+===============================
+
+There are no schema changes from link:ReleaseNotes-2.10.7.html[2.10.7].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.8.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.10.8.war]
+
+Bug Fixes
+---------
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=10262[Issue 10262]: Fix validation of wants in git-upload-pack for protocol v0 stateless transports.
++
+See the following section for details.
+
+* Upgrade JGit to 4.5.5.201812240535-r.
++
+This upgrade includes several major versions since 4.0.0 used in Gerrit version 2.10.7.
+Important fixes are summarized below. Please refer to the corresponding JGit release notes for full details.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/4.5.5[JGit 4.5.5]: link:https://bugs.chromium.org/p/gerrit/issues/detail?id=10262[Issue 10262]: Fix validation of wants in git-upload-pack for protocol v0 stateless transports.
++
+AdvertiseRefsHook was not called for git-upload-pack in protocol v0 stateless transports, meaning that wants were not validated and a user could fetch anything that is pointed to by any ref (using fetch-by-sha1), as long as they could guess the object name.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/4.5.4[JGit 4.5.4]: Fix LockFile semantics when running on NFS.
++
+Honor trustFolderStats also when reading packed-refs.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/4.5.3[JGit 4.5.3]: Fix exception handling for opening bitmap index files.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/4.5.2[JGit 4.5.2]: Fix pack marked as corrupted even if it isn’t.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/4.5.1[JGit 4.5.1]: Don’t remove Pack when FileNotFoundException is transient.
+
+** link:https://projects.eclipse.org/projects/technology.jgit/releases/4.1.0[JGit 4.1.0]: Handle stale NFS file handles on packed-refs file.
++
+Use java.io.File instead of NIO to check existence of loose objects in ObjectDirectory to speed up inserting of loose objects.
+Reduce memory consumption when creating bitmaps during writing pack files.

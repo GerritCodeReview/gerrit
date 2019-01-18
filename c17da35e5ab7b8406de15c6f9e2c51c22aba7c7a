@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2079422_88a72fa2",
+        "filename": ".gitmodules",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-18T23:57:35Z",
+      "side": 1,
+      "message": "Indent with tabs consistently with the rest of the file",
+      "revId": "c17da35e5ab7b8406de15c6f9e2c51c22aba7c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

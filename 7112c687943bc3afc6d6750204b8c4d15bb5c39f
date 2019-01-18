@@ -46,6 +46,30 @@
       "revId": "7112c687943bc3afc6d6750204b8c4d15bb5c39f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8600b719_4f9d9cc2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 1898,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-18T00:46:13Z",
+      "side": 1,
+      "message": "It works as expected with 1 change, because it removes the current change.\n\nHowever for 2 or more changes, it shows all the other changes but not the current change.  This is the unexpected behavior change.  The expected behavior is to show *all* changes on the topic, *except* when the only change is the current change.\n\nSee how it looks in the GWT UI (without any patch applied) [1] compared to PG with this patch applied [2].\n\n[1] https://imgur.com/a/7A7qDXi\n[2] https://imgur.com/a/qMKs2Y6",
+      "parentUuid": "95b4fb08_c2784c93",
+      "range": {
+        "startLine": 1898,
+        "startChar": 8,
+        "endLine": 1898,
+        "endChar": 31
+      },
+      "revId": "7112c687943bc3afc6d6750204b8c4d15bb5c39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

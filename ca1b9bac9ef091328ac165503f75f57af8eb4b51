@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ee1c104_f9d1cec3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-18T20:21:03Z",
+      "side": 1,
+      "message": "Optional: instead of using forEach to populate sorted map, sorted map can be created using extended Collections.toMap collector version, that is accepting 4 parameters: keyMapper, valueMapper, mergeFunction and mapSupplier. Unfortunately, Collectors.throwingMerger() is private and cannot be used directly as mergeFunction. When we copy it into this class or in some other utility class location, then this can be rewritten as:\n\n   TreeMap\u003cProject.NameKey, ProjectNode\u003e treeMap \u003d\n        projects.collect(\n            Collectors.toMap(\n                ProjectState::getNameKey,\n                e -\u003e projectNodeFactory.create(e.controlFor(currentUser).getProject(), true),\n                throwingMerger(),\n                TreeMap::new));",
+      "range": {
+        "startLine": 354,
+        "startChar": 8,
+        "endLine": 359,
+        "endChar": 15
+      },
+      "revId": "ca1b9bac9ef091328ac165503f75f57af8eb4b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a90f15f_1dd46381",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-18T20:21:03Z",
+      "side": 1,
+      "message": "It seems that we can just merge the treeMap output lines below into the if branch above:\n\n  if (showTree \u0026\u0026 !format.isJson()) {\n    TreeMap\u003cProject.NameKey, ProjectNode\u003e treeMap \u003d [...]\n    if (treeMap.size() \u003e 0) {\n          printProjectTree(stdout, treeMap);\n    }\n    return null;\n  }\n\nAnd of course the two lines at the end of the method that are invoking printProjectTree could be removed. The big advantage doing it that way, is that with earlier return we can eliminate long else branch and dedent the whole code below this if-statement. Another benefit, we can reduce the scope of treeMap variable to this branch only.",
+      "range": {
+        "startLine": 361,
+        "startChar": 6,
+        "endLine": 361,
+        "endChar": 14
+      },
+      "revId": "ca1b9bac9ef091328ac165503f75f57af8eb4b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8352554b_942b456d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-18T20:21:03Z",
+      "side": 1,
+      "message": "It seems that in the base version there are similar skip and limit logic on lines 427 and 430, using foundIndex++ \u003c start and ++found \u003e limit conditions. The question is why with streams it it more effective, as per your report it boosted the performance by factor 20? Or, the optimization logic in the base version has some flaw? But then it could be probably fixed without re-writing the whole method with streams?",
+      "range": {
+        "startLine": 372,
+        "startChar": 8,
+        "endLine": 376,
+        "endChar": 9
+      },
+      "revId": "ca1b9bac9ef091328ac165503f75f57af8eb4b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "818ff43b_a7efe579",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-18T20:21:03Z",
+      "side": 1,
+      "message": "As pointed out in Item 45 of Effective Java (3rd edition): Use streams judiciously. Here, it smells as Stream abuse actually, because all we want is to skip and limit, isn\u0027t it? What if we would just collect to list and iterate over it at this location:\n\n  List\u003cProjectState\u003e states \u003d projects.collect(Collectors.toList());\n  for (ProjectState projectState : states) {\n    Project.NameKey projectName \u003d projectState.getNameKey();\n    [...]\n\nThe code should be equivalent. But the again the question is, what is wrong with skip and limit with the base version?",
+      "range": {
+        "startLine": 378,
+        "startChar": 8,
+        "endLine": 378,
+        "endChar": 25
+      },
+      "revId": "ca1b9bac9ef091328ac165503f75f57af8eb4b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

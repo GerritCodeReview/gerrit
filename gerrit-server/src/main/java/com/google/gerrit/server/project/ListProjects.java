@@ -394,15 +394,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
                 continue;
               }
 
-              for (int i = 0; i < showBranch.size(); i++) {
-                Ref ref = refs.get(i);
-                if (ref != null && ref.getObjectId() != null) {
-                  if (info.branches == null) {
-                    info.branches = new LinkedHashMap<>();
-                  }
-                  info.branches.put(showBranch.get(i), ref.getObjectId().name());
-                }
-              }
+              extractBranches(e, info);
             }
           } else if (!showTree && type.useMatch()) {
             try (Repository git = repoManager.openRepository(projectName)) {
@@ -475,6 +467,26 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       if (stdout != null) {
         stdout.flush();
       }
+    }
+  }
+
+  private void extractBranches(ProjectState projectState, ProjectInfo info) {
+    Project.NameKey projectName = projectState.getNameKey();
+    try (Repository git = repoManager.openRepository(projectName)) {
+
+      List<Ref> refs = getBranchRefs(projectName, projectState.controlFor(currentUser));
+
+      for (int i = 0; i < showBranch.size(); i++) {
+        Ref ref = refs.get(i);
+        if (ref != null && ref.getObjectId() != null) {
+          if (info.branches == null) {
+            info.branches = new LinkedHashMap<>();
+          }
+          info.branches.put(showBranch.get(i), ref.getObjectId().name());
+        }
+      }
+    } catch (IOException error) {
+      log.warn("Error trying to extract branches for repository {}", projectName, error);
     }
   }
 

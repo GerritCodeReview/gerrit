@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4ba8891f_527459a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-18T03:50:47Z",
+      "side": 1,
+      "message": "I doin\u0027t think it\u0027s too much work. Rather im not sure how to test this.",
+      "parentUuid": "37838155_fa8746bd",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "18b8924e9f03f98d9c269ea10e61ffaf61cb42c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b7233012_0398609d",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.js",
         "patchSetId": 18

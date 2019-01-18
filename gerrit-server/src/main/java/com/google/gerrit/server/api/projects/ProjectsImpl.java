@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.server.project.ListProjects.FilterType;
 import com.google.gerrit.server.project.ProjectsCollection;
@@ -88,8 +87,7 @@ class ProjectsImpl implements Projects {
     };
   }
 
-  private SortedMap<String, ProjectInfo> list(ListRequest request)
-      throws RestApiException, PermissionBackendException {
+  private SortedMap<String, ProjectInfo> list(ListRequest request) throws RestApiException {
     ListProjects lp = listProvider.get();
     lp.setShowDescription(request.getDescription());
     lp.setLimit(request.getLimit());

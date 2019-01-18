@@ -94,6 +94,30 @@
       "revId": "136955f103ba45b846395095ac815e62246f9004",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "514ca21a_a28cd48e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-18T08:41:05Z",
+      "side": 1,
+      "message": "This has been reworked to use the same idea as in PG.",
+      "parentUuid": "34e2a08d_d63cfe8f",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "136955f103ba45b846395095ac815e62246f9004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

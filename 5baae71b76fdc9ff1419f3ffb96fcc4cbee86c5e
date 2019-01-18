@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbdbf0a2_83b4c8da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-18T07:35:41Z",
+      "side": 1,
+      "message": "What is the root cause for this regression? Have you tried to bisect? Or is it just increase of number of projects on production site? Why it works/worked as expected in older gerrit releases?",
+      "revId": "5baae71b76fdc9ff1419f3ffb96fcc4cbee86c5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

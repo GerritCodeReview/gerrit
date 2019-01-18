@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4bf269ad_6cf485e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-18T23:45:36Z",
+      "side": 1,
+      "message": "This part of the code cannot be optimized anyway :-(\nIt seems that the use with a treeMap never took into consideration the start/limit parameters.\n\nWhoever is calling the ListProjects returning a treeMap is in danger to break the JVM for large scale installations.\n\nUsing streams or not, doesn\u0027t make any difference here: we\u0027ll always do the full navigation of all projects, regardless :-(",
+      "parentUuid": "4ee1c104_f9d1cec3",
+      "range": {
+        "startLine": 354,
+        "startChar": 8,
+        "endLine": 359,
+        "endChar": 15
+      },
+      "revId": "ca1b9bac9ef091328ac165503f75f57af8eb4b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a90f15f_1dd46381",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 13
@@ -45,6 +69,30 @@
       "revId": "ca1b9bac9ef091328ac165503f75f57af8eb4b51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e73d55d4_03f68802",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-18T23:45:36Z",
+      "side": 1,
+      "message": "I am bit reluctant in putting too many optimizations at once: it\u0027s certainly a good idea, however, I would like to do one step at the time.",
+      "parentUuid": "4a90f15f_1dd46381",
+      "range": {
+        "startLine": 361,
+        "startChar": 6,
+        "endLine": 361,
+        "endChar": 14
+      },
+      "revId": "ca1b9bac9ef091328ac165503f75f57af8eb4b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1db14fdf_d858d8b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-18T23:45:36Z",
+      "side": 1,
+      "message": "This is the basis of the stream processing: if you use collections (e.g. ArrayList\u003c\u003e as it was before) you are forced to create and evaluate everything upfront and keep it in memory.\n\nOnly afterward, when you perform the for/loop, you can skip and limit, but it is way too late :-(\n\nBy lazy evaluating everything, you never have anything in memory and make the data and processing flow in a pipeline. The skip/limit on the streams have the wonderful advantage to completely avoid processing and put in memory something that eventually is going to be dropped.\n\nThe results on GerritHub.io (40k projects, 1TB of repos) were amazing:\n- No memory increase (streams) vs. 50GB of memory increase (collections)\n- 3s (streams) vs. 30mins (collections)\n\nEven a simple test with a reduced set (12k projects of 1 commit each) had significant advantage also.",
+      "parentUuid": "8352554b_942b456d",
+      "range": {
+        "startLine": 372,
+        "startChar": 8,
+        "endLine": 376,
+        "endChar": 9
+      },
+      "revId": "ca1b9bac9ef091328ac165503f75f57af8eb4b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "818ff43b_a7efe579",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 13
@@ -91,6 +163,30 @@
       "revId": "ca1b9bac9ef091328ac165503f75f57af8eb4b51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ad8b6c0_2cbff93b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-18T23:45:36Z",
+      "side": 1,
+      "message": "Collector *must be done* as the very last operation because is actual execution of the stream processing.\n\nIf you collect before skipping/limiting, then you will evaluate the entire stream, including the elements you would have skipped or dropped at the end, which isn\u0027t good for your heap and isn\u0027t fast for your users.",
+      "parentUuid": "818ff43b_a7efe579",
+      "range": {
+        "startLine": 378,
+        "startChar": 8,
+        "endLine": 378,
+        "endChar": 25
+      },
+      "revId": "ca1b9bac9ef091328ac165503f75f57af8eb4b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

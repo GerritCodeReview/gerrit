@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1ca7589_388d275d",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-18T10:12:03Z",
+      "side": 1,
+      "message": "Don\u0027t import this directly.\n\nSee https://gerrit-review.googlesource.com/c/gerrit/+/210454",
+      "revId": "0cc0db8e5b3cc42b59f47dceca8eefad1e214e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

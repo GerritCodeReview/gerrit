@@ -31,6 +31,7 @@
 
 [[s2_10]]
 == Version 2.10.x
+* link:ReleaseNotes-2.10.8.html[2.10.8]
 * link:ReleaseNotes-2.10.7.html[2.10.7]
 * link:ReleaseNotes-2.10.6.html[2.10.6]
 * link:ReleaseNotes-2.10.5.html[2.10.5]
@@ -43,6 +44,7 @@
 
 [[s2_9]]
 == Version 2.9.x
+* link:ReleaseNotes-2.9.5.html[2.9.5]
 * link:ReleaseNotes-2.9.4.html[2.9.4]
 * link:ReleaseNotes-2.9.3.html[2.9.3]
 * link:ReleaseNotes-2.9.2.html[2.9.2]

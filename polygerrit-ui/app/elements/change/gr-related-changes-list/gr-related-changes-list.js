@@ -160,7 +160,8 @@
     },
 
     _getChangesWithSameTopic() {
-      return this.$.restAPI.getChangesWithSameTopic(this.change.topic);
+      return this.$.restAPI.getChangesWithSameTopic(this.change.topic,
+          this.change._number);
     },
 
     /**

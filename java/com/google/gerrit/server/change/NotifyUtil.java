@@ -24,8 +24,9 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver2;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -37,10 +38,10 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class NotifyUtil {
-  private final AccountResolver accountResolver;
+  private final AccountResolver2 accountResolver;
 
   @Inject
-  NotifyUtil(AccountResolver accountResolver) {
+  NotifyUtil(AccountResolver2 accountResolver) {
     this.accountResolver = accountResolver;
   }
 
@@ -94,21 +95,20 @@ public class NotifyUtil {
 
   private List<Account.Id> find(List<String> nameOrEmails)
       throws OrmException, BadRequestException, IOException, ConfigInvalidException {
-    List<String> missing = new ArrayList<>(nameOrEmails.size());
+    List<String> problems = new ArrayList<>(nameOrEmails.size());
     List<Account.Id> r = new ArrayList<>(nameOrEmails.size());
     for (String nameOrEmail : nameOrEmails) {
-      Account a = accountResolver.find(nameOrEmail);
-      if (a != null) {
-        r.add(a.getId());
-      } else {
-        missing.add(nameOrEmail);
+      try {
+        r.add(accountResolver.resolve(nameOrEmail).asUnique().getAccount().getId());
+      } catch (UnprocessableEntityException e) {
+        problems.add(e.getMessage());
       }
     }
 
-    if (!missing.isEmpty()) {
+    if (!problems.isEmpty()) {
       throw new BadRequestException(
-          "The following accounts that should be notified could not be resolved: "
-              + missing.stream().distinct().sorted().collect(joining(", ")));
+          "The following accounts that should be notified could not be resolved:\n"
+              + problems.stream().collect(joining("\n")));
     }
 
     return r;

@@ -122,6 +122,30 @@
     },
     {
       "key": {
+        "uuid": "9481e339_0d245a9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-19T12:13:46Z",
+      "side": 1,
+      "message": "Oh yes, introducing null values forces us to start checking for nulls.\n\nOk, will do the change.",
+      "parentUuid": "51497c66_ed93f221",
+      "range": {
+        "startLine": 339,
+        "startChar": 58,
+        "endLine": 339,
+        "endChar": 74
+      },
+      "revId": "73b47822ba0a3abb30540f0c604f410de87a628e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af5bf136_e9007371",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 4

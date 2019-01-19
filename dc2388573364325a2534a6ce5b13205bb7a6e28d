@@ -46,6 +46,30 @@
       "revId": "dc2388573364325a2534a6ce5b13205bb7a6e28d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db58860_81ee4856",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-19T23:53:45Z",
+      "side": 1,
+      "message": "Done, reused the projectCache already injected.",
+      "parentUuid": "1decd7b5_01f4a38b",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 16
+      },
+      "revId": "dc2388573364325a2534a6ce5b13205bb7a6e28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2691442_74faa05b",
+        "filename": "java/com/google/gerrit/server/project/Reachable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-19T06:55:21Z",
+      "side": 1,
+      "message": "This fails because the previously assigned list is unmodifiable.",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 59
+      },
+      "revId": "604c9a4d7b7f375875968e6449fd3b2e4fd13be1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

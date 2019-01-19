@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0eaf382d_2d182d83",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-19T11:14:49Z",
+      "side": 1,
+      "message": "Why it\u0027s needed and why in this change? Can\u0027t the project cache be just injected as member?\n\n  @Inject\n  ProjectCache projectCache;",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 16
+      },
+      "revId": "dc2388573364325a2534a6ce5b13205bb7a6e28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

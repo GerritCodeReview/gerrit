@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25b11694_5cf851d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-19T07:06:39Z",
+      "side": 1,
+      "message": "This is unused now, because check() usage was replaced with testOrFalse().",
+      "range": {
+        "startLine": 302,
+        "startChar": 34,
+        "endLine": 302,
+        "endChar": 60
+      },
+      "revId": "0d3d1335fdb14b7e7f9cc42f2701869e98e6622d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7065f8ea_a8cf7bc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-19T07:06:39Z",
+      "side": 1,
+      "message": "This could be done much more stream friendly, if we could drop the requirement to log a warnins, if parent wasn\u0027t found:\n\n  return matches\n      .map(projectCache::get)\n      .filter(Objects::nonNull)\n      .map(s -\u003e s.getProject().getParent())\n      .filter(Objects::nonNull);",
+      "range": {
+        "startLine": 536,
+        "startChar": 4,
+        "endLine": 549,
+        "endChar": 11
+      },
+      "revId": "0d3d1335fdb14b7e7f9cc42f2701869e98e6622d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44ddde73_9adb0ace",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-19T07:06:39Z",
+      "side": 1,
+      "message": "This looks wrong and should be:\n\n  b \u003d perm.project(name).testOrFalse(ProjectPermission.ACCESS);\n\ntestOrFalse() doesn\u0027t throw, compared to the base version that used check() that throws. So now, even if the check returned false, b would be always overwritten with true. This raises the question, why the tests are still green? Test coverage issue that could be improved?",
+      "range": {
+        "startLine": 557,
+        "startChar": 6,
+        "endLine": 558,
+        "endChar": 15
+      },
+      "revId": "0d3d1335fdb14b7e7f9cc42f2701869e98e6622d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

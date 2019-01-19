@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import java.io.IOException;
 import java.util.Map;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -42,8 +43,8 @@ public class DefaultAdvertiseRefsHook extends AbstractAdvertiseRefsHook {
   protected Map<String, Ref> getAdvertisedRefs(Repository repo, RevWalk revWalk)
       throws ServiceMayNotContinueException {
     try {
-      return perm.filter(repo.getAllRefs(), repo, opts);
-    } catch (PermissionBackendException e) {
+      return perm.filter(repo.getRefDatabase().getRefs(), repo, opts);
+    } catch (IOException | PermissionBackendException e) {
       throw new ServiceMayNotContinueException(e);
     }
   }

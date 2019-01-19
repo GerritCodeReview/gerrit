@@ -26,7 +26,7 @@ import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver2;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupCache;
@@ -54,10 +54,10 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
   public static class Arguments {
     final GroupCache groupCache;
     final GroupBackend groupBackend;
-    final AccountResolver accountResolver;
+    final AccountResolver2 accountResolver;
 
     @Inject
-    Arguments(GroupCache groupCache, GroupBackend groupBackend, AccountResolver accountResolver) {
+    Arguments(GroupCache groupCache, GroupBackend groupBackend, AccountResolver2 accountResolver) {
       this.groupCache = groupCache;
       this.groupBackend = groupBackend;
       this.accountResolver = accountResolver;
@@ -157,7 +157,7 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
 
   private Set<Account.Id> parseAccount(String nameOrEmail)
       throws QueryParseException, OrmException, IOException, ConfigInvalidException {
-    Set<Account.Id> foundAccounts = args.accountResolver.findAll(nameOrEmail);
+    Set<Account.Id> foundAccounts = args.accountResolver.resolve(nameOrEmail).asIdSet();
     if (foundAccounts.isEmpty()) {
       throw error("User " + nameOrEmail + " not found");
     }

@@ -255,7 +255,7 @@ public class AccountResolver {
       throws AuthException, UnprocessableEntityException, OrmException, IOException,
           ConfigInvalidException {
     IdentifiedUser user = parseIdOnBehalfOf(caller, id);
-    if (user == null || !accountControlFactory.get().canSee(user.getAccount())) {
+    if (user == null || !accountControlFactory.get().canSee(user.getAccount().getId())) {
       throw new UnprocessableEntityException(
           String.format("Account '%s' is not found or ambiguous", id));
     }

@@ -56,7 +56,7 @@ public class AccountsCollection implements RestCollection<TopLevelResource, Acco
       throws ResourceNotFoundException, AuthException, OrmException, IOException,
           ConfigInvalidException {
     IdentifiedUser user = accountResolver.parseId(id.get());
-    if (user == null || !accountControlFactory.get().canSee(user.getAccount())) {
+    if (user == null || !accountControlFactory.get().canSee(user.getAccount().getId())) {
       throw new ResourceNotFoundException(
           String.format("Account '%s' is not found or ambiguous", id));
     }

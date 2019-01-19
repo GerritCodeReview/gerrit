@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a039a7bc_853a98e2",
+        "filename": "java/com/google/gerrit/server/git/DefaultAdvertiseRefsHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-19T04:49:38Z",
+      "side": 1,
+      "message": "Why was this changed to explicitly initialize the cause?  Doesn\u0027t that happen anyway in the default constructor (i.e. as it was before this change)?",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 64,
+        "endChar": 15
+      },
+      "revId": "e8c63097fbebf70dcffcb555739e00f1d846befd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

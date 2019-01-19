@@ -80,7 +80,7 @@ public class AccountControl {
 
   private Boolean viewAll;
 
-  AccountControl(
+  private AccountControl(
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       GroupControl.Factory groupControlFactory,

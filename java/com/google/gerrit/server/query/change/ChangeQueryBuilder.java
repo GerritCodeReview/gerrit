@@ -53,7 +53,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver2;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupMembers;
@@ -192,7 +192,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @VisibleForTesting
   public static class Arguments {
     final AccountCache accountCache;
-    final AccountResolver accountResolver;
+    final AccountResolver2 accountResolver;
     final AllProjectsName allProjectsName;
     final AllUsersName allUsersName;
     final PermissionBackend permissionBackend;
@@ -232,7 +232,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
         CommentsUtil commentsUtil,
-        AccountResolver accountResolver,
+        AccountResolver2 accountResolver,
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
         AllUsersName allUsersName,
@@ -288,7 +288,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
         CommentsUtil commentsUtil,
-        AccountResolver accountResolver,
+        AccountResolver2 accountResolver,
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
         AllUsersName allUsersName,
@@ -915,7 +915,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (isSelf(who)) {
       return is_visible();
     }
-    Set<Account.Id> m = args.accountResolver.findAll(who);
+    Set<Account.Id> m = args.accountResolver.resolve(who).asIdSet();
     if (!m.isEmpty()) {
       return Predicate.or(
           m.stream().map(id -> visibleto(args.userFactory.create(id))).collect(toImmutableList()));
@@ -1298,7 +1298,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (isSelf(who)) {
       return Collections.singleton(self());
     }
-    Set<Account.Id> matches = args.accountResolver.findAll(who);
+    Set<Account.Id> matches = args.accountResolver.resolve(who).asIdSet();
     if (matches.isEmpty()) {
       throw error("User " + who + " not found");
     }

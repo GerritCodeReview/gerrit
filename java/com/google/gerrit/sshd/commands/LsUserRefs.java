@@ -18,10 +18,11 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver2;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
@@ -47,7 +48,7 @@ import org.kohsuke.args4j.Option;
     description = "List refs visible to a specific user",
     runsAt = MASTER_OR_SLAVE)
 public class LsUserRefs extends SshCommand {
-  @Inject private AccountResolver accountResolver;
+  @Inject private AccountResolver2 accountResolver;
   @Inject private OneOffRequestContext requestContext;
   @Inject private PermissionBackend permissionBackend;
   @Inject private GitRepositoryManager repoManager;
@@ -73,21 +74,20 @@ public class LsUserRefs extends SshCommand {
 
   @Override
   protected void run() throws Failure {
-    Account userAccount;
+    Account.Id userAccountId;
     try {
-      userAccount = accountResolver.find(userName);
-    } catch (OrmException | IOException | ConfigInvalidException e) {
-      throw die(e);
-    }
-    if (userAccount == null) {
-      stdout.print("No single user could be found when searching for: " + userName + '\n');
+      userAccountId = accountResolver.resolve(userName).asUnique().getAccount().getId();
+    } catch (UnprocessableEntityException e) {
+      stdout.println(e.getMessage());
       stdout.flush();
       return;
+    } catch (OrmException | IOException | ConfigInvalidException e) {
+      throw die(e);
     }
 
     Project.NameKey projectName = projectState.getNameKey();
     try (Repository repo = repoManager.openRepository(projectName);
-        ManualRequestContext ctx = requestContext.openAs(userAccount.getId())) {
+        ManualRequestContext ctx = requestContext.openAs(userAccountId)) {
       try {
         Map<String, Ref> refsMap =
             permissionBackend

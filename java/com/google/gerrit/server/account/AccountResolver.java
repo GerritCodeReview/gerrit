@@ -119,6 +119,7 @@ public class AccountResolver {
     if (m.matches()) {
       Optional<Account.Id> id = Account.Id.tryParse(m.group(1));
       if (id.isPresent()) {
+        // Short circuit if the format matched.
         return Streams.stream(accounts.get(id.get()))
             .map(a -> a.getAccount().getId())
             .collect(toImmutableSet());
@@ -128,6 +129,7 @@ public class AccountResolver {
     if (input.matches("^[1-9][0-9]*$")) {
       Optional<Account.Id> id = Account.Id.tryParse(input);
       if (id.isPresent()) {
+        // Short circuit if the format matched.
         return Streams.stream(accounts.get(id.get()))
             .map(a -> a.getAccount().getId())
             .collect(toImmutableSet());
@@ -139,6 +141,7 @@ public class AccountResolver {
       if (who.isPresent()) {
         return ImmutableSet.of(who.map(a -> a.getAccount().getId()).get());
       }
+      // Don't short-circuit just because the format matches.
     }
 
     return findAllByNameOrEmail(input);
@@ -184,19 +187,23 @@ public class AccountResolver {
           nameMatches.add(id);
         }
       }
+      // Short circuit if the format matched.
       return nameMatches.isEmpty() ? ids : nameMatches;
     }
 
     if (nameOrEmail.contains("@")) {
+      // Short circuit if the format matched.
       return emails.getAccountFor(nameOrEmail);
     }
 
     Account.Id id = realm.lookup(nameOrEmail);
+    // Short circuit only if it returned a result.
     if (id != null) {
       return Collections.singleton(id);
     }
 
     List<AccountState> m = accountQueryProvider.get().byFullName(nameOrEmail);
+    // Short circuit only if it returned exactly one result.
     if (m.size() == 1) {
       return Collections.singleton(m.get(0).getAccount().getId());
     }

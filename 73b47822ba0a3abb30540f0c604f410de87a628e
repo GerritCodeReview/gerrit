@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "f17adfa7_b3eb5d5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-19T11:11:12Z",
+      "side": 1,
+      "message": "But if you change the logic and initialise it to null, we have then a case when the variable is null and, possibly because of further changes, may introduce NPEs whilst now is always with a valid result.\n\nit does not provide any performance benefit (it is instantiated only once) and instead may open the door to NPEs :-(\n\nWDYT?",
+      "parentUuid": "9867c1dd_4e2ad326",
+      "range": {
+        "startLine": 339,
+        "startChar": 58,
+        "endLine": 339,
+        "endChar": 74
+      },
+      "revId": "73b47822ba0a3abb30540f0c604f410de87a628e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af5bf136_e9007371",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 4

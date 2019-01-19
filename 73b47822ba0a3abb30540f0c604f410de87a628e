@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "9867c1dd_4e2ad326",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-19T11:01:31Z",
+      "side": 1,
+      "message": "Misunderstanding? I have not suggested to move the declaration, exactly because it is used. My suggestion is to move the initialization:\n\n  Map\u003cProject.NameKey, ProjectNode\u003e treeMap \u003d null;\n\nIn previous code, the population was done inside the big loop. In this change the scope of that loop was reduced and the population of this global map is one only once. That why it also makes sense to move the initialization, as the code path for that specific use case is optional, and my feeling it is used very seldom used:\n\n  if (showTree \u0026\u0026 !format.isJson())\n\nmost user do want JSON. That why my other suggestion to say below:\n\n  treeMap \u003d treeMap \u003d toSortedMap(projectStates);\n\nand instantiate the map only when it is really needed in toSortedMap() helper method and not in advance any probably in vain.",
+      "parentUuid": "e070f4d3_51e5b730",
+      "range": {
+        "startLine": 339,
+        "startChar": 58,
+        "endLine": 339,
+        "endChar": 74
+      },
+      "revId": "73b47822ba0a3abb30540f0c604f410de87a628e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af5bf136_e9007371",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 4

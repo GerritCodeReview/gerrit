@@ -88,6 +88,7 @@ public class GroupsNoteDbConsistencyChecker {
     BiMap<AccountGroup.UUID, String> uuidNameBiMap = HashBiMap.create();
 
     // Get all refs in an attempt to avoid seeing half committed group updates.
+    @SuppressWarnings("deprecation")
     Map<String, Ref> refs = allUsersRepo.getAllRefs();
     readGroups(allUsersRepo, refs, result);
     readGroupNames(allUsersRepo, refs, result, uuidNameBiMap);

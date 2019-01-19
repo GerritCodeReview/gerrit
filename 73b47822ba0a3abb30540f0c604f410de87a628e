@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "490bc250_be1a74cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-19T08:09:34Z",
+      "side": 1,
+      "message": "No need to create this instance already here, because you change the logic and moved the main loop after the point where this map is used. Also we don\u0027t really need TreeMap variable, and final can be also removed, e.g.:\n\n  Map\u003cProject.NameKey, ProjectNode\u003e treeMap \u003d null;",
+      "range": {
+        "startLine": 339,
+        "startChar": 58,
+        "endLine": 339,
+        "endChar": 74
+      },
+      "revId": "73b47822ba0a3abb30540f0c604f410de87a628e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af5bf136_e9007371",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-19T08:09:34Z",
+      "side": 1,
+      "message": "This can be just named toSortedMap, and avoid data structure details in method names, and it could return the newly created map:\n\n  treeMap \u003d toSortedMap(projectStates);",
+      "range": {
+        "startLine": 351,
+        "startChar": 8,
+        "endLine": 351,
+        "endChar": 53
+      },
+      "revId": "73b47822ba0a3abb30540f0c604f410de87a628e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed61720e_8184c2f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-19T08:09:34Z",
+      "side": 1,
+      "message": "This may be unnecessary definitions and instantiation at that point. This should be moved below after the two conditions, that could skip the rest of the loop, around line 363 in this patch set.",
+      "range": {
+        "startLine": 354,
+        "startChar": 10,
+        "endLine": 355,
+        "endChar": 47
+      },
+      "revId": "73b47822ba0a3abb30540f0c604f410de87a628e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3f4cd7d_1d54babb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-19T08:09:34Z",
+      "side": 1,
+      "message": "Continue is missing here, compared to base version, line 427 below:\n\n  if (foundIndex++ \u003c start) {\n    continue;\n  }  \n\nCI breakage seems to be related: in case it shouldn\u0027t be displayed, the rest of the loop must be skipped:\n\n  if (!shouldDisplayProject(e, foundIndex)) {\n    foundIndex++;\n    continue;\n  }\n\nWe always uses curly brackets around control statements, even for one single statement.",
+      "range": {
+        "startLine": 357,
+        "startChar": 10,
+        "endLine": 357,
+        "endChar": 65
+      },
+      "revId": "73b47822ba0a3abb30540f0c604f410de87a628e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e390cf71_03b813bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-19T08:09:34Z",
+      "side": 1,
+      "message": "Optional: could be further simplified:\n\n  if (type !\u003d FilterType.PARENT_CANDIDATES) {\n    addWebLinks(projectName, info);\n  }",
+      "range": {
+        "startLine": 379,
+        "startChar": 10,
+        "endLine": 382,
+        "endChar": 11
+      },
+      "revId": "73b47822ba0a3abb30540f0c604f410de87a628e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05803377_44a322a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-19T08:09:34Z",
+      "side": 1,
+      "message": "Nit: no final in new code. This could construct the instance and return it here, so that the caller doesn\u0027t need to create that Map instance in advance, because this code path is optional:\n\n  private Map\u003cProject.NameKey, ProjectNode\u003e toSortedMap(List\u003cProjectState\u003e projectStates) {\n    Map\u003cProject.NameKey, ProjectNode\u003e treeMap \u003d new TreeMap\u003c\u003e();\n    [...]\n    return treeMap;\n  }",
+      "range": {
+        "startLine": 425,
+        "startChar": 6,
+        "endLine": 425,
+        "endChar": 11
+      },
+      "revId": "73b47822ba0a3abb30540f0c604f410de87a628e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

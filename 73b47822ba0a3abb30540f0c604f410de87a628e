@@ -98,6 +98,30 @@
     },
     {
       "key": {
+        "uuid": "51497c66_ed93f221",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-19T11:16:59Z",
+      "side": 1,
+      "message": "It\u0027s used in one single line 413 below, and there the check is already in place:\n\n  else if (showTree \u0026\u0026 treeMap.size() \u003e 0) {\n\nWith my suggestion, it would be extended to:\n\n  else if (showTree \u0026\u0026 treeMap !\u003d null \u0026\u0026 treeMap.size() \u003e 0) {",
+      "parentUuid": "f17adfa7_b3eb5d5b",
+      "range": {
+        "startLine": 339,
+        "startChar": 58,
+        "endLine": 339,
+        "endChar": 74
+      },
+      "revId": "73b47822ba0a3abb30540f0c604f410de87a628e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "af5bf136_e9007371",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 4

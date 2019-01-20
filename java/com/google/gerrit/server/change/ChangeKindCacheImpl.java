@@ -79,7 +79,6 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     };
   }
 
-  @VisibleForTesting
   public static class NoCache implements ChangeKindCache {
     private final boolean useRecursiveMerge;
     private final ChangeData.Factory changeDataFactory;

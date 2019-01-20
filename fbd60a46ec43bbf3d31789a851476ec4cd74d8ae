@@ -22,6 +22,30 @@
       "revId": "fbd60a46ec43bbf3d31789a851476ec4cd74d8ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16f8407e_08ae5cc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-20T04:51:11Z",
+      "side": 1,
+      "message": "https://github.com/google/error-prone/commit/c772f2b4ce84a5bb4a510c62f1483a72a9f189b4. I\u0027ll ask around about the status of open sourcing.",
+      "parentUuid": "9d3f670d_03e8b0e2",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "fbd60a46ec43bbf3d31789a851476ec4cd74d8ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

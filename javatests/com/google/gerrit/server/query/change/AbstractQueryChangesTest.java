@@ -125,7 +125,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -2871,7 +2870,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected ChangeInserter newChangeWithFiles(TestRepository<Repo> repo, String... paths)
       throws Exception {
-    CommitBuilder b = repo.commit().message("Change with files");
+    TestRepository<?>.CommitBuilder b = repo.commit().message("Change with files");
     for (String path : paths) {
       b.add(path, "contents of " + path);
     }

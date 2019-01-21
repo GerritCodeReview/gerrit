@@ -22,6 +22,30 @@
       "revId": "8c8fa56d4dca0e7c85491297c676cde5a5d761f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "846cc3a0_31e26fe3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-21T22:09:03Z",
+      "side": 1,
+      "message": "I did a bit of investigation on the ProjectCacheImpl and the iterator returned is from a SortedSet: elements are already sorted, no need to do extra sorting here. Will just get rid of it :-)",
+      "parentUuid": "dc67e855_4527a23e",
+      "range": {
+        "startLine": 485,
+        "startChar": 4,
+        "endLine": 485,
+        "endChar": 95
+      },
+      "revId": "8c8fa56d4dca0e7c85491297c676cde5a5d761f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

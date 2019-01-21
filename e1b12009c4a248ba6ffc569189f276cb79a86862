@@ -22,6 +22,30 @@
       "revId": "e1b12009c4a248ba6ffc569189f276cb79a86862",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e920e4c_a2995f77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-21T21:11:26Z",
+      "side": 1,
+      "message": "The perm.filter() is a quite expensive operation, the sort after the filter could have the effect of requiring the entire set of projects to be checked, which is exactly what we want to avoid.\n\nLet me check the performance implication of moving down to L485.",
+      "parentUuid": "b846ce5a_b1895206",
+      "range": {
+        "startLine": 481,
+        "startChar": 87,
+        "endLine": 481,
+        "endChar": 96
+      },
+      "revId": "e1b12009c4a248ba6ffc569189f276cb79a86862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

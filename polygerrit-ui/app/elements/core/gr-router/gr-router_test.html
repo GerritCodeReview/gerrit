@@ -59,6 +59,18 @@ limitations under the License.
       link.url = 'https:/' + link.url;
       assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig(link))[0],
           {name: 'test', url: 'https://test/url'});
+
+      link.url = 'test/' + link.url;
+      assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig(link))[0],
+          {name: 'test', url: 'base/test/test/url'});
+
+      link.url = 'base/' + link.url;
+      assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig(link))[0],
+          {name: 'test', url: 'base/test/url'});
+
+      link.url = '/base/' + link.url;
+      assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig(link))[0],
+          {name: 'test', url: '/base/test/url'});
     });
 
     test('_getHashFromCanonicalPath', () => {

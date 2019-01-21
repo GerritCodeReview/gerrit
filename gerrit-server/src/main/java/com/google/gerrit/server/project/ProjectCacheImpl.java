@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -305,6 +306,7 @@ public class ProjectCacheImpl implements ProjectCache {
 
     @Override
     public ProjectState load(String projectName) throws Exception {
+      System.out.println("Loading: " + projectName);
       long now = clock.read();
       Project.NameKey key = new Project.NameKey(projectName);
       try (Repository git = mgr.openRepository(key)) {
@@ -336,5 +338,15 @@ public class ProjectCacheImpl implements ProjectCache {
     public SortedSet<Project.NameKey> load(ListKey key) throws Exception {
       return mgr.list();
     }
+  }
+
+  @VisibleForTesting
+  public void evictAllByName() {
+    byName.invalidateAll();
+  }
+
+  @VisibleForTesting
+  public long sizeAllByName() {
+    return byName.size();
   }
 }

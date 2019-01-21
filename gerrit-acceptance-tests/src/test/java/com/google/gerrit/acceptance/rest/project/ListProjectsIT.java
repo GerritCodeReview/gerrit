@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
 import java.util.List;
@@ -93,15 +94,19 @@ public class ListProjectsIT extends AbstractDaemonTest {
   @Test
   public void listProjectsWithLimit() throws Exception {
     for (int i = 0; i < 5; i++) {
+      ProjectCacheImpl projectCacheImpl = (ProjectCacheImpl) projectCache;
       createProject("someProject" + i);
     }
 
     String p = name("");
     // 5, plus p which was automatically created.
     int n = 6;
+    projectCacheImpl.evictAllByName();
     for (int i = 1; i <= n + 2; i++) {
       assertThatNameList(gApi.projects().list().withPrefix(p).withLimit(i).get())
           .hasSize(Math.min(i, n));
+      assertThat(projectCacheImpl.sizeAllByName())
+          .isAtMost((long) (i + 2)); // 2 = AllProjects + AllUsers
     }
   }
 

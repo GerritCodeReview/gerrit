@@ -82,7 +82,7 @@ def _war_impl(ctx):
         elif hasattr(l, "files"):
             transitive_lib_deps += l.files
 
-    for dep in transitive_lib_deps:
+    for dep in transitive_lib_deps.to_list():
         cmd += _add_file(dep, build_output + "/WEB-INF/lib/")
         inputs.append(dep)
 
@@ -91,7 +91,7 @@ def _war_impl(ctx):
     for l in ctx.attr.pgmlibs:
         transitive_pgmlib_deps += l.java.transitive_runtime_deps
 
-    for dep in transitive_pgmlib_deps:
+    for dep in transitive_pgmlib_deps.to_list():
         if dep not in inputs:
             cmd += _add_file(dep, build_output + "/WEB-INF/pgm-lib/")
             inputs.append(dep)
@@ -104,7 +104,7 @@ def _war_impl(ctx):
                 transitive_context_deps += jar.java.transitive_runtime_deps
             elif hasattr(jar, "files"):
                 transitive_context_deps += jar.files
-    for dep in transitive_context_deps:
+    for dep in transitive_context_deps.to_list():
         cmd += _add_context(dep, build_output)
         inputs.append(dep)
 

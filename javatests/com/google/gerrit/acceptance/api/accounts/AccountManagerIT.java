@@ -193,25 +193,28 @@ public class AccountManagerIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void authenticateWhenUsernameExtIdAlreadyExists() throws Exception {
+  public void authenticateWithUsernameAndUpdateDisplayName() throws Exception {
     String username = "foo";
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
-    ExternalId.Key usernameExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_USERNAME, username);
-    assertNoSuchExternalIds(gerritExtIdKey, usernameExtIdKey);
-
-    // Create account with SCHEME_USERNAME external ID, but no SCHEME_GERRIT external ID.
+    String email = "foo@example.com";
     Account.Id accountId = new Account.Id(seq.nextAccountId());
+    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
-        u -> u.setFullName("Foo").addExternalId(ExternalId.create(usernameExtIdKey, accountId)));
+        u ->
+            u.setFullName("Initial Name")
+                .setPreferredEmail(email)
+                .addExternalId(ExternalId.createWithEmail(gerritExtIdKey, accountId, email)));
 
     AuthRequest who = AuthRequest.forUser(username);
+    String newName = "Updated Name";
+    who.setDisplayName(newName);
     AuthResult authResult = accountManager.authenticate(who);
-
-    // Expect that the missing SCHEME_GERRIT external ID was created.
     assertAuthResultForExistingAccount(authResult, accountId, gerritExtIdKey);
-    assertExternalIdsWithoutEmail(gerritExtIdKey, usernameExtIdKey);
+
+    Optional<AccountState> accountState = accounts.get(accountId);
+    assertThat(accountState).isPresent();
+    assertThat(accountState.get().getAccount().getFullName()).isEqualTo(newName);
   }
 
   @Test

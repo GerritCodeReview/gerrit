@@ -1,10 +1,8 @@
-load("//tools/bzl:genrule2.bzl", "genrule2")
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library")
+load("//tools/bzl:genrule2.bzl", "genrule2")
 load(
     "//tools/bzl:js.bzl",
-    "bower_component",
     "bundle_assets",
-    "js_component",
 )
 
 def polygerrit_bundle(name, srcs, outs, app):

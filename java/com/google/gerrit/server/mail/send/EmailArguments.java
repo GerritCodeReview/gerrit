@@ -20,6 +20,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupBackend;
@@ -56,6 +57,7 @@ public class EmailArguments {
   final GroupBackend groupBackend;
   final AccountCache accountCache;
   final PatchListCache patchListCache;
+  final PatchSetUtil patchSetUtil;
   final ApprovalsUtil approvalsUtil;
   final FromAddressGenerator fromAddressGenerator;
   final EmailSender emailSender;
@@ -88,6 +90,7 @@ public class EmailArguments {
       GroupBackend groupBackend,
       AccountCache accountCache,
       PatchListCache patchListCache,
+      PatchSetUtil patchSetUtil,
       ApprovalsUtil approvalsUtil,
       FromAddressGenerator fromAddressGenerator,
       EmailSender emailSender,
@@ -116,6 +119,7 @@ public class EmailArguments {
     this.groupBackend = groupBackend;
     this.accountCache = accountCache;
     this.patchListCache = patchListCache;
+    this.patchSetUtil = patchSetUtil;
     this.approvalsUtil = approvalsUtil;
     this.fromAddressGenerator = fromAddressGenerator;
     this.emailSender = emailSender;

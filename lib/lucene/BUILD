@@ -1,6 +1,6 @@
-package(default_visibility = ["//visibility:public"])
-
 load("//tools/bzl:maven.bzl", "merge_maven_jars")
+
+package(default_visibility = ["//visibility:public"])
 
 # core and backward-codecs both provide
 # META-INF/services/org.apache.lucene.codecs.Codec, so they must be merged.

@@ -526,7 +526,10 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void publishCommentsAllRevisions() throws Exception {
-    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r1 =
+        pushFactory
+            .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "old boring content\n")
+            .to("refs/for/master");
 
     PushOneCommit.Result r2 =
         pushFactory
@@ -537,7 +540,7 @@ public class CommentsIT extends AbstractDaemonTest {
     addDraft(
         r1.getChangeId(),
         r1.getCommit().getName(),
-        newDraft(FILE_NAME, Side.REVISION, 1, "nit: trailing whitespace"));
+        newDraft(FILE_NAME, Side.REVISION, createLineRange(1, 4, 10), "Is it that bad?"));
     addDraft(
         r1.getChangeId(),
         r1.getCommit().getName(),
@@ -545,7 +548,7 @@ public class CommentsIT extends AbstractDaemonTest {
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
-        newDraft(FILE_NAME, Side.REVISION, 1, "join lines"));
+        newDraft(FILE_NAME, Side.REVISION, createLineRange(1, 4, 15), "better now"));
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
@@ -586,7 +589,7 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(ps1List).hasSize(2);
     assertThat(ps1List.get(0).message).isEqualTo("what happened to this?");
     assertThat(ps1List.get(0).side).isEqualTo(Side.PARENT);
-    assertThat(ps1List.get(1).message).isEqualTo("nit: trailing whitespace");
+    assertThat(ps1List.get(1).message).isEqualTo("Is it that bad?");
     assertThat(ps1List.get(1).side).isNull();
 
     assertThat(gApi.changes().id(r2.getChangeId()).revision(r2.getCommit().name()).drafts())
@@ -598,7 +601,7 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(ps2List).hasSize(4);
     assertThat(ps2List.get(0).message).isEqualTo("comment 1 on base");
     assertThat(ps2List.get(1).message).isEqualTo("comment 2 on base");
-    assertThat(ps2List.get(2).message).isEqualTo("join lines");
+    assertThat(ps2List.get(2).message).isEqualTo("better now");
     assertThat(ps2List.get(3).message).isEqualTo("typo: content");
 
     List<Message> messages = email.getMessages(r2.getChangeId(), "comment");
@@ -631,8 +634,8 @@ public class CommentsIT extends AbstractDaemonTest {
                 + "#/c/"
                 + c
                 + "/1/a.txt@1 \n"
-                + "PS1, Line 1: ew\n"
-                + "nit: trailing whitespace\n"
+                + "PS1, Line 1: boring\n"
+                + "Is it that bad?\n"
                 + "\n"
                 + "\n"
                 + url
@@ -661,8 +664,8 @@ public class CommentsIT extends AbstractDaemonTest {
                 + "#/c/"
                 + c
                 + "/2/a.txt@1 \n"
-                + "PS2, Line 1: ew\n"
-                + "join lines\n"
+                + "PS2, Line 1: interesting\n"
+                + "better now\n"
                 + "\n"
                 + "\n"
                 + url
@@ -1093,28 +1096,47 @@ public class CommentsIT extends AbstractDaemonTest {
     return populate(d, path, side, null, line, message, false);
   }
 
+  private DraftInput newDraft(String path, Side side, Comment.Range range, String message) {
+    DraftInput d = new DraftInput();
+    return populate(d, path, side, null, range, message, false);
+  }
+
   private DraftInput newDraftOnParent(String path, int parent, int line, String message) {
     DraftInput d = new DraftInput();
     return populate(d, path, Side.PARENT, Integer.valueOf(parent), line, message, false);
   }
 
   private static <C extends Comment> C populate(
-      C c, String path, Side side, Integer parent, int line, String message, Boolean unresolved) {
+      C c,
+      String path,
+      Side side,
+      Integer parent,
+      Comment.Range range,
+      String message,
+      Boolean unresolved) {
+    int line = range.startLine;
     c.path = path;
     c.side = side;
     c.parent = parent;
     c.line = line != 0 ? line : null;
     c.message = message;
     c.unresolved = unresolved;
-    if (line != 0) {
-      Comment.Range range = new Comment.Range();
-      range.startLine = line;
-      range.startCharacter = 1;
-      range.endLine = line;
-      range.endCharacter = 5;
-      c.range = range;
-    }
+    if (line != 0) c.range = range;
     return c;
+  }
+
+  private static <C extends Comment> C populate(
+      C c, String path, Side side, Integer parent, int line, String message, Boolean unresolved) {
+    return populate(c, path, side, parent, createLineRange(line, 1, 5), message, unresolved);
+  }
+
+  private static Comment.Range createLineRange(int line, int startChar, int endChar) {
+    Comment.Range range = new Comment.Range();
+    range.startLine = line;
+    range.startCharacter = startChar;
+    range.endLine = line;
+    range.endCharacter = endChar;
+    return range;
   }
 
   private static Function<CommentInfo, CommentInput> infoToInput(String path) {

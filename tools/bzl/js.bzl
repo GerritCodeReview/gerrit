@@ -1,9 +1,9 @@
+load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library")
+load("//lib/js:npm.bzl", "NPM_SHA1S", "NPM_VERSIONS")
+
 NPMJS = "NPMJS"
 
 GERRIT = "GERRIT:"
-
-load("//lib/js:npm.bzl", "NPM_SHA1S", "NPM_VERSIONS")
-load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library")
 
 def _npm_tarball(name):
     return "%s@%s.npm_binary.tgz" % (name, NPM_VERSIONS[name])
@@ -37,9 +37,9 @@ def _npm_binary_impl(ctx):
 
 npm_binary = repository_rule(
     attrs = {
+        "repository": attr.string(default = NPMJS),
         # Label resolves within repo of the .bzl file.
         "_download_script": attr.label(default = Label("//tools:download_file.py")),
-        "repository": attr.string(default = NPMJS),
     },
     local = True,
     implementation = _npm_binary_impl,
@@ -120,13 +120,13 @@ def _bash(ctx, cmd):
 bower_archive = repository_rule(
     _bower_archive,
     attrs = {
-        "_bower_archive": attr.label(default = Label("@bower//:%s" % _npm_tarball("bower"))),
-        "_run_npm": attr.label(default = Label("//tools/js:run_npm_binary.py")),
-        "_download_bower": attr.label(default = Label("//tools/js:download_bower.py")),
-        "sha1": attr.string(mandatory = True),
-        "version": attr.string(mandatory = True),
         "package": attr.string(mandatory = True),
         "semver": attr.string(),
+        "sha1": attr.string(mandatory = True),
+        "version": attr.string(mandatory = True),
+        "_bower_archive": attr.label(default = Label("@bower//:%s" % _npm_tarball("bower"))),
+        "_download_bower": attr.label(default = Label("//tools/js:download_bower.py")),
+        "_run_npm": attr.label(default = Label("//tools/js:run_npm_binary.py")),
     },
 )
 
@@ -207,12 +207,12 @@ js_component = rule(
 _bower_component = rule(
     _bower_component_impl,
     attrs = dict(_common_attrs.items() + {
-        "zipfile": attr.label(allow_single_file = [".zip"]),
         "license": attr.label(allow_single_file = True),
-        "version_json": attr.label(allow_files = [".json"]),
 
         # If set, define by hand, and don't regenerate this entry in bower2bazel.
         "seed": attr.bool(default = False),
+        "version_json": attr.label(allow_files = [".json"]),
+        "zipfile": attr.label(allow_single_file = [".zip"]),
     }.items()),
 )
 
@@ -247,7 +247,7 @@ def _bower_component_bundle_impl(ctx):
     out_versions = ctx.outputs.version_json
 
     ctx.actions.run_shell(
-        inputs = list(zips),
+        inputs = zips.to_list(),
         outputs = [out_zip],
         command = " && ".join([
             "p=$PWD",
@@ -256,7 +256,7 @@ def _bower_component_bundle_impl(ctx):
             "rm -rf %s.dir" % out_zip.path,
             "mkdir -p %s.dir/bower_components" % out_zip.path,
             "cd %s.dir/bower_components" % out_zip.path,
-            "for z in %s; do unzip -q $p/$z ; done" % " ".join(sorted([z.path for z in zips])),
+            "for z in %s; do unzip -q $p/$z ; done" % " ".join(sorted([z.path for z in zips.to_list()])),
             "cd ..",
             "find . -exec touch -t 198001010000 '{}' ';'",
             "zip -Xqr $p/%s bower_components/*" % out_zip.path,
@@ -265,10 +265,10 @@ def _bower_component_bundle_impl(ctx):
     )
 
     ctx.actions.run_shell(
-        inputs = list(versions),
+        inputs = versions.to_list(),
         outputs = [out_versions],
         mnemonic = "BowerVersions",
-        command = "(echo '{' ; for j in  %s ; do cat $j; echo ',' ; done ; echo \\\"\\\":\\\"\\\"; echo '}') > %s" % (" ".join([v.path for v in versions]), out_versions.path),
+        command = "(echo '{' ; for j in  %s ; do cat $j; echo ',' ; done ; echo \\\"\\\":\\\"\\\"; echo '}') > %s" % (" ".join([v.path for v in versions.to_list()]), out_versions.path),
     )
 
     return struct(
@@ -281,8 +281,8 @@ bower_component_bundle = rule(
     _bower_component_bundle_impl,
     attrs = _common_attrs,
     outputs = {
-        "zip": "%{name}.zip",
         "version_json": "%{name}-versions.json",
+        "zip": "%{name}.zip",
     },
 )
 
@@ -394,11 +394,6 @@ def _bundle_output_func(name, split):
 _bundle_rule = rule(
     _bundle_impl,
     attrs = {
-        "deps": attr.label_list(providers = ["transitive_zipfiles"]),
-        "app": attr.label(
-            mandatory = True,
-            allow_single_file = True,
-        ),
         "srcs": attr.label_list(allow_files = [
             ".js",
             ".html",
@@ -406,12 +401,13 @@ _bundle_rule = rule(
             ".css",
             ".ico",
         ]),
-        "pkg": attr.string(mandatory = True),
-        "split": attr.bool(default = True),
-        "_run_npm": attr.label(
-            default = Label("//tools/js:run_npm_binary.py"),
+        "app": attr.label(
+            mandatory = True,
             allow_single_file = True,
         ),
+        "pkg": attr.string(mandatory = True),
+        "split": attr.bool(default = True),
+        "deps": attr.label_list(providers = ["transitive_zipfiles"]),
         "_bundler_archive": attr.label(
             default = Label("@polymer-bundler//:%s" % _npm_tarball("polymer-bundler")),
             allow_single_file = True,
@@ -420,13 +416,17 @@ _bundle_rule = rule(
             default = Label("@crisper//:%s" % _npm_tarball("crisper")),
             allow_single_file = True,
         ),
+        "_run_npm": attr.label(
+            default = Label("//tools/js:run_npm_binary.py"),
+            allow_single_file = True,
+        ),
     },
     outputs = _bundle_output_func,
 )
 
 def bundle_assets(*args, **kwargs):
     """Combine html, js, css files and optionally split into js and html bundles."""
-    _bundle_rule(*args, pkg = native.package_name(), **kwargs)
+    _bundle_rule(pkg = native.package_name(), *args, **kwargs)
 
 def polygerrit_plugin(name, app, srcs = [], assets = None, plugin_name = None, **kwargs):
     """Bundles plugin dependencies for deployment.

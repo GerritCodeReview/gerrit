@@ -1745,6 +1745,29 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void listReviewers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+    assertThat(gApi.changes().id(r.getChangeId()).reviewers()).hasSize(1);
+
+    String username1 = name("user1");
+    String email1 = username1 + "@example.com";
+    accountOperations
+        .newAccount()
+        .username(username1)
+        .preferredEmail(email1)
+        .fullname("User 1")
+        .create();
+    in.reviewer = email1;
+    in.state = ReviewerState.CC;
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+    assertThat(gApi.changes().id(r.getChangeId()).reviewers().stream().map(a -> a.username))
+        .containsExactly(user.username, username1);
+  }
+
+  @Test
   public void notificationsForAddedWorkInProgressReviewers() throws Exception {
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;

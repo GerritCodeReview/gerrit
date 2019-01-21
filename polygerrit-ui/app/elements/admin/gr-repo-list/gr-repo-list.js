@@ -130,8 +130,7 @@
     },
 
     _refreshReposList() {
-      this.$.restAPI.invalidateReposCache(this._filter,
-          this._reposPerPage, this._offset);
+      this.$.restAPI.invalidateReposCache();
       return this._getRepos(this._filter, this._reposPerPage,
           this._offset);
     },

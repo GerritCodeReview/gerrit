@@ -565,6 +565,11 @@ and users with the link:access-control.html#category_view_private_changes[
 View Private Changes] global capability. Private changes are useful in a number
 of cases:
 
+* You want a set of collaborators to review the change before formal review
+  starts. By creating a Private change and adding only a selected few as
+  reviewers you can control who can see the change and get a first opinion
+  before opening up for all reviewers.
+
 * You want to check what the change looks like before formal review starts.
   By marking the change private without reviewers, nobody can
   prematurely comment on your changes.

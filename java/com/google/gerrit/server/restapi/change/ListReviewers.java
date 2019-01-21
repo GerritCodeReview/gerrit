@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
-class ListReviewers implements RestReadView<ChangeResource> {
+public class ListReviewers implements RestReadView<ChangeResource> {
   private final ApprovalsUtil approvalsUtil;
   private final ReviewerJson json;
   private final ReviewerResource.Factory resourceFactory;

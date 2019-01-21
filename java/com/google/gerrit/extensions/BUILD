@@ -1,5 +1,6 @@
-load("//lib:guava.bzl", "GUAVA_DOC_URL")
 load("//lib/jgit:jgit.bzl", "JGIT_DOC_URL")
+load("//lib:guava.bzl", "GUAVA_DOC_URL")
+load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_binary(
     name = "extension-api",
@@ -33,8 +34,6 @@ java_library(
         "//lib/guice:guice-assistedinject",
     ],
 )
-
-load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_doc(
     name = "extension-api-javadoc",

@@ -1,5 +1,3 @@
-load("//tools/bzl:genrule2.bzl", "genrule2")
-
 ANNOTATIONS = [
     "Nullable.java",
     "audit/Audit.java",

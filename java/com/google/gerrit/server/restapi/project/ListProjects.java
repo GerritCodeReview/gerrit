@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.project;
 import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -62,7 +61,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -352,7 +350,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     PermissionBackend.WithUser perm = permissionBackend.user(currentUser);
     final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
     try {
-      for (Project.NameKey projectName : filter(perm)) {
+      Iterable<Project.NameKey> projectNames = filter(perm)::iterator;
+      for (Project.NameKey projectName : projectNames) {
         final ProjectState e = projectCache.get(projectName);
         if (e == null || (e.getProject().getState() == HIDDEN && !all && state != HIDDEN)) {
           // If we can't get it from the cache, pretend it's not present.
@@ -506,32 +505,32 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     }
   }
 
-  private Collection<Project.NameKey> filter(PermissionBackend.WithUser perm)
-      throws BadRequestException, PermissionBackendException {
+  private Stream<Project.NameKey> filter(PermissionBackend.WithUser perm)
+      throws BadRequestException {
     Stream<Project.NameKey> matches = scan();
     if (type == FilterType.PARENT_CANDIDATES) {
       matches = parentsOf(matches);
     }
 
-    List<Project.NameKey> results = new ArrayList<>();
-    List<Project.NameKey> projectNameKeys = matches.sorted().collect(toList());
-    for (Project.NameKey nameKey : projectNameKeys) {
-      ProjectState state = projectCache.get(nameKey);
-      requireNonNull(state, () -> String.format("Failed to load project %s", nameKey));
+    Stream<Project.NameKey> results =
+        matches.filter(
+            nameKey -> {
+              ProjectState state = projectCache.get(nameKey);
+              requireNonNull(state, () -> String.format("Failed to load project %s", nameKey));
 
-      // Hidden projects(permitsRead = false) should only be accessible by the project owners.
-      // READ_CONFIG is checked here because it's only allowed to project owners(ACCESS may also
-      // be allowed for other users). Allowing project owners to access here will help them to view
-      // and update the config of hidden projects easily.
-      ProjectPermission permissionToCheck =
-          state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
-      try {
-        perm.project(nameKey).check(permissionToCheck);
-        results.add(nameKey);
-      } catch (AuthException e) {
-        // Not added to results.
-      }
-    }
+              // Hidden projects(permitsRead = false) should only be accessible by the project
+              // owners.
+              // READ_CONFIG is checked here because it's only allowed to project owners(ACCESS may
+              // also
+              // be allowed for other users). Allowing project owners to access here will help them
+              // to view
+              // and update the config of hidden projects easily.
+              ProjectPermission permissionToCheck =
+                  state.statePermitsRead()
+                      ? ProjectPermission.ACCESS
+                      : ProjectPermission.READ_CONFIG;
+              return perm.project(nameKey).testOrFalse(permissionToCheck);
+            });
 
     return results;
   }
@@ -554,7 +553,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
               return null;
             })
         .filter(Objects::nonNull)
-        .distinct();
+        .distinct()
+        .sorted();
   }
 
   private boolean isParentAccessible(

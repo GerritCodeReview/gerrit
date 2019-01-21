@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc67e855_4527a23e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-21T21:58:19Z",
+      "side": 1,
+      "message": "Alternatively, we could swap the operation order: first sort, second apply permission filter, to restore what you had previously, but also with potentially included parents:\n\n  return matches.sorted().filter(p -\u003e perm.project(p).testOrFalse(ProjectPermission.ACCESS));",
+      "range": {
+        "startLine": 485,
+        "startChar": 4,
+        "endLine": 485,
+        "endChar": 95
+      },
+      "revId": "8c8fa56d4dca0e7c85491297c676cde5a5d761f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

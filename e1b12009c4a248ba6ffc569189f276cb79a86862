@@ -46,6 +46,30 @@
       "revId": "e1b12009c4a248ba6ffc569189f276cb79a86862",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a1d4bbb_a78109e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-21T21:24:08Z",
+      "side": 1,
+      "message": "It is slower, but still acceptable. Let\u0027s keep the consistency for now with the old code structure.",
+      "parentUuid": "4e920e4c_a2995f77",
+      "range": {
+        "startLine": 481,
+        "startChar": 87,
+        "endLine": 481,
+        "endChar": 96
+      },
+      "revId": "e1b12009c4a248ba6ffc569189f276cb79a86862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

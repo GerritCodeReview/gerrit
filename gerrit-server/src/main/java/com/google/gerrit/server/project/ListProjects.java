@@ -16,12 +16,10 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -59,19 +57,19 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -339,7 +337,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     PermissionBackend.WithUser perm = permissionBackend.user(currentUser);
     final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
     try {
-      for (Project.NameKey projectName : filter(perm)) {
+      Iterable<Project.NameKey> projectNames = filter(perm)::iterator;
+      for (Project.NameKey projectName : projectNames) {
         final ProjectState e = projectCache.get(projectName);
         if (e == null || (!all && e.getProject().getState() == HIDDEN)) {
           // If we can't get it from the cache, pretend its not present.
@@ -478,31 +477,28 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     }
   }
 
-  private Collection<Project.NameKey> filter(PermissionBackend.WithUser perm)
-      throws BadRequestException, PermissionBackendException {
-    Collection<Project.NameKey> matches = Lists.newArrayList(scan());
+  private Stream<Project.NameKey> filter(PermissionBackend.WithUser perm)
+      throws BadRequestException {
+    Stream<Project.NameKey> matches = StreamSupport.stream(scan().spliterator(), false);
     if (type == FilterType.PARENT_CANDIDATES) {
-      matches = parentsOf(matches);
+      matches =
+          matches.map(projectCache::get).map(this::parentOf).filter(Objects::nonNull).sorted();
     }
-    return perm.filter(ProjectPermission.ACCESS, matches).stream().sorted().collect(toList());
+    return matches.filter(p -> perm.project(p).testOrFalse(ProjectPermission.ACCESS));
   }
 
-  private Collection<Project.NameKey> parentsOf(Collection<Project.NameKey> matches) {
-    Set<Project.NameKey> parents = new HashSet<>();
-    for (Project.NameKey p : matches) {
-      ProjectState ps = projectCache.get(p);
-      if (ps != null) {
-        Project.NameKey parent = ps.getProject().getParent();
-        if (parent != null) {
-          if (projectCache.get(parent) != null) {
-            parents.add(parent);
-          } else {
-            log.warn("parent project {} of project {} not found", parent.get(), ps.getName());
-          }
-        }
-      }
+  private Project.NameKey parentOf(ProjectState ps) {
+    if (ps == null) {
+      return null;
     }
-    return parents;
+    Project.NameKey parent = ps.getProject().getParent();
+    if (parent != null) {
+      if (projectCache.get(parent) != null) {
+        return parent;
+      }
+      log.warn("parent project {} of project {} not found", parent.get(), ps.getName());
+    }
+    return null;
   }
 
   private boolean isParentAccessible(

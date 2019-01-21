@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b846ce5a_b1895206",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-21T20:54:01Z",
+      "side": 1,
+      "message": "This should be done in the end as it was in the base version, after parentsOf(matches) conversion on line 483 below; move it to line 485:\n\n  return matches.filter(...).sorted();",
+      "range": {
+        "startLine": 481,
+        "startChar": 87,
+        "endLine": 481,
+        "endChar": 96
+      },
+      "revId": "e1b12009c4a248ba6ffc569189f276cb79a86862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

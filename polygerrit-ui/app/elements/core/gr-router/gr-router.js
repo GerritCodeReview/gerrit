@@ -325,7 +325,10 @@
       return weblinks.filter(weblink => !this._isDirectCommit(weblink)).map(
           ({name, url}) => {
             if (!url.startsWith('https:') && !url.startsWith('http:')) {
-              url = this.getBaseUrl() + (url.startsWith('/') ? '' : '/') + url;
+              url = (url.startsWith('/') ? '' : '/') + url;
+              if (!url.includes(this.getBaseUrl())) {
+                url = this.getBaseUrl() + url;
+              }
             }
             return {name, url};
           });

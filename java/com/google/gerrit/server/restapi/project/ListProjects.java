@@ -69,7 +69,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -95,17 +94,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       @Override
       boolean useMatch() {
         return true;
-      }
-    },
-    PARENT_CANDIDATES {
-      @Override
-      boolean matches(Repository git) {
-        return true;
-      }
-
-      @Override
-      boolean useMatch() {
-        return false;
       }
     },
     PERMISSIONS {
@@ -339,11 +327,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           new PrintWriter(new BufferedWriter(new OutputStreamWriter(displayOutputStream, UTF_8)));
     }
 
-    if (type == FilterType.PARENT_CANDIDATES) {
-      // Historically, PARENT_CANDIDATES implied showDescription.
-      showDescription = true;
-    }
-
     int foundIndex = 0;
     int found = 0;
     TreeMap<String, ProjectInfo> output = new TreeMap<>();
@@ -447,10 +430,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           continue;
         }
 
-        if (type != FilterType.PARENT_CANDIDATES) {
-          List<WebLinkInfo> links = webLinks.getProjectLinks(projectName.get());
-          info.webLinks = links.isEmpty() ? null : links;
-        }
+        List<WebLinkInfo> links = webLinks.getProjectLinks(projectName.get());
+        info.webLinks = links.isEmpty() ? null : links;
 
         if (foundIndex++ < start) {
           continue;
@@ -509,9 +490,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private Collection<Project.NameKey> filter(PermissionBackend.WithUser perm)
       throws BadRequestException, PermissionBackendException {
     Stream<Project.NameKey> matches = scan();
-    if (type == FilterType.PARENT_CANDIDATES) {
-      matches = parentsOf(matches);
-    }
 
     List<Project.NameKey> results = new ArrayList<>();
     List<Project.NameKey> projectNameKeys = matches.sorted().collect(toList());
@@ -534,27 +512,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     }
 
     return results;
-  }
-
-  private Stream<Project.NameKey> parentsOf(Stream<Project.NameKey> matches) {
-    return matches
-        .map(
-            p -> {
-              ProjectState ps = projectCache.get(p);
-              if (ps != null) {
-                Project.NameKey parent = ps.getProject().getParent();
-                if (parent != null) {
-                  if (projectCache.get(parent) != null) {
-                    return parent;
-                  }
-                  logger.atWarning().log(
-                      "parent project %s of project %s not found", parent.get(), ps.getName());
-                }
-              }
-              return null;
-            })
-        .filter(Objects::nonNull)
-        .distinct();
   }
 
   private boolean isParentAccessible(

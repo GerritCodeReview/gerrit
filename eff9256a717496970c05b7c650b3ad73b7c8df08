@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ab52065_839b9b78",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-22T10:47:58Z",
+      "side": 1,
+      "message": "Is this not something that must be done, otherwise it doesn\u0027t work at all?  In that case it\u0027s better to say \"you will need\", or even just \"you need\".",
+      "range": {
+        "startLine": 106,
+        "startChar": 15,
+        "endLine": 106,
+        "endChar": 23
+      },
+      "revId": "eff9256a717496970c05b7c650b3ad73b7c8df08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

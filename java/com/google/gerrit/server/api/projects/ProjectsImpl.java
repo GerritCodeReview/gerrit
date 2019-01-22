@@ -118,9 +118,6 @@ class ProjectsImpl implements Projects {
       case CODE:
         type = FilterType.CODE;
         break;
-      case PARENT_CANDIDATES:
-        type = FilterType.PARENT_CANDIDATES;
-        break;
       case PERMISSIONS:
         type = FilterType.PERMISSIONS;
         break;

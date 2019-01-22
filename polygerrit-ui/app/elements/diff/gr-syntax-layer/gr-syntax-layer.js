@@ -349,7 +349,8 @@
       // To store the result of the syntax highlighter.
       let result;
 
-      if (this._baseLanguage && baseLine !== undefined) {
+      if (this._baseLanguage && baseLine !== undefined &&
+          this._hljs.getLanguage(this._baseLanguage)) {
         baseLine = this._workaround(this._baseLanguage, baseLine);
         result = this._hljs.highlight(this._baseLanguage, baseLine, true,
             state.baseContext);
@@ -357,7 +358,8 @@
         state.baseContext = result.top;
       }
 
-      if (this._revisionLanguage && revisionLine !== undefined) {
+      if (this._revisionLanguage && revisionLine !== undefined &&
+          this._hljs.getLanguage(this._revisionLanguage)) {
         revisionLine = this._workaround(this._revisionLanguage, revisionLine);
         result = this._hljs.highlight(this._revisionLanguage, revisionLine,
             true, state.revisionContext);

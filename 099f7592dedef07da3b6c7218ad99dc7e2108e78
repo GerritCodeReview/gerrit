@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3479de2b_01cfb4c0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-22T07:33:53Z",
+      "side": 1,
+      "message": "Yes, something for master. The projects are organized in a completely different way there (i.e. Lucene) so the whole feature could be designed differently.",
+      "parentUuid": "40c21afe_44ffff47",
+      "range": {
+        "startLine": 209,
+        "startChar": 62,
+        "endLine": 209,
+        "endChar": 90
+      },
+      "revId": "099f7592dedef07da3b6c7218ad99dc7e2108e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90884b1e_784fe8d8",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
         "patchSetId": 1
@@ -69,6 +93,30 @@
       "revId": "099f7592dedef07da3b6c7218ad99dc7e2108e78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93ff48cc_bb00e6ca",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-22T07:33:53Z",
+      "side": 1,
+      "message": "Thanks for clarifying.",
+      "parentUuid": "433a2d44_fe43ab0d",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 19
+      },
+      "revId": "099f7592dedef07da3b6c7218ad99dc7e2108e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

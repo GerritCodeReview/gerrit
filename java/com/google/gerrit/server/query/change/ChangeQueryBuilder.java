@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 import static java.util.stream.Collectors.toList;
@@ -913,11 +914,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
     Set<Account.Id> m = args.accountResolver.findAll(who);
     if (!m.isEmpty()) {
-      List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
-      for (Account.Id id : m) {
-        return visibleto(args.userFactory.create(id));
-      }
-      return Predicate.or(p);
+      return Predicate.or(
+          m.stream().map(id -> visibleto(args.userFactory.create(id))).collect(toImmutableList()));
     }
 
     // If its not an account, maybe its a group?

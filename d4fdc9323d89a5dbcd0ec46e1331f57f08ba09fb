@@ -23,6 +23,30 @@
       "revId": "d4fdc9323d89a5dbcd0ec46e1331f57f08ba09fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f099c260_94e304a0",
+        "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-22T13:32:42Z",
+      "side": 1,
+      "message": "Hmm. It seems I misread something. The \"BaseConfig\" is only effective for All-Projects (as expect), which means the graph is just\nA    -\u003e    B   -\u003e  All-Projects [false]\n                      /\n           BaseConfig [true]\n\nThis looks good to me. \n\nBut there is still a problem here. When we load configs for All-Projects, we load \"BaseConfig\" first and then append configs from the All-Projects repo. This read action works fine. But saving back may result in overlays for configs of \"BaseConfig\" in the All-Projects repo. Looking at the fix and related tests.",
+      "parentUuid": "9bd3818f_cc944dee",
+      "range": {
+        "startLine": 641,
+        "startChar": 21,
+        "endLine": 642,
+        "endChar": 39
+      },
+      "revId": "d4fdc9323d89a5dbcd0ec46e1331f57f08ba09fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

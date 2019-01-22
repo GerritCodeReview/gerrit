@@ -93,6 +93,7 @@ To create more accounts on your development instance:
 .  Click 'become' in the upper right corner.
 .  Select 'Switch User'.
 .  Register a new account.
+.  link:user-upload.html#ssh[Configure your SSH key].
 
 Use the `ssh` protocol to clone from and push to the local server. For
 example, to clone a repository that you've created through the admin

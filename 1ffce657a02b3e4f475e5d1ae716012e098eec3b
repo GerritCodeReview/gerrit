@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "280bf192_721433cb",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-22T07:01:17Z",
+      "side": 1,
+      "message": "So the problem is that base URL was added even though it is already there? Can you add more details to the commit message?",
+      "range": {
+        "startLine": 329,
+        "startChar": 14,
+        "endLine": 332,
+        "endChar": 0
+      },
+      "revId": "1ffce657a02b3e4f475e5d1ae716012e098eec3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

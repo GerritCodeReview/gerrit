@@ -102,6 +102,10 @@ interface, run:
 git clone ssh://username@localhost:29418/projectname
 ----
 
+[NOTE]
+To use SSH you may need to link:user-upload.html#ssh[configure your SSH public
+key in your `Settings`].
+
 To create changes as users of Gerrit would, run:
 
 ----

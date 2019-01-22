@@ -118,6 +118,30 @@
       "revId": "601a41ebfdfa7cd951ce6ec78561ad629d5862da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "351328bf_73813a69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-22T06:35:40Z",
+      "side": 1,
+      "message": "Thanks DavidP, good catch. I have been too distracted by the \u0027return null\u0027 and haven\u0027t noticed the different return.",
+      "parentUuid": "1138e77f_ddc74eac",
+      "range": {
+        "startLine": 491,
+        "startChar": 17,
+        "endLine": 502,
+        "endChar": 27
+      },
+      "revId": "601a41ebfdfa7cd951ce6ec78561ad629d5862da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

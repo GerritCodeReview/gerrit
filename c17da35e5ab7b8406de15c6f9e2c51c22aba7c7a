@@ -16,6 +16,24 @@
       "revId": "c17da35e5ab7b8406de15c6f9e2c51c22aba7c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7824393d_e0483112",
+        "filename": ".gitmodules",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-22T22:25:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2079422_88a72fa2",
+      "revId": "c17da35e5ab7b8406de15c6f9e2c51c22aba7c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

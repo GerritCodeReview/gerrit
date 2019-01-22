@@ -80,7 +80,6 @@ public interface Projects {
   abstract class ListRequest {
     public enum FilterType {
       CODE,
-      PARENT_CANDIDATES,
       PERMISSIONS,
       ALL
     }

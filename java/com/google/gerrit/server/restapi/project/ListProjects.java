@@ -27,7 +27,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.ProjectInfo;
-import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -39,7 +38,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.GroupResolver;
@@ -69,7 +67,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -95,17 +92,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       @Override
       boolean useMatch() {
         return true;
-      }
-    },
-    PARENT_CANDIDATES {
-      @Override
-      boolean matches(Repository git) {
-        return true;
-      }
-
-      @Override
-      boolean useMatch() {
-        return false;
       }
     },
     PERMISSIONS {
@@ -146,7 +132,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final ProjectNode.Factory projectNodeFactory;
-  private final WebLinks webLinks;
 
   @Deprecated
   @Option(name = "--format", usage = "(deprecated) output format")
@@ -266,8 +251,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       GroupControl.Factory groupControlFactory,
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
-      ProjectNode.Factory projectNodeFactory,
-      WebLinks webLinks) {
+      ProjectNode.Factory projectNodeFactory) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.groupResolver = groupResolver;
@@ -275,7 +259,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.projectNodeFactory = projectNodeFactory;
-    this.webLinks = webLinks;
   }
 
   public List<String> getShowBranch() {
@@ -337,11 +320,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     if (displayOutputStream != null) {
       stdout =
           new PrintWriter(new BufferedWriter(new OutputStreamWriter(displayOutputStream, UTF_8)));
-    }
-
-    if (type == FilterType.PARENT_CANDIDATES) {
-      // Historically, PARENT_CANDIDATES implied showDescription.
-      showDescription = true;
     }
 
     int foundIndex = 0;
@@ -447,11 +425,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           continue;
         }
 
-        if (type != FilterType.PARENT_CANDIDATES) {
-          List<WebLinkInfo> links = webLinks.getProjectLinks(projectName.get());
-          info.webLinks = links.isEmpty() ? null : links;
-        }
-
         if (foundIndex++ < start) {
           continue;
         }
@@ -509,9 +482,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private Collection<Project.NameKey> filter(PermissionBackend.WithUser perm)
       throws BadRequestException, PermissionBackendException {
     Stream<Project.NameKey> matches = scan();
-    if (type == FilterType.PARENT_CANDIDATES) {
-      matches = parentsOf(matches);
-    }
 
     List<Project.NameKey> results = new ArrayList<>();
     List<Project.NameKey> projectNameKeys = matches.sorted().collect(toList());
@@ -534,27 +504,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     }
 
     return results;
-  }
-
-  private Stream<Project.NameKey> parentsOf(Stream<Project.NameKey> matches) {
-    return matches
-        .map(
-            p -> {
-              ProjectState ps = projectCache.get(p);
-              if (ps != null) {
-                Project.NameKey parent = ps.getProject().getParent();
-                if (parent != null) {
-                  if (projectCache.get(parent) != null) {
-                    return parent;
-                  }
-                  logger.atWarning().log(
-                      "parent project %s of project %s not found", parent.get(), ps.getName());
-                }
-              }
-              return null;
-            })
-        .filter(Objects::nonNull)
-        .distinct();
   }
 
   private boolean isParentAccessible(

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d02d79a_e065815e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-22T08:02:35Z",
+      "side": 1,
+      "message": "Mention how it\u0027s done in the Polygerrit UI without this option?",
+      "revId": "e1f0756899c38740f1d0f5401e9572575f80e453",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

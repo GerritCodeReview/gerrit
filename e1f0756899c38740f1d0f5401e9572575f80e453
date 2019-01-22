@@ -81,6 +81,30 @@
       "revId": "e1f0756899c38740f1d0f5401e9572575f80e453",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c24ac479_5de06650",
+        "filename": "java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-22T23:56:24Z",
+      "side": 1,
+      "message": "Ah, sorry, I thought it was the same enum.  I\u0027ll see if we can fix this in a follow up.",
+      "parentUuid": "c8ec280c_405623bc",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 5
+      },
+      "revId": "e1f0756899c38740f1d0f5401e9572575f80e453",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

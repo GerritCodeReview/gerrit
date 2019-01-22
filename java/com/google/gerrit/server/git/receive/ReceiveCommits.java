@@ -833,7 +833,7 @@ class ReceiveCommits {
     } catch (ResourceConflictException e) {
       addError(e.getMessage());
       reject(magicBranchCmd, "conflict");
-    } catch (BadRequestException | UnprocessableEntityException e) {
+    } catch (BadRequestException | UnprocessableEntityException | AuthException e) {
       logger.atFine().withCause(e).log("Rejecting due to client error");
       reject(magicBranchCmd, e.getMessage());
     } catch (RestApiException | IOException e) {

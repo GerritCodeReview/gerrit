@@ -16,6 +16,29 @@
       "revId": "e1f0756899c38740f1d0f5401e9572575f80e453",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "565d613c_6cccf6d7",
+        "filename": "java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-22T08:46:56Z",
+      "side": 1,
+      "message": "Unrelated to this change, but is this whole block even necessary?\n\nThe switch covers all the existing values of the FilterType enum, and it\u0027s not even translating from a different enum with the same named values; the return type of request.getFilterType() is the exact same FilterType.\n\nIf there are values that are not supported by the implementation (which is unlikely; why even have the value then?) shouldn\u0027t we let the implementation check and throw the bad request exception?\n\nIf, for some reason, we really do need this here, then it could be collapsed into a single case:\n\n  case ALL:\n  case CODE:\n  case PERMISSIONS:\n    lp.setFilterType(request.getFilterType());\n    break;\n  default:\n    throw new ...",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 5
+      },
+      "revId": "e1f0756899c38740f1d0f5401e9572575f80e453",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

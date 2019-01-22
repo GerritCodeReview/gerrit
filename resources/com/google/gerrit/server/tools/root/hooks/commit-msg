@@ -33,6 +33,17 @@ dest="$1.tmp.${random}"
 
 trap 'rm -f "${dest}"' EXIT
 
+# If a user has "verbose" commits, then there is a diff after the following
+# marker. In order to assert emptiness, that diff must be pruned before pruning
+# comments:
+GIT_VERBOSE_MARKER="------------------------ >8 ------------------------"
+sed "/${GIT_VERBOSE_MARKER}/q" < "$1" > "${dest}"
+
+if ! mv "${dest}" "$1" ; then
+  echo "cannot mv ${dest} to $1"
+  exit 1
+fi
+
 if ! git stripspace --strip-comments < "$1" > "${dest}" ; then
    echo "cannot strip comments from $1"
    exit 1

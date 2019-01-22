@@ -26,4 +26,5 @@ public class GerritInfo {
   public String reportBugUrl;
   public String reportBugText;
   public Set<UiType> webUis;
+  public String primaryWeblinkName;
 }

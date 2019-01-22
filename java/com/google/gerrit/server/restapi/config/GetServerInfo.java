@@ -313,6 +313,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     if (gerritOptions.enableGwtUi()) {
       info.webUis.add(UiType.GWT);
     }
+    info.primaryWeblinkName = config.getString("gerrit", null, "primaryWeblinkName");
     return info;
   }
 

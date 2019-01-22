@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "45c39a08_1e581d91",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNumberValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-22T08:10:09Z",
+      "side": 1,
+      "message": "@UsedBy(GOOGLE) ?",
+      "range": {
+        "startLine": 20,
+        "startChar": 7,
+        "endLine": 20,
+        "endChar": 16
+      },
+      "revId": "9a8f2e0acc284769346265263efa03fe8c02aab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5fbcee62_7dbe874d",
         "filename": "java/com/google/gerrit/server/notedb/Sequences.java",
         "patchSetId": 1

@@ -22,6 +22,30 @@
       "revId": "601a41ebfdfa7cd951ce6ec78561ad629d5862da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8b7512f_e5c6def6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-22T03:20:41Z",
+      "side": 1,
+      "message": "I tried to address my previous comment, and while doing that I realised that this new implementation is not doing the same as the previous version.\n\nThe previous version iterates the input collection of projects and returns a new collection containing those projects\u0027 parents.  The new version is returning the input projects filtered to those that have parents; but it does not return the projects\u0027 parents.",
+      "parentUuid": "aae0c6dc_336697e1",
+      "range": {
+        "startLine": 491,
+        "startChar": 17,
+        "endLine": 502,
+        "endChar": 27
+      },
+      "revId": "601a41ebfdfa7cd951ce6ec78561ad629d5862da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

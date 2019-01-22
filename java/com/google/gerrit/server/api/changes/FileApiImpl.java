@@ -18,11 +18,13 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.restapi.change.GetContent;
 import com.google.gerrit.server.restapi.change.GetDiff;
+import com.google.gerrit.server.restapi.change.Reviewed;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -33,12 +35,21 @@ class FileApiImpl implements FileApi {
 
   private final GetContent getContent;
   private final GetDiff getDiff;
+  private final Reviewed.PutReviewed putReviewed;
+  private final Reviewed.DeleteReviewed deleteReviewed;
   private final FileResource file;
 
   @Inject
-  FileApiImpl(GetContent getContent, GetDiff getDiff, @Assisted FileResource file) {
+  FileApiImpl(
+      GetContent getContent,
+      GetDiff getDiff,
+      Reviewed.PutReviewed putReviewed,
+      Reviewed.DeleteReviewed deleteReviewed,
+      @Assisted FileResource file) {
     this.getContent = getContent;
     this.getDiff = getDiff;
+    this.putReviewed = putReviewed;
+    this.deleteReviewed = deleteReviewed;
     this.file = file;
   }
 
@@ -86,6 +97,19 @@ class FileApiImpl implements FileApi {
         return FileApiImpl.this.get(this);
       }
     };
+  }
+
+  @Override
+  public void setReviewed(boolean reviewed) throws RestApiException {
+    try {
+      if (reviewed) {
+        putReviewed.apply(file, new Input());
+      } else {
+        deleteReviewed.apply(file, new Input());
+      }
+    } catch (Exception e) {
+      throw asRestApiException(String.format("Cannot set %sreviewed", reviewed ? "" : "un"), e);
+    }
   }
 
   private DiffInfo get(DiffRequest r) throws RestApiException {

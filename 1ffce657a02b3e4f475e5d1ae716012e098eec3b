@@ -46,6 +46,52 @@
       "revId": "1ffce657a02b3e4f475e5d1ae716012e098eec3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1df96586_0e417bb5",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-01-22T10:04:56Z",
+      "side": 1,
+      "message": "This does not solve the problem as described in the issue.\n\n    this.getBaseUrl \u003d \u0027https://host1/gerrit/\u0027\n\n    if (!url.startsWith(\u0027https:\u0027) \u0026\u0026 ! !url.startsWith(\u0027http\u0027)) { // Will be false if url.inludes(this.getBaseUrl())\n      url \u003d (url.startsWith(\u0027/\u0027) ? \u0027\u0027: \u0027/\u0027) + url;\n      if (!url.includes(this.getBaseUrl())) {  // We would never reach this if url.includes(this.getBaseUrl()) so this check is unnecessary\n\nSo in effect it\u0027s:\n\n    if (!url.startsWith(\u0027https:\u0027) \u0026\u0026 ! !url.startsWith(\u0027http\u0027)) {\n      url \u003d (url.startsWith(\u0027/\u0027) ? \u0027\u0027: \u0027/\u0027) + url;\n      url \u003d this.getBaseUrl() + url;\n    }\n\nWhich is equivalent to:\n\n    if (!url.startsWith(\u0027https:\u0027) \u0026\u0026 ! !url.startsWith(\u0027http\u0027)) {\n      url \u003d this.getBaseUrl() + (url.startsWith(\u0027/\u0027) ? \u0027\u0027: \u0027/\u0027) + url;\n    }\n\nWhich is what was the logic before the change.",
+      "range": {
+        "startLine": 327,
+        "startChar": 1,
+        "endLine": 333,
+        "endChar": 31
+      },
+      "revId": "1ffce657a02b3e4f475e5d1ae716012e098eec3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "621e0855_0fd6a845",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-01-22T10:04:56Z",
+      "side": 1,
+      "message": "I don\u0027t see how these test-cases expands the test-coverage in any way.\nAll these cases have already been covered.\nI can also give you a test-case that fails:\n\n    link \u003d {name: \u0027test\u0027, url: \u0027test/base/url\u0027};\n    assert.deepEqueal(element._getChangeWeblinks(mapLinksToConfig(link)[0],\n        {name: \u0027test\u0027, url: \u0027base/test/base/url\u0027} // the resulting weblink.url is \u0027test/base/url\u0027",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 44
+      },
+      "revId": "1ffce657a02b3e4f475e5d1ae716012e098eec3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

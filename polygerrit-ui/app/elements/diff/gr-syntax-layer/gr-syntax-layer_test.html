@@ -50,6 +50,11 @@ limitations under the License.
             top: state === undefined ? 1 : state + 1,
           };
         },
+        // Return something truthy because this method is used to check if the
+        // language is supported.
+        getLanguage(s) {
+          return {};
+        },
       };
     }
 

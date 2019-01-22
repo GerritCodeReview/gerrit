@@ -2174,6 +2174,20 @@ Example:
   installModule = com.example.abc.OurSpecialSauceModule
 ----
 
+[[gerrit.primaryWeblinkName]]gerrit.primaryWeblinkName::
++
+Name of the Weblink that should be chosen in cases where only one Weblink can
+be used, f.i. in inline links.
++
+By default no Weblink or first Weblink with name in
+['gitweb', 'gitiles', 'browse'].
++
+Example:
+----
+[gerrit]
+  primaryWeblinkName = gitiles
+----
+
 [[gerrit.reportBugUrl]]gerrit.reportBugUrl::
 +
 URL to direct users to when they need to report a bug.

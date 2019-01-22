@@ -22,6 +22,30 @@
       "revId": "099f7592dedef07da3b6c7218ad99dc7e2108e78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "433a2d44_fe43ab0d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-22T06:42:36Z",
+      "side": 1,
+      "message": "To be explicit that the other projects are listed properly on a subsequent request when we don\u0027t use the parent candidates option.",
+      "parentUuid": "90884b1e_784fe8d8",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 19
+      },
+      "revId": "099f7592dedef07da3b6c7218ad99dc7e2108e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

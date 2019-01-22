@@ -2174,6 +2174,22 @@ Example:
   installModule = com.example.abc.OurSpecialSauceModule
 ----
 
+[[gerrit.primaryWeblinkName]]gerrit.primaryWeblinkName::
++
+Name of the link:dev-plugins.html#links-to-external-tools[Weblink] that should
+be chosen in cases where only one Weblink can be used in the UI, for example in
+inline links.
++
+By default unset, meaning that the UI is responsible for trying to identify
+a weblink to be used in these cases, most likely weblinks that links to code
+browsers with known integrations with Gerrit (like Gitiles and Gitweb).
++
+Example:
+----
+[gerrit]
+  primaryWeblinkName = gitiles
+----
+
 [[gerrit.reportBugUrl]]gerrit.reportBugUrl::
 +
 URL to direct users to when they need to report a bug.

@@ -196,6 +196,27 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void listParentCandidates() throws Exception {
+    Map<String, ProjectInfo> result =
+        gApi.projects().list().withType(FilterType.PARENT_CANDIDATES).getAsMap();
+    assertThat(result).hasSize(1);
+    assertThat(result).containsKey(allProjects.get());
+
+    // Create a new project with 'project' as parent
+    Project.NameKey testProject = createProject(name("test"), project);
+
+    // Parent candidates are All-Projects and 'project'
+    assertThatNameList(filter(gApi.projects().list().withType(FilterType.PARENT_CANDIDATES).get()))
+        .containsExactly(allProjects, project)
+        .inOrder();
+
+    // All projects are listed
+    assertThatNameList(filter(gApi.projects().list().get()))
+        .containsExactly(allProjects, allUsers, testProject, project)
+        .inOrder();
+  }
+
+  @Test
   public void listWithHiddenProject() throws Exception {
     Project.NameKey hidden = createProject("project-to-hide");
 

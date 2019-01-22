@@ -22,6 +22,30 @@
       "revId": "4b94b43100a48148e1f8bbfec388d092d1b52c37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f75f822c_d4a7c616",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-22T07:04:39Z",
+      "side": 1,
+      "message": "Done.  Also factored the content of the second map call out to a method.",
+      "parentUuid": "764a8bc1_38de89e3",
+      "range": {
+        "startLine": 492,
+        "startChar": 8,
+        "endLine": 492,
+        "endChar": 33
+      },
+      "revId": "4b94b43100a48148e1f8bbfec388d092d1b52c37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83089a32_7989672a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-01-23T17:24:25Z",
+      "side": 1,
+      "message": "looks like in some cases you are calling this with `undefined`, you might want to update the typing to reflect this.",
+      "range": {
+        "startLine": 164,
+        "startChar": 13,
+        "endLine": 164,
+        "endChar": 24
+      },
+      "revId": "32fdc42b9ad8f5110924d34354d3dc53cfee615a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

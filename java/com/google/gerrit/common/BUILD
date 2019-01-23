@@ -3,7 +3,6 @@ load("//tools/bzl:genrule2.bzl", "genrule2")
 ANNOTATIONS = [
     "Nullable.java",
     "audit/Audit.java",
-    "auth/SignInRequired.java",
 ]
 
 java_library(

@@ -22,6 +22,30 @@
       "revId": "73391f2ec8a5d4d307e5af2593b7f11e1e064145",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea98e435_19a0e1c8",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-23T08:24:55Z",
+      "side": 1,
+      "message": "It would also need to be updated in gitiles, and we\u0027d need to make a new release of gitiles that gets consumed by this plugin.  Therefore I think this should be done in a follow-up.",
+      "parentUuid": "079e1103_58d7f1e0",
+      "range": {
+        "startLine": 343,
+        "startChar": 24,
+        "endLine": 343,
+        "endChar": 25
+      },
+      "revId": "73391f2ec8a5d4d307e5af2593b7f11e1e064145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

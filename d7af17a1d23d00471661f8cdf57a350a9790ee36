@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8719ba28_be678814",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-23T10:34:50Z",
+      "side": 1,
+      "message": "OK, if it\u0027s just a cleanup we don\u0027t need it on stable-2.15.",
+      "parentUuid": "b8635341_5abccb3e",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "d7af17a1d23d00471661f8cdf57a350a9790ee36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a7d8096_d2ff309b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

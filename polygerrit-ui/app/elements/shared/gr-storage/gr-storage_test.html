@@ -51,7 +51,7 @@ limitations under the License.
     setup(() => {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
-      element._storage = mockStorage();
+      element.storage = mockStorage();
     });
 
     teardown(() => sandbox.restore());
@@ -78,14 +78,14 @@ limitations under the License.
 
       // Setting the draft stores it under the expected key.
       element.setDraftComment(location, 'my comment');
-      assert.isOk(element._storage.getItem(key));
-      assert.equal(JSON.parse(element._storage.getItem(key)).message,
+      assert.isOk(element.storage.getItem(key));
+      assert.equal(JSON.parse(element.storage.getItem(key)).message,
           'my comment');
-      assert.isOk(JSON.parse(element._storage.getItem(key)).updated);
+      assert.isOk(JSON.parse(element.storage.getItem(key)).updated);
 
       // Erasing the draft removes the key.
       element.eraseDraftComment(location);
-      assert.isNotOk(element._storage.getItem(key));
+      assert.isNotOk(element.storage.getItem(key));
     });
 
     test('automatically removes old drafts', () => {
@@ -108,7 +108,7 @@ limitations under the License.
       const cleanupSpy = sandbox.spy(element, '_cleanupItems');
 
       // Create a message with a timestamp that is a second behind the max age.
-      element._storage.setItem(key, JSON.stringify({
+      element.storage.setItem(key, JSON.stringify({
         message: 'old message',
         updated: Date.now() - 24 * 60 * 60 * 1000 - 1000,
       }));
@@ -118,7 +118,7 @@ limitations under the License.
 
       assert.isTrue(cleanupSpy.called);
       assert.isNotOk(draft);
-      assert.isNotOk(element._storage.getItem(key));
+      assert.isNotOk(element.storage.getItem(key));
     });
 
     test('_getDraftKey', () => {
@@ -145,7 +145,7 @@ limitations under the License.
     });
 
     test('exceeded quota disables storage', () => {
-      element._storage = mockStorage(true);
+      element.storage = mockStorage(true);
       assert.isFalse(element._exceededQuota);
 
       const changeNum = 1234;
@@ -161,7 +161,7 @@ limitations under the License.
       const key = element._getDraftKey(location);
       element.setDraftComment(location, 'my comment');
       assert.isTrue(element._exceededQuota);
-      assert.isNotOk(element._storage.getItem(key));
+      assert.isNotOk(element.storage.getItem(key));
     });
 
     test('editable content items', () => {
@@ -174,7 +174,7 @@ limitations under the License.
       element.setEditableContentItem(key, 'my content');
 
       // Setting the draft stores it under the expected key.
-      let item = element._storage.getItem(computedKey);
+      let item = element.storage.getItem(computedKey);
       assert.isOk(item);
       assert.equal(JSON.parse(item).message, 'my content');
       assert.isOk(JSON.parse(item).updated);
@@ -188,7 +188,7 @@ limitations under the License.
 
       // eraseEditableContentItem performs as expected.
       element.eraseEditableContentItem(key);
-      assert.isNotOk(element._storage.getItem(computedKey));
+      assert.isNotOk(element.storage.getItem(computedKey));
     });
   });
 </script>

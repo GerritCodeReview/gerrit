@@ -28,17 +28,48 @@
     'editablecontent:',
   ];
 
+  /**
+   * Wrapper around localStorage to prevent using it if you have it disabled.
+   */
+  class SiteBasedStorage {
+    // Returns the local storage.
+    _storage() {
+      try {
+        return window.localStorage;
+      } catch() {
+        return null;
+      }
+    }
+
+    getItem(key) {
+      if (this._storage() === null) { return null; }
+      return this._storage().getItem(key);
+    }
+
+    setItem(key, value) {
+      if (this._storage() === null) { return null; }
+      this._storage().set(key, value);
+    }
+
+    removeItem(key) {
+      if (this._storage() === null) { return null; }
+      this._storage().removeItem(key);
+    }
+
+    clear() {
+      if (this._storage() === null) { return null; }
+      this._storage().clear();
+    }
+  }
+
   Polymer({
     is: 'gr-storage',
 
     properties: {
       _lastCleanup: Number,
-      /** @type {?Storage} */
       _storage: {
         type: Object,
-        value() {
-          return window.localStorage;
-        },
+        value: new SiteBasedStorage(),
       },
       _exceededQuota: {
         type: Boolean,

@@ -159,9 +159,10 @@
      * Annotation layer method to add syntax annotations to the given element
      * for the given line.
      * @param {!HTMLElement} el
+     * @param {!HTMLElement} lineNumberEl
      * @param {!Object} line (GrDiffLine)
      */
-    annotate(el, line) {
+    annotate(el, lineNumberEl, line) {
       if (!this.enabled) { return; }
 
       // Determine the side.

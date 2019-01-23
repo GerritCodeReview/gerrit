@@ -32,8 +32,9 @@
 
   /**
    * Register a function to call to apply annotations. Plugins should use
-   * GrAnnotationActionsContext.annotateRange to apply a CSS class to a range
-   * within a line.
+   * GrAnnotationActionsContext.annotateRange and
+   * GrAnnotationActionsContext.annotateLineNumber to apply a CSS class to the
+   * line content or the line number.
    * @param {function(GrAnnotationActionsContext)} addLayerFunc The function
    *     that will be called when the AnnotationLayer is ready to annotate.
    */
@@ -158,13 +159,16 @@
 
   /**
    * Layer method to add annotations to a line.
-   * @param {HTMLElement} el The DIV.contentText element to apply the
-   *     annotation to.
+   * @param {HTMLElement} contentEl The DIV.contentText element of the line
+   *     content to apply the annotation to using annotateRange.
+   * @param {HTMLElement} lineNumberEl The TD element of the line number to
+   *     apply the annotation to using annotateLineNumber.
    * @param {GrDiffLine} line The line object.
    */
-  AnnotationLayer.prototype.annotate = function(el, line) {
+  AnnotationLayer.prototype.annotate = function(contentEl, lineNumberEl, line) {
     const annotationActionsContext = new GrAnnotationActionsContext(
-        el, line, this._path, this._changeNum, this._patchNum);
+        contentEl, lineNumberEl, line, this._path, this._changeNum,
+        this._patchNum);
     this._addLayerFunc(annotationActionsContext);
   };
 

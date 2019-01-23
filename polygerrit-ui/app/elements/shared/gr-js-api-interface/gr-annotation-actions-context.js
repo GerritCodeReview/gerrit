@@ -19,15 +19,19 @@
 
   /**
    * Used to create a context for GrAnnotationActionsInterface.
-   * @param {HTMLElement} el The DIV.contentText element to apply the
-   *     annotation to using annotateRange.
+   * @param {HTMLElement} contentEl The DIV.contentText element of the line
+   *     content to apply the annotation to using annotateRange.
+   * @param {HTMLElement} lineNumberEl The TD element of the line number to
+   *     apply the annotation to using annotateLineNumber.
    * @param {GrDiffLine} line The line object.
-   * @param {String} path The file path (eg: /COMMIT_MSG').
-   * @param {String} changeNum The Gerrit change number.
-   * @param {String} patchNum The Gerrit patch number.
+   * @param {string} path The file path (eg: /COMMIT_MSG').
+   * @param {string} changeNum The Gerrit change number.
+   * @param {string} patchNum The Gerrit patch number.
    */
-  function GrAnnotationActionsContext(el, line, path, changeNum, patchNum) {
-    this._el = el;
+  function GrAnnotationActionsContext(
+      contentEl, lineNumberEl, line, path, changeNum, patchNum) {
+    this._contentEl = contentEl;
+    this._lineNumberEl = lineNumberEl;
 
     this.line = line;
     this.path = path;
@@ -36,16 +40,28 @@
   }
 
   /**
-   * Method to add annotations to a line.
-   * @param {Number} start The line number where the update starts.
-   * @param {Number} end The line number where the update ends.
-   * @param {String} cssClass The name of a CSS class created using Gerrit.css.
-   * @param {String} side The side of the update. ('left' or 'right')
+   * Method to add annotations to a content line.
+   * @param {number} offset The char offset where the update starts.
+   * @param {number} length The number of chars that the update covers.
+   * @param {string} cssClass The name of a CSS class created using Gerrit.css.
+   * @param {string} side The side of the update. ('left' or 'right')
    */
   GrAnnotationActionsContext.prototype.annotateRange = function(
-      start, end, cssClass, side) {
-    if (this._el.getAttribute('data-side') == side) {
-      GrAnnotation.annotateElement(this._el, start, end, cssClass);
+      offset, length, cssClass, side) {
+    if (this._contentEl && this._contentEl.getAttribute('data-side') == side) {
+      GrAnnotation.annotateElement(this._contentEl, offset, length, cssClass);
+    }
+  };
+
+  /**
+   * Method to add a CSS class to the line number TD element.
+   * @param {string} cssClass The name of a CSS class created using Gerrit.css.
+   * @param {string} side The side of the update. ('left' or 'right')
+   */
+  GrAnnotationActionsContext.prototype.annotateLineNumber = function(
+      cssClass, side) {
+    if (this._lineNumberEl && this._lineNumberEl.classList.contains(side)) {
+      this._lineNumberEl.classList.add(cssClass);
     }
   };
 

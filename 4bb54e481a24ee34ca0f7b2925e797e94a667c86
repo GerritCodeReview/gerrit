@@ -52,6 +52,24 @@
       "revId": "4bb54e481a24ee34ca0f7b2925e797e94a667c86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301eede6_3bc1f09c",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1078394
+      },
+      "writtenOn": "2019-01-23T02:37:44Z",
+      "side": 1,
+      "message": "Agreed, done \u0026 uploaded.",
+      "parentUuid": "abec5810_3e862ae7",
+      "revId": "4bb54e481a24ee34ca0f7b2925e797e94a667c86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

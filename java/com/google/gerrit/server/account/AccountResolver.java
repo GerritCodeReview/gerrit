@@ -103,17 +103,7 @@ public class AccountResolver {
     return match;
   }
 
-  /**
-   * Find all accounts matching the input string.
-   *
-   * @param input a string of the format "Full Name &lt;email@example&gt;", just the email address
-   *     ("email@example"), a full name ("Full Name"), an account ID ("18419") or a user name
-   *     ("username").
-   * @return the accounts that match, empty set if none. Never null. If {@code input} is a numeric
-   *     string, returns a singleton set if that number corresponds to a real account ID, and an
-   *     empty set otherwise if it does not.
-   */
-  public Set<Account.Id> findAll(String input)
+  private Set<Account.Id> findAll(String input)
       throws OrmException, IOException, ConfigInvalidException {
     Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(input);
     if (m.matches()) {
@@ -147,14 +137,8 @@ public class AccountResolver {
     return findAllByNameOrEmail(input);
   }
 
-  /**
-   * Locate exactly one account matching the name or name/email string.
-   *
-   * @param nameOrEmail a string of the format "Full Name &lt;email@example&gt;", just the email
-   *     address ("email@example"), a full name ("Full Name").
-   * @return the accounts that match, empty collection if none. Never null.
-   */
-  public Set<Account.Id> findAllByNameOrEmail(String nameOrEmail) throws OrmException, IOException {
+  private Set<Account.Id> findAllByNameOrEmail(String nameOrEmail)
+      throws OrmException, IOException {
     int lt = nameOrEmail.indexOf('<');
     int gt = nameOrEmail.indexOf('>');
     if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {

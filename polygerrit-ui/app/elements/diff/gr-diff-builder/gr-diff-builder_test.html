@@ -163,7 +163,7 @@ limitations under the License.
       const text = 'a'.repeat(51);
 
       const line = {text, highlights: []};
-      const result = builder._createTextEl(line).firstChild.innerHTML;
+      const result = builder._createTextEl(undefined, line).firstChild.innerHTML;
       assert.equal(result, text);
     });
 
@@ -173,14 +173,14 @@ limitations under the License.
 
       const line = {text, highlights: []};
       const expected = 'a'.repeat(50) + LINE_FEED_HTML + 'a';
-      const result = builder._createTextEl(line).firstChild.innerHTML;
+      const result = builder._createTextEl(undefined, line).firstChild.innerHTML;
       assert.equal(result, expected);
     });
 
     test('_createTextEl linewrap with tabs', () => {
       const text = '\t'.repeat(7) + '!';
       const line = {text, highlights: []};
-      const el = builder._createTextEl(line);
+      const el = builder._createTextEl(undefined, line);
       assert.equal(el.innerText, text);
       // With line length 10 and tab size 2, there should be a line break
       // after every two tabs.
@@ -325,7 +325,7 @@ limitations under the License.
           highlights: [],
         };
 
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
 
         // The content is unchanged.
         assert.isFalse(annotateElementSpy.called);
@@ -348,7 +348,7 @@ limitations under the License.
         const str3 = slice(str, 18, 22);
         const str4 = slice(str, 22);
 
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
 
         assert.isTrue(annotateElementSpy.called);
         assert.equal(el.childNodes.length, 5);
@@ -380,7 +380,7 @@ limitations under the License.
         const str0 = slice(str, 0, 28);
         const str1 = slice(str, 28);
 
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
 
         assert.isTrue(annotateElementSpy.called);
         assert.equal(el.childNodes.length, 2);
@@ -400,7 +400,7 @@ limitations under the License.
           ],
         };
 
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
 
         assert.isFalse(annotateElementSpy.called);
         assert.equal(el.childNodes.length, 1);
@@ -421,7 +421,7 @@ limitations under the License.
         const str1 = slice(str, 6, 12);
         const str2 = slice(str, 12);
 
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
 
         assert.isTrue(annotateElementSpy.called);
         assert.equal(el.childNodes.length, 3);
@@ -451,7 +451,7 @@ limitations under the License.
         const str0 = slice(str, 0, 6);
         const str1 = slice(str, 6);
 
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
 
         assert.isTrue(annotateElementSpy.called);
         assert.equal(el.childNodes.length, 2);
@@ -480,7 +480,7 @@ limitations under the License.
         const annotateElementStub =
             sandbox.stub(GrAnnotation, 'annotateElement');
 
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
 
         assert.isFalse(annotateElementStub.called);
       });
@@ -493,7 +493,7 @@ limitations under the License.
         const annotateElementStub =
             sandbox.stub(GrAnnotation, 'annotateElement');
 
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
 
         assert.isFalse(annotateElementStub.called);
       });
@@ -506,7 +506,7 @@ limitations under the License.
         const annotateElementStub =
             sandbox.stub(GrAnnotation, 'annotateElement');
 
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
 
         assert.equal(annotateElementStub.callCount, 1);
         const args = annotateElementStub.getCalls()[0].args;
@@ -526,7 +526,7 @@ limitations under the License.
         const annotateElementStub =
             sandbox.stub(GrAnnotation, 'annotateElement');
 
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
 
         assert.isFalse(annotateElementStub.called);
       });
@@ -539,7 +539,7 @@ limitations under the License.
         const annotateElementStub =
             sandbox.stub(GrAnnotation, 'annotateElement');
 
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
 
         assert.equal(annotateElementStub.callCount, 2);
 
@@ -564,7 +564,7 @@ limitations under the License.
         const annotateElementStub =
             sandbox.stub(GrAnnotation, 'annotateElement');
 
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
 
         assert.equal(annotateElementStub.callCount, 1);
         const args = annotateElementStub.getCalls()[0].args;
@@ -618,7 +618,7 @@ limitations under the License.
         const el = document.createElement('div');
         const annotateElementStub =
             sandbox.stub(GrAnnotation, 'annotateElement');
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
         assert.isFalse(annotateElementStub.called);
       });
 
@@ -629,7 +629,7 @@ limitations under the License.
         el.textContent = str;
         const annotateElementStub =
             sandbox.stub(GrAnnotation, 'annotateElement');
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
         assert.isFalse(annotateElementStub.called);
       });
 
@@ -640,7 +640,7 @@ limitations under the License.
         el.textContent = str;
         const annotateElementStub =
             sandbox.stub(GrAnnotation, 'annotateElement');
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
         assert.isTrue(annotateElementStub.called);
         assert.equal(annotateElementStub.lastCall.args[1], 11);
         assert.equal(annotateElementStub.lastCall.args[2], 3);
@@ -653,7 +653,7 @@ limitations under the License.
         el.textContent = str;
         const annotateElementStub =
             sandbox.stub(GrAnnotation, 'annotateElement');
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
         assert.isTrue(annotateElementStub.called);
         assert.equal(annotateElementStub.lastCall.args[1], 11);
         assert.equal(annotateElementStub.lastCall.args[2], 3);
@@ -666,7 +666,7 @@ limitations under the License.
         el.textContent = str;
         const annotateElementStub =
             sandbox.stub(GrAnnotation, 'annotateElement');
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
         assert.isTrue(annotateElementStub.called);
         assert.equal(annotateElementStub.lastCall.args[1], 11);
         assert.equal(annotateElementStub.lastCall.args[2], 3);
@@ -679,7 +679,7 @@ limitations under the License.
         el.textContent = str;
         const annotateElementStub =
             sandbox.stub(GrAnnotation, 'annotateElement');
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
         assert.isTrue(annotateElementStub.called);
         assert.equal(annotateElementStub.lastCall.args[1], 1);
         assert.equal(annotateElementStub.lastCall.args[2], 1);
@@ -693,7 +693,7 @@ limitations under the License.
         el.textContent = str;
         const annotateElementStub =
             sandbox.stub(GrAnnotation, 'annotateElement');
-        layer.annotate(el, line);
+        layer.annotate(el, undefined, line);
         assert.isFalse(annotateElementStub.called);
       });
     });
@@ -964,7 +964,7 @@ limitations under the License.
 
         assert.equal(spy.callCount, count);
         spy.getCalls().forEach((call, i) => {
-          assert.equal(call.args[0].beforeNumber, start + i);
+          assert.equal(call.args[1].beforeNumber, start + i);
         });
       });
 
@@ -975,9 +975,11 @@ limitations under the License.
             (s, e, d, lines, elements) => {
               // Add a line and a corresponding element.
               lines.push(new GrDiffLine(GrDiffLine.Type.BOTH));
-              const parEl = document.createElement('div');
+              const tr = document.createElement('tr');
+              const td = document.createElement('td');
               const el = document.createElement('div');
-              parEl.appendChild(el);
+              tr.appendChild(td);
+              td.appendChild(el);
               elements.push(el);
 
               // Add 2 lines without corresponding elements.

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "641279be_c57625b5",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-23T18:58:36Z",
+      "side": 0,
+      "message": "Conflict resolution is wrong. This logic was erroneously reverted, by saying:\n\n  matches.filter(p -\u003e perm.project(p).testOrFalse(ProjectPermission.ACCESS))\n\nSo that you inadvertently reverted one part form this CL: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/168610",
+      "range": {
+        "startLine": 500,
+        "startChar": 6,
+        "endLine": 507,
+        "endChar": 55
+      },
+      "revId": "6892c5ba410a0239490917996d626091918911af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

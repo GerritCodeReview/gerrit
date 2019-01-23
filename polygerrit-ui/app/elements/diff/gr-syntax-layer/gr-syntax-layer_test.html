@@ -72,7 +72,7 @@ limitations under the License.
       const line = new GrDiffLine(GrDiffLine.Type.REMOVE);
       line.beforeNumber = 12;
 
-      element.annotate(el, line);
+      element.annotate(el, undefined, line);
 
       assert.isFalse(annotationSpy.called);
     });
@@ -94,7 +94,7 @@ limitations under the License.
         className,
       }];
 
-      element.annotate(el, line);
+      element.annotate(el, undefined, line);
 
       assert.isTrue(annotationSpy.called);
       assert.equal(annotationSpy.lastCall.args[0], el);
@@ -122,7 +122,7 @@ limitations under the License.
       }];
       element.enabled = false;
 
-      element.annotate(el, line);
+      element.annotate(el, undefined, line);
 
       assert.isFalse(annotationSpy.called);
     });

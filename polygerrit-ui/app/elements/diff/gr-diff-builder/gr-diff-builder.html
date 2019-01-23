@@ -331,7 +331,7 @@ limitations under the License.
             // Take a DIV.contentText element and a line object with intraline
             // differences to highlight and apply them to the element as
             // annotations.
-            annotate(el, line) {
+            annotate(contentEl, lineNumberEl, line) {
               const HL_CLASS = 'style-scope gr-diff intraline';
               for (const highlight of line.highlights) {
                 // The start and end indices could be the same if a highlight is
@@ -345,7 +345,7 @@ limitations under the License.
                     highlight.endIndex;
 
                 GrAnnotation.annotateElement(
-                    el,
+                    contentEl,
                     highlight.startIndex,
                     endIndex - highlight.startIndex,
                     HL_CLASS);
@@ -357,7 +357,7 @@ limitations under the License.
         _createTabIndicatorLayer() {
           const show = () => this._showTabs;
           return {
-            annotate(el, line) {
+            annotate(contentEl, lineNumberEl, line) {
               // If visible tabs are disabled, do nothing.
               if (!show()) { return; }
 
@@ -368,7 +368,7 @@ limitations under the License.
                 // Skip forward by the length of the content
                 pos += split[i].length;
 
-                GrAnnotation.annotateElement(el, pos, 1,
+                GrAnnotation.annotateElement(contentEl, pos, 1,
                     'style-scope gr-diff tab-indicator');
 
                 // Skip forward by one tab character.
@@ -384,7 +384,7 @@ limitations under the License.
           }.bind(this);
 
           return {
-            annotate(el, line) {
+            annotate(contentEl, lineNumberEl, line) {
               if (!show()) { return; }
 
               const match = line.text.match(TRAILING_WHITESPACE_PATTERN);
@@ -394,7 +394,7 @@ limitations under the License.
                 const index = GrAnnotation.getStringLength(
                     line.text.substr(0, match.index));
                 const length = GrAnnotation.getStringLength(match[0]);
-                GrAnnotation.annotateElement(el, index, length,
+                GrAnnotation.annotateElement(contentEl, index, length,
                     'style-scope gr-diff trailing-whitespace');
               }
             },

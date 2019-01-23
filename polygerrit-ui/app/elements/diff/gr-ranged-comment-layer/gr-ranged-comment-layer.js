@@ -51,9 +51,10 @@
      * Layer method to add annotations to a line.
      * @param {!HTMLElement} el The DIV.contentText element to apply the
      *     annotation to.
+     * @param {!HTMLElement} lineNumberEl
      * @param {!Object} line The line object. (GrDiffLine)
      */
-    annotate(el, line) {
+    annotate(el, lineNumberEl, line) {
       let ranges = [];
       if (line.type === GrDiffLine.Type.REMOVE || (
           line.type === GrDiffLine.Type.BOTH &&

@@ -305,16 +305,20 @@ public class AccountResolver2 {
     }
   }
 
+  private final ImmutableList<Searcher<?>> nameOrEmailSearchers =
+      ImmutableList.of(
+          new ByNameAndEmail(),
+          new ByEmail(),
+          new FromRealm(),
+          new ByFullName(),
+          new ByDefaultSearch());
+
   private final ImmutableList<Searcher<?>> searchers =
       ImmutableList.<Searcher<?>>builder()
           .add(new ByExactAccountId())
           .add(new ByParenthesizedAccountId())
           .add(new ByUsername())
-          .add(new ByNameAndEmail())
-          .add(new ByEmail())
-          .add(new FromRealm())
-          .add(new ByFullName())
-          .add(new ByDefaultSearch())
+          .addAll(nameOrEmailSearchers)
           .build();
 
   private final AccountCache byId;
@@ -365,7 +369,41 @@ public class AccountResolver2 {
    * @throws IOException if an error occurs.
    */
   public Result resolve(String input) throws OrmException, ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, () -> accountControlFactory.get()::canSee);
+    return searchImpl(input, searchers, visibilitySupplier());
+  }
+
+  /**
+   * Resolves all accounts matching the input string by name or email.
+   *
+   * <p>The following input formats are recognized:
+   *
+   * <ul>
+   *   <li>A full name and email address ({@code "Full Name <email@example>"}). This case
+   *       short-circuits if the input matches.
+   *   <li>An email address ({@code "email@example"}. This case short-circuits if the input matches.
+   *   <li>An account name recognized by the configured {@link Realm#lookup(String)} Realm}.
+   *   <li>A full name ({@code "Full Name"}).
+   *   <li>As a fallback, a {@link
+   *       com.google.gerrit.server.query.account.AccountPredicates#defaultPredicate(Schema,
+   *       boolean, String) default search} against the account index.
+   * </ul>
+   *
+   * @param input input string.
+   * @return a result describing matching accounts. Never null even if the result set is empty.
+   * @throws OrmException if an error occurs.
+   * @throws ConfigInvalidException if an error occurs.
+   * @throws IOException if an error occurs.
+   * @deprecated for use only by MailUtil for parsing commit footers; that class needs to be
+   *     reevaluated.
+   */
+  @Deprecated
+  public Result resolveByNameOrEmail(String input)
+      throws OrmException, ConfigInvalidException, IOException {
+    return searchImpl(input, nameOrEmailSearchers, visibilitySupplier());
+  }
+
+  private Supplier<Predicate<AccountState>> visibilitySupplier() {
+    return () -> accountControlFactory.get()::canSee;
   }
 
   @VisibleForTesting

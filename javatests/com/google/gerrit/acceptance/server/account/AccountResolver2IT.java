@@ -56,13 +56,16 @@ public class AccountResolver2IT extends AbstractDaemonTest {
   @Test
   public void byExactAccountId() throws Exception {
     Account.Id existingId = accountOperations.newAccount().create();
-    accountOperations.newAccount().fullname(existingId.toString()).create();
+    Account.Id idWithExistingIdAsFullname =
+        accountOperations.newAccount().fullname(existingId.toString()).create();
 
     Account.Id nonexistentId = new Account.Id(sequences.nextAccountId());
     accountOperations.newAccount().fullname(nonexistentId.toString()).create();
 
     assertThat(resolve(existingId)).containsExactly(existingId);
     assertThat(resolve(nonexistentId)).isEmpty();
+
+    assertThat(resolveByNameOrEmail(existingId)).containsExactly(idWithExistingIdAsFullname);
   }
 
   @Test
@@ -74,15 +77,19 @@ public class AccountResolver2IT extends AbstractDaemonTest {
     accountOperations.newAccount().fullname("Any Name (" + nonexistentId + ")").create();
     accountOperations.newAccount().fullname(nonexistentId.toString()).create();
 
-    assertThat(resolve("Any Name (" + existingId + ")")).containsExactly(existingId);
+    String existingInput = "Any Name (" + existingId + ")";
+    assertThat(resolve(existingInput)).containsExactly(existingId);
     assertThat(resolve("Any Name (" + nonexistentId + ")")).isEmpty();
+
+    assertThat(resolveByNameOrEmail(existingInput)).isEmpty();
   }
 
   @Test
   public void byUsername() throws Exception {
     String existingUsername = "myusername";
     Account.Id idWithUsername = accountOperations.newAccount().username(existingUsername).create();
-    accountOperations.newAccount().fullname(existingUsername).create();
+    Account.Id idWithExistingUsernameAsFullname =
+        accountOperations.newAccount().fullname(existingUsername).create();
 
     String nonexistentUsername = "anotherusername";
     Account.Id idWithFullname = accountOperations.newAccount().fullname("anotherusername").create();
@@ -92,6 +99,9 @@ public class AccountResolver2IT extends AbstractDaemonTest {
     // Doesn't short-circuit just because the input looks like a valid username.
     assertThat(ExternalId.isValidUsername(nonexistentUsername)).isTrue();
     assertThat(resolve(nonexistentUsername)).containsExactly(idWithFullname);
+
+    assertThat(resolveByNameOrEmail(existingUsername))
+        .containsExactly(idWithExistingUsernameAsFullname);
   }
 
   @Test
@@ -100,7 +110,9 @@ public class AccountResolver2IT extends AbstractDaemonTest {
     Account.Id idWithEmail = accountOperations.newAccount().preferredEmail(email).create();
     accountOperations.newAccount().fullname(email).create();
 
-    assertThat(resolve("First Last <" + email + ">")).containsExactly(idWithEmail);
+    String input = "First Last <" + email + ">";
+    assertThat(resolve(input)).containsExactly(idWithEmail);
+    assertThat(resolveByNameOrEmail(input)).containsExactly(idWithEmail);
   }
 
   @Test
@@ -113,14 +125,17 @@ public class AccountResolver2IT extends AbstractDaemonTest {
 
     String input = "First Last <" + email + ">";
     assertThat(resolve(input)).containsExactly(id1, id2);
+    assertThat(resolveByNameOrEmail(input)).containsExactly(id1, id2);
 
     Account.Id id3 = accountOperations.newAccount().fullname("First Last").create();
     setPreferredEmailBypassingUniquenessCheck(id3, email);
     assertThat(resolve(input)).containsExactly(id3);
+    assertThat(resolveByNameOrEmail(input)).containsExactly(id3);
 
     Account.Id id4 = accountOperations.newAccount().fullname("First Last").create();
     setPreferredEmailBypassingUniquenessCheck(id4, email);
     assertThat(resolve(input)).containsExactly(id3, id4);
+    assertThat(resolveByNameOrEmail(input)).containsExactly(id3, id4);
   }
 
   @Test
@@ -130,6 +145,7 @@ public class AccountResolver2IT extends AbstractDaemonTest {
     accountOperations.newAccount().fullname(email).create();
 
     assertThat(resolve(email)).containsExactly(idWithEmail);
+    assertThat(resolveByNameOrEmail(email)).containsExactly(idWithEmail);
   }
 
   // Can't test for ByRealm because DefaultRealm with the default (OPENID) auth type doesn't support
@@ -142,7 +158,9 @@ public class AccountResolver2IT extends AbstractDaemonTest {
   public void byFullName() throws Exception {
     Account.Id id1 = accountOperations.newAccount().fullname("Somebodys Name").create();
     accountOperations.newAccount().fullname("A totally different name").create();
-    assertThat(resolve("Somebodys name")).containsExactly(id1);
+    String input = "Somebodys name";
+    assertThat(resolve(input)).containsExactly(id1);
+    assertThat(resolveByNameOrEmail(input)).containsExactly(id1);
   }
 
   @Test
@@ -150,6 +168,7 @@ public class AccountResolver2IT extends AbstractDaemonTest {
     Account.Id id1 = accountOperations.newAccount().fullname("John Doe").create();
     Account.Id id2 = accountOperations.newAccount().fullname("Jane Doe").create();
     assertThat(resolve("doe")).containsExactly(id1, id2);
+    assertThat(resolveByNameOrEmail("doe")).containsExactly(id1, id2);
   }
 
   @Test
@@ -182,6 +201,9 @@ public class AccountResolver2IT extends AbstractDaemonTest {
     assertThat(resolve(account.accountId())).containsExactly(id);
     for (String input : inputs) {
       assertThat(resolve(input)).named("results for %s (inactive)", input).isEmpty();
+      assertThat(resolveByNameOrEmail(input))
+          .named("results by name or email for %s (inactive)", input)
+          .isEmpty();
     }
   }
 
@@ -232,6 +254,11 @@ public class AccountResolver2IT extends AbstractDaemonTest {
 
   private ImmutableSet<Account.Id> resolve(Object input) throws Exception {
     return accountResolver.resolve(input.toString()).asIdSet();
+  }
+
+  @SuppressWarnings("deprecation")
+  private ImmutableSet<Account.Id> resolveByNameOrEmail(Object input) throws Exception {
+    return accountResolver.resolveByNameOrEmail(input.toString()).asIdSet();
   }
 
   private void setPreferredEmailBypassingUniquenessCheck(Account.Id id, String email)

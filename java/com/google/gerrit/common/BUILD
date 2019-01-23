@@ -1,6 +1,5 @@
 ANNOTATIONS = [
     "Nullable.java",
-    "audit/Audit.java",
 ]
 
 java_library(

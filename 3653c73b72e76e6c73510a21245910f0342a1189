@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "931e7519_9b4f03f8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-23T17:59:23Z",
+      "side": 1,
+      "message": "Thanks for all the ideas.\n\nI think my preferred method would be to have a first step to find the tr, and then from there find the line num and content elements via selectors (much in the way you do now, or you suggest in the comment). That would avoid the parent.parent, which is very tight to how the dom looks, and be slightly less indirect than going first all the way down to the line num and the back up via the do while. Though I could live with that (going down to the content, then back up with do while) if just going to the tr would cause too many changes (e.g. moving the line number indicating class to the tr...).",
+      "parentUuid": "ad93efda_de9651d1",
+      "range": {
+        "startLine": 601,
+        "startChar": 15,
+        "endLine": 601,
+        "endChar": 50
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f923962_90a5cf4d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
         "patchSetId": 2
@@ -319,6 +343,30 @@
       "side": 1,
       "message": "It is not common. Plugins should be able expect that this is always present. So this is test-only. Should I add one line for each test?\n\nconst lineNumberEl \u003d document.createElement(\u0027td\u0027);",
       "parentUuid": "1f4cf03c_68291298",
+      "range": {
+        "startLine": 352,
+        "startChar": 26,
+        "endLine": 352,
+        "endChar": 37
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3b3398c_ee903713",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-23T17:59:23Z",
+      "side": 1,
+      "message": "You could that line once on top and only reference it instead of undefined in the tests - that should not be that much work and make it more speaking what that undefined is from reading the method call.",
+      "parentUuid": "a195b0c6_065c04e0",
       "range": {
         "startLine": 352,
         "startChar": 26,

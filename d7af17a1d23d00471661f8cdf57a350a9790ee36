@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b8635341_5abccb3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-01-23T08:28:22Z",
+      "side": 1,
+      "message": "I can do it on stable-2.15 also.\nThe code have been refactored quite a bit between 2.15 - 2.16 so I would guess it\u0027s not a clean cherry-pick.\nHowever this isn\u0027t a bug-fix in that sense the code that I removed is mainly debris. It short-circuits since there are no \u0027gitweb\u0027 in ServerInfo so I don\u0027t think it matters much if this gets done on 2.15.\nOn the other hand this is ground work for setting up a better way for PG to choose weblink providers for inline commit-links (like patch-set, parent, etc) and that change might be suitable for 2.15. That code is even more refactored so I would have to write a 2.15 specific implementation for that anyway.\n\nWhat do you say? Ok to implement it on stable.2.16 and possibly do the same work on 2.15 afterwards?",
+      "parentUuid": "f6d1658b_3c0e8a40",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "d7af17a1d23d00471661f8cdf57a350a9790ee36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a7d8096_d2ff309b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "d7af17a1d23d00471661f8cdf57a350a9790ee36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76e12b1c_3e8b15c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-01-23T08:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a7d8096_d2ff309b",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "d7af17a1d23d00471661f8cdf57a350a9790ee36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

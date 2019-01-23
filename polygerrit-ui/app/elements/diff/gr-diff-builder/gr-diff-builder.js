@@ -218,7 +218,9 @@
         // if lines are collapsed and not visible on the page yet.
         continue;
       }
-      el.parentElement.replaceChild(this._createTextEl(line, side).firstChild,
+      const lineNumberEl = this._getLineNumberEl(el, side);
+      el.parentElement.replaceChild(
+          this._createTextEl(line, lineNumberEl, side).firstChild,
           el);
     }
   };
@@ -343,7 +345,8 @@
     return td;
   };
 
-  GrDiffBuilder.prototype._createTextEl = function(line, opt_side) {
+  GrDiffBuilder.prototype._createTextEl = function(
+      line, lineNumberEl, opt_side) {
     const td = this._createElement('td');
     if (line.type !== GrDiffLine.Type.BLANK) {
       td.classList.add('content');
@@ -360,7 +363,7 @@
     }
 
     for (const layer of this.layers) {
-      layer.annotate(contentText, line);
+      layer.annotate(contentText, lineNumberEl, line);
     }
 
     td.appendChild(contentText);
@@ -592,6 +595,17 @@
       }
     }
     return blameTd;
+  };
+
+  GrDiffBuilder.prototype._getLineNumberEl = function(content, side) {
+    const tr = content.parentElement.parentElement;
+    for (const td of tr.childNodes) {
+      if (td.tagName === 'TD' &&
+          td.classList.contains('lineNum') &&
+          td.classList.contains(side)) {
+        return td;
+      }
+    }
   };
 
   window.GrDiffBuilder = GrDiffBuilder;

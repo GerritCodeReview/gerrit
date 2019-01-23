@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6f6e57de_1ed37952",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-23T17:17:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58ff4a21_d309e8a1",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 14
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36bef958_d9a09eec",
         "filename": "polygerrit-ui/README.md",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6fa88192_f14d1130",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-23T17:17:58Z",
+      "side": 1,
+      "message": "Done, see https://gerrit-review.googlesource.com/c/gerrit/+/211453.",
+      "parentUuid": "36bef958_d9a09eec",
+      "range": {
+        "startLine": 126,
+        "startChar": 60,
+        "endLine": 128,
+        "endChar": 15
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ad92c9d_e1e0d49a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2019-01-23T12:24:22Z",
       "side": 1,
       "message": "Wonder if this should now be caused lineEl to better distinguish?",
+      "range": {
+        "startLine": 334,
+        "startChar": 21,
+        "endLine": 334,
+        "endChar": 23
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b424c3cc_e267b30c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-23T17:17:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ad92c9d_e1e0d49a",
       "range": {
         "startLine": 334,
         "startChar": 21,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "0f1726d4_f9418099",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-23T17:17:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a6dc34b_81b48c4c",
+      "range": {
+        "startLine": 349,
+        "startChar": 12,
+        "endLine": 349,
+        "endChar": 24
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d72a7e8_4446a813",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 2
@@ -105,6 +201,30 @@
       "writtenOn": "2019-01-23T12:24:22Z",
       "side": 1,
       "message": "This DOM walking looks like a nightmare to maintain, because it makes a bunch of assumptions on the DOM structure. I wonder if it would make sense to make that part of findLinesByRange which finds the original element, so that it\u0027s at least all contained in one place (where one can maybe replace it with something more robust like querying for specific CSS classes one day)?",
+      "range": {
+        "startLine": 601,
+        "startChar": 15,
+        "endLine": 601,
+        "endChar": 50
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad93efda_de9651d1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-23T17:17:58Z",
+      "side": 1,
+      "message": "Are you only concerned about the .parent.parent lookup or also the rest of the function?\n\nInstead of the for-if construct we could use such a selector:\ntr.querySelector(`td.lineNum.${side}`);\n\nInstead of the .parent.parent we could walk up the tree until we find a TR:\ndo {\n  tr \u003d tr.parentElement;\n} while(tr \u0026\u0026 tr.tagName !\u003d\u003d \u0027TR\u0027)\nif (!!tr) return null;\n\nfindLinesByRange is based on getContentByLine, which is also basically using querySelector(), but I am not sure whether that is a performance hit. I would like to leverage the fact that we already know the content element, so travelling through the DOM from there should be faster than a generic query on the entire diff.\n\nWDYT?",
+      "parentUuid": "5d72a7e8_4446a813",
       "range": {
         "startLine": 601,
         "startChar": 15,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "da7376df_93479f44",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-23T17:17:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f923962_90a5cf4d",
+      "range": {
+        "startLine": 316,
+        "startChar": 8,
+        "endLine": 316,
+        "endChar": 38
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f4cf03c_68291298",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
         "patchSetId": 2
@@ -151,6 +295,30 @@
       "writtenOn": "2019-01-23T12:24:22Z",
       "side": 1,
       "message": "Is it common to call this with undefined or is that just because you do not want to update all tests? If it\u0027s common, I would make it an optional parameter at the end.",
+      "range": {
+        "startLine": 352,
+        "startChar": 26,
+        "endLine": 352,
+        "endChar": 37
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a195b0c6_065c04e0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-23T17:17:58Z",
+      "side": 1,
+      "message": "It is not common. Plugins should be able expect that this is always present. So this is test-only. Should I add one line for each test?\n\nconst lineNumberEl \u003d document.createElement(\u0027td\u0027);",
+      "parentUuid": "1f4cf03c_68291298",
       "range": {
         "startLine": 352,
         "startChar": 26,
@@ -183,6 +351,30 @@
       "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6633f009_dec97740",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-context.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-23T17:17:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cad57438_7c63d1de",
+      "range": {
+        "startLine": 44,
+        "startChar": 13,
+        "endLine": 44,
+        "endChar": 14
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

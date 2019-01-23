@@ -111,7 +111,7 @@ limitations under the License.
         line.type = GrDiffLine.Type.REMOVE;
         line.beforeNumber = 40;
 
-        element.annotate(el, line);
+        element.annotate(el, undefined, line);
 
         assert.isFalse(annotateElementStub.called);
       });
@@ -122,7 +122,7 @@ limitations under the License.
         const expectedStart = 6;
         const expectedLength = line.text.length - expectedStart;
 
-        element.annotate(el, line);
+        element.annotate(el, undefined, line);
 
         assert.isTrue(annotateElementStub.called);
         const lastCall = annotateElementStub.lastCall;
@@ -140,7 +140,7 @@ limitations under the License.
         const expectedStart = 6;
         const expectedLength = line.text.length - expectedStart;
 
-        element.annotate(el, line);
+        element.annotate(el, undefined, line);
 
         assert.isTrue(annotateElementStub.called);
         const lastCall = annotateElementStub.lastCall;
@@ -157,7 +157,7 @@ limitations under the License.
         const expectedStart = 6;
         const expectedLength = line.text.length - expectedStart;
 
-        element.annotate(el, line);
+        element.annotate(el, undefined, line);
 
         assert.isTrue(annotateElementStub.called);
         const lastCall = annotateElementStub.lastCall;
@@ -172,7 +172,7 @@ limitations under the License.
         line.beforeNumber = 36;
         el.setAttribute('data-side', 'right');
 
-        element.annotate(el, line);
+        element.annotate(el, undefined, line);
 
         assert.isFalse(annotateElementStub.called);
       });
@@ -185,7 +185,7 @@ limitations under the License.
         const expectedStart = 0;
         const expectedLength = 22;
 
-        element.annotate(el, line);
+        element.annotate(el, undefined, line);
 
         assert.isTrue(annotateElementStub.called);
         const lastCall = annotateElementStub.lastCall;

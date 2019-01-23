@@ -50,6 +50,7 @@
           const linesMissingCoverage = coverageData[path].linesMissingCoverage;
           if (linesMissingCoverage.includes(line.afterNumber)) {
             context.annotateRange(0, line.text.length, cssClass, 'right');
+            context.annotateLineNumber(cssClass, 'right');
           }
         }
       }).enableToggleCheckbox('Display Coverage', checkbox => {

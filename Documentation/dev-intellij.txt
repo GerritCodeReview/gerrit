@@ -24,6 +24,13 @@ Bazel must be installed as described by
 . Install it.
 . Restart IntelliJ.
 
+TIP: If your project's Bazel build fails with **Cannot run program "bazel": No
+such file or directory**, then you may have to set the binary location in the
+Bazel plugin settings:
+
+. Go to Preferences -> Other Settings -> Bazel Settings.
+. Set the Bazel binary location.
+
 == Creation of IntelliJ project
 
 . Go to *File -> Import Bazel Project*.

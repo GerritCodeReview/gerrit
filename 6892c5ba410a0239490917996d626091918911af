@@ -22,6 +22,30 @@
       "revId": "6892c5ba410a0239490917996d626091918911af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b50bd102_4909163d",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-23T19:10:03Z",
+      "side": 0,
+      "message": "This is what came from the 2.16 branch (so i must have did it wrong on that branch).",
+      "parentUuid": "641279be_c57625b5",
+      "range": {
+        "startLine": 500,
+        "startChar": 6,
+        "endLine": 507,
+        "endChar": 55
+      },
+      "revId": "6892c5ba410a0239490917996d626091918911af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

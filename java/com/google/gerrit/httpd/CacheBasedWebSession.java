@@ -18,7 +18,6 @@ import static java.util.concurrent.TimeUnit.HOURS;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
@@ -96,7 +95,7 @@ public abstract class CacheBasedWebSession implements WebSession {
   private void authFromCookie(String cookie) {
     key = new Key(cookie);
     val = manager.get(key);
-    String token = request.getHeader(HostPageData.XSRF_HEADER_NAME);
+    String token = request.getHeader(XsrfConstants.XSRF_HEADER_NAME);
     if (val != null && token != null && token.equals(val.getAuth())) {
       okPaths.add(AccessPath.REST_API);
     }

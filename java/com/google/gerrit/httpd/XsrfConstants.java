@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.data;
+package com.google.gerrit.httpd;
 
 /** XSRF Constants. */
-public class HostPageData {
+public class XsrfConstants {
   /**
    * Name of the cookie in which the XSRF token is sent from the server to the client during host
    * page bootstrapping.

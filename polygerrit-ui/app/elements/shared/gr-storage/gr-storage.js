@@ -34,10 +34,14 @@
     properties: {
       _lastCleanup: Number,
       /** @type {?Storage} */
-      _storage: {
+      storage: {
         type: Object,
         value() {
-          return window.localStorage;
+          try {
+            return window.localStorage;
+          } catch () {
+            return null;
+          }
         },
       },
       _exceededQuota: {
@@ -58,7 +62,9 @@
 
     eraseDraftComment(location) {
       const key = this._getDraftKey(location);
-      this._storage.removeItem(key);
+      if (this.storage {
+        this.storage.removeItem(key);
+      }
     },
 
     getEditableContentItem(key) {
@@ -72,7 +78,9 @@
     },
 
     eraseEditableContentItem(key) {
-      this._storage.removeItem(key);
+      if (this.storage) {
+        this.storage.removeItem(key);
+      }
     },
 
     getPreferences() {
@@ -109,30 +117,33 @@
       this._lastCleanup = Date.now();
 
       let item;
-      for (const key in this._storage) {
-        if (!this._storage.hasOwnProperty(key)) { continue; }
-        for (const prefix of CLEANUP_PREFIXES) {
-          if (key.startsWith(prefix)) {
-            item = this._getObject(key);
-            if (Date.now() - item.updated > CLEANUP_MAX_AGE) {
-              this._storage.removeItem(key);
+      if (this.storage) {
+        for (const key in this.storage) {
+          if (!this.storage.hasOwnProperty(key)) { continue; }
+          for (const prefix of CLEANUP_PREFIXES) {
+            if (key.startsWith(prefix)) {
+              item = this._getObject(key);
+              if (Date.now() - item.updated > CLEANUP_MAX_AGE) {
+                this.storage.removeItem(key);
+              }
+              break;
             }
-            break;
           }
         }
       }
     },
 
     _getObject(key) {
-      const serial = this._storage.getItem(key);
+      if (!this.storage) { return null; }
+      const serial = this.storage.getItem(key);
       if (!serial) { return null; }
       return JSON.parse(serial);
     },
 
     _setObject(key, obj) {
-      if (this._exceededQuota) { return; }
+      if (this._exceededQuota || !this.storage) { return; }
       try {
-        this._storage.setItem(key, JSON.stringify(obj));
+        this.storage.setItem(key, JSON.stringify(obj));
       } catch (exc) {
         // Catch for QuotaExceededError and disable writes on local storage the
         // first time that it occurs.

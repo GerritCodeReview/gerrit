@@ -15,18 +15,18 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
-import static com.google.common.truth.Truth8.assertThat;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountResolver2.Result;
 import com.google.gerrit.server.account.AccountResolver2.Searcher;
 import com.google.gerrit.server.account.AccountResolver2.StringSearcher;
+import com.google.gerrit.server.account.AccountResolver2.UnresolvableAccountException;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritBaseTests;
@@ -99,20 +99,17 @@ public class AccountResolver2Test extends GerritBaseTests {
             new TestSearcher("foo", false, newAccount(1)),
             new TestSearcher("bar", false, newAccount(2), newAccount(3)));
 
-    Result result = AccountResolver2.searchImpl("foo", searchers, allVisible());
+    Result result = search("foo", searchers, allVisible());
     assertThat(result.input()).isEqualTo("foo");
     assertThat(result.asIdSet()).containsExactlyElementsIn(ids(1));
-    assertThat(result.searcher()).hasValue("foo(1)");
 
-    result = AccountResolver2.searchImpl("bar", searchers, allVisible());
+    result = search("bar", searchers, allVisible());
     assertThat(result.input()).isEqualTo("bar");
     assertThat(result.asIdSet()).containsExactlyElementsIn(ids(2, 3));
-    assertThat(result.searcher()).hasValue("bar(2,3)");
 
-    result = AccountResolver2.searchImpl("baz", searchers, allVisible());
+    result = search("baz", searchers, allVisible());
     assertThat(result.input()).isEqualTo("baz");
     assertThat(result.asIdSet()).isEmpty();
-    assertThat(result.searcher()).isEmpty();
   }
 
   @Test
@@ -121,15 +118,13 @@ public class AccountResolver2Test extends GerritBaseTests {
         ImmutableList.of(
             new TestSearcher("f.*", true), new TestSearcher("foo|bar", false, newAccount(1)));
 
-    Result result = AccountResolver2.searchImpl("foo", searchers, allVisible());
+    Result result = search("foo", searchers, allVisible());
     assertThat(result.input()).isEqualTo("foo");
     assertThat(result.asIdSet()).isEmpty();
-    assertThat(result.searcher()).hasValue("f.*()");
 
-    result = AccountResolver2.searchImpl("bar", searchers, allVisible());
+    result = search("bar", searchers, allVisible());
     assertThat(result.input()).isEqualTo("bar");
     assertThat(result.asIdSet()).containsExactlyElementsIn(ids(1));
-    assertThat(result.searcher()).hasValue("foo|bar(1)");
   }
 
   @Test
@@ -137,10 +132,9 @@ public class AccountResolver2Test extends GerritBaseTests {
     ImmutableList<Searcher<?>> searchers =
         ImmutableList.of(new TestSearcher("foo", false, newAccount(1), newAccount(2)));
 
-    assertThat(AccountResolver2.searchImpl("foo", searchers, allVisible()).asIdSet())
+    assertThat(search("foo", searchers, allVisible()).asIdSet())
         .containsExactlyElementsIn(ids(1, 2));
-    assertThat(AccountResolver2.searchImpl("foo", searchers, only(2)).asIdSet())
-        .containsExactlyElementsIn(ids(2));
+    assertThat(search("foo", searchers, only(2)).asIdSet()).containsExactlyElementsIn(ids(2));
   }
 
   @Test
@@ -148,25 +142,52 @@ public class AccountResolver2Test extends GerritBaseTests {
     TestSearcher searcher = new TestSearcher("foo", false, newAccount(1), newAccount(2));
     ImmutableList<Searcher<?>> searchers = ImmutableList.of(searcher);
 
-    assertThat(AccountResolver2.searchImpl("foo", searchers, only(2)).asIdSet())
-        .containsExactlyElementsIn(ids(2));
+    assertThat(search("foo", searchers, only(2)).asIdSet()).containsExactlyElementsIn(ids(2));
 
     searcher.setCallerMayAssumeCandidatesAreVisible();
-    assertThat(AccountResolver2.searchImpl("foo", searchers, only(2)).asIdSet())
-        .containsExactlyElementsIn(ids(1, 2));
+    assertThat(search("foo", searchers, only(2)).asIdSet()).containsExactlyElementsIn(ids(1, 2));
   }
 
   @Test
-  public void filterInactive() throws Exception {
-    TestSearcher searcher = new TestSearcher("foo", false, newAccount(1), newInactiveAccount(2));
-    ImmutableList<Searcher<?>> searchers = ImmutableList.of(searcher);
+  public void dontFilterInactive() throws Exception {
+    ImmutableList<Searcher<?>> searchers =
+        ImmutableList.of(
+            new TestSearcher("foo", false, newInactiveAccount(1)),
+            new TestSearcher("f.*", false, newInactiveAccount(2)));
 
-    assertThat(AccountResolver2.searchImpl("foo", searchers, allVisible()).asIdSet())
-        .containsExactlyElementsIn(ids(1, 2));
+    Result result = search("foo", searchers, allVisible());
+    // Searchers always short-circuit when finding a non-empty result list, and this one didn't
+    // filter out inactive results, so the second searcher never ran.
+    assertThat(result.asIdSet()).containsExactlyElementsIn(ids(1));
+    assertThat(getOnlyElement(result.asList()).getAccount().isActive()).isFalse();
+    assertThat(filteredInactiveIds(result)).isEmpty();
+  }
 
-    searcher.setCallerShouldFilterOutInactiveCandidates();
-    assertThat(AccountResolver2.searchImpl("foo", searchers, allVisible()).asIdSet())
-        .containsExactlyElementsIn(ids(1));
+  @Test
+  public void filterInactiveEventuallyFindingResults() throws Exception {
+    TestSearcher searcher1 = new TestSearcher("foo", false, newInactiveAccount(1));
+    searcher1.setCallerShouldFilterOutInactiveCandidates();
+    TestSearcher searcher2 = new TestSearcher("f.*", false, newAccount(2));
+    searcher2.setCallerShouldFilterOutInactiveCandidates();
+    ImmutableList<Searcher<?>> searchers = ImmutableList.of(searcher1, searcher2);
+
+    Result result = search("foo", searchers, allVisible());
+    assertThat(search("foo", searchers, allVisible()).asIdSet()).containsExactlyElementsIn(ids(2));
+    // No info about inactive results exposed if there was at least one active result.
+    assertThat(filteredInactiveIds(result)).isEmpty();
+  }
+
+  @Test
+  public void filterInactiveEventuallyFindingNoResults() throws Exception {
+    TestSearcher searcher1 = new TestSearcher("foo", false, newInactiveAccount(1));
+    searcher1.setCallerShouldFilterOutInactiveCandidates();
+    TestSearcher searcher2 = new TestSearcher("f.*", false, newInactiveAccount(2));
+    searcher2.setCallerShouldFilterOutInactiveCandidates();
+    ImmutableList<Searcher<?>> searchers = ImmutableList.of(searcher1, searcher2);
+
+    Result result = search("foo", searchers, allVisible());
+    assertThat(result.asIdSet()).isEmpty();
+    assertThat(filteredInactiveIds(result)).containsExactlyElementsIn(ids(1, 2));
   }
 
   @Test
@@ -182,9 +203,8 @@ public class AccountResolver2Test extends GerritBaseTests {
 
     // searcher1 matched, but filtered out all candidates because account2 is inactive. Actual
     // result came from searcher2 instead.
-    Result result = AccountResolver2.searchImpl("foo", searchers, allVisible());
+    Result result = search("foo", searchers, allVisible());
     assertThat(result.asIdSet()).containsExactlyElementsIn(ids(1, 2));
-    assertThat(result.searcher()).hasValue("foo(1,2)");
   }
 
   @Test
@@ -199,17 +219,20 @@ public class AccountResolver2Test extends GerritBaseTests {
 
     // searcher1 matched and then filtered out all candidates because account2 is inactive, but
     // still short-circuited.
-    Result result = AccountResolver2.searchImpl("foo", searchers, allVisible());
+    Result result = search("foo", searchers, allVisible());
     assertThat(result.asIdSet()).isEmpty();
-    assertThat(result.searcher()).hasValue("foo(2)");
+    assertThat(filteredInactiveIds(result)).containsExactlyElementsIn(ids(2));
   }
 
   @Test
   public void asUniqueWithNoResults() throws Exception {
     try {
-      AccountResolver2.searchImpl("foo", ImmutableList.of(), allVisible()).asUnique();
-      assert_().fail("Expected UnprocessableEntityException");
-    } catch (UnprocessableEntityException e) {
+      String input = "foo";
+      ImmutableList<Searcher<?>> searchers = ImmutableList.of();
+      Supplier<Predicate<AccountState>> visibilitySupplier = allVisible();
+      search(input, searchers, visibilitySupplier).asUnique();
+      assert_().fail("Expected UnresolvableAccountException");
+    } catch (UnresolvableAccountException e) {
       assertThat(e).hasMessageThat().isEqualTo("Account 'foo' not found");
     }
   }
@@ -219,11 +242,7 @@ public class AccountResolver2Test extends GerritBaseTests {
     AccountState account = newAccount(1);
     ImmutableList<Searcher<?>> searchers =
         ImmutableList.of(new TestSearcher("foo", false, account));
-    assertThat(
-            AccountResolver2.searchImpl("foo", searchers, allVisible())
-                .asUnique()
-                .getAccount()
-                .getId())
+    assertThat(search("foo", searchers, allVisible()).asUnique().getAccount().getId())
         .isEqualTo(account.getAccount().getId());
   }
 
@@ -232,11 +251,65 @@ public class AccountResolver2Test extends GerritBaseTests {
     ImmutableList<Searcher<?>> searchers =
         ImmutableList.of(new TestSearcher("foo", false, newAccount(1), newAccount(2)));
     try {
-      AccountResolver2.searchImpl("foo", searchers, allVisible()).asUnique();
-      assert_().fail("Expected UnprocessableEntityException");
-    } catch (UnprocessableEntityException e) {
-      assertThat(e).hasMessageThat().isEqualTo("Account 'foo' is ambiguous");
+      search("foo", searchers, allVisible()).asUnique();
+      assert_().fail("Expected UnresolvableAccountException");
+    } catch (UnresolvableAccountException e) {
+      assertThat(e)
+          .hasMessageThat()
+          .isEqualTo("Account 'foo' is ambiguous:\n1: Anonymous Name (1)\n2: Anonymous Name (2)");
     }
+  }
+
+  @Test
+  public void exceptionMessageNotFound() throws Exception {
+    AccountResolver2 resolver = newAccountResolver();
+    assertThat(
+            new UnresolvableAccountException(
+                resolver.new Result("foo", ImmutableList.of(), ImmutableList.of())))
+        .hasMessageThat()
+        .isEqualTo("Account 'foo' not found");
+  }
+
+  @Test
+  public void exceptionMessageAmbiguous() throws Exception {
+    AccountResolver2 resolver = newAccountResolver();
+    assertThat(
+            new UnresolvableAccountException(
+                resolver
+                .new Result(
+                    "foo", ImmutableList.of(newAccount(3), newAccount(1)), ImmutableList.of())))
+        .hasMessageThat()
+        .isEqualTo("Account 'foo' is ambiguous:\n1: Anonymous Name (1)\n3: Anonymous Name (3)");
+  }
+
+  @Test
+  public void exceptionMessageOnlyInactive() throws Exception {
+    AccountResolver2 resolver = newAccountResolver();
+    assertThat(
+            new UnresolvableAccountException(
+                resolver
+                .new Result(
+                    "foo",
+                    ImmutableList.of(),
+                    ImmutableList.of(newInactiveAccount(3), newInactiveAccount(1)))))
+        .hasMessageThat()
+        .isEqualTo(
+            "Account 'foo' only matches inactive accounts. To use an inactive account, retry"
+                + " with one of the following exact account IDs:\n"
+                + "1: Anonymous Name (1)\n"
+                + "3: Anonymous Name (3)");
+  }
+
+  private Result search(
+      String input,
+      ImmutableList<Searcher<?>> searchers,
+      Supplier<Predicate<AccountState>> visibilitySupplier)
+      throws Exception {
+    return newAccountResolver().searchImpl(input, searchers, visibilitySupplier);
+  }
+
+  private static AccountResolver2 newAccountResolver() {
+    return new AccountResolver2(null, null, null, null, null, "Anonymous Name");
   }
 
   private AccountState newAccount(int id) {
@@ -262,5 +335,13 @@ public class AccountResolver2Test extends GerritBaseTests {
     ImmutableSet<Account.Id> idSet =
         Arrays.stream(ids).mapToObj(Account.Id::new).collect(toImmutableSet());
     return () -> a -> idSet.contains(a.getAccount().getId());
+  }
+
+  private static ImmutableSet<Account.Id> filteredInactiveIds(Result result) {
+    return result
+        .filteredInactive()
+        .stream()
+        .map(a -> a.getAccount().getId())
+        .collect(toImmutableSet());
   }
 }

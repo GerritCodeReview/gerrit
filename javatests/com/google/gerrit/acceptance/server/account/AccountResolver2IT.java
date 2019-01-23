@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.base.Splitter;
@@ -28,6 +29,8 @@ import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountResolver2;
+import com.google.gerrit.server.account.AccountResolver2.Result;
+import com.google.gerrit.server.account.AccountResolver2.UnresolvableAccountException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -184,12 +187,13 @@ public class AccountResolver2IT extends AbstractDaemonTest {
                     .create())
             .get();
     Account.Id id = account.accountId();
+    String nameEmail = account.fullname().get() + " <" + account.preferredEmail().get() + ">";
     ImmutableList<String> inputs =
         ImmutableList.of(
             account.fullname().get() + " (" + account.accountId() + ")",
             account.fullname().get(),
             account.preferredEmail().get(),
-            account.fullname().get() + "<" + account.preferredEmail().get() + ">",
+            nameEmail,
             Splitter.on(' ').splitToList(account.fullname().get()).get(0));
 
     assertThat(resolve(account.accountId())).containsExactly(id);
@@ -200,7 +204,23 @@ public class AccountResolver2IT extends AbstractDaemonTest {
     gApi.accounts().id(id.get()).setActive(false);
     assertThat(resolve(account.accountId())).containsExactly(id);
     for (String input : inputs) {
-      assertThat(resolve(input)).named("results for %s (inactive)", input).isEmpty();
+      Result result = accountResolver.resolve(input);
+      assertThat(result.asIdSet()).named("results for %s (inactive)", input).isEmpty();
+      try {
+        result.asUnique();
+        assert_().fail("expected UnresolvableAccountException");
+      } catch (UnresolvableAccountException e) {
+        assertThat(e)
+            .hasMessageThat()
+            .isEqualTo(
+                "Account '"
+                    + input
+                    + "' only matches inactive accounts. To use an inactive account, retry"
+                    + " with one of the following exact account IDs:\n"
+                    + id
+                    + ": "
+                    + nameEmail);
+      }
       assertThat(resolveByNameOrEmail(input))
           .named("results by name or email for %s (inactive)", input)
           .isEmpty();

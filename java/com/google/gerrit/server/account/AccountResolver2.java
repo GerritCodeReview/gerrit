@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
@@ -27,15 +30,18 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
@@ -64,43 +70,93 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  */
 @Singleton
 public class AccountResolver2 {
-  @AutoValue
-  public abstract static class Result {
-    static Result create(String input, ImmutableList<AccountState> list, Searcher<?> searcher) {
-      return new AutoValue_AccountResolver2_Result(input, list, Optional.of(searcher.toString()));
+  public static class UnresolvableAccountException extends UnprocessableEntityException {
+    private static final long serialVersionUID = 1L;
+
+    @VisibleForTesting
+    UnresolvableAccountException(Result result) {
+      super(exceptionMessage(result));
+    }
+  }
+
+  private static String exceptionMessage(Result result) {
+    checkArgument(result.asList().size() != 1);
+    if (result.asList().isEmpty()) {
+      if (result.filteredInactive().isEmpty()) {
+        return "Account '" + result.input() + "' not found";
+      }
+      return result
+          .filteredInactive()
+          .stream()
+          .map(a -> formatForException(result, a))
+          .collect(
+              joining(
+                  "\n",
+                  "Account '"
+                      + result.input()
+                      + "' only matches inactive accounts. To use an inactive account, retry with"
+                      + " one of the following exact account IDs:\n",
+                  ""));
     }
 
-    static Result empty(String input) {
-      return new AutoValue_AccountResolver2_Result(input, ImmutableList.of(), Optional.empty());
+    return result
+        .asList()
+        .stream()
+        .map(a -> formatForException(result, a))
+        .collect(joining("\n", "Account '" + result.input() + "' is ambiguous:\n", ""));
+  }
+
+  private static String formatForException(Result result, AccountState state) {
+    return state.getAccount().getId()
+        + ": "
+        + state.getAccount().getNameEmail(result.accountResolver().anonymousCowardName);
+  }
+
+  public class Result {
+    private final String input;
+    private final ImmutableList<AccountState> list;
+    private final ImmutableList<AccountState> filteredInactive;
+
+    @VisibleForTesting
+    Result(String input, List<AccountState> list, List<AccountState> filteredInactive) {
+      this.input = requireNonNull(input);
+      this.list = canonicalize(list);
+      this.filteredInactive = canonicalize(filteredInactive);
     }
 
-    public abstract String input();
+    private ImmutableList<AccountState> canonicalize(List<AccountState> list) {
+      TreeSet<AccountState> set = new TreeSet<>(comparing(a -> a.getAccount().getId().get()));
+      set.addAll(requireNonNull(list));
+      return ImmutableList.copyOf(set);
+    }
+
+    public String input() {
+      return input;
+    }
 
     public ImmutableList<AccountState> asList() {
-      return list();
+      return list;
     }
 
     public ImmutableSet<Account.Id> asIdSet() {
-      return list().stream().map(a -> a.getAccount().getId()).collect(toImmutableSet());
+      return list.stream().map(a -> a.getAccount().getId()).collect(toImmutableSet());
     }
 
     public AccountState asUnique() throws UnprocessableEntityException {
-      switch (list().size()) {
-        case 1:
-          return list().get(0);
-        case 0:
-          // TODO(dborowitz): Include information about whether this takes invisible/inactive users
-          // into account.
-          throw new UnprocessableEntityException("Account '" + input() + "' not found");
-        default:
-          throw new UnprocessableEntityException("Account '" + input() + "' is ambiguous");
+      if (list.size() != 1) {
+        throw new UnresolvableAccountException(this);
       }
+      return list.get(0);
     }
 
-    abstract ImmutableList<AccountState> list();
-
     @VisibleForTesting
-    abstract Optional<String> searcher();
+    ImmutableList<AccountState> filteredInactive() {
+      return filteredInactive;
+    }
+
+    private AccountResolver2 accountResolver() {
+      return AccountResolver2.this;
+    }
   }
 
   @VisibleForTesting
@@ -118,6 +174,12 @@ public class AccountResolver2 {
     Stream<AccountState> search(I input) throws OrmException, IOException, ConfigInvalidException;
 
     boolean shortCircuitIfNoResults();
+
+    default Optional<Stream<AccountState>> trySearch(String input)
+        throws OrmException, IOException, ConfigInvalidException {
+      Optional<I> parsed = tryParse(input);
+      return parsed.isPresent() ? Optional.of(search(parsed.get())) : Optional.empty();
+    }
   }
 
   private abstract class AccountIdSearcher implements Searcher<Account.Id> {
@@ -326,6 +388,7 @@ public class AccountResolver2 {
   private final Emails emails;
   private final Provider<InternalAccountQuery> accountQueryProvider;
   private final Realm realm;
+  private final String anonymousCowardName;
 
   @Inject
   AccountResolver2(
@@ -333,12 +396,14 @@ public class AccountResolver2 {
       Emails emails,
       AccountControl.Factory accountControlFactory,
       Provider<InternalAccountQuery> accountQueryProvider,
-      Realm realm) {
+      Realm realm,
+      @AnonymousCowardName String anonymousCowardName) {
     this.realm = realm;
     this.byId = byId;
     this.accountControlFactory = accountControlFactory;
     this.accountQueryProvider = accountQueryProvider;
     this.emails = emails;
+    this.anonymousCowardName = anonymousCowardName;
   }
 
   /**
@@ -407,47 +472,53 @@ public class AccountResolver2 {
   }
 
   @VisibleForTesting
-  static Result searchImpl(
+  Result searchImpl(
       String input,
       ImmutableList<Searcher<?>> searchers,
       Supplier<Predicate<AccountState>> visibilitySupplier)
       throws OrmException, ConfigInvalidException, IOException {
     visibilitySupplier = Suppliers.memoize(visibilitySupplier::get);
+    List<AccountState> inactive = new ArrayList<>();
+
     for (Searcher<?> searcher : searchers) {
-      Optional<Result> result = trySearch(searcher, input, visibilitySupplier);
-      if (result.isPresent()) {
-        return result.get();
+      Optional<Stream<AccountState>> maybeResults = searcher.trySearch(input);
+      if (!maybeResults.isPresent()) {
+        continue;
+      }
+      Stream<AccountState> results = maybeResults.get();
+
+      if (!searcher.callerMayAssumeCandidatesAreVisible()) {
+        results = results.filter(visibilitySupplier.get());
+      }
+
+      List<AccountState> list;
+      if (searcher.callerShouldFilterOutInactiveCandidates()) {
+        // Keep track of all inactive candidates discovered by any searchers. If we end up short-
+        // circuiting, the inactive list will be discarded.
+        List<AccountState> active = new ArrayList<>();
+        results.forEach(a -> (a.getAccount().isActive() ? active : inactive).add(a));
+        list = active;
+      } else {
+        list = results.collect(toImmutableList());
+      }
+
+      if (!list.isEmpty()) {
+        return createResult(input, list);
+      }
+      if (searcher.shortCircuitIfNoResults()) {
+        // For a short-circuiting searcher, return results even if empty.
+        return !inactive.isEmpty() ? emptyResult(input, inactive) : createResult(input, list);
       }
     }
-    return Result.empty(input);
+    return emptyResult(input, inactive);
   }
 
-  private static <I> Optional<Result> trySearch(
-      Searcher<I> searcher, String input, Supplier<Predicate<AccountState>> visibilitySupplier)
-      throws OrmException, ConfigInvalidException, IOException {
-    Optional<I> parsed = searcher.tryParse(input);
-    if (!parsed.isPresent()) {
-      return Optional.empty(); // Input is not in this searcher's format.
-    }
+  private Result createResult(String input, List<AccountState> list) {
+    return new Result(input, list, ImmutableList.of());
+  }
 
-    Stream<AccountState> result = searcher.search(parsed.get());
-    if (searcher.callerShouldFilterOutInactiveCandidates()) {
-      result = result.filter(a -> a.getAccount().isActive());
-    }
-    if (!searcher.callerMayAssumeCandidatesAreVisible()) {
-      result = result.filter(visibilitySupplier.get());
-    }
-    ImmutableList<AccountState> list = result.collect(toImmutableList());
-    if (!list.isEmpty()
-        // For a short-circuiting searcher, return results even if empty.
-        || searcher.shortCircuitIfNoResults()) {
-      return Optional.of(Result.create(input, list, searcher));
-    }
-    // Otherwise, in the case of an empty list, tell searchImpl to proceed to the next searcher.
-    // The emptiness check must happen after filtering, so that end users can't distinguish between
-    // the case where the searcher produced no results and where it only produced inactive/invisible
-    // results.
-    return Optional.empty();
+  private Result emptyResult(String input, List<AccountState> inactive) {
+    return new Result(input, ImmutableList.of(), inactive);
   }
 
   private Stream<AccountState> toAccountStates(Set<Account.Id> ids) {

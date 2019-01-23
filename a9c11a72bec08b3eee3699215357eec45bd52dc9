@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1a653ff_6a8750f2",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-23T10:37:27Z",
+      "side": 1,
+      "message": "Do we need this exclusion?",
+      "range": {
+        "startLine": 283,
+        "startChar": 56,
+        "endLine": 283,
+        "endChar": 100
+      },
+      "revId": "a9c11a72bec08b3eee3699215357eec45bd52dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

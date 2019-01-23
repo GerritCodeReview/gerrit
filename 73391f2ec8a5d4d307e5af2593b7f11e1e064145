@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "079e1103_58d7f1e0",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-01-23T08:16:40Z",
+      "side": 1,
+      "message": "Any chance we could upgrade to 0.10.0? That is what we currently have.",
+      "range": {
+        "startLine": 343,
+        "startChar": 24,
+        "endLine": 343,
+        "endChar": 25
+      },
+      "revId": "73391f2ec8a5d4d307e5af2593b7f11e1e064145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

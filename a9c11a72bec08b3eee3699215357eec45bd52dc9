@@ -70,6 +70,30 @@
       "revId": "a9c11a72bec08b3eee3699215357eec45bd52dc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf97b1b_81646cf2",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-01-23T12:13:17Z",
+      "side": 1,
+      "message": "I think if this works or doesn\u0027t work isn\u0027t determined by this code, but rather by TagMatcher and how it implements reachability it should peel all objects so if you have a tag pointing to another tag pointing to a ref it should be able to handle that. For this caller here it should be sufficient to provide just the ref for a reachability check.",
+      "parentUuid": "b25fdbf6_960a90cc",
+      "range": {
+        "startLine": 283,
+        "startChar": 56,
+        "endLine": 283,
+        "endChar": 100
+      },
+      "revId": "a9c11a72bec08b3eee3699215357eec45bd52dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a970e7f2_922c100c",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-23T15:41:19Z",
+      "side": 1,
+      "message": "I have an alternate approach that I think may be simpler: what if we remove this step?\n\nIn other words, the script would use stripspace to determine whether the commit message is empty, and then it would use interpret-trailers to add the Change-Id line to the *unstripped* message. Git interpret-trailers appears to understand all the formats that git commit can throw at it.",
+      "revId": "a21db58b00991cce347c6e1a8fdfb37e3ba9032e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,7 +16,6 @@ package com.google.gerrit.httpd;
 
 import static com.google.common.base.Strings.nullToEmpty;
 
-import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AuthConfig;
@@ -59,7 +58,7 @@ public class XsrfCookieFilter implements Filter {
   private void setXsrfTokenCookie(
       HttpServletRequest req, HttpServletResponse rsp, WebSession session) {
     String v = session != null ? session.getXGerritAuth() : null;
-    Cookie c = new Cookie(HostPageData.XSRF_COOKIE_NAME, nullToEmpty(v));
+    Cookie c = new Cookie(XsrfConstants.XSRF_COOKIE_NAME, nullToEmpty(v));
     c.setPath("/");
     c.setSecure(authConfig.getCookieSecure() && isSecure(req));
     c.setMaxAge(

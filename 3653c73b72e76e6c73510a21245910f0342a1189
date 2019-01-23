@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58ff4a21_d309e8a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-23T12:24:22Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#commit-message \n\ncalls for one line, 72 character summary (I think this is so it shows up properly in histories of various git tools).",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 14
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36bef958_d9a09eec",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-23T12:24:22Z",
+      "side": 1,
+      "message": "Would split this into a separate CL - that makes it easier to merge and roll back etc. since its unrelated to your changes.",
+      "range": {
+        "startLine": 126,
+        "startChar": 60,
+        "endLine": 128,
+        "endChar": 15
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ad92c9d_e1e0d49a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-23T12:24:22Z",
+      "side": 1,
+      "message": "Wonder if this should now be caused lineEl to better distinguish?",
+      "range": {
+        "startLine": 334,
+        "startChar": 21,
+        "endLine": 334,
+        "endChar": 23
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6dc34b_81b48c4c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-23T12:24:22Z",
+      "side": 1,
+      "message": "Nit: On the inner method, you always use lineNumberEl, then line as parameter order. Maybe worth doing that consistently?",
+      "range": {
+        "startLine": 349,
+        "startChar": 12,
+        "endLine": 349,
+        "endChar": 24
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d72a7e8_4446a813",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-23T12:24:22Z",
+      "side": 1,
+      "message": "This DOM walking looks like a nightmare to maintain, because it makes a bunch of assumptions on the DOM structure. I wonder if it would make sense to make that part of findLinesByRange which finds the original element, so that it\u0027s at least all contained in one place (where one can maybe replace it with something more robust like querying for specific CSS classes one day)?",
+      "range": {
+        "startLine": 601,
+        "startChar": 15,
+        "endLine": 601,
+        "endChar": 50
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f923962_90a5cf4d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-23T12:24:22Z",
+      "side": 1,
+      "message": "Dupe?",
+      "range": {
+        "startLine": 316,
+        "startChar": 8,
+        "endLine": 316,
+        "endChar": 38
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f4cf03c_68291298",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-23T12:24:22Z",
+      "side": 1,
+      "message": "Is it common to call this with undefined or is that just because you do not want to update all tests? If it\u0027s common, I would make it an optional parameter at the end.",
+      "range": {
+        "startLine": 352,
+        "startChar": 26,
+        "endLine": 352,
+        "endChar": 37
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cad57438_7c63d1de",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-context.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-01-23T12:24:22Z",
+      "side": 1,
+      "message": "I think all of these primitive types should be lower case? https://github.com/google/closure-compiler/wiki/Types-in-the-Closure-Type-System",
+      "range": {
+        "startLine": 44,
+        "startChar": 13,
+        "endLine": 44,
+        "endChar": 14
+      },
+      "revId": "3653c73b72e76e6c73510a21245910f0342a1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

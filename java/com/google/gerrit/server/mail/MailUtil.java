@@ -18,10 +18,10 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.gerrit.common.FooterConstants;
-import com.google.gerrit.common.errors.NoSuchAccountException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.ReviewerSet;
-import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver2;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.Collections;
@@ -29,14 +29,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 
 public class MailUtil {
 
   public static MailRecipients getRecipientsFromFooters(
-      AccountResolver accountResolver, List<FooterLine> footerLines)
-      throws OrmException, IOException {
+      AccountResolver2 accountResolver, List<FooterLine> footerLines)
+      throws OrmException, IOException, ConfigInvalidException {
     MailRecipients recipients = new MailRecipients();
     for (FooterLine footerLine : footerLines) {
       try {
@@ -45,7 +46,7 @@ public class MailUtil {
         } else if (footerLine.matches(FooterKey.CC)) {
           recipients.cc.add(toAccountId(accountResolver, footerLine.getValue().trim()));
         }
-      } catch (NoSuchAccountException e) {
+      } catch (UnprocessableEntityException e) {
         continue;
       }
     }
@@ -59,13 +60,9 @@ public class MailUtil {
     return recipients;
   }
 
-  private static Account.Id toAccountId(AccountResolver accountResolver, String nameOrEmail)
-      throws OrmException, NoSuchAccountException, IOException {
-    Account a = accountResolver.findByNameOrEmail(nameOrEmail);
-    if (a == null) {
-      throw new NoSuchAccountException("\"" + nameOrEmail + "\" is not registered");
-    }
-    return a.getId();
+  private static Account.Id toAccountId(AccountResolver2 accountResolver, String nameOrEmail)
+      throws OrmException, UnprocessableEntityException, IOException, ConfigInvalidException {
+    return accountResolver.resolveByNameOrEmail(nameOrEmail).asUnique().getAccount().getId();
   }
 
   private static boolean isReviewer(FooterLine candidateFooterLine) {

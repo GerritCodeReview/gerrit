@@ -152,21 +152,6 @@ public class AccountResolver {
    *
    * @param nameOrEmail a string of the format "Full Name &lt;email@example&gt;", just the email
    *     address ("email@example"), a full name ("Full Name").
-   * @return the single account that matches; null if no account matches or there are multiple
-   *     candidates.
-   */
-  public Account findByNameOrEmail(String nameOrEmail) throws OrmException, IOException {
-    Set<Account.Id> r = findAllByNameOrEmail(nameOrEmail);
-    return r.size() == 1
-        ? byId.get(r.iterator().next()).map(AccountState::getAccount).orElse(null)
-        : null;
-  }
-
-  /**
-   * Locate exactly one account matching the name or name/email string.
-   *
-   * @param nameOrEmail a string of the format "Full Name &lt;email@example&gt;", just the email
-   *     address ("email@example"), a full name ("Full Name").
    * @return the accounts that match, empty collection if none. Never null.
    */
   public Set<Account.Id> findAllByNameOrEmail(String nameOrEmail) throws OrmException, IOException {

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21d5b197_c57230ab",
+        "filename": "java/com/google/gerrit/server/schema/testing/AllProjectsCreatorTestUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-23T01:58:26Z",
+      "side": 1,
+      "message": "Optional nit: exactRef",
+      "range": {
+        "startLine": 136,
+        "startChar": 27,
+        "endLine": 136,
+        "endChar": 34
+      },
+      "revId": "025cd4325ae282e8b6ef2f861dac46f0589e3751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3d4ea79_ca8a9a8a",
+        "filename": "java/com/google/gerrit/server/schema/testing/AllProjectsCreatorTestUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-23T01:58:26Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is really the ideal interface. I think long term I\u0027d rather have some sort of Subject\u003cConfig\u003e so these can be expressed as fluent Truth assertions. But I understand that this is on the critical path to a bugfix so I won\u0027t insist.",
+      "revId": "025cd4325ae282e8b6ef2f861dac46f0589e3751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -170,12 +170,11 @@ class Helper {
     if ("GSSAPI".equals(authentication)) {
       return kerberosOpen(env);
     }
-    LdapContext ctx = createContext(env);
     if (username != null) {
       ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, username);
       ctx.addToEnvironment(Context.SECURITY_CREDENTIALS, password);
-      ctx.reconnect(null);
     }
+    LdapContext ctx = createContext(env);
     return ctx;
   }
 

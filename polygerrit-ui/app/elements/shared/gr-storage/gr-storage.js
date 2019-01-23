@@ -37,7 +37,11 @@
       _storage: {
         type: Object,
         value() {
-          return window.localStorage;
+          try {
+            return window.localStorage;
+          } catch {
+            return null;
+          }
         },
       },
       _exceededQuota: {

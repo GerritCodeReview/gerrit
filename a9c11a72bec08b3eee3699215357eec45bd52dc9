@@ -46,6 +46,30 @@
       "revId": "a9c11a72bec08b3eee3699215357eec45bd52dc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b25fdbf6_960a90cc",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-23T11:23:29Z",
+      "side": 1,
+      "message": "I\u0027m just wondering what happens if someone creates a tag locally, off another tag object, and pushes it.  I haven\u0027t tried it, but I would think it\u0027s a valid git operation to do that.  How will Gerrit then react?\n\nI remember we\u0027ve had some issues with Gerrit not handling tags in some cases before.  IIRC there were some on the linux kernel project that could never be fetched.",
+      "parentUuid": "fd30b473_ec6f336b",
+      "range": {
+        "startLine": 283,
+        "startChar": 56,
+        "endLine": 283,
+        "endChar": 100
+      },
+      "revId": "a9c11a72bec08b3eee3699215357eec45bd52dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

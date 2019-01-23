@@ -280,30 +280,14 @@
     },
 
     _getPatchSetWeblink(params) {
-      const {repo, commit, options} = params;
-      const {weblinks, config} = options || {};
+      const {commit, options} = params;
+      const {weblinks} = options || {};
       const name = commit && commit.slice(0, 7);
-      const gitwebConfigUrl = this._configBasedCommitUrl(repo, commit, config);
-      if (gitwebConfigUrl) {
-        return {
-          name,
-          url: gitwebConfigUrl,
-        };
-      }
       const url = this._getSupportedWeblinkUrl(weblinks);
       if (!url) {
         return {name};
       } else {
         return {name, url};
-      }
-    },
-
-    _configBasedCommitUrl(repo, commit, config) {
-      if (config && config.gitweb && config.gitweb.url &&
-          config.gitweb.type && config.gitweb.type.revision) {
-        return config.gitweb.url + config.gitweb.type.revision
-            .replace('${project}', repo)
-            .replace('${commit}', commit);
       }
     },
 

@@ -191,12 +191,15 @@
      * an existential check can be used to hide or show the webLinks
      * section.
      */
-    _computeWebLinks(commitInfo) {
+    _computeWebLinks(commitInfo, serverConfig) {
       if (!commitInfo) { return null; }
       const weblinks = Gerrit.Nav.getChangeWeblinks(
           this.change ? this.change.repo : '',
           commitInfo.commit,
-          {weblinks: commitInfo.web_links});
+          {
+            weblinks: commitInfo.web_links,
+            config: serverConfig,
+          });
       return weblinks.length ? weblinks : null;
     },
 

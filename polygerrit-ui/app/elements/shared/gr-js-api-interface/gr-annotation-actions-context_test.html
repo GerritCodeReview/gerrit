@@ -39,6 +39,7 @@ limitations under the License.
     let instance;
     let sandbox;
     let el;
+    let lineNumberEl;
 
     setup(() => {
       sandbox = sinon.sandbox.create();
@@ -47,8 +48,10 @@ limitations under the License.
       el = document.createElement('div');
       el.textContent = str;
       el.setAttribute('data-side', 'right');
+      lineNumberEl = document.createElement('td');
+      lineNumberEl.classList.add('right');
       instance = new GrAnnotationActionsContext(
-          el, line, 'dummy/path', '123', '1');
+          el, lineNumberEl, line, 'dummy/path', '123', '1');
     });
 
     teardown(() => {
@@ -73,6 +76,18 @@ limitations under the License.
       assert.equal(args[1], start);
       assert.equal(args[2], end);
       assert.equal(args[3], cssClass);
+    });
+
+    test('test annotateLineNumber', () => {
+      const cssClass = Gerrit.css('background-color: #000000');
+
+      // Assert that css class is *not* applied when side is different.
+      instance.annotateLineNumber(cssClass, 'left');
+      assert.isFalse(lineNumberEl.classList.contains(cssClass));
+
+      // Assert that css class is applied when side is the same.
+      instance.annotateLineNumber(cssClass, 'right');
+      assert.isTrue(lineNumberEl.classList.contains(cssClass));
     });
   });
 </script>

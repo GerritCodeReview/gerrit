@@ -123,7 +123,9 @@ For interactively working on a single test file, do the following:
 ./polygerrit-ui/run-server.sh
 ```
 
-Then visit http://localhost:8081/elements/foo/bar_test.html
+Then visit http://localhost:8081/elements/foo/bar_test.html and check "Disable
+cache" in the "Network" tab of Chrome's dev tools, so code changes are picked
+up on "reload".
 
 To run Chrome tests in headless mode:
 

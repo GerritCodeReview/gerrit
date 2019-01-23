@@ -218,7 +218,9 @@
         // if lines are collapsed and not visible on the page yet.
         continue;
       }
-      el.parentElement.replaceChild(this._createTextEl(line, side).firstChild,
+      const lineNumberEl = this._getLineNumberEl(el, side);
+      el.parentElement.replaceChild(
+          this._createTextEl(lineNumberEl, line, side).firstChild,
           el);
     }
   };
@@ -343,7 +345,8 @@
     return td;
   };
 
-  GrDiffBuilder.prototype._createTextEl = function(line, opt_side) {
+  GrDiffBuilder.prototype._createTextEl = function(
+      lineNumberEl, line, opt_side) {
     const td = this._createElement('td');
     if (line.type !== GrDiffLine.Type.BLANK) {
       td.classList.add('content');
@@ -360,7 +363,7 @@
     }
 
     for (const layer of this.layers) {
-      layer.annotate(contentText, line);
+      layer.annotate(contentText, lineNumberEl, line);
     }
 
     td.appendChild(contentText);
@@ -592,6 +595,19 @@
       }
     }
     return blameTd;
+  };
+
+  /**
+   * Finds the line number element given the content element by walking up the
+   * DOM tree to the diff row and then querying for a .lineNum element on the
+   * requested side.
+   *
+   * TODO(brohlfs): Consolidate this with getLineEl... methods in html file.
+   */
+  GrDiffBuilder.prototype._getLineNumberEl = function(content, side) {
+    let row = content;
+    while (row && !row.classList.contains('diff-row')) row = row.parentElement;
+    return row ? row.querySelector('.lineNum.' + side) : null;
   };
 
   window.GrDiffBuilder = GrDiffBuilder;

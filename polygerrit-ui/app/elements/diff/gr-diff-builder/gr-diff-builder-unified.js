@@ -68,24 +68,24 @@
 
   GrDiffBuilderUnified.prototype._createRow = function(section, line) {
     const row = this._createElement('tr', line.type);
-    row.appendChild(this._createBlameCell(line));
-
-    let lineEl = this._createLineEl(line, line.beforeNumber,
-        GrDiffLine.Type.REMOVE);
-    lineEl.classList.add('left');
-    row.appendChild(lineEl);
-    lineEl = this._createLineEl(line, line.afterNumber,
-        GrDiffLine.Type.ADD);
-    lineEl.classList.add('right');
-    row.appendChild(lineEl);
     row.classList.add('diff-row', 'unified');
     row.tabIndex = -1;
+    row.appendChild(this._createBlameCell(line));
+
+    let lineNumberEl = this._createLineEl(line, line.beforeNumber,
+        GrDiffLine.Type.REMOVE);
+    lineNumberEl.classList.add('left');
+    row.appendChild(lineNumberEl);
+    lineNumberEl = this._createLineEl(line, line.afterNumber,
+        GrDiffLine.Type.ADD);
+    lineNumberEl.classList.add('right');
+    row.appendChild(lineNumberEl);
 
     const action = this._createContextControl(section, line);
     if (action) {
       row.appendChild(action);
     } else {
-      const textEl = this._createTextEl(line);
+      const textEl = this._createTextEl(lineNumberEl, line);
       row.appendChild(textEl);
     }
     return row;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "979539b2_7dec3d6c",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-23T02:47:25Z",
+      "side": 1,
+      "message": "Some more:\n\n* REFS_USERS (which would subsume isRefsEdit)\n* REFS_GROUPNAMES\n\nAnd probably worth another scan over the whole list of refs in this file.",
+      "revId": "82746a1bbd28971c18baa16dc073744515a11e18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

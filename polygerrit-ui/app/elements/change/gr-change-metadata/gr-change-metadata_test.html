@@ -133,6 +133,7 @@ limitations under the License.
       const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
           .returns([{name: 'stubb', url: '#s'}]);
       element.commitInfo = {};
+      element.serverConfig = {};
       flushAsynchronousOperations();
       const webLinks = element.$.webLinks;
       assert.isTrue(weblinksStub.called);
@@ -142,6 +143,7 @@ limitations under the License.
 
     test('weblinks hidden when no weblinks', () => {
       element.commitInfo = {};
+      element.serverConfig = {};
       flushAsynchronousOperations();
       const webLinks = element.$.webLinks;
       assert.isTrue(webLinks.hasAttribute('hidden'));
@@ -149,10 +151,24 @@ limitations under the License.
 
     test('weblinks hidden when only gitiles weblink', () => {
       element.commitInfo = {web_links: [{name: 'gitiles', url: '#'}]};
+      element.serverConfig = {};
       flushAsynchronousOperations();
       const webLinks = element.$.webLinks;
       assert.isTrue(webLinks.hasAttribute('hidden'));
       assert.equal(element._computeWebLinks(element.commitInfo), null);
+    });
+
+    test('weblinks hidden when sole weblink is set as primary', () => {
+      const browser = 'browser';
+      element.commitInfo = {web_links: [{name: browser, url: '#'}]};
+      element.serverConfig = {
+        gerrit: {
+          primary_weblink_name: browser,
+        },
+      };
+      flushAsynchronousOperations();
+      const webLinks = element.$.webLinks;
+      assert.isTrue(webLinks.hasAttribute('hidden'));
     });
 
     test('weblinks are visible when other weblinks', () => {

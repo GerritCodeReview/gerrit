@@ -330,11 +330,11 @@ limitations under the License.
             account="[[account]]"
             mutable="[[_mutable]]"></gr-change-requirements>
       </div>
-      <section id="webLinks" hidden$="[[!_computeWebLinks(commitInfo)]]">
+      <section id="webLinks" hidden$="[[!_computeWebLinks(commitInfo, serverConfig)]]">
         <span class="title">Links</span>
         <span class="value">
           <template is="dom-repeat"
-              items="[[_computeWebLinks(commitInfo)]]" as="link">
+              items="[[_computeWebLinks(commitInfo, serverConfig)]]" as="link">
             <a href="[[link.url]]" class="webLink" rel="noopener" target="_blank">
               [[link.name]]
             </a>

@@ -70,6 +70,30 @@
       "revId": "73391f2ec8a5d4d307e5af2593b7f11e1e064145",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b638125_3d8a2093",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-23T08:47:31Z",
+      "side": 1,
+      "message": "Eh, actually, I just checked the gitiles project and it\u0027s already using 0.10.0 since September 2017.\n\nAlso the gitiles plugin is using 0.10.0 on the master branch.\n\nSo it looks like this is incorrectly using an outdated version.",
+      "parentUuid": "bfe2d998_63b3900d",
+      "range": {
+        "startLine": 343,
+        "startChar": 24,
+        "endLine": 343,
+        "endChar": 25
+      },
+      "revId": "73391f2ec8a5d4d307e5af2593b7f11e1e064145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -196,7 +196,10 @@
       const weblinks = Gerrit.Nav.getChangeWeblinks(
           this.change ? this.change.repo : '',
           commitInfo.commit,
-          {weblinks: commitInfo.web_links});
+          {
+            weblinks: commitInfo.web_links,
+            config: commitInfo.serverConfig,
+          });
       return weblinks.length ? weblinks : null;
     },
 

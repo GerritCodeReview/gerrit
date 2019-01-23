@@ -18,6 +18,11 @@
 	url = ../plugins/download-commands
 	branch = .
 
+[submodule "plugins/gitiles"]
+	path = plugins/gitiles
+	url = ../plugins/gitiles
+	branch = .
+
 [submodule "plugins/hooks"]
 	path = plugins/hooks
 	url = ../plugins/hooks

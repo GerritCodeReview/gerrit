@@ -3,6 +3,7 @@ CORE_PLUGINS = [
     "commit-message-length-validator",
     "delete-project",
     "download-commands",
+    "gitiles",
     "hooks",
     "replication",
     "reviewnotes",

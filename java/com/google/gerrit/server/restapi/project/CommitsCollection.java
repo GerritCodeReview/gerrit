@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -49,8 +48,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
 public class CommitsCollection implements ChildCollection<ProjectResource, CommitResource> {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final DynamicMap<RestView<CommitResource>> views;
   private final GitRepositoryManager repoManager;
   private final ChangeIndexCollection indexes;

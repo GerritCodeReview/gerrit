@@ -22,6 +22,30 @@
       "revId": "7c369a1d911e7e9d7f2827e455687028cfab0b67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d1f3e52_1b1b8896",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-23T21:21:01Z",
+      "side": 1,
+      "message": "\u003e Now we know, that the filter() method is actually broken and instantiates the whole list of projects. This problem was fixed on stable-2.15 already (minimal fix).\n\nYes, after you exit the filter, the entire projects cache has been loaded: it takes around 30 mins on GerritHub.io ... but not anymore thanks to the fix :-)\n \n\u003e However, let us assume that filter is correctly returning only non materialized stream and the original for loop was iterating over it (like the current code on stable-2.15 branch), then compared to the base version this shorten for-loop is a deterioration in memory utilization, because this would unconditionally materialize the whole project stream.\n\nYes, the logic of this refactoring needs to change because, after the merge of stable-2.16 into master, this filter() will return a non-materialized stream and so it should stay.\n\n\u003e Even before the limit/skip logic on lines 428, 431 below are executed. So if on a site with 20k projects, project list for 1 specific project is requested, for all 20k projects permission check is executed in filter method and projectStates collection is populated with 20k entries, even though only one is needed.\n\nAgreed, this isn\u0027t good anymore.\n\n\u003e \n\u003e This seems to be a problem of this specific change an thus this refactoring. The follow-up change is correct and doesn\u0027t suffer from this performance degradation.\n\nThis whole refactoring needs to be revisited, will put into WIP state.",
+      "parentUuid": "ad176ca2_27618979",
+      "range": {
+        "startLine": 343,
+        "startChar": 6,
+        "endLine": 348,
+        "endChar": 7
+      },
+      "revId": "7c369a1d911e7e9d7f2827e455687028cfab0b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

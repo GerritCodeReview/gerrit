@@ -141,7 +141,15 @@
         this._logWelcome();
       });
 
-      if (window.localStorage.getItem('dark-theme')) {
+      let useDarkMode = false;
+      try {
+        useDarkMode = window.localStorage;
+      } catch (err) {
+        console.error('localStorage is disabled with this error ' + err);
+        useDarkMode = false;
+      }
+
+      if (useDarkMode && useDarkMode.getItem('dark-theme')) {
         this.$.libLoader.getDarkTheme().then(module => {
           Polymer.dom(this.root).appendChild(module);
         });

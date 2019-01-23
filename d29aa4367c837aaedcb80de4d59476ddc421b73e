@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72613b31_871b62ab",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2019-01-23T11:58:30Z",
+      "side": 1,
+      "message": "as far as I understand this will expose the credentials if the mode is startTLS.",
+      "revId": "d29aa4367c837aaedcb80de4d59476ddc421b73e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

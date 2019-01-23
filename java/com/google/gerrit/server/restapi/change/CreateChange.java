@@ -356,7 +356,7 @@ public class CreateChange
       MergeInput merge,
       PersonIdent authorIdent,
       String commitMessage)
-      throws RestApiException, IOException {
+      throws RestApiException, IOException, OrmException {
     if (Strings.isNullOrEmpty(merge.source)) {
       throw new BadRequestException("merge.source must be non-empty");
     }

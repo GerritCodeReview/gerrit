@@ -25,7 +25,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -46,7 +45,11 @@ public class Reachable {
     this.permissionBackend = permissionBackend;
   }
 
-  /** @return true if a commit is reachable from a given set of refs. */
+  /**
+   * @return true if a commit is reachable from a given set of refs. This method enforces
+   *     permissions on the given set of refs and performs a reachability check. Tags are not
+   *     filtered separately and will only be returned if reachable by a provided ref.
+   */
   public boolean fromRefs(
       Project.NameKey project, Repository repo, RevCommit commit, List<Ref> refs) {
     try (RevWalk rw = new RevWalk(repo)) {
@@ -54,21 +57,9 @@ public class Reachable {
           permissionBackend
               .currentUser()
               .project(project)
-              .filter(refs, repo, RefFilterOptions.builder().setFilterTagsSeparately(true).build());
+              .filter(refs, repo, RefFilterOptions.defaults());
       return IncludedInResolver.includedInAny(repo, rw, commit, filtered.values());
     } catch (IOException | PermissionBackendException e) {
-      logger.atSevere().withCause(e).log(
-          "Cannot verify permissions to commit object %s in repository %s", commit.name(), project);
-      return false;
-    }
-  }
-
-  /** @return true if a commit is reachable from a repo's branches and tags. */
-  boolean fromHeadsOrTags(Project.NameKey project, Repository repo, RevCommit commit) {
-    try {
-      List<Ref> refs = repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS, Constants.R_TAGS);
-      return fromRefs(project, repo, commit, refs);
-    } catch (IOException e) {
       logger.atSevere().withCause(e).log(
           "Cannot verify permissions to commit object %s in repository %s", commit.name(), project);
       return false;

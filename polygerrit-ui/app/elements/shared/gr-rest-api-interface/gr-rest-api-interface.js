@@ -1605,7 +1605,7 @@
       this._invalidateSharedFetchPromisesPrefix('/groups/?');
     },
 
-    invalidateReposCache(filter, reposPerPage, opt_offset) {
+    invalidateReposCache() {
       this._invalidateSharedFetchPromisesPrefix('/projects/?');
     },
 
@@ -1886,16 +1886,21 @@
       });
     },
 
-    getChangesWithSameTopic(topic) {
+    getChangesWithSameTopic(topic, changeNum) {
       const options = this.listChangesOptionsToHex(
           this.ListChangesOption.LABELS,
           this.ListChangesOption.CURRENT_REVISION,
           this.ListChangesOption.CURRENT_COMMIT,
           this.ListChangesOption.DETAILED_LABELS
       );
+      const query = [
+        'status:open',
+        '-change:' + changeNum,
+        'topic:' + topic,
+      ].join(' ');
       const params = {
         O: options,
-        q: 'status:open topic:' + topic,
+        q: query,
       };
       return this._fetchJSON({
         url: '/changes/',

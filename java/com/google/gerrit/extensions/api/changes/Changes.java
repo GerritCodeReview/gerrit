@@ -94,16 +94,19 @@ public interface Changes {
       return this;
     }
 
+    /** Set an option on the request, appending to existing options. */
     public QueryRequest withOption(ListChangesOption options) {
       this.options.add(options);
       return this;
     }
 
+    /** Set options on the request, appending to existing options. */
     public QueryRequest withOptions(ListChangesOption... options) {
       this.options.addAll(Arrays.asList(options));
       return this;
     }
 
+    /** Set options on the request, replacing existing options. */
     public QueryRequest withOptions(EnumSet<ListChangesOption> options) {
       this.options = options;
       return this;

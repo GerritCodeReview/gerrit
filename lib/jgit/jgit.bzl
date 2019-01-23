@@ -1,4 +1,4 @@
-load("//tools/bzl:maven_jar.bzl", "ECLIPSE", "GERRIT", "MAVEN_CENTRAL", "MAVEN_LOCAL", "maven_jar")
+load("//tools/bzl:maven_jar.bzl", "MAVEN_CENTRAL", "maven_jar")
 
 _JGIT_VERS = "5.2.1.201812262042-r"
 
@@ -6,7 +6,7 @@ _DOC_VERS = _JGIT_VERS  # Set to _JGIT_VERS unless using a snapshot
 
 JGIT_DOC_URL = "http://download.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
 
-_JGIT_REPO = ECLIPSE  # Leave here even if set to MAVEN_CENTRAL.
+_JGIT_REPO = MAVEN_CENTRAL  # Leave here even if set to MAVEN_CENTRAL.
 
 # set this to use a local version.
 # "/home/<user>/projects/jgit"
@@ -67,11 +67,11 @@ def jgit_maven_repos():
 
 def jgit_dep(name):
     mapping = {
-        "@jgit-junit//jar": "@jgit//org.eclipse.jgit.junit:junit",
-        "@jgit-lib//jar:src": "@jgit//org.eclipse.jgit:libjgit-src.jar",
-        "@jgit-lib//jar": "@jgit//org.eclipse.jgit:jgit",
-        "@jgit-servlet//jar": "@jgit//org.eclipse.jgit.http.server:jgit-servlet",
         "@jgit-archive//jar": "@jgit//org.eclipse.jgit.archive:jgit-archive",
+        "@jgit-junit//jar": "@jgit//org.eclipse.jgit.junit:junit",
+        "@jgit-lib//jar": "@jgit//org.eclipse.jgit:jgit",
+        "@jgit-lib//jar:src": "@jgit//org.eclipse.jgit:libjgit-src.jar",
+        "@jgit-servlet//jar": "@jgit//org.eclipse.jgit.http.server:jgit-servlet",
     }
 
     if LOCAL_JGIT_REPO:

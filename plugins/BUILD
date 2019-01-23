@@ -1,4 +1,5 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
+load("//tools/bzl:javadoc.bzl", "java_doc")
 load(
     "//tools/bzl:plugins.bzl",
     "CORE_PLUGINS",
@@ -122,8 +123,6 @@ java_binary(
         "//java/com/google/gerrit/util/http:libhttp-src.jar",
     ],
 )
-
-load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_doc(
     name = "plugin-api-javadoc",

@@ -129,8 +129,7 @@
     },
 
     _refreshGroupsList() {
-      this.$.restAPI.invalidateGroupsCache(this._filter,
-          this._groupsPerPage, this._offset);
+      this.$.restAPI.invalidateGroupsCache();
       return this._getGroups(this._filter, this._groupsPerPage,
           this._offset);
     },

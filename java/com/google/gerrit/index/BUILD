@@ -1,5 +1,3 @@
-load("//tools/bzl:genrule2.bzl", "genrule2")
-
 QUERY_PARSE_EXCEPTION_SRCS = [
     "query/QueryParseException.java",
     "query/QueryRequiresAuthException.java",

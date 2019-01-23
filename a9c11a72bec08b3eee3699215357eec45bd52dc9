@@ -22,6 +22,30 @@
       "revId": "a9c11a72bec08b3eee3699215357eec45bd52dc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd30b473_ec6f336b",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-01-23T10:39:12Z",
+      "side": 1,
+      "message": "Yes, because a tag is not a taggable ref.\n\nA future commit in the series adds a checkArgument in the caller to assert that on the second pass (when filtering tags) we don\u0027t encounter any more tags that we deferred visibility checks on.",
+      "parentUuid": "d1a653ff_6a8750f2",
+      "range": {
+        "startLine": 283,
+        "startChar": 56,
+        "endLine": 283,
+        "endChar": 100
+      },
+      "revId": "a9c11a72bec08b3eee3699215357eec45bd52dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

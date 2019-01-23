@@ -501,6 +501,16 @@ Documentation]
 link:https://gerrit.googlesource.com/plugins/quota/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[rabbitmq]]
+=== rabbitmq
+
+A plugin that publishes Gerrit events to a
+link:https://www.rabbitmq.com/[RabbitMQ] exchange.
+
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/rabbitmq[Project]
+link:https://gerrit.googlesource.com/plugins/rabbitmq/+/master/src/main/resources/Documentation/config.md[
+Configuration]
+
 [[readonly]]
 === readonly
 

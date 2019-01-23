@@ -33,18 +33,19 @@
 
     properties: {
       _lastCleanup: Number,
-      /** @type {?Storage} */
-      _storage: {
-        type: Object,
-        value() {
-          return window.localStorage;
-        },
-      },
       _exceededQuota: {
         type: Boolean,
         value: false,
       },
     },
+
+    getStorage() {
+      try {
+        return window.localStorage;
+      } catch(err) {
+        return undefined;
+      }
+    }
 
     getDraftComment(location) {
       this._cleanupItems();
@@ -58,7 +59,9 @@
 
     eraseDraftComment(location) {
       const key = this._getDraftKey(location);
-      this._storage.removeItem(key);
+      if (typeof this.getStorage() != 'undefined') {
+        this.getStorage().removeItem(key);
+      }
     },
 
     getEditableContentItem(key) {
@@ -72,7 +75,9 @@
     },
 
     eraseEditableContentItem(key) {
-      this._storage.removeItem(key);
+      if (typeof this.getStorage() != 'undefined') {
+        this.getStorage().removeItem(key);
+      }
     },
 
     getPreferences() {
@@ -109,30 +114,33 @@
       this._lastCleanup = Date.now();
 
       let item;
-      for (const key in this._storage) {
-        if (!this._storage.hasOwnProperty(key)) { continue; }
-        for (const prefix of CLEANUP_PREFIXES) {
-          if (key.startsWith(prefix)) {
-            item = this._getObject(key);
-            if (Date.now() - item.updated > CLEANUP_MAX_AGE) {
-              this._storage.removeItem(key);
+      if (typeof this.getStorage() != 'undefined') {
+        for (const key in this.getStorage()) {
+          if (!this.getStorage().hasOwnProperty(key)) { continue; }
+          for (const prefix of CLEANUP_PREFIXES) {
+            if (key.startsWith(prefix)) {
+              item = this._getObject(key);
+              if (Date.now() - item.updated > CLEANUP_MAX_AGE) {
+                this.getStorage().removeItem(key);
+              }
+              break;
             }
-            break;
           }
         }
       }
     },
 
     _getObject(key) {
-      const serial = this._storage.getItem(key);
+      if (typeof this.getStorage() === 'undefined') { return null; }
+      const serial = this.getStorage().getItem(key);
       if (!serial) { return null; }
       return JSON.parse(serial);
     },
 
     _setObject(key, obj) {
-      if (this._exceededQuota) { return; }
+      if (this._exceededQuota || typeof this.getStorage() === 'undefined') { return; }
       try {
-        this._storage.setItem(key, JSON.stringify(obj));
+        this.getStorage().setItem(key, JSON.stringify(obj));
       } catch (exc) {
         // Catch for QuotaExceededError and disable writes on local storage the
         // first time that it occurs.

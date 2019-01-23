@@ -141,10 +141,12 @@
         this._logWelcome();
       });
 
-      if (window.localStorage.getItem('dark-theme')) {
-        this.$.libLoader.getDarkTheme().then(module => {
-          Polymer.dom(this.root).appendChild(module);
-        });
+      if (typeof this.$.storage.getStorage() != 'undefined') {
+        if (this.$.storage.getStorage().getItem('dark-theme')) {
+          this.$.libLoader.getDarkTheme().then(module => {
+            Polymer.dom(this.root).appendChild(module);
+          });
+        }
       }
 
       // Note: this is evaluated here to ensure that it only happens after the

@@ -71,7 +71,8 @@ limitations under the License.
       const annotationLayer = annotationActions.getLayer(
           '/dummy/path', changeNum, patchNum);
 
-      annotationLayer.annotate(el, line);
+      const lineNumberEl = document.createElement('td');
+      annotationLayer.annotate(el, lineNumberEl, line);
       assert.isTrue(testLayerFuncCalled);
     });
 

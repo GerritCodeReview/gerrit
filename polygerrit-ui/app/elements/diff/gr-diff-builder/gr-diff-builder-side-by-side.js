@@ -89,14 +89,14 @@
 
   GrDiffBuilderSideBySide.prototype._appendPair = function(section, row, line,
       lineNumber, side) {
-    const lineEl = this._createLineEl(line, lineNumber, line.type, side);
-    lineEl.classList.add(side);
-    row.appendChild(lineEl);
+    const lineNumberEl = this._createLineEl(line, lineNumber, line.type, side);
+    lineNumberEl.classList.add(side);
+    row.appendChild(lineNumberEl);
     const action = this._createContextControl(section, line);
     if (action) {
       row.appendChild(action);
     } else {
-      const textEl = this._createTextEl(line, side);
+      const textEl = this._createTextEl(lineNumberEl, line, side);
       row.appendChild(textEl);
     }
   };

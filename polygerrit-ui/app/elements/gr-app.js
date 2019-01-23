@@ -141,7 +141,7 @@
         this._logWelcome();
       });
 
-      if (window.localStorage.getItem('dark-theme')) {
+      if (this.$.storage._storage != null && this.$.storage._storage.getItem('dark-theme')) {
         this.$.libLoader.getDarkTheme().then(module => {
           Polymer.dom(this.root).appendChild(module);
         });

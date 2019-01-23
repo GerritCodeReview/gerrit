@@ -37,7 +37,11 @@
       _storage: {
         type: Object,
         value() {
-          return window.localStorage;
+          try {
+            return window.localStorage;
+          } catch {
+            return null;
+          }
         },
       },
       _exceededQuota: {
@@ -58,7 +62,9 @@
 
     eraseDraftComment(location) {
       const key = this._getDraftKey(location);
-      this._storage.removeItem(key);
+      if (this._storage != null) {
+        this._storage.removeItem(key);
+      }
     },
 
     getEditableContentItem(key) {
@@ -72,7 +78,9 @@
     },
 
     eraseEditableContentItem(key) {
-      this._storage.removeItem(key);
+      if (this._storage != null) {
+        this._storage.removeItem(key);
+      }
     },
 
     getPreferences() {
@@ -109,15 +117,17 @@
       this._lastCleanup = Date.now();
 
       let item;
-      for (const key in this._storage) {
-        if (!this._storage.hasOwnProperty(key)) { continue; }
-        for (const prefix of CLEANUP_PREFIXES) {
-          if (key.startsWith(prefix)) {
-            item = this._getObject(key);
-            if (Date.now() - item.updated > CLEANUP_MAX_AGE) {
-              this._storage.removeItem(key);
+      if (this._storage != null) {
+        for (const key in this._storage) {
+          if (!this._storage.hasOwnProperty(key)) { continue; }
+          for (const prefix of CLEANUP_PREFIXES) {
+            if (key.startsWith(prefix)) {
+              item = this._getObject(key);
+              if (Date.now() - item.updated > CLEANUP_MAX_AGE) {
+                this._storage.removeItem(key);
+              }
+              break;
             }
-            break;
           }
         }
       }
@@ -130,7 +140,7 @@
     },
 
     _setObject(key, obj) {
-      if (this._exceededQuota) { return; }
+      if (this._exceededQuota || this._storage != null) { return; }
       try {
         this._storage.setItem(key, JSON.stringify(obj));
       } catch (exc) {

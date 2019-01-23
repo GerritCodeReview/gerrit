@@ -1,4 +1,4 @@
-// Copyright (C) 2015 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common;
+package com.google.gerrit.httpd;
 
-public class FormatUtil {
-  public static String elide(String s, int max) {
-    if (s == null || s.length() <= max) {
-      return s;
-    }
-    int len = (max - 3) / 2;
-    return s.substring(0, len) + "..." + s.substring(s.length() - len);
-  }
+/** XSRF Constants. */
+public class XsrfConstants {
+  /**
+   * Name of the cookie in which the XSRF token is sent from the server to the client during host
+   * page bootstrapping.
+   */
+  public static final String XSRF_COOKIE_NAME = "XSRF_TOKEN";
+
+  /**
+   * Name of the HTTP header in which the client must send the XSRF token to the server on each
+   * request.
+   */
+  public static final String XSRF_HEADER_NAME = "X-Gerrit-Auth";
 }

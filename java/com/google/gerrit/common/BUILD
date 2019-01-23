@@ -1,7 +1,6 @@
 ANNOTATIONS = [
     "Nullable.java",
     "audit/Audit.java",
-    "auth/SignInRequired.java",
 ]
 
 java_library(

@@ -44,4 +44,17 @@ public class ProjectUtil {
       return exists;
     }
   }
+
+  public static String stripGitSuffix(String name) {
+    if (name.endsWith(".git")) {
+      // Be nice and drop the trailing ".git" suffix, which we never keep
+      // in our database, but clients might mistakenly provide anyway.
+      //
+      name = name.substring(0, name.length() - 4);
+      while (name.endsWith("/")) {
+        name = name.substring(0, name.length() - 1);
+      }
+    }
+    return name;
+  }
 }

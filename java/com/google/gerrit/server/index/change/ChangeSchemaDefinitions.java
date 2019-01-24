@@ -24,6 +24,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated
   static final Schema<ChangeData> V39 =
       schema(
+          true,
           ChangeField.ADDED,
           ChangeField.APPROVAL,
           ChangeField.ASSIGNEE,
@@ -70,49 +71,65 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.UNRESOLVED_COMMENT_COUNT,
           ChangeField.UPDATED);
 
-  @Deprecated static final Schema<ChangeData> V40 = schema(V39, ChangeField.PRIVATE);
-  @Deprecated static final Schema<ChangeData> V41 = schema(V40, ChangeField.REVIEWER_BY_EMAIL);
-  @Deprecated static final Schema<ChangeData> V42 = schema(V41, ChangeField.WIP);
+  @Deprecated static final Schema<ChangeData> V40 = schema(V39, true, ChangeField.PRIVATE);
+
+  @Deprecated
+  static final Schema<ChangeData> V41 = schema(V40, true, ChangeField.REVIEWER_BY_EMAIL);
+
+  @Deprecated static final Schema<ChangeData> V42 = schema(V41, true, ChangeField.WIP);
 
   @Deprecated
   static final Schema<ChangeData> V43 =
-      schema(V42, ChangeField.EXACT_AUTHOR, ChangeField.EXACT_COMMITTER);
+      schema(V42, true, ChangeField.EXACT_AUTHOR, ChangeField.EXACT_COMMITTER);
 
   @Deprecated
   static final Schema<ChangeData> V44 =
       schema(
           V43,
+          true,
           ChangeField.STARTED,
           ChangeField.PENDING_REVIEWER,
           ChangeField.PENDING_REVIEWER_BY_EMAIL);
 
-  @Deprecated static final Schema<ChangeData> V45 = schema(V44, ChangeField.REVERT_OF);
+  @Deprecated static final Schema<ChangeData> V45 = schema(V44, true, ChangeField.REVERT_OF);
 
-  @Deprecated static final Schema<ChangeData> V46 = schema(V45);
+  @Deprecated static final Schema<ChangeData> V46 = schema(V45, true);
 
   // Removal of draft change workflow requires reindexing
-  @Deprecated static final Schema<ChangeData> V47 = schema(V46);
+  @Deprecated static final Schema<ChangeData> V47 = schema(V46, true);
 
   // Rename of star label 'mute' to 'reviewed' requires reindexing
-  @Deprecated static final Schema<ChangeData> V48 = schema(V47);
+  @Deprecated static final Schema<ChangeData> V48 = schema(V47, true);
 
-  @Deprecated static final Schema<ChangeData> V49 = schema(V48);
+  @Deprecated static final Schema<ChangeData> V49 = schema(V48, true);
 
   // Bump Lucene version requires reindexing
-  @Deprecated static final Schema<ChangeData> V50 = schema(V49);
+  @Deprecated static final Schema<ChangeData> V50 = schema(V49, true);
 
-  @Deprecated static final Schema<ChangeData> V51 = schema(V50, ChangeField.TOTAL_COMMENT_COUNT);
+  @Deprecated
+  static final Schema<ChangeData> V51 = schema(V50, true, ChangeField.TOTAL_COMMENT_COUNT);
 
-  @Deprecated static final Schema<ChangeData> V52 = schema(V51, ChangeField.EXTENSION);
+  @Deprecated static final Schema<ChangeData> V52 = schema(V51, true, ChangeField.EXTENSION);
 
-  @Deprecated static final Schema<ChangeData> V53 = schema(V52, ChangeField.ONLY_EXTENSIONS);
+  @Deprecated static final Schema<ChangeData> V53 = schema(V52, true, ChangeField.ONLY_EXTENSIONS);
 
-  @Deprecated static final Schema<ChangeData> V54 = schema(V53, ChangeField.FOOTER);
+  @Deprecated static final Schema<ChangeData> V54 = schema(V53, true, ChangeField.FOOTER);
 
-  @Deprecated static final Schema<ChangeData> V55 = schema(V54, ChangeField.DIRECTORY);
+  @Deprecated static final Schema<ChangeData> V55 = schema(V54, true, ChangeField.DIRECTORY);
 
   // The computation of the 'extension' field is changed, hence reindexing is required.
-  static final Schema<ChangeData> V56 = schema(V55);
+  @Deprecated static final Schema<ChangeData> V56 = schema(V55, true);
+
+  // New numeric types: use dimensional points using the k-d tree geo-spatial data structure
+  // to offer fast single- and multi-dimensional numeric range. As the consequense, integer
+  // document id type is replaced with string document id type.
+  static final Schema<ChangeData> V57 =
+      new Schema.Builder<ChangeData>()
+          .add(V56)
+          .remove(ChangeField.LEGACY_ID)
+          .add(ChangeField.LEGACY_ID2)
+          .legacyNumericFields(false)
+          .build();
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();

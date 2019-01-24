@@ -252,7 +252,7 @@ public class ReviewersUtil {
               .readRaw();
       List<Account.Id> matches =
           result.toList().stream()
-              .map(f -> Account.id(f.getValue(AccountField.ID).intValue()))
+              .map(f -> Account.id(Integer.valueOf(f.getValue(AccountField.ID)).intValue()))
               .collect(toList());
       logger.atFine().log("Matches: %s", matches);
       return matches;

@@ -24,6 +24,7 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   @Deprecated
   static final Schema<AccountState> V4 =
       schema(
+          true,
           AccountField.ACTIVE,
           AccountField.EMAIL,
           AccountField.EXTERNAL_ID,

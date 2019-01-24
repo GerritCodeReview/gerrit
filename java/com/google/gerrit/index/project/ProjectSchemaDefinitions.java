@@ -24,6 +24,7 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
   @Deprecated
   static final Schema<ProjectData> V1 =
       schema(
+          true,
           ProjectField.NAME,
           ProjectField.DESCRIPTION,
           ProjectField.PARENT_NAME,

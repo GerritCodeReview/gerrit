@@ -25,9 +25,7 @@ public class ChangeMessages extends TranslationBundle {
   public String revertChangeDefaultMessage;
 
   public String reviewerCantSeeChange;
-  public String reviewerInactive;
   public String reviewerInvalid;
-  public String reviewerNotFoundUser;
   public String reviewerNotFoundUserOrGroup;
 
   public String groupIsNotAllowed;

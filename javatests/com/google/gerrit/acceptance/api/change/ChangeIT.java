@@ -1676,14 +1676,25 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createChange();
 
     String username = name("new-user");
-    accountOperations.newAccount().username(username).inactive().create();
+    Account.Id id = accountOperations.newAccount().username(username).inactive().create();
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = username;
     AddReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
 
     assertThat(r.input).isEqualTo(username);
-    assertThat(r.error).contains("identifies an inactive account");
+    assertThat(r.error)
+        .isEqualTo(
+            "Account '"
+                + username
+                + "' only matches inactive accounts. To use an inactive account, retry with one of"
+                + " the following exact account IDs:\n"
+                + id
+                + ": Name of user not set ("
+                + id
+                + ")\n"
+                + username
+                + " does not identify a registered user or group");
     assertThat(r.reviewers).isNull();
   }
 

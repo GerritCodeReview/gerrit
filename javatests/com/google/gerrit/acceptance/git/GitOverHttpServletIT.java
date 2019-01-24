@@ -14,13 +14,12 @@
 
 package com.google.gerrit.acceptance.git;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.acceptance.FakeGroupAuditService;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.audit.HttpAuditEvent;
-import com.google.gerrit.testing.FakeGroupAuditService;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.junit.TestRepository;
@@ -45,7 +44,7 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
 
   @Test
   public void receivePackAuditEventLog() throws Exception {
-    auditService.clearEvents();
+    auditService.drainHttpAuditEvents();
     testRepo
         .git()
         .push()
@@ -53,7 +52,7 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
         .setRefSpecs(new RefSpec("HEAD:refs/for/master"))
         .call();
 
-    ImmutableList<HttpAuditEvent> auditEvents = drainEvents(2);
+    ImmutableList<HttpAuditEvent> auditEvents = auditService.drainHttpAuditEvents();
 
     HttpAuditEvent lsRemote = auditEvents.get(0);
     assertThat(lsRemote.who.getAccountId()).isEqualTo(admin.id);
@@ -70,14 +69,14 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
 
   @Test
   public void uploadPackAuditEventLog() throws Exception {
-    auditService.clearEvents();
+    auditService.drainHttpAuditEvents();
     // testRepo is already a clone. Make a server-side change so we have something to fetch.
     try (Repository repo = repoManager.openRepository(project)) {
       new TestRepository<>(repo).branch("master").commit().create();
     }
     testRepo.git().fetch().call();
 
-    ImmutableList<HttpAuditEvent> auditEvents = drainEvents(2);
+    ImmutableList<HttpAuditEvent> auditEvents = auditService.drainHttpAuditEvents();
 
     HttpAuditEvent lsRemote = auditEvents.get(0);
     // Repo URL doesn't include /a, so fetching doesn't cause authentication.
@@ -91,14 +90,5 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
     assertThat(uploadPack.what).endsWith("/git-upload-pack");
     assertThat(uploadPack.params).isEmpty();
     assertThat(uploadPack.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
-  }
-
-  private ImmutableList<HttpAuditEvent> drainEvents(int expectedSize) throws Exception {
-    return auditService
-        .drainEvents(expectedSize)
-        .stream()
-        .filter(HttpAuditEvent.class::isInstance)
-        .map(HttpAuditEvent.class::cast)
-        .collect(toImmutableList());
   }
 }

@@ -124,16 +124,28 @@ public class Util {
 
   public static PermissionRule allow(
       ProjectConfig project, String capabilityName, AccountGroup.UUID group) {
+    return allow(project, capabilityName, group, (PermissionRange) null);
+  }
+
+  public static PermissionRule allow(
+      ProjectConfig project,
+      String capabilityName,
+      AccountGroup.UUID group,
+      PermissionRange customRange) {
     PermissionRule rule = newRule(project, group);
     project
         .getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
         .getPermission(capabilityName, true)
         .add(rule);
     if (GlobalCapability.hasRange(capabilityName)) {
-      PermissionRange.WithDefaults range = GlobalCapability.getRange(capabilityName);
-      if (range != null) {
-        rule.setRange(range.getDefaultMin(), range.getDefaultMax());
+      if (customRange == null) {
+        PermissionRange.WithDefaults range = GlobalCapability.getRange(capabilityName);
+        if (range != null) {
+          rule.setRange(range.getDefaultMin(), range.getDefaultMax());
+        }
+        return rule;
       }
+      rule.setRange(customRange.getMin(), customRange.getMax());
     }
     return rule;
   }

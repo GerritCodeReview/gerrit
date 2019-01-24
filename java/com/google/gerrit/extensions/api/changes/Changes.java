@@ -75,6 +75,7 @@ public interface Changes {
     private String query;
     private int limit;
     private int start;
+    private boolean isNoLimit;
     private EnumSet<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
 
     public abstract List<ChangeInfo> get() throws RestApiException;
@@ -86,6 +87,11 @@ public interface Changes {
 
     public QueryRequest withLimit(int limit) {
       this.limit = limit;
+      return this;
+    }
+
+    public QueryRequest withNoLimit() {
+      this.isNoLimit = true;
       return this;
     }
 
@@ -120,6 +126,10 @@ public interface Changes {
       return limit;
     }
 
+    public boolean getNoLimit() {
+      return isNoLimit;
+    }
+
     public int getStart() {
       return start;
     }
@@ -140,7 +150,11 @@ public interface Changes {
       if (!options.isEmpty()) {
         sb.append("options=").append(options);
       }
-      return sb.append('}').toString();
+      sb.append('}');
+      if (isNoLimit == true) {
+        sb.append(" --no-limit");
+      }
+      return sb.toString();
     }
   }
 

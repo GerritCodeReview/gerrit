@@ -350,6 +350,11 @@ be recomputed often, which is slow for projects with big trees.
   as link:#tracking-id-info[TrackingIdInfo].
 --
 
+[[no-limit]]
+--
+* `NO-LIMIT`: Return all results
+--
+
 .Request
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES&o=DOWNLOAD_COMMANDS HTTP/1.0

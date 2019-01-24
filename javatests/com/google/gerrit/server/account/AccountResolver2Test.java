@@ -241,7 +241,7 @@ public class AccountResolver2Test extends GerritBaseTests {
       ImmutableList<Searcher<?>> searchers,
       Supplier<Predicate<AccountState>> visibilitySupplier)
       throws Exception {
-    return new AccountResolver2(null, null, null, null, null, "Anonymous Name")
+    return new AccountResolver2(null, null, null, null, null, null, null, "Anonymous Name")
         .searchImpl(input, searchers, visibilitySupplier);
   }
 

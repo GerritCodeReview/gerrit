@@ -29,6 +29,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -48,6 +49,7 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
   private final AccountOperations accountOperations;
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<AnonymousUser> anonymousUserProvider;
+  private final InternalUser.Factory internalUserFactory;
   private final InetSocketAddress sshAddress;
   private final TestSshKeys testSshKeys;
 
@@ -58,6 +60,7 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
       AccountOperations accountOperations,
       GenericFactory userFactory,
       Provider<AnonymousUser> anonymousUserProvider,
+      InternalUser.Factory internalUserFactory,
       @Nullable @TestSshServerAddress InetSocketAddress sshAddress,
       TestSshKeys testSshKeys) {
     this.atrScope = atrScope;
@@ -65,6 +68,7 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
     this.accountOperations = accountOperations;
     this.userFactory = userFactory;
     this.anonymousUserProvider = anonymousUserProvider;
+    this.internalUserFactory = internalUserFactory;
     this.sshAddress = sshAddress;
     this.testSshKeys = testSshKeys;
   }
@@ -93,6 +97,11 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
   @Override
   public AcceptanceTestRequestScope.Context setApiUserAnonymous() {
     return atrScope.set(atrScope.newContext(null, anonymousUserProvider.get()));
+  }
+
+  @Override
+  public AcceptanceTestRequestScope.Context setApiUserInternal() {
+    return atrScope.set(atrScope.newContext(null, internalUserFactory.create()));
   }
 
   private IdentifiedUser createIdentifiedUser(Account.Id accountId) {

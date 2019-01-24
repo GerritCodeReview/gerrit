@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.base.Splitter;
@@ -26,8 +27,11 @@ import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountResolver2;
+import com.google.gerrit.server.account.AccountResolver2.Result;
+import com.google.gerrit.server.account.AccountResolver2.UnresolvableAccountException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -50,8 +54,55 @@ public class AccountResolver2IT extends AbstractDaemonTest {
   @Inject @ServerInitiated private Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private AccountOperations accountOperations;
   @Inject private AccountResolver2 accountResolver;
+  @Inject private Provider<CurrentUser> self;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private Sequences sequences;
+
+  @Test
+  public void bySelf() throws Exception {
+    assertThat(resolve("Self")).isEmpty();
+    accountOperations.newAccount().fullname("self").create();
+
+    Result result = resolveAsResult("self");
+    assertThat(result.asIdSet()).containsExactly(admin.id);
+    assertThat(result.isSelf()).isTrue();
+    assertThat(result.asUniqueUser()).isSameAs(self.get());
+
+    result = resolveAsResult("me");
+    assertThat(result.asIdSet()).containsExactly(admin.id);
+    assertThat(result.isSelf()).isTrue();
+    assertThat(result.asUniqueUser()).isSameAs(self.get());
+
+    requestScopeOperations.setApiUserAnonymous();
+    checkBySelfFails();
+
+    requestScopeOperations.setApiUserInternal();
+    checkBySelfFails();
+  }
+
+  private void checkBySelfFails() throws Exception {
+    Result result = resolveAsResult("self");
+    assertThat(result.asIdSet()).isEmpty();
+    assertThat(result.isSelf()).isTrue();
+    try {
+      result.asUnique();
+      assert_().fail("expected UnresolvableAccountException");
+    } catch (UnresolvableAccountException e) {
+      assertThat(e).hasMessageThat().isEqualTo("Resolving account 'self' requires login");
+      assertThat(e.isSelf()).isTrue();
+    }
+
+    result = resolveAsResult("me");
+    assertThat(result.asIdSet()).isEmpty();
+    assertThat(result.isSelf()).isTrue();
+    try {
+      result.asUnique();
+      assert_().fail("expected UnresolvableAccountException");
+    } catch (UnresolvableAccountException e) {
+      assertThat(e).hasMessageThat().isEqualTo("Resolving account 'me' requires login");
+      assertThat(e.isSelf()).isTrue();
+    }
+  }
 
   @Test
   public void byExactAccountId() throws Exception {
@@ -253,7 +304,11 @@ public class AccountResolver2IT extends AbstractDaemonTest {
   }
 
   private ImmutableSet<Account.Id> resolve(Object input) throws Exception {
-    return accountResolver.resolve(input.toString()).asIdSet();
+    return resolveAsResult(input).asIdSet();
+  }
+
+  private Result resolveAsResult(Object input) throws Exception {
+    return accountResolver.resolve(input.toString());
   }
 
   @SuppressWarnings("deprecation")

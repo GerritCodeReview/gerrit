@@ -35,8 +35,8 @@ import org.eclipse.jgit.lib.ObjectId;
 /** Secondary index schemas for groups. */
 public class GroupField {
   /** Legacy group ID. */
-  public static final FieldDef<InternalGroup, Integer> ID =
-      integer("id").build(g -> g.getId().get());
+  public static final FieldDef<InternalGroup, String> ID =
+      exact("id").build(g -> Integer.toString(g.getId().get()));
 
   /** Group UUID. */
   public static final FieldDef<InternalGroup, String> UUID =

@@ -99,6 +99,9 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
     if (f == ChangeField.LEGACY_ID) {
       int v = (Integer) getOnlyElement(values.getValues());
       doc.add(new NumericDocValuesField(ID_SORT_FIELD, v));
+    } else if (f == ChangeField.LEGACY_ID2) {
+      String v = (String) getOnlyElement(values.getValues());
+      doc.add(new NumericDocValuesField(ID_SORT_FIELD, Integer.valueOf(v)));
     } else if (f == ChangeField.UPDATED) {
       long t = ((Timestamp) getOnlyElement(values.getValues())).getTime();
       doc.add(new NumericDocValuesField(UPDATED_SORT_FIELD, t));

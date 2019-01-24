@@ -18,7 +18,6 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.gerrit.testing.FakeGroupAuditService;
@@ -45,7 +44,6 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
   }
 
   @Test
-  @Sandboxed
   public void receivePackAuditEventLog() throws Exception {
     auditService.clearEvents();
     testRepo
@@ -71,7 +69,6 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
   }
 
   @Test
-  @Sandboxed
   public void uploadPackAuditEventLog() throws Exception {
     auditService.clearEvents();
     // testRepo is already a clone. Make a server-side change so we have something to fetch.

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abe1f77b_f5e8ebec",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-24T07:13:24Z",
+      "side": 1,
+      "message": "This seems to be wrong: permissionCheck already filter out null, by returning false.",
+      "range": {
+        "startLine": 493,
+        "startChar": 9,
+        "endLine": 493,
+        "endChar": 33
+      },
+      "revId": "3c5d10d75907f0dda8c89bfb28c645c9bf203cb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

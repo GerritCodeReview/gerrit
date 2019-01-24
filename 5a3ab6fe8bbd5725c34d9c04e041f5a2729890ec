@@ -1,4 +1,114 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1548292448 -0800\nnonce AJbGYzn/ooCakHa4O5OOpr6IePNQ2qRuGVk/vanRrIgAm3w/x6HnToGi2vKZbXClGLv5zPqIw8BK\n\n0000000000000000000000000000000000000000 af0ef59f4579a1be025d9e78db26cf23a223724e refs/for/master%topic\u003daccount-resolver-2,wip\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlxJEWAVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMzk0QAIbnWLMYLOBDUtAk6iCdCxylfNmE\nwrYvTqCZo/e0ch693Cr27UzEDPojG+UtBN0f6yfPtiUDeUrnHhmWcm3zl/P+WjGN\nZg/+YJuNtolicAYf0PyWtUkDlMuxH5/kWM4IX2UBBLfKu9ANZOfRQQxm/gTMtozY\n2LTpdC8L8ImvsTkR2iFVsGT9oFN7WLnintJ1psSNmE9rUmdDe4Z8Oo1qisUkXetK\nDBT+KlVswCj/heJ2IMLpuTVRt32qxPhwq+cghJ2hVcUEslKF4WVG03rx4e1CPyfb\nhUEJx7ma24C6qyxcX3QMcqqOm9od7/LKAbyytFcWxh1xusCniyHVUfcL0FwtaidI\nK/mOFXwyOtuBslfK8kLgiGc8UfnXFiMsy0yIbiLH/bB22ThNU8BXKabIAWE7AaaJ\nQvPGInpd9+yjKC7GckJpFnmu6owlB9aXen5FVEWpZQ+NDh1N5ikoCN3lzAWVkVye\nM3YAIDqVCtxn8WMazHROdr3k8YhGeFjlVcn18MrbqWPKSTohBLao3WDmNGxCYUKg\nGOFL2At0VqlTNiwjj0bwH8w6Z3NOu0x1jnpRUTRntZjFHqHryOz7d+XuDVBLDZRg\ncJlugOaNb0iF0abfUG8Wb6LShQWIGAZzWL0SPrZGhxJzzioyx/GEuTez2fLG5EfJ\nTmkRcMnr+e0MEA0Y\n\u003dRihZ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "da9d7d3d_883282e1",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-24T14:56:58Z",
+      "side": 1,
+      "message": "nit: don\u0027t import Id classes",
+      "revId": "5a3ab6fe8bbd5725c34d9c04e041f5a2729890ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd0375a3_53f968a5",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-24T14:56:58Z",
+      "side": 1,
+      "message": "There is no list \"above\" but the list is below in the method JavaDoc.",
+      "range": {
+        "startLine": 54,
+        "startChar": 49,
+        "endLine": 54,
+        "endChar": 61
+      },
+      "revId": "5a3ab6fe8bbd5725c34d9c04e041f5a2729890ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "333dbe8d_c137023a",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-24T14:56:58Z",
+      "side": 1,
+      "message": "inactive accounts?",
+      "range": {
+        "startLine": 64,
+        "startChar": 12,
+        "endLine": 64,
+        "endChar": 20
+      },
+      "revId": "5a3ab6fe8bbd5725c34d9c04e041f5a2729890ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7f1fdf3_fd462bb9",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-24T14:56:58Z",
+      "side": 1,
+      "message": "I wonder if all callers are aware of this. I wouldn\u0027t be surprised if some callers assume that they are always only getting active accounts.\n\nMaybe that behaviour should be controlled by some option so that callers have to turn on this behaviour explicitly if they need it? Doesn\u0027t need to be done in this change.",
+      "range": {
+        "startLine": 347,
+        "startChar": 48,
+        "endLine": 348,
+        "endChar": 51
+      },
+      "revId": "5a3ab6fe8bbd5725c34d9c04e041f5a2729890ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb2fe87c_58193969",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-24T14:56:58Z",
+      "side": 1,
+      "message": "How feasible is it to extend this later with input options?\nE.g. let\u0027s say a \"auto-create-missing-account-if-the-user-exists-in-the-user-backend\" option",
+      "range": {
+        "startLine": 368,
+        "startChar": 9,
+        "endLine": 368,
+        "endChar": 37
+      },
+      "revId": "5a3ab6fe8bbd5725c34d9c04e041f5a2729890ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

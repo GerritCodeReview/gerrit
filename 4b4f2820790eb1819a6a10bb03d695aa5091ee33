@@ -143,6 +143,30 @@
       "revId": "4b4f2820790eb1819a6a10bb03d695aa5091ee33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4686df1_e57f960d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-24T22:05:02Z",
+      "side": 1,
+      "message": "Also:\n\n\u003e without sandboxing we always have 1x GerritServer instance per test method\n\nThis is not accurate. Without sandboxing there is 1x GerritServer per test class, not per test method. On top of that, each @Sandboxed method gets a new, separate instance:\n\nhttps://gerrit.googlesource.com/gerrit/+/24ee10a75fd88a72cd597665405e427d76dad38a/java/com/google/gerrit/acceptance/AbstractDaemonTest.java#410",
+      "parentUuid": "32709d3b_d419211b",
+      "range": {
+        "startLine": 9,
+        "startChar": 47,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "4b4f2820790eb1819a6a10bb03d695aa5091ee33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

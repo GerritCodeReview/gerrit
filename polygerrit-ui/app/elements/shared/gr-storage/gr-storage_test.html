@@ -188,7 +188,7 @@ limitations under the License.
 
       // eraseEditableContentItem performs as expected.
       element.eraseEditableContentItem(key);
-      assert.isNotOk(element._storage.getItem(key));
+      assert.isNotOk(element._storage.getItem(computedKey));
     });
   });
 </script>

@@ -72,7 +72,7 @@
     },
 
     eraseEditableContentItem(key) {
-      this._storage.removeItem(key);
+      this._storage.removeItem(this._getEditableContentKey(key));
     },
 
     getPreferences() {

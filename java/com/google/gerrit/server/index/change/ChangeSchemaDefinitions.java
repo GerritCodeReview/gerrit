@@ -23,6 +23,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 /** Definition of change index versions (schemata). See {@link SchemaDefinitions}. */
 public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   /** Added new field {@link ChangeField#FUZZY_HASHTAG} */
+  @Deprecated
   static final Schema<ChangeData> V62 =
       schema(
           ChangeField.ADDED,
@@ -91,6 +92,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.UNRESOLVED_COMMENT_COUNT,
           ChangeField.UPDATED,
           ChangeField.WIP);
+
+  // Upgrade Lucene to 7.x requires reindexing.
+  static final Schema<ChangeData> V63 = schema(V62);
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

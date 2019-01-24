@@ -33,7 +33,12 @@ public class MessagePredicate extends ChangeIndexPredicate {
   @Override
   public boolean match(ChangeData object) {
     try {
-      Predicate<ChangeData> p = Predicate.and(new LegacyChangeIdPredicate(object.getId()), this);
+      Predicate<ChangeData> p =
+          Predicate.and(
+              index.getSchema().useLegacyNumericFields()
+                  ? new LegacyChangeIdPredicate(object.getId())
+                  : new LegacyChangeIdPredicate2(object.getId()),
+              this);
       for (ChangeData cData : index.getSource(p, IndexedChangeQuery.oneResult()).read()) {
         if (cData.getId().equals(object.getId())) {
           return true;

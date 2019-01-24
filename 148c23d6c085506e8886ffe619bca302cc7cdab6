@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b2a29da_c64f6f1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-24T16:23:39Z",
+      "side": 1,
+      "message": "probe",
+      "range": {
+        "startLine": 12,
+        "startChar": 18,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "148c23d6c085506e8886ffe619bca302cc7cdab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "304815b7_d789598c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-24T16:23:39Z",
+      "side": 1,
+      "message": "nit: don\u0027t import NameKey classes directly",
+      "revId": "148c23d6c085506e8886ffe619bca302cc7cdab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7505e37a_f8bb8f1f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-24T16:23:39Z",
+      "side": 1,
+      "message": "Did you check why this test didn\u0027t find the issue?\n\nI think there should be only one tests for this. Maybe adapt/replace this test.",
+      "revId": "148c23d6c085506e8886ffe619bca302cc7cdab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2b16b04_fa55c232",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-24T16:23:39Z",
+      "side": 1,
+      "message": "Can you also add a test that tries to create a change on a non-existing branch, to ensure that this produces the same error?",
+      "revId": "148c23d6c085506e8886ffe619bca302cc7cdab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

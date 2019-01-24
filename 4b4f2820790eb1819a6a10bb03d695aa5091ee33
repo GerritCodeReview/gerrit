@@ -95,6 +95,30 @@
       "revId": "4b4f2820790eb1819a6a10bb03d695aa5091ee33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5acebd4_765084fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-24T21:47:50Z",
+      "side": 1,
+      "message": "\u003e \u003e If we do not sandbox tests, we can have two concurrent test methods using the same JVM and the same Gerrit server instance.\n\u003e \n\u003e I disagree. There is one GerritServer per AbstractDaemonTest instance. Bazel (actually JUnit) in a single invocation creates a single test class instance and then runs all methods in that class sequentially. It might run multiple test *targets* concurrently in the same JVM (I think it doesn\u0027t but I\u0027m only about 75% sure on that count), but they won\u0027t be the same test *class instance* and they won\u0027t share a GerritServer.\n\u003e \n\u003e Do you have a small reproduction proving your hypothesis that two test methods running in parallel can use the same GerritServer instance?\n\nLet go back to the SHA1 before my commit, I need to refresh my mind :-)\n\n\u003e \u003e This is what I observed and fixed with the sandboxing, but apparently, it wasn\u0027t enough. If we remove sandboxing I fear we will make the situation even worse, WDYT?\n\u003e \n\u003e This change is not hypothetical. This series fixes the problem, and proves that the problem is not due to sandboxing or lack thereof. See the commit message of https://gerrit-review.googlesource.com/c/gerrit/+/211654.\n\nNeed more insights before speaking and arguing on why one fixes the problem and the other does not :-)\n\nI am wondering *IF* without sandboxing we always have 1x GerritServer instance per test method, why do we have sandboxing after all?\nLooking at the sandboxing management code, I saw that instead of sharing one instance across tests, it was allocating one instance per test.\n\nBut again, need to do a bit more analysis on the code to keep the discussion :-)\n\n\u003e \n\u003e When I run the tests with:\n\u003e \n\u003e * --runs_per_test\u003d100\n\u003e * --test_filter\u003dGitOverHttpServletIT#uploadPackAuditEventLog\n\u003e * parallelism of 12 (I have 8 cores)\n\u003e \n\u003e it is **30%** flaky against master (with sandboxing) and 0% flaky against the tip of this series (no sandboxing and a real fix instead).\n\nSure, I\u0027ll run the same and let you know the results.\nAs Mr. Torvalds says ... \"talk is cheap, show me the code\" :-)",
+      "parentUuid": "741afa0e_09a4b798",
+      "range": {
+        "startLine": 9,
+        "startChar": 47,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "4b4f2820790eb1819a6a10bb03d695aa5091ee33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

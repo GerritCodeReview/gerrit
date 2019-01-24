@@ -19,12 +19,14 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicLong;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
@@ -40,10 +42,12 @@ public class RequestMetricsFilter implements Filter {
   }
 
   private final RequestMetrics metrics;
+  private final AtomicLong requestCount;
 
   @Inject
   RequestMetricsFilter(RequestMetrics metrics) {
     this.metrics = metrics;
+    this.requestCount = new AtomicLong();
   }
 
   @Override
@@ -52,7 +56,7 @@ public class RequestMetricsFilter implements Filter {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
-    Response rsp = new Response((HttpServletResponse) response, metrics);
+    Response rsp = new Response((HttpServletResponse) response, (HttpServletRequest) request);
 
     chain.doFilter(request, rsp);
   }
@@ -60,22 +64,35 @@ public class RequestMetricsFilter implements Filter {
   @Override
   public void init(FilterConfig cfg) throws ServletException {}
 
-  private static class Response extends HttpServletResponseWrapper {
-    private final RequestMetrics metrics;
+  public long getRequestCount() {
+    return requestCount.get();
+  }
 
-    Response(HttpServletResponse response, RequestMetrics metrics) {
+  /**
+   * Wrapper that records status metrics.
+   *
+   * <p>The status is recorded into a metric before setting the status on the wrapped {@link
+   * HttpServletResponse}. As a result, broken connections are recorded under their original status
+   * code, and are recorded in {@link #getRequestCount()}.
+   */
+  private class Response extends HttpServletResponseWrapper {
+    Response(HttpServletResponse response, HttpServletRequest request) {
       super(response);
-      this.metrics = metrics;
+      System.err.println(
+          "=== HTTP Request: " + request.getRequestURL() + "?" + request.getQueryString());
+      System.err.println("From " + RequestMetricsFilter.this);
     }
 
     @Override
     public void sendError(int sc, String msg) throws IOException {
+      System.err.println("sendError with msg " + sc);
       status(sc);
       super.sendError(sc, msg);
     }
 
     @Override
     public void sendError(int sc) throws IOException {
+      System.err.println("sendError " + sc);
       status(sc);
       super.sendError(sc);
     }
@@ -83,17 +100,20 @@ public class RequestMetricsFilter implements Filter {
     @Override
     @Deprecated
     public void setStatus(int sc, String sm) {
+      System.err.println("setStatus with msg " + sc);
       status(sc);
       super.setStatus(sc, sm);
     }
 
     @Override
     public void setStatus(int sc) {
+      System.err.println("setStatus " + sc);
       status(sc);
       super.setStatus(sc);
     }
 
     private void status(int sc) {
+      requestCount.incrementAndGet();
       if (sc >= SC_BAD_REQUEST) {
         metrics.errors.increment(sc);
       } else {

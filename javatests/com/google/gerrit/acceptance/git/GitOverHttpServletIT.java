@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.httpd.RequestMetricsFilter;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.gerrit.testing.FakeGroupAuditService;
@@ -33,6 +34,7 @@ import org.junit.Test;
 
 public class GitOverHttpServletIT extends AbstractPushForReview {
   @Inject private FakeGroupAuditService auditService;
+  @Inject private RequestMetricsFilter requestMetricsFilter;
 
   @Before
   public void beforeEach() throws Exception {
@@ -66,6 +68,8 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
     assertThat(receivePack.what).endsWith("/git-receive-pack");
     assertThat(receivePack.params).isEmpty();
     assertThat(receivePack.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+
+    assertThat(requestMetricsFilter.getRequestCount()).isEqualTo(3);
   }
 
   @Test
@@ -94,9 +98,7 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
   }
 
   private ImmutableList<HttpAuditEvent> drainEvents(int expectedSize) throws Exception {
-    return auditService
-        .drainEvents(expectedSize)
-        .stream()
+    return auditService.drainEvents(expectedSize).stream()
         .filter(HttpAuditEvent.class::isInstance)
         .map(HttpAuditEvent.class::cast)
         .collect(toImmutableList());

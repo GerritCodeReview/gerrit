@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0c0e0e4f_2bded6ca",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2180,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-01-24T09:46:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b09849e8_536f9c66",
+      "range": {
+        "startLine": 2180,
+        "startChar": 55,
+        "endLine": 2180,
+        "endChar": 60
+      },
+      "revId": "a18a3fcb4936e08e038ce8d7de10265b5a451623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "525b2860_c0685b79",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -68,6 +92,54 @@
       "revId": "a18a3fcb4936e08e038ce8d7de10265b5a451623",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02d856f2_cc2fb1f5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2182,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-01-24T09:46:06Z",
+      "side": 1,
+      "message": "I realized that this should not be documented here, opted for a more high-level description that is not dependent on the UI implementation.\nIn the follow up change where it\u0027s implemented it just traverses the list and tries to find any weblink with name \u003d\u003d \u0027gitiles\u0027 if unsuccessful it tries to find a weblink with name \u003d\u003d \u0027browse\u0027 if unsuccessful it tries to find a weblink with name \u003d\u003d \u0027gitweb\u0027 if unsuccessful it doesn\u0027t create a link at all.",
+      "parentUuid": "525b2860_c0685b79",
+      "range": {
+        "startLine": 2182,
+        "startChar": 11,
+        "endLine": 2182,
+        "endChar": 25
+      },
+      "revId": "a18a3fcb4936e08e038ce8d7de10265b5a451623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7e26718_0be41bb6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2182,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-01-24T09:46:06Z",
+      "side": 1,
+      "message": "They come from the follow-up UI change but I decided to remove them from the Gerrit documentation and give a more loose description of the default state.",
+      "parentUuid": "48b7a014_644a359a",
+      "range": {
+        "startLine": 2182,
+        "startChar": 38,
+        "endLine": 2182,
+        "endChar": 70
+      },
+      "revId": "a18a3fcb4936e08e038ce8d7de10265b5a451623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

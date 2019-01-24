@@ -99,57 +99,6 @@ limitations under the License.
           element.serverConfig), 'https://link-url');
     });
 
-    test('use gitweb when available', () => {
-      const router = document.createElement('gr-router');
-      element.serverConfig = {gitweb: {
-        url: 'url-base/',
-        type: {revision: 'xx ${project} xx ${commit} xx'},
-      }};
-      sandbox.stub(Gerrit.Nav, '_generateWeblinks',
-          router._generateWeblinks.bind(router));
-
-      element.commitInfo = {commit: 'commit-sha'};
-      element.change = {
-        project: 'project-name',
-        labels: [],
-        current_revision: element.commitInfo.commit,
-      };
-
-      assert.isOk(element._computeShowWebLink(element.change,
-          element.commitInfo, element.serverConfig));
-
-      assert.equal(element._computeWebLink(element.change, element.commitInfo,
-          element.serverConfig), 'url-base/xx project-name xx commit-sha xx');
-    });
-
-    test('prefer gitweb when both are available', () => {
-      const router = document.createElement('gr-router');
-      element.serverConfig = {gitweb: {
-        url: 'url-base/',
-        type: {revision: 'xx ${project} xx ${commit} xx'},
-      }};
-      sandbox.stub(Gerrit.Nav, '_generateWeblinks',
-          router._generateWeblinks.bind(router));
-
-      element.commitInfo = {
-        commit: 'commit-sha',
-        web_links: [{url: 'link-url'}],
-      };
-      element.change = {
-        project: 'project-name',
-        labels: [],
-        current_revision: element.commitInfo.commit,
-      };
-
-      assert.isOk(element._computeShowWebLink(element.change,
-          element.commitInfo, element.serverConfig));
-
-      const link = element._computeWebLink(element.change, element.commitInfo,
-          element.serverConfig);
-
-      assert.equal(link, 'url-base/xx project-name xx commit-sha xx');
-      assert.notEqual(link, '../../link-url');
-    });
 
     test('ignore web links that are neither gitweb nor gitiles', () => {
       const router = document.createElement('gr-router');

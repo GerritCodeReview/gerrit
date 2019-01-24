@@ -47,6 +47,30 @@
       "revId": "4b4f2820790eb1819a6a10bb03d695aa5091ee33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12b19207_9af2c7a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-24T21:16:23Z",
+      "side": 1,
+      "message": "\u003e AFAIK Bazel never runs multiple test methods in the same class concurrently in the same JVM. If you use test sharding (which we don\u0027t) it runs non-overlapping subsets of the test methods in different JVMs.\n\nIf we do not sandbox tests, we can have two concurrent test methods using the same JVM and the same Gerrit server instance.\n\nThen the first test run clears the events and starts the events generation, but the second test run clears again the events, removing the ones of the first test. They will collide and fail depending on the sequencing of the two tests execution.\n\nThis is what I observed and fixed with the sandboxing, but apparently, it wasn\u0027t enough. If we remove sandboxing I fear we will make the situation even worse, WDYT?",
+      "parentUuid": "ac8569e5_cbfaafe8",
+      "range": {
+        "startLine": 9,
+        "startChar": 47,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "4b4f2820790eb1819a6a10bb03d695aa5091ee33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

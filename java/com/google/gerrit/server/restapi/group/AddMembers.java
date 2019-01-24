@@ -36,7 +36,8 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver2;
+import com.google.gerrit.server.account.AccountResolver2.UnresolvableAccountException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupControl;
@@ -89,7 +90,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
   private final AccountManager accountManager;
   private final AuthType authType;
-  private final AccountResolver accountResolver;
+  private final AccountResolver2 accountResolver;
   private final AccountCache accountCache;
   private final AccountLoader.Factory infoFactory;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
@@ -98,7 +99,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   AddMembers(
       AccountManager accountManager,
       AuthConfig authConfig,
-      AccountResolver accountResolver,
+      AccountResolver2 accountResolver,
       AccountCache accountCache,
       AccountLoader.Factory infoFactory,
       @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
@@ -144,19 +145,18 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   Account findAccount(String nameOrEmailOrId)
-      throws AuthException, UnprocessableEntityException, OrmException, IOException,
-          ConfigInvalidException {
+      throws UnprocessableEntityException, OrmException, IOException, ConfigInvalidException {
+    AccountResolver2.Result result = accountResolver.resolve(nameOrEmailOrId);
     try {
-      return accountResolver.parse(nameOrEmailOrId).getAccount();
-    } catch (UnprocessableEntityException e) {
-      // might be because the account does not exist or because the account is
-      // not visible
+      return result.asUnique().getAccount();
+    } catch (UnresolvableAccountException e) {
       switch (authType) {
         case HTTP_LDAP:
         case CLIENT_SSL_CERT_LDAP:
         case LDAP:
-          if (accountResolver.find(nameOrEmailOrId) == null) {
-            // account does not exist, try to create it
+          if (!e.isSelf() && result.asList().isEmpty()) {
+            // Account does not exist, try to create it. This may leak account existence, since we
+            // can't distinguish between a nonexistent account and one that the caller can't see.
             Optional<Account> a = createAccountByLdap(nameOrEmailOrId);
             if (a.isPresent()) {
               return a.get();

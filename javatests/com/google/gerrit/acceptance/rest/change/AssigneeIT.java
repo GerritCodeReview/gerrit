@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -29,8 +30,8 @@ import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.account.AccountResolver2.UnresolvableAccountException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
@@ -129,9 +130,28 @@ public class AssigneeIT extends AbstractDaemonTest {
   public void setAssigneeToInactiveUser() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.accounts().id(user.getId().get()).setActive(false);
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("is not active");
-    setAssignee(r, user.email);
+    try {
+      setAssignee(r, user.email);
+      assert_().fail("expected UnresolvableAccountException");
+    } catch (UnresolvableAccountException e) {
+      assertThat(e)
+          .hasMessageThat()
+          .isEqualTo(
+              "Account '"
+                  + user.email
+                  + "' only matches inactive accounts. To use an inactive account, retry with one"
+                  + " of the following exact account IDs:\n"
+                  + user.id
+                  + ": User <user@example.com>");
+    }
+  }
+
+  @Test
+  public void setAssigneeToInactiveUserById() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.accounts().id(user.getId().get()).setActive(false);
+    setAssignee(r, user.getId().toString());
+    assertThat(getAssignee(r)._accountId).isEqualTo(user.getId().get());
   }
 
   @Test

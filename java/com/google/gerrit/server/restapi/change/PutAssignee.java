@@ -23,11 +23,10 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver2;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
@@ -50,7 +49,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class PutAssignee extends RetryingRestModifyView<ChangeResource, AssigneeInput, AccountInfo>
     implements UiAction<ChangeResource> {
 
-  private final AccountResolver accountResolver;
+  private final AccountResolver2 accountResolver;
   private final SetAssigneeOp.Factory assigneeFactory;
   private final ReviewerAdder reviewerAdder;
   private final AccountLoader.Factory accountLoaderFactory;
@@ -58,7 +57,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
 
   @Inject
   PutAssignee(
-      AccountResolver accountResolver,
+      AccountResolver2 accountResolver,
       SetAssigneeOp.Factory assigneeFactory,
       RetryHelper retryHelper,
       ReviewerAdder reviewerAdder,
@@ -84,10 +83,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       throw new BadRequestException("missing assignee field");
     }
 
-    IdentifiedUser assignee = accountResolver.parse(input.assignee);
-    if (!assignee.getAccount().isActive()) {
-      throw new UnprocessableEntityException(input.assignee + " is not active");
-    }
+    IdentifiedUser assignee = accountResolver.resolve(input.assignee).asUniqueUser();
     try {
       permissionBackend
           .absentUser(assignee.getAccountId())

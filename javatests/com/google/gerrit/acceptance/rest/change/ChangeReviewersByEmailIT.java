@@ -306,7 +306,9 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
         gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@gerritcodereview.com>");
     assertThat(result.error)
         .isEqualTo(
-            "Foo Bar <foo.bar@gerritcodereview.com> does not identify a registered user or group");
+            "Account 'Foo Bar <foo.bar@gerritcodereview.com>' not found\n"
+                + "Foo Bar <foo.bar@gerritcodereview.com> does not identify a registered user or"
+                + " group");
     assertThat(result.reviewers).isNull();
   }
 

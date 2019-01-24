@@ -56,7 +56,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver2;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupResolver;
@@ -144,7 +144,7 @@ public class ReviewerAdder {
     return Optional.of(in);
   }
 
-  private final AccountResolver accountResolver;
+  private final AccountResolver2 accountResolver;
   private final PermissionBackend permissionBackend;
   private final GroupResolver groupResolver;
   private final GroupMembers groupMembers;
@@ -159,7 +159,7 @@ public class ReviewerAdder {
 
   @Inject
   ReviewerAdder(
-      AccountResolver accountResolver,
+      AccountResolver2 accountResolver,
       PermissionBackend permissionBackend,
       GroupResolver groupResolver,
       GroupMembers groupMembers,
@@ -216,11 +216,10 @@ public class ReviewerAdder {
             .checkedGet(notes.getProjectName())
             .is(BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL);
 
-    ReviewerAddition byAccountId =
-        addByAccountId(input, notes, user, accountsToNotify, allowGroup, allowByEmail);
+    ReviewerAddition byAccountId = addByAccountId(input, notes, user, accountsToNotify);
 
     ReviewerAddition wholeGroup = null;
-    if (byAccountId == null || !byAccountId.exactMatchFound) {
+    if (!byAccountId.exactMatchFound) {
       wholeGroup =
           addWholeGroup(input, notes, user, accountsToNotify, confirmed, allowGroup, allowByEmail);
       if (wholeGroup != null && wholeGroup.exactMatchFound) {
@@ -228,7 +227,17 @@ public class ReviewerAdder {
       }
     }
 
-    if (byAccountId != null) {
+    if (byAccountId != null
+        && wholeGroup != null
+        && byAccountId.failureType == FailureType.NOT_FOUND
+        && wholeGroup.failureType == FailureType.NOT_FOUND) {
+      return fail(
+          byAccountId.input,
+          FailureType.NOT_FOUND,
+          byAccountId.result.error + "\n" + wholeGroup.result.error);
+    }
+
+    if (byAccountId != null && byAccountId.failureType != FailureType.NOT_FOUND) {
       return byAccountId;
     }
     if (wholeGroup != null) {
@@ -254,28 +263,20 @@ public class ReviewerAdder {
       AddReviewerInput input,
       ChangeNotes notes,
       CurrentUser user,
-      ListMultimap<RecipientType, Account.Id> accountsToNotify,
-      boolean allowGroup,
-      boolean allowByEmail)
+      ListMultimap<RecipientType, Account.Id> accountsToNotify)
       throws OrmException, PermissionBackendException, IOException, ConfigInvalidException {
     IdentifiedUser reviewerUser;
     boolean exactMatchFound = false;
     try {
-      reviewerUser = accountResolver.parse(input.reviewer);
+      reviewerUser = accountResolver.resolve(input.reviewer).asUniqueUser();
       if (input.reviewer.equalsIgnoreCase(reviewerUser.getName())
           || input.reviewer.equals(String.valueOf(reviewerUser.getAccountId()))) {
         exactMatchFound = true;
       }
-    } catch (UnprocessableEntityException | AuthException e) {
-      // AuthException won't occur since the user is authenticated at this point.
-      if (!allowGroup && !allowByEmail) {
-        // Only return failure if we aren't going to try other interpretations.
-        return fail(
-            input,
-            FailureType.NOT_FOUND,
-            MessageFormat.format(ChangeMessages.get().reviewerNotFoundUser, input.reviewer));
-      }
-      return null;
+    } catch (UnprocessableEntityException e) {
+      // Caller might choose to ignore this NOT_FOUND result if they find another result e.g. by
+      // group, but if not, the error message will be useful.
+      return fail(input, FailureType.NOT_FOUND, e.getMessage());
     }
 
     if (isValidReviewer(notes.getChange().getDest(), reviewerUser.getAccount())) {
@@ -287,15 +288,6 @@ public class ReviewerAdder {
           null,
           accountsToNotify,
           exactMatchFound);
-    }
-    if (!reviewerUser.getAccount().isActive()) {
-      if (allowByEmail && input.state() == CC) {
-        return null;
-      }
-      return fail(
-          input,
-          FailureType.OTHER,
-          MessageFormat.format(ChangeMessages.get().reviewerInactive, input.reviewer));
     }
     return fail(
         input,
@@ -412,10 +404,6 @@ public class ReviewerAdder {
 
   private boolean isValidReviewer(Branch.NameKey branch, Account member)
       throws PermissionBackendException {
-    if (!member.isActive()) {
-      return false;
-    }
-
     try {
       // Check ref permission instead of change permission, since change permissions take into
       // account the private bit, whereas adding a user as a reviewer is explicitly allowing them to

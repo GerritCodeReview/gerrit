@@ -58,7 +58,7 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
           .add(AccountField.ID_STR)
           .build();
 
-  // Bump Lucene version requires reindexing
+  // Upgrade Lucene to 7.x requires reindexing.
   static final Schema<AccountState> V12 = schema(V11);
 
   /**

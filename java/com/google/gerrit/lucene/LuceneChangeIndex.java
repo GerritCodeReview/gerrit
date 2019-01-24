@@ -17,7 +17,7 @@ package com.google.gerrit.lucene;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
-import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
+import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID2;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
@@ -105,7 +105,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final String UPDATED_SORT_FIELD = sortFieldName(ChangeField.UPDATED);
-  static final String ID_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID);
+  static final String ID_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID2);
 
   private static final String CHANGES = "changes";
   private static final String CHANGES_OPEN = "open";
@@ -135,11 +135,11 @@ public class LuceneChangeIndex implements ChangeIndex {
       ChangeField.UNRESOLVED_COMMENT_COUNT.getName();
 
   static Term idTerm(ChangeData cd) {
-    return QueryBuilder.intTerm(LEGACY_ID.getName(), cd.getId().get());
+    return idTerm(cd.getId());
   }
 
   static Term idTerm(Change.Id id) {
-    return QueryBuilder.intTerm(LEGACY_ID.getName(), id.get());
+    return QueryBuilder.stringTerm(LEGACY_ID2.getName(), Integer.toString(id.get()));
   }
 
   private final ListeningExecutorService executor;
@@ -403,7 +403,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         List<Document> docs = future.get();
         ImmutableList.Builder<ChangeData> result =
             ImmutableList.builderWithExpectedSize(docs.size());
-        String idFieldName = LEGACY_ID.getName();
+        String idFieldName = LEGACY_ID2.getName();
         for (Document doc : docs) {
           result.add(toChangeData(fields(doc, fields), fields, idFieldName));
         }
@@ -446,7 +446,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       cd = changeDataFactory.create(parseProtoFrom(proto, ChangeProtoConverter.INSTANCE));
     } else {
       IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
-      Change.Id id = Change.id(f.numericValue().intValue());
+      Change.Id id = Change.id(Integer.valueOf(f.stringValue()));
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
       IndexableField project = doc.get(PROJECT.getName()).iterator().next();
       cd = changeDataFactory.create(Project.nameKey(project.stringValue()), id);

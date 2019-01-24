@@ -354,12 +354,19 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           continue;
         }
 
-        ProjectInfo info = new ProjectInfo();
         if (showTree && !format.isJson()) {
           treeMap.put(projectName, projectNodeFactory.create(e.getProject(), true));
           continue;
         }
 
+        if (foundIndex++ < start) {
+          continue;
+        }
+        if (limit > 0 && ++found > limit) {
+          break;
+        }
+
+        ProjectInfo info = new ProjectInfo();
         info.name = projectName.get();
         if (showTree && format.isJson()) {
           addParentProjectInfo(hiddenNames, accessibleParents, perm, e, info);
@@ -401,13 +408,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
         List<WebLinkInfo> links = webLinks.getProjectLinks(projectName.get());
         info.webLinks = links.isEmpty() ? null : links;
-
-        if (foundIndex++ < start) {
-          continue;
-        }
-        if (limit > 0 && ++found > limit) {
-          break;
-        }
 
         if (stdout == null || format.isJson()) {
           output.put(info.name, info);

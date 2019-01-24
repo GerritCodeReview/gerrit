@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba53ca4d_3497f330",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013627
+      },
+      "writtenOn": "2019-01-24T04:52:37Z",
+      "side": 1,
+      "message": "This requires a parameter like \u0027err\u0027. It\u0027s okay to be unused. (Gerrit-codestyle warns about it).\n\nYou may\u0027ve tested it in Chrome, which implemented a brand new ES2019 feature to make this optional - https://github.com/tc39/proposals/blob/a839e2ce938e9d3a0d6922dc67a8b1dfa8529daf/finished-proposals.md - but other browsers don\u0027t have that yet.",
+      "range": {
+        "startLine": 45,
+        "startChar": 14,
+        "endLine": 45,
+        "endChar": 16
+      },
+      "revId": "af53d86ede81dd079c7e029ce42523a2be5f3b8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

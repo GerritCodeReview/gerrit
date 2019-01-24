@@ -41,7 +41,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ProjectUtil;
-import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver2;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
@@ -112,7 +112,7 @@ public class Submit
   private final ChangeNotes.Factory changeNotesFactory;
   private final Provider<MergeOp> mergeOpProvider;
   private final Provider<MergeSuperSet> mergeSuperSet;
-  private final AccountResolver accountResolver;
+  private final AccountResolver2 accountResolver;
   private final String label;
   private final String labelWithParents;
   private final ParameterizedString titlePattern;
@@ -132,7 +132,7 @@ public class Submit
       ChangeNotes.Factory changeNotesFactory,
       Provider<MergeOp> mergeOpProvider,
       Provider<MergeSuperSet> mergeSuperSet,
-      AccountResolver accountResolver,
+      AccountResolver2 accountResolver,
       @GerritServerConfig Config cfg,
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil,
@@ -463,7 +463,8 @@ public class Submit
     perm.check(ChangePermission.SUBMIT_AS);
 
     CurrentUser caller = rsrc.getUser();
-    IdentifiedUser submitter = accountResolver.parseOnBehalfOf(caller, in.onBehalfOf);
+    IdentifiedUser submitter =
+        accountResolver.resolve(in.onBehalfOf).asUniqueUserOnBehalfOf(caller);
     try {
       permissionBackend.user(submitter).change(rsrc.getNotes()).check(ChangePermission.READ);
     } catch (AuthException e) {

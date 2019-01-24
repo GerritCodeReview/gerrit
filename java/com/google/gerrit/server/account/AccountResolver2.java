@@ -162,6 +162,16 @@ public class AccountResolver2 {
       return userFactory.create(asUnique());
     }
 
+    public IdentifiedUser asUniqueUserOnBehalfOf(CurrentUser caller)
+        throws UnresolvableAccountException {
+      ensureUnique();
+      if (isSelf()) {
+        // TODO(dborowitz): This preserves old behavior, but it seems wrong to discard the caller.
+        return self.get().asIdentifiedUser();
+      }
+      return userFactory.runAs(null, list.get(0).getAccount().getId(), requireNonNull(caller));
+    }
+
     @VisibleForTesting
     Optional<String> searcher() {
       return searcher;

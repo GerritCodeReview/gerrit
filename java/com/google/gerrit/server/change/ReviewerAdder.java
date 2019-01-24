@@ -56,7 +56,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver2;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupResolver;
@@ -144,7 +144,7 @@ public class ReviewerAdder {
     return Optional.of(in);
   }
 
-  private final AccountResolver accountResolver;
+  private final AccountResolver2 accountResolver;
   private final PermissionBackend permissionBackend;
   private final GroupResolver groupResolver;
   private final GroupMembers groupMembers;
@@ -159,7 +159,7 @@ public class ReviewerAdder {
 
   @Inject
   ReviewerAdder(
-      AccountResolver accountResolver,
+      AccountResolver2 accountResolver,
       PermissionBackend permissionBackend,
       GroupResolver groupResolver,
       GroupMembers groupMembers,
@@ -261,13 +261,12 @@ public class ReviewerAdder {
     IdentifiedUser reviewerUser;
     boolean exactMatchFound = false;
     try {
-      reviewerUser = accountResolver.parse(input.reviewer);
+      reviewerUser = accountResolver.resolve(input.reviewer).asUniqueUser();
       if (input.reviewer.equalsIgnoreCase(reviewerUser.getName())
           || input.reviewer.equals(String.valueOf(reviewerUser.getAccountId()))) {
         exactMatchFound = true;
       }
-    } catch (UnprocessableEntityException | AuthException e) {
-      // AuthException won't occur since the user is authenticated at this point.
+    } catch (UnprocessableEntityException e) {
       if (!allowGroup && !allowByEmail) {
         // Only return failure if we aren't going to try other interpretations.
         return fail(

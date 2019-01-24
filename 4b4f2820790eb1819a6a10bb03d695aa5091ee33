@@ -119,6 +119,30 @@
       "revId": "4b4f2820790eb1819a6a10bb03d695aa5091ee33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32709d3b_d419211b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-24T21:53:09Z",
+      "side": 1,
+      "message": "\u003e I am wondering *IF* without sandboxing we always have 1x GerritServer instance per test method, why do we have sandboxing after all?\n\nThe reason for implementing sandboxing is not because tests run concurrently. It\u0027s because tests may modify global state, e.g. adding users/groups, editing global capabilities, incrementing the change counter, etc.\n\nFor example, if you want to write a test that asserts that the first change you create with createChange() has change ID 1, you can\u0027t do that without @Sandboxed. It will be ID 1 if it\u0027s the first method that runs, and some other ID if it\u0027s not. This is true even if tests run sequentially. Now, I wouldn\u0027t recommend you write your tests that way--but one of the main *reasons* I wouldn\u0027t recommend it is that it will force you to use @Sandboxed and therefore be much slower. Similarly, if you write a test that grants some global capability to the admin user, you can either remember to undo that in a finally or an @After method, or you can just mark the test @Sandboxed.\n\n(These days, much of the global state is actually cleaned up by ProjectResetter, but the whole @Sandboxed thing was a previous, less performant attempt at solving a similar problem.)",
+      "parentUuid": "b5acebd4_765084fd",
+      "range": {
+        "startLine": 9,
+        "startChar": 47,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "4b4f2820790eb1819a6a10bb03d695aa5091ee33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

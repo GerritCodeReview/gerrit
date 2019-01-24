@@ -23,6 +23,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 /** Definition of change index versions (schemata). See {@link SchemaDefinitions}. */
 public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   /** Added new field {@link ChangeField#IS_SUBMITTABLE} based on submit requirements. */
+  @Deprecated
   static final Schema<ChangeData> V74 =
       schema(
           ChangeField.ADDED,
@@ -98,6 +99,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.UPDATED,
           ChangeField.UPLOADER,
           ChangeField.WIP);
+
+  // Upgrade Lucene to 7.x requires reindexing.
+  static final Schema<ChangeData> V75 = schema(V74);
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

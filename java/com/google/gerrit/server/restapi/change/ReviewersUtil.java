@@ -250,7 +250,7 @@ public class ReviewersUtil {
             result
                 .toList()
                 .stream()
-                .map(f -> new Account.Id(f.getValue(AccountField.ID).intValue()))
+                .map(f -> new Account.Id(Integer.valueOf(f.getValue(AccountField.ID))))
                 .collect(toList());
         logger.atFine().log("Matches: %s", matches);
         return matches;

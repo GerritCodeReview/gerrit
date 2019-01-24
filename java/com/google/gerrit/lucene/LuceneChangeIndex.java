@@ -136,11 +136,11 @@ public class LuceneChangeIndex implements ChangeIndex {
       ChangeField.UNRESOLVED_COMMENT_COUNT.getName();
 
   static Term idTerm(ChangeData cd) {
-    return QueryBuilder.intTerm(LEGACY_ID.getName(), cd.getId().get());
+    return idTerm(cd.getId());
   }
 
   static Term idTerm(Change.Id id) {
-    return QueryBuilder.intTerm(LEGACY_ID.getName(), id.get());
+    return QueryBuilder.stringTerm(LEGACY_ID.getName(), Integer.toString(id.get()));
   }
 
   private final ListeningExecutorService executor;
@@ -451,7 +451,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       cd = changeDataFactory.create(parseProtoFrom(proto, ChangeProtoConverter.INSTANCE));
     } else {
       IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
-      Change.Id id = new Change.Id(f.numericValue().intValue());
+      Change.Id id = new Change.Id(Integer.valueOf(f.stringValue()));
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
       IndexableField project = doc.get(PROJECT.getName()).iterator().next();
       cd = changeDataFactory.create(new Project.NameKey(project.stringValue()), id);

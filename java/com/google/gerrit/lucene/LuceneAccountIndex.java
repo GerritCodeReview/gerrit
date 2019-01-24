@@ -65,7 +65,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   }
 
   private static Term idTerm(Account.Id id) {
-    return QueryBuilder.intTerm(ID.getName(), id.get());
+    return QueryBuilder.stringTerm(ID.getName(), Integer.toString(id.get()));
   }
 
   private final GerritIndexWriterConfig indexWriterConfig;
@@ -107,8 +107,8 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
     // Add separate DocValues fields for those fields needed for sorting.
     FieldDef<AccountState, ?> f = values.getField();
     if (f == ID) {
-      int v = (Integer) getOnlyElement(values.getValues());
-      doc.add(new NumericDocValuesField(ID_SORT_FIELD, v));
+      String v = (String) getOnlyElement(values.getValues());
+      doc.add(new NumericDocValuesField(ID_SORT_FIELD, Integer.valueOf(v)));
     } else if (f == FULL_NAME) {
       String value = (String) getOnlyElement(values.getValues());
       doc.add(new SortedDocValuesField(FULL_NAME_SORT_FIELD, new BytesRef(value)));
@@ -153,7 +153,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
 
   @Override
   protected AccountState fromDocument(Document doc) {
-    Account.Id id = new Account.Id(doc.getField(ID.getName()).numericValue().intValue());
+    Account.Id id = new Account.Id(Integer.valueOf(doc.getField(ID.getName()).stringValue()));
     // Use the AccountCache rather than depending on any stored fields in the document (of which
     // there shouldn't be any). The most expensive part to compute anyway is the effective group
     // IDs, and we don't have a good way to reindex when those change.

@@ -103,7 +103,10 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
 
   @Deprecated static final Schema<ChangeData> V51 = schema(V50, ChangeField.TOTAL_COMMENT_COUNT);
 
-  static final Schema<ChangeData> V52 = schema(V51, ChangeField.EXTENSION);
+  @Deprecated static final Schema<ChangeData> V52 = schema(V51, ChangeField.EXTENSION);
+
+  // Change document ID type from LegacyIntField to StringField
+  static final Schema<ChangeData> V53 = schema(V52);
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();

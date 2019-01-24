@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "3018ceb2_dfe0b523",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-24T23:15:13Z",
+      "side": 1,
+      "message": "tries",
+      "range": {
+        "startLine": 21,
+        "startChar": 40,
+        "endLine": 21,
+        "endChar": 44
+      },
+      "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2e79f09_b5a887c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-24T23:15:13Z",
+      "side": 1,
+      "message": "Ouch.\n\nThis is the same reason we can\u0027t test the reflog access feature properly using the java API.",
+      "range": {
+        "startLine": 20,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 8
+      },
+      "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21ebda33_ced25611",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-24T23:15:13Z",
+      "side": 1,
+      "message": "What about PermissionBackendException?",
+      "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6e37425e_33d47d0c",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 2

@@ -46,6 +46,30 @@
       "revId": "25a5d01244a4034ba02614cae054330a3e46ecc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef592917_9a212ac5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-24T20:15:56Z",
+      "side": 1,
+      "message": "Not applicable anymore.",
+      "parentUuid": "f7e02fdb_122116a3",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 15,
+        "endChar": 30
+      },
+      "revId": "25a5d01244a4034ba02614cae054330a3e46ecc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

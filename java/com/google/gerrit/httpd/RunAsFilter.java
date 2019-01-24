@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.AccountResolver2;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -60,14 +60,14 @@ class RunAsFilter implements Filter {
   private final boolean enabled;
   private final DynamicItem<WebSession> session;
   private final PermissionBackend permissionBackend;
-  private final AccountResolver2 accountResolver;
+  private final AccountResolver accountResolver;
 
   @Inject
   RunAsFilter(
       AuthConfig config,
       DynamicItem<WebSession> session,
       PermissionBackend permissionBackend,
-      AccountResolver2 accountResolver) {
+      AccountResolver accountResolver) {
     this.enabled = config.isRunAsEnabled();
     this.session = session;
     this.permissionBackend = permissionBackend;

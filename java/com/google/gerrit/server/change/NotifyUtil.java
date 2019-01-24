@@ -26,7 +26,7 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.AccountResolver2;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -38,10 +38,10 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class NotifyUtil {
-  private final AccountResolver2 accountResolver;
+  private final AccountResolver accountResolver;
 
   @Inject
-  NotifyUtil(AccountResolver2 accountResolver) {
+  NotifyUtil(AccountResolver accountResolver) {
     this.accountResolver = accountResolver;
   }
 

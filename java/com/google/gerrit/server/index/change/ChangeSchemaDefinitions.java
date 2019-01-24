@@ -112,7 +112,16 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated static final Schema<ChangeData> V55 = schema(V54, ChangeField.DIRECTORY);
 
   // The computation of the 'extension' field is changed, hence reindexing is required.
-  static final Schema<ChangeData> V56 = schema(V55);
+  @Deprecated static final Schema<ChangeData> V56 = schema(V55);
+
+  // Replace LEGACY_ID2 as document ID with type StringField, compared to LEGACY_ID with type
+  // LegacyIntField.
+  static final Schema<ChangeData> V57 =
+      new Schema.Builder<ChangeData>()
+          .add(V56)
+          .remove(ChangeField.LEGACY_ID)
+          .add(ChangeField.LEGACY_ID2)
+          .build();
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();

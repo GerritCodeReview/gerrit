@@ -26,6 +26,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
    * Added new fields {@link ChangeField#ATTENTION_SET_FULL} and {@link
    * ChangeField#ATTENTION_SET_USERS}.
    */
+  @Deprecated
   static final Schema<ChangeData> V59 =
       schema(
           ChangeField.ADDED,
@@ -91,6 +92,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.UNRESOLVED_COMMENT_COUNT,
           ChangeField.UPDATED,
           ChangeField.WIP);
+
+  // Upgrade Lucene to 7.x requires reindexing.
+  static final Schema<ChangeData> V60 = schema(V59);
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

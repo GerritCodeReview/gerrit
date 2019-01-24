@@ -43,7 +43,10 @@ public class FuzzyTopicPredicate extends ChangeIndexPredicate {
       return false;
     }
     try {
-      Predicate<ChangeData> thisId = new LegacyChangeIdPredicate(cd.getId());
+      Predicate<ChangeData> thisId =
+          index.getSchema().useLegacyNumericFields()
+              ? new LegacyChangeIdPredicate(cd.getId())
+              : new LegacyChangeIdPredicate2(cd.getId());
       Iterable<ChangeData> results =
           index.getSource(and(thisId, this), IndexedChangeQuery.oneResult()).read();
       return !Iterables.isEmpty(results);

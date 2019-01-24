@@ -71,7 +71,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.UPDATED);
 
   @Deprecated static final Schema<ChangeData> V40 = schema(V39, ChangeField.PRIVATE);
+
   @Deprecated static final Schema<ChangeData> V41 = schema(V40, ChangeField.REVIEWER_BY_EMAIL);
+
   @Deprecated static final Schema<ChangeData> V42 = schema(V41, ChangeField.WIP);
 
   @Deprecated
@@ -112,7 +114,18 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated static final Schema<ChangeData> V55 = schema(V54, ChangeField.DIRECTORY);
 
   // The computation of the 'extension' field is changed, hence reindexing is required.
-  static final Schema<ChangeData> V56 = schema(V55);
+  @Deprecated static final Schema<ChangeData> V56 = schema(V55);
+
+  // New numeric types: use dimensional points using the k-d tree geo-spatial data structure
+  // to offer fast single- and multi-dimensional numeric range. As the consequense, integer
+  // document id type is replaced with string document id type.
+  static final Schema<ChangeData> V57 =
+      new Schema.Builder<ChangeData>()
+          .add(V56)
+          .remove(ChangeField.LEGACY_ID)
+          .add(ChangeField.LEGACY_ID2)
+          .legacyNumericFields(false)
+          .build();
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();

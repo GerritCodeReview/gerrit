@@ -53,8 +53,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountResolver2;
-import com.google.gerrit.server.account.AccountResolver2.UnresolvableAccountException;
+import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupMembers;
@@ -193,7 +193,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @VisibleForTesting
   public static class Arguments {
     final AccountCache accountCache;
-    final AccountResolver2 accountResolver;
+    final AccountResolver accountResolver;
     final AllProjectsName allProjectsName;
     final AllUsersName allUsersName;
     final PermissionBackend permissionBackend;
@@ -233,7 +233,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
         CommentsUtil commentsUtil,
-        AccountResolver2 accountResolver,
+        AccountResolver accountResolver,
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
         AllUsersName allUsersName,
@@ -289,7 +289,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
         CommentsUtil commentsUtil,
-        AccountResolver2 accountResolver,
+        AccountResolver accountResolver,
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
         AllUsersName allUsersName,

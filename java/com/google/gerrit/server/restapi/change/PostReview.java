@@ -86,7 +86,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
-import com.google.gerrit.server.account.AccountResolver2;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AddReviewersEmail;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
@@ -164,7 +164,7 @@ public class PostReview
   private final PublishCommentUtil publishCommentUtil;
   private final PatchSetUtil psUtil;
   private final PatchListCache patchListCache;
-  private final AccountResolver2 accountResolver;
+  private final AccountResolver accountResolver;
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
   private final ReviewerAdder reviewerAdder;
@@ -187,7 +187,7 @@ public class PostReview
       PublishCommentUtil publishCommentUtil,
       PatchSetUtil psUtil,
       PatchListCache patchListCache,
-      AccountResolver2 accountResolver,
+      AccountResolver accountResolver,
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,
       ReviewerAdder reviewerAdder,

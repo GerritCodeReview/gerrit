@@ -27,8 +27,8 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryRequiresAuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.AccountResolver2;
-import com.google.gerrit.server.account.AccountResolver2.UnresolvableAccountException;
+import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupCache;
@@ -56,10 +56,10 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
   public static class Arguments {
     final GroupCache groupCache;
     final GroupBackend groupBackend;
-    final AccountResolver2 accountResolver;
+    final AccountResolver accountResolver;
 
     @Inject
-    Arguments(GroupCache groupCache, GroupBackend groupBackend, AccountResolver2 accountResolver) {
+    Arguments(GroupCache groupCache, GroupBackend groupBackend, AccountResolver accountResolver) {
       this.groupCache = groupCache;
       this.groupBackend = groupBackend;
       this.accountResolver = accountResolver;

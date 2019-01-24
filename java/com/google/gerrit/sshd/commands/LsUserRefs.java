@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.account.AccountResolver2;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
@@ -48,7 +48,7 @@ import org.kohsuke.args4j.Option;
     description = "List refs visible to a specific user",
     runsAt = MASTER_OR_SLAVE)
 public class LsUserRefs extends SshCommand {
-  @Inject private AccountResolver2 accountResolver;
+  @Inject private AccountResolver accountResolver;
   @Inject private OneOffRequestContext requestContext;
   @Inject private PermissionBackend permissionBackend;
   @Inject private GitRepositoryManager repoManager;

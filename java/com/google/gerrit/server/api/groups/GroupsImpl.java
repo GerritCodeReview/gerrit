@@ -26,7 +26,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.server.account.AccountResolver2;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -44,7 +44,7 @@ import java.util.SortedMap;
 
 @Singleton
 class GroupsImpl implements Groups {
-  private final AccountResolver2 accountResolver;
+  private final AccountResolver accountResolver;
   private final GroupsCollection groups;
   private final GroupResolver groupResolver;
   private final ProjectsCollection projects;
@@ -56,7 +56,7 @@ class GroupsImpl implements Groups {
 
   @Inject
   GroupsImpl(
-      AccountResolver2 accountResolver,
+      AccountResolver accountResolver,
       GroupsCollection groups,
       GroupResolver groupResolver,
       ProjectsCollection projects,

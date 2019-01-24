@@ -21,7 +21,7 @@ import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.ReviewerSet;
-import com.google.gerrit.server.account.AccountResolver2;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.Collections;
@@ -36,7 +36,7 @@ import org.eclipse.jgit.revwalk.FooterLine;
 public class MailUtil {
 
   public static MailRecipients getRecipientsFromFooters(
-      AccountResolver2 accountResolver, List<FooterLine> footerLines)
+      AccountResolver accountResolver, List<FooterLine> footerLines)
       throws OrmException, IOException, ConfigInvalidException {
     MailRecipients recipients = new MailRecipients();
     for (FooterLine footerLine : footerLines) {
@@ -60,7 +60,7 @@ public class MailUtil {
     return recipients;
   }
 
-  private static Account.Id toAccountId(AccountResolver2 accountResolver, String nameOrEmail)
+  private static Account.Id toAccountId(AccountResolver accountResolver, String nameOrEmail)
       throws OrmException, UnprocessableEntityException, IOException, ConfigInvalidException {
     return accountResolver.resolveByNameOrEmail(nameOrEmail).asUnique().getAccount().getId();
   }

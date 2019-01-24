@@ -21,7 +21,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AccountResolver2;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
@@ -38,13 +38,13 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 public class AccountIdHandler extends OptionHandler<Account.Id> {
-  private final AccountResolver2 accountResolver;
+  private final AccountResolver accountResolver;
   private final AccountManager accountManager;
   private final AuthType authType;
 
   @Inject
   public AccountIdHandler(
-      AccountResolver2 accountResolver,
+      AccountResolver accountResolver,
       AccountManager accountManager,
       AuthConfig authConfig,
       @Assisted CmdLineParser parser,

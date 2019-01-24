@@ -23,10 +23,10 @@ import static java.util.stream.Collectors.joining;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.AccountResolver2.Result;
-import com.google.gerrit.server.account.AccountResolver2.Searcher;
-import com.google.gerrit.server.account.AccountResolver2.StringSearcher;
-import com.google.gerrit.server.account.AccountResolver2.UnresolvableAccountException;
+import com.google.gerrit.server.account.AccountResolver.Result;
+import com.google.gerrit.server.account.AccountResolver.Searcher;
+import com.google.gerrit.server.account.AccountResolver.StringSearcher;
+import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritBaseTests;
@@ -36,7 +36,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 import org.junit.Test;
 
-public class AccountResolver2Test extends GerritBaseTests {
+public class AccountResolverTest extends GerritBaseTests {
   private class TestSearcher extends StringSearcher {
     private final String pattern;
     private final boolean shortCircuit;
@@ -262,7 +262,7 @@ public class AccountResolver2Test extends GerritBaseTests {
 
   @Test
   public void exceptionMessageNotFound() throws Exception {
-    AccountResolver2 resolver = newAccountResolver();
+    AccountResolver resolver = newAccountResolver();
     assertThat(
             new UnresolvableAccountException(
                 resolver.new Result("foo", ImmutableList.of(), ImmutableList.of())))
@@ -272,7 +272,7 @@ public class AccountResolver2Test extends GerritBaseTests {
 
   @Test
   public void exceptionMessageSelf() throws Exception {
-    AccountResolver2 resolver = newAccountResolver();
+    AccountResolver resolver = newAccountResolver();
     UnresolvableAccountException e =
         new UnresolvableAccountException(
             resolver.new Result("self", ImmutableList.of(), ImmutableList.of()));
@@ -282,7 +282,7 @@ public class AccountResolver2Test extends GerritBaseTests {
 
   @Test
   public void exceptionMessageMe() throws Exception {
-    AccountResolver2 resolver = newAccountResolver();
+    AccountResolver resolver = newAccountResolver();
     UnresolvableAccountException e =
         new UnresolvableAccountException(
             resolver.new Result("me", ImmutableList.of(), ImmutableList.of()));
@@ -292,7 +292,7 @@ public class AccountResolver2Test extends GerritBaseTests {
 
   @Test
   public void exceptionMessageAmbiguous() throws Exception {
-    AccountResolver2 resolver = newAccountResolver();
+    AccountResolver resolver = newAccountResolver();
     assertThat(
             new UnresolvableAccountException(
                 resolver
@@ -304,7 +304,7 @@ public class AccountResolver2Test extends GerritBaseTests {
 
   @Test
   public void exceptionMessageOnlyInactive() throws Exception {
-    AccountResolver2 resolver = newAccountResolver();
+    AccountResolver resolver = newAccountResolver();
     assertThat(
             new UnresolvableAccountException(
                 resolver
@@ -328,8 +328,8 @@ public class AccountResolver2Test extends GerritBaseTests {
     return newAccountResolver().searchImpl(input, searchers, visibilitySupplier);
   }
 
-  private static AccountResolver2 newAccountResolver() {
-    return new AccountResolver2(null, null, null, null, null, null, null, "Anonymous Name");
+  private static AccountResolver newAccountResolver() {
+    return new AccountResolver(null, null, null, null, null, null, null, "Anonymous Name");
   }
 
   private AccountState newAccount(int id) {

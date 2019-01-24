@@ -92,7 +92,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.account.AccountResolver2;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -286,7 +286,7 @@ class ReceiveCommits {
   // depend on previous ones.
 
   // Injected fields.
-  private final AccountResolver2 accountResolver;
+  private final AccountResolver accountResolver;
   private final AllProjectsName allProjectsName;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangeEditUtil editUtil;
@@ -359,7 +359,7 @@ class ReceiveCommits {
 
   @Inject
   ReceiveCommits(
-      AccountResolver2 accountResolver,
+      AccountResolver accountResolver,
       AllProjectsName allProjectsName,
       BatchUpdate.Factory batchUpdateFactory,
       ProjectConfig.Factory projectConfigFactory,

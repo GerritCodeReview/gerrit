@@ -25,7 +25,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.server.account.AccountResolver2;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.DefaultPermissionMappings;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -45,13 +45,13 @@ import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckInput> {
-  private final AccountResolver2 accountResolver;
+  private final AccountResolver accountResolver;
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager gitRepositoryManager;
 
   @Inject
   CheckAccess(
-      AccountResolver2 resolver,
+      AccountResolver resolver,
       PermissionBackend permissionBackend,
       GitRepositoryManager gitRepositoryManager) {
     this.accountResolver = resolver;

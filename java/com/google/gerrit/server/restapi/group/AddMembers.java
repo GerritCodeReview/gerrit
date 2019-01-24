@@ -36,8 +36,8 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AccountResolver2;
-import com.google.gerrit.server.account.AccountResolver2.UnresolvableAccountException;
+import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupControl;
@@ -90,7 +90,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
   private final AccountManager accountManager;
   private final AuthType authType;
-  private final AccountResolver2 accountResolver;
+  private final AccountResolver accountResolver;
   private final AccountCache accountCache;
   private final AccountLoader.Factory infoFactory;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
@@ -99,7 +99,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   AddMembers(
       AccountManager accountManager,
       AuthConfig authConfig,
-      AccountResolver2 accountResolver,
+      AccountResolver accountResolver,
       AccountCache accountCache,
       AccountLoader.Factory infoFactory,
       @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
@@ -146,7 +146,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
   Account findAccount(String nameOrEmailOrId)
       throws UnprocessableEntityException, OrmException, IOException, ConfigInvalidException {
-    AccountResolver2.Result result = accountResolver.resolve(nameOrEmailOrId);
+    AccountResolver.Result result = accountResolver.resolve(nameOrEmailOrId);
     try {
       return result.asUnique().getAccount();
     } catch (UnresolvableAccountException e) {

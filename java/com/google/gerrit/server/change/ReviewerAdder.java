@@ -56,7 +56,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.account.AccountResolver2;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupResolver;
@@ -144,7 +144,7 @@ public class ReviewerAdder {
     return Optional.of(in);
   }
 
-  private final AccountResolver2 accountResolver;
+  private final AccountResolver accountResolver;
   private final PermissionBackend permissionBackend;
   private final GroupResolver groupResolver;
   private final GroupMembers groupMembers;
@@ -159,7 +159,7 @@ public class ReviewerAdder {
 
   @Inject
   ReviewerAdder(
-      AccountResolver2 accountResolver,
+      AccountResolver accountResolver,
       PermissionBackend permissionBackend,
       GroupResolver groupResolver,
       GroupMembers groupMembers,

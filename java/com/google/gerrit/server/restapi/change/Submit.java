@@ -41,7 +41,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ProjectUtil;
-import com.google.gerrit.server.account.AccountResolver2;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
@@ -112,7 +112,7 @@ public class Submit
   private final ChangeNotes.Factory changeNotesFactory;
   private final Provider<MergeOp> mergeOpProvider;
   private final Provider<MergeSuperSet> mergeSuperSet;
-  private final AccountResolver2 accountResolver;
+  private final AccountResolver accountResolver;
   private final String label;
   private final String labelWithParents;
   private final ParameterizedString titlePattern;
@@ -132,7 +132,7 @@ public class Submit
       ChangeNotes.Factory changeNotesFactory,
       Provider<MergeOp> mergeOpProvider,
       Provider<MergeSuperSet> mergeSuperSet,
-      AccountResolver2 accountResolver,
+      AccountResolver accountResolver,
       @GerritServerConfig Config cfg,
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil,

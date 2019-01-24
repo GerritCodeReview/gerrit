@@ -31,7 +31,7 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.account.AccountResolver2.UnresolvableAccountException;
+import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;

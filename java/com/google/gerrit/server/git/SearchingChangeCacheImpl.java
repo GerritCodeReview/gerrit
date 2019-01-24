@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.logging.TraceContext;
@@ -78,7 +79,8 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
   }
 
   @AutoValue
-  abstract static class CachedChange {
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public abstract static class CachedChange {
     // Subset of fields in ChangeData, specifically fields needed to serve
     // VisibleRefFilter without touching the database. More can be added as
     // necessary.

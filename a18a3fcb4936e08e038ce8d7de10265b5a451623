@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b09849e8_536f9c66",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2180,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-24T08:38:55Z",
+      "side": 1,
+      "message": "\"for example\"",
+      "range": {
+        "startLine": 2180,
+        "startChar": 55,
+        "endLine": 2180,
+        "endChar": 60
+      },
+      "revId": "a18a3fcb4936e08e038ce8d7de10265b5a451623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "525b2860_c0685b79",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2182,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-24T08:38:55Z",
+      "side": 1,
+      "message": "How is the first weblink determined?  I\u0027m assuming it\u0027s based on the order of the iterator over the weblinks dynamic set?  If that\u0027s the case, maybe it\u0027s better to reword this sentence because it\u0027s not something that can be influenced by the user/admin.",
+      "range": {
+        "startLine": 2182,
+        "startChar": 11,
+        "endLine": 2182,
+        "endChar": 25
+      },
+      "revId": "a18a3fcb4936e08e038ce8d7de10265b5a451623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48b7a014_644a359a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2182,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-24T08:38:55Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me where these values are coming from.",
+      "range": {
+        "startLine": 2182,
+        "startChar": 38,
+        "endLine": 2182,
+        "endChar": 70
+      },
+      "revId": "a18a3fcb4936e08e038ce8d7de10265b5a451623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

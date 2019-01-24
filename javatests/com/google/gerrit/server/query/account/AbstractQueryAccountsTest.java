@@ -637,7 +637,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
                     indexes.getSearchIndex().getSchema().getStoredFields().keySet()));
 
     assertThat(rawFields).isPresent();
-    assertThat(rawFields.get().getValue(AccountField.ID)).isEqualTo(userInfo._accountId);
+    assertThat(Integer.valueOf(rawFields.get().getValue(AccountField.ID)))
+        .isEqualTo(userInfo._accountId);
 
     // The field EXTERNAL_ID_STATE is only supported from schema version 6.
     if (getSchemaVersion() < 6) {

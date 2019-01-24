@@ -21,6 +21,7 @@ import com.google.gerrit.server.AuditEvent;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.gerrit.testing.FakeGroupAuditService;
 import java.util.Collections;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
@@ -31,17 +32,19 @@ import org.junit.Test;
 public class GitOverHttpServletIT extends AbstractPushForReview {
   private static final long AUDIT_EVENT_TIMEOUT = 500L;
 
+  @Inject private FakeGroupAuditService auditService;
+
   @Before
   public void beforeEach() throws Exception {
     CredentialsProvider.setDefault(
         new UsernamePasswordCredentialsProvider(admin.username, admin.httpPassword));
     selectProtocol(AbstractPushForReview.Protocol.HTTP);
+    auditService.clearEvents();
   }
 
   @Test
   @Sandboxed
   public void receivePackAuditEventLog() throws Exception {
-    FakeGroupAuditService auditService = clearAuditService();
     testRepo
         .git()
         .push()
@@ -64,7 +67,6 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
   @Test
   @Sandboxed
   public void uploadPackAuditEventLog() throws Exception {
-    FakeGroupAuditService auditService = clearAuditService();
     testRepo.git().fetch().call();
     waitForAudit(auditService);
 
@@ -76,13 +78,6 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
         .containsExactlyElementsIn(Collections.singletonList("git-upload-pack"));
     assertThat(e.what).endsWith("service=git-upload-pack");
     assertThat(((HttpAuditEvent) e).httpStatus).isEqualTo(HttpServletResponse.SC_OK);
-  }
-
-  private FakeGroupAuditService clearAuditService() {
-    FakeGroupAuditService auditService =
-        server.getTestInjector().getInstance(FakeGroupAuditService.class);
-    auditService.clearEvents();
-    return auditService;
   }
 
   private void waitForAudit(FakeGroupAuditService auditService) throws InterruptedException {

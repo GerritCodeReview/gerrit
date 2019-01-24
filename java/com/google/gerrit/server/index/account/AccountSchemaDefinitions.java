@@ -25,6 +25,7 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   // New numeric types: use dimensional points using the k-d tree geo-spatial data structure
   // to offer fast single- and multi-dimensional numeric range. As the consequense, integer
   // document id type is replaced with string document id type.
+  @Deprecated
   static final Schema<AccountState> V11 =
       schema(
           AccountField.ACTIVE,
@@ -41,6 +42,9 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
           AccountField.REGISTERED,
           AccountField.USERNAME,
           AccountField.WATCHED_PROJECT);
+
+  // Upgrade Lucene to 7.x requires reindexing.
+  static final Schema<AccountState> V12 = schema(V11);
 
   /**
    * Name of the account index to be used when contacting index backends or loading configurations.

@@ -1632,6 +1632,14 @@
       return `c${number}_rev${revision}`;
     },
 
+    _computeChangeEditKey(change) {
+      if (!change._number || !change.commit || !change.commit.commit) {
+        return '';
+      }
+
+      return `c${change._number}_rev${change.commit.commit}`;
+    },
+
     _patchNumChanged(patchNumStr) {
       if (!this._selectedRevision) {
         return;

@@ -1065,6 +1065,12 @@
     _handleDeleteEditConfirm() {
       this._hideAllDialogs();
 
+      // when we delete make sure to delete the cached copy too.
+      const number = this.change._number;
+      const revision = this.change && this.change.commit &&
+            this.change.commit.commit;
+      this.$.storage.eraseEditableContentItem(`c${number}_edit_rev${revision}`);
+
       this._fireAction('/edit', this.actions.deleteEdit, false);
     },
 

@@ -49,7 +49,10 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   @Deprecated static final Schema<AccountState> V9 = schema(V8);
 
   // Lucene index was changed to add additional fields for sorting.
-  static final Schema<AccountState> V10 = schema(V9);
+  @Deprecated static final Schema<AccountState> V10 = schema(V9);
+
+  // Change document ID type from LegacyIntField to StringField
+  static final Schema<AccountState> V11 = schema(V10);
 
   public static final String NAME = "accounts";
   public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();

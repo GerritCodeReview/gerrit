@@ -40,6 +40,7 @@ import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -91,6 +92,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   private final ChangeMapping mapping;
   private final ChangeData.Factory changeDataFactory;
   private final Schema<ChangeData> schema;
+  private final FieldDef<ChangeData, ?> idField;
 
   @Inject
   ElasticChangeIndex(
@@ -102,7 +104,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     super(cfg, sitePaths, schema, clientBuilder, CHANGES);
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
-    mapping = new ChangeMapping(schema, client.adapter());
+    this.mapping = new ChangeMapping(schema, client.adapter());
+    this.idField =
+        this.schema.useLegacyNumericFields() ? ChangeField.LEGACY_ID : ChangeField.LEGACY_ID_STR;
   }
 
   @Override
@@ -157,7 +161,8 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       }
     }
 
-    QueryOptions filteredOpts = opts.filterFields(IndexUtils::changeFields);
+    QueryOptions filteredOpts =
+        opts.filterFields(o -> IndexUtils.changeFields(o, schema.useLegacyNumericFields()));
     return new ElasticQuerySource(p, filteredOpts, getURI(indexes), getSortArray());
   }
 
@@ -167,7 +172,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
     JsonArray sortArray = new JsonArray();
     addNamedElement(ChangeField.UPDATED.getName(), properties, sortArray);
-    addNamedElement(ChangeField.LEGACY_ID.getName(), properties, sortArray);
+    addNamedElement(idField.getName(), properties, sortArray);
     return sortArray;
   }
 
@@ -206,7 +211,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     JsonElement c = source.get(ChangeField.CHANGE.getName());
 
     if (c == null) {
-      int id = source.get(ChangeField.LEGACY_ID.getName()).getAsInt();
+      int id = source.get(idField.getName()).getAsInt();
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
       String projectName = requireNonNull(source.get(ChangeField.PROJECT.getName()).getAsString());
       return changeDataFactory.create(Project.nameKey(projectName), Change.id(id));

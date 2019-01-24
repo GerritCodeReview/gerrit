@@ -55,6 +55,11 @@ import org.eclipse.jgit.lib.Repository;
  * holding on to a single instance.
  */
 public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChangeQuery> {
+  @FunctionalInterface
+  static interface ChangeIdPredicateFactory {
+    Predicate<ChangeData> create(Change.Id id);
+  }
+
   private static Predicate<ChangeData> ref(BranchNameKey branch) {
     return new RefPredicate(branch.branch());
   }
@@ -78,6 +83,9 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   private final ChangeData.Factory changeDataFactory;
   private final ChangeNotes.Factory notesFactory;
 
+  // TODO(davido): Remove the below fields when support for legacy numeric fields is removed.
+  private final ChangeIdPredicateFactory predicateFactory;
+
   @Inject
   InternalChangeQuery(
       ChangeQueryProcessor queryProcessor,
@@ -88,6 +96,11 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     super(queryProcessor, indexes, indexConfig);
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
+    predicateFactory =
+        (id) ->
+            schema().useLegacyNumericFields()
+                ? new LegacyChangeIdPredicate(id)
+                : new LegacyChangeIdStrPredicate(id);
   }
 
   public List<ChangeData> byKey(Change.Key key) {
@@ -99,13 +112,13 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   public List<ChangeData> byLegacyChangeId(Change.Id id) {
-    return query(new LegacyChangeIdPredicate(id));
+    return query(predicateFactory.create(id));
   }
 
   public List<ChangeData> byLegacyChangeIds(Collection<Change.Id> ids) {
     List<Predicate<ChangeData>> preds = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
-      preds.add(new LegacyChangeIdPredicate(id));
+      preds.add(predicateFactory.create(id));
     }
     return query(or(preds));
   }

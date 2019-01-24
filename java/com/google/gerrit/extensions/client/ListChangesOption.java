@@ -78,6 +78,7 @@ public enum ListChangesOption {
   TRACKING_IDS(21),
 
   /** Skip mergeability data */
+  @Deprecated
   SKIP_MERGEABLE(22);
 
   private final int value;

@@ -77,8 +77,9 @@ public class AllProjectsCreatorTest extends GerritBaseTests {
     inMemoryModule.inject(this);
 
     // Creates an empty All-Projects.
-    Repository repo = repoManager.createRepository(allProjectsName);
-    repo.close();
+    try (Repository repo = repoManager.createRepository(allProjectsName)) {
+      // Intentionally empty.
+    }
   }
 
   @Test

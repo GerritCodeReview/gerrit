@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1548292448 -0800\nnonce AJbGYzn/ooCakHa4O5OOpr6IePNQ2qRuGVk/vanRrIgAm3w/x6HnToGi2vKZbXClGLv5zPqIw8BK\n\n0000000000000000000000000000000000000000 af0ef59f4579a1be025d9e78db26cf23a223724e refs/for/master%topic\u003daccount-resolver-2,wip\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlxJEWAVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMzk0QAIbnWLMYLOBDUtAk6iCdCxylfNmE\nwrYvTqCZo/e0ch693Cr27UzEDPojG+UtBN0f6yfPtiUDeUrnHhmWcm3zl/P+WjGN\nZg/+YJuNtolicAYf0PyWtUkDlMuxH5/kWM4IX2UBBLfKu9ANZOfRQQxm/gTMtozY\n2LTpdC8L8ImvsTkR2iFVsGT9oFN7WLnintJ1psSNmE9rUmdDe4Z8Oo1qisUkXetK\nDBT+KlVswCj/heJ2IMLpuTVRt32qxPhwq+cghJ2hVcUEslKF4WVG03rx4e1CPyfb\nhUEJx7ma24C6qyxcX3QMcqqOm9od7/LKAbyytFcWxh1xusCniyHVUfcL0FwtaidI\nK/mOFXwyOtuBslfK8kLgiGc8UfnXFiMsy0yIbiLH/bB22ThNU8BXKabIAWE7AaaJ\nQvPGInpd9+yjKC7GckJpFnmu6owlB9aXen5FVEWpZQ+NDh1N5ikoCN3lzAWVkVye\nM3YAIDqVCtxn8WMazHROdr3k8YhGeFjlVcn18MrbqWPKSTohBLao3WDmNGxCYUKg\nGOFL2At0VqlTNiwjj0bwH8w6Z3NOu0x1jnpRUTRntZjFHqHryOz7d+XuDVBLDZRg\ncJlugOaNb0iF0abfUG8Wb6LShQWIGAZzWL0SPrZGhxJzzioyx/GEuTez2fLG5EfJ\nTmkRcMnr+e0MEA0Y\n\u003dRihZ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "87c5b3bd_29bd6f50",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-24T15:52:28Z",
+      "side": 1,
+      "message": "Should this list be updated to mention \"self\"/\"me\"?",
+      "range": {
+        "startLine": 455,
+        "startChar": 7,
+        "endLine": 467,
+        "endChar": 70
+      },
+      "revId": "a02b6e9e271797907427fad72f168d5ad84157f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

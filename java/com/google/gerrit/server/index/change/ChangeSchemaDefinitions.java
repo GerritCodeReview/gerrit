@@ -26,6 +26,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
    * Added new field {@link ChangeField#PREFIX_HASHTAG} and {@link ChangeField#PREFIX_TOPIC} to
    * allow easier search for topics.
    */
+  @Deprecated
   static final Schema<ChangeData> V75 =
       schema(
           ChangeField.ADDED,
@@ -103,6 +104,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.UPDATED,
           ChangeField.UPLOADER,
           ChangeField.WIP);
+
+  // Upgrade Lucene to 7.x requires reindexing.
+  static final Schema<ChangeData> V76 = schema(V75);
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

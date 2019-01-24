@@ -23,6 +23,30 @@
       "revId": "4b4f2820790eb1819a6a10bb03d695aa5091ee33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac8569e5_cbfaafe8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-24T21:10:06Z",
+      "side": 1,
+      "message": "AFAIK Bazel never runs multiple test methods in the same class concurrently in the same JVM. If you use test sharding (which we don\u0027t) it runs non-overlapping subsets of the test methods in different JVMs.",
+      "parentUuid": "91b582d7_69cc0fbe",
+      "range": {
+        "startLine": 9,
+        "startChar": 47,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "4b4f2820790eb1819a6a10bb03d695aa5091ee33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

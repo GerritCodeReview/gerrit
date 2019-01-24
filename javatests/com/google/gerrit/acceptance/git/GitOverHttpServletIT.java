@@ -14,14 +14,17 @@
 
 package com.google.gerrit.acceptance.git;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.server.AuditEvent;
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.gerrit.testing.FakeGroupAuditService;
-import java.util.Collections;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -29,8 +32,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GitOverHttpServletIT extends AbstractPushForReview {
-  private static final long AUDIT_EVENT_TIMEOUT = 500L;
-
   @Inject private FakeGroupAuditService auditService;
 
   @Before
@@ -38,50 +39,68 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
     CredentialsProvider.setDefault(
         new UsernamePasswordCredentialsProvider(admin.username, admin.httpPassword));
     selectProtocol(AbstractPushForReview.Protocol.HTTP);
-    auditService.clearEvents();
+    // Don't clear audit events here, since we can't guarantee all test setup has run yet. Plus it's
+    // extremely slow and is only needed by a small subset of methods.
   }
 
   @Test
   @Sandboxed
   public void receivePackAuditEventLog() throws Exception {
+    auditService.clearEvents();
     testRepo
         .git()
         .push()
         .setRemote("origin")
         .setRefSpecs(new RefSpec("HEAD:refs/for/master"))
         .call();
-    waitForAudit(auditService);
 
-    // Git smart protocol makes two requests:
-    // https://github.com/git/git/blob/master/Documentation/technical/http-protocol.txt
-    assertThat(auditService.auditEvents.size()).isEqualTo(2);
+    ImmutableList<HttpAuditEvent> auditEvents = drainEvents(2);
 
-    AuditEvent e = auditService.auditEvents.get(1);
-    assertThat(e.who.getAccountId()).isEqualTo(admin.id);
-    assertThat(e.what).endsWith("/git-receive-pack");
-    assertThat(e.params).isEmpty();
-    assertThat(((HttpAuditEvent) e).httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+    HttpAuditEvent lsRemote = auditEvents.get(0);
+    assertThat(lsRemote.who.getAccountId()).isEqualTo(admin.id);
+    assertThat(lsRemote.what).endsWith("/info/refs?service=git-receive-pack");
+    assertThat(lsRemote.params).containsExactly("service", "git-receive-pack");
+    assertThat(lsRemote.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+
+    HttpAuditEvent receivePack = auditEvents.get(1);
+    assertThat(receivePack.who.getAccountId()).isEqualTo(admin.id);
+    assertThat(receivePack.what).endsWith("/git-receive-pack");
+    assertThat(receivePack.params).isEmpty();
+    assertThat(receivePack.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
   }
 
   @Test
   @Sandboxed
   public void uploadPackAuditEventLog() throws Exception {
+    auditService.clearEvents();
+    // testRepo is already a clone. Make a server-side change so we have something to fetch.
+    try (Repository repo = repoManager.openRepository(project)) {
+      new TestRepository<>(repo).branch("master").commit().create();
+    }
     testRepo.git().fetch().call();
-    waitForAudit(auditService);
 
-    assertThat(auditService.auditEvents.size()).isEqualTo(1);
+    ImmutableList<HttpAuditEvent> auditEvents = drainEvents(2);
 
-    AuditEvent e = auditService.auditEvents.get(0);
-    assertThat(e.who.toString()).isEqualTo("ANONYMOUS");
-    assertThat(e.params.get("service"))
-        .containsExactlyElementsIn(Collections.singletonList("git-upload-pack"));
-    assertThat(e.what).endsWith("service=git-upload-pack");
-    assertThat(((HttpAuditEvent) e).httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+    HttpAuditEvent lsRemote = auditEvents.get(0);
+    // Repo URL doesn't include /a, so fetching doesn't cause authentication.
+    assertThat(lsRemote.who).isInstanceOf(AnonymousUser.class);
+    assertThat(lsRemote.what).endsWith("/info/refs?service=git-upload-pack");
+    assertThat(lsRemote.params).containsExactly("service", "git-upload-pack");
+    assertThat(lsRemote.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+
+    HttpAuditEvent uploadPack = auditEvents.get(1);
+    assertThat(lsRemote.who).isInstanceOf(AnonymousUser.class);
+    assertThat(uploadPack.what).endsWith("/git-upload-pack");
+    assertThat(uploadPack.params).isEmpty();
+    assertThat(uploadPack.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
   }
 
-  private void waitForAudit(FakeGroupAuditService auditService) throws InterruptedException {
-    synchronized (auditService.auditEvents) {
-      auditService.auditEvents.wait(AUDIT_EVENT_TIMEOUT);
-    }
+  private ImmutableList<HttpAuditEvent> drainEvents(int expectedSize) throws Exception {
+    return auditService
+        .drainEvents(expectedSize)
+        .stream()
+        .filter(HttpAuditEvent.class::isInstance)
+        .map(HttpAuditEvent.class::cast)
+        .collect(toImmutableList());
   }
 }

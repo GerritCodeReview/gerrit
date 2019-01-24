@@ -24,6 +24,7 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
 
   // New numeric types: use dimensional points using the k-d tree geo-spatial data structure
   // to offer fast single- and multi-dimensional numeric range.
+  @Deprecated
   static final Schema<InternalGroup> V8 =
       schema(
           GroupField.CREATED_ON,
@@ -37,6 +38,9 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
           GroupField.REF_STATE,
           GroupField.SUBGROUP,
           GroupField.UUID);
+
+  // Upgrade Lucene to 7.x requires reindexing.
+  static final Schema<InternalGroup> V9 = schema(V8);
 
   public static final GroupSchemaDefinitions INSTANCE = new GroupSchemaDefinitions();
 

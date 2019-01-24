@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d06464a8_253471d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-01-24T11:42:06Z",
+      "side": 1,
+      "message": "qualify this. (It depends on the repository size and submit strategy?)\n\nmaybe add some real-life numbers for chromium.",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "40740494e3532010cf59b6ecf3f8f4a28f0a9f19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2ca3505_8ebea653",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1

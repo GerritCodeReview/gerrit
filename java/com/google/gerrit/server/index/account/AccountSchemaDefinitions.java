@@ -22,7 +22,6 @@ import com.google.gerrit.server.account.AccountState;
 
 /** Definition of account index versions (schemata). See {@link SchemaDefinitions}. */
 public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
-
   @Deprecated
   static final Schema<AccountState> V8 =
       schema(
@@ -58,7 +57,7 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
           .add(AccountField.ID_STR)
           .build();
 
-  // Bump Lucene version requires reindexing
+  // Upgrade Lucene to 7.x requires reindexing.
   static final Schema<AccountState> V12 = schema(V11);
 
   /**

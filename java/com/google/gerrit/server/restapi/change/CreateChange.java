@@ -196,6 +196,7 @@ public class CreateChange
 
     Project.NameKey project = rsrc.getNameKey();
     String refName = RefNames.fullName(input.branch);
+    permissionBackend.currentUser().project(project).ref(refName).check(RefPermission.READ);
     permissionBackend
         .currentUser()
         .project(project)

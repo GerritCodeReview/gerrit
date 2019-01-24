@@ -41,12 +41,14 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
@@ -454,6 +456,18 @@ public class CreateChangeIT extends AbstractDaemonTest {
     RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
     assertThat(revInfo).isNotNull();
     assertThat(revInfo.commit.message).isEqualTo(input.message + "\n");
+  }
+
+  @Test
+  public void createChangeOnAnInvisibleBranchNotPermitted() throws Exception {
+    createBranch(new NameKey(project, "foo"));
+    block("refs/heads/foo", READ, REGISTERED_USERS);
+    requestScopeOperations.setApiUser(user.id);
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.branch = "foo";
+
+    exception.expect(AuthException.class);
+    gApi.changes().create(input);
   }
 
   private ChangeInput newChangeInput(ChangeStatus status) {

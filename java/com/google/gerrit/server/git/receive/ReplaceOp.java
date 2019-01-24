@@ -48,7 +48,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
-import com.google.gerrit.server.account.AccountResolver2;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.EmailReviewComments;
@@ -114,7 +114,7 @@ public class ReplaceOp implements BatchUpdateOp {
 
   private static final String CHANGE_IS_CLOSED = "change is closed";
 
-  private final AccountResolver2 accountResolver;
+  private final AccountResolver accountResolver;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeKindCache changeKindCache;
@@ -159,7 +159,7 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Inject
   ReplaceOp(
-      AccountResolver2 accountResolver,
+      AccountResolver accountResolver,
       ApprovalsUtil approvalsUtil,
       ChangeData.Factory changeDataFactory,
       ChangeKindCache changeKindCache,

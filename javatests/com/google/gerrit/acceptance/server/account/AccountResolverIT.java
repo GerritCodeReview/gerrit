@@ -29,9 +29,9 @@ import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ServerInitiated;
-import com.google.gerrit.server.account.AccountResolver2;
-import com.google.gerrit.server.account.AccountResolver2.Result;
-import com.google.gerrit.server.account.AccountResolver2.UnresolvableAccountException;
+import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver.Result;
+import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -43,7 +43,7 @@ import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
-public class AccountResolver2IT extends AbstractDaemonTest {
+public class AccountResolverIT extends AbstractDaemonTest {
   @ConfigSuite.Default
   public static Config defaultConfig() {
     Config cfg = new Config();
@@ -53,7 +53,7 @@ public class AccountResolver2IT extends AbstractDaemonTest {
 
   @Inject @ServerInitiated private Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private AccountOperations accountOperations;
-  @Inject private AccountResolver2 accountResolver;
+  @Inject private AccountResolver accountResolver;
   @Inject private Provider<CurrentUser> self;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private Sequences sequences;

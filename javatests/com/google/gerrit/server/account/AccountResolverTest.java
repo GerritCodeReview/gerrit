@@ -24,9 +24,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.AccountResolver2.Result;
-import com.google.gerrit.server.account.AccountResolver2.Searcher;
-import com.google.gerrit.server.account.AccountResolver2.StringSearcher;
+import com.google.gerrit.server.account.AccountResolver.Result;
+import com.google.gerrit.server.account.AccountResolver.Searcher;
+import com.google.gerrit.server.account.AccountResolver.StringSearcher;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritBaseTests;
@@ -36,7 +36,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 import org.junit.Test;
 
-public class AccountResolver2Test extends GerritBaseTests {
+public class AccountResolverTest extends GerritBaseTests {
   private class TestSearcher extends StringSearcher {
     private final String pattern;
     private final boolean shortCircuit;
@@ -241,7 +241,7 @@ public class AccountResolver2Test extends GerritBaseTests {
       ImmutableList<Searcher<?>> searchers,
       Supplier<Predicate<AccountState>> visibilitySupplier)
       throws Exception {
-    return new AccountResolver2(null, null, null, null, null, null, null, "Anonymous Name")
+    return new AccountResolver(null, null, null, null, null, null, null, "Anonymous Name")
         .searchImpl(input, searchers, visibilitySupplier);
   }
 

@@ -69,7 +69,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  * includes accounts, with one specific exception noted in method Javadoc.
  */
 @Singleton
-public class AccountResolver2 {
+public class AccountResolver {
   public static class UnresolvableAccountException extends UnprocessableEntityException {
     private static final long serialVersionUID = 1L;
     private final Result result;
@@ -123,7 +123,7 @@ public class AccountResolver2 {
     }
 
     public boolean isSelf() {
-      return AccountResolver2.isSelf(input);
+      return AccountResolver.isSelf(input);
     }
 
     public ImmutableList<AccountState> asList() {
@@ -177,8 +177,8 @@ public class AccountResolver2 {
       return searcher;
     }
 
-    private AccountResolver2 accountResolver() {
-      return AccountResolver2.this;
+    private AccountResolver accountResolver() {
+      return AccountResolver.this;
     }
   }
 
@@ -437,7 +437,7 @@ public class AccountResolver2 {
   private final String anonymousCowardName;
 
   @Inject
-  AccountResolver2(
+  AccountResolver(
       AccountCache byId,
       Emails emails,
       AccountControl.Factory accountControlFactory,

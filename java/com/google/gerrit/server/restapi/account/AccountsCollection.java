@@ -21,8 +21,8 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.server.account.AccountResolver2;
-import com.google.gerrit.server.account.AccountResolver2.UnresolvableAccountException;
+import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -33,13 +33,13 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class AccountsCollection implements RestCollection<TopLevelResource, AccountResource> {
-  private final AccountResolver2 accountResolver;
+  private final AccountResolver accountResolver;
   private final Provider<QueryAccounts> list;
   private final DynamicMap<RestView<AccountResource>> views;
 
   @Inject
   public AccountsCollection(
-      AccountResolver2 accountResolver,
+      AccountResolver accountResolver,
       Provider<QueryAccounts> list,
       DynamicMap<RestView<AccountResource>> views) {
     this.accountResolver = accountResolver;

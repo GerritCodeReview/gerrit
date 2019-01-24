@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2e4651e1_0e2be8a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-24T01:49:30Z",
+      "side": 1,
+      "message": "please include a link to the issue in the footer, i.e.\n\n Bug: Issue 10346",
+      "revId": "a21db58b00991cce347c6e1a8fdfb37e3ba9032e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a970e7f2_922c100c",
         "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 3

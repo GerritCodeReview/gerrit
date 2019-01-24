@@ -271,6 +271,26 @@ public class AccountResolver2Test extends GerritBaseTests {
   }
 
   @Test
+  public void exceptionMessageSelf() throws Exception {
+    AccountResolver2 resolver = newAccountResolver();
+    UnresolvableAccountException e =
+        new UnresolvableAccountException(
+            resolver.new Result("self", ImmutableList.of(), ImmutableList.of()));
+    assertThat(e.isSelf()).isTrue();
+    assertThat(e).hasMessageThat().isEqualTo("Resolving account 'self' requires login");
+  }
+
+  @Test
+  public void exceptionMessageMe() throws Exception {
+    AccountResolver2 resolver = newAccountResolver();
+    UnresolvableAccountException e =
+        new UnresolvableAccountException(
+            resolver.new Result("me", ImmutableList.of(), ImmutableList.of()));
+    assertThat(e.isSelf()).isTrue();
+    assertThat(e).hasMessageThat().isEqualTo("Resolving account 'me' requires login");
+  }
+
+  @Test
   public void exceptionMessageAmbiguous() throws Exception {
     AccountResolver2 resolver = newAccountResolver();
     assertThat(
@@ -309,7 +329,7 @@ public class AccountResolver2Test extends GerritBaseTests {
   }
 
   private static AccountResolver2 newAccountResolver() {
-    return new AccountResolver2(null, null, null, null, null, "Anonymous Name");
+    return new AccountResolver2(null, null, null, null, null, null, null, "Anonymous Name");
   }
 
   private AccountState newAccount(int id) {

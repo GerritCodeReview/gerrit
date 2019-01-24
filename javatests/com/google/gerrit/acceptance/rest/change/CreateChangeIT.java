@@ -268,16 +268,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createChangeOnInvisibleBranchFails() throws Exception {
-    changeInTwoBranches("invisible-branch", "a.txt", "branchB", "b.txt");
-    block(project, "refs/heads/invisible-branch", READ, REGISTERED_USERS);
-
-    ChangeInput in = newChangeInput(ChangeStatus.NEW);
-    in.branch = "invisible-branch";
-    assertCreateFails(in, ResourceNotFoundException.class, "");
-  }
-
-  @Test
   public void noteDbCommit() throws Exception {
     ChangeInfo c = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
     try (Repository repo = repoManager.openRepository(project);
@@ -454,6 +444,30 @@ public class CreateChangeIT extends AbstractDaemonTest {
     RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
     assertThat(revInfo).isNotNull();
     assertThat(revInfo.commit.message).isEqualTo(input.message + "\n");
+  }
+
+  @Test
+  public void createChangeOnAnInvisibleExistingBranchNotPermitted() throws Exception {
+    createBranch(new Branch.NameKey(project, "foo"));
+    block("refs/heads/*", READ, REGISTERED_USERS);
+    requestScopeOperations.setApiUser(user.id);
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.branch = "foo";
+
+    assertCreateFails(input, ResourceNotFoundException.class, "ref refs/heads/foo not found");
+  }
+
+  @Test
+  public void createChangeOnAnInvisibleNonExistingBranchNotPermitted() throws Exception {
+    block("refs/heads/*", READ, REGISTERED_USERS);
+    requestScopeOperations.setApiUser(user.id);
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.branch = "foo";
+    // sets this option to be true to make sure permission check happened before this option could
+    // be considered.
+    input.newBranch = true;
+
+    assertCreateFails(input, ResourceNotFoundException.class, "ref refs/heads/foo not found");
   }
 
   private ChangeInput newChangeInput(ChangeStatus status) {

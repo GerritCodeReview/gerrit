@@ -87,7 +87,11 @@ public class ConflictsPredicate {
     List<Predicate<ChangeData>> and = new ArrayList<>(5);
     and.add(new ProjectPredicate(c.getProject().get()));
     and.add(new RefPredicate(c.getDest().branch()));
-    and.add(Predicate.not(new LegacyChangeIdPredicate(c.getId())));
+    and.add(
+        Predicate.not(
+            args.getSchema().useLegacyNumericFields()
+                ? new LegacyChangeIdPredicate(c.getId())
+                : new LegacyChangeIdPredicate2(c.getId())));
     and.add(Predicate.or(filePredicates));
 
     ChangeDataCache changeDataCache = new ChangeDataCache(cd, args.projectCache);

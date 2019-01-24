@@ -34,6 +34,7 @@ public class Schema<T> {
 
   public static class Builder<T> {
     private final List<FieldDef<T, ?>> fields = new ArrayList<>();
+    private boolean useLegacyNumericFields;
 
     public Builder<T> add(Schema<T> schema) {
       this.fields.addAll(schema.getFields().values());
@@ -52,8 +53,13 @@ public class Schema<T> {
       return this;
     }
 
+    public Builder<T> legacyNumericFields(boolean useLegacyNumericFields) {
+      this.useLegacyNumericFields = useLegacyNumericFields;
+      return this;
+    }
+
     public Schema<T> build() {
-      return new Schema<>(ImmutableList.copyOf(fields));
+      return new Schema<>(useLegacyNumericFields, ImmutableList.copyOf(fields));
     }
   }
 
@@ -82,14 +88,15 @@ public class Schema<T> {
 
   private final ImmutableMap<String, FieldDef<T, ?>> fields;
   private final ImmutableMap<String, FieldDef<T, ?>> storedFields;
+  private final boolean useLegacyNumericFields;
 
   private int version;
 
-  public Schema(Iterable<FieldDef<T, ?>> fields) {
-    this(0, fields);
+  public Schema(boolean useLegacyNumericFields, Iterable<FieldDef<T, ?>> fields) {
+    this(0, useLegacyNumericFields, fields);
   }
 
-  public Schema(int version, Iterable<FieldDef<T, ?>> fields) {
+  public Schema(int version, boolean useLegacyNumericFields, Iterable<FieldDef<T, ?>> fields) {
     this.version = version;
     ImmutableMap.Builder<String, FieldDef<T, ?>> b = ImmutableMap.builder();
     ImmutableMap.Builder<String, FieldDef<T, ?>> sb = ImmutableMap.builder();
@@ -101,10 +108,15 @@ public class Schema<T> {
     }
     this.fields = b.build();
     this.storedFields = sb.build();
+    this.useLegacyNumericFields = useLegacyNumericFields;
   }
 
   public final int getVersion() {
     return version;
+  }
+
+  public final boolean useLegacyNumericFields() {
+    return useLegacyNumericFields;
   }
 
   /**

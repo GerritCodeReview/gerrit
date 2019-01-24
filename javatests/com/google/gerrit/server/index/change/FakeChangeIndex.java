@@ -28,10 +28,11 @@ import org.junit.Ignore;
 
 @Ignore
 public class FakeChangeIndex implements ChangeIndex {
-  static final Schema<ChangeData> V1 = new Schema<>(1, ImmutableList.of(ChangeField.STATUS));
+  static final Schema<ChangeData> V1 = new Schema<>(1, false, ImmutableList.of(ChangeField.STATUS));
 
   static final Schema<ChangeData> V2 =
-      new Schema<>(2, ImmutableList.of(ChangeField.STATUS, ChangeField.PATH, ChangeField.UPDATED));
+      new Schema<>(
+          2, false, ImmutableList.of(ChangeField.STATUS, ChangeField.PATH, ChangeField.UPDATED));
 
   private static class Source implements ChangeDataSource {
     private final Predicate<ChangeData> p;

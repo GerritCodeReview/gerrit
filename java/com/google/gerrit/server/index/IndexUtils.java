@@ -16,18 +16,21 @@ package com.google.gerrit.server.index;
 
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
+import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID2;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.project.ProjectField;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.group.GroupField;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.SingleGroupUser;
 import java.io.IOException;
 import java.util.Set;
@@ -66,7 +69,8 @@ public final class IndexUtils {
         : Sets.union(fields, ImmutableSet.of(AccountField.ID.getName()));
   }
 
-  public static Set<String> changeFields(QueryOptions opts) {
+  public static Set<String> changeFields(QueryOptions opts, boolean useLegacyNumericFields) {
+    FieldDef<ChangeData, ?> idField = useLegacyNumericFields ? LEGACY_ID : LEGACY_ID2;
     // Ensure we request enough fields to construct a ChangeData. We need both
     // change ID and project, which can either come via the Change field or
     // separate fields.
@@ -75,10 +79,10 @@ public final class IndexUtils {
       // A Change is always sufficient.
       return fs;
     }
-    if (fs.contains(PROJECT.getName()) && fs.contains(LEGACY_ID.getName())) {
+    if (fs.contains(PROJECT.getName()) && fs.contains(idField.getName())) {
       return fs;
     }
-    return Sets.union(fs, ImmutableSet.of(LEGACY_ID.getName(), PROJECT.getName()));
+    return Sets.union(fs, ImmutableSet.of(idField.getName(), PROJECT.getName()));
   }
 
   public static Set<String> groupFields(QueryOptions opts) {

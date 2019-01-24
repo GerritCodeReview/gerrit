@@ -21,7 +21,7 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.quota.QuotaBackend;
 import com.google.gerrit.server.quota.QuotaException;
 import com.google.gerrit.util.http.RequestUtil;
-import javax.inject.Inject;
+import com.google.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 /**

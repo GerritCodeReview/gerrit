@@ -24,11 +24,11 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.inject.Singleton;
 
 @Singleton
 public class DefaultQuotaBackend implements QuotaBackend {

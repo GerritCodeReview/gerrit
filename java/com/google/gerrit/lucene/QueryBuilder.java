@@ -36,6 +36,8 @@ import com.google.gerrit.index.query.TimestampRangePredicate;
 import java.util.Date;
 import java.util.List;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.document.IntPoint;
+import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.LegacyNumericRangeQuery;
@@ -59,6 +61,10 @@ public class QueryBuilder<V> {
     BytesRefBuilder builder = new BytesRefBuilder();
     builder.append(value.getBytes(UTF_8), 0, value.length());
     return new Term(name, builder.get());
+  }
+
+  static Query intPoint(String name, int value) {
+    return IntPoint.newExactQuery(name, value);
   }
 
   private final Schema<V> schema;
@@ -169,20 +175,32 @@ public class QueryBuilder<V> {
     } catch (NumberFormatException e) {
       throw new QueryParseException("not an integer: " + p.getValue());
     }
-    return new TermQuery(intTerm(p.getField().getName(), value));
+
+    String name = p.getField().getName();
+    if (schema.useLegacyNumericFields()) {
+      return new TermQuery(intTerm(name, value));
+    }
+    return intPoint(name, value);
   }
 
   private Query intRangeQuery(IndexPredicate<V> p) throws QueryParseException {
     if (p instanceof IntegerRangePredicate) {
       IntegerRangePredicate<V> r = (IntegerRangePredicate<V>) p;
+      String name = r.getField().getName();
       int minimum = r.getMinimumValue();
       int maximum = r.getMaximumValue();
       if (minimum == maximum) {
         // Just fall back to a standard integer query.
-        return new TermQuery(intTerm(p.getField().getName(), minimum));
+        if (schema.useLegacyNumericFields()) {
+          return new TermQuery(intTerm(name, minimum));
+        }
+        return intPoint(name, minimum);
       }
-      return LegacyNumericRangeQuery.newIntRange(
-          r.getField().getName(), minimum, maximum, true, true);
+      if (schema.useLegacyNumericFields()) {
+        return LegacyNumericRangeQuery.newIntRange(
+            r.getField().getName(), minimum, maximum, true, true);
+      }
+      return IntPoint.newRangeQuery(r.getField().getName(), minimum, maximum);
     }
     throw new QueryParseException("not an integer range: " + p);
   }
@@ -190,20 +208,29 @@ public class QueryBuilder<V> {
   private Query timestampQuery(IndexPredicate<V> p) throws QueryParseException {
     if (p instanceof TimestampRangePredicate) {
       TimestampRangePredicate<V> r = (TimestampRangePredicate<V>) p;
-      return LegacyNumericRangeQuery.newLongRange(
-          r.getField().getName(),
-          r.getMinTimestamp().getTime(),
-          r.getMaxTimestamp().getTime(),
-          true,
-          true);
+      String name = r.getField().getName();
+      if (schema.useLegacyNumericFields()) {
+        return LegacyNumericRangeQuery.newLongRange(
+            r.getField().getName(),
+            r.getMinTimestamp().getTime(),
+            r.getMaxTimestamp().getTime(),
+            true,
+            true);
+      }
+      return LongPoint.newRangeQuery(
+          name, r.getMinTimestamp().getTime(), r.getMaxTimestamp().getTime());
     }
     throw new QueryParseException("not a timestamp: " + p);
   }
 
   private Query notTimestamp(TimestampRangePredicate<V> r) throws QueryParseException {
     if (r.getMinTimestamp().getTime() == 0) {
-      return LegacyNumericRangeQuery.newLongRange(
-          r.getField().getName(), r.getMaxTimestamp().getTime(), null, true, true);
+      String name = r.getField().getName();
+      if (schema.useLegacyNumericFields()) {
+        return LegacyNumericRangeQuery.newLongRange(
+            r.getField().getName(), r.getMaxTimestamp().getTime(), null, true, true);
+      }
+      return LongPoint.newRangeQuery(name, r.getMaxTimestamp().getTime(), Long.MAX_VALUE);
     }
     throw new QueryParseException("cannot negate: " + r);
   }

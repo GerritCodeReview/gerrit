@@ -106,8 +106,8 @@ public class ChangeField {
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
 
   /** Legacy change ID. */
-  public static final FieldDef<ChangeData, Integer> LEGACY_ID =
-      integer("legacy_id").stored().build(cd -> cd.getId().get());
+  public static final FieldDef<ChangeData, String> LEGACY_ID =
+      exact("legacy_id").stored().build(cd -> String.valueOf(cd.getId().get()));
 
   /** Newer style Change-Id key. */
   public static final FieldDef<ChangeData, String> ID =
@@ -216,7 +216,8 @@ public class ChangeField {
    */
   private static Stream<String> extensions(ChangeData cd) throws OrmException {
     try {
-      return cd.currentFilePaths().stream()
+      return cd.currentFilePaths()
+          .stream()
           // Use case-insensitive file extensions even though other file fields are case-sensitive.
           // If we want to find "all Java files", we want to match both .java and .JAVA, even if we
           // normally care about case sensitivity. (Whether we should change the existing file/path
@@ -233,7 +234,8 @@ public class ChangeField {
 
   public static Set<String> getFooters(ChangeData cd) throws OrmException {
     try {
-      return cd.commitFooters().stream()
+      return cd.commitFooters()
+          .stream()
           .map(f -> f.toString().toLowerCase(Locale.US))
           .collect(toSet());
     } catch (IOException e) {
@@ -841,7 +843,8 @@ public class ChangeField {
 
   @VisibleForTesting
   static List<SubmitRecord> parseSubmitRecords(Collection<String> values) {
-    return values.stream()
+    return values
+        .stream()
         .map(v -> GSON.fromJson(v, StoredSubmitRecord.class).toSubmitRecord())
         .collect(toList());
   }

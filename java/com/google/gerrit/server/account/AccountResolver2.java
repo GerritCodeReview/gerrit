@@ -29,6 +29,8 @@ import com.google.common.collect.Streams;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -72,16 +74,25 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class AccountResolver2 {
   public static class UnresolvableAccountException extends UnprocessableEntityException {
     private static final long serialVersionUID = 1L;
+    private final Result result;
 
     @VisibleForTesting
     UnresolvableAccountException(Result result) {
       super(exceptionMessage(result));
+      this.result = result;
+    }
+
+    public boolean isSelf() {
+      return result.isSelf();
     }
   }
 
-  private static String exceptionMessage(Result result) {
+  public static String exceptionMessage(Result result) {
     checkArgument(result.asList().size() != 1);
     if (result.asList().isEmpty()) {
+      if (result.isSelf()) {
+        return "Resolving account '" + result.input() + "' requires login";
+      }
       if (result.filteredInactive().isEmpty()) {
         return "Account '" + result.input() + "' not found";
       }
@@ -112,6 +123,10 @@ public class AccountResolver2 {
         + state.getAccount().getNameEmail(result.accountResolver().anonymousCowardName);
   }
 
+  private static boolean isSelf(String input) {
+    return "self".equals(input) || "me".equals(input);
+  }
+
   public class Result {
     private final String input;
     private final ImmutableList<AccountState> list;
@@ -134,19 +149,44 @@ public class AccountResolver2 {
       return input;
     }
 
+    public boolean isSelf() {
+      return AccountResolver2.isSelf(input);
+    }
+
     public ImmutableList<AccountState> asList() {
       return list;
+    }
+
+    public ImmutableSet<Account.Id> asNonEmptyIdSet() throws UnresolvableAccountException {
+      if (list.isEmpty()) {
+        throw new UnresolvableAccountException(this);
+      }
+      return asIdSet();
     }
 
     public ImmutableSet<Account.Id> asIdSet() {
       return list.stream().map(a -> a.getAccount().getId()).collect(toImmutableSet());
     }
 
-    public AccountState asUnique() throws UnprocessableEntityException {
+    public AccountState asUnique() throws UnresolvableAccountException {
+      ensureUnique();
+      return list.get(0);
+    }
+
+    private void ensureUnique() throws UnresolvableAccountException {
       if (list.size() != 1) {
         throw new UnresolvableAccountException(this);
       }
-      return list.get(0);
+    }
+
+    public IdentifiedUser asUniqueUser() throws UnresolvableAccountException {
+      ensureUnique();
+      if (isSelf()) {
+        // In the special case of "self", use the exact IdentifiedUser from the request context, to
+        // preserve the peer address and any other per-request state.
+        return self.get().asIdentifiedUser();
+      }
+      return userFactory.create(asUnique());
     }
 
     @VisibleForTesting
@@ -182,10 +222,46 @@ public class AccountResolver2 {
     }
   }
 
+  @VisibleForTesting
+  abstract static class StringSearcher implements Searcher<String> {
+    @Override
+    public final Optional<String> tryParse(String input) {
+      return matches(input) ? Optional.of(input) : Optional.empty();
+    }
+
+    protected abstract boolean matches(String input);
+  }
+
   private abstract class AccountIdSearcher implements Searcher<Account.Id> {
     @Override
     public final Stream<AccountState> search(Account.Id input) {
       return Streams.stream(byId.get(input));
+    }
+  }
+
+  private class BySelf extends StringSearcher {
+    @Override
+    public boolean callerMayAssumeCandidatesAreVisible() {
+      return true;
+    }
+
+    @Override
+    protected boolean matches(String input) {
+      return "self".equals(input) || "me".equals(input);
+    }
+
+    @Override
+    public Stream<AccountState> search(String input) {
+      CurrentUser user = self.get();
+      if (!user.isIdentifiedUser()) {
+        return Stream.empty();
+      }
+      return Stream.of(user.asIdentifiedUser().state());
+    }
+
+    @Override
+    public boolean shortCircuitIfNoResults() {
+      return true;
     }
   }
 
@@ -221,16 +297,6 @@ public class AccountResolver2 {
     public boolean shortCircuitIfNoResults() {
       return true;
     }
-  }
-
-  @VisibleForTesting
-  abstract static class StringSearcher implements Searcher<String> {
-    @Override
-    public final Optional<String> tryParse(String input) {
-      return matches(input) ? Optional.of(input) : Optional.empty();
-    }
-
-    protected abstract boolean matches(String input);
   }
 
   private class ByUsername extends StringSearcher {
@@ -377,6 +443,7 @@ public class AccountResolver2 {
 
   private final ImmutableList<Searcher<?>> searchers =
       ImmutableList.<Searcher<?>>builder()
+          .add(new BySelf())
           .add(new ByExactAccountId())
           .add(new ByParenthesizedAccountId())
           .add(new ByUsername())
@@ -386,6 +453,8 @@ public class AccountResolver2 {
   private final AccountCache byId;
   private final AccountControl.Factory accountControlFactory;
   private final Emails emails;
+  private final IdentifiedUser.GenericFactory userFactory;
+  private final Provider<CurrentUser> self;
   private final Provider<InternalAccountQuery> accountQueryProvider;
   private final Realm realm;
   private final String anonymousCowardName;
@@ -395,12 +464,16 @@ public class AccountResolver2 {
       AccountCache byId,
       Emails emails,
       AccountControl.Factory accountControlFactory,
+      IdentifiedUser.GenericFactory userFactory,
+      Provider<CurrentUser> self,
       Provider<InternalAccountQuery> accountQueryProvider,
       Realm realm,
       @AnonymousCowardName String anonymousCowardName) {
     this.realm = realm;
     this.byId = byId;
     this.accountControlFactory = accountControlFactory;
+    this.userFactory = userFactory;
+    this.self = self;
     this.accountQueryProvider = accountQueryProvider;
     this.emails = emails;
     this.anonymousCowardName = anonymousCowardName;
@@ -412,6 +485,8 @@ public class AccountResolver2 {
    * <p>The following input formats are recognized:
    *
    * <ul>
+   *   <li>The strings {@code "self"} and {@code "me"}, if the current user is an {@link
+   *       IdentifiedUser}.
    *   <li>A bare account ID ({@code "18419"}). In this case, and <strong>only</strong> this case,
    *       may return exactly one inactive account. This case short-circuits if the input matches.
    *   <li>An account ID in parentheses following a full name ({@code "Full Name (18419)"}). This

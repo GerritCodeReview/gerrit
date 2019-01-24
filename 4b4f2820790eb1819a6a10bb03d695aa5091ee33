@@ -71,6 +71,30 @@
       "revId": "4b4f2820790eb1819a6a10bb03d695aa5091ee33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "741afa0e_09a4b798",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-24T21:41:52Z",
+      "side": 1,
+      "message": "\u003e If we do not sandbox tests, we can have two concurrent test methods using the same JVM and the same Gerrit server instance.\n\nI disagree. There is one GerritServer per AbstractDaemonTest instance. Bazel (actually JUnit) in a single invocation creates a single test class instance and then runs all methods in that class sequentially. It might run multiple test *targets* concurrently in the same JVM (I think it doesn\u0027t but I\u0027m only about 75% sure on that count), but they won\u0027t be the same test *class instance* and they won\u0027t share a GerritServer.\n\nDo you have a small reproduction proving your hypothesis that two test methods running in parallel can use the same GerritServer instance?\n\n\u003e This is what I observed and fixed with the sandboxing, but apparently, it wasn\u0027t enough. If we remove sandboxing I fear we will make the situation even worse, WDYT?\n\nThis change is not hypothetical. This series fixes the problem, and proves that the problem is not due to sandboxing or lack thereof. See the commit message of https://gerrit-review.googlesource.com/c/gerrit/+/211654.\n\nWhen I run the tests with:\n\n* --runs_per_test\u003d100\n* --test_filter\u003dGitOverHttpServletIT#uploadPackAuditEventLog\n* parallelism of 12 (I have 8 cores)\n\nit is **30%** flaky against master (with sandboxing) and 0% flaky against the tip of this series (no sandboxing and a real fix instead).",
+      "parentUuid": "12b19207_9af2c7a1",
+      "range": {
+        "startLine": 9,
+        "startChar": 47,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "4b4f2820790eb1819a6a10bb03d695aa5091ee33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

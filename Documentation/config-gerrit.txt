@@ -1214,6 +1214,13 @@ performance improvements by reducing the number of refs in the repo.
 +
 Default is true.
 
+[[change.api.mergeableOnlySetWhenRequested]]change.api.mergeableOnlySetWhenRequested::
++
+Requires setting `MERGEABLE` if mergeability bit in
+link:rest-api-changes.html#change-info[ChangeInfo] was requested.
++
+Default is false.
+
 [[change.showAssigneeInChangesTable]]change.showAssigneeInChangesTable::
 +
 Show assignee field in changes table. If set to false, assignees will

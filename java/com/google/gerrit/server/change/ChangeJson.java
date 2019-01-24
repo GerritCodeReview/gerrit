@@ -25,6 +25,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVI
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
+import static com.google.gerrit.extensions.client.ListChangesOption.MERGEABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPDATES;
@@ -83,6 +84,7 @@ import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -111,6 +113,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Produces {@link ChangeInfo} (which is serialized to JSON afterwards) from {@link ChangeData}.
@@ -216,6 +219,7 @@ public class ChangeJson {
   private final Metrics metrics;
   private final RevisionJson revisionJson;
   private final Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory;
+  private final boolean mergeableOnlySetWhenRequested;
   private final boolean lazyLoad;
 
   private AccountLoader accountLoader;
@@ -236,6 +240,7 @@ public class ChangeJson {
       TrackingFooters trackingFooters,
       Metrics metrics,
       RevisionJson.Factory revisionJsonFactory,
+      @GerritServerConfig Config cfg,
       @Assisted Iterable<ListChangesOption> options,
       @Assisted Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory) {
     this.userProvider = user;
@@ -252,6 +257,8 @@ public class ChangeJson {
     this.metrics = metrics;
     this.revisionJson = revisionJsonFactory.create(options);
     this.options = Sets.immutableEnumSet(options);
+    this.mergeableOnlySetWhenRequested =
+        cfg.getBoolean("change", "api", "mergeableOnlySetWhenRequested", false);
     this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
     this.pluginDefinedAttributesFactory = pluginDefinedAttributesFactory;
 
@@ -509,7 +516,9 @@ public class ChangeJson {
       if (str.isOk()) {
         out.submitType = str.type;
       }
-      if (!has(SKIP_MERGEABLE)) {
+      if (mergeableOnlySetWhenRequested) {
+        out.mergeable = has(MERGEABLE) ? cd.isMergeable() : null;
+      } else if (!has(SKIP_MERGEABLE)) {
         out.mergeable = cd.isMergeable();
       }
       if (has(SUBMITTABLE)) {

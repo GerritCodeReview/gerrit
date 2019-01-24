@@ -309,6 +309,17 @@ default. Optional fields are:
 * `SKIP_MERGEABLE`: skip the `mergeable` field in
 link:#change-info[ChangeInfo]. For fast moving projects, this field must
 be recomputed often, which is slow for projects with big trees.
++
+This option is deprecated. In a future release, `mergeable` will not be
+populated by default. Instead, link:#mergeable[MERGEABLE] has to be set
+if the field should be populated.
+--
+
+[[mergeable]]
+--
+* `MERGEABLE`: include the `mergeable` field in
+link:#change-info[ChangeInfo]. For fast moving projects, this field must
+be recomputed often, which is slow for projects with big trees.
 --
 
 [[submittable]]

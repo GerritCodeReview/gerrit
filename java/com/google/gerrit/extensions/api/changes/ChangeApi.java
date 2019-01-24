@@ -231,12 +231,17 @@ public interface ChangeApi {
    * <ul>
    *   <li>{@code CHECK} is omitted, to skip consistency checks.
    *   <li>{@code SKIP_MERGEABLE} is omitted, so the {@code mergeable} bit <em>is</em> set.
+   *   <li>{@code MERGEABLE} is omitted, so the {@code mergeable} bit <em>not</em> set when {@code
+   *       SKIP_MERGEABLE} is deprecated.
    * </ul>
    */
   default ChangeInfo get() throws RestApiException {
     return get(
         EnumSet.complementOf(
-            EnumSet.of(ListChangesOption.CHECK, ListChangesOption.SKIP_MERGEABLE)));
+            EnumSet.of(
+                ListChangesOption.CHECK,
+                ListChangesOption.SKIP_MERGEABLE,
+                ListChangesOption.MERGEABLE)));
   }
 
   /** {@link #get(ListChangesOption...)} with no options included. */

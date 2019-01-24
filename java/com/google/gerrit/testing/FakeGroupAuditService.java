@@ -14,30 +14,21 @@
 
 package com.google.gerrit.testing;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.AuditEvent;
 import com.google.gerrit.server.audit.AuditListener;
+import com.google.gerrit.server.audit.AuditService;
 import com.google.gerrit.server.audit.group.GroupAuditListener;
-import com.google.gerrit.server.audit.group.GroupMemberAuditEvent;
-import com.google.gerrit.server.audit.group.GroupSubgroupAuditEvent;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-public class FakeGroupAuditService implements GroupAuditService {
-
-  protected final PluginSetContext<GroupAuditListener> groupAuditListeners;
-  protected final PluginSetContext<AuditListener> auditListeners;
-
+public class FakeGroupAuditService extends AuditService {
   public final List<AuditEvent> auditEvents = new ArrayList<>();
 
   public static class Module extends AbstractModule {
@@ -50,11 +41,10 @@ public class FakeGroupAuditService implements GroupAuditService {
   }
 
   @Inject
-  public FakeGroupAuditService(
-      PluginSetContext<GroupAuditListener> groupAuditListeners,
-      PluginSetContext<AuditListener> auditListeners) {
-    this.groupAuditListeners = groupAuditListeners;
-    this.auditListeners = auditListeners;
+  FakeGroupAuditService(
+      PluginSetContext<AuditListener> auditListeners,
+      PluginSetContext<GroupAuditListener> groupAuditListeners) {
+    super(auditListeners, groupAuditListeners);
   }
 
   public void clearEvents() {
@@ -63,53 +53,10 @@ public class FakeGroupAuditService implements GroupAuditService {
 
   @Override
   public void dispatch(AuditEvent action) {
+    super.dispatch(action);
     synchronized (auditEvents) {
       auditEvents.add(action);
       auditEvents.notifyAll();
     }
-  }
-
-  @Override
-  public void dispatchAddMembers(
-      Account.Id actor,
-      AccountGroup.UUID updatedGroup,
-      ImmutableSet<Account.Id> addedMembers,
-      Timestamp addedOn) {
-    GroupMemberAuditEvent event =
-        GroupMemberAuditEvent.create(actor, updatedGroup, addedMembers, addedOn);
-    groupAuditListeners.runEach(l -> l.onAddMembers(event));
-  }
-
-  @Override
-  public void dispatchDeleteMembers(
-      Account.Id actor,
-      AccountGroup.UUID updatedGroup,
-      ImmutableSet<Account.Id> deletedMembers,
-      Timestamp deletedOn) {
-    GroupMemberAuditEvent event =
-        GroupMemberAuditEvent.create(actor, updatedGroup, deletedMembers, deletedOn);
-    groupAuditListeners.runEach(l -> l.onDeleteMembers(event));
-  }
-
-  @Override
-  public void dispatchAddSubgroups(
-      Account.Id actor,
-      AccountGroup.UUID updatedGroup,
-      ImmutableSet<AccountGroup.UUID> addedSubgroups,
-      Timestamp addedOn) {
-    GroupSubgroupAuditEvent event =
-        GroupSubgroupAuditEvent.create(actor, updatedGroup, addedSubgroups, addedOn);
-    groupAuditListeners.runEach(l -> l.onAddSubgroups(event));
-  }
-
-  @Override
-  public void dispatchDeleteSubgroups(
-      Account.Id actor,
-      AccountGroup.UUID updatedGroup,
-      ImmutableSet<AccountGroup.UUID> deletedSubgroups,
-      Timestamp deletedOn) {
-    GroupSubgroupAuditEvent event =
-        GroupSubgroupAuditEvent.create(actor, updatedGroup, deletedSubgroups, deletedOn);
-    groupAuditListeners.runEach(l -> l.onDeleteSubgroups(event));
   }
 }

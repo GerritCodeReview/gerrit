@@ -24,6 +24,7 @@ import com.google.gerrit.server.group.InternalGroup;
 public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
   // New numeric types: use dimensional points using the k-d tree geo-spatial data structure
   // to offer fast single- and multi-dimensional numeric range.
+  @Deprecated
   static final Schema<InternalGroup> V8 =
       schema(
           GroupField.CREATED_ON,
@@ -37,6 +38,9 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
           GroupField.REF_STATE,
           GroupField.SUBGROUP,
           GroupField.UUID);
+
+  // Upgrade Lucene to 7.x requires reindexing.
+  static final Schema<InternalGroup> V9 = schema(V8);
 
   /** Singleton instance of the schema definitions. This is one per JVM. */
   public static final GroupSchemaDefinitions INSTANCE = new GroupSchemaDefinitions();

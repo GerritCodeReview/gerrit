@@ -106,8 +106,8 @@ public class ChangeField {
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
 
   /** Legacy change ID. */
-  public static final FieldDef<ChangeData, Integer> LEGACY_ID =
-      integer("legacy_id").stored().build(cd -> cd.getId().get());
+  public static final FieldDef<ChangeData, String> LEGACY_ID =
+      exact("legacy_id").stored().build(cd -> String.valueOf(cd.getId().get()));
 
   /** Newer style Change-Id key. */
   public static final FieldDef<ChangeData, String> ID =

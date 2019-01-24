@@ -37,7 +37,10 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
   @Deprecated static final Schema<ProjectData> V3 = schema(V2);
 
   // Lucene index was changed to add an additional field for sorting.
-  static final Schema<ProjectData> V4 = schema(V3);
+  @Deprecated static final Schema<ProjectData> V4 = schema(V3);
+
+  // Upgrade Lucene to 7.x requires reindexing.
+  static final Schema<ProjectData> V5 = schema(V4);
 
   public static final ProjectSchemaDefinitions INSTANCE = new ProjectSchemaDefinitions();
 

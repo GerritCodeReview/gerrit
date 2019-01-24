@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2ca3505_8ebea653",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-24T10:43:16Z",
+      "side": 1,
+      "message": "the mergeability bit",
+      "range": {
+        "startLine": 1219,
+        "startChar": 32,
+        "endLine": 1219,
+        "endChar": 48
+      },
+      "revId": "40740494e3532010cf59b6ecf3f8f4a28f0a9f19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18ebe427_86fc7cd0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-24T10:43:16Z",
+      "side": 1,
+      "message": "maybe: the `MERGEABLE` option",
+      "range": {
+        "startLine": 1219,
+        "startChar": 17,
+        "endLine": 1219,
+        "endChar": 28
+      },
+      "revId": "40740494e3532010cf59b6ecf3f8f4a28f0a9f19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "741a08b7_d925b758",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1220,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-24T10:43:16Z",
+      "side": 1,
+      "message": "should be populated?\n\nor\n\nshould be set?",
+      "range": {
+        "startLine": 1220,
+        "startChar": 51,
+        "endLine": 1220,
+        "endChar": 64
+      },
+      "revId": "40740494e3532010cf59b6ecf3f8f4a28f0a9f19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1348fa50_b152ecea",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5779,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-24T10:43:16Z",
+      "side": 1,
+      "message": "Update this too.",
+      "range": {
+        "startLine": 5778,
+        "startChar": 0,
+        "endLine": 5779,
+        "endChar": 58
+      },
+      "revId": "40740494e3532010cf59b6ecf3f8f4a28f0a9f19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "363989fb_622c7a4a",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-24T10:43:16Z",
+      "side": 1,
+      "message": "Should be: bit is \u003cem\u003enot\u003c/em\u003c set",
+      "range": {
+        "startLine": 234,
+        "startChar": 66,
+        "endLine": 234,
+        "endChar": 86
+      },
+      "revId": "40740494e3532010cf59b6ecf3f8f4a28f0a9f19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

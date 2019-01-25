@@ -48,11 +48,6 @@ if test ! -s "${dest}" ; then
   exit 1
 fi
 
-if ! mv "${dest}" "$1" ; then
-  echo "cannot mv ${dest} to $1"
-  exit 1
-fi
-
 # Avoid the --in-place option which only appeared in Git 2.8
 # Avoid the --if-exists option which only appeared in Git 2.15
 if ! git -c trailer.ifexists=doNothing interpret-trailers \

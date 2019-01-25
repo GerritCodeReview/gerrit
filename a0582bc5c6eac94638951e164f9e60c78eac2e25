@@ -52,6 +52,24 @@
       "revId": "a0582bc5c6eac94638951e164f9e60c78eac2e25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62b39f43_5878265d",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-25T14:04:03Z",
+      "side": 1,
+      "message": "Nope, /p/ was not going through PolyGerrit (hence why it worked) this broke in https://gerrit-review.googlesource.com/c/gerrit/+/205750 when /p/ was added.\n\nBut it seems like no performance regression to me as it loads immediately (the end point) and dashboards to.",
+      "parentUuid": "ab4d3aef_89cc306c",
+      "revId": "a0582bc5c6eac94638951e164f9e60c78eac2e25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

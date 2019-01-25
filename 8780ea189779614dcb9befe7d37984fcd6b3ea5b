@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "02f3b62e_9fc6b6e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T15:39:12Z",
+      "side": 1,
+      "message": "\u003e  I see some flakiness as well, and when that happens is because I have more events than expected.\n\nAre you talking about the behavior at master? If so, the test at master is just written wrong.\n\nLook at this line:\n\nhttps://gerrit.googlesource.com/gerrit/+/296772f362f3e499ec953fbd989c7c74ca2356de/javatests/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java#71\n\n1 is simply the wrong number. There are at least 3 events: a fetch in test setup; an ls-remote; an upload-pack. So when this test fails, it fails because there are extra events.\n\nNote that in this change I made it explicitly expect 2 events within the test method.",
+      "parentUuid": "97bfff3a_4d773707",
+      "range": {
+        "startLine": 17,
+        "startChar": 23,
+        "endLine": 19,
+        "endChar": 10
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82683090_1b6d948b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -60,6 +84,30 @@
       "writtenOn": "2019-01-25T00:49:16Z",
       "side": 1,
       "message": "I would strongly oppose putting longer timeouts or sleep in the code.\nWorst case, because we can only have *more* events that we expect, I would rather discard the extra events in the assertions rather than sleeping for the draining the audit events before the test. WDYT?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 33
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb9e01b7_ac6ba19b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T15:39:12Z",
+      "side": 1,
+      "message": "Have you looked at https://gerrit-review.googlesource.com/c/gerrit/+/211693 yet? That should be easier to reason about than this change. If you prefer, I can just squash it into this one.\n\nHowever, that said:\n\n\u003e I would strongly oppose putting longer timeouts or sleep in the code.\n\nThe way the audit system works now (audit call in a finally block) it is fundamentally impossible to write tests that don\u0027t have a timeout. The race is:\n\n* Test code in thread A opens HTTP connection\n* HTTP thread B writes complete HTTP response\n* Thread A reads complete HTTP response\n* Thread A continues executing\n* Thread B executes audit listener in finally block\n\nIf the system is under sufficient load or we are otherwise screwed by Java thread scheduling, then there is no guarantee that the last step will *ever* run in any bounded amount of time. The JVM/OS could theoretically just decide to literally never schedule thread B ever again after step 2. If Thread A wants to see the results of the audit, literally the only thing it can do in this architecture is wait. To avoid waiting, you would need to ensure the audit listener is executed before the final HTTP response is flushed, but that would be different auditing semantics from what we have today (attempted requests vs. completed requests). If we did that, then A would know that all audit listeners have been executed at the point it finishes reading the HTTP response.\n\nHere we reduce the *minimum* wait by using a BlockingQueue, so thread A receives a message as soon as B has executed the listener. (In fairness, master also does this with synchronized/notify; I just think BlockingQueue is a better abstraction.) But there is still no upper bound on the *maximum* wait.",
+      "parentUuid": "82683090_1b6d948b",
       "range": {
         "startLine": 25,
         "startChar": 0,
@@ -106,6 +154,30 @@
       "writtenOn": "2019-01-25T00:49:16Z",
       "side": 1,
       "message": "Reduce or eliminate?\nOn my laptop (8 cores) I already have ~1% of flakiness with the current code. Are we hiding the problem a bit more or are we eliminating it completely?",
+      "range": {
+        "startLine": 35,
+        "startChar": 19,
+        "endLine": 35,
+        "endChar": 44
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06293141_15ba40c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T15:39:12Z",
+      "side": 1,
+      "message": "See above, I think it\u0027s theoretically impossible to eliminate completely.\n\nI\u0027m jealous that you have 1% flakiness while I have 30% flakiness. Developing on Gerrit the past few weeks has been pretty painful for me, hence why I started this series.",
+      "parentUuid": "a6d9afcd_ed5dcb28",
       "range": {
         "startLine": 35,
         "startChar": 19,

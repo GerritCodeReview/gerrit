@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "f15587a1_861d2922",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-25T07:18:55Z",
+      "side": 1,
+      "message": "from.",
+      "range": {
+        "startLine": 20,
+        "startChar": 33,
+        "endLine": 20,
+        "endChar": 37
+      },
+      "revId": "e6f1511df0e7c16aecd5a9254a470e3894263ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1441358_7da58422",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-25T07:18:55Z",
+      "side": 1,
+      "message": "Group index is also affected, because it is using integer and timestamp fields that are replaced with IntPoint and LongPoint types and therefore the index schema version must be bumped to trigger online reindexing.",
+      "range": {
+        "startLine": 27,
+        "startChar": 24,
+        "endLine": 27,
+        "endChar": 50
+      },
+      "revId": "e6f1511df0e7c16aecd5a9254a470e3894263ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0926f2fa_752c9a36",
         "filename": "java/com/google/gerrit/lucene/QueryBuilder.java",
         "patchSetId": 2

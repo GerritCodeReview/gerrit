@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0926f2fa_752c9a36",
+        "filename": "java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-25T01:33:09Z",
+      "side": 1,
+      "message": "Remove this?",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 7
+      },
+      "revId": "e6f1511df0e7c16aecd5a9254a470e3894263ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

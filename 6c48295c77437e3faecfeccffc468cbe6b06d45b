@@ -22,6 +22,30 @@
       "revId": "6c48295c77437e3faecfeccffc468cbe6b06d45b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72d599ec_c1b95f23",
+        "filename": "lib/gitiles/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-25T17:16:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef04031d_99e94fb2",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "6c48295c77437e3faecfeccffc468cbe6b06d45b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -285,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "b2a3baad_6da0706e",
+        "filename": "java/com/google/gerrit/testing/FakeGroupAuditService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T17:08:09Z",
+      "side": 1,
+      "message": "Squashed that change into this one, so we no longer have an intermediate state with an obligatory 5s sleep.",
+      "parentUuid": "2fec1a62_d38c2bc7",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 21
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac9c11bf_98a10675",
         "filename": "java/com/google/gerrit/testing/FakeGroupAuditService.java",
         "patchSetId": 3
@@ -332,6 +356,30 @@
     },
     {
       "key": {
+        "uuid": "18455cea_6a9e3305",
+        "filename": "java/com/google/gerrit/testing/FakeGroupAuditService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T17:08:09Z",
+      "side": 1,
+      "message": "Squashed.",
+      "parentUuid": "25f62c19_ac615f11",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 24
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6ba6e8d_88425637",
         "filename": "java/com/google/gerrit/testing/FakeGroupAuditService.java",
         "patchSetId": 3
@@ -376,6 +424,30 @@
       "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d851a164_98b4e590",
+        "filename": "java/com/google/gerrit/testing/FakeGroupAuditService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T17:08:09Z",
+      "side": 1,
+      "message": "Squashed 211693 into this one, but it still has a timeout.",
+      "parentUuid": "9a3d5bb5_2f4da907",
+      "range": {
+        "startLine": 82,
+        "startChar": 38,
+        "endLine": 82,
+        "endChar": 49
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

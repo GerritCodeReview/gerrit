@@ -360,6 +360,30 @@
       "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97d0e49f_dd5a53da",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-25T09:59:16Z",
+      "side": 1,
+      "message": "\u003e OK, so you are saying if the user has READ access on the namespace but the branch doesn\u0027t exist it\u0027s okay that the user can deduce from the error message that the branch is really missing, and not just not visible?\n\nYes. The case we care about is when users don\u0027t have permission but they can still probe the existence state of a branch through the reponse. For example, 403 for exist, 404 for not exist.\n\n\n\u003e Still it would be nice to test this case to ensure that it fails with a reasonable error message. It\u0027s fine for me to add this test as a follow-up if you think it\u0027s not fitting into this change.\n\nI would like to do it because I want to do a rewrite to make this endpoint better organized.",
+      "parentUuid": "fc7e0cde_80016599",
+      "range": {
+        "startLine": 462,
+        "startChar": 4,
+        "endLine": 462,
+        "endChar": 50
+      },
+      "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

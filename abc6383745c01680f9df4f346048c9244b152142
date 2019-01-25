@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "df85f1d9_209ed61c",
+        "filename": "javatests/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T16:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7e21184_a3f50dc7",
+      "range": {
+        "startLine": 24,
+        "startChar": 7,
+        "endLine": 24,
+        "endChar": 27
+      },
+      "revId": "abc6383745c01680f9df4f346048c9244b152142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f446121f_c3c8711e",
         "filename": "javatests/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
         "patchSetId": 2
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "9b9fc876_60f7a1b5",
+        "filename": "javatests/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T16:53:48Z",
+      "side": 1,
+      "message": "As noted in the discussion in another thread, the number of GerritServers (and hence AuditServices) is correct.\n\nNote also that AbstractDaemonTest.java:420 calls server.getTestInjector.injectMembers(this), so you can tell it\u0027s really exactly the same injector as in the server.getTestInjector().getInstance(FakeGroupAuditService.class) call on the LHS.",
+      "parentUuid": "f446121f_c3c8711e",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 53
+      },
+      "revId": "abc6383745c01680f9df4f346048c9244b152142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14e9ae21_ab075894",
         "filename": "javatests/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
         "patchSetId": 2
@@ -69,6 +117,30 @@
       "revId": "abc6383745c01680f9df4f346048c9244b152142",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd1c5fd3_93bbcb82",
+        "filename": "javatests/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T16:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14e9ae21_ab075894",
+      "range": {
+        "startLine": 42,
+        "startChar": 3,
+        "endLine": 42,
+        "endChar": 31
+      },
+      "revId": "abc6383745c01680f9df4f346048c9244b152142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -240,6 +240,30 @@
       "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55852aad_41c7cc42",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-25T08:51:04Z",
+      "side": 1,
+      "message": "But if the branch doesn\u0027t exist, it shouldn\u0027t matter if you have READ access rights on this namespace or not, does it?",
+      "parentUuid": "0c22eb5b_444f2a0f",
+      "range": {
+        "startLine": 462,
+        "startChar": 4,
+        "endLine": 462,
+        "endChar": 50
+      },
+      "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

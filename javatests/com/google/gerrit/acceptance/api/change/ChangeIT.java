@@ -254,6 +254,14 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.api.excludeMergeableInChangeInfo", value = "true")
+  public void excludeMergeableInChangeInfo() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+    assertThat(c.mergeable).isNull();
+  }
+
+  @Test
   public void setPrivateByOwner() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =

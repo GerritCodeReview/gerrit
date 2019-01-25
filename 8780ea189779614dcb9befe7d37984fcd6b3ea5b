@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "fb6eb33f_46bfa2b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T16:00:41Z",
+      "side": 1,
+      "message": "Here\u0027s another possible alternative for tests:\n\n* Limit to 1 HTTP processing thread.\n* Make a single dummy request from thread A after all requests we\u0027re interested in have completed.\n\nThe dummy request can\u0027t be processed by the HTTP thread until it\u0027s completely finished processing the previous request, including audit listeners. We may or may not see the audit event from the dummy request, but we will see the audit event from all requests that we care about.\n\nThat said, if you think about it, this doesn\u0027t actually solve the problem of having timeouts. In the scenario I described above where the JVM never reschedules the HTTP thread, the dummy request will never succeed. In fact, I imagine what you will see is a timeout at the HTTP connection level (and who knows what our HTTP timeout is).\n\nFor this reason, I don\u0027t think that having a timeout in 211693 that is at least as long as our HTTP timeout is actually a problem.",
+      "parentUuid": "eb9e01b7_ac6ba19b",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 33
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b83a0d15_75d52686",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -213,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "2fec1a62_d38c2bc7",
+        "filename": "java/com/google/gerrit/testing/FakeGroupAuditService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T16:00:41Z",
+      "side": 1,
+      "message": "This 5s sleep sucks. I would prefer to go with 211693.",
+      "parentUuid": "530dfb9f_b69d0fee",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 21
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ac9c11bf_98a10675",
         "filename": "java/com/google/gerrit/testing/FakeGroupAuditService.java",
         "patchSetId": 3
@@ -236,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "25f62c19_ac615f11",
+        "filename": "java/com/google/gerrit/testing/FakeGroupAuditService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T16:00:41Z",
+      "side": 1,
+      "message": "211693 does this by draining the queue at the top of each test method.",
+      "parentUuid": "ac9c11bf_98a10675",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 24
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6ba6e8d_88425637",
         "filename": "java/com/google/gerrit/testing/FakeGroupAuditService.java",
         "patchSetId": 3
@@ -247,6 +319,30 @@
       "writtenOn": "2019-01-25T00:49:16Z",
       "side": 1,
       "message": "You basically now are waiting for events up to 30 seconds, this seems a very long time and, in case of failure because an event is not received, it will delay our builds a lot.",
+      "range": {
+        "startLine": 82,
+        "startChar": 38,
+        "endLine": 82,
+        "endChar": 49
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a3d5bb5_2f4da907",
+        "filename": "java/com/google/gerrit/testing/FakeGroupAuditService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T16:00:41Z",
+      "side": 1,
+      "message": "See other thread: it\u0027s fundamentally impossible to not wait here, and anyway we are already subject to HTTP timeouts.\n\n(We could also change this to take() which has no timeout, but that increases the upper bound.)",
+      "parentUuid": "a6ba6e8d_88425637",
       "range": {
         "startLine": 82,
         "startChar": 38,

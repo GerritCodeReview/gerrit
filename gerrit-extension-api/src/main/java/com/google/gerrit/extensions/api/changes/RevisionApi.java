@@ -14,8 +14,10 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -128,6 +130,9 @@ public interface RevisionApi {
   MergeListRequest getMergeList() throws RestApiException;
 
   RelatedChangesInfo related() throws RestApiException;
+
+  /** Returns votes on the revision. */
+  ListMultimap<String, ApprovalInfo> votes() throws RestApiException;
 
   abstract class MergeListRequest {
     private boolean addLinks;
@@ -358,6 +363,11 @@ public interface RevisionApi {
 
     @Override
     public RelatedChangesInfo related() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ListMultimap<String, ApprovalInfo> votes() throws RestApiException {
       throw new NotImplementedException();
     }
 

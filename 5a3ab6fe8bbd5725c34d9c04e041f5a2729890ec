@@ -89,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "97c690fd_00bcc767",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T15:02:13Z",
+      "side": 1,
+      "message": "Per our discussion with you/me/Jonathan yesterday, here\u0027s the plan:\n\n* In most cases (e.g. in a ReviewerInput), you should never be able to resolve an inactive account, even by ID.\n* One case where we *must* support resolving inactive accounts is the top-level accounts collection (/accounts/X, but not /changes/X/reviewers/Y).\n* We want to limit the total number of exception cases. In other words, /accounts/X should be the *only* place where we support resolving inactive accounts.\n* For resolving inactive accounts on the top-level account collection, we should only support resolving by number.\n* This means \"DELETE /accounts/\u003cemail\u003e/active\" is not reversible as \"PUT /accounts/\u003cemail\u003e/active\". This may confuse people, but a) we think it will confuse people less than the current behavior of sometimes matching inactive accounts, and b) we can mitigate the confusion with error messages, e.g. \"\u003cemail\u003e does not identify any active users, but it does identify the following inactive users: A, B, C. Please retry your request with an account ID\"\n\nThis all means the implementation needs reworking. I haven\u0027t decided yet if I want to complicate the AccountResolver interface just to support the one inactive account resolution case, or move that to AccountsCollection.",
+      "parentUuid": "a7f1fdf3_fd462bb9",
+      "range": {
+        "startLine": 347,
+        "startChar": 48,
+        "endLine": 348,
+        "endChar": 51
+      },
+      "revId": "5a3ab6fe8bbd5725c34d9c04e041f5a2729890ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fb2fe87c_58193969",
         "filename": "java/com/google/gerrit/server/account/AccountResolver2.java",
         "patchSetId": 1

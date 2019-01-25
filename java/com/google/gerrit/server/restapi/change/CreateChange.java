@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -196,6 +197,12 @@ public class CreateChange
 
     Project.NameKey project = rsrc.getNameKey();
     String refName = RefNames.fullName(input.branch);
+    try {
+      permissionBackend.currentUser().project(project).ref(refName).check(RefPermission.READ);
+    } catch (AuthException e) {
+      throw new ResourceNotFoundException(String.format("ref %s not found", refName));
+    }
+
     permissionBackend
         .currentUser()
         .project(project)

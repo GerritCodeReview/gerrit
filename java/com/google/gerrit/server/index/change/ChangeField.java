@@ -24,6 +24,7 @@ import static com.google.gerrit.index.FieldDef.prefix;
 import static com.google.gerrit.index.FieldDef.storedOnly;
 import static com.google.gerrit.index.FieldDef.timestamp;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
@@ -191,6 +192,29 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_EXTENSION).buildRepeatable(ChangeField::getExtensions);
 
   public static Set<String> getExtensions(ChangeData cd) throws OrmException {
+    return extensions(cd).filter(e -> !e.isEmpty()).collect(toSet());
+  }
+
+  /**
+   * File extensions of each file modified in the current patch set as a sorted list. The purpose of
+   * this field is to allow matching changes that only touch files with certain file extensions.
+   */
+  public static final FieldDef<ChangeData, String> ONLY_EXTENSIONS =
+      exact(ChangeQueryBuilder.FIELD_ONLY_EXTENSIONS).build(ChangeField::getAllExtensionsAsList);
+
+  public static String getAllExtensionsAsList(ChangeData cd) throws OrmException {
+    return extensions(cd).distinct().sorted().collect(joining(","));
+  }
+
+  /**
+   * Returns a stream with all file extensions that are used by files in the given change. A file
+   * extension is defined as the portion of the filename following the final `.`. Files with no `.`
+   * in their name have no extension. For them an empty string is returned as part of the stream.
+   *
+   * <p>If the change contains multiple files with the same extension the extension is returned
+   * multiple times in the stream (once per file).
+   */
+  private static Stream<String> extensions(ChangeData cd) throws OrmException {
     try {
       return cd.currentFilePaths()
           .stream()
@@ -198,9 +222,7 @@ public class ChangeField {
           // If we want to find "all Java files", we want to match both .java and .JAVA, even if we
           // normally care about case sensitivity. (Whether we should change the existing file/path
           // predicates to be case insensitive is a separate question.)
-          .map(f -> Files.getFileExtension(f).toLowerCase(Locale.US))
-          .filter(e -> !e.isEmpty())
-          .collect(toSet());
+          .map(f -> Files.getFileExtension(f).toLowerCase(Locale.US));
     } catch (IOException e) {
       throw new OrmException(e);
     }

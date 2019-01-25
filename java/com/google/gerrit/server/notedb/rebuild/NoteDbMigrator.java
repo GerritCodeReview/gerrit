@@ -92,6 +92,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -439,6 +440,8 @@ public class NoteDbMigrator implements AutoCloseable {
   private final boolean forceRebuild;
   private final int sequenceGap;
   private final boolean autoMigrate;
+
+  private final AtomicLong globalChangeCounter = new AtomicLong();
 
   private NoteDbMigrator(
       SitePaths sitePaths,
@@ -911,6 +914,7 @@ public class NoteDbMigrator implements AutoCloseable {
       pm.beginTask(FormatUtil.elide("Rebuilding " + project.get(), 50), changes.size());
       int toSave = 0;
       try {
+        logger.atInfo().log("Starting to rebuild changes from project %s", project.get());
         for (Change.Id changeId : changes) {
           // NoteDbUpdateManager assumes that all commands in its OpenRepo were added by itself, so
           // we can't share the top-level ChainedReceiveCommands. Use a new set of commands sharing
@@ -953,8 +957,14 @@ public class NoteDbMigrator implements AutoCloseable {
             logger.atSevere().withCause(t).log("Failed to rebuild change %s", changeId);
             ok = false;
           }
+          logger.atInfo().log("Rebuilt change %s", changeId.get());
+          long c = globalChangeCounter.incrementAndGet();
+          if (c % 1000 == 0) {
+            logger.atInfo().log("Total number of rebuilt changes %d", c);
+          }
           pm.update(1);
         }
+        logger.atInfo().log("Finished rebuilding changes from project %s", project.get());
       } finally {
         pm.endTask();
       }

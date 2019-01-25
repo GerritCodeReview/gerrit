@@ -243,6 +243,48 @@ public class ChangeField {
     }
   }
 
+  /** Folders that are touched by the current patch set. */
+  public static final FieldDef<ChangeData, Iterable<String>> DIRECTORY =
+      exact(ChangeQueryBuilder.FIELD_DIRECTORY).buildRepeatable(ChangeField::getDirectories);
+
+  public static Set<String> getDirectories(ChangeData cd) throws OrmException {
+    List<String> paths;
+    try {
+      paths = cd.currentFilePaths();
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+
+    Splitter s = Splitter.on('/').omitEmptyStrings();
+    Set<String> r = new HashSet<>();
+    for (String path : paths) {
+      StringBuilder directory = new StringBuilder();
+      directory.append("");
+      r.add(directory.toString());
+      String nextPart = null;
+      for (String part : s.split(path)) {
+        if (nextPart != null) {
+          r.add(nextPart);
+
+          if (directory.length() > 0) {
+            directory.append("/");
+          }
+          directory.append(nextPart);
+
+          String intermediateDir = directory.toString();
+          int i = intermediateDir.indexOf('/');
+          while (i >= 0) {
+            r.add(intermediateDir);
+            intermediateDir = intermediateDir.substring(i + 1);
+            i = intermediateDir.indexOf('/');
+          }
+        }
+        nextPart = part;
+      }
+    }
+    return r;
+  }
+
   /** Owner/creator of the change. */
   public static final FieldDef<ChangeData, Integer> OWNER =
       integer(ChangeQueryBuilder.FIELD_OWNER).build(changeGetter(c -> c.getOwner().get()));

@@ -306,6 +306,18 @@ An extension is defined as the portion of the filename following the final `.`.
 Files with no `.` in their name have no extension and can be matched by an
 empty string.
 
+[[directory]]
+directory:'DIR', dir:'DIR'::
++
+Matches any change where the current patch set touches a file in the directory
+'DIR'. The matching is done case-insensitive. 'DIR' can be a full directory
+name, a directory prefix or any combination of intermediate directory segments.
+E.g. a change that touches a file in the directory 'a/b/c' matches for 'a/b/c',
+'a', 'a/b', 'b', 'b/c' and 'c'.
++
+Slash ('/') is used path separator. Leading and trailing slashes are allowed
+but are not mandatory.
+
 [[footer]]
 footer:'FOOTER'::
 +

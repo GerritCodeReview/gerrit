@@ -138,6 +138,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_COMMENTBY = "commentby";
   public static final String FIELD_COMMIT = "commit";
   public static final String FIELD_COMMITTER = "committer";
+  public static final String FIELD_DIRECTORY = "directory";
   public static final String FIELD_EXACTCOMMITTER = "exactcommitter";
   public static final String FIELD_EXTENSION = "extension";
   public static final String FIELD_ONLY_EXTENSIONS = "onlyextensions";
@@ -770,6 +771,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new FooterPredicate(footer);
     }
     throw new QueryParseException("'footer' operator is not supported by change index version");
+  }
+
+  @Operator
+  public Predicate<ChangeData> dir(String directory) throws QueryParseException {
+    return directory(directory);
+  }
+
+  @Operator
+  public Predicate<ChangeData> directory(String directory) throws QueryParseException {
+    if (args.getSchema().hasField(ChangeField.DIRECTORY)) {
+      return new DirectoryPredicate(directory);
+    }
+    throw new QueryParseException("'directory' operator is not supported by change index version");
   }
 
   @Operator

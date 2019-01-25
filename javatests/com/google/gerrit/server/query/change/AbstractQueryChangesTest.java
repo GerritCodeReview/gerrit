@@ -1503,6 +1503,81 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byDirectory() throws Exception {
+    if (getSchemaVersion() < 55) {
+      assertMissingField(ChangeField.DIRECTORY);
+      String unsupportedOperatorMessage =
+          "'directory' operator is not supported by change index version";
+      assertFailingQuery("directory:src/java", unsupportedOperatorMessage);
+      assertFailingQuery("dir:src/java", unsupportedOperatorMessage);
+      return;
+    }
+
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChangeWithFiles(repo, "src/foo.h", "src/foo.cc"));
+    Change change2 = insert(repo, newChangeWithFiles(repo, "src/java/foo.java", "src/js/bar.js"));
+    Change change3 =
+        insert(repo, newChangeWithFiles(repo, "documentation/training/slides/README.txt"));
+    Change change4 = insert(repo, newChangeWithFiles(repo, "a.txt"));
+    Change change5 = insert(repo, newChangeWithFiles(repo, "a/b/c/d/e/foo.txt"));
+
+    // matching by directory prefix works
+    assertQuery("directory:src", change2, change1);
+    assertQuery("directory:src/java", change2);
+    assertQuery("directory:src/js", change2);
+    assertQuery("directory:documentation/", change3);
+    assertQuery("directory:documentation/training", change3);
+    assertQuery("directory:documentation/training/slides", change3);
+
+    // 'dir' alias works
+    assertQuery("dir:src", change2, change1);
+    assertQuery("dir:src/java", change2);
+
+    // case doesn't matter
+    assertQuery("directory:Documentation/TrAiNiNg/SLIDES", change3);
+
+    // leading and trailing '/' doesn't matter
+    assertQuery("directory:/documentation/training/slides", change3);
+    assertQuery("directory:documentation/training/slides/", change3);
+    assertQuery("directory:/documentation/training/slides/", change3);
+
+    // files do not match as directory
+    assertQuery("directory:src/foo.h");
+    assertQuery("directory:documentation/training/slides/README.txt");
+
+    // root directory matches all changes
+    assertQuery("directory:/", change5, change4, change3, change2, change1);
+    assertQuery("directory:\"\"", change5, change4, change3, change2, change1);
+    assertFailingQuery("directory:");
+
+    // matching single directory segments works
+    assertQuery("directory:java", change2);
+    assertQuery("directory:slides", change3);
+
+    // files do not match as directory segment
+    assertQuery("directory:foo.h");
+
+    // matching any combination of intermediate directory segments works
+    assertQuery("directory:training/slides", change3);
+    assertQuery("directory:b/c", change5);
+    assertQuery("directory:b/c/d", change5);
+    assertQuery("directory:b/c/d/e", change5);
+    assertQuery("directory:c/d", change5);
+    assertQuery("directory:c/d/e", change5);
+    assertQuery("directory:d/e", change5);
+
+    // files do not match as directory segments
+    assertQuery("directory:d/e/foo.txt");
+    assertQuery("directory:e/foo.txt");
+
+    // matching any combination of intermediate directory segments works with leading and trailing
+    // '/'
+    assertQuery("directory:/b/c", change5);
+    assertQuery("directory:/b/c/", change5);
+    assertQuery("directory:b/c/", change5);
+  }
+
+  @Test
   public void byComment() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo);

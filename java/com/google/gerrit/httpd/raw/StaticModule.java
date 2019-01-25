@@ -73,7 +73,6 @@ public class StaticModule extends ServletModule {
       ImmutableList.of(
           "/",
           "/c/*",
-          "/p/*",
           "/q/*",
           "/x/*",
           "/admin/*",
@@ -252,6 +251,11 @@ public class StaticModule extends ServletModule {
           filter(p).through(XsrfCookieFilter.class);
         }
       }
+
+      // Make sure /p/*/info/refs* is not put through XsrfCookieFilter
+      // which effectivly breaks that end point.
+      filterRegex("/p/.*(?!/info/refs(.*)?)").through(XsrfCookieFilter.class);
+
       filter("/*").through(PolyGerritFilter.class);
     }
 

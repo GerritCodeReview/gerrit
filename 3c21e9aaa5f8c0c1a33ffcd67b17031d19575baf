@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "99e20052_aee92c99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-25T08:27:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3018ceb2_dfe0b523",
+      "range": {
+        "startLine": 21,
+        "startChar": 40,
+        "endLine": 21,
+        "endChar": 44
+      },
+      "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9129b91_0192c490",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-25T08:27:25Z",
+      "side": 1,
+      "message": "Yes. Ideally, our endpoint tests should be built on REST calls. But not sure if now writing tests through REST calls is a good practice without performance concerns any more.",
+      "parentUuid": "d2e79f09_b5a887c6",
+      "range": {
+        "startLine": 20,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 8
+      },
+      "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21ebda33_ced25611",
         "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
         "patchSetId": 2
@@ -83,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "5a5b75a2_bccf34d8",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-25T08:27:25Z",
+      "side": 1,
+      "message": "PermissionBackendException will be a server error which should be thrown out and logged.",
+      "parentUuid": "2711951d_0619189b",
+      "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e37425e_33d47d0c",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 2
@@ -106,6 +172,30 @@
     },
     {
       "key": {
+        "uuid": "50852bab_fe11835b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-25T08:27:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e37425e_33d47d0c",
+      "range": {
+        "startLine": 461,
+        "startChar": 30,
+        "endLine": 461,
+        "endChar": 39
+      },
+      "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc759dc5_6c303c00",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 2
@@ -126,6 +216,30 @@
       "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c22eb5b_444f2a0f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-25T08:27:25Z",
+      "side": 1,
+      "message": "This is necessary becasue by default in All-Projects we have:\n\n[access \"refs/*\"],\n  read \u003d group Administrators,\n  read \u003d group Anonymous Users,",
+      "parentUuid": "dc759dc5_6c303c00",
+      "range": {
+        "startLine": 462,
+        "startChar": 4,
+        "endLine": 462,
+        "endChar": 50
+      },
+      "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

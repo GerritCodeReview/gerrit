@@ -70,6 +70,30 @@
       "revId": "4e36293238d83d65fac894a86325e97ba784ea30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "886f8e0a_264205ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-25T03:59:51Z",
+      "side": 1,
+      "message": "Well, comment handling bisects to that commit. Cut line handling bisects to v2.13.1~16^2 (interpret-trailers: honor the cut line, 2017-05-15).",
+      "parentUuid": "c6c22e6f_b38504ed",
+      "range": {
+        "startLine": 27,
+        "startChar": 21,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "4e36293238d83d65fac894a86325e97ba784ea30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

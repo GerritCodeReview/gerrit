@@ -167,6 +167,30 @@
       "revId": "4b4f2820790eb1819a6a10bb03d695aa5091ee33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "040f0d09_b87c4311",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-25T00:27:48Z",
+      "side": 1,
+      "message": "\u003e Also:\n\u003e \n\u003e \u003e without sandboxing we always have 1x GerritServer instance per test method\n\u003e \n\u003e This is not accurate. Without sandboxing there is 1x GerritServer per test class, not per test method. On top of that, each @Sandboxed method gets a new, separate instance:\n\u003e \n\u003e https://gerrit.googlesource.com/gerrit/+/24ee10a75fd88a72cd597665405e427d76dad38a/java/com/google/gerrit/acceptance/AbstractDaemonTest.java#410\n\nWe are on the same page then :-) I misunderstood your previous comment that was saying that @Sandboxed on method was for resource isolation rather than for having 1x GerritServer per method call. Or possibly both of them: if you have 1x GerritServer per method call then, of course, you have resource isolation because the Git repo is in memory and gets instantiated for each GerritServer.",
+      "parentUuid": "c4686df1_e57f960d",
+      "range": {
+        "startLine": 9,
+        "startChar": 47,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "4b4f2820790eb1819a6a10bb03d695aa5091ee33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

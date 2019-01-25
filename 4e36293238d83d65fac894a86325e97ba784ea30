@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35cf4d13_38236115",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-25T01:57:38Z",
+      "side": 1,
+      "message": "Not true in Git v2.2.0. That\u0027s fine with me --- the behavior without this patch is bad in that version of Git, too. I\u0027m bisecting in preparation for adding a prereq to the test script.",
+      "range": {
+        "startLine": 27,
+        "startChar": 21,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "4e36293238d83d65fac894a86325e97ba784ea30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

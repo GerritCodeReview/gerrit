@@ -14,25 +14,30 @@
 
 package com.google.gerrit.server.query.change;
 
+import static java.util.stream.Collectors.joining;
+
+import com.google.common.base.Splitter;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 
-public class FileExtensionPredicate extends ChangeIndexPredicate {
-  static String clean(String ext) {
-    if (ext.startsWith(".")) {
-      ext = ext.substring(1);
+public class FileExtensionListPredicate extends ChangeIndexPredicate {
+  private static String clean(String extList) {
+    List<String> extensions = new ArrayList<>();
+    for (String ext : Splitter.on(',').split(extList)) {
+      extensions.add(FileExtensionPredicate.clean(ext));
     }
-    return ext.toLowerCase(Locale.US);
+    return extensions.stream().distinct().sorted().collect(joining(","));
   }
 
-  FileExtensionPredicate(String value) {
-    super(ChangeField.EXTENSION, clean(value));
+  FileExtensionListPredicate(String value) {
+    super(ChangeField.ALL_EXTENSIONS, clean(value));
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
-    return ChangeField.getExtensions(object).contains(value);
+  public boolean match(ChangeData cd) throws OrmException {
+    return ChangeField.getAllExtensions(cd).equals(value);
   }
 
   @Override

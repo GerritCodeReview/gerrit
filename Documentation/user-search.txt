@@ -305,6 +305,12 @@ Matches any change touching only files with extensions that are listed in
 An extension is defined as the portion of the filename following the final `.`.
 Files with no `.` in their name have no extension.
 
+[[folder]]
+folder:'FOLDER'::
++
+Matches any change where the current patch set touches a file in 'FOLDER'. The
+matching is done case-insensitive.
+
 [[footer]]
 footer:'FOOTER'::
 +

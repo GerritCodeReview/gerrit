@@ -22,6 +22,8 @@
     'added:',
     'age:',
     'age:1week', // Give an example age
+    'all_exts:',
+    'all_extensions:',
     'assignee:',
     'author:',
     'branch:',

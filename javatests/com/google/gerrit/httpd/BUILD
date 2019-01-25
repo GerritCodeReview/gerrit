@@ -10,6 +10,7 @@ junit_tests(
         "//java/com/google/gerrit/httpd",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//java/com/google/gerrit/util/http",
         "//javatests/com/google/gerrit/util/http/testutil",
         "//lib:gson",

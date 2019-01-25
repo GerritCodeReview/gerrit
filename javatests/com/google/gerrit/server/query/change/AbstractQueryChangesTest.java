@@ -1366,7 +1366,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byExtension() throws Exception {
-    assume().that(getSchema().hasField(ChangeField.EXTENSION)).isTrue();
+    if (getSchemaVersion() < 52) {
+      assertMissingField(ChangeField.EXTENSION);
+      String unsupportedOperationMsg =
+          "'extension' operator is not supported by change index version";
+      assertFailingQuery("extension:txt", unsupportedOperationMsg);
+      assertFailingQuery("ext:txt", unsupportedOperationMsg);
+      return;
+    }
 
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChangeWithFiles(repo, "foo.h", "foo.cc"));

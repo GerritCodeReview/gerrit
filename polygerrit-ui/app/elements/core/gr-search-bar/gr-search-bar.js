@@ -41,6 +41,7 @@
     'exts:',
     'extensions:',
     'file:',
+    'footer:',
     'from:',
     'has:',
     'has:draft',

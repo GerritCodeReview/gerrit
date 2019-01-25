@@ -17,6 +17,24 @@
       "revId": "971074c4743110b793e8cd677f2b6ec7793674d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e57d50a6_604449ee",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T17:14:41Z",
+      "side": 1,
+      "message": "In this series, I don\u0027t see us complicating the input interface more than we already have, so I\u0027m inclined to leave it.\n\nLonger term, it may make sense to introduce an Options class or an Input class. That said, if the only thing in the Options class is, say, a single AllowedFormats enum (ANY, NAME_OR_EMAIL, ID_ONLY, etc.), IMO it\u0027s more readable at call sites if we just have 3 distinctly-named methods. (Obviously this argument doesn\u0027t apply if the Options class contains more fields.)",
+      "parentUuid": "4eb72437_4cd6ae77",
+      "revId": "971074c4743110b793e8cd677f2b6ec7793674d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

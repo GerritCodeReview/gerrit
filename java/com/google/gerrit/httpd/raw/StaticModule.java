@@ -252,6 +252,7 @@ public class StaticModule extends ServletModule {
           filter(p).through(XsrfCookieFilter.class);
         }
       }
+
       filter("/*").through(PolyGerritFilter.class);
     }
 
@@ -473,11 +474,11 @@ public class StaticModule extends ServletModule {
         }
       }
 
-      if (isPolyGerritIndex(path)) {
+      if (isPolyGerritIndex(path, req)) {
         polyGerritIndex.service(reqWrapper, res);
         return;
       }
-      if (isPolyGerritAsset(path)) {
+      if (isPolyGerritAsset(path, req)) {
         polygerritUI.service(reqWrapper, res);
         return;
       }
@@ -556,15 +557,24 @@ public class StaticModule extends ServletModule {
       return req.isSecure() || "https".equals(req.getScheme());
     }
 
-    private static boolean isPolyGerritAsset(String path) {
+    private static boolean isPolyGerritAsset(String path, HttpServletRequest req) {
       return matchPath(POLYGERRIT_ASSET_PATHS, path);
     }
 
-    private static boolean isPolyGerritIndex(String path) {
-      return matchPath(POLYGERRIT_INDEX_PATHS, path);
+    private static boolean isPolyGerritIndex(String path, HttpServletRequest req) {
+      return matchPath(POLYGERRIT_INDEX_PATHS, path, req);
     }
 
-    private static boolean matchPath(Iterable<String> paths, String path) {
+    private static boolean matchPath(Iterable<String> paths, String path, HttpServletRequest req) {
+      String uri = req.getRequestURI();
+      String ctx = req.getContextPath();
+      String res = uri.startsWith(ctx) ? uri.substring(ctx.length()) : uri;
+
+      // If this matches /p/+/info/* return false
+      // as this is not a polygerrit resource.
+      if (res.matches("/p/(.+)/info/(.*)")) {
+        return false;
+      }
       for (String p : paths) {
         if (p.endsWith("/*")) {
           if (path.regionMatches(0, p, 0, p.length() - 1)) {

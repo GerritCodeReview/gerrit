@@ -36,6 +36,8 @@
     'conflicts:',
     'deleted:',
     'delta:',
+    'dir:',
+    'directory:',
     'ext:',
     'extension:',
     'file:',

@@ -34,6 +34,24 @@
       "revId": "a0582bc5c6eac94638951e164f9e60c78eac2e25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab4d3aef_89cc306c",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-25T14:01:36Z",
+      "side": 1,
+      "message": "ah ... negative regex! Have you checked the performance implications? I recall the negative regex were quite heavy to process :-( How was the code before in v2.15? Did it have negative regex at all?",
+      "parentUuid": "055b76da_65aafc01",
+      "revId": "a0582bc5c6eac94638951e164f9e60c78eac2e25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

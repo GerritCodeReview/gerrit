@@ -113,6 +113,30 @@
     },
     {
       "key": {
+        "uuid": "a7645369_f95a5609",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T17:11:23Z",
+      "side": 1,
+      "message": "Well, reopening the discussion today, it seems like Jonathan and I are ok with the current implementation of always allowing resolving numbers to inactive accounts. That certainly simplifies the implementation here, if callers don\u0027t have to specify anything.",
+      "parentUuid": "97c690fd_00bcc767",
+      "range": {
+        "startLine": 347,
+        "startChar": 48,
+        "endLine": 348,
+        "endChar": 51
+      },
+      "revId": "5a3ab6fe8bbd5725c34d9c04e041f5a2729890ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fb2fe87c_58193969",
         "filename": "java/com/google/gerrit/server/account/AccountResolver2.java",
         "patchSetId": 1
@@ -133,6 +157,30 @@
       "revId": "5a3ab6fe8bbd5725c34d9c04e041f5a2729890ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bd2a0f0_9ad86b5c",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-25T17:11:23Z",
+      "side": 1,
+      "message": "Not hard.",
+      "parentUuid": "fb2fe87c_58193969",
+      "range": {
+        "startLine": 368,
+        "startChar": 9,
+        "endLine": 368,
+        "endChar": 37
+      },
+      "revId": "5a3ab6fe8bbd5725c34d9c04e041f5a2729890ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

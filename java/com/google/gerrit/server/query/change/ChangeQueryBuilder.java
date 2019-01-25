@@ -122,8 +122,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   static final int MAX_ACCOUNTS_PER_DEFAULT_FIELD = 10;
 
-  // NOTE: As new search operations are added, please keep the
-  // SearchSuggestOracle up to date.
+  // NOTE: As new search operations are added, please keep the suggestions in
+  // gr-search-bar.js up to date.
 
   public static final String FIELD_ADDED = "added";
   public static final String FIELD_AGE = "age";

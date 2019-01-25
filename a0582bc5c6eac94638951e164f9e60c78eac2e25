@@ -16,6 +16,24 @@
       "revId": "a0582bc5c6eac94638951e164f9e60c78eac2e25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "055b76da_65aafc01",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-25T13:54:11Z",
+      "side": 1,
+      "message": "the ?! will prevent it from going through it, see https://www.regextester.com/94017",
+      "parentUuid": "b82d7073_8b2c07bb",
+      "revId": "a0582bc5c6eac94638951e164f9e60c78eac2e25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

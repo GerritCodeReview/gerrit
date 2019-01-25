@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6683746e_2f61e270",
+        "filename": "javatests/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-25T00:47:38Z",
+      "side": 0,
+      "message": "This was the right place to clear the events, why are you moving it?\nIn the follow-up changes you are then putting it back to the same place?",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 61
+      },
+      "revId": "a5208d592d6455c7a30b748795a60da9305da9fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

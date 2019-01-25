@@ -1332,6 +1332,44 @@ public class RevisionIT extends AbstractDaemonTest {
         .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
   }
 
+  @Test
+  public void listVotes() throws Exception {
+    // Create patch set 1 and vote on it
+    PushOneCommit.Result r = createChange();
+    Map<String, List<ApprovalInfo>> votes = gApi.changes().id(r.getChangeId()).current().votes();
+    assertThat(votes).isEmpty();
+    recommend(r.getChangeId());
+    votes = gApi.changes().id(r.getChangeId()).current().votes();
+    assertThat(votes).hasSize(1);
+    assertThat(votes).containsKey("Code-Review");
+    List<ApprovalInfo> approvals = votes.get("Code-Review");
+    assertThat(approvals).hasSize(1);
+    ApprovalInfo approval = approvals.get(0);
+    assertThat(approval._accountId).isEqualTo(admin.id.get());
+
+    // Also vote on it with another user
+    setApiUser(user);
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.dislike());
+
+    // Patch set 1 has 2 votes on Code-Review
+    setApiUser(admin);
+    votes = gApi.changes().id(r.getChangeId()).current().votes();
+    assertThat(votes).hasSize(1);
+    approvals = votes.get("Code-Review");
+    assertThat(approvals).hasSize(2);
+    assertThat(approvals.stream().map(a -> a._accountId))
+        .containsExactlyElementsIn(ImmutableList.of(admin.id.get(), user.id.get()));
+
+    // Create a new patch set which does not have any votes
+    amendChange(r.getChangeId());
+    votes = gApi.changes().id(r.getChangeId()).current().votes();
+    assertThat(votes).isEmpty();
+
+    // Votes are still returned for ps 1
+    votes = gApi.changes().id(r.getChangeId()).revision(1).votes();
+    assertThat(votes).hasSize(1);
+  }
+
   private static void assertCherryPickResult(
       ChangeInfo changeInfo, CherryPickInput input, String srcChangeId) throws Exception {
     assertThat(changeInfo.changeId).isEqualTo(srcChangeId);

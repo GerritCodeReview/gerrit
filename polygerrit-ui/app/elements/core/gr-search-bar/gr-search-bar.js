@@ -38,6 +38,8 @@
     'delta:',
     'ext:',
     'extension:',
+    'exts:',
+    'extensions:',
     'file:',
     'from:',
     'has:',

@@ -139,6 +139,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_COMMITTER = "committer";
   public static final String FIELD_EXACTCOMMITTER = "exactcommitter";
   public static final String FIELD_EXTENSION = "extension";
+  public static final String FIELD_EXTENSION_LIST = "extension_list";
   public static final String FIELD_CONFLICTS = "conflicts";
   public static final String FIELD_DELETED = "deleted";
   public static final String FIELD_DELTA = "delta";
@@ -745,6 +746,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new FileExtensionPredicate(ext);
     }
     throw new QueryParseException("'extension' operator is not supported by change index version");
+  }
+
+  @Operator
+  public Predicate<ChangeData> exts(String extList) throws QueryParseException {
+    return extensions(extList);
+  }
+
+  @Operator
+  public Predicate<ChangeData> extensions(String extList) throws QueryParseException {
+    if (args.getSchema().hasField(ChangeField.EXTENSION_LIST)) {
+      return new FileExtensionListPredicate(extList);
+    }
+    throw new QueryParseException("'extensions' operator is not supported by change index version");
   }
 
   @Operator

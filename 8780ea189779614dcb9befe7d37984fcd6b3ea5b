@@ -23,6 +23,167 @@
       "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97bfff3a_4d773707",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-25T00:49:16Z",
+      "side": 1,
+      "message": "Yes, I believe this is really the culprit. I see some flakiness as well, and when that happens is because I have more events than expected. It could well be because the setup of the server generated events that have not reached yet the FakeAuditService and then are not properly cleaned up before the execution of the test.",
+      "range": {
+        "startLine": 17,
+        "startChar": 23,
+        "endLine": 19,
+        "endChar": 10
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82683090_1b6d948b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-25T00:49:16Z",
+      "side": 1,
+      "message": "I would strongly oppose putting longer timeouts or sleep in the code.\nWorst case, because we can only have *more* events that we expect, I would rather discard the extra events in the assertions rather than sleeping for the draining the audit events before the test. WDYT?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 33
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b83a0d15_75d52686",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-25T00:49:16Z",
+      "side": 1,
+      "message": "Yes, that\u0027s a brilliant idea. Having them sorted by timestamp would allow to understand what came first and next and \"find the right starting point\" to execute our assertions.",
+      "range": {
+        "startLine": 29,
+        "startChar": 46,
+        "endLine": 29,
+        "endChar": 72
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6d9afcd_ed5dcb28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-25T00:49:16Z",
+      "side": 1,
+      "message": "Reduce or eliminate?\nOn my laptop (8 cores) I already have ~1% of flakiness with the current code. Are we hiding the problem a bit more or are we eliminating it completely?",
+      "range": {
+        "startLine": 35,
+        "startChar": 19,
+        "endLine": 35,
+        "endChar": 44
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "530dfb9f_b69d0fee",
+        "filename": "java/com/google/gerrit/testing/FakeGroupAuditService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-25T00:49:16Z",
+      "side": 1,
+      "message": "I do not like hardcoded sleeps in the test code, it may reduce the flakiness, yes, but makes the overall testing phase slower and won\u0027t eliminate the root cause.",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 21
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac9c11bf_98a10675",
+        "filename": "java/com/google/gerrit/testing/FakeGroupAuditService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-25T00:49:16Z",
+      "side": 1,
+      "message": "Why don\u0027t we keep the events and just skip the \"uninteresting ones\" in the test method? You\u0027ve already said that it is impossible to be super-sure that all the events of the initial setup have all been consumed. Adding a sleep and clearing them out, will reduce the impact of the problem but won\u0027t solve it.",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 24
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6ba6e8d_88425637",
+        "filename": "java/com/google/gerrit/testing/FakeGroupAuditService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-25T00:49:16Z",
+      "side": 1,
+      "message": "You basically now are waiting for events up to 30 seconds, this seems a very long time and, in case of failure because an event is not received, it will delay our builds a lot.",
+      "range": {
+        "startLine": 82,
+        "startChar": 38,
+        "endLine": 82,
+        "endChar": 49
+      },
+      "revId": "8780ea189779614dcb9befe7d37984fcd6b3ea5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

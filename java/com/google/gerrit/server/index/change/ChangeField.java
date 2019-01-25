@@ -241,6 +241,37 @@ public class ChangeField {
     }
   }
 
+  /** Folders that are touched by the current patch set. */
+  public static final FieldDef<ChangeData, Iterable<String>> FOLDER =
+      exact(ChangeQueryBuilder.FIELD_FOLDER).buildRepeatable(ChangeField::getFolders);
+
+  public static Set<String> getFolders(ChangeData cd) throws OrmException {
+    List<String> paths;
+    try {
+      paths = cd.currentFilePaths();
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+
+    Splitter s = Splitter.on('/').omitEmptyStrings();
+    Set<String> r = new HashSet<>();
+    for (String path : paths) {
+      StringBuilder folder = new StringBuilder();
+      String nextPart = null;
+      for (String part : s.split(path)) {
+        if (nextPart != null) {
+          if (folder.length() > 0) {
+            folder.append("/");
+          }
+          folder.append(nextPart);
+          r.add(folder.toString());
+        }
+        nextPart = part;
+      }
+    }
+    return r;
+  }
+
   /** Owner/creator of the change. */
   public static final FieldDef<ChangeData, Integer> OWNER =
       integer(ChangeQueryBuilder.FIELD_OWNER).build(changeGetter(c -> c.getOwner().get()));

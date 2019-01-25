@@ -1478,6 +1478,41 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byFolder() throws Exception {
+    if (getSchemaVersion() < 55) {
+      assertMissingField(ChangeField.FOLDER);
+      assertFailingQuery(
+          "folder:src/java", "'folder' operator is not supported by change index version");
+      return;
+    }
+
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChangeWithFiles(repo, "src/foo.h", "src/foo.cc"));
+    Change change2 = insert(repo, newChangeWithFiles(repo, "src/java/foo.java", "src/js/bar.js"));
+    Change change3 =
+        insert(repo, newChangeWithFiles(repo, "documentation/training/slides/README.txt"));
+
+    assertQuery("folder:src", change2, change1);
+    assertQuery("folder:src/java", change2);
+    assertQuery("folder:src/js", change2);
+    assertQuery("folder:documentation/", change3);
+    assertQuery("folder:documentation/training", change3);
+    assertQuery("folder:documentation/training/slides", change3);
+
+    // case doesn't matter
+    assertQuery("folder:Documentation/TrAiNiNg/SLIDES", change3);
+
+    // leading and trailing '/' doesn't matter
+    assertQuery("folder:/documentation/training/slides", change3);
+    assertQuery("folder:documentation/training/slides/", change3);
+    assertQuery("folder:/documentation/training/slides/", change3);
+
+    // files do not match as folder
+    assertQuery("folder:src/foo.h");
+    assertQuery("folder:documentation/training/slides/README.txt");
+  }
+
+  @Test
   public void byComment() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo);

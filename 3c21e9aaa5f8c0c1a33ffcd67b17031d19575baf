@@ -312,6 +312,30 @@
       "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1a4154f_e61cdb5c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-25T09:22:42Z",
+      "side": 1,
+      "message": "The motivation of those two tests is to make sure the user gets 404 when it doesn\u0027t have the require permission to read the target branch. And we want to verify that when the branch exists or doesn\u0027t exist.\n\nWhen the permission check passes, we don\u0027t care about the exception from the \"create change\" logic any more since it will not have the security concern we\u0027re addressing here.",
+      "parentUuid": "83675902_dee0fea7",
+      "range": {
+        "startLine": 462,
+        "startChar": 4,
+        "endLine": 462,
+        "endChar": 50
+      },
+      "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

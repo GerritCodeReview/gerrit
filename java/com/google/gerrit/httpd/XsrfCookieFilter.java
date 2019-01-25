@@ -51,8 +51,16 @@ public class XsrfCookieFilter implements Filter {
   @Override
   public void doFilter(ServletRequest req, ServletResponse rsp, FilterChain chain)
       throws IOException, ServletException {
+    HttpServletRequest request = (HttpServletRequest) req;
+    String uri = request.getRequestURI();
+    String ctx = request.getContextPath();
+    String res = uri.startsWith(ctx) ? uri.substring(ctx.length()) : uri;
+
     WebSession s = user.get().isIdentifiedUser() ? session.get() : null;
-    setXsrfTokenCookie((HttpServletRequest) req, (HttpServletResponse) rsp, s);
+    // We doin't need to have a cookie set on /info/
+    if (!res.matches("/p/(.+)/info/(.*)")) {
+      setXsrfTokenCookie((HttpServletRequest) req, (HttpServletResponse) rsp, s);
+    }
     chain.doFilter(req, rsp);
   }
 

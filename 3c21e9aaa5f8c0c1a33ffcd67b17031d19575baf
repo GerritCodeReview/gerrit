@@ -336,6 +336,30 @@
       "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc7e0cde_80016599",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-25T09:51:41Z",
+      "side": 1,
+      "message": "OK, so you are saying if the user has READ access on the namespace but the branch doesn\u0027t exist it\u0027s okay that the user can deduce from the error message that the branch is really missing, and not just not visible?\n\nStill it would be nice to test this case to ensure that it fails with a reasonable error message. It\u0027s fine for me to add this test as a follow-up if you think it\u0027s not fitting into this change.",
+      "parentUuid": "d1a4154f_e61cdb5c",
+      "range": {
+        "startLine": 462,
+        "startChar": 4,
+        "endLine": 462,
+        "endChar": 50
+      },
+      "revId": "3c21e9aaa5f8c0c1a33ffcd67b17031d19575baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

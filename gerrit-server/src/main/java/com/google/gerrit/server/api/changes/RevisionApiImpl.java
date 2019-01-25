@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.api.changes.RobotCommentApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -46,6 +47,9 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.ApplyFix;
 import com.google.gerrit.server.change.CherryPick;
 import com.google.gerrit.server.change.Comments;
@@ -79,6 +83,8 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -128,6 +134,8 @@ class RevisionApiImpl implements RevisionApi {
   private final GetRelated getRelated;
   private final PutDescription putDescription;
   private final GetDescription getDescription;
+  private final ApprovalsUtil approvalsUtil;
+  private final Provider<ReviewDb> db;
 
   @Inject
   RevisionApiImpl(
@@ -168,6 +176,8 @@ class RevisionApiImpl implements RevisionApi {
       GetRelated getRelated,
       PutDescription putDescription,
       GetDescription getDescription,
+      ApprovalsUtil approvalsUtil,
+      Provider<ReviewDb> db,
       @Assisted RevisionResource r) {
     this.repoManager = repoManager;
     this.changes = changes;
@@ -206,6 +216,8 @@ class RevisionApiImpl implements RevisionApi {
     this.getRelated = getRelated;
     this.putDescription = putDescription;
     this.getDescription = getDescription;
+    this.approvalsUtil = approvalsUtil;
+    this.db = db;
     this.revision = r;
   }
 
@@ -575,6 +587,33 @@ class RevisionApiImpl implements RevisionApi {
     } catch (Exception e) {
       throw asRestApiException("Cannot get related changes", e);
     }
+  }
+
+  @Override
+  public Map<String, List<ApprovalInfo>> votes() throws RestApiException {
+    Map<String, List<ApprovalInfo>> result = new HashMap<>();
+    try {
+      Iterable<PatchSetApproval> approvals =
+          approvalsUtil.byPatchSet(
+              db.get(),
+              revision.getNotes(),
+              revision.getChangeResource().getUser(),
+              revision.getPatchSet().getId(),
+              null,
+              null);
+      for (PatchSetApproval approval : approvals) {
+        String label = approval.getLabel();
+        if (!result.containsKey(label)) {
+          result.put(label, new ArrayList<>());
+        }
+        ApprovalInfo a = new ApprovalInfo(approval.getAccountId().get());
+        a.value = (int) approval.getValue();
+        result.get(label).add(a);
+      }
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get votes", e);
+    }
+    return result;
   }
 
   @Override

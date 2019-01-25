@@ -44,6 +44,13 @@ java_library(
 )
 
 java_library(
+    name = "text",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@commons-text//jar"],
+)
+
+java_library(
     name = "validator",
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@commons-validator//jar"],

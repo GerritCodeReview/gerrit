@@ -41,6 +41,7 @@
     'ext:',
     'extension:',
     'file:',
+    'folder:',
     'footer:',
     'from:',
     'has:',

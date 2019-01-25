@@ -9,6 +9,7 @@ java_library(
         ":gfm-tables",
         ":gitiles-servlet",
         ":prettify",
+        "//lib/commons:lang3",
     ],
 )
 

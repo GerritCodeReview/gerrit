@@ -88,6 +88,24 @@
       "revId": "a0582bc5c6eac94638951e164f9e60c78eac2e25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e92556a_8fc344cf",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-25T14:24:20Z",
+      "side": 1,
+      "message": "Should a note be added to 2.16 that states not recommended for anyone who uses those end point\u0027s? Seeing as this is breaking behavour that was not documented if intended.",
+      "parentUuid": "c46a53b8_e6fe3e40",
+      "revId": "a0582bc5c6eac94638951e164f9e60c78eac2e25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

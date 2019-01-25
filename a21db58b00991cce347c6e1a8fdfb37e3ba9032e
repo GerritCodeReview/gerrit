@@ -33,6 +33,24 @@
       "revId": "a21db58b00991cce347c6e1a8fdfb37e3ba9032e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c197e4b_4e2d1ddf",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-25T00:40:09Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/211732. What do you think?",
+      "parentUuid": "a970e7f2_922c100c",
+      "revId": "a21db58b00991cce347c6e1a8fdfb37e3ba9032e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

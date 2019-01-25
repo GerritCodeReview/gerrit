@@ -297,6 +297,14 @@ extension is defined as the portion of the filename following the final `.`.
 Files with no `.` in their name have no extension and cannot be matched with
 this operator; use `file:` instead.
 
+[[only_extensions]]
+only_extensions:'EXT_LIST', only_exts:'EXT_LIST'::
++
+Matches any change touching only files with extensions that are listed in
+'EXT_LIST' (comma-separated list). The matching is done case-insensitive.
+An extension is defined as the portion of the filename following the final `.`.
+Files with no `.` in their name have no extension.
+
 [[star]]
 star:'LABEL'::
 +

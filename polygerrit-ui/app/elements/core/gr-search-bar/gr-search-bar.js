@@ -66,6 +66,8 @@
     'is:wip',
     'label:',
     'message:',
+    'only_exts:',
+    'only_extensions:',
     'owner:',
     'ownerin:',
     'parentproject:',

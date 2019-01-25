@@ -1390,6 +1390,62 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byOnlyExtensions() throws Exception {
+    if (getSchemaVersion() < 53) {
+      assertMissingField(ChangeField.ONLY_EXTENSIONS);
+      String unsupportedOperatorMessage =
+          "'only_extensions' operator is not supported by change index version";
+      assertFailingQuery("only_extensions:txt,jpg", unsupportedOperatorMessage);
+      assertFailingQuery("only_exts:txt,jpg", unsupportedOperatorMessage);
+      return;
+    }
+
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChangeWithFiles(repo, "foo.h", "foo.cc", "bar.cc"));
+    Change change2 = insert(repo, newChangeWithFiles(repo, "bar.H", "bar.CC", "foo.H"));
+    Change change3 = insert(repo, newChangeWithFiles(repo, "foo.CC", "bar.cc"));
+    Change change4 = insert(repo, newChangeWithFiles(repo, "dir/baz.h", "dir/baz.cc"));
+    Change change5 = insert(repo, newChangeWithFiles(repo, "Quux.java"));
+    Change change6 = insert(repo, newChangeWithFiles(repo, "foo.txt", "foo"));
+    Change change7 = insert(repo, newChangeWithFiles(repo, "foo"));
+
+    // case doesn't matter
+    assertQuery("only_extensions:cc,h", change4, change2, change1);
+    assertQuery("only_extensions:CC,H", change4, change2, change1);
+    assertQuery("only_extensions:cc,H", change4, change2, change1);
+    assertQuery("only_extensions:cC,h", change4, change2, change1);
+    assertQuery("only_extensions:cc", change3);
+    assertQuery("only_extensions:CC", change3);
+    assertQuery("only_exts:java", change5);
+    assertQuery("only_exts:jAvA", change5);
+    assertQuery("only_exts:.jAvA", change5);
+
+    // order doesn't matter
+    assertQuery("only_extensions:h,cc", change4, change2, change1);
+    assertQuery("only_extensions:H,CC", change4, change2, change1);
+
+    // specifying extension with '.' is okay
+    assertQuery("only_extensions:.cc,.h", change4, change2, change1);
+    assertQuery("only_extensions:cc,.h", change4, change2, change1);
+    assertQuery("only_extensions:.cc,h", change4, change2, change1);
+    assertQuery("only_exts:.java", change5);
+
+    // matching changes without extension is possible
+    assertQuery("only_exts:txt");
+    assertQuery("only_exts:txt,", change6);
+    assertQuery("only_exts:,txt", change6);
+    assertQuery("only_extensions:\"\"", change7);
+    assertQuery("only_exts:\"\"", change7);
+    assertQuery("only_extensions:,", change7);
+    assertQuery("only_exts:,", change7);
+    assertFailingQuery("only_extensions:");
+    assertFailingQuery("only_exts:");
+
+    // inverse queries
+    assertQuery("-only_extensions:cc,h", change7, change6, change5, change3);
+  }
+
+  @Test
   public void byComment() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo);
@@ -3126,12 +3182,19 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .isFalse();
   }
 
-  protected void assertFailingQuery(String query, String expectedMessage) throws Exception {
+  protected void assertFailingQuery(String query) throws Exception {
+    assertFailingQuery(query, null);
+  }
+
+  protected void assertFailingQuery(String query, @Nullable String expectedMessage)
+      throws Exception {
     try {
       assertQuery(query);
       fail("expected BadRequestException for query '" + query + "'");
     } catch (BadRequestException e) {
-      assertThat(e.getMessage()).isEqualTo(expectedMessage);
+      if (expectedMessage != null) {
+        assertThat(e.getMessage()).isEqualTo(expectedMessage);
+      }
     }
   }
 

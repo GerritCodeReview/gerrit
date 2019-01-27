@@ -142,6 +142,30 @@
       "revId": "458b4ff64adae152b74ae348c2d21823daf494de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93eaec61_f307f575",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-27T23:49:38Z",
+      "side": 1,
+      "message": "I get 400 when going to https://gerrit-review.googlesource.com/p/plugins/oauth/info/refs?service\u003dgit-upload-pack",
+      "parentUuid": "28968d64_f037d44f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "458b4ff64adae152b74ae348c2d21823daf494de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

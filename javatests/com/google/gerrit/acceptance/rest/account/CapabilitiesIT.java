@@ -20,7 +20,9 @@ import static com.google.gerrit.common.data.GlobalCapability.ACCESS_DATABASE;
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
 import static com.google.gerrit.common.data.GlobalCapability.BATCH_CHANGES_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_BATCH_CHANGES_LIMIT;
+import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_LIST_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
+import static com.google.gerrit.common.data.GlobalCapability.LIST_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.PRIORITY;
 import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.RUN_AS;
@@ -60,6 +62,9 @@ public class CapabilitiesIT extends AbstractDaemonTest {
         } else if (QUERY_LIMIT.equals(c)) {
           assertThat(info.queryLimit.min).isEqualTo((short) 0);
           assertThat(info.queryLimit.max).isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
+        } else if (LIST_LIMIT.equals(c)) {
+          assertThat(info.listLimit.min).isEqualTo((short) 0);
+          assertThat(info.listLimit.max).isEqualTo((short) DEFAULT_MAX_LIST_LIMIT);
         } else {
           assertWithMessage(String.format("capability %s was not granted", c))
               .that((Boolean) CapabilityInfo.class.getField(c).get(info))
@@ -88,6 +93,10 @@ public class CapabilitiesIT extends AbstractDaemonTest {
         assertWithMessage("missing queryLimit").that(info.queryLimit).isNotNull();
         assertThat(info.queryLimit.min).isEqualTo((short) 0);
         assertThat(info.queryLimit.max).isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
+      } else if (LIST_LIMIT.equals(c)) {
+        assertWithMessage("missing listLimit").that(info.listLimit).isNotNull();
+        assertThat(info.listLimit.min).isEqualTo((short) 0);
+        assertThat(info.listLimit.max).isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
       } else if (ACCESS_DATABASE.equals(c)) {
         assertThat(info.accessDatabase).isFalse();
       } else if (RUN_AS.equals(c)) {

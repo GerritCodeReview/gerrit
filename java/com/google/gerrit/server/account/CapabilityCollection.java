@@ -50,6 +50,7 @@ public class CapabilityCollection {
   public final ImmutableList<PermissionRule> priority;
   public final ImmutableList<PermissionRule> readAs;
   public final ImmutableList<PermissionRule> queryLimit;
+  private final ImmutableList<PermissionRule> listLimit;
   public final ImmutableList<PermissionRule> createGroup;
 
   @Inject
@@ -100,6 +101,7 @@ public class CapabilityCollection {
     priority = getPermission(GlobalCapability.PRIORITY);
     readAs = getPermission(GlobalCapability.READ_AS);
     queryLimit = getPermission(GlobalCapability.QUERY_LIMIT);
+    listLimit = getPermission(GlobalCapability.LIST_LIMIT);
     createGroup = getPermission(GlobalCapability.CREATE_GROUP);
   }
 
@@ -131,6 +133,11 @@ public class CapabilityCollection {
         out,
         section,
         GlobalCapability.QUERY_LIMIT,
+        systemGroupBackend.getGroup(SystemGroupBackend.ANONYMOUS_USERS));
+    configureDefault(
+        out,
+        section,
+        GlobalCapability.LIST_LIMIT,
         systemGroupBackend.getGroup(SystemGroupBackend.ANONYMOUS_USERS));
   }
 

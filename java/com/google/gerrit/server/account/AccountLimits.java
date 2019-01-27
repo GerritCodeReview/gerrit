@@ -99,6 +99,16 @@ public class AccountLimits {
     return getRange(GlobalCapability.QUERY_LIMIT).getMax();
   }
 
+  /**
+   * Get the limit on a {@link com.google.gerrit.server.restapi.project.ListProjects} for a given
+   * user.
+   *
+   * @return limit according to {@link GlobalCapability#LIST_LIMIT}.
+   */
+  public int getListLimit() {
+    return getRange(GlobalCapability.LIST_LIMIT).getMax();
+  }
+
   /** @return true if the user has a permission rule specifying the range. */
   public boolean hasExplicitRange(String permission) {
     return GlobalCapability.hasRange(permission) && !getRules(permission).isEmpty();

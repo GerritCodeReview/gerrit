@@ -28,6 +28,7 @@ class CapabilityInfo {
   public boolean modifyAccount;
   public boolean priority;
   public QueryLimit queryLimit;
+  public ListLimit listLimit;
   public boolean readAs;
   public boolean runAs;
   public boolean runGC;
@@ -40,6 +41,11 @@ class CapabilityInfo {
   public boolean viewAccess;
 
   static class QueryLimit {
+    short min;
+    short max;
+  }
+
+  static class ListLimit {
     short min;
     short max;
   }

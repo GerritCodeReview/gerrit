@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dec0c672_a9c4fdbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-27T21:42:00Z",
+      "side": 1,
+      "message": "I\u0027m not really following your analysis. Zuul or whatever client access Gerrit endpoint and GitOverHttpModule is binding this URL here:\n\n  if (downloadConfig.getDownloadSchemes().contains(CoreDownloadSchemes.ANON_HTTP)\n        || downloadConfig.getDownloadSchemes().contains(CoreDownloadSchemes.HTTP)) {\n      filterRegex(URL_REGEX).through(GerritAuthModule.retreiveAuthFilterFromConfig(authConfig));\n      serveRegex(URL_REGEX).with(GitOverHttpServlet.class);\n    }\n\nGitOverHttpServlet.java:99\n\n  \"^(?:/a)?(?:/p/|/)(.*/(?:info/refs|git-upload-pack|git-receive-pack))\"\n\nPolyGerrit Static Module is bound as the last one in Daemon for reason:\n\n    private Injector createWebInjector() {\n    final List\u003cModule\u003e modules \u003d new ArrayList\u003c\u003e();\n    if (sshd) {\n      modules.add(new ProjectQoSFilter.Module());\n    }\n    modules.add(RequestContextFilter.module());\n    modules.add(RequestMetricsFilter.module());\n    modules.add(H2CacheBasedWebSession.module());\n    modules.add(sysInjector.getInstance(GerritAuthModule.class));\n    modules.add(sysInjector.getInstance(GitOverHttpModule.class));\n    [...]\n    // StaticModule contains a \"/*\" wildcard, place it last.\n    GerritOptions opts \u003d sysInjector.getInstance(GerritOptions.class);\n    if (opts.enableMasterFeatures()) {\n      modules.add(sysInjector.getInstance(StaticModule.class));\n    }\n\nThat why if \"^(?:/a)?(?:/p/|/)(.*/(?:info/refs|git-upload-pack|git-receive-pack))\" is matched by GitOverHttpServlet, it should be handled by this servlet and the request is not processed further by the servlet pipeline.\n\nCan you try to track down, what exactly request is failing in Zuul? What URL is it?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "458b4ff64adae152b74ae348c2d21823daf494de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

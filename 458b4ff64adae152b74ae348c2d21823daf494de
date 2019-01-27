@@ -22,6 +22,30 @@
       "revId": "458b4ff64adae152b74ae348c2d21823daf494de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30b4f1be_6443de20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-27T22:10:36Z",
+      "side": 1,
+      "message": "The url that is failing is:\n\nhttps://gerrit.git.wmflabs.org/r/p/testing/test/info/refs?service\u003dgit-upload-pack\n\nThough i\u0027ve recently found out the problem was due to me mixing http and https, but the logs are spamming with it not being able to use this endpoint so it uses it for something.\n\nBut when i return false in matchPath it works.\n\n\n      if (isPolyGerritIndex(path, req)) {\n        polyGerritIndex.service(reqWrapper, res);\n        return;\n      }\n\nsince polygerrit does that if it returns true.\n\nHere\u0027s the log i got:\n\n2019-01-27 17:47:17,455 INFO zuul.IndependentPipelineManager: Reporting item \u003cQueueItem 0x7fb3a9bfc550 for \u003cChange 0x7fb3a99ab450 2181,1\u003e in test\u003e, actions: [\u003cGerritReporter connection: gerrit://gerrit\u003e]\n2019-01-27 17:47:17,470 ERROR zuul.source.Gerrit: Exception looking for ref refs/heads/master\nTraceback (most recent call last):\n  File \"/usr/share/python/zuul/local/lib/python2.7/site-packages/zuul/source/gerrit.py\", line 49, in getRefSha\n    refs \u003d self.connection.getInfoRefs(project)\n  File \"/usr/share/python/zuul/local/lib/python2.7/site-packages/zuul/connection/gerrit.py\", line 409, in getInfoRefs\n    raise Exception(\"Gerrit repository does not support \"\nException: Gerrit repository does not support git-upload-pack\n\nwhich in version 2.x is:\n\nhttps://github.com/openstack-infra/zuul/blob/2.6.0/zuul/connection/gerrit.py#L410",
+      "parentUuid": "dec0c672_a9c4fdbc",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "458b4ff64adae152b74ae348c2d21823daf494de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

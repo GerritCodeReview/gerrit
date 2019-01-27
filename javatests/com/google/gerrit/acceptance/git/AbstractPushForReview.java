@@ -50,6 +50,7 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
+import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -125,6 +126,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+@SkipProjectClone
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
   protected enum Protocol {
     // TODO(dborowitz): TEST.

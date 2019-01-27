@@ -455,7 +455,9 @@ public abstract class AbstractDaemonTest {
     ProjectInput in = projectInput(description);
     gApi.projects().create(in);
     project = new Project.NameKey(in.name);
-    testRepo = cloneProject(project, getCloneAsAccount(description));
+    if (!classDesc.skipProjectClone()) {
+      testRepo = cloneProject(project, getCloneAsAccount(description));
+    }
   }
 
   /** Override to bind an additional Guice module */

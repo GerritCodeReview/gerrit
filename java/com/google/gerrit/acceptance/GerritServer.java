@@ -109,6 +109,7 @@ public class GerritServer implements AutoCloseable {
           !has(UseLocalDisk.class, testDesc.getTestClass()) && !forceLocalDisk(),
           !has(NoHttpd.class, testDesc.getTestClass()),
           has(Sandboxed.class, testDesc.getTestClass()),
+          has(SkipProjectClone.class, testDesc.getTestClass()),
           has(UseSsh.class, testDesc.getTestClass()),
           null, // @GerritConfig is only valid on methods.
           null, // @GerritConfigs is only valid on methods.
@@ -128,6 +129,8 @@ public class GerritServer implements AutoCloseable {
               && !has(NoHttpd.class, testDesc.getTestClass()),
           testDesc.getAnnotation(Sandboxed.class) != null
               || has(Sandboxed.class, testDesc.getTestClass()),
+          testDesc.getAnnotation(SkipProjectClone.class) != null
+              || has(SkipProjectClone.class, testDesc.getTestClass()),
           testDesc.getAnnotation(UseSsh.class) != null
               || has(UseSsh.class, testDesc.getTestClass()),
           testDesc.getAnnotation(GerritConfig.class),
@@ -155,6 +158,8 @@ public class GerritServer implements AutoCloseable {
     abstract boolean httpd();
 
     abstract boolean sandboxed();
+
+    abstract boolean skipProjectClone();
 
     abstract boolean useSshAnnotation();
 

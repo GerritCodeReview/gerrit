@@ -982,6 +982,14 @@ public abstract class AbstractDaemonTest {
     }
   }
 
+  protected void allowGlobalCapabilityWithRange(
+      AccountGroup.UUID id, String capabilityName, int rangeMin, int rangeMax) throws Exception {
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      Util.allow(u.getConfig(), capabilityName, id, Optional.of(rangeMin), Optional.of(rangeMax));
+      u.save();
+    }
+  }
+
   protected void removeGlobalCapabilities(AccountGroup.UUID id, String... capabilityNames)
       throws Exception {
     removeGlobalCapabilities(id, Arrays.asList(capabilityNames));

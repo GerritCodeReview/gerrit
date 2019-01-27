@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThatNameList;
+import static com.google.gerrit.common.data.GlobalCapability.LIST_LIMIT;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.collect.Iterables;
@@ -102,6 +103,22 @@ public class ListProjectsIT extends AbstractDaemonTest {
           .hasSize(Math.min(i, n));
       assertThat(projectCacheImpl.sizeAllByName())
           .isAtMost((long) (i + 2)); // 2 = AllProjects + AllUsers
+    }
+  }
+
+  @Test
+  public void listProjectsWithCapabilityMaxLimit() throws Exception {
+    int maxProjects = 5;
+    for (int i = 0; i < maxProjects; i++) {
+      createProject("someProject" + i);
+    }
+
+    int maxListLimit = 2;
+    allowGlobalCapabilityWithRange(adminGroupUuid(), LIST_LIMIT, 0, maxListLimit);
+    setApiUser(admin);
+
+    for (int i = 0; i <= maxProjects; i++) {
+      assertThat(gApi.projects().list().withLimit(i).get().size()).isAtMost(maxListLimit);
     }
   }
 

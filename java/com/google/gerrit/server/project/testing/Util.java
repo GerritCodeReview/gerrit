@@ -26,6 +26,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.project.ProjectConfig;
 import java.util.Arrays;
+import java.util.Optional;
 
 public class Util {
   public static final AccountGroup.UUID ADMIN = new AccountGroup.UUID("test.admin");
@@ -124,6 +125,15 @@ public class Util {
 
   public static PermissionRule allow(
       ProjectConfig project, String capabilityName, AccountGroup.UUID group) {
+    return allow(project, capabilityName, group, Optional.empty(), Optional.empty());
+  }
+
+  public static PermissionRule allow(
+      ProjectConfig project,
+      String capabilityName,
+      AccountGroup.UUID group,
+      Optional<Integer> rangeMin,
+      Optional<Integer> rangeMax) {
     PermissionRule rule = newRule(project, group);
     project
         .getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
@@ -132,7 +142,8 @@ public class Util {
     if (GlobalCapability.hasRange(capabilityName)) {
       PermissionRange.WithDefaults range = GlobalCapability.getRange(capabilityName);
       if (range != null) {
-        rule.setRange(range.getDefaultMin(), range.getDefaultMax());
+        rule.setRange(
+            rangeMin.orElse(range.getDefaultMin()), rangeMax.orElse(range.getDefaultMax()));
       }
     }
     return rule;

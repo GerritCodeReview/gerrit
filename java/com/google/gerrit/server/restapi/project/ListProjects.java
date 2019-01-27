@@ -38,6 +38,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.WebLinks;
+import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.GroupResolver;
@@ -82,6 +83,7 @@ import org.kohsuke.args4j.Option;
 /** List projects visible to the calling user. */
 public class ListProjects implements RestReadView<TopLevelResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private final int maxLimit;
 
   public enum FilterType {
     CODE {
@@ -265,7 +267,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
       ProjectNode.Factory projectNodeFactory,
-      WebLinks webLinks) {
+      WebLinks webLinks,
+      AccountLimits.Factory limitsFactory) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.groupResolver = groupResolver;
@@ -274,6 +277,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.permissionBackend = permissionBackend;
     this.projectNodeFactory = projectNodeFactory;
     this.webLinks = webLinks;
+    this.maxLimit = limitsFactory.create(currentUser).getListLimit();
   }
 
   public List<String> getShowBranch() {
@@ -344,6 +348,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
     int foundIndex = 0;
     int found = 0;
+    int effectiveLimit = getEffectiveLimit();
     TreeMap<String, ProjectInfo> output = new TreeMap<>();
     Map<String, String> hiddenNames = new HashMap<>();
     Map<Project.NameKey, Boolean> accessibleParents = new HashMap<>();
@@ -454,7 +459,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         if (foundIndex++ < start) {
           continue;
         }
-        if (limit > 0 && ++found > limit) {
+        if (effectiveLimit > 0 && ++found > effectiveLimit) {
           break;
         }
 
@@ -503,6 +508,17 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         stdout.flush();
       }
     }
+  }
+
+  private int getEffectiveLimit() {
+    if (limit == 0) {
+      return maxLimit;
+    }
+    if (maxLimit == 0) {
+      return limit;
+    }
+
+    return Math.min(limit, maxLimit);
   }
 
   private Stream<Project.NameKey> filter(PermissionBackend.WithUser perm)

@@ -37,6 +37,9 @@
       /**
        * @type {{ query: string, view: string, screen: string }}
        */
+      
+      
+      
       params: Object,
       keyEventTarget: {
         type: Object,

@@ -256,6 +256,17 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/emoticons/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[find-owners]]
+=== find-owners
+This plugin provides (1) a change review action button `[FIND OWNERS]`
+that shows owners of changed files to be included as code reviewers, and
+(2) Prolog predicates to make sure that a CL is submittable
+only with owner Code-Review +1 votes.
+
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/find-owners[Project] |
+link:https://gerrit.googlesource.com/plugins/find-owners/+doc/master/src/main/resources/Documentation/about.md[Documentation] |
+link:https://gerrit.googlesource.com/plugins/find-owners/+doc/master/src/main/resources/Documentation/config.md[Configuration]
+
 [[gitblit]]
 === gitblit
 

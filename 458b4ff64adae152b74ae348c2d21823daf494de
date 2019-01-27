@@ -118,6 +118,30 @@
       "revId": "458b4ff64adae152b74ae348c2d21823daf494de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28968d64_f037d44f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-27T23:30:19Z",
+      "side": 1,
+      "message": "Well, something still strange here on the WMF side.\n\nOn googlesource.com both versions work:\n\n  wget https://gerrit-review.googlesource.com/p/plugins/oauth/info/refs?service\u003dgit-upload-pack -O refs_with_p.txt\n  wget https://gerrit-review.googlesource.com/plugins/oauth/info/refs?service\u003dgit-upload-pack -O refs_without_p.txt\n\nOn WMF, on stable-2.15 both versions are working, but on stable-2.16 only version without /p. That\u0027s weird.",
+      "parentUuid": "a05db09a_b2354a24",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "458b4ff64adae152b74ae348c2d21823daf494de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -90,6 +90,12 @@ public class GlobalCapability {
   /** Default result limit per executed query. */
   public static final int DEFAULT_MAX_QUERY_LIMIT = 500;
 
+  /** Maximum result limit per executed list. */
+  public static final String LIST_LIMIT = "listLimit";
+
+  /** Default result limit per executed query. */
+  public static final int DEFAULT_MAX_LIST_LIMIT = 0;
+
   /** Can impersonate any user to see which refs they can read. */
   public static final String READ_AS = "readAs";
 
@@ -123,7 +129,7 @@ public class GlobalCapability {
   private static final List<String> NAMES_ALL;
   private static final List<String> NAMES_LC;
   private static final String[] RANGE_NAMES = {
-    QUERY_LIMIT, BATCH_CHANGES_LIMIT,
+    QUERY_LIMIT, LIST_LIMIT, BATCH_CHANGES_LIMIT,
   };
 
   static {
@@ -141,6 +147,7 @@ public class GlobalCapability {
     NAMES_ALL.add(MODIFY_ACCOUNT);
     NAMES_ALL.add(PRIORITY);
     NAMES_ALL.add(QUERY_LIMIT);
+    NAMES_ALL.add(LIST_LIMIT);
     NAMES_ALL.add(READ_AS);
     NAMES_ALL.add(RUN_AS);
     NAMES_ALL.add(RUN_GC);
@@ -187,6 +194,10 @@ public class GlobalCapability {
     if (QUERY_LIMIT.equalsIgnoreCase(varName)) {
       return new PermissionRange.WithDefaults(
           varName, 0, Integer.MAX_VALUE, 0, DEFAULT_MAX_QUERY_LIMIT);
+    }
+    if (LIST_LIMIT.equalsIgnoreCase(varName)) {
+      return new PermissionRange.WithDefaults(
+          varName, 0, Integer.MAX_VALUE, 0, DEFAULT_MAX_LIST_LIMIT);
     }
     if (BATCH_CHANGES_LIMIT.equalsIgnoreCase(varName)) {
       return new PermissionRange.WithDefaults(

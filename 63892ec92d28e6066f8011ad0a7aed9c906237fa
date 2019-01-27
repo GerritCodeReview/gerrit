@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1548435554 -0800\nnonce AJbGYzn9tWbHtDISqtyCNZ3ILcqmvQeNmT5EXGU9ZOX04NDl9no55GCGjSjC/5Wj1h48V3yBb/FW\n\n0000000000000000000000000000000000000000 ed08f85feff7e24f834c9a5d31dd05638902bcee refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlxLQGIVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMFzwQAKXl7CM7nPACfHXPxbUK2n03KqTv\n9Tz5fB7to+GO/AD/L51typiEOaxg3FnjVS0EAJIQK+J8G+pl2Jr5NBdH5fUG856W\n7DidRGsYfyFbw2maXoY3jzBPYZOJMXo+yfsWyStLUBeGF/Rfqw26Vg6gSpUzNgfg\n+T/1Ck3ahpE/m2Y7RUoJsnsZpsoipDGRWfNymAmMNRT4HryV7n5x+57sBZCLCVE+\nGI5UEsDx1Saa+JzycWcd4/Hv3vTmVButhYt+AJEUdb7NIH/+1oubHDRu8RBjQoiD\nxBCOKCReLu1GWVkqmy6SviBK+vmhiIbhwovbhOTnfsHQIGWIo9L2D40vBip40yyO\ne9fp/iopiJrrSXaUYsJP7Q6f78wSeaIcmQtQvP6AH7B2pEfmwPMJDOYN/YxbrNbX\nxSP2J7g07i1RMBEpPAIkpHM4g1dqE6D7W1NOBxfN/LEyo+WcUgqkzc3UqgD6NeIK\nNhF9T9s7DtllHZEOq+naor/mMFaOaoLGCPHYyXfCty8L7goNNIGkrAYq6Wmlm16V\n3LeQkb8Zw7/Y+Utupjrc+iq22WIYYZz6zCHXPdLcpvM7t2+e14H2fUCnq0CS9gNr\nYgP7PVgWDgMCT62spZ1KtMl/EZ5HBge714UESfxcYerWOeC5Salen+PmBKXy+WEO\nntZ3xPxUIdOK0aSX\n\u003diWB/\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b64e6647_133e5599",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-27T15:22:37Z",
+      "side": 1,
+      "message": "Independently from this series, I found out, during review of this change: [1], that the repository is actually cloned twice: With InProcessProtocol in AbstractDaemonTest#beforeTest and with Git-over-HTTP in  HttpPushForReviewIT and Git-over-SSH in SshPushForReviewIT in AbstractPushForReview#selectProtocol. I fixed it here: [2].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/211752\n* [2] https://gerrit-review.googlesource.com/c/gerrit/+/211791",
+      "range": {
+        "startLine": 15,
+        "startChar": 43,
+        "endLine": 17,
+        "endChar": 22
+      },
+      "revId": "63892ec92d28e6066f8011ad0a7aed9c906237fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

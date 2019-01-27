@@ -460,27 +460,37 @@ def polygerrit_plugin(name, app, srcs = [], assets = None, plugin_name = None, *
     else:
         js_srcs = srcs
 
+
     closure_js_library(
         name = name + "_closure_lib",
         srcs = js_srcs,
         convention = "GOOGLE",
-        no_closure_library = True,
+        # TODO(davido): Clean up these issues: http://paste.openstack.org/show/608548
+        # and remove this supression
+        suppress = [
+            "JSC_JSDOC_MISSING_TYPE_WARNING",
+            "JSC_UNNECESSARY_ESCAPE",
+            "JSC_UNUSED_LOCAL_ASSIGNMENT",
+        ],
         deps = [
             "//lib/polymer_externs:polymer_closure",
-            "//polygerrit-ui/app/externs:plugin",
+            "@io_bazel_rules_closure//closure/library",
         ],
     )
 
     closure_js_binary(
         name = name + "_bin",
-        compilation_level = "SIMPLE",
+        # Known issue: Closure compilation not compatible with Polymer behaviors.
+        # See: https://github.com/google/closure-compiler/issues/2042
+        compilation_level = "WHITESPACE_ONLY",
         defs = [
             "--polymer_version=1",
-            "--language_out=ECMASCRIPT6",
-            "--rewrite_polyfills=false",
+            "--jscomp_off=duplicate",
+            "--force_inject_library=es6_runtime",
         ],
+        language = "ECMASCRIPT5",
         deps = [
-            name + "_closure_lib",
+          name + "_closure_lib"
         ],
     )
 

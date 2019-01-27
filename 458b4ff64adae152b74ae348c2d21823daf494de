@@ -46,6 +46,30 @@
       "revId": "458b4ff64adae152b74ae348c2d21823daf494de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48fc45ef_e7ea7238",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-27T22:32:27Z",
+      "side": 1,
+      "message": "Does changing the URL in Zuul to remove /p part fixed the problem?\n\n  wget https://gerrit.git.wmflabs.org/r/testing/test/info/refs?service\u003dgit-upload-pack\n\n? Note, that /p part is option here: \"^(?:/a)?(?:/p/|/)(.*/(?:info/refs|git-upload-pack|git-receive-pack))\"",
+      "parentUuid": "30b4f1be_6443de20",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "458b4ff64adae152b74ae348c2d21823daf494de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

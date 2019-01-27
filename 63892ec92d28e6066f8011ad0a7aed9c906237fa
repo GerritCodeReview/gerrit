@@ -23,6 +23,52 @@
       "revId": "63892ec92d28e6066f8011ad0a7aed9c906237fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08d11c2e_86eebf20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-27T15:33:30Z",
+      "side": 1,
+      "message": "I see that in previous patch sets this change had some waits, like SECONDS.sleep(5). In the latest patch set it was removed. Is the commit message is still stale as it is talking about timeouts.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 38
+      },
+      "revId": "63892ec92d28e6066f8011ad0a7aed9c906237fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36ce21b9_73289afd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-01-27T15:33:30Z",
+      "side": 1,
+      "message": "Nit: missing point. Should this be: \"It\u0027s only ever used in the HTTP acceptance tests.\"",
+      "range": {
+        "startLine": 60,
+        "startChar": 17,
+        "endLine": 60,
+        "endChar": 48
+      },
+      "revId": "63892ec92d28e6066f8011ad0a7aed9c906237fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

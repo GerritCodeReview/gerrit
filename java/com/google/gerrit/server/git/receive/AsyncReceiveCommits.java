@@ -37,6 +37,7 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ReceiveCommitsExecutor;
 import com.google.gerrit.server.git.MultiProgressMonitor;
+import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.logging.Metadata;
@@ -281,9 +282,11 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     this.user = user;
     this.repo = repo;
     this.metrics = metrics;
-
+    // If the user lacks READ permission, some references may be filtered and hidden from view.
+    // Check objects mentioned inside the incoming pack file are reachable from visible refs.
     Project.NameKey projectName = projectState.getNameKey();
-    receivePack = new ReceivePack(repo);
+    this.perm = permissionBackend.user(user).project(projectName);
+    receivePack = new ReceivePack(PermissionAwareRepositoryManager.wrap(repo, perm));
     receivePack.setAllowCreates(true);
     receivePack.setAllowDeletes(true);
     receivePack.setAllowNonFastForwards(true);
@@ -296,9 +299,6 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     receivePack.setPreReceiveHook(this);
     receivePack.setPostReceiveHook(lazyPostReceive.create(user, projectName));
 
-    // If the user lacks READ permission, some references may be filtered and hidden from view.
-    // Check objects mentioned inside the incoming pack file are reachable from visible refs.
-    this.perm = permissionBackend.user(user).project(projectName);
     try {
       projectState.checkStatePermitsRead();
       this.perm.check(ProjectPermission.READ);
@@ -314,7 +314,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     resultChangeIds = new ResultChangeIds();
     receiveCommits =
         factory.create(
-            projectState, user, receivePack, allRefsWatcher, messageSender, resultChangeIds);
+            projectState, user, receivePack, repo, allRefsWatcher, messageSender, resultChangeIds);
     receiveCommits.init();
     QuotaResponse.Aggregated availableTokens =
         quotaBackend.user(user).project(projectName).availableTokens(REPOSITORY_SIZE_GROUP);

@@ -21,7 +21,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.client.ChangeStatus;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -44,7 +43,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
@@ -162,7 +160,8 @@ public class CreateChange
       BatchUpdate.Factory updateFactory, TopLevelResource parent, ChangeInput input)
       throws OrmException, IOException, InvalidChangeOperationException, RestApiException,
           UpdateException, PermissionBackendException, ConfigInvalidException {
-    checkAndSanitizeChangeInput(input);
+    IdentifiedUser me = user.get().asIdentifiedUser();
+    checkAndSanitizeChangeInput(input, me);
 
     ProjectResource projectResource = projectsCollection.parse(input.project);
     ProjectState projectState = projectResource.getProjectState();
@@ -227,16 +226,7 @@ public class CreateChange
       RevCommit mergeTip = parentCommit == null ? null : rw.parseCommit(parentCommit);
 
       Timestamp now = TimeUtil.nowTs();
-      IdentifiedUser me = user.get().asIdentifiedUser();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
-      AccountState accountState = me.state();
-      GeneralPreferencesInfo info = accountState.getGeneralPreferences();
-
-      boolean isWorkInProgress =
-          input.workInProgress == null
-              ? projectState.is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)
-                  || MoreObjects.firstNonNull(info.workInProgressByDefault, false)
-              : input.workInProgress;
 
       // Add a Change-Id line if there isn't already one
       String commitMessage = input.subject;
@@ -246,7 +236,7 @@ public class CreateChange
         commitMessage = ChangeIdUtil.insertId(commitMessage, id);
       }
 
-      if (Boolean.TRUE.equals(info.signedOffBy)) {
+      if (Boolean.TRUE.equals(me.state().getGeneralPreferences().signedOffBy)) {
         commitMessage =
             Joiner.on("\n")
                 .join(
@@ -254,7 +244,7 @@ public class CreateChange
                     String.format(
                         "%s%s",
                         SIGNED_OFF_BY_TAG,
-                        accountState.getAccount().getNameEmail(anonymousCowardName)));
+                        me.state().getAccount().getNameEmail(anonymousCowardName)));
       }
 
       RevCommit c;
@@ -275,7 +265,7 @@ public class CreateChange
       ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));
       ins.setTopic(input.topic);
       ins.setPrivate(input.isPrivate);
-      ins.setWorkInProgress(isWorkInProgress);
+      ins.setWorkInProgress(input.workInProgress);
       ins.setGroups(groups);
       ins.setNotify(input.notify);
       ins.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
@@ -298,9 +288,10 @@ public class CreateChange
    *
    * @param input the {@code ChangeInput} from the request. Note this method modify the {@code
    *     ChangeInput} object so that it can be reused directly by follow-up code.
+   * @param me the user who sent the current request to create a change.
    * @throws BadRequestException if the input is not legal.
    */
-  private void checkAndSanitizeChangeInput(ChangeInput input)
+  private void checkAndSanitizeChangeInput(ChangeInput input, IdentifiedUser me)
       throws RestApiException, PermissionBackendException, IOException {
     if (Strings.isNullOrEmpty(input.project)) {
       throw new BadRequestException("project must be non-empty");
@@ -339,6 +330,18 @@ public class CreateChange
       throw new MethodNotAllowedException("private changes are disabled");
     }
     input.isPrivate = isPrivate;
+
+    ProjectState projectState = projectResource.getProjectState();
+
+    if (input.workInProgress == null) {
+      if (projectState.is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)) {
+        input.workInProgress = true;
+      } else {
+        input.workInProgress =
+            MoreObjects.firstNonNull(
+                me.state().getGeneralPreferences().workInProgressByDefault, false);
+      }
+    }
   }
 
   private void checkRequiredPermissions(Project.NameKey project, String refName)

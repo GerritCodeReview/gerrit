@@ -36,6 +36,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Streams;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.Files;
@@ -223,6 +224,30 @@ public class ChangeField {
           // normally care about case sensitivity. (Whether we should change the existing file/path
           // predicates to be case insensitive is a separate question.)
           .map(f -> Files.getFileExtension(f).toLowerCase(Locale.US));
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+  }
+
+  /** Footers from the commit message of the current patch set. */
+  public static final FieldDef<ChangeData, Iterable<String>> FOOTER =
+      exact(ChangeQueryBuilder.FIELD_FOOTER).buildRepeatable(ChangeField::getFooters);
+
+  public static Set<String> getFooters(ChangeData cd) throws OrmException {
+    try {
+      return Streams.concat(
+              // allows verbatim matching of footers
+              cd.commitFooters().stream().map(f -> f.toString().toLowerCase(Locale.US)),
+
+              // allows matching footers as '<key>=<value>'
+              cd.commitFooters()
+                  .stream()
+                  .map(
+                      f ->
+                          f.getKey().toLowerCase(Locale.US)
+                              + "="
+                              + f.getValue().toLowerCase(Locale.US)))
+          .collect(toSet());
     } catch (IOException e) {
       throw new OrmException(e);
     }

@@ -283,6 +283,26 @@ Plugin to integrate with GitHub: replication, pull-request to Change-Sets
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/github[
 Project]
 
+[[healthcheck]]
+=== healthcheck
+
+Plugin for monitoring and alerting when Gerrit does not behave properrly.
+
+When Gerrit Server needs to be available 24x7, it is important to know
+*beforehand* if something isn't working correctly: this plugin exposes a
+REST-API that provides the real-time status of the Gerrit internals and can
+be integrated with real-time monitoring systems and paging platforms.
+
+Healthcheck metrics (latency and subsystem healthiness) are published as
+Gerrit internal metrics and can be published to dashboards.
+
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/healthcheck[
+Project] |
+link:https://gerrit.googlesource.com/plugins/healthcheck/+doc/master/src/main/resources/Documentation/about.md[
+Documentation] |
+link:https://gerrit.googlesource.com/plugins/healthcheck/+doc/master/src/main/resources/Documentation/config.md[
+Configuration]
+
 [[imagare]]
 === imagare
 

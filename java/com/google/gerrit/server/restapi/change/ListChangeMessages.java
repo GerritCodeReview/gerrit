@@ -46,8 +46,7 @@ public class ListChangeMessages implements RestReadView<ChangeResource> {
       throws OrmException, PermissionBackendException {
     List<ChangeMessage> messages = changeMessagesUtil.byChange(resource.getNotes());
     List<ChangeMessageInfo> messageInfos =
-        messages
-            .stream()
+        messages.stream()
             .map(m -> createChangeMessageInfo(m, accountLoader))
             .collect(Collectors.toList());
     accountLoader.fill();

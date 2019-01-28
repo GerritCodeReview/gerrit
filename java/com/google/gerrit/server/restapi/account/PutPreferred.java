@@ -93,8 +93,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
                 // check if the user has a matching email
                 String matchingEmail = null;
                 for (String email :
-                    a.getExternalIds()
-                        .stream()
+                    a.getExternalIds().stream()
                         .map(ExternalId::email)
                         .filter(Objects::nonNull)
                         .collect(toSet())) {
@@ -121,8 +120,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
                               + " by the following account(s): %s",
                           preferredEmail,
                           user.getAccountId(),
-                          existingExtIdsWithThisEmail
-                              .stream()
+                          existingExtIdsWithThisEmail.stream()
                               .map(ExternalId::accountId)
                               .collect(toList()));
                       exception.set(

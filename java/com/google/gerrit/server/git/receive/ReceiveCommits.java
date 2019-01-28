@@ -694,9 +694,7 @@ class ReceiveCommits {
     List<CreateRequest> created =
         newChanges.stream().filter(r -> r.change != null).collect(toList());
     List<ReplaceRequest> updated =
-        replaceByChange
-            .values()
-            .stream()
+        replaceByChange.values().stream()
             .filter(r -> r.inputCommand.getResult() == OK)
             .sorted(comparingInt(r -> r.notes.getChangeId().get()))
             .collect(toList());
@@ -806,12 +804,9 @@ class ReceiveCommits {
         throw INSERT_EXCEPTION.apply(e);
       }
 
-      replaceByChange
-          .values()
-          .stream()
+      replaceByChange.values().stream()
           .forEach(req -> resultChangeIds.add(ResultChangeIds.Key.REPLACED, req.ontoChange));
-      newChanges
-          .stream()
+      newChanges.stream()
           .forEach(req -> resultChangeIds.add(ResultChangeIds.Key.CREATED, req.changeId));
 
       if (magicBranchCmd != null) {

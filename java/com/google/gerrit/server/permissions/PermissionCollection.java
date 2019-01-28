@@ -151,8 +151,7 @@ public class PermissionCollection {
             Lists.reverse(Lists.newArrayList(sectionToProject.entrySet()));
 
         Map<Project.NameKey, List<AccessSection>> accessByProject =
-            accessDescending
-                .stream()
+            accessDescending.stream()
                 .collect(
                     Collectors.groupingBy(
                         Map.Entry::getValue,

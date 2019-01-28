@@ -107,13 +107,11 @@ class GroupConfigCommitMessage {
     Function<T, String> toString = element -> toParsableString.apply(auditLogFormatter, element);
 
     Stream<String> removedElements =
-        Sets.difference(oldElements, newElements)
-            .stream()
+        Sets.difference(oldElements, newElements).stream()
             .map(toString)
             .map((removalFooterKey.getName() + ": ")::concat);
     Stream<String> addedElements =
-        Sets.difference(newElements, oldElements)
-            .stream()
+        Sets.difference(newElements, oldElements).stream()
             .map(toString)
             .map((additionFooterKey.getName() + ": ")::concat);
     return Stream.concat(removedElements, addedElements);

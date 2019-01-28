@@ -78,10 +78,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
     CheckProjectResultInfo checkResult =
         gApi.projects().name(project.get()).check(checkProjectInputForAutoCloseableCheck(branch));
     assertThat(
-            checkResult
-                .autoCloseableChangesCheckResult
-                .autoCloseableChanges
-                .stream()
+            checkResult.autoCloseableChangesCheckResult.autoCloseableChanges.stream()
                 .map(i -> i._number)
                 .collect(toList()))
         .containsExactly(change._number);
@@ -106,10 +103,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
     input.autoCloseableChangesCheck.fix = true;
     CheckProjectResultInfo checkResult = gApi.projects().name(project.get()).check(input);
     assertThat(
-            checkResult
-                .autoCloseableChangesCheckResult
-                .autoCloseableChanges
-                .stream()
+            checkResult.autoCloseableChangesCheckResult.autoCloseableChanges.stream()
                 .map(i -> i._number)
                 .collect(toSet()))
         .containsExactly(change._number);
@@ -132,10 +126,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
     CheckProjectResultInfo checkResult =
         gApi.projects().name(project.get()).check(checkProjectInputForAutoCloseableCheck(branch));
     assertThat(
-            checkResult
-                .autoCloseableChangesCheckResult
-                .autoCloseableChanges
-                .stream()
+            checkResult.autoCloseableChangesCheckResult.autoCloseableChanges.stream()
                 .map(i -> i._number)
                 .collect(toSet()))
         .containsExactly(r.getChange().getId().get());
@@ -159,10 +150,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
     input.autoCloseableChangesCheck.fix = true;
     CheckProjectResultInfo checkResult = gApi.projects().name(project.get()).check(input);
     assertThat(
-            checkResult
-                .autoCloseableChangesCheckResult
-                .autoCloseableChanges
-                .stream()
+            checkResult.autoCloseableChangesCheckResult.autoCloseableChanges.stream()
                 .map(i -> i._number)
                 .collect(toSet()))
         .containsExactly(r.getChange().getId().get());
@@ -196,10 +184,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
     input.autoCloseableChangesCheck.maxCommits = 2;
     checkResult = gApi.projects().name(project.get()).check(input);
     assertThat(
-            checkResult
-                .autoCloseableChangesCheckResult
-                .autoCloseableChanges
-                .stream()
+            checkResult.autoCloseableChangesCheckResult.autoCloseableChanges.stream()
                 .map(i -> i._number)
                 .collect(toSet()))
         .containsExactly(r.getChange().getId().get());
@@ -233,10 +218,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
     input.autoCloseableChangesCheck.skipCommits = 1;
     checkResult = gApi.projects().name(project.get()).check(input);
     assertThat(
-            checkResult
-                .autoCloseableChangesCheckResult
-                .autoCloseableChanges
-                .stream()
+            checkResult.autoCloseableChangesCheckResult.autoCloseableChanges.stream()
                 .map(i -> i._number)
                 .collect(toSet()))
         .containsExactly(r.getChange().getId().get());

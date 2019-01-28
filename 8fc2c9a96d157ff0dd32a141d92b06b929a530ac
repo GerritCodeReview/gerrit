@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "093f194e_38bd82bc",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-28T16:28:19Z",
+      "side": 1,
+      "message": "Yeah, I was undecided here:\n\n- I like \"key\u003dvalue\" because I can use it without quotes,\n  but it doesn\u0027t match with what is in the commit message\n- I like the exact footer because it matches with what is in the\n  commit message, but having to use quotes is painful\n\nI\u0027m fine with either format. Or should we just support both?",
+      "parentUuid": "4527c4c5_eca5378f",
+      "range": {
+        "startLine": 312,
+        "startChar": 28,
+        "endLine": 312,
+        "endChar": 64
+      },
+      "revId": "8fc2c9a96d157ff0dd32a141d92b06b929a530ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be609961_e0cb92ef",
         "filename": "java/com/google/gerrit/server/query/change/FooterPredicate.java",
         "patchSetId": 6

@@ -22,6 +22,30 @@
       "revId": "87d29ec799f9324c12b205ad1398e5d69838d107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "784f604b_40dc5a5f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-28T05:06:43Z",
+      "side": 1,
+      "message": "Yes, it\u0027s used in ExternalIncludedIn.\n\nDone.",
+      "parentUuid": "0e2e5d5e_d0e1171c",
+      "range": {
+        "startLine": 133,
+        "startChar": 2,
+        "endLine": 133,
+        "endChar": 33
+      },
+      "revId": "87d29ec799f9324c12b205ad1398e5d69838d107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

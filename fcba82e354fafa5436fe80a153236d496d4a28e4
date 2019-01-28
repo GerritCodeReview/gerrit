@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4e9bd49f_af36c2b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-01-28T05:41:01Z",
+      "side": 1,
+      "message": "How do you intend that this new capability will resolve that? Are you suggesting adding a limit for certain users that you think should be supplying a limit but aren\u0027t? If yes, how do you know you\u0027re not breaking them?",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "fcba82e354fafa5436fe80a153236d496d4a28e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bb44507d_d5ac5079",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

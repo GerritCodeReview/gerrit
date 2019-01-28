@@ -4,11 +4,12 @@ java_library(
     exports = [
         ":cm-autolink",
         ":commonmark",
-        ":commons-text",
         ":gfm-strikethrough",
         ":gfm-tables",
         ":gitiles-servlet",
         ":prettify",
+        "//lib/commons:lang3",
+        "//lib/commons:text",
     ],
 )
 
@@ -17,13 +18,6 @@ java_library(
     data = ["//lib:LICENSE-commonmark"],
     visibility = ["//visibility:public"],
     exports = ["@cm-autolink//jar"],
-)
-
-java_library(
-    name = "commons-text",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@commons-text//jar"],
 )
 
 java_library(

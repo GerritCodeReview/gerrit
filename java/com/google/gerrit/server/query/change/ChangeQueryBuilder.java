@@ -735,13 +735,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> ext(String ext) {
+  public Predicate<ChangeData> ext(String ext) throws QueryParseException {
     return extension(ext);
   }
 
   @Operator
-  public Predicate<ChangeData> extension(String ext) {
-    return new FileExtensionPredicate(ext);
+  public Predicate<ChangeData> extension(String ext) throws QueryParseException {
+    if (args.getSchema().hasField(ChangeField.EXTENSION)) {
+      return new FileExtensionPredicate(ext);
+    }
+    throw new QueryParseException("'extension' operator is not supported by change index version");
   }
 
   @Operator

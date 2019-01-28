@@ -20,6 +20,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -176,42 +177,16 @@ public class CreateChange
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
         RevWalk rw = new RevWalk(reader)) {
-      ObjectId parentCommit;
+      PatchSet basePatchSet = null;
       List<String> groups = Collections.emptyList();
-      Ref destRef = git.getRefDatabase().exactRef(input.branch);
       if (input.baseChange != null) {
-        ChangeNotes change = getBaseChange(input.baseChange);
-        PatchSet patchSet = psUtil.current(change);
-        parentCommit = ObjectId.fromString(patchSet.getRevision().get());
-        groups = patchSet.getGroups();
-      } else if (input.baseCommit != null) {
-        try {
-          parentCommit = ObjectId.fromString(input.baseCommit);
-        } catch (InvalidObjectIdException e) {
-          throw new UnprocessableEntityException(
-              String.format("Base %s doesn't represent a valid SHA-1", input.baseCommit));
-        }
-        RevCommit parentRevCommit = rw.parseCommit(parentCommit);
-        RevCommit destRefRevCommit = rw.parseCommit(destRef.getObjectId());
-        if (!rw.isMergedInto(parentRevCommit, destRefRevCommit)) {
-          throw new BadRequestException(
-              String.format("Commit %s doesn't exist on ref %s", input.baseCommit, input.branch));
-        }
-      } else {
-        if (destRef != null) {
-          if (Boolean.TRUE.equals(input.newBranch)) {
-            throw new ResourceConflictException(
-                String.format("Branch %s already exists.", input.branch));
-          }
-          parentCommit = destRef.getObjectId();
-        } else {
-          if (Boolean.TRUE.equals(input.newBranch)) {
-            parentCommit = null;
-          } else {
-            throw new BadRequestException("Must provide a destination branch");
-          }
-        }
+        ChangeNotes baseChange = getBaseChange(input.baseChange);
+        basePatchSet = psUtil.current(baseChange);
+        groups = basePatchSet.getGroups();
       }
+      ObjectId parentCommit =
+          getParentCommit(git, rw, input.branch, input.newBranch, basePatchSet, input.baseCommit);
+
       RevCommit mergeTip = parentCommit == null ? null : rw.parseCommit(parentCommit);
 
       Timestamp now = TimeUtil.nowTs();
@@ -365,6 +340,55 @@ public class CreateChange
     }
 
     return change;
+  }
+
+  @Nullable
+  private ObjectId getParentCommit(
+      Repository repo,
+      RevWalk revWalk,
+      String inputBranch,
+      @Nullable Boolean newBranch,
+      @Nullable PatchSet basePatchSet,
+      @Nullable String baseCommit)
+      throws BadRequestException, IOException, UnprocessableEntityException,
+          ResourceConflictException {
+    if (basePatchSet != null) {
+      return ObjectId.fromString(basePatchSet.getRevision().get());
+    }
+
+    Ref destRef = repo.getRefDatabase().exactRef(inputBranch);
+    ObjectId parentCommit;
+    if (baseCommit != null) {
+      try {
+        parentCommit = ObjectId.fromString(baseCommit);
+      } catch (InvalidObjectIdException e) {
+        throw new UnprocessableEntityException(
+            String.format("Base %s doesn't represent a valid SHA-1", baseCommit));
+      }
+
+      RevCommit parentRevCommit = revWalk.parseCommit(parentCommit);
+      RevCommit destRefRevCommit = revWalk.parseCommit(destRef.getObjectId());
+      if (!revWalk.isMergedInto(parentRevCommit, destRefRevCommit)) {
+        throw new BadRequestException(
+            String.format("Commit %s doesn't exist on ref %s", baseCommit, inputBranch));
+      }
+    } else {
+      if (destRef != null) {
+        if (Boolean.TRUE.equals(newBranch)) {
+          throw new ResourceConflictException(
+              String.format("Branch %s already exists.", inputBranch));
+        }
+        parentCommit = destRef.getObjectId();
+      } else {
+        if (Boolean.TRUE.equals(newBranch)) {
+          parentCommit = null;
+        } else {
+          throw new BadRequestException("Must provide a destination branch");
+        }
+      }
+    }
+
+    return parentCommit;
   }
 
   private static RevCommit newCommit(

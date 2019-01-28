@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "347050aa_64957817",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T23:03:41Z",
+      "side": 1,
+      "message": "I agree with both your points. I meant to propose that we should support both formats, but rereading my comment I see that I didn\u0027t actually propose that, sorry.",
+      "parentUuid": "093f194e_38bd82bc",
+      "range": {
+        "startLine": 312,
+        "startChar": 28,
+        "endLine": 312,
+        "endChar": 64
+      },
+      "revId": "8fc2c9a96d157ff0dd32a141d92b06b929a530ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be609961_e0cb92ef",
         "filename": "java/com/google/gerrit/server/query/change/FooterPredicate.java",
         "patchSetId": 6

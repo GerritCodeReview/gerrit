@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "48ba5387_fe1aa150",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-28T14:32:55Z",
+      "side": 1,
+      "message": "Actually, the rangeMin is never used AFAIK. I just included it for alignment on the way the queryLimit works.",
+      "parentUuid": "3cadb1b0_1ef3f3ab",
+      "range": {
+        "startLine": 986,
+        "startChar": 50,
+        "endLine": 986,
+        "endChar": 77
+      },
+      "revId": "cf3ebaf5fcf5d307cfabd6ae9d71f6b1bb69ab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2682d9bc_699730bb",
         "filename": "java/com/google/gerrit/common/data/GlobalCapability.java",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "cf3ebaf5fcf5d307cfabd6ae9d71f6b1bb69ab1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c3812cd_19d387f7",
+        "filename": "java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-28T14:32:55Z",
+      "side": 1,
+      "message": "In this change, only projects. In the next change, groups also. I would avoid changing the name of the config two times.",
+      "parentUuid": "2682d9bc_699730bb",
+      "revId": "cf3ebaf5fcf5d307cfabd6ae9d71f6b1bb69ab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "771da202_f53a203f",
+        "filename": "java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-28T14:32:55Z",
+      "side": 1,
+      "message": "\u003e Should we default to a number \u003e 0 for consistency with the QUERY behaviour?\n\nIn theory yes, however, I wouldn\u0027t like people getting limited in a bugfix release with unexpected behavioural changes.\nPossibly, once this gets merged to master, it would make sense to enforce a default limit there, when Gerrit v3.0 will be released.",
+      "parentUuid": "4bc5274c_22c03168",
+      "range": {
+        "startLine": 97,
+        "startChar": 26,
+        "endLine": 97,
+        "endChar": 48
+      },
+      "revId": "cf3ebaf5fcf5d307cfabd6ae9d71f6b1bb69ab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d53bd657_7073c430",
         "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
         "patchSetId": 4
@@ -85,6 +151,30 @@
       "revId": "cf3ebaf5fcf5d307cfabd6ae9d71f6b1bb69ab1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca3d71db_a8efcf20",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-28T14:32:55Z",
+      "side": 1,
+      "message": "Yes, the whole loop is super-confusing indeed. The code is coming from the old days of Java 7 and that\u0027s why Optional\u003c\u003e isn\u0027t used throughout the code.\n\nI\u0027ve pushed a refactoring on master where this entire way of breaking the loop is gone ;-)",
+      "parentUuid": "d53bd657_7073c430",
+      "range": {
+        "startLine": 462,
+        "startChar": 12,
+        "endLine": 462,
+        "endChar": 30
+      },
+      "revId": "cf3ebaf5fcf5d307cfabd6ae9d71f6b1bb69ab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

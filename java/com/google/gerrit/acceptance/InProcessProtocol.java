@@ -28,6 +28,7 @@ import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
+import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
@@ -240,12 +241,15 @@ class InProcessProtocol extends TestProtocol<Context> {
       if (projectState == null) {
         throw new RuntimeException("can't load project state for " + req.project.get());
       }
-      UploadPack up = new UploadPack(repo);
+      Repository permissionAwareRepository = PermissionAwareRepositoryManager.wrap(repo, perm);
+      UploadPack up = new UploadPack(permissionAwareRepository);
       up.setPackConfig(transferConfig.getPackConfig());
       up.setTimeout(transferConfig.getTimeout());
       up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
       List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
-      hooks.add(uploadValidatorsFactory.create(projectState.getProject(), repo, "localhost-test"));
+      hooks.add(
+          uploadValidatorsFactory.create(
+              projectState.getProject(), permissionAwareRepository, "localhost-test"));
       up.setPreUploadHook(PreUploadHookChain.newChain(hooks));
       uploadPackInitializers.runEach(initializer -> initializer.init(req.project, up));
       return up;

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3210e8a5_d932606f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T03:14:36Z",
+      "side": 1,
+      "message": "A previous patch set had an obligatory sleep(5). The new patch set got rid of that, thankfully, but still has a timeout on the BlockedQueue poll call.",
+      "parentUuid": "08d11c2e_86eebf20",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 38
+      },
+      "revId": "63892ec92d28e6066f8011ad0a7aed9c906237fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36ce21b9_73289afd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

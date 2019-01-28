@@ -47,7 +47,6 @@ import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.testing.FakeEmailSender;
-import com.google.gerrit.testing.FakeGroupAuditService;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.SshMode;
 import com.google.inject.AbstractModule;

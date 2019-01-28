@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -54,6 +55,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -129,6 +131,25 @@ public class GitOverHttpServlet extends GitServlet {
                   .expireAfterWrite(Duration.ofMinutes(10));
             }
           });
+
+      // Don't bind Metrics, which is bound in a parent injector in tests.
+    }
+  }
+
+  @VisibleForTesting
+  @Singleton
+  public static class Metrics {
+    // Recording requests separately in this class is only necessary because of a bug in the
+    // implementation of the generic RequestMetricsFilter; see
+    // https://gerrit-review.googlesource.com/c/gerrit/+/211692
+    private final AtomicLong requestsStarted = new AtomicLong();
+
+    void requestStarted() {
+      requestsStarted.incrementAndGet();
+    }
+
+    public long getRequestsStarted() {
+      return requestsStarted.get();
     }
   }
 
@@ -317,22 +338,26 @@ public class GitOverHttpServlet extends GitServlet {
     private final PermissionBackend permissionBackend;
     private final Provider<CurrentUser> userProvider;
     private final GroupAuditService groupAuditService;
+    private final Metrics metrics;
 
     @Inject
     UploadFilter(
         UploadValidators.Factory uploadValidatorsFactory,
         PermissionBackend permissionBackend,
         Provider<CurrentUser> userProvider,
-        GroupAuditService groupAuditService) {
+        GroupAuditService groupAuditService,
+        Metrics metrics) {
       this.uploadValidatorsFactory = uploadValidatorsFactory;
       this.permissionBackend = permissionBackend;
       this.userProvider = userProvider;
       this.groupAuditService = groupAuditService;
+      this.metrics = metrics;
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain next)
         throws IOException, ServletException {
+      metrics.requestStarted();
       // The Resolver above already checked READ access for us.
       Repository repo = ServletUtils.getRepository(request);
       ProjectState state = (ProjectState) request.getAttribute(ATT_STATE);
@@ -431,22 +456,26 @@ public class GitOverHttpServlet extends GitServlet {
     private final PermissionBackend permissionBackend;
     private final Provider<CurrentUser> userProvider;
     private final GroupAuditService groupAuditService;
+    private final Metrics metrics;
 
     @Inject
     ReceiveFilter(
         @Named(ID_CACHE) Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache,
         PermissionBackend permissionBackend,
         Provider<CurrentUser> userProvider,
-        GroupAuditService groupAuditService) {
+        GroupAuditService groupAuditService,
+        Metrics metrics) {
       this.cache = cache;
       this.permissionBackend = permissionBackend;
       this.userProvider = userProvider;
       this.groupAuditService = groupAuditService;
+      this.metrics = metrics;
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
         throws IOException, ServletException {
+      metrics.requestStarted();
       boolean isGet = "GET".equalsIgnoreCase(((HttpServletRequest) request).getMethod());
 
       AsyncReceiveCommits arc = (AsyncReceiveCommits) request.getAttribute(ATT_ARC);

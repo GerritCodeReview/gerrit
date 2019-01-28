@@ -75,7 +75,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
@@ -173,54 +172,9 @@ public class CreateChange
 
     checkRequiredPermissions(project, input.branch);
 
-    try (Repository git = gitManager.openRepository(project);
-        ObjectInserter oi = git.newObjectInserter();
-        ObjectReader reader = oi.newReader();
-        RevWalk rw = new RevWalk(reader)) {
-      PatchSet basePatchSet = null;
-      List<String> groups = Collections.emptyList();
-      if (input.baseChange != null) {
-        ChangeNotes baseChange = getBaseChange(input.baseChange);
-        basePatchSet = psUtil.current(baseChange);
-        groups = basePatchSet.getGroups();
-      }
-      ObjectId parentCommit =
-          getParentCommit(git, rw, input.branch, input.newBranch, basePatchSet, input.baseCommit);
-
-      RevCommit mergeTip = parentCommit == null ? null : rw.parseCommit(parentCommit);
-
-      Timestamp now = TimeUtil.nowTs();
-      PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
-      String commitMessage = getCommitMessage(input.subject, me, oi, mergeTip, author);
-
-      RevCommit c;
-      if (input.merge != null) {
-        // create a merge commit
-        c = newMergeCommit(git, oi, rw, projectState, mergeTip, input.merge, author, commitMessage);
-      } else {
-        // create an empty commit
-        c = newCommit(oi, rw, author, mergeTip, commitMessage);
-      }
-
-      Change.Id changeId = new Change.Id(seq.nextChangeId());
-      ChangeInserter ins = changeInserterFactory.create(changeId, c, input.branch);
-      ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));
-      ins.setTopic(input.topic);
-      ins.setPrivate(input.isPrivate);
-      ins.setWorkInProgress(input.workInProgress);
-      ins.setGroups(groups);
-      ins.setNotify(input.notify);
-      ins.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
-      try (BatchUpdate bu = updateFactory.create(project, me, now)) {
-        bu.setRepository(git, rw, oi);
-        bu.insertChange(ins);
-        bu.execute();
-      }
-      ChangeJson json = jsonFactory.noOptions();
-      return Response.created(json.format(ins.getChange()));
-    } catch (IllegalArgumentException e) {
-      throw new BadRequestException(e.getMessage());
-    }
+    Change newChange = createNewChange(input, me, projectState, updateFactory);
+    ChangeJson json = jsonFactory.noOptions();
+    return Response.created(json.format(newChange));
   }
 
   /**
@@ -300,6 +254,62 @@ public class CreateChange
         .project(project)
         .ref(refName)
         .check(RefPermission.CREATE_CHANGE);
+  }
+
+  private Change createNewChange(
+      ChangeInput input,
+      IdentifiedUser me,
+      ProjectState projectState,
+      BatchUpdate.Factory updateFactory)
+      throws RestApiException, OrmException, PermissionBackendException, IOException,
+          ConfigInvalidException, UpdateException {
+    try (Repository git = gitManager.openRepository(projectState.getNameKey());
+        ObjectInserter oi = git.newObjectInserter();
+        ObjectReader reader = oi.newReader();
+        RevWalk rw = new RevWalk(reader)) {
+      PatchSet basePatchSet = null;
+      List<String> groups = Collections.emptyList();
+      if (input.baseChange != null) {
+        ChangeNotes baseChange = getBaseChange(input.baseChange);
+        basePatchSet = psUtil.current(baseChange);
+        groups = basePatchSet.getGroups();
+      }
+      ObjectId parentCommit =
+          getParentCommit(git, rw, input.branch, input.newBranch, basePatchSet, input.baseCommit);
+
+      RevCommit mergeTip = parentCommit == null ? null : rw.parseCommit(parentCommit);
+
+      Timestamp now = TimeUtil.nowTs();
+      PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
+      String commitMessage = getCommitMessage(input.subject, me, oi, mergeTip, author);
+
+      RevCommit c;
+      if (input.merge != null) {
+        // create a merge commit
+        c = newMergeCommit(git, oi, rw, projectState, mergeTip, input.merge, author, commitMessage);
+      } else {
+        // create an empty commit
+        c = newCommit(oi, rw, author, mergeTip, commitMessage);
+      }
+
+      Change.Id changeId = new Change.Id(seq.nextChangeId());
+      ChangeInserter ins = changeInserterFactory.create(changeId, c, input.branch);
+      ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));
+      ins.setTopic(input.topic);
+      ins.setPrivate(input.isPrivate);
+      ins.setWorkInProgress(input.workInProgress);
+      ins.setGroups(groups);
+      ins.setNotify(input.notify);
+      ins.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
+      try (BatchUpdate bu = updateFactory.create(projectState.getNameKey(), me, now)) {
+        bu.setRepository(git, rw, oi);
+        bu.insertChange(ins);
+        bu.execute();
+      }
+      return ins.getChange();
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException(e.getMessage());
+    }
   }
 
   private ChangeNotes getBaseChange(String baseChange)
@@ -452,8 +462,7 @@ public class CreateChange
         rw);
   }
 
-  private static ObjectId insert(ObjectInserter inserter, CommitBuilder commit)
-      throws IOException, UnsupportedEncodingException {
+  private static ObjectId insert(ObjectInserter inserter, CommitBuilder commit) throws IOException {
     ObjectId id = inserter.insert(commit);
     inserter.flush();
     return id;

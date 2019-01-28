@@ -30,6 +30,7 @@ import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
@@ -307,27 +308,33 @@ public class GitOverHttpServlet extends GitServlet {
     private final DynamicSet<PreUploadHook> preUploadHooks;
     private final DynamicSet<PostUploadHook> postUploadHooks;
     private final PluginSetContext<UploadPackInitializer> uploadPackInitializers;
+    private final PermissionBackend permissionBackend;
 
     @Inject
     UploadFactory(
         TransferConfig tc,
         DynamicSet<PreUploadHook> preUploadHooks,
         DynamicSet<PostUploadHook> postUploadHooks,
-        PluginSetContext<UploadPackInitializer> uploadPackInitializers) {
+        PluginSetContext<UploadPackInitializer> uploadPackInitializers,
+        PermissionBackend permissionBackend) {
       this.config = tc;
       this.preUploadHooks = preUploadHooks;
       this.postUploadHooks = postUploadHooks;
       this.uploadPackInitializers = uploadPackInitializers;
+      this.permissionBackend = permissionBackend;
     }
 
     @Override
     public UploadPack create(HttpServletRequest req, Repository repo) {
-      UploadPack up = new UploadPack(repo);
+      ProjectState state = (ProjectState) req.getAttribute(ATT_STATE);
+      UploadPack up =
+          new UploadPack(
+              PermissionAwareRepositoryManager.wrap(
+                  repo, permissionBackend.currentUser().project(state.getNameKey())));
       up.setPackConfig(config.getPackConfig());
       up.setTimeout(config.getTimeout());
       up.setPreUploadHook(PreUploadHookChain.newChain(Lists.newArrayList(preUploadHooks)));
       up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
-      ProjectState state = (ProjectState) req.getAttribute(ATT_STATE);
       uploadPackInitializers.runEach(initializer -> initializer.init(state.getNameKey(), up));
       return up;
     }

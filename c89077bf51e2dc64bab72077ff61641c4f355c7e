@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "2fb4314d_dbd67bef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-28T23:04:52Z",
+      "side": 1,
+      "message": "I would prefer to get rid of the extra limit and just reuse the query limit, but of course, I would like to have opinions on that.",
+      "parentUuid": "d0eb6e9e_bc97c240",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "c89077bf51e2dc64bab72077ff61641c4f355c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad39ea71_120616b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-28T23:04:52Z",
+      "side": 1,
+      "message": "\u003e If you use more general ListProjects class instead of SSH command \"ls-projects\" better communicate the intent that it\u0027s applied not only to SSH command, but also for REST API endpoint for GWT UI.\n\nNot really only for the GWT UI but for the REST-API also, which could be used by scripting or by other plugins.\n\n\u003e If this change would be done on master, this wouldn\u0027t be true any more, as on PG UI, QueryProjects and not ListProjects is used, and QueryProjects is using secondary index, that is per default limited with 500.\n\nOn master I would possibly opt for using the query limits for listing also, because they are effectively related to the same entities, projects, groups, accounts.\n\n\n\u003e So that there is potentially a conflicting setting, at least on master: QUERY_LIMIT and LIST_PROJECTS_LIMIT for the same thing, at least for REST API endpoint. If we would apply the same query_limit on SSH command, even though it\u0027s currently doesn\u0027t use QueryProjects we would be done, right?\n\nYes, however that may break a stable branch because the default is 500.\nGerrit v2.16 is inconsistent anyway on that, because for instance if you use the list projects API you have no limits, but if you add a query string then you have a limit of 500 entries.\n\nSo, we could possibly accept that, as soon as it is properly documented in the release notes. WDYT?\n\n\n\u003e Gerrit already has too many configuration options and before adding yet another couple of new options/capabilities, we should thoroughly consider the alternatives.\n\nSure, agreed 100%.\n\n\u003e The alternative to this change is to widen the application of query_limit on ListProjects in addition to QueryProjects (or even List groups). I see in the discussion of this change that you don\u0027t want to introduce new max default for new range capability because this change is on stable branch, so that from the same argumentation, we would need yet another obscure configuration option:\n\u003e \n\u003e   projects.apply_existing_max_query_limit_as_listing_limit\n\n:-( that really ... s****\n\n\u003e that would be false per default, at least on stable branch (and thus this change would be a no op) and possibly apply this new configuration option on both projects and groups listing.\n\nI do not see much of a problem here: if people complain that they have limits, we can say \"hey man, limits are there anyway, because projects are now managed in Lucene and you have a hard limit of 500 entries\".",
+      "parentUuid": "81923423_26ebc6bd",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "c89077bf51e2dc64bab72077ff61641c4f355c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4eb16c7_27ea013a",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 6
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8ce87db9_7dae06ea",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1309,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-28T23:04:52Z",
+      "side": 1,
+      "message": "I would either leave a unique limit for all listings (similar to the unique limit to all queries) OR get rid of it altogether and just reuse the query limit.",
+      "parentUuid": "d4eb16c7_27ea013a",
+      "range": {
+        "startLine": 1309,
+        "startChar": 4,
+        "endLine": 1309,
+        "endChar": 14
+      },
+      "revId": "c89077bf51e2dc64bab72077ff61641c4f355c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bc32c48_bd7ee6e1",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
         "patchSetId": 6
@@ -91,6 +163,30 @@
       "revId": "c89077bf51e2dc64bab72077ff61641c4f355c7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fc3b572_15bbbb95",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-28T23:04:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3bc32c48_bd7ee6e1",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 118,
+        "endChar": 22
+      },
+      "revId": "c89077bf51e2dc64bab72077ff61641c4f355c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

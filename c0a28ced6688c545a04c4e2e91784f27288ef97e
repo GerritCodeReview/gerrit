@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42ea0bdc_efee14d0",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiQuotaEnforcer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-01-28T09:41:47Z",
+      "side": 1,
+      "message": "should that be /restapi/changes/reviewed:PUT?",
+      "range": {
+        "startLine": 35,
+        "startChar": 37,
+        "endLine": 35,
+        "endChar": 54
+      },
+      "revId": "c0a28ced6688c545a04c4e2e91784f27288ef97e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd1ff1a2_8202cd74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T16:18:44Z",
+      "side": 1,
+      "message": "This suggests that we should also change the behavior of ext:\"\" to match these?",
+      "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3355074_ce23885d",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T16:18:44Z",
+      "side": 1,
+      "message": "Mention that this means they can be matched with an empty string.",
+      "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f63ec26_58e9230a",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T16:18:44Z",
+      "side": 1,
+      "message": "Optional: move .distinct() to getAllExtensionsAsList, since it\u0027s unnecessary work in the toSet case.",
+      "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87ab48ad_52b44c11",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T16:18:44Z",
+      "side": 1,
+      "message": "For better or for worse, all other multi-word operators are lowerwithnospaces.",
+      "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1619ed11_72b56803",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T16:18:44Z",
+      "side": 1,
+      "message": "Is it potentially confusing if they typed \"only_exts\" and didn\u0027t see that operator in the response?\n\nI think we can punt on this for now. I have some ideas for how to improve this error message generation in general, it\u0027s pretty copy/paste heavy at the moment.",
+      "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abe72adc_c729a987",
+        "filename": "java/com/google/gerrit/server/query/change/FileExtensionListPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T16:18:44Z",
+      "side": 1,
+      "message": "This can all be a single stream expression:\n\n return Splitter.on(\u0027,\u0027).splitToList(extList).stream()\n     .map(FileExtensionPredicate::clean)\n     .distinct()\n     .sorted()\n     .collect(joining(\",\"));\n\n(If you\u0027re really averse to splitToList you can do Streams.stream(Splitter.on(\u0027,\u0027).split(extList)))",
+      "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "300aad0e_ec8fff1e",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T16:18:44Z",
+      "side": 1,
+      "message": "I now have visions in my head of a QuerySubject so you can write:\n\n assertThatQuery(query).failsWithMessage(expectedMessage);\n assertThatQuery(query).returnsNoResults();\n assertThatQuery(query).returnsResults(...);\n\nBut I\u0027m not volunteering to clean up our thousands of lines of query tests ;)",
+      "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

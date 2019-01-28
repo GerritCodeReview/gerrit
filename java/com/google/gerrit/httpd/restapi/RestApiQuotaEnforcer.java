@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletRequest;
  * <ul>
  *   <li>GET /a/accounts/self/detail => /restapi/accounts/detail:GET
  *   <li>GET /changes/123/revisions/current/detail => /restapi/changes/revisions/detail:GET
- *   <li>PUT /changes/10/reviewed => /changes/reviewed:PUT
+ *   <li>PUT /changes/10/reviewed => /restapi/changes/reviewed:PUT
  * </ul>
  *
  * <p>Adds context (change, project, account) to the quota check if the call is for an existing

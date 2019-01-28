@@ -35,12 +35,11 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ReceiveCommitsExecutor;
-import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.MultiProgressMonitor;
+import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
@@ -271,9 +270,12 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     this.user = user;
     this.repo = repo;
     this.metrics = metrics;
-
+    // If the user lacks READ permission, some references may be filtered and hidden from view.
+    // Check objects mentioned inside the incoming pack file are reachable from visible refs.
     Project.NameKey projectName = projectState.getNameKey();
-    receivePack = new ReceivePack(repo);
+    this.perm = permissionBackend.user(user).project(projectName);
+
+    receivePack = new ReceivePack(PermissionAwareRepositoryManager.wrap(repo, perm));
     receivePack.setAllowCreates(true);
     receivePack.setAllowDeletes(true);
     receivePack.setAllowNonFastForwards(true);
@@ -286,9 +288,6 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     receivePack.setPreReceiveHook(this);
     receivePack.setPostReceiveHook(lazyPostReceive.get());
 
-    // If the user lacks READ permission, some references may be filtered and hidden from view.
-    // Check objects mentioned inside the incoming pack file are reachable from visible refs.
-    this.perm = permissionBackend.user(user).project(projectName);
     try {
       projectState.checkStatePermitsRead();
       this.perm.check(ProjectPermission.READ);
@@ -300,8 +299,6 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     List<AdvertiseRefsHook> advHooks = new ArrayList<>(4);
     allRefsWatcher = new AllRefsWatcher();
     advHooks.add(allRefsWatcher);
-    advHooks.add(
-        new DefaultAdvertiseRefsHook(perm, RefFilterOptions.builder().setFilterMeta(true).build()));
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook(queryProvider, projectName));
     advHooks.add(new HackPushNegotiateHook());
     receivePack.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));

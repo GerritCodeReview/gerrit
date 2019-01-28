@@ -248,6 +248,7 @@ class ReceiveCommits {
         ProjectState projectState,
         IdentifiedUser user,
         ReceivePack receivePack,
+        Repository repository,
         AllRefsWatcher allRefsWatcher,
         MessageSender messageSender,
         ResultChangeIds resultChangeIds);
@@ -422,6 +423,7 @@ class ReceiveCommits {
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
+      @Assisted Repository repository,
       @Assisted AllRefsWatcher allRefsWatcher,
       @Nullable @Assisted MessageSender messageSender,
       @Assisted ResultChangeIds resultChangeIds)
@@ -471,13 +473,15 @@ class ReceiveCommits {
     this.projectState = projectState;
     this.user = user;
     this.receivePack = rp;
+    // This repository instance in unwrapped, while the repository instance in
+    // receivePack.getRepo() is wrapped in PermissionAwareRepository instance.
+    this.repo = repository;
 
     // Immutable fields derived from constructor arguments.
-    repo = rp.getRepository();
     project = projectState.getProject();
     labelTypes = projectState.getLabelTypes();
     permissions = permissionBackend.user(user).project(project.getNameKey());
-    rejectCommits = BanCommit.loadRejectCommitsMap(rp.getRepository(), rp.getRevWalk());
+    rejectCommits = BanCommit.loadRejectCommitsMap(repo, rp.getRevWalk());
 
     // Collections populated during processing.
     errors = MultimapBuilder.linkedHashKeys().arrayListValues().build();

@@ -2663,9 +2663,7 @@ public class ChangeIT extends AbstractDaemonTest {
       throws Exception {
     ChangeInfo c = gApi.changes().id(changeId).get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
     Set<ReviewerState> states =
-        c.reviewers
-            .entrySet()
-            .stream()
+        c.reviewers.entrySet().stream()
             .filter(e -> e.getValue().stream().anyMatch(a -> a._accountId == accountId.get()))
             .map(e -> e.getKey())
             .collect(toSet());

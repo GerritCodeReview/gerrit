@@ -937,8 +937,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> reviewer(String who) throws QueryParseException, OrmException {
     return Predicate.or(
-        parseAccount(who)
-            .stream()
+        parseAccount(who).stream()
             .map(id -> ReviewerPredicate.reviewer(args, id))
             .collect(toList()));
   }
@@ -1135,11 +1134,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   private Set<Account.Id> getMembers(AccountGroup.UUID g) throws OrmException {
     Set<Account.Id> accounts;
     Set<Account.Id> allMembers =
-        args.listMembers
-            .get()
-            .setRecursive(true)
-            .apply(g)
-            .stream()
+        args.listMembers.get().setRecursive(true).apply(g).stream()
             .map(a -> new Account.Id(a._accountId))
             .collect(toSet());
     int maxTerms = args.indexConfig.maxTerms();

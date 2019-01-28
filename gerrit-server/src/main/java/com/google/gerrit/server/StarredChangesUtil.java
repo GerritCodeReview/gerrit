@@ -269,8 +269,7 @@ public class StarredChangesUtil {
   public Set<Account.Id> byChange(final Change.Id changeId, final String label)
       throws OrmException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      return getRefNames(repo, RefNames.refsStarredChangesPrefix(changeId))
-          .stream()
+      return getRefNames(repo, RefNames.refsStarredChangesPrefix(changeId)).stream()
           .map(Account.Id::parse)
           .filter(accountId -> hasStar(repo, changeId, accountId, label))
           .collect(toSet());
@@ -285,8 +284,7 @@ public class StarredChangesUtil {
   public Set<Change.Id> byAccount(final Account.Id accountId, final String label)
       throws OrmException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      return getRefNames(repo, RefNames.REFS_STARRED_CHANGES)
-          .stream()
+      return getRefNames(repo, RefNames.REFS_STARRED_CHANGES).stream()
           .filter(refPart -> refPart.endsWith("/" + accountId.get()))
           .map(Change.Id::fromRefPart)
           .filter(changeId -> hasStar(repo, changeId, accountId, label))

@@ -1772,10 +1772,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.groups().id(group).addMembers(user2.toString(), user3.toString());
 
     List<String> members =
-        gApi.groups()
-            .id(group)
-            .members()
-            .stream()
+        gApi.groups().id(group).members().stream()
             .map(a -> a._accountId.toString())
             .collect(toList());
     assertThat(members).contains(user2.toString());
@@ -2075,8 +2072,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       expectedStates.add("All-Users:refs/draft-comments/" + cs + "/" + u);
     }
     assertThat(
-            cd.getRefStates()
-                .stream()
+            cd.getRefStates().stream()
                 .map(String::new)
                 // Omit SHA-1, we're just concerned with the project/ref names.
                 .map(s -> s.substring(0, s.lastIndexOf(':')))

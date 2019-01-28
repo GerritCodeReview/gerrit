@@ -128,8 +128,7 @@ public class SetMembersCommand extends SshCommand {
       String action, GroupResource group, List<Account.Id> accountIdList)
       throws UnsupportedEncodingException, IOException {
     String names =
-        accountIdList
-            .stream()
+        accountIdList.stream()
             .map(
                 accountId ->
                     MoreObjects.firstNonNull(

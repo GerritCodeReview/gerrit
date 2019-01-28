@@ -310,8 +310,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
 
       // Change status in NoteDb.
       PatchSetState patchSetState = draftStatus ? PatchSetState.DRAFT : PatchSetState.PUBLISHED;
-      patchSets
-          .stream()
+      patchSets.stream()
           .map(PatchSet::getId)
           .map(ctx::getUpdate)
           .forEach(changeUpdate -> changeUpdate.setPatchSetState(patchSetState));

@@ -181,8 +181,7 @@ public class MailProcessor {
       // comments from the outbound email.
       // TODO(hiesel) Also filter by original comment author.
       Collection<Comment> comments =
-          cd.publishedComments()
-              .stream()
+          cd.publishedComments().stream()
               .filter(c -> (c.writtenOn.getTime() / 1000) == (metadata.timestamp.getTime() / 1000))
               .sorted(CommentsUtil.COMMENT_ORDER)
               .collect(toList());
@@ -349,8 +348,7 @@ public class MailProcessor {
 
   private Set<String> existingMessageIds(ChangeData cd) throws OrmException {
     Set<String> existingMessageIds = new HashSet<>();
-    cd.messages()
-        .stream()
+    cd.messages().stream()
         .forEach(
             m -> {
               String messageId = CommentsUtil.extractMessageId(m.getTag());
@@ -358,8 +356,7 @@ public class MailProcessor {
                 existingMessageIds.add(messageId);
               }
             });
-    cd.publishedComments()
-        .stream()
+    cd.publishedComments().stream()
         .forEach(
             c -> {
               String messageId = CommentsUtil.extractMessageId(c.tag);

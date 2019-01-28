@@ -155,6 +155,30 @@
     },
     {
       "key": {
+        "uuid": "daa8f138_8e4b503d",
+        "filename": "java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-28T15:39:47Z",
+      "side": 1,
+      "message": "\u003e Fair enough, but wouldn\u0027t they be limited anyway to DEFAULT_MAX_LIST_LIMIT?\n\nNot in v2.16 because the default is zero (no limits). On v3.0 it would be a good idea to put limits by default.\nGenerally speaking, all APIs should have limits because the system integrity should always be top-priority :-)",
+      "parentUuid": "d2f2e203_655f88bc",
+      "range": {
+        "startLine": 97,
+        "startChar": 26,
+        "endLine": 97,
+        "endChar": 48
+      },
+      "revId": "cf3ebaf5fcf5d307cfabd6ae9d71f6b1bb69ab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d53bd657_7073c430",
         "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
         "patchSetId": 4

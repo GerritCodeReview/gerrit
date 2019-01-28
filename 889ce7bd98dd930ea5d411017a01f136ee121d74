@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e75af7c_02fd1311",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T15:48:31Z",
+      "side": 1,
+      "message": "Have you had the \"folder\" vs. \"directory\" discussion yet? My bias is towards \"directory\" because I think of \"folder\" as a UI concept:\n\nhttps://en.wikipedia.org/wiki/Directory_(computing)#Folder_metaphor\n\nBut ultimately it comes down to what is less confusing for users, not just me. Or we can just do both :)",
+      "revId": "889ce7bd98dd930ea5d411017a01f136ee121d74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41cb94cb_bf93991d",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T15:48:31Z",
+      "side": 1,
+      "message": "This should also describe the semantics of allowing a directory prefix, not just a full directory name. Also that it uses / as the separator (do we also mention that in the path operator?)",
+      "revId": "889ce7bd98dd930ea5d411017a01f136ee121d74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d922ab1c_07a98f29",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T15:48:31Z",
+      "side": 1,
+      "message": "The maximal set would expand a/b/c to [a, a/b, a/b/c, b, b/c, c]. It\u0027s easy to construct cases where this would be useful, e.g. it would be nice to be able to match this file with [folder:server/index/change] and not have to write [folder:java/com/google/gerrit] all the time. That would be quadratic in the number of path components, but I\u0027m sure it would not add noticeable indexing time even if it expanded to a few hundred results. OTOH, we have a limit of 10k fields in our internal indexing system, so maybe this eats noticeably into that limit.\n\nWe could also index a larger set without being quadratic, e.g. add r.add(nextPart) here so we can search for [folder:index].",
+      "revId": "889ce7bd98dd930ea5d411017a01f136ee121d74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3168702_a81e2dc4",
+        "filename": "java/com/google/gerrit/server/query/change/FolderPredicate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T15:48:31Z",
+      "side": 1,
+      "message": "This is almost CharMatcher.is(\u0027/\u0027).trimFrom(folder), except your version only trims a single leading/trailing slash.",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 5
+      },
+      "revId": "889ce7bd98dd930ea5d411017a01f136ee121d74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

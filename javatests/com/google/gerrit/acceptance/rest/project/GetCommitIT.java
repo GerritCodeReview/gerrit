@@ -43,11 +43,7 @@ public class GetCommitIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     repo = GitUtil.newTestRepository(repoManager.openRepository(project));
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
-        .update();
+    blockRead();
   }
 
   @After
@@ -117,8 +113,17 @@ public class GetCommitIT extends AbstractDaemonTest {
 
   @Test
   public void getOpenChange_NotFound() throws Exception {
+    // Need to unblock read to allow the push operation to succeed if not, when retrieving the
+    // advertised refs during
+    // the push, the client won't be sent the initial commit and will send it again as part of the
+    // change.
+    unblockRead();
+
     PushOneCommit.Result r = pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master");
     r.assertOkStatus();
+
+    // Re-blocking the read
+    blockRead();
     assertNotFound(r.getCommit());
   }
 
@@ -127,6 +132,14 @@ public class GetCommitIT extends AbstractDaemonTest {
       u.getConfig().getAccessSection("refs/*").remove(new Permission(Permission.READ));
       u.save();
     }
+  }
+
+  private void blockRead() {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
   }
 
   private void assertNotFound(ObjectId id) throws Exception {

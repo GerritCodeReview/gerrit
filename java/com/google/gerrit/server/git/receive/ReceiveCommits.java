@@ -119,7 +119,9 @@ import com.google.gerrit.server.git.ChangeReportFormatter;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.MultiProgressMonitor;
+import com.google.gerrit.server.git.PermissionAwareRepository;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.ValidationError;
@@ -473,11 +475,11 @@ class ReceiveCommits {
     this.receivePack = rp;
 
     // Immutable fields derived from constructor arguments.
-    repo = rp.getRepository();
+    repo = ((PermissionAwareRepository) rp.getRepository()).unwrap();
     project = projectState.getProject();
     labelTypes = projectState.getLabelTypes();
     permissions = permissionBackend.user(user).project(project.getNameKey());
-    rejectCommits = BanCommit.loadRejectCommitsMap(rp.getRepository(), rp.getRevWalk());
+    rejectCommits = BanCommit.loadRejectCommitsMap(repo, rp.getRevWalk());
 
     // Collections populated during processing.
     errors = MultimapBuilder.linkedHashKeys().arrayListValues().build();

@@ -205,10 +205,7 @@ public class AccountResolver {
     // and pray we come up with a reasonable result list.
     // TODO(dborowitz): This doesn't match the documentation; consider whether it's possible to be
     // more strict here.
-    return accountQueryProvider
-        .get()
-        .byDefault(nameOrEmail)
-        .stream()
+    return accountQueryProvider.get().byDefault(nameOrEmail).stream()
         .map(a -> a.getAccount().getId())
         .collect(toSet());
   }

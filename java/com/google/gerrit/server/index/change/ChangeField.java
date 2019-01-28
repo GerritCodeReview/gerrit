@@ -192,8 +192,7 @@ public class ChangeField {
 
   public static Set<String> getExtensions(ChangeData cd) throws OrmException {
     try {
-      return cd.currentFilePaths()
-          .stream()
+      return cd.currentFilePaths().stream()
           // Use case-insensitive file extensions even though other file fields are case-sensitive.
           // If we want to find "all Java files", we want to match both .java and .JAVA, even if we
           // normally care about case sensitivity. (Whether we should change the existing file/path
@@ -764,8 +763,7 @@ public class ChangeField {
 
   @VisibleForTesting
   static List<SubmitRecord> parseSubmitRecords(Collection<String> values) {
-    return values
-        .stream()
+    return values.stream()
         .map(v -> GSON.fromJson(v, StoredSubmitRecord.class).toSubmitRecord())
         .collect(toList());
   }

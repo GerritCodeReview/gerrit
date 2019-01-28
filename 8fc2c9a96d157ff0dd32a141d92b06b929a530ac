@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4527c4c5_eca5378f",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T16:23:29Z",
+      "side": 1,
+      "message": "I\u0027m not opposed to key\u003dvalue, but it\u0027s a little odd that you can\u0027t specify the exact footer line verbatim, e.g. [footer:\"Signed-off-by: Dave Borowitz \u003cdborowitz@google.com\u003e\"].",
+      "range": {
+        "startLine": 312,
+        "startChar": 28,
+        "endLine": 312,
+        "endChar": 64
+      },
+      "revId": "8fc2c9a96d157ff0dd32a141d92b06b929a530ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be609961_e0cb92ef",
+        "filename": "java/com/google/gerrit/server/query/change/FooterPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T16:23:29Z",
+      "side": 1,
+      "message": "Should it be an error to omit \u003d? I guess maybe not, it\u0027s probably fine to just return no results (I wish Gerrit did that in more cases).",
+      "revId": "8fc2c9a96d157ff0dd32a141d92b06b929a530ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b648b98_b5ba230f",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1470,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-28T16:23:29Z",
+      "side": 1,
+      "message": "So I guess this is intentionally testing that change4 is not returned, because it has a fake footer in the format \"foo\u003dbar\"?\n\nI wonder if this is going to confuse people, and we are going to get a feature request to support footers in the form \"foo\u003dbar\" as well. I understand this would break JGit\u0027s parsing and all, but that doesn\u0027t mean users won\u0027t be confused...",
+      "revId": "8fc2c9a96d157ff0dd32a141d92b06b929a530ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

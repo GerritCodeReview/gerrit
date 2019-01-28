@@ -137,6 +137,30 @@
     },
     {
       "key": {
+        "uuid": "3355b56a_62f9a1db",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-28T09:29:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a7645369_f95a5609",
+      "range": {
+        "startLine": 347,
+        "startChar": 48,
+        "endLine": 348,
+        "endChar": 51
+      },
+      "revId": "5a3ab6fe8bbd5725c34d9c04e041f5a2729890ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb2fe87c_58193969",
         "filename": "java/com/google/gerrit/server/account/AccountResolver2.java",
         "patchSetId": 1

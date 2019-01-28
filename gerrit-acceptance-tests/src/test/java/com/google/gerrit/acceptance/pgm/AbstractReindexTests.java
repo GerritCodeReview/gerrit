@@ -66,11 +66,7 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
           .containsExactly(adminId.get());
       // Query group index
       assertThat(
-              gApi.groups()
-                  .query("Group")
-                  .withOption(MEMBERS)
-                  .get()
-                  .stream()
+              gApi.groups().query("Group").withOption(MEMBERS).get().stream()
                   .flatMap(g -> g.members.stream())
                   .map(a -> a._accountId))
           .containsExactly(adminId.get());

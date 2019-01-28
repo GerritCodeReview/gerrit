@@ -897,17 +897,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     private Set<CommentSetEntry> readExistingComments(ChangeContext ctx) throws OrmException {
-      return commentsUtil
-          .publishedByChange(ctx.getDb(), ctx.getNotes())
-          .stream()
+      return commentsUtil.publishedByChange(ctx.getDb(), ctx.getNotes()).stream()
           .map(CommentSetEntry::create)
           .collect(toSet());
     }
 
     private Set<CommentSetEntry> readExistingRobotComments(ChangeContext ctx) throws OrmException {
-      return commentsUtil
-          .robotCommentsByChange(ctx.getNotes())
-          .stream()
+      return commentsUtil.robotCommentsByChange(ctx.getNotes()).stream()
           .map(CommentSetEntry::create)
           .collect(toSet());
     }
@@ -1166,8 +1162,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       if (!reduced.isEmpty()) {
         throw new ResourceConflictException(
             "Cannot reduce vote on labels for closed change: "
-                + reduced
-                    .stream()
+                + reduced.stream()
                     .map(p -> p.getLabel())
                     .distinct()
                     .sorted()

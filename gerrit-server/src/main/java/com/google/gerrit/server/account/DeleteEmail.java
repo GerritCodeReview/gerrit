@@ -75,12 +75,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
     }
 
     Set<ExternalId> extIds =
-        dbProvider
-            .get()
-            .accountExternalIds()
-            .byAccount(user.getAccountId())
-            .toList()
-            .stream()
+        dbProvider.get().accountExternalIds().byAccount(user.getAccountId()).toList().stream()
             .map(ExternalId::from)
             .filter(e -> email.equals(e.email()))
             .collect(toSet());

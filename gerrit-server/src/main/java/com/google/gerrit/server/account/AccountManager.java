@@ -395,15 +395,13 @@ public class AccountManager {
       throws OrmException, AccountException, IOException {
     try (ReviewDb db = schema.open()) {
       Collection<ExternalId> filteredExtIdsByScheme =
-          ExternalId.from(db.accountExternalIds().byAccount(to).toList())
-              .stream()
+          ExternalId.from(db.accountExternalIds().byAccount(to).toList()).stream()
               .filter(e -> e.isScheme(who.getExternalIdKey().scheme()))
               .collect(toSet());
 
       if (!filteredExtIdsByScheme.isEmpty()
           && (filteredExtIdsByScheme.size() > 1
-              || !filteredExtIdsByScheme
-                  .stream()
+              || !filteredExtIdsByScheme.stream()
                   .filter(e -> e.key().equals(who.getExternalIdKey()))
                   .findAny()
                   .isPresent())) {

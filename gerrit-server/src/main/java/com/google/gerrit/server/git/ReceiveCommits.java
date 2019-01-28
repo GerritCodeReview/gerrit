@@ -695,9 +695,7 @@ public class ReceiveCommits {
     }
 
     List<ReplaceRequest> updated =
-        replaceByChange
-            .values()
-            .stream()
+        replaceByChange.values().stream()
             .filter(r -> !r.skip && r.inputCommand.getResult() == OK)
             .sorted(comparingInt(r -> r.notes.getChangeId().get()))
             .collect(toList());

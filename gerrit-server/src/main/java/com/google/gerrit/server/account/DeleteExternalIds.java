@@ -70,11 +70,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
 
     Account.Id accountId = resource.getUser().getAccountId();
     Map<ExternalId.Key, ExternalId> externalIdMap =
-        dbProvider
-            .get()
-            .accountExternalIds()
-            .byAccount(resource.getUser().getAccountId())
-            .toList()
+        dbProvider.get().accountExternalIds().byAccount(resource.getUser().getAccountId()).toList()
             .stream()
             .map(ExternalId::from)
             .collect(toMap(i -> i.key(), i -> i));

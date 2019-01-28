@@ -553,9 +553,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       return projectCache.byName(matchPrefix).stream();
     } else if (matchSubstring != null) {
       checkMatchOptions(matchPrefix == null && matchRegex == null);
-      return projectCache
-          .all()
-          .stream()
+      return projectCache.all().stream()
           .filter(
               p -> p.get().toLowerCase(Locale.US).contains(matchSubstring.toLowerCase(Locale.US)));
     } else if (matchRegex != null) {

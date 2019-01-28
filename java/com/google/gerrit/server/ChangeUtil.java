@@ -116,9 +116,7 @@ public class ChangeUtil {
    */
   public static PatchSet.Id nextPatchSetId(Repository git, PatchSet.Id id) throws IOException {
     return nextPatchSetIdFromChangeRefs(
-        git.getRefDatabase()
-            .getRefsByPrefix(id.getParentKey().toRefPrefix())
-            .stream()
+        git.getRefDatabase().getRefsByPrefix(id.getParentKey().toRefPrefix()).stream()
             .map(Ref::getName),
         id);
   }

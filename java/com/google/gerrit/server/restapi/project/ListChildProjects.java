@@ -86,9 +86,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
         children.put(c.getNameKey(), c.getProject());
       }
     }
-    return permissionBackend
-        .currentUser()
-        .filter(ProjectPermission.ACCESS, children.keySet())
+    return permissionBackend.currentUser().filter(ProjectPermission.ACCESS, children.keySet())
         .stream()
         .sorted()
         .map((p) -> json.format(children.get(p)))

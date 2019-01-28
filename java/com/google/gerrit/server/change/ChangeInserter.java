@@ -470,9 +470,7 @@ public class ChangeInserter implements InsertChangeOp {
                 cm.setNotify(notify);
                 cm.setAccountsToNotify(accountsToNotify);
                 cm.addReviewers(
-                    reviewerAdditions
-                        .flattenResults(AddReviewersOp.Result::addedReviewers)
-                        .stream()
+                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewers).stream()
                         .map(PatchSetApproval::getAccountId)
                         .collect(toImmutableSet()));
                 cm.addReviewersByEmail(

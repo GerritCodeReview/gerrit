@@ -164,24 +164,14 @@ public class CreateChange
           UpdateException, PermissionBackendException, ConfigInvalidException {
     checkAndSanitizeChangeInput(input);
 
-    ProjectResource rsrc = projectsCollection.parse(input.project);
+    ProjectResource projectResource = projectsCollection.parse(input.project);
+    ProjectState projectState = projectResource.getProjectState();
+    projectState.checkStatePermitsWrite();
 
-    contributorAgreements.check(rsrc.getNameKey(), rsrc.getUser());
+    Project.NameKey project = projectResource.getNameKey();
+    contributorAgreements.check(project, user.get());
 
-    Project.NameKey project = rsrc.getNameKey();
-    String refName = RefNames.fullName(input.branch);
-    try {
-      permissionBackend.currentUser().project(project).ref(refName).check(RefPermission.READ);
-    } catch (AuthException e) {
-      throw new ResourceNotFoundException(String.format("ref %s not found", refName));
-    }
-
-    permissionBackend
-        .currentUser()
-        .project(project)
-        .ref(refName)
-        .check(RefPermission.CREATE_CHANGE);
-    rsrc.getProjectState().checkStatePermitsWrite();
+    checkRequiredPermissions(project, input.branch);
 
     try (Repository git = gitManager.openRepository(project);
         ObjectInserter oi = git.newObjectInserter();
@@ -189,7 +179,7 @@ public class CreateChange
         RevWalk rw = new RevWalk(reader)) {
       ObjectId parentCommit;
       List<String> groups;
-      Ref destRef = git.getRefDatabase().exactRef(refName);
+      Ref destRef = git.getRefDatabase().exactRef(input.branch);
       if (input.baseChange != null) {
         List<ChangeNotes> notes = changeFinder.find(input.baseChange);
         if (notes.size() != 1) {
@@ -215,14 +205,14 @@ public class CreateChange
         RevCommit destRefRevCommit = rw.parseCommit(destRef.getObjectId());
         if (!rw.isMergedInto(parentRevCommit, destRefRevCommit)) {
           throw new BadRequestException(
-              String.format("Commit %s doesn't exist on ref %s", input.baseCommit, refName));
+              String.format("Commit %s doesn't exist on ref %s", input.baseCommit, input.branch));
         }
         groups = Collections.emptyList();
       } else {
         if (destRef != null) {
           if (Boolean.TRUE.equals(input.newBranch)) {
             throw new ResourceConflictException(
-                String.format("Branch %s already exists.", refName));
+                String.format("Branch %s already exists.", input.branch));
           }
           parentCommit = destRef.getObjectId();
         } else {
@@ -244,7 +234,7 @@ public class CreateChange
 
       boolean isWorkInProgress =
           input.workInProgress == null
-              ? rsrc.getProjectState().is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)
+              ? projectState.is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)
                   || MoreObjects.firstNonNull(info.workInProgressByDefault, false)
               : input.workInProgress;
 
@@ -274,16 +264,14 @@ public class CreateChange
             || submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
           throw new BadRequestException("Submit type: " + submitType + " is not supported");
         }
-        c =
-            newMergeCommit(
-                git, oi, rw, rsrc.getProjectState(), mergeTip, input.merge, author, commitMessage);
+        c = newMergeCommit(git, oi, rw, projectState, mergeTip, input.merge, author, commitMessage);
       } else {
         // create an empty commit
         c = newCommit(oi, rw, author, mergeTip, commitMessage);
       }
 
       Change.Id changeId = new Change.Id(seq.nextChangeId());
-      ChangeInserter ins = changeInserterFactory.create(changeId, c, refName);
+      ChangeInserter ins = changeInserterFactory.create(changeId, c, input.branch);
       ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));
       ins.setTopic(input.topic);
       ins.setPrivate(input.isPrivate);
@@ -321,6 +309,7 @@ public class CreateChange
     if (Strings.isNullOrEmpty(input.branch)) {
       throw new BadRequestException("branch must be non-empty");
     }
+    input.branch = RefNames.fullName(input.branch);
 
     String subject = Strings.nullToEmpty(input.subject);
     subject = subject.replaceAll("(?m)^#.*$\n?", "").trim();
@@ -350,6 +339,21 @@ public class CreateChange
       throw new MethodNotAllowedException("private changes are disabled");
     }
     input.isPrivate = isPrivate;
+  }
+
+  private void checkRequiredPermissions(Project.NameKey project, String refName)
+      throws ResourceNotFoundException, AuthException, PermissionBackendException {
+    try {
+      permissionBackend.currentUser().project(project).ref(refName).check(RefPermission.READ);
+    } catch (AuthException e) {
+      throw new ResourceNotFoundException(String.format("ref %s not found", refName));
+    }
+
+    permissionBackend
+        .currentUser()
+        .project(project)
+        .ref(refName)
+        .check(RefPermission.CREATE_CHANGE);
   }
 
   private static RevCommit newCommit(

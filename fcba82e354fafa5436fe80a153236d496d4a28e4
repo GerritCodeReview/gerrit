@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb44507d_d5ac5079",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-28T01:48:38Z",
+      "side": 1,
+      "message": "Can we find where it\u0027s doing that, and why?  IIRC the place it requests a list of projects is when configuring a new job in the UI and it fetches the list of projects to fill a drop down list.",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 16,
+        "endChar": 16
+      },
+      "revId": "fcba82e354fafa5436fe80a153236d496d4a28e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06e5cc8a_f0f66692",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1309,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-28T01:48:38Z",
+      "side": 1,
+      "message": "If this only applies to listing projects, then projects should be mentioned in the capability name.",
+      "range": {
+        "startLine": 1309,
+        "startChar": 4,
+        "endLine": 1309,
+        "endChar": 14
+      },
+      "revId": "fcba82e354fafa5436fe80a153236d496d4a28e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d75c7621_dc6e9147",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-28T01:48:38Z",
+      "side": 1,
+      "message": "\"not only to the\"",
+      "range": {
+        "startLine": 1318,
+        "startChar": 19,
+        "endLine": 1318,
+        "endChar": 31
+      },
+      "revId": "fcba82e354fafa5436fe80a153236d496d4a28e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -11,12 +11,6 @@ java_library(
     ],
 )
 
-alias(
-    name = "jgit-source",
-    actual = jgit_dep("@jgit-lib//jar:src"),
-    visibility = ["//visibility:public"],
-)
-
 java_library(
     name = "javaewah",
     data = ["//lib:LICENSE-Apache2.0"],

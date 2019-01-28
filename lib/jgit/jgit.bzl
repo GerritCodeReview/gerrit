@@ -1,5 +1,6 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("//tools/bzl:maven_jar.bzl", "MAVEN_CENTRAL", "maven_jar")
+load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
 _JGIT_VERS = "5.3.1.201904271842-r"
 
@@ -51,11 +52,18 @@ def jgit_maven_transitive_deps():
     )
 
 def jgit_maven_repos():
-    maven_jar(
+    #    maven_jar(
+    #        name = "jgit-lib",
+    #        artifact = "org.eclipse.jgit:org.eclipse.jgit:" + _JGIT_VERS,
+    #        repository = _JGIT_REPO,
+    #        sha1 = "dba85014483315fa426259bc1b8ccda9373a624b",
+    #        src_sha1 = "b2ddc76c39d81df716948a00d26faa35e11a0ddf",
+    #        unsign = True,
+    #    )
+    java_import_external(
         name = "jgit-lib",
-        artifact = "org.eclipse.jgit:org.eclipse.jgit:" + _JGIT_VERS,
-        repository = _JGIT_REPO,
-        sha1 = "dba85014483315fa426259bc1b8ccda9373a624b",
+        jar_urls = ["https://github.com/davido/jgit/releases/download/v5.6.0/org.eclipse.jgit-5.6.0.jar"],
+        jar_sha256 = "86a8598617744d0e5552267390e2a569c0829e1e024472afb90d98a8d1c60990",
     )
     maven_jar(
         name = "jgit-servlet",

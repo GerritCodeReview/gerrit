@@ -400,6 +400,10 @@ class DefaultRefFilter {
   private Map<String, Ref> addUsersSelfSymref(Repository repo, Map<String, Ref> refs)
       throws PermissionBackendException {
     if (user.isIdentifiedUser()) {
+      // User self symref is already there
+      if (refs.containsKey(REFS_USERS_SELF)) {
+        return refs;
+      }
       String refName = RefNames.refsUsers(user.getAccountId());
       try {
         Ref r = repo.exactRef(refName);

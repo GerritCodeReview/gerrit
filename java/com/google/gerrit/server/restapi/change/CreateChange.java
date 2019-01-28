@@ -177,22 +177,13 @@ public class CreateChange
         ObjectReader reader = oi.newReader();
         RevWalk rw = new RevWalk(reader)) {
       ObjectId parentCommit;
-      List<String> groups;
+      List<String> groups = Collections.emptyList();
       Ref destRef = git.getRefDatabase().exactRef(input.branch);
       if (input.baseChange != null) {
-        List<ChangeNotes> notes = changeFinder.find(input.baseChange);
-        if (notes.size() != 1) {
-          throw new UnprocessableEntityException("Base change not found: " + input.baseChange);
-        }
-        ChangeNotes change = Iterables.getOnlyElement(notes);
-        try {
-          permissionBackend.currentUser().change(change).check(ChangePermission.READ);
-        } catch (AuthException e) {
-          throw new UnprocessableEntityException("Read not permitted for " + input.baseChange);
-        }
-        PatchSet ps = psUtil.current(change);
-        parentCommit = ObjectId.fromString(ps.getRevision().get());
-        groups = ps.getGroups();
+        ChangeNotes change = getBaseChange(input.baseChange);
+        PatchSet patchSet = psUtil.current(change);
+        parentCommit = ObjectId.fromString(patchSet.getRevision().get());
+        groups = patchSet.getGroups();
       } else if (input.baseCommit != null) {
         try {
           parentCommit = ObjectId.fromString(input.baseCommit);
@@ -206,7 +197,6 @@ public class CreateChange
           throw new BadRequestException(
               String.format("Commit %s doesn't exist on ref %s", input.baseCommit, input.branch));
         }
-        groups = Collections.emptyList();
       } else {
         if (destRef != null) {
           if (Boolean.TRUE.equals(input.newBranch)) {
@@ -221,7 +211,6 @@ public class CreateChange
             throw new BadRequestException("Must provide a destination branch");
           }
         }
-        groups = Collections.emptyList();
       }
       RevCommit mergeTip = parentCommit == null ? null : rw.parseCommit(parentCommit);
 
@@ -360,6 +349,22 @@ public class CreateChange
         .project(project)
         .ref(refName)
         .check(RefPermission.CREATE_CHANGE);
+  }
+
+  private ChangeNotes getBaseChange(String baseChange)
+      throws OrmException, UnprocessableEntityException, PermissionBackendException {
+    List<ChangeNotes> notes = changeFinder.find(baseChange);
+    if (notes.size() != 1) {
+      throw new UnprocessableEntityException("Base change not found: " + baseChange);
+    }
+    ChangeNotes change = Iterables.getOnlyElement(notes);
+    try {
+      permissionBackend.currentUser().change(change).check(ChangePermission.READ);
+    } catch (AuthException e) {
+      throw new UnprocessableEntityException("Read not permitted for " + baseChange);
+    }
+
+    return change;
   }
 
   private static RevCommit newCommit(

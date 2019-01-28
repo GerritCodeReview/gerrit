@@ -305,6 +305,13 @@ Matches any change touching only files with extensions that are listed in
 An extension is defined as the portion of the filename following the final `.`.
 Files with no `.` in their name have no extension.
 
+[[footer]]
+footer:'FOOTER'::
++
+Matches any change that has 'FOOTER' as footer in the commit message of the
+current patch set. 'FOOTER' must be specified as '<key>=<value>'. The matching
+is done case-insensitive.
+
 [[star]]
 star:'LABEL'::
 +

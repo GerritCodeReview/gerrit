@@ -293,6 +293,23 @@ Plugin running Gitiles alongside a Gerrit server.
 link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/gitiles[
 Project]
 
+[[healthcheck]]
+=== healthcheck
+
+Plugin for monitoring and alerting when Gerrit does not behave properrly.
+
+If your Gerrit Server needs to be available 24x7, then you may want to know
+*beforehand* if something isn't working correctly: this plugin exposes a
+REST-API that can be checked and integrated with real-time monitoring systems
+and paging platforms.
+
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/healthcheck[
+Project] |
+link:https://gerrit.googlesource.com/plugins/healthcheck/+doc/master/src/main/resources/Documentation/about.md[
+Documentation] |
+link:https://gerrit.googlesource.com/plugins/healthcheck/+doc/master/src/main/resources/Documentation/config.md[
+Configuration]
+
 [[imagare]]
 === imagare
 

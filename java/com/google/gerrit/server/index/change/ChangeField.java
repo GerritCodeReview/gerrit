@@ -228,6 +228,21 @@ public class ChangeField {
     }
   }
 
+  /** Footers from the commit message of the current patch set. */
+  public static final FieldDef<ChangeData, Iterable<String>> FOOTER =
+      exact(ChangeQueryBuilder.FIELD_FOOTER).buildRepeatable(ChangeField::getFooters);
+
+  public static Set<String> getFooters(ChangeData cd) throws OrmException {
+    try {
+      return cd.commitFooters()
+          .stream()
+          .map(f -> f.toString().toLowerCase(Locale.US))
+          .collect(toSet());
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+  }
+
   /** Owner/creator of the change. */
   public static final FieldDef<ChangeData, Integer> OWNER =
       integer(ChangeQueryBuilder.FIELD_OWNER).build(changeGetter(c -> c.getOwner().get()));

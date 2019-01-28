@@ -1446,6 +1446,63 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byFooter() throws Exception {
+    if (getSchemaVersion() < 54) {
+      assertMissingField(ChangeField.FOOTER);
+      assertFailingQuery(
+          "footer:Change-Id=I3d2b978ed455f835d1dad2daa920be0b0ec2ae36",
+          "'footer' operator is not supported by change index version");
+      return;
+    }
+
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 = repo.parseBody(repo.commit().message("Test\n\nfoo: bar").create());
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    RevCommit commit2 = repo.parseBody(repo.commit().message("Test\n\nfoo: baz").create());
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+    RevCommit commit3 = repo.parseBody(repo.commit().message("Test\n\nfoo: bar\nfoo:baz").create());
+    Change change3 = insert(repo, newChangeForCommit(repo, commit3));
+    RevCommit commit4 = repo.parseBody(repo.commit().message("Test\n\nfoo: bar=baz").create());
+    Change change4 = insert(repo, newChangeForCommit(repo, commit4));
+
+    // create a changes with lines that look like footers, but which are not
+    RevCommit commit5 =
+        repo.parseBody(
+            repo.commit().message("Test\n\nfoo: bar\n\nfoo=bar").insertChangeId().create());
+    Change change5 = insert(repo, newChangeForCommit(repo, commit5));
+    RevCommit commit6 = repo.parseBody(repo.commit().message("Test\n\na=b: c").create());
+    insert(repo, newChangeForCommit(repo, commit6));
+
+    // matching by 'key=value' works
+    assertQuery("footer:foo=bar", change3, change1);
+    assertQuery("footer:foo=baz", change3, change2);
+    assertQuery("footer:Change-Id=" + change5.getKey(), change5);
+    assertQuery("footer:foo=bar=baz", change4);
+
+    // case doesn't matter
+    assertQuery("footer:foo=BAR", change3, change1);
+    assertQuery("footer:FOO=bar", change3, change1);
+    assertQuery("footer:fOo=BaZ", change3, change2);
+
+    // verbatim matching of footers works
+    assertQuery("footer:\"foo: bar\"", change3, change1);
+    assertQuery("footer:\"foo: baz\"", change3, change2);
+    assertQuery("footer:\"Change-Id: " + change5.getKey() + "\"", change5);
+    assertQuery("footer:\"foo: bar=baz\"", change4);
+
+    // expect no match because 'a=b: c' of commit6 is not a valid footer (footer key cannot contain
+    // '=')
+    assertQuery("footer:a=b=c");
+    assertQuery("footer:\"a=b: c\"");
+
+    // expect empty result for invalid footers
+    assertQuery("footer:foo");
+    assertQuery("footer:foo=");
+    assertQuery("footer:=foo");
+    assertQuery("footer:=");
+  }
+
+  @Test
   public void byComment() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo);

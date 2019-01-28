@@ -250,10 +250,6 @@ public class CreateChange
       RevCommit c;
       if (input.merge != null) {
         // create a merge commit
-        if (!(submitType.equals(SubmitType.MERGE_ALWAYS)
-            || submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
-          throw new BadRequestException("Submit type: " + submitType + " is not supported");
-        }
         c = newMergeCommit(git, oi, rw, projectState, mergeTip, input.merge, author, commitMessage);
       } else {
         // create an empty commit
@@ -337,6 +333,12 @@ public class CreateChange
                 || MoreObjects.firstNonNull(
                     me.state().getGeneralPreferences().workInProgressByDefault, false)
             : input.workInProgress;
+
+    if (input.merge != null
+        && !(submitType.equals(SubmitType.MERGE_ALWAYS)
+            || submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
+      throw new BadRequestException("Submit type: " + submitType + " is not supported");
+    }
   }
 
   private void checkRequiredPermissions(Project.NameKey project, String refName)

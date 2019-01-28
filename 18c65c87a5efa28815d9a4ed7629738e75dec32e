@@ -22,6 +22,30 @@
       "revId": "18c65c87a5efa28815d9a4ed7629738e75dec32e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df0f5d07_05409cf0",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-28T09:38:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e75a9c4a_a66b2ecc",
+      "range": {
+        "startLine": 1374,
+        "startChar": 21,
+        "endLine": 1374,
+        "endChar": 84
+      },
+      "revId": "18c65c87a5efa28815d9a4ed7629738e75dec32e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -65,9 +65,7 @@ public class InternalGroupBackend implements GroupBackend {
 
   @Override
   public Collection<GroupReference> suggest(final String name, final ProjectControl project) {
-    return groupCache
-        .all()
-        .stream()
+    return groupCache.all().stream()
         .filter(
             group ->
                 // startsWithIgnoreCase && isVisible

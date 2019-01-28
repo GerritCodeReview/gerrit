@@ -74,8 +74,7 @@ public class ChangeUserName implements Callable<VoidResult> {
       throws OrmException, NameAlreadyUsedException, InvalidUserNameException, IOException,
           ConfigInvalidException {
     Collection<ExternalId> old =
-        ExternalId.from(db.accountExternalIds().byAccount(user.getAccountId()).toList())
-            .stream()
+        ExternalId.from(db.accountExternalIds().byAccount(user.getAccountId()).toList()).stream()
             .filter(e -> e.isScheme(SCHEME_USERNAME))
             .collect(toSet());
     if (!old.isEmpty()) {

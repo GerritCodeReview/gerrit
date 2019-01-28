@@ -222,8 +222,7 @@ public class UniversalGroupBackend implements GroupBackend {
     @Override
     public void check() throws StartupException {
       String invalid =
-          cfg.getSubsections("groups")
-              .stream()
+          cfg.getSubsections("groups").stream()
               .filter(
                   sub -> {
                     AccountGroup.UUID uuid = new AccountGroup.UUID(sub);

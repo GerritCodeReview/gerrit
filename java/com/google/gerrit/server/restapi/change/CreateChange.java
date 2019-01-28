@@ -162,28 +162,7 @@ public class CreateChange
       BatchUpdate.Factory updateFactory, TopLevelResource parent, ChangeInput input)
       throws OrmException, IOException, InvalidChangeOperationException, RestApiException,
           UpdateException, PermissionBackendException, ConfigInvalidException {
-    if (Strings.isNullOrEmpty(input.project)) {
-      throw new BadRequestException("project must be non-empty");
-    }
-
-    if (Strings.isNullOrEmpty(input.branch)) {
-      throw new BadRequestException("branch must be non-empty");
-    }
-
-    String subject = clean(Strings.nullToEmpty(input.subject));
-    if (Strings.isNullOrEmpty(subject)) {
-      throw new BadRequestException("commit message must be non-empty");
-    }
-
-    if (input.status != null) {
-      if (input.status != ChangeStatus.NEW) {
-        throw new BadRequestException("unsupported change status");
-      }
-    }
-
-    if (input.baseChange != null && input.baseCommit != null) {
-      throw new BadRequestException("only provide one of base_change or base_commit");
-    }
+    processChangeInput(input);
 
     ProjectResource rsrc = projectsCollection.parse(input.project);
     boolean privateByDefault = rsrc.getProjectState().is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
@@ -276,7 +255,7 @@ public class CreateChange
               : input.workInProgress;
 
       // Add a Change-Id line if there isn't already one
-      String commitMessage = subject;
+      String commitMessage = input.subject;
       if (ChangeIdUtil.indexOfChangeId(commitMessage, "\n") == -1) {
         ObjectId treeId = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
         ObjectId id = ChangeIdUtil.computeChangeId(treeId, mergeTip, author, author, commitMessage);
@@ -312,11 +291,7 @@ public class CreateChange
       Change.Id changeId = new Change.Id(seq.nextChangeId());
       ChangeInserter ins = changeInserterFactory.create(changeId, c, refName);
       ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));
-      String topic = input.topic;
-      if (topic != null) {
-        topic = Strings.emptyToNull(topic.trim());
-      }
-      ins.setTopic(topic);
+      ins.setTopic(input.topic);
       ins.setPrivate(isPrivate);
       ins.setWorkInProgress(isWorkInProgress);
       ins.setGroups(groups);
@@ -331,6 +306,43 @@ public class CreateChange
       return Response.created(json.format(ins.getChange()));
     } catch (IllegalArgumentException e) {
       throw new BadRequestException(e.getMessage());
+    }
+  }
+
+  /**
+   * Processes the user input, e.g. check whether the input is legal; clean the input so that it
+   * meets the requirement for creating a change; set a field based on the global configs, etc.
+   *
+   * @param input the {@code ChangeInput} from the request. Note this method modify the {@code
+   *     ChangeInput} object so that it can be reused directly by follow-up code.
+   * @throws BadRequestException if the input is not legal.
+   */
+  private static void processChangeInput(ChangeInput input) throws BadRequestException {
+    if (Strings.isNullOrEmpty(input.project)) {
+      throw new BadRequestException("project must be non-empty");
+    }
+
+    if (Strings.isNullOrEmpty(input.branch)) {
+      throw new BadRequestException("branch must be non-empty");
+    }
+
+    String subject = Strings.nullToEmpty(input.subject);
+    subject = subject.replaceAll("(?m)^#.*$\n?", "").trim();
+    if (subject.isEmpty()) {
+      throw new BadRequestException("commit message must be non-empty");
+    }
+    input.subject = subject;
+
+    if (input.topic != null) {
+      input.topic = Strings.emptyToNull(input.topic.trim());
+    }
+
+    if (input.status != null && input.status != ChangeStatus.NEW) {
+      throw new BadRequestException("unsupported change status");
+    }
+
+    if (input.baseChange != null && input.baseCommit != null) {
+      throw new BadRequestException("only provide one of base_change or base_commit");
     }
   }
 
@@ -399,17 +411,5 @@ public class CreateChange
 
   private static ObjectId emptyTreeId(ObjectInserter inserter) throws IOException {
     return inserter.insert(new TreeFormatter());
-  }
-
-  /**
-   * Remove comment lines from a commit message.
-   *
-   * <p>Based on {@link org.eclipse.jgit.util.ChangeIdUtil#clean}.
-   *
-   * @param msg
-   * @return message without comment lines, possibly empty.
-   */
-  private String clean(String msg) {
-    return msg.replaceAll("(?m)^#.*$\n?", "").trim();
   }
 }

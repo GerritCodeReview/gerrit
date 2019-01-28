@@ -165,12 +165,6 @@ public class CreateChange
     checkAndSanitizeChangeInput(input);
 
     ProjectResource rsrc = projectsCollection.parse(input.project);
-    boolean privateByDefault = rsrc.getProjectState().is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
-    boolean isPrivate = input.isPrivate == null ? privateByDefault : input.isPrivate;
-
-    if (isPrivate && disablePrivateChanges) {
-      throw new MethodNotAllowedException("private changes are disabled");
-    }
 
     contributorAgreements.check(rsrc.getNameKey(), rsrc.getUser());
 
@@ -292,7 +286,7 @@ public class CreateChange
       ChangeInserter ins = changeInserterFactory.create(changeId, c, refName);
       ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));
       ins.setTopic(input.topic);
-      ins.setPrivate(isPrivate);
+      ins.setPrivate(input.isPrivate);
       ins.setWorkInProgress(isWorkInProgress);
       ins.setGroups(groups);
       ins.setNotify(input.notify);
@@ -318,7 +312,8 @@ public class CreateChange
    *     ChangeInput} object so that it can be reused directly by follow-up code.
    * @throws BadRequestException if the input is not legal.
    */
-  private static void checkAndSanitizeChangeInput(ChangeInput input) throws BadRequestException {
+  private void checkAndSanitizeChangeInput(ChangeInput input)
+      throws RestApiException, PermissionBackendException, IOException {
     if (Strings.isNullOrEmpty(input.project)) {
       throw new BadRequestException("project must be non-empty");
     }
@@ -345,6 +340,16 @@ public class CreateChange
     if (input.baseChange != null && input.baseCommit != null) {
       throw new BadRequestException("only provide one of base_change or base_commit");
     }
+
+    ProjectResource projectResource = projectsCollection.parse(input.project);
+    // Checks whether the change to be created should be a private change.
+    boolean privateByDefault =
+        projectResource.getProjectState().is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
+    boolean isPrivate = input.isPrivate == null ? privateByDefault : input.isPrivate;
+    if (isPrivate && disablePrivateChanges) {
+      throw new MethodNotAllowedException("private changes are disabled");
+    }
+    input.isPrivate = isPrivate;
   }
 
   private static RevCommit newCommit(

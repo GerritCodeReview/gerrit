@@ -487,7 +487,11 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(out.subject).isEqualTo(in.subject.split("\n")[0]);
     assertThat(out.topic).isEqualTo(in.topic);
     assertThat(out.status).isEqualTo(in.status);
-    assertThat(out.isPrivate).isEqualTo(in.isPrivate);
+    if (in.isPrivate) {
+      assertThat(out.isPrivate).isTrue();
+    } else {
+      assertThat(out.isPrivate).isNull();
+    }
     assertThat(out.workInProgress).isEqualTo(in.workInProgress);
     assertThat(out.revisions).hasSize(1);
     assertThat(out.submitted).isNull();

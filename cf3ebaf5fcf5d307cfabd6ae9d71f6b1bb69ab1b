@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "2682d9bc_699730bb",
+        "filename": "java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-01-28T14:16:00Z",
+      "side": 1,
+      "message": "Is this meant to limit any list or just the list of projects?\nIf the latter, then perhaps a more specific name would be more descriptive.",
+      "revId": "cf3ebaf5fcf5d307cfabd6ae9d71f6b1bb69ab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4bc5274c_22c03168",
         "filename": "java/com/google/gerrit/common/data/GlobalCapability.java",
         "patchSetId": 4
@@ -41,6 +58,52 @@
         "startChar": 26,
         "endLine": 97,
         "endChar": 48
+      },
+      "revId": "cf3ebaf5fcf5d307cfabd6ae9d71f6b1bb69ab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d53bd657_7073c430",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-01-28T14:16:00Z",
+      "side": 1,
+      "message": "I find the max \u003e 0 logic here and at line 351 a bit confusing. Zero means in effect, \"the max limit has not been configured\". Perhaps modelling this with an Optional\u003cInt\u003e would make the code more descriptive?",
+      "range": {
+        "startLine": 462,
+        "startChar": 12,
+        "endLine": 462,
+        "endChar": 30
+      },
+      "revId": "cf3ebaf5fcf5d307cfabd6ae9d71f6b1bb69ab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae890205_4369ed71",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-01-28T14:16:00Z",
+      "side": 1,
+      "message": "what is \u0027p\u0027? is is it a project that gets created by default in tests?",
+      "range": {
+        "startLine": 121,
+        "startChar": 15,
+        "endLine": 121,
+        "endChar": 16
       },
       "revId": "cf3ebaf5fcf5d307cfabd6ae9d71f6b1bb69ab1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

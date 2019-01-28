@@ -114,9 +114,7 @@ public class AccountValidator {
     accountConfig.load(allUsersName, rw, commit);
     if (messages != null) {
       messages.addAll(
-          accountConfig
-              .getValidationErrors()
-              .stream()
+          accountConfig.getValidationErrors().stream()
               .map(ValidationError::getMessage)
               .collect(toSet()));
     }

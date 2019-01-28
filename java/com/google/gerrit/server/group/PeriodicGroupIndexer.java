@@ -125,8 +125,7 @@ public class PeriodicGroupIndexer implements Runnable {
   public synchronized void run() {
     try (Repository allUsers = repoManager.openRepository(allUsersName)) {
       ImmutableSet<AccountGroup.UUID> newGroupUuids =
-          GroupNameNotes.loadAllGroups(allUsers)
-              .stream()
+          GroupNameNotes.loadAllGroups(allUsers).stream()
               .map(GroupReference::getUUID)
               .collect(toImmutableSet());
       GroupIndexer groupIndexer = groupIndexerProvider.get();

@@ -157,8 +157,7 @@ public class AccountField {
       storedOnly("external_id_state")
           .buildRepeatable(
               a ->
-                  a.getExternalIds()
-                      .stream()
+                  a.getExternalIds().stream()
                       .filter(e -> e.blobId() != null)
                       .map(ExternalId::toByteArray)
                       .collect(toSet()));

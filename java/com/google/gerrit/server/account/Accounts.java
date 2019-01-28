@@ -140,9 +140,7 @@ public class Accounts {
   }
 
   public static Stream<Account.Id> readUserRefs(Repository repo) throws IOException {
-    return repo.getRefDatabase()
-        .getRefsByPrefix(RefNames.REFS_USERS)
-        .stream()
+    return repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_USERS).stream()
         .map(r -> Account.Id.fromRef(r.getName()))
         .filter(Objects::nonNull);
   }

@@ -191,25 +191,7 @@ public class CreateChange
 
       Timestamp now = TimeUtil.nowTs();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
-
-      // Add a Change-Id line if there isn't already one
-      String commitMessage = input.subject;
-      if (ChangeIdUtil.indexOfChangeId(commitMessage, "\n") == -1) {
-        ObjectId treeId = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
-        ObjectId id = ChangeIdUtil.computeChangeId(treeId, mergeTip, author, author, commitMessage);
-        commitMessage = ChangeIdUtil.insertId(commitMessage, id);
-      }
-
-      if (Boolean.TRUE.equals(me.state().getGeneralPreferences().signedOffBy)) {
-        commitMessage =
-            Joiner.on("\n")
-                .join(
-                    commitMessage.trim(),
-                    String.format(
-                        "%s%s",
-                        SIGNED_OFF_BY_TAG,
-                        me.state().getAccount().getNameEmail(anonymousCowardName)));
-      }
+      String commitMessage = getCommitMessage(input.subject, me, oi, mergeTip, author);
 
       RevCommit c;
       if (input.merge != null) {
@@ -389,6 +371,35 @@ public class CreateChange
     }
 
     return parentCommit;
+  }
+
+  private String getCommitMessage(
+      String subject,
+      IdentifiedUser me,
+      ObjectInserter objectInserter,
+      RevCommit mergeTip,
+      PersonIdent author)
+      throws IOException {
+    // Add a Change-Id line if there isn't already one
+    String commitMessage = subject;
+    if (ChangeIdUtil.indexOfChangeId(commitMessage, "\n") == -1) {
+      ObjectId treeId = mergeTip == null ? emptyTreeId(objectInserter) : mergeTip.getTree();
+      ObjectId id = ChangeIdUtil.computeChangeId(treeId, mergeTip, author, author, commitMessage);
+      commitMessage = ChangeIdUtil.insertId(commitMessage, id);
+    }
+
+    if (Boolean.TRUE.equals(me.state().getGeneralPreferences().signedOffBy)) {
+      commitMessage =
+          Joiner.on("\n")
+              .join(
+                  commitMessage.trim(),
+                  String.format(
+                      "%s%s",
+                      SIGNED_OFF_BY_TAG,
+                      me.state().getAccount().getNameEmail(anonymousCowardName)));
+    }
+
+    return commitMessage;
   }
 
   private static RevCommit newCommit(

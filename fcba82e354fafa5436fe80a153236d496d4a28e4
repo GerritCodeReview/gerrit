@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0ebc2b9a_86fd3add",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-28T06:37:45Z",
+      "side": 1,
+      "message": "\u003e How do you intend that this new capability will resolve that?\n\nIf you set a \"reasonable limit\" (e.g. 1000 elements) then people running a \u0027gerrit ls-projects\u0027 won\u0027t blow up your JVM heap anymore :-)\n\n\u003e Are you suggesting adding a limit for certain users that you think should be supplying a limit but aren\u0027t? If yes, how do you know you\u0027re not breaking them?\n\nIf some users are saying every minute \"please load and list the universe\", they must be doing something wrong, unless they are the Gerrit admins or someone that has the explicit intent to check your entire Gerrit content every time.",
+      "parentUuid": "4e9bd49f_af36c2b7",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "fcba82e354fafa5436fe80a153236d496d4a28e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb44507d_d5ac5079",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "fcba82e354fafa5436fe80a153236d496d4a28e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bcb09ae_84b9e24d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-28T06:37:45Z",
+      "side": 1,
+      "message": "\u003e Can we find where it\u0027s doing that, and why?  IIRC the place it requests a list of projects is when configuring a new job in the UI and it fetches the list of projects to fill a drop down list.\n\nNope, it is done regardless of what you do in the UI and when the thread starts. See my PR at https://github.com/jenkinsci/gerrit-trigger-plugin/pull/391",
+      "parentUuid": "bb44507d_d5ac5079",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 16,
+        "endChar": 16
+      },
+      "revId": "fcba82e354fafa5436fe80a153236d496d4a28e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c2c32abb_00440e55",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1309,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-28T06:37:45Z",
+      "side": 1,
+      "message": "My intent is to extend to any lists we have in Gerrit. This change starts with the projects, the next one will go to the the groups and then continue with the other lists.",
+      "parentUuid": "06e5cc8a_f0f66692",
+      "range": {
+        "startLine": 1309,
+        "startChar": 4,
+        "endLine": 1309,
+        "endChar": 14
+      },
+      "revId": "fcba82e354fafa5436fe80a153236d496d4a28e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d75c7621_dc6e9147",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 3
@@ -91,6 +163,30 @@
       "revId": "fcba82e354fafa5436fe80a153236d496d4a28e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1f552d8_e5333761",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-28T06:37:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d75c7621_dc6e9147",
+      "range": {
+        "startLine": 1318,
+        "startChar": 19,
+        "endLine": 1318,
+        "endChar": 31
+      },
+      "revId": "fcba82e354fafa5436fe80a153236d496d4a28e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

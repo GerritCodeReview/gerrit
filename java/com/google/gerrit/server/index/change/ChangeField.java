@@ -193,7 +193,7 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_EXTENSION).buildRepeatable(ChangeField::getExtensions);
 
   public static Set<String> getExtensions(ChangeData cd) throws OrmException {
-    return extensions(cd).filter(e -> !e.isEmpty()).collect(toSet());
+    return extensions(cd).collect(toSet());
   }
 
   /**

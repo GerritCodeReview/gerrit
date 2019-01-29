@@ -109,7 +109,10 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
 
   @Deprecated static final Schema<ChangeData> V54 = schema(V53, ChangeField.FOOTER);
 
-  static final Schema<ChangeData> V55 = schema(V54, ChangeField.DIRECTORY);
+  @Deprecated static final Schema<ChangeData> V55 = schema(V54, ChangeField.DIRECTORY);
+
+  // The computation of the 'extension' field is changed, hence reindexing is required.
+  static final Schema<ChangeData> V56 = schema(V55);
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();

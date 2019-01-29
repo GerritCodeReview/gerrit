@@ -95,8 +95,6 @@ public final class Project {
 
   protected String localDefaultDashboardId;
 
-  protected String themeName;
-
   protected String configRefState;
 
   protected Project() {}
@@ -180,22 +178,6 @@ public final class Project {
 
   public void setLocalDefaultDashboard(String localDefaultDashboardId) {
     this.localDefaultDashboardId = localDefaultDashboardId;
-  }
-
-  public String getThemeName() {
-    return themeName;
-  }
-
-  public void setThemeName(String themeName) {
-    this.themeName = themeName;
-  }
-
-  public void copySettingsFrom(Project update) {
-    description = update.description;
-    booleanConfigs = new HashMap<>(update.booleanConfigs);
-    submitType = update.submitType;
-    state = update.state;
-    maxObjectSizeLimit = update.maxObjectSizeLimit;
   }
 
   /**

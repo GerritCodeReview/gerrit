@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b06fa4e4_11562390",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-29T17:31:02Z",
+      "side": 1,
+      "message": "That sounds useful to me --- e.g. an \"autosubmit\" tool that tries to submit changes that are reviewed and ready to merge could pass o\u003dMERGEABLE in their query.",
+      "range": {
+        "startLine": 15,
+        "startChar": 46,
+        "endLine": 16,
+        "endChar": 6
+      },
+      "revId": "db8df4886c09901cc1dca619c0f16b1b0bc1afe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52612506_0983b342",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-29T17:31:02Z",
+      "side": 1,
+      "message": "If I want to avoid placing undue load on the server, what option should I pass today?\n\nIt feels too early to deprecate o\u003dSKIP_MERGEABLE since there\u0027s no alternative for clients to switch to yet. (But once SKIP_MERGEABLE is the default for everyone, the alternative will be \"do nothing\" and then that will be a good moment for it.)",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 313,
+        "endChar": 26
+      },
+      "revId": "db8df4886c09901cc1dca619c0f16b1b0bc1afe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ab5f848_fab4c908",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-01-29T17:31:02Z",
+      "side": 1,
+      "message": "Can this default to true?",
+      "range": {
+        "startLine": 260,
+        "startChar": 72,
+        "endLine": 260,
+        "endChar": 77
+      },
+      "revId": "db8df4886c09901cc1dca619c0f16b1b0bc1afe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

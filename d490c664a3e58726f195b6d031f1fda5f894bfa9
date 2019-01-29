@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "35a51885_7d08f4f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-29T23:34:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c86ead33_6789f03a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "d490c664a3e58726f195b6d031f1fda5f894bfa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bbe1cf8_9c443652",
         "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "d490c664a3e58726f195b6d031f1fda5f894bfa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e3cabb8_2c6f2e4a",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-01-29T23:34:22Z",
+      "side": 1,
+      "message": "I guess it can because then it will be more readable. Thanks, done.",
+      "parentUuid": "7bbe1cf8_9c443652",
+      "revId": "d490c664a3e58726f195b6d031f1fda5f894bfa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

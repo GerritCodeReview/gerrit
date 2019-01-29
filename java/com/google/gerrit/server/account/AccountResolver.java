@@ -246,7 +246,7 @@ public class AccountResolver {
   private abstract class AccountIdSearcher implements Searcher<Account.Id> {
     @Override
     public final Stream<AccountState> search(Account.Id input) {
-      return Streams.stream(byId.get(input));
+      return Streams.stream(accountCache.get(input));
     }
   }
 
@@ -318,7 +318,7 @@ public class AccountResolver {
 
     @Override
     public Stream<AccountState> search(String input) {
-      return Streams.stream(byId.getByUsername(input));
+      return Streams.stream(accountCache.getByUsername(input));
     }
 
     @Override
@@ -461,7 +461,7 @@ public class AccountResolver {
           .addAll(nameOrEmailSearchers)
           .build();
 
-  private final AccountCache byId;
+  private final AccountCache accountCache;
   private final AccountControl.Factory accountControlFactory;
   private final Emails emails;
   private final IdentifiedUser.GenericFactory userFactory;
@@ -472,7 +472,7 @@ public class AccountResolver {
 
   @Inject
   AccountResolver(
-      AccountCache byId,
+      AccountCache accountCache,
       Emails emails,
       AccountControl.Factory accountControlFactory,
       IdentifiedUser.GenericFactory userFactory,
@@ -481,7 +481,7 @@ public class AccountResolver {
       Realm realm,
       @AnonymousCowardName String anonymousCowardName) {
     this.realm = realm;
-    this.byId = byId;
+    this.accountCache = accountCache;
     this.accountControlFactory = accountControlFactory;
     this.userFactory = userFactory;
     this.self = self;
@@ -608,6 +608,6 @@ public class AccountResolver {
   }
 
   private Stream<AccountState> toAccountStates(Set<Account.Id> ids) {
-    return byId.get(ids).values().stream();
+    return accountCache.get(ids).values().stream();
   }
 }

@@ -30,6 +30,16 @@ public interface ProjectCache {
   ProjectState getAllUsers();
 
   /**
+   * Get the cached data for the children names of a project.
+   *
+   * @param parentProjectName parent project name.
+   * @return the cached data of the children names of the parent project; empty when there are no
+   *     children projects for that parent or the parent does not exists.
+   * @see #checkedGet(com.google.gerrit.reviewdb.client.Project.NameKey)
+   */
+  Set<Project.NameKey> getChildrenNames(Project.NameKey parentProjectName);
+
+  /**
    * Get the cached data for a project by its unique name.
    *
    * @param projectName name of the project.

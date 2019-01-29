@@ -14,6 +14,7 @@ _ssh_ -p <port> <host> _gerrit ls-projects_
   [--format {text | json | json_compact}]
   [--all]
   [--limit <N>]
+  [--prefix | -p <prefix>]
   [--has-acl-for GROUP]
 --
 
@@ -86,6 +87,9 @@ used to unescape the output.
 
 --limit::
 	Cap the number of results to the first N matches.
+
+--prefix::
+	Limit the results to those projects that start with the specified prefix.
 
 --has-acl-for::
 	Display only projects on which access rights for this group are

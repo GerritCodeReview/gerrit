@@ -28,6 +28,7 @@ import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -41,6 +42,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -127,6 +129,20 @@ public class ProjectCacheImpl implements ProjectCache {
       throw new IllegalStateException("Missing project " + allUsersName);
     }
     return state;
+  }
+
+  @Override
+  public Set<NameKey> getChildrenNames(NameKey parent) {
+    Set<NameKey> children = new HashSet<>();
+    for (Project.NameKey name : all()) {
+      ProjectState c = get(name);
+      if (c != null
+          && parent.equals(c.getProject().getParent(allProjectsName))
+          && c.statePermitsRead()) {
+        children.add(c.getProject().getNameKey());
+      }
+    }
+    return ImmutableSet.copyOf(children);
   }
 
   @Override

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "29b2a613_c84a0320",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-29T23:32:30Z",
+      "side": 1,
+      "message": "Add issue 10401 in the footer.  Also it would be good to mention in the commit message why this predicate is needed.",
+      "revId": "27be62f158783667ebb3e3cb340cb74243f5f80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "00f0fd6b_abc5a93c",
         "filename": "java/com/google/gerrit/server/query/project/ProjectPredicates.java",
         "patchSetId": 1

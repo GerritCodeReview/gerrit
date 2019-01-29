@@ -27,6 +27,10 @@ public class ProjectPredicates {
     return new ProjectPredicate(ProjectField.NAME, nameKey.get());
   }
 
+  public static Predicate<ProjectData> parent(Project.NameKey parentNameKey) {
+    return new ProjectPredicate(ProjectField.PARENT_NAME, parentNameKey.get());
+  }
+
   public static Predicate<ProjectData> inname(String name) {
     return new ProjectPredicate(ProjectField.NAME_PART, name.toLowerCase(Locale.US));
   }

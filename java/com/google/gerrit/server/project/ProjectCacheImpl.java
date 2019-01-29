@@ -42,6 +42,8 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -60,15 +62,17 @@ public class ProjectCacheImpl implements ProjectCache {
 
   private static final String CACHE_LIST = "project_list";
 
+  private static final String CACHE_CHILDREN = "project_children";
+
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
         cache(CACHE_NAME, String.class, ProjectState.class).loader(Loader.class);
-
         cache(CACHE_LIST, ListKey.class, new TypeLiteral<ImmutableSortedSet<Project.NameKey>>() {})
             .maximumWeight(1)
             .loader(Lister.class);
+        persist(CACHE_CHILDREN, String.class, ProjectChildren.class).loader(ChildrenLoader.class);
 
         bind(ProjectCacheImpl.class);
         bind(ProjectCache.class).to(ProjectCacheImpl.class);
@@ -89,6 +93,7 @@ public class ProjectCacheImpl implements ProjectCache {
   private final AllUsersName allUsersName;
   private final LoadingCache<String, ProjectState> byName;
   private final LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list;
+  private final LoadingCache<String, ProjectChildren> children;
   private final Lock listLock;
   private final ProjectCacheClock clock;
   private final Provider<ProjectIndexer> indexer;
@@ -99,12 +104,14 @@ public class ProjectCacheImpl implements ProjectCache {
       final AllUsersName allUsersName,
       @Named(CACHE_NAME) LoadingCache<String, ProjectState> byName,
       @Named(CACHE_LIST) LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list,
+      @Named(CACHE_CHILDREN) LoadingCache<String, ProjectChildren> children,
       ProjectCacheClock clock,
       Provider<ProjectIndexer> indexer) {
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.byName = byName;
     this.list = list;
+    this.children = children;
     this.listLock = new ReentrantLock(true /* fair */);
     this.clock = clock;
     this.indexer = indexer;
@@ -133,16 +140,12 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public Set<NameKey> getChildrenNames(NameKey parent) {
-    Set<NameKey> children = new HashSet<>();
-    for (Project.NameKey name : all()) {
-      ProjectState c = get(name);
-      if (c != null
-          && parent.equals(c.getProject().getParent(allProjectsName))
-          && c.statePermitsRead()) {
-        children.add(c.getProject().getNameKey());
-      }
+    try {
+      return children.get(parent.get()).children;
+    } catch (ExecutionException e) {
+      logger.atWarning().withCause(e).log("Cannot extract children of project %s", parent);
+      return Collections.emptySet();
     }
-    return ImmutableSet.copyOf(children);
   }
 
   @Override
@@ -161,7 +164,7 @@ public class ProjectCacheImpl implements ProjectCache {
       return null;
     }
     try {
-      return strictCheckedGet(projectName);
+      return strictCheckedGet(clock, byName, projectName);
     } catch (Exception e) {
       if (!(e.getCause() instanceof RepositoryNotFoundException)) {
         logger.atWarning().withCause(e).log("Cannot read project %s", projectName.get());
@@ -177,10 +180,14 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public ProjectState checkedGet(Project.NameKey projectName, boolean strict) throws Exception {
-    return strict ? strictCheckedGet(projectName) : checkedGet(projectName);
+    return strict ? strictCheckedGet(clock, byName, projectName) : checkedGet(projectName);
   }
 
-  private ProjectState strictCheckedGet(Project.NameKey projectName) throws Exception {
+  static ProjectState strictCheckedGet(
+      ProjectCacheClock clock,
+      LoadingCache<String, ProjectState> byName,
+      Project.NameKey projectName)
+      throws Exception {
     ProjectState state = byName.get(projectName.get());
     if (state != null && state.needsRefresh(clock.read())) {
       byName.invalidate(projectName.get());
@@ -199,6 +206,7 @@ public class ProjectCacheImpl implements ProjectCache {
     if (p != null) {
       logger.atFine().log("Evict project '%s'", p.get());
       byName.invalidate(p.get());
+      children.invalidate(p.get());
     }
     indexer.get().index(p);
   }
@@ -215,6 +223,13 @@ public class ProjectCacheImpl implements ProjectCache {
       list.put(
           ListKey.ALL,
           ImmutableSortedSet.copyOf(Sets.difference(list.get(ListKey.ALL), ImmutableSet.of(name))));
+      children
+          .asMap()
+          .entrySet()
+          .stream()
+          .filter(e -> e.getValue().children.contains(name))
+          .map(e -> e.getKey())
+          .forEach(children::invalidate);
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log("Cannot list available projects");
     } finally {
@@ -323,6 +338,48 @@ public class ProjectCacheImpl implements ProjectCache {
       try (TraceTimer timer = TraceContext.newTimer("Loading project list")) {
         return ImmutableSortedSet.copyOf(mgr.list());
       }
+    }
+  }
+
+  static class ProjectChildren implements Serializable {
+    public final Set<Project.NameKey> children;
+
+    public ProjectChildren(Set<NameKey> children) {
+      this.children = children;
+    }
+  }
+
+  static class ChildrenLoader extends CacheLoader<String, ProjectChildren> {
+    private final AllProjectsName allProjectsName;
+    private LoadingCache<String, ProjectState> byName;
+    private LoadingCache<ListKey, ImmutableSortedSet<NameKey>> list;
+    private ProjectCacheClock clock;
+
+    @Inject
+    public ChildrenLoader(
+        AllProjectsName allProjectsName,
+        @Named(CACHE_NAME) LoadingCache<String, ProjectState> byName,
+        @Named(CACHE_LIST) LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list,
+        ProjectCacheClock clock) {
+      this.allProjectsName = allProjectsName;
+      this.byName = byName;
+      this.list = list;
+      this.clock = clock;
+    }
+
+    @Override
+    public ProjectChildren load(String parent) throws Exception {
+      Project.NameKey parentNameKey = Project.NameKey.parse(parent);
+      Set<NameKey> children = new HashSet<>();
+      for (Project.NameKey name : list.get(ListKey.ALL)) {
+        ProjectState c = strictCheckedGet(clock, byName, name);
+        if (c != null
+            && parentNameKey.equals(c.getProject().getParent(allProjectsName))
+            && c.statePermitsRead()) {
+          children.add(c.getProject().getNameKey());
+        }
+      }
+      return new ProjectChildren(ImmutableSet.copyOf(children));
     }
   }
 

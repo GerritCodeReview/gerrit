@@ -276,6 +276,8 @@ should be double quoted when using more complex construction (like
 ones using a bracket expression). For example, to match all XML
 files named like 'name1.xml', 'name2.xml', and 'name3.xml' use
 `file:"^name[1-3].xml"`.
++
+Slash ('/') is used path separator.
 
 [[file]]
 file:'NAME', f:'NAME'::

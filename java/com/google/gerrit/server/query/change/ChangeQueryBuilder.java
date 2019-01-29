@@ -781,6 +781,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> directory(String directory) throws QueryParseException {
     if (args.getSchema().hasField(ChangeField.DIRECTORY)) {
+      if (directory.startsWith("^")) {
+        return new RegexDirectoryPredicate(directory);
+      }
+
       return new DirectoryPredicate(directory);
     }
     throw new QueryParseException("'directory' operator is not supported by change index version");

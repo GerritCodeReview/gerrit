@@ -317,6 +317,10 @@ E.g. a change that touches a file in the directory 'a/b/c' matches for 'a/b/c',
 +
 Slash ('/') is used path separator. Leading and trailing slashes are allowed
 but are not mandatory.
++
+If 'DIR' starts with `^` it matches directories and directory segments by
+regular expression. The link:http://www.brics.dk/automaton/[dk.brics.automaton
+library] is used for evaluation of such patterns.
 
 [[footer]]
 footer:'FOOTER'::

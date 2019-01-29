@@ -1581,6 +1581,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("directory:/b/c", change5);
     assertQuery("directory:/b/c/", change5);
     assertQuery("directory:b/c/", change5);
+
+    // match by regexp
+    assertQuery("directory:^.*va.*", change2);
+    assertQuery("directory:^documentation/.*/slides", change3);
+    assertQuery("directory:^train.*", change3);
   }
 
   @Test

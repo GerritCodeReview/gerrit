@@ -23,6 +23,30 @@
       "revId": "098c968ba2d8478e1c5c23201799071bc891be86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cc016e3_2af74128",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2166,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-01-29T23:50:04Z",
+      "side": 1,
+      "message": "I mean it roughly in the RFC 2119 sense: \"there may exist valid reasons in particular circumstances to ignore a particular item\", i.e. it might not be technically possible.\n\nAlthough I suppose you could argue that if the error message doesn\u0027t contain a sufficient description, then that\u0027s a bug.",
+      "parentUuid": "66178a6d_ddb330b6",
+      "range": {
+        "startLine": 2166,
+        "startChar": 21,
+        "endLine": 2166,
+        "endChar": 35
+      },
+      "revId": "098c968ba2d8478e1c5c23201799071bc891be86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

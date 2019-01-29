@@ -12,6 +12,11 @@ name:'NAME'::
 +
 Matches projects that have exactly the name 'NAME'.
 
+[[parent]]
+parent:'PARENT'::
++
+Matches projects that have 'PARENT' as parent project.
+
 [[inname]]
 inname:'NAME'::
 +

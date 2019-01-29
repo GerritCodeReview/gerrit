@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c5785618_812dbece",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-29T05:52:43Z",
+      "side": 1,
+      "message": "The Signed-off-by footer is repeated.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "8fc2c9a96d157ff0dd32a141d92b06b929a530ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4527c4c5_eca5378f",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 6

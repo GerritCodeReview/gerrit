@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c86ead33_6789f03a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-29T23:30:05Z",
+      "side": 1,
+      "message": "On reading this summary I expected it to be a documentation update.\n\nIt might be better to explicitly say that it adds a \u003cnoscript\u003e in the main template.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "d490c664a3e58726f195b6d031f1fda5f894bfa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bbe1cf8_9c443652",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-29T23:30:05Z",
+      "side": 1,
+      "message": "Should this be moved above the block at L30-32 which includes a \u003cscript\u003e tag?",
+      "revId": "d490c664a3e58726f195b6d031f1fda5f894bfa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

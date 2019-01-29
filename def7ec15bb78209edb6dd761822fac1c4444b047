@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "657cc952_424188b6",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-01-29T09:11:17Z",
+      "side": 1,
+      "message": "is it possible to have both limit and maxLimit equal to 0? Would that mean in such case that it will return all projects in display method?",
+      "range": {
+        "startLine": 514,
+        "startChar": 4,
+        "endLine": 519,
+        "endChar": 5
+      },
+      "revId": "def7ec15bb78209edb6dd761822fac1c4444b047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

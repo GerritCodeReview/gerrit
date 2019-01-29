@@ -267,6 +267,11 @@ public class RefControlTest {
               throws Exception {
             return all.get(projectName);
           }
+
+          @Override
+          public Set<Project.NameKey> getChildrenNames(Project.NameKey parentProjectName) {
+            return ImmutableSortedSet.of();
+          }
         };
 
     Injector injector = Guice.createInjector(new InMemoryModule());

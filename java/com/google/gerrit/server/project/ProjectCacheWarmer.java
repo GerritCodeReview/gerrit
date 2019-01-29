@@ -53,7 +53,11 @@ public class ProjectCacheWarmer implements LifecycleListener {
           new Thread(
               () -> {
                 for (Project.NameKey name : cache.all()) {
-                  pool.execute(() -> cache.get(name));
+                  pool.execute(
+                      () -> {
+                        cache.get(name);
+                        cache.getChildrenNames(name);
+                      });
                 }
                 pool.shutdown();
                 try {

@@ -45,6 +45,11 @@ public class ProjectQueryBuilder extends QueryBuilder<ProjectData> {
   }
 
   @Operator
+  public Predicate<ProjectData> parent(String parentName) {
+    return ProjectPredicates.parent(new Project.NameKey(parentName));
+  }
+
+  @Operator
   public Predicate<ProjectData> inname(String namePart) {
     if (namePart.isEmpty()) {
       return name(namePart);

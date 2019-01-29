@@ -10,6 +10,7 @@ CORE_PLUGINS = [
 
 CUSTOM_PLUGINS = [
     # Add custom core plugins here
+    "delete-project",
 ]
 
 CUSTOM_PLUGINS_TEST_DEPS = [

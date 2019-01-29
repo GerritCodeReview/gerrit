@@ -16,11 +16,12 @@ package com.google.gerrit.server.restapi.project;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -28,11 +29,8 @@ import com.google.gerrit.server.project.ChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.kohsuke.args4j.Option;
 
 public class ListChildProjects implements RestReadView<ProjectResource> {
@@ -42,22 +40,22 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
 
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
-  private final AllProjectsName allProjects;
   private final ProjectJson json;
   private final ChildProjects childProjects;
+  private final GerritApi gApi;
 
   @Inject
   ListChildProjects(
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
-      AllProjectsName allProjectsName,
       ProjectJson json,
-      ChildProjects childProjects) {
+      ChildProjects childProjects,
+      GerritApi gApi) {
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
-    this.allProjects = allProjectsName;
     this.json = json;
     this.childProjects = childProjects;
+    this.gApi = gApi;
   }
 
   public void setRecursive(boolean recursive) {
@@ -66,7 +64,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
 
   @Override
   public List<ProjectInfo> apply(ProjectResource rsrc)
-      throws PermissionBackendException, ResourceConflictException {
+      throws PermissionBackendException, ResourceConflictException, RestApiException {
     rsrc.getProjectState().checkStatePermitsRead();
     if (recursive) {
       return childProjects.list(rsrc.getNameKey());
@@ -76,22 +74,21 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   }
 
   private List<ProjectInfo> directChildProjects(Project.NameKey parent)
-      throws PermissionBackendException {
-    Map<Project.NameKey, Project> children = new HashMap<>();
-    for (Project.NameKey name : projectCache.all()) {
-      ProjectState c = projectCache.get(name);
-      if (c != null
-          && parent.equals(c.getProject().getParent(allProjects))
-          && c.statePermitsRead()) {
-        children.put(c.getNameKey(), c.getProject());
-      }
-    }
+      throws PermissionBackendException, RestApiException {
+    List<Project.NameKey> children =
+        gApi.projects()
+            .query("parent:" + parent.get())
+            .get()
+            .stream()
+            .map(p -> new Project.NameKey(p.name))
+            .collect(toList());
+
     return permissionBackend
         .currentUser()
-        .filter(ProjectPermission.ACCESS, children.keySet())
+        .filter(ProjectPermission.ACCESS, children)
         .stream()
         .sorted()
-        .map((p) -> json.format(children.get(p)))
+        .map(p -> json.format(projectCache.get(p)))
         .collect(toList());
   }
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a8dda0a_14aca248",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-29T09:42:57Z",
+      "side": 1,
+      "message": "Interesting. No idea how this happened.\n\nDone",
+      "parentUuid": "c5785618_812dbece",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "8fc2c9a96d157ff0dd32a141d92b06b929a530ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4527c4c5_eca5378f",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 6
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "3649d39e_46ae3c28",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-29T09:42:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "347050aa_64957817",
+      "range": {
+        "startLine": 312,
+        "startChar": 28,
+        "endLine": 312,
+        "endChar": 64
+      },
+      "revId": "8fc2c9a96d157ff0dd32a141d92b06b929a530ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be609961_e0cb92ef",
         "filename": "java/com/google/gerrit/server/query/change/FooterPredicate.java",
         "patchSetId": 6
@@ -113,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "ef30e8d5_a892e88f",
+        "filename": "java/com/google/gerrit/server/query/change/FooterPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-29T09:42:57Z",
+      "side": 1,
+      "message": "Ack. I also prefer if this is not failing, but just not matching anything.",
+      "parentUuid": "be609961_e0cb92ef",
+      "revId": "8fc2c9a96d157ff0dd32a141d92b06b929a530ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b648b98_b5ba230f",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 6
@@ -124,6 +190,24 @@
       "writtenOn": "2019-01-28T16:23:29Z",
       "side": 1,
       "message": "So I guess this is intentionally testing that change4 is not returned, because it has a fake footer in the format \"foo\u003dbar\"?\n\nI wonder if this is going to confuse people, and we are going to get a feature request to support footers in the form \"foo\u003dbar\" as well. I understand this would break JGit\u0027s parsing and all, but that doesn\u0027t mean users won\u0027t be confused...",
+      "revId": "8fc2c9a96d157ff0dd32a141d92b06b929a530ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972611c4_8e96f49a",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1470,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-29T09:42:57Z",
+      "side": 1,
+      "message": "\u003e So I guess this is intentionally testing that change4 is not \n\u003e returned, because it has a fake footer in the format \"foo\u003dbar\"?\n\nYes\n\n\u003e I wonder if this is going to confuse people, and we are going to\n\u003e get a feature request to support footers in the form \"foo\u003dbar\"\n\u003e as well. I understand this would break JGit\u0027s parsing and all,\n\u003e but that doesn\u0027t mean users won\u0027t be confused...\n\nYeah, not sure what to do here.\nSince I don\u0027t type footers daily I sometimes need to reassure myself that it\u0027s \"\u003ckey\u003e: \u003cvalue\u003e\" and not \"\u003ckey\u003e\u003d\u003cvalue\u003e\". So I definitely see how this is confusing :-/",
+      "parentUuid": "4b648b98_b5ba230f",
       "revId": "8fc2c9a96d157ff0dd32a141d92b06b929a530ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

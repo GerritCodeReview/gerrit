@@ -294,8 +294,8 @@ extension:'EXT', ext:'EXT'::
 +
 Matches any change touching a file with extension 'EXT', case-insensitive. The
 extension is defined as the portion of the filename following the final `.`.
-Files with no `.` in their name have no extension and cannot be matched with
-this operator; use `file:` instead.
+Files with no `.` in their name have no extension and can be matched by an
+empty string.
 
 [[onlyextensions]]
 onlyextensions:'EXT_LIST', onlyexts:'EXT_LIST'::

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bb9aa895_a8b2a1b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-29T07:59:08Z",
+      "side": 1,
+      "message": "Yes, I think so. I can do this as a separate change.\n\nFor the \u0027onlyextensions\u0027 operator it is more important to consider files without extensions. I first thought to follow the example of \u0027extension\u0027 and ignore files without extensions, but then \u0027onlyextensions:txt,jpg\" would also match changes that touch txt, jpg files and files without extensions and that would contradict the purpose of this operator.",
+      "parentUuid": "cd1ff1a2_8202cd74",
+      "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e3355074_ce23885d",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "e935af30_7cd40a9f",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-29T07:59:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3355074_ce23885d",
+      "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f63ec26_58e9230a",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2019-01-28T16:18:44Z",
       "side": 1,
       "message": "Optional: move .distinct() to getAllExtensionsAsList, since it\u0027s unnecessary work in the toSet case.",
+      "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90f2cd7f_648df9b5",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-29T07:59:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f63ec26_58e9230a",
       "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "72694714_5a18eb38",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-29T07:59:08Z",
+      "side": 1,
+      "message": "except \"change_id\" :)\n\nBut agreed and changed.",
+      "parentUuid": "87ab48ad_52b44c11",
+      "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1619ed11_72b56803",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 5
@@ -81,6 +153,24 @@
       "writtenOn": "2019-01-28T16:18:44Z",
       "side": 1,
       "message": "Is it potentially confusing if they typed \"only_exts\" and didn\u0027t see that operator in the response?\n\nI think we can punt on this for now. I have some ideas for how to improve this error message generation in general, it\u0027s pretty copy/paste heavy at the moment.",
+      "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8a68877_bc46df24",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-29T07:59:08Z",
+      "side": 1,
+      "message": "OK, punting on this for now.\nI agree that users may be confused in the \"only_exts\" case. When we fix this, we should fix it also for the other cases (e.g. \u0027exetnsions\u0027 above).",
+      "parentUuid": "1619ed11_72b56803",
       "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "ece3b603_1e6b1234",
+        "filename": "java/com/google/gerrit/server/query/change/FileExtensionListPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-29T07:59:08Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s nicer.\n\nDone",
+      "parentUuid": "abe72adc_c729a987",
+      "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "300aad0e_ec8fff1e",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 5
@@ -115,6 +223,24 @@
       "writtenOn": "2019-01-28T16:18:44Z",
       "side": 1,
       "message": "I now have visions in my head of a QuerySubject so you can write:\n\n assertThatQuery(query).failsWithMessage(expectedMessage);\n assertThatQuery(query).returnsNoResults();\n assertThatQuery(query).returnsResults(...);\n\nBut I\u0027m not volunteering to clean up our thousands of lines of query tests ;)",
+      "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0b4dcd_8ab9d2b6",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-29T07:59:08Z",
+      "side": 1,
+      "message": "Good idea!\n\nNoted it down, in case I find time to look at it.",
+      "parentUuid": "300aad0e_ec8fff1e",
       "revId": "e180f96b2c56bafd0384019265835f6f0f5550ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

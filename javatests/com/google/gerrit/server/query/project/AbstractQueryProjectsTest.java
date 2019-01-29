@@ -193,6 +193,15 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   }
 
   @Test
+  public void byParent() throws Exception {
+    assertQuery("parent:project");
+    ProjectInfo parent = createProject(name("parent"));
+    assertQuery("parent:" + parent.name);
+    ProjectInfo child = createProject(name("child"), parent.name);
+    assertQuery("parent:" + parent.name, child);
+  }
+
+  @Test
   public void byInname() throws Exception {
     String namePart = getSanitizedMethodName();
     namePart = CharMatcher.is('_').removeFrom(namePart);
@@ -326,6 +335,13 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   protected ProjectInfo createProject(String name) throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name;
+    return gApi.projects().create(in).get();
+  }
+
+  protected ProjectInfo createProject(String name, String parent) throws Exception {
+    ProjectInput in = new ProjectInput();
+    in.name = name;
+    in.parent = parent;
     return gApi.projects().create(in).get();
   }
 

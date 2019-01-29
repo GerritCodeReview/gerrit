@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "b592e8e4_e3115408",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-29T11:07:16Z",
+      "side": 1,
+      "message": "The path search operator didn\u0027t mention that \u0027/\u0027 is used as path separator, doing it here:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/212081",
+      "parentUuid": "1b6cc055_d4fe93fd",
+      "revId": "889ce7bd98dd930ea5d411017a01f136ee121d74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d922ab1c_07a98f29",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 7

@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.reviewdb.client.Project;
@@ -60,7 +61,7 @@ public class Index implements RestModifyView<ProjectResource, IndexProjectInput>
   @Override
   public Response.Accepted apply(ProjectResource rsrc, IndexProjectInput input)
       throws IOException, AuthException, OrmException, PermissionBackendException,
-          ResourceConflictException {
+          ResourceConflictException, RestApiException {
     String response = "Project " + rsrc.getName() + " submitted for reindexing";
 
     reindex(rsrc.getNameKey(), input.async);

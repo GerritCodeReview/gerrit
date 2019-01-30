@@ -49,6 +49,9 @@ public class RefNames {
   /** Sequence counters in NoteDb. */
   public static final String REFS_SEQUENCES = "refs/sequences/";
 
+  /** Ref namespace for verifiers. */
+  public static final String REFS_VERIFIERS = "refs/verifiers/";
+
   /** NoteDb schema version number. */
   public static final String REFS_VERSION = "refs/meta/version";
 
@@ -234,6 +237,10 @@ public class RefNames {
     return refsUsers(accountId) + '/' + EDIT_PREFIX;
   }
 
+  public static String refsVerifiers(String verifierUuid) {
+    return REFS_VERIFIERS + shardUuid(verifierUuid);
+  }
+
   public static boolean isRefsEdit(String ref) {
     return ref != null && ref.startsWith(REFS_USERS) && ref.contains(EDIT_PREFIX);
   }
@@ -272,6 +279,14 @@ public class RefNames {
   }
 
   /**
+   * Whether the ref is a verifier branch that stores NoteDb data of a verifier. Returns {@code
+   * true} for all refs that start with {@code refs/verifiers/}.
+   */
+  public static boolean isRefsVerifiers(String ref) {
+    return ref.startsWith(REFS_VERIFIERS);
+  }
+
+  /**
    * Whether the ref is managed by Gerrit. Covers all Gerrit-internal refs like refs/cache-automerge
    * and refs/meta as well as refs/changes. Does not cover user-created refs like branches or custom
    * ref namespaces like refs/my-company.
@@ -286,7 +301,8 @@ public class RefNames {
         || ref.startsWith(REFS_GROUPS)
         || ref.startsWith(REFS_GROUPNAMES)
         || ref.startsWith(REFS_USERS)
-        || ref.startsWith(REFS_STARRED_CHANGES);
+        || ref.startsWith(REFS_STARRED_CHANGES)
+        || ref.startsWith(REFS_VERIFIERS);
   }
 
   static Integer parseShardedRefPart(String name) {

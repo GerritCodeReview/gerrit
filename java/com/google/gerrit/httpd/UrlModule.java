@@ -28,6 +28,7 @@ import com.google.gerrit.httpd.restapi.ChangesRestApiServlet;
 import com.google.gerrit.httpd.restapi.ConfigRestApiServlet;
 import com.google.gerrit.httpd.restapi.GroupsRestApiServlet;
 import com.google.gerrit.httpd.restapi.ProjectsRestApiServlet;
+import com.google.gerrit.httpd.restapi.VerifiersRestApiServlet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AuthConfig;
@@ -92,6 +93,7 @@ class UrlModule extends ServletModule {
     serveRegex("^/(?:a/)?config/(.*)$").with(ConfigRestApiServlet.class);
     serveRegex("^/(?:a/)?groups/(.*)?$").with(GroupsRestApiServlet.class);
     serveRegex("^/(?:a/)?projects/(.*)?$").with(ProjectsRestApiServlet.class);
+    serveRegex("^/(?:a/)?verifiers/(.*)$").with(VerifiersRestApiServlet.class);
 
     serveRegex("^/Documentation$").with(redirectDocumentation());
     serveRegex("^/Documentation/$").with(redirectDocumentation());

@@ -35,6 +35,9 @@ public class GlobalCapability {
    */
   public static final String ADMINISTRATE_SERVER = "administrateServer";
 
+  /** Can administrate checkers. */
+  public static final String ADMINISTRATE_CHECKERS = "administrateCheckers";
+
   /** Maximum number of changes that may be pushed in a batch. */
   public static final String BATCH_CHANGES_LIMIT = "batchChangesLimit";
 
@@ -130,6 +133,7 @@ public class GlobalCapability {
     NAMES_ALL = new ArrayList<>();
     NAMES_ALL.add(ACCESS_DATABASE);
     NAMES_ALL.add(ADMINISTRATE_SERVER);
+    NAMES_ALL.add(ADMINISTRATE_CHECKERS);
     NAMES_ALL.add(BATCH_CHANGES_LIMIT);
     NAMES_ALL.add(CREATE_ACCOUNT);
     NAMES_ALL.add(CREATE_GROUP);

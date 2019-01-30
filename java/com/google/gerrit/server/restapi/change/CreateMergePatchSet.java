@@ -183,9 +183,9 @@ public class CreateMergePatchSet
           patchSetInserterFactory.create(rsrc.getNotes(), nextPsId, newCommit);
       try (BatchUpdate bu = updateFactory.create(project, me, now)) {
         bu.setRepository(git, rw, oi);
+        bu.setNotify(NotifyResolver.Result.none());
         psInserter
             .setMessage("Uploaded patch set " + nextPsId.get() + ".")
-            .setNotify(NotifyResolver.Result.none())
             .setCheckAddPatchSetPermission(false);
         if (groups != null) {
           psInserter.setGroups(groups);

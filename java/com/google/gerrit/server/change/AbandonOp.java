@@ -45,7 +45,6 @@ public class AbandonOp implements BatchUpdateOp {
   private final ChangeAbandoned changeAbandoned;
 
   private final String msgTxt;
-  private final NotifyResolver.Result notify;
   private final AccountState accountState;
 
   private Change change;
@@ -54,9 +53,7 @@ public class AbandonOp implements BatchUpdateOp {
 
   public interface Factory {
     AbandonOp create(
-        @Assisted @Nullable AccountState accountState,
-        @Assisted @Nullable String msgTxt,
-        @Assisted NotifyResolver.Result notify);
+        @Assisted @Nullable AccountState accountState, @Assisted @Nullable String msgTxt);
   }
 
   @Inject
@@ -66,8 +63,7 @@ public class AbandonOp implements BatchUpdateOp {
       PatchSetUtil psUtil,
       ChangeAbandoned changeAbandoned,
       @Assisted @Nullable AccountState accountState,
-      @Assisted @Nullable String msgTxt,
-      @Assisted NotifyResolver.Result notify) {
+      @Assisted @Nullable String msgTxt) {
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
@@ -75,7 +71,6 @@ public class AbandonOp implements BatchUpdateOp {
 
     this.accountState = accountState;
     this.msgTxt = Strings.nullToEmpty(msgTxt);
-    this.notify = notify;
   }
 
   @Nullable
@@ -114,6 +109,7 @@ public class AbandonOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) throws OrmException {
+    NotifyResolver.Result notify = ctx.getNotify(change.getId());
     try {
       ReplyToChangeSender cm = abandonedSenderFactory.create(ctx.getProject(), change.getId());
       if (accountState != null) {

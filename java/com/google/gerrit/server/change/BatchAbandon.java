@@ -56,6 +56,7 @@ public class BatchAbandon {
     }
     AccountState accountState = user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null;
     try (BatchUpdate u = updateFactory.create(project, user, TimeUtil.nowTs())) {
+      u.setNotify(notify);
       for (ChangeData change : changes) {
         if (!project.equals(change.project())) {
           throw new ResourceConflictException(
@@ -63,7 +64,7 @@ public class BatchAbandon {
                   "Project name \"%s\" doesn't match \"%s\"",
                   change.project().get(), project.get()));
         }
-        u.addOp(change.getId(), abandonOpFactory.create(accountState, msgTxt, notify));
+        u.addOp(change.getId(), abandonOpFactory.create(accountState, msgTxt));
       }
       u.execute();
     }

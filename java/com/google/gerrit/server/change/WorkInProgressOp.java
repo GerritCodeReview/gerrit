@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
@@ -91,9 +90,9 @@ public class WorkInProgressOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final boolean workInProgress;
   private final Input in;
-  private final NotifyResolver.Result notify;
   private final WorkInProgressStateChanged stateChanged;
 
+  private boolean sendEmail = true;
   private Change change;
   private ChangeNotes notes;
   private PatchSet ps;
@@ -113,10 +112,10 @@ public class WorkInProgressOp implements BatchUpdateOp {
     this.stateChanged = stateChanged;
     this.workInProgress = workInProgress;
     this.in = in;
-    notify =
-        NotifyResolver.Result.create(
-            MoreObjects.firstNonNull(
-                in.notify, workInProgress ? NotifyHandling.NONE : NotifyHandling.ALL));
+  }
+
+  public void suppressEmail() {
+    this.sendEmail = false;
   }
 
   @Override
@@ -160,7 +159,10 @@ public class WorkInProgressOp implements BatchUpdateOp {
   @Override
   public void postUpdate(Context ctx) {
     stateChanged.fire(change, ps, ctx.getAccount(), ctx.getWhen());
-    if (workInProgress || notify.handling().compareTo(NotifyHandling.OWNER_REVIEWERS) < 0) {
+    NotifyResolver.Result notify = ctx.getNotify(change.getId());
+    if (workInProgress
+        || notify.handling().compareTo(NotifyHandling.OWNER_REVIEWERS) < 0
+        || !sendEmail) {
       return;
     }
     email

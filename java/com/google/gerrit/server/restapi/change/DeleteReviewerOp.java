@@ -69,7 +69,6 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   private final ReviewerDeleted reviewerDeleted;
   private final Provider<IdentifiedUser> user;
   private final DeleteReviewerSender.Factory deleteReviewerSenderFactory;
-  private final NotifyResolver notifyResolver;
   private final RemoveReviewerControl removeReviewerControl;
   private final ProjectCache projectCache;
 
@@ -91,7 +90,6 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       ReviewerDeleted reviewerDeleted,
       Provider<IdentifiedUser> user,
       DeleteReviewerSender.Factory deleteReviewerSenderFactory,
-      NotifyResolver notifyResolver,
       RemoveReviewerControl removeReviewerControl,
       ProjectCache projectCache,
       @Assisted AccountState reviewerAccount,
@@ -103,7 +101,6 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     this.reviewerDeleted = reviewerDeleted;
     this.user = user;
     this.deleteReviewerSenderFactory = deleteReviewerSenderFactory;
-    this.notifyResolver = notifyResolver;
     this.removeReviewerControl = removeReviewerControl;
     this.projectCache = projectCache;
     this.reviewer = reviewerAccount;
@@ -170,15 +167,16 @@ public class DeleteReviewerOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) {
-    if (input.notify == null) {
-      if (currChange.isWorkInProgress()) {
-        input.notify = oldApprovals.isEmpty() ? NotifyHandling.NONE : NotifyHandling.OWNER;
-      } else {
-        input.notify = NotifyHandling.ALL;
-      }
+    NotifyResolver.Result notify = ctx.getNotify(currChange.getId());
+    if (input.notify == null
+        && currChange.isWorkInProgress()
+        && !oldApprovals.isEmpty()
+        && notify.handling().compareTo(NotifyHandling.OWNER) < 0) {
+      // Override NotifyHandling from the context to notify owner if votes were removed on a WIP
+      // change.
+      notify = notify.withHandling(NotifyHandling.OWNER);
     }
     try {
-      NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
       if (notify.shouldNotify()) {
         emailReviewers(ctx.getProject(), currChange, changeMessage, notify);
       }
@@ -193,7 +191,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
         changeMessage.getMessage(),
         newApprovals,
         oldApprovals,
-        input.notify,
+        notify.handling(),
         ctx.getWhen());
   }
 

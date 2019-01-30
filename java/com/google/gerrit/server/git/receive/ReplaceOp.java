@@ -512,8 +512,7 @@ public class ReplaceOp implements BatchUpdateOp {
       }
     }
 
-    NotifyResolver.Result notify =
-        magicBranch != null ? magicBranch.getNotify(notes) : NotifyResolver.Result.all();
+    NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
     if (shouldPublishComments()) {
       emailCommentsFactory
           .create(
@@ -554,9 +553,7 @@ public class ReplaceOp implements BatchUpdateOp {
         cm.setFrom(ctx.getAccount().getAccount().getId());
         cm.setPatchSet(newPatchSet, info);
         cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
-        if (magicBranch != null) {
-          cm.setNotify(magicBranch.getNotify(notes));
-        }
+        cm.setNotify(ctx.getNotify(notes.getChangeId()));
         cm.addReviewers(
             Streams.concat(
                     oldRecipients.getReviewers().stream(),

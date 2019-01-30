@@ -33,6 +33,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.change.RebaseUtil;
 import com.google.gerrit.server.change.RebaseUtil.Base;
@@ -120,6 +121,8 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
         throw new ResourceConflictException(
             "cannot rebase merge commits or commit with no ancestor");
       }
+      // TODO(dborowitz): Why no notification? This seems wrong; dig up blame.
+      bu.setNotify(NotifyResolver.Result.none());
       bu.setRepository(repo, rw, oi);
       bu.addOp(
           change.getId(),

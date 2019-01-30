@@ -2967,7 +2967,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     PatchSetInserter inserter =
         patchSetFactory
             .create(changeNotesFactory.createChecked(c), new PatchSet.Id(c.getId(), n), commit)
-            .setNotify(NotifyResolver.Result.none())
             .setFireRevisionCreated(false)
             .setValidate(false);
     try (BatchUpdate bu = updateFactory.create(c.getProject(), user, TimeUtil.nowTs());
@@ -2975,6 +2974,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         ObjectReader reader = oi.newReader();
         RevWalk rw = new RevWalk(reader)) {
       bu.setRepository(repo.getRepository(), rw, oi);
+      bu.setNotify(NotifyResolver.Result.none());
       bu.addOp(c.getId(), inserter);
       bu.execute();
     }

@@ -500,11 +500,15 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
   }
 
   protected StagedChange stageReviewableChange() throws Exception {
-    return new StagedChange("refs/for/master");
+    StagedChange sc = new StagedChange("refs/for/master");
+    sender.clear();
+    return sc;
   }
 
   protected StagedChange stageWipChange() throws Exception {
-    return new StagedChange("refs/for/master%wip");
+    StagedChange sc = new StagedChange("refs/for/master%wip");
+    sender.clear();
+    return sc;
   }
 
   protected StagedChange stageReviewableWipChange() throws Exception {

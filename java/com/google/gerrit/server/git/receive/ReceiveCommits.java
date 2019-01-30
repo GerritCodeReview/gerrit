@@ -682,7 +682,7 @@ class ReceiveCommits {
     // Update superproject gitlinks if required.
     if (!branches.isEmpty()) {
       try (MergeOpRepoManager orm = ormProvider.get()) {
-        orm.setContext(TimeUtil.nowTs(), user);
+        orm.setContext(TimeUtil.nowTs(), user, NotifyResolver.Result.none());
         SubmoduleOp op = subOpFactory.create(branches, orm);
         op.updateSuperProjects();
       } catch (SubmoduleException e) {
@@ -787,9 +787,15 @@ class ReceiveCommits {
         RevWalk rw = new RevWalk(reader)) {
       bu.setRepository(repo, rw, ins);
       bu.setRefLogMessage("push");
+      if (magicBranch != null) {
+        bu.setNotify(magicBranch.getNotifyForNewChange());
+      }
 
       logger.atFine().log("Adding %d replace requests", newChanges.size());
       for (ReplaceRequest replace : replaceByChange.values()) {
+        if (magicBranch != null) {
+          bu.setNotifyHandling(replace.ontoChange, magicBranch.getNotifyHandling(replace.notes));
+        }
         replace.addOps(bu, replaceProgress);
       }
 
@@ -1578,30 +1584,24 @@ class ReceiveCommits {
     }
 
     NotifyResolver.Result getNotifyForNewChange() {
-      return getNotifyImpl(null);
-    }
-
-    NotifyResolver.Result getNotify(ChangeNotes notes) {
-      return getNotifyImpl(requireNonNull(notes));
-    }
-
-    private NotifyResolver.Result getNotifyImpl(@Nullable ChangeNotes notes) {
-      NotifyHandling notifyHandling = this.notifyHandling;
-      if (notifyHandling == null) {
-        if (workInProgress || (notes != null && !ready && notes.getChange().isWorkInProgress())) {
-          notifyHandling = NotifyHandling.OWNER;
-        } else {
-          notifyHandling = NotifyHandling.ALL;
-        }
-      }
-
       return NotifyResolver.Result.create(
-          notifyHandling,
+          firstNonNull(notifyHandling, workInProgress ? NotifyHandling.OWNER : NotifyHandling.ALL),
           ImmutableListMultimap.<RecipientType, Account.Id>builder()
               .putAll(RecipientType.TO, notifyTo)
               .putAll(RecipientType.CC, notifyCc)
               .putAll(RecipientType.BCC, notifyBcc)
               .build());
+    }
+
+    NotifyHandling getNotifyHandling(ChangeNotes notes) {
+      requireNonNull(notes);
+      if (notifyHandling != null) {
+        return notifyHandling;
+      }
+      if (workInProgress || (!ready && notes.getChange().isWorkInProgress())) {
+        return NotifyHandling.OWNER;
+      }
+      return NotifyHandling.ALL;
     }
   }
 
@@ -2440,13 +2440,13 @@ class ReceiveCommits {
           msg.append("\n").append(magicBranch.message);
         }
 
+        bu.setNotify(magicBranch.getNotifyForNewChange());
         bu.insertChange(
             ins.setReviewersAndCcsAsStrings(
                     magicBranch.getCombinedReviewers(fromFooters),
                     magicBranch.getCombinedCcs(fromFooters))
                 .setApprovals(approvals)
                 .setMessage(msg.toString())
-                .setNotify(magicBranch.getNotifyForNewChange())
                 .setRequestScopePropagator(requestScopePropagator)
                 .setSendMail(true)
                 .setPatchSetDescription(magicBranch.message));

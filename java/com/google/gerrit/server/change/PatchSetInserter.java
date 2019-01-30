@@ -91,7 +91,6 @@ public class PatchSetInserter implements BatchUpdateOp {
   private boolean checkAddPatchSetPermission = true;
   private List<String> groups = Collections.emptyList();
   private boolean fireRevisionCreated = true;
-  private NotifyResolver.Result notify = NotifyResolver.Result.all();
   private boolean allowClosed;
 
   // Fields set during some phase of BatchUpdate.Op.
@@ -165,11 +164,6 @@ public class PatchSetInserter implements BatchUpdateOp {
     return this;
   }
 
-  public PatchSetInserter setNotify(NotifyResolver.Result notify) {
-    this.notify = requireNonNull(notify);
-    return this;
-  }
-
   public PatchSetInserter setAllowClosed(boolean allowClosed) {
     this.allowClosed = allowClosed;
     return this;
@@ -218,7 +212,7 @@ public class PatchSetInserter implements BatchUpdateOp {
         psUtil.insert(
             ctx.getRevWalk(), ctx.getUpdate(psId), psId, commitId, newGroups, null, description);
 
-    if (notify.handling() != NotifyHandling.NONE) {
+    if (ctx.getNotify(change.getId()).handling() != NotifyHandling.NONE) {
       oldReviewers = approvalsUtil.getReviewers(ctx.getNotes());
     }
 
@@ -247,6 +241,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) throws OrmException {
+    NotifyResolver.Result notify = ctx.getNotify(change.getId());
     if (notify.shouldNotify()) {
       try {
         ReplacePatchSetSender cm = replacePatchSetFactory.create(ctx.getProject(), change.getId());

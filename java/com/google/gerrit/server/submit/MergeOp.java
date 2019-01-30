@@ -533,7 +533,7 @@ public class MergeOp implements AutoCloseable {
       orm.close();
     }
     orm = ormProvider.get();
-    orm.setContext(ts, caller);
+    orm.setContext(ts, caller, notify);
   }
 
   private ChangeSet reloadChanges(ChangeSet changeSet) {
@@ -676,7 +676,6 @@ public class MergeOp implements AutoCloseable {
                 commitStatus,
                 submissionId,
                 submitInput,
-                notify,
                 submoduleOp,
                 dryrun);
         strategies.add(strategy);

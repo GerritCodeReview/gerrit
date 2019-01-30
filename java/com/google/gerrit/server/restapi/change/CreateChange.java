@@ -305,12 +305,11 @@ public class CreateChange
       ins.setPrivate(input.isPrivate);
       ins.setWorkInProgress(input.workInProgress);
       ins.setGroups(groups);
-      NotifyResolver.Result notify =
-          notifyResolver.resolve(
-              firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
-      ins.setNotify(notify);
       try (BatchUpdate bu = updateFactory.create(projectState.getNameKey(), me, now)) {
         bu.setRepository(git, rw, oi);
+        bu.setNotify(
+            notifyResolver.resolve(
+                firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails));
         bu.insertChange(ins);
         bu.execute();
       }

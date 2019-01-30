@@ -65,14 +65,10 @@ public class AddReviewersOp implements BatchUpdateOp {
      * @param accountIds account IDs to add.
      * @param addresses email addresses to add.
      * @param state resulting reviewer state.
-     * @param notify notification handling.
      * @return batch update operation.
      */
     AddReviewersOp create(
-        Set<Account.Id> accountIds,
-        Collection<Address> addresses,
-        ReviewerState state,
-        NotifyResolver.Result notify);
+        Set<Account.Id> accountIds, Collection<Address> addresses, ReviewerState state);
   }
 
   @AutoValue
@@ -112,7 +108,6 @@ public class AddReviewersOp implements BatchUpdateOp {
   private final Set<Account.Id> accountIds;
   private final Collection<Address> addresses;
   private final ReviewerState state;
-  private final NotifyResolver.Result notify;
 
   // Unlike addedCCs, addedReviewers is a PatchSetApproval because the AddReviewerResult returned
   // via the REST API is supposed to include vote information.
@@ -121,6 +116,7 @@ public class AddReviewersOp implements BatchUpdateOp {
   private Collection<Account.Id> addedCCs = ImmutableList.of();
   private Collection<Address> addedCCsByEmail = ImmutableList.of();
 
+  private boolean sendEmail = true;
   private Change change;
   private PatchSet patchSet;
   private Result opResult;
@@ -135,8 +131,7 @@ public class AddReviewersOp implements BatchUpdateOp {
       AddReviewersEmail addReviewersEmail,
       @Assisted Set<Account.Id> accountIds,
       @Assisted Collection<Address> addresses,
-      @Assisted ReviewerState state,
-      @Assisted NotifyResolver.Result notify) {
+      @Assisted ReviewerState state) {
     checkArgument(state == REVIEWER || state == CC, "must be %s or %s: %s", REVIEWER, CC, state);
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
@@ -148,7 +143,13 @@ public class AddReviewersOp implements BatchUpdateOp {
     this.accountIds = accountIds;
     this.addresses = addresses;
     this.state = state;
-    this.notify = notify;
+  }
+
+  // TODO(dborowitz): This mutable getter is ugly, but a) it's less ugly than adding boolean args
+  // all the way through the constructor stack, and b) this class is slated to be completely
+  // rewritten.
+  public void suppressEmail() {
+    this.sendEmail = false;
   }
 
   void setPatchSet(PatchSet patchSet) {
@@ -237,14 +238,16 @@ public class AddReviewersOp implements BatchUpdateOp {
             .setAddedCCs(addedCCs)
             .setAddedCCsByEmail(addedCCsByEmail)
             .build();
-    addReviewersEmail.emailReviewers(
-        ctx.getUser().asIdentifiedUser(),
-        change,
-        Lists.transform(addedReviewers, PatchSetApproval::getAccountId),
-        addedCCs,
-        addedReviewersByEmail,
-        addedCCsByEmail,
-        notify);
+    if (sendEmail) {
+      addReviewersEmail.emailReviewers(
+          ctx.getUser().asIdentifiedUser(),
+          change,
+          Lists.transform(addedReviewers, PatchSetApproval::getAccountId),
+          addedCCs,
+          addedReviewersByEmail,
+          addedCCsByEmail,
+          ctx.getNotify(change.getId()));
+    }
     if (!addedReviewers.isEmpty()) {
       List<AccountState> reviewers =
           addedReviewers

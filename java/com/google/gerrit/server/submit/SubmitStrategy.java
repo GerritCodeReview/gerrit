@@ -29,7 +29,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.LabelNormalizer;
-import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
@@ -92,7 +91,6 @@ public abstract class SubmitStrategy {
           Set<CodeReviewCommit> incoming,
           RequestId submissionId,
           SubmitInput submitInput,
-          NotifyResolver.Result notify,
           SubmoduleOp submoduleOp,
           boolean dryrun);
     }
@@ -124,7 +122,6 @@ public abstract class SubmitStrategy {
     final RequestId submissionId;
     final SubmitType submitType;
     final SubmitInput submitInput;
-    final NotifyResolver.Result notify;
     final SubmoduleOp submoduleOp;
 
     final ProjectState project;
@@ -163,7 +160,6 @@ public abstract class SubmitStrategy {
         @Assisted RequestId submissionId,
         @Assisted SubmitType submitType,
         @Assisted SubmitInput submitInput,
-        @Assisted NotifyResolver.Result notify,
         @Assisted SubmoduleOp submoduleOp,
         @Assisted boolean dryrun) {
       this.accountCache = accountCache;
@@ -192,7 +188,6 @@ public abstract class SubmitStrategy {
       this.submissionId = submissionId;
       this.submitType = submitType;
       this.submitInput = submitInput;
-      this.notify = notify;
       this.submoduleOp = submoduleOp;
       this.dryrun = dryrun;
 

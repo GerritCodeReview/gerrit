@@ -30,6 +30,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multiset;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -40,6 +41,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
@@ -229,6 +231,12 @@ public class BatchUpdate implements AutoCloseable {
     public CurrentUser getUser() {
       return user;
     }
+
+    @Override
+    public NotifyResolver.Result getNotify(Change.Id changeId) {
+      NotifyHandling notifyHandling = perChangeNotifyHandling.get(changeId);
+      return notifyHandling != null ? notify.withHandling(notifyHandling) : notify;
+    }
   }
 
   private class RepoContextImpl extends ContextImpl implements RepoContext {
@@ -302,12 +310,14 @@ public class BatchUpdate implements AutoCloseable {
       MultimapBuilder.linkedHashKeys().arrayListValues().build();
   private final Map<Change.Id, Change> newChanges = new HashMap<>();
   private final List<RepoOnlyOp> repoOnlyOps = new ArrayList<>();
+  private final Map<Change.Id, NotifyHandling> perChangeNotifyHandling = new HashMap<>();
 
   private RepoView repoView;
   private BatchRefUpdate batchRefUpdate;
   private OnSubmitValidators onSubmitValidators;
   private PushCertificate pushCert;
   private String refLogMessage;
+  private NotifyResolver.Result notify = NotifyResolver.Result.all();
 
   @Inject
   BatchUpdate(
@@ -361,6 +371,32 @@ public class BatchUpdate implements AutoCloseable {
 
   public BatchUpdate setRefLogMessage(@Nullable String refLogMessage) {
     this.refLogMessage = refLogMessage;
+    return this;
+  }
+
+  /**
+   * Set the default notification settings for all changes in the batch.
+   *
+   * @param notify notification settings.
+   * @return this.
+   */
+  public BatchUpdate setNotify(NotifyResolver.Result notify) {
+    this.notify = requireNonNull(notify);
+    return this;
+  }
+
+  /**
+   * Override the {@link NotifyHandling} on a per-change basis.
+   *
+   * <p>Only the handling enum can be overridden; all changes share the same value for {@link
+   * NotifyResolver.Result#accounts()}.
+   *
+   * @param changeId change ID.
+   * @param notifyHandling notify handling.
+   * @return this.
+   */
+  public BatchUpdate setNotifyHandling(Change.Id changeId, NotifyHandling notifyHandling) {
+    this.perChangeNotifyHandling.put(changeId, requireNonNull(notifyHandling));
     return this;
   }
 

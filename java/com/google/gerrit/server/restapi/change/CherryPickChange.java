@@ -249,11 +249,12 @@ public class CherryPickChange {
         }
         try (BatchUpdate bu = batchUpdateFactory.create(project, identifiedUser, now)) {
           bu.setRepository(git, revWalk, oi);
+          bu.setNotify(resolveNotify(input));
           Change.Id changeId;
           if (destChanges.size() == 1) {
             // The change key exists on the destination branch. The cherry pick
             // will be added as a new patch set.
-            changeId = insertPatchSet(bu, git, destChanges.get(0).notes(), cherryPickCommit, input);
+            changeId = insertPatchSet(bu, git, destChanges.get(0).notes(), cherryPickCommit);
           } else {
             // Change key not found on destination branch. We can create a new
             // change.
@@ -318,19 +319,12 @@ public class CherryPickChange {
   }
 
   private Change.Id insertPatchSet(
-      BatchUpdate bu,
-      Repository git,
-      ChangeNotes destNotes,
-      CodeReviewCommit cherryPickCommit,
-      CherryPickInput input)
-      throws IOException, OrmException, BadRequestException, ConfigInvalidException {
+      BatchUpdate bu, Repository git, ChangeNotes destNotes, CodeReviewCommit cherryPickCommit)
+      throws IOException {
     Change destChange = destNotes.getChange();
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
     PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, cherryPickCommit);
-    NotifyResolver.Result notify = resolveNotify(input);
-    inserter
-        .setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".")
-        .setNotify(notify);
+    inserter.setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".");
     bu.addOp(destChange.getId(), inserter);
     return destChange.getId();
   }
@@ -343,19 +337,17 @@ public class CherryPickChange {
       @Nullable Change sourceChange,
       ObjectId sourceCommit,
       CherryPickInput input)
-      throws OrmException, IOException, BadRequestException, ConfigInvalidException {
+      throws OrmException, IOException {
     Change.Id changeId = new Change.Id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
     Branch.NameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
-    NotifyResolver.Result notify = resolveNotify(input);
     ins.setMessage(
             messageForDestinationChange(
                 ins.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit))
         .setTopic(topic)
         .setWorkInProgress(
             (sourceChange != null && sourceChange.isWorkInProgress())
-                || !cherryPickCommit.getFilesWithGitConflicts().isEmpty())
-        .setNotify(notify);
+                || !cherryPickCommit.getFilesWithGitConflicts().isEmpty());
     if (input.keepReviewers && sourceChange != null) {
       ReviewerSet reviewerSet =
           approvalsUtil.getReviewers(changeNotesFactory.createChecked(sourceChange));

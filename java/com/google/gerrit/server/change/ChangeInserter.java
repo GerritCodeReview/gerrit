@@ -24,6 +24,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
@@ -120,7 +121,6 @@ public class ChangeInserter implements InsertChangeOp {
   private boolean workInProgress;
   private List<String> groups = Collections.emptyList();
   private boolean validate = true;
-  private NotifyResolver.Result notify = NotifyResolver.Result.all();
   private Map<String, Short> approvals;
   private RequestScopePropagator requestScopePropagator;
   private boolean fireRevisionCreated;
@@ -248,11 +248,6 @@ public class ChangeInserter implements InsertChangeOp {
 
   public ChangeInserter setValidate(boolean validate) {
     this.validate = validate;
-    return this;
-  }
-
-  public ChangeInserter setNotify(NotifyResolver.Result notify) {
-    this.notify = notify;
     return this;
   }
 
@@ -447,6 +442,7 @@ public class ChangeInserter implements InsertChangeOp {
   @Override
   public void postUpdate(Context ctx) throws Exception {
     reviewerAdditions.postUpdate(ctx);
+    NotifyResolver.Result notify = ctx.getNotify(change.getId());
     if (sendMail && notify.shouldNotify()) {
       Runnable sender =
           new Runnable() {
@@ -458,12 +454,13 @@ public class ChangeInserter implements InsertChangeOp {
                 cm.setFrom(change.getOwner());
                 cm.setPatchSet(patchSet, patchSetInfo);
                 cm.setNotify(notify);
-                cm.addReviewers(
+                ImmutableSet<Account.Id> reviewers =
                     reviewerAdditions
                         .flattenResults(AddReviewersOp.Result::addedReviewers)
                         .stream()
                         .map(PatchSetApproval::getAccountId)
-                        .collect(toImmutableSet()));
+                        .collect(toImmutableSet());
+                cm.addReviewers(reviewers);
                 cm.addReviewersByEmail(
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewersByEmail));
                 cm.addExtraCC(reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs));

@@ -27,6 +27,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.Emails;
+import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -117,6 +118,15 @@ public final class StoredValues {
         public GitRepositoryManager createValue(Prolog engine) {
           PrologEnvironment env = (PrologEnvironment) engine.control;
           return env.getArgs().getGitRepositoryManager();
+        }
+      };
+
+  public static final StoredValue<PluginConfigFactory> PLUGIN_CONFIG_FACTORY =
+      new StoredValue<PluginConfigFactory>() {
+        @Override
+        public PluginConfigFactory createValue(Prolog engine) {
+          PrologEnvironment env = (PrologEnvironment) engine.control;
+          return env.getArgs().getPluginConfigFactory();
         }
       };
 

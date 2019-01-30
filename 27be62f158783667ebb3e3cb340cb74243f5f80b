@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "df21c137_5de1d849",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-30T09:57:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29b2a613_c84a0320",
+      "revId": "27be62f158783667ebb3e3cb340cb74243f5f80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00f0fd6b_abc5a93c",
         "filename": "java/com/google/gerrit/server/query/project/ProjectPredicates.java",
         "patchSetId": 1

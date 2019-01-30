@@ -330,8 +330,7 @@ public class CherryPickChange {
     NotifyResolver.Result notify = resolveNotify(input);
     inserter
         .setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".")
-        .setNotify(notify.handling())
-        .setAccountsToNotify(notify.accounts());
+        .setNotify(notify);
     bu.addOp(destChange.getId(), inserter);
     return destChange.getId();
   }
@@ -356,8 +355,7 @@ public class CherryPickChange {
         .setWorkInProgress(
             (sourceChange != null && sourceChange.isWorkInProgress())
                 || !cherryPickCommit.getFilesWithGitConflicts().isEmpty())
-        .setNotify(notify.handling())
-        .setAccountsToNotify(notify.accounts());
+        .setNotify(notify);
     if (input.keepReviewers && sourceChange != null) {
       ReviewerSet reviewerSet =
           approvalsUtil.getReviewers(changeNotesFactory.createChecked(sourceChange));

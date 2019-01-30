@@ -120,8 +120,7 @@ public class AbandonOp implements BatchUpdateOp {
         cm.setFrom(accountState.getAccount().getId());
       }
       cm.setChangeMessage(message.getMessage(), ctx.getWhen());
-      cm.setNotify(notify.handling());
-      cm.setAccountsToNotify(notify.accounts());
+      cm.setNotify(notify);
       cm.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());

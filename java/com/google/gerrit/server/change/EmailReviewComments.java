@@ -16,12 +16,8 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.CommentsUtil.COMMENT_ORDER;
 
-import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -48,7 +44,6 @@ public class EmailReviewComments implements Runnable, RequestContext {
     // on the same set of inputs.
     /**
      * @param notify setting for handling notification.
-     * @param accountsToNotify detailed map of accounts to notify.
      * @param notes change notes.
      * @param patchSet patch set corresponding to the top-level op
      * @param user user the email should come from.
@@ -63,8 +58,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
      * @return handle for sending email.
      */
     EmailReviewComments create(
-        NotifyHandling notify,
-        ListMultimap<RecipientType, Account.Id> accountsToNotify,
+        NotifyResolver.Result notify,
         ChangeNotes notes,
         PatchSet patchSet,
         IdentifiedUser user,
@@ -79,8 +73,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
   private final CommentSender.Factory commentSenderFactory;
   private final ThreadLocalRequestContext requestContext;
 
-  private final NotifyHandling notify;
-  private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
+  private final NotifyResolver.Result notify;
   private final ChangeNotes notes;
   private final PatchSet patchSet;
   private final IdentifiedUser user;
@@ -95,8 +88,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       PatchSetInfoFactory patchSetInfoFactory,
       CommentSender.Factory commentSenderFactory,
       ThreadLocalRequestContext requestContext,
-      @Assisted NotifyHandling notify,
-      @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify,
+      @Assisted NotifyResolver.Result notify,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet patchSet,
       @Assisted IdentifiedUser user,
@@ -109,7 +101,6 @@ public class EmailReviewComments implements Runnable, RequestContext {
     this.commentSenderFactory = commentSenderFactory;
     this.requestContext = requestContext;
     this.notify = notify;
-    this.accountsToNotify = accountsToNotify;
     this.notes = notes;
     this.patchSet = patchSet;
     this.user = user;
@@ -136,7 +127,6 @@ public class EmailReviewComments implements Runnable, RequestContext {
       cm.setPatchSetComment(patchSetComment);
       cm.setLabels(labels);
       cm.setNotify(notify);
-      cm.setAccountsToNotify(accountsToNotify);
       cm.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email comments for %s", patchSet.getId());

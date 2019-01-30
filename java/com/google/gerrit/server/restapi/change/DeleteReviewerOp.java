@@ -223,8 +223,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     cm.setFrom(userId);
     cm.addReviewers(Collections.singleton(reviewer.getAccount().getId()));
     cm.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
-    cm.setNotify(notify.handling());
-    cm.setAccountsToNotify(notify.accounts());
+    cm.setNotify(notify);
     cm.send();
   }
 }

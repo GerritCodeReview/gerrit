@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.change.LabelNormalizer.Result;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -42,15 +41,19 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class NotifyResolver {
   @AutoValue
   public abstract static class Result {
-    static Result none() {
+    public static Result none() {
       return create(NotifyHandling.NONE);
+    }
+
+    public static Result all() {
+      return create(NotifyHandling.ALL);
     }
 
     public static Result create(NotifyHandling notifyHandling) {
       return create(notifyHandling, ImmutableListMultimap.of());
     }
 
-    private static Result create(
+    public static Result create(
         NotifyHandling handling, ImmutableListMultimap<RecipientType, Account.Id> recipients) {
       return new AutoValue_NotifyResolver_Result(handling, recipients);
     }

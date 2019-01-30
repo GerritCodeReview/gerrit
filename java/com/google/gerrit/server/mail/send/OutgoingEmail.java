@@ -18,11 +18,8 @@ import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailSt
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.DISABLED;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
@@ -33,6 +30,7 @@ import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
@@ -65,13 +63,12 @@ public abstract class OutgoingEmail {
   private Address smtpFromAddress;
   private StringBuilder textBody;
   private StringBuilder htmlBody;
-  private ListMultimap<RecipientType, Account.Id> accountsToNotify = ImmutableListMultimap.of();
   protected Map<String, Object> soyContext;
   protected Map<String, Object> soyContextEmailData;
   protected List<String> footers;
   protected final EmailArguments args;
   protected Account.Id fromId;
-  protected NotifyHandling notify = NotifyHandling.ALL;
+  protected NotifyResolver.Result notify = NotifyResolver.Result.all();
 
   protected OutgoingEmail(EmailArguments ea, String mc) {
     args = ea;
@@ -83,12 +80,8 @@ public abstract class OutgoingEmail {
     fromId = id;
   }
 
-  public void setNotify(NotifyHandling notify) {
+  public void setNotify(NotifyResolver.Result notify) {
     this.notify = requireNonNull(notify);
-  }
-
-  public void setAccountsToNotify(ListMultimap<RecipientType, Account.Id> accountsToNotify) {
-    this.accountsToNotify = requireNonNull(accountsToNotify);
   }
 
   /**
@@ -97,7 +90,7 @@ public abstract class OutgoingEmail {
    * @throws EmailException
    */
   public void send() throws EmailException {
-    if (NotifyHandling.NONE.equals(notify) && accountsToNotify.isEmpty()) {
+    if (!notify.shouldNotify()) {
       return;
     }
 
@@ -129,7 +122,7 @@ public abstract class OutgoingEmail {
             // on their behalf to others.
             //
             add(RecipientType.CC, fromId);
-          } else if (!accountsToNotify.containsValue(fromId) && rcptTo.remove(fromId)) {
+          } else if (!notify.accounts().containsValue(fromId) && rcptTo.remove(fromId)) {
             // If they don't want a copy, but we queued one up anyway,
             // drop them from the recipient lists.
             //
@@ -238,8 +231,8 @@ public abstract class OutgoingEmail {
     setHeader(FieldName.MESSAGE_ID, "");
     setHeader(MailHeader.AUTO_SUBMITTED.fieldName(), "auto-generated");
 
-    for (RecipientType recipientType : accountsToNotify.keySet()) {
-      add(recipientType, accountsToNotify.get(recipientType));
+    for (RecipientType recipientType : notify.accounts().keySet()) {
+      add(recipientType, notify.accounts().get(recipientType));
     }
 
     setHeader(MailHeader.MESSAGE_TYPE.fieldName(), messageClass);
@@ -412,7 +405,7 @@ public abstract class OutgoingEmail {
       return false;
     }
 
-    if ((accountsToNotify == null || accountsToNotify.isEmpty())
+    if (notify.accounts().isEmpty()
         && smtpRcptTo.size() == 1
         && rcptTo.size() == 1
         && rcptTo.contains(fromId)) {

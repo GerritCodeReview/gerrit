@@ -29,7 +29,6 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
@@ -42,7 +41,6 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
@@ -367,7 +365,7 @@ public class PostReview
       // Add the review op.
       bu.addOp(
           revision.getChange().getId(),
-          new Op(projectState, revision.getPatchSet().getId(), input, notify.accounts()));
+          new Op(projectState, revision.getPatchSet().getId(), input, notify));
 
       bu.execute();
 
@@ -834,7 +832,7 @@ public class PostReview
     private final ProjectState projectState;
     private final PatchSet.Id psId;
     private final ReviewInput in;
-    private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
+    private final NotifyResolver.Result notify;
 
     private IdentifiedUser user;
     private ChangeNotes notes;
@@ -846,14 +844,11 @@ public class PostReview
     private Map<String, Short> oldApprovals = new HashMap<>();
 
     private Op(
-        ProjectState projectState,
-        PatchSet.Id psId,
-        ReviewInput in,
-        ListMultimap<RecipientType, Account.Id> accountsToNotify) {
+        ProjectState projectState, PatchSet.Id psId, ReviewInput in, NotifyResolver.Result notify) {
       this.projectState = projectState;
       this.psId = psId;
       this.in = in;
-      this.accountsToNotify = requireNonNull(accountsToNotify);
+      this.notify = requireNonNull(notify);
     }
 
     @Override
@@ -876,18 +871,9 @@ public class PostReview
       if (message == null) {
         return;
       }
-      if (in.notify.compareTo(NotifyHandling.NONE) > 0 || !accountsToNotify.isEmpty()) {
+      if (notify.shouldNotify()) {
         email
-            .create(
-                in.notify,
-                accountsToNotify,
-                notes,
-                ps,
-                user,
-                message,
-                comments,
-                in.message,
-                labelDelta)
+            .create(notify, notes, ps, user, message, comments, in.message, labelDelta)
             .sendAsync();
       }
       commentAdded.fire(

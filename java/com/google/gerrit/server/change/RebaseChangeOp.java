@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -183,7 +182,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
         patchSetInserterFactory
             .create(notes, rebasedPatchSetId, rebasedCommit)
             .setDescription("Rebase")
-            .setNotify(NotifyHandling.NONE)
+            .setNotify(NotifyResolver.Result.none())
             .setFireRevisionCreated(fireRevisionCreated)
             .setCheckAddPatchSetPermission(checkAddPatchSetPermission)
             .setValidate(validate);

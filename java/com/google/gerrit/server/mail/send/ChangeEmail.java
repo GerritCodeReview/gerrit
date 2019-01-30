@@ -183,7 +183,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     setChangeUrlHeader();
     setCommitIdHeader();
 
-    if (notify.ordinal() >= NotifyHandling.OWNER_REVIEWERS.ordinal()) {
+    if (notify.handling().compareTo(NotifyHandling.OWNER_REVIEWERS) >= 0) {
       try {
         addByEmail(
             RecipientType.CC, changeData.reviewersByEmail().byState(ReviewerStateInternal.CC));
@@ -320,7 +320,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** BCC any user who has starred this change. */
   protected void bccStarredBy() {
-    if (!NotifyHandling.ALL.equals(notify)) {
+    if (!NotifyHandling.ALL.equals(notify.handling())) {
       return;
     }
 
@@ -342,7 +342,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   @Override
   protected final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig)
       throws OrmException {
-    if (!NotifyHandling.ALL.equals(notify)) {
+    if (!NotifyHandling.ALL.equals(notify.handling())) {
       return new Watchers();
     }
 
@@ -352,7 +352,8 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Any user who has published comments on this change. */
   protected void ccAllApprovals() {
-    if (!NotifyHandling.ALL.equals(notify) && !NotifyHandling.OWNER_REVIEWERS.equals(notify)) {
+    if (!NotifyHandling.ALL.equals(notify.handling())
+        && !NotifyHandling.OWNER_REVIEWERS.equals(notify.handling())) {
       return;
     }
 
@@ -367,7 +368,8 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Users who have non-zero approval codes on the change. */
   protected void ccExistingReviewers() {
-    if (!NotifyHandling.ALL.equals(notify) && !NotifyHandling.OWNER_REVIEWERS.equals(notify)) {
+    if (!NotifyHandling.ALL.equals(notify.handling())
+        && !NotifyHandling.OWNER_REVIEWERS.equals(notify.handling())) {
       return;
     }
 
@@ -404,7 +406,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected Set<Account.Id> getAuthors() {
     Set<Account.Id> authors = new HashSet<>();
 
-    switch (notify) {
+    switch (notify.handling()) {
       case NONE:
         break;
       case ALL:

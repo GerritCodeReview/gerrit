@@ -17,10 +17,8 @@ package com.google.gerrit.server.mail.receive;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
@@ -47,6 +45,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.EmailReviewComments;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.mail.MailFilter;
@@ -315,8 +314,7 @@ public class MailProcessor {
       // Send email notifications
       outgoingMailFactory
           .create(
-              NotifyHandling.ALL,
-              ArrayListMultimap.create(),
+              NotifyResolver.Result.all(),
               notes,
               patchSet,
               ctx.getUser().asIdentifiedUser(),

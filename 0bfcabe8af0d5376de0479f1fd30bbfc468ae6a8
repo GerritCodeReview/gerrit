@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "60b945d6_c4dfee6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-30T15:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c24266ca_46bbdaf9",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 1
+      },
+      "revId": "0bfcabe8af0d5376de0479f1fd30bbfc468ae6a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c428ab0_a96f220f",
         "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "0bfcabe8af0d5376de0479f1fd30bbfc468ae6a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7c6b348_edba738d",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-30T15:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c428ab0_a96f220f",
+      "range": {
+        "startLine": 337,
+        "startChar": 9,
+        "endLine": 337,
+        "endChar": 19
+      },
+      "revId": "0bfcabe8af0d5376de0479f1fd30bbfc468ae6a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

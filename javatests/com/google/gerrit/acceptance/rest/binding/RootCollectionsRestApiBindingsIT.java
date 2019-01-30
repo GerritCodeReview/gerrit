@@ -48,7 +48,12 @@ public class RootCollectionsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/plugins/"),
           RestCall.put("/plugins/new-plugin"),
           RestCall.get("/projects/"),
-          RestCall.put("/projects/new-project"));
+          RestCall.put("/projects/new-project"),
+          RestCall.builder(GET, "/verifiers/")
+              // GET /verifiers/ is not implemented
+              .expectedResponseCode(SC_NOT_FOUND)
+              .build(),
+          RestCall.put("/verifiers/new-verifier"));
 
   @Test
   @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")

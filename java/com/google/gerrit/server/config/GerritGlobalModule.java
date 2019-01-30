@@ -191,6 +191,7 @@ import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.HashtagValidationListener;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
+import com.google.gerrit.server.verifier.db.NoteDbVerifiersModule;
 import com.google.gitiles.blame.cache.BlameCache;
 import com.google.gitiles.blame.cache.BlameCacheImpl;
 import com.google.inject.Inject;
@@ -245,6 +246,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new GroupDbModule());
     install(new GroupModule());
     install(new NoteDbModule());
+    install(new NoteDbVerifiersModule());
     install(new PrologModule());
     install(new DefaultSubmitRule.Module());
     install(new IgnoreSelfApprovalRule.Module());

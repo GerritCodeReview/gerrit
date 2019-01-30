@@ -63,7 +63,8 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
       //
       reviewers.remove(fromId);
     }
-    if (notify == NotifyHandling.ALL || notify == NotifyHandling.OWNER_REVIEWERS) {
+    if (notify.handling() == NotifyHandling.ALL
+        || notify.handling() == NotifyHandling.OWNER_REVIEWERS) {
       add(RecipientType.TO, reviewers);
       add(RecipientType.CC, extraCC);
     }

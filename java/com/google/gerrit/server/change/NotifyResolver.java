@@ -41,15 +41,19 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class NotifyResolver {
   @AutoValue
   public abstract static class Result {
-    static Result none() {
+    public static Result none() {
       return create(NotifyHandling.NONE);
+    }
+
+    public static Result all() {
+      return create(NotifyHandling.ALL);
     }
 
     public static Result create(NotifyHandling notifyHandling) {
       return create(notifyHandling, ImmutableListMultimap.of());
     }
 
-    private static Result create(
+    public static Result create(
         NotifyHandling handling, ImmutableListMultimap<RecipientType, Account.Id> recipients) {
       return new AutoValue_NotifyResolver_Result(handling, recipients);
     }

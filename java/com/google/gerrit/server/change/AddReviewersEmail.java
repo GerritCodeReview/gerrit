@@ -58,8 +58,7 @@ public class AddReviewersEmail {
 
     try {
       AddReviewerSender cm = addReviewerSenderFactory.create(change.getProject(), change.getId());
-      cm.setNotify(notify.handling());
-      cm.setAccountsToNotify(notify.accounts());
+      cm.setNotify(notify);
       cm.setFrom(userId);
       cm.addReviewers(toMail);
       cm.addReviewersByEmail(addedByEmail);

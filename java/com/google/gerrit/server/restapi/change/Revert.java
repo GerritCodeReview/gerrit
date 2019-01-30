@@ -19,10 +19,8 @@ import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -226,8 +224,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
               .create(changeId, revertCommit, notes.getChange().getDest().get())
               .setTopic(changeToRevert.getTopic());
       ins.setMessage("Uploaded patch set 1.");
-      ins.setNotify(notify.handling());
-      ins.setAccountsToNotify(notify.accounts());
+      ins.setNotify(notify);
 
       ReviewerSet reviewerSet = approvalsUtil.getReviewers(notes);
 
@@ -243,7 +240,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       try (BatchUpdate bu = updateFactory.create(project, user, now)) {
         bu.setRepository(git, revWalk, oi);
         bu.insertChange(ins);
-        bu.addOp(changeId, new NotifyOp(changeToRevert, ins, notify.handling(), notify.accounts()));
+        bu.addOp(changeId, new NotifyOp(changeToRevert, ins, notify));
         bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(computedChangeId));
         bu.execute();
       }
@@ -278,18 +275,12 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private class NotifyOp implements BatchUpdateOp {
     private final Change change;
     private final ChangeInserter ins;
-    private final NotifyHandling notifyHandling;
-    private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
+    private final NotifyResolver.Result notify;
 
-    NotifyOp(
-        Change change,
-        ChangeInserter ins,
-        NotifyHandling notifyHandling,
-        ListMultimap<RecipientType, Account.Id> accountsToNotify) {
+    NotifyOp(Change change, ChangeInserter ins, NotifyResolver.Result notify) {
       this.change = change;
       this.ins = ins;
-      this.notifyHandling = notifyHandling;
-      this.accountsToNotify = accountsToNotify;
+      this.notify = notify;
     }
 
     @Override
@@ -298,8 +289,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       try {
         RevertedSender cm = revertedSenderFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());
-        cm.setNotify(notifyHandling);
-        cm.setAccountsToNotify(accountsToNotify);
+        cm.setNotify(notify);
         cm.send();
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(

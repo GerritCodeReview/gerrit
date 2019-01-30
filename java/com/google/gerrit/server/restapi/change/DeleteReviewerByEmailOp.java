@@ -100,8 +100,7 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
       cm.setFrom(ctx.getAccountId());
       cm.addReviewersByEmail(Collections.singleton(reviewer));
       cm.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
-      cm.setNotify(notify.handling());
-      cm.setAccountsToNotify(notify.accounts());
+      cm.setNotify(notify);
       cm.send();
     } catch (Exception err) {
       logger.atSevere().withCause(err).log("Cannot email update for change %s", change.getId());

@@ -25,7 +25,6 @@ import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -52,6 +51,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.EmailReviewComments;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
@@ -512,13 +512,12 @@ public class ReplaceOp implements BatchUpdateOp {
       }
     }
 
-    NotifyHandling notify = magicBranch != null ? magicBranch.getNotify(notes) : NotifyHandling.ALL;
-
+    NotifyResolver.Result notify =
+        magicBranch != null ? magicBranch.getNotify(notes) : NotifyResolver.Result.all();
     if (shouldPublishComments()) {
       emailCommentsFactory
           .create(
               notify,
-              magicBranch != null ? magicBranch.getAccountsToNotify() : ImmutableListMultimap.of(),
               notes,
               newPatchSet,
               ctx.getUser().asIdentifiedUser(),
@@ -557,7 +556,6 @@ public class ReplaceOp implements BatchUpdateOp {
         cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
         if (magicBranch != null) {
           cm.setNotify(magicBranch.getNotify(notes));
-          cm.setAccountsToNotify(magicBranch.getAccountsToNotify());
         }
         cm.addReviewers(
             Streams.concat(

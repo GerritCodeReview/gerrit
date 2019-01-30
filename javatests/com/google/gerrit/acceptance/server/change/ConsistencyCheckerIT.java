@@ -26,7 +26,6 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.FixInput;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
@@ -38,6 +37,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ConsistencyChecker;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -753,7 +753,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
           changeInserterFactory
               .create(id, commit, dest)
               .setValidate(false)
-              .setNotify(NotifyHandling.NONE)
+              .setNotify(NotifyResolver.Result.none())
               .setFireRevisionCreated(false)
               .setSendMail(false);
       bu.insertChange(ins).execute();
@@ -778,7 +778,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
               .create(notes, nextPatchSetId(notes), commit)
               .setValidate(false)
               .setFireRevisionCreated(false)
-              .setNotify(NotifyHandling.NONE);
+              .setNotify(NotifyResolver.Result.none());
       bu.addOp(notes.getChangeId(), ins).execute();
     }
     return reload(notes);

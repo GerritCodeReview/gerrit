@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -77,13 +76,7 @@ public class BatchAbandon {
       Collection<ChangeData> changes,
       String msgTxt)
       throws RestApiException, UpdateException {
-    batchAbandon(
-        updateFactory,
-        project,
-        user,
-        changes,
-        msgTxt,
-        NotifyResolver.Result.create(NotifyHandling.ALL));
+    batchAbandon(updateFactory, project, user, changes, msgTxt, NotifyResolver.Result.all());
   }
 
   public void batchAbandon(
@@ -92,12 +85,6 @@ public class BatchAbandon {
       CurrentUser user,
       Collection<ChangeData> changes)
       throws RestApiException, UpdateException {
-    batchAbandon(
-        updateFactory,
-        project,
-        user,
-        changes,
-        "",
-        NotifyResolver.Result.create(NotifyHandling.ALL));
+    batchAbandon(updateFactory, project, user, changes, "", NotifyResolver.Result.all());
   }
 }

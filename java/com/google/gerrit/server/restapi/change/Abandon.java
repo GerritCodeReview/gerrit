@@ -14,16 +14,12 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -31,7 +27,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.AbandonOp;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.NotifyUtil;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -53,7 +49,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
 
   private final ChangeJson.Factory json;
   private final AbandonOp.Factory abandonOpFactory;
-  private final NotifyUtil notifyUtil;
+  private final NotifyResolver notifyResolver;
   private final PatchSetUtil patchSetUtil;
 
   @Inject
@@ -61,12 +57,12 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
       ChangeJson.Factory json,
       RetryHelper retryHelper,
       AbandonOp.Factory abandonOpFactory,
-      NotifyUtil notifyUtil,
+      NotifyResolver notifyResolver,
       PatchSetUtil patchSetUtil) {
     super(retryHelper);
     this.json = json;
     this.abandonOpFactory = abandonOpFactory;
-    this.notifyUtil = notifyUtil;
+    this.notifyResolver = notifyResolver;
     this.patchSetUtil = patchSetUtil;
   }
 
@@ -87,8 +83,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
             rsrc.getNotes(),
             rsrc.getUser(),
             input.message,
-            notify,
-            notifyUtil.resolveAccounts(input.notifyDetails));
+            notifyResolver.resolve(notify, input.notifyDetails));
     return json.noOptions().format(change);
   }
 
@@ -103,8 +98,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
         notes,
         user,
         "",
-        defaultNotify(notes.getChange()),
-        ImmutableListMultimap.of());
+        NotifyResolver.Result.create(defaultNotify(notes.getChange())));
   }
 
   public Change abandon(
@@ -115,8 +109,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
         notes,
         user,
         msgTxt,
-        defaultNotify(notes.getChange()),
-        ImmutableListMultimap.of());
+        NotifyResolver.Result.create(defaultNotify(notes.getChange())));
   }
 
   public Change abandon(
@@ -124,11 +117,10 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
       ChangeNotes notes,
       CurrentUser user,
       String msgTxt,
-      NotifyHandling notifyHandling,
-      ListMultimap<RecipientType, Account.Id> accountsToNotify)
+      NotifyResolver.Result notify)
       throws RestApiException, UpdateException {
     AccountState accountState = user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null;
-    AbandonOp op = abandonOpFactory.create(accountState, msgTxt, notifyHandling, accountsToNotify);
+    AbandonOp op = abandonOpFactory.create(accountState, msgTxt, notify);
     try (BatchUpdate u = updateFactory.create(notes.getProjectName(), user, TimeUtil.nowTs())) {
       u.addOp(notes.getChangeId(), op).execute();
     }

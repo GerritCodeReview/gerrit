@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -22,7 +24,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.change.NotifyUtil;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -40,7 +42,7 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
   }
 
   private final DeleteReviewerSender.Factory deleteReviewerSenderFactory;
-  private final NotifyUtil notifyUtil;
+  private final NotifyResolver notifyResolver;
   private final Address reviewer;
   private final DeleteReviewerInput input;
 
@@ -50,11 +52,11 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
   @Inject
   DeleteReviewerByEmailOp(
       DeleteReviewerSender.Factory deleteReviewerSenderFactory,
-      NotifyUtil notifyUtil,
+      NotifyResolver notifyResolver,
       @Assisted Address reviewer,
       @Assisted DeleteReviewerInput input) {
     this.deleteReviewerSenderFactory = deleteReviewerSenderFactory;
-    this.notifyUtil = notifyUtil;
+    this.notifyResolver = notifyResolver;
     this.reviewer = reviewer;
     this.input = input;
   }
@@ -86,17 +88,20 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
         input.notify = NotifyHandling.ALL;
       }
     }
-    if (!NotifyUtil.shouldNotify(input.notify, input.notifyDetails)) {
-      return;
-    }
     try {
+      NotifyResolver.Result notify =
+          notifyResolver.resolve(
+              firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
+      if (!notify.shouldNotify()) {
+        return;
+      }
       DeleteReviewerSender cm =
           deleteReviewerSenderFactory.create(ctx.getProject(), change.getId());
       cm.setFrom(ctx.getAccountId());
       cm.addReviewersByEmail(Collections.singleton(reviewer));
       cm.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
-      cm.setNotify(input.notify);
-      cm.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
+      cm.setNotify(notify.handling());
+      cm.setAccountsToNotify(notify.accounts());
       cm.send();
     } catch (Exception err) {
       logger.atSevere().withCause(err).log("Cannot email update for change %s", change.getId());

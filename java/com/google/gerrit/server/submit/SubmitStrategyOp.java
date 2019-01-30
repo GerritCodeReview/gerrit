@@ -505,8 +505,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
               ctx.getProject(),
               getId(),
               submitter.getAccountId(),
-              args.submitInput.notify,
-              args.accountsToNotify)
+              args.notify.handling(),
+              args.notify.accounts())
           .sendAsync();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email merged notification for %s", getId());

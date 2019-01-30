@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 
@@ -44,7 +45,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.NotifyUtil;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.send.RevertedSender;
@@ -104,7 +105,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private final ChangeReverted changeReverted;
   private final ContributorAgreementsChecker contributorAgreements;
   private final ProjectCache projectCache;
-  private final NotifyUtil notifyUtil;
+  private final NotifyResolver notifyResolver;
 
   @Inject
   Revert(
@@ -122,7 +123,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       ChangeReverted changeReverted,
       ContributorAgreementsChecker contributorAgreements,
       ProjectCache projectCache,
-      NotifyUtil notifyUtil) {
+      NotifyResolver notifyResolver) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
@@ -137,7 +138,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     this.changeReverted = changeReverted;
     this.contributorAgreements = contributorAgreements;
     this.projectCache = projectCache;
-    this.notifyUtil = notifyUtil;
+    this.notifyResolver = notifyResolver;
   }
 
   @Override
@@ -216,16 +217,17 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       ObjectId id = oi.insert(revertCommitBuilder);
       RevCommit revertCommit = revWalk.parseCommit(id);
 
-      ListMultimap<RecipientType, Account.Id> accountsToNotify =
-          notifyUtil.resolveAccounts(input.notifyDetails);
+      NotifyResolver.Result notify =
+          notifyResolver.resolve(
+              firstNonNull(input.notify, NotifyHandling.NONE), input.notifyDetails);
 
       ChangeInserter ins =
           changeInserterFactory
               .create(changeId, revertCommit, notes.getChange().getDest().get())
               .setTopic(changeToRevert.getTopic());
       ins.setMessage("Uploaded patch set 1.");
-      ins.setNotify(input.notify);
-      ins.setAccountsToNotify(accountsToNotify);
+      ins.setNotify(notify.handling());
+      ins.setAccountsToNotify(notify.accounts());
 
       ReviewerSet reviewerSet = approvalsUtil.getReviewers(notes);
 
@@ -241,7 +243,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       try (BatchUpdate bu = updateFactory.create(project, user, now)) {
         bu.setRepository(git, revWalk, oi);
         bu.insertChange(ins);
-        bu.addOp(changeId, new NotifyOp(changeToRevert, ins, input.notify, accountsToNotify));
+        bu.addOp(changeId, new NotifyOp(changeToRevert, ins, notify.handling(), notify.accounts()));
         bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(computedChangeId));
         bu.execute();
       }

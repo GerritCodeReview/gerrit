@@ -16,12 +16,8 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -49,9 +45,7 @@ public class AddReviewersEmail {
       Collection<Account.Id> copied,
       Collection<Address> addedByEmail,
       Collection<Address> copiedByEmail,
-      NotifyHandling notify,
-      ListMultimap<RecipientType, Account.Id> accountsToNotify,
-      boolean readyForReview) {
+      NotifyResolver.Result notify) {
     // The user knows they added themselves, don't bother emailing them.
     Account.Id userId = user.getAccountId();
     ImmutableList<Account.Id> toMail =
@@ -64,11 +58,8 @@ public class AddReviewersEmail {
 
     try {
       AddReviewerSender cm = addReviewerSenderFactory.create(change.getProject(), change.getId());
-      // Default to silent operation on WIP changes.
-      NotifyHandling defaultNotifyHandling =
-          readyForReview ? NotifyHandling.ALL : NotifyHandling.NONE;
-      cm.setNotify(MoreObjects.firstNonNull(notify, defaultNotifyHandling));
-      cm.setAccountsToNotify(accountsToNotify);
+      cm.setNotify(notify.handling());
+      cm.setAccountsToNotify(notify.accounts());
       cm.setFrom(userId);
       cm.addReviewers(toMail);
       cm.addReviewersByEmail(addedByEmail);

@@ -90,7 +90,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AddReviewersEmail;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
-import com.google.gerrit.server.change.NotifyUtil;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.RevisionResource;
@@ -169,7 +169,7 @@ public class PostReview
   private final CommentAdded commentAdded;
   private final ReviewerAdder reviewerAdder;
   private final AddReviewersEmail addReviewersEmail;
-  private final NotifyUtil notifyUtil;
+  private final NotifyResolver notifyResolver;
   private final Config gerritConfig;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
   private final ProjectCache projectCache;
@@ -192,7 +192,7 @@ public class PostReview
       CommentAdded commentAdded,
       ReviewerAdder reviewerAdder,
       AddReviewersEmail addReviewersEmail,
-      NotifyUtil notifyUtil,
+      NotifyResolver notifyResolver,
       @GerritServerConfig Config gerritConfig,
       WorkInProgressOp.Factory workInProgressOpFactory,
       ProjectCache projectCache,
@@ -211,7 +211,7 @@ public class PostReview
     this.commentAdded = commentAdded;
     this.reviewerAdder = reviewerAdder;
     this.addReviewersEmail = addReviewersEmail;
-    this.notifyUtil = notifyUtil;
+    this.notifyResolver = notifyResolver;
     this.gerritConfig = gerritConfig;
     this.workInProgressOpFactory = workInProgressOpFactory;
     this.projectCache = projectCache;
@@ -257,8 +257,7 @@ public class PostReview
       input.notify = defaultNotify(revision.getChange(), input);
     }
 
-    ListMultimap<RecipientType, Account.Id> accountsToNotify =
-        notifyUtil.resolveAccounts(input.notifyDetails);
+    NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
 
     Map<String, AddReviewerResult> reviewerJsonResults = null;
     List<ReviewerAddition> reviewerResults = Lists.newArrayList();
@@ -368,7 +367,7 @@ public class PostReview
       // Add the review op.
       bu.addOp(
           revision.getChange().getId(),
-          new Op(projectState, revision.getPatchSet().getId(), input, accountsToNotify));
+          new Op(projectState, revision.getPatchSet().getId(), input, notify.accounts()));
 
       bu.execute();
 
@@ -382,12 +381,7 @@ public class PostReview
           (output.ready != null && output.ready) || !revision.getChange().isWorkInProgress();
       // Sending from AddReviewersOp was suppressed so we can send a single batch email here.
       batchEmailReviewers(
-          revision.getUser(),
-          revision.getChange(),
-          reviewerResults,
-          input.notify,
-          accountsToNotify,
-          readyForReview);
+          revision.getUser(), revision.getChange(), reviewerResults, notify, readyForReview);
     }
 
     return Response.ok(output);
@@ -421,8 +415,7 @@ public class PostReview
       CurrentUser user,
       Change change,
       List<ReviewerAddition> reviewerAdditions,
-      @Nullable NotifyHandling notify,
-      ListMultimap<RecipientType, Account.Id> accountsToNotify,
+      NotifyResolver.Result notify,
       boolean readyForReview) {
     List<Account.Id> to = new ArrayList<>();
     List<Account.Id> cc = new ArrayList<>();
@@ -438,15 +431,7 @@ public class PostReview
       }
     }
     addReviewersEmail.emailReviewers(
-        user.asIdentifiedUser(),
-        change,
-        to,
-        cc,
-        toByEmail,
-        ccByEmail,
-        notify,
-        accountsToNotify,
-        readyForReview);
+        user.asIdentifiedUser(), change, to, cc, toByEmail, ccByEmail, notify);
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, LabelTypes labelTypes, ReviewInput in)

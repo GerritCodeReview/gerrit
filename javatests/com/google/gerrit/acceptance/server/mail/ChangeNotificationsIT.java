@@ -1276,7 +1276,9 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   private StagedChange stageWipChangeWithExtraReviewer() throws Exception {
-    return stageChangeWithExtraReviewer(this::stageWipChange);
+    StagedChange sc = stageChangeWithExtraReviewer(this::stageWipChange);
+    assertThat(sender).notSent();
+    return sc;
   }
 
   private void removeReviewer(StagedChange sc, TestAccount account) throws Exception {

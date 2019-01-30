@@ -14,13 +14,14 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -48,7 +49,7 @@ import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.NotifyUtil;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -112,7 +113,7 @@ public class CreateChange
   private final PatchSetUtil psUtil;
   private final MergeUtil.Factory mergeUtilFactory;
   private final SubmitType submitType;
-  private final NotifyUtil notifyUtil;
+  private final NotifyResolver notifyResolver;
   private final ContributorAgreementsChecker contributorAgreements;
   private final boolean disablePrivateChanges;
 
@@ -133,7 +134,7 @@ public class CreateChange
       PatchSetUtil psUtil,
       @GerritServerConfig Config config,
       MergeUtil.Factory mergeUtilFactory,
-      NotifyUtil notifyUtil,
+      NotifyResolver notifyResolver,
       ContributorAgreementsChecker contributorAgreements) {
     super(retryHelper);
     this.anonymousCowardName = anonymousCowardName;
@@ -151,7 +152,7 @@ public class CreateChange
     this.submitType = config.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
     this.disablePrivateChanges = config.getBoolean("change", null, "disablePrivateChanges", false);
     this.mergeUtilFactory = mergeUtilFactory;
-    this.notifyUtil = notifyUtil;
+    this.notifyResolver = notifyResolver;
     this.contributorAgreements = contributorAgreements;
   }
 
@@ -234,8 +235,7 @@ public class CreateChange
         input.workInProgress = true;
       } else {
         input.workInProgress =
-            MoreObjects.firstNonNull(
-                me.state().getGeneralPreferences().workInProgressByDefault, false);
+            firstNonNull(me.state().getGeneralPreferences().workInProgressByDefault, false);
       }
     }
 
@@ -305,8 +305,11 @@ public class CreateChange
       ins.setPrivate(input.isPrivate);
       ins.setWorkInProgress(input.workInProgress);
       ins.setGroups(groups);
-      ins.setNotify(input.notify);
-      ins.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
+      NotifyResolver.Result notify =
+          notifyResolver.resolve(
+              firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
+      ins.setNotify(notify.handling());
+      ins.setAccountsToNotify(notify.accounts());
       try (BatchUpdate bu = updateFactory.create(projectState.getNameKey(), me, now)) {
         bu.setRepository(git, rw, oi);
         bu.insertChange(ins);
@@ -454,8 +457,7 @@ public class CreateChange
     MergeUtil mergeUtil = mergeUtilFactory.create(projectState);
     // default merge strategy from project settings
     String mergeStrategy =
-        MoreObjects.firstNonNull(
-            Strings.emptyToNull(merge.strategy), mergeUtil.mergeStrategyName());
+        firstNonNull(Strings.emptyToNull(merge.strategy), mergeUtil.mergeStrategyName());
 
     return MergeUtil.createMergeCommit(
         oi,

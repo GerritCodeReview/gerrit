@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
@@ -36,7 +37,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.change.NotifyUtil;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.VoteResource;
 import com.google.gerrit.server.extensions.events.VoteDeleted;
@@ -72,7 +73,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
   private final IdentifiedUser.GenericFactory userFactory;
   private final VoteDeleted voteDeleted;
   private final DeleteVoteSender.Factory deleteVoteSenderFactory;
-  private final NotifyUtil notifyUtil;
+  private final NotifyResolver notifyResolver;
   private final RemoveReviewerControl removeReviewerControl;
   private final ProjectCache projectCache;
 
@@ -85,7 +86,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       IdentifiedUser.GenericFactory userFactory,
       VoteDeleted voteDeleted,
       DeleteVoteSender.Factory deleteVoteSenderFactory,
-      NotifyUtil notifyUtil,
+      NotifyResolver notifyResolver,
       RemoveReviewerControl removeReviewerControl,
       ProjectCache projectCache) {
     super(retryHelper);
@@ -95,7 +96,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
     this.userFactory = userFactory;
     this.voteDeleted = voteDeleted;
     this.deleteVoteSenderFactory = deleteVoteSenderFactory;
-    this.notifyUtil = notifyUtil;
+    this.notifyResolver = notifyResolver;
     this.removeReviewerControl = removeReviewerControl;
     this.projectCache = projectCache;
   }
@@ -217,17 +218,20 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       }
 
       IdentifiedUser user = ctx.getIdentifiedUser();
-      if (NotifyUtil.shouldNotify(input.notify, input.notifyDetails)) {
-        try {
+      try {
+        NotifyResolver.Result notify =
+            notifyResolver.resolve(
+                firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
+        if (notify.shouldNotify()) {
           ReplyToChangeSender cm = deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
           cm.setFrom(user.getAccountId());
           cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
-          cm.setNotify(input.notify);
-          cm.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
+          cm.setNotify(notify.handling());
+          cm.setAccountsToNotify(notify.accounts());
           cm.send();
-        } catch (Exception e) {
-          logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
         }
+      } catch (Exception e) {
+        logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
       }
 
       voteDeleted.fire(

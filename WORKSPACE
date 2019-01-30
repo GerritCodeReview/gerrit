@@ -3,7 +3,6 @@ workspace(name = "gerrit")
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_LOCAL", "maven_jar")
-load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
 http_archive(
     name = "bazel_skylib",
@@ -43,6 +42,8 @@ closure_repositories(
     omit_aopalliance = True,
     omit_javax_inject = True,
 )
+
+load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
 # Golang support for PolyGerrit local dev server.
 http_archive(

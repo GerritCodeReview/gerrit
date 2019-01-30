@@ -46,6 +46,8 @@ public class ElasticContainer extends ElasticsearchContainer {
         return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.4.3";
       case V6_5:
         return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.5.4";
+      case V6_6:
+        return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.6.0";
       case V7_0:
         return "docker.elastic.co/elasticsearch/elasticsearch-oss:7.0.0-alpha2";
     }

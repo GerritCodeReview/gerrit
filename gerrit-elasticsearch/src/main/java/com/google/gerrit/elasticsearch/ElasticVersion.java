@@ -23,6 +23,7 @@ public enum ElasticVersion {
   V6_3("6.3.*"),
   V6_4("6.4.*"),
   V6_5("6.5.*"),
+  V6_6("6.6.*"),
   V7_0("7.0.*");
 
   private final String version;

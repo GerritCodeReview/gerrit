@@ -25,6 +25,9 @@ public class GlobalCapability {
   /** Ability to view code review metadata refs in repositories. */
   public static final String ACCESS_DATABASE = "accessDatabase";
 
+  /** Can administrate checkers. */
+  public static final String ADMINISTRATE_CHECKERS = "administrateCheckers";
+
   /**
    * Denotes the server's administrators.
    *
@@ -129,6 +132,7 @@ public class GlobalCapability {
   static {
     NAMES_ALL = new ArrayList<>();
     NAMES_ALL.add(ACCESS_DATABASE);
+    NAMES_ALL.add(ADMINISTRATE_CHECKERS);
     NAMES_ALL.add(ADMINISTRATE_SERVER);
     NAMES_ALL.add(BATCH_CHANGES_LIMIT);
     NAMES_ALL.add(CREATE_ACCOUNT);

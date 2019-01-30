@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a59932a5_adca8251",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-01-30T15:30:09Z",
+      "side": 1,
+      "message": "nit: can this be static?",
+      "revId": "f5cab146f581d2f393599386706c6301dc72d6b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

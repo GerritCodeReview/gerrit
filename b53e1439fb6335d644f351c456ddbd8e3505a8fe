@@ -46,6 +46,30 @@
       "revId": "b53e1439fb6335d644f351c456ddbd8e3505a8fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b94dd8c6_af84dbbd",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-01-30T13:10:14Z",
+      "side": 1,
+      "message": "Great. I try to look at all of them today!",
+      "parentUuid": "54ed28d2_28faada4",
+      "range": {
+        "startLine": 320,
+        "startChar": 22,
+        "endLine": 320,
+        "endChar": 29
+      },
+      "revId": "b53e1439fb6335d644f351c456ddbd8e3505a8fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

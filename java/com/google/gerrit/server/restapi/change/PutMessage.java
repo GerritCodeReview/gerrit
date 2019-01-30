@@ -29,7 +29,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.NotifyUtil;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -71,7 +71,7 @@ public class PutMessage
   private final PatchSetInserter.Factory psInserterFactory;
   private final PermissionBackend permissionBackend;
   private final PatchSetUtil psUtil;
-  private final NotifyUtil notifyUtil;
+  private final NotifyResolver notifyResolver;
   private final ProjectCache projectCache;
 
   @Inject
@@ -83,7 +83,7 @@ public class PutMessage
       PermissionBackend permissionBackend,
       @GerritPersonIdent PersonIdent gerritIdent,
       PatchSetUtil psUtil,
-      NotifyUtil notifyUtil,
+      NotifyResolver notifyResolver,
       ProjectCache projectCache) {
     super(retryHelper);
     this.repositoryManager = repositoryManager;
@@ -92,7 +92,7 @@ public class PutMessage
     this.tz = gerritIdent.getTimeZone();
     this.permissionBackend = permissionBackend;
     this.psUtil = psUtil;
-    this.notifyUtil = notifyUtil;
+    this.notifyResolver = notifyResolver;
     this.projectCache = projectCache;
   }
 
@@ -117,11 +117,6 @@ public class PutMessage
         resource.getChange().getKey().get(),
         sanitizedCommitMessage);
 
-    NotifyHandling notify = input.notify;
-    if (notify == null) {
-      notify = resource.getChange().isWorkInProgress() ? NotifyHandling.OWNER : NotifyHandling.ALL;
-    }
-
     try (Repository repository = repositoryManager.openRepository(resource.getProject());
         RevWalk revWalk = new RevWalk(repository);
         ObjectInserter objectInserter = repository.newObjectInserter()) {
@@ -145,13 +140,24 @@ public class PutMessage
         inserter.setMessage(
             String.format("Patch Set %s: Commit message was updated.", psId.getId()));
         inserter.setDescription("Edit commit message");
-        inserter.setNotify(notify);
-        inserter.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
+        NotifyResolver.Result notify = resolveNotify(input, resource);
+        inserter.setNotify(notify.handling());
+        inserter.setAccountsToNotify(notify.accounts());
         bu.addOp(resource.getChange().getId(), inserter);
         bu.execute();
       }
     }
     return Response.ok("ok");
+  }
+
+  private NotifyResolver.Result resolveNotify(CommitMessageInput input, ChangeResource resource)
+      throws BadRequestException, OrmException, ConfigInvalidException, IOException {
+    NotifyHandling notifyHandling = input.notify;
+    if (notifyHandling == null) {
+      notifyHandling =
+          resource.getChange().isWorkInProgress() ? NotifyHandling.OWNER : NotifyHandling.ALL;
+    }
+    return notifyResolver.resolve(notifyHandling, input.notifyDetails);
   }
 
   private ObjectId createCommit(

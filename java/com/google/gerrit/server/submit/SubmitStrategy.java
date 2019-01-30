@@ -16,13 +16,10 @@ package com.google.gerrit.server.submit;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
-import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -32,6 +29,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.LabelNormalizer;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
@@ -94,7 +92,7 @@ public abstract class SubmitStrategy {
           Set<CodeReviewCommit> incoming,
           RequestId submissionId,
           SubmitInput submitInput,
-          ListMultimap<RecipientType, Account.Id> accountsToNotify,
+          NotifyResolver.Result notify,
           SubmoduleOp submoduleOp,
           boolean dryrun);
     }
@@ -126,7 +124,7 @@ public abstract class SubmitStrategy {
     final RequestId submissionId;
     final SubmitType submitType;
     final SubmitInput submitInput;
-    final ListMultimap<RecipientType, Account.Id> accountsToNotify;
+    final NotifyResolver.Result notify;
     final SubmoduleOp submoduleOp;
 
     final ProjectState project;
@@ -165,7 +163,7 @@ public abstract class SubmitStrategy {
         @Assisted RequestId submissionId,
         @Assisted SubmitType submitType,
         @Assisted SubmitInput submitInput,
-        @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify,
+        @Assisted NotifyResolver.Result notify,
         @Assisted SubmoduleOp submoduleOp,
         @Assisted boolean dryrun) {
       this.accountCache = accountCache;
@@ -194,7 +192,7 @@ public abstract class SubmitStrategy {
       this.submissionId = submissionId;
       this.submitType = submitType;
       this.submitInput = submitInput;
-      this.accountsToNotify = accountsToNotify;
+      this.notify = notify;
       this.submoduleOp = submoduleOp;
       this.dryrun = dryrun;
 

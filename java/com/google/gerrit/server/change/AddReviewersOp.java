@@ -25,12 +25,8 @@ import static java.util.stream.Collectors.toList;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.mail.Address;
@@ -70,15 +66,13 @@ public class AddReviewersOp implements BatchUpdateOp {
      * @param addresses email addresses to add.
      * @param state resulting reviewer state.
      * @param notify notification handling.
-     * @param accountsToNotify additional accounts to notify.
      * @return batch update operation.
      */
     AddReviewersOp create(
         Set<Account.Id> accountIds,
         Collection<Address> addresses,
         ReviewerState state,
-        @Nullable NotifyHandling notify,
-        ListMultimap<RecipientType, Account.Id> accountsToNotify);
+        NotifyResolver.Result notify);
   }
 
   @AutoValue
@@ -118,8 +112,7 @@ public class AddReviewersOp implements BatchUpdateOp {
   private final Set<Account.Id> accountIds;
   private final Collection<Address> addresses;
   private final ReviewerState state;
-  private final NotifyHandling notify;
-  private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
+  private final NotifyResolver.Result notify;
 
   // Unlike addedCCs, addedReviewers is a PatchSetApproval because the AddReviewerResult returned
   // via the REST API is supposed to include vote information.
@@ -143,8 +136,7 @@ public class AddReviewersOp implements BatchUpdateOp {
       @Assisted Set<Account.Id> accountIds,
       @Assisted Collection<Address> addresses,
       @Assisted ReviewerState state,
-      @Assisted @Nullable NotifyHandling notify,
-      @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify) {
+      @Assisted NotifyResolver.Result notify) {
     checkArgument(state == REVIEWER || state == CC, "must be %s or %s: %s", REVIEWER, CC, state);
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
@@ -157,7 +149,6 @@ public class AddReviewersOp implements BatchUpdateOp {
     this.addresses = addresses;
     this.state = state;
     this.notify = notify;
-    this.accountsToNotify = accountsToNotify;
   }
 
   void setPatchSet(PatchSet patchSet) {
@@ -253,9 +244,7 @@ public class AddReviewersOp implements BatchUpdateOp {
         addedCCs,
         addedReviewersByEmail,
         addedCCsByEmail,
-        notify,
-        accountsToNotify,
-        !change.isWorkInProgress());
+        notify);
     if (!addedReviewers.isEmpty()) {
       List<AccountState> reviewers =
           addedReviewers

@@ -31,7 +31,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.FixInput;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ProblemInfo.Status;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -537,7 +536,7 @@ public class ConsistencyChecker {
             inserter
                 .setValidate(false)
                 .setFireRevisionCreated(false)
-                .setNotify(NotifyHandling.NONE)
+                .setNotify(NotifyResolver.Result.none())
                 .setAllowClosed(true)
                 .setMessage("Patch set for merged commit inserted by consistency checker"));
         bu.addOp(notes.getChangeId(), new FixMergedOp(notFound));

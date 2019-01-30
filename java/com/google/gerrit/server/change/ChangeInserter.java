@@ -24,16 +24,13 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -123,8 +120,7 @@ public class ChangeInserter implements InsertChangeOp {
   private boolean workInProgress;
   private List<String> groups = Collections.emptyList();
   private boolean validate = true;
-  private NotifyHandling notify = NotifyHandling.ALL;
-  private ListMultimap<RecipientType, Account.Id> accountsToNotify = ImmutableListMultimap.of();
+  private NotifyResolver.Result notify = NotifyResolver.Result.all();
   private Map<String, Short> approvals;
   private RequestScopePropagator requestScopePropagator;
   private boolean fireRevisionCreated;
@@ -255,14 +251,8 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
-  public ChangeInserter setNotify(NotifyHandling notify) {
+  public ChangeInserter setNotify(NotifyResolver.Result notify) {
     this.notify = notify;
-    return this;
-  }
-
-  public ChangeInserter setAccountsToNotify(
-      ListMultimap<RecipientType, Account.Id> accountsToNotify) {
-    this.accountsToNotify = requireNonNull(accountsToNotify);
     return this;
   }
 
@@ -457,7 +447,7 @@ public class ChangeInserter implements InsertChangeOp {
   @Override
   public void postUpdate(Context ctx) throws Exception {
     reviewerAdditions.postUpdate(ctx);
-    if (sendMail && (notify != NotifyHandling.NONE || !accountsToNotify.isEmpty())) {
+    if (sendMail && notify.shouldNotify()) {
       Runnable sender =
           new Runnable() {
             @Override
@@ -468,7 +458,6 @@ public class ChangeInserter implements InsertChangeOp {
                 cm.setFrom(change.getOwner());
                 cm.setPatchSet(patchSet, patchSetInfo);
                 cm.setNotify(notify);
-                cm.setAccountsToNotify(accountsToNotify);
                 cm.addReviewers(
                     reviewerAdditions
                         .flattenResults(AddReviewersOp.Result::addedReviewers)

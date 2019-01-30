@@ -226,8 +226,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
           ReplyToChangeSender cm = deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
           cm.setFrom(user.getAccountId());
           cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
-          cm.setNotify(notify.handling());
-          cm.setAccountsToNotify(notify.accounts());
+          cm.setNotify(notify);
           cm.send();
         }
       } catch (Exception e) {

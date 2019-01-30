@@ -49,7 +49,6 @@ import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.StarsInput;
@@ -90,6 +89,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -2967,7 +2967,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     PatchSetInserter inserter =
         patchSetFactory
             .create(changeNotesFactory.createChecked(c), new PatchSet.Id(c.getId(), n), commit)
-            .setNotify(NotifyHandling.NONE)
+            .setNotify(NotifyResolver.Result.none())
             .setFireRevisionCreated(false)
             .setValidate(false);
     try (BatchUpdate bu = updateFactory.create(c.getProject(), user, TimeUtil.nowTs());

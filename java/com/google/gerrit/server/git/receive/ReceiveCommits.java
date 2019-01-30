@@ -49,6 +49,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
@@ -94,6 +95,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -1386,7 +1388,7 @@ class ReceiveCommits {
             "Notify handling that defines to whom email notifications "
                 + "should be sent. Allowed values are NONE, OWNER, "
                 + "OWNER_REVIEWERS, ALL. If not set, the default is ALL.")
-    private NotifyHandling notify;
+    private NotifyHandling notifyHandling;
 
     @Option(
         name = "--notify-to",
@@ -1516,15 +1518,6 @@ class ReceiveCommits {
           .collect(toImmutableSet());
     }
 
-    ListMultimap<RecipientType, Account.Id> getAccountsToNotify() {
-      ListMultimap<RecipientType, Account.Id> accountsToNotify =
-          MultimapBuilder.hashKeys().arrayListValues().build();
-      accountsToNotify.putAll(RecipientType.TO, notifyTo);
-      accountsToNotify.putAll(RecipientType.CC, notifyCc);
-      accountsToNotify.putAll(RecipientType.BCC, notifyBcc);
-      return accountsToNotify;
-    }
-
     boolean shouldPublishComments() {
       if (publishComments) {
         return true;
@@ -1584,24 +1577,31 @@ class ReceiveCommits {
       return ref.substring(0, split);
     }
 
-    NotifyHandling getNotify() {
-      if (notify != null) {
-        return notify;
-      }
-      if (workInProgress) {
-        return NotifyHandling.OWNER;
-      }
-      return NotifyHandling.ALL;
+    NotifyResolver.Result getNotifyForNewChange() {
+      return getNotifyImpl(null);
     }
 
-    NotifyHandling getNotify(ChangeNotes notes) {
-      if (notify != null) {
-        return notify;
+    NotifyResolver.Result getNotify(ChangeNotes notes) {
+      return getNotifyImpl(requireNonNull(notes));
+    }
+
+    private NotifyResolver.Result getNotifyImpl(@Nullable ChangeNotes notes) {
+      NotifyHandling notifyHandling = this.notifyHandling;
+      if (notifyHandling == null) {
+        if (workInProgress || (notes != null && !ready && notes.getChange().isWorkInProgress())) {
+          notifyHandling = NotifyHandling.OWNER;
+        } else {
+          notifyHandling = NotifyHandling.ALL;
+        }
       }
-      if (workInProgress || (!ready && notes.getChange().isWorkInProgress())) {
-        return NotifyHandling.OWNER;
-      }
-      return NotifyHandling.ALL;
+
+      return NotifyResolver.Result.create(
+          notifyHandling,
+          ImmutableListMultimap.<RecipientType, Account.Id>builder()
+              .putAll(RecipientType.TO, notifyTo)
+              .putAll(RecipientType.CC, notifyCc)
+              .putAll(RecipientType.BCC, notifyBcc)
+              .build());
     }
   }
 
@@ -2446,8 +2446,7 @@ class ReceiveCommits {
                     magicBranch.getCombinedCcs(fromFooters))
                 .setApprovals(approvals)
                 .setMessage(msg.toString())
-                .setNotify(magicBranch.getNotify())
-                .setAccountsToNotify(magicBranch.getAccountsToNotify())
+                .setNotify(magicBranch.getNotifyForNewChange())
                 .setRequestScopePropagator(requestScopePropagator)
                 .setSendMail(true)
                 .setPatchSetDescription(magicBranch.message));

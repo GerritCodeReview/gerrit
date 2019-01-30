@@ -308,8 +308,7 @@ public class CreateChange
       NotifyResolver.Result notify =
           notifyResolver.resolve(
               firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
-      ins.setNotify(notify.handling());
-      ins.setAccountsToNotify(notify.accounts());
+      ins.setNotify(notify);
       try (BatchUpdate bu = updateFactory.create(projectState.getNameKey(), me, now)) {
         bu.setRepository(git, rw, oi);
         bu.insertChange(ins);

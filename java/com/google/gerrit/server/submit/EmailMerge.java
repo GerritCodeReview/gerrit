@@ -14,16 +14,14 @@
 
 package com.google.gerrit.server.submit;
 
-import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.util.RequestContext;
@@ -42,8 +40,7 @@ class EmailMerge implements Runnable, RequestContext {
         Project.NameKey project,
         Change.Id changeId,
         Account.Id submitter,
-        NotifyHandling notifyHandling,
-        ListMultimap<RecipientType, Account.Id> accountsToNotify);
+        NotifyResolver.Result notify);
   }
 
   private final ExecutorService sendEmailsExecutor;
@@ -54,8 +51,7 @@ class EmailMerge implements Runnable, RequestContext {
   private final Project.NameKey project;
   private final Change.Id changeId;
   private final Account.Id submitter;
-  private final NotifyHandling notifyHandling;
-  private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
+  private final NotifyResolver.Result notify;
 
   @Inject
   EmailMerge(
@@ -66,8 +62,7 @@ class EmailMerge implements Runnable, RequestContext {
       @Assisted Project.NameKey project,
       @Assisted Change.Id changeId,
       @Assisted @Nullable Account.Id submitter,
-      @Assisted NotifyHandling notifyHandling,
-      @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify) {
+      @Assisted NotifyResolver.Result notify) {
     this.sendEmailsExecutor = executor;
     this.mergedSenderFactory = mergedSenderFactory;
     this.requestContext = requestContext;
@@ -75,8 +70,7 @@ class EmailMerge implements Runnable, RequestContext {
     this.project = project;
     this.changeId = changeId;
     this.submitter = submitter;
-    this.notifyHandling = notifyHandling;
-    this.accountsToNotify = accountsToNotify;
+    this.notify = notify;
   }
 
   void sendAsync() {
@@ -92,8 +86,7 @@ class EmailMerge implements Runnable, RequestContext {
       if (submitter != null) {
         cm.setFrom(submitter);
       }
-      cm.setNotify(notifyHandling);
-      cm.setAccountsToNotify(accountsToNotify);
+      cm.setNotify(notify);
       cm.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email merged notification for %s", changeId);

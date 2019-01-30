@@ -59,7 +59,7 @@ public abstract class NewChangeSender extends ChangeEmail {
 
     setHeader("Message-ID", getChangeMessageThreadId());
 
-    switch (notify) {
+    switch (notify.handling()) {
       case NONE:
       case OWNER:
         break;

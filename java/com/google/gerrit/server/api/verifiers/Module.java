@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2019 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,21 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.api;
+package com.google.gerrit.server.api.verifiers;
 
-import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.verifiers.Verifiers;
 import com.google.gerrit.extensions.config.FactoryModule;
 
-public class GerritApiModule extends FactoryModule {
+public class Module extends FactoryModule {
   @Override
   protected void configure() {
-    bind(GerritApi.class).to(GerritApiImpl.class);
+    bind(Verifiers.class).to(VerifiersImpl.class);
 
-    install(new com.google.gerrit.server.api.accounts.Module());
-    install(new com.google.gerrit.server.api.changes.Module());
-    install(new com.google.gerrit.server.api.config.Module());
-    install(new com.google.gerrit.server.api.groups.Module());
-    install(new com.google.gerrit.server.api.projects.Module());
-    install(new com.google.gerrit.server.api.verifiers.Module());
+    factory(VerifierApiImpl.Factory.class);
   }
 }

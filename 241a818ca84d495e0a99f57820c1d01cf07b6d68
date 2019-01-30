@@ -16,6 +16,24 @@
       "revId": "241a818ca84d495e0a99f57820c1d01cf07b6d68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb7f8953_2c4c1ba9",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-30T15:13:09Z",
+      "side": 1,
+      "message": "It was done at line#172 on the left. I just moved it to this method.",
+      "parentUuid": "b08816a5_69696f73",
+      "revId": "241a818ca84d495e0a99f57820c1d01cf07b6d68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

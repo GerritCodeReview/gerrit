@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f58cc57f_b9f8cd86",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-01-30T15:22:35Z",
+      "side": 1,
+      "message": "\u0027a change\u0027 or \u0027the change\u0027",
+      "range": {
+        "startLine": 290,
+        "startChar": 61,
+        "endLine": 290,
+        "endChar": 63
+      },
+      "revId": "0b6b00f3ac73214c49228b9ede06feefc708ccb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5394c1e2_0f849675",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-01-30T15:22:35Z",
+      "side": 1,
+      "message": "optional: Since you are already here. This is hard to read, can you write this as:\n\nif (input.workInProgress \u003d\u003d null) {\n  if (projectState.is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)) {\n    input.workInProgress \u003d true;\n  } else {\n    input.workInProgress \u003d MoreObjects.firstNonNull(me.state().getGeneralPreferences().workInProgressByDefault, false);\n  }\n}",
+      "range": {
+        "startLine": 334,
+        "startChar": 6,
+        "endLine": 339,
+        "endChar": 35
+      },
+      "revId": "0b6b00f3ac73214c49228b9ede06feefc708ccb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

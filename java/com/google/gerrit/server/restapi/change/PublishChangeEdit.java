@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.NotifyUtil;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
@@ -39,18 +42,18 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class PublishChangeEdit
     extends RetryingRestModifyView<ChangeResource, PublishChangeEditInput, Response<?>> {
   private final ChangeEditUtil editUtil;
-  private final NotifyUtil notifyUtil;
+  private final NotifyResolver notifyResolver;
   private final ContributorAgreementsChecker contributorAgreementsChecker;
 
   @Inject
   PublishChangeEdit(
       RetryHelper retryHelper,
       ChangeEditUtil editUtil,
-      NotifyUtil notifyUtil,
+      NotifyResolver notifyResolver,
       ContributorAgreementsChecker contributorAgreementsChecker) {
     super(retryHelper);
     this.editUtil = editUtil;
-    this.notifyUtil = notifyUtil;
+    this.notifyResolver = notifyResolver;
     this.contributorAgreementsChecker = contributorAgreementsChecker;
   }
 
@@ -73,8 +76,7 @@ public class PublishChangeEdit
         rsrc.getNotes(),
         rsrc.getUser(),
         edit.get(),
-        in.notify,
-        notifyUtil.resolveAccounts(in.notifyDetails));
+        notifyResolver.resolve(firstNonNull(in.notify, NotifyHandling.ALL), in.notifyDetails));
     return Response.none();
   }
 }

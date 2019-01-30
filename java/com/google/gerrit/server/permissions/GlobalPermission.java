@@ -34,6 +34,7 @@ import java.util.Set;
 /** Global server permissions built into Gerrit. */
 public enum GlobalPermission implements GlobalOrPluginPermission {
   ACCESS_DATABASE,
+  ADMINISTRATE_CHECKERS,
   ADMINISTRATE_SERVER,
   CREATE_ACCOUNT,
   CREATE_GROUP,

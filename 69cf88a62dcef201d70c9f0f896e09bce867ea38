@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "feaf035f_4ceb8b74",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-30T13:37:42Z",
+      "side": 1,
+      "message": "Does this happen for tags that point to commits which are not part of any refs/heads/* branch?\nE.g. tags on commits which have been removed from the branch history due to force push?\nIs it okay to fail in this case?",
+      "range": {
+        "startLine": 138,
+        "startChar": 6,
+        "endLine": 140,
+        "endChar": 100
+      },
+      "revId": "69cf88a62dcef201d70c9f0f896e09bce867ea38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

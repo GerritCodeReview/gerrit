@@ -35,6 +35,7 @@ import java.util.Set;
 public enum GlobalPermission implements GlobalOrPluginPermission {
   ACCESS_DATABASE,
   ADMINISTRATE_SERVER,
+  ADMINISTRATE_CHECKERS,
   CREATE_ACCOUNT,
   CREATE_GROUP,
   CREATE_PROJECT,

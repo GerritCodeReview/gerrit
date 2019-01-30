@@ -103,6 +103,7 @@ import com.google.gerrit.server.change.LabelsJson;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.change.RevisionJson;
+import com.google.gerrit.server.checker.db.NoteDbCheckersModule;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.EventsMetrics;
@@ -244,6 +245,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new GroupDbModule());
     install(new GroupModule());
     install(new NoteDbModule());
+    install(new NoteDbCheckersModule());
     install(new PrologModule());
     install(new DefaultSubmitRule.Module());
     install(new IgnoreSelfApprovalRule.Module());

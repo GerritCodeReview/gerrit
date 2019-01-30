@@ -42,6 +42,7 @@ public class DefaultPermissionMappings {
       ImmutableBiMap.<GlobalPermission, String>builder()
           .put(GlobalPermission.ACCESS_DATABASE, GlobalCapability.ACCESS_DATABASE)
           .put(GlobalPermission.ADMINISTRATE_SERVER, GlobalCapability.ADMINISTRATE_SERVER)
+          .put(GlobalPermission.ADMINISTRATE_CHECKERS, GlobalCapability.ADMINISTRATE_CHECKERS)
           .put(GlobalPermission.CREATE_ACCOUNT, GlobalCapability.CREATE_ACCOUNT)
           .put(GlobalPermission.CREATE_GROUP, GlobalCapability.CREATE_GROUP)
           .put(GlobalPermission.CREATE_PROJECT, GlobalCapability.CREATE_PROJECT)

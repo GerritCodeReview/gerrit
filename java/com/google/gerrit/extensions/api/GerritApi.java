@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.groups.Groups;
 import com.google.gerrit.extensions.api.plugins.Plugins;
 import com.google.gerrit.extensions.api.projects.Projects;
+import com.google.gerrit.extensions.api.verifiers.Verifiers;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 
 public interface GerritApi {
@@ -34,6 +35,8 @@ public interface GerritApi {
   Projects projects();
 
   Plugins plugins();
+
+  Verifiers verifiers();
 
   /**
    * A default implementation which allows source compatibility when adding new methods to the
@@ -67,6 +70,11 @@ public interface GerritApi {
 
     @Override
     public Plugins plugins() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Verifiers verifiers() {
       throw new NotImplementedException();
     }
   }

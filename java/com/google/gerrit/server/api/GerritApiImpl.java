@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.groups.Groups;
 import com.google.gerrit.extensions.api.plugins.Plugins;
 import com.google.gerrit.extensions.api.projects.Projects;
+import com.google.gerrit.extensions.api.verifiers.Verifiers;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -32,6 +33,7 @@ class GerritApiImpl implements GerritApi {
   private final Groups groups;
   private final Projects projects;
   private final Plugins plugins;
+  private final Verifiers verifiers;
 
   @Inject
   GerritApiImpl(
@@ -40,13 +42,15 @@ class GerritApiImpl implements GerritApi {
       Config config,
       Groups groups,
       Projects projects,
-      Plugins plugins) {
+      Plugins plugins,
+      Verifiers verifiers) {
     this.accounts = accounts;
     this.changes = changes;
     this.config = config;
     this.groups = groups;
     this.projects = projects;
     this.plugins = plugins;
+    this.verifiers = verifiers;
   }
 
   @Override
@@ -77,5 +81,10 @@ class GerritApiImpl implements GerritApi {
   @Override
   public Plugins plugins() {
     return plugins;
+  }
+
+  @Override
+  public Verifiers verifiers() {
+    return verifiers;
   }
 }

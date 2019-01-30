@@ -167,6 +167,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
         case VIEW_QUEUE:
           return has(globalPermissionName(perm)) || can(GlobalPermission.MAINTAIN_SERVER);
 
+        case ADMINISTRATE_VERIFIERS:
         case CREATE_ACCOUNT:
         case CREATE_GROUP:
         case CREATE_PROJECT:

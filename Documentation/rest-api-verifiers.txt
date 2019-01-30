@@ -1,0 +1,139 @@
+= Gerrit Code Review - /verifiers/ REST API
+
+This page describes the verifier related REST endpoints.
+Please also take note of the general information on the
+link:rest-api.html[REST API].
+
+[[verifier-endpoints]]
+== Verifier Endpoints
+
+[[get-verifier]]
+=== Get Verifier
+--
+'GET /verifiers/link:#verifier-id[\{verifier-id\}]'
+--
+
+Retrieves a verifier.
+
+Note that only users with the
+link:access-control.html#capability_administrateVerifiers[Administrate
+Verifiers] global capability are permitted to retrieve verifiers.
+
+.Request
+----
+  GET /verifiers/e1f530851409c89dbba927efd0fbbaf270bfaeae HTTP/1.0
+----
+
+As response a link:#verifier-info[VerifierInfo] entity is returned that
+describes the verifier.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "uuid": "e1f530851409c89dbba927efd0fbbaf270bfaeae",
+    "name": "MyVerifier",
+    "description": "A simple verifier.",
+    "created_on": "2019-01-31 09:59:32.126000000"
+  }
+----
+
+[[create-verifier]]
+=== Create Verifier
+--
+'PUT /verifiers/link:#verifier-name[\{verifier-name\}]'
+--
+
+Creates a new verifier.
+
+In the request body additional data for the verifier can be provided as
+link:#verifier-input[VerifierInput].
+
+Note that only users with the
+link:access-control.html#capability_administrateVerifiers[Administrate
+Verifiers] global capability are permitted to create verifiers.
+
+.Request
+----
+  PUT /verifiers/MyVerifier HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "description": "A simple verifier."
+  }
+----
+
+As response the link:#verifier-info[VerifierInfo] entity is returned that
+describes the created verifier.
+
+.Response
+----
+  HTTP/1.1 201 Created
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "uuid": "e1f530851409c89dbba927efd0fbbaf270bfaeae",
+    "name": "MyVerifier",
+    "description": "A simple verifier.",
+    "created_on": "2019-01-31 09:59:32.126000000"
+  }
+----
+
+[[ids]]
+== IDs
+
+[[verifier-id]]
+=== \{verifier-id\}
+The UUID of a verifier. Verifier names cannot be used since verifier
+names may not be unique.
+
+[[verifier-name]]
+=== \{verifier-name\}
+The name of a verifier.
+
+[[json-entities]]
+== JSON Entities
+
+[[verifier-info]]
+=== VerifierInfo
+The `VerifierInfo` entity describes a verifier.
+
+[options="header",cols="1,^2,4"]
+|=============================
+|Field Name      ||Description
+|`uuid`          ||
+The UUID of the verifier
+|`name`          ||
+The name of the verifier, may not be unique.
+|`description`   |optional|
+The description of the verifier.
+|`created_on`    ||
+The link:rest-api.html#timestamp[timestamp] of when the verifier was
+created.
+|=============================
+
+[[verifier-input]]
+=== VerifierInput
+The `VerifierInput` entity contains information for creating a verifier.
+
+[options="header",cols="1,^2,4"]
+|=============================
+|Field Name      ||Description
+|`name`          ||
+The name of the verifier.
+|`description`   |optional|
+The description of the verifier.
+|=============================
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

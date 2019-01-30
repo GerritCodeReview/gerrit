@@ -169,8 +169,7 @@ public class ChangeEditUtil {
 
       RevCommit squashed = squashEdit(rw, oi, edit.getEditCommit(), basePatchSet);
       PatchSet.Id psId = ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
-      PatchSetInserter inserter =
-          patchSetInserterFactory.create(notes, psId, squashed).setNotify(notify);
+      PatchSetInserter inserter = patchSetInserterFactory.create(notes, psId, squashed);
 
       StringBuilder message =
           new StringBuilder("Patch Set ").append(inserter.getPatchSetId().get()).append(": ");
@@ -191,6 +190,7 @@ public class ChangeEditUtil {
 
       try (BatchUpdate bu = updateFactory.create(change.getProject(), user, TimeUtil.nowTs())) {
         bu.setRepository(repo, rw, oi);
+        bu.setNotify(notify);
         bu.addOp(change.getId(), inserter.setMessage(message.toString()));
         bu.addOp(
             change.getId(),

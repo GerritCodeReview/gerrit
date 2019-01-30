@@ -120,7 +120,6 @@ public class ChangeInserter implements InsertChangeOp {
   private boolean workInProgress;
   private List<String> groups = Collections.emptyList();
   private boolean validate = true;
-  private NotifyResolver.Result notify = NotifyResolver.Result.all();
   private Map<String, Short> approvals;
   private RequestScopePropagator requestScopePropagator;
   private boolean fireRevisionCreated;
@@ -248,11 +247,6 @@ public class ChangeInserter implements InsertChangeOp {
 
   public ChangeInserter setValidate(boolean validate) {
     this.validate = validate;
-    return this;
-  }
-
-  public ChangeInserter setNotify(NotifyResolver.Result notify) {
-    this.notify = notify;
     return this;
   }
 
@@ -447,6 +441,7 @@ public class ChangeInserter implements InsertChangeOp {
   @Override
   public void postUpdate(Context ctx) throws Exception {
     reviewerAdditions.postUpdate(ctx);
+    NotifyResolver.Result notify = ctx.getNotify(change.getId());
     if (sendMail && notify.shouldNotify()) {
       Runnable sender =
           new Runnable() {

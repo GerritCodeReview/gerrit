@@ -531,12 +531,12 @@ public class ConsistencyChecker {
           }
         }
 
+        bu.setNotify(NotifyResolver.Result.none());
         bu.addOp(
             notes.getChangeId(),
             inserter
                 .setValidate(false)
                 .setFireRevisionCreated(false)
-                .setNotify(NotifyResolver.Result.none())
                 .setAllowClosed(true)
                 .setMessage("Patch set for merged commit inserted by consistency checker"));
         bu.addOp(notes.getChangeId(), new FixMergedOp(notFound));

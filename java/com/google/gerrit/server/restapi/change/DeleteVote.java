@@ -62,6 +62,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteInput, Response<?>> {
@@ -104,7 +105,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
   @Override
   protected Response<?> applyImpl(
       BatchUpdate.Factory updateFactory, VoteResource rsrc, DeleteVoteInput input)
-      throws RestApiException, UpdateException, IOException {
+      throws RestApiException, UpdateException, IOException, OrmException, ConfigInvalidException {
     if (input == null) {
       input = new DeleteVoteInput();
     }
@@ -124,6 +125,9 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
     try (BatchUpdate bu =
         updateFactory.create(
             change.getProject(), r.getChangeResource().getUser(), TimeUtil.nowTs())) {
+      bu.setNotify(
+          notifyResolver.resolve(
+              firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails));
       bu.addOp(
           change.getId(),
           new Op(
@@ -219,9 +223,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
 
       IdentifiedUser user = ctx.getIdentifiedUser();
       try {
-        NotifyResolver.Result notify =
-            notifyResolver.resolve(
-                firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
+        NotifyResolver.Result notify = ctx.getNotify(change.getId());
         if (notify.shouldNotify()) {
           ReplyToChangeSender cm = deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
           cm.setFrom(user.getAccountId());

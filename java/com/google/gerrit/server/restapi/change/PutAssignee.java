@@ -99,6 +99,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       bu.addOp(rsrc.getId(), op);
 
       ReviewerAddition reviewersAddition = addAssigneeAsCC(rsrc, input.assignee);
+      reviewersAddition.op.suppressEmail();
       bu.addOp(rsrc.getId(), reviewersAddition.op);
 
       bu.execute();

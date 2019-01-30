@@ -14,11 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
-
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -42,7 +39,6 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
   }
 
   private final DeleteReviewerSender.Factory deleteReviewerSenderFactory;
-  private final NotifyResolver notifyResolver;
   private final Address reviewer;
   private final DeleteReviewerInput input;
 
@@ -52,11 +48,9 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
   @Inject
   DeleteReviewerByEmailOp(
       DeleteReviewerSender.Factory deleteReviewerSenderFactory,
-      NotifyResolver notifyResolver,
       @Assisted Address reviewer,
       @Assisted DeleteReviewerInput input) {
     this.deleteReviewerSenderFactory = deleteReviewerSenderFactory;
-    this.notifyResolver = notifyResolver;
     this.reviewer = reviewer;
     this.input = input;
   }
@@ -81,17 +75,8 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) {
-    if (input.notify == null) {
-      if (change.isWorkInProgress()) {
-        input.notify = NotifyHandling.NONE;
-      } else {
-        input.notify = NotifyHandling.ALL;
-      }
-    }
     try {
-      NotifyResolver.Result notify =
-          notifyResolver.resolve(
-              firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
+      NotifyResolver.Result notify = ctx.getNotify(change.getId());
       if (!notify.shouldNotify()) {
         return;
       }

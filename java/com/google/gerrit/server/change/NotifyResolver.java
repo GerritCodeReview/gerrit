@@ -63,6 +63,10 @@ public class NotifyResolver {
     // TODO(dborowitz): Should be ImmutableSetMultimap.
     public abstract ImmutableListMultimap<RecipientType, Account.Id> accounts();
 
+    public Result withHandling(NotifyHandling notifyHandling) {
+      return create(notifyHandling, accounts());
+    }
+
     public boolean shouldNotify() {
       return !accounts().isEmpty() || handling().compareTo(NotifyHandling.NONE) > 0;
     }

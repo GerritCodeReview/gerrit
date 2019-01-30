@@ -224,7 +224,6 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
               .create(changeId, revertCommit, notes.getChange().getDest().get())
               .setTopic(changeToRevert.getTopic());
       ins.setMessage("Uploaded patch set 1.");
-      ins.setNotify(notify);
 
       ReviewerSet reviewerSet = approvalsUtil.getReviewers(notes);
 
@@ -239,8 +238,9 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
 
       try (BatchUpdate bu = updateFactory.create(project, user, now)) {
         bu.setRepository(git, revWalk, oi);
+        bu.setNotify(notify);
         bu.insertChange(ins);
-        bu.addOp(changeId, new NotifyOp(changeToRevert, ins, notify));
+        bu.addOp(changeId, new NotifyOp(changeToRevert, ins));
         bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(computedChangeId));
         bu.execute();
       }
@@ -275,12 +275,10 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private class NotifyOp implements BatchUpdateOp {
     private final Change change;
     private final ChangeInserter ins;
-    private final NotifyResolver.Result notify;
 
-    NotifyOp(Change change, ChangeInserter ins, NotifyResolver.Result notify) {
+    NotifyOp(Change change, ChangeInserter ins) {
       this.change = change;
       this.ins = ins;
-      this.notify = notify;
     }
 
     @Override
@@ -289,7 +287,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       try {
         RevertedSender cm = revertedSenderFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());
-        cm.setNotify(notify);
+        cm.setNotify(ctx.getNotify(change.getId()));
         cm.send();
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(

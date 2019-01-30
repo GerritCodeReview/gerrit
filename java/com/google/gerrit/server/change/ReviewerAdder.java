@@ -38,7 +38,6 @@ import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.mail.Address;
@@ -148,7 +147,6 @@ public class ReviewerAdder {
   private final AccountLoader.Factory accountLoaderFactory;
   private final Config cfg;
   private final ReviewerJson json;
-  private final NotifyResolver notifyResolver;
   private final ProjectCache projectCache;
   private final Provider<AnonymousUser> anonymousProvider;
   private final AddReviewersOp.Factory addReviewersOpFactory;
@@ -163,7 +161,6 @@ public class ReviewerAdder {
       AccountLoader.Factory accountLoaderFactory,
       @GerritServerConfig Config cfg,
       ReviewerJson json,
-      NotifyResolver notifyResolver,
       ProjectCache projectCache,
       Provider<AnonymousUser> anonymousProvider,
       AddReviewersOp.Factory addReviewersOpFactory,
@@ -175,7 +172,6 @@ public class ReviewerAdder {
     this.accountLoaderFactory = accountLoaderFactory;
     this.cfg = cfg;
     this.json = json;
-    this.notifyResolver = notifyResolver;
     this.projectCache = projectCache;
     this.anonymousProvider = anonymousProvider;
     this.addReviewersOpFactory = addReviewersOpFactory;
@@ -201,23 +197,17 @@ public class ReviewerAdder {
       ChangeNotes notes, CurrentUser user, AddReviewerInput input, boolean allowGroup)
       throws OrmException, IOException, PermissionBackendException, ConfigInvalidException {
     requireNonNull(input.reviewer);
-    NotifyResolver.Result notify;
-    try {
-      notify = resolveNotify(notes, input);
-    } catch (BadRequestException e) {
-      return fail(input, FailureType.OTHER, e.getMessage());
-    }
     boolean confirmed = input.confirmed();
     boolean allowByEmail =
         projectCache
             .checkedGet(notes.getProjectName())
             .is(BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL);
 
-    ReviewerAddition byAccountId = addByAccountId(input, notes, user, notify);
+    ReviewerAddition byAccountId = addByAccountId(input, notes, user);
 
     ReviewerAddition wholeGroup = null;
     if (!byAccountId.exactMatchFound) {
-      wholeGroup = addWholeGroup(input, notes, user, notify, confirmed, allowGroup, allowByEmail);
+      wholeGroup = addWholeGroup(input, notes, user, confirmed, allowGroup, allowByEmail);
       if (wholeGroup != null && wholeGroup.exactMatchFound) {
         return wholeGroup;
       }
@@ -239,17 +229,7 @@ public class ReviewerAdder {
       return wholeGroup;
     }
 
-    return addByEmail(input, notes, user, notify);
-  }
-
-  private NotifyResolver.Result resolveNotify(ChangeNotes notes, AddReviewerInput input)
-      throws BadRequestException, OrmException, ConfigInvalidException, IOException {
-    NotifyHandling notifyHandling = input.notify;
-    if (notifyHandling == null) {
-      notifyHandling =
-          notes.getChange().isWorkInProgress() ? NotifyHandling.NONE : NotifyHandling.ALL;
-    }
-    return notifyResolver.resolve(notifyHandling, input.notifyDetails);
+    return addByEmail(input, notes, user);
   }
 
   public ReviewerAddition ccCurrentUser(CurrentUser user, RevisionResource revision) {
@@ -259,13 +239,12 @@ public class ReviewerAdder {
         revision.getUser(),
         ImmutableSet.of(user.getAccountId()),
         null,
-        NotifyResolver.Result.none(),
         true);
   }
 
   @Nullable
   private ReviewerAddition addByAccountId(
-      AddReviewerInput input, ChangeNotes notes, CurrentUser user, NotifyResolver.Result notify)
+      AddReviewerInput input, ChangeNotes notes, CurrentUser user)
       throws OrmException, PermissionBackendException, IOException, ConfigInvalidException {
     IdentifiedUser reviewerUser;
     boolean exactMatchFound = false;
@@ -283,13 +262,7 @@ public class ReviewerAdder {
 
     if (isValidReviewer(notes.getChange().getDest(), reviewerUser.getAccount())) {
       return new ReviewerAddition(
-          input,
-          notes,
-          user,
-          ImmutableSet.of(reviewerUser.getAccountId()),
-          null,
-          notify,
-          exactMatchFound);
+          input, notes, user, ImmutableSet.of(reviewerUser.getAccountId()), null, exactMatchFound);
     }
     return fail(
         input,
@@ -302,7 +275,6 @@ public class ReviewerAdder {
       AddReviewerInput input,
       ChangeNotes notes,
       CurrentUser user,
-      NotifyResolver.Result notify,
       boolean confirmed,
       boolean allowGroup,
       boolean allowByEmail)
@@ -374,12 +346,11 @@ public class ReviewerAdder {
       }
     }
 
-    return new ReviewerAddition(input, notes, user, reviewers, null, notify, true);
+    return new ReviewerAddition(input, notes, user, reviewers, null, true);
   }
 
   @Nullable
-  private ReviewerAddition addByEmail(
-      AddReviewerInput input, ChangeNotes notes, CurrentUser user, NotifyResolver.Result notify)
+  private ReviewerAddition addByEmail(AddReviewerInput input, ChangeNotes notes, CurrentUser user)
       throws PermissionBackendException {
     try {
       permissionBackend.user(anonymousProvider.get()).change(notes).check(ChangePermission.READ);
@@ -397,7 +368,7 @@ public class ReviewerAdder {
           FailureType.NOT_FOUND,
           MessageFormat.format(ChangeMessages.get().reviewerInvalid, input.reviewer));
     }
-    return new ReviewerAddition(input, notes, user, null, ImmutableList.of(adr), notify, true);
+    return new ReviewerAddition(input, notes, user, null, ImmutableList.of(adr), true);
   }
 
   private boolean isValidReviewer(Branch.NameKey branch, Account member)
@@ -452,7 +423,6 @@ public class ReviewerAdder {
         CurrentUser caller,
         @Nullable Iterable<Account.Id> reviewers,
         @Nullable Iterable<Address> reviewersByEmail,
-        NotifyResolver.Result notify,
         boolean exactMatchFound) {
       checkArgument(
           reviewers != null || reviewersByEmail != null,
@@ -467,7 +437,7 @@ public class ReviewerAdder {
       this.reviewersByEmail =
           reviewersByEmail == null ? ImmutableSet.of() : ImmutableSet.copyOf(reviewersByEmail);
       this.caller = caller.asIdentifiedUser();
-      op = addReviewersOpFactory.create(this.reviewers, this.reviewersByEmail, state(), notify);
+      op = addReviewersOpFactory.create(this.reviewers, this.reviewersByEmail, state());
       this.exactMatchFound = exactMatchFound;
     }
 
@@ -557,7 +527,12 @@ public class ReviewerAdder {
             .collect(toImmutableList());
     List<ReviewerAddition> additions = new ArrayList<>();
     for (AddReviewerInput input : sorted) {
-      additions.add(prepare(notes, user, input, allowGroup));
+      ReviewerAddition addition = prepare(notes, user, input, allowGroup);
+      if (addition.op != null) {
+        // Assume any callers preparing a list of batch insertions are handling their own email.
+        addition.op.suppressEmail();
+      }
+      additions.add(addition);
     }
     return new ReviewerAdditionList(additions);
   }

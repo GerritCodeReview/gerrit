@@ -749,11 +749,11 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     ChangeInserter ins;
     try (BatchUpdate bu = newUpdate(owner.getId())) {
       RevCommit commit = patchSetCommit(new PatchSet.Id(id, 1));
+      bu.setNotify(NotifyResolver.Result.none());
       ins =
           changeInserterFactory
               .create(id, commit, dest)
               .setValidate(false)
-              .setNotify(NotifyResolver.Result.none())
               .setFireRevisionCreated(false)
               .setSendMail(false);
       bu.insertChange(ins).execute();
@@ -773,12 +773,12 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   private ChangeNotes incrementPatchSet(ChangeNotes notes, RevCommit commit) throws Exception {
     PatchSetInserter ins;
     try (BatchUpdate bu = newUpdate(notes.getChange().getOwner())) {
+      bu.setNotify(NotifyResolver.Result.none());
       ins =
           patchSetInserterFactory
               .create(notes, nextPatchSetId(notes), commit)
               .setValidate(false)
-              .setFireRevisionCreated(false)
-              .setNotify(NotifyResolver.Result.none());
+              .setFireRevisionCreated(false);
       bu.addOp(notes.getChangeId(), ins).execute();
     }
     return reload(notes);

@@ -18,7 +18,7 @@ import static com.google.gerrit.server.config.GerritConfigListenerHelper.acceptI
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.AccountVisibility;
-import com.google.gerrit.server.change.ReviewerAdder;
+import com.google.gerrit.server.change.reviewer.ReviewerAdder;
 import com.google.gerrit.server.config.ConfigKey;
 import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritServerConfig;

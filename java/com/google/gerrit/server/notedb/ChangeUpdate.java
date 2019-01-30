@@ -70,6 +70,8 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
@@ -446,18 +448,29 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return reviewers;
   }
 
-  public void putReviewer(Account.Id reviewer, ReviewerStateInternal type) {
-    checkArgument(type != ReviewerStateInternal.REMOVED, "invalid ReviewerType");
-    reviewers.put(reviewer, type);
+  public void putReviewer(Account.Id reviewer, ReviewerStateInternal state) {
+    checkArgument(state != ReviewerStateInternal.REMOVED, "invalid ReviewerType");
+    // TODO(dborowitz): Small test.
+    reviewers.put(reviewer, maxReviewerState(reviewers.get(reviewer), state));
   }
 
   public void removeReviewer(Account.Id reviewer) {
     reviewers.put(reviewer, ReviewerStateInternal.REMOVED);
   }
 
-  public void putReviewerByEmail(Address reviewer, ReviewerStateInternal type) {
-    checkArgument(type != ReviewerStateInternal.REMOVED, "invalid ReviewerType");
-    reviewersByEmail.put(reviewer, type);
+  public void putReviewerByEmail(Address reviewer, ReviewerStateInternal state) {
+    checkArgument(state != ReviewerStateInternal.REMOVED, "invalid ReviewerType");
+    // TODO(dborowitz): Small test.
+    reviewersByEmail.put(reviewer, maxReviewerState(reviewersByEmail.get(reviewer), state));
+  }
+
+  private static ReviewerStateInternal maxReviewerState(
+      @Nullable ReviewerStateInternal oldState, ReviewerStateInternal newState) {
+    requireNonNull(newState);
+    if (oldState == null) {
+      return newState;
+    }
+    return Collections.max(Arrays.asList(oldState, newState));
   }
 
   public void removeReviewerByEmail(Address reviewer) {

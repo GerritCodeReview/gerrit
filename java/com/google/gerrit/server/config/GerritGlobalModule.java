@@ -103,6 +103,7 @@ import com.google.gerrit.server.change.LabelsJson;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.change.RevisionJson;
+import com.google.gerrit.server.change.reviewer.ReviewerAdder;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.EventsMetrics;
@@ -231,6 +232,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(MergeabilityCacheImpl.module());
     install(PatchListCacheImpl.module());
     install(ProjectCacheImpl.module());
+    install(ReviewerAdder.module());
     install(SectionSortCache.module());
     install(SubmitStrategy.module());
     install(TagCache.module());

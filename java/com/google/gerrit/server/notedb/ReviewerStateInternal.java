@@ -18,13 +18,18 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import java.util.Arrays;
 import org.eclipse.jgit.revwalk.FooterKey;
 
-/** State of a reviewer on a change. */
+/**
+ * State of a reviewer on a change.
+ *
+ * <p>Excepting {@code REMOVED}, the natural order is significant: when requesting to add a user as
+ * multiple states in a single operation, the higher value ({@code REVIEWER}) wins.
+ */
 public enum ReviewerStateInternal {
-  /** The user has contributed at least one nonzero vote on the change. */
-  REVIEWER(new FooterKey("Reviewer"), ReviewerState.REVIEWER),
-
   /** The reviewer was added to the change, but has not voted. */
   CC(new FooterKey("CC"), ReviewerState.CC),
+
+  /** The user has contributed at least one nonzero vote on the change. */
+  REVIEWER(new FooterKey("Reviewer"), ReviewerState.REVIEWER),
 
   /** The user was previously a reviewer on the change, but was removed. */
   REMOVED(new FooterKey("Removed"), ReviewerState.REMOVED);

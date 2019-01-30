@@ -137,6 +137,10 @@ public class AccountResolver {
     public boolean isSelf() {
       return result.isSelf();
     }
+
+    public boolean isEmpty() {
+      return result.asList().isEmpty();
+    }
   }
 
   public static String exceptionMessage(Result result) {
@@ -148,7 +152,9 @@ public class AccountResolver {
       if (result.filteredInactive().isEmpty()) {
         return "Account '" + result.input() + "' not found";
       }
-      return result.filteredInactive().stream()
+      return result
+          .filteredInactive()
+          .stream()
           .map(a -> formatForException(result, a))
           .collect(
               joining(
@@ -160,7 +166,9 @@ public class AccountResolver {
                   ""));
     }
 
-    return result.asList().stream()
+    return result
+        .asList()
+        .stream()
         .map(a -> formatForException(result, a))
         .collect(joining("\n", "Account '" + result.input() + "' is ambiguous:\n", ""));
   }
@@ -398,7 +406,8 @@ public class AccountResolver {
       // subset. Otherwise, all are equally non-matching, so return the full set.
       String name = nameOrEmail.substring(0, lt - 1);
       ImmutableList<AccountState> nameMatches =
-          allMatches.stream()
+          allMatches
+              .stream()
               .filter(a -> name.equals(a.getAccount().getFullName()))
               .collect(toImmutableList());
       return !nameMatches.isEmpty() ? nameMatches.stream() : allMatches.stream();

@@ -44,6 +44,7 @@ import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.RebaseChangeOp;
+import com.google.gerrit.server.change.reviewer.ReviewerAdder;
 import com.google.gerrit.server.config.AdministrateServerGroups;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
@@ -160,6 +161,7 @@ public class BatchProgramModule extends FactoryModule {
     install(ChangeKindCacheImpl.module());
     install(MergeabilityCacheImpl.module());
     install(TagCache.module());
+    install(ReviewerAdder.module());
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);
     factory(ProjectState.Factory.class);

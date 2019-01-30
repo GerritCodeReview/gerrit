@@ -30,6 +30,8 @@ import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_
 import static com.google.gerrit.server.git.receive.ReceiveConstants.SAME_CHANGE_ID_IN_MULTIPLE_CHANGES;
 import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCHSET_PATTERN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparingInt;
 import static java.util.Objects.requireNonNull;
@@ -97,6 +99,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.SetHashtagsOp;
+import com.google.gerrit.server.change.reviewer.ReviewerAdder;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfig;
@@ -1490,40 +1493,6 @@ class ReceiveCommits {
               : false;
     }
 
-    /**
-     * Get reviewer strings from magic branch options, combined with additional recipients computed
-     * from some other place.
-     *
-     * <p>The set of reviewers on a change includes strings passed explicitly via options as well as
-     * account IDs computed from the commit message itself.
-     *
-     * @param additionalRecipients recipients parsed from the commit.
-     * @return set of reviewer strings to pass to {@code ReviewerAdder}.
-     */
-    ImmutableSet<String> getCombinedReviewers(MailRecipients additionalRecipients) {
-      return getCombinedReviewers(reviewer, additionalRecipients.getReviewers());
-    }
-
-    /**
-     * Get CC strings from magic branch options, combined with additional recipients computed from
-     * some other place.
-     *
-     * <p>The set of CCs on a change includes strings passed explicitly via options as well as
-     * account IDs computed from the commit message itself.
-     *
-     * @param additionalRecipients recipients parsed from the commit.
-     * @return set of CC strings to pass to {@code ReviewerAdder}.
-     */
-    ImmutableSet<String> getCombinedCcs(MailRecipients additionalRecipients) {
-      return getCombinedReviewers(cc, additionalRecipients.getCcOnly());
-    }
-
-    private static ImmutableSet<String> getCombinedReviewers(
-        Set<String> strings, Set<Account.Id> ids) {
-      return Streams.concat(strings.stream(), ids.stream().map(Account.Id::toString))
-          .collect(toImmutableSet());
-    }
-
     boolean shouldPublishComments() {
       if (publishComments) {
         return true;
@@ -2428,7 +2397,6 @@ class ReceiveCommits {
         // worse. Might be better to get rid of the feature entirely:
         // https://groups.google.com/d/topic/repo-discuss/tIFxY7L4DXk/discussion
         MailRecipients fromFooters = getRecipientsFromFooters(accountResolver, footerLines);
-        fromFooters.remove(me);
 
         Map<String, Short> approvals = magicBranch.labels;
         StringBuilder msg =
@@ -2442,9 +2410,7 @@ class ReceiveCommits {
 
         bu.setNotify(magicBranch.getNotifyForNewChange());
         bu.insertChange(
-            ins.setReviewersAndCcsAsStrings(
-                    magicBranch.getCombinedReviewers(fromFooters),
-                    magicBranch.getCombinedCcs(fromFooters))
+            ins.addReviewers(getReviewerInputs(magicBranch, fromFooters).build())
                 .setApprovals(approvals)
                 .setMessage(msg.toString())
                 .setRequestScopePropagator(requestScopePropagator)
@@ -2481,6 +2447,31 @@ class ReceiveCommits {
         throw INSERT_EXCEPTION.apply(e);
       }
     }
+  }
+
+  static ImmutableList.Builder<ReviewerAdder.Input> getReviewerInputs(
+      @Nullable MagicBranchInput magicBranch, MailRecipients fromFooters) {
+    ImmutableList.Builder<ReviewerAdder.Input> b = ImmutableList.builder();
+
+    // Any user-provided inputs from the magic branch.
+    ReviewerAdder.Options forPush = ReviewerAdder.Options.forPush();
+    if (magicBranch != null) {
+      magicBranch.reviewer.forEach(
+          r -> b.add(ReviewerAdder.Input.fromUserInput(r, REVIEWER, forPush)));
+      magicBranch.cc.forEach(r -> b.add(ReviewerAdder.Input.fromUserInput(r, CC, forPush)));
+    }
+
+    // Reviewers and CCs from commit footers. Don't include author/committer, which are done by
+    // ChangeInserter (to avoid repeating that logic in the REST API codepaths).
+    // TODO(dborowitz): Consider extracting name-email from footers and passing the strings without
+    // resolving first as account IDs.
+    ReviewerAdder.Options forGit = ReviewerAdder.Options.forAutoAddingGitIdentity();
+    fromFooters
+        .getReviewers()
+        .forEach(id -> b.add(ReviewerAdder.Input.forAccount(id, REVIEWER, forGit)));
+    fromFooters.getCcOnly().forEach(id -> b.add(ReviewerAdder.Input.forAccount(id, CC, forGit)));
+
+    return b;
   }
 
   private void submit(Collection<CreateRequest> create, Collection<ReplaceRequest> replace)

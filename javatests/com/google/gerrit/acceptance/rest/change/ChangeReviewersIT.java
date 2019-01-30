@@ -50,7 +50,7 @@ import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.change.ReviewerAdder;
+import com.google.gerrit.server.change.reviewer.ReviewerAdder;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;

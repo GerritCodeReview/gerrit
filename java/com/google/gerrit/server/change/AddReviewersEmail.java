@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
 
+// TODO: delete this class; subsumed into AddReviewersEmailOp
 @Singleton
 public class AddReviewersEmail {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

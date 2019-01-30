@@ -2960,6 +2960,7 @@ For further information about Elasticsearch security, please refer to the docume
 * link:https://www.elastic.co/guide/en/elastic-stack-overview/6.3/security-getting-started.html[Elasticsearch 6.3]
 * link:https://www.elastic.co/guide/en/elastic-stack-overview/6.4/security-getting-started.html[Elasticsearch 6.4]
 * link:https://www.elastic.co/guide/en/elastic-stack-overview/6.5/security-getting-started.html[Elasticsearch 6.5]
+* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.6/security-getting-started.html[Elasticsearch 6.6]
 
 [[elasticsearch.username]]elasticsearch.username::
 +

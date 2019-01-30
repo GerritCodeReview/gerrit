@@ -22,6 +22,30 @@
       "revId": "b53e1439fb6335d644f351c456ddbd8e3505a8fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54ed28d2_28faada4",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-30T13:09:05Z",
+      "side": 1,
+      "message": "Agree, #checkAndSanitize sounds better. Will do after other changes are also reviewed. Please also look those child changes if you have enough free time. Thanks a lot!",
+      "parentUuid": "44111229_4db41065",
+      "range": {
+        "startLine": 320,
+        "startChar": 22,
+        "endLine": 320,
+        "endChar": 29
+      },
+      "revId": "b53e1439fb6335d644f351c456ddbd8e3505a8fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

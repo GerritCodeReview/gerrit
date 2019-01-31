@@ -92,7 +92,10 @@ public class AllProjectsCreatorTestUtil {
           "  createSignedTag = group Administrators",
           "  createSignedTag = group Project Owners",
           "  createTag = group Administrators",
-          "  createTag = group Project Owners");
+          "  createTag = group Project Owners",
+          "[access \"refs/checkers/*\"]",
+          "  exclusiveGroupPermissions = read",
+          "  read = group Administrators");
   private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_LABEL_SECTION =
       ImmutableList.of(
           "[label \"Code-Review\"]",

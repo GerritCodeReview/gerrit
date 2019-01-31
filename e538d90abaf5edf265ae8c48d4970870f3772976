@@ -23,6 +23,30 @@
       "revId": "e538d90abaf5edf265ae8c48d4970870f3772976",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4ce3bd1_f6ea6f6d",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-01-31T15:44:18Z",
+      "side": 1,
+      "message": "Fixed by just allowing to add multiple sysModules for tests.",
+      "parentUuid": "e50111bc_8e75fcb0",
+      "range": {
+        "startLine": 409,
+        "startChar": 11,
+        "endLine": 409,
+        "endChar": 44
+      },
+      "revId": "e538d90abaf5edf265ae8c48d4970870f3772976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

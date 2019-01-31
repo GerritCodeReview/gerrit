@@ -308,8 +308,8 @@
           title,
           command: commandObj[title]
               .replace('${project}', encodeURI(repo))
-              .replace('${project-base-name}',
-              encodeURI(repo.substring(repo.lastIndexOf('/') + 1))),
+              .replace('\"${project-base-name}',
+              '\"' + encodeURI(repo.substring(repo.lastIndexOf('/') + 1))),
         });
       }
       return commands;

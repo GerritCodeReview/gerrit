@@ -364,7 +364,9 @@ public class GerritServer implements AutoCloseable {
             site);
     daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
     daemon.setAuditEventModuleForTesting(new FakeGroupAuditService.Module());
-    daemon.setAdditionalSysModuleForTesting(testSysModule);
+    if (testSysModule != null) {
+      daemon.addAdditionalSysModuleForTesting(testSysModule);
+    }
     daemon.setEnableSshd(desc.useSsh());
 
     if (desc.memory()) {
@@ -406,6 +408,7 @@ public class GerritServer implements AutoCloseable {
                 bind(GerritRuntime.class).toInstance(GerritRuntime.DAEMON);
               }
             }));
+    daemon.addAdditionalSysModuleForTesting(new ReindexProjectsAtStartup.Module());
     daemon.start();
     return new GerritServer(desc, null, createTestInjector(daemon), daemon, null);
   }

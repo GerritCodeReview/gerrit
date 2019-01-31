@@ -406,6 +406,7 @@ public class GerritServer implements AutoCloseable {
                 bind(GerritRuntime.class).toInstance(GerritRuntime.DAEMON);
               }
             }));
+    daemon.setAdditionalSysModuleForTesting(new ReindexInMemoryProjectsAtStartup.Module());
     daemon.start();
     return new GerritServer(desc, null, createTestInjector(daemon), daemon, null);
   }

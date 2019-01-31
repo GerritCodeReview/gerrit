@@ -16,6 +16,24 @@
       "revId": "d29aa4367c837aaedcb80de4d59476ddc421b73e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebf42052_32979bab",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1028607
+      },
+      "writtenOn": "2019-01-31T11:37:09Z",
+      "side": 1,
+      "message": "I made some tests using tcpdump on my server:\n 1. Not using encryption (ldap) leads to expose the credentials, this is quite obvious.\n 2. Using startTLS will expose the credentials too (the encryption is done after the bind).\n 3. Using startTLS with an enforce security will expose the credentials again (the \"confidentiality required\" message comes after the attempted bind).\n 4. Using ldaps keep the credentials safe.",
+      "parentUuid": "72613b31_871b62ab",
+      "revId": "d29aa4367c837aaedcb80de4d59476ddc421b73e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

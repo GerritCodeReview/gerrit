@@ -152,7 +152,8 @@ public class CommitValidators {
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
               new AccountCommitValidator(repoManager, allUsers, accountValidator),
-              new GroupCommitValidator(allUsers)));
+              new GroupCommitValidator(allUsers),
+              new CheckerCommitValidator(allProjects)));
     }
 
     public CommitValidators forGerritCommits(
@@ -178,7 +179,8 @@ public class CommitValidators {
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
               new AccountCommitValidator(repoManager, allUsers, accountValidator),
-              new GroupCommitValidator(allUsers)));
+              new GroupCommitValidator(allUsers),
+              new CheckerCommitValidator(allProjects)));
     }
 
     public CommitValidators forMergedCommits(
@@ -819,6 +821,30 @@ public class CommitValidators {
         return Collections.emptyList();
       }
       throw new CommitValidationException("project state does not permit write");
+    }
+  }
+
+  /** Rejects updates to checker branches. */
+  public static class CheckerCommitValidator implements CommitValidationListener {
+    private final AllProjectsName allProjects;
+
+    public CheckerCommitValidator(AllProjectsName allProjects) {
+      this.allProjects = allProjects;
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+        throws CommitValidationException {
+      if (!allProjects.equals(receiveEvent.project.getNameKey())
+          || !RefNames.isRefsCheckers(receiveEvent.getRefName())) {
+        return Collections.emptyList();
+      }
+
+      if (RefNames.isRefsFor(receiveEvent.command.getRefName())
+          || RefNames.isRefsChanges(receiveEvent.command.getRefName())) {
+        throw new CommitValidationException("creating change for checker ref not allowed");
+      }
+      throw new CommitValidationException("direct update of checker ref not allowed");
     }
   }
 

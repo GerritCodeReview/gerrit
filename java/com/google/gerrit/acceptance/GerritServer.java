@@ -27,6 +27,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperationsImpl;
+import com.google.gerrit.acceptance.testsuite.checker.CheckerOperations;
+import com.google.gerrit.acceptance.testsuite.checker.CheckerOperationsImpl;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperationsImpl;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -522,6 +524,7 @@ public class GerritServer implements AutoCloseable {
             bind(AccountOperations.class).to(AccountOperationsImpl.class);
             bind(GroupOperations.class).to(GroupOperationsImpl.class);
             bind(ProjectOperations.class).to(ProjectOperationsImpl.class);
+            bind(CheckerOperations.class).to(CheckerOperationsImpl.class);
             bind(RequestScopeOperations.class).to(RequestScopeOperationsImpl.class);
             factory(PushOneCommit.Factory.class);
             install(InProcessProtocol.module());

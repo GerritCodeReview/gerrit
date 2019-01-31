@@ -16,6 +16,24 @@
       "revId": "3307aed7b1b6fb06bfedc4569d4c3fa9ab0699a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f93a7670_244ee9c1",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2019-01-31T17:59:52Z",
+      "side": 0,
+      "message": "ok, and if you move this line to the below if (username !\u003d null) does it work for you?",
+      "parentUuid": "48f6244e_2736d246",
+      "revId": "3307aed7b1b6fb06bfedc4569d4c3fa9ab0699a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

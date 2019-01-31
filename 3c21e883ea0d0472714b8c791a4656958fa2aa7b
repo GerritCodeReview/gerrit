@@ -46,6 +46,30 @@
       "revId": "3c21e883ea0d0472714b8c791a4656958fa2aa7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "294484c6_b312b5fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-01-31T15:15:10Z",
+      "side": 1,
+      "message": "Comments that are applied to a range are often only understandable in the context of that range (e.g. https://gerrit-review.googlesource.com/c/gerrit/+/211555/2/Documentation/rest-api-changes.txt). If the range is not statically highlighted, my mouse pointer must follow my eyes while reading comments to be able to see the range context for comments that I\u0027m currently reading. I would find that pretty annoying.",
+      "parentUuid": "67631cfe_faa62c74",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "3c21e883ea0d0472714b8c791a4656958fa2aa7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

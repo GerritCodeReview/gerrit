@@ -22,8 +22,8 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.plugins.checkers.Checker;
 import com.google.gerrit.plugins.checkers.CheckerRef;
+import com.google.gerrit.plugins.checkers.acceptance.testsuite.TestChecker;
 import com.google.gerrit.plugins.checkers.api.CheckerInfo;
 import com.google.gerrit.plugins.checkers.api.CheckerInput;
 import com.google.gerrit.plugins.checkers.db.CheckerConfig;
@@ -156,9 +156,8 @@ public class CreateCheckerIT extends AbstractCheckersTest {
       assertThat(ref).isNotNull();
       RevCommit c = rw.parseCommit(ref.getObjectId());
 
-      // TODO(ekempin): Use test API to get checker.
-      Checker checker = checkers.getChecker(checkerUuid).get();
-      long timestampDiffMs = Math.abs(c.getCommitTime() * 1000L - checker.getCreatedOn().getTime());
+      TestChecker checker = checkerOperations.checker(checkerUuid).get();
+      long timestampDiffMs = Math.abs(c.getCommitTime() * 1000L - checker.createdOn().getTime());
       assertThat(timestampDiffMs).isAtMost(SECONDS.toMillis(1));
 
       // Check the 'checker.config' file.

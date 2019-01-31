@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a21ce3b_b0a3741c",
+        "filename": "java/com/google/gerrit/acceptance/ReindexProjectsAtStartup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-01-31T13:06:15Z",
+      "side": 1,
+      "message": "nit: Either rename this to ReindexInternalProjectsAtStartup (or something similar that suggests that it only reindexes All-U and All-P) or index all repos. (indexing all repos might be easier actually)",
+      "revId": "179b210d121089101988fa854b81b1dbbe07eb1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

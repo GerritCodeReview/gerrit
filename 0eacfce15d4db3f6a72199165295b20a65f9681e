@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e0475f9_5c3f2ae9",
+        "filename": "java/com/google/gerrit/acceptance/ReindexInMemoryProjectsAtStartup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-01-31T13:37:20Z",
+      "side": 1,
+      "message": "optional: Can you provide a one-line JavaDoc?",
+      "revId": "0eacfce15d4db3f6a72199165295b20a65f9681e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0308c4a3_c3c5eec7",
+        "filename": "java/com/google/gerrit/acceptance/ReindexInMemoryProjectsAtStartup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-01-31T13:37:20Z",
+      "side": 1,
+      "message": "This has two variables %s, but provides only one (projectName).",
+      "range": {
+        "startLine": 54,
+        "startChar": 20,
+        "endLine": 54,
+        "endChar": 97
+      },
+      "revId": "0eacfce15d4db3f6a72199165295b20a65f9681e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

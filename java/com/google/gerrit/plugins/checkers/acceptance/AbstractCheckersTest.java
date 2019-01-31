@@ -17,6 +17,7 @@ package com.google.gerrit.plugins.checkers.acceptance;
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
+import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperations;
 import com.google.gerrit.plugins.checkers.api.Checkers;
 import org.junit.Before;
 
@@ -26,18 +27,16 @@ import org.junit.Before;
 //  * Don't require all test classes to hard-code the @TestPlugin annotation.
 @TestPlugin(
     name = "checkers",
-    sysModule = "com.google.gerrit.plugins.checkers.Module",
+    sysModule = "com.google.gerrit.plugins.checkers.acceptance.TestModule",
     httpModule = "com.google.gerrit.plugins.checkers.api.HttpModule")
 @SkipProjectClone
 public class AbstractCheckersTest extends LightweightPluginDaemonTest {
-  // TODO(dborowitz): Remove once all tests are using the test APIs.
-  protected com.google.gerrit.plugins.checkers.Checkers checkers;
+  protected CheckerOperations checkerOperations;
   protected Checkers checkersApi;
 
   @Before
   public void setUpCheckersPlugin() throws Exception {
-    checkers =
-        plugin.getSysInjector().getInstance(com.google.gerrit.plugins.checkers.Checkers.class);
+    checkerOperations = plugin.getSysInjector().getInstance(CheckerOperations.class);
     checkersApi = plugin.getHttpInjector().getInstance(Checkers.class);
 
     allowGlobalCapabilities(

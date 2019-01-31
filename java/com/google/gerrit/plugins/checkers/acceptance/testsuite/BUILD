@@ -4,11 +4,10 @@ package(
 )
 
 java_library(
-    name = "acceptance",
+    name = "testsuite",
     srcs = glob(["*.java"]),
     deps = [
         "//java/com/google/gerrit/acceptance:lib",
         "//java/com/google/gerrit/plugins/checkers",
-        "//java/com/google/gerrit/plugins/checkers/acceptance/testsuite",
     ],
 )

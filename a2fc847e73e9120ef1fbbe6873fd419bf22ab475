@@ -22,6 +22,30 @@
       "revId": "a2fc847e73e9120ef1fbbe6873fd419bf22ab475",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89524d8f_0b307028",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-31T07:59:09Z",
+      "side": 1,
+      "message": "I considered about that. Modify the method input object is not a good java practise. But returning a new instance of ChangeInput will require us to do a deep copy of the input object, which doesn\u0027t sound like worth our efforts. Since \"input\" is pre-request, I think it\u0027s probably fine to reuse it.",
+      "parentUuid": "8159f9e3_0430aee5",
+      "range": {
+        "startLine": 321,
+        "startChar": 17,
+        "endLine": 321,
+        "endChar": 21
+      },
+      "revId": "a2fc847e73e9120ef1fbbe6873fd419bf22ab475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

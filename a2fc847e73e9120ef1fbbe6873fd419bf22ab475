@@ -46,6 +46,30 @@
       "revId": "a2fc847e73e9120ef1fbbe6873fd419bf22ab475",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7010495b_23f2373d",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-31T08:03:39Z",
+      "side": 1,
+      "message": "Ack.\n\nOne other thing: should we check that the input parameter is not null?",
+      "parentUuid": "89524d8f_0b307028",
+      "range": {
+        "startLine": 321,
+        "startChar": 17,
+        "endLine": 321,
+        "endChar": 21
+      },
+      "revId": "a2fc847e73e9120ef1fbbe6873fd419bf22ab475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -18,22 +18,19 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
-import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
-import com.google.gerrit.extensions.api.verifiers.VerifierInput;
+import com.google.gerrit.acceptance.testsuite.verifier.VerifierOperations;
+import com.google.inject.Inject;
 import org.junit.Test;
 
 public class VerifiersRestApiBindingsIT extends AbstractDaemonTest {
   private static final ImmutableList<RestCall> VERIFIER_ENDPOINTS =
       ImmutableList.of(RestCall.get("/verifiers/%s"));
 
+  @Inject private VerifierOperations verifierOperations;
+
   @Test
   public void verifierEndpoints() throws Exception {
-    // TODO(ekempin): Use test API to create the verifier.
-    VerifierInput input = new VerifierInput();
-    input.name = " my-verifier ";
-    VerifierInfo info = gApi.verifiers().create(input).get();
-    String verifierUuid = info.uuid;
-
+    String verifierUuid = verifierOperations.newVerifier().create();
     RestApiCallHelper.execute(adminRestSession, VERIFIER_ENDPOINTS, verifierUuid);
   }
 }

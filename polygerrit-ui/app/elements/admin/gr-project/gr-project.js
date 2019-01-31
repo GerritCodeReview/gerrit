@@ -247,8 +247,8 @@
         commands.push({
           title,
           command: commandObj[title]
-              .replace('${project}', encodeURI(project))
-              .replace('${project-base-name}',
+              .replace(/\$\{project\}/gi, encodeURI(project))
+              .replace(/\$\{project-base-name\}/gi,
               encodeURI(project.substring(project.lastIndexOf('/') + 1))),
         });
       }

@@ -1232,6 +1232,10 @@ Allow checker administration. This includes permissions to see and
 update any checker and create new checkers, see
 link:rest-api-checkers.html[checkers REST API].
 
+It doesn't allow users to directly access the checker refs in
+`All-Projects`. To see these refs the `Read` access right must be
+explicitly granted on `refs/checkers/*`.
+
 
 [[capability_batchChangesLimit]]
 === Batch Changes Limit

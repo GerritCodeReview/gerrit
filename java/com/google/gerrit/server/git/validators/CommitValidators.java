@@ -152,7 +152,8 @@ public class CommitValidators {
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
               new AccountCommitValidator(repoManager, allUsers, accountValidator),
-              new GroupCommitValidator(allUsers)));
+              new GroupCommitValidator(allUsers),
+              new VerifierCommitValidator(allProjects)));
     }
 
     public CommitValidators forGerritCommits(
@@ -819,6 +820,35 @@ public class CommitValidators {
         return Collections.emptyList();
       }
       throw new CommitValidationException("project state does not permit write");
+    }
+  }
+
+  /** Rejects updates to verifier branches. */
+  public static class VerifierCommitValidator implements CommitValidationListener {
+    private final AllProjectsName allProjects;
+
+    public VerifierCommitValidator(AllProjectsName allProjects) {
+      this.allProjects = allProjects;
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+        throws CommitValidationException {
+      // Verifiers are stored inside the 'All-Projects' repository.
+      if (!allProjects.equals(receiveEvent.project.getNameKey())) {
+        return Collections.emptyList();
+      }
+
+      if (receiveEvent.command.getRefName().startsWith(MagicBranch.NEW_CHANGE)) {
+        // no validation on push for review, will be checked on submit by
+        // MergeValidators.VerifierMergeValidator
+        return Collections.emptyList();
+      }
+
+      if (RefNames.isRefsVerifiers(receiveEvent.command.getRefName())) {
+        throw new CommitValidationException("verifier update not allowed");
+      }
+      return Collections.emptyList();
     }
   }
 

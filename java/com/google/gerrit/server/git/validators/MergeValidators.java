@@ -59,6 +59,7 @@ public class MergeValidators {
   private final ProjectConfigValidator.Factory projectConfigValidatorFactory;
   private final AccountMergeValidator.Factory accountValidatorFactory;
   private final GroupMergeValidator.Factory groupValidatorFactory;
+  private final VerifierMergeValidator.Factory verifierMergeValidator;
 
   public interface Factory {
     MergeValidators create();
@@ -69,11 +70,13 @@ public class MergeValidators {
       PluginSetContext<MergeValidationListener> mergeValidationListeners,
       ProjectConfigValidator.Factory projectConfigValidatorFactory,
       AccountMergeValidator.Factory accountValidatorFactory,
-      GroupMergeValidator.Factory groupValidatorFactory) {
+      GroupMergeValidator.Factory groupValidatorFactory,
+      VerifierMergeValidator.Factory verifierMergeValidator) {
     this.mergeValidationListeners = mergeValidationListeners;
     this.projectConfigValidatorFactory = projectConfigValidatorFactory;
     this.accountValidatorFactory = accountValidatorFactory;
     this.groupValidatorFactory = groupValidatorFactory;
+    this.verifierMergeValidator = verifierMergeValidator;
   }
 
   public void validatePreMerge(
@@ -89,7 +92,8 @@ public class MergeValidators {
             new PluginMergeValidationListener(mergeValidationListeners),
             projectConfigValidatorFactory.create(),
             accountValidatorFactory.create(),
-            groupValidatorFactory.create());
+            groupValidatorFactory.create(),
+            verifierMergeValidator.create());
 
     for (MergeValidationListener validator : validators) {
       validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId, caller);
@@ -347,6 +351,37 @@ public class MergeValidators {
       }
 
       throw new MergeValidationException("group update not allowed");
+    }
+  }
+
+  public static class VerifierMergeValidator implements MergeValidationListener {
+    public interface Factory {
+      VerifierMergeValidator create();
+    }
+
+    private final AllProjectsName allProjectsName;
+
+    @Inject
+    public VerifierMergeValidator(AllProjectsName allProjectsName) {
+      this.allProjectsName = allProjectsName;
+    }
+
+    @Override
+    public void onPreMerge(
+        Repository repo,
+        CodeReviewCommit commit,
+        ProjectState destProject,
+        Branch.NameKey destBranch,
+        PatchSet.Id patchSetId,
+        IdentifiedUser caller)
+        throws MergeValidationException {
+      // Verifiers are stored inside the 'All-Projects' repository.
+      if (!allProjectsName.equals(destProject.getNameKey())
+          || !RefNames.isRefsVerifiers(destBranch.get())) {
+        return;
+      }
+
+      throw new MergeValidationException("verifier update not allowed");
     }
   }
 }

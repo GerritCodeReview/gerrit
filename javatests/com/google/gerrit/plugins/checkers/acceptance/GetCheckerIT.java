@@ -17,13 +17,10 @@ package com.google.gerrit.plugins.checkers.acceptance;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.plugins.checkers.CheckerUuid;
 import com.google.gerrit.plugins.checkers.api.CheckerInfo;
-import com.google.gerrit.plugins.checkers.api.CheckerInput;
 import com.google.inject.Inject;
 import org.junit.Test;
 
@@ -33,7 +30,7 @@ public class GetCheckerIT extends AbstractCheckersTest {
   @Test
   public void getChecker() throws Exception {
     String name = "my-checker";
-    String uuid = createChecker(name);
+    String uuid = checkerOperations.newChecker().name(name).create();
 
     CheckerInfo info = checkersApi.id(uuid).get();
     assertThat(info.uuid).isEqualTo(uuid);
@@ -46,7 +43,7 @@ public class GetCheckerIT extends AbstractCheckersTest {
   public void getCheckerWithDescription() throws Exception {
     String name = "my-checker";
     String description = "some description";
-    String uuid = createChecker(name, description);
+    String uuid = checkerOperations.newChecker().name(name).description(description).create();
 
     CheckerInfo info = checkersApi.id(uuid).get();
     assertThat(info.uuid).isEqualTo(uuid);
@@ -67,7 +64,7 @@ public class GetCheckerIT extends AbstractCheckersTest {
   @Test
   public void getCheckerByNameFails() throws Exception {
     String name = "my-checker";
-    createChecker(name);
+    checkerOperations.newChecker().name(name).create();
 
     exception.expect(ResourceNotFoundException.class);
     exception.expectMessage("Not found: " + name);
@@ -77,25 +74,12 @@ public class GetCheckerIT extends AbstractCheckersTest {
   @Test
   public void getCheckerWithoutAdministrateCheckersCapabilityFails() throws Exception {
     String name = "my-checker";
-    String uuid = createChecker(name);
+    String uuid = checkerOperations.newChecker().name(name).create();
 
     requestScopeOperations.setApiUser(user.getId());
 
     exception.expect(AuthException.class);
     exception.expectMessage("administrateCheckers for plugin checkers not permitted");
     checkersApi.id(uuid);
-  }
-
-  private String createChecker(String name) throws RestApiException {
-    return createChecker(name, null);
-  }
-
-  private String createChecker(String name, @Nullable String description) throws RestApiException {
-    // TODO(ekempin): create test API for checkers and use it here
-    CheckerInput input = new CheckerInput();
-    input.name = name;
-    input.description = description;
-    CheckerInfo info = checkersApi.create(input).get();
-    return info.uuid;
   }
 }

@@ -14,18 +14,18 @@
 
 package com.google.gerrit.plugins.checkers.acceptance;
 
-import com.google.common.collect.ImmutableList;
-import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
-import com.google.gerrit.acceptance.rest.util.RestCall;
-import org.junit.Test;
+import com.google.gerrit.plugins.checkers.Module;
+import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperations;
+import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperationsImpl;
+import com.google.inject.AbstractModule;
 
-public class CheckersRestApiBindingsIT extends AbstractCheckersTest {
-  private static final ImmutableList<RestCall> CHECKER_ENDPOINTS =
-      ImmutableList.of(RestCall.get("/plugins/checkers/checkers/%s"));
+public class TestModule extends AbstractModule {
+  @Override
+  public void configure() {
+    install(new Module());
 
-  @Test
-  public void checkerEndpoints() throws Exception {
-    String checkerUuid = checkerOperations.newChecker().create();
-    RestApiCallHelper.execute(adminRestSession, CHECKER_ENDPOINTS, checkerUuid);
+    // Only add bindings here that are specifically required for tests, in order to keep the Guice
+    // setup in tests as realistic as possible by delegating to the original module.
+    bind(CheckerOperations.class).to(CheckerOperationsImpl.class);
   }
 }

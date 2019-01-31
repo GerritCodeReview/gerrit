@@ -20,6 +20,8 @@ public class RefNames {
 
   public static final String REFS = "refs/";
 
+  public static final String REFS_FOR = "refs/for/";
+
   public static final String REFS_HEADS = "refs/heads/";
 
   public static final String REFS_TAGS = "refs/tags/";
@@ -239,6 +241,10 @@ public class RefNames {
 
   public static String refsCheckers(String checkerUuid) {
     return REFS_CHECKERS + shardUuid(checkerUuid);
+  }
+
+  public static boolean isRefsFor(String ref) {
+    return ref.startsWith(REFS_FOR);
   }
 
   public static boolean isRefsEdit(String ref) {

@@ -70,6 +70,30 @@
       "revId": "a2fc847e73e9120ef1fbbe6873fd419bf22ab475",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cba57960_2e25c345",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-01-31T08:11:48Z",
+      "side": 1,
+      "message": "\"input\" will not be null because for a REST call, this input object is created from RestApiServlet#472, which guarantees it will not be null. It could be for Java API, but most of the time, we don\u0027t care about that.",
+      "parentUuid": "7010495b_23f2373d",
+      "range": {
+        "startLine": 321,
+        "startChar": 17,
+        "endLine": 321,
+        "endChar": 21
+      },
+      "revId": "a2fc847e73e9120ef1fbbe6873fd419bf22ab475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

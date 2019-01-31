@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.eclipse.jgit.lib.PersonIdent;
 
 /**
  * Schema upgrade implementation.
@@ -30,11 +33,19 @@ interface NoteDbSchemaVersion {
   class Arguments {
     final GitRepositoryManager repoManager;
     final AllProjectsName allProjects;
+    final PersonIdent serverIdent;
+    final ProjectConfig.Factory projectConfigFactory;
 
     @Inject
-    Arguments(GitRepositoryManager repoManager, AllProjectsName allProjects) {
+    Arguments(
+        GitRepositoryManager repoManager,
+        AllProjectsName allProjects,
+        @GerritPersonIdent PersonIdent serverIdent,
+        ProjectConfig.Factory projectConfigFactory) {
       this.repoManager = repoManager;
       this.allProjects = allProjects;
+      this.serverIdent = serverIdent;
+      this.projectConfigFactory = projectConfigFactory;
     }
   }
 

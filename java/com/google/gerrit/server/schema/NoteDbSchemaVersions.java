@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 public class NoteDbSchemaVersions {
   static final ImmutableSortedMap<Integer, Class<? extends NoteDbSchemaVersion>> ALL =
       // List all supported NoteDb schema versions here.
-      Stream.of(Schema_180.class)
+      Stream.of(Schema_180.class, Schema_181.class)
           .collect(toImmutableSortedMap(naturalOrder(), v -> guessVersion(v).get(), v -> v));
 
   public static final int FIRST = ALL.firstKey();

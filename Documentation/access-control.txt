@@ -1231,6 +1231,10 @@ without needing two different accounts.
 Allow verifier administration. This includes permissions to see and update any
 verifier and create new verifiers.
 
+It doesn't allow users to directly access the verifier refs in `All-Projects`.
+To see these refs the `Read` access right must be explicitly granted on
+`refs/verifiers/*`.
+
 
 [[capability_batchChangesLimit]]
 === Batch Changes Limit

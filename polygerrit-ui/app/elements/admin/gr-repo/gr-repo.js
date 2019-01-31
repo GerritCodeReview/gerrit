@@ -304,12 +304,14 @@
       }
       for (const title in commandObj) {
         if (!commandObj.hasOwnProperty(title)) { continue; }
+        const encodeRepoBaseName =
+            '\"' + encodeURI(repo.substring(repo.lastIndexOf('/') + 1));
         commands.push({
           title,
           command: commandObj[title]
               .replace('${project}', encodeURI(repo))
-              .replace('${project-base-name}',
-              encodeURI(repo.substring(repo.lastIndexOf('/') + 1))),
+              .replace('\"${project-base-name}', encodeRepoBaseName)
+              .replace('\"${project-base-name}\"', encodeRepoBaseName + '\"'),
         });
       }
       return commands;

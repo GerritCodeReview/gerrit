@@ -8,6 +8,7 @@ acceptance_tests(
     deps = [
         "//java/com/google/gerrit/plugins/checkers:checkers__plugin",
         "//java/com/google/gerrit/plugins/checkers/acceptance",
+        "//java/com/google/gerrit/plugins/checkers/acceptance/testsuite",
         "//java/com/google/gerrit/server/util/time",
         "//javatests/com/google/gerrit/acceptance/rest/util",
     ],

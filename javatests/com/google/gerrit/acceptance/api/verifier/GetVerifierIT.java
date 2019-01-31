@@ -16,29 +16,29 @@ package com.google.gerrit.acceptance.api.verifier;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import org.junit.Test;
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
-import com.google.gerrit.common.Nullable;
+import com.google.gerrit.acceptance.testsuite.verifier.VerifierOperations;
 import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
-import com.google.gerrit.extensions.api.verifiers.VerifierInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.verifier.VerifierUUID;
 import com.google.inject.Inject;
-import org.junit.Test;
 
 @NoHttpd
 @SkipProjectClone
 public class GetVerifierIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private VerifierOperations verifierOperations;
 
   @Test
   public void getVerifier() throws Exception {
     String name = "my-verifier";
-    String uuid = createVerifier(name);
+    String uuid = verifierOperations.newVerifier().name(name).create();
 
     VerifierInfo info = gApi.verifiers().id(uuid).get();
     assertThat(info.uuid).isEqualTo(uuid);
@@ -51,7 +51,7 @@ public class GetVerifierIT extends AbstractDaemonTest {
   public void getVerifierWithDescription() throws Exception {
     String name = "my-verifier";
     String description = "some description";
-    String uuid = createVerifier(name, description);
+    String uuid = verifierOperations.newVerifier().name(name).description(description).create();
 
     VerifierInfo info = gApi.verifiers().id(uuid).get();
     assertThat(info.uuid).isEqualTo(uuid);
@@ -72,7 +72,7 @@ public class GetVerifierIT extends AbstractDaemonTest {
   @Test
   public void getVerifierByNameFails() throws Exception {
     String name = "my-verifier";
-    createVerifier(name);
+    verifierOperations.newVerifier().name(name).create();
 
     exception.expect(ResourceNotFoundException.class);
     exception.expectMessage("Not found: " + name);
@@ -82,25 +82,12 @@ public class GetVerifierIT extends AbstractDaemonTest {
   @Test
   public void getVerifierWithoutAdministrateVerifiersCapabilityFails() throws Exception {
     String name = "my-verifier";
-    String uuid = createVerifier(name);
+    String uuid = verifierOperations.newVerifier().name(name).create();
 
     requestScopeOperations.setApiUser(user.getId());
 
     exception.expect(AuthException.class);
     exception.expectMessage("administrate verifiers not permitted");
     gApi.verifiers().id(uuid);
-  }
-
-  private String createVerifier(String name) throws RestApiException {
-    return createVerifier(name, null);
-  }
-
-  private String createVerifier(String name, @Nullable String description) throws RestApiException {
-    // TODO(ekempin): create test API for verifiers and use it here
-    VerifierInput input = new VerifierInput();
-    input.name = name;
-    input.description = description;
-    VerifierInfo info = gApi.verifiers().create(input).get();
-    return info.uuid;
   }
 }

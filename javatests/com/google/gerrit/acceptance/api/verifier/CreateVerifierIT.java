@@ -23,13 +23,13 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.acceptance.testsuite.verifier.TestVerifier;
+import com.google.gerrit.acceptance.testsuite.verifier.VerifierOperations;
 import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
 import com.google.gerrit.extensions.api.verifiers.VerifierInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.verifier.Verifier;
-import com.google.gerrit.server.verifier.Verifiers;
 import com.google.gerrit.server.verifier.db.VerifierConfig;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Config;
@@ -45,7 +45,7 @@ import org.junit.Test;
 @SkipProjectClone
 public class CreateVerifierIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
-  @Inject private Verifiers verifiers;
+  @Inject private VerifierOperations verifierOperations;
 
   @Test
   public void createVerifier() throws Exception {
@@ -165,10 +165,8 @@ public class CreateVerifierIT extends AbstractDaemonTest {
       assertThat(ref).isNotNull();
       RevCommit c = rw.parseCommit(ref.getObjectId());
 
-      // TODO(ekempin): Use test API to get verifier.
-      Verifier verifier = verifiers.getVerifier(verifierUuid).get();
-      long timestampDiffMs =
-          Math.abs(c.getCommitTime() * 1000L - verifier.getCreatedOn().getTime());
+      TestVerifier verifier = verifierOperations.verifier(verifierUuid).get();
+      long timestampDiffMs = Math.abs(c.getCommitTime() * 1000L - verifier.createdOn().getTime());
       assertThat(timestampDiffMs).isAtMost(SECONDS.toMillis(1));
 
       // Check the 'verifier.config' file.

@@ -351,36 +351,32 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allow("refs/heads/*", Permission.READ, REGISTERED_USERS);
 
     requestScopeOperations.setApiUser(user.getId());
-    try (Repository repo = repoManager.openRepository(project)) {
-      assertRefs(
-          repo,
-          permissionBackend.user(user(user)).project(project),
-          // Can't use stored values from the index so DB must be enabled.
-          false,
-          "HEAD",
-          psRef1,
-          metaRef1,
-          psRef2,
-          metaRef2,
-          psRef3,
-          metaRef3,
-          psRef4,
-          metaRef4,
-          "refs/heads/branch",
-          "refs/heads/master",
-          "refs/tags/branch-tag",
-          "refs/tags/master-tag");
-    }
+    assertRefs(
+        project,
+        user,
+        // Can't use stored values from the index so DB must be enabled.
+        false,
+        "HEAD",
+        psRef1,
+        metaRef1,
+        psRef2,
+        metaRef2,
+        psRef3,
+        metaRef3,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/heads/master",
+        "refs/tags/branch-tag",
+        "refs/tags/master-tag");
   }
 
   @Test
   public void uploadPackSequencesWithAccessDatabase() throws Exception {
-    try (Repository repo = repoManager.openRepository(allProjects)) {
-      assertRefs(repo, newFilter(allProjects, user), true);
+    assertRefs(allProjects, user, true);
 
-      allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-      assertRefs(repo, newFilter(allProjects, user), true, "refs/sequences/changes");
-    }
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    assertRefs(allProjects, user, true, "refs/sequences/changes");
   }
 
   @Test
@@ -726,31 +722,18 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
    * @throws Exception
    */
   private void assertUploadPackRefs(String... expectedRefs) throws Exception {
-    try (Repository repo = repoManager.openRepository(project)) {
-      assertRefs(repo, permissionBackend.user(user(user)).project(project), true, expectedRefs);
-    }
+    assertRefs(project, user, true, expectedRefs);
   }
 
   private void assertRefs(
-      Repository repo,
-      PermissionBackend.ForProject forProject,
-      boolean disableDb,
-      String... expectedRefs)
+      Project.NameKey project, TestAccount user, boolean disableDb, String... expectedRefs)
       throws Exception {
     AutoCloseable ctx = null;
     if (disableDb) {
       ctx = disableNoteDb();
     }
     try {
-      Map<String, Ref> all = getAllRefs(repo);
-      assertThat(
-              forProject
-                  .filter(
-                      all,
-                      repo,
-                      RefFilterOptions.defaults().toBuilder().setFilterTagsSeparately(true).build())
-                  .keySet())
-          .containsExactlyElementsIn(expectedRefs);
+      assertThat(lsRemote(project, user)).containsExactlyElementsIn(expectedRefs);
     } finally {
       if (disableDb) {
         ctx.close();

@@ -18,22 +18,19 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
-import com.google.gerrit.extensions.api.checkers.CheckerInfo;
-import com.google.gerrit.extensions.api.checkers.CheckerInput;
+import com.google.gerrit.acceptance.testsuite.checker.CheckerOperations;
+import com.google.inject.Inject;
 import org.junit.Test;
 
 public class CheckersRestApiBindingsIT extends AbstractDaemonTest {
   private static final ImmutableList<RestCall> CHECKER_ENDPOINTS =
       ImmutableList.of(RestCall.get("/checkers/%s"));
 
+  @Inject private CheckerOperations checkerOperations;
+
   @Test
   public void checkerEndpoints() throws Exception {
-    // TODO(ekempin): Use test API to create the checker.
-    CheckerInput input = new CheckerInput();
-    input.name = " my-checker ";
-    CheckerInfo info = gApi.checkers().create(input).get();
-    String checkerUuid = info.uuid;
-
+    String checkerUuid = checkerOperations.newChecker().create();
     RestApiCallHelper.execute(adminRestSession, CHECKER_ENDPOINTS, checkerUuid);
   }
 }

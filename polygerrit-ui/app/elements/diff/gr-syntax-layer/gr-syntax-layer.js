@@ -79,9 +79,11 @@
     'text/x-sh': 'bash',
     'text/x-sql': 'sql',
     'text/x-swift': 'swift',
+    'text/x-systemverilog': 'sv',
     'text/x-tcl': 'tcl',
     'text/x-twig': 'twig',
     'text/x-vb': 'vb',
+    'text/x-verilog': 'v',
     'text/x-yaml': 'yaml',
     'text/vbscript': 'vbscript',
   };

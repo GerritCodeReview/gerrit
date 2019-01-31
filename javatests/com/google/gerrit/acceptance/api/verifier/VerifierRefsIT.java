@@ -19,15 +19,29 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.acceptance.testsuite.verifier.VerifierOperations;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.change.ChangeInserter;
+import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 @NoHttpd
@@ -35,6 +49,9 @@ import org.junit.Test;
 public class VerifierRefsIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private VerifierOperations verifierOperations;
+  @Inject private Sequences seq;
+  @Inject private ChangeInserter.Factory changeInserterFactory;
+  @Inject private BatchUpdate.Factory updateFactory;
 
   @Test
   public void adminCanReadVerifierRefsByDefault() throws Exception {
@@ -74,5 +91,112 @@ public class VerifierRefsIT extends AbstractDaemonTest {
     exception.expectMessage(
         String.format("Remote does not have %s available for fetch.", verifierRef));
     fetch(repo, verifierRef + ":verifierRef");
+  }
+
+  @Test
+  public void updateVerifierRefsByPushIsDisabled() throws Exception {
+    String verifierUuid = verifierOperations.newVerifier().create();
+    String verifierRef = RefNames.refsVerifiers(verifierUuid);
+
+    TestRepository<InMemoryRepository> repo = cloneProject(allProjects, admin);
+    fetch(repo, verifierRef + ":verifierRef");
+    repo.reset("verifierRef");
+
+    grant(allProjects, RefNames.REFS_VERIFIERS + "*", Permission.PUSH);
+    PushOneCommit.Result r = pushFactory.create(admin.getIdent(), repo).to(verifierRef);
+    r.assertErrorStatus();
+    r.assertMessage("direct update of verifier ref not allowed");
+  }
+
+  @Test
+  public void submitToVerifierRefsIsDisabled() throws Exception {
+    String verifierUuid = verifierOperations.newVerifier().create();
+    String verifierRef = RefNames.refsVerifiers(verifierUuid);
+
+    String changeId = createChangeWithoutCommitValidation(verifierRef);
+
+    grantLabel(
+        "Code-Review",
+        -2,
+        2,
+        allProjects,
+        RefNames.REFS_VERIFIERS + "*",
+        false,
+        adminGroupUuid(),
+        false);
+    approve(changeId);
+
+    grant(allProjects, RefNames.REFS_VERIFIERS + "*", Permission.SUBMIT);
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("submit to verifier ref not allowed");
+    gApi.changes().id(changeId).current().submit();
+  }
+
+  @Test
+  public void createChangeForVerifierRefsByPushIsDisabled() throws Exception {
+    String verifierUuid = verifierOperations.newVerifier().create();
+    String verifierRef = RefNames.refsVerifiers(verifierUuid);
+
+    TestRepository<InMemoryRepository> repo = cloneProject(allProjects, admin);
+    fetch(repo, verifierRef + ":verifierRef");
+    repo.reset("verifierRef");
+
+    grant(allProjects, RefNames.REFS_VERIFIERS + "*", Permission.PUSH);
+    PushOneCommit.Result r =
+        pushFactory.create(admin.getIdent(), repo).to("refs/for/" + verifierRef);
+    r.assertErrorStatus();
+    r.assertMessage("creating change for verifier ref not allowed");
+  }
+
+  @Test
+  public void createChangeForVerifierRefsViaApiIsDisabled() throws Exception {
+    String verifierUuid = verifierOperations.newVerifier().create();
+    String verifierRef = RefNames.refsVerifiers(verifierUuid);
+
+    TestRepository<InMemoryRepository> repo = cloneProject(allProjects, admin);
+    fetch(repo, verifierRef + ":verifierRef");
+    repo.reset("verifierRef");
+    RevCommit head = getHead(repo.getRepository(), "HEAD");
+
+    ChangeInput input = new ChangeInput();
+    input.project = allProjects.get();
+    input.branch = verifierRef;
+    input.baseCommit = head.name();
+    input.subject = "A change.";
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("creating change for verifier ref not allowed");
+    gApi.changes().create(input);
+  }
+
+  private String createChangeWithoutCommitValidation(String targetRef) throws Exception {
+    try (Repository git = repoManager.openRepository(allProjects);
+        ObjectInserter oi = git.newObjectInserter();
+        ObjectReader reader = oi.newReader();
+        RevWalk rw = new RevWalk(reader)) {
+      RevCommit head = rw.parseCommit(git.exactRef(targetRef).getObjectId());
+      RevCommit commit =
+          new TestRepository<>(git)
+              .commit()
+              .author(admin.getIdent())
+              .message("A change.")
+              .insertChangeId()
+              .parent(head)
+              .create();
+
+      Change.Id changeId = new Change.Id(seq.nextChangeId());
+      ChangeInserter ins = changeInserterFactory.create(changeId, commit, targetRef);
+      ins.setValidate(false);
+      ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));
+      try (BatchUpdate bu =
+          updateFactory.create(
+              allProjects, identifiedUserFactory.create(admin.id), TimeUtil.nowTs())) {
+        bu.setRepository(git, rw, oi);
+        bu.insertChange(ins);
+        bu.execute();
+      }
+      return changeId.toString();
+    }
   }
 }

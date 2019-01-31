@@ -199,7 +199,7 @@ public class Daemon extends SiteProgram {
   private boolean inMemoryTest;
   private AbstractModule luceneModule;
   private Module emailModule;
-  private Module testSysModule;
+  private List<Module> testSysModules = new ArrayList<>();
   private Module auditEventModule;
 
   private Runnable serverStarted;
@@ -333,8 +333,8 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
-  public void setAdditionalSysModuleForTesting(@Nullable Module m) {
-    testSysModule = m;
+  public void addAdditionalSysModuleForTesting(@Nullable Module m) {
+    testSysModules.add(m);
   }
 
   @VisibleForTesting
@@ -494,9 +494,7 @@ public class Daemon extends SiteProgram {
     if (migrateToNoteDb()) {
       modules.add(new OnlineNoteDbMigrator.Module(trial));
     }
-    if (testSysModule != null) {
-      modules.add(testSysModule);
-    }
+    modules.addAll(testSysModules);
     modules.add(new LocalMergeSuperSetComputation.Module());
     modules.add(new DefaultProjectNameLockManager.Module());
     return cfgInjector.createChildInjector(

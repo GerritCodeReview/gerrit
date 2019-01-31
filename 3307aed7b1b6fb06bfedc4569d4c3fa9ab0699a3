@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48f6244e_2736d246",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1028607
+      },
+      "writtenOn": "2019-01-31T17:12:17Z",
+      "side": 0,
+      "message": "The original code set the SECURITY_AUTHENTICATION before to call createContext() which call InitialLdapContext().\n\nThis lead to force an anonymous bind before the startTLS exchange.",
+      "revId": "3307aed7b1b6fb06bfedc4569d4c3fa9ab0699a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

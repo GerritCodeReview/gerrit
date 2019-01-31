@@ -19,13 +19,11 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.SkipProjectClone;
+import com.google.gerrit.acceptance.testsuite.checker.CheckerOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.checkers.CheckerInfo;
-import com.google.gerrit.extensions.api.checkers.CheckerInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.checker.CheckerUuid;
 import com.google.inject.Inject;
 import org.junit.Test;
@@ -34,11 +32,12 @@ import org.junit.Test;
 @SkipProjectClone
 public class GetCheckerIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private CheckerOperations checkerOperations;
 
   @Test
   public void getChecker() throws Exception {
     String name = "my-checker";
-    String uuid = createChecker(name);
+    String uuid = checkerOperations.newChecker().name(name).create();
 
     CheckerInfo info = gApi.checkers().id(uuid).get();
     assertThat(info.uuid).isEqualTo(uuid);
@@ -51,7 +50,7 @@ public class GetCheckerIT extends AbstractDaemonTest {
   public void getCheckerWithDescription() throws Exception {
     String name = "my-checker";
     String description = "some description";
-    String uuid = createChecker(name, description);
+    String uuid = checkerOperations.newChecker().name(name).description(description).create();
 
     CheckerInfo info = gApi.checkers().id(uuid).get();
     assertThat(info.uuid).isEqualTo(uuid);
@@ -72,7 +71,7 @@ public class GetCheckerIT extends AbstractDaemonTest {
   @Test
   public void getCheckerByNameFails() throws Exception {
     String name = "my-checker";
-    createChecker(name);
+    checkerOperations.newChecker().name(name).create();
 
     exception.expect(ResourceNotFoundException.class);
     exception.expectMessage("Not found: " + name);
@@ -82,25 +81,12 @@ public class GetCheckerIT extends AbstractDaemonTest {
   @Test
   public void getCheckerWithoutAdministrateCheckersCapabilityFails() throws Exception {
     String name = "my-checker";
-    String uuid = createChecker(name);
+    String uuid = checkerOperations.newChecker().name(name).create();
 
     requestScopeOperations.setApiUser(user.getId());
 
     exception.expect(AuthException.class);
     exception.expectMessage("administrate checkers not permitted");
     gApi.checkers().id(uuid);
-  }
-
-  private String createChecker(String name) throws RestApiException {
-    return createChecker(name, null);
-  }
-
-  private String createChecker(String name, @Nullable String description) throws RestApiException {
-    // TODO(ekempin): create test API for checkers and use it here
-    CheckerInput input = new CheckerInput();
-    input.name = name;
-    input.description = description;
-    CheckerInfo info = gApi.checkers().create(input).get();
-    return info.uuid;
   }
 }

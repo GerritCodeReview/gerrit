@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4251f693_21a1b131",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-01-31T11:14:26Z",
+      "side": 1,
+      "message": "Add a link to https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d9911.\n\nMaybe comment on whether the Bazel build for this plugin has ever worked and what might have broken it.",
+      "revId": "18200828184877df3c6308060922b1a8e05b5a70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

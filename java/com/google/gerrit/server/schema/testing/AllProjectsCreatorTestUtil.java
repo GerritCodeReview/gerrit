@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.schema.testing;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
@@ -23,7 +21,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import java.io.IOException;
-import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BlobBasedConfig;
@@ -136,41 +133,6 @@ public class AllProjectsCreatorTestUtil {
       Ref configRef = repo.exactRef(RefNames.REFS_CONFIG);
       return new BlobBasedConfig(null, repo, configRef.getObjectId(), "project.config");
     }
-  }
-
-  public static void assertTwoConfigsEquivalent(Config config1, Config config2) {
-    Set<String> sections1 = config1.getSections();
-    Set<String> sections2 = config2.getSections();
-    assertThat(sections1).containsExactlyElementsIn(sections2);
-
-    sections1.forEach(s -> assertSectionEquivalent(config1, config2, s));
-  }
-
-  public static void assertSectionEquivalent(Config config1, Config config2, String section) {
-    assertSubsectionEquivalent(config1, config2, section, null);
-
-    Set<String> subsections1 = config1.getSubsections(section);
-    Set<String> subsections2 = config2.getSubsections(section);
-    assertThat(subsections1)
-        .named("section \"%s\"", section)
-        .containsExactlyElementsIn(subsections2);
-
-    subsections1.forEach(s -> assertSubsectionEquivalent(config1, config2, section, s));
-  }
-
-  private static void assertSubsectionEquivalent(
-      Config config1, Config config2, String section, String subsection) {
-    Set<String> subsectionNames1 = config1.getNames(section, subsection);
-    Set<String> subsectionNames2 = config2.getNames(section, subsection);
-    String name = String.format("subsection \"%s\" of section \"%s\"", subsection, section);
-    assertThat(subsectionNames1).named(name).containsExactlyElementsIn(subsectionNames2);
-
-    subsectionNames1.forEach(
-        n ->
-            assertThat(config1.getStringList(section, subsection, n))
-                .named(name)
-                .asList()
-                .containsExactlyElementsIn(config2.getStringList(section, subsection, n)));
   }
 
   private AllProjectsCreatorTestUtil() {}

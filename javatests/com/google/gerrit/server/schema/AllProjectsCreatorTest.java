@@ -15,9 +15,9 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.project.testing.ConfigTestUtils.assertSectionEquivalent;
+import static com.google.gerrit.server.project.testing.ConfigTestUtils.assertTwoConfigsEquivalent;
 import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeReviewLabel;
-import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.assertSectionEquivalent;
-import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.assertTwoConfigsEquivalent;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getAllProjectsWithoutDefaultAcls;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getDefaultAllProjectsWithAllDefaultSections;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.readAllProjectsConfig;

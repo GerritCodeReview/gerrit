@@ -45,13 +45,11 @@ public class NoteDbSchemaVersions {
   }
 
   public static NoteDbSchemaVersion get(
-      ImmutableSortedMap<Integer, Class<? extends NoteDbSchemaVersion>> schemaVersions,
-      int i,
-      NoteDbSchemaVersion.Arguments args) {
+      ImmutableSortedMap<Integer, Class<? extends NoteDbSchemaVersion>> schemaVersions, int i) {
     Class<? extends NoteDbSchemaVersion> clazz = schemaVersions.get(i);
     checkArgument(clazz != null, "Schema version not found: %s", i);
     try {
-      return clazz.getDeclaredConstructor(NoteDbSchemaVersion.Arguments.class).newInstance(args);
+      return clazz.getDeclaredConstructor().newInstance();
     } catch (InstantiationException
         | IllegalAccessException
         | NoSuchMethodException

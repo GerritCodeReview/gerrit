@@ -15,13 +15,8 @@
 package com.google.gerrit.server.schema;
 
 public class Schema_180 implements NoteDbSchemaVersion {
-  @SuppressWarnings("unused")
-  Schema_180(Arguments args) {
-    // Do nothing.
-  }
-
   @Override
-  public void upgrade(UpdateUI ui) {
+  public void upgrade(Arguments args, UpdateUI ui) {
     // Do nothing; only used to populate the version ref, which is done by the caller.
   }
 }

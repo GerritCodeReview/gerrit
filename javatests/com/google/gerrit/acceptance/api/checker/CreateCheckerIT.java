@@ -32,7 +32,9 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.checker.db.CheckerConfig;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
@@ -40,19 +42,31 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 @SkipProjectClone
 public class CreateCheckerIT extends AbstractDaemonTest {
-  @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private CheckerOperations checkerOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @ConfigSuite.Default
   public static Config defaultConfig() {
     Config cfg = new Config();
     cfg.setBoolean("checker", "api", "enabled", true);
     return cfg;
+  }
+
+  @Before
+  public void setTimeForTesting() {
+    TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
+  }
+
+  @After
+  public void resetTime() {
+    TestTimeUtil.useSystemTime();
   }
 
   @Test

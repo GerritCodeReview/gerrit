@@ -12,21 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.checker;
+package com.google.gerrit.common.errors;
 
-import com.google.gerrit.extensions.api.checkers.CheckerInfo;
-import com.google.inject.Singleton;
+/** Indicates the checker does not exist. */
+public class NoSuchCheckerException extends Exception {
+  private static final long serialVersionUID = 1L;
 
-/** Formats a {@link Checker} as JSON. */
-@Singleton
-public class CheckerJson {
-  public CheckerInfo format(Checker checker) {
-    CheckerInfo info = new CheckerInfo();
-    info.uuid = checker.getUuid();
-    info.name = checker.getName();
-    info.description = checker.getDescription().orElse(null);
-    info.createdOn = checker.getCreatedOn();
-    info.updatedOn = checker.getUpdatedOn();
-    return info;
+  public static final String MESSAGE = "Checker Not Found: ";
+
+  public NoSuchCheckerException(String uuid) {
+    this(uuid, null);
+  }
+
+  public NoSuchCheckerException(String uuid, Throwable why) {
+    super(MESSAGE + uuid, why);
   }
 }

@@ -210,10 +210,12 @@ public class VerifierConfig extends VersionedMetaData {
       rw.sort(RevSort.REVERSE);
       RevCommit earliestCommit = rw.next();
       Timestamp createdOn = new Timestamp(earliestCommit.getCommitTime() * 1000L);
+      Timestamp updatedOn = new Timestamp(rw.parseCommit(revision).getCommitTime() * 1000L);
 
       Config config = readConfig(VERIFIER_CONFIG_FILE);
       loadedVerifier =
-          Optional.of(createFrom(verifierUuid, config, createdOn, revision.toObjectId()));
+          Optional.of(
+              createFrom(verifierUuid, config, createdOn, updatedOn, revision.toObjectId()));
     }
 
     isLoaded = true;
@@ -268,7 +270,7 @@ public class VerifierConfig extends VersionedMetaData {
       throws IOException, ConfigInvalidException {
     Config config = updateVerifierProperties();
     Timestamp createdOn = loadedVerifier.map(Verifier::getCreatedOn).orElse(commitTimestamp);
-    return createBuilderFrom(verifierUuid, config, createdOn);
+    return createBuilderFrom(verifierUuid, config, createdOn, commitTimestamp);
   }
 
   private Config updateVerifierProperties() throws IOException, ConfigInvalidException {
@@ -286,19 +288,26 @@ public class VerifierConfig extends VersionedMetaData {
   }
 
   private static Verifier.Builder createBuilderFrom(
-      String verifierUuid, Config config, Timestamp createdOn) throws ConfigInvalidException {
+      String verifierUuid, Config config, Timestamp createdOn, Timestamp updatedOn)
+      throws ConfigInvalidException {
     Verifier.Builder verifier = Verifier.builder(verifierUuid);
     for (VerifierConfigEntry configEntry : VerifierConfigEntry.values()) {
       configEntry.readFromConfig(verifierUuid, verifier, config);
     }
-    verifier.setCreatedOn(createdOn);
+    verifier.setCreatedOn(createdOn).setUpdatedOn(updatedOn);
     return verifier;
   }
 
   private static Verifier createFrom(
-      String verifierUuid, Config config, Timestamp createdOn, ObjectId refState)
+      String verifierUuid,
+      Config config,
+      Timestamp createdOn,
+      Timestamp updatedOn,
+      ObjectId refState)
       throws ConfigInvalidException {
-    return createBuilderFrom(verifierUuid, config, createdOn).setRefState(refState).build();
+    return createBuilderFrom(verifierUuid, config, createdOn, updatedOn)
+        .setRefState(refState)
+        .build();
   }
 
   private static String createCommitMessage(

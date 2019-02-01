@@ -15,19 +15,32 @@
 package com.google.gerrit.acceptance.testsuite.verifier;
 
 import static com.google.common.base.Preconditions.checkState;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.base.Preconditions;
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.verifier.Verifier;
 import com.google.gerrit.server.verifier.VerifierCreation;
 import com.google.gerrit.server.verifier.VerifierUpdate;
 import com.google.gerrit.server.verifier.VerifierUuid;
 import com.google.gerrit.server.verifier.Verifiers;
 import com.google.gerrit.server.verifier.VerifiersUpdate;
+import com.google.gerrit.server.verifier.db.VerifierConfig;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
  * The implementation of {@code VerifierOperations}.
@@ -38,12 +51,19 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class VerifierOperationsImpl implements VerifierOperations {
   private final Verifiers verifiers;
   private final VerifiersUpdate verifiersUpdate;
+  private final GitRepositoryManager repoManager;
+  private final AllProjectsName allProjectsName;
 
   @Inject
   public VerifierOperationsImpl(
-      Verifiers verifiers, @ServerInitiated VerifiersUpdate verifiersUpdate) {
+      Verifiers verifiers,
+      @ServerInitiated VerifiersUpdate verifiersUpdate,
+      GitRepositoryManager repoManager,
+      AllProjectsName allProjectsName) {
     this.verifiers = verifiers;
     this.verifiersUpdate = verifiersUpdate;
+    this.repoManager = repoManager;
+    this.allProjectsName = allProjectsName;
   }
 
   @Override
@@ -110,7 +130,47 @@ public class VerifierOperationsImpl implements VerifierOperations {
           .name(verifier.getName())
           .description(verifier.getDescription())
           .createdOn(verifier.getCreatedOn())
+          .updatedOn(verifier.getUpdatedOn())
+          .refState(verifier.getRefState())
           .build();
+    }
+
+    @Override
+    public RevCommit commit() throws IOException {
+      Optional<Verifier> verifier = getVerifier(verifierUuid);
+      checkState(verifier.isPresent(), "Tried to get commit for a non-existing test verifier");
+
+      try (Repository repo = repoManager.openRepository(allProjectsName);
+          RevWalk rw = new RevWalk(repo)) {
+        return rw.parseCommit(verifier.get().getRefState());
+      }
+    }
+
+    @Override
+    public String configText() throws IOException, ConfigInvalidException {
+      Optional<Verifier> verifier = getVerifier(verifierUuid);
+      checkState(verifier.isPresent(), "Tried to get config text for a non-existing test verifier");
+
+      try (Repository repo = repoManager.openRepository(allProjectsName);
+          RevWalk rw = new RevWalk(repo);
+          ObjectReader or = repo.newObjectReader()) {
+        ObjectId refState = verifier.get().getRefState();
+        RevCommit c = rw.parseCommit(refState);
+
+        try (TreeWalk tw = TreeWalk.forPath(or, VerifierConfig.VERIFIER_CONFIG_FILE, c.getTree())) {
+          Preconditions.checkNotNull(
+              tw,
+              "%s file for verifier %s is missing in commit %s",
+              VerifierConfig.VERIFIER_CONFIG_FILE,
+              verifierUuid,
+              refState.name());
+
+          // Parse as Config to ensure it's a valid config file.
+          Config cfg = new Config();
+          cfg.fromText(new String(or.open(tw.getObjectId(0), OBJ_BLOB).getBytes(), UTF_8));
+          return cfg.toText();
+        }
+      }
     }
   }
 }

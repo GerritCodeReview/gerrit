@@ -37,7 +37,10 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
   @Deprecated static final Schema<ProjectData> V3 = schema(V2);
 
   // Lucene index was changed to add an additional field for sorting.
-  static final Schema<ProjectData> V4 = schema(V3);
+  @Deprecated static final Schema<ProjectData> V4 = schema(V3);
+
+  // Remove "_SORT" suffix from NAME_SORT field name
+  static final Schema<ProjectData> V5 = schema(V4);
 
   public static final ProjectSchemaDefinitions INSTANCE = new ProjectSchemaDefinitions();
 

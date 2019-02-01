@@ -15,7 +15,6 @@
 package com.google.gerrit.lucene;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
@@ -105,8 +104,8 @@ import org.eclipse.jgit.lib.Config;
 public class LuceneChangeIndex implements ChangeIndex {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  static final String UPDATED_SORT_FIELD = sortFieldName(ChangeField.UPDATED);
-  static final String ID_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID);
+  static final String UPDATED_SORT_FIELD = ChangeField.UPDATED.getName();
+  static final String ID_SORT_FIELD = ChangeField.LEGACY_ID.getName();
 
   private static final String CHANGES = "changes";
   private static final String CHANGES_OPEN = "open";

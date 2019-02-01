@@ -41,6 +41,6 @@ public class ListProjectsCommand extends SshCommand {
         throw die("--tree and --description options are not compatible.");
       }
     }
-    impl.display(out);
+    impl.displayToStream(out);
   }
 }

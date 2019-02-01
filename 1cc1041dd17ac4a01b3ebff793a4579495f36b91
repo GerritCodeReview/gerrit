@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1169eb11_762e8164",
+        "filename": "java/com/google/gerrit/acceptance/ReindexProjectsAtStartup.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-01T14:18:40Z",
+      "side": 1,
+      "message": "Use LifecycleModule",
+      "range": {
+        "startLine": 30,
+        "startChar": 37,
+        "endLine": 30,
+        "endChar": 51
+      },
+      "revId": "1cc1041dd17ac4a01b3ebff793a4579495f36b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca059a07_5fff5403",
+        "filename": "java/com/google/gerrit/acceptance/ReindexProjectsAtStartup.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-01T14:18:40Z",
+      "side": 1,
+      "message": "lifecycle()",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 35
+      },
+      "revId": "1cc1041dd17ac4a01b3ebff793a4579495f36b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

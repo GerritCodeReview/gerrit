@@ -56,9 +56,9 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
     implements AccountIndex {
   private static final String ACCOUNTS = "accounts";
 
-  private static final String FULL_NAME_SORT_FIELD = sortFieldName(FULL_NAME);
-  private static final String EMAIL_SORT_FIELD = sortFieldName(PREFERRED_EMAIL_EXACT);
-  private static final String ID_SORT_FIELD = sortFieldName(ID);
+  private static final String FULL_NAME_SORT_FIELD = FULL_NAME.getName();
+  private static final String EMAIL_SORT_FIELD = PREFERRED_EMAIL_EXACT.getName();
+  private static final String ID_SORT_FIELD = ID.getName();
 
   private static Term idTerm(AccountState as) {
     return idTerm(as.getAccount().getId());

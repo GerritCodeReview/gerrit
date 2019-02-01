@@ -18,8 +18,10 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.verifiers.VerifierApi;
 import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
+import com.google.gerrit.extensions.api.verifiers.VerifierInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.restapi.verifier.GetVerifier;
+import com.google.gerrit.server.restapi.verifier.UpdateVerifier;
 import com.google.gerrit.server.restapi.verifier.VerifierResource;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -30,11 +32,14 @@ class VerifierApiImpl implements VerifierApi {
   }
 
   private final GetVerifier getVerifier;
+  private final UpdateVerifier updateVerifier;
   private final VerifierResource rsrc;
 
   @Inject
-  VerifierApiImpl(GetVerifier getVerifier, @Assisted VerifierResource rsrc) {
+  VerifierApiImpl(
+      GetVerifier getVerifier, UpdateVerifier updateVerifier, @Assisted VerifierResource rsrc) {
     this.getVerifier = getVerifier;
+    this.updateVerifier = updateVerifier;
     this.rsrc = rsrc;
   }
 
@@ -44,6 +49,15 @@ class VerifierApiImpl implements VerifierApi {
       return getVerifier.apply(rsrc);
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve verifier", e);
+    }
+  }
+
+  @Override
+  public VerifierInfo update(VerifierInput input) throws RestApiException {
+    try {
+      return updateVerifier.apply(rsrc, input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot update verifier", e);
     }
   }
 }

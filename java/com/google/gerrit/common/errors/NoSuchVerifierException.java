@@ -12,22 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.verifier;
+package com.google.gerrit.common.errors;
 
-import static com.google.gerrit.server.restapi.verifier.VerifierResource.VERIFIER_KIND;
+/** Indicates the verifier does not exist. */
+public class NoSuchVerifierException extends Exception {
+  private static final long serialVersionUID = 1L;
 
-import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.RestApiModule;
+  public static final String MESSAGE = "Verifier Not Found: ";
 
-public class Module extends RestApiModule {
-  @Override
-  protected void configure() {
-    bind(VerifiersCollection.class);
+  public NoSuchVerifierException(String uuid) {
+    this(uuid, null);
+  }
 
-    DynamicMap.mapOf(binder(), VERIFIER_KIND);
-
-    postOnCollection(VERIFIER_KIND).to(CreateVerifier.class);
-    get(VERIFIER_KIND).to(GetVerifier.class);
-    post(VERIFIER_KIND).to(UpdateVerifier.class);
+  public NoSuchVerifierException(String uuid, Throwable why) {
+    super(MESSAGE + uuid, why);
   }
 }

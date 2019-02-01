@@ -91,7 +91,7 @@ public class NoteDbSchemaUpdater {
     for (int nextVersion : requiredUpgrades(currentVersion, schemaVersions.keySet())) {
       try {
         ui.message(String.format("Migrating data to schema %d ...", nextVersion));
-        NoteDbSchemaVersions.get(schemaVersions, nextVersion, args).upgrade(ui);
+        NoteDbSchemaVersions.get(schemaVersions, nextVersion).upgrade(args, ui);
         versionManager.increment(nextVersion - 1);
       } catch (Exception e) {
         throw new OrmException(

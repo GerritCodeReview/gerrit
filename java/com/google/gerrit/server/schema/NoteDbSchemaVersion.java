@@ -22,9 +22,8 @@ import com.google.inject.Singleton;
 /**
  * Schema upgrade implementation.
  *
- * <p>Implementations must define a single public constructor that takes an {@link Arguments}. The
- * recommended idiom is to pull out whichever individual fields from the {@code Arguments} are
- * required by this implementation.
+ * <p>Implementations must have a single non-private constructor with no arguments (e.g. the default
+ * constructor).
  */
 interface NoteDbSchemaVersion {
   @Singleton
@@ -39,5 +38,5 @@ interface NoteDbSchemaVersion {
     }
   }
 
-  void upgrade(UpdateUI ui) throws Exception;
+  void upgrade(Arguments args, UpdateUI ui) throws Exception;
 }

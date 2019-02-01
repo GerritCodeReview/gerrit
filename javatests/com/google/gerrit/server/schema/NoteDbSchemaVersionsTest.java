@@ -68,9 +68,8 @@ public class NoteDbSchemaVersionsTest extends GerritBaseTests {
 
   @Test
   public void schemaConstructors() throws Exception {
-    NoteDbSchemaVersion.Arguments args = new NoteDbSchemaVersion.Arguments(null, null);
     for (int version : NoteDbSchemaVersions.ALL.keySet()) {
-      NoteDbSchemaVersions.get(NoteDbSchemaVersions.ALL, version, args);
+      NoteDbSchemaVersions.get(NoteDbSchemaVersions.ALL, version);
     }
   }
 }

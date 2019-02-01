@@ -191,26 +191,16 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
       }
     }
 
-    private static class TestSchema_10 implements NoteDbSchemaVersion {
-      @SuppressWarnings("unused")
-      TestSchema_10(Arguments args) {
-        // Do nothing.
-      }
-
+    static class TestSchema_10 implements NoteDbSchemaVersion {
       @Override
-      public void upgrade(UpdateUI ui) {
+      public void upgrade(Arguments args, UpdateUI ui) {
         ui.message("body of 10");
       }
     }
 
-    private static class TestSchema_11 implements NoteDbSchemaVersion {
-      @SuppressWarnings("unused")
-      TestSchema_11(Arguments args) {
-        // Do nothing.
-      }
-
+    static class TestSchema_11 implements NoteDbSchemaVersion {
       @Override
-      public void upgrade(UpdateUI ui) {
+      public void upgrade(Arguments args, UpdateUI ui) {
         ui.message("BODY OF 11");
       }
     }

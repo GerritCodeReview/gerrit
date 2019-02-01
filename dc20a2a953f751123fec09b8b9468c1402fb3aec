@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76133182_e68bb87b",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-01T15:32:44Z",
+      "side": 1,
+      "message": "It\u0027s ok to have 2 fields with the same name here? Why don\u0027t we have to do the same thing we did for the sort field where we compute a separate field name for the stored field? Is it because one of these fields (the IntPoint) only exists in the inverted index, and the other doesn\u0027t exist there at all?\n\nI mean, if it works, I can\u0027t object.",
+      "range": {
+        "startLine": 326,
+        "startChar": 34,
+        "endLine": 326,
+        "endChar": 38
+      },
+      "revId": "dc20a2a953f751123fec09b8b9468c1402fb3aec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61cbb5e9_392bdadd",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-01T15:32:44Z",
+      "side": 1,
+      "message": "Nit: can be an expression instead of a block.",
+      "range": {
+        "startLine": 112,
+        "startChar": 20,
+        "endLine": 114,
+        "endChar": 15
+      },
+      "revId": "dc20a2a953f751123fec09b8b9468c1402fb3aec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

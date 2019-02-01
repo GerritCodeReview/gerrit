@@ -313,7 +313,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       throws BadRequestException, PermissionBackendException {
     if (format == OutputFormat.TEXT) {
       ByteArrayOutputStream buf = new ByteArrayOutputStream();
-      display(buf);
+      displayToStream(buf);
       return BinaryResult.create(buf.toByteArray())
           .setContentType("text/plain")
           .setCharacterEncoding(UTF_8);
@@ -340,6 +340,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             && isNullOrEmpty(matchSubstring) // TODO: see Issue 10446
             && type == FilterType.ALL
             && showBranch.isEmpty()
+            && !showTree
         ? Optional.of(stateToQuery())
         : Optional.empty();
   }
@@ -378,7 +379,53 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     return p;
   }
 
-  public SortedMap<String, ProjectInfo> display(@Nullable OutputStream displayOutputStream)
+  private void printQueryResults(String query, PrintWriter out) throws BadRequestException {
+    try {
+      if (format.isJson()) {
+        format.newGson().toJson(applyAsQuery(query), out);
+      } else {
+        newProjectsNamesStream(query).forEach(out::println);
+      }
+      out.flush();
+    } catch (OrmException | MethodNotAllowedException e) {
+      logger.atWarning().withCause(e).log(
+          "Internal error while processing the query '{}' request", query);
+      throw new BadRequestException("Internal error while processing the query request");
+    }
+  }
+
+  private Stream<String> newProjectsNamesStream(String query)
+      throws OrmException, MethodNotAllowedException, BadRequestException {
+    Stream<String> projects =
+        queryProjectsProvider
+            .get()
+            .withQuery(query)
+            .apply(null)
+            .stream()
+            .map(p -> p.name)
+            .skip(start);
+    if (limit > 0) {
+      projects = projects.limit(limit);
+    }
+
+    return projects;
+  }
+
+  public void displayToStream(OutputStream displayOutputStream)
+      throws BadRequestException, PermissionBackendException {
+    PrintWriter stdout =
+        new PrintWriter(new BufferedWriter(new OutputStreamWriter(displayOutputStream, UTF_8)));
+    Optional<String> projectsQuery = expressAsProjectsQuery();
+
+    if (projectsQuery.isPresent()) {
+      printQueryResults(projectsQuery.get(), stdout);
+    } else {
+      display(stdout);
+    }
+  }
+
+  @Nullable
+  public SortedMap<String, ProjectInfo> display(@Nullable PrintWriter stdout)
       throws BadRequestException, PermissionBackendException {
     if (all && state != null) {
       throw new BadRequestException("'all' and 'state' may not be used together");
@@ -391,12 +438,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       } catch (NoSuchGroupException ex) {
         return Collections.emptySortedMap();
       }
-    }
-
-    PrintWriter stdout = null;
-    if (displayOutputStream != null) {
-      stdout =
-          new PrintWriter(new BufferedWriter(new OutputStreamWriter(displayOutputStream, UTF_8)));
     }
 
     if (type == FilterType.PARENT_CANDIDATES) {

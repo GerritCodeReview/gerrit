@@ -21,4 +21,5 @@ public class CheckerInfo {
   public String name;
   public String description;
   public Timestamp createdOn;
+  public Timestamp updatedOn;
 }

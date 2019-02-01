@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.api.verifier;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
@@ -33,6 +35,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gerrit.server.verifier.VerifierUUID;
 import com.google.inject.Inject;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -42,6 +45,8 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Test;
 
 @NoHttpd
@@ -91,6 +96,41 @@ public class VerifierRefsIT extends AbstractDaemonTest {
     exception.expectMessage(
         String.format("Remote does not have %s available for fetch.", verifierRef));
     fetch(repo, verifierRef + ":verifierRef");
+  }
+
+  @Test
+  public void cannotCreateVerifierRef() throws Exception {
+    grant(allProjects, RefNames.REFS_VERIFIERS + "*", Permission.CREATE);
+    grant(allProjects, RefNames.REFS_VERIFIERS + "*", Permission.PUSH);
+
+    String verifierRef = RefNames.refsVerifiers(VerifierUUID.make("my-verifier"));
+
+    TestRepository<InMemoryRepository> testRepo = cloneProject(allProjects);
+    PushOneCommit.Result r = pushFactory.create(admin.getIdent(), testRepo).to(verifierRef);
+    r.assertErrorStatus();
+    assertThat(r.getMessage()).contains("Not allowed to create verifier ref.");
+
+    try (Repository repo = repoManager.openRepository(allProjects)) {
+      assertThat(repo.exactRef(verifierRef)).isNull();
+    }
+  }
+
+  @Test
+  public void cannotDeleteVerifierRef() throws Exception {
+    grant(allProjects, RefNames.REFS_VERIFIERS + "*", Permission.DELETE, true, REGISTERED_USERS);
+
+    String verifierUuid = verifierOperations.newVerifier().create();
+    String verifierRef = RefNames.refsVerifiers(verifierUuid);
+
+    TestRepository<InMemoryRepository> testRepo = cloneProject(allProjects);
+    PushResult r = deleteRef(testRepo, verifierRef);
+    RemoteRefUpdate refUpdate = r.getRemoteUpdate(verifierRef);
+    assertThat(refUpdate.getStatus()).isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+    assertThat(refUpdate.getMessage()).contains("Not allowed to delete verifier ref.");
+
+    try (Repository repo = repoManager.openRepository(allProjects)) {
+      assertThat(repo.exactRef(verifierRef)).isNotNull();
+    }
   }
 
   @Test

@@ -1354,7 +1354,7 @@ any of their groups is used.
 
 This limit applies not only to the link:cmd-query.html[`gerrit query`]
 command, but also to the web UI results pagination size in the new
-PolyGerrit UI.
+PolyGerrit UI and, limited to the full project list, in the old GWT UI.
 
 
 [[capability_readAs]]

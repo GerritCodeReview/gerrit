@@ -87,10 +87,6 @@ import org.apache.lucene.store.Directory;
 public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  static String sortFieldName(FieldDef<?, ?> f) {
-    return f.getName() + "_SORT";
-  }
-
   private final Schema<V> schema;
   private final SitePaths sitePaths;
   private final Directory dir;

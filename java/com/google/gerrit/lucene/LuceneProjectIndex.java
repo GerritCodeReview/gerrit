@@ -54,7 +54,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
     implements ProjectIndex {
   private static final String PROJECTS = "projects";
 
-  private static final String NAME_SORT_FIELD = sortFieldName(NAME);
+  private static final String NAME_SORT_FIELD = NAME.getName();
 
   private static Term idTerm(ProjectData projectState) {
     return idTerm(projectState.getProject().getNameKey());

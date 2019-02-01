@@ -25,6 +25,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.acceptance.testing.verifier.VerifierRefSubject;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperationsImpl;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
@@ -527,6 +528,7 @@ public class GerritServer implements AutoCloseable {
             install(new NoSshModule());
             install(new AsyncReceiveCommits.Module());
             factory(ProjectResetter.Builder.Factory.class);
+            factory(VerifierRefSubject.Factory.class);
           }
 
           @Provides

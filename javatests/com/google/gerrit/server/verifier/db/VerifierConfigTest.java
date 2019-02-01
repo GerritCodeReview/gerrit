@@ -171,6 +171,57 @@ public class VerifierConfigTest extends GerritBaseTests {
     loadVerifier(verifierUuid);
   }
 
+  @Test
+  public void nameCanBeUpdated() throws Exception {
+    createArbitraryVerifier(verifierUuid);
+    String newName = "new-name";
+
+    VerifierUpdate verifierUpdate = VerifierUpdate.builder().setName(newName).build();
+    updateVerifier(verifierUuid, verifierUpdate);
+
+    Optional<Verifier> verifier = loadVerifier(verifierUuid);
+    assertThatVerifier(verifier).value().name().isEqualTo(newName);
+  }
+
+  @Test
+  public void nameCannotBeRemoved() throws Exception {
+    createArbitraryVerifier(verifierUuid);
+
+    VerifierUpdate verifierUpdate = VerifierUpdate.builder().setName("").build();
+
+    exception.expect(IOException.class);
+    exception.expectMessage(String.format("Name of the verifier %s must be defined", verifierUuid));
+    updateVerifier(verifierUuid, verifierUpdate);
+  }
+
+  @Test
+  public void descriptionCanBeUpdated() throws Exception {
+    createArbitraryVerifier(verifierUuid);
+    String newDescription = "New description";
+
+    VerifierUpdate verifierUpdate = VerifierUpdate.builder().setDescription(newDescription).build();
+    updateVerifier(verifierUuid, verifierUpdate);
+
+    Optional<Verifier> verifier = loadVerifier(verifierUuid);
+    assertThatVerifier(verifier).value().description().value().isEqualTo(newDescription);
+  }
+
+  @Test
+  public void descriptionCanBeRemoved() throws Exception {
+    createArbitraryVerifier(verifierUuid);
+
+    VerifierUpdate groupUpdate = VerifierUpdate.builder().setDescription("").build();
+    Optional<Verifier> verifier = updateVerifier(verifierUuid, groupUpdate);
+
+    assertThatVerifier(verifier).value().description().isEmpty();
+  }
+
+  private void createArbitraryVerifier(String verifierUuid) throws Exception {
+    VerifierCreation verifierCreation =
+        getPrefilledVerifierCreationBuilder().setVerifierUuid(verifierUuid).build();
+    createVerifier(verifierCreation);
+  }
+
   private VerifierCreation.Builder getPrefilledVerifierCreationBuilder() {
     return VerifierCreation.builder().setVerifierUuid(verifierUuid).setName(verifierName);
   }
@@ -186,6 +237,15 @@ public class VerifierConfigTest extends GerritBaseTests {
       VerifierCreation verifierCreation, VerifierUpdate verifierUpdate) throws Exception {
     VerifierConfig verifierConfig =
         VerifierConfig.createForNewVerifier(projectName, repository, verifierCreation);
+    verifierConfig.setVerifierUpdate(verifierUpdate);
+    commit(verifierConfig);
+    return verifierConfig.getLoadedVerifier();
+  }
+
+  private Optional<Verifier> updateVerifier(String verifierUuid, VerifierUpdate verifierUpdate)
+      throws Exception {
+    VerifierConfig verifierConfig =
+        VerifierConfig.loadForVerifier(projectName, repository, verifierUuid);
     verifierConfig.setVerifierUpdate(verifierUpdate);
     commit(verifierConfig);
     return verifierConfig.getLoadedVerifier();

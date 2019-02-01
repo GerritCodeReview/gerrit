@@ -38,6 +38,7 @@ public class Module extends RestApiModule {
 
     create(VERIFIER_KIND).to(CreateVerifier.class);
     get(VERIFIER_KIND).to(GetVerifier.class);
+    put(VERIFIER_KIND).to(UpdateVerifier.class);
 
     // Bind NoteDb implementation for verifier storage layer.
     bind(Verifiers.class).to(NoteDbVerifiers.class);

@@ -16,10 +16,21 @@ package com.google.gerrit.extensions.api.verifiers;
 
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import java.util.EnumSet;
 
 public interface VerifierApi {
   /** @return verifier info. */
   VerifierInfo get() throws RestApiException;
+
+  /**
+   * Updates a verifier.
+   *
+   * @param input input with updated properties
+   * @param options options defining which verifier properties should be updated
+   * @return updated verifier info
+   */
+  VerifierInfo update(VerifierInput input, EnumSet<UpdateVerifierOption> options)
+      throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility when adding new methods to the
@@ -28,6 +39,12 @@ public interface VerifierApi {
   class NotImplemented implements VerifierApi {
     @Override
     public VerifierInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public VerifierInfo update(VerifierInput input, EnumSet<UpdateVerifierOption> options)
+        throws RestApiException {
       throw new NotImplementedException();
     }
   }

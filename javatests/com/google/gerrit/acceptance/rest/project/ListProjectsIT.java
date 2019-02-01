@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThatNameList;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -35,15 +36,20 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.restapi.project.ListProjects;
+import com.google.inject.Inject;
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import org.junit.Test;
 
 @NoHttpd
 @Sandboxed
 public class ListProjectsIT extends AbstractDaemonTest {
+  @Inject private ListProjects listProjects;
 
   @Test
   public void listProjects() throws Exception {
@@ -117,7 +123,31 @@ public class ListProjectsIT extends AbstractDaemonTest {
     }
   }
 
-  private List<Project.NameKey> createProjects(String prefix, int numProjects) {
+  @Test
+  public void listProjectsWithOutputStream() throws Exception {
+    int numInitialProjects = gApi.projects().list().get().size();
+    int numTestProjects = 5;
+    List<String> testProjects =
+        createProjectsStream("zzz_testProject", numTestProjects)
+            .map(Project.NameKey::get)
+            .collect(Collectors.toList());
+    try (ByteArrayOutputStream displayOut = new ByteArrayOutputStream()) {
+
+      listProjects.setStart(numInitialProjects);
+      listProjects.display(displayOut);
+
+      List<String> lines =
+          Splitter.on("\n").omitEmptyStrings().splitToList(new String(displayOut.toByteArray()));
+      assertThat(lines).hasSize(numTestProjects);
+      assertThat(lines).isEqualTo(testProjects);
+    }
+  }
+
+  private void createProjects(String prefix, int numProjects) {
+    createProjectsStream(prefix, numProjects).forEach((p) -> {});
+  }
+
+  private Stream<Project.NameKey> createProjectsStream(String prefix, int numProjects) {
     return IntStream.range(0, numProjects)
         .mapToObj(
             i -> {
@@ -127,8 +157,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
               } catch (RestApiException e) {
                 throw new IllegalStateException("Unable to create project " + projectName, e);
               }
-            })
-        .collect(Collectors.toList());
+            });
   }
 
   @Test

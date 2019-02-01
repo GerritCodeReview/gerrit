@@ -22,12 +22,37 @@ public interface CheckerApi {
   CheckerInfo get() throws RestApiException;
 
   /**
+   * Updates a checker.
+   *
+   * <p>This method supports partial updates of the checker property set. Only properties that are
+   * set in the given input are updated. Properties that are not set in the input (that have `null`
+   * as value) are not touched.
+   *
+   * <p>Unsetting properties:
+   *
+   * <ul>
+   *   <li>{@code name}: Cannot be unset. Attempting to set it to an empty string ("") or a string
+   *       that is empty after trim is rejected as bad request.
+   *   <li>{@code description}: Can be unset by setting an empty string ("") for it.
+   * </ul>
+   *
+   * @param input input with updated properties
+   * @return updated checker info
+   */
+  CheckerInfo update(CheckerInput input) throws RestApiException;
+
+  /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
    */
   class NotImplemented implements CheckerApi {
     @Override
     public CheckerInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public CheckerInfo update(CheckerInput input) throws RestApiException {
       throw new NotImplementedException();
     }
   }

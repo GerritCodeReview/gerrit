@@ -18,9 +18,11 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.checkers.CheckerApi;
 import com.google.gerrit.extensions.api.checkers.CheckerInfo;
+import com.google.gerrit.extensions.api.checkers.CheckerInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.restapi.checker.CheckerResource;
 import com.google.gerrit.server.restapi.checker.GetChecker;
+import com.google.gerrit.server.restapi.checker.UpdateChecker;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -30,11 +32,15 @@ class CheckerApiImpl implements CheckerApi {
   }
 
   private final GetChecker getChecker;
+  private final UpdateChecker updateChecker;
   private final CheckerResource rsrc;
 
   @Inject
-  CheckerApiImpl(GetChecker getChecker, @Assisted CheckerResource rsrc) {
+  CheckerApiImpl(
+      GetChecker getChecker, UpdateChecker updateChecker, @Assisted CheckerResource rsrc) {
     this.getChecker = getChecker;
+    this.updateChecker = updateChecker;
+
     this.rsrc = rsrc;
   }
 
@@ -44,6 +50,15 @@ class CheckerApiImpl implements CheckerApi {
       return getChecker.apply(rsrc);
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve checker", e);
+    }
+  }
+
+  @Override
+  public CheckerInfo update(CheckerInput input) throws RestApiException {
+    try {
+      return updateChecker.apply(rsrc, input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot update checker", e);
     }
   }
 }

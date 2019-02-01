@@ -41,6 +41,8 @@ public abstract class CheckerUpdate {
    */
   public abstract Optional<Timestamp> getUpdatedOn();
 
+  public abstract Builder toBuilder();
+
   public static Builder builder() {
     return new AutoValue_CheckerUpdate.Builder();
   }

@@ -28,5 +28,6 @@ public class Module extends RestApiModule {
 
     postOnCollection(CHECKER_KIND).to(CreateChecker.class);
     get(CHECKER_KIND).to(GetChecker.class);
+    post(CHECKER_KIND).to(UpdateChecker.class);
   }
 }

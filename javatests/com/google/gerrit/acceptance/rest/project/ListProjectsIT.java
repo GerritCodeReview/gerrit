@@ -31,11 +31,14 @@ import com.google.gerrit.extensions.api.projects.Projects.ListRequest.FilterType
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.testing.Util;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.junit.Test;
 
 @NoHttpd
@@ -87,22 +90,45 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listProjectsWithLimit() throws Exception {
+  public void listProjectsWithPrefixAndWithLimit() throws Exception {
+    int numInitialProjects = gApi.projects().list().get().size();
+    int numTestProjects = 5;
     ProjectCacheImpl projectCacheImpl = (ProjectCacheImpl) projectCache;
-    for (int i = 0; i < 5; i++) {
-      createProject("someProject" + i);
-    }
+    createProjects("testProject", numTestProjects);
 
-    String p = name("");
-    // 5, plus p which was automatically created.
-    int n = 6;
+    String p = name("testProject");
     projectCacheImpl.evictAllByName();
-    for (int i = 1; i <= n + 2; i++) {
+    for (int i = 1; i <= numTestProjects + numInitialProjects; i++) {
       assertThatNameList(gApi.projects().list().withPrefix(p).withLimit(i).get())
-          .hasSize(Math.min(i, n));
+          .hasSize(Math.min(i, numTestProjects));
       assertThat(projectCacheImpl.sizeAllByName())
           .isAtMost((long) (i + 2)); // 2 = AllProjects + AllUsers
     }
+  }
+
+  @Test
+  public void listProjectsWithLimit() throws Exception {
+    int numTestProjects = 5;
+    int numSystemProjects = gApi.projects().list().get().size();
+    createProjects("testProject", numTestProjects);
+
+    for (int i = 1; i <= numTestProjects + numSystemProjects; i++) {
+      assertThatNameList(gApi.projects().list().withLimit(i).get()).hasSize(i);
+    }
+  }
+
+  private List<Project.NameKey> createProjects(String prefix, int numProjects) {
+    return IntStream.range(0, numProjects)
+        .mapToObj(
+            i -> {
+              String projectName = prefix + i;
+              try {
+                return createProject(projectName);
+              } catch (RestApiException e) {
+                throw new IllegalStateException("Unable to create project " + projectName, e);
+              }
+            })
+        .collect(Collectors.toList());
   }
 
   @Test

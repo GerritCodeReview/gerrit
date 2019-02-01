@@ -125,6 +125,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
@@ -333,8 +334,8 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
-  public void addAdditionalSysModuleForTesting(@Nullable Module m) {
-    testSysModules.add(m);
+  public void addAdditionalSysModuleForTesting(@Nullable Module... modules) {
+    testSysModules.addAll(Arrays.asList(modules));
   }
 
   @VisibleForTesting

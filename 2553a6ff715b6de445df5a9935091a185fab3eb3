@@ -46,6 +46,30 @@
       "revId": "2553a6ff715b6de445df5a9935091a185fab3eb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1c30913_764ddcaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-01T09:25:18Z",
+      "side": 1,
+      "message": "\u003e This is not really about the \"extra projects for test\" but the init of the Gerrit\n\u003e site and having All-Projects and All-Users indexed: \n\nSure, understood. I\u0027m just saying it\u0027s the same for groups that are created during init (e.g. the Administrators group). They also need to be indexed.\n\n\u003e I still think that should be done at the Gerrit start phase, not before running\n\u003e the tests, because isn\u0027t a \"test preparation\" task.\n\nSGTM. I don\u0027t have any preference on how the indexing is done, but I would prefer if we take the same solution for groups and projects. So if the new way is better, please also adapt how indexing for groups is done. Maybe as a predecessor change?",
+      "parentUuid": "dfdca97c_6cc0aef9",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "2553a6ff715b6de445df5a9935091a185fab3eb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.api.checker;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
@@ -30,6 +32,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.change.ChangeInserter;
+import com.google.gerrit.server.checker.CheckerUuid;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -42,6 +45,8 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Test;
 
 @NoHttpd
@@ -52,6 +57,41 @@ public class CheckerRefsIT extends AbstractDaemonTest {
   @Inject private Sequences seq;
   @Inject private ChangeInserter.Factory changeInserterFactory;
   @Inject private BatchUpdate.Factory updateFactory;
+
+  @Test
+  public void cannotCreateCheckerRef() throws Exception {
+    grant(allProjects, RefNames.REFS_CHECKERS + "*", Permission.CREATE);
+    grant(allProjects, RefNames.REFS_CHECKERS + "*", Permission.PUSH);
+
+    String checkerRef = RefNames.refsCheckers(CheckerUuid.make("my-checker"));
+
+    TestRepository<InMemoryRepository> testRepo = cloneProject(allProjects);
+    PushOneCommit.Result r = pushFactory.create(admin.getIdent(), testRepo).to(checkerRef);
+    r.assertErrorStatus();
+    assertThat(r.getMessage()).contains("Not allowed to create checker ref.");
+
+    try (Repository repo = repoManager.openRepository(allProjects)) {
+      assertThat(repo.exactRef(checkerRef)).isNull();
+    }
+  }
+
+  @Test
+  public void cannotDeleteCheckerRef() throws Exception {
+    grant(allProjects, RefNames.REFS_CHECKERS + "*", Permission.DELETE, true, REGISTERED_USERS);
+
+    String checkerUuid = checkerOperations.newChecker().create();
+    String checkerRef = RefNames.refsCheckers(checkerUuid);
+
+    TestRepository<InMemoryRepository> testRepo = cloneProject(allProjects);
+    PushResult r = deleteRef(testRepo, checkerRef);
+    RemoteRefUpdate refUpdate = r.getRemoteUpdate(checkerRef);
+    assertThat(refUpdate.getStatus()).isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+    assertThat(refUpdate.getMessage()).contains("Not allowed to delete checker ref.");
+
+    try (Repository repo = repoManager.openRepository(allProjects)) {
+      assertThat(repo.exactRef(checkerRef)).isNotNull();
+    }
+  }
 
   @Test
   public void updateCheckerRefsByPushIsDisabled() throws Exception {

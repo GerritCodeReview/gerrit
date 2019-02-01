@@ -138,7 +138,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
     try (ByteArrayOutputStream displayOut = new ByteArrayOutputStream()) {
 
       listProjects.setStart(numInitialProjects);
-      listProjects.display(displayOut);
+      listProjects.displayToStream(displayOut);
 
       List<String> lines =
           Splitter.on("\n").omitEmptyStrings().splitToList(new String(displayOut.toByteArray()));
@@ -148,16 +148,16 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listProjectsToOutputStreamWithJsonFormat() throws Exception {
-    listProjectsJsonWithOutputStream(OutputFormat.JSON);
+    listProjectsJsonToOutputStream(OutputFormat.JSON);
   }
 
   @Test
   public void listProjectsToOutputStreamWithJsonFormatCompact() throws Exception {
-    String jsonOutput = listProjectsJsonWithOutputStream(OutputFormat.JSON_COMPACT).trim();
+    String jsonOutput = listProjectsJsonToOutputStream(OutputFormat.JSON_COMPACT).trim();
     assertThat(jsonOutput).doesNotContain("\n");
   }
 
-  private String listProjectsJsonWithOutputStream(OutputFormat jsonFormat) throws Exception {
+  private String listProjectsJsonToOutputStream(OutputFormat jsonFormat) throws Exception {
     assertThat(jsonFormat.isJson()).isTrue();
 
     int numInitialProjects = gApi.projects().list().get().size();
@@ -170,7 +170,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
       listProjects.setStart(numInitialProjects);
       listProjects.setFormat(jsonFormat);
-      listProjects.display(displayOut);
+      listProjects.displayToStream(displayOut);
 
       String projectsJsonOutput = new String(displayOut.toByteArray());
 

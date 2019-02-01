@@ -85,6 +85,80 @@ describes the created verifier.
   }
 ----
 
+[[update-verifier]]
+=== Update Verifier
+--
+'PUT /verifiers/link:#verifier-id[\{verifier-id\}]'
+--
+
+Updates a new verifier.
+
+The properties that should be updated must be explicitly specified as
+options on the request:
+
+* `NAME`: updates the verifier name
+* `DESCRIPTION`: updates the verifier description
+
+The new property values must be set in the request body in a
+link:#verifier-input[VerifierInput] entity. The input must only have
+properties set that were specified as option.
+
+Note that only users with the
+link:access-control.html#capability_administrateVerifiers[Administrate
+Verifiers] global capability are permitted to update verifiers.
+
+.Request
+----
+  PUT /verifiers/e1f530851409c89dbba927efd0fbbaf270bfaeae&o=DESCRIPTION HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "description": "A simple verifier."
+  }
+----
+
+As response the link:#verifier-info[VerifierInfo] entity is returned that
+describes the updated verifier.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "uuid": "e1f530851409c89dbba927efd0fbbaf270bfaeae",
+    "name": "MyVerifier",
+    "description": "A simple verifier.",
+    "created_on": "2019-01-31 09:59:32.126000000"
+  }
+----
+
+To unset a property specify the option for it on the request URL and
+don't set a value for it in the input in the request body.
+
+Example to unset the description:
+
+.Request
+----
+  PUT /verifiers/e1f530851409c89dbba927efd0fbbaf270bfaeae&o=DESCRIPTION HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "uuid": "e1f530851409c89dbba927efd0fbbaf270bfaeae",
+    "name": "MyVerifier",
+    "created_on": "2019-01-31 09:59:32.126000000"
+  }
+----
+
 [[ids]]
 == IDs
 

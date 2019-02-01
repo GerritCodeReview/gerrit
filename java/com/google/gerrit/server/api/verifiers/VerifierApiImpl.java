@@ -16,13 +16,18 @@ package com.google.gerrit.server.api.verifiers;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
+import com.google.gerrit.extensions.api.verifiers.UpdateVerifierOption;
 import com.google.gerrit.extensions.api.verifiers.VerifierApi;
 import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
+import com.google.gerrit.extensions.api.verifiers.VerifierInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.restapi.verifier.GetVerifier;
+import com.google.gerrit.server.restapi.verifier.UpdateVerifier;
 import com.google.gerrit.server.restapi.verifier.VerifierResource;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import java.util.EnumSet;
 
 class VerifierApiImpl implements VerifierApi {
   interface Factory {
@@ -30,11 +35,16 @@ class VerifierApiImpl implements VerifierApi {
   }
 
   private final GetVerifier getVerifier;
+  private final Provider<UpdateVerifier> updateVerifierProvider;
   private final VerifierResource rsrc;
 
   @Inject
-  VerifierApiImpl(GetVerifier getVerifier, @Assisted VerifierResource rsrc) {
+  VerifierApiImpl(
+      GetVerifier getVerifier,
+      Provider<UpdateVerifier> updateVerifier,
+      @Assisted VerifierResource rsrc) {
     this.getVerifier = getVerifier;
+    this.updateVerifierProvider = updateVerifier;
     this.rsrc = rsrc;
   }
 
@@ -44,6 +54,18 @@ class VerifierApiImpl implements VerifierApi {
       return getVerifier.apply(rsrc);
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve verifier", e);
+    }
+  }
+
+  @Override
+  public VerifierInfo update(VerifierInput input, EnumSet<UpdateVerifierOption> options)
+      throws RestApiException {
+    try {
+      UpdateVerifier updateVerifier = updateVerifierProvider.get();
+      options.forEach(o -> updateVerifier.addOption(o));
+      return updateVerifier.apply(rsrc, input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot update verifier", e);
     }
   }
 }

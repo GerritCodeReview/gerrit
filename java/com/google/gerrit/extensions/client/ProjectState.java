@@ -16,21 +16,23 @@ package com.google.gerrit.extensions.client;
 
 public enum ProjectState {
   /** Permits reading project state and contents as well as mutating data. */
-  ACTIVE(true, true),
+  ACTIVE(true, true, "active"),
   /** Permits reading project state and contents. Does not permit any modifications. */
-  READ_ONLY(true, false),
+  READ_ONLY(true, false, "read-only"),
   /**
    * Hides the project as if it was deleted, but makes requests fail with an error message that
    * reveals the project's existence.
    */
-  HIDDEN(false, false);
+  HIDDEN(false, false, null);
 
   private final boolean permitsRead;
   private final boolean permitsWrite;
+  private final String queryValue;
 
-  ProjectState(boolean permitsRead, boolean permitsWrite) {
+  ProjectState(boolean permitsRead, boolean permitsWrite, String queryValue) {
     this.permitsRead = permitsRead;
     this.permitsWrite = permitsWrite;
+    this.queryValue = queryValue;
   }
 
   public boolean permitsRead() {
@@ -39,5 +41,9 @@ public enum ProjectState {
 
   public boolean permitsWrite() {
     return permitsWrite;
+  }
+
+  public String toQueryValue() {
+    return queryValue;
   }
 }

@@ -113,7 +113,7 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
       }
       return projectInfos;
     } catch (QueryParseException e) {
-      throw new BadRequestException(e.getMessage());
+      throw new BadRequestException(e.getMessage(), e);
     }
   }
 }

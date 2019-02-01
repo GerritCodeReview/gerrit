@@ -14,6 +14,10 @@
 
 package com.google.gerrit.acceptance.testsuite.verifier;
 
+import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.revwalk.RevCommit;
+
 /**
  * An aggregation of operations on verifiers for test purposes.
  *
@@ -73,5 +77,28 @@ public interface VerifierOperations {
      * @return the corresponding {@code TestVerifier}
      */
     TestVerifier get();
+
+    /**
+     * Retrieves the tip commit of the verifier ref.
+     *
+     * <p><strong>Note:</strong>This call will fail with an exception if the verifier doesn't exist.
+     *
+     * @return the tip commit of the verifier ref
+     * @throws IOException if reading the commit fails
+     */
+    RevCommit commit() throws IOException;
+
+    /**
+     * Retrieves the verifier config as text.
+     *
+     * <p>This call reads the verifier config from the verifier ref and returns it as text.
+     *
+     * <p><strong>Note:</strong>This call will fail with an exception if the verifier doesn't exist.
+     *
+     * @return the verifier config as text
+     * @throws IOException if reading the verifier config fails
+     * @throws ConfigInvalidException if the verifier config is invalid
+     */
+    String configText() throws IOException, ConfigInvalidException;
   }
 }

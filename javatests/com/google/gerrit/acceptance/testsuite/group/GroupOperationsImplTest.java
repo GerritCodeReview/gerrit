@@ -31,13 +31,9 @@ import com.google.inject.Inject;
 import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.Optional;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class GroupOperationsImplTest extends AbstractDaemonTest {
-
-  @Rule public ExpectedException expectedException = ExpectedException.none();
 
   @Inject private AccountOperations accountOperations;
 
@@ -231,7 +227,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   public void retrievingNotExistingGroupFails() throws Exception {
     AccountGroup.UUID notExistingGroupUuid = new AccountGroup.UUID("not-existing-group");
 
-    expectedException.expect(IllegalStateException.class);
+    exception.expect(IllegalStateException.class);
     groupOperations.group(notExistingGroupUuid).get();
   }
 

@@ -14,6 +14,10 @@
 
 package com.google.gerrit.acceptance.testsuite.checker;
 
+import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.revwalk.RevCommit;
+
 /**
  * An aggregation of operations on checkers for test purposes.
  *
@@ -73,5 +77,28 @@ public interface CheckerOperations {
      * @return the corresponding {@code TestChecker}
      */
     TestChecker get();
+
+    /**
+     * Retrieves the tip commit of the checker ref.
+     *
+     * <p><strong>Note:</strong>This call will fail with an exception if the checker doesn't exist.
+     *
+     * @return the tip commit of the checker ref
+     * @throws IOException if reading the commit fails
+     */
+    RevCommit commit() throws IOException;
+
+    /**
+     * Retrieves the checker config as text.
+     *
+     * <p>This call reads the checker config from the checker ref and returns it as text.
+     *
+     * <p><strong>Note:</strong>This call will fail with an exception if the checker doesn't exist.
+     *
+     * @return the checker config as text
+     * @throws IOException if reading the checker config fails
+     * @throws ConfigInvalidException if the checker config is invalid
+     */
+    String configText() throws IOException, ConfigInvalidException;
   }
 }

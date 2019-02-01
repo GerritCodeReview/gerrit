@@ -15,44 +15,48 @@
 package com.google.gerrit.acceptance.api.verifier;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static com.google.gerrit.server.testing.CommitSubject.assertCommit;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
-import com.google.gerrit.acceptance.testsuite.verifier.TestVerifier;
 import com.google.gerrit.acceptance.testsuite.verifier.VerifierOperations;
+import com.google.gerrit.acceptance.testsuite.verifier.VerifierOperations.PerVerifierOperations;
 import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
 import com.google.gerrit.extensions.api.verifiers.VerifierInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.verifier.db.VerifierConfig;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.TreeWalk;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 @SkipProjectClone
 public class CreateVerifierIT extends AbstractDaemonTest {
-  @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private VerifierOperations verifierOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @ConfigSuite.Default
   public static Config defaultConfig() {
     Config cfg = new Config();
     cfg.setBoolean("verifier", "api", "enabled", true);
     return cfg;
+  }
+
+  @Before
+  public void setTimeForTesting() {
+    TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
+  }
+
+  @After
+  public void resetTime() {
+    TestTimeUtil.useSystemTime();
   }
 
   @Test
@@ -64,8 +68,12 @@ public class CreateVerifierIT extends AbstractDaemonTest {
     assertThat(info.name).isEqualTo(input.name);
     assertThat(info.description).isNull();
     assertThat(info.createdOn).isNotNull();
+    assertThat(info.updatedOn).isEqualTo(info.createdOn);
 
-    assertVerifierRef(info.uuid, "[verifier]\n\tname = " + input.name + "\n");
+    PerVerifierOperations perVeriferOps = verifierOperations.verifier(info.uuid);
+    assertCommit(
+        perVeriferOps.commit(), "Create verifier", info.createdOn, perVeriferOps.get().refState());
+    assertThat(perVeriferOps.configText()).isEqualTo("[verifier]\n\tname = my-verifier\n");
   }
 
   @Test
@@ -76,15 +84,12 @@ public class CreateVerifierIT extends AbstractDaemonTest {
     VerifierInfo info = gApi.verifiers().create(input).get();
     assertThat(info.description).isEqualTo(input.description);
 
-    assertVerifierRef(
-        info.uuid,
-        "[verifier]\n"
-            + "\tname = "
-            + input.name
-            + "\n"
-            + "\tdescription = "
-            + input.description
-            + "\n");
+    PerVerifierOperations perVeriferOps = verifierOperations.verifier(info.uuid);
+    assertCommit(
+        perVeriferOps.commit(), "Create verifier", info.createdOn, perVeriferOps.get().refState());
+    assertThat(perVeriferOps.configText())
+        .isEqualTo(
+            "[verifier]\n" + "\tname = my-verifier\n" + "\tdescription = some description\n");
   }
 
   @Test
@@ -94,7 +99,10 @@ public class CreateVerifierIT extends AbstractDaemonTest {
     VerifierInfo info = gApi.verifiers().create(input).get();
     assertThat(info.name).isEqualTo("my-verifier");
 
-    assertVerifierRef(info.uuid, "[verifier]\n\tname = my-verifier\n");
+    PerVerifierOperations perVeriferOps = verifierOperations.verifier(info.uuid);
+    assertCommit(
+        perVeriferOps.commit(), "Create verifier", info.createdOn, perVeriferOps.get().refState());
+    assertThat(perVeriferOps.configText()).isEqualTo("[verifier]\n\tname = my-verifier\n");
   }
 
   @Test
@@ -105,8 +113,12 @@ public class CreateVerifierIT extends AbstractDaemonTest {
     VerifierInfo info = gApi.verifiers().create(input).get();
     assertThat(info.description).isEqualTo("some description");
 
-    assertVerifierRef(
-        info.uuid, "[verifier]\n\tname = " + input.name + "\n\tdescription = some description\n");
+    PerVerifierOperations perVeriferOps = verifierOperations.verifier(info.uuid);
+    assertCommit(
+        perVeriferOps.commit(), "Create verifier", info.createdOn, perVeriferOps.get().refState());
+    assertThat(perVeriferOps.configText())
+        .isEqualTo(
+            "[verifier]\n" + "\tname = my-verifier\n" + "\tdescription = some description\n");
   }
 
   @Test
@@ -161,32 +173,5 @@ public class CreateVerifierIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("administrate verifiers not permitted");
     gApi.verifiers().create(input);
-  }
-
-  private void assertVerifierRef(String verifierUuid, String expectedVerifierConfig)
-      throws Exception {
-    try (Repository repo = repoManager.openRepository(allProjects);
-        RevWalk rw = new RevWalk(repo);
-        ObjectReader or = repo.newObjectReader()) {
-      Ref ref = repo.exactRef(RefNames.refsVerifiers(verifierUuid));
-      assertThat(ref).isNotNull();
-      RevCommit c = rw.parseCommit(ref.getObjectId());
-
-      TestVerifier verifier = verifierOperations.verifier(verifierUuid).get();
-      long timestampDiffMs = Math.abs(c.getCommitTime() * 1000L - verifier.createdOn().getTime());
-      assertThat(timestampDiffMs).isAtMost(SECONDS.toMillis(1));
-
-      // Check the 'verifier.config' file.
-      try (TreeWalk tw = TreeWalk.forPath(or, VerifierConfig.VERIFIER_CONFIG_FILE, c.getTree())) {
-        assertThat(tw).isNotNull();
-
-        // Parse as Config to ensure it's a valid config file.
-        Config cfg = new Config();
-        cfg.fromText(new String(or.open(tw.getObjectId(0), OBJ_BLOB).getBytes(), UTF_8));
-
-        // Verify that the content is as expected.
-        assertThat(cfg.toText()).isEqualTo(expectedVerifierConfig);
-      }
-    }
   }
 }

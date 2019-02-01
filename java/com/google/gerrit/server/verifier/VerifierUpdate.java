@@ -41,6 +41,8 @@ public abstract class VerifierUpdate {
    */
   public abstract Optional<Timestamp> getUpdatedOn();
 
+  public abstract Builder toBuilder();
+
   public static Builder builder() {
     return new AutoValue_VerifierUpdate.Builder();
   }

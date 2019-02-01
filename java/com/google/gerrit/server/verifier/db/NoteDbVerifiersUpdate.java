@@ -15,6 +15,7 @@
 package com.google.gerrit.server.verifier.db;
 
 import com.google.common.base.Throwables;
+import com.google.gerrit.common.errors.NoSuchVerifierException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.reviewdb.client.Project;
@@ -25,6 +26,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.server.verifier.Verifier;
 import com.google.gerrit.server.verifier.VerifierCreation;
 import com.google.gerrit.server.verifier.VerifierUpdate;
@@ -33,6 +35,7 @@ import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -202,5 +205,53 @@ class NoteDbVerifiersUpdate implements VerifiersUpdate {
     MetaDataUpdate create(
         Project.NameKey projectName, Repository repository, BatchRefUpdate batchRefUpdate)
         throws IOException;
+  }
+
+  @Override
+  public Verifier updateVerifier(String verifierUuid, VerifierUpdate verifierUpdate)
+      throws NoSuchVerifierException, IOException, ConfigInvalidException {
+    Optional<Timestamp> updatedOn = verifierUpdate.getUpdatedOn();
+    if (!updatedOn.isPresent()) {
+      updatedOn = Optional.of(TimeUtil.nowTs());
+      verifierUpdate = verifierUpdate.toBuilder().setUpdatedOn(updatedOn.get()).build();
+    }
+    return updateVerifierWithRetry(verifierUuid, verifierUpdate);
+  }
+
+  private Verifier updateVerifierWithRetry(String verifierUuid, VerifierUpdate verifierUpdate)
+      throws NoSuchVerifierException, IOException, ConfigInvalidException {
+    try {
+      return retryHelper.execute(
+          RetryHelper.ActionType.VERIFIER_UPDATE,
+          () -> updateVerifierInNoteDb(verifierUuid, verifierUpdate),
+          LockFailureException.class::isInstance);
+    } catch (Exception e) {
+      Throwables.throwIfUnchecked(e);
+      Throwables.throwIfInstanceOf(e, IOException.class);
+      Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
+      Throwables.throwIfInstanceOf(e, NoSuchVerifierException.class);
+      throw new IOException(e);
+    }
+  }
+
+  private Verifier updateVerifierInNoteDb(String verifierUuid, VerifierUpdate verifierUpdate)
+      throws IOException, ConfigInvalidException, NoSuchVerifierException {
+    try (Repository allProjectsRepo = repoManager.openRepository(allProjectsName)) {
+      VerifierConfig verifierConfig =
+          VerifierConfig.loadForVerifier(allProjectsName, allProjectsRepo, verifierUuid);
+      verifierConfig.setVerifierUpdate(verifierUpdate);
+      if (!verifierConfig.getLoadedVerifier().isPresent()) {
+        throw new NoSuchVerifierException(verifierUuid);
+      }
+
+      commit(allProjectsRepo, verifierConfig);
+
+      Verifier updatedVerifier =
+          verifierConfig
+              .getLoadedVerifier()
+              .orElseThrow(
+                  () -> new IllegalStateException("Updated verifier wasn't automatically loaded"));
+      return updatedVerifier;
+    }
   }
 }

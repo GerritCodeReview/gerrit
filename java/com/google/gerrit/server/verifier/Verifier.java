@@ -58,6 +58,13 @@ public abstract class Verifier {
   public abstract Timestamp getCreatedOn();
 
   /**
+   * Returns the timestamp of when the verifier was last updated.
+   *
+   * @return the last updated timestamp
+   */
+  public abstract Timestamp getUpdatedOn();
+
+  /**
    * Returns the ref state of the verifier.
    *
    * @return the ref state
@@ -80,6 +87,8 @@ public abstract class Verifier {
     public abstract Builder setDescription(String description);
 
     public abstract Builder setCreatedOn(Timestamp createdOn);
+
+    public abstract Builder setUpdatedOn(Timestamp updatedOn);
 
     public abstract Builder setRefState(ObjectId refState);
 

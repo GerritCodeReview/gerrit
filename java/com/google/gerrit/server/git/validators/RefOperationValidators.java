@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.events.RefReceivedEvent;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -51,6 +52,7 @@ public class RefOperationValidators {
   }
 
   private final PermissionBackend.WithUser perm;
+  private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
   private final PluginSetContext<RefOperationValidationListener> refOperationValidationListeners;
   private final RefReceivedEvent event;
@@ -58,12 +60,14 @@ public class RefOperationValidators {
   @Inject
   RefOperationValidators(
       PermissionBackend permissionBackend,
+      AllProjectsName allProjectsName,
       AllUsersName allUsersName,
       PluginSetContext<RefOperationValidationListener> refOperationValidationListeners,
       @Assisted Project project,
       @Assisted IdentifiedUser user,
       @Assisted ReceiveCommand cmd) {
     this.perm = permissionBackend.user(user);
+    this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.refOperationValidationListeners = refOperationValidationListeners;
     event = new RefReceivedEvent();
@@ -77,7 +81,8 @@ public class RefOperationValidators {
     boolean withException = false;
     try {
       messages.addAll(
-          new DisallowCreationAndDeletionOfUserBranches(perm, allUsersName).onRefOperation(event));
+          new DisallowCreationAndDeletionOfUserBranches(perm, allProjectsName, allUsersName)
+              .onRefOperation(event));
       refOperationValidationListeners.runEach(
           l -> l.onRefOperation(event), ValidationException.class);
     } catch (ValidationException e) {
@@ -113,18 +118,30 @@ public class RefOperationValidators {
   private static class DisallowCreationAndDeletionOfUserBranches
       implements RefOperationValidationListener {
     private final PermissionBackend.WithUser perm;
+    private final AllProjectsName allProjectsName;
     private final AllUsersName allUsersName;
 
     DisallowCreationAndDeletionOfUserBranches(
-        PermissionBackend.WithUser perm, AllUsersName allUsersName) {
+        PermissionBackend.WithUser perm,
+        AllProjectsName allProjectsName,
+        AllUsersName allUsersName) {
       this.perm = perm;
+      this.allProjectsName = allProjectsName;
       this.allUsersName = allUsersName;
     }
 
     @Override
     public List<ValidationMessage> onRefOperation(RefReceivedEvent refEvent)
         throws ValidationException {
-      if (refEvent.project.getNameKey().equals(allUsersName)) {
+      if (refEvent.project.getNameKey().equals(allProjectsName)) {
+        if (RefNames.isRefsVerifiers(refEvent.command.getRefName())) {
+          if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {
+            throw new ValidationException("Not allowed to create verifier ref.");
+          } else if (refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {
+            throw new ValidationException("Not allowed to delete verifier ref.");
+          }
+        }
+      } else if (refEvent.project.getNameKey().equals(allUsersName)) {
         if (refEvent.command.getRefName().startsWith(RefNames.REFS_USERS)
             && !refEvent.command.getRefName().equals(RefNames.REFS_USERS_DEFAULT)) {
           if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {

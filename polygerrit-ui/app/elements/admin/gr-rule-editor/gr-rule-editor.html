@@ -71,7 +71,11 @@ limitations under the License.
         color: var(--deemphasized-text-color);
       }
     </style>
-    <style include="gr-form-styles"></style>
+    <style include="gr-form-styles">
+      iron-autogrow-textarea {
+        width: 14em;
+      }
+    </style>
     <div id="mainContainer"
         class$="gr-form-styles [[_computeSectionClass(editing, _deleted)]]">
       <div id="options">
@@ -105,6 +109,24 @@ limitations under the License.
               </template>
             </select>
           </gr-select>
+        </template>
+        <template is="dom-if" if="[[_computeHasRange(name)]]">
+          <iron-autogrow-textarea
+              id="minInput"
+              class="min"
+              autocomplete="on"
+              placeholder="Min value"
+              bind-value="{{rule.value.min}}"
+              value="0"
+              disabled$="[[!editing]]"></iron-autogrow-textarea>
+          <iron-autogrow-textarea
+              id="maxInput"
+              class="max"
+              autocomplete="on"
+              placeholder="Max value"
+              bind-value="{{rule.value.max}}"
+              value="500"
+              disabled$="[[!editing]]"></iron-autogrow-textarea>
         </template>
         <a class="groupPath" href$="[[_computeGroupPath(groupId)]]">
           [[groupName]]

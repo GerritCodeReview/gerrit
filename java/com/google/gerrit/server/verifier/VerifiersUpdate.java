@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.verifier;
 
+import com.google.gerrit.common.errors.NoSuchVerifierException;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -47,4 +48,18 @@ public interface VerifiersUpdate {
    */
   Verifier createVerifier(VerifierCreation verifierCreation, VerifierUpdate verifierUpdate)
       throws OrmDuplicateKeyException, IOException, ConfigInvalidException;
+
+  /**
+   * Updates the specified verifier.
+   *
+   * @param verifierUuid the UUID of the verifier to update
+   * @param verifierUpdate an {@code VerifierUpdate} which indicates the desired updates on the
+   *     verifier
+   * @throws NoSuchVerifierException if the specified verifier doesn't exist
+   * @throws IOException if an error occurs while reading/writing from/to storage
+   * @throws ConfigInvalidException if the existing verifier config is invalid
+   * @return the updated {@code Verifier}
+   */
+  Verifier updateVerifier(String verifierUuid, VerifierUpdate verifierUpdate)
+      throws NoSuchVerifierException, IOException, ConfigInvalidException;
 }

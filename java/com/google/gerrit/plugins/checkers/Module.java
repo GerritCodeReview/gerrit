@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.plugins.checkers.db.NoteDbCheckersModule;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidationListener;
+import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 
 public class Module extends FactoryModule {
   @Override
@@ -32,6 +33,9 @@ public class Module extends FactoryModule {
         .in(SINGLETON);
     DynamicSet.bind(binder(), MergeValidationListener.class)
         .to(CheckerMergeValidator.class)
+        .in(SINGLETON);
+    DynamicSet.bind(binder(), RefOperationValidationListener.class)
+        .to(CheckerRefOperationValidator.class)
         .in(SINGLETON);
   }
 }

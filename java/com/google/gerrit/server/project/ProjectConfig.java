@@ -50,6 +50,7 @@ import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -1542,6 +1543,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return m.stream().sorted().collect(toImmutableList());
   }
 
+  @UsedAt(UsedAt.Project.GOOGLE)
   public boolean hasLegacyPermissions() {
     return hasLegacyPermissions;
   }

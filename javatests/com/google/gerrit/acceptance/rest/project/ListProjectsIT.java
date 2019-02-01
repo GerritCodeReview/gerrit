@@ -19,6 +19,8 @@ import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThat
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -34,16 +36,24 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.restapi.project.ListProjects;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.inject.Inject;
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.IntStream;
 import org.junit.Test;
 
 @NoHttpd
 @Sandboxed
 public class ListProjectsIT extends AbstractDaemonTest {
+  @Inject private ListProjects listProjects;
 
   @Test
   public void listProjects() throws Exception {
@@ -117,7 +127,57 @@ public class ListProjectsIT extends AbstractDaemonTest {
     }
   }
 
-  private List<Project.NameKey> createProjects(String prefix, int numProjects) {
+  @Test
+  public void listProjectsToOutputStream() throws Exception {
+    int numInitialProjects = gApi.projects().list().get().size();
+    int numTestProjects = 5;
+    List<String> testProjects = createProjects("zzz_testProject", numTestProjects);
+    try (ByteArrayOutputStream displayOut = new ByteArrayOutputStream()) {
+
+      listProjects.setStart(numInitialProjects);
+      listProjects.display(displayOut);
+
+      List<String> lines =
+          Splitter.on("\n").omitEmptyStrings().splitToList(new String(displayOut.toByteArray()));
+      assertThat(lines).isEqualTo(testProjects);
+    }
+  }
+
+  @Test
+  public void listProjectsAsJsonMultilineToOutputStream() throws Exception {
+    listProjectsAsJsonToOutputStream(OutputFormat.JSON);
+  }
+
+  @Test
+  public void listProjectsAsJsonCompactToOutputStream() throws Exception {
+    String jsonOutput = listProjectsAsJsonToOutputStream(OutputFormat.JSON_COMPACT).trim();
+    assertThat(jsonOutput).doesNotContain("\n");
+  }
+
+  private String listProjectsAsJsonToOutputStream(OutputFormat jsonFormat) throws Exception {
+    assertThat(jsonFormat.isJson()).isTrue();
+
+    int numInitialProjects = gApi.projects().list().get().size();
+    int numTestProjects = 5;
+    Set<String> testProjects =
+        ImmutableSet.copyOf(createProjects("zzz_testProject", numTestProjects));
+    try (ByteArrayOutputStream displayOut = new ByteArrayOutputStream()) {
+
+      listProjects.setStart(numInitialProjects);
+      listProjects.setFormat(jsonFormat);
+      listProjects.display(displayOut);
+
+      String projectsJsonOutput = new String(displayOut.toByteArray());
+
+      Gson gson = jsonFormat.newGson();
+      Set<String> projectsJsonNames = gson.fromJson(projectsJsonOutput, JsonObject.class).keySet();
+      assertThat(projectsJsonNames).isEqualTo(testProjects);
+
+      return projectsJsonOutput;
+    }
+  }
+
+  private List<String> createProjects(String prefix, int numProjects) {
     return IntStream.range(0, numProjects)
         .mapToObj(
             i -> {
@@ -128,6 +188,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
                 throw new IllegalStateException("Unable to create project " + projectName, e);
               }
             })
+        .map(Project.NameKey::get)
         .collect(toList());
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c305cebd_9d6dee27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-01T07:45:11Z",
+      "side": 1,
+      "message": "IIUC this problem is similar to the need of having the groups that are created during init indexed before the tests run?\n\nThe indexing of groups happens in the AbstractDaemonTest#beforeTest method. How is your approach better than this? I would prefer if we have a consistent solution for both the groups and the projects.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "2553a6ff715b6de445df5a9935091a185fab3eb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

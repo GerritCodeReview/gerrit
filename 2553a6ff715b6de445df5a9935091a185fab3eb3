@@ -22,6 +22,30 @@
       "revId": "2553a6ff715b6de445df5a9935091a185fab3eb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfdca97c_6cc0aef9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-01T09:17:39Z",
+      "side": 1,
+      "message": "This is not really about the \"extra projects for test\" but the init of the Gerrit site and having All-Projects and All-Users indexed: when working on disk, it is done inside the init, but when working with the InMemoryRepository, it isn\u0027t.\nStarting Gerrit with a consistent index is paramount for testing, otherwise we test into a \"dirty\" Gerrit server environment.\n\nI still think that should be done at the Gerrit start phase, not before running the tests, because isn\u0027t a \"test preparation\" task.\n\nWDYT?",
+      "parentUuid": "c305cebd_9d6dee27",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "2553a6ff715b6de445df5a9935091a185fab3eb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

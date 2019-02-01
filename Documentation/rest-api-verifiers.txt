@@ -82,7 +82,64 @@ describes the created verifier.
     "uuid": "e1f530851409c89dbba927efd0fbbaf270bfaeae",
     "name": "MyVerifier",
     "description": "A simple verifier.",
-    "created_on": "2019-01-31 09:59:32.126000000"
+    "created_on": "2019-01-31 09:59:32.126000000",
+    "updated_on": "2019-01-31 09:59:32.126000000"
+  }
+----
+
+[[update-verifier]]
+=== Update Verifier
+--
+'POST /verifiers/link:#verifier-id[\{verifier-id\}]'
+--
+
+Updates a verifier.
+
+The new property values must be set in the request body in a
+link:#verifier-input[VerifierInput] entity.
+
+This REST endpoint supports partial updates of the verifier property
+set. Only properties that are set in the link:#verifier-input[
+VerifierInput] entity are updated. Properties that are not set in the
+input (that have `null` as value) are not touched.
+
+Unsetting properties:
+
+* `name`: Cannot be unset. Attempting to set it to an empty string ("")
+   or a string that is empty after trim is rejected as
+   `400 Bad Request`.
+* `description`: Can be unset by setting an empty string ("") for it.
+
+Note that only users with the
+link:access-control.html#capability_administrateVerifiers[Administrate
+Verifiers] global capability are permitted to update verifiers.
+
+.Request
+----
+  POST /verifiers/e1f530851409c89dbba927efd0fbbaf270bfaeae HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "description": "A simple verifier."
+  }
+----
+
+As response the link:#verifier-info[VerifierInfo] entity is returned that
+describes the updated verifier.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "uuid": "e1f530851409c89dbba927efd0fbbaf270bfaeae",
+    "name": "MyVerifier",
+    "description": "A simple verifier.",
+    "created_on": "2019-01-31 09:59:32.126000000",
+    "updated_on": "2019-02-01 07:23:44.158000000"
   }
 ----
 
@@ -119,6 +176,9 @@ The description of the verifier.
 |`created_on`    ||
 The link:rest-api.html#timestamp[timestamp] of when the verifier was
 created.
+|`updated_on`    ||
+The link:rest-api.html#timestamp[timestamp] of when the verifier was
+last updated.
 |=============================
 
 [[verifier-input]]
@@ -128,8 +188,8 @@ The `VerifierInput` entity contains information for creating a verifier.
 [options="header",cols="1,^2,4"]
 |=============================
 |Field Name      ||Description
-|`name`          ||
-The name of the verifier.
+|`name`          |optional|
+The name of the verifier. Must be specified for verifier creation.
 |`description`   |optional|
 The description of the verifier.
 |=============================

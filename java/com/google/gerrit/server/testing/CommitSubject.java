@@ -1,0 +1,68 @@
+// Copyright (C) 2019 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.testing;
+
+import static com.google.common.truth.Truth.assertAbout;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import com.google.common.truth.FailureMetadata;
+import com.google.common.truth.Subject;
+import com.google.common.truth.Truth;
+import java.sql.Timestamp;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
+
+public class CommitSubject extends Subject<CommitSubject, RevCommit> {
+  public static CommitSubject assertThat(RevCommit commit) {
+    return assertAbout(CommitSubject::new).that(commit);
+  }
+
+  public static void assertCommit(
+      RevCommit commit,
+      String expectedCommitMessage,
+      Timestamp expectedCommitTimestamp,
+      ObjectId expectedSha1) {
+    CommitSubject commitSubject = assertThat(commit);
+    commitSubject.hasCommitMessage(expectedCommitMessage);
+    commitSubject.hasCommitTimestamp(expectedCommitTimestamp);
+    commitSubject.hasSha1(expectedSha1);
+  }
+
+  private CommitSubject(FailureMetadata metadata, RevCommit actual) {
+    super(metadata, actual);
+  }
+
+  public void hasCommitMessage(String expectedCommitMessage) {
+    isNotNull();
+    RevCommit commit = actual();
+    Truth.assertThat(commit.getFullMessage())
+        .named("commit message")
+        .isEqualTo(expectedCommitMessage);
+  }
+
+  public void hasCommitTimestamp(Timestamp expectedCommitTimestamp) {
+    isNotNull();
+    RevCommit commit = actual();
+    long timestampDiffMs =
+        Math.abs(commit.getCommitTime() * 1000L - expectedCommitTimestamp.getTime());
+    Truth.assertThat(timestampDiffMs).named("commit timestamp diff").isAtMost(SECONDS.toMillis(1));
+  }
+
+  public void hasSha1(ObjectId expectedSha1) {
+    isNotNull();
+    RevCommit commit = actual();
+    Truth.assertThat(commit).named("SHA1").isEqualTo(expectedSha1);
+  }
+}

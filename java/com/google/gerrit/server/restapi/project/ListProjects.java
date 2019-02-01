@@ -340,6 +340,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             && isNullOrEmpty(matchSubstring)
             && type == FilterType.ALL
             && isNullOrEmptyList(showBranch)
+            && !showTree
         ? Optional.of(stateToQuery())
         : Optional.empty();
   }
@@ -361,31 +362,54 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
   private SortedMap<String, ProjectInfo> applyAsQuery(String query) throws BadRequestException {
     try {
-      QueryProjects queryProjects = queryProjectsProvider.get();
-      queryProjects.setQuery(query);
-
-      Stream<ProjectInfo> projects = queryProjects.apply(null).stream().skip(start);
-      if (limit > 0) {
-        projects = projects.limit(limit);
-      }
-
-      return projects.collect(
-          ImmutableSortedMap.toImmutableSortedMap(
-              natural(),
-              (p) -> {
-                return p.name;
-              },
-              (p) -> {
-                if (showDescription) {
-                  return p;
-                }
-                p.description = null;
-                return p;
-              }));
+      return newProjectsStream(query)
+          .collect(
+              ImmutableSortedMap.toImmutableSortedMap(
+                  natural(),
+                  (p) -> {
+                    return p.name;
+                  },
+                  (p) -> {
+                    if (showDescription) {
+                      return p;
+                    }
+                    p.description = null;
+                    return p;
+                  }));
     } catch (OrmException | MethodNotAllowedException e) {
       logger.atWarning().log("Internal error while processing the query '{}' request", query, e);
       throw new BadRequestException("Internal error while processing the query request");
     }
+  }
+
+  private void displayToOutputStream(String query, PrintWriter out) throws BadRequestException {
+    try {
+      if (format.isJson()) {
+        format.newGson().toJson(applyAsQuery(query), out);
+      } else {
+        newProjectsStream(query)
+            .forEach(
+                (p) -> {
+                  out.println(p.name);
+                });
+      }
+      out.flush();
+    } catch (OrmException | MethodNotAllowedException e) {
+      throw new BadRequestException("Internal error while processing the query request", e);
+    }
+  }
+
+  private Stream<ProjectInfo> newProjectsStream(String query)
+      throws OrmException, MethodNotAllowedException, BadRequestException {
+    QueryProjects queryProjects = queryProjectsProvider.get();
+    queryProjects.setQuery(query);
+
+    Stream<ProjectInfo> projects = queryProjects.apply(null).stream().skip(start);
+    if (limit > 0) {
+      projects = projects.limit(limit);
+    }
+
+    return projects;
   }
 
   public SortedMap<String, ProjectInfo> display(@Nullable OutputStream displayOutputStream)
@@ -407,6 +431,12 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     if (displayOutputStream != null) {
       stdout =
           new PrintWriter(new BufferedWriter(new OutputStreamWriter(displayOutputStream, UTF_8)));
+    }
+
+    Optional<String> projectsQuery = expressAsProjectsQuery();
+    if (projectsQuery.isPresent()) {
+      displayToOutputStream(projectsQuery.get(), stdout);
+      return null;
     }
 
     if (type == FilterType.PARENT_CANDIDATES) {

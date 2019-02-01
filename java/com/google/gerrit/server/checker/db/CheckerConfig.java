@@ -208,10 +208,11 @@ public class CheckerConfig extends VersionedMetaData {
       rw.sort(RevSort.REVERSE);
       RevCommit earliestCommit = rw.next();
       Timestamp createdOn = new Timestamp(earliestCommit.getCommitTime() * 1000L);
+      Timestamp updatedOn = new Timestamp(rw.parseCommit(revision).getCommitTime() * 1000L);
 
       Config config = readConfig(CHECKER_CONFIG_FILE);
       loadedChecker =
-          Optional.of(createFrom(checkerUuid, config, createdOn, revision.toObjectId()));
+          Optional.of(createFrom(checkerUuid, config, createdOn, updatedOn, revision.toObjectId()));
     }
 
     isLoaded = true;
@@ -266,7 +267,7 @@ public class CheckerConfig extends VersionedMetaData {
       throws IOException, ConfigInvalidException {
     Config config = updateCheckerProperties();
     Timestamp createdOn = loadedChecker.map(Checker::getCreatedOn).orElse(commitTimestamp);
-    return createBuilderFrom(checkerUuid, config, createdOn);
+    return createBuilderFrom(checkerUuid, config, createdOn, commitTimestamp);
   }
 
   private Config updateCheckerProperties() throws IOException, ConfigInvalidException {
@@ -284,19 +285,26 @@ public class CheckerConfig extends VersionedMetaData {
   }
 
   private static Checker.Builder createBuilderFrom(
-      String checkerUuid, Config config, Timestamp createdOn) throws ConfigInvalidException {
+      String checkerUuid, Config config, Timestamp createdOn, Timestamp updatedOn)
+      throws ConfigInvalidException {
     Checker.Builder checker = Checker.builder(checkerUuid);
     for (CheckerConfigEntry configEntry : CheckerConfigEntry.values()) {
       configEntry.readFromConfig(checkerUuid, checker, config);
     }
-    checker.setCreatedOn(createdOn);
+    checker.setCreatedOn(createdOn).setUpdatedOn(updatedOn);
     return checker;
   }
 
   private static Checker createFrom(
-      String checkerUuid, Config config, Timestamp createdOn, ObjectId refState)
+      String checkerUuid,
+      Config config,
+      Timestamp createdOn,
+      Timestamp updatedOn,
+      ObjectId refState)
       throws ConfigInvalidException {
-    return createBuilderFrom(checkerUuid, config, createdOn).setRefState(refState).build();
+    return createBuilderFrom(checkerUuid, config, createdOn, updatedOn)
+        .setRefState(refState)
+        .build();
   }
 
   private static String createCommitMessage(

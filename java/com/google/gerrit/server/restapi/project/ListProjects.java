@@ -14,11 +14,15 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.common.base.Strings.emptyToNull;
+import static com.google.common.base.Strings.isNullOrEmpty;
+import static com.google.common.collect.Ordering.natural;
 import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Strings;
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -29,6 +33,7 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -51,7 +56,9 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -67,6 +74,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -255,6 +263,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private String matchSubstring;
   private String matchRegex;
   private AccountGroup.UUID groupUuid;
+  private final Provider<QueryProjects> queryProjectsProvider;
 
   @Inject
   protected ListProjects(
@@ -265,7 +274,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
       ProjectNode.Factory projectNodeFactory,
-      WebLinks webLinks) {
+      WebLinks webLinks,
+      Provider<QueryProjects> queryProjectsProvider) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.groupResolver = groupResolver;
@@ -274,6 +284,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.permissionBackend = permissionBackend;
     this.projectNodeFactory = projectNodeFactory;
     this.webLinks = webLinks;
+    this.queryProjectsProvider = queryProjectsProvider;
   }
 
   public List<String> getShowBranch() {
@@ -312,8 +323,59 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
   public SortedMap<String, ProjectInfo> apply()
       throws BadRequestException, PermissionBackendException {
+    Optional<String> projectQuery = expressAsProjectsQuery();
+    if (projectQuery.isPresent()) {
+      return applyAsQuery(projectQuery.get());
+    }
+
     format = OutputFormat.JSON;
     return display(null);
+  }
+
+  private Optional<String> expressAsProjectsQuery() {
+    return !all
+            && state != HIDDEN
+            && isNullOrEmpty(matchPrefix)
+            && isNullOrEmpty(matchRegex)
+            && isNullOrEmpty(matchSubstring)
+            && type == FilterType.ALL
+            && showBranch.isEmpty()
+        ? Optional.of(stateToQuery())
+        : Optional.empty();
+  }
+
+  private String stateToQuery() {
+    List<String> queries = new ArrayList<>();
+    if (state == null) {
+      queries.add("(state:active OR state:read-only)");
+    } else {
+      queries.add(String.format("(state:%s)", state.queryValue()));
+    }
+
+    return Joiner.on(" AND ").join(queries).toString();
+  }
+
+  private SortedMap<String, ProjectInfo> applyAsQuery(String query) throws BadRequestException {
+    try {
+      Stream<ProjectInfo> projects =
+          queryProjectsProvider.get().withQuery(query).apply(null).stream().skip(start);
+      if (limit > 0) {
+        projects = projects.limit(limit);
+      }
+
+      return projects.collect(
+          ImmutableSortedMap.toImmutableSortedMap(
+              natural(), p -> p.name, p -> showDescription ? p : nullifyDescription(p)));
+    } catch (OrmException | MethodNotAllowedException e) {
+      logger.atWarning().withCause(e).log(
+          "Internal error while processing the query '{}' request", query);
+      throw new BadRequestException("Internal error while processing the query request");
+    }
+  }
+
+  private ProjectInfo nullifyDescription(ProjectInfo p) {
+    p.description = null;
+    return p;
   }
 
   public SortedMap<String, ProjectInfo> display(@Nullable OutputStream displayOutputStream)
@@ -393,7 +455,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         }
 
         if (showDescription) {
-          info.description = Strings.emptyToNull(e.getProject().getDescription());
+          info.description = emptyToNull(e.getProject().getDescription());
         }
         info.state = e.getProject().getState();
 

@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.testsuite.checker;
 import com.google.auto.value.AutoValue;
 import java.sql.Timestamp;
 import java.util.Optional;
+import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
 public abstract class TestChecker {
@@ -27,6 +28,10 @@ public abstract class TestChecker {
   public abstract Optional<String> description();
 
   public abstract Timestamp createdOn();
+
+  public abstract Timestamp updatedOn();
+
+  public abstract ObjectId refState();
 
   static Builder builder() {
     return new AutoValue_TestChecker.Builder();
@@ -44,6 +49,10 @@ public abstract class TestChecker {
     public abstract Builder description(Optional<String> description);
 
     public abstract Builder createdOn(Timestamp createdOn);
+
+    public abstract Builder updatedOn(Timestamp updatedOn);
+
+    public abstract Builder refState(ObjectId refState);
 
     abstract TestChecker build();
   }

@@ -16,14 +16,28 @@ package com.google.gerrit.acceptance.testsuite.checker;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.api.checkers.CheckerInfo;
 import com.google.gerrit.extensions.api.checkers.CheckerInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.checker.db.CheckerConfig;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Optional;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Test;
 
 public class CheckerOperationsImplTest extends AbstractDaemonTest {
@@ -169,6 +183,41 @@ public class CheckerOperationsImplTest extends AbstractDaemonTest {
     Timestamp createdOn = checkerOperations.checker(checker.uuid).get().createdOn();
 
     assertThat(createdOn).isEqualTo(checker.createdOn);
+  }
+
+  @Test
+  public void getCommit() throws Exception {
+    CheckerInfo checker = gApi.checkers().create(createArbitraryCheckerInput()).get();
+
+    RevCommit commit = checkerOperations.checker(checker.uuid).commit();
+    assertThat(commit).isEqualTo(readCheckerCommitSha1(checker.uuid));
+  }
+
+  private ObjectId readCheckerCommitSha1(String checkerUuid) throws IOException {
+    try (Repository repo = repoManager.openRepository(allProjects)) {
+      return repo.exactRef(RefNames.refsCheckers(checkerUuid)).getObjectId();
+    }
+  }
+
+  @Test
+  public void getConfigText() throws Exception {
+    CheckerInfo checker = gApi.checkers().create(createArbitraryCheckerInput()).get();
+
+    String configText = checkerOperations.checker(checker.uuid).configText();
+    assertThat(configText).isEqualTo(readCheckerConfigFile(checker.uuid));
+  }
+
+  private String readCheckerConfigFile(String checkerUuid) throws IOException {
+    try (Repository repo = repoManager.openRepository(allProjects);
+        RevWalk rw = new RevWalk(repo);
+        ObjectReader or = repo.newObjectReader()) {
+      Ref checkerRef = repo.exactRef(RefNames.refsCheckers(checkerUuid));
+      RevCommit commit = rw.parseCommit(checkerRef.getObjectId());
+      try (TreeWalk tw =
+          TreeWalk.forPath(or, CheckerConfig.CHECKER_CONFIG_FILE, commit.getTree())) {
+        return new String(or.open(tw.getObjectId(0), OBJ_BLOB).getBytes(), UTF_8);
+      }
+    }
   }
 
   private CheckerInput createArbitraryCheckerInput() {

@@ -24,7 +24,7 @@ import org.junit.Test;
 
 public class CheckersRestApiBindingsIT extends AbstractDaemonTest {
   private static final ImmutableList<RestCall> CHECKER_ENDPOINTS =
-      ImmutableList.of(RestCall.get("/checkers/%s"));
+      ImmutableList.of(RestCall.get("/checkers/%s"), RestCall.post("/checkers/%s"));
 
   @Inject private CheckerOperations checkerOperations;
 

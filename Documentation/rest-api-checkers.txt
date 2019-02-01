@@ -82,7 +82,64 @@ describes the created checker.
     "uuid": "e1f530851409c89dbba927efd0fbbaf270bfaeae",
     "name": "MyChecker",
     "description": "A simple checker.",
-    "created_on": "2019-01-31 09:59:32.126000000"
+    "created_on": "2019-01-31 09:59:32.126000000",
+    "updated_on": "2019-01-31 09:59:32.126000000"
+  }
+----
+
+[[update-checker]]
+=== Update Checker
+--
+'POST /checkers/link:#checker-id[\{checker-id\}]'
+--
+
+Updates a checker.
+
+The new property values must be set in the request body in a
+link:#checker-input[CheckerInput] entity.
+
+This REST endpoint supports partial updates of the checker property
+set. Only properties that are set in the link:#checker-input[
+CheckerInput] entity are updated. Properties that are not set in the
+input (that have `null` as value) are not touched.
+
+Unsetting properties:
+
+* `name`: Cannot be unset. Attempting to set it to an empty string ("")
+   or a string that is empty after trim is rejected as
+   `400 Bad Request`.
+* `description`: Can be unset by setting an empty string ("") for it.
+
+Note that only users with the
+link:access-control.html#capability_administrateCheckers[Administrate
+Checkers] global capability are permitted to update checkers.
+
+.Request
+----
+  POST /checkers/e1f530851409c89dbba927efd0fbbaf270bfaeae HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "description": "A simple checker."
+  }
+----
+
+As response the link:#checker-info[CheckerInfo] entity is returned that
+describes the updated checker.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "uuid": "e1f530851409c89dbba927efd0fbbaf270bfaeae",
+    "name": "MyChecker",
+    "description": "A simple checker.",
+    "created_on": "2019-01-31 09:59:32.126000000",
+    "updated_on": "2019-02-01 07:23:44.158000000"
   }
 ----
 
@@ -119,6 +176,9 @@ The description of the checker.
 |`created_on`    ||
 The link:rest-api.html#timestamp[timestamp] of when the checker was
 created.
+|`updated_on`    ||
+The link:rest-api.html#timestamp[timestamp] of when the checker was
+last updated.
 |=============================
 
 [[checker-input]]
@@ -128,8 +188,8 @@ The `CheckerInput` entity contains information for creating a checker.
 [options="header",cols="1,^2,4"]
 |=============================
 |Field Name      ||Description
-|`name`          ||
-The name of the checker.
+|`name`          |optional|
+The name of the checker. Must be specified for checker creation.
 |`description`   |optional|
 The description of the checker.
 |=============================

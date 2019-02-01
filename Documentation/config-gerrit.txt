@@ -32,7 +32,7 @@ this it is specified in the documentation for the property below.
 === Section accountPatchReviewDb
 
 The AccountPatchReviewDb is a database used to store the user file reviewed
-flags. It co-exists with <<database,ReviewDb>> and link:note-db.html[NoteDb].
+flags.
 
 [[accountPatchReviewDb.url]]accountPatchReviewDb.url::
 +

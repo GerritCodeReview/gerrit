@@ -340,6 +340,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             && isNullOrEmpty(matchSubstring) // TODO: see Issue 10446
             && type == FilterType.ALL
             && showBranch.isEmpty()
+            && !showTree
         ? Optional.of(stateToQuery())
         : Optional.empty();
   }
@@ -378,6 +379,38 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     return p;
   }
 
+  private void printQueryResults(String query, PrintWriter out) throws BadRequestException {
+    try {
+      if (format.isJson()) {
+        format.newGson().toJson(applyAsQuery(query), out);
+      } else {
+        newProjectsNamesStream(query).forEach(out::println);
+      }
+      out.flush();
+    } catch (OrmException | MethodNotAllowedException e) {
+      logger.atWarning().withCause(e).log(
+          "Internal error while processing the query '{}' request", query);
+      throw new BadRequestException("Internal error while processing the query request");
+    }
+  }
+
+  private Stream<String> newProjectsNamesStream(String query)
+      throws OrmException, MethodNotAllowedException, BadRequestException {
+    Stream<String> projects =
+        queryProjectsProvider
+            .get()
+            .withQuery(query)
+            .apply(null)
+            .stream()
+            .map(p -> p.name)
+            .skip(start);
+    if (limit > 0) {
+      projects = projects.limit(limit);
+    }
+
+    return projects;
+  }
+
   public SortedMap<String, ProjectInfo> display(@Nullable OutputStream displayOutputStream)
       throws BadRequestException, PermissionBackendException {
     if (all && state != null) {
@@ -397,6 +430,12 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     if (displayOutputStream != null) {
       stdout =
           new PrintWriter(new BufferedWriter(new OutputStreamWriter(displayOutputStream, UTF_8)));
+    }
+
+    Optional<String> projectsQuery = expressAsProjectsQuery();
+    if (projectsQuery.isPresent()) {
+      printQueryResults(projectsQuery.get(), stdout);
+      return null;
     }
 
     if (type == FilterType.PARENT_CANDIDATES) {

@@ -17,17 +17,25 @@ package com.google.gerrit.acceptance.testsuite.verifier;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.verifier.Verifier;
 import com.google.gerrit.server.verifier.VerifierCreation;
 import com.google.gerrit.server.verifier.VerifierUpdate;
 import com.google.gerrit.server.verifier.VerifierUuid;
 import com.google.gerrit.server.verifier.Verifiers;
 import com.google.gerrit.server.verifier.VerifiersUpdate;
+import com.google.gerrit.server.verifier.db.VerifierConfig;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.BlobBasedConfig;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * The implementation of {@code VerifierOperations}.
@@ -38,12 +46,19 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class VerifierOperationsImpl implements VerifierOperations {
   private final Verifiers verifiers;
   private final VerifiersUpdate verifiersUpdate;
+  private final GitRepositoryManager repoManager;
+  private final AllProjectsName allProjectsName;
 
   @Inject
   public VerifierOperationsImpl(
-      Verifiers verifiers, @ServerInitiated VerifiersUpdate verifiersUpdate) {
+      Verifiers verifiers,
+      @ServerInitiated VerifiersUpdate verifiersUpdate,
+      GitRepositoryManager repoManager,
+      AllProjectsName allProjectsName) {
     this.verifiers = verifiers;
     this.verifiersUpdate = verifiersUpdate;
+    this.repoManager = repoManager;
+    this.allProjectsName = allProjectsName;
   }
 
   @Override
@@ -110,7 +125,35 @@ public class VerifierOperationsImpl implements VerifierOperations {
           .name(verifier.getName())
           .description(verifier.getDescription())
           .createdOn(verifier.getCreatedOn())
+          .updatedOn(verifier.getUpdatedOn())
+          .refState(verifier.getRefState())
           .build();
+    }
+
+    @Override
+    public RevCommit commit() throws IOException {
+      Optional<Verifier> verifier = getVerifier(verifierUuid);
+      checkState(verifier.isPresent(), "Tried to get commit for a non-existing test verifier");
+
+      try (Repository repo = repoManager.openRepository(allProjectsName);
+          RevWalk rw = new RevWalk(repo)) {
+        return rw.parseCommit(verifier.get().getRefState());
+      }
+    }
+
+    @Override
+    public String configText() throws IOException, ConfigInvalidException {
+      Optional<Verifier> verifier = getVerifier(verifierUuid);
+      checkState(verifier.isPresent(), "Tried to get config text for a non-existing test verifier");
+
+      try (Repository repo = repoManager.openRepository(allProjectsName);
+          RevWalk rw = new RevWalk(repo);
+          ObjectReader or = repo.newObjectReader()) {
+        // Parse as Config to ensure it's a valid config file.
+        return new BlobBasedConfig(
+                null, repo, verifier.get().getRefState(), VerifierConfig.VERIFIER_CONFIG_FILE)
+            .toText();
+      }
     }
   }
 }

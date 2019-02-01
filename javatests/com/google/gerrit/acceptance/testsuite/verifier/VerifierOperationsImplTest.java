@@ -16,16 +16,28 @@ package com.google.gerrit.acceptance.testsuite.verifier;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
 import com.google.gerrit.extensions.api.verifiers.VerifierInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.verifier.db.VerifierConfig;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Test;
 
 public class VerifierOperationsImplTest extends AbstractDaemonTest {
@@ -179,6 +191,41 @@ public class VerifierOperationsImplTest extends AbstractDaemonTest {
     Timestamp createdOn = verifierOperations.verifier(verifier.uuid).get().createdOn();
 
     assertThat(createdOn).isEqualTo(verifier.createdOn);
+  }
+
+  @Test
+  public void getCommit() throws Exception {
+    VerifierInfo verifier = gApi.verifiers().create(createArbitraryVerifierInput()).get();
+
+    RevCommit commit = verifierOperations.verifier(verifier.uuid).commit();
+    assertThat(commit).isEqualTo(readVerifierCommitSha1(verifier.uuid));
+  }
+
+  private ObjectId readVerifierCommitSha1(String verifierUuid) throws IOException {
+    try (Repository repo = repoManager.openRepository(allProjects)) {
+      return repo.exactRef(RefNames.refsVerifiers(verifierUuid)).getObjectId();
+    }
+  }
+
+  @Test
+  public void getConfigText() throws Exception {
+    VerifierInfo verifier = gApi.verifiers().create(createArbitraryVerifierInput()).get();
+
+    String configText = verifierOperations.verifier(verifier.uuid).configText();
+    assertThat(configText).isEqualTo(readVerifierConfigFile(verifier.uuid));
+  }
+
+  private String readVerifierConfigFile(String verifierUuid) throws IOException {
+    try (Repository repo = repoManager.openRepository(allProjects);
+        RevWalk rw = new RevWalk(repo);
+        ObjectReader or = repo.newObjectReader()) {
+      Ref verifierRef = repo.exactRef(RefNames.refsVerifiers(verifierUuid));
+      RevCommit commit = rw.parseCommit(verifierRef.getObjectId());
+      try (TreeWalk tw =
+          TreeWalk.forPath(or, VerifierConfig.VERIFIER_CONFIG_FILE, commit.getTree())) {
+        return new String(or.open(tw.getObjectId(0), OBJ_BLOB).getBytes(), UTF_8);
+      }
+    }
   }
 
   private VerifierInput createArbitraryVerifierInput() {

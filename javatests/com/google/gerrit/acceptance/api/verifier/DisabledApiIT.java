@@ -51,4 +51,16 @@ public class DisabledApiIT extends AbstractDaemonTest {
     exception.expectMessage("verifer API is disabled");
     gApi.verifiers().create(input);
   }
+
+  @Test
+  public void updateVerifier() throws Exception {
+    String uuid = verifierOperations.newVerifier().create();
+
+    VerifierInput input = new VerifierInput();
+    input.description = "A description.";
+
+    exception.expect(MethodNotAllowedException.class);
+    exception.expectMessage("verifer API is disabled");
+    gApi.verifiers().id(uuid).update(input);
+  }
 }

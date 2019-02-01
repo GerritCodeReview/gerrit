@@ -26,7 +26,7 @@ import org.junit.Test;
 
 public class VerifiersRestApiBindingsIT extends AbstractDaemonTest {
   private static final ImmutableList<RestCall> VERIFIER_ENDPOINTS =
-      ImmutableList.of(RestCall.get("/verifiers/%s"));
+      ImmutableList.of(RestCall.get("/verifiers/%s"), RestCall.post("/verifiers/%s"));
 
   @Inject private VerifierOperations verifierOperations;
 

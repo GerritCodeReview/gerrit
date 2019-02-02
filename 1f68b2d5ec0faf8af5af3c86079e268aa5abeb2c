@@ -22,6 +22,30 @@
       "revId": "1f68b2d5ec0faf8af5af3c86079e268aa5abeb2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63d0a2b4_66a3855c",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-02T21:56:40Z",
+      "side": 1,
+      "message": "Yes, we can, but not part of this change as it is out of context IMHO.\nLet me do on top of the plain stable-2.16",
+      "parentUuid": "c87c15d8_20e909c9",
+      "range": {
+        "startLine": 401,
+        "startChar": 49,
+        "endLine": 401,
+        "endChar": 60
+      },
+      "revId": "1f68b2d5ec0faf8af5af3c86079e268aa5abeb2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

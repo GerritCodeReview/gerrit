@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "0c53cac4_2e0a7c43",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListChildProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-02T22:54:34Z",
+      "side": 1,
+      "message": "The only missing part is to add --limit option, and pass 10 or even 1 in the code path of delete-project plugin, to discover whether or not, a specific project is used as parent project on gerrit site. This answer should be done in O(1) in project index. And the best is: \"parent_name\" field is already included in project index, and we do not need to reindex in production on 2.16 release ;-)",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 28
+      },
+      "revId": "6e73c72e4e2b7f9db926b1fc5a83b74209f2547c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2478c953_f265c05e",
         "filename": "java/com/google/gerrit/server/restapi/project/ListChildProjects.java",
         "patchSetId": 1

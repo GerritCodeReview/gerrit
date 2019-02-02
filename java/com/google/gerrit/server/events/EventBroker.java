@@ -105,7 +105,7 @@ public class EventBroker implements EventDispatcher {
   protected void fireEvent(Change change, ChangeEvent event)
       throws OrmException, PermissionBackendException {
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
-      CurrentUser user = c.call(l -> l.getUser());
+      CurrentUser user = c.call(UserScopedEventListener::getUser);
       if (isVisibleTo(change, user)) {
         c.run(l -> l.onEvent(event));
       }
@@ -115,7 +115,7 @@ public class EventBroker implements EventDispatcher {
 
   protected void fireEvent(Project.NameKey project, ProjectEvent event) {
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
-      CurrentUser user = c.call(l -> l.getUser());
+      CurrentUser user = c.call(UserScopedEventListener::getUser);
       if (isVisibleTo(project, user)) {
         c.run(l -> l.onEvent(event));
       }
@@ -126,7 +126,7 @@ public class EventBroker implements EventDispatcher {
   protected void fireEvent(Branch.NameKey branchName, RefEvent event)
       throws PermissionBackendException {
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
-      CurrentUser user = c.call(l -> l.getUser());
+      CurrentUser user = c.call(UserScopedEventListener::getUser);
       if (isVisibleTo(branchName, user)) {
         c.run(l -> l.onEvent(event));
       }
@@ -136,7 +136,7 @@ public class EventBroker implements EventDispatcher {
 
   protected void fireEvent(Event event) throws OrmException, PermissionBackendException {
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
-      CurrentUser user = c.call(l -> l.getUser());
+      CurrentUser user = c.call(UserScopedEventListener::getUser);
       if (isVisibleTo(event, user)) {
         c.run(l -> l.onEvent(event));
       }

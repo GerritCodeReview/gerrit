@@ -98,7 +98,7 @@ public class CommentJsonMigrator {
       }
 
       progress.refsUpdated =
-          bru.getCommands().stream().map(c -> c.getRefName()).collect(toImmutableList());
+          bru.getCommands().stream().map(ReceiveCommand::getRefName).collect(toImmutableList());
       if (!bru.getCommands().isEmpty()) {
         if (!dryRun) {
           ins.flush();

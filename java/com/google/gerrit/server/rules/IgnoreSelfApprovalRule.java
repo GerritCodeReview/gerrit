@@ -71,7 +71,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
       return singletonRuleError(E_UNABLE_TO_FETCH_LABELS);
     }
 
-    boolean shouldIgnoreSelfApproval = labelTypes.stream().anyMatch(l -> l.ignoreSelfApproval());
+    boolean shouldIgnoreSelfApproval = labelTypes.stream().anyMatch(LabelType::ignoreSelfApproval);
     if (!shouldIgnoreSelfApproval) {
       // Shortcut to avoid further processing if no label should ignore uploader approvals
       return ImmutableList.of();

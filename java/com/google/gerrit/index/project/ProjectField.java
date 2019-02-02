@@ -49,7 +49,7 @@ public class ProjectField {
       exact("state").stored().build(p -> p.getProject().getState().name());
 
   public static final FieldDef<ProjectData, Iterable<String>> ANCESTOR_NAME =
-      exact("ancestor_name").buildRepeatable(p -> p.getParentNames());
+      exact("ancestor_name").buildRepeatable(ProjectData::getParentNames);
 
   /**
    * All values of all refs that were used in the course of indexing this document. This covers

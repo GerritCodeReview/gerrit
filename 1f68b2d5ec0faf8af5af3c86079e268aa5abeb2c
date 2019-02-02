@@ -46,6 +46,30 @@
       "revId": "1f68b2d5ec0faf8af5af3c86079e268aa5abeb2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2de3e852_fddf4c07",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-02T22:02:48Z",
+      "side": 1,
+      "message": "Done with Ia8ded07a56. If that change makes the stable-2.16 branch before this change gets merged, will rebase and use that method instead.",
+      "parentUuid": "63d0a2b4_66a3855c",
+      "range": {
+        "startLine": 401,
+        "startChar": 49,
+        "endLine": 401,
+        "endChar": 60
+      },
+      "revId": "1f68b2d5ec0faf8af5af3c86079e268aa5abeb2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

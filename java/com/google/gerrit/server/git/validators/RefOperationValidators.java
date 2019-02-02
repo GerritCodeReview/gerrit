@@ -77,7 +77,8 @@ public class RefOperationValidators {
     boolean withException = false;
     try {
       messages.addAll(
-          new DisallowCreationAndDeletionOfUserBranches(perm, allUsersName).onRefOperation(event));
+          new DisallowCreationAndDeletionOfGerritMaintainedBranches(perm, allUsersName)
+              .onRefOperation(event));
       refOperationValidationListeners.runEach(
           l -> l.onRefOperation(event), ValidationException.class);
     } catch (ValidationException e) {
@@ -110,12 +111,12 @@ public class RefOperationValidators {
     }
   }
 
-  private static class DisallowCreationAndDeletionOfUserBranches
+  private static class DisallowCreationAndDeletionOfGerritMaintainedBranches
       implements RefOperationValidationListener {
     private final PermissionBackend.WithUser perm;
     private final AllUsersName allUsersName;
 
-    DisallowCreationAndDeletionOfUserBranches(
+    DisallowCreationAndDeletionOfGerritMaintainedBranches(
         PermissionBackend.WithUser perm, AllUsersName allUsersName) {
       this.perm = perm;
       this.allUsersName = allUsersName;

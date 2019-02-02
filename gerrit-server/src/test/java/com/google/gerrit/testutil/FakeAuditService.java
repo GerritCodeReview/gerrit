@@ -15,6 +15,7 @@
 package com.google.gerrit.testutil;
 
 import com.google.gerrit.audit.AuditEvent;
+import com.google.gerrit.audit.AuditListener;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.audit.GroupMemberAuditListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -31,18 +32,23 @@ import java.util.List;
 @Singleton
 public class FakeAuditService implements AuditService {
 
+  private final DynamicSet<AuditListener> auditListeners;
   private final DynamicSet<GroupMemberAuditListener> groupMemberAuditListeners;
 
   public static class Module extends AbstractModule {
     @Override
     public void configure() {
       DynamicSet.setOf(binder(), GroupMemberAuditListener.class);
+      DynamicSet.setOf(binder(), AuditListener.class);
       bind(AuditService.class).to(FakeAuditService.class);
     }
   }
 
   @Inject
-  public FakeAuditService(DynamicSet<GroupMemberAuditListener> groupMemberAuditListeners) {
+  public FakeAuditService(
+      DynamicSet<AuditListener> auditListeners,
+      DynamicSet<GroupMemberAuditListener> groupMemberAuditListeners) {
+    this.auditListeners = auditListeners;
     this.groupMemberAuditListeners = groupMemberAuditListeners;
   }
 
@@ -54,7 +60,9 @@ public class FakeAuditService implements AuditService {
 
   @Override
   public void dispatch(AuditEvent action) {
-    auditEvents.add(action);
+    for (AuditListener auditListener : auditListeners) {
+      auditListener.onAuditableAction(action);
+    }
   }
 
   @Override

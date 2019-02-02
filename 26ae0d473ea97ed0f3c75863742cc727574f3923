@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "945afd5f_8cd8cd9b",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-02T22:05:33Z",
+      "side": 1,
+      "message": "This method\u0027s name is incorrect: the out is a PrintWriter and not an OutputStream.\nBetter to make the method name more generic like \u0027printQueryResults\u0027 and more\nrepresentative of the action performed.",
+      "range": {
+        "startLine": 385,
+        "startChar": 15,
+        "endLine": 385,
+        "endChar": 36
+      },
+      "revId": "26ae0d473ea97ed0f3c75863742cc727574f3923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

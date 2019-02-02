@@ -105,6 +105,30 @@
       "revId": "27be62f158783667ebb3e3cb340cb74243f5f80b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e93b541e_4b5b8408",
+        "filename": "javatests/com/google/gerrit/server/query/project/AbstractQueryProjectsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-02T22:39:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adc625d9_df5ead4a",
+      "range": {
+        "startLine": 196,
+        "startChar": 14,
+        "endLine": 196,
+        "endChar": 22
+      },
+      "revId": "27be62f158783667ebb3e3cb340cb74243f5f80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

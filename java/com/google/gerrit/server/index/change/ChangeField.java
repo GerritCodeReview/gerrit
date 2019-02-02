@@ -107,7 +107,7 @@ public class ChangeField {
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, String> LEGACY_ID =
-      exact("legacy_id").stored().build(cd -> String.valueOf(cd.getId().get()));
+      exact("legacy_id").reversed().stored().build(cd -> String.valueOf(cd.getId().get()));
 
   /** Newer style Change-Id key. */
   public static final FieldDef<ChangeData, String> ID =
@@ -146,7 +146,7 @@ public class ChangeField {
 
   /** Last update time since January 1, 1970. */
   public static final FieldDef<ChangeData, Timestamp> UPDATED =
-      timestamp("updated2").stored().build(changeGetter(Change::getLastUpdatedOn));
+      timestamp("updated2").reversed().stored().build(changeGetter(Change::getLastUpdatedOn));
 
   /** List of full file paths modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> PATH =

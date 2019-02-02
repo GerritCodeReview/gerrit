@@ -67,6 +67,7 @@
     is: 'gr-rule-editor',
 
     properties: {
+      hasRange: Boolean,
       /** @type {?} */
       label: Object,
       editing: {

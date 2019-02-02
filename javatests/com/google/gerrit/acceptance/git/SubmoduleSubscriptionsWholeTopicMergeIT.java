@@ -38,8 +38,11 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 @NoHttpd
+@RunWith(JUnit4.class)
 public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSubscription {
 
   @ConfigSuite.Default

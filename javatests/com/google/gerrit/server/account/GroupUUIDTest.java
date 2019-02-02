@@ -20,7 +20,10 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.testing.GerritBaseTests;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class GroupUUIDTest extends GerritBaseTests {
   @Test
   public void createdUuidsForSameInputShouldBeDifferent() {

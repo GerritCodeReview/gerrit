@@ -42,7 +42,10 @@ import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class UniversalGroupBackendTest extends GerritBaseTests {
   private static final AccountGroup.UUID OTHER_UUID = new AccountGroup.UUID("other");
 

@@ -30,8 +30,11 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 @NoHttpd
+@RunWith(JUnit4.class)
 public class ForcePushIT extends AbstractDaemonTest {
 
   @Test

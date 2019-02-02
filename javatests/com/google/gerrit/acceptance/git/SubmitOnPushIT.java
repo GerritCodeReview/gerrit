@@ -43,8 +43,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 @NoHttpd
+@RunWith(JUnit4.class)
 public class SubmitOnPushIT extends AbstractDaemonTest {
   @Inject private ApprovalsUtil approvalsUtil;
 

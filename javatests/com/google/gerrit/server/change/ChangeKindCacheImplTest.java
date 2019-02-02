@@ -27,7 +27,10 @@ import com.google.gerrit.server.change.ChangeKindCacheImpl.Key;
 import com.google.gerrit.testing.GerritBaseTests;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class ChangeKindCacheImplTest extends GerritBaseTests {
   @Test
   public void keySerializer() throws Exception {

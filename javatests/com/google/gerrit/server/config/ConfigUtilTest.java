@@ -28,7 +28,10 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class ConfigUtilTest extends GerritBaseTests {
   private static final String SECT = "foo";
   private static final String SUB = "bar";

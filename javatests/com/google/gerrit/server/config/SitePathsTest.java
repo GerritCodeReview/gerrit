@@ -25,7 +25,10 @@ import java.nio.file.NotDirectoryException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class SitePathsTest extends GerritBaseTests {
   @Test
   public void create_NotExisting() throws IOException {

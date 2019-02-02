@@ -31,7 +31,10 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class ScheduleConfigTest extends GerritBaseTests {
 
   // Friday June 13, 2014 10:00 UTC

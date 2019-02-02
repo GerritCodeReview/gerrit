@@ -18,7 +18,10 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class GitwebConfigTest extends GerritBaseTests {
   private static final String VALID_CHARACTERS = "*()";
   private static final String SOME_INVALID_CHARACTERS = "09AZaz$-_.+!',";

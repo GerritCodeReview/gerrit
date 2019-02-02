@@ -23,7 +23,10 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class ImplicitMergeCheckIT extends AbstractDaemonTest {
 
   @Test

@@ -20,7 +20,10 @@ import com.google.common.base.Strings;
 import com.google.gerrit.testing.GerritBaseTests;
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class HashedPasswordTest extends GerritBaseTests {
 
   @Test

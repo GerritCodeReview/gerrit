@@ -21,7 +21,10 @@ import com.google.gerrit.testing.GerritBaseTests;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class QueryListTest extends GerritBaseTests {
   public static final String Q_P = "project:foo";
   public static final String Q_B = "branch:bar";

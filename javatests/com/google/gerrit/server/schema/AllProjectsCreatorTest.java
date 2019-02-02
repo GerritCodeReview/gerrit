@@ -42,7 +42,10 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class AllProjectsCreatorTest extends GerritBaseTests {
   private static final LabelType TEST_LABEL =
       new LabelType(

@@ -29,7 +29,10 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class HttpPushForReviewIT extends AbstractPushForReview {
   @Inject private FakeGroupAuditService auditService;
 

@@ -17,9 +17,12 @@ package com.google.gerrit.acceptance.git;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.UseSsh;
 import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 @NoHttpd
 @UseSsh
+@RunWith(JUnit4.class)
 public class SshPushForReviewIT extends AbstractPushForReview {
   @Before
   public void selectSshUrl() throws Exception {

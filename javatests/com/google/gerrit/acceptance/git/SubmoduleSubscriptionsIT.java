@@ -37,8 +37,11 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 @NoHttpd
+@RunWith(JUnit4.class)
 public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {

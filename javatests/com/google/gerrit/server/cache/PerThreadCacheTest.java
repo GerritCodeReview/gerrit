@@ -19,7 +19,10 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.testing.GerritBaseTests;
 import java.util.function.Supplier;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class PerThreadCacheTest extends GerritBaseTests {
   @Test
   public void key_respectsClass() {

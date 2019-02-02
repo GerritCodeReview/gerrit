@@ -41,7 +41,7 @@ import org.eclipse.jgit.lib.ObjectId;
 /** Secondary index schemas for accounts. */
 public class AccountField {
   public static final FieldDef<AccountState, String> ID =
-      exact("id").stored().build(a -> Integer.toString(a.getAccount().getId().get()));
+      exact("id").sorted().stored().build(a -> Integer.toString(a.getAccount().getId().get()));
 
   /**
    * External IDs.
@@ -77,7 +77,7 @@ public class AccountField {
           .buildRepeatable(a -> getNameParts(a, Arrays.asList(a.getAccount().getPreferredEmail())));
 
   public static final FieldDef<AccountState, String> FULL_NAME =
-      exact("full_name").build(a -> a.getAccount().getFullName());
+      exact("full_name").sorted().build(a -> a.getAccount().getFullName());
 
   public static final FieldDef<AccountState, String> ACTIVE =
       exact("inactive").build(a -> a.getAccount().isActive() ? "1" : "0");
@@ -108,7 +108,7 @@ public class AccountField {
               });
 
   public static final FieldDef<AccountState, String> PREFERRED_EMAIL_EXACT =
-      exact("preferredemail_exact").build(a -> a.getAccount().getPreferredEmail());
+      exact("preferredemail_exact").sorted().build(a -> a.getAccount().getPreferredEmail());
 
   public static final FieldDef<AccountState, Timestamp> REGISTERED =
       timestamp("registered").build(a -> a.getAccount().getRegisteredOn());

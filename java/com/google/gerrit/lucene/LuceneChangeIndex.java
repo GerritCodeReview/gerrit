@@ -87,7 +87,6 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.RAMDirectory;
@@ -103,9 +102,6 @@ import org.eclipse.jgit.lib.Config;
  */
 public class LuceneChangeIndex implements ChangeIndex {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  static final String UPDATED_SORT_FIELD = ChangeField.UPDATED.getName();
-  static final String ID_SORT_FIELD = ChangeField.LEGACY_ID.getName();
 
   private static final String CHANGES = "changes";
   private static final String CHANGES_OPEN = "open";
@@ -243,7 +239,12 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, p, opts, getSort(), openIndex::toFieldBundle);
+    return new QuerySource(
+        indexes,
+        p,
+        opts,
+        openIndex.getSort(ChangeField.UPDATED.getName(), ChangeField.LEGACY_ID.getName()),
+        openIndex::toFieldBundle);
   }
 
   @Override
@@ -251,12 +252,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     // Arbitrary done on open index, as ready bit is set
     // per index and not sub index
     openIndex.markReady(ready);
-  }
-
-  private Sort getSort() {
-    return new Sort(
-        new SortField(UPDATED_SORT_FIELD, SortField.Type.LONG, true),
-        new SortField(ID_SORT_FIELD, SortField.Type.LONG, true));
   }
 
   public ChangeSubIndex getClosedChangesIndex() {

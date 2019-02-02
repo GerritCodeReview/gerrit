@@ -14,13 +14,10 @@
 
 package com.google.gerrit.lucene;
 
-import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.index.group.GroupField.UUID;
 
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.Schema.Values;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -38,23 +35,17 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutionException;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.SearcherFactory;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
-import org.apache.lucene.util.BytesRef;
 import org.eclipse.jgit.lib.Config;
 
 public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, InternalGroup>
     implements GroupIndex {
 
   private static final String GROUPS = "groups";
-
-  private static final String UUID_SORT_FIELD = UUID.getName();
 
   private static Term idTerm(InternalGroup group) {
     return idTerm(group.getGroupUUID());
@@ -99,17 +90,6 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
   }
 
   @Override
-  void add(Document doc, Values<InternalGroup> values) {
-    // Add separate DocValues field for the field that is needed for sorting.
-    FieldDef<InternalGroup, ?> f = values.getField();
-    if (f == UUID) {
-      String value = (String) getOnlyElement(values.getValues());
-      doc.add(new SortedDocValuesField(UUID_SORT_FIELD, new BytesRef(value)));
-    }
-    super.add(doc, values);
-  }
-
-  @Override
   public void replace(InternalGroup group) throws IOException {
     try {
       replace(idTerm(group), toDocument(group)).get();
@@ -131,9 +111,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
   public DataSource<InternalGroup> getSource(Predicate<InternalGroup> p, QueryOptions opts)
       throws QueryParseException {
     return new LuceneQuerySource(
-        opts.filterFields(IndexUtils::groupFields),
-        queryBuilder.toQuery(p),
-        new Sort(new SortField(UUID_SORT_FIELD, SortField.Type.STRING, false)));
+        opts.filterFields(IndexUtils::groupFields), queryBuilder.toQuery(p), getSort());
   }
 
   @Override

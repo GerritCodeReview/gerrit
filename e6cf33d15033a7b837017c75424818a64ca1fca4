@@ -34,6 +34,24 @@
       "revId": "e6cf33d15033a7b837017c75424818a64ca1fca4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32e59f93_82833795",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticConfigurationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-02T03:04:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f8d7b23a_dc7d4dab",
+      "revId": "e6cf33d15033a7b837017c75424818a64ca1fca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

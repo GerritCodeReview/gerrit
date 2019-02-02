@@ -14,15 +14,12 @@
 
 package com.google.gerrit.lucene;
 
-import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.index.account.AccountField.FULL_NAME;
 import static com.google.gerrit.server.index.account.AccountField.ID;
 import static com.google.gerrit.server.index.account.AccountField.PREFERRED_EMAIL_EXACT;
 
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.Schema.Values;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -40,25 +37,16 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutionException;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.NumericDocValuesField;
-import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.SearcherFactory;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
-import org.apache.lucene.util.BytesRef;
 import org.eclipse.jgit.lib.Config;
 
 public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountState>
     implements AccountIndex {
   private static final String ACCOUNTS = "accounts";
-
-  private static final String FULL_NAME_SORT_FIELD = FULL_NAME.getName();
-  private static final String EMAIL_SORT_FIELD = PREFERRED_EMAIL_EXACT.getName();
-  private static final String ID_SORT_FIELD = ID.getName();
 
   private static Term idTerm(AccountState as) {
     return idTerm(as.getAccount().getId());
@@ -103,23 +91,6 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   }
 
   @Override
-  void add(Document doc, Values<AccountState> values) {
-    // Add separate DocValues fields for those fields needed for sorting.
-    FieldDef<AccountState, ?> f = values.getField();
-    if (f == ID) {
-      String v = (String) getOnlyElement(values.getValues());
-      doc.add(new NumericDocValuesField(ID_SORT_FIELD, Integer.valueOf(v)));
-    } else if (f == FULL_NAME) {
-      String value = (String) getOnlyElement(values.getValues());
-      doc.add(new SortedDocValuesField(FULL_NAME_SORT_FIELD, new BytesRef(value)));
-    } else if (f == PREFERRED_EMAIL_EXACT) {
-      String value = (String) getOnlyElement(values.getValues());
-      doc.add(new SortedDocValuesField(EMAIL_SORT_FIELD, new BytesRef(value)));
-    }
-    super.add(doc, values);
-  }
-
-  @Override
   public void replace(AccountState as) throws IOException {
     try {
       replace(idTerm(as), toDocument(as)).get();
@@ -141,14 +112,9 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   public DataSource<AccountState> getSource(Predicate<AccountState> p, QueryOptions opts)
       throws QueryParseException {
     return new LuceneQuerySource(
-        opts.filterFields(IndexUtils::accountFields), queryBuilder.toQuery(p), getSort());
-  }
-
-  private Sort getSort() {
-    return new Sort(
-        new SortField(FULL_NAME_SORT_FIELD, SortField.Type.STRING, false),
-        new SortField(EMAIL_SORT_FIELD, SortField.Type.STRING, false),
-        new SortField(ID_SORT_FIELD, SortField.Type.LONG, false));
+        opts.filterFields(IndexUtils::accountFields),
+        queryBuilder.toQuery(p),
+        getSort(FULL_NAME.getName(), PREFERRED_EMAIL_EXACT.getName(), ID.getName()));
   }
 
   @Override

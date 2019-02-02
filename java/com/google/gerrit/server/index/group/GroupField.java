@@ -40,7 +40,7 @@ public class GroupField {
 
   /** Group UUID. */
   public static final FieldDef<InternalGroup, String> UUID =
-      exact("uuid").stored().build(g -> g.getGroupUUID().get());
+      exact("uuid").sorted().stored().build(g -> g.getGroupUUID().get());
 
   /** Group owner UUID. */
   public static final FieldDef<InternalGroup, String> OWNER_UUID =

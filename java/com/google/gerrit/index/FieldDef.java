@@ -65,10 +65,25 @@ public final class FieldDef<I, T> {
     T get(I input) throws OrmException, IOException;
   }
 
+  private enum SortedType {
+    NONE,
+    REVERSED,
+    SORTED;
+
+    private boolean isSorted() {
+      return this != NONE;
+    }
+
+    private boolean isReversed() {
+      return this == REVERSED;
+    }
+  }
+
   public static class Builder<T> {
     private final FieldType<T> type;
     private final String name;
     private boolean stored;
+    private SortedType sorted = SortedType.NONE;
 
     public Builder(FieldType<T> type, String name) {
       this.type = requireNonNull(type);
@@ -80,29 +95,46 @@ public final class FieldDef<I, T> {
       return this;
     }
 
+    public Builder<T> sorted() {
+      this.sorted = SortedType.SORTED;
+      return this;
+    }
+
+    public Builder<T> reversed() {
+      this.sorted = SortedType.REVERSED;
+      return this;
+    }
+
     public <I> FieldDef<I, T> build(Getter<I, T> getter) {
-      return new FieldDef<>(name, type, stored, false, getter);
+      return new FieldDef<>(name, type, stored, sorted, false, getter);
     }
 
     public <I> FieldDef<I, Iterable<T>> buildRepeatable(Getter<I, Iterable<T>> getter) {
-      return new FieldDef<>(name, type, stored, true, getter);
+      return new FieldDef<>(name, type, stored, sorted, true, getter);
     }
   }
 
   private final String name;
   private final FieldType<?> type;
   private final boolean stored;
+  private final SortedType sorted;
   private final boolean repeatable;
   private final Getter<I, T> getter;
 
   private FieldDef(
-      String name, FieldType<?> type, boolean stored, boolean repeatable, Getter<I, T> getter) {
+      String name,
+      FieldType<?> type,
+      boolean stored,
+      SortedType sorted,
+      boolean repeatable,
+      Getter<I, T> getter) {
     checkArgument(
         !(repeatable && type == FieldType.INTEGER_RANGE),
         "Range queries against repeated fields are unsupported");
     this.name = checkName(name);
     this.type = requireNonNull(type);
     this.stored = stored;
+    this.sorted = sorted;
     this.repeatable = repeatable;
     this.getter = requireNonNull(getter);
   }
@@ -126,6 +158,16 @@ public final class FieldDef<I, T> {
   /** @return whether the field should be stored in the index. */
   public boolean isStored() {
     return stored;
+  }
+
+  /** @return whether the field should be sorted in the index. */
+  public boolean isSorted() {
+    return sorted.isSorted();
+  }
+
+  /** @return whether the field should be sorted in reversed order in the index. */
+  public boolean isReversed() {
+    return sorted.isReversed();
   }
 
   /**

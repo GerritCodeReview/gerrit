@@ -34,7 +34,7 @@ public class ProjectField {
   }
 
   public static final FieldDef<ProjectData, String> NAME =
-      exact("name").stored().build(p -> p.getProject().getName());
+      exact("name").sorted().stored().build(p -> p.getProject().getName());
 
   public static final FieldDef<ProjectData, String> DESCRIPTION =
       fullText("description").stored().build(p -> p.getProject().getDescription());

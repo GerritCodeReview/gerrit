@@ -16,6 +16,24 @@
       "revId": "e6cf33d15033a7b837017c75424818a64ca1fca4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8d7b23a_dc7d4dab",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticConfigurationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-02-02T02:58:53Z",
+      "side": 1,
+      "message": "It\u0027s a new direct dependency, but the indirect dependency was already there. *shrug*",
+      "parentUuid": "73a51db1_2abb494b",
+      "revId": "e6cf33d15033a7b837017c75424818a64ca1fca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

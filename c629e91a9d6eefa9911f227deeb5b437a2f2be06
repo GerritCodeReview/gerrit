@@ -265,6 +265,30 @@
     },
     {
       "key": {
+        "uuid": "ad5a9f74_5940fcd7",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-02T21:35:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4031a53f_064a063c",
+      "range": {
+        "startLine": 369,
+        "startChar": 14,
+        "endLine": 369,
+        "endChar": 32
+      },
+      "revId": "c629e91a9d6eefa9911f227deeb5b437a2f2be06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a47767aa_76c19eab",
         "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
         "patchSetId": 9

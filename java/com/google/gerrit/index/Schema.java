@@ -83,6 +83,7 @@ public class Schema<T> {
 
   private final ImmutableMap<String, FieldDef<T, ?>> fields;
   private final ImmutableMap<String, FieldDef<T, ?>> storedFields;
+  private final ImmutableMap<String, FieldDef<T, ?>> sortedFields;
 
   private int version;
 
@@ -94,14 +95,19 @@ public class Schema<T> {
     this.version = version;
     ImmutableMap.Builder<String, FieldDef<T, ?>> b = ImmutableMap.builder();
     ImmutableMap.Builder<String, FieldDef<T, ?>> sb = ImmutableMap.builder();
+    ImmutableMap.Builder<String, FieldDef<T, ?>> sortedBuilder = ImmutableMap.builder();
     for (FieldDef<T, ?> f : fields) {
       b.put(f.getName(), f);
       if (f.isStored()) {
         sb.put(f.getName(), f);
       }
+      if (f.isSorted()) {
+        sortedBuilder.put(f.getName(), f);
+      }
     }
     this.fields = b.build();
     this.storedFields = sb.build();
+    this.sortedFields = sortedBuilder.build();
   }
 
   public final int getVersion() {
@@ -124,6 +130,11 @@ public class Schema<T> {
   /** @return all fields in this schema where {@link FieldDef#isStored()} is true. */
   public final ImmutableMap<String, FieldDef<T, ?>> getStoredFields() {
     return storedFields;
+  }
+
+  /** @return all fields in this schema where {@link FieldDef#isSorted()} is true. */
+  public final ImmutableMap<String, FieldDef<T, ?>> getSortedFields() {
+    return sortedFields;
   }
 
   /**

@@ -15,12 +15,15 @@
 package com.google.gerrit.lucene;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
@@ -48,6 +51,8 @@ import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorServ
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -65,6 +70,8 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.LongPoint;
+import org.apache.lucene.document.NumericDocValuesField;
+import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
@@ -79,9 +86,11 @@ import org.apache.lucene.search.ReferenceManager.RefreshListener;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.AlreadyClosedException;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.util.BytesRef;
 
 /** Basic Lucene index implementation. */
 public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
@@ -322,6 +331,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     String name = values.getField().getName();
     FieldType<?> type = values.getField().getType();
     Store store = store(values.getField());
+    boolean sorted = values.getField().isSorted();
 
     if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
       for (Object value : values.getValues()) {
@@ -331,6 +341,10 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
           doc.add(new StoredField(name, intValue));
         }
       }
+      if (sorted) {
+        throw new IllegalArgumentException(
+            "sorted not supported for: " + FieldType.INTEGER.getName());
+      }
     } else if (type == FieldType.LONG) {
       for (Object value : values.getValues()) {
         Long longValue = (Long) value;
@@ -338,6 +352,9 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
         if (store == Store.YES) {
           doc.add(new StoredField(name, longValue));
         }
+      }
+      if (sorted) {
+        throw new IllegalArgumentException("sorted not supported for: " + FieldType.LONG.getName());
       }
     } else if (type == FieldType.TIMESTAMP) {
       for (Object value : values.getValues()) {
@@ -347,17 +364,33 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
           doc.add(new StoredField(name, timeValue));
         }
       }
+      if (sorted) {
+        long timeValue = ((Timestamp) getOnlyElement(values.getValues())).getTime();
+        doc.add(new NumericDocValuesField(name, timeValue));
+      }
     } else if (type == FieldType.EXACT || type == FieldType.PREFIX) {
       for (Object value : values.getValues()) {
         doc.add(new StringField(name, (String) value, store));
+      }
+      if (sorted) {
+        String strValue = (String) getOnlyElement(values.getValues());
+        doc.add(new SortedDocValuesField(name, new BytesRef(strValue)));
       }
     } else if (type == FieldType.FULL_TEXT) {
       for (Object value : values.getValues()) {
         doc.add(new TextField(name, (String) value, store));
       }
+      if (sorted) {
+        throw new IllegalArgumentException(
+            "sorted not supported for: " + FieldType.FULL_TEXT.getName());
+      }
     } else if (type == FieldType.STORED_ONLY) {
       for (Object value : values.getValues()) {
         doc.add(new StoredField(name, (byte[]) value));
+      }
+      if (sorted) {
+        throw new IllegalArgumentException(
+            "sorted not supported for: " + FieldType.STORED_ONLY.getName());
       }
     } else {
       throw FieldType.badFieldType(type);
@@ -385,6 +418,40 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       }
     }
     return new FieldBundle(rawFields);
+  }
+
+  protected Sort getSort(String... fields) {
+    Map<String, FieldDef<V, ?>> sortedFields = getSchema().getSortedFields();
+    if (fields.length == 0) {
+      if (sortedFields.size() > 1) {
+        throw new IllegalArgumentException(
+            "Sorted field order must be specified when sorted attribute is not unique.");
+      }
+
+      FieldDef<V, ?> field = Iterables.getFirst(sortedFields.values(), null);
+      checkNotNull(field, "At least one field must have sorted attribute.");
+      return new Sort(createSortedField(field));
+    }
+
+    List<SortField> sortFields = new ArrayList<>(fields.length);
+    for (String field : fields) {
+      checkArgument(sortedFields.containsKey(field), "Unrecognized field " + field);
+      sortFields.add(createSortedField(sortedFields.get(field)));
+    }
+
+    return new Sort(sortFields.toArray(new SortField[0]));
+  }
+
+  private static SortField createSortedField(FieldDef<?, ?> field) {
+    FieldType<?> type = field.getType();
+    if (type == FieldType.EXACT) {
+      return new SortField(field.getName(), SortField.Type.STRING, field.isReversed());
+    } else if (type == FieldType.TIMESTAMP) {
+      return new SortField(field.getName(), SortField.Type.LONG, field.isReversed());
+    } else {
+      throw new IllegalArgumentException(
+          "Not supported type for sorted attribute: " + type.getName());
+    }
   }
 
   private static Field.Store store(FieldDef<?, ?> f) {

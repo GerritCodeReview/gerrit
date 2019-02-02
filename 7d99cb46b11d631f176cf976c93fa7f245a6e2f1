@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e214de0a_0a25d71a",
+        "filename": "java/com/google/gerrit/index/FieldDef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-02T22:37:49Z",
+      "side": 1,
+      "message": "This check can never fail.",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 90
+      },
+      "revId": "7d99cb46b11d631f176cf976c93fa7f245a6e2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "335bf9cf_f26364bb",
+        "filename": "java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-02-02T01:45:53Z",
+      "side": 1,
+      "message": "I think we should remove the @Deprecated and replace it with a clearer comment + docs.",
+      "parentUuid": "6b0b1bdc_5e17118e",
+      "revId": "db8df4886c09901cc1dca619c0f16b1b0bc1afe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ab5f848_fab4c908",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2

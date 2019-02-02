@@ -86,6 +86,11 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
   @Override
   public List<ProjectInfo> apply(TopLevelResource resource)
       throws BadRequestException, MethodNotAllowedException, OrmException {
+    return apply();
+  }
+
+  public List<ProjectInfo> apply()
+      throws BadRequestException, MethodNotAllowedException, OrmException {
     if (Strings.isNullOrEmpty(query)) {
       throw new BadRequestException("missing query field");
     }

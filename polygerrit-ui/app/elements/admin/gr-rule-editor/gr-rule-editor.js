@@ -63,10 +63,16 @@
     },
   ];
 
+  const RANGE_NAMES = {
+    'QUERY LIMIT': 'QUERY LIMIT',
+    'BATCH CHANGES LIMIT': 'BATCH CHANGES LIMIT',
+  };
+
   Polymer({
     is: 'gr-rule-editor',
 
     properties: {
+      name: String,
       /** @type {?} */
       label: Object,
       editing: {
@@ -240,6 +246,15 @@
 
     _setOriginalRuleValues(value) {
       this._originalRuleValues = Object.assign({}, value);
+    },
+
+    _computeHasRange(name) {
+      if (!name) { return false; }
+      if (RANGE_NAMES[name.toUpperCase()] === name.toUpperCase()) {
+        return true;
+      }
+
+      return false;
     },
   });
 })();

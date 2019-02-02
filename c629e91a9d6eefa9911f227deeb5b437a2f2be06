@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "beacdeee_a3060624",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-02T03:02:17Z",
+      "side": 1,
+      "message": "\"secondary index\"\n\nwe also have Elasticsearch",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "c629e91a9d6eefa9911f227deeb5b437a2f2be06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e664097_d4caf9ea",
+        "filename": "java/com/google/gerrit/extensions/client/ProjectState.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-02T03:02:17Z",
+      "side": 1,
+      "message": "The \"to\" prefix implies that the method will do some kind of conversion, but it\u0027s only returning the queryalue member.  Rename this to \"getQueryValue()\" or even just \"queryValue()\"?",
+      "range": {
+        "startLine": 46,
+        "startChar": 16,
+        "endLine": 46,
+        "endChar": 18
+      },
+      "revId": "c629e91a9d6eefa9911f227deeb5b437a2f2be06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd77c7c7_c849d836",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-02T03:02:17Z",
+      "side": 1,
+      "message": "Why do we need to explicitly specify the package and class here?",
+      "range": {
+        "startLine": 336,
+        "startChar": 24,
+        "endLine": 336,
+        "endChar": 73
+      },
+      "revId": "c629e91a9d6eefa9911f227deeb5b437a2f2be06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6015a480_714bc010",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-02T03:02:17Z",
+      "side": 1,
+      "message": "Import this static to avoid the \"Strings.\" repetition?",
+      "range": {
+        "startLine": 337,
+        "startChar": 15,
+        "endLine": 337,
+        "endChar": 36
+      },
+      "revId": "c629e91a9d6eefa9911f227deeb5b437a2f2be06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecaada45_426dc541",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-02T03:02:17Z",
+      "side": 1,
+      "message": "Isn\u0027t there a helper method that can do this?",
+      "range": {
+        "startLine": 341,
+        "startChar": 16,
+        "endLine": 341,
+        "endChar": 58
+      },
+      "revId": "c629e91a9d6eefa9911f227deeb5b437a2f2be06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4031a53f_064a063c",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-02T03:02:17Z",
+      "side": 1,
+      "message": "import static?",
+      "range": {
+        "startLine": 369,
+        "startChar": 14,
+        "endLine": 369,
+        "endChar": 32
+      },
+      "revId": "c629e91a9d6eefa9911f227deeb5b437a2f2be06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a47767aa_76c19eab",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-02T03:02:17Z",
+      "side": 1,
+      "message": "Do we want to include the full exception details here?  It might be better to log it, but omit it from the thrown exception.\n\nOr do we already do the same in other places?",
+      "range": {
+        "startLine": 381,
+        "startChar": 87,
+        "endLine": 381,
+        "endChar": 90
+      },
+      "revId": "c629e91a9d6eefa9911f227deeb5b437a2f2be06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "203605ec_723756ce",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-02T03:02:17Z",
+      "side": 1,
+      "message": "import static",
+      "range": {
+        "startLine": 131,
+        "startChar": 28,
+        "endLine": 131,
+        "endChar": 34
+      },
+      "revId": "c629e91a9d6eefa9911f227deeb5b437a2f2be06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -44,7 +44,7 @@ public class StartupChecks implements LifecycleListener {
 
   @Override
   public void start() throws StartupException {
-    startupChecks.runEach(c -> c.check(), StartupException.class);
+    startupChecks.runEach(StartupCheck::check, StartupException.class);
   }
 
   @Override

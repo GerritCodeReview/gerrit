@@ -93,6 +93,7 @@ junit_tests(
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib/guice",
+        "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/truth",
     ],

@@ -87,7 +87,7 @@ public class UniversalWebLoginFilter implements Filter {
   }
 
   private Optional<IdentifiedUser> loggedInUser() {
-    return session.call(s -> s.isSignedIn())
+    return session.call(WebSession::isSignedIn)
         ? Optional.of(userProvider.get().asIdentifiedUser())
         : Optional.empty();
   }

@@ -1242,7 +1242,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     for (NotifyConfig nc : sort(notifySections.values())) {
       nc.getGroups()
           .stream()
-          .map(gr -> gr.getUUID())
+          .map(GroupReference::getUUID)
           .filter(Objects::nonNull)
           .forEach(keepGroups::add);
       List<String> email =

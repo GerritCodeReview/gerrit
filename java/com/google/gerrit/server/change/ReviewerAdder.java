@@ -568,7 +568,8 @@ public class ReviewerAdder {
         Streams.stream(inputs)
             .sorted(
                 comparing(
-                    i -> i.state(), Ordering.explicit(ReviewerState.CC, ReviewerState.REVIEWER)))
+                    AddReviewerInput::state,
+                    Ordering.explicit(ReviewerState.CC, ReviewerState.REVIEWER)))
             .collect(toImmutableList());
     List<ReviewerAddition> additions = new ArrayList<>();
     for (AddReviewerInput input : sorted) {

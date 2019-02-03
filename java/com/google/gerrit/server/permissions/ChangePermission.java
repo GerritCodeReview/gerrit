@@ -55,7 +55,8 @@ public enum ChangePermission implements ChangePermissionOrLabel {
    */
   REBASE,
   SUBMIT,
-  SUBMIT_AS("submit on behalf of other users");
+  SUBMIT_AS("submit on behalf of other users"),
+  TOGGLE_WORK_IN_PROGRESS_STATE;
 
   private final String description;
 

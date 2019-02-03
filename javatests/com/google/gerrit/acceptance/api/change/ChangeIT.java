@@ -277,7 +277,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to toggle work in progress");
+    exception.expectMessage("toggle work in progress state not permitted");
     gApi.changes().id(changeId).setWorkInProgress();
   }
 
@@ -323,7 +323,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to toggle work in progress");
+    exception.expectMessage("toggle work in progress state not permitted");
     gApi.changes().id(changeId).setReadyForReview();
   }
 
@@ -500,6 +500,37 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void toggleWorkInProgressStateByNonOwnerWithPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String refactor = "Needs some refactoring";
+    String ptal = "PTAL";
+
+    grant(
+        project,
+        "refs/heads/master",
+        Permission.TOGGLE_WORK_IN_PROGRESS_STATE,
+        false,
+        REGISTERED_USERS);
+
+    requestScopeOperations.setApiUser(user.getId());
+    gApi.changes().id(changeId).setWorkInProgress(refactor);
+
+    ChangeInfo info = gApi.changes().id(changeId).get();
+
+    assertThat(info.workInProgress).isTrue();
+    assertThat(Iterables.getLast(info.messages).message).contains(refactor);
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_WIP);
+
+    gApi.changes().id(changeId).setReadyForReview(ptal);
+
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.workInProgress).isNull();
+    assertThat(Iterables.getLast(info.messages).message).contains(ptal);
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_READY);
+  }
+
+  @Test
   public void reviewAndStartReview() throws Exception {
     PushOneCommit.Result r = createWorkInProgressChange();
     r.assertOkStatus();
@@ -588,8 +619,24 @@ public class ChangeIT extends AbstractDaemonTest {
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
     requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to toggle work in progress");
+    exception.expectMessage("toggle work in progress state not permitted");
     gApi.changes().id(r.getChangeId()).current().review(in);
+  }
+
+  @Test
+  public void reviewWithWorkInProgressByNonOwnerWithPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
+    grant(
+        project,
+        "refs/heads/master",
+        Permission.TOGGLE_WORK_IN_PROGRESS_STATE,
+        false,
+        REGISTERED_USERS);
+    requestScopeOperations.setApiUser(user.getId());
+    gApi.changes().id(r.getChangeId()).current().review(in);
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(info.workInProgress).isTrue();
   }
 
   @Test
@@ -598,7 +645,7 @@ public class ChangeIT extends AbstractDaemonTest {
     ReviewInput in = ReviewInput.noScore().setReady(true);
     requestScopeOperations.setApiUser(user.getId());
     exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to toggle work in progress");
+    exception.expectMessage("toggle work in progress state not permitted");
     gApi.changes().id(r.getChangeId()).current().review(in);
   }
 

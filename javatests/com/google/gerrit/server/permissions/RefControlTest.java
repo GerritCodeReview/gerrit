@@ -267,6 +267,16 @@ public class RefControlTest {
               throws Exception {
             return all.get(projectName);
           }
+
+          @Override
+          public ProjectState get(String projectName) {
+            return get(new Project.NameKey(projectName));
+          }
+
+          @Override
+          public ProjectState checkedGet(String projectName) throws IOException {
+            return checkedGet(new Project.NameKey(projectName));
+          }
         };
 
     Injector injector = Guice.createInjector(new InMemoryModule());

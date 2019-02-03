@@ -1896,7 +1896,7 @@
       const query = [
         'status:open',
         '-change:' + changeNum,
-        'topic:' + topic,
+        `topic:"${topic}"`,
       ].join(' ');
       const params = {
         O: options,

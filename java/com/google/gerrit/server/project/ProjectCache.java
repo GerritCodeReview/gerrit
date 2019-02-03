@@ -30,9 +30,9 @@ public interface ProjectCache {
   ProjectState getAllUsers();
 
   /**
-   * Get the cached data for a project by its unique name.
+   * Get the cached data for a project by its unique name key.
    *
-   * @param projectName name of the project.
+   * @param projectName name key of the project.
    * @return the cached data; null if no such project exists, projectName is null or an error
    *     occurred.
    * @see #checkedGet(com.google.gerrit.reviewdb.client.Project.NameKey)
@@ -43,10 +43,29 @@ public interface ProjectCache {
    * Get the cached data for a project by its unique name.
    *
    * @param projectName name of the project.
+   * @return the cached data; null if no such project exists, projectName is null or an error
+   *     occurred.
+   * @see #checkedGet(com.google.gerrit.reviewdb.client.Project.NameKey)
+   */
+  ProjectState get(@Nullable String projectName);
+
+  /**
+   * Get the cached data for a project by its unique name key.
+   *
+   * @param projectName name key of the project.
    * @throws IOException when there was an error.
    * @return the cached data; null if no such project exists or projectName is null.
    */
   ProjectState checkedGet(@Nullable Project.NameKey projectName) throws IOException;
+
+  /**
+   * Get the cached data for a project by its unique name.
+   *
+   * @param projectName name of the project.
+   * @throws IOException when there was an error.
+   * @return the cached data; null if no such project exists or projectName is null.
+   */
+  ProjectState checkedGet(@Nullable String projectName) throws IOException;
 
   /**
    * Get the cached data for a project by its unique name.

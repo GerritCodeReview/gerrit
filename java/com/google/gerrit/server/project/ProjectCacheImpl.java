@@ -131,6 +131,11 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public ProjectState get(Project.NameKey projectName) {
+    return get(projectName == null ? null : projectName.get());
+  }
+
+  @Override
+  public ProjectState get(String projectName) {
     try {
       return checkedGet(projectName);
     } catch (IOException e) {
@@ -141,6 +146,11 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public ProjectState checkedGet(Project.NameKey projectName) throws IOException {
+    return checkedGet(projectName == null ? null : projectName.get());
+  }
+
+  @Override
+  public ProjectState checkedGet(String projectName) throws IOException {
     if (projectName == null) {
       return null;
     }
@@ -148,27 +158,27 @@ public class ProjectCacheImpl implements ProjectCache {
       return strictCheckedGet(projectName);
     } catch (Exception e) {
       if (!(e.getCause() instanceof RepositoryNotFoundException)) {
-        logger.atWarning().withCause(e).log("Cannot read project %s", projectName.get());
+        logger.atWarning().withCause(e).log("Cannot read project %s", projectName);
         if (e.getCause() != null) {
           Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
         }
         throw new IOException(e);
       }
-      logger.atFine().withCause(e).log("Cannot find project %s", projectName.get());
+      logger.atFine().withCause(e).log("Cannot find project %s", projectName);
       return null;
     }
   }
 
   @Override
   public ProjectState checkedGet(Project.NameKey projectName, boolean strict) throws Exception {
-    return strict ? strictCheckedGet(projectName) : checkedGet(projectName);
+    return strict ? strictCheckedGet(projectName.get()) : checkedGet(projectName);
   }
 
-  private ProjectState strictCheckedGet(Project.NameKey projectName) throws Exception {
-    ProjectState state = byName.get(projectName.get());
+  private ProjectState strictCheckedGet(String projectName) throws Exception {
+    ProjectState state = byName.get(projectName);
     if (state != null && state.needsRefresh(clock.read())) {
-      byName.invalidate(projectName.get());
-      state = byName.get(projectName.get());
+      byName.invalidate(projectName);
+      state = byName.get(projectName);
     }
     return state;
   }

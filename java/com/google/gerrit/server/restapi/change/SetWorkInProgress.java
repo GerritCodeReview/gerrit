@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
-import static com.google.gerrit.extensions.conditions.BooleanCondition.or;
 
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -24,47 +23,35 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.change.WorkInProgressOp.Input;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
 public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, Input, Response<?>>
     implements UiAction<ChangeResource> {
   private final WorkInProgressOp.Factory opFactory;
-  private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
 
   @Inject
-  SetWorkInProgress(
-      WorkInProgressOp.Factory opFactory,
-      RetryHelper retryHelper,
-      PermissionBackend permissionBackend,
-      Provider<CurrentUser> user) {
+  SetWorkInProgress(WorkInProgressOp.Factory opFactory, RetryHelper retryHelper) {
     super(retryHelper);
     this.opFactory = opFactory;
-    this.permissionBackend = permissionBackend;
-    this.user = user;
   }
 
   @Override
   protected Response<?> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException, PermissionBackendException {
-    WorkInProgressOp.checkPermissions(permissionBackend, user.get(), rsrc.getChange());
+    rsrc.permissions().check(ChangePermission.TOGGLE_WORK_IN_PROGRESS_STATE);
 
     Change change = rsrc.getChange();
     if (change.getStatus() != Status.NEW) {
@@ -91,15 +78,6 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
         .setVisible(
             and(
                 rsrc.getChange().getStatus() == Status.NEW && !rsrc.getChange().isWorkInProgress(),
-                or(
-                    rsrc.isUserOwner(),
-                    or(
-                        permissionBackend
-                            .currentUser()
-                            .testCond(GlobalPermission.ADMINISTRATE_SERVER),
-                        permissionBackend
-                            .currentUser()
-                            .project(rsrc.getProject())
-                            .testCond(ProjectPermission.WRITE_CONFIG)))));
+                rsrc.permissions().testCond(ChangePermission.TOGGLE_WORK_IN_PROGRESS_STATE)));
   }
 }

@@ -350,8 +350,10 @@ public class PostReview
           return Response.withStatusCode(SC_BAD_REQUEST, output);
         }
 
-        WorkInProgressOp.checkPermissions(
-            permissionBackend, revision.getUser(), revision.getChange());
+        revision
+            .getChangeResource()
+            .permissions()
+            .check(ChangePermission.TOGGLE_WORK_IN_PROGRESS_STATE);
 
         if (input.ready) {
           output.ready = true;

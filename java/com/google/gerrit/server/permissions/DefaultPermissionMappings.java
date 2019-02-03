@@ -97,6 +97,9 @@ public class DefaultPermissionMappings {
           .put(ChangePermission.REBASE, Permission.REBASE)
           .put(ChangePermission.SUBMIT, Permission.SUBMIT)
           .put(ChangePermission.SUBMIT_AS, Permission.SUBMIT_AS)
+          .put(
+              ChangePermission.TOGGLE_WORK_IN_PROGRESS_STATE,
+              Permission.TOGGLE_WORK_IN_PROGRESS_STATE)
           .build();
 
   private static <T extends Enum<T>> void checkMapContainsAllEnumValues(

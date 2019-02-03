@@ -176,6 +176,14 @@ class ChangeControl {
     return refControl.canForceEditTopicName();
   }
 
+  /** Can this user toggle WorkInProgress state? */
+  private boolean canToggleWorkInProgressState() {
+    return isOwner()
+        || getProjectControl().isOwner()
+        || refControl.canPerform(Permission.TOGGLE_WORK_IN_PROGRESS_STATE)
+        || getProjectControl().isAdmin();
+  }
+
   /** Can this user edit the description? */
   private boolean canEditDescription() {
     if (getChange().getStatus().isOpen()) {
@@ -299,6 +307,8 @@ class ChangeControl {
             return canRestore();
           case SUBMIT:
             return refControl.canSubmit(isOwner());
+          case TOGGLE_WORK_IN_PROGRESS_STATE:
+            return canToggleWorkInProgressState();
 
           case REMOVE_REVIEWER:
           case SUBMIT_AS:

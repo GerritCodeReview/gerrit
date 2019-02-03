@@ -20,7 +20,9 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
@@ -289,9 +291,7 @@ public class CommitValidators {
       sb.append("ERROR: ").append(errMsg);
 
       if (c.getFullMessage().indexOf(CHANGE_ID_PREFIX) >= 0) {
-        String[] lines = c.getFullMessage().trim().split("\n");
-        String lastLine = lines.length > 0 ? lines[lines.length - 1] : "";
-
+        String lastLine = Iterables.getLast(Splitter.on('\n').split(c.getFullMessage()), "");
         if (lastLine.indexOf(CHANGE_ID_PREFIX) == -1) {
           sb.append('\n');
           sb.append('\n');

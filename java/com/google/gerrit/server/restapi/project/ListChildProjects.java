@@ -41,6 +41,9 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   @Option(name = "--recursive", usage = "to list child projects recursively")
   private boolean recursive;
 
+  @Option(name = "--limit", usage = "maximum number of parents projects to list")
+  private int limit;
+
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
   private final ProjectJson json;
@@ -65,10 +68,17 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     this.recursive = recursive;
   }
 
+  public void setLimit(int limit) {
+    this.limit = limit;
+  }
+
   @Override
   public List<ProjectInfo> apply(ProjectResource rsrc)
       throws PermissionBackendException, OrmException, ResourceConflictException,
           BadRequestException, MethodNotAllowedException {
+    if (recursive && limit != 0) {
+      throw new ResourceConflictException("recursive and limit options are mutually exclusive");
+    }
     rsrc.getProjectState().checkStatePermitsRead();
     if (recursive) {
       return childProjects.list(rsrc.getNameKey());
@@ -82,6 +92,9 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     PermissionBackend.WithUser currentUser = permissionBackend.currentUser();
     QueryProjects query = queryProvider.get();
     query.setQuery("parent:" + parent.get());
+    if (limit != 0) {
+      query.setLimit(limit);
+    }
     return query
         .apply(TopLevelResource.INSTANCE)
         .stream()

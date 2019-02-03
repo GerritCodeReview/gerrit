@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "45d9bfa6_da456332",
+        "filename": "java/com/google/gerrit/server/restapi/project/Index.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-03T10:16:01Z",
+      "side": 1,
+      "message": "I believe the level of integration is wrong: we should use the QueryBuilder/QueryProcessor layer to perform the query, rather than using another RestAPI through the external API interface.\n\nThat\u0027s the reason why we get a generic RestApiException out.",
+      "parentUuid": "6465a4ce_d01e3c8e",
+      "range": {
+        "startLine": 64,
+        "startChar": 37,
+        "endLine": 64,
+        "endChar": 53
+      },
+      "revId": "6e73c72e4e2b7f9db926b1fc5a83b74209f2547c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c53cac4_2e0a7c43",
         "filename": "java/com/google/gerrit/server/restapi/project/ListChildProjects.java",
         "patchSetId": 1

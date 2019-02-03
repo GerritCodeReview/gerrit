@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "214ad727_5902c191",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListChildProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-03T22:36:02Z",
+      "side": 1,
+      "message": "What\u0027s the purpose of this instruction?\n\np: ProjectInfo\nprojectCache.get(p.name): ProjectState\njson.format: ProjectState -\u003e ProjectInfo\n\nSo we basically have *already* a ProjectInfo BUT, we read again the project state from the cache and we transform it again back into a ProjectInfo?\n\nIMHO the L93 should be just removed :-)",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 56
+      },
+      "revId": "b7ff504c276e91752975f92623cdfa78ad831ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d1ea77f_f7e315f1",
+        "filename": "java/com/google/gerrit/sshd/commands/SetParentCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-03T22:36:02Z",
+      "side": 1,
+      "message": "Changing the implementation should not impact the interface of the API. I believe the internal exceptions should be managed in the API and remapped to a RestApiException.",
+      "range": {
+        "startLine": 115,
+        "startChar": 15,
+        "endLine": 118,
+        "endChar": 37
+      },
+      "revId": "b7ff504c276e91752975f92623cdfa78ad831ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

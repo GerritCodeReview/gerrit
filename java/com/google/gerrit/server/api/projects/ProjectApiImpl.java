@@ -485,6 +485,15 @@ public class ProjectApiImpl implements ProjectApi {
   }
 
   @Override
+  public List<ProjectInfo> children(int limit) throws RestApiException {
+    try {
+      return children.list().withLimit(limit).apply(checkExists());
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list children", e);
+    }
+  }
+
+  @Override
   public ChildProjectApi child(String name) throws RestApiException {
     try {
       return childApi.create(children.parse(checkExists(), IdString.fromDecoded(name)));

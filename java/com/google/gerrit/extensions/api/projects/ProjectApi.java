@@ -106,6 +106,8 @@ public interface ProjectApi {
 
   List<ProjectInfo> children(boolean recursive) throws RestApiException;
 
+  List<ProjectInfo> children(int limit) throws RestApiException;
+
   ChildProjectApi child(String name) throws RestApiException;
 
   /**
@@ -281,6 +283,11 @@ public interface ProjectApi {
 
     @Override
     public List<ProjectInfo> children(boolean recursive) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<ProjectInfo> children(int limit) throws RestApiException {
       throw new NotImplementedException();
     }
 

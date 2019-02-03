@@ -17,6 +17,8 @@ package com.google.gerrit.server.restapi.project;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -37,6 +39,9 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   @Option(name = "--recursive", usage = "to list child projects recursively")
   private boolean recursive;
 
+  @Option(name = "--limit", usage = "maximum number of parents projects to list")
+  private int limit;
+
   private final PermissionBackend permissionBackend;
   private final ChildProjects childProjects;
   private final Provider<QueryProjects> queryProvider;
@@ -55,9 +60,19 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     this.recursive = recursive;
   }
 
+  public void setLimit(int limit) {
+    this.limit = limit;
+  }
+
   @Override
   public List<ProjectInfo> apply(ProjectResource rsrc)
       throws PermissionBackendException, OrmException, RestApiException {
+    if (limit < 0) {
+      throw new BadRequestException("limit must be a positive number");
+    }
+    if (recursive && limit != 0) {
+      throw new ResourceConflictException("recursive and limit options are mutually exclusive");
+    }
     rsrc.getProjectState().checkStatePermitsRead();
     if (recursive) {
       return childProjects.list(rsrc.getNameKey());
@@ -72,6 +87,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     return queryProvider
         .get()
         .withQuery("parent:" + parent.get())
+        .withLimit(limit)
         .apply(TopLevelResource.INSTANCE)
         .stream()
         .filter(

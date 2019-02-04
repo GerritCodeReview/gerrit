@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.testsuite.checker;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.gerrit.acceptance.testsuite.checker.TestCheckerUpdate.Builder;
+import com.google.gerrit.common.errors.NoSuchCheckerException;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.checker.Checker;
 import com.google.gerrit.server.checker.CheckerCreation;
@@ -154,6 +156,23 @@ public class CheckerOperationsImpl implements CheckerOperations {
                 null, repo, checker.get().getRefState(), CheckerConfig.CHECKER_CONFIG_FILE)
             .toText();
       }
+    }
+
+    public Builder forUpdate() {
+      return TestCheckerUpdate.builder(this::updateChecker);
+    }
+
+    private void updateChecker(TestCheckerUpdate testCheckerUpdate)
+        throws NoSuchCheckerException, ConfigInvalidException, IOException {
+      CheckerUpdate checkerUpdate = toCheckerUpdate(testCheckerUpdate);
+      checkersUpdate.updateChecker(checkerUuid, checkerUpdate);
+    }
+
+    private CheckerUpdate toCheckerUpdate(TestCheckerUpdate checkerUpdate) {
+      CheckerUpdate.Builder builder = CheckerUpdate.builder();
+      checkerUpdate.name().ifPresent(builder::setName);
+      checkerUpdate.description().ifPresent(builder::setDescription);
+      return builder.build();
     }
   }
 }

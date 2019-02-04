@@ -405,21 +405,32 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     addReviewerToWipChange(batch());
   }
 
-  private void addReviewerToReviewableWipChange(Adder adder) throws Exception {
+  @Test
+  public void addReviewerToReviewableWipChangeSingly() throws Exception {
     StagedChange sc = stageReviewableWipChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
-    addReviewer(adder, sc.changeId, sc.owner, reviewer.email);
+    addReviewer(singly(), sc.changeId, sc.owner, reviewer.email);
+    // TODO(dborowitz): In theory this should match the batch case, but we don't currently pass
+    // enough info into AddReviewersEmail#emailReviewers to distinguish the reviewStarted case.
+    // Complicating the emailReviewers arguments is not the answer; this needs to be rewritten.
+    // Tolerate the difference for now.
     assertThat(sender).didNotSend();
   }
 
   @Test
-  public void addReviewerToReviewableWipChangeSingly() throws Exception {
-    addReviewerToReviewableWipChange(singly());
-  }
-
-  @Test
   public void addReviewerToReviewableWipChangeBatch() throws Exception {
-    addReviewerToReviewableWipChange(batch());
+    StagedChange sc = stageReviewableWipChange();
+    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
+    addReviewer(batch(), sc.changeId, sc.owner, reviewer.email);
+    // For a review-started WIP change, same as in the notify=ALL case. It's not especially
+    // important to notify just because a reviewer is added, but we do want to notify in the other
+    // case that hits this codepath: posting an actual review.
+    assertThat(sender)
+        .sent("newchange", sc)
+        .to(reviewer)
+        .cc(sc.reviewer)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .noOneElse();
   }
 
   private void addReviewerToWipChangeNotifyAll(Adder adder) throws Exception {

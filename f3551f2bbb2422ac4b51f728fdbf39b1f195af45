@@ -503,6 +503,24 @@
     },
     {
       "key": {
+        "uuid": "f317dc60_14011d40",
+        "filename": "java/com/google/gerrit/server/verifier/db/NoteDbVerifiersUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-04T14:35:45Z",
+      "side": 1,
+      "message": "For AccountsUpdate and GroupsUpdate this is done by https://gerrit-review.googlesource.com/c/gerrit/+/212758",
+      "parentUuid": "4b6c88c2_90add751",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8946b25a_d1cbdec9",
         "filename": "java/com/google/gerrit/server/verifier/db/NoteDbVerifiersUpdate.java",
         "patchSetId": 11
@@ -686,6 +704,30 @@
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "606654df_a6ae3c42",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-04T14:35:45Z",
+      "side": 1,
+      "message": "Makes sense to me, leaving the name for now.",
+      "parentUuid": "e82fc7d7_ac859c53",
+      "range": {
+        "startLine": 155,
+        "startChar": 28,
+        "endLine": 155,
+        "endChar": 45
+      },
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

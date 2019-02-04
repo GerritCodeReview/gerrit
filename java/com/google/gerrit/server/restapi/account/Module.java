@@ -118,7 +118,7 @@ public class Module extends RestApiModule {
   @ServerInitiated
   AccountsUpdate provideServerInitiatedAccountsUpdate(
       AccountsUpdate.Factory accountsUpdateFactory, ExternalIdNotes.Factory extIdNotesFactory) {
-    return accountsUpdateFactory.create(null, extIdNotesFactory);
+    return accountsUpdateFactory.createWithServerIdent(extIdNotesFactory);
   }
 
   @Provides

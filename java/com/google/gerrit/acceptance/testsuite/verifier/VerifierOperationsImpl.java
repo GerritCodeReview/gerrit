@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.testsuite.verifier;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.gerrit.acceptance.testsuite.verifier.TestVerifierUpdate.Builder;
+import com.google.gerrit.common.errors.NoSuchVerifierException;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -154,6 +156,23 @@ public class VerifierOperationsImpl implements VerifierOperations {
                 null, repo, verifier.get().getRefState(), VerifierConfig.VERIFIER_CONFIG_FILE)
             .toText();
       }
+    }
+
+    public Builder forUpdate() {
+      return TestVerifierUpdate.builder(this::updateVerifier);
+    }
+
+    private void updateVerifier(TestVerifierUpdate testVerifierUpdate)
+        throws NoSuchVerifierException, ConfigInvalidException, IOException {
+      VerifierUpdate verifierUpdate = toVerifierUpdate(testVerifierUpdate);
+      verifiersUpdate.updateVerifier(verifierUuid, verifierUpdate);
+    }
+
+    private VerifierUpdate toVerifierUpdate(TestVerifierUpdate verifierUpdate) {
+      VerifierUpdate.Builder builder = VerifierUpdate.builder();
+      verifierUpdate.name().ifPresent(builder::setName);
+      verifierUpdate.description().ifPresent(builder::setDescription);
+      return builder.build();
     }
   }
 }

@@ -22,6 +22,7 @@ import com.google.gerrit.plugins.checkers.CheckerUpdate;
 import com.google.gerrit.plugins.checkers.CheckerUuid;
 import com.google.gerrit.plugins.checkers.Checkers;
 import com.google.gerrit.plugins.checkers.CheckersUpdate;
+import com.google.gerrit.plugins.checkers.NoSuchCheckerException;
 import com.google.gerrit.plugins.checkers.db.CheckerConfig;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -154,6 +155,23 @@ public class CheckerOperationsImpl implements CheckerOperations {
                 null, repo, checker.get().getRefState(), CheckerConfig.CHECKER_CONFIG_FILE)
             .toText();
       }
+    }
+
+    public TestCheckerUpdate.Builder forUpdate() {
+      return TestCheckerUpdate.builder(this::updateChecker);
+    }
+
+    private void updateChecker(TestCheckerUpdate testCheckerUpdate)
+        throws NoSuchCheckerException, ConfigInvalidException, IOException {
+      CheckerUpdate checkerUpdate = toCheckerUpdate(testCheckerUpdate);
+      checkersUpdate.updateChecker(checkerUuid, checkerUpdate);
+    }
+
+    private CheckerUpdate toCheckerUpdate(TestCheckerUpdate checkerUpdate) {
+      CheckerUpdate.Builder builder = CheckerUpdate.builder();
+      checkerUpdate.name().ifPresent(builder::setName);
+      checkerUpdate.description().ifPresent(builder::setDescription);
+      return builder.build();
     }
   }
 }

@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f712e23a_06e6f0e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-04T22:02:36Z",
+      "side": 1,
+      "message": "Say rather: \"Some of the existing\", because it is not viable and doable to migrate ListProjects extensive logic with all its options to secondary index.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 18
+      },
+      "revId": "d25655eaae74a1f29768e4cfd25237db9614ffa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f01fa6e2_a49b62f0",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-04T22:02:36Z",
+      "side": 1,
+      "message": "This is unneeded restriction and is major use-case: User open GWT UI project list and type substring query. This can be easily expressed with secondary index inname:\u003cfoo\u003e predicate. So that I thought that we can relax this restriction here, and add something like this below in stateToQuery() method:\n\n  if (!isNullOrEmpty(matchSubstring)) {\n    queries.add(String.format(\"inname:%s\", matchSubstring));\n  }\n\nBut then I ran tests with this change and realized, that tests are failing: ListProjectsIT#listProjectsWithSubstring(). What is going on? For the project named:\n\n  com.google.gerrit.acceptance.rest.project.ListProjectsIT_listProjectsWithSubstring_project-awesome\n\nsearch for \"some\" substring does not produce a match.\n\nWhy is that? Because getNameParts#getNameParts(name) produces these parts:\n\n  [com, rest, awesome, listprojectsit, acceptance, project, google, listprojectswithsubstring, gerrit]\n\nSo that there is a \"awesome\" part and \"some\" part is missing and we don\u0027t have a match. Given that we PG UI already behaves like that, it\u0027s really confusing in 2.16 that GWT UI produces different matches for the same feature: \"substring search\" in memory and inname:\u003cfoo\u003e predicate.\n\nSo that one option (in this or next change) could be to harmonize these different behavior, swap to using secondary index for list project with substring and document how the part divider in Lucene index works.\n\nNote, that with this Test \"adaptation\" it passes: [1].\n\n* [1] http://paste.openstack.org/show/744523",
+      "range": {
+        "startLine": 340,
+        "startChar": 0,
+        "endLine": 340,
+        "endChar": 44
+      },
+      "revId": "d25655eaae74a1f29768e4cfd25237db9614ffa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b61acab_dd5c8947",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-04T22:02:36Z",
+      "side": 1,
+      "message": "Replace with showBranch.isEmpty()",
+      "range": {
+        "startLine": 342,
+        "startChar": 15,
+        "endLine": 342,
+        "endChar": 44
+      },
+      "revId": "d25655eaae74a1f29768e4cfd25237db9614ffa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88b99bb4_c5de85c0",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-04T22:02:36Z",
+      "side": 1,
+      "message": "It seems to only check for showBranches but it is initialized with empty ArrayList\u003c\u003e(). So that it can be changed to showBranch.isEmpty() above. Note, what the addShowBranch is doing: it is adding and not replacing the ArrayList:\n\n  public void addShowBranch(String branch) {\n    showBranch.add(branch);\n  }",
+      "range": {
+        "startLine": 347,
+        "startChar": 2,
+        "endLine": 349,
+        "endChar": 3
+      },
+      "revId": "d25655eaae74a1f29768e4cfd25237db9614ffa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76028766_6646cbc0",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-04T22:02:36Z",
+      "side": 1,
+      "message": "Nit: Use expression instead of the block: p -\u003e p.name.",
+      "range": {
+        "startLine": 375,
+        "startChar": 15,
+        "endLine": 377,
+        "endChar": 15
+      },
+      "revId": "d25655eaae74a1f29768e4cfd25237db9614ffa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26cae445_c086f4f4",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-04T22:02:36Z",
+      "side": 1,
+      "message": "Well, that is a pretty simple logic, but in this form very hard to parse and understand. I would like to suggest to externalize it, and give it a name. May be just: nullifyDescription. Then we can use expression again and not a block and just say:\n\n  p -\u003e nullifyDescription(p)));\n\nWhere nullifyDescription method is defined as folllow:\n\n  private ProjectInfo nullifyDescription(ProjectInfo p) {\n    if (!showDescription) {\n      p.description \u003d null;\n    }\n    return p;\n  }",
+      "range": {
+        "startLine": 378,
+        "startChar": 14,
+        "endLine": 384,
+        "endChar": 15
+      },
+      "revId": "d25655eaae74a1f29768e4cfd25237db9614ffa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a0e32d8_ed3a4aa4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-04T22:02:36Z",
+      "side": 1,
+      "message": "The question is here: how we ensure, that secondary index based code path is actually used in ListProjects and not memory based?",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 64
+      },
+      "revId": "d25655eaae74a1f29768e4cfd25237db9614ffa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

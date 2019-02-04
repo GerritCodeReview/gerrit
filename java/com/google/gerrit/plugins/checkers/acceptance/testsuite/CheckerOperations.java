@@ -100,5 +100,23 @@ public interface CheckerOperations {
      * @throws ConfigInvalidException if the checker config is invalid
      */
     String configText() throws IOException, ConfigInvalidException;
+
+    /**
+     * Starts the fluent chain to update a checker. The returned builder can be used to specify how
+     * the attributes of the checker should be modified. To update the checker for real, {@link
+     * TestCheckerUpdate.Builder#update()} must be called.
+     *
+     * <p>Example:
+     *
+     * <pre>
+     * checkerOperations.forUpdate().description("Another description for this checker").update();
+     * </pre>
+     *
+     * <p><strong>Note:</strong> The update will fail with an exception if the checker to update
+     * doesn't exist. If you want to check for the existence of a checker, use {@link #exists()}.
+     *
+     * @return a builder to update the checker
+     */
+    TestCheckerUpdate.Builder forUpdate();
   }
 }

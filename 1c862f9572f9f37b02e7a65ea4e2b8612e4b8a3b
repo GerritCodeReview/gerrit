@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1056b1ad_3bf49d56",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-04T14:34:37Z",
+      "side": 1,
+      "message": "Remove this blank line",
+      "revId": "1c862f9572f9f37b02e7a65ea4e2b8612e4b8a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17d25c8d_21873fba",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-04T14:34:37Z",
+      "side": 1,
+      "message": "Transform",
+      "range": {
+        "startLine": 320,
+        "startChar": 5,
+        "endLine": 320,
+        "endChar": 13
+      },
+      "revId": "1c862f9572f9f37b02e7a65ea4e2b8612e4b8a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77774188_20c9a75a",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-04T14:34:37Z",
+      "side": 1,
+      "message": "Trailing white space",
+      "revId": "1c862f9572f9f37b02e7a65ea4e2b8612e4b8a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "293b43d3_165c8d39",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-04T14:34:37Z",
+      "side": 1,
+      "message": "Wrap this line",
+      "revId": "1c862f9572f9f37b02e7a65ea4e2b8612e4b8a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -31,6 +31,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -138,6 +139,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
   @Override
   protected ProjectData fromDocument(Document doc) {
     Project.NameKey nameKey = new Project.NameKey(doc.getField(NAME.getName()).stringValue());
-    return projectCache.get().get(nameKey).toProjectData();
+    ProjectState projectState = projectCache.get().get(nameKey);
+    return projectState == null ? null : projectState.toProjectData();
   }
 }

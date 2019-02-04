@@ -19,6 +19,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.Preconditions;
+import com.google.gerrit.acceptance.testsuite.verifier.TestVerifierUpdate.Builder;
+import com.google.gerrit.common.errors.NoSuchVerifierException;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -171,6 +173,23 @@ public class VerifierOperationsImpl implements VerifierOperations {
           return cfg.toText();
         }
       }
+    }
+
+    public Builder forUpdate() {
+      return TestVerifierUpdate.builder(this::updateVerifier);
+    }
+
+    private void updateVerifier(TestVerifierUpdate testVerifierUpdate)
+        throws NoSuchVerifierException, ConfigInvalidException, IOException {
+      VerifierUpdate verifierUpdate = toVerifierUpdate(testVerifierUpdate);
+      verifiersUpdate.updateVerifier(verifierUuid, verifierUpdate);
+    }
+
+    private VerifierUpdate toVerifierUpdate(TestVerifierUpdate verifierUpdate) {
+      VerifierUpdate.Builder builder = VerifierUpdate.builder();
+      verifierUpdate.name().ifPresent(builder::setName);
+      verifierUpdate.description().ifPresent(builder::setDescription);
+      return builder.build();
     }
   }
 }

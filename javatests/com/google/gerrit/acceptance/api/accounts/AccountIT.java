@@ -2257,7 +2257,7 @@ public class AccountIT extends AbstractDaemonTest {
         new AccountsUpdate(
             repoManager,
             gitReferenceUpdated,
-            null,
+            Optional.empty(),
             allUsers,
             externalIds,
             metaDataUpdateInternalFactory,
@@ -2307,7 +2307,7 @@ public class AccountIT extends AbstractDaemonTest {
         new AccountsUpdate(
             repoManager,
             gitReferenceUpdated,
-            null,
+            Optional.empty(),
             allUsers,
             externalIds,
             metaDataUpdateInternalFactory,
@@ -2367,7 +2367,7 @@ public class AccountIT extends AbstractDaemonTest {
         new AccountsUpdate(
             repoManager,
             gitReferenceUpdated,
-            null,
+            Optional.empty(),
             allUsers,
             externalIds,
             metaDataUpdateInternalFactory,
@@ -2433,7 +2433,7 @@ public class AccountIT extends AbstractDaemonTest {
         new AccountsUpdate(
             repoManager,
             gitReferenceUpdated,
-            null,
+            Optional.empty(),
             allUsers,
             externalIds,
             metaDataUpdateInternalFactory,

@@ -24,7 +24,6 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Runnables;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.reviewdb.client.Account;
@@ -44,9 +43,9 @@ import com.google.gerrit.server.update.RetryHelper.Action;
 import com.google.gerrit.server.update.RetryHelper.ActionType;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
@@ -123,16 +122,28 @@ public class AccountsUpdate {
   public interface Factory {
     /**
      * Creates an {@code AccountsUpdate} which uses the identity of the specified user as author for
-     * all commits related to accounts. The Gerrit server identity will be used as committer.
+     * all commits related to accounts. The server identity will be used as committer.
      *
-     * <p><strong>Note</strong>: Please use this method with care and rather consider to use the
-     * correct annotation on the provider of an {@code AccountsUpdate} instead.
+     * <p><strong>Note</strong>: Please use this method with care and consider using {@link
+     * com.google.gerrit.server.UserInitiated} annotation on the provider of an {@code
+     * AccountsUpdate} instead.
      *
-     * @param currentUser the user to which modifications should be attributed, or {@code null} if
-     *     the Gerrit server identity should also be used as author
+     * @param currentUser the user to which modifications should be attributed
+     * @param externalIdNotesLoader the loader that should be used to load external ID notes
      */
-    AccountsUpdate create(
-        @Nullable IdentifiedUser currentUser, ExternalIdNotesLoader externalIdNotesLoader);
+    AccountsUpdate create(IdentifiedUser currentUser, ExternalIdNotesLoader externalIdNotesLoader);
+
+    /**
+     * Creates an {@code AccountsUpdate} which uses the server identity as author and committer for
+     * all commits related to accounts.
+     *
+     * <p><strong>Note</strong>: Please use this method with care and consider using {@link
+     * com.google.gerrit.server.ServerInitiated} annotation on the provider of an {@code
+     * AccountsUpdate} instead.
+     *
+     * @param externalIdNotesLoader the loader that should be used to load external ID notes
+     */
+    AccountsUpdate createWithServerIdent(ExternalIdNotesLoader externalIdNotesLoader);
   }
 
   /**
@@ -172,7 +183,7 @@ public class AccountsUpdate {
 
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated gitRefUpdated;
-  @Nullable private final IdentifiedUser currentUser;
+  private final Optional<IdentifiedUser> currentUser;
   private final AllUsersName allUsersName;
   private final ExternalIds externalIds;
   private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
@@ -187,7 +198,7 @@ public class AccountsUpdate {
   // Invoked after updating the account but before committing the changes.
   private final Runnable beforeCommit;
 
-  @Inject
+  @AssistedInject
   AccountsUpdate(
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
@@ -196,19 +207,44 @@ public class AccountsUpdate {
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
       @GerritPersonIdent PersonIdent serverIdent,
-      @Assisted @Nullable IdentifiedUser currentUser,
       @Assisted ExternalIdNotesLoader extIdNotesLoader) {
     this(
         repoManager,
         gitRefUpdated,
-        currentUser,
+        Optional.empty(),
         allUsersName,
         externalIds,
         metaDataUpdateInternalFactory,
         retryHelper,
         extIdNotesLoader,
         serverIdent,
-        createPersonIdent(serverIdent, currentUser),
+        createPersonIdent(serverIdent, Optional.empty()),
+        Runnables.doNothing(),
+        Runnables.doNothing());
+  }
+
+  @AssistedInject
+  AccountsUpdate(
+      GitRepositoryManager repoManager,
+      GitReferenceUpdated gitRefUpdated,
+      AllUsersName allUsersName,
+      ExternalIds externalIds,
+      Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
+      RetryHelper retryHelper,
+      @GerritPersonIdent PersonIdent serverIdent,
+      @Assisted IdentifiedUser currentUser,
+      @Assisted ExternalIdNotesLoader extIdNotesLoader) {
+    this(
+        repoManager,
+        gitRefUpdated,
+        Optional.of(currentUser),
+        allUsersName,
+        externalIds,
+        metaDataUpdateInternalFactory,
+        retryHelper,
+        extIdNotesLoader,
+        serverIdent,
+        createPersonIdent(serverIdent, Optional.of(currentUser)),
         Runnables.doNothing(),
         Runnables.doNothing());
   }
@@ -217,7 +253,7 @@ public class AccountsUpdate {
   public AccountsUpdate(
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
-      @Nullable IdentifiedUser currentUser,
+      Optional<IdentifiedUser> currentUser,
       AllUsersName allUsersName,
       ExternalIds externalIds,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
@@ -243,11 +279,11 @@ public class AccountsUpdate {
   }
 
   private static PersonIdent createPersonIdent(
-      PersonIdent serverIdent, @Nullable IdentifiedUser user) {
-    if (user == null) {
+      PersonIdent serverIdent, Optional<IdentifiedUser> user) {
+    if (!user.isPresent()) {
       return serverIdent;
     }
-    return user.newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone());
+    return user.get().newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone());
   }
 
   /**
@@ -455,7 +491,7 @@ public class AccountsUpdate {
         .updateCaches(accountsThatWillBeReindexByReindexAfterRefUpdate);
 
     gitRefUpdated.fire(
-        allUsersName, batchRefUpdate, currentUser != null ? currentUser.state() : null);
+        allUsersName, batchRefUpdate, currentUser.map(user -> user.state()).orElse(null));
   }
 
   private static Set<Account.Id> getUpdatedAccounts(BatchRefUpdate batchRefUpdate) {

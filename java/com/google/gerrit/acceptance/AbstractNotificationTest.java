@@ -511,6 +511,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     StagedChange sc = stageReviewableChange();
     requestScopeOperations.setApiUser(sc.owner.getId());
     gApi.changes().id(sc.changeId).setWorkInProgress();
+    sender.clear();
     return sc;
   }
 

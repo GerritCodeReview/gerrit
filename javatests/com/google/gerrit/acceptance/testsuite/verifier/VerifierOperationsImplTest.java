@@ -172,6 +172,70 @@ public class VerifierOperationsImplTest extends AbstractDaemonTest {
     assertThat(createdOn).isEqualTo(verifier.createdOn);
   }
 
+  @Test
+  public void updateWithoutAnyParametersIsANoop() throws Exception {
+    String verifierUuid = verifierOperations.newVerifier().create();
+    TestVerifier originalVerifier = verifierOperations.verifier(verifierUuid).get();
+
+    verifierOperations.verifier(verifierUuid).forUpdate().update();
+
+    TestVerifier updatedVerifier = verifierOperations.verifier(verifierUuid).get();
+    assertThat(updatedVerifier).isEqualTo(originalVerifier);
+  }
+
+  @Test
+  public void updateWritesToInternalVerifierSystem() throws Exception {
+    String verifierUuid =
+        verifierOperations.newVerifier().description("original description").create();
+
+    verifierOperations
+        .verifier(verifierUuid)
+        .forUpdate()
+        .description("updated description")
+        .update();
+
+    String currentDescription = getVerifierFromServer(verifierUuid).description;
+    assertThat(currentDescription).isEqualTo("updated description");
+  }
+
+  @Test
+  public void nameCanBeUpdated() throws Exception {
+    String verifierUuid = verifierOperations.newVerifier().name("original name").create();
+
+    verifierOperations.verifier(verifierUuid).forUpdate().name("updated name").update();
+
+    String currentName = verifierOperations.verifier(verifierUuid).get().name();
+    assertThat(currentName).isEqualTo("updated name");
+  }
+
+  @Test
+  public void descriptionCanBeUpdated() throws Exception {
+    String verifierUuid =
+        verifierOperations.newVerifier().description("original description").create();
+
+    verifierOperations
+        .verifier(verifierUuid)
+        .forUpdate()
+        .description("updated description")
+        .update();
+
+    Optional<String> currentDescription =
+        verifierOperations.verifier(verifierUuid).get().description();
+    assertThat(currentDescription).hasValue("updated description");
+  }
+
+  @Test
+  public void descriptionCanBeCleared() throws Exception {
+    String verifierUuid =
+        verifierOperations.newVerifier().description("original description").create();
+
+    verifierOperations.verifier(verifierUuid).forUpdate().clearDescription().update();
+
+    Optional<String> currentDescription =
+        verifierOperations.verifier(verifierUuid).get().description();
+    assertThat(currentDescription).isEmpty();
+  }
+
   private VerifierInput createArbitraryVerifierInput() {
     VerifierInput verifierInput = new VerifierInput();
     verifierInput.name = name("test-verifier");

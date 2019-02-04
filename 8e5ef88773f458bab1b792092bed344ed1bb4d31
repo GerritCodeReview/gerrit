@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0e4d7e23_8f669fa1",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListChildProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-04T07:36:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1792a7ee_30f6dd55",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 73,
+        "endChar": 3
+      },
+      "revId": "8e5ef88773f458bab1b792092bed344ed1bb4d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ed3d6a1_496e84f9",
         "filename": "java/com/google/gerrit/server/restapi/project/ListChildProjects.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-02-03T22:40:05Z",
       "side": 1,
       "message": "This should be \u003e 0\nIf limit \u003c 0 instead, we should throw a BadRequestException saying that limit must be a non-negative number.",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 95,
+        "endChar": 18
+      },
+      "revId": "8e5ef88773f458bab1b792092bed344ed1bb4d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cfe98b0_ad0eb36e",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListChildProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-04T07:36:53Z",
+      "side": 1,
+      "message": "I added the non negative check in apply method. Done.",
+      "parentUuid": "0ed3d6a1_496e84f9",
       "range": {
         "startLine": 95,
         "startChar": 8,

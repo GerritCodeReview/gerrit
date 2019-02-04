@@ -994,8 +994,8 @@ public class ChangeJson {
   public static ApprovalInfo getApprovalInfo(
       Account.Id id,
       Integer value,
-      VotingRangeInfo permittedVotingRange,
-      String tag,
+      @Nullable VotingRangeInfo permittedVotingRange,
+      @Nullable String tag,
       Timestamp date) {
     ApprovalInfo ai = new ApprovalInfo(id.get());
     ai.value = value;

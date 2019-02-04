@@ -119,6 +119,7 @@ import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import com.google.inject.Provider;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -247,6 +248,7 @@ public abstract class AbstractDaemonTest {
   protected String resourcePrefix;
   protected Description description;
   protected boolean testRequiresSsh;
+  protected Module testSysModule;
 
   @Inject private ChangeIndexCollection changeIndexes;
   @Inject private EventRecorder.Factory eventRecorderFactory;
@@ -323,11 +325,11 @@ public abstract class AbstractDaemonTest {
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
       if (commonServer == null) {
-        commonServer = GerritServer.initAndStart(classDesc, baseConfig);
+        commonServer = GerritServer.initAndStart(classDesc, baseConfig, testSysModule);
       }
       server = commonServer;
     } else {
-      server = GerritServer.initAndStart(methodDesc, baseConfig);
+      server = GerritServer.initAndStart(methodDesc, baseConfig, testSysModule);
     }
 
     server.getTestInjector().injectMembers(this);

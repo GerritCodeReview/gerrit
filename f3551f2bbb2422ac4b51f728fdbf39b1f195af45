@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ecb830e7_b6a11c4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-04T13:29:32Z",
+      "side": 1,
+      "message": "Alice just closed the thread about the name in the design doc with the conclusion that we will use \"verifier\" as name. Renaming it would be quite some work, but I better do that if needed than being blocked until the name discussion is finally settled. So it\u0027s \"verifier\" for now, but if we change our mind I can adapt the code.",
+      "parentUuid": "357ad4bc_be9efa5c",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c1ea0e5a_c9d24a1d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 11
@@ -47,6 +65,24 @@
       "writtenOn": "2019-02-04T12:21:26Z",
       "side": 1,
       "message": "The docs say the name can be ambiguous. What happens if you provide a name that already exists? In theory it could still create a new verifier, but I feel like that\u0027s not the proper RESTful response.",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9df72d6e_a461dfe8",
+        "filename": "Documentation/rest-api-verifiers.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-04T13:29:32Z",
+      "side": 1,
+      "message": "\u003e The docs say the name can be ambiguous. What happens if you provide a name\n\u003e that already exists? In theory it could still create a new verifier,\n\nThis is how it works now.\n\n\u003e but I feel like that\u0027s not the proper RESTful response.\n\nWhat would be a better here?\n\nMaybe POST /verifiers/ and specify the verifier name in the request body?",
+      "parentUuid": "825f4d0a_ed99fb73",
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -138,6 +174,24 @@
     },
     {
       "key": {
+        "uuid": "24b4510a_6d725e35",
+        "filename": "java/com/google/gerrit/extensions/api/verifiers/VerifierApi.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-04T13:29:32Z",
+      "side": 1,
+      "message": "Looking at this change I\u0027m not sure we did (none of the default methods throws NIE). Also the discussion thread on this change concludes \"I like the idea with the default methods. Thanks for proposing it. I also agree that we should keep the NotImplemented class separate.\"",
+      "parentUuid": "92aa1458_68bc0e45",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6de13093_db010cdd",
         "filename": "java/com/google/gerrit/extensions/api/verifiers/Verifiers.java",
         "patchSetId": 11
@@ -172,6 +226,24 @@
     },
     {
       "key": {
+        "uuid": "f2c185c9_7abb032f",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-04T13:29:32Z",
+      "side": 1,
+      "message": "Oh right, this was supposed to be sharded. Just forgot about doing this. Thanks for pointing out.",
+      "parentUuid": "2c860621_7c2a1a54",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca1b06af_b4dd9b32",
         "filename": "java/com/google/gerrit/server/restapi/verifier/Module.java",
         "patchSetId": 11
@@ -183,6 +255,24 @@
       "writtenOn": "2019-02-04T12:21:26Z",
       "side": 1,
       "message": "I haven\u0027t gotten there yet but I\u0027m guessing this is so we can bind some other implementations for tests?\n\nIt still feels a little odd that this binding happens in the restapi package, as opposed to some module in a lower-level server or notedb package.",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7948d78d_58b5919d",
+        "filename": "java/com/google/gerrit/server/restapi/verifier/Module.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-04T13:29:32Z",
+      "side": 1,
+      "message": "So far there is no need for having a different implementation in tests.\n\nIn the design doc some people raised the concern that storing verifier data in Gerrit might not scale in the long run, so it was agreed to build the implementation of the storage behind an interface so that the implementation can be swapped if needed.\n\nI will have a look if we can do these bindings on a lower level.",
+      "parentUuid": "ca1b06af_b4dd9b32",
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -206,6 +296,24 @@
     },
     {
       "key": {
+        "uuid": "7165d3e6_8da65f20",
+        "filename": "java/com/google/gerrit/server/restapi/verifier/VerifiersCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-04T13:29:32Z",
+      "side": 1,
+      "message": "Yes, not yet. Will be implemented later.\nI should add a TODO here.",
+      "parentUuid": "d450fc6f_c34eec10",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7fbb718d_58cee594",
         "filename": "java/com/google/gerrit/server/restapi/verifier/VerifiersCollection.java",
         "patchSetId": 11
@@ -217,6 +325,24 @@
       "writtenOn": "2019-02-04T12:21:26Z",
       "side": 1,
       "message": "Why 400 and not 403?",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3676a65a_27fef97d",
+        "filename": "java/com/google/gerrit/server/restapi/verifier/VerifiersCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-04T13:29:32Z",
+      "side": 1,
+      "message": "We usually treat not visible the same way as not existing, hence 404.\n\nI agree that in this case users cannot probe anything if we would return 403 here, so I don\u0027t mind to change it 403.",
+      "parentUuid": "7fbb718d_58cee594",
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -359,6 +485,24 @@
     },
     {
       "key": {
+        "uuid": "4b6c88c2_90add751",
+        "filename": "java/com/google/gerrit/server/verifier/db/NoteDbVerifiersUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-04T13:29:32Z",
+      "side": 1,
+      "message": "Good idea.\n\nWe have the same factory for groups and accounts. I can try to do that change for them as a predecessor change and then use the new pattern here (or alternatively we fix all of them in a follow-up change).",
+      "parentUuid": "fd873cee_1d5a415a",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8946b25a_d1cbdec9",
         "filename": "java/com/google/gerrit/server/verifier/db/NoteDbVerifiersUpdate.java",
         "patchSetId": 11
@@ -370,6 +514,24 @@
       "writtenOn": "2019-02-04T12:21:26Z",
       "side": 1,
       "message": "Not really related to this change and not necessary to adjust now, but I feel like a lot of this logic could live in MetaDataUpdate.java.",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af2a583b_fd7ae573",
+        "filename": "java/com/google/gerrit/server/verifier/db/NoteDbVerifiersUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-04T13:29:32Z",
+      "side": 1,
+      "message": "I like this idea, not sure yet if I will pursue it immediately though.",
+      "parentUuid": "8946b25a_d1cbdec9",
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -467,6 +629,30 @@
       "writtenOn": "2019-02-04T12:21:26Z",
       "side": 1,
       "message": "Why \"loaded\"? Is there such a thing as a \"non-loaded verifier\"?",
+      "range": {
+        "startLine": 155,
+        "startChar": 28,
+        "endLine": 155,
+        "endChar": 45
+      },
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaccd34f_c67b0a8c",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-04T13:29:32Z",
+      "side": 1,
+      "message": "Not 100% sure either, I think it\u0027s to emphasize that you can call this method only after the load method was executed.\n\nThis name is consistent with \"getLoadedGroup\" in GroupConfig. If we change it here, we should also change it there. I will ask Alice for her opinion since she came up with this name prefix originally.",
+      "parentUuid": "89145e4d_15058b49",
       "range": {
         "startLine": 155,
         "startChar": 28,

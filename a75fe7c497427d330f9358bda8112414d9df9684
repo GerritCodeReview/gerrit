@@ -22,6 +22,30 @@
       "revId": "a75fe7c497427d330f9358bda8112414d9df9684",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eaeca62_8acd6640",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1899,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-04T00:43:47Z",
+      "side": 1,
+      "message": "Yup, looked better instead of doing \u0027topic:\"\u0027 + topic + \u0027\"\u0027,",
+      "parentUuid": "667d6bdb_7451dee0",
+      "range": {
+        "startLine": 1899,
+        "startChar": 8,
+        "endLine": 1899,
+        "endChar": 9
+      },
+      "revId": "a75fe7c497427d330f9358bda8112414d9df9684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

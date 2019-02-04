@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6dcec492_cf9e8940",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListChildProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-04T07:32:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bd3e5b1_0ea637ed",
+      "range": {
+        "startLine": 81,
+        "startChar": 13,
+        "endLine": 81,
+        "endChar": 73
+      },
+      "revId": "b7ff504c276e91752975f92623cdfa78ad831ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "214ad727_5902c191",
         "filename": "java/com/google/gerrit/server/restapi/project/ListChildProjects.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "b7ff504c276e91752975f92623cdfa78ad831ea3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47aadeba_cf6685b7",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListChildProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-04T07:32:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "214ad727_5902c191",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 56
+      },
+      "revId": "b7ff504c276e91752975f92623cdfa78ad831ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

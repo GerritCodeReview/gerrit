@@ -35,6 +35,24 @@
       "revId": "971074c4743110b793e8cd677f2b6ec7793674d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "143192de_a97ffb4e",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-04T11:51:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e57d50a6_604449ee",
+      "revId": "971074c4743110b793e8cd677f2b6ec7793674d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

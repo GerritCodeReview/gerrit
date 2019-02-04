@@ -193,6 +193,62 @@ public class CheckerOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void updateWithoutAnyParametersIsANoop() throws Exception {
+    String checkerUuid = checkerOperations.newChecker().create();
+    TestChecker originalChecker = checkerOperations.checker(checkerUuid).get();
+
+    checkerOperations.checker(checkerUuid).forUpdate().update();
+
+    TestChecker updatedChecker = checkerOperations.checker(checkerUuid).get();
+    assertThat(updatedChecker).isEqualTo(originalChecker);
+  }
+
+  @Test
+  public void updateWritesToInternalCheckerSystem() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().description("original description").create();
+
+    checkerOperations.checker(checkerUuid).forUpdate().description("updated description").update();
+
+    String currentDescription = getCheckerFromServer(checkerUuid).description;
+    assertThat(currentDescription).isEqualTo("updated description");
+  }
+
+  @Test
+  public void nameCanBeUpdated() throws Exception {
+    String checkerUuid = checkerOperations.newChecker().name("original name").create();
+
+    checkerOperations.checker(checkerUuid).forUpdate().name("updated name").update();
+
+    String currentName = checkerOperations.checker(checkerUuid).get().name();
+    assertThat(currentName).isEqualTo("updated name");
+  }
+
+  @Test
+  public void descriptionCanBeUpdated() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().description("original description").create();
+
+    checkerOperations.checker(checkerUuid).forUpdate().description("updated description").update();
+
+    Optional<String> currentDescription =
+        checkerOperations.checker(checkerUuid).get().description();
+    assertThat(currentDescription).hasValue("updated description");
+  }
+
+  @Test
+  public void descriptionCanBeCleared() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().description("original description").create();
+
+    checkerOperations.checker(checkerUuid).forUpdate().clearDescription().update();
+
+    Optional<String> currentDescription =
+        checkerOperations.checker(checkerUuid).get().description();
+    assertThat(currentDescription).isEmpty();
+  }
+
+  @Test
   public void getCommit() throws Exception {
     CheckerInfo checker = gApi.checkers().create(createArbitraryCheckerInput()).get();
 

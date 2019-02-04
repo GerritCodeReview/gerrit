@@ -49,8 +49,9 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
       name = "--query",
       aliases = {"-q"},
       usage = "project query")
-  public void setQuery(String query) {
+  public QueryProjects withQuery(String query) {
     this.query = query;
+    return this;
   }
 
   @Option(
@@ -58,8 +59,9 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
       aliases = {"-n"},
       metaVar = "CNT",
       usage = "maximum number of projects to list")
-  public void setLimit(int limit) {
+  public QueryProjects withLimit(int limit) {
     this.limit = limit;
+    return this;
   }
 
   @Option(
@@ -67,8 +69,9 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
       aliases = {"-S"},
       metaVar = "CNT",
       usage = "number of projects to skip")
-  public void setStart(int start) {
+  public QueryProjects withStart(int start) {
     this.start = start;
+    return this;
   }
 
   @Inject

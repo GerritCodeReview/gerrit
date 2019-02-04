@@ -100,5 +100,23 @@ public interface VerifierOperations {
      * @throws ConfigInvalidException if the verifier config is invalid
      */
     String configText() throws IOException, ConfigInvalidException;
+
+    /**
+     * Starts the fluent chain to update a verifier. The returned builder can be used to specify how
+     * the attributes of the verifier should be modified. To update the verifier for real, {@link
+     * TestVerifierUpdate.Builder#update()} must be called.
+     *
+     * <p>Example:
+     *
+     * <pre>
+     * verifierOperations.forUpdate().description("Another description for this verifier").update();
+     * </pre>
+     *
+     * <p><strong>Note:</strong> The update will fail with an exception if the verifier to update
+     * doesn't exist. If you want to check for the existence of a verifier, use {@link #exists()}.
+     *
+     * @return a builder to update the verifier
+     */
+    TestVerifierUpdate.Builder forUpdate();
   }
 }

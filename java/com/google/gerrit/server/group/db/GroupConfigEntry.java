@@ -25,7 +25,7 @@ import org.eclipse.jgit.lib.Config;
  *
  * <p>Each property knows how to read and write its value from/to a JGit {@link Config} file.
  *
- * <p><strong>Warning: </strong>This class is a low-level API for properties of groups in NoteDb. It
+ * <p><strong>Warning:</strong> This class is a low-level API for properties of groups in NoteDb. It
  * may only be used by {@link GroupConfig}. Other classes should use {@link InternalGroupUpdate} to
  * modify the properties of a group.
  */

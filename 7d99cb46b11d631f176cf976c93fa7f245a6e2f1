@@ -22,6 +22,76 @@
       "revId": "7d99cb46b11d631f176cf976c93fa7f245a6e2f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d59443b_839f536d",
+        "filename": "java/com/google/gerrit/index/FieldDef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-02-04T17:37:45Z",
+      "side": 1,
+      "message": "A potential alternate implementation could be to replace these 2 booleans with an enum of NOT_SORTED, SORTED, SORTED_REVERSE -or similar. Since these two fields need to be manually checked and set together, which could become error prone.\n\nSuch an enum could provide boolean method helpers with guaranteed coherent behavior. Unless an enum cannot be a FieldDef field type? (If so, could keep the booleans yet set them based on enum logic.) -Or, unless introducing an enum would make the code more complex (thus as error prone) for the limited benefits.\n\nWondering also if this is covered enough by tests, either directly or indirectly.",
+      "parentUuid": "e214de0a_0a25d71a",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 90
+      },
+      "revId": "7d99cb46b11d631f176cf976c93fa7f245a6e2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba78a22f_343c11b2",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-02-04T17:37:45Z",
+      "side": 1,
+      "message": "SortedNumericDocValuesField, consistently with below SortedDocValuesField use?",
+      "range": {
+        "startLine": 360,
+        "startChar": 20,
+        "endLine": 360,
+        "endChar": 41
+      },
+      "revId": "7d99cb46b11d631f176cf976c93fa7f245a6e2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8746bac_12180f21",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-02-04T17:37:45Z",
+      "side": 1,
+      "message": "FieldType.EXACT || type \u003d\u003d FieldType.PREFIX (?)\n\nIf this comment is applicable, is there a corresponding test missing to catch this prior?",
+      "range": {
+        "startLine": 438,
+        "startChar": 16,
+        "endLine": 438,
+        "endChar": 31
+      },
+      "revId": "7d99cb46b11d631f176cf976c93fa7f245a6e2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

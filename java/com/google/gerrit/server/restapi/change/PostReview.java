@@ -253,7 +253,6 @@ public class PostReview
       checkRobotComments(revision, input.robotComments);
     }
 
-    NotifyHandling reviewerNotify = input.notify;
     if (input.notify == null) {
       input.notify = defaultNotify(revision.getChange(), input);
     }
@@ -386,7 +385,7 @@ public class PostReview
           revision.getUser(),
           revision.getChange(),
           reviewerResults,
-          reviewerNotify,
+          input.notify,
           accountsToNotify,
           readyForReview);
     }
@@ -409,11 +408,12 @@ public class PostReview
     }
 
     if (workInProgress && !c.hasReviewStarted()) {
-      // If review hasn't started we want to minimize recipients, no matter who
-      // the author is.
-      return NotifyHandling.OWNER;
+      // If review hasn't started we want to eliminate notifications, no matter who the author is.
+      return NotifyHandling.NONE;
     }
 
+    // Otherwise, it's either a non-WIP change, or a WIP change where review has started. Notify
+    // everyone.
     return NotifyHandling.ALL;
   }
 

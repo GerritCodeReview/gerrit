@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
-import com.google.gerrit.server.audit.AuditService;
 import com.google.gerrit.server.audit.SshAuditEvent;
 import com.google.gerrit.server.config.ConfigKey;
 import com.google.gerrit.server.config.ConfigUpdatedEvent;
@@ -29,6 +28,7 @@ import com.google.gerrit.server.config.ConfigUpdatedEvent.ConfigUpdateEntry;
 import com.google.gerrit.server.config.ConfigUpdatedEvent.UpdateResult;
 import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -57,7 +57,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   private final Provider<SshSession> session;
   private final Provider<Context> context;
   private volatile AsyncAppender async;
-  private final AuditService auditService;
+  private final GroupAuditService auditService;
   private final SystemLog systemLog;
 
   private final Object lock = new Object();
@@ -68,7 +68,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
       final Provider<Context> context,
       SystemLog systemLog,
       @GerritServerConfig Config config,
-      AuditService auditService) {
+      GroupAuditService auditService) {
     this.session = session;
     this.context = context;
     this.auditService = auditService;

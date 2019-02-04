@@ -24,8 +24,8 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.audit.AuditService;
 import com.google.gerrit.server.audit.RpcAuditEvent;
+import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gson.GsonBuilder;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
@@ -50,10 +50,10 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
   private static final ThreadLocal<MethodHandle> currentMethod = new ThreadLocal<>();
   private final DynamicItem<WebSession> session;
   private final RemoteJsonService service;
-  private final AuditService audit;
+  private final GroupAuditService audit;
 
   @Inject
-  GerritJsonServlet(final DynamicItem<WebSession> w, RemoteJsonService s, AuditService a) {
+  GerritJsonServlet(final DynamicItem<WebSession> w, RemoteJsonService s, GroupAuditService a) {
     session = w;
     service = s;
     audit = a;

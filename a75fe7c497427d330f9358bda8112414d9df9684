@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "667d6bdb_7451dee0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1899,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-04T00:42:14Z",
+      "side": 1,
+      "message": "is this intentionally changed to a backtick instead of a single quote?",
+      "range": {
+        "startLine": 1899,
+        "startChar": 8,
+        "endLine": 1899,
+        "endChar": 9
+      },
+      "revId": "a75fe7c497427d330f9358bda8112414d9df9684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

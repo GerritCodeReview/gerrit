@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95456312_ab58245b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-04T23:38:47Z",
+      "side": 1,
+      "message": "I wonder if i should create a getStorage so that other elements could use this module?\n\nIE this would be great in the zuul-status plugin i created.",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 8
+      },
+      "revId": "da8441931f41250385d872babb40621f80aabc8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -3,6 +3,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "ecfa79c1_1620cb70",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1691,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-04T12:46:38Z",
+      "side": 1,
+      "message": "add a test for adding an inactive account by ID as reviewer",
+      "range": {
+        "startLine": 1690,
+        "startChar": 81,
+        "endLine": 1691,
+        "endChar": 51
+      },
+      "revId": "e3c6484bf8281b78fabfaa1ed30dfff6081df06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a84d8cac_4c6241ca",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AssigneeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-04T12:46:38Z",
+      "side": 1,
+      "message": "This sounds like setting an assignee to an inactive user should be possible now by using the account ID, but trying this fails with an NPE:\n\n  @Test\n  public void setAssigneeToInactiveUser2() throws Exception {\n    PushOneCommit.Result r \u003d createChange();\n    gApi.accounts().id(user.getId().get()).setActive(false);\n    setAssignee(r, user.id.toString());\n  }",
+      "range": {
+        "startLine": 142,
+        "startChar": 55,
+        "endLine": 145,
+        "endChar": 47
+      },
+      "revId": "e3c6484bf8281b78fabfaa1ed30dfff6081df06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eb28af4d_cd8106e9",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
         "patchSetId": 2

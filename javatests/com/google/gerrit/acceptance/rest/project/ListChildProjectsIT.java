@@ -53,6 +53,15 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void listChildrenWithLimit() throws Exception {
+    Project.NameKey child1 = createProject("p1");
+    Project.NameKey child1_1 = createProject("p1.1", child1);
+    createProject("p1.2", child1);
+
+    assertThatNameList(gApi.projects().name(child1.get()).children(1)).containsExactly(child1_1);
+  }
+
+  @Test
   public void listChildrenRecursively() throws Exception {
     String prefix = RandomStringUtils.randomAlphabetic(8);
     Project.NameKey child1 = projectOperations.newProject().name(prefix + "p1").create();

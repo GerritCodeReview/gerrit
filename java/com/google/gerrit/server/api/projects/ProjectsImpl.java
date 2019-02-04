@@ -150,12 +150,12 @@ class ProjectsImpl implements Projects {
 
   private List<ProjectInfo> query(QueryRequest r) throws RestApiException {
     try {
-      QueryProjects myQueryProjects = queryProvider.get();
-      myQueryProjects.setQuery(r.getQuery());
-      myQueryProjects.setLimit(r.getLimit());
-      myQueryProjects.setStart(r.getStart());
-
-      return myQueryProjects.apply(TopLevelResource.INSTANCE);
+      return queryProvider
+          .get()
+          .withQuery(r.getQuery())
+          .withLimit(r.getLimit())
+          .withStart(r.getStart())
+          .apply(TopLevelResource.INSTANCE);
     } catch (OrmException e) {
       throw new RestApiException("Cannot query projects", e);
     }

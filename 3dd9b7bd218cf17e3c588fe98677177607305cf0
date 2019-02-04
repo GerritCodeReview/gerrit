@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f5f1190_28ab9d76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-04T20:48:45Z",
+      "side": 1,
+      "message": "Is this fixing a specific problem or makes sure that further tests are consistent? Or is it a general improvement? But then, why it is a part of this series, that tries to utilize project index for general purpose query on GWT UI?",
+      "revId": "3dd9b7bd218cf17e3c588fe98677177607305cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

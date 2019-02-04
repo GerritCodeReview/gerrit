@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7eb49bde_af766c24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-04T14:36:57Z",
+      "side": 1,
+      "message": "Identified",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "3b3ad7bc2bf7630e3b34bb9b2914d903fdfbfea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed902ada_2a6c2ef8",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-04T14:36:57Z",
+      "side": 1,
+      "message": "\"consider using\"",
+      "range": {
+        "startLine": 140,
+        "startChar": 70,
+        "endLine": 140,
+        "endChar": 93
+      },
+      "revId": "3b3ad7bc2bf7630e3b34bb9b2914d903fdfbfea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66eb51d3_19c770d1",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-04T14:36:57Z",
+      "side": 1,
+      "message": "\"consider using\"",
+      "range": {
+        "startLine": 91,
+        "startChar": 77,
+        "endLine": 91,
+        "endChar": 92
+      },
+      "revId": "3b3ad7bc2bf7630e3b34bb9b2914d903fdfbfea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

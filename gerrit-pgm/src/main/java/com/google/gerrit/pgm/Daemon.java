@@ -195,7 +195,6 @@ public class Daemon extends SiteProgram {
   private AbstractModule luceneModule;
   private Module emailModule;
   private Module testSysModule;
-  private Module auditEventModule;
 
   private Runnable serverStarted;
   private IndexType indexType;
@@ -313,11 +312,6 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
-  public void setAuditEventModuleForTesting(Module module) {
-    auditEventModule = module;
-  }
-
-  @VisibleForTesting
   public void setLuceneModule(LuceneIndexModule m) {
     luceneModule = m;
     inMemoryTest = true;
@@ -416,11 +410,7 @@ public class Daemon extends SiteProgram {
     } else {
       modules.add(new SmtpEmailSender.Module());
     }
-    if (auditEventModule != null) {
-      modules.add(auditEventModule);
-    } else {
-      modules.add(new AuditModule());
-    }
+    modules.add(new AuditModule());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginModule());
     if (VersionManager.getOnlineUpgrade(config)

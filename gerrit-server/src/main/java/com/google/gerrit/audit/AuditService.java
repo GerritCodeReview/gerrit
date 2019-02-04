@@ -17,8 +17,10 @@ package com.google.gerrit.audit;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.inject.ImplementedBy;
 import java.util.Collection;
 
+@ImplementedBy(AuditServiceImpl.class)
 public interface AuditService {
   void dispatch(AuditEvent action);
 

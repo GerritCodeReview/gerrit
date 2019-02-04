@@ -33,7 +33,6 @@ import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
-import com.google.gerrit.testutil.FakeAuditService;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
@@ -252,13 +251,14 @@ public class GerritServer implements AutoCloseable {
    * @return started server.
    * @throws Exception
    */
-  public static GerritServer initAndStart(Description desc, Config baseConfig) throws Exception {
+  public static GerritServer initAndStart(
+      Description desc, Config baseConfig, @Nullable Module testSysModule) throws Exception {
     Path site = TempFileUtil.createTempDirectory().toPath();
     try {
       if (!desc.memory()) {
         init(desc, baseConfig, site);
       }
-      return start(desc, baseConfig, site, null);
+      return start(desc, baseConfig, site, testSysModule);
     } catch (Exception e) {
       TempFileUtil.recursivelyDelete(site.toFile());
       throw e;
@@ -302,7 +302,6 @@ public class GerritServer implements AutoCloseable {
             },
             site);
     daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
-    daemon.setAuditEventModuleForTesting(new FakeAuditService.Module());
     daemon.setAdditionalSysModuleForTesting(testSysModule);
     daemon.setEnableSshd(desc.useSsh());
 

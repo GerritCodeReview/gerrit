@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf59b5c4_5523ea83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-04T08:54:49Z",
+      "side": 1,
+      "message": "We need to add more than just the account id and the value.",
+      "range": {
+        "startLine": 607,
+        "startChar": 8,
+        "endLine": 608,
+        "endChar": 44
+      },
+      "revId": "be585f28f45e754233a5e33ec47859079b959a72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

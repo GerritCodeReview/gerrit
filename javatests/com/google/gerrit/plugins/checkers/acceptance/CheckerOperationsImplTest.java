@@ -20,12 +20,12 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.plugins.checkers.CheckerRef;
 import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperationsImpl;
 import com.google.gerrit.plugins.checkers.acceptance.testsuite.TestChecker;
 import com.google.gerrit.plugins.checkers.api.CheckerInfo;
 import com.google.gerrit.plugins.checkers.api.CheckerInput;
-import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.checker.db.CheckerConfig;
+import com.google.gerrit.plugins.checkers.db.CheckerConfig;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Optional;
@@ -191,8 +191,64 @@ public class CheckerOperationsImplTest extends AbstractCheckersTest {
   }
 
   @Test
+  public void updateWithoutAnyParametersIsANoop() throws Exception {
+    String checkerUuid = checkerOperations.newChecker().create();
+    TestChecker originalChecker = checkerOperations.checker(checkerUuid).get();
+
+    checkerOperations.checker(checkerUuid).forUpdate().update();
+
+    TestChecker updatedChecker = checkerOperations.checker(checkerUuid).get();
+    assertThat(updatedChecker).isEqualTo(originalChecker);
+  }
+
+  @Test
+  public void updateWritesToInternalCheckerSystem() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().description("original description").create();
+
+    checkerOperations.checker(checkerUuid).forUpdate().description("updated description").update();
+
+    String currentDescription = getCheckerFromServer(checkerUuid).description;
+    assertThat(currentDescription).isEqualTo("updated description");
+  }
+
+  @Test
+  public void nameCanBeUpdated() throws Exception {
+    String checkerUuid = checkerOperations.newChecker().name("original name").create();
+
+    checkerOperations.checker(checkerUuid).forUpdate().name("updated name").update();
+
+    String currentName = checkerOperations.checker(checkerUuid).get().name();
+    assertThat(currentName).isEqualTo("updated name");
+  }
+
+  @Test
+  public void descriptionCanBeUpdated() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().description("original description").create();
+
+    checkerOperations.checker(checkerUuid).forUpdate().description("updated description").update();
+
+    Optional<String> currentDescription =
+        checkerOperations.checker(checkerUuid).get().description();
+    assertThat(currentDescription).hasValue("updated description");
+  }
+
+  @Test
+  public void descriptionCanBeCleared() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().description("original description").create();
+
+    checkerOperations.checker(checkerUuid).forUpdate().clearDescription().update();
+
+    Optional<String> currentDescription =
+        checkerOperations.checker(checkerUuid).get().description();
+    assertThat(currentDescription).isEmpty();
+  }
+
+  @Test
   public void getCommit() throws Exception {
-    CheckerInfo checker = gApi.checkers().create(createArbitraryCheckerInput()).get();
+    CheckerInfo checker = checkersApi.create(createArbitraryCheckerInput()).get();
 
     RevCommit commit = checkerOperations.checker(checker.uuid).commit();
     assertThat(commit).isEqualTo(readCheckerCommitSha1(checker.uuid));
@@ -200,13 +256,13 @@ public class CheckerOperationsImplTest extends AbstractCheckersTest {
 
   private ObjectId readCheckerCommitSha1(String checkerUuid) throws IOException {
     try (Repository repo = repoManager.openRepository(allProjects)) {
-      return repo.exactRef(RefNames.refsCheckers(checkerUuid)).getObjectId();
+      return repo.exactRef(CheckerRef.refsCheckers(checkerUuid)).getObjectId();
     }
   }
 
   @Test
   public void getConfigText() throws Exception {
-    CheckerInfo checker = gApi.checkers().create(createArbitraryCheckerInput()).get();
+    CheckerInfo checker = checkersApi.create(createArbitraryCheckerInput()).get();
 
     String configText = checkerOperations.checker(checker.uuid).configText();
     assertThat(configText).isEqualTo(readCheckerConfigFile(checker.uuid));
@@ -216,7 +272,7 @@ public class CheckerOperationsImplTest extends AbstractCheckersTest {
     try (Repository repo = repoManager.openRepository(allProjects);
         RevWalk rw = new RevWalk(repo);
         ObjectReader or = repo.newObjectReader()) {
-      Ref checkerRef = repo.exactRef(RefNames.refsCheckers(checkerUuid));
+      Ref checkerRef = repo.exactRef(CheckerRef.refsCheckers(checkerUuid));
       RevCommit commit = rw.parseCommit(checkerRef.getObjectId());
       try (TreeWalk tw =
           TreeWalk.forPath(or, CheckerConfig.CHECKER_CONFIG_FILE, commit.getTree())) {

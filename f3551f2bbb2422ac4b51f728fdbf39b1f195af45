@@ -665,6 +665,30 @@
     },
     {
       "key": {
+        "uuid": "e82fc7d7_ac859c53",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-02-04T13:44:48Z",
+      "side": 1,
+      "message": "\u003e Not 100% sure either, I think it\u0027s to emphasize that you can call this method only after the load method was executed.\n\nYes that was my original reason. Another minor one: The method only returns the snapshot of the group when it was loaded (and directly after executing an update since we explicitly take care of this). It doesn\u0027t always show the state of the group on disk.\n\n\u003e This name is consistent with \"getLoadedGroup\" in GroupConfig. If we change it here, we should also change it there.\n\n+1. I don\u0027t mind if you change the name. When I introduced it, it was helpful to clarify some of my confusion how VersionedMetaData works. I can also see reasons for directly calling it \"getGroup\" now that GroupConfig is written such that unintentionally using it in a wrong way (e.g. not calling load()) is harder.",
+      "parentUuid": "aaccd34f_c67b0a8c",
+      "range": {
+        "startLine": 155,
+        "startChar": 28,
+        "endLine": 155,
+        "endChar": 45
+      },
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9792f808_afccab15",
         "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfig.java",
         "patchSetId": 11

@@ -43,9 +43,9 @@ import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -76,12 +76,23 @@ public class GroupsUpdate {
      * all related commits.
      *
      * <p><strong>Note</strong>: Please use this method with care and rather consider to use the
-     * correct annotation on the provider of a {@code GroupsUpdate} instead.
+     * {@link com.google.gerrit.server.UserInitiated} annotation on the provider of a {@code
+     * GroupsUpdate} instead.
      *
-     * @param currentUser the user to which modifications should be attributed, or {@code null} if
-     *     the Gerrit server identity should be used
+     * @param currentUser the user to which modifications should be attributed
      */
-    GroupsUpdate create(@Nullable IdentifiedUser currentUser);
+    GroupsUpdate create(IdentifiedUser currentUser);
+
+    /**
+     * Creates a {@code GroupsUpdate} which uses the server identity to mark database modifications
+     * executed by it. For NoteDb, this identity is used as author and committer for all related
+     * commits.
+     *
+     * <p><strong>Note</strong>: Please use this method with care and rather consider to use the
+     * {@link com.google.gerrit.server.ServerInitiated} annotation on the provider of a {@code
+     * GroupsUpdate} instead.
+     */
+    GroupsUpdate createWithServerIdent();
   }
 
   private final GitRepositoryManager repoManager;
@@ -91,14 +102,48 @@ public class GroupsUpdate {
   private final Provider<GroupIndexer> indexer;
   private final GroupAuditService groupAuditService;
   private final RenameGroupOp.Factory renameGroupOpFactory;
-  @Nullable private final IdentifiedUser currentUser;
+  private final Optional<IdentifiedUser> currentUser;
   private final AuditLogFormatter auditLogFormatter;
   private final PersonIdent authorIdent;
   private final MetaDataUpdateFactory metaDataUpdateFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final RetryHelper retryHelper;
 
-  @Inject
+  @AssistedInject
+  GroupsUpdate(
+      GitRepositoryManager repoManager,
+      AllUsersName allUsersName,
+      GroupBackend groupBackend,
+      GroupCache groupCache,
+      GroupIncludeCache groupIncludeCache,
+      Provider<GroupIndexer> indexer,
+      GroupAuditService auditService,
+      AccountCache accountCache,
+      RenameGroupOp.Factory renameGroupOpFactory,
+      @GerritServerId String serverId,
+      @GerritPersonIdent PersonIdent serverIdent,
+      MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
+      GitReferenceUpdated gitRefUpdated,
+      RetryHelper retryHelper) {
+    this(
+        repoManager,
+        allUsersName,
+        groupBackend,
+        groupCache,
+        groupIncludeCache,
+        indexer,
+        auditService,
+        accountCache,
+        renameGroupOpFactory,
+        serverId,
+        serverIdent,
+        metaDataUpdateInternalFactory,
+        gitRefUpdated,
+        retryHelper,
+        Optional.empty());
+  }
+
+  @AssistedInject
   GroupsUpdate(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
@@ -114,7 +159,41 @@ public class GroupsUpdate {
       MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
       GitReferenceUpdated gitRefUpdated,
       RetryHelper retryHelper,
-      @Assisted @Nullable IdentifiedUser currentUser) {
+      @Assisted IdentifiedUser currentUser) {
+    this(
+        repoManager,
+        allUsersName,
+        groupBackend,
+        groupCache,
+        groupIncludeCache,
+        indexer,
+        auditService,
+        accountCache,
+        renameGroupOpFactory,
+        serverId,
+        serverIdent,
+        metaDataUpdateInternalFactory,
+        gitRefUpdated,
+        retryHelper,
+        Optional.of(currentUser));
+  }
+
+  private GroupsUpdate(
+      GitRepositoryManager repoManager,
+      AllUsersName allUsersName,
+      GroupBackend groupBackend,
+      GroupCache groupCache,
+      GroupIncludeCache groupIncludeCache,
+      Provider<GroupIndexer> indexer,
+      GroupAuditService auditService,
+      AccountCache accountCache,
+      RenameGroupOp.Factory renameGroupOpFactory,
+      @GerritServerId String serverId,
+      @GerritPersonIdent PersonIdent serverIdent,
+      MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
+      GitReferenceUpdated gitRefUpdated,
+      RetryHelper retryHelper,
+      Optional<IdentifiedUser> currentUser) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.groupCache = groupCache;
@@ -135,7 +214,7 @@ public class GroupsUpdate {
 
   private static MetaDataUpdateFactory getMetaDataUpdateFactory(
       MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
-      @Nullable IdentifiedUser currentUser,
+      Optional<IdentifiedUser> currentUser,
       PersonIdent serverIdent,
       AuditLogFormatter auditLogFormatter) {
     return (projectName, repository, batchRefUpdate) -> {
@@ -143,10 +222,10 @@ public class GroupsUpdate {
           metaDataUpdateInternalFactory.create(projectName, repository, batchRefUpdate);
       metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);
       PersonIdent authorIdent;
-      if (currentUser != null) {
-        metaDataUpdate.setAuthor(currentUser);
+      if (currentUser.isPresent()) {
+        metaDataUpdate.setAuthor(currentUser.get());
         authorIdent =
-            auditLogFormatter.getParsableAuthorIdent(currentUser.getAccount(), serverIdent);
+            auditLogFormatter.getParsableAuthorIdent(currentUser.get().getAccount(), serverIdent);
       } else {
         authorIdent = serverIdent;
       }
@@ -156,8 +235,8 @@ public class GroupsUpdate {
   }
 
   private static PersonIdent getAuthorIdent(
-      PersonIdent serverIdent, @Nullable IdentifiedUser currentUser) {
-    return currentUser != null ? createPersonIdent(serverIdent, currentUser) : serverIdent;
+      PersonIdent serverIdent, Optional<IdentifiedUser> currentUser) {
+    return currentUser.map(user -> createPersonIdent(serverIdent, user)).orElse(serverIdent);
   }
 
   private static PersonIdent createPersonIdent(PersonIdent ident, IdentifiedUser user) {
@@ -342,7 +421,7 @@ public class GroupsUpdate {
 
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
     gitRefUpdated.fire(
-        allUsersName, batchRefUpdate, currentUser != null ? currentUser.state() : null);
+        allUsersName, batchRefUpdate, currentUser.map(user -> user.state()).orElse(null));
   }
 
   private void updateCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {
@@ -390,20 +469,20 @@ public class GroupsUpdate {
   }
 
   private void dispatchAuditEventsOnGroupCreation(InternalGroup createdGroup) {
-    if (currentUser == null) {
+    if (!currentUser.isPresent()) {
       return;
     }
 
     if (!createdGroup.getMembers().isEmpty()) {
       groupAuditService.dispatchAddMembers(
-          currentUser.getAccountId(),
+          currentUser.get().getAccountId(),
           createdGroup.getGroupUUID(),
           createdGroup.getMembers(),
           createdGroup.getCreatedOn());
     }
     if (!createdGroup.getSubgroups().isEmpty()) {
       groupAuditService.dispatchAddSubgroups(
-          currentUser.getAccountId(),
+          currentUser.get().getAccountId(),
           createdGroup.getGroupUUID(),
           createdGroup.getSubgroups(),
           createdGroup.getCreatedOn());
@@ -411,25 +490,34 @@ public class GroupsUpdate {
   }
 
   private void dispatchAuditEventsOnGroupUpdate(UpdateResult result, Timestamp updatedOn) {
-    if (currentUser == null) {
+    if (!currentUser.isPresent()) {
       return;
     }
 
     if (!result.getAddedMembers().isEmpty()) {
       groupAuditService.dispatchAddMembers(
-          currentUser.getAccountId(), result.getGroupUuid(), result.getAddedMembers(), updatedOn);
+          currentUser.get().getAccountId(),
+          result.getGroupUuid(),
+          result.getAddedMembers(),
+          updatedOn);
     }
     if (!result.getDeletedMembers().isEmpty()) {
       groupAuditService.dispatchDeleteMembers(
-          currentUser.getAccountId(), result.getGroupUuid(), result.getDeletedMembers(), updatedOn);
+          currentUser.get().getAccountId(),
+          result.getGroupUuid(),
+          result.getDeletedMembers(),
+          updatedOn);
     }
     if (!result.getAddedSubgroups().isEmpty()) {
       groupAuditService.dispatchAddSubgroups(
-          currentUser.getAccountId(), result.getGroupUuid(), result.getAddedSubgroups(), updatedOn);
+          currentUser.get().getAccountId(),
+          result.getGroupUuid(),
+          result.getAddedSubgroups(),
+          updatedOn);
     }
     if (!result.getDeletedSubgroups().isEmpty()) {
       groupAuditService.dispatchDeleteSubgroups(
-          currentUser.getAccountId(),
+          currentUser.get().getAccountId(),
           result.getGroupUuid(),
           result.getDeletedSubgroups(),
           updatedOn);

@@ -56,8 +56,9 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     this.queryProvider = queryProvider;
   }
 
-  public void setRecursive(boolean recursive) {
+  public ListChildProjects withRecursive(boolean recursive) {
     this.recursive = recursive;
+    return this;
   }
 
   public ListChildProjects withLimit(int limit) {

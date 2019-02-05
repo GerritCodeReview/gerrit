@@ -21,7 +21,7 @@ _ssh_ -p <port> <host> _gerrit review_
   [--verified <N>] [--code-review <N>]
   [--label Label-Name=<N>]
   [--tag TAG]
-  {COMMIT | CHANGEID,PATCHSET}...
+  {COMMIT | CHANGENUMBER,PATCHSET}...
 --
 
 == DESCRIPTION
@@ -149,14 +149,14 @@ Approve the change with commit c0ff33 as "Verified +1"
 
 Vote on the project specific label "mylabel":
 ----
-	$ ssh -p 29418 review.example.com gerrit review --label mylabel=+1 c0ff33
+	$ ssh -p 29418 review.example.com gerrit review --label mylabel=+1 8242,2
 ----
 
 Append the message "Build Successful". Notice two levels of quoting is
 required, one for the local shell, and another for the argument parser
 inside the Gerrit server:
 ----
-	$ ssh -p 29418 review.example.com gerrit review -m '"Build Successful"' c0ff33
+	$ ssh -p 29418 review.example.com gerrit review -m '"Build Successful"' 8242,2
 ----
 
 Mark the unmerged commits both "Verified +1" and "Code-Review +2" and
@@ -172,7 +172,7 @@ submit them for merging:
 
 Abandon an active change:
 ----
-  $ ssh -p 29418 review.example.com gerrit review --abandon c0ff33
+  $ ssh -p 29418 review.example.com gerrit review --abandon 8242,2
 ----
 
 == SEE ALSO

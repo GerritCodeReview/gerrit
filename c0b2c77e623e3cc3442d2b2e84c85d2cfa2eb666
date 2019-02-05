@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b433c34_a23b6b1e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-05T10:18:37Z",
+      "side": 1,
+      "message": "Isn\u0027t this rather Object\u003cnumber, boolean\u003e?",
+      "range": {
+        "startLine": 340,
+        "startChar": 23,
+        "endLine": 340,
+        "endChar": 54
+      },
+      "revId": "c0b2c77e623e3cc3442d2b2e84c85d2cfa2eb666",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

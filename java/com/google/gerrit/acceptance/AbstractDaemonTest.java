@@ -105,14 +105,12 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
-import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -282,8 +280,6 @@ public abstract class AbstractDaemonTest {
   @Inject private AccountIndexer accountIndexer;
   @Inject private ChangeIndexCollection changeIndexes;
   @Inject private EventRecorder.Factory eventRecorderFactory;
-  @Inject private GroupIndexer groupIndexer;
-  @Inject private Groups groups;
   @Inject private InProcessProtocol inProcessProtocol;
   @Inject private ProjectIndexCollection projectIndexes;
   @Inject private ProjectOperations projectOperations;
@@ -370,13 +366,6 @@ public abstract class AbstractDaemonTest {
     accountIndexer.index(accountId);
   }
 
-  private void reindexAllGroups() throws IOException, ConfigInvalidException {
-    Iterable<GroupReference> allGroups = groups.getAllGroupReferences()::iterator;
-    for (GroupReference group : allGroups) {
-      groupIndexer.index(group.getUUID());
-    }
-  }
-
   protected static Config submitWholeTopicEnabledConfig() {
     Config cfg = new Config();
     cfg.setBoolean("change", null, "submitWholeTopic", true);
@@ -419,18 +408,6 @@ public abstract class AbstractDaemonTest {
     server.getTestInjector().injectMembers(this);
     Transport.register(inProcessProtocol);
     toClose = Collections.synchronizedList(new ArrayList<>());
-
-    // All groups which were added during the server start (e.g. in SchemaCreatorImpl) aren't
-    // contained in the instance of the group index which is available here and in tests. There are
-    // two reasons:
-    // 1) No group index is available in SchemaCreatorImpl when using an in-memory database.
-    // (This could be fixed by using the IndexManagerOnInit in InMemoryTestingDatabaseModule similar
-    // to how BaseInit uses it.)
-    // 2) During the on-init part of the server start, we use another instance of the index than
-    // later on. As test indexes are non-permanent, closing an instance and opening another one
-    // removes all indexed data.
-    // As a workaround, we simply reindex all available groups here.
-    reindexAllGroups();
 
     admin = accountCreator.admin();
     user = accountCreator.user();

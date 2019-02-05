@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8e9b737_ae01920b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-02-05T03:54:32Z",
+      "side": 1,
+      "message": "Because change.api.excludeMergeableInChangeInfo is configurable, callers have no way to reliably request a change without computing mergeability without specifying the SKIP_MERGEABLE option.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "0570aae997348e81f18fb1b03fd3cafc4f0cdab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "578f9bd7_9f03ab3b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-02-05T03:54:32Z",
+      "side": 1,
+      "message": "the `mergeable` field will always be omitted and `SKIP_MERGEABLE` has no effect.",
+      "range": {
+        "startLine": 315,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 44
+      },
+      "revId": "0570aae997348e81f18fb1b03fd3cafc4f0cdab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

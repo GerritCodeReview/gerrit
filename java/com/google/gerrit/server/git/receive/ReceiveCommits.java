@@ -51,6 +51,7 @@ import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -1586,7 +1587,7 @@ class ReceiveCommits {
     NotifyResolver.Result getNotifyForNewChange() {
       return NotifyResolver.Result.create(
           firstNonNull(notifyHandling, workInProgress ? NotifyHandling.OWNER : NotifyHandling.ALL),
-          ImmutableListMultimap.<RecipientType, Account.Id>builder()
+          ImmutableSetMultimap.<RecipientType, Account.Id>builder()
               .putAll(RecipientType.TO, notifyTo)
               .putAll(RecipientType.CC, notifyCc)
               .putAll(RecipientType.BCC, notifyBcc)

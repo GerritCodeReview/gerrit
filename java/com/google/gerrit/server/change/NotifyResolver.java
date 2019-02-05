@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
@@ -50,18 +50,18 @@ public class NotifyResolver {
     }
 
     public static Result create(NotifyHandling notifyHandling) {
-      return create(notifyHandling, ImmutableListMultimap.of());
+      return create(notifyHandling, ImmutableSetMultimap.of());
     }
 
     public static Result create(
-        NotifyHandling handling, ImmutableListMultimap<RecipientType, Account.Id> recipients) {
+        NotifyHandling handling, ImmutableSetMultimap<RecipientType, Account.Id> recipients) {
       return new AutoValue_NotifyResolver_Result(handling, recipients);
     }
 
     public abstract NotifyHandling handling();
 
     // TODO(dborowitz): Should be ImmutableSetMultimap.
-    public abstract ImmutableListMultimap<RecipientType, Account.Id> accounts();
+    public abstract ImmutableSetMultimap<RecipientType, Account.Id> accounts();
 
     public Result withHandling(NotifyHandling notifyHandling) {
       return create(notifyHandling, accounts());
@@ -83,7 +83,7 @@ public class NotifyResolver {
       NotifyHandling handling, @Nullable Map<RecipientType, NotifyInfo> notifyDetails)
       throws BadRequestException, OrmException, IOException, ConfigInvalidException {
     requireNonNull(handling);
-    ImmutableListMultimap.Builder<RecipientType, Account.Id> b = ImmutableListMultimap.builder();
+    ImmutableSetMultimap.Builder<RecipientType, Account.Id> b = ImmutableSetMultimap.builder();
     if (notifyDetails != null) {
       for (Map.Entry<RecipientType, NotifyInfo> e : notifyDetails.entrySet()) {
         b.putAll(e.getKey(), find(e.getValue().accounts));

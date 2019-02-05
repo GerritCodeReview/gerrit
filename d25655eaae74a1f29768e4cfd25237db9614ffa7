@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8d8f2207_f9c5ea8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T10:29:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f712e23a_06e6f0e2",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 18
+      },
+      "revId": "d25655eaae74a1f29768e4cfd25237db9614ffa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f01fa6e2_a49b62f0",
         "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
         "patchSetId": 12

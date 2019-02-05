@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ead05005_d756dde5",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T11:41:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cea9e90_07ec10d9",
+      "range": {
+        "startLine": 393,
+        "startChar": 16,
+        "endLine": 395,
+        "endChar": 17
+      },
+      "revId": "0409fd89c34ce7308a4f4f69454428d7900c6795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c142dc04_1ba134e7",
         "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f30f4f75_9917972c",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T11:41:45Z",
+      "side": 1,
+      "message": "This method is a real swiss-knife and is serving two purposes:\n1. when displayOutputStream is null \u003d\u003e returns the SortedMap of projects\n2. when displayOutputStream is not null \u003d\u003e display the result on the output and don\u0027t return anything\n\nWhen the early exit is related to use-case 1. then returns null. Otherwise, returns an empty sorted map\n\nI know this method is confusing indeed, that\u0027s why we need to de-compose it one piece at a time.",
+      "parentUuid": "c142dc04_1ba134e7",
+      "range": {
+        "startLine": 442,
+        "startChar": 6,
+        "endLine": 442,
+        "endChar": 18
+      },
+      "revId": "0409fd89c34ce7308a4f4f69454428d7900c6795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2554591e_d36f204f",
         "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
         "patchSetId": 6
@@ -59,6 +107,30 @@
       "writtenOn": "2019-02-04T22:10:40Z",
       "side": 1,
       "message": "When non supported options are passed to apply() method and expressAsProjectsQuery() already returned Optional#empty() once, then display() method is called, and then in this code path, expressAsProjectsQuery() is called and it checked again, whether or not the current use case can be expressed as Project query and would say second time, nope, it cannot. I know, we do it because other caller skip apply() and call display() directly, like the SSH command, so that I do not really see a way how to avoid it. The only option, would be to cache the outcome of  expressAsProjectsQuery()? But this would rather complicate the code with not that much benefit?",
+      "range": {
+        "startLine": 439,
+        "startChar": 4,
+        "endLine": 443,
+        "endChar": 5
+      },
+      "revId": "0409fd89c34ce7308a4f4f69454428d7900c6795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4adbbebe_551d8201",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T11:41:45Z",
+      "side": 1,
+      "message": "Yes, I know that is checked twice because the display is directly invoked by the SSH API.\nI can change the SSH API to call a different method and then avoids this double-invocation.\n\nWDYT?",
+      "parentUuid": "2554591e_d36f204f",
       "range": {
         "startLine": 439,
         "startChar": 4,

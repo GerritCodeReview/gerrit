@@ -147,6 +147,11 @@ Approve the change with commit c0ff33 as "Verified +1"
 	$ ssh -p 29418 review.example.com gerrit review --verified +1 c0ff33
 ----
 
+Approve the change with change number 8242 and patch set 2 as "Code-Review +2"
+----
+	$ ssh -p 29418 review.example.com gerrit review --code-review +2 8242,2
+----
+
 Vote on the project specific label "mylabel":
 ----
 	$ ssh -p 29418 review.example.com gerrit review --label mylabel=+1 8242,2

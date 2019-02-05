@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d6e08425_d44cb511",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T07:28:53Z",
+      "side": 1,
+      "message": "Exactly, we don\u0027t want the FakeAuditService to be in place when it is not needed.\nThe audit service is part of Gerrit and there are no reasons to faking it unless we want to test some internal behaviours.",
+      "parentUuid": "1b63d2fc_5ae7b359",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 71
+      },
+      "revId": "f2c4692ce5dfa3bd26bcd4aa3b78e010e6081e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66fcee6f_d0037cc8",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "858b4ac6_d58aebd3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T07:28:53Z",
+      "side": 1,
+      "message": "The rule should always be \"I want to test the system as close as it can be to the real one\", while the current rule \"faking it in all tests\" is not correct.\n\nWhat\u0027s the purpose of always faking it? We are talking about integration tests and not unit tests. Having a system that is closer to the real one should be the norm when testing integrations, isn\u0027t it?\n\nIn unit-tests things are different: you want to mock as much as possible to eliminate asynchronous behaviours, delays, etc.",
+      "parentUuid": "66fcee6f_d0037cc8",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 10
+      },
+      "revId": "f2c4692ce5dfa3bd26bcd4aa3b78e010e6081e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7962b0e_b2e13979",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "f2c4692ce5dfa3bd26bcd4aa3b78e010e6081e14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75b3e0ed_ea5a0746",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T07:28:53Z",
+      "side": 1,
+      "message": "Yes, that\u0027s the purpose. Would you foresee any problems with that?",
+      "parentUuid": "f7962b0e_b2e13979",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 38
+      },
+      "revId": "f2c4692ce5dfa3bd26bcd4aa3b78e010e6081e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

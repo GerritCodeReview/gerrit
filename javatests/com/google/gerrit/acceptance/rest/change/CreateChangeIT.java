@@ -48,6 +48,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
@@ -483,12 +484,20 @@ public class CreateChangeIT extends AbstractDaemonTest {
   private ChangeInfo assertCreateSucceeds(ChangeInput in) throws Exception {
     ChangeInfo out = gApi.changes().create(in).get();
     assertThat(out.project).isEqualTo(in.project);
-    assertThat(out.branch).isEqualTo(in.branch);
+    assertThat(RefNames.fullName(out.branch)).isEqualTo(RefNames.fullName(in.branch));
     assertThat(out.subject).isEqualTo(in.subject.split("\n")[0]);
     assertThat(out.topic).isEqualTo(in.topic);
     assertThat(out.status).isEqualTo(in.status);
-    assertThat(out.isPrivate).isEqualTo(in.isPrivate);
-    assertThat(out.workInProgress).isEqualTo(in.workInProgress);
+    if (in.isPrivate) {
+      assertThat(out.isPrivate).isTrue();
+    } else {
+      assertThat(out.isPrivate).isNull();
+    }
+    if (in.workInProgress) {
+      assertThat(out.workInProgress).isTrue();
+    } else {
+      assertThat(out.workInProgress).isNull();
+    }
     assertThat(out.revisions).hasSize(1);
     assertThat(out.submitted).isNull();
     assertThat(in.status).isEqualTo(ChangeStatus.NEW);

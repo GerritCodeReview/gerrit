@@ -2294,8 +2294,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   private void startReview(StagedChange sc) throws Exception {
     requestScopeOperations.setApiUser(sc.owner.getId());
     gApi.changes().id(sc.changeId).setReadyForReview();
-    // PolyGerrit current immediately follows up with a review.
-    gApi.changes().id(sc.changeId).revision("current").review(ReviewInput.noScore());
   }
 
   private void setWorkInProgressByDefault(Project.NameKey p, InheritableBoolean v)

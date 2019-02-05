@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b63d2fc_5ae7b359",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-05T06:53:54Z",
+      "side": 1,
+      "message": "De facto this means, that for tests that use LightweightPluginDaemonTest we don\u0027t want to inject fakeauditservice, right?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 71
+      },
+      "revId": "f2c4692ce5dfa3bd26bcd4aa3b78e010e6081e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66fcee6f_d0037cc8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-05T06:53:54Z",
+      "side": 1,
+      "message": "What is here the rule and what is here an exception to the rule? Rule: I would expect that we generally want to inject faked audit service for all test. Exception: we should have an option to not to inject faked audit service and have the real one. If we add a method: bindFakedAuditService() to the AbstractDemonTest we could overwrite this method and avoid faked binding fr tests that want real audit service, like this one:\n\n  https://github.com/GerritCodeReview/plugins_audit-sl4j/blob/a4ec6c92c7fecce2b1494e3fed3e619103bd3b51/src/test/java/com/googlesource/gerrit/plugins/auditsl4j/LoggerAuditToJsonTest.java",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 10
+      },
+      "revId": "f2c4692ce5dfa3bd26bcd4aa3b78e010e6081e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7962b0e_b2e13979",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-05T06:53:54Z",
+      "side": 1,
+      "message": "Wouldn\u0027t that mean, that for all integration tests the real AuditServiceImpl and not the faked audit service is injected and thus really use?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 38
+      },
+      "revId": "f2c4692ce5dfa3bd26bcd4aa3b78e010e6081e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

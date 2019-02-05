@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "51151456_ac885c0f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-05T23:15:13Z",
+      "side": 1,
+      "message": "Not really.  The point of this API is that it returns the votes for a specific patch set, so we do:\n\n1. Confirm votes for the first patch set\n2. Add new patch set that doesn\u0027t have votes, confirm no votes are returned for it\n3. Confirm votes for the first patch set are still returned properly\n\nWe could break this into 3 tests, but then the third one would be exactly the same as this current test and the first 2 would just be subsets of it.  I preferred not to repeat so much code.",
+      "parentUuid": "82c1543b_327b988f",
+      "range": {
+        "startLine": 1337,
+        "startChar": 14,
+        "endLine": 1337,
+        "endChar": 33
+      },
+      "revId": "d9bc1a8d5ad3df66175425294f9e791091f32d2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32cb9bc3_0bd1b98a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 6

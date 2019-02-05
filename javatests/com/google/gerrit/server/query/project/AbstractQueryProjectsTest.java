@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
@@ -48,6 +49,7 @@ import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -62,6 +64,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -92,6 +95,8 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   @Inject protected ProjectIndexCollection indexes;
 
   @Inject protected AllProjectsName allProjects;
+
+  @Inject protected AllUsersName allUsers;
 
   protected LifecycleManager lifecycle;
   protected Injector injector;
@@ -157,6 +162,28 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     ProjectInfo projectWithHyphen = createProject(name("project-with-hyphen"));
     createProject(name("project-no-match-with-hyphen"));
     assertQuery("name:" + projectWithHyphen.name, projectWithHyphen);
+  }
+
+  @Test
+  public void byParent() throws Exception {
+    assertQuery("parent:project");
+    ProjectInfo parent = createProject(name("parent"));
+    assertQuery("parent:" + parent.name);
+    ProjectInfo child = createProject(name("child"), parent.name);
+    assertQuery("parent:" + parent.name, child);
+  }
+
+  @Test
+  public void byParentOfAllProjects() throws Exception {
+    Set<String> excludedProjects = ImmutableSet.of(allProjects.get(), allUsers.get());
+    ProjectInfo[] projects =
+        gApi.projects()
+            .list()
+            .get()
+            .stream()
+            .filter(p -> !excludedProjects.contains(p.name))
+            .toArray(s -> new ProjectInfo[s]);
+    assertQuery("parent:" + allProjects.get(), projects);
   }
 
   @Test
@@ -293,6 +320,13 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   protected ProjectInfo createProject(String name) throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name;
+    return gApi.projects().create(in).get();
+  }
+
+  protected ProjectInfo createProject(String name, String parent) throws Exception {
+    ProjectInput in = new ProjectInput();
+    in.name = name;
+    in.parent = parent;
     return gApi.projects().create(in).get();
   }
 

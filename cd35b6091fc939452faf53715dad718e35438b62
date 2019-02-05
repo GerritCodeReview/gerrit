@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d09a9129_ffe7ee1a",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T12:13:49Z",
+      "side": 1,
+      "message": "[optional] Add this as a isRefsChanges(String) method to RefNames",
+      "range": {
+        "startLine": 137,
+        "startChar": 10,
+        "endLine": 137,
+        "endChar": 51
+      },
+      "revId": "cd35b6091fc939452faf53715dad718e35438b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ad432f4_3b4e96da",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T12:13:49Z",
+      "side": 1,
+      "message": "of",
+      "range": {
+        "startLine": 499,
+        "startChar": 38,
+        "endLine": 499,
+        "endChar": 40
+      },
+      "revId": "cd35b6091fc939452faf53715dad718e35438b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e69d859a_0f90acc4",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T12:13:49Z",
+      "side": 1,
+      "message": "[optional] can be:\n\ncheckNotNull(cId, \"invalid change id for ref %s\", refName)",
+      "range": {
+        "startLine": 502,
+        "startChar": 4,
+        "endLine": 502,
+        "endChar": 61
+      },
+      "revId": "cd35b6091fc939452faf53715dad718e35438b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

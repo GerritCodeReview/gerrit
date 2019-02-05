@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "76aa26e0_be22b89e",
+        "filename": "java/com/google/gerrit/index/FieldDef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-05T21:44:19Z",
+      "side": 1,
+      "message": "Good idea, switched to using enum type. Done.",
+      "parentUuid": "4d59443b_839f536d",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 90
+      },
+      "revId": "7d99cb46b11d631f176cf976c93fa7f245a6e2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ba78a22f_343c11b2",
         "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 1
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "58f9033d_5f0c322a",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-05T21:44:19Z",
+      "side": 1,
+      "message": "Timestamp is stored as long and that why NumericDocValuesField is used.",
+      "parentUuid": "ba78a22f_343c11b2",
+      "range": {
+        "startLine": 360,
+        "startChar": 20,
+        "endLine": 360,
+        "endChar": 41
+      },
+      "revId": "7d99cb46b11d631f176cf976c93fa7f245a6e2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8746bac_12180f21",
         "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 1
@@ -83,6 +131,30 @@
       "writtenOn": "2019-02-04T17:37:45Z",
       "side": 1,
       "message": "FieldType.EXACT || type \u003d\u003d FieldType.PREFIX (?)\n\nIf this comment is applicable, is there a corresponding test missing to catch this prior?",
+      "range": {
+        "startLine": 438,
+        "startChar": 16,
+        "endLine": 438,
+        "endChar": 31
+      },
+      "revId": "7d99cb46b11d631f176cf976c93fa7f245a6e2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b75bb7d_0975ea98",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-05T21:44:19Z",
+      "side": 1,
+      "message": "You mean why we don\u0027t check here for both types, like we did for it on line: 362 above? FieldType.PREFIX is not used right now for sorted fields. I could assert in if (sorted) branch that  type !\u003d FieldType.PREFIXm but I decided not to do it, to not distract attention to too much asserts. But for consistency, I could check here to:\n\n  if (type \u003d\u003d FieldType.PREFIX || type \u003d\u003d FieldType.PREFIX) {...",
+      "parentUuid": "b8746bac_12180f21",
       "range": {
         "startLine": 438,
         "startChar": 16,

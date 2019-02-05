@@ -310,9 +310,13 @@ default. Optional fields are:
 link:#change-info[ChangeInfo]. For fast moving projects, this field must
 be recomputed often, which is slow for projects with big trees.
 +
-This option is deprecated. In a future release, `mergeable` will not be
-populated in link:#change-info[ChangeInfo]. It can be requested separately
-by calling the link:#get-mergeable[get-mergeable] endpoint.
+When link:config-gerrit.html#change.api.excludeMergeableInChangeInfo[
+`change.api.excludeMergeableInChangeInfo`] is set in the `gerrit.config`,
+the `mergeable` field will always be omitted and `SKIP_MERGEABLE` has no
+effect.
++
+A change's mergeability can be requested separately by calling the
+link:#get-mergeable[get-mergeable] endpoint.
 --
 
 [[submittable]]

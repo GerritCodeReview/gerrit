@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6692a5dd_adfde8c8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-05T10:53:43Z",
+      "side": 1,
+      "message": "Can you add a test for this?",
+      "revId": "a2182396f5fbd12a5ea0c7be1871d56c8d7e870f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "025447a9_bf418989",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-05T10:53:43Z",
+      "side": 1,
+      "message": "So the problem is that \"replace\" only replaces the first occurence? Should you maybe use the g switch as suggested here?\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace",
+      "revId": "a2182396f5fbd12a5ea0c7be1871d56c8d7e870f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

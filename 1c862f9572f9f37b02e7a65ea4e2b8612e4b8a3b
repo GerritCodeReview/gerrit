@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2c4e2c9b_c1e80254",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T22:59:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1056b1ad_3bf49d56",
+      "revId": "1c862f9572f9f37b02e7a65ea4e2b8612e4b8a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17d25c8d_21873fba",
         "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 4
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "b3c91530_2587af9e",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T22:59:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17d25c8d_21873fba",
+      "range": {
+        "startLine": 320,
+        "startChar": 5,
+        "endLine": 320,
+        "endChar": 13
+      },
+      "revId": "1c862f9572f9f37b02e7a65ea4e2b8612e4b8a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77774188_20c9a75a",
         "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 4
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "3dac1acd_b05f938a",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T22:59:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77774188_20c9a75a",
+      "revId": "1c862f9572f9f37b02e7a65ea4e2b8612e4b8a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "293b43d3_165c8d39",
         "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 4
@@ -73,6 +133,24 @@
       "revId": "1c862f9572f9f37b02e7a65ea4e2b8612e4b8a3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64afdab5_f6a3f7d2",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T22:59:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "293b43d3_165c8d39",
+      "revId": "1c862f9572f9f37b02e7a65ea4e2b8612e4b8a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -82,7 +82,7 @@ public class Module extends RestApiModule {
   @Provides
   @ServerInitiated
   GroupsUpdate provideServerInitiatedGroupsUpdate(GroupsUpdate.Factory groupsUpdateFactory) {
-    return groupsUpdateFactory.create(null);
+    return groupsUpdateFactory.createWithServerIdent();
   }
 
   @Provides

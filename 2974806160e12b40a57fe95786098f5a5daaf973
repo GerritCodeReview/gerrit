@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "285919a7_1a743585",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T06:39:27Z",
+      "side": 1,
+      "message": "Yes, good catch.",
+      "parentUuid": "08ea357a_5ce916c2",
+      "revId": "2974806160e12b40a57fe95786098f5a5daaf973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "970be9c7_891f91d9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
         "patchSetId": 1

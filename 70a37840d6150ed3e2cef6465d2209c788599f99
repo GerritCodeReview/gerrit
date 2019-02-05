@@ -22,6 +22,29 @@
       "revId": "70a37840d6150ed3e2cef6465d2209c788599f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "573cd460_a6e6f4f7",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-05T23:41:07Z",
+      "side": 1,
+      "message": "Actually, it was wrong to change this.  The previous sentence says \"with commit c0ff33\".\n\nI\u0027ll fix it in the cherry-picked version.",
+      "range": {
+        "startLine": 147,
+        "startChar": 61,
+        "endLine": 147,
+        "endChar": 68
+      },
+      "revId": "70a37840d6150ed3e2cef6465d2209c788599f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

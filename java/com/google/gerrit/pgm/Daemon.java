@@ -118,6 +118,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
@@ -182,7 +183,7 @@ public class Daemon extends SiteProgram {
   private boolean inMemoryTest;
   private AbstractModule luceneModule;
   private Module emailModule;
-  private Module testSysModule;
+  private List<Module> testSysModules = new ArrayList<>();
   private Module auditEventModule;
 
   private Runnable serverStarted;
@@ -309,8 +310,8 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
-  public void setAdditionalSysModuleForTesting(@Nullable Module m) {
-    testSysModule = m;
+  public void addAdditionalSysModuleForTesting(@Nullable Module... modules) {
+    testSysModules.addAll(Arrays.asList(modules));
   }
 
   @VisibleForTesting
@@ -461,9 +462,7 @@ public class Daemon extends SiteProgram {
       modules.add(new AccountDeactivator.Module());
       modules.add(new ChangeCleanupRunner.Module());
     }
-    if (testSysModule != null) {
-      modules.add(testSysModule);
-    }
+    modules.addAll(testSysModules);
     modules.add(new LocalMergeSuperSetComputation.Module());
     modules.add(new DefaultProjectNameLockManager.Module());
     return cfgInjector.createChildInjector(

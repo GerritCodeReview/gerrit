@@ -70,7 +70,6 @@ import com.google.gerrit.server.restapi.project.GetHead;
 import com.google.gerrit.server.restapi.project.GetParent;
 import com.google.gerrit.server.restapi.project.Index;
 import com.google.gerrit.server.restapi.project.ListBranches;
-import com.google.gerrit.server.restapi.project.ListChildProjects;
 import com.google.gerrit.server.restapi.project.ListDashboards;
 import com.google.gerrit.server.restapi.project.ListTags;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
@@ -475,10 +474,17 @@ public class ProjectApiImpl implements ProjectApi {
 
   @Override
   public List<ProjectInfo> children(boolean recursive) throws RestApiException {
-    ListChildProjects list = children.list();
-    list.setRecursive(recursive);
     try {
-      return list.apply(checkExists());
+      return children.list().withRecursive(recursive).apply(checkExists());
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list children", e);
+    }
+  }
+
+  @Override
+  public List<ProjectInfo> children(int limit) throws RestApiException {
+    try {
+      return children.list().withLimit(limit).apply(checkExists());
     } catch (Exception e) {
       throw asRestApiException("Cannot list children", e);
     }

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "00a9c49c_f7782e19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Resolve",
+      "parentUuid": "ecb830e7_b6a11c4f",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1ea0e5a_c9d24a1d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 11
@@ -51,6 +69,24 @@
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb0c9586_4d7fb6b4",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1231,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1ea0e5a_c9d24a1d",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -89,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "ab112060_e732986b",
+        "filename": "Documentation/rest-api-verifiers.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9df72d6e_a461dfe8",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30a28ba4_e6be294e",
         "filename": "Documentation/rest-api-verifiers.txt",
         "patchSetId": 11
@@ -103,6 +157,24 @@
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73e2bedd_81cee164",
+        "filename": "Documentation/rest-api-verifiers.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Since the create REST endpoint was changed, the verifier UUID is now the only supported identifier for all verifier REST endpoints, hence the sentence you propose does no longer match. I rephrased the current sentence a bit to make the intend clearer.\n\nDone.",
+      "parentUuid": "30a28ba4_e6be294e",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -123,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "97892a1e_f0e371b9",
+        "filename": "Documentation/rest-api-verifiers.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "There are no restrictions on the name. \nI\u0027ve change the create REST endpoint so that verifier-name can no longer appear in URLs, hence this section is removed.\n\nDone",
+      "parentUuid": "c80ff7b8_27cc5fd2",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20117004_3fc7eead",
         "filename": "Documentation/rest-api-verifiers.txt",
         "patchSetId": 11
@@ -140,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "87f25b2e_26ba1dc5",
+        "filename": "Documentation/rest-api-verifiers.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Mostly done.\n\nThe format is not further described because caller shouldn\u0027t make any assumptions about it.",
+      "parentUuid": "20117004_3fc7eead",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "388238b1_e6293400",
         "filename": "Documentation/rest-api-verifiers.txt",
         "patchSetId": 11
@@ -154,6 +262,24 @@
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c51c30b_af68d365",
+        "filename": "Documentation/rest-api-verifiers.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Currently it\u0027s not listed in Alice design doc. I posted a question there.\nSkipping this for now as it can be trivially added later.",
+      "parentUuid": "388238b1_e6293400",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -192,6 +318,24 @@
     },
     {
       "key": {
+        "uuid": "3cf66b9f_4198aab3",
+        "filename": "java/com/google/gerrit/extensions/api/verifiers/VerifierApi.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Nothing to do here?",
+      "parentUuid": "24b4510a_6d725e35",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6de13093_db010cdd",
         "filename": "java/com/google/gerrit/extensions/api/verifiers/Verifiers.java",
         "patchSetId": 11
@@ -206,6 +350,24 @@
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1640cbd5_f1ec97a1",
+        "filename": "java/com/google/gerrit/extensions/api/verifiers/Verifiers.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "See discussion at https://gerrit-review.googlesource.com/c/gerrit/+/212174/11/java/com/google/gerrit/extensions/api/verifiers/VerifierApi.java",
+      "parentUuid": "6de13093_db010cdd",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -244,6 +406,24 @@
     },
     {
       "key": {
+        "uuid": "f3806b05_41542a35",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2c185c9_7abb032f",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1b06af_b4dd9b32",
         "filename": "java/com/google/gerrit/server/restapi/verifier/Module.java",
         "patchSetId": 11
@@ -273,6 +453,24 @@
       "side": 1,
       "message": "So far there is no need for having a different implementation in tests.\n\nIn the design doc some people raised the concern that storing verifier data in Gerrit might not scale in the long run, so it was agreed to build the implementation of the storage behind an interface so that the implementation can be swapped if needed.\n\nI will have a look if we can do these bindings on a lower level.",
       "parentUuid": "ca1b06af_b4dd9b32",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8c6c479_449efe1a",
+        "filename": "java/com/google/gerrit/server/restapi/verifier/Module.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "\u003e I will have a look if we can do these bindings on a lower level.\n\nDone",
+      "parentUuid": "7948d78d_58b5919d",
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -314,6 +512,24 @@
     },
     {
       "key": {
+        "uuid": "c4b6fb67_2a248871",
+        "filename": "java/com/google/gerrit/server/restapi/verifier/VerifiersCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7165d3e6_8da65f20",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fbb718d_58cee594",
         "filename": "java/com/google/gerrit/server/restapi/verifier/VerifiersCollection.java",
         "patchSetId": 11
@@ -349,6 +565,24 @@
     },
     {
       "key": {
+        "uuid": "c2b91f38_ac93365c",
+        "filename": "java/com/google/gerrit/server/restapi/verifier/VerifiersCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3676a65a_27fef97d",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1293acf3_c92e606e",
         "filename": "java/com/google/gerrit/server/restapi/verifier/VerifiersCollection.java",
         "patchSetId": 11
@@ -363,6 +597,24 @@
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4b3d721_77347006",
+        "filename": "java/com/google/gerrit/server/restapi/verifier/VerifiersCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1293acf3_c92e606e",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -383,6 +635,24 @@
     },
     {
       "key": {
+        "uuid": "b2ff62e9_3adfa20e",
+        "filename": "java/com/google/gerrit/server/verifier/Verifier.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17dcd794_bc0662d3",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2ca16b8_f2022169",
         "filename": "java/com/google/gerrit/server/verifier/Verifier.java",
         "patchSetId": 11
@@ -397,6 +667,24 @@
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bc19c52_2aee094b",
+        "filename": "java/com/google/gerrit/server/verifier/Verifier.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "This was a bit tricky.\n\nA verifier should always have a ref state. Only when a verifier was update we created the updated Verifier instance in VerifierConfig.onSave at a point where we didn\u0027t know the new SHA1 yet, hence in this case the ref state was not set. I fixed this in VerifierConfig by builder the updated verifier config only after the commit has been written. This means the ref state here in Verifier no longer needs to be optional.\n\nDone.",
+      "parentUuid": "c2ca16b8_f2022169",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -417,6 +705,24 @@
     },
     {
       "key": {
+        "uuid": "e1ac544d_860468b5",
+        "filename": "java/com/google/gerrit/server/verifier/Verifier.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Added this check in the constructor of VerifierConfig.\n\nDone.",
+      "parentUuid": "8d772cfd_f86abb14",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e00d3a65_9a0cdcbe",
         "filename": "java/com/google/gerrit/server/verifier/VerifierUUID.java",
         "patchSetId": 11
@@ -428,6 +734,24 @@
       "writtenOn": "2019-02-04T12:21:26Z",
       "side": 1,
       "message": "Optional: I wish we didn\u0027t have multiple implementations of creating UUIDs. I can see why this needs to be a different output format from ChangeUtil#messageUuid (this needs to look like a SHA-1 in case we eventually want to change the format to live in git notes), but it would be nice if all UUID-generation logic could live in one place and e.g. share a Random instance.",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5da84c0_fb5a5a45",
+        "filename": "java/com/google/gerrit/server/verifier/VerifierUUID.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Ack, punting on this for now.",
+      "parentUuid": "e00d3a65_9a0cdcbe",
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -451,6 +775,24 @@
     },
     {
       "key": {
+        "uuid": "06e7dadc_4893c667",
+        "filename": "java/com/google/gerrit/server/verifier/Verifiers.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "beac75f8_b4a43888",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f81a16c6_4c826aa4",
         "filename": "java/com/google/gerrit/server/verifier/VerifiersUpdateFactory.java",
         "patchSetId": 11
@@ -462,6 +804,24 @@
       "writtenOn": "2019-02-04T12:21:26Z",
       "side": 1,
       "message": "Optional: As elsewhere, consider using optional, or even adding a separate method to create with the server ident.",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ae434b4_680df0ba",
+        "filename": "java/com/google/gerrit/server/verifier/VerifiersUpdateFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f81a16c6_4c826aa4",
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -521,6 +881,24 @@
     },
     {
       "key": {
+        "uuid": "3ca070d9_4ee064ad",
+        "filename": "java/com/google/gerrit/server/verifier/db/NoteDbVerifiersUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f317dc60_14011d40",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8946b25a_d1cbdec9",
         "filename": "java/com/google/gerrit/server/verifier/db/NoteDbVerifiersUpdate.java",
         "patchSetId": 11
@@ -573,6 +951,24 @@
     },
     {
       "key": {
+        "uuid": "cbebebad_6cfdc372",
+        "filename": "java/com/google/gerrit/server/verifier/db/NoteDbVerifiersUpdateFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d95b373f_8c79bed0",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f324defe_e0fdbb03",
         "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfig.java",
         "patchSetId": 11
@@ -584,6 +980,24 @@
       "writtenOn": "2019-02-04T12:21:26Z",
       "side": 1,
       "message": "Optional: \u003ch2\u003e or something?",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b51a4f39_e533c30f",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f324defe_e0fdbb03",
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -613,6 +1027,30 @@
     },
     {
       "key": {
+        "uuid": "50d19444_51e3d6c1",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d40c88e_2a6e9541",
+      "range": {
+        "startLine": 76,
+        "startChar": 21,
+        "endLine": 76,
+        "endChar": 22
+      },
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc1778bd_d9306dc0",
         "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfig.java",
         "patchSetId": 11
@@ -633,6 +1071,30 @@
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89509b44_44932a01",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc1778bd_d9306dc0",
+      "range": {
+        "startLine": 81,
+        "startChar": 29,
+        "endLine": 81,
+        "endChar": 31
+      },
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -748,6 +1210,24 @@
     },
     {
       "key": {
+        "uuid": "09afdadd_3033da10",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9792f808_afccab15",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "000a29f6_afa7f9c3",
         "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfigEntry.java",
         "patchSetId": 11
@@ -768,6 +1248,30 @@
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39f54b04_17f9577b",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfigEntry.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "000a29f6_afa7f9c3",
+      "range": {
+        "startLine": 27,
+        "startChar": 22,
+        "endLine": 27,
+        "endChar": 23
+      },
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -794,6 +1298,30 @@
     },
     {
       "key": {
+        "uuid": "97633f81_1142d218",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfigEntry.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Yeah, maybe it\u0027s not needed.\n\nDone",
+      "parentUuid": "1fb7af36_27b38d00",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 39
+      },
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67b0c7d0_f259680a",
         "filename": "java/com/google/gerrit/server/verifier/db/VerifierCreation.java",
         "patchSetId": 11
@@ -805,6 +1333,24 @@
       "writtenOn": "2019-02-04T12:21:26Z",
       "side": 1,
       "message": "Optional: I don\u0027t think Javadocs are necessary on AutoValue.Builder classes. It seems like you at least partially agree with me because build() doesn\u0027t have one ;)",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4648fb9_5eea3fac",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifierCreation.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67b0c7d0_f259680a",
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -828,6 +1374,24 @@
     },
     {
       "key": {
+        "uuid": "532d1c03_8a9f86db",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifierUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7a74997_f0c366c0",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5cb213_a2430d69",
         "filename": "java/com/google/gerrit/server/verifier/testing/ObjectIdSubject.java",
         "patchSetId": 11
@@ -842,6 +1406,24 @@
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4620dd63_2d077942",
+        "filename": "java/com/google/gerrit/server/verifier/testing/ObjectIdSubject.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5cb213_a2430d69",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -868,6 +1450,30 @@
     },
     {
       "key": {
+        "uuid": "c0a3e673_cba7a0c6",
+        "filename": "java/com/google/gerrit/server/verifier/testing/ObjectIdSubject.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3b0b512_4d82fd74",
+      "range": {
+        "startLine": 34,
+        "startChar": 23,
+        "endLine": 34,
+        "endChar": 27
+      },
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc1e55cf_99c6630f",
         "filename": "java/com/google/gerrit/server/verifier/testing/VerifierSubject.java",
         "patchSetId": 11
@@ -882,6 +1488,24 @@
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bac5b68_b88cc856",
+        "filename": "java/com/google/gerrit/server/verifier/testing/VerifierSubject.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-05T14:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc1e55cf_99c6630f",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

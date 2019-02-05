@@ -118,6 +118,30 @@
       "revId": "a2fc847e73e9120ef1fbbe6873fd419bf22ab475",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e38f6a10_a1991c2d",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-05T10:04:49Z",
+      "side": 1,
+      "message": "I think we could add that check in a new change if it is required.",
+      "parentUuid": "d3e3564f_c0584609",
+      "range": {
+        "startLine": 321,
+        "startChar": 17,
+        "endLine": 321,
+        "endChar": 21
+      },
+      "revId": "a2fc847e73e9120ef1fbbe6873fd419bf22ab475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -158,21 +158,6 @@
        /** @type ?Defs.LineOfInterest */
       lineOfInterest: Object,
 
-      /**
-       * The key locations based on the comments and line of interests,
-       * where lines should not be collapsed.
-       *
-       * @type {{left: Object<(string|number), number>,
-       *     right: Object<(string|number), number>}}
-       */
-      _keyLocations: {
-        type: Object,
-        value: () => ({
-          left: {},
-          right: {},
-        }),
-      },
-
       loading: {
         type: Boolean,
         value: false,
@@ -321,7 +306,6 @@
         const addedThreadEls = info.addedNodes.filter(isThreadEl);
         const removedThreadEls = info.removedNodes.filter(isThreadEl);
         this._updateRanges(addedThreadEls, removedThreadEls);
-        this._updateKeyLocations(addedThreadEls, removedThreadEls);
         this._redispatchHoverEvents(addedThreadEls);
       });
     },
@@ -349,17 +333,29 @@
       this.push('_commentRanges', ...addedCommentRanges);
     },
 
-    _updateKeyLocations(addedThreadEls, removedThreadEls) {
-      for (const threadEl of addedThreadEls) {
-        const commentSide = threadEl.getAttribute('comment-side');
-        const lineNum = threadEl.getAttribute('line-num') || GrDiffLine.FILE;
-        this._keyLocations[commentSide][lineNum] = true;
+    /**
+     * The key locations based on the comments and line of interests,
+     * where lines should not be collapsed.
+     *
+     * @return {{left: Object<(string|number), boolean>,
+     *     right: Object<(string|number), boolean>}}
+     */
+    _computeKeyLocations() {
+      const keyLocations = {left: {}, right: {}};
+      if (this.lineOfInterest) {
+        const side = this.lineOfInterest.leftSide ? 'left' : 'right';
+        keyLocations[side][this.lineOfInterest.number] = true;
       }
-      for (const threadEl of removedThreadEls) {
+      const threadEls = Polymer.dom(this).getEffectiveChildNodes()
+          .filter(isThreadEl);
+
+      for (const threadEl of threadEls) {
         const commentSide = threadEl.getAttribute('comment-side');
-        const lineNum = threadEl.getAttribute('line-num') || GrDiffLine.FILE;
-        this._keyLocations[commentSide][lineNum] = false;
+        const lineNum = Number(threadEl.getAttribute('line-num')) ||
+            GrDiffLine.FILE;
+        keyLocations[commentSide][lineNum] = true;
       }
+      return keyLocations;
     },
 
     // Dispatch events that are handled by the gr-diff-highlight.
@@ -691,11 +687,8 @@
 
       this._showWarning = false;
 
-      if (this.lineOfInterest) {
-        const side = this.lineOfInterest.leftSide ? 'left' : 'right';
-        this._keyLocations[side][this.lineOfInterest.number] = true;
-      }
-      this.$.diffBuilder.render(this._keyLocations, this._getBypassPrefs());
+      const keyLocations = this._computeKeyLocations();
+      this.$.diffBuilder.render(keyLocations, this._getBypassPrefs());
     },
 
     _handleRenderContent() {

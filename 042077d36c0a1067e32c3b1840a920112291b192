@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e04765ea_d76d5b1c",
+        "filename": "java/com/google/gerrit/server/query/change/RegexDirectoryPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-05T16:51:11Z",
+      "side": 1,
+      "message": "I didn\u0027t realize until looking into it just now that the reason this is necessary is that BRICS doesn\u0027t support ^ and $ at all :(\n\nIt\u0027s times like these that I feel like we should switch all regexes to RE2 (except I guess for ACL ref patterns).",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 5
+      },
+      "revId": "042077d36c0a1067e32c3b1840a920112291b192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97a31bd4_7797ed75",
+        "filename": "java/com/google/gerrit/server/query/change/RegexDirectoryPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-05T16:51:11Z",
+      "side": 1,
+      "message": "ChangeField.getDirectories(cd).stream().anyMatch(pattern::run)",
+      "revId": "042077d36c0a1067e32c3b1840a920112291b192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

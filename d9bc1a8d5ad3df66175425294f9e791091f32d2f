@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82c1543b_327b988f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T23:09:53Z",
+      "side": 1,
+      "message": "This test checks too many use-cases: can  you break it down into multiple tests?",
+      "range": {
+        "startLine": 1337,
+        "startChar": 14,
+        "endLine": 1337,
+        "endChar": 33
+      },
+      "revId": "d9bc1a8d5ad3df66175425294f9e791091f32d2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32cb9bc3_0bd1b98a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1342,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T23:09:53Z",
+      "side": 1,
+      "message": "Extract to a local variable and reuse throughout the test method",
+      "range": {
+        "startLine": 1342,
+        "startChar": 14,
+        "endLine": 1342,
+        "endChar": 29
+      },
+      "revId": "d9bc1a8d5ad3df66175425294f9e791091f32d2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c52cced5_dff34c95",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1352,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T23:09:53Z",
+      "side": 1,
+      "message": "Extract to a local variable and reuse throughout the test method.",
+      "range": {
+        "startLine": 1352,
+        "startChar": 4,
+        "endLine": 1352,
+        "endChar": 18
+      },
+      "revId": "d9bc1a8d5ad3df66175425294f9e791091f32d2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71ac6a6f_b7ff0d99",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1356,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T23:09:53Z",
+      "side": 1,
+      "message": "This is also used multiple times: extract to a local variable",
+      "range": {
+        "startLine": 1356,
+        "startChar": 12,
+        "endLine": 1356,
+        "endChar": 46
+      },
+      "revId": "d9bc1a8d5ad3df66175425294f9e791091f32d2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e67d8aa3_3c0a3dc6",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T23:09:53Z",
+      "side": 1,
+      "message": "JavaDoc? even minimal?",
+      "revId": "d9bc1a8d5ad3df66175425294f9e791091f32d2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

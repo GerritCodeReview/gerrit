@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// WARNING: NoteDbUpdateManager cares about the package name RestApiServlet lives in.
+// WARNING: NoteDbUpdateManager cares about the package name ResaudittApiServlet lives in.
 package com.google.gerrit.httpd.restapi;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -105,10 +105,10 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OptionUtil;
-import com.google.gerrit.server.audit.AuditService;
 import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -225,7 +225,7 @@ public class RestApiServlet extends HttpServlet {
     final DynamicItem<WebSession> webSession;
     final Provider<ParameterParser> paramParser;
     final PermissionBackend permissionBackend;
-    final AuditService auditService;
+    final GroupAuditService auditService;
     final RestApiMetrics metrics;
     final Pattern allowOrigin;
     final RestApiQuotaEnforcer quotaChecker;
@@ -236,7 +236,7 @@ public class RestApiServlet extends HttpServlet {
         DynamicItem<WebSession> webSession,
         Provider<ParameterParser> paramParser,
         PermissionBackend permissionBackend,
-        AuditService auditService,
+        GroupAuditService auditService,
         RestApiMetrics metrics,
         RestApiQuotaEnforcer quotaChecker,
         @GerritServerConfig Config cfg) {

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41a0bee5_d838f6b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-05T19:05:23Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure this is the approach we use for account preferences, so you could mention that here.",
+      "revId": "41c135497c159f450c159ab3f7902eda817c3c0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f629997_d249a539",
+        "filename": "Documentation/rest-api-verifiers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-05T19:05:23Z",
+      "side": 1,
+      "message": "I don\u0027t really like this interface. Alternatives:\n\n* Pass an explicit null to unset. (Except maybe we can\u0027t distinguish these cases in Gson?)\n* Treat \"\" and unset as the same in the backend, so passing \"\" unsets the value and causes it to not be returned.",
+      "revId": "41c135497c159f450c159ab3f7902eda817c3c0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a9092b5_4c941639",
+        "filename": "java/com/google/gerrit/acceptance/testing/verifier/VerifierRefSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-05T19:05:23Z",
+      "side": 1,
+      "message": "Not the biggest fan of passing a Factory here. I might rather inject a factory and then use factory.assertThatVerifier(someUuid). (The factory interface would look different from the Factory you have here.)\n\nActually, on second thought, I\u0027m not sure we want to use Truth here at all. What if we put a method in VerifierOperation that reads the config text? Then your call sites would be:\n\n assertThat(verifierOperations.get(uuid).configText()).contains(...)\n\nIf you want additional operations on the ref other than checking the config text, you can add more methods:\n\n assertThat(verifierOperations.get(uuid).getRefTip()).isEqualTo(someObjectId)\n\nYes, the stuff inside the assertThat(...) isn\u0027t fluent, but is that so bad?",
+      "revId": "41c135497c159f450c159ab3f7902eda817c3c0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6730f256_b2162ebb",
+        "filename": "java/com/google/gerrit/acceptance/testing/verifier/VerifierRefSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-05T19:05:23Z",
+      "side": 1,
+      "message": "Can be a lambda",
+      "revId": "41c135497c159f450c159ab3f7902eda817c3c0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

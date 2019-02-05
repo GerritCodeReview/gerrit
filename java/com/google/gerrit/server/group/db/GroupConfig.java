@@ -57,13 +57,13 @@ import org.eclipse.jgit.revwalk.RevSort;
  * AccountGroup.UUID)} or {@link #loadForGroupSnapshot(Project.NameKey, Repository,
  * AccountGroup.UUID, ObjectId)}.
  *
- * <p><strong>Note: </strong>Any modification (group creation or update) only becomes permanent (and
+ * <p><strong>Note:</strong> Any modification (group creation or update) only becomes permanent (and
  * hence written to NoteDb) if {@link #commit(MetaDataUpdate)} is called.
  *
- * <p><strong>Warning: </strong>This class is a low-level API for groups in NoteDb. Most code which
+ * <p><strong>Warning:</strong> This class is a low-level API for groups in NoteDb. Most code which
  * deals with internal Gerrit groups should use {@link Groups} or {@link GroupsUpdate} instead.
  *
- * <p><em>Internal details</em>
+ * <h2>Internal details</h2>
  *
  * <p>Each group is represented by a commit on a branch as defined by {@link
  * RefNames#refsGroups(AccountGroup.UUID)}. Previous versions of the group exist as older commits on
@@ -99,7 +99,7 @@ public class GroupConfig extends VersionedMetaData {
    * {@link #setGroupUpdate(InternalGroupUpdate, AuditLogFormatter)} on the returned {@code
    * GroupConfig}.
    *
-   * <p><strong>Note: </strong>The returned {@code GroupConfig} has to be committed via {@link
+   * <p><strong>Note:</strong> The returned {@code GroupConfig} has to be committed via {@link
    * #commit(MetaDataUpdate)} in order to create the group for real.
    *
    * @param projectName the name of the project which holds the NoteDb commits for groups
@@ -216,7 +216,7 @@ public class GroupConfig extends VersionedMetaData {
    * <p>If the group is newly created, the {@code InternalGroupUpdate} can be used to specify
    * optional properties.
    *
-   * <p><strong>Note: </strong>This method doesn't perform the update. It only contains the
+   * <p><strong>Note:</strong> This method doesn't perform the update. It only contains the
    * instructions for the update. To apply the update for real and write the result back to NoteDb,
    * call {@link #commit(MetaDataUpdate)} on this {@code GroupConfig}.
    *
@@ -233,7 +233,7 @@ public class GroupConfig extends VersionedMetaData {
   /**
    * Allows the new name of a group to be empty during creation or update.
    *
-   * <p><strong>Note: </strong>This method exists only to support the migration of legacy groups
+   * <p><strong>Note:</strong> This method exists only to support the migration of legacy groups
    * which don't always necessarily have a name. Nowadays, we enforce that groups always have names.
    * When we remove the migration code, we can probably remove this method as well.
    */

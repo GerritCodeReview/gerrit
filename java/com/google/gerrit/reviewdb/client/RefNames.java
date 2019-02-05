@@ -137,6 +137,11 @@ public class RefNames {
     return false;
   }
 
+  /** True if the provided ref is in {@code refs/changes/*}. */
+  public static boolean isRefsChanges(String ref) {
+    return ref.startsWith(REFS_CHANGES);
+  }
+
   public static String refsGroups(AccountGroup.UUID groupUuid) {
     return REFS_GROUPS + shardUuid(groupUuid.get());
   }

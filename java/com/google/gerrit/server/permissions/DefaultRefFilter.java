@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.permissions;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CACHE_AUTOMERGE;
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
 import static java.util.Objects.requireNonNull;
@@ -25,7 +25,9 @@ import static java.util.stream.Collectors.toMap;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -128,6 +130,14 @@ class DefaultRefFilter {
   /** Filters given refs and tags by visibility. */
   Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
+    // See if we can get away with a single, cheap ref evaluation.
+    if (refs.size() == 1) {
+      String refName = Iterables.getOnlyElement(refs.values()).getName();
+      if (RefNames.isRefsChanges(refName)) {
+        return canSeeSingleChangeRef(refName) ? refs : ImmutableMap.of();
+      }
+    }
+
     // Perform an initial ref filtering with all the refs the caller asked for. If we find tags that
     // we have to investigate (deferred tags) separately then perform a reachability check starting
     // from all visible branches (refs/heads/*).
@@ -433,7 +443,7 @@ class DefaultRefFilter {
   }
 
   private boolean isMetadata(String name) {
-    return name.startsWith(REFS_CHANGES) || RefNames.isRefsEdit(name);
+    return RefNames.isRefsChanges(name) || RefNames.isRefsEdit(name);
   }
 
   private static boolean isTag(Ref ref) {
@@ -471,6 +481,36 @@ class DefaultRefFilter {
     // Keep this logic in sync with GroupControl#isOwner().
     return isAdmin
         || (user != null && user.getEffectiveGroups().contains(group.getOwnerGroupUUID()));
+  }
+
+  /**
+   * Returns true if the user can see the provided change ref. Uses NoteDb for evaluation, hence
+   * does not suffer from the limitations documented in {@link SearchingChangeCacheImpl}.
+   *
+   * <p>This code lets users fetch changes that are not among the fraction of most recently modified
+   * changes that {@link SearchingChangeCacheImpl} returns. This works only when Git Protocol v2
+   * with refs-in-wants is used as that enables Gerrit to skip traditional advertisement of all
+   * visible refs.
+   */
+  private boolean canSeeSingleChangeRef(String refName) throws PermissionBackendException {
+    // We are treating just a single change ref. We are therefore not going through regular ref
+    // filtering, but use NoteDb directly. This makes it so that we can always serve this ref
+    // even if the change is not part of the set of most recent changes that
+    // SearchingChangeCacheImpl returns.
+    Change.Id cId = Change.Id.fromRef(refName);
+    checkNotNull(cId, "invalid change id for ref %s", refName);
+    ChangeNotes notes;
+    try {
+      notes = changeNotesFactory.create(projectState.getNameKey(), cId);
+    } catch (OrmException e) {
+      throw new PermissionBackendException("can't construct change notes", e);
+    }
+    try {
+      permissionBackendForProject.change(notes).check(ChangePermission.READ);
+      return true;
+    } catch (AuthException e) {
+      return false;
+    }
   }
 
   @AutoValue

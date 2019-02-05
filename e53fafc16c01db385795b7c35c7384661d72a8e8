@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7a308b1_84845f40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-05T17:28:03Z",
+      "side": 1,
+      "message": "What\u0027s the specific class of issue that you have in mind? Naively, I would think it\u0027s pretty easy to *not* break things. It\u0027s not like groups or external IDs where we have subtle relationships that need to be maintained between the contents of different refs. I mean, yeah, they could corrupt or delete the config file, but like I said, it\u0027s pretty easy to avoid doing that (and fix it if you do).",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "e53fafc16c01db385795b7c35c7384661d72a8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5423d501_a77f0e1b",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-05T16:41:09Z",
+      "side": 1,
+      "message": "Hm, it seems a little wasteful to double the number of fields stored here. You could avoid that if you parse the input string. That would obviously make the FooterPredicate constructor more complicated, but I don\u0027t think it would be *that* bad.",
+      "revId": "a8e28ce28741884df6d185caecc489d8309d0f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

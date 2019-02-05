@@ -104,8 +104,9 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     }
 
     public FakeEmailSenderSubject notSent() {
-      if (actual().peekMessage() != null) {
-        failWithoutActual(fact("expected message", "sent"));
+      Message message = actual().peekMessage();
+      if (message != null) {
+        failWithoutActual(fact("expected no message", message));
       }
       return this;
     }
@@ -133,7 +134,13 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       }
       EmailHeader header = message.headers().get("X-Gerrit-MessageType");
       if (!header.equals(new EmailHeader.String(messageType))) {
-        failWithoutActual(fact("expected message of type", messageType));
+        failWithoutActual(
+            fact("expected message of type", messageType),
+            fact(
+                "actual",
+                header instanceof EmailHeader.String
+                    ? ((EmailHeader.String) header).getString()
+                    : header));
       }
 
       // Return a named subject that displays a human-readable table of

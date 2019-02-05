@@ -70,6 +70,30 @@
       "revId": "5697de2109bcc9947f039f5299d213122ea0b3b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8328950_9a827027",
+        "filename": "java/com/google/gerrit/index/project/ProjectSchemaDefinitions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-05T21:09:18Z",
+      "side": 1,
+      "message": "It took some time to push ;)",
+      "parentUuid": "63d71480_0d6339a4",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 45
+      },
+      "revId": "5697de2109bcc9947f039f5299d213122ea0b3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

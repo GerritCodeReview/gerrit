@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79a5d6c1_160dd25d",
+        "filename": "java/com/google/gerrit/acceptance/ReindexGroupsAtStartup.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-05T11:49:25Z",
+      "side": 1,
+      "message": "nit: Can you store this in a local variable so that the try-catch block only has to wrap this call?",
+      "range": {
+        "startLine": 59,
+        "startChar": 11,
+        "endLine": 59,
+        "endChar": 34
+      },
+      "revId": "6fdf3e5518f75cc37e84324d9f3d8d2071ee46b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83d21_bae8af3a",
+        "filename": "java/com/google/gerrit/acceptance/ReindexGroupsAtStartup.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-05T11:49:25Z",
+      "side": 1,
+      "message": "I think we want to treat this in the same way as we treat all the other exceptions: Throw a runtime exception so that we abort the test.",
+      "revId": "6fdf3e5518f75cc37e84324d9f3d8d2071ee46b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

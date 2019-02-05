@@ -16,6 +16,24 @@
       "revId": "3dd9b7bd218cf17e3c588fe98677177607305cf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "795abe5f_e2fe4536",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T10:58:45Z",
+      "side": 1,
+      "message": "\u003e Is this fixing a specific problem or makes sure that further tests are consistent? \n\nIt is fixing a problem with the tests, not with the code.\nWhen using the in-memory repository, the projects were not indexed which was then making all the tests running with an underlying inconsistent state.\n\n\u003e Or is it a general improvement?\n\nA fix is an improvement, so both :-)\n\n\u003e But then, why it is a part of this series, that tries to utilize project index for general purpose query on GWT UI?\n\nIf you don\u0027t fix the test infrastructure first, then you won\u0027t be able to run reliable tests and thus you\u0027ll not be able to make refactorings without the risk of breaking stuff.",
+      "parentUuid": "6f5f1190_28ab9d76",
+      "revId": "3dd9b7bd218cf17e3c588fe98677177607305cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

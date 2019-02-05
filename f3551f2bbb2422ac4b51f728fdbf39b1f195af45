@@ -178,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "56a5c9fa_57e4a164",
+        "filename": "Documentation/rest-api-verifiers.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-05T17:21:39Z",
+      "side": 1,
+      "message": "Thanks, that sounds like a good argument for changing the creation endpoint to use POST.",
+      "parentUuid": "73e2bedd_81cee164",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c80ff7b8_27cc5fd2",
         "filename": "Documentation/rest-api-verifiers.txt",
         "patchSetId": 11
@@ -245,6 +263,24 @@
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67d965db_14d19624",
+        "filename": "Documentation/rest-api-verifiers.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-05T17:21:39Z",
+      "side": 1,
+      "message": "Ack, I suspect there will be some places in the code later on where we want to document that UUIDs must be SHA-1s, but I agree that we generally don\u0027t want to explain that implementation detail to callers.\n\nThat said, there is one feature of the current UUID format that IMO it would be nice for callers to rely on: UUIDs are URL-safe and will never require URL encoding. I suspect users will start depending on this fact immediately, and it could break them if we decided later to change the format to include some non-URL-safe characters. Not that we are planning on doing that, of course. But I would still slightly prefer to be explicit about it in the documentation.",
+      "parentUuid": "87f25b2e_26ba1dc5",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {
@@ -330,6 +366,24 @@
       "side": 1,
       "message": "Nothing to do here?",
       "parentUuid": "24b4510a_6d725e35",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61b158c8_cbdc8fed",
+        "filename": "java/com/google/gerrit/extensions/api/verifiers/VerifierApi.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-05T17:21:39Z",
+      "side": 1,
+      "message": "Yeah sorry, I was misremembering.",
+      "parentUuid": "3cf66b9f_4198aab3",
       "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

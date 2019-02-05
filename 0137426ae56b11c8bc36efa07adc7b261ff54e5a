@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ed2f8b7_e8969798",
+        "filename": "java/com/google/gerrit/server/verifier/VerifierUUID.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-05T17:21:39Z",
+      "side": 1,
+      "message": "Style guide says this should be VerifierUuid, unless you strongly believe this needs to be consistent with the existing GroupUUID class.",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 25
+      },
+      "revId": "0137426ae56b11c8bc36efa07adc7b261ff54e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d406f36_498f46aa",
+        "filename": "java/com/google/gerrit/server/verifier/VerifierUUID.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-05T17:21:39Z",
+      "side": 1,
+      "message": "I\u0027m a little surprised that this throws instead of allowing @Nullable and returning false. If we did that, checkUuid would still throw just fine.",
+      "revId": "0137426ae56b11c8bc36efa07adc7b261ff54e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "586b88cd_ac09d757",
+        "filename": "java/com/google/gerrit/server/verifier/VerifierUUID.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-05T17:21:39Z",
+      "side": 1,
+      "message": "Unnecessary qualification",
+      "revId": "0137426ae56b11c8bc36efa07adc7b261ff54e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98b79a7e_66d71976",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-05T17:21:39Z",
+      "side": 1,
+      "message": "verifierUpdate.map(VerifierUpdate::getName)",
+      "revId": "0137426ae56b11c8bc36efa07adc7b261ff54e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

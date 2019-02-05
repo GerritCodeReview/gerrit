@@ -225,7 +225,7 @@ public class RestApiServlet extends HttpServlet {
     final DynamicItem<WebSession> webSession;
     final Provider<ParameterParser> paramParser;
     final PermissionBackend permissionBackend;
-    final AuditService auditService;
+    final GroupAuditService auditService;
     final RestApiMetrics metrics;
     final Pattern allowOrigin;
     final RestApiQuotaEnforcer quotaChecker;
@@ -236,7 +236,7 @@ public class RestApiServlet extends HttpServlet {
         DynamicItem<WebSession> webSession,
         Provider<ParameterParser> paramParser,
         PermissionBackend permissionBackend,
-        AuditService auditService,
+        GroupAuditService auditService,
         RestApiMetrics metrics,
         RestApiQuotaEnforcer quotaChecker,
         @GerritServerConfig Config cfg) {

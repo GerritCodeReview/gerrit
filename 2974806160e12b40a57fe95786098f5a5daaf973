@@ -51,6 +51,24 @@
       "revId": "2974806160e12b40a57fe95786098f5a5daaf973",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "273447fe_57fabe31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-05T13:47:28Z",
+      "side": 1,
+      "message": "Nope, this has to be done in the same change, otherwise the GitOverHttp test won\u0027t be able to rebinding it.",
+      "parentUuid": "970be9c7_891f91d9",
+      "revId": "2974806160e12b40a57fe95786098f5a5daaf973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

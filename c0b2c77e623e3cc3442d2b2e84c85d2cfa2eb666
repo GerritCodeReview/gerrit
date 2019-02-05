@@ -22,6 +22,30 @@
       "revId": "c0b2c77e623e3cc3442d2b2e84c85d2cfa2eb666",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab069eea_4978ebb2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-02-05T10:36:35Z",
+      "side": 1,
+      "message": "Good catch, well mostly: \nYes, the value type should be boolean - I copied that from above, and there it was apparently already wrong. \n\nNo, the key type is indeed string|number, because it can also be \u0027FILE\u0027 to indicate it\u0027s a file comment - I am not sure we actually have to stick that into the map, given I would assume it never collapse the file comment row, but it also does not hurt much, so I am leaving it there for now.\n\nI did notice while testing this though that we were actually storing even the line numbers as strings (e.g. \"42\"), because we are getting it from the DOM attribute, which is always string valued. The reason this did not actually make the tests fail and is not a user visible bug is that keys in objects are basically always treated as string, so if you do\n\nconst key \u003d \"1\";\nconst o \u003d {};\no[key] \u003d true;\nconsole.log(o[1]);  // will actually return true\n\nI still ended up converting it to number because that seems less surprising, but really we should probably eventually migrate this to use a Map, where keys can actually be none strings...",
+      "parentUuid": "8b433c34_a23b6b1e",
+      "range": {
+        "startLine": 340,
+        "startChar": 23,
+        "endLine": 340,
+        "endChar": 54
+      },
+      "revId": "c0b2c77e623e3cc3442d2b2e84c85d2cfa2eb666",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

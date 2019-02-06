@@ -99,6 +99,30 @@
     },
     {
       "key": {
+        "uuid": "57c84e45_4785c14a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AssigneeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T07:37:21Z",
+      "side": 1,
+      "message": "If I checkout patch set 2 and add and run the test that I pasted above I get the following NPE:\n\njava.lang.NullPointerException\n\tat java.util.Objects.requireNonNull(Objects.java:203)\n\tat com.google.gerrit.server.update.BatchUpdate.addOp(BatchUpdate.java:399)\n\tat com.google.gerrit.server.restapi.change.PutAssignee.applyImpl(PutAssignee.java:102)\n\tat com.google.gerrit.server.restapi.change.PutAssignee.applyImpl(PutAssignee.java:1)\n\tat com.google.gerrit.server.update.RetryingRestModifyView.lambda$0(RetryingRestModifyView.java:30)\n\tat com.google.gerrit.server.update.RetryHelper.lambda$1(RetryHelper.java:223)\n\tat com.github.rholder.retry.AttemptTimeLimiters$NoAttemptTimeLimit.call(AttemptTimeLimiters.java:78)\n\tat com.github.rholder.retry.Retryer.call(Retryer.java:160)\n        ...\n\nWith the current patch set (patch set) the test passes for me too. Not sure what has changed to make it pass.",
+      "parentUuid": "81d31850_2bcbc2d3",
+      "range": {
+        "startLine": 142,
+        "startChar": 55,
+        "endLine": 145,
+        "endChar": 47
+      },
+      "revId": "e3c6484bf8281b78fabfaa1ed30dfff6081df06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb28af4d_cd8106e9",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
         "patchSetId": 2

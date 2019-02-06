@@ -30,6 +30,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
@@ -312,6 +313,14 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     return result;
   }
 
+  /**
+   * Trasform an index document into a target object type.
+   *
+   * @param doc index document
+   * @return target object, or null if the target object was not found or failed to load from the
+   *     underlying store.
+   */
+  @Nullable
   protected abstract V fromDocument(Document doc);
 
   void add(Document doc, Values<V> values) {

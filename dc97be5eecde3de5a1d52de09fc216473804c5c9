@@ -16,6 +16,24 @@
       "revId": "dc97be5eecde3de5a1d52de09fc216473804c5c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba501475_9fe5f0d6",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1392,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T14:30:55Z",
+      "side": 1,
+      "message": "Good point, let\u0027s just add this.\n\nDone",
+      "parentUuid": "768dbdd4_17b86be6",
+      "revId": "dc97be5eecde3de5a1d52de09fc216473804c5c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

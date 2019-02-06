@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dae6e5e8_dd2f8538",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-06T00:43:42Z",
+      "side": 1,
+      "message": "I will try to do them later today (though because _computeCommands dosen\u0027t have tests) i will have to research on how to test _computeCommands (ie what the params data should be).",
+      "parentUuid": "6692a5dd_adfde8c8",
+      "revId": "a2182396f5fbd12a5ea0c7be1871d56c8d7e870f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "025447a9_bf418989",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "a2182396f5fbd12a5ea0c7be1871d56c8d7e870f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af203e8d_38ba144e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-06T00:43:42Z",
+      "side": 1,
+      "message": "Thanks, done. (that was a great thing!)",
+      "parentUuid": "025447a9_bf418989",
+      "revId": "a2182396f5fbd12a5ea0c7be1871d56c8d7e870f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

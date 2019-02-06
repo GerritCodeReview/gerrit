@@ -41,7 +41,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupUUID;
+import com.google.gerrit.server.account.GroupUuid;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.GroupResource;
@@ -196,7 +196,7 @@ public class CreateGroup
 
     AccountGroup.Id groupId = AccountGroup.id(sequences.nextGroupId());
     AccountGroup.UUID uuid =
-        GroupUUID.make(
+        GroupUuid.make(
             createGroupArgs.getGroupName(),
             self.get().newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone()));
     InternalGroupCreation groupCreation =

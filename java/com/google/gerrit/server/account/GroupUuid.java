@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,19 +14,20 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import com.google.gerrit.entities.AccountGroup;
+import java.security.MessageDigest;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.junit.Test;
 
-public class GroupUUIDTest {
-  @Test
-  public void createdUuidsForSameInputShouldBeDifferent() {
-    String groupName = "Users";
-    PersonIdent personIdent = new PersonIdent("John", "john@example.com");
-    AccountGroup.UUID uuid1 = GroupUUID.make(groupName, personIdent);
-    AccountGroup.UUID uuid2 = GroupUUID.make(groupName, personIdent);
-    assertThat(uuid2).isNotEqualTo(uuid1);
+public class GroupUuid {
+  public static AccountGroup.UUID make(String groupName, PersonIdent creator) {
+    MessageDigest md = Constants.newMessageDigest();
+    md.update(Constants.encode("group " + groupName + "\n"));
+    md.update(Constants.encode("creator " + creator.toExternalString() + "\n"));
+    md.update(Constants.encode(String.valueOf(Math.random())));
+    return AccountGroup.uuid(ObjectId.fromRaw(md.digest()).name());
   }
+
+  private GroupUuid() {}
 }

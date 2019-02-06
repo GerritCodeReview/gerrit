@@ -22,7 +22,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AccountGroupByIdAudit;
 import com.google.gerrit.entities.AccountGroupMemberAudit;
-import com.google.gerrit.server.account.GroupUUID;
+import com.google.gerrit.server.account.GroupUuid;
 import com.google.gerrit.server.group.InternalGroup;
 import java.sql.Timestamp;
 import java.util.Set;
@@ -238,7 +238,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
       int next, String groupName, PersonIdent authorIdent, Account.Id authorId) throws Exception {
     InternalGroupCreation groupCreation =
         InternalGroupCreation.builder()
-            .setGroupUUID(GroupUUID.make(groupName, serverIdent))
+            .setGroupUUID(GroupUuid.make(groupName, serverIdent))
             .setNameKey(AccountGroup.nameKey(groupName))
             .setId(AccountGroup.id(next))
             .build();

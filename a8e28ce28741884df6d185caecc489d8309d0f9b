@@ -16,6 +16,24 @@
       "revId": "a8e28ce28741884df6d185caecc489d8309d0f9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fe76bbb_dc93dc7c",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T14:18:40Z",
+      "side": 1,
+      "message": "Ah yes, you caught me being too lazy to implement that parsing logic.\n\nDone.",
+      "parentUuid": "5423d501_a77f0e1b",
+      "revId": "a8e28ce28741884df6d185caecc489d8309d0f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

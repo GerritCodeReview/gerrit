@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17614cc0_7ac41069",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-06T10:48:58Z",
+      "side": 1,
+      "message": "Mention secondary index in the subject?  It wasn\u0027t immediately obvious to me that that\u0027s what \"QueryProjects\" means.",
+      "revId": "d2bc57b631c0571dab97596e5b0c5f8875a70a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80844c8e_bea95378",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-06T10:48:58Z",
+      "side": 1,
+      "message": "projects secondary index",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "d2bc57b631c0571dab97596e5b0c5f8875a70a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "504f4659_e7fa543e",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-06T10:48:58Z",
+      "side": 1,
+      "message": "Annotate the method as @Nullable?\n\nI see it can already return null (L601) so this should probably have been done before.",
+      "range": {
+        "startLine": 438,
+        "startChar": 6,
+        "endLine": 438,
+        "endChar": 18
+      },
+      "revId": "d2bc57b631c0571dab97596e5b0c5f8875a70a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

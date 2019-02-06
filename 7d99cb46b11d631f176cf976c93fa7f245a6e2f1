@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1bb659d7_ffefce4f",
+        "filename": "java/com/google/gerrit/index/FieldDef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-02-06T17:44:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "76aa26e0_be22b89e",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 90
+      },
+      "revId": "7d99cb46b11d631f176cf976c93fa7f245a6e2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba78a22f_343c11b2",
         "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 1
@@ -120,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "4bbf685d_e86b11d5",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-02-06T17:44:29Z",
+      "side": 1,
+      "message": "My comment was more about, why not using SortedNumericDocValuesField instead of NumericDocValuesField, also knowing that SortedDocValuesField is used below (L368) for the string case. In other words, there is a Sorted-prefixed /named class also for NumericDocValuesField, i.e., SortedNumericDocValuesField, which could be considered here instead.",
+      "parentUuid": "58f9033d_5f0c322a",
+      "range": {
+        "startLine": 360,
+        "startChar": 20,
+        "endLine": 360,
+        "endChar": 41
+      },
+      "revId": "7d99cb46b11d631f176cf976c93fa7f245a6e2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8746bac_12180f21",
         "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 1
@@ -155,6 +203,30 @@
       "side": 1,
       "message": "You mean why we don\u0027t check here for both types, like we did for it on line: 362 above? FieldType.PREFIX is not used right now for sorted fields. I could assert in if (sorted) branch that  type !\u003d FieldType.PREFIXm but I decided not to do it, to not distract attention to too much asserts. But for consistency, I could check here to:\n\n  if (type \u003d\u003d FieldType.PREFIX || type \u003d\u003d FieldType.PREFIX) {...",
       "parentUuid": "b8746bac_12180f21",
+      "range": {
+        "startLine": 438,
+        "startChar": 16,
+        "endLine": 438,
+        "endChar": 31
+      },
+      "revId": "7d99cb46b11d631f176cf976c93fa7f245a6e2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28c99b15_bdde06f1",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-02-06T17:44:29Z",
+      "side": 1,
+      "message": "Yes, that\u0027s what I meant. I think you have a typo right above, though. The first \"PREFIX\" occurrence should read \"EXACT\" instead.\n\nHowever, I checked the callers of this very method here, and I found none that are clearly passing non-EXACT or PREFIX as field type, AFAIK. You can double-check that assumption though, before deciding on applying my original comment or not.",
+      "parentUuid": "6b75bb7d_0975ea98",
       "range": {
         "startLine": 438,
         "startChar": 16,

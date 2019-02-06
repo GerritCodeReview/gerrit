@@ -15,12 +15,12 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.FooterConstants;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -66,6 +66,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -101,7 +102,6 @@ public class CherryPickChange {
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final MergeUtil.Factory mergeUtilFactory;
-  private final ChangeNotes.Factory changeNotesFactory;
   private final ProjectCache projectCache;
   private final ApprovalsUtil approvalsUtil;
   private final NotifyResolver notifyResolver;
@@ -116,7 +116,6 @@ public class CherryPickChange {
       ChangeInserter.Factory changeInserterFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
-      ChangeNotes.Factory changeNotesFactory,
       ProjectCache projectCache,
       ApprovalsUtil approvalsUtil,
       NotifyResolver notifyResolver) {
@@ -128,27 +127,43 @@ public class CherryPickChange {
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
-    this.changeNotesFactory = changeNotesFactory;
     this.projectCache = projectCache;
     this.approvalsUtil = approvalsUtil;
     this.notifyResolver = notifyResolver;
   }
 
-  public Result cherryPick(
+  public Result cherryPickChange(
       BatchUpdate.Factory batchUpdateFactory,
-      Change change,
+      ChangeNotes sourceNotes,
       PatchSet patch,
       CherryPickInput input,
       BranchNameKey dest)
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
-    return cherryPick(
-        batchUpdateFactory, change, change.getProject(), patch.commitId(), input, dest);
+    requireNonNull(sourceNotes);
+    return cherryPickImpl(
+        batchUpdateFactory,
+        Optional.of(sourceNotes),
+        sourceNotes.getProjectName(),
+        ObjectId.fromString(patch.commitId().name()),
+        input,
+        dest);
   }
 
-  public Result cherryPick(
+  public Result cherryPickCommit(
       BatchUpdate.Factory batchUpdateFactory,
-      @Nullable Change sourceChange,
+      Project.NameKey project,
+      ObjectId sourceCommit,
+      CherryPickInput input,
+      BranchNameKey dest)
+      throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
+          RestApiException, ConfigInvalidException, NoSuchProjectException {
+    return cherryPickImpl(batchUpdateFactory, Optional.empty(), project, sourceCommit, input, dest);
+  }
+
+  private Result cherryPickImpl(
+      BatchUpdate.Factory batchUpdateFactory,
+      Optional<ChangeNotes> sourceNotes,
       Project.NameKey project,
       ObjectId sourceCommit,
       CherryPickInput input,
@@ -245,25 +260,13 @@ public class CherryPickChange {
           bu.setNotify(resolveNotify(input));
           Change.Id changeId;
           if (destChanges.size() == 1) {
-            // The change key exists on the destination branch. The cherry pick
-            // will be added as a new patch set.
+            // The change key exists on the destination branch. The cherry pick will be added as a
+            // new patch set.
             changeId = insertPatchSet(bu, git, destChanges.get(0).notes(), cherryPickCommit);
           } else {
-            // Change key not found on destination branch. We can create a new
-            // change.
-            String newTopic = null;
-            if (sourceChange != null && !Strings.isNullOrEmpty(sourceChange.getTopic())) {
-              newTopic = sourceChange.getTopic() + "-" + newDest.shortName();
-            }
+            // Change key not found on destination branch. We can create a new change.
             changeId =
-                createNewChange(
-                    bu,
-                    cherryPickCommit,
-                    dest.branch(),
-                    newTopic,
-                    sourceChange,
-                    sourceCommit,
-                    input);
+                createNewChange(bu, cherryPickCommit, dest, sourceNotes, sourceCommit, input);
           }
           bu.execute();
           return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
@@ -331,33 +334,35 @@ public class CherryPickChange {
   private Change.Id createNewChange(
       BatchUpdate bu,
       CodeReviewCommit cherryPickCommit,
-      String refName,
-      String topic,
-      @Nullable Change sourceChange,
+      BranchNameKey dest,
+      Optional<ChangeNotes> sourceNotes,
       ObjectId sourceCommit,
       CherryPickInput input)
       throws IOException {
     Change.Id changeId = Change.id(seq.nextChangeId());
-    ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
-    BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
+    ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, dest.branch());
     ins.setMessage(
             messageForDestinationChange(
-                ins.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit))
-        .setTopic(topic)
+                ins.getPatchSetId(), sourceNotes, sourceCommit, cherryPickCommit))
         .setWorkInProgress(
-            (sourceChange != null && sourceChange.isWorkInProgress())
+            sourceNotes.map(n -> n.getChange().isWorkInProgress()).orElse(false)
                 || !cherryPickCommit.getFilesWithGitConflicts().isEmpty());
-    if (input.keepReviewers && sourceChange != null) {
-      ReviewerSet reviewerSet =
-          approvalsUtil.getReviewers(changeNotesFactory.createChecked(sourceChange));
+    sourceNotes
+        .map(n -> n.getChange().getTopic())
+        .filter(t -> !Strings.isNullOrEmpty(t))
+        .map(t -> t + "-" + dest.shortName())
+        .ifPresent(ins::setTopic);
+    if (input.keepReviewers && sourceNotes.isPresent()) {
+      ReviewerSet reviewerSet = approvalsUtil.getReviewers(sourceNotes.get());
       Set<Account.Id> reviewers =
           new HashSet<>(reviewerSet.byState(ReviewerStateInternal.REVIEWER));
-      reviewers.add(sourceChange.getOwner());
+      reviewers.add(sourceNotes.get().getChange().getOwner());
       reviewers.remove(user.get().getAccountId());
       Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
       ccs.remove(user.get().getAccountId());
       ins.setReviewersAndCcs(reviewers, ccs);
     }
+
     bu.insertChange(ins);
     return changeId;
   }
@@ -368,18 +373,20 @@ public class CherryPickChange {
         firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
   }
 
-  private String messageForDestinationChange(
+  private static String messageForDestinationChange(
       PatchSet.Id patchSetId,
-      BranchNameKey sourceBranch,
+      Optional<ChangeNotes> sourceNotes,
       ObjectId sourceCommit,
       CodeReviewCommit cherryPickCommit) {
-    StringBuilder stringBuilder = new StringBuilder("Patch Set ").append(patchSetId.get());
-    if (sourceBranch != null) {
-      stringBuilder.append(": Cherry Picked from branch ").append(sourceBranch.shortName());
-    } else {
-      stringBuilder.append(": Cherry Picked from commit ").append(sourceCommit.getName());
-    }
-    stringBuilder.append(".");
+    StringBuilder stringBuilder =
+        new StringBuilder("Patch Set ")
+            .append(patchSetId.get())
+            .append(": Cherry Picked from ")
+            .append(
+                sourceNotes
+                    .map(n -> "branch " + n.getChange().getDest().shortName())
+                    .orElse("commit " + sourceCommit.getName()))
+            .append('.');
 
     if (!cherryPickCommit.getFilesWithGitConflicts().isEmpty()) {
       stringBuilder.append("\n\nThe following files contain Git conflicts:");

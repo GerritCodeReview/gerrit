@@ -97,9 +97,8 @@ public class CherryPickCommit
 
     try {
       CherryPickChange.Result cherryPickResult =
-          cherryPickChange.cherryPick(
+          cherryPickChange.cherryPickCommit(
               updateFactory,
-              null,
               projectName,
               commit,
               input,

@@ -22,6 +22,30 @@
       "revId": "e53fafc16c01db385795b7c35c7384661d72a8e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1557db1e_3cb86314",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T09:07:10Z",
+      "side": 1,
+      "message": "Added the reasoning.\n\nDone.",
+      "parentUuid": "f7a308b1_84845f40",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "e53fafc16c01db385795b7c35c7384661d72a8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

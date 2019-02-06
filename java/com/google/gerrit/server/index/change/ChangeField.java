@@ -192,7 +192,7 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_EXTENSION).buildRepeatable(ChangeField::getExtensions);
 
   public static Set<String> getExtensions(ChangeData cd) throws OrmException {
-    return extensions(cd).filter(e -> !e.isEmpty()).collect(toSet());
+    return extensions(cd).collect(toSet());
   }
 
   /**
@@ -226,6 +226,63 @@ public class ChangeField {
     } catch (IOException e) {
       throw new OrmException(e);
     }
+  }
+
+  /** Footers from the commit message of the current patch set. */
+  public static final FieldDef<ChangeData, Iterable<String>> FOOTER =
+      exact(ChangeQueryBuilder.FIELD_FOOTER).buildRepeatable(ChangeField::getFooters);
+
+  public static Set<String> getFooters(ChangeData cd) throws OrmException {
+    try {
+      return cd.commitFooters()
+          .stream()
+          .map(f -> f.toString().toLowerCase(Locale.US))
+          .collect(toSet());
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+  }
+
+  /** Folders that are touched by the current patch set. */
+  public static final FieldDef<ChangeData, Iterable<String>> DIRECTORY =
+      exact(ChangeQueryBuilder.FIELD_DIRECTORY).buildRepeatable(ChangeField::getDirectories);
+
+  public static Set<String> getDirectories(ChangeData cd) throws OrmException {
+    List<String> paths;
+    try {
+      paths = cd.currentFilePaths();
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+
+    Splitter s = Splitter.on('/').omitEmptyStrings();
+    Set<String> r = new HashSet<>();
+    for (String path : paths) {
+      StringBuilder directory = new StringBuilder();
+      directory.append("");
+      r.add(directory.toString());
+      String nextPart = null;
+      for (String part : s.split(path)) {
+        if (nextPart != null) {
+          r.add(nextPart);
+
+          if (directory.length() > 0) {
+            directory.append("/");
+          }
+          directory.append(nextPart);
+
+          String intermediateDir = directory.toString();
+          int i = intermediateDir.indexOf('/');
+          while (i >= 0) {
+            r.add(intermediateDir);
+            intermediateDir = intermediateDir.substring(i + 1);
+            i = intermediateDir.indexOf('/');
+          }
+        }
+        nextPart = part;
+      }
+    }
+    return r;
   }
 
   /** Owner/creator of the change. */

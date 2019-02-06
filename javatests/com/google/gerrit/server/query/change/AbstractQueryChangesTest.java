@@ -1379,7 +1379,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert(repo, newChangeWithFiles(repo, "foo.h", "foo.cc"));
     Change change2 = insert(repo, newChangeWithFiles(repo, "bar.H", "bar.CC"));
     Change change3 = insert(repo, newChangeWithFiles(repo, "dir/baz.h", "dir/baz.cc"));
-    Change change4 = insert(repo, newChangeWithFiles(repo, "Quux.java"));
+    Change change4 = insert(repo, newChangeWithFiles(repo, "Quux.java", "foo"));
 
     assertQuery("extension:java", change4);
     assertQuery("ext:java", change4);
@@ -1387,6 +1387,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("ext:jAvA", change4);
     assertQuery("ext:.jAvA", change4);
     assertQuery("ext:cc", change3, change2, change1);
+
+    if (getSchemaVersion() >= 56) {
+      // matching changes with files that have no extension is possible
+      assertQuery("ext:\"\"", change4);
+      assertFailingQuery("ext:");
+    }
   }
 
   @Test
@@ -1443,6 +1449,143 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // inverse queries
     assertQuery("-onlyextensions:cc,h", change7, change6, change5, change3);
+  }
+
+  @Test
+  public void byFooter() throws Exception {
+    if (getSchemaVersion() < 54) {
+      assertMissingField(ChangeField.FOOTER);
+      assertFailingQuery(
+          "footer:Change-Id=I3d2b978ed455f835d1dad2daa920be0b0ec2ae36",
+          "'footer' operator is not supported by change index version");
+      return;
+    }
+
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 = repo.parseBody(repo.commit().message("Test\n\nfoo: bar").create());
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    RevCommit commit2 = repo.parseBody(repo.commit().message("Test\n\nfoo: baz").create());
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+    RevCommit commit3 = repo.parseBody(repo.commit().message("Test\n\nfoo: bar\nfoo:baz").create());
+    Change change3 = insert(repo, newChangeForCommit(repo, commit3));
+    RevCommit commit4 = repo.parseBody(repo.commit().message("Test\n\nfoo: bar=baz").create());
+    Change change4 = insert(repo, newChangeForCommit(repo, commit4));
+
+    // create a changes with lines that look like footers, but which are not
+    RevCommit commit5 =
+        repo.parseBody(
+            repo.commit().message("Test\n\nfoo: bar\n\nfoo=bar").insertChangeId().create());
+    Change change5 = insert(repo, newChangeForCommit(repo, commit5));
+    RevCommit commit6 = repo.parseBody(repo.commit().message("Test\n\na=b: c").create());
+    insert(repo, newChangeForCommit(repo, commit6));
+
+    // matching by 'key=value' works
+    assertQuery("footer:foo=bar", change3, change1);
+    assertQuery("footer:foo=baz", change3, change2);
+    assertQuery("footer:Change-Id=" + change5.getKey(), change5);
+    assertQuery("footer:foo=bar=baz", change4);
+
+    // case doesn't matter
+    assertQuery("footer:foo=BAR", change3, change1);
+    assertQuery("footer:FOO=bar", change3, change1);
+    assertQuery("footer:fOo=BaZ", change3, change2);
+
+    // verbatim matching of footers works
+    assertQuery("footer:\"foo: bar\"", change3, change1);
+    assertQuery("footer:\"foo: baz\"", change3, change2);
+    assertQuery("footer:\"Change-Id: " + change5.getKey() + "\"", change5);
+    assertQuery("footer:\"foo: bar=baz\"", change4);
+
+    // expect no match because 'a=b: c' of commit6 is not a valid footer (footer key cannot contain
+    // '=')
+    assertQuery("footer:a=b=c");
+    assertQuery("footer:\"a=b: c\"");
+
+    // expect empty result for invalid footers
+    assertQuery("footer:foo");
+    assertQuery("footer:foo=");
+    assertQuery("footer:=foo");
+    assertQuery("footer:=");
+  }
+
+  @Test
+  public void byDirectory() throws Exception {
+    if (getSchemaVersion() < 55) {
+      assertMissingField(ChangeField.DIRECTORY);
+      String unsupportedOperatorMessage =
+          "'directory' operator is not supported by change index version";
+      assertFailingQuery("directory:src/java", unsupportedOperatorMessage);
+      assertFailingQuery("dir:src/java", unsupportedOperatorMessage);
+      return;
+    }
+
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChangeWithFiles(repo, "src/foo.h", "src/foo.cc"));
+    Change change2 = insert(repo, newChangeWithFiles(repo, "src/java/foo.java", "src/js/bar.js"));
+    Change change3 =
+        insert(repo, newChangeWithFiles(repo, "documentation/training/slides/README.txt"));
+    Change change4 = insert(repo, newChangeWithFiles(repo, "a.txt"));
+    Change change5 = insert(repo, newChangeWithFiles(repo, "a/b/c/d/e/foo.txt"));
+
+    // matching by directory prefix works
+    assertQuery("directory:src", change2, change1);
+    assertQuery("directory:src/java", change2);
+    assertQuery("directory:src/js", change2);
+    assertQuery("directory:documentation/", change3);
+    assertQuery("directory:documentation/training", change3);
+    assertQuery("directory:documentation/training/slides", change3);
+
+    // 'dir' alias works
+    assertQuery("dir:src", change2, change1);
+    assertQuery("dir:src/java", change2);
+
+    // case doesn't matter
+    assertQuery("directory:Documentation/TrAiNiNg/SLIDES", change3);
+
+    // leading and trailing '/' doesn't matter
+    assertQuery("directory:/documentation/training/slides", change3);
+    assertQuery("directory:documentation/training/slides/", change3);
+    assertQuery("directory:/documentation/training/slides/", change3);
+
+    // files do not match as directory
+    assertQuery("directory:src/foo.h");
+    assertQuery("directory:documentation/training/slides/README.txt");
+
+    // root directory matches all changes
+    assertQuery("directory:/", change5, change4, change3, change2, change1);
+    assertQuery("directory:\"\"", change5, change4, change3, change2, change1);
+    assertFailingQuery("directory:");
+
+    // matching single directory segments works
+    assertQuery("directory:java", change2);
+    assertQuery("directory:slides", change3);
+
+    // files do not match as directory segment
+    assertQuery("directory:foo.h");
+
+    // matching any combination of intermediate directory segments works
+    assertQuery("directory:training/slides", change3);
+    assertQuery("directory:b/c", change5);
+    assertQuery("directory:b/c/d", change5);
+    assertQuery("directory:b/c/d/e", change5);
+    assertQuery("directory:c/d", change5);
+    assertQuery("directory:c/d/e", change5);
+    assertQuery("directory:d/e", change5);
+
+    // files do not match as directory segments
+    assertQuery("directory:d/e/foo.txt");
+    assertQuery("directory:e/foo.txt");
+
+    // matching any combination of intermediate directory segments works with leading and trailing
+    // '/'
+    assertQuery("directory:/b/c", change5);
+    assertQuery("directory:/b/c/", change5);
+    assertQuery("directory:b/c/", change5);
+
+    // match by regexp
+    assertQuery("directory:^.*va.*", change2);
+    assertQuery("directory:^documentation/.*/slides", change3);
+    assertQuery("directory:^train.*", change3);
   }
 
   @Test

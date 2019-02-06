@@ -48,7 +48,24 @@ message OAuthTokenProto {
 
 
 // Serialized form of com.google.gerrit.server.notedb.ChangeNotesCache.Key.
-// Next ID: 4
+// Next ID: 3
+message ChangeRefKeyProto {
+  string repo_key = 1;
+  int32 change_id = 2;
+}
+
+
+// Just for benchmarking
+message ChangeRefStateProto {
+  int32 owner_account_id = 1;
+  repeated int32 reviewer_account_id = 2;
+  repeated int32 cc_account_id = 3;
+  bool is_private = 4;
+  string destination_branch = 5;
+  bytes meta_sha1 = 6;
+}
+
+// Just for benchmarking
 message ChangeNotesKeyProto {
   string project = 1;
   int32 change_id = 2;

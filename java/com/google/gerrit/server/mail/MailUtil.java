@@ -60,6 +60,7 @@ public class MailUtil {
     return recipients;
   }
 
+  @SuppressWarnings("deprecation")
   private static Account.Id toAccountId(AccountResolver accountResolver, String nameOrEmail)
       throws OrmException, UnprocessableEntityException, IOException, ConfigInvalidException {
     return accountResolver.resolveByNameOrEmail(nameOrEmail).asUnique().getAccount().getId();

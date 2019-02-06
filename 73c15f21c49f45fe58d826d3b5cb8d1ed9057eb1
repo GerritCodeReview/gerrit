@@ -46,6 +46,30 @@
       "revId": "73c15f21c49f45fe58d826d3b5cb8d1ed9057eb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c2c491e_b6039d6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-06T08:16:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcfe885e_4273bf97",
+      "range": {
+        "startLine": 620,
+        "startChar": 8,
+        "endLine": 620,
+        "endChar": 21
+      },
+      "revId": "73c15f21c49f45fe58d826d3b5cb8d1ed9057eb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -217,7 +217,9 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
             ? pushHead(testRepo, tagRef, false, force)
             : GitUtil.pushTag(testRepo, tagName, !createTag);
     RemoteRefUpdate refUpdate = r.getRemoteUpdate(tagRef);
-    assertThat(refUpdate.getStatus()).named(tagType.name()).isEqualTo(expectedStatus);
+    assertThat(refUpdate.getStatus())
+        .named(tagType.name() + " with \"" + refUpdate.getMessage() + "\"")
+        .isEqualTo(expectedStatus);
     return tagName;
   }
 

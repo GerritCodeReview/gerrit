@@ -204,6 +204,7 @@ public class AllProjectsCreator {
     AccessSection all = config.getAccessSection(AccessSection.ALL, true);
     AccessSection tags = config.getAccessSection("refs/tags/*", true);
     AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);
+    AccessSection foo = config.getAccessSection("refs/foo/*", true);
 
     grant(config, capabilities, GlobalCapability.ADMINISTRATE_SERVER, adminsGroup);
     grant(config, all, Permission.READ, adminsGroup, anonymous);
@@ -224,6 +225,9 @@ public class AllProjectsCreator {
     grant(config, meta, Permission.CREATE, adminsGroup, owners);
     grant(config, meta, Permission.PUSH, adminsGroup, owners);
     grant(config, meta, Permission.SUBMIT, adminsGroup, owners);
+
+    foo.getPermission(Permission.READ, true).setExclusiveGroup(true);
+    grant(config, foo, Permission.READ, adminsGroup);
   }
 
   private void initSequences(Repository git, BatchRefUpdate bru, int firstChangeId)

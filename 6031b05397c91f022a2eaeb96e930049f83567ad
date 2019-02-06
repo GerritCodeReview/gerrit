@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82fe7860_2fc47752",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-06T08:17:32Z",
+      "side": 1,
+      "message": "It would have been less verbose to do \u0027create(true)\u0027 where \u0027true\u0027 means include detailed options, but that has the side effect of also including the avatar links and status fields, which I don\u0027t think are necessary here.",
+      "range": {
+        "startLine": 613,
+        "startChar": 10,
+        "endLine": 615,
+        "endChar": 94
+      },
+      "revId": "6031b05397c91f022a2eaeb96e930049f83567ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

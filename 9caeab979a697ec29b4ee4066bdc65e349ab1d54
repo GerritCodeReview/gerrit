@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "c05e64b0_a41128a1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-06T23:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6abc576_f5b61776",
+      "range": {
+        "startLine": 157,
+        "startChar": 33,
+        "endLine": 157,
+        "endChar": 49
+      },
+      "revId": "9caeab979a697ec29b4ee4066bdc65e349ab1d54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ae3a17a_5225e67d",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
         "patchSetId": 13

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "41c800dc_0c718c28",
+        "filename": "Documentation/rest-api-verifiers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-02-06T13:30:28Z",
+      "side": 1,
+      "message": "Very nice summary, Edwin. I only have some additional aspects. :-)\n\nFor 1.\nPros:\n- Consistent with approach for partially reading resources in Gerrit. (We use GET + request parameters for optional fields for quite a lot of REST endpoints.)\n\nCons:\n- Updating all fields of the resource is more cumbersome.\n- More overhead regarding transferred data due to specification of request parameters. (We could think about optimizing this as we do for GET request parameters.)\n\nFor 2.\nCons:\n- Easy to do wrong by a (new) caller without explicit notice.\n- Small errors on the caller\u0027s side (e.g. forgetting to map an empty string to null, which I know even happened to ourselves in the past) may have drastic effects (e.g. resetting the value).\n- Requires careful documentation, which must be kept in sync and which might not be even read.\n- Changing default values in the future (especially for enums) becomes difficult.\n\nFor 3.\nPros:\n- RESTful approach.\n\nNew option 4.\nUse HTTP PATCH.\n\nPros:\n- Description of changes applied to resource instead of just plain dump of new content. -\u003e More flexible and expressive.\n- RESTful approach.\n- Officially recommended for doing partial updates. (Part of the HTTP protocol since 2010.)\n- Previous state could be described and update could only be executed if it still matches.\n\nCons:\n- PATCH is not implemented for Gerrit\u0027s server.\n- No standard format for the JSON input, just recommendations.\n\n\nWhichever approach we choose in the end, let us please make sure to use an HTTP POST (and not a PUT) as the HTTP protocol only allows complete replacements for PUT and we shouldn\u0027t violate the protocol.\n\nOption 4 will be too much effort for us now and hence will be something we could only consider in the future, upon which we should migrate all of our REST endpoints which offer partial updates. I\u0027m against option 3 as we need to support atomic updates of multiple properties and also need to reduce the number of requests.\n\nOverall, I\u0027m in favor of options 1 and 2 with a slight preference for option 1.",
+      "parentUuid": "4cc41ef9_da5f2666",
+      "revId": "41c135497c159f450c159ab3f7902eda817c3c0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a9092b5_4c941639",
         "filename": "java/com/google/gerrit/acceptance/testing/verifier/VerifierRefSubject.java",
         "patchSetId": 2

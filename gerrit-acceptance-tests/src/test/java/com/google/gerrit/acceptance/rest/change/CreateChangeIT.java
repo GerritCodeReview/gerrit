@@ -102,9 +102,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInput ci = newChangeInput(ChangeStatus.NEW);
     ci.subject = "Subject\n\nChange-Id: I0000000000000000000000000000000000000000";
     assertCreateFails(
-        ci,
-        ResourceConflictException.class,
-        "invalid Change-Id line format in commit message footer");
+        ci, ResourceConflictException.class, "invalid Change-Id line format in message footer");
   }
 
   @Test
@@ -114,7 +112,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertCreateFails(
         ci,
         ResourceConflictException.class,
-        "missing subject; Change-Id must be in commit message footer");
+        "missing subject; Change-Id must be in message footer");
   }
 
   @Test

@@ -209,7 +209,14 @@ public abstract class StandaloneSiteTest {
   private GerritServer startImpl(@Nullable Module testSysModule, String... additionalArgs)
       throws Exception {
     return GerritServer.start(
-        serverDesc, baseConfig, sitePaths.site_path, testSysModule, null, null, additionalArgs);
+        serverDesc,
+        baseConfig,
+        sitePaths.site_path,
+        testSysModule,
+        null,
+        null,
+        null,
+        additionalArgs);
   }
 
   protected static void runGerrit(String... args) throws Exception {

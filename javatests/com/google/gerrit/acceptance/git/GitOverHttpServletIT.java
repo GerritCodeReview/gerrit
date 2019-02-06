@@ -17,14 +17,37 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.server.AuditEvent;
+import com.google.gerrit.server.group.GroupAuditService;
+import com.google.gerrit.testing.FakeGroupAuditService;
+import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.Module;
 import java.util.Collections;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.Description;
 
 public class GitOverHttpServletIT extends AbstractPushForReview {
+
+  @Inject FakeGroupAuditService auditService;
+
+  @Override
+  public Module createAuditModule() {
+    return new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(GroupAuditService.class).to(FakeGroupAuditService.class);
+      }
+    };
+  }
+
+  @Override
+  protected void beforeTest(Description description) throws Exception {
+    super.beforeTest(description);
+  }
 
   @Before
   public void beforeEach() throws Exception {

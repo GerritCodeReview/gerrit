@@ -43,7 +43,6 @@ import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.testing.FakeEmailSender;
-import com.google.gerrit.testing.FakeGroupAuditService;
 import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.NoteDbChecker;
@@ -307,13 +306,17 @@ public class GerritServer implements AutoCloseable {
    * @throws Exception
    */
   public static GerritServer initAndStart(
-      Description desc, Config baseConfig, @Nullable Module testSysModule) throws Exception {
+      Description desc,
+      Config baseConfig,
+      @Nullable Module testSysModule,
+      @Nullable Module testAuditModule)
+      throws Exception {
     Path site = TempFileUtil.createTempDirectory().toPath();
     try {
       if (!desc.memory()) {
         init(desc, baseConfig, site);
       }
-      return start(desc, baseConfig, site, testSysModule, null, null);
+      return start(desc, baseConfig, site, testSysModule, testAuditModule, null, null);
     } catch (Exception e) {
       TempFileUtil.recursivelyDelete(site.toFile());
       throw e;
@@ -344,6 +347,7 @@ public class GerritServer implements AutoCloseable {
       Config baseConfig,
       Path site,
       @Nullable Module testSysModule,
+      @Nullable Module testAuditModule,
       @Nullable InMemoryRepositoryManager inMemoryRepoManager,
       @Nullable InMemoryDatabase.Instance inMemoryDatabaseInstance,
       String... additionalArgs)
@@ -363,9 +367,11 @@ public class GerritServer implements AutoCloseable {
             },
             site);
     daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
-    daemon.setAuditEventModuleForTesting(new FakeGroupAuditService.Module());
     if (testSysModule != null) {
       daemon.addAdditionalSysModuleForTesting(testSysModule);
+    }
+    if (testAuditModule != null) {
+      daemon.setAuditEventModuleForTesting(testAuditModule);
     }
     daemon.setEnableSshd(desc.useSsh());
 
@@ -609,7 +615,7 @@ public class GerritServer implements AutoCloseable {
     try {
       server.close();
       server.daemon.stop();
-      return start(server.desc, cfg, site, null, inMemoryRepoManager, dbInstance);
+      return start(server.desc, cfg, site, null, null, inMemoryRepoManager, dbInstance);
     } finally {
       if (dbInstance != null) {
         dbInstance.setKeepOpen(false);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85df6923_425de733",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-02-06T14:24:29Z",
+      "side": 1,
+      "message": "Why can\u0027t we use the testSysModule to inject the audotModule as we did in 2.15?",
+      "range": {
+        "startLine": 312,
+        "startChar": 6,
+        "endLine": 312,
+        "endChar": 38
+      },
+      "revId": "1aaa692be3d0af22fa48ea7bb5c6562bea9255ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9ece08ec_ef354b44",
+        "filename": "java/com/google/gerrit/server/verifier/VerifierUUID.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T08:26:55Z",
+      "side": 1,
+      "message": "Yeah, that was just for consistency with GroupUUID, but actually I prefer VerifierUuid. Renamed it and will make a separate change to rename GroupUUID to GroupUuid.",
+      "parentUuid": "9ed2f8b7_e8969798",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 25
+      },
+      "revId": "0137426ae56b11c8bc36efa07adc7b261ff54e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d406f36_498f46aa",
         "filename": "java/com/google/gerrit/server/verifier/VerifierUUID.java",
         "patchSetId": 13
@@ -39,6 +63,24 @@
       "revId": "0137426ae56b11c8bc36efa07adc7b261ff54e5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4390a56c_ce4f85c7",
+        "filename": "java/com/google/gerrit/server/verifier/VerifierUUID.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T08:26:55Z",
+      "side": 1,
+      "message": "I agree that is better. Done.",
+      "parentUuid": "9d406f36_498f46aa",
+      "revId": "0137426ae56b11c8bc36efa07adc7b261ff54e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "1fbd4414_444c651d",
+        "filename": "java/com/google/gerrit/server/verifier/VerifierUUID.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T08:26:55Z",
+      "side": 1,
+      "message": "Oh yeah, copy and paste...\n\nDone.",
+      "parentUuid": "586b88cd_ac09d757",
+      "revId": "0137426ae56b11c8bc36efa07adc7b261ff54e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98b79a7e_66d71976",
         "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfig.java",
         "patchSetId": 13
@@ -73,6 +133,24 @@
       "revId": "0137426ae56b11c8bc36efa07adc7b261ff54e5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25e4f848_36eb6905",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T08:26:55Z",
+      "side": 1,
+      "message": "I know, it looks like this should work, but getName() returns Optional\u003cString\u003e so that would result in Optional\u003cOptional\u003cString\u003e\u003e.",
+      "parentUuid": "98b79a7e_66d71976",
+      "revId": "0137426ae56b11c8bc36efa07adc7b261ff54e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

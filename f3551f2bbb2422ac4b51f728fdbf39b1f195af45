@@ -284,6 +284,24 @@
     },
     {
       "key": {
+        "uuid": "b48ecc7c_074711ec",
+        "filename": "Documentation/rest-api-verifiers.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T08:26:55Z",
+      "side": 1,
+      "message": "Good point. I added that the UUID is URL-safe.\n\nDone",
+      "parentUuid": "67d965db_14d19624",
+      "revId": "f3551f2bbb2422ac4b51f728fdbf39b1f195af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "388238b1_e6293400",
         "filename": "Documentation/rest-api-verifiers.txt",
         "patchSetId": 11

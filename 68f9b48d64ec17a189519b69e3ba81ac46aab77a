@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b3206bb_b82ef122",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-06T10:45:17Z",
+      "side": 1,
+      "message": "ListProjectsIT",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "68f9b48d64ec17a189519b69e3ba81ac46aab77a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee5d7cf0_35bdf269",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-06T10:45:17Z",
+      "side": 1,
+      "message": "Remove \"sequentially\"?",
+      "range": {
+        "startLine": 10,
+        "startChar": 26,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "68f9b48d64ec17a189519b69e3ba81ac46aab77a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc3c7ad6_a2c84eb8",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-06T10:45:17Z",
+      "side": 1,
+      "message": "To",
+      "range": {
+        "startLine": 131,
+        "startChar": 26,
+        "endLine": 131,
+        "endChar": 30
+      },
+      "revId": "68f9b48d64ec17a189519b69e3ba81ac46aab77a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00310440_77e0fcff",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-06T10:45:17Z",
+      "side": 1,
+      "message": "This can be done as a single test using @Theory",
+      "range": {
+        "startLine": 149,
+        "startChar": 2,
+        "endLine": 184,
+        "endChar": 0
+      },
+      "revId": "68f9b48d64ec17a189519b69e3ba81ac46aab77a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d68dcdc_9f97ab53",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-06T10:45:17Z",
+      "side": 1,
+      "message": "Why do we need this indirection?  Why not just keep the existing createProjects and change its return type to Set\u003cString\u003e?  It looks like none of the other callers care about the return type.",
+      "range": {
+        "startLine": 185,
+        "startChar": 10,
+        "endLine": 189,
+        "endChar": 17
+      },
+      "revId": "68f9b48d64ec17a189519b69e3ba81ac46aab77a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

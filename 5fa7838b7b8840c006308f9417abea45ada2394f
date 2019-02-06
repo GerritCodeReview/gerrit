@@ -16,6 +16,24 @@
       "revId": "5fa7838b7b8840c006308f9417abea45ada2394f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b9c0d59_3a6e9a19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T08:54:23Z",
+      "side": 1,
+      "message": "I added my reasoning to the commit message, but I might be convinced to change this.",
+      "parentUuid": "982bd5c3_98db0c5e",
+      "revId": "5fa7838b7b8840c006308f9417abea45ada2394f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

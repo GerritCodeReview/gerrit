@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4b00de67_31bc9998",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T13:23:24Z",
+      "side": 1,
+      "message": "Added the SetPreferences endpoint to the example list.",
+      "parentUuid": "41a0bee5_d838f6b8",
+      "revId": "41c135497c159f450c159ab3f7902eda817c3c0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f629997_d249a539",
         "filename": "Documentation/rest-api-verifiers.txt",
         "patchSetId": 2
@@ -89,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "9380baa1_caf93443",
+        "filename": "java/com/google/gerrit/acceptance/testing/verifier/VerifierRefSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T13:23:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62741b75_fd84a3a1",
+      "revId": "41c135497c159f450c159ab3f7902eda817c3c0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6730f256_b2162ebb",
         "filename": "java/com/google/gerrit/acceptance/testing/verifier/VerifierRefSubject.java",
         "patchSetId": 2
@@ -103,6 +139,24 @@
       "revId": "41c135497c159f450c159ab3f7902eda817c3c0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f881f0d0_84ef21b5",
+        "filename": "java/com/google/gerrit/acceptance/testing/verifier/VerifierRefSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T13:23:24Z",
+      "side": 1,
+      "message": "no longer applicable since this code is gone",
+      "parentUuid": "6730f256_b2162ebb",
+      "revId": "41c135497c159f450c159ab3f7902eda817c3c0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

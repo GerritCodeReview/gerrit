@@ -151,6 +151,24 @@
       "revId": "0137426ae56b11c8bc36efa07adc7b261ff54e5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56ec51ca_6a601b27",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifierConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-06T16:32:22Z",
+      "side": 1,
+      "message": "In that case .flatMap",
+      "parentUuid": "25e4f848_36eb6905",
+      "revId": "0137426ae56b11c8bc36efa07adc7b261ff54e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

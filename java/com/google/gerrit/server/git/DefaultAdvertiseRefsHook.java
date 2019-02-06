@@ -34,6 +34,7 @@ import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 public class DefaultAdvertiseRefsHook extends AbstractAdvertiseRefsHook {
   private final PermissionBackend.ForProject perm;
   private final PermissionBackend.RefFilterOptions opts;
+  public static boolean dump = false;
 
   public DefaultAdvertiseRefsHook(
       PermissionBackend.ForProject perm, PermissionBackend.RefFilterOptions opts) {
@@ -47,6 +48,10 @@ public class DefaultAdvertiseRefsHook extends AbstractAdvertiseRefsHook {
     try {
       List<String> prefixes =
           !opts.prefixes().isEmpty() ? opts.prefixes() : ImmutableList.of(RefDatabase.ALL);
+      if (dump) {
+        System.err.println("there!");
+      }
+
       return perm.filter(
           repo.getRefDatabase().getRefsByPrefix(prefixes.toArray(new String[0])), repo, opts);
     } catch (IOException | PermissionBackendException e) {

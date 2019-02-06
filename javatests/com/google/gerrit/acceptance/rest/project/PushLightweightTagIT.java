@@ -14,7 +14,13 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import org.junit.Test;
+
 public class PushLightweightTagIT extends AbstractPushTag {
+  @Test
+  public void fastForward() throws Exception {
+    super.fastForward();
+  }
 
   @Override
   protected TagType getTagType() {

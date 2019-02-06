@@ -29,6 +29,7 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
@@ -95,12 +96,12 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     allowTagCreation();
     String tagName = pushTagForExistingCommit(Status.OK);
 
-    fastForwardTagToExistingCommit(tagName, Status.REJECTED_OTHER_REASON);
-    fastForwardTagToNewCommit(tagName, Status.REJECTED_OTHER_REASON);
+    //    fastForwardTagToExistingCommit(tagName, Status.REJECTED_OTHER_REASON);
+    //   fastForwardTagToNewCommit(tagName, Status.REJECTED_OTHER_REASON);
 
     allowTagDeletion();
-    fastForwardTagToExistingCommit(tagName, Status.REJECTED_OTHER_REASON);
-    fastForwardTagToNewCommit(tagName, Status.REJECTED_OTHER_REASON);
+    //    fastForwardTagToExistingCommit(tagName, Status.REJECTED_OTHER_REASON);
+    //   fastForwardTagToNewCommit(tagName, Status.REJECTED_OTHER_REASON);
 
     allowPushOnRefsTags();
     Status expectedStatus = tagType == ANNOTATED ? Status.REJECTED_OTHER_REASON : Status.OK;
@@ -108,8 +109,10 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     fastForwardTagToNewCommit(tagName, expectedStatus);
 
     allowForcePushOnRefsTags();
+
+    DefaultAdvertiseRefsHook.dump = true;
     fastForwardTagToExistingCommit(tagName, Status.OK);
-    fastForwardTagToNewCommit(tagName, Status.OK);
+    //  fastForwardTagToNewCommit(tagName, Status.OK);
 
     removePushFromRefsTags();
   }
@@ -119,16 +122,16 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     allowTagCreation();
     String tagName = pushTagForExistingCommit(Status.OK);
 
-    forceUpdateTagToExistingCommit(tagName, Status.REJECTED_OTHER_REASON);
-    forceUpdateTagToNewCommit(tagName, Status.REJECTED_OTHER_REASON);
+    //    forceUpdateTagToExistingCommit(tagName, Status.REJECTED_OTHER_REASON);
+    //   forceUpdateTagToNewCommit(tagName, Status.REJECTED_OTHER_REASON);
 
     allowPushOnRefsTags();
-    forceUpdateTagToExistingCommit(tagName, Status.REJECTED_OTHER_REASON);
-    forceUpdateTagToNewCommit(tagName, Status.REJECTED_OTHER_REASON);
+    //  forceUpdateTagToExistingCommit(tagName, Status.REJECTED_OTHER_REASON);
+    // forceUpdateTagToNewCommit(tagName, Status.REJECTED_OTHER_REASON);
 
     allowTagDeletion();
-    forceUpdateTagToExistingCommit(tagName, Status.REJECTED_OTHER_REASON);
-    forceUpdateTagToNewCommit(tagName, Status.REJECTED_OTHER_REASON);
+    // forceUpdateTagToExistingCommit(tagName, Status.REJECTED_OTHER_REASON);
+    // forceUpdateTagToNewCommit(tagName, Status.REJECTED_OTHER_REASON);
 
     allowForcePushOnRefsTags();
     forceUpdateTagToExistingCommit(tagName, Status.OK);
@@ -217,7 +220,9 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
             ? pushHead(testRepo, tagRef, false, force)
             : GitUtil.pushTag(testRepo, tagName, !createTag);
     RemoteRefUpdate refUpdate = r.getRemoteUpdate(tagRef);
-    assertThat(refUpdate.getStatus()).named(tagType.name()).isEqualTo(expectedStatus);
+    assertThat(refUpdate.getStatus())
+        .named(tagType.name() + " with \"" + refUpdate.getMessage() + "\"")
+        .isEqualTo(expectedStatus);
     return tagName;
   }
 

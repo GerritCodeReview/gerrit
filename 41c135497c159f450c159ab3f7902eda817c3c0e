@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "4cc41ef9_da5f2666",
+        "filename": "Documentation/rest-api-verifiers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T12:21:19Z",
+      "side": 1,
+      "message": "OK, fair enough. Let\u0027s consider all options again.\n\nGoals:\n- allow unsetting properties\n- allow updating a subset of the properties (partial update)\n- allow adding new properties later without breaking existing callers\n\nConstraints:\n- In JSON there is no difference between not setting a field and setting a field to null.\n\n1. Specify explicitly as options which properties should be updated.\n\nThis is what is implemented in this change and what the design doc proposes (at least for updates of verification details).\n\nUpdating a property is done\n- by specifying that the property should be updated by setting an option on the request and\n- by setting a value for the property in the request body\n\nUnsetting a property is done\n- by specifying that the property should be updated by setting an option on the request and\n- by NOT setting a value for the property in the request body\n\nProperties that are not specified as options are not updated and any attempt to set values for them in the request body makes the request fail with 400 Bad Request.\n\nPros:\n- It\u0027s very explicit which properties will be updated by the call.\n- The cases \u0027unsetting a property\u0027 and \u0027not setting a property because it should not be updated\u0027 are clearly distinguished by the presence/absence of the option\n\nCons:\n- more complicated for callers\n- not consistent with existing REST endpoints\n\n2. Define a special value for a property that means that property should be unset.\n\nThis is the approach that we currently use for REST endpoints that support partial updates of property sets. This is the approach that you propose.\n\nUpdating a property is done:\n- by setting a value for the property in the request body\n\nUnsetting a property is done\n- by setting the special value for the property in the request body\n\nProperties that are not set in the request body are not updated.\n\nFor String properties the special value can be the empty string (\"\"), but for properties with other types (e.g. int, enums) this is less clear.\nFor preferences the special value is the default value for the preference, so unsetting a preference is done by setting the default value of this preference (whatever the default is).\n\nPros:\n- consistent with existing REST endpoints\n- intuive for callers?\n\nCons:\n- confusing for callers since for unset they need to know the special value, which may be different per property type or even per property\n\n3. Offer one dedicated REST endpoint per property\n\nPros:\n- very explicit\n- consistent with existing REST endpoints (e.g. we have a dedicated REST endpoint to update the project description)\n\nCons:\n- Atomic updates of multiple properties is not possible.\n- Inefficient (more requests, more cache invalidations etc.)\n\nI\u0027m fine with options 1. and 2., but I prefer to chose the same approach for updating verifiers and for updating verification details.",
+      "parentUuid": "0f629997_d249a539",
+      "revId": "41c135497c159f450c159ab3f7902eda817c3c0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a9092b5_4c941639",
         "filename": "java/com/google/gerrit/acceptance/testing/verifier/VerifierRefSubject.java",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2019-02-05T19:05:23Z",
       "side": 1,
       "message": "Not the biggest fan of passing a Factory here. I might rather inject a factory and then use factory.assertThatVerifier(someUuid). (The factory interface would look different from the Factory you have here.)\n\nActually, on second thought, I\u0027m not sure we want to use Truth here at all. What if we put a method in VerifierOperation that reads the config text? Then your call sites would be:\n\n assertThat(verifierOperations.get(uuid).configText()).contains(...)\n\nIf you want additional operations on the ref other than checking the config text, you can add more methods:\n\n assertThat(verifierOperations.get(uuid).getRefTip()).isEqualTo(someObjectId)\n\nYes, the stuff inside the assertThat(...) isn\u0027t fluent, but is that so bad?",
+      "revId": "41c135497c159f450c159ab3f7902eda817c3c0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62741b75_fd84a3a1",
+        "filename": "java/com/google/gerrit/acceptance/testing/verifier/VerifierRefSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T12:21:19Z",
+      "side": 1,
+      "message": "\u003e Not the biggest fan of passing a Factory here. I might rather inject a\n\u003e factory and then use factory.assertThatVerifier(someUuid). (The factory\n\u003e interface would look different from the Factory you have here.)\n\nHow would it look different?\nI\u0027m interested because we also would need some kind of factory for the assertThatQuery(query).foo syntax that you propose in [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/211777/5/javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java#3189\n\n\u003e Actually, on second thought, I\u0027m not sure we want to use Truth here at all.\n\u003e What if we put a method in VerifierOperation that reads the config text?\n\u003e Then your call sites would be:\n\u003e\n\u003e assertThat(verifierOperations.get(uuid).configText()).contains(...)\n\u003e\n\u003e If you want additional operations on the ref other than checking the\n\u003e config text, you can add more methods:\n\u003e\n\u003e assertThat(verifierOperations.get(uuid).getRefTip()).isEqualTo(someObjectId)\n\u003e\n\u003e Yes, the stuff inside the assertThat(...) isn\u0027t fluent, but is that so bad?\n\nLGTM, will do something like this.",
+      "parentUuid": "4a9092b5_4c941639",
       "revId": "41c135497c159f450c159ab3f7902eda817c3c0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

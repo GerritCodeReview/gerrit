@@ -71,6 +71,23 @@
       "revId": "300c412fccb77a68686e2826ba0629e5d05bbf26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecee4bb6_463a29a9",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-06T15:36:58Z",
+      "side": 1,
+      "message": "The paragraph in the commit message about erring on the side of sending no emails was explaining why this line changed. If we left it as OWNER as on the RHS, then tests would have failed.\n\nThe reason this was broken is that this method was called (on the RHS) to populate the reviewerNotify field, but the actual value passed to batchEmailReviewers was input.notify, which was not modified in-place. That was clearly a bug.",
+      "revId": "300c412fccb77a68686e2826ba0629e5d05bbf26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

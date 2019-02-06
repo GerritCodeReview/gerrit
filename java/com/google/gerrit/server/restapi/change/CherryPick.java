@@ -98,9 +98,9 @@ public class CherryPick
 
     try {
       CherryPickChange.Result cherryPickResult =
-          cherryPickChange.cherryPick(
+          cherryPickChange.cherryPickChange(
               updateFactory,
-              rsrc.getChange(),
+              rsrc.getNotes(),
               rsrc.getPatchSet(),
               input,
               new Branch.NameKey(rsrc.getProject(), refName));

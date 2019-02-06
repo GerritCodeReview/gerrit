@@ -21,9 +21,8 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -35,18 +34,15 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class AccountsCollection implements RestCollection<TopLevelResource, AccountResource> {
   private final AccountResolver accountResolver;
-  private final AccountControl.Factory accountControlFactory;
   private final Provider<QueryAccounts> list;
   private final DynamicMap<RestView<AccountResource>> views;
 
   @Inject
   public AccountsCollection(
       AccountResolver accountResolver,
-      AccountControl.Factory accountControlFactory,
       Provider<QueryAccounts> list,
       DynamicMap<RestView<AccountResource>> views) {
     this.accountResolver = accountResolver;
-    this.accountControlFactory = accountControlFactory;
     this.list = list;
     this.views = views;
   }
@@ -55,12 +51,14 @@ public class AccountsCollection implements RestCollection<TopLevelResource, Acco
   public AccountResource parse(TopLevelResource root, IdString id)
       throws ResourceNotFoundException, AuthException, OrmException, IOException,
           ConfigInvalidException {
-    IdentifiedUser user = accountResolver.parseId(id.get());
-    if (user == null || !accountControlFactory.get().canSee(user.getAccount().getId())) {
-      throw new ResourceNotFoundException(
-          String.format("Account '%s' is not found or ambiguous", id));
+    try {
+      return new AccountResource(accountResolver.resolve(id.get()).asUniqueUser());
+    } catch (UnresolvableAccountException e) {
+      if (e.isSelf()) {
+        throw new AuthException(e.getMessage(), e);
+      }
+      throw new ResourceNotFoundException(e.getMessage(), e);
     }
-    return new AccountResource(user);
   }
 
   @Override

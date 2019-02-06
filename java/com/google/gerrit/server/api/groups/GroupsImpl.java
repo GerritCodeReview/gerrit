@@ -141,7 +141,7 @@ class GroupsImpl implements Groups {
 
     if (req.getUser() != null) {
       try {
-        list.setUser(accountResolver.parse(req.getUser()).getAccountId());
+        list.setUser(accountResolver.resolve(req.getUser()).asUnique().getAccount().getId());
       } catch (Exception e) {
         throw asRestApiException("Error looking up user " + req.getUser(), e);
       }

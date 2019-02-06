@@ -132,7 +132,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
     in.ref = "refs/heads/master";
 
     exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("cannot find account doesnotexist@invalid.com");
+    exception.expectMessage("Account 'doesnotexist@invalid.com' not found");
     gApi.projects().name(normalProject.get()).checkAccess(in);
   }
 

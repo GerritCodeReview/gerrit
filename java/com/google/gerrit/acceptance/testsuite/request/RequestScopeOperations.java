@@ -68,4 +68,11 @@ public interface RequestScopeOperations {
    * @return the previous request scope.
    */
   AcceptanceTestRequestScope.Context setApiUserAnonymous();
+
+  /**
+   * Sets the Guice request scope to the internal server user.
+   *
+   * @return the previous request scope.
+   */
+  AcceptanceTestRequestScope.Context setApiUserInternal();
 }

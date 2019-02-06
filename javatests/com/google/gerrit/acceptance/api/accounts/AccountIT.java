@@ -516,12 +516,27 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void active() throws Exception {
+    int id = gApi.accounts().id("user").get()._accountId;
     assertThat(gApi.accounts().id("user").getActive()).isTrue();
     gApi.accounts().id("user").setActive(false);
-    assertThat(gApi.accounts().id("user").getActive()).isFalse();
     accountIndexedCounter.assertReindexOf(user);
 
-    gApi.accounts().id("user").setActive(true);
+    // Inactive users may only be resolved by ID.
+    try {
+      gApi.accounts().id("user");
+      assert_().fail("expected ResourceNotFoundException");
+    } catch (ResourceNotFoundException e) {
+      assertThat(e)
+          .hasMessageThat()
+          .isEqualTo(
+              "Account 'user' only matches inactive accounts. To use an inactive account, retry"
+                  + " with one of the following exact account IDs:\n"
+                  + id
+                  + ": User <user@example.com>");
+    }
+    assertThat(gApi.accounts().id(id).getActive()).isFalse();
+
+    gApi.accounts().id(id).setActive(true);
     assertThat(gApi.accounts().id("user").getActive()).isTrue();
     accountIndexedCounter.assertReindexOf(user);
   }
@@ -620,16 +635,17 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deactivateNotActive() throws Exception {
+    int id = gApi.accounts().id("user").get()._accountId;
     assertThat(gApi.accounts().id("user").getActive()).isTrue();
     gApi.accounts().id("user").setActive(false);
-    assertThat(gApi.accounts().id("user").getActive()).isFalse();
+    assertThat(gApi.accounts().id(id).getActive()).isFalse();
     try {
-      gApi.accounts().id("user").setActive(false);
+      gApi.accounts().id(id).setActive(false);
       fail("Expected exception");
     } catch (ResourceConflictException e) {
       assertThat(e.getMessage()).isEqualTo("account not active");
     }
-    gApi.accounts().id("user").setActive(true);
+    gApi.accounts().id(id).setActive(true);
   }
 
   @Test
@@ -2121,7 +2137,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     TestAccount foo2 = accountCreator.create(name + "-2");
     gApi.accounts().id(foo2.username).setActive(false);
-    assertThat(gApi.accounts().id(foo2.username).getActive()).isFalse();
+    assertThat(gApi.accounts().id(foo2.id.get()).getActive()).isFalse();
 
     assertThat(accountQueryProvider.get().byDefault(name)).hasSize(2);
   }

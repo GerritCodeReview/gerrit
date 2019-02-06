@@ -86,6 +86,7 @@ import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
+import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
@@ -1676,15 +1677,45 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createChange();
 
     String username = name("new-user");
-    accountOperations.newAccount().username(username).inactive().create();
+    Account.Id id = accountOperations.newAccount().username(username).inactive().create();
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = username;
     AddReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
 
-    assertThat(r.input).isEqualTo(username);
-    assertThat(r.error).contains("identifies an inactive account");
+    assertThat(r.input).isEqualTo(in.reviewer);
+    assertThat(r.error)
+        .isEqualTo(
+            "Account '"
+                + username
+                + "' only matches inactive accounts. To use an inactive account, retry with one of"
+                + " the following exact account IDs:\n"
+                + id
+                + ": Name of user not set ("
+                + id
+                + ")\n"
+                + username
+                + " does not identify a registered user or group");
     assertThat(r.reviewers).isNull();
+  }
+
+  @Test
+  public void addReviewerThatIsInactiveById() throws Exception {
+    PushOneCommit.Result result = createChange();
+
+    String username = name("new-user");
+    Account.Id id = accountOperations.newAccount().username(username).inactive().create();
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = Integer.toString(id.get());
+    AddReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+
+    assertThat(r.input).isEqualTo(in.reviewer);
+    assertThat(r.error).isNull();
+    assertThat(r.reviewers).hasSize(1);
+    ReviewerInfo reviewer = r.reviewers.get(0);
+    assertThat(reviewer._accountId).isEqualTo(id.get());
+    assertThat(reviewer.username).isEqualTo(username);
   }
 
   @Test

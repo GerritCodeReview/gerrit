@@ -17,6 +17,7 @@ package com.google.gerrit.server.args4j;
 import static com.google.gerrit.util.cli.Localizable.localizable;
 
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
@@ -60,10 +61,9 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
     String token = params.getParameter(0);
     Account.Id accountId;
     try {
-      Account a = accountResolver.find(token);
-      if (a != null) {
-        accountId = a.getId();
-      } else {
+      try {
+        accountId = accountResolver.resolve(token).asUnique().getAccount().getId();
+      } catch (UnprocessableEntityException e) {
         switch (authType) {
           case HTTP_LDAP:
           case CLIENT_SSL_CERT_LDAP:

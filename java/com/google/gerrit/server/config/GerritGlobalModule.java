@@ -81,7 +81,6 @@ import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.AccountExternalIdCreator;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.EmailExpander;
@@ -251,8 +250,6 @@ public class GerritGlobalModule extends FactoryModule {
     install(new ReceiveCommitsModule());
     install(new SshAddressesModule());
     install(ThreadLocalRequestContext.module());
-
-    bind(AccountResolver.class);
 
     factory(AddReviewerSender.Factory.class);
     factory(DeleteReviewerSender.Factory.class);

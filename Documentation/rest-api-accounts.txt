@@ -2141,12 +2141,37 @@ Identifier that uniquely identifies one account.
 
 This can be:
 
+* `self` or `me` for the calling user
+* a bare account ID ("18419")
+* an account ID following a name in parentheses ("Full Name (18419)")
 * a string of the format "Full Name <email@example.com>"
 * just the email address ("email@example")
-* a full name if it is unique ("Full Name")
-* an account ID ("18419")
+* a full name ("Full Name")
 * a user name ("username")
-* `self` for the calling user
+
+In all cases, accounts that are not
+link:config-gerrit.txt#accounts.visibility[visible] to the calling user are not
+considered.
+
+In all cases _except_ a bare account ID, inactive accounts are not considered.
+Inactive accounts may only be referenced by bare ID.
+
+If the input is a bare account ID, this will always resolve to exactly
+one account if there is a visible account with that ID, and zero accounts
+otherwise. (This is true even in corner cases like a user having a full name
+which is exactly a numeric account ID belonging to a different user; such a user
+cannot be identified by this number.)
+
+If the identifier is ambiguous or only refers to inactive accounts, the error
+message from the API should contain a human-readable description of how to
+disambiguate the request.
+
+*Note*: Except as noted above, callers should not rely on the particular
+priorities of any of the identifiers in the account resolution algorithm. Any
+other formats may be subject to future deprecation. If callers require specific
+searching semantics, they should use the link:#query-account[Query Account]
+endpoint to resolve a string to one or more accounts, then access the API using
+the account ID.
 
 [[capability-id]]
 === \{capability-id\}

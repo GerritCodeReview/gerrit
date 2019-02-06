@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
@@ -84,10 +83,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       throw new BadRequestException("missing assignee field");
     }
 
-    IdentifiedUser assignee = accountResolver.parse(input.assignee);
-    if (!assignee.getAccount().isActive()) {
-      throw new UnprocessableEntityException(input.assignee + " is not active");
-    }
+    IdentifiedUser assignee = accountResolver.resolve(input.assignee).asUniqueUser();
     try {
       permissionBackend
           .absentUser(assignee.getAccountId())

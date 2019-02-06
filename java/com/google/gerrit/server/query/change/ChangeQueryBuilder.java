@@ -54,6 +54,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupMembers;
@@ -905,23 +906,22 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return new HasDraftByPredicate(who);
   }
 
-  private boolean isSelf(String who) {
-    return "self".equals(who) || "me".equals(who);
-  }
-
   @Operator
   public Predicate<ChangeData> visibleto(String who)
       throws QueryParseException, OrmException, IOException, ConfigInvalidException {
-    if (isSelf(who)) {
-      return is_visible();
-    }
-    Set<Account.Id> m = args.accountResolver.findAll(who);
-    if (!m.isEmpty()) {
+    try {
       return Predicate.or(
-          m.stream().map(id -> visibleto(args.userFactory.create(id))).collect(toImmutableList()));
+          parseAccount(who)
+              .stream()
+              .map(a -> visibleto(args.userFactory.create(a)))
+              .collect(toImmutableList()));
+    } catch (QueryParseException e) {
+      if (e instanceof QueryRequiresAuthException) {
+        throw e;
+      }
+      // Otherwise continue: if it's not an account, maybe it's a group?
     }
 
-    // If its not an account, maybe its a group?
     Collection<GroupReference> suggestions = args.groupBackend.suggest(who, null);
     if (!suggestions.isEmpty()) {
       HashSet<AccountGroup.UUID> ids = new HashSet<>();
@@ -1295,14 +1295,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   private Set<Account.Id> parseAccount(String who)
       throws QueryParseException, OrmException, IOException, ConfigInvalidException {
-    if (isSelf(who)) {
-      return Collections.singleton(self());
+    try {
+      return args.accountResolver.resolve(who).asNonEmptyIdSet();
+    } catch (UnresolvableAccountException e) {
+      if (e.isSelf()) {
+        throw new QueryRequiresAuthException(e.getMessage(), e);
+      }
+      throw new QueryParseException(e.getMessage(), e);
     }
-    Set<Account.Id> matches = args.accountResolver.findAll(who);
-    if (matches.isEmpty()) {
-      throw error("User " + who + " not found");
-    }
-    return matches;
   }
 
   private GroupReference parseGroup(String group) throws QueryParseException {

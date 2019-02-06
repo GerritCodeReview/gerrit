@@ -24,9 +24,11 @@ import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.QueryRequiresAuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupCache;
@@ -157,11 +159,14 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
 
   private Set<Account.Id> parseAccount(String nameOrEmail)
       throws QueryParseException, OrmException, IOException, ConfigInvalidException {
-    Set<Account.Id> foundAccounts = args.accountResolver.findAll(nameOrEmail);
-    if (foundAccounts.isEmpty()) {
-      throw error("User " + nameOrEmail + " not found");
+    try {
+      return args.accountResolver.resolve(nameOrEmail).asNonEmptyIdSet();
+    } catch (UnresolvableAccountException e) {
+      if (e.isSelf()) {
+        throw new QueryRequiresAuthException(e.getMessage(), e);
+      }
+      throw new QueryParseException(e.getMessage(), e);
     }
-    return foundAccounts;
   }
 
   private AccountGroup.UUID parseGroup(String groupNameOrUuid) throws QueryParseException {

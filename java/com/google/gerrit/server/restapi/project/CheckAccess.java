@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.account.AccountResolver;
@@ -75,20 +74,16 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
       throw new BadRequestException("input requires 'account'");
     }
 
-    Account match = accountResolver.find(input.account);
-    if (match == null) {
-      throw new UnprocessableEntityException(
-          String.format("cannot find account %s", input.account));
-    }
+    Account.Id match = accountResolver.resolve(input.account).asUnique().getAccount().getId();
 
     AccessCheckInfo info = new AccessCheckInfo();
     try {
       permissionBackend
-          .absentUser(match.getId())
+          .absentUser(match)
           .project(rsrc.getNameKey())
           .check(ProjectPermission.ACCESS);
     } catch (AuthException e) {
-      info.message = String.format("user %s cannot see project %s", match.getId(), rsrc.getName());
+      info.message = String.format("user %s cannot see project %s", match, rsrc.getName());
       info.status = HttpServletResponse.SC_FORBIDDEN;
       return info;
     }
@@ -112,7 +107,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
     if (!Strings.isNullOrEmpty(input.ref)) {
       try {
         permissionBackend
-            .absentUser(match.getId())
+            .absentUser(match)
             .ref(new Branch.NameKey(rsrc.getNameKey(), input.ref))
             .check(refPerm);
       } catch (AuthException e) {
@@ -120,7 +115,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
         info.message =
             String.format(
                 "user %s lacks permission %s for %s in project %s",
-                match.getId(), input.permission, input.ref, rsrc.getName());
+                match, input.permission, input.ref, rsrc.getName());
         return info;
       }
     } else {

@@ -491,7 +491,7 @@ public class PostReview
           String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
     }
 
-    IdentifiedUser reviewer = accountResolver.parseOnBehalfOf(caller, in.onBehalfOf);
+    IdentifiedUser reviewer = accountResolver.resolve(in.onBehalfOf).asUniqueUserOnBehalfOf(caller);
     try {
       permissionBackend.user(reviewer).change(rev.getNotes()).check(ChangePermission.READ);
     } catch (AuthException e) {

@@ -463,7 +463,8 @@ public class Submit
     perm.check(ChangePermission.SUBMIT_AS);
 
     CurrentUser caller = rsrc.getUser();
-    IdentifiedUser submitter = accountResolver.parseOnBehalfOf(caller, in.onBehalfOf);
+    IdentifiedUser submitter =
+        accountResolver.resolve(in.onBehalfOf).asUniqueUserOnBehalfOf(caller);
     try {
       permissionBackend.user(submitter).change(rsrc.getNotes()).check(ChangePermission.READ);
     } catch (AuthException e) {

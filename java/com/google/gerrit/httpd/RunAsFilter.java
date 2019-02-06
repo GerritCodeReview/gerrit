@@ -21,6 +21,7 @@ import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResolver;
@@ -103,19 +104,18 @@ class RunAsFilter implements Filter {
         return;
       }
 
-      Account target;
+      Account.Id target;
       try {
-        target = accountResolver.find(runas);
+        target = accountResolver.resolve(runas).asUnique().getAccount().getId();
+      } catch (UnprocessableEntityException e) {
+        replyError(req, res, SC_FORBIDDEN, "no account matches " + RUN_AS, null);
+        return;
       } catch (OrmException | IOException | ConfigInvalidException e) {
         logger.atWarning().withCause(e).log("cannot resolve account for %s", RUN_AS);
         replyError(req, res, SC_INTERNAL_SERVER_ERROR, "cannot resolve " + RUN_AS, e);
         return;
       }
-      if (target == null) {
-        replyError(req, res, SC_FORBIDDEN, "no account matches " + RUN_AS, null);
-        return;
-      }
-      session.get().setUserAccountId(target.getId());
+      session.get().setUserAccountId(target);
     }
 
     chain.doFilter(req, res);

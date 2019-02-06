@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9403abca_b0680b59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 999,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T07:58:18Z",
+      "side": 1,
+      "message": "Why would date be null?",
+      "range": {
+        "startLine": 999,
+        "startChar": 6,
+        "endLine": 999,
+        "endChar": 30
+      },
+      "revId": "acf1d4f41f0886be8e96c5568cab5513e46f1fcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

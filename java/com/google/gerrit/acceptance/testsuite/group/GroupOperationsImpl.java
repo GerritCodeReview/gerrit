@@ -21,7 +21,7 @@ import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.ServerInitiated;
-import com.google.gerrit.server.account.GroupUUID;
+import com.google.gerrit.server.account.GroupUuid;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsUpdate;
@@ -80,7 +80,7 @@ public class GroupOperationsImpl implements GroupOperations {
   private InternalGroupCreation toInternalGroupCreation(TestGroupCreation groupCreation) {
     AccountGroup.Id groupId = AccountGroup.id(seq.nextGroupId());
     String groupName = groupCreation.name().orElse("group-with-id-" + groupId.get());
-    AccountGroup.UUID groupUuid = GroupUUID.make(groupName, serverIdent);
+    AccountGroup.UUID groupUuid = GroupUuid.make(groupName, serverIdent);
     AccountGroup.NameKey nameKey = AccountGroup.nameKey(groupName);
     return InternalGroupCreation.builder()
         .setId(groupId)

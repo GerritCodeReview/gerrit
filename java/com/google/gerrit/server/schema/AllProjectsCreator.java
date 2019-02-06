@@ -224,6 +224,10 @@ public class AllProjectsCreator {
     grant(config, meta, Permission.CREATE, adminsGroup, owners);
     grant(config, meta, Permission.PUSH, adminsGroup, owners);
     grant(config, meta, Permission.SUBMIT, adminsGroup, owners);
+
+    AccessSection foo = config.getAccessSection("refs/a/*", true);
+    foo.getPermission(Permission.READ, true).setExclusiveGroup(true);
+    grant(config, foo, Permission.READ, adminsGroup);
   }
 
   private void initSequences(Repository git, BatchRefUpdate bru, int firstChangeId)

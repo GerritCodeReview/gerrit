@@ -227,8 +227,7 @@ public class ReviewerAdder {
       }
     }
 
-    if (byAccountId != null
-        && wholeGroup != null
+    if (wholeGroup != null
         && byAccountId.failureType == FailureType.NOT_FOUND
         && wholeGroup.failureType == FailureType.NOT_FOUND) {
       return fail(
@@ -237,7 +236,7 @@ public class ReviewerAdder {
           byAccountId.result.error + "\n" + wholeGroup.result.error);
     }
 
-    if (byAccountId != null && byAccountId.failureType != FailureType.NOT_FOUND) {
+    if (byAccountId.failureType != FailureType.NOT_FOUND) {
       return byAccountId;
     }
     if (wholeGroup != null) {

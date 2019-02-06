@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "9b7d1086_7d523e7c",
+        "filename": "Documentation/rest-api-verifiers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-06T15:46:29Z",
+      "side": 1,
+      "message": "We discussed further offline and concluded that we want to go for option 2.",
+      "parentUuid": "41c800dc_0c718c28",
+      "revId": "41c135497c159f450c159ab3f7902eda817c3c0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a9092b5_4c941639",
         "filename": "java/com/google/gerrit/acceptance/testing/verifier/VerifierRefSubject.java",
         "patchSetId": 2

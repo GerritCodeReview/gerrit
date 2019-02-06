@@ -218,6 +218,30 @@
     },
     {
       "key": {
+        "uuid": "aef0edef_d25e8356",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-06T23:01:12Z",
+      "side": 1,
+      "message": "JUnit\u0027s Theories seem to require a specific runner, which is incompatible with the one we use for the tests.\n\nIf I defined a @Theory without the runner, the test is not run. If I set RunWith(Theories.class) then everything else breaks.\n\nNice idea, but I wouldn\u0027t introduce that complexity right now.",
+      "parentUuid": "d20d5296_472737b0",
+      "range": {
+        "startLine": 149,
+        "startChar": 2,
+        "endLine": 184,
+        "endChar": 0
+      },
+      "revId": "68f9b48d64ec17a189519b69e3ba81ac46aab77a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d68dcdc_9f97ab53",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
         "patchSetId": 10
@@ -287,6 +311,30 @@
       "revId": "68f9b48d64ec17a189519b69e3ba81ac46aab77a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c99e9b9_6734c9a8",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-06T23:01:12Z",
+      "side": 1,
+      "message": "\u003e L166 transforms and creates a set.  I\u0027m saying you can do that in this method instead, and the conversion to stream is still done only once.\n\nRight, because the other use of createProjects() do not care about the return value. Let me do that.\n\n\u003e I think it\u0027s more readable to have one method to create the projects, rather than having two.\n\nSure.",
+      "parentUuid": "9747d95b_7811d593",
+      "range": {
+        "startLine": 185,
+        "startChar": 10,
+        "endLine": 189,
+        "endChar": 17
+      },
+      "revId": "68f9b48d64ec17a189519b69e3ba81ac46aab77a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

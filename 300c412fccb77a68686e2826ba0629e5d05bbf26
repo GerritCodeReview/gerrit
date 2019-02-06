@@ -23,6 +23,30 @@
       "revId": "300c412fccb77a68686e2826ba0629e5d05bbf26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3186bbc_d80bf518",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-06T15:31:32Z",
+      "side": 1,
+      "message": "Just to be clear, the goal of this change was to produce no behavior change given the current set of tests. The one case where I had to change the tests is just unfortunate, and should be cleaned up later in this series.\n\nWhat you\u0027re proposing makes sense, but I think I\u0027d rather do it as a separate change, since it is a behavior change in the tests.",
+      "parentUuid": "312ee19b_cdf2b980",
+      "range": {
+        "startLine": 21,
+        "startChar": 31,
+        "endLine": 23,
+        "endChar": 39
+      },
+      "revId": "300c412fccb77a68686e2826ba0629e5d05bbf26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

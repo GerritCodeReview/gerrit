@@ -20,7 +20,7 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.ServerInitiated;
-import com.google.gerrit.server.account.GroupUUID;
+import com.google.gerrit.server.account.GroupUuid;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsUpdate;
@@ -82,7 +82,7 @@ public class GroupOperationsImpl implements GroupOperations {
       throws OrmException {
     AccountGroup.Id groupId = new AccountGroup.Id(seq.nextGroupId());
     String groupName = groupCreation.name().orElse("group-with-id-" + groupId.get());
-    AccountGroup.UUID groupUuid = GroupUUID.make(groupName, serverIdent);
+    AccountGroup.UUID groupUuid = GroupUuid.make(groupName, serverIdent);
     AccountGroup.NameKey nameKey = new AccountGroup.NameKey(groupName);
     return InternalGroupCreation.builder()
         .setId(groupId)

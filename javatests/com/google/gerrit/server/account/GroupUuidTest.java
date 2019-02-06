@@ -21,13 +21,13 @@ import com.google.gerrit.testing.GerritBaseTests;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
 
-public class GroupUUIDTest extends GerritBaseTests {
+public class GroupUuidTest extends GerritBaseTests {
   @Test
   public void createdUuidsForSameInputShouldBeDifferent() {
     String groupName = "Users";
     PersonIdent personIdent = new PersonIdent("John", "john@example.com");
-    AccountGroup.UUID uuid1 = GroupUUID.make(groupName, personIdent);
-    AccountGroup.UUID uuid2 = GroupUUID.make(groupName, personIdent);
+    AccountGroup.UUID uuid1 = GroupUuid.make(groupName, personIdent);
+    AccountGroup.UUID uuid2 = GroupUuid.make(groupName, personIdent);
     assertThat(uuid2).isNotEqualTo(uuid1);
   }
 }

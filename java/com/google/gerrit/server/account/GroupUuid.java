@@ -20,7 +20,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 
-public class GroupUUID {
+public class GroupUuid {
   public static AccountGroup.UUID make(String groupName, PersonIdent creator) {
     MessageDigest md = Constants.newMessageDigest();
     md.update(Constants.encode("group " + groupName + "\n"));
@@ -29,5 +29,5 @@ public class GroupUUID {
     return new AccountGroup.UUID(ObjectId.fromRaw(md.digest()).name());
   }
 
-  private GroupUUID() {}
+  private GroupUuid() {}
 }

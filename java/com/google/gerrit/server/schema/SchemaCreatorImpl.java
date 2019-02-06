@@ -21,7 +21,7 @@ import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.GroupUUID;
+import com.google.gerrit.server.account.GroupUuid;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -212,7 +212,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
   }
 
   private GroupReference createGroupReference(String name) {
-    AccountGroup.UUID groupUuid = GroupUUID.make(name, serverUser);
+    AccountGroup.UUID groupUuid = GroupUuid.make(name, serverUser);
     return new GroupReference(groupUuid, name);
   }
 

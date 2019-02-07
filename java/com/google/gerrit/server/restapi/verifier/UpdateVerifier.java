@@ -72,6 +72,10 @@ public class UpdateVerifier implements RestModifyView<VerifierResource, Verifier
       verifierUpdateBuilder.setDescription(Strings.nullToEmpty(input.description).trim());
     }
 
+    if (input.url != null) {
+      verifierUpdateBuilder.setUrl(Strings.nullToEmpty(input.url).trim());
+    }
+
     Verifier updatedVerifier =
         verifiersUpdate
             .get()

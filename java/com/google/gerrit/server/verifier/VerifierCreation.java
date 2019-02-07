@@ -15,6 +15,7 @@
 package com.google.gerrit.server.verifier;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.reviewdb.client.Project;
 
 @AutoValue
 public abstract class VerifierCreation {
@@ -28,6 +29,9 @@ public abstract class VerifierCreation {
   /** Defines the name the verifier should have. */
   public abstract String getName();
 
+  /** Defines the repository for which the verifier applies. */
+  public abstract Project.NameKey getRepository();
+
   public static Builder builder() {
     return new AutoValue_VerifierCreation.Builder();
   }
@@ -37,6 +41,8 @@ public abstract class VerifierCreation {
     public abstract Builder setVerifierUuid(String verifierUuid);
 
     public abstract Builder setName(String name);
+
+    public abstract Builder setRepository(Project.NameKey repository);
 
     public abstract VerifierCreation build();
   }

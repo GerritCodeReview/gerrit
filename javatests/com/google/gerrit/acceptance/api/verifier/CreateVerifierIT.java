@@ -20,6 +20,7 @@ import static com.google.gerrit.server.testing.CommitSubject.assertCommit;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.SkipProjectClone;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.acceptance.testsuite.verifier.VerifierOperations;
 import com.google.gerrit.acceptance.testsuite.verifier.VerifierOperations.PerVerifierOperations;
@@ -27,6 +28,7 @@ import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
 import com.google.gerrit.extensions.api.verifiers.VerifierInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
@@ -39,6 +41,7 @@ import org.junit.Test;
 @NoHttpd
 @SkipProjectClone
 public class CreateVerifierIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
   @Inject private VerifierOperations verifierOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
@@ -63,18 +66,21 @@ public class CreateVerifierIT extends AbstractDaemonTest {
   public void createVerifier() throws Exception {
     VerifierInput input = new VerifierInput();
     input.name = "my-verifier";
+    input.repository = projectOperations.newProject().create().get();
     VerifierInfo info = gApi.verifiers().create(input).get();
     assertThat(info.uuid).isNotNull();
     assertThat(info.name).isEqualTo(input.name);
     assertThat(info.description).isNull();
     assertThat(info.url).isNull();
+    assertThat(info.repository).isEqualTo(input.repository);
     assertThat(info.createdOn).isNotNull();
     assertThat(info.updatedOn).isEqualTo(info.createdOn);
 
     PerVerifierOperations perVeriferOps = verifierOperations.verifier(info.uuid);
     assertCommit(
         perVeriferOps.commit(), "Create verifier", info.createdOn, perVeriferOps.get().refState());
-    assertThat(perVeriferOps.configText()).isEqualTo("[verifier]\n\tname = my-verifier\n");
+    assertThat(perVeriferOps.configText())
+        .isEqualTo("[verifier]\n\tname = my-verifier\n\trepository = " + input.repository + "\n");
   }
 
   @Test
@@ -82,6 +88,7 @@ public class CreateVerifierIT extends AbstractDaemonTest {
     VerifierInput input = new VerifierInput();
     input.name = "my-verifier";
     input.description = "some description";
+    input.repository = allProjects.get();
     VerifierInfo info = gApi.verifiers().create(input).get();
     assertThat(info.description).isEqualTo(input.description);
 
@@ -90,7 +97,10 @@ public class CreateVerifierIT extends AbstractDaemonTest {
         perVeriferOps.commit(), "Create verifier", info.createdOn, perVeriferOps.get().refState());
     assertThat(perVeriferOps.configText())
         .isEqualTo(
-            "[verifier]\n" + "\tname = my-verifier\n" + "\tdescription = some description\n");
+            "[verifier]\n"
+                + "\tname = my-verifier\n"
+                + "\trepository = All-Projects\n"
+                + "\tdescription = some description\n");
   }
 
   @Test
@@ -98,6 +108,7 @@ public class CreateVerifierIT extends AbstractDaemonTest {
     VerifierInput input = new VerifierInput();
     input.name = "my-verifier";
     input.url = "http://example.com/my-verifier";
+    input.repository = allProjects.get();
     VerifierInfo info = gApi.verifiers().create(input).get();
     assertThat(info.url).isEqualTo(input.url);
 
@@ -106,20 +117,25 @@ public class CreateVerifierIT extends AbstractDaemonTest {
         perVeriferOps.commit(), "Create verifier", info.createdOn, perVeriferOps.get().refState());
     assertThat(perVeriferOps.configText())
         .isEqualTo(
-            "[verifier]\n" + "\tname = my-verifier\n" + "\turl = http://example.com/my-verifier\n");
+            "[verifier]\n"
+                + "\tname = my-verifier\n"
+                + "\trepository = All-Projects\n"
+                + "\turl = http://example.com/my-verifier\n");
   }
 
   @Test
   public void createVerifierNameIsTrimmed() throws Exception {
     VerifierInput input = new VerifierInput();
     input.name = " my-verifier ";
+    input.repository = allProjects.get();
     VerifierInfo info = gApi.verifiers().create(input).get();
     assertThat(info.name).isEqualTo("my-verifier");
 
     PerVerifierOperations perVeriferOps = verifierOperations.verifier(info.uuid);
     assertCommit(
         perVeriferOps.commit(), "Create verifier", info.createdOn, perVeriferOps.get().refState());
-    assertThat(perVeriferOps.configText()).isEqualTo("[verifier]\n\tname = my-verifier\n");
+    assertThat(perVeriferOps.configText())
+        .isEqualTo("[verifier]\n\tname = my-verifier\n\trepository = All-Projects\n");
   }
 
   @Test
@@ -127,6 +143,7 @@ public class CreateVerifierIT extends AbstractDaemonTest {
     VerifierInput input = new VerifierInput();
     input.name = "my-verifier";
     input.description = " some description ";
+    input.repository = allProjects.get();
     VerifierInfo info = gApi.verifiers().create(input).get();
     assertThat(info.description).isEqualTo("some description");
 
@@ -135,7 +152,10 @@ public class CreateVerifierIT extends AbstractDaemonTest {
         perVeriferOps.commit(), "Create verifier", info.createdOn, perVeriferOps.get().refState());
     assertThat(perVeriferOps.configText())
         .isEqualTo(
-            "[verifier]\n" + "\tname = my-verifier\n" + "\tdescription = some description\n");
+            "[verifier]\n"
+                + "\tname = my-verifier\n"
+                + "\trepository = All-Projects\n"
+                + "\tdescription = some description\n");
   }
 
   @Test
@@ -143,6 +163,7 @@ public class CreateVerifierIT extends AbstractDaemonTest {
     VerifierInput input = new VerifierInput();
     input.name = "my-verifier";
     input.url = " http://example.com/my-verifier ";
+    input.repository = allProjects.get();
     VerifierInfo info = gApi.verifiers().create(input).get();
     assertThat(info.url).isEqualTo("http://example.com/my-verifier");
 
@@ -151,13 +172,32 @@ public class CreateVerifierIT extends AbstractDaemonTest {
         perVeriferOps.commit(), "Create verifier", info.createdOn, perVeriferOps.get().refState());
     assertThat(perVeriferOps.configText())
         .isEqualTo(
-            "[verifier]\n" + "\tname = my-verifier\n" + "\turl = http://example.com/my-verifier\n");
+            "[verifier]\n"
+                + "\tname = my-verifier\n"
+                + "\trepository = All-Projects\n"
+                + "\turl = http://example.com/my-verifier\n");
+  }
+
+  @Test
+  public void createVerifierRepositoryIsTrimmed() throws Exception {
+    VerifierInput input = new VerifierInput();
+    input.name = "my-verifier";
+    input.repository = " " + allProjects.get() + " ";
+    VerifierInfo info = gApi.verifiers().create(input).get();
+    assertThat(info.repository).isEqualTo(allProjects.get());
+
+    PerVerifierOperations perVeriferOps = verifierOperations.verifier(info.uuid);
+    assertCommit(
+        perVeriferOps.commit(), "Create verifier", info.createdOn, perVeriferOps.get().refState());
+    assertThat(perVeriferOps.configText())
+        .isEqualTo("[verifier]\n\tname = my-verifier\n\trepository = All-Projects\n");
   }
 
   @Test
   public void createVerifiersWithSameName() throws Exception {
     VerifierInput input = new VerifierInput();
     input.name = "my-verifier";
+    input.repository = allProjects.get();
     VerifierInfo info1 = gApi.verifiers().create(input).get();
     assertThat(info1.name).isEqualTo(input.name);
 
@@ -170,6 +210,7 @@ public class CreateVerifierIT extends AbstractDaemonTest {
   @Test
   public void createVerifierWithoutNameFails() throws Exception {
     VerifierInput input = new VerifierInput();
+    input.repository = allProjects.get();
 
     exception.expect(BadRequestException.class);
     exception.expectMessage("name is required");
@@ -180,6 +221,7 @@ public class CreateVerifierIT extends AbstractDaemonTest {
   public void createVerifierWithEmptyNameFails() throws Exception {
     VerifierInput input = new VerifierInput();
     input.name = "";
+    input.repository = allProjects.get();
 
     exception.expect(BadRequestException.class);
     exception.expectMessage("name is required");
@@ -190,9 +232,53 @@ public class CreateVerifierIT extends AbstractDaemonTest {
   public void createVerifierWithEmptyNameAfterTrimFails() throws Exception {
     VerifierInput input = new VerifierInput();
     input.name = " ";
+    input.repository = allProjects.get();
 
     exception.expect(BadRequestException.class);
     exception.expectMessage("name is required");
+    gApi.verifiers().create(input);
+  }
+
+  @Test
+  public void createVerifierWithoutRepositoryFails() throws Exception {
+    VerifierInput input = new VerifierInput();
+    input.name = "my-verifier";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("repository is required");
+    gApi.verifiers().create(input);
+  }
+
+  @Test
+  public void createVerifierWithEmptyReposiotryFails() throws Exception {
+    VerifierInput input = new VerifierInput();
+    input.name = "my-verifier";
+    input.repository = "";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("repository is required");
+    gApi.verifiers().create(input);
+  }
+
+  @Test
+  public void createVerifierWithEmptyReposiotryAfterTrimFails() throws Exception {
+    VerifierInput input = new VerifierInput();
+    input.name = "my-verifier";
+    input.repository = " ";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("repository is required");
+    gApi.verifiers().create(input);
+  }
+
+  @Test
+  public void createVerifierWithNonExistingRepositoryFails() throws Exception {
+    VerifierInput input = new VerifierInput();
+    input.name = "my-verifier";
+    input.repository = "non-existing";
+
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("repository non-existing not found");
     gApi.verifiers().create(input);
   }
 
@@ -202,6 +288,7 @@ public class CreateVerifierIT extends AbstractDaemonTest {
 
     VerifierInput input = new VerifierInput();
     input.name = "my-verifier";
+    input.repository = allProjects.get();
 
     exception.expect(AuthException.class);
     exception.expectMessage("administrate verifiers not permitted");

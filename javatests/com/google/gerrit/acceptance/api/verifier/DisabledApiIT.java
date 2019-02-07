@@ -46,6 +46,7 @@ public class DisabledApiIT extends AbstractDaemonTest {
   public void createVerifier() throws Exception {
     VerifierInput input = new VerifierInput();
     input.name = "my-verifier";
+    input.repository = allProjects.get();
 
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage("verifer API is disabled");

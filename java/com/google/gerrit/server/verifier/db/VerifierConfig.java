@@ -17,6 +17,7 @@ package com.google.gerrit.server.verifier.db;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -229,10 +230,7 @@ public class VerifierConfig extends VersionedMetaData {
       return false;
     }
 
-    if (getNewName().equals(Optional.of(""))) {
-      throw new ConfigInvalidException(
-          String.format("Name of the verifier %s must be defined", verifierUuid));
-    }
+    ensureThatMandatoryPropertiesAreSet();
 
     // Commit timestamps are internally truncated to seconds. To return the correct 'createdOn' time
     // for new verifiers, we explicitly need to truncate the timestamp here.
@@ -252,6 +250,18 @@ public class VerifierConfig extends VersionedMetaData {
     return true;
   }
 
+  private void ensureThatMandatoryPropertiesAreSet() throws ConfigInvalidException {
+    if (getNewName().equals(Optional.of(""))) {
+      throw new ConfigInvalidException(
+          String.format("Name of the verifier %s must be defined", verifierUuid));
+    }
+
+    if (getNewRepository().equals(Optional.of(""))) {
+      throw new ConfigInvalidException(
+          String.format("Repository of the verifier %s must be defined", verifierUuid));
+    }
+  }
+
   private void checkLoaded() {
     checkState(isLoaded, "Verifier %s not loaded yet", verifierUuid);
   }
@@ -262,6 +272,21 @@ public class VerifierConfig extends VersionedMetaData {
     }
     if (verifierCreation.isPresent()) {
       return Optional.of(VerifierName.clean(verifierCreation.get().getName()));
+    }
+    return Optional.empty();
+  }
+
+  private Optional<String> getNewRepository() {
+    if (verifierUpdate.isPresent()) {
+      return verifierUpdate
+          .get()
+          .getRepository()
+          .map(Project.NameKey::get)
+          .map(Strings::nullToEmpty)
+          .map(String::trim);
+    }
+    if (verifierCreation.isPresent()) {
+      return Optional.of(Strings.nullToEmpty(verifierCreation.get().getRepository().get()).trim());
     }
     return Optional.empty();
   }

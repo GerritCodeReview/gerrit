@@ -58,6 +58,7 @@ public class VerifierConfigTest extends GerritBaseTests {
 
   private final String verifierName = "my-verifier";
   private final String verifierUuid = VerifierUuid.make(verifierName);
+  private final Project.NameKey verifierRepository = new Project.NameKey("my-repo");
   private final TimeZone timeZone = TimeZone.getTimeZone("America/Los_Angeles");
 
   @Before
@@ -135,7 +136,11 @@ public class VerifierConfigTest extends GerritBaseTests {
   @Test
   public void descriptionDefaultsToOptionalEmpty() throws Exception {
     VerifierCreation verifierCreation =
-        VerifierCreation.builder().setVerifierUuid(verifierUuid).setName(verifierName).build();
+        VerifierCreation.builder()
+            .setVerifierUuid(verifierUuid)
+            .setName(verifierName)
+            .setRepository(verifierRepository)
+            .build();
     createVerifier(verifierCreation);
 
     Optional<Verifier> verifier = loadVerifier(verifierCreation.getVerifierUuid());
@@ -167,7 +172,11 @@ public class VerifierConfigTest extends GerritBaseTests {
   @Test
   public void urlDefaultsToOptionalEmpty() throws Exception {
     VerifierCreation verifierCreation =
-        VerifierCreation.builder().setVerifierUuid(verifierUuid).setName(verifierName).build();
+        VerifierCreation.builder()
+            .setVerifierUuid(verifierUuid)
+            .setName(verifierName)
+            .setRepository(verifierRepository)
+            .build();
     createVerifier(verifierCreation);
 
     Optional<Verifier> verifier = loadVerifier(verifierCreation.getVerifierUuid());
@@ -197,15 +206,51 @@ public class VerifierConfigTest extends GerritBaseTests {
   }
 
   @Test
+  public void specifiedRepositoryIsRespectedForNewVerifier() throws Exception {
+    VerifierCreation verifierCreation =
+        getPrefilledVerifierCreationBuilder().setRepository(verifierRepository).build();
+    createVerifier(verifierCreation);
+
+    Optional<Verifier> verifier = loadVerifier(verifierCreation.getVerifierUuid());
+    assertThatVerifier(verifier).value().hasRepository(verifierRepository);
+  }
+
+  @Test
+  public void repositoryOfVerifierUpdateOverridesVerifierCreation() throws Exception {
+    Project.NameKey anotherRepository = new Project.NameKey("another-repo");
+
+    VerifierCreation verifierCreation =
+        getPrefilledVerifierCreationBuilder().setRepository(verifierRepository).build();
+    VerifierUpdate verifierUpdate =
+        VerifierUpdate.builder().setRepository(anotherRepository).build();
+    createVerifier(verifierCreation, verifierUpdate);
+
+    Optional<Verifier> verifier = loadVerifier(verifierCreation.getVerifierUuid());
+    assertThatVerifier(verifier).value().hasRepository(anotherRepository);
+  }
+
+  @Test
+  public void repositoryOfNewVerifierMustNotBeEmpty() throws Exception {
+    VerifierCreation verifierCreation =
+        getPrefilledVerifierCreationBuilder().setRepository(new Project.NameKey("")).build();
+    VerifierConfig verifierConfig =
+        VerifierConfig.createForNewVerifier(projectName, repository, verifierCreation);
+
+    try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
+      exception.expectCause(instanceOf(ConfigInvalidException.class));
+      exception.expectMessage(
+          String.format("Repository of the verifier %s must be defined", verifierUuid));
+      verifierConfig.commit(metaDataUpdate);
+    }
+  }
+
+  @Test
   public void createdOnDefaultsToNow() throws Exception {
     // Git timestamps are only precise to the second.
     Timestamp testStart = TimeUtil.truncateToSecond(TimeUtil.nowTs());
 
-    VerifierCreation verifierCreation =
-        VerifierCreation.builder().setVerifierUuid(verifierUuid).setName(verifierName).build();
-    createVerifier(verifierCreation);
-
-    Optional<Verifier> verifier = loadVerifier(verifierCreation.getVerifierUuid());
+    createArbitraryVerifier(verifierUuid);
+    Optional<Verifier> verifier = loadVerifier(verifierUuid);
     assertThatVerifier(verifier).value().hasCreatedOnThat().isAtLeast(testStart);
   }
 
@@ -244,7 +289,11 @@ public class VerifierConfigTest extends GerritBaseTests {
   @Test
   public void nameCanBeUpdated() throws Exception {
     VerifierCreation verifierCreation =
-        VerifierCreation.builder().setVerifierUuid(verifierUuid).setName(verifierName).build();
+        VerifierCreation.builder()
+            .setVerifierUuid(verifierUuid)
+            .setName(verifierName)
+            .setRepository(verifierRepository)
+            .build();
     createVerifier(verifierCreation);
 
     String newName = "new-name";
@@ -314,6 +363,39 @@ public class VerifierConfigTest extends GerritBaseTests {
   }
 
   @Test
+  public void repositoryCanBeUpdated() throws Exception {
+    VerifierCreation verifierCreation =
+        VerifierCreation.builder()
+            .setVerifierUuid(verifierUuid)
+            .setName(verifierName)
+            .setRepository(verifierRepository)
+            .build();
+    createVerifier(verifierCreation);
+
+    Project.NameKey newRepository = new Project.NameKey("another-repo");
+    VerifierUpdate verifierUpdate = VerifierUpdate.builder().setRepository(newRepository).build();
+    updateVerifier(verifierUuid, verifierUpdate);
+
+    Optional<Verifier> verifier = loadVerifier(verifierUuid);
+    assertThatVerifier(verifier).value().hasRepository(newRepository);
+
+    assertThatCommitMessage(verifierUuid).isEqualTo("Update verifier");
+  }
+
+  @Test
+  public void repositoryCannotBeRemoved() throws Exception {
+    createArbitraryVerifier(verifierUuid);
+
+    VerifierUpdate verifierUpdate =
+        VerifierUpdate.builder().setRepository(new Project.NameKey("")).build();
+
+    exception.expect(IOException.class);
+    exception.expectMessage(
+        String.format("Repository of the verifier %s must be defined", verifierUuid));
+    updateVerifier(verifierUuid, verifierUpdate);
+  }
+
+  @Test
   public void refStateIsCorrectlySet() throws Exception {
     VerifierCreation verifierCreation =
         getPrefilledVerifierCreationBuilder().setVerifierUuid(verifierUuid).build();
@@ -348,7 +430,10 @@ public class VerifierConfigTest extends GerritBaseTests {
   }
 
   private VerifierCreation.Builder getPrefilledVerifierCreationBuilder() {
-    return VerifierCreation.builder().setVerifierUuid(verifierUuid).setName(verifierName);
+    return VerifierCreation.builder()
+        .setVerifierUuid(verifierUuid)
+        .setName(verifierName)
+        .setRepository(verifierRepository);
   }
 
   private Optional<Verifier> createVerifier(VerifierCreation verifierCreation) throws Exception {

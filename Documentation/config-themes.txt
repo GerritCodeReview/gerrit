@@ -4,34 +4,28 @@ Gerrit supports some customization of the HTML it sends to
 the browser, allowing organizations to alter the look and
 feel of the application to fit with their general scheme.
 
-Configuration can either be sitewide or per-project. Projects without a
-specified theme inherit from their parents, or from the sitewide theme
-for `All-Projects`.
+== HTML Header/Footer and CSS
 
-Sitewide themes are stored in `'$site_path'/etc`, and per-project
-themes are stored in `'$site_path'/themes/{project-name}`. Files are
-only served from a single theme directory; if you want to modify or
-extend an inherited theme, you must copy it into the appropriate
-per-project directory.
-
-== HTML Header/Footer
+The HTML header, footer and CSS may be customized for login
+screens (LDAP, OAuth, OpenId) and the internally managed
+Gitweb servlet.
 
 At startup Gerrit reads the following files (if they exist) and
 uses them to customize the HTML page it sends to clients:
 
-* `<theme-dir>/GerritSiteHeader.html`
+* `etc/GerritSiteHeader.html`
 +
 HTML is inserted below the menu bar, but above any page content.
 This is a good location for an organizational logo, or links to
 other systems like bug tracking.
 
-* `<theme-dir>/GerritSiteFooter.html`
+* `etc/GerritSiteFooter.html`
 +
 HTML is inserted at the bottom of the page, below all other content,
 but just above the footer rule and the "Powered by Gerrit Code
 Review (v....)" message shown at the extreme bottom.
 
-* `<theme-dir>/GerritSite.css`
+* `etc/GerritSite.css`
 +
 The CSS rules are inlined into the top of the HTML page, inside
 of a `<style>` tag.  These rules can be used to support styling

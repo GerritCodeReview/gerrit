@@ -54,7 +54,6 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
 import com.google.gerrit.server.project.ProjectCache;
@@ -931,7 +930,6 @@ public class RefControlTest extends GerritBaseTests {
   }
 
   private InMemoryRepository add(ProjectConfig pc) {
-    SitePaths sitePaths = null;
     List<CommentLinkInfo> commentLinks = null;
 
     InMemoryRepository repo;
@@ -946,7 +944,6 @@ public class RefControlTest extends GerritBaseTests {
     all.put(
         pc.getName(),
         new ProjectState(
-            sitePaths,
             projectCache,
             allProjectsName,
             allUsersName,

@@ -413,7 +413,8 @@ public class Daemon extends SiteProgram {
     modules.add(new AuditModule());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginModule());
-    if (VersionManager.getOnlineUpgrade(config)
+    if (!slave
+        && VersionManager.getOnlineUpgrade(config)
         // Schema upgrade is handled by OnlineNoteDbMigrator in this case.
         && !migrateToNoteDb()) {
       modules.add(new OnlineUpgrader.Module());

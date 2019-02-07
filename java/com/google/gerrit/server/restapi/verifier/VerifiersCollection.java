@@ -39,6 +39,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class VerifiersCollection implements RestCollection<TopLevelResource, VerifierResource> {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
+  private final ListVerifiers listVerifiers;
   private final Verifiers verifiers;
   private final DynamicMap<RestView<VerifierResource>> views;
 
@@ -46,18 +47,19 @@ public class VerifiersCollection implements RestCollection<TopLevelResource, Ver
   public VerifiersCollection(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
+      ListVerifiers listVerifiers,
       Verifiers verifiers,
       DynamicMap<RestView<VerifierResource>> views) {
     this.self = self;
     this.permissionBackend = permissionBackend;
+    this.listVerifiers = listVerifiers;
     this.verifiers = verifiers;
     this.views = views;
   }
 
   @Override
   public RestView<TopLevelResource> list() throws RestApiException {
-    // TODO(ekempin): implement this
-    throw new ResourceNotFoundException();
+    return listVerifiers;
   }
 
   @Override

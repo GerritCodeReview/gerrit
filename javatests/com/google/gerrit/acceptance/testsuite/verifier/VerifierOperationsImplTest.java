@@ -283,6 +283,25 @@ public class VerifierOperationsImplTest extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void asInfo() throws Exception {
+    String verifierUuid =
+        verifierOperations
+            .newVerifier()
+            .name("my-verifier")
+            .description("A description.")
+            .url("http://example.com/my-verifier")
+            .create();
+    TestVerifier verifier = verifierOperations.verifier(verifierUuid).get();
+    VerifierInfo verifierInfo = verifierOperations.verifier(verifierUuid).asInfo();
+    assertThat(verifierInfo.uuid).isEqualTo(verifier.uuid());
+    assertThat(verifierInfo.name).isEqualTo(verifier.name());
+    assertThat(verifierInfo.description).isEqualTo(verifier.description().get());
+    assertThat(verifierInfo.url).isEqualTo(verifier.url().get());
+    assertThat(verifierInfo.createdOn).isEqualTo(verifier.createdOn());
+    assertThat(verifierInfo.updatedOn).isEqualTo(verifier.updatedOn());
+  }
+
   private VerifierInput createArbitraryVerifierInput() {
     VerifierInput verifierInput = new VerifierInput();
     verifierInput.name = name("test-verifier");

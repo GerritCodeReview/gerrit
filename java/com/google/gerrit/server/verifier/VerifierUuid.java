@@ -17,9 +17,12 @@ package com.google.gerrit.server.verifier;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.reviewdb.client.RefNames;
 import java.security.MessageDigest;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 
 public class VerifierUuid {
   /**
@@ -58,6 +61,32 @@ public class VerifierUuid {
   public static String checkUuid(String verifierUuid) {
     checkState(isUuid(verifierUuid), "invalid verifier UUID: %s", verifierUuid);
     return verifierUuid;
+  }
+
+  /**
+   * Parses a verifier UUID from a verifier ref.
+   *
+   * @param ref the ref from which a verifier UUID should be parsed
+   * @return the verifier UUID, {@link Optional#empty()} if the given ref is null or not a valid
+   *     verifier ref
+   */
+  public static Optional<String> fromRef(@Nullable Ref ref) {
+    return fromRef(ref != null ? ref.getName() : (String) null);
+  }
+
+  /**
+   * Parses a verifier UUID from a verifier ref name.
+   *
+   * @param refName the name of the ref from which a verifier UUID should be parsed
+   * @return the verifier UUID, {@link Optional#empty()} if the given ref name is null or not a
+   *     valid verifier ref name
+   */
+  public static Optional<String> fromRef(@Nullable String refName) {
+    if (refName == null || !RefNames.isRefsVerifiers(refName)) {
+      return Optional.empty();
+    }
+    return Optional.ofNullable(
+        RefNames.parseShardedUuidFromRefPart(refName.substring(RefNames.REFS_VERIFIERS.length())));
   }
 
   private VerifierUuid() {}

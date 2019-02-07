@@ -14,6 +14,12 @@
 
 package com.google.gerrit.server.verifier.db;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.verifier.Verifier;
@@ -22,13 +28,17 @@ import com.google.gerrit.server.verifier.Verifiers;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 /** Class to read verifiers from NoteDb. */
 @Singleton
 class NoteDbVerifiers implements Verifiers {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final GitRepositoryManager repoManager;
   private final AllProjectsName allProjectsName;
 
@@ -49,6 +59,33 @@ class NoteDbVerifiers implements Verifiers {
       VerifierConfig verifierConfig =
           VerifierConfig.loadForVerifier(allProjectsName, allProjectsRepo, verifierUuid);
       return verifierConfig.getLoadedVerifier();
+    }
+  }
+
+  @Override
+  public ImmutableList<Verifier> listVerifiers() throws IOException {
+    try (Repository allProjectsRepo = repoManager.openRepository(allProjectsName)) {
+      List<Ref> verifierRefs =
+          allProjectsRepo.getRefDatabase().getRefsByPrefix(RefNames.REFS_VERIFIERS);
+      ImmutableList<String> sortedVerifierUuids =
+          verifierRefs
+              .stream()
+              .map(VerifierUuid::fromRef)
+              .flatMap(Streams::stream)
+              .sorted()
+              .collect(toImmutableList());
+      ImmutableList.Builder<Verifier> sortedVerifiers = ImmutableList.builder();
+      for (String verifierUuid : sortedVerifierUuids) {
+        try {
+          VerifierConfig verifierConfig =
+              VerifierConfig.loadForVerifier(allProjectsName, allProjectsRepo, verifierUuid);
+          verifierConfig.getLoadedVerifier().ifPresent(sortedVerifiers::add);
+        } catch (ConfigInvalidException e) {
+          logger.atWarning().withCause(e).log(
+              "Ignore invalid verifier %s on listing verifiers", verifierUuid);
+        }
+      }
+      return sortedVerifiers.build();
     }
   }
 }

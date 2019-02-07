@@ -18,11 +18,13 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.acceptance.testsuite.verifier.TestVerifierUpdate.Builder;
 import com.google.gerrit.common.errors.NoSuchVerifierException;
+import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.verifier.Verifier;
 import com.google.gerrit.server.verifier.VerifierCreation;
+import com.google.gerrit.server.verifier.VerifierJson;
 import com.google.gerrit.server.verifier.VerifierUpdate;
 import com.google.gerrit.server.verifier.VerifierUuid;
 import com.google.gerrit.server.verifier.Verifiers;
@@ -50,17 +52,20 @@ public class VerifierOperationsImpl implements VerifierOperations {
   private final VerifiersUpdate verifiersUpdate;
   private final GitRepositoryManager repoManager;
   private final AllProjectsName allProjectsName;
+  private final VerifierJson verifierJson;
 
   @Inject
   public VerifierOperationsImpl(
       Verifiers verifiers,
       @ServerInitiated VerifiersUpdate verifiersUpdate,
       GitRepositoryManager repoManager,
-      AllProjectsName allProjectsName) {
+      AllProjectsName allProjectsName,
+      VerifierJson verifierJson) {
     this.verifiers = verifiers;
     this.verifiersUpdate = verifiersUpdate;
     this.repoManager = repoManager;
     this.allProjectsName = allProjectsName;
+    this.verifierJson = verifierJson;
   }
 
   @Override
@@ -158,6 +163,13 @@ public class VerifierOperationsImpl implements VerifierOperations {
                 null, repo, verifier.get().getRefState(), VerifierConfig.VERIFIER_CONFIG_FILE)
             .toText();
       }
+    }
+
+    @Override
+    public VerifierInfo asInfo() {
+      Optional<Verifier> verifier = getVerifier(verifierUuid);
+      checkState(verifier.isPresent(), "Tried to get a non-existing test verifier as VerifierInfo");
+      return verifierJson.format(verifier.get());
     }
 
     public Builder forUpdate() {

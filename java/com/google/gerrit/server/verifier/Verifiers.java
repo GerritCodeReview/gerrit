@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.verifier;
 
+import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -38,4 +39,14 @@ public interface Verifiers {
    * @throws ConfigInvalidException if the verifier in the storage is invalid
    */
   Optional<Verifier> getVerifier(String verifierUuid) throws IOException, ConfigInvalidException;
+
+  /**
+   * Returns a list with all verifiers.
+   *
+   * <p>Verifiers with invalid configuration are silently ignored.
+   *
+   * @return all verifiers, sorted by UUID
+   * @throws IOException if any verifier couldn't be retrieved from the storage
+   */
+  ImmutableList<Verifier> listVerifiers() throws IOException;
 }

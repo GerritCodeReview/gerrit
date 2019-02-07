@@ -16,10 +16,13 @@ package com.google.gerrit.server.verifier;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.testing.GerritBaseTests;
+import org.eclipse.jgit.lib.Ref;
 import org.junit.Test;
 
 public class VerifierUuidTest extends GerritBaseTests {
@@ -78,5 +81,29 @@ public class VerifierUuidTest extends GerritBaseTests {
       assertThat(e.getMessage())
           .isEqualTo(String.format("invalid verifier UUID: %s", verifierUuid));
     }
+  }
+
+  @Test
+  public void fromRef() throws Exception {
+    // valid verifier refs
+    assertThat(VerifierUuid.fromRef("refs/verifiers/43/437ee373885fbc47b103dc722800448320e8bc61"))
+        .hasValue("437ee373885fbc47b103dc722800448320e8bc61");
+
+    String verifierUuid = VerifierUuid.make("my-verifier");
+    assertThat(VerifierUuid.fromRef(RefNames.refsVerifiers(verifierUuid))).hasValue(verifierUuid);
+
+    // invalid verifier refs
+    assertThat(VerifierUuid.fromRef((Ref) null)).isEmpty();
+    assertThat(VerifierUuid.fromRef((String) null)).isEmpty();
+    assertThat(VerifierUuid.fromRef("")).isEmpty();
+    assertThat(VerifierUuid.fromRef("refs/verifiers/437ee373885fbc47b103dc722800448320e8bc61"))
+        .isEmpty();
+    assertThat(VerifierUuid.fromRef("refs/verifiers/61/437ee373885fbc47b103dc722800448320e8bc61"))
+        .isEmpty();
+    assertThat(VerifierUuid.fromRef("refs/verifier/43/437ee373885fbc47b103dc722800448320e8bc61"))
+        .isEmpty();
+    assertThat(VerifierUuid.fromRef("refs/verifiers/foo")).isEmpty();
+    assertThat(VerifierUuid.fromRef("refs/groups/43/437ee373885fbc47b103dc722800448320e8bc61"))
+        .isEmpty();
   }
 }

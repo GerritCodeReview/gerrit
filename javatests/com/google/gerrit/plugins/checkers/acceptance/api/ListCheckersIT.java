@@ -19,7 +19,6 @@ import static com.google.common.truth.Truth.assert_;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.plugins.checkers.CheckerRef;
@@ -33,7 +32,6 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
-@Sandboxed
 public class ListCheckersIT extends AbstractCheckersTest {
   @Inject private RequestScopeOperations requestScopeOperations;
 

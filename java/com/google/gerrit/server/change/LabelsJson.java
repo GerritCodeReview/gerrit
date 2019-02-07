@@ -233,8 +233,8 @@ public class LabelsJson {
       AccountLoader accountLoader,
       Account.Id id,
       Integer value,
-      VotingRangeInfo permittedVotingRange,
-      String tag,
+      @Nullable VotingRangeInfo permittedVotingRange,
+      @Nullable String tag,
       Timestamp date) {
     ApprovalInfo ai = new ApprovalInfo(id.get(), value, permittedVotingRange, tag, date);
     accountLoader.put(ai);

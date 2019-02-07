@@ -26,6 +26,7 @@ public class VerifierJson {
     info.name = verifier.getName();
     info.description = verifier.getDescription().orElse(null);
     info.url = verifier.getUrl().orElse(null);
+    info.repository = verifier.getRepository().get();
     info.createdOn = verifier.getCreatedOn();
     info.updatedOn = verifier.getUpdatedOn();
     return info;

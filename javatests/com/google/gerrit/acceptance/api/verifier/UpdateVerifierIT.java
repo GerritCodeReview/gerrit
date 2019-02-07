@@ -20,6 +20,7 @@ import static com.google.gerrit.server.testing.CommitSubject.assertCommit;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.SkipProjectClone;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.acceptance.testsuite.verifier.TestVerifier;
 import com.google.gerrit.acceptance.testsuite.verifier.VerifierOperations;
@@ -28,6 +29,7 @@ import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
 import com.google.gerrit.extensions.api.verifiers.VerifierInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +41,7 @@ import org.junit.Test;
 @SkipProjectClone
 public class UpdateVerifierIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ProjectOperations projectOperations;
   @Inject private VerifierOperations verifierOperations;
 
   @Before
@@ -53,19 +56,22 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
 
   @Test
   public void updateMultipleVerifierPropertiesAtOnce() throws Exception {
-    String verifierUuid = verifierOperations.newVerifier().name("my-verifier").create();
+    String verifierUuid =
+        verifierOperations.newVerifier().name("my-verifier").repository(allProjects).create();
     TestVerifier verifier = verifierOperations.verifier(verifierUuid).get();
 
     VerifierInput input = new VerifierInput();
     input.name = "my-renamed-verifier";
     input.description = "A description.";
     input.url = "http://example.com/my-verifier";
+    input.repository = projectOperations.newProject().create().get();
 
     VerifierInfo info = gApi.verifiers().id(verifierUuid).update(input);
     assertThat(info.uuid).isEqualTo(verifierUuid);
     assertThat(info.name).isEqualTo(input.name);
     assertThat(info.description).isEqualTo(input.description);
     assertThat(info.url).isEqualTo(input.url);
+    assertThat(info.repository).isEqualTo(input.repository);
     assertThat(info.createdOn).isEqualTo(verifier.createdOn());
     assertThat(info.createdOn).isLessThan(info.updatedOn);
 
@@ -79,6 +85,9 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
         .isEqualTo(
             "[verifier]\n"
                 + "\tname = my-renamed-verifier\n"
+                + "\trepository = "
+                + input.repository
+                + "\n"
                 + "\tdescription = A description.\n"
                 + "\turl = http://example.com/my-verifier\n");
   }
@@ -99,7 +108,8 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
         "Update verifier\n\nRename from my-verifier to my-renamed-verifier",
         info.updatedOn,
         perVeriferOps.get().refState());
-    assertThat(perVeriferOps.configText()).isEqualTo("[verifier]\n\tname = my-renamed-verifier\n");
+    assertThat(perVeriferOps.configText())
+        .isEqualTo("[verifier]\n\tname = my-renamed-verifier\n\trepository = All-Projects\n");
   }
 
   @Test
@@ -144,7 +154,8 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
         "Update verifier\n\nRename from my-verifier to other-verifier",
         info.updatedOn,
         perVeriferOps.get().refState());
-    assertThat(perVeriferOps.configText()).isEqualTo("[verifier]\n\tname = other-verifier\n");
+    assertThat(perVeriferOps.configText())
+        .isEqualTo("[verifier]\n\tname = other-verifier\n\trepository = All-Projects\n");
   }
 
   @Test
@@ -161,7 +172,10 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
     assertCommit(
         perVeriferOps.commit(), "Update verifier", info.updatedOn, perVeriferOps.get().refState());
     assertThat(perVeriferOps.configText())
-        .isEqualTo("[verifier]\n\tname = my-verifier\n\tdescription = A description.\n");
+        .isEqualTo(
+            "[verifier]\n\tname = my-verifier\n"
+                + "\trepository = All-Projects\n"
+                + "\tdescription = A description.\n");
   }
 
   @Test
@@ -179,7 +193,10 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
     assertCommit(
         perVeriferOps.commit(), "Update verifier", info.updatedOn, perVeriferOps.get().refState());
     assertThat(perVeriferOps.configText())
-        .isEqualTo("[verifier]\n\tname = my-verifier\n\tdescription = A new description.\n");
+        .isEqualTo(
+            "[verifier]\n\tname = my-verifier\n"
+                + "\trepository = All-Projects\n"
+                + "\tdescription = A new description.\n");
   }
 
   @Test
@@ -196,7 +213,8 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
     PerVerifierOperations perVeriferOps = verifierOperations.verifier(verifierUuid);
     assertCommit(
         perVeriferOps.commit(), "Update verifier", info.updatedOn, perVeriferOps.get().refState());
-    assertThat(perVeriferOps.configText()).isEqualTo("[verifier]\n\tname = my-verifier\n");
+    assertThat(perVeriferOps.configText())
+        .isEqualTo("[verifier]\n\tname = my-verifier\n\trepository = All-Projects\n");
   }
 
   @Test
@@ -213,7 +231,10 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
     assertCommit(
         perVeriferOps.commit(), "Update verifier", info.updatedOn, perVeriferOps.get().refState());
     assertThat(perVeriferOps.configText())
-        .isEqualTo("[verifier]\n\tname = my-verifier\n\tdescription = A description.\n");
+        .isEqualTo(
+            "[verifier]\n\tname = my-verifier\n"
+                + "\trepository = All-Projects\n"
+                + "\tdescription = A description.\n");
   }
 
   @Test
@@ -230,7 +251,10 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
     assertCommit(
         perVeriferOps.commit(), "Update verifier", info.updatedOn, perVeriferOps.get().refState());
     assertThat(perVeriferOps.configText())
-        .isEqualTo("[verifier]\n\tname = my-verifier\n\turl = http://example.com/my-verifier\n");
+        .isEqualTo(
+            "[verifier]\n\tname = my-verifier\n"
+                + "\trepository = All-Projects\n"
+                + "\turl = http://example.com/my-verifier\n");
   }
 
   @Test
@@ -253,7 +277,9 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
         perVeriferOps.commit(), "Update verifier", info.updatedOn, perVeriferOps.get().refState());
     assertThat(perVeriferOps.configText())
         .isEqualTo(
-            "[verifier]\n\tname = my-verifier\n\turl = http://example.com/my-verifier-foo\n");
+            "[verifier]\n\tname = my-verifier\n"
+                + "\trepository = All-Projects\n"
+                + "\turl = http://example.com/my-verifier-foo\n");
   }
 
   @Test
@@ -274,7 +300,8 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
     PerVerifierOperations perVeriferOps = verifierOperations.verifier(verifierUuid);
     assertCommit(
         perVeriferOps.commit(), "Update verifier", info.updatedOn, perVeriferOps.get().refState());
-    assertThat(perVeriferOps.configText()).isEqualTo("[verifier]\n\tname = my-verifier\n");
+    assertThat(perVeriferOps.configText())
+        .isEqualTo("[verifier]\n\tname = my-verifier\n\trepository = All-Projects\n");
   }
 
   @Test
@@ -291,7 +318,64 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
     assertCommit(
         perVeriferOps.commit(), "Update verifier", info.updatedOn, perVeriferOps.get().refState());
     assertThat(perVeriferOps.configText())
-        .isEqualTo("[verifier]\n\tname = my-verifier\n\turl = http://example.com/my-verifier\n");
+        .isEqualTo(
+            "[verifier]\n\tname = my-verifier\n"
+                + "\trepository = All-Projects\n"
+                + "\turl = http://example.com/my-verifier\n");
+  }
+
+  @Test
+  public void updateRepository() throws Exception {
+    String verifierUuid =
+        verifierOperations.newVerifier().name("my-verifier").repository(allProjects).create();
+
+    VerifierInput input = new VerifierInput();
+    input.repository = projectOperations.newProject().create().get();
+
+    VerifierInfo info = gApi.verifiers().id(verifierUuid).update(input);
+    assertThat(info.repository).isEqualTo(input.repository);
+
+    PerVerifierOperations perVeriferOps = verifierOperations.verifier(verifierUuid);
+    assertCommit(
+        perVeriferOps.commit(), "Update verifier", info.updatedOn, perVeriferOps.get().refState());
+    assertThat(perVeriferOps.configText())
+        .isEqualTo("[verifier]\n\tname = my-verifier\n\trepository = " + input.repository + "\n");
+  }
+
+  @Test
+  public void cannotSetRepositoryToEmptyString() throws Exception {
+    String verifierUuid = verifierOperations.newVerifier().create();
+
+    VerifierInput verifierInput = new VerifierInput();
+    verifierInput.repository = "";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("repository cannot be unset");
+    gApi.verifiers().id(verifierUuid).update(verifierInput);
+  }
+
+  @Test
+  public void cannotSetRepositoryToStringWhichIsEmptyAfterTrim() throws Exception {
+    String verifierUuid = verifierOperations.newVerifier().create();
+
+    VerifierInput verifierInput = new VerifierInput();
+    verifierInput.repository = " ";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("repository cannot be unset");
+    gApi.verifiers().id(verifierUuid).update(verifierInput);
+  }
+
+  @Test
+  public void cannotSetNonExistingRepository() throws Exception {
+    String verifierUuid = verifierOperations.newVerifier().create();
+
+    VerifierInput verifierInput = new VerifierInput();
+    verifierInput.repository = "non-existing";
+
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("repository non-existing not found");
+    gApi.verifiers().id(verifierUuid).update(verifierInput);
   }
 
   @Test

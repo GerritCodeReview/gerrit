@@ -22,6 +22,7 @@ import com.google.common.base.Preconditions;
 import com.google.gerrit.acceptance.testsuite.verifier.TestVerifierUpdate.Builder;
 import com.google.gerrit.common.errors.NoSuchVerifierException;
 import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -94,7 +95,12 @@ public class VerifierOperationsImpl implements VerifierOperations {
   private VerifierCreation toVerifierCreation(TestVerifierCreation verifierCreation) {
     String verifierUuid = VerifierUuid.make("test-verifier");
     String verifierName = verifierCreation.name().orElse("verifier-with-uuid-" + verifierUuid);
-    return VerifierCreation.builder().setVerifierUuid(verifierUuid).setName(verifierName).build();
+    Project.NameKey repository = verifierCreation.repository().orElse(allProjectsName);
+    return VerifierCreation.builder()
+        .setVerifierUuid(verifierUuid)
+        .setName(verifierName)
+        .setRepository(repository)
+        .build();
   }
 
   private static VerifierUpdate toVerifierUpdate(TestVerifierCreation verifierCreation) {
@@ -102,6 +108,7 @@ public class VerifierOperationsImpl implements VerifierOperations {
     verifierCreation.name().ifPresent(builder::setName);
     verifierCreation.description().ifPresent(builder::setDescription);
     verifierCreation.url().ifPresent(builder::setUrl);
+    verifierCreation.repository().ifPresent(builder::setRepository);
     return builder.build();
   }
 
@@ -138,6 +145,7 @@ public class VerifierOperationsImpl implements VerifierOperations {
           .name(verifier.getName())
           .description(verifier.getDescription())
           .url(verifier.getUrl())
+          .repository(verifier.getRepository())
           .createdOn(verifier.getCreatedOn())
           .updatedOn(verifier.getUpdatedOn())
           .refState(verifier.getRefState())
@@ -204,6 +212,7 @@ public class VerifierOperationsImpl implements VerifierOperations {
       verifierUpdate.name().ifPresent(builder::setName);
       verifierUpdate.description().ifPresent(builder::setDescription);
       verifierUpdate.url().ifPresent(builder::setUrl);
+      verifierUpdate.repository().ifPresent(builder::setRepository);
       return builder.build();
     }
   }

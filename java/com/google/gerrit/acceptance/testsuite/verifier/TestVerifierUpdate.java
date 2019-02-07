@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.testsuite.verifier;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
+import com.google.gerrit.reviewdb.client.Project;
 import java.util.Optional;
 
 @AutoValue
@@ -25,6 +26,8 @@ public abstract class TestVerifierUpdate {
   public abstract Optional<String> description();
 
   public abstract Optional<String> url();
+
+  public abstract Optional<Project.NameKey> repository();
 
   abstract ThrowingConsumer<TestVerifierUpdate> verifierUpdater();
 
@@ -48,6 +51,8 @@ public abstract class TestVerifierUpdate {
     public Builder clearUrl() {
       return url("");
     }
+
+    public abstract Builder repository(Project.NameKey repository);
 
     abstract Builder verifierUpdater(ThrowingConsumer<TestVerifierUpdate> verifierUpdater);
 

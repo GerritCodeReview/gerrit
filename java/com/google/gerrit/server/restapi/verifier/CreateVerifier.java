@@ -21,10 +21,14 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.verifier.Verifier;
 import com.google.gerrit.server.verifier.VerifierCreation;
 import com.google.gerrit.server.verifier.VerifierJson;
@@ -45,15 +49,18 @@ public class CreateVerifier
   private final PermissionBackend permissionBackend;
   private final Provider<VerifiersUpdate> verifiersUpdate;
   private final VerifierJson verifierJson;
+  private final ProjectCache projectCache;
 
   @Inject
   public CreateVerifier(
       PermissionBackend permissionBackend,
       @UserInitiated Provider<VerifiersUpdate> verifiersUpdate,
-      VerifierJson verifierJson) {
+      VerifierJson verifierJson,
+      ProjectCache projectCache) {
     this.permissionBackend = permissionBackend;
     this.verifiersUpdate = verifiersUpdate;
     this.verifierJson = verifierJson;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -70,10 +77,14 @@ public class CreateVerifier
     if (name.isEmpty()) {
       throw new BadRequestException("name is required");
     }
+    Project.NameKey repository = resolveRepository(input.repository);
 
     String verifierUuid = VerifierUuid.make(name);
     VerifierCreation.Builder verifierCreationBuilder =
-        VerifierCreation.builder().setVerifierUuid(verifierUuid).setName(name);
+        VerifierCreation.builder()
+            .setVerifierUuid(verifierUuid)
+            .setName(name)
+            .setRepository(repository);
     VerifierUpdate.Builder verifierUpdateBuilder = VerifierUpdate.builder();
     if (input.description != null && !input.description.trim().isEmpty()) {
       verifierUpdateBuilder.setDescription(input.description.trim());
@@ -86,5 +97,19 @@ public class CreateVerifier
             .get()
             .createVerifier(verifierCreationBuilder.build(), verifierUpdateBuilder.build());
     return Response.created(verifierJson.format(verifier));
+  }
+
+  private Project.NameKey resolveRepository(String repository)
+      throws BadRequestException, UnprocessableEntityException, IOException {
+    if (repository == null || repository.trim().isEmpty()) {
+      throw new BadRequestException("repository is required");
+    }
+
+    ProjectState projectState = projectCache.checkedGet(new Project.NameKey(repository.trim()));
+    if (projectState == null) {
+      throw new UnprocessableEntityException(String.format("repository %s not found", repository));
+    }
+
+    return projectState.getNameKey();
   }
 }

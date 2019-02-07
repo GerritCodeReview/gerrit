@@ -46,6 +46,7 @@ public class DisabledApiIT extends AbstractDaemonTest {
   public void createChecker() throws Exception {
     CheckerInput input = new CheckerInput();
     input.name = "my-checker";
+    input.repository = allProjects.get();
 
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage("checks API is disabled");

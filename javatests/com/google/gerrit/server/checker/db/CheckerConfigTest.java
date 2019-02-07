@@ -58,6 +58,7 @@ public class CheckerConfigTest extends GerritBaseTests {
 
   private final String checkerName = "my-checker";
   private final String checkerUuid = CheckerUuid.make(checkerName);
+  private final Project.NameKey checkerRepository = new Project.NameKey("my-repo");
   private final TimeZone timeZone = TimeZone.getTimeZone("America/Los_Angeles");
 
   @Before
@@ -134,7 +135,11 @@ public class CheckerConfigTest extends GerritBaseTests {
   @Test
   public void descriptionDefaultsToOptionalEmpty() throws Exception {
     CheckerCreation checkerCreation =
-        CheckerCreation.builder().setCheckerUuid(checkerUuid).setName(checkerName).build();
+        CheckerCreation.builder()
+            .setCheckerUuid(checkerUuid)
+            .setName(checkerName)
+            .setRepository(checkerRepository)
+            .build();
     createChecker(checkerCreation);
 
     Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
@@ -166,7 +171,11 @@ public class CheckerConfigTest extends GerritBaseTests {
   @Test
   public void urlDefaultsToOptionalEmpty() throws Exception {
     CheckerCreation checkerCreation =
-        CheckerCreation.builder().setCheckerUuid(checkerUuid).setName(checkerName).build();
+        CheckerCreation.builder()
+            .setCheckerUuid(checkerUuid)
+            .setName(checkerName)
+            .setRepository(checkerRepository)
+            .build();
     createChecker(checkerCreation);
 
     Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
@@ -196,15 +205,50 @@ public class CheckerConfigTest extends GerritBaseTests {
   }
 
   @Test
+  public void specifiedRepositoryIsRespectedForNewChecker() throws Exception {
+    CheckerCreation checkerCreation =
+        getPrefilledCheckerCreationBuilder().setRepository(checkerRepository).build();
+    createChecker(checkerCreation);
+
+    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
+    assertThatChecker(checker).value().hasRepository(checkerRepository);
+  }
+
+  @Test
+  public void repositoryOfCheckerUpdateOverridesCheckerCreation() throws Exception {
+    Project.NameKey anotherRepository = new Project.NameKey("another-repo");
+
+    CheckerCreation checkerCreation =
+        getPrefilledCheckerCreationBuilder().setRepository(checkerRepository).build();
+    CheckerUpdate checkerUpdate = CheckerUpdate.builder().setRepository(anotherRepository).build();
+    createChecker(checkerCreation, checkerUpdate);
+
+    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
+    assertThatChecker(checker).value().hasRepository(anotherRepository);
+  }
+
+  @Test
+  public void repositoryOfNewCheckerMustNotBeEmpty() throws Exception {
+    CheckerCreation checkerCreation =
+        getPrefilledCheckerCreationBuilder().setRepository(new Project.NameKey("")).build();
+    CheckerConfig checkerConfig =
+        CheckerConfig.createForNewChecker(projectName, repository, checkerCreation);
+
+    try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
+      exception.expectCause(instanceOf(ConfigInvalidException.class));
+      exception.expectMessage(
+          String.format("Repository of the checker %s must be defined", checkerUuid));
+      checkerConfig.commit(metaDataUpdate);
+    }
+  }
+
+  @Test
   public void createdOnDefaultsToNow() throws Exception {
     // Git timestamps are only precise to the second.
     Timestamp testStart = TimeUtil.truncateToSecond(TimeUtil.nowTs());
 
-    CheckerCreation checkerCreation =
-        CheckerCreation.builder().setCheckerUuid(checkerUuid).setName(checkerName).build();
-    createChecker(checkerCreation);
-
-    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
+    createArbitraryChecker(checkerUuid);
+    Optional<Checker> checker = loadChecker(checkerUuid);
     assertThatChecker(checker).value().hasCreatedOnThat().isAtLeast(testStart);
   }
 
@@ -242,7 +286,11 @@ public class CheckerConfigTest extends GerritBaseTests {
   @Test
   public void nameCanBeUpdated() throws Exception {
     CheckerCreation checkerCreation =
-        CheckerCreation.builder().setCheckerUuid(checkerUuid).setName(checkerName).build();
+        CheckerCreation.builder()
+            .setCheckerUuid(checkerUuid)
+            .setName(checkerName)
+            .setRepository(checkerRepository)
+            .build();
     createChecker(checkerCreation);
 
     String newName = "new-name";
@@ -312,6 +360,39 @@ public class CheckerConfigTest extends GerritBaseTests {
   }
 
   @Test
+  public void repositoryCanBeUpdated() throws Exception {
+    CheckerCreation checkerCreation =
+        CheckerCreation.builder()
+            .setCheckerUuid(checkerUuid)
+            .setName(checkerName)
+            .setRepository(checkerRepository)
+            .build();
+    createChecker(checkerCreation);
+
+    Project.NameKey newRepository = new Project.NameKey("another-repo");
+    CheckerUpdate checkerUpdate = CheckerUpdate.builder().setRepository(newRepository).build();
+    updateChecker(checkerUuid, checkerUpdate);
+
+    Optional<Checker> checker = loadChecker(checkerUuid);
+    assertThatChecker(checker).value().hasRepository(newRepository);
+
+    assertThatCommitMessage(checkerUuid).isEqualTo("Update checker");
+  }
+
+  @Test
+  public void repositoryCannotBeRemoved() throws Exception {
+    createArbitraryChecker(checkerUuid);
+
+    CheckerUpdate checkerUpdate =
+        CheckerUpdate.builder().setRepository(new Project.NameKey("")).build();
+
+    exception.expect(IOException.class);
+    exception.expectMessage(
+        String.format("Repository of the checker %s must be defined", checkerUuid));
+    updateChecker(checkerUuid, checkerUpdate);
+  }
+
+  @Test
   public void refStateIsCorrectlySet() throws Exception {
     CheckerCreation checkerCreation =
         getPrefilledCheckerCreationBuilder().setCheckerUuid(checkerUuid).build();
@@ -345,7 +426,10 @@ public class CheckerConfigTest extends GerritBaseTests {
   }
 
   private CheckerCreation.Builder getPrefilledCheckerCreationBuilder() {
-    return CheckerCreation.builder().setCheckerUuid(checkerUuid).setName(checkerName);
+    return CheckerCreation.builder()
+        .setCheckerUuid(checkerUuid)
+        .setName(checkerName)
+        .setRepository(checkerRepository);
   }
 
   private Optional<Checker> createChecker(CheckerCreation checkerCreation) throws Exception {

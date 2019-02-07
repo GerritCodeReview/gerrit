@@ -64,7 +64,9 @@ limitations under the License.
           });
         },
         send(method, url, payload) {
-          if (method !== 'POST') { return Promise.reject('bad method'); }
+          if (method !== 'POST') {
+            return Promise.reject(new Error('bad method'));
+          }
 
           if (url === '/changes/test~42/revisions/2/submit') {
             return Promise.resolve({
@@ -78,7 +80,7 @@ limitations under the License.
             });
           }
 
-          return Promise.reject('bad url');
+          return Promise.reject(new Error('bad url'));
         },
         getProjectConfig() { return Promise.resolve({}); },
       });

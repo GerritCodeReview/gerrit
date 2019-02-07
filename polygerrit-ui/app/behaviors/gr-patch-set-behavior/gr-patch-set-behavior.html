@@ -232,7 +232,8 @@ limitations under the License.
       return restAPI.getChangeDetail(change._number)
           .then(detail => {
             if (!detail) {
-              return Promise.reject('Unable to check for latest patchset.');
+              const error = new Error('Unable to check for latest patchset.');
+              return Promise.reject(error);
             }
             const actualLatest = Gerrit.PatchSetBehavior.computeLatestPatchNum(
                 Gerrit.PatchSetBehavior.computeAllPatchSets(detail));

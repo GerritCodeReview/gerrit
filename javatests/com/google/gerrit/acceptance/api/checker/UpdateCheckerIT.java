@@ -68,11 +68,13 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
     CheckerInput input = new CheckerInput();
     input.name = "my-renamed-checker";
     input.description = "A description.";
+    input.url = "http://example.com/my-checker";
 
     CheckerInfo info = gApi.checkers().id(checkerUuid).update(input);
     assertThat(info.uuid).isEqualTo(checkerUuid);
     assertThat(info.name).isEqualTo(input.name);
     assertThat(info.description).isEqualTo(input.description);
+    assertThat(info.url).isEqualTo(input.url);
     assertThat(info.createdOn).isEqualTo(checker.createdOn());
     assertThat(info.createdOn).isLessThan(info.updatedOn);
 
@@ -83,7 +85,11 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
         info.updatedOn,
         perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-renamed-checker\n\tdescription = A description.\n");
+        .isEqualTo(
+            "[checker]\n"
+                + "\tname = my-renamed-checker\n"
+                + "\tdescription = A description.\n"
+                + "\turl = http://example.com/my-checker\n");
   }
 
   @Test
@@ -217,6 +223,94 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
         .isEqualTo("[checker]\n\tname = my-checker\n\tdescription = A description.\n");
+  }
+
+  @Test
+  public void addCheckerUrl() throws Exception {
+    String checkerUuid = checkerOperations.newChecker().name("my-checker").create();
+
+    CheckerInput input = new CheckerInput();
+    input.url = "http://example.com/my-checker";
+
+    CheckerInfo info = gApi.checkers().id(checkerUuid).update(input);
+    assertThat(info.url).isEqualTo(input.url);
+
+    PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
+    assertCommit(
+        perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
+    assertThat(perCheckerOps.configText())
+        .isEqualTo("[checker]\n\tname = my-checker\n\turl = http://example.com/my-checker\n");
+  }
+
+  @Test
+  public void updateCheckerUrl() throws Exception {
+    String checkerUuid =
+        checkerOperations
+            .newChecker()
+            .name("my-checker")
+            .url("http://example.com/my-checker")
+            .create();
+
+    CheckerInput input = new CheckerInput();
+    input.url = "http://example.com/my-checker-foo";
+
+    CheckerInfo info = gApi.checkers().id(checkerUuid).update(input);
+    assertThat(info.url).isEqualTo(input.url);
+
+    PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
+    assertCommit(
+        perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
+    assertThat(perCheckerOps.configText())
+        .isEqualTo("[checker]\n\tname = my-checker\n\turl = http://example.com/my-checker-foo\n");
+  }
+
+  @Test
+  public void unsetCheckerUrl() throws Exception {
+    String checkerUuid =
+        checkerOperations
+            .newChecker()
+            .name("my-checker")
+            .url("http://example.com/my-checker")
+            .create();
+
+    CheckerInput checkerInput = new CheckerInput();
+    checkerInput.url = "";
+
+    CheckerInfo info = gApi.checkers().id(checkerUuid).update(checkerInput);
+    assertThat(info.url).isNull();
+
+    PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
+    assertCommit(
+        perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
+    assertThat(perCheckerOps.configText()).isEqualTo("[checker]\n\tname = my-checker\n");
+  }
+
+  @Test
+  public void checkerUrlIsTrimmed() throws Exception {
+    String checkerUuid = checkerOperations.newChecker().name("my-checker").create();
+
+    CheckerInput input = new CheckerInput();
+    input.url = " http://example.com/my-checker ";
+
+    CheckerInfo info = gApi.checkers().id(checkerUuid).update(input);
+    assertThat(info.url).isEqualTo("http://example.com/my-checker");
+
+    PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
+    assertCommit(
+        perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
+    assertThat(perCheckerOps.configText())
+        .isEqualTo("[checker]\n\tname = my-checker\n\turl = http://example.com/my-checker\n");
+  }
+
+  @Test
+  public void cannotSetUrlToInvalidUrl() throws Exception {
+    String checkerUuid = checkerOperations.newChecker().name("my-checker").create();
+
+    CheckerInput input = new CheckerInput();
+    input.url = "ftp://example.com/my-checker";
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("only http/https URLs supported: ftp://example.com/my-checker");
+    gApi.checkers().id(checkerUuid).update(input);
   }
 
   @Test

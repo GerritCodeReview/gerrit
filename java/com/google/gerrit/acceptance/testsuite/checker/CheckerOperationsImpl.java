@@ -18,9 +18,11 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.acceptance.testsuite.checker.TestCheckerUpdate.Builder;
 import com.google.gerrit.common.errors.NoSuchCheckerException;
+import com.google.gerrit.extensions.api.checkers.CheckerInfo;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.checker.Checker;
 import com.google.gerrit.server.checker.CheckerCreation;
+import com.google.gerrit.server.checker.CheckerJson;
 import com.google.gerrit.server.checker.CheckerUpdate;
 import com.google.gerrit.server.checker.CheckerUuid;
 import com.google.gerrit.server.checker.Checkers;
@@ -50,17 +52,20 @@ public class CheckerOperationsImpl implements CheckerOperations {
   private final CheckersUpdate checkersUpdate;
   private final GitRepositoryManager repoManager;
   private final AllProjectsName allProjectsName;
+  private final CheckerJson checkerJson;
 
   @Inject
   public CheckerOperationsImpl(
       Checkers checkers,
       @ServerInitiated CheckersUpdate checkersUpdate,
       GitRepositoryManager repoManager,
-      AllProjectsName allProjectsName) {
+      AllProjectsName allProjectsName,
+      CheckerJson checkerJson) {
     this.checkers = checkers;
     this.checkersUpdate = checkersUpdate;
     this.repoManager = repoManager;
     this.allProjectsName = allProjectsName;
+    this.checkerJson = checkerJson;
   }
 
   @Override
@@ -158,6 +163,13 @@ public class CheckerOperationsImpl implements CheckerOperations {
                 null, repo, checker.get().getRefState(), CheckerConfig.CHECKER_CONFIG_FILE)
             .toText();
       }
+    }
+
+    @Override
+    public CheckerInfo asInfo() {
+      Optional<Checker> checker = getChecker(checkerUuid);
+      checkState(checker.isPresent(), "Tried to get a non-existing test checker as CheckerInfo");
+      return checkerJson.format(checker.get());
     }
 
     public Builder forUpdate() {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.testsuite.checker;
 
+import com.google.gerrit.extensions.api.checkers.CheckerInfo;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -100,6 +101,15 @@ public interface CheckerOperations {
      * @throws ConfigInvalidException if the checker config is invalid
      */
     String configText() throws IOException, ConfigInvalidException;
+
+    /**
+     * Returns this checker as {@link CheckerInfo}.
+     *
+     * <p><strong>Note:</strong>This call will fail with an exception if the checker doesn't exist.
+     *
+     * @return this checker as {@link CheckerInfo}
+     */
+    CheckerInfo asInfo();
 
     /**
      * Starts the fluent chain to update a checker. The returned builder can be used to specify how

@@ -23,6 +23,7 @@ import com.google.gerrit.plugins.checkers.Checker;
 import com.google.gerrit.plugins.checkers.CheckerJson;
 import com.google.gerrit.plugins.checkers.CheckerName;
 import com.google.gerrit.plugins.checkers.CheckerUpdate;
+import com.google.gerrit.plugins.checkers.CheckerUrl;
 import com.google.gerrit.plugins.checkers.CheckersUpdate;
 import com.google.gerrit.plugins.checkers.NoSuchCheckerException;
 import com.google.gerrit.server.UserInitiated;
@@ -72,6 +73,10 @@ public class UpdateChecker implements RestModifyView<CheckerResource, CheckerInp
 
     if (input.description != null) {
       checkerUpdateBuilder.setDescription(Strings.nullToEmpty(input.description).trim());
+    }
+
+    if (input.url != null) {
+      checkerUpdateBuilder.setUrl(CheckerUrl.clean(input.url));
     }
 
     Checker updatedChecker =

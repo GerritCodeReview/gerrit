@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.checker;
 
+import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -38,4 +39,14 @@ public interface Checkers {
    * @throws ConfigInvalidException if the checker in the storage is invalid
    */
   Optional<Checker> getChecker(String checkerUuid) throws IOException, ConfigInvalidException;
+
+  /**
+   * Returns a list with all checkers.
+   *
+   * <p>Checkers with invalid configuration are silently ignored.
+   *
+   * @return all checkers, sorted by UUID
+   * @throws IOException if any checker couldn't be retrieved from the storage
+   */
+  ImmutableList<Checker> listCheckers() throws IOException;
 }

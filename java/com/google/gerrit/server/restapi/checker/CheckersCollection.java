@@ -40,6 +40,7 @@ public class CheckersCollection implements RestCollection<TopLevelResource, Chec
   private final Provider<CurrentUser> self;
   private final GlobalCheckerConfig globalCheckerConfig;
   private final PermissionBackend permissionBackend;
+  private final ListCheckers listCheckers;
   private final Checkers checkers;
   private final DynamicMap<RestView<CheckerResource>> views;
 
@@ -48,21 +49,20 @@ public class CheckersCollection implements RestCollection<TopLevelResource, Chec
       Provider<CurrentUser> self,
       GlobalCheckerConfig globalCheckerConfig,
       PermissionBackend permissionBackend,
+      ListCheckers listCheckers,
       Checkers checkers,
       DynamicMap<RestView<CheckerResource>> views) {
     this.self = self;
     this.globalCheckerConfig = globalCheckerConfig;
     this.permissionBackend = permissionBackend;
+    this.listCheckers = listCheckers;
     this.checkers = checkers;
     this.views = views;
   }
 
   @Override
   public RestView<TopLevelResource> list() throws RestApiException {
-    globalCheckerConfig.checkThatApiIsEnabled();
-
-    // TODO(ekempin): implement this
-    throw new ResourceNotFoundException();
+    return listCheckers;
   }
 
   @Override

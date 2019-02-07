@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.server.account;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.server.account.AccountResolver.InputFormat.NAME_OR_EMAIL;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
@@ -333,6 +334,8 @@ public class AccountResolverIT extends AbstractDaemonTest {
     assertThat(resolve("doe")).containsExactly(id2);
   }
 
+  // TODO(dborowitz): Tests for ACCOUNT_ID
+
   private ImmutableSet<Account.Id> resolve(Object input) throws Exception {
     return resolveAsResult(input).asIdSet();
   }
@@ -343,7 +346,7 @@ public class AccountResolverIT extends AbstractDaemonTest {
 
   @SuppressWarnings("deprecation")
   private ImmutableSet<Account.Id> resolveByNameOrEmail(Object input) throws Exception {
-    return accountResolver.resolveByNameOrEmail(input.toString()).asIdSet();
+    return accountResolver.resolve(input.toString(), NAME_OR_EMAIL).asIdSet();
   }
 
   private void setPreferredEmailBypassingUniquenessCheck(Account.Id id, String email)

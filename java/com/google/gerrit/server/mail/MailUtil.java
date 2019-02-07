@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
+import static com.google.gerrit.server.account.AccountResolver.InputFormat.NAME_OR_EMAIL;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
@@ -62,7 +63,7 @@ public class MailUtil {
   @SuppressWarnings("deprecation")
   private static Account.Id toAccountId(AccountResolver accountResolver, String nameOrEmail)
       throws UnprocessableEntityException, IOException, ConfigInvalidException {
-    return accountResolver.resolveByNameOrEmail(nameOrEmail).asUnique().getAccount().getId();
+    return accountResolver.resolve(nameOrEmail, NAME_OR_EMAIL).asUnique().getAccount().getId();
   }
 
   private static boolean isReviewer(FooterLine candidateFooterLine) {

@@ -32,6 +32,13 @@ public abstract class CheckerUpdate {
   public abstract Optional<String> getDescription();
 
   /**
+   * Defines the new URL of the checker. If not specified, the URL remains unchanged.
+   *
+   * <p><strong>Note: </strong>Passing the empty string unsets the URL.
+   */
+  public abstract Optional<String> getUrl();
+
+  /**
    * Defines the {@code Timestamp} to be used for the NoteDb commits of the update. If not
    * specified, the current {@code Timestamp} when creating the commit will be used.
    *
@@ -52,6 +59,8 @@ public abstract class CheckerUpdate {
     public abstract Builder setName(String name);
 
     public abstract Builder setDescription(String description);
+
+    public abstract Builder setUrl(String url);
 
     public abstract Builder setUpdatedOn(Timestamp timestamp);
 

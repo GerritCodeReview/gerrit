@@ -90,6 +90,7 @@ public class CheckerOperationsImpl implements CheckerOperations {
     CheckerUpdate.Builder builder = CheckerUpdate.builder();
     checkerCreation.name().ifPresent(builder::setName);
     checkerCreation.description().ifPresent(builder::setDescription);
+    checkerCreation.url().ifPresent(builder::setUrl);
     return builder.build();
   }
 
@@ -125,6 +126,7 @@ public class CheckerOperationsImpl implements CheckerOperations {
           .uuid(checker.getUuid())
           .name(checker.getName())
           .description(checker.getDescription())
+          .url(checker.getUrl())
           .createdOn(checker.getCreatedOn())
           .updatedOn(checker.getUpdatedOn())
           .refState(checker.getRefState())
@@ -171,6 +173,7 @@ public class CheckerOperationsImpl implements CheckerOperations {
       CheckerUpdate.Builder builder = CheckerUpdate.builder();
       checkerUpdate.name().ifPresent(builder::setName);
       checkerUpdate.description().ifPresent(builder::setDescription);
+      checkerUpdate.url().ifPresent(builder::setUrl);
       return builder.build();
     }
   }

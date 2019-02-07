@@ -34,6 +34,7 @@ public interface CheckerApi {
    *   <li>{@code name}: Cannot be unset. Attempting to set it to an empty string ("") or a string
    *       that is empty after trim is rejected as bad request.
    *   <li>{@code description}: Can be unset by setting an empty string ("") for it.
+   *   <li>{@code url}: Can be unset by setting an empty string ("") for it.
    * </ul>
    *
    * @param input input with updated properties

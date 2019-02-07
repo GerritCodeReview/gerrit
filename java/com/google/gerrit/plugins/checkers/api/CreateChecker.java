@@ -25,6 +25,7 @@ import com.google.gerrit.plugins.checkers.CheckerCreation;
 import com.google.gerrit.plugins.checkers.CheckerJson;
 import com.google.gerrit.plugins.checkers.CheckerName;
 import com.google.gerrit.plugins.checkers.CheckerUpdate;
+import com.google.gerrit.plugins.checkers.CheckerUrl;
 import com.google.gerrit.plugins.checkers.CheckerUuid;
 import com.google.gerrit.plugins.checkers.CheckersUpdate;
 import com.google.gerrit.server.UserInitiated;
@@ -78,6 +79,9 @@ public class CreateChecker
     CheckerUpdate.Builder checkerUpdateBuilder = CheckerUpdate.builder();
     if (input.description != null && !input.description.trim().isEmpty()) {
       checkerUpdateBuilder.setDescription(input.description.trim());
+    }
+    if (input.url != null) {
+      checkerUpdateBuilder.setUrl(CheckerUrl.clean(input.url));
     }
     Checker checker =
         checkersUpdate

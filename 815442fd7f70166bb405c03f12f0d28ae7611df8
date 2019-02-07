@@ -16,6 +16,24 @@
       "revId": "815442fd7f70166bb405c03f12f0d28ae7611df8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42dea5f5_db98ae46",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-07T08:32:46Z",
+      "side": 1,
+      "message": "Ideally, yes, but then when adding each of the parts below, we need to first check if something was already appended, which adds more complication.",
+      "parentUuid": "bcb1da67_d88ea6be",
+      "revId": "815442fd7f70166bb405c03f12f0d28ae7611df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

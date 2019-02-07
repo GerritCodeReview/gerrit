@@ -52,6 +52,24 @@
       "revId": "815442fd7f70166bb405c03f12f0d28ae7611df8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79c9eba1_e236d3e2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-07T08:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e0d74ab_3f2f8872",
+      "revId": "815442fd7f70166bb405c03f12f0d28ae7611df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

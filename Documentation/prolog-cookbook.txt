@@ -1044,10 +1044,7 @@ submit_rule(submit(R)) :-
     gerrit:uploader(U),
     R = label('Is-Pure-Revert', ok(U)).
 
-submit_rule(submit(R)) :-
-    gerrit:pure_revert(U),
-    U /= 1,
-    R = label('Is-Pure-Revert', need(_)).
+submit_rule(submit(label('Is-Pure-Revert', need(_)))).
 ----
 
 Suppose currently a change is submittable if it gets `+2` for `Code-Review`
@@ -1058,21 +1055,20 @@ follows:
 [source,prolog]
 ----
 submit_rule(submit(CR, V, R)) :-
-    base(CR, V),
-    gerrit:pure_revert(1),
-    !,
-    gerrit:uploader(U),
-    R = label('Is-Pure-Revert', ok(U)).
-
-submit_rule(submit(CR, V, R)) :-
-    base(CR, V),
-    gerrit:pure_revert(U),
-    U /= 1,
-    R = label('Is-Pure-Revert', need(_)).
+  base(CR, V),
+  set_pure_revert_label(R).
 
 base(CR, V) :-
-    gerrit:max_with_block(-2, 2, 'Code-Review', CR),
-    gerrit:max_with_block(-1, 1, 'Verified', V).
+  gerrit:max_with_block(-2, 2, 'Code-Review', CR),
+  gerrit:max_with_block(-1, 1, 'Verified', V).
+
+set_pure_revert_label(R) :-
+  gerrit:pure_revert(1),
+  !,
+  gerrit:uploader(U),
+  R = label('Is-Pure-Revert', ok(U)).
+
+set_pure_revert_label(label('Is-Pure-Revert', need(_))).
 ----
 
 Note that a new label as `Is-Pure-Revert` should not be configured.

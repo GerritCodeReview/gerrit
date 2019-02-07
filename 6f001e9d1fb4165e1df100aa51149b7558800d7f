@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7863080b_380550a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-07T21:28:27Z",
+      "side": 1,
+      "message": "What about ElasticSearch? Are you planning to apply the same logic on ElasticProjectIndex?\n\nIt\u0027s currently still based on projectCache.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "6f001e9d1fb4165e1df100aa51149b7558800d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faf1abcd_c0640652",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-07T21:28:27Z",
+      "side": 1,
+      "message": "a project",
+      "range": {
+        "startLine": 11,
+        "startChar": 49,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "6f001e9d1fb4165e1df100aa51149b7558800d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b49d4ccb_f17eb4f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-07T21:28:27Z",
+      "side": 1,
+      "message": "it",
+      "range": {
+        "startLine": 13,
+        "startChar": 42,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "6f001e9d1fb4165e1df100aa51149b7558800d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b97b2c6_e075f72d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-07T21:28:27Z",
+      "side": 1,
+      "message": "remove the \u0027,\u0027",
+      "range": {
+        "startLine": 15,
+        "startChar": 12,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "6f001e9d1fb4165e1df100aa51149b7558800d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b6a30c1_2c249d24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-07T21:28:27Z",
+      "side": 1,
+      "message": "allocate",
+      "revId": "6f001e9d1fb4165e1df100aa51149b7558800d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b66a9fa_932aee52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-07T21:28:27Z",
+      "side": 1,
+      "message": "This change does not",
+      "range": {
+        "startLine": 18,
+        "startChar": 52,
+        "endLine": 18,
+        "endChar": 66
+      },
+      "revId": "6f001e9d1fb4165e1df100aa51149b7558800d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "990fbeba_40cc113c",
+        "filename": "java/com/google/gerrit/lucene/LuceneProjectIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-07T21:28:27Z",
+      "side": 1,
+      "message": "This pattern is repeated already three times, why not introducing an helper method that returns an optional?\n\nOptional.ifPresent() would do the job of avoiding the if(x !\u003d null) {}",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 5
+      },
+      "revId": "6f001e9d1fb4165e1df100aa51149b7558800d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5ec71be_87c7a679",
+        "filename": "java/com/google/gerrit/lucene/LuceneProjectIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-07T21:28:27Z",
+      "side": 1,
+      "message": "I believe this is lowercase isn\u0027t it?",
+      "revId": "6f001e9d1fb4165e1df100aa51149b7558800d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fe2d487_4824fcfb",
+        "filename": "java/com/google/gerrit/lucene/LuceneProjectIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-07T21:28:27Z",
+      "side": 1,
+      "message": "This could be dangerous because the Project object included is largely incomplete.\n\nSee below the fields that are not populated and thus would be invalid:\n- maxObjectSizeLimit\n- booleanConfigs\n- configuredSubmitType\n- defaultDashboard\n- themeName\n- configRefState\n\nIn the context of the project listing REST-API as it is today, the above fields are not used and not rendered.\n\nHowever, this change is done deeply inside the way the results are returned and it could be used in different ways.\n\nWhy don\u0027t we introduce a \"detail flag\" so that we still use the projectCache but ONLY if full detail is requested?",
+      "range": {
+        "startLine": 157,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 10
+      },
+      "revId": "6f001e9d1fb4165e1df100aa51149b7558800d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5adf6808_240ddebb",
+        "filename": "java/com/google/gerrit/lucene/LuceneProjectIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-07T21:28:27Z",
+      "side": 1,
+      "message": "This can be rewritten as:\n  Optional.ofNullable(p.getParent())\n    .map(parent -\u003e new ProjectDate(new Project(parent), Optional.empty()))",
+      "range": {
+        "startLine": 158,
+        "startChar": 8,
+        "endLine": 160,
+        "endChar": 88
+      },
+      "revId": "6f001e9d1fb4165e1df100aa51149b7558800d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -23,10 +23,12 @@ import com.google.gerrit.server.audit.group.GroupMemberAuditEvent;
 import com.google.gerrit.server.audit.group.GroupSubgroupAuditEvent;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.inject.ImplementedBy;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
 
+@ImplementedBy(AuditServiceImpl.class)
 @Singleton
 public class AuditService implements GroupAuditService {
   private final PluginSetContext<AuditListener> auditListeners;

@@ -67,6 +67,7 @@ public class CreateCheckerIT extends AbstractDaemonTest {
     assertThat(info.uuid).isNotNull();
     assertThat(info.name).isEqualTo(input.name);
     assertThat(info.description).isNull();
+    assertThat(info.url).isNull();
     assertThat(info.createdOn).isNotNull();
     assertThat(info.updatedOn).isEqualTo(info.createdOn);
 
@@ -89,6 +90,22 @@ public class CreateCheckerIT extends AbstractDaemonTest {
         perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
         .isEqualTo("[checker]\n\tname = my-checker\n\tdescription = some description\n");
+  }
+
+  @Test
+  public void createCheckerWithUrl() throws Exception {
+    CheckerInput input = new CheckerInput();
+    input.name = "my-checker";
+    input.url = "http://example.com/my-checker";
+    CheckerInfo info = gApi.checkers().create(input).get();
+    assertThat(info.url).isEqualTo(input.url);
+
+    PerCheckerOperations perCheckerOps = checkerOperations.checker(info.uuid);
+    assertCommit(
+        perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
+    assertThat(perCheckerOps.configText())
+        .isEqualTo(
+            "[checker]\n" + "\tname = my-checker\n" + "\turl = http://example.com/my-checker\n");
   }
 
   @Test
@@ -117,6 +134,22 @@ public class CreateCheckerIT extends AbstractDaemonTest {
         perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
         .isEqualTo("[checker]\n\tname = my-checker\n\tdescription = some description\n");
+  }
+
+  @Test
+  public void createCheckerUrlIsTrimmed() throws Exception {
+    CheckerInput input = new CheckerInput();
+    input.name = "my-checker";
+    input.url = " http://example.com/my-checker ";
+    CheckerInfo info = gApi.checkers().create(input).get();
+    assertThat(info.url).isEqualTo("http://example.com/my-checker");
+
+    PerCheckerOperations perCheckerOps = checkerOperations.checker(info.uuid);
+    assertCommit(
+        perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
+    assertThat(perCheckerOps.configText())
+        .isEqualTo(
+            "[checker]\n" + "\tname = my-checker\n" + "\turl = http://example.com/my-checker\n");
   }
 
   @Test

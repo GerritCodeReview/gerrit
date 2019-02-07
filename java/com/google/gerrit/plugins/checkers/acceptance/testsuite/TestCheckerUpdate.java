@@ -24,6 +24,8 @@ public abstract class TestCheckerUpdate {
 
   public abstract Optional<String> description();
 
+  public abstract Optional<String> url();
+
   abstract ThrowingConsumer<TestCheckerUpdate> checkerUpdater();
 
   public static Builder builder(ThrowingConsumer<TestCheckerUpdate> checkerUpdater) {
@@ -39,6 +41,12 @@ public abstract class TestCheckerUpdate {
 
     public Builder clearDescription() {
       return description("");
+    }
+
+    public abstract Builder url(String url);
+
+    public Builder clearUrl() {
+      return url("");
     }
 
     abstract Builder checkerUpdater(ThrowingConsumer<TestCheckerUpdate> checkerUpdater);

@@ -25,6 +25,8 @@ public abstract class TestCheckerCreation {
 
   public abstract Optional<String> description();
 
+  public abstract Optional<String> url();
+
   abstract ThrowingFunction<TestCheckerCreation, String> checkerCreator();
 
   public static Builder builder(ThrowingFunction<TestCheckerCreation, String> checkerCreator) {
@@ -40,6 +42,12 @@ public abstract class TestCheckerCreation {
 
     public Builder clearDescription() {
       return description("");
+    }
+
+    public abstract Builder url(String url);
+
+    public Builder clearUrl() {
+      return url("");
     }
 
     abstract Builder checkerCreator(ThrowingFunction<TestCheckerCreation, String> checkerCreator);

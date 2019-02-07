@@ -109,6 +109,7 @@ Unsetting properties:
    or a string that is empty after trim is rejected as
    `400 Bad Request`.
 * `description`: Can be unset by setting an empty string ("") for it.
+* `url`: Can be unset by setting an empty string ("") for it.
 
 Note that only users with the
 link:access-control.html#capability_administrateCheckers[Administrate
@@ -173,6 +174,8 @@ encoded for REST calls.
 The name of the checker, may not be unique.
 |`description`   |optional|
 The description of the checker.
+|`url`           |optional|
+The URL of the checker.
 |`created_on`    ||
 The link:rest-api.html#timestamp[timestamp] of when the checker was
 created.
@@ -192,6 +195,8 @@ The `CheckerInput` entity contains information for creating a checker.
 The name of the checker. Must be specified for checker creation.
 |`description`   |optional|
 The description of the checker.
+|`url`           |optional|
+The URL of the checker.
 |=============================
 
 GERRIT

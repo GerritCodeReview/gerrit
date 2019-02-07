@@ -63,4 +63,11 @@ public class DisabledApiIT extends AbstractDaemonTest {
     exception.expectMessage("checks API is disabled");
     gApi.checkers().id(uuid).update(input);
   }
+
+  @Test
+  public void listCheckers() throws Exception {
+    exception.expect(MethodNotAllowedException.class);
+    exception.expectMessage("checks API is disabled");
+    gApi.checkers().all();
+  }
 }

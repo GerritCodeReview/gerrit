@@ -14,6 +14,12 @@
 
 package com.google.gerrit.server.checker.db;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.checker.Checker;
 import com.google.gerrit.server.checker.CheckerUuid;
 import com.google.gerrit.server.checker.Checkers;
@@ -22,13 +28,17 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 /** Class to read checkers from NoteDb. */
 @Singleton
 class NoteDbCheckers implements Checkers {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final GitRepositoryManager repoManager;
   private final AllProjectsName allProjectsName;
 
@@ -49,6 +59,33 @@ class NoteDbCheckers implements Checkers {
       CheckerConfig checkerConfig =
           CheckerConfig.loadForChecker(allProjectsName, allProjectsRepo, checkerUuid);
       return checkerConfig.getLoadedChecker();
+    }
+  }
+
+  @Override
+  public ImmutableList<Checker> listCheckers() throws IOException {
+    try (Repository allProjectsRepo = repoManager.openRepository(allProjectsName)) {
+      List<Ref> checkerRefs =
+          allProjectsRepo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHECKERS);
+      ImmutableList<String> sortedCheckerUuids =
+          checkerRefs
+              .stream()
+              .map(CheckerUuid::fromRef)
+              .flatMap(Streams::stream)
+              .sorted()
+              .collect(toImmutableList());
+      ImmutableList.Builder<Checker> sortedCheckers = ImmutableList.builder();
+      for (String checkerUuid : sortedCheckerUuids) {
+        try {
+          CheckerConfig checkerConfig =
+              CheckerConfig.loadForChecker(allProjectsName, allProjectsRepo, checkerUuid);
+          checkerConfig.getLoadedChecker().ifPresent(sortedCheckers::add);
+        } catch (ConfigInvalidException e) {
+          logger.atWarning().withCause(e).log(
+              "Ignore invalid checker %s on listing checkers", checkerUuid);
+        }
+      }
+      return sortedCheckers.build();
     }
   }
 }

@@ -98,6 +98,30 @@
     },
     {
       "key": {
+        "uuid": "d4329009_088a2845",
+        "filename": "java/com/google/gerrit/extensions/client/ProjectState.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-07T22:09:31Z",
+      "side": 1,
+      "message": "Nullable can\u0027t be used in this package. Let me see if I can manage to get rid of the queryValue altogether.",
+      "parentUuid": "346f764e_ffb31155",
+      "range": {
+        "startLine": 32,
+        "startChar": 58,
+        "endLine": 32,
+        "endChar": 75
+      },
+      "revId": "48e62a783664f74cda256fba5f92610a9e21bb27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2fa7ffdf_7bb3d71a",
         "filename": "java/com/google/gerrit/extensions/client/ProjectState.java",
         "patchSetId": 22

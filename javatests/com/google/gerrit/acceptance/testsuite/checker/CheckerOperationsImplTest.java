@@ -283,6 +283,25 @@ public class CheckerOperationsImplTest extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void asInfo() throws Exception {
+    String checkerUuid =
+        checkerOperations
+            .newChecker()
+            .name("my-checker")
+            .description("A description.")
+            .url("http://example.com/my-checker")
+            .create();
+    TestChecker checker = checkerOperations.checker(checkerUuid).get();
+    CheckerInfo checkerInfo = checkerOperations.checker(checkerUuid).asInfo();
+    assertThat(checkerInfo.uuid).isEqualTo(checker.uuid());
+    assertThat(checkerInfo.name).isEqualTo(checker.name());
+    assertThat(checkerInfo.description).isEqualTo(checker.description().get());
+    assertThat(checkerInfo.url).isEqualTo(checker.url().get());
+    assertThat(checkerInfo.createdOn).isEqualTo(checker.createdOn());
+    assertThat(checkerInfo.updatedOn).isEqualTo(checker.updatedOn());
+  }
+
   private CheckerInput createArbitraryCheckerInput() {
     CheckerInput checkerInput = new CheckerInput();
     checkerInput.name = name("test-checker");

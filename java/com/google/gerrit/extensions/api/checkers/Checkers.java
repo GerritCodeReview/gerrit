@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.api.checkers;
 
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import java.util.List;
 
 public interface Checkers {
   /**
@@ -35,6 +36,9 @@ public interface Checkers {
   /** Create a new checker. */
   CheckerApi create(CheckerInput input) throws RestApiException;
 
+  /** Returns a list of all checkers, sorted by UUID. */
+  List<CheckerInfo> all() throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -47,6 +51,11 @@ public interface Checkers {
 
     @Override
     public CheckerApi create(CheckerInput input) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<CheckerInfo> all() throws RestApiException {
       throw new NotImplementedException();
     }
   }

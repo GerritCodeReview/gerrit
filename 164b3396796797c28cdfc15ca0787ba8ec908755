@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dd3b53a7_92ac0e1b",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-07T13:33:13Z",
+      "side": 1,
+      "message": "It refers to\n\n      .gr-syntax-attribute {\n        color: var(--syntax-attribute-color);\n      }\n\nfrom gr-syntax-theme.html (which i added in this change).",
+      "parentUuid": "f630758c_3200d4ba",
+      "revId": "164b3396796797c28cdfc15ca0787ba8ec908755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34ea07b1_668ffea6",
         "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
         "patchSetId": 13
@@ -33,6 +51,24 @@
       "revId": "164b3396796797c28cdfc15ca0787ba8ec908755",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7848433e_8ffdc93c",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-07T13:33:13Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "34ea07b1_668ffea6",
+      "revId": "164b3396796797c28cdfc15ca0787ba8ec908755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "164b3396796797c28cdfc15ca0787ba8ec908755",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eab55a05_eb702df3",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-07T13:33:13Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "a7adfc48_eceac93e",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 29
+      },
+      "revId": "164b3396796797c28cdfc15ca0787ba8ec908755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

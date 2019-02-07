@@ -54,6 +54,12 @@ public class CheckerSubject extends Subject<CheckerSubject, Checker> {
         .named("description");
   }
 
+  public OptionalSubject<StringSubject, String> hasUrlThat() {
+    isNotNull();
+    Checker checker = actual();
+    return OptionalSubject.assertThat(checker.getUrl(), Truth::assertThat).named("url");
+  }
+
   public ComparableSubject<?, Timestamp> hasCreatedOnThat() {
     isNotNull();
     Checker checker = actual();

@@ -51,6 +51,15 @@ public abstract class Verifier {
   public abstract Optional<String> getDescription();
 
   /**
+   * Returns the URL of the verifier.
+   *
+   * <p>Verifiers may not have a URL, in this case {@link Optional#empty()} is returned.
+   *
+   * @return the URL of the verifier
+   */
+  public abstract Optional<String> getUrl();
+
+  /**
    * Returns the creation timestamp of the verifier.
    *
    * @return the creation timestamp
@@ -85,6 +94,8 @@ public abstract class Verifier {
     public abstract Builder setName(String name);
 
     public abstract Builder setDescription(String description);
+
+    public abstract Builder setUrl(String url);
 
     public abstract Builder setCreatedOn(Timestamp createdOn);
 

@@ -91,6 +91,7 @@ public class VerifierOperationsImpl implements VerifierOperations {
     VerifierUpdate.Builder builder = VerifierUpdate.builder();
     verifierCreation.name().ifPresent(builder::setName);
     verifierCreation.description().ifPresent(builder::setDescription);
+    verifierCreation.url().ifPresent(builder::setUrl);
     return builder.build();
   }
 
@@ -126,6 +127,7 @@ public class VerifierOperationsImpl implements VerifierOperations {
           .uuid(verifier.getUuid())
           .name(verifier.getName())
           .description(verifier.getDescription())
+          .url(verifier.getUrl())
           .createdOn(verifier.getCreatedOn())
           .updatedOn(verifier.getUpdatedOn())
           .refState(verifier.getRefState())
@@ -172,6 +174,7 @@ public class VerifierOperationsImpl implements VerifierOperations {
       VerifierUpdate.Builder builder = VerifierUpdate.builder();
       verifierUpdate.name().ifPresent(builder::setName);
       verifierUpdate.description().ifPresent(builder::setDescription);
+      verifierUpdate.url().ifPresent(builder::setUrl);
       return builder.build();
     }
   }

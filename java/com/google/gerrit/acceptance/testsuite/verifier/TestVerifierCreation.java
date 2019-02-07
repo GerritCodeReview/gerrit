@@ -25,6 +25,8 @@ public abstract class TestVerifierCreation {
 
   public abstract Optional<String> description();
 
+  public abstract Optional<String> url();
+
   abstract ThrowingFunction<TestVerifierCreation, String> verifierCreator();
 
   public static Builder builder(ThrowingFunction<TestVerifierCreation, String> verifierCreator) {
@@ -40,6 +42,12 @@ public abstract class TestVerifierCreation {
 
     public Builder clearDescription() {
       return description("");
+    }
+
+    public abstract Builder url(String url);
+
+    public Builder clearUrl() {
+      return url("");
     }
 
     abstract Builder verifierCreator(

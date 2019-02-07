@@ -51,10 +51,7 @@ public class RootCollectionsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.put("/plugins/new-plugin"),
           RestCall.get("/projects/"),
           RestCall.put("/projects/new-project"),
-          RestCall.builder(GET, "/verifiers/")
-              // GET /verifiers/ is not implemented
-              .expectedResponseCode(SC_NOT_FOUND)
-              .build(),
+          RestCall.get("/verifiers/"),
           RestCall.post("/verifiers/"));
 
   @ConfigSuite.Default

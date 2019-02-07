@@ -88,10 +88,10 @@ limitations under the License.
     });
 
     test('cached promise', done => {
-      const promise = Promise.reject('foo');
+      const promise = Promise.reject(new Error('foo'));
       element._cache.set('/foo', promise);
       element._fetchSharedCacheURL({url: '/foo'}).catch(p => {
-        assert.equal(p, 'foo');
+        assert.equal(p.message, 'foo');
         done();
       });
     });
@@ -455,7 +455,7 @@ limitations under the License.
         status: 403,
       };
       window.fetch.onFirstCall().returns(
-          Promise.reject({message: 'Failed to fetch'}));
+          Promise.reject(new Error('Failed to fetch')));
       window.fetch.onSecondCall().returns(Promise.resolve(fakeAuthResponse));
       // Emulate logged in.
       element._cache.set('/accounts/self/detail', {});
@@ -507,7 +507,7 @@ limitations under the License.
       element._cache.set('/accounts/self/detail', true);
       sandbox.spy(element, 'checkCredentials');
       sandbox.stub(window, 'fetch', url => {
-        return Promise.reject({message: 'Failed to fetch'});
+        return Promise.reject(new Error('Failed to fetch'));
       });
       return element.getConfig(true)
           .catch(err => undefined)

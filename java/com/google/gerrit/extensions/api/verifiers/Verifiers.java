@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.api.verifiers;
 
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import java.util.List;
 
 public interface Verifiers {
   /**
@@ -35,6 +36,9 @@ public interface Verifiers {
   /** Create a new verifier. */
   VerifierApi create(VerifierInput input) throws RestApiException;
 
+  /** Returns a list of all verifiers, sorted by UUID. */
+  List<VerifierInfo> all() throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -47,6 +51,11 @@ public interface Verifiers {
 
     @Override
     public VerifierApi create(VerifierInput input) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<VerifierInfo> all() throws RestApiException {
       throw new NotImplementedException();
     }
   }

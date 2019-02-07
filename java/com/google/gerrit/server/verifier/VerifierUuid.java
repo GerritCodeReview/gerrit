@@ -17,9 +17,12 @@ package com.google.gerrit.server.verifier;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.reviewdb.client.RefNames;
 import java.security.MessageDigest;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 
 public class VerifierUuid {
   /**
@@ -58,6 +61,22 @@ public class VerifierUuid {
   public static String checkUuid(String verifierUuid) {
     checkState(isUuid(verifierUuid), "invalid verifier UUID");
     return verifierUuid;
+  }
+
+  /**
+   * Parses a verifier UUID from a verifier ref.
+   *
+   * @param ref the ref from which a verifier UUID should be parsed
+   * @return the verifier UUID, {@link Optional#empty()} if the given ref is null or not a valid
+   *     verifier ref
+   */
+  public static Optional<String> fromRef(@Nullable Ref ref) {
+    if (ref == null || !RefNames.isRefsVerifiers(ref.getName())) {
+      return Optional.empty();
+    }
+    return Optional.of(
+        RefNames.parseShardedUuidFromRefPart(
+            ref.getName().substring(RefNames.REFS_VERIFIERS.length())));
   }
 
   private VerifierUuid() {}

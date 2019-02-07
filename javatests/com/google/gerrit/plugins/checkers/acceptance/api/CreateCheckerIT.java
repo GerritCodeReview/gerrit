@@ -52,6 +52,7 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     assertThat(info.uuid).isNotNull();
     assertThat(info.name).isEqualTo(input.name);
     assertThat(info.description).isNull();
+    assertThat(info.url).isNull();
     assertThat(info.createdOn).isNotNull();
     assertThat(info.updatedOn).isEqualTo(info.createdOn);
 
@@ -74,6 +75,22 @@ public class CreateCheckerIT extends AbstractCheckersTest {
         perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
         .isEqualTo("[checker]\n\tname = my-checker\n\tdescription = some description\n");
+  }
+
+  @Test
+  public void createCheckerWithUrl() throws Exception {
+    CheckerInput input = new CheckerInput();
+    input.name = "my-checker";
+    input.url = "http://example.com/my-checker";
+    CheckerInfo info = checkersApi.create(input).get();
+    assertThat(info.url).isEqualTo(input.url);
+
+    PerCheckerOperations perCheckerOps = checkerOperations.checker(info.uuid);
+    assertCommit(
+        perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
+    assertThat(perCheckerOps.configText())
+        .isEqualTo(
+            "[checker]\n" + "\tname = my-checker\n" + "\turl = http://example.com/my-checker\n");
   }
 
   @Test
@@ -102,6 +119,34 @@ public class CreateCheckerIT extends AbstractCheckersTest {
         perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
         .isEqualTo("[checker]\n\tname = my-checker\n\tdescription = some description\n");
+  }
+
+  @Test
+  public void createCheckerUrlIsTrimmed() throws Exception {
+    CheckerInput input = new CheckerInput();
+    input.name = "my-checker";
+    input.url = " http://example.com/my-checker ";
+    CheckerInfo info = checkersApi.create(input).get();
+    assertThat(info.url).isEqualTo("http://example.com/my-checker");
+
+    PerCheckerOperations perCheckerOps = checkerOperations.checker(info.uuid);
+    assertCommit(
+        perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
+    assertThat(perCheckerOps.configText())
+        .isEqualTo(
+            "[checker]\n" + "\tname = my-checker\n" + "\turl = http://example.com/my-checker\n");
+  }
+
+  @Test
+  public void createCheckerWithInvalidUrlFails() throws Exception {
+    String checkerUuid = checkerOperations.newChecker().name("my-checker").create();
+
+    CheckerInput input = new CheckerInput();
+    input.name = "my-checker";
+    input.url = "ftp://example.com/my-checker";
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("only http/https URLs supported: ftp://example.com/my-checker");
+    checkersApi.id(checkerUuid).update(input);
   }
 
   @Test

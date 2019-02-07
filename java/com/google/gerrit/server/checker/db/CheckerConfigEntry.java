@@ -90,6 +90,40 @@ enum CheckerConfigEntry {
                 }
               });
     }
+  },
+
+  /**
+   * The URL of a checker. This property is equivalent to {@link Checker#getUrl()}.
+   *
+   * <p>It defaults to {@code null} if not set.
+   */
+  URL("url") {
+    @Override
+    void readFromConfig(String checkerUuid, Checker.Builder checker, Config config) {
+      String url = config.getString(SECTION_NAME, null, super.keyName);
+      if (!Strings.isNullOrEmpty(url)) {
+        checker.setUrl(url);
+      }
+    }
+
+    @Override
+    void initNewConfig(Config config, CheckerCreation checkerCreation) {
+      // Do nothing. URL key will be set by updateConfigValue.
+    }
+
+    @Override
+    void updateConfigValue(Config config, CheckerUpdate checkerUpdate) {
+      checkerUpdate
+          .getUrl()
+          .ifPresent(
+              url -> {
+                if (Strings.isNullOrEmpty(url)) {
+                  config.unset(SECTION_NAME, null, super.keyName);
+                } else {
+                  config.setString(SECTION_NAME, null, super.keyName, url);
+                }
+              });
+    }
   };
 
   private static final String SECTION_NAME = "checker";

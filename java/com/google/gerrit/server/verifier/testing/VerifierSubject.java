@@ -54,6 +54,12 @@ public class VerifierSubject extends Subject<VerifierSubject, Verifier> {
         .named("description");
   }
 
+  public OptionalSubject<StringSubject, String> hasUrlThat() {
+    isNotNull();
+    Verifier verifier = actual();
+    return OptionalSubject.assertThat(verifier.getUrl(), Truth::assertThat).named("url");
+  }
+
   public ComparableSubject<?, Timestamp> hasCreatedOnThat() {
     isNotNull();
     Verifier verifier = actual();

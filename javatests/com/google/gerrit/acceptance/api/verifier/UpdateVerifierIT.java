@@ -68,11 +68,13 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
     VerifierInput input = new VerifierInput();
     input.name = "my-renamed-verifier";
     input.description = "A description.";
+    input.url = "http://example.com/my-verifier";
 
     VerifierInfo info = gApi.verifiers().id(verifierUuid).update(input);
     assertThat(info.uuid).isEqualTo(verifierUuid);
     assertThat(info.name).isEqualTo(input.name);
     assertThat(info.description).isEqualTo(input.description);
+    assertThat(info.url).isEqualTo(input.url);
     assertThat(info.createdOn).isEqualTo(verifier.createdOn());
     assertThat(info.createdOn).isLessThan(info.updatedOn);
 
@@ -83,7 +85,11 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
         info.updatedOn,
         perVerifierOps.get().refState());
     assertThat(perVerifierOps.configText())
-        .isEqualTo("[verifier]\n\tname = my-renamed-verifier\n\tdescription = A description.\n");
+        .isEqualTo(
+            "[verifier]\n"
+                + "\tname = my-renamed-verifier\n"
+                + "\tdescription = A description.\n"
+                + "\turl = http://example.com/my-verifier\n");
   }
 
   @Test
@@ -229,6 +235,96 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
         perVerifierOps.get().refState());
     assertThat(perVerifierOps.configText())
         .isEqualTo("[verifier]\n\tname = my-verifier\n\tdescription = A description.\n");
+  }
+
+  @Test
+  public void addVerifierUrl() throws Exception {
+    String verifierUuid = verifierOperations.newVerifier().name("my-verifier").create();
+
+    VerifierInput input = new VerifierInput();
+    input.url = "http://example.com/my-verifier";
+
+    VerifierInfo info = gApi.verifiers().id(verifierUuid).update(input);
+    assertThat(info.url).isEqualTo(input.url);
+
+    PerVerifierOperations perVerifierOps = verifierOperations.verifier(verifierUuid);
+    assertCommit(
+        perVerifierOps.commit(),
+        "Update verifier",
+        info.updatedOn,
+        perVerifierOps.get().refState());
+    assertThat(perVerifierOps.configText())
+        .isEqualTo("[verifier]\n\tname = my-verifier\n\turl = http://example.com/my-verifier\n");
+  }
+
+  @Test
+  public void updateVerifierUrl() throws Exception {
+    String verifierUuid =
+        verifierOperations
+            .newVerifier()
+            .name("my-verifier")
+            .url("http://example.com/my-verifier")
+            .create();
+
+    VerifierInput input = new VerifierInput();
+    input.url = "http://example.com/my-verifier-foo";
+
+    VerifierInfo info = gApi.verifiers().id(verifierUuid).update(input);
+    assertThat(info.url).isEqualTo(input.url);
+
+    PerVerifierOperations perVerifierOps = verifierOperations.verifier(verifierUuid);
+    assertCommit(
+        perVerifierOps.commit(),
+        "Update verifier",
+        info.updatedOn,
+        perVerifierOps.get().refState());
+    assertThat(perVerifierOps.configText())
+        .isEqualTo(
+            "[verifier]\n\tname = my-verifier\n\turl = http://example.com/my-verifier-foo\n");
+  }
+
+  @Test
+  public void unsetVerifierUrl() throws Exception {
+    String verifierUuid =
+        verifierOperations
+            .newVerifier()
+            .name("my-verifier")
+            .url("http://example.com/my-verifier")
+            .create();
+
+    VerifierInput verifierInput = new VerifierInput();
+    verifierInput.url = "";
+
+    VerifierInfo info = gApi.verifiers().id(verifierUuid).update(verifierInput);
+    assertThat(info.url).isNull();
+
+    PerVerifierOperations perVerifierOps = verifierOperations.verifier(verifierUuid);
+    assertCommit(
+        perVerifierOps.commit(),
+        "Update verifier",
+        info.updatedOn,
+        perVerifierOps.get().refState());
+    assertThat(perVerifierOps.configText()).isEqualTo("[verifier]\n\tname = my-verifier\n");
+  }
+
+  @Test
+  public void verifierUrlIsTrimmed() throws Exception {
+    String verifierUuid = verifierOperations.newVerifier().name("my-verifier").create();
+
+    VerifierInput input = new VerifierInput();
+    input.url = " http://example.com/my-verifier ";
+
+    VerifierInfo info = gApi.verifiers().id(verifierUuid).update(input);
+    assertThat(info.url).isEqualTo("http://example.com/my-verifier");
+
+    PerVerifierOperations perVerifierOps = verifierOperations.verifier(verifierUuid);
+    assertCommit(
+        perVerifierOps.commit(),
+        "Update verifier",
+        info.updatedOn,
+        perVerifierOps.get().refState());
+    assertThat(perVerifierOps.configText())
+        .isEqualTo("[verifier]\n\tname = my-verifier\n\turl = http://example.com/my-verifier\n");
   }
 
   @Test

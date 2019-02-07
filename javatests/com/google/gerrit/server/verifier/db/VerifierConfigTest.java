@@ -165,6 +165,38 @@ public class VerifierConfigTest extends GerritBaseTests {
   }
 
   @Test
+  public void urlDefaultsToOptionalEmpty() throws Exception {
+    VerifierCreation verifierCreation =
+        VerifierCreation.builder().setVerifierUuid(verifierUuid).setName(verifierName).build();
+    createVerifier(verifierCreation);
+
+    Optional<Verifier> verifier = loadVerifier(verifierCreation.getVerifierUuid());
+    assertThatVerifier(verifier).value().hasUrlThat().isEmpty();
+  }
+
+  @Test
+  public void specifiedUrlIsRespectedForNewVerifier() throws Exception {
+    String url = "http://example.com/my-verifier";
+
+    VerifierCreation verifierCreation = getPrefilledVerifierCreationBuilder().build();
+    VerifierUpdate verifierUpdate = VerifierUpdate.builder().setUrl(url).build();
+    createVerifier(verifierCreation, verifierUpdate);
+
+    Optional<Verifier> verifier = loadVerifier(verifierCreation.getVerifierUuid());
+    assertThatVerifier(verifier).value().hasUrlThat().value().isEqualTo(url);
+  }
+
+  @Test
+  public void emptyUrlForNewVerifierIsIgnored() throws Exception {
+    VerifierCreation verifierCreation = getPrefilledVerifierCreationBuilder().build();
+    VerifierUpdate verifierUpdate = VerifierUpdate.builder().setUrl("").build();
+    createVerifier(verifierCreation, verifierUpdate);
+
+    Optional<Verifier> verifier = loadVerifier(verifierCreation.getVerifierUuid());
+    assertThatVerifier(verifier).value().hasUrlThat().isEmpty();
+  }
+
+  @Test
   public void createdOnDefaultsToNow() throws Exception {
     // Git timestamps are only precise to the second.
     Timestamp testStart = TimeUtil.truncateToSecond(TimeUtil.nowTs());
@@ -257,6 +289,28 @@ public class VerifierConfigTest extends GerritBaseTests {
     Optional<Verifier> verifier = updateVerifier(verifierUuid, verifierUpdate);
 
     assertThatVerifier(verifier).value().hasDescriptionThat().isEmpty();
+  }
+
+  @Test
+  public void urlCanBeUpdated() throws Exception {
+    createArbitraryVerifier(verifierUuid);
+    String newUrl = "http://example.com/my-verifier";
+
+    VerifierUpdate verifierUpdate = VerifierUpdate.builder().setUrl(newUrl).build();
+    updateVerifier(verifierUuid, verifierUpdate);
+
+    Optional<Verifier> verifier = loadVerifier(verifierUuid);
+    assertThatVerifier(verifier).value().hasUrlThat().value().isEqualTo(newUrl);
+  }
+
+  @Test
+  public void urlCanBeRemoved() throws Exception {
+    createArbitraryVerifier(verifierUuid);
+
+    VerifierUpdate verifierUpdate = VerifierUpdate.builder().setUrl("").build();
+    Optional<Verifier> verifier = updateVerifier(verifierUuid, verifierUpdate);
+
+    assertThatVerifier(verifier).value().hasUrlThat().isEmpty();
   }
 
   @Test

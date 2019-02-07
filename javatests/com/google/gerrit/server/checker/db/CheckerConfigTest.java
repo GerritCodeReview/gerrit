@@ -164,6 +164,38 @@ public class CheckerConfigTest extends GerritBaseTests {
   }
 
   @Test
+  public void urlDefaultsToOptionalEmpty() throws Exception {
+    CheckerCreation checkerCreation =
+        CheckerCreation.builder().setCheckerUuid(checkerUuid).setName(checkerName).build();
+    createChecker(checkerCreation);
+
+    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
+    assertThatChecker(checker).value().hasUrlThat().isEmpty();
+  }
+
+  @Test
+  public void specifiedUrlIsRespectedForNewChecker() throws Exception {
+    String url = "http://example.com/my-checker";
+
+    CheckerCreation checkerCreation = getPrefilledCheckerCreationBuilder().build();
+    CheckerUpdate checkerUpdate = CheckerUpdate.builder().setUrl(url).build();
+    createChecker(checkerCreation, checkerUpdate);
+
+    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
+    assertThatChecker(checker).value().hasUrlThat().value().isEqualTo(url);
+  }
+
+  @Test
+  public void emptyUrlForNewCheckerIsIgnored() throws Exception {
+    CheckerCreation checkerCreation = getPrefilledCheckerCreationBuilder().build();
+    CheckerUpdate checkerUpdate = CheckerUpdate.builder().setUrl("").build();
+    createChecker(checkerCreation, checkerUpdate);
+
+    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
+    assertThatChecker(checker).value().hasUrlThat().isEmpty();
+  }
+
+  @Test
   public void createdOnDefaultsToNow() throws Exception {
     // Git timestamps are only precise to the second.
     Timestamp testStart = TimeUtil.truncateToSecond(TimeUtil.nowTs());
@@ -255,6 +287,28 @@ public class CheckerConfigTest extends GerritBaseTests {
     Optional<Checker> checker = updateChecker(checkerUuid, checkerUpdate);
 
     assertThatChecker(checker).value().hasDescriptionThat().isEmpty();
+  }
+
+  @Test
+  public void urlCanBeUpdated() throws Exception {
+    createArbitraryChecker(checkerUuid);
+    String newUrl = "http://example.com/my-checker";
+
+    CheckerUpdate checkerUpdate = CheckerUpdate.builder().setUrl(newUrl).build();
+    updateChecker(checkerUuid, checkerUpdate);
+
+    Optional<Checker> checker = loadChecker(checkerUuid);
+    assertThatChecker(checker).value().hasUrlThat().value().isEqualTo(newUrl);
+  }
+
+  @Test
+  public void urlCanBeRemoved() throws Exception {
+    createArbitraryChecker(checkerUuid);
+
+    CheckerUpdate checkerUpdate = CheckerUpdate.builder().setUrl("").build();
+    Optional<Checker> checker = updateChecker(checkerUuid, checkerUpdate);
+
+    assertThatChecker(checker).value().hasUrlThat().isEmpty();
   }
 
   @Test

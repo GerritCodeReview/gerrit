@@ -1581,11 +1581,21 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("directory:/b/c", change5);
     assertQuery("directory:/b/c/", change5);
     assertQuery("directory:b/c/", change5);
+  }
+
+  @Test
+  public void byDirectoryRegex() throws Exception {
+    assume().that(getSchemaVersion()).isAtLeast(55);
+
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChangeWithFiles(repo, "src/java/foo.java", "src/js/bar.js"));
+    Change change2 =
+        insert(repo, newChangeWithFiles(repo, "documentation/training/slides/README.txt"));
 
     // match by regexp
-    assertQuery("directory:^.*va.*", change2);
-    assertQuery("directory:^documentation/.*/slides", change3);
-    assertQuery("directory:^train.*", change3);
+    assertQuery("directory:^.*va.*", change1);
+    assertQuery("directory:^documentation/.*/slides", change2);
+    assertQuery("directory:^train.*", change2);
   }
 
   @Test

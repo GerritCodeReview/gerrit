@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.common.Version.getVersion;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -263,7 +264,7 @@ public class Daemon extends SiteProgram {
             stop();
           });
 
-      log.info("Gerrit Code Review " + myVersion() + " ready");
+      log.info("Gerrit Code Review" + myVersion() + " ready");
       if (runId != null) {
         try {
           Files.write(runFile, (runId + "\n").getBytes(UTF_8));
@@ -369,7 +370,15 @@ public class Daemon extends SiteProgram {
   }
 
   private String myVersion() {
-    return com.google.gerrit.common.Version.getVersion();
+    StringBuilder version = new StringBuilder();
+    if (slave) {
+      version.append(" [slave]");
+    }
+    if (headless) {
+      version.append(" [headless]");
+    }
+    version.append(" ").append(getVersion());
+    return version.toString();
   }
 
   private Injector createCfgInjector() {

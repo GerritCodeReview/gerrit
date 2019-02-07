@@ -109,6 +109,7 @@ Unsetting properties:
    or a string that is empty after trim is rejected as
    `400 Bad Request`.
 * `description`: Can be unset by setting an empty string ("") for it.
+* `url`: Can be unset by setting an empty string ("") for it.
 
 Note that only users with the
 link:access-control.html#capability_administrateVerifiers[Administrate
@@ -173,6 +174,8 @@ encoded for REST calls.
 The name of the verifier, may not be unique.
 |`description`   |optional|
 The description of the verifier.
+|`url`           |optional|
+The URL of the verifier.
 |`created_on`    ||
 The link:rest-api.html#timestamp[timestamp] of when the verifier was
 created.
@@ -192,6 +195,8 @@ The `VerifierInput` entity contains information for creating a verifier.
 The name of the verifier. Must be specified for verifier creation.
 |`description`   |optional|
 The description of the verifier.
+|`url`           |optional|
+The URL of the verifier.
 |=============================
 
 GERRIT

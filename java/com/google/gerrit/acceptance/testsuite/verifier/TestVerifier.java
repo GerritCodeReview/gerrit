@@ -27,6 +27,8 @@ public abstract class TestVerifier {
 
   public abstract Optional<String> description();
 
+  public abstract Optional<String> url();
+
   public abstract Timestamp createdOn();
 
   public abstract Timestamp updatedOn();
@@ -46,7 +48,11 @@ public abstract class TestVerifier {
 
     public abstract Builder description(String description);
 
+    public abstract Builder url(String url);
+
     public abstract Builder description(Optional<String> description);
+
+    public abstract Builder url(Optional<String> url);
 
     public abstract Builder createdOn(Timestamp createdOn);
 

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f630758c_3200d4ba",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-07T10:06:45Z",
+      "side": 1,
+      "message": "What does attribute refer to?",
+      "revId": "164b3396796797c28cdfc15ca0787ba8ec908755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34ea07b1_668ffea6",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-07T10:06:45Z",
+      "side": 1,
+      "message": "#e90",
+      "revId": "164b3396796797c28cdfc15ca0787ba8ec908755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7adfc48_eceac93e",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-07T10:06:45Z",
+      "side": 1,
+      "message": "var(--primary-text-color)",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 29
+      },
+      "revId": "164b3396796797c28cdfc15ca0787ba8ec908755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -15,8 +15,10 @@
 package com.google.gerrit.plugins.checkers.acceptance;
 
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
+import com.google.gerrit.acceptance.ProjectResetter;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
+import com.google.gerrit.plugins.checkers.CheckerRef;
 import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperations;
 import com.google.gerrit.plugins.checkers.api.Checkers;
 import org.junit.Before;
@@ -33,6 +35,11 @@ import org.junit.Before;
 public class AbstractCheckersTest extends LightweightPluginDaemonTest {
   protected CheckerOperations checkerOperations;
   protected Checkers checkersApi;
+
+  @Override
+  protected ProjectResetter.Config resetProjects() {
+    return super.resetProjects().reset(allProjects, CheckerRef.REFS_CHECKERS + "*");
+  }
 
   @Before
   public void setUpCheckersPlugin() throws Exception {

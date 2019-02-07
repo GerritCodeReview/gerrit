@@ -34,6 +34,24 @@
       "revId": "815442fd7f70166bb405c03f12f0d28ae7611df8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e0d74ab_3f2f8872",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-07T08:38:53Z",
+      "side": 1,
+      "message": "Could we do something like this:\n\nList\u003cString\u003e versionParts \u003d new ArrayList\u003c\u003e();\nif (slave) {\n  versionParts.add(\"[slave]\");\n}\nif (headless) {\n  versionParts.add(\"[headless]\");\n}\nversionParts.add(getVersion());\nreturn Joiner.on(\" \").join(versionParts);",
+      "parentUuid": "42dea5f5_db98ae46",
+      "revId": "815442fd7f70166bb405c03f12f0d28ae7611df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

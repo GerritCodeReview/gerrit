@@ -16,6 +16,24 @@
       "revId": "57bfaba1d0a49ba627e6fa412f24ae6875ad7504",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6bbefd8_4d03acf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-02-07T21:02:44Z",
+      "side": 1,
+      "message": "I guess it would break anyway when the project permissions are checked. Evaluating the permissions implies the evaluation of the refs/meta/config/project.config and thus, if the repo isn\u0027t there anymore, we risk yet another NPE.\n\nHowever, I like your approach and will fix this NPE elsewhere when it will happen.",
+      "parentUuid": "f948e160_4b9021a5",
+      "revId": "57bfaba1d0a49ba627e6fa412f24ae6875ad7504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

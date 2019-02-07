@@ -305,6 +305,7 @@ public class CheckerOperationsImplTest extends AbstractDaemonTest {
   private CheckerInput createArbitraryCheckerInput() {
     CheckerInput checkerInput = new CheckerInput();
     checkerInput.name = name("test-checker");
+    checkerInput.repository = allProjects.get();
     return checkerInput;
   }
 

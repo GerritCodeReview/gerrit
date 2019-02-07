@@ -2506,7 +2506,9 @@
     _fetchB64File(url) {
       return this._fetch({url: this.getBaseUrl() + url})
           .then(response => {
-            if (!response.ok) { return Promise.reject(response.statusText); }
+            if (!response.ok) {
+              return Promise.reject(new Error(response.statusText));
+            }
             const type = response.headers.get('X-FYI-Content-Type');
             return response.text()
                 .then(text => {
@@ -2666,12 +2668,12 @@
       return this._send(req)
           .then(response => {
             if (response.status < 200 && response.status >= 300) {
-              return Promise.reject();
+              return Promise.reject(new Error('error'));
             }
             return this.getResponseObject(response);
           })
           .then(obj => {
-            if (!obj.valid) { return Promise.reject(); }
+            if (!obj.valid) { return Promise.reject(new Error('error')); }
             return obj;
           });
     },
@@ -2701,12 +2703,12 @@
       return this._send(req)
           .then(response => {
             if (response.status < 200 && response.status >= 300) {
-              return Promise.reject();
+              return Promise.reject(new Error('error'));
             }
             return this.getResponseObject(response);
           })
           .then(obj => {
-            if (!obj) { return Promise.reject(); }
+            if (!obj) { return Promise.reject(new Error('error')); }
             return obj;
           });
     },

@@ -233,9 +233,10 @@ limitations under the License.
       const memberName = 'bad-name';
       const alertStub = sandbox.stub();
       element.addEventListener('show-alert', alertStub);
-
+      const error = new Error('error');
+      error.status = 404;
       sandbox.stub(element.$.restAPI, 'saveGroupMembers',
-          () => Promise.reject({status: 404}));
+          () => Promise.reject(error));
 
       element.$.groupMemberSearchInput.text = memberName;
       element.$.groupMemberSearchInput.value = 1234;

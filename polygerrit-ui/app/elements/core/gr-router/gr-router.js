@@ -622,7 +622,7 @@
           return Promise.resolve();
         } else {
           this._redirectToLogin(data.canonicalPath);
-          return Promise.reject();
+          return Promise.reject(new Error());
         }
       });
     },

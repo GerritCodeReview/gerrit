@@ -60,6 +60,7 @@
     "object-shorthand": ["error", "always"],
     "prefer-arrow-callback": "error",
     "prefer-const": "error",
+    "prefer-promise-reject-errors": "off",
     "prefer-spread": "error",
     "quote-props": ["error", "consistent-as-needed"],
     "require-jsdoc": "off",

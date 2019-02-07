@@ -72,6 +72,58 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  */
 @Singleton
 public class AccountResolver {
+
+  /** Format of inputs allowed for a single call to {@code resolve}. */
+  public enum InputFormat {
+    /** Only pure numeric account IDs are resolved. */
+    ACCOUNT_ID,
+
+    /**
+     * Inputs may contain names and/or email addresses.
+     *
+     * <p>The following input formats are recognized:
+     *
+     * <ul>
+     *   <li>A full name and email address ({@code "Full Name <email@example>"}). This case
+     *       short-circuits if the input matches.
+     *   <li>An email address ({@code "email@example"}. This case short-circuits if the input
+     *       matches.
+     *   <li>An account name recognized by the configured {@link Realm#lookup(String)} Realm}.
+     *   <li>A full name ({@code "Full Name"}).
+     *   <li>As a fallback, a {@link
+     *       com.google.gerrit.server.query.account.AccountPredicates#defaultPredicate(Schema,
+     *       boolean, String) default search} against the account index.
+     * </ul>
+     */
+    NAME_OR_EMAIL,
+
+    /**
+     * Any recognizable format is accepted.
+     *
+     * <p>The following input formats are recognized:
+     *
+     * <ul>
+     *   <li>The strings {@code "self"} and {@code "me"}, if the current user is an {@link
+     *       IdentifiedUser}.
+     *   <li>A bare account ID ({@code "18419"}). In this case, and <strong>only</strong> this case,
+     *       may return exactly one inactive account. This case short-circuits if the input matches.
+     *   <li>An account ID in parentheses following a full name ({@code "Full Name (18419)"}). This
+     *       case short-circuits if the input matches.
+     *   <li>A username ({@code "username"}).
+     *   <li>A full name and email address ({@code "Full Name <email@example>"}). This case
+     *       short-circuits if the input matches.
+     *   <li>An email address ({@code "email@example"}. This case short-circuits if the input
+     *       matches.
+     *   <li>An account name recognized by the configured {@link Realm#lookup(String)} Realm}.
+     *   <li>A full name ({@code "Full Name"}).
+     *   <li>As a fallback, a {@link
+     *       com.google.gerrit.server.query.account.AccountPredicates#defaultPredicate(Schema,
+     *       boolean, String) default search} against the account index.
+     * </ul>
+     */
+    ANY
+  }
+
   public static class UnresolvableAccountException extends UnprocessableEntityException {
     private static final long serialVersionUID = 1L;
     private final Result result;
@@ -96,9 +148,7 @@ public class AccountResolver {
       if (result.filteredInactive().isEmpty()) {
         return "Account '" + result.input() + "' not found";
       }
-      return result
-          .filteredInactive()
-          .stream()
+      return result.filteredInactive().stream()
           .map(a -> formatForException(result, a))
           .collect(
               joining(
@@ -110,9 +160,7 @@ public class AccountResolver {
                   ""));
     }
 
-    return result
-        .asList()
-        .stream()
+    return result.asList().stream()
         .map(a -> formatForException(result, a))
         .collect(joining("\n", "Account '" + result.input() + "' is ambiguous:\n", ""));
   }
@@ -350,8 +398,7 @@ public class AccountResolver {
       // subset. Otherwise, all are equally non-matching, so return the full set.
       String name = nameOrEmail.substring(0, lt - 1);
       ImmutableList<AccountState> nameMatches =
-          allMatches
-              .stream()
+          allMatches.stream()
               .filter(a -> name.equals(a.getAccount().getFullName()))
               .collect(toImmutableList());
       return !nameMatches.isEmpty() ? nameMatches.stream() : allMatches.stream();
@@ -444,6 +491,9 @@ public class AccountResolver {
     }
   }
 
+  private final ImmutableList<Searcher<?>> accountIdSearchers =
+      ImmutableList.of(new ByExactAccountId());
+
   private final ImmutableList<Searcher<?>> nameOrEmailSearchers =
       ImmutableList.of(
           new ByNameAndEmail(),
@@ -452,10 +502,10 @@ public class AccountResolver {
           new ByFullName(),
           new ByDefaultSearch());
 
-  private final ImmutableList<Searcher<?>> searchers =
+  private final ImmutableList<Searcher<?>> allSearchers =
       ImmutableList.<Searcher<?>>builder()
           .add(new BySelf())
-          .add(new ByExactAccountId())
+          .addAll(accountIdSearchers)
           .add(new ByParenthesizedAccountId())
           .add(new ByUsername())
           .addAll(nameOrEmailSearchers)
@@ -490,6 +540,11 @@ public class AccountResolver {
     this.anonymousCowardName = anonymousCowardName;
   }
 
+  /** Equivalent to {@link #resolve(String, InputFormat) resolve(ANY)}. */
+  public Result resolve(String input) throws OrmException, ConfigInvalidException, IOException {
+    return resolve(input, InputFormat.ANY);
+  }
+
   /**
    * Resolves all accounts matching the input string.
    *
@@ -514,43 +569,30 @@ public class AccountResolver {
    * </ul>
    *
    * @param input input string.
+   * @param format allowed input formats. Inputs not in a supported format will return empty
+   *     results.
    * @return a result describing matching accounts. Never null even if the result set is empty.
    * @throws OrmException if an error occurs.
    * @throws ConfigInvalidException if an error occurs.
    * @throws IOException if an error occurs.
    */
-  public Result resolve(String input) throws OrmException, ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, visibilitySupplier());
-  }
-
-  /**
-   * Resolves all accounts matching the input string by name or email.
-   *
-   * <p>The following input formats are recognized:
-   *
-   * <ul>
-   *   <li>A full name and email address ({@code "Full Name <email@example>"}). This case
-   *       short-circuits if the input matches.
-   *   <li>An email address ({@code "email@example"}. This case short-circuits if the input matches.
-   *   <li>An account name recognized by the configured {@link Realm#lookup(String)} Realm}.
-   *   <li>A full name ({@code "Full Name"}).
-   *   <li>As a fallback, a {@link
-   *       com.google.gerrit.server.query.account.AccountPredicates#defaultPredicate(Schema,
-   *       boolean, String) default search} against the account index.
-   * </ul>
-   *
-   * @param input input string.
-   * @return a result describing matching accounts. Never null even if the result set is empty.
-   * @throws OrmException if an error occurs.
-   * @throws ConfigInvalidException if an error occurs.
-   * @throws IOException if an error occurs.
-   * @deprecated for use only by MailUtil for parsing commit footers; that class needs to be
-   *     reevaluated.
-   */
-  @Deprecated
-  public Result resolveByNameOrEmail(String input)
+  public Result resolve(String input, InputFormat format)
       throws OrmException, ConfigInvalidException, IOException {
-    return searchImpl(input, nameOrEmailSearchers, visibilitySupplier());
+    ImmutableList<Searcher<?>> searchers;
+    switch (format) {
+      case ACCOUNT_ID:
+        searchers = accountIdSearchers;
+        break;
+      case NAME_OR_EMAIL:
+        searchers = nameOrEmailSearchers;
+        break;
+      case ANY:
+        searchers = allSearchers;
+        break;
+      default:
+        throw new IllegalStateException("unknown format: " + format);
+    }
+    return searchImpl(input, searchers, visibilitySupplier());
   }
 
   private Supplier<Predicate<AccountState>> visibilitySupplier() {

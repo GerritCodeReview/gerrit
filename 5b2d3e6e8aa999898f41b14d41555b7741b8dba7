@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb0bc29e_b4be407c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-02-07T06:50:57Z",
+      "side": 1,
+      "message": "on stable-2.15 this is correct, but on stable-2.16 and master there is group index and thus OnlineUpgrade should be bound to support online reindexing.",
+      "range": {
+        "startLine": 416,
+        "startChar": 9,
+        "endLine": 416,
+        "endChar": 14
+      },
+      "revId": "5b2d3e6e8aa999898f41b14d41555b7741b8dba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

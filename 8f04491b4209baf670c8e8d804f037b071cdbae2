@@ -3,6 +3,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a25e80f_2ad5d9d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-07T12:37:49Z",
+      "side": 1,
+      "message": "verb in this sentence is missing",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "8f04491b4209baf670c8e8d804f037b071cdbae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb6cd293_fb5b9b7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-07T12:37:49Z",
+      "side": 1,
+      "message": "types",
+      "range": {
+        "startLine": 26,
+        "startChar": 7,
+        "endLine": 26,
+        "endChar": 11
+      },
+      "revId": "8f04491b4209baf670c8e8d804f037b071cdbae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eac38527_ad1bc0b5",
+        "filename": "java/com/google/gerrit/server/change/NotifyResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-07T12:37:49Z",
+      "side": 1,
+      "message": "remove this import",
+      "revId": "8f04491b4209baf670c8e8d804f037b071cdbae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fc585483_dcd74fa2",
         "filename": "java/com/google/gerrit/server/change/NotifyResolver.java",
         "patchSetId": 2
@@ -17,6 +80,29 @@
       "revId": "8f04491b4209baf670c8e8d804f037b071cdbae2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de00d510_ffb04f8f",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-07T12:37:49Z",
+      "side": 1,
+      "message": "Why is this NONE and not ALL?\n\nThe documentation for RevertInput says that the default is ALL.",
+      "range": {
+        "startLine": 222,
+        "startChar": 41,
+        "endLine": 222,
+        "endChar": 60
+      },
+      "revId": "8f04491b4209baf670c8e8d804f037b071cdbae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

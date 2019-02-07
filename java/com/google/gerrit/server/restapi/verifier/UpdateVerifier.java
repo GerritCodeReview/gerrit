@@ -21,10 +21,14 @@ import com.google.gerrit.extensions.api.verifiers.VerifierInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.verifier.Verifier;
 import com.google.gerrit.server.verifier.VerifierJson;
 import com.google.gerrit.server.verifier.VerifierName;
@@ -42,17 +46,20 @@ public class UpdateVerifier implements RestModifyView<VerifierResource, Verifier
   private final PermissionBackend permissionBackend;
   private final Provider<VerifiersUpdate> verifiersUpdate;
   private final VerifierJson verifierJson;
+  private final ProjectCache projectCache;
 
   @Inject
   public UpdateVerifier(
       GlobalVerifierConfig globalVerifierConfig,
       PermissionBackend permissionBackend,
       @UserInitiated Provider<VerifiersUpdate> verifiersUpdate,
-      VerifierJson verifierJson) {
+      VerifierJson verifierJson,
+      ProjectCache projectCache) {
     this.globalVerifierConfig = globalVerifierConfig;
     this.permissionBackend = permissionBackend;
     this.verifiersUpdate = verifiersUpdate;
     this.verifierJson = verifierJson;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -80,10 +87,29 @@ public class UpdateVerifier implements RestModifyView<VerifierResource, Verifier
       verifierUpdateBuilder.setUrl(Strings.nullToEmpty(input.url).trim());
     }
 
+    if (input.repository != null) {
+      Project.NameKey repository = resolveRepository(input.repository);
+      verifierUpdateBuilder.setRepository(repository);
+    }
+
     Verifier updatedVerifier =
         verifiersUpdate
             .get()
             .updateVerifier(resource.getVerifier().getUuid(), verifierUpdateBuilder.build());
     return verifierJson.format(updatedVerifier);
+  }
+
+  private Project.NameKey resolveRepository(String repository)
+      throws BadRequestException, UnprocessableEntityException, IOException {
+    if (repository == null || repository.trim().isEmpty()) {
+      throw new BadRequestException("repository cannot be unset");
+    }
+
+    ProjectState projectState = projectCache.checkedGet(new Project.NameKey(repository.trim()));
+    if (projectState == null) {
+      throw new UnprocessableEntityException(String.format("repository %s not found", repository));
+    }
+
+    return projectState.getNameKey();
   }
 }

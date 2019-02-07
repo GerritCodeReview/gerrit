@@ -314,6 +314,7 @@ public class VerifierOperationsImplTest extends AbstractDaemonTest {
   private VerifierInput createArbitraryVerifierInput() {
     VerifierInput verifierInput = new VerifierInput();
     verifierInput.name = name("test-verifier");
+    verifierInput.repository = allProjects.get();
     return verifierInput;
   }
 

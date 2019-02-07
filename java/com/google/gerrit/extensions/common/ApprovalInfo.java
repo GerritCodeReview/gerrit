@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
 
 public class ApprovalInfo extends AccountInfo {
@@ -28,7 +29,11 @@ public class ApprovalInfo extends AccountInfo {
   }
 
   public ApprovalInfo(
-      Integer id, Integer value, VotingRangeInfo permittedVotingRange, String tag, Timestamp date) {
+      Integer id,
+      Integer value,
+      @Nullable VotingRangeInfo permittedVotingRange,
+      @Nullable String tag,
+      Timestamp date) {
     super(id);
     this.value = value;
     this.permittedVotingRange = permittedVotingRange;

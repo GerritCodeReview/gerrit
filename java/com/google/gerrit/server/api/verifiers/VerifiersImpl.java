@@ -24,21 +24,28 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.restapi.verifier.CreateVerifier;
+import com.google.gerrit.server.restapi.verifier.ListVerifiers;
 import com.google.gerrit.server.restapi.verifier.VerifiersCollection;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.List;
 
 @Singleton
 public class VerifiersImpl implements Verifiers {
   private final VerifierApiImpl.Factory api;
   private final CreateVerifier createVerifier;
+  private final ListVerifiers listVerifiers;
   private final VerifiersCollection verifiers;
 
   @Inject
   VerifiersImpl(
-      VerifierApiImpl.Factory api, CreateVerifier createVerifier, VerifiersCollection verifiers) {
+      VerifierApiImpl.Factory api,
+      CreateVerifier createVerifier,
+      ListVerifiers listVerifiers,
+      VerifiersCollection verifiers) {
     this.api = api;
     this.createVerifier = createVerifier;
+    this.listVerifiers = listVerifiers;
     this.verifiers = verifiers;
   }
 
@@ -58,6 +65,15 @@ public class VerifiersImpl implements Verifiers {
       return id(info.uuid);
     } catch (Exception e) {
       throw asRestApiException("Cannot create verifier " + input.name, e);
+    }
+  }
+
+  @Override
+  public List<VerifierInfo> all() throws RestApiException {
+    try {
+      return listVerifiers.apply(TopLevelResource.INSTANCE);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list all verifiers ", e);
     }
   }
 }

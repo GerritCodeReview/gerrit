@@ -76,6 +76,10 @@ public class UpdateChecker implements RestModifyView<CheckerResource, CheckerInp
       checkerUpdateBuilder.setDescription(Strings.nullToEmpty(input.description).trim());
     }
 
+    if (input.url != null) {
+      checkerUpdateBuilder.setUrl(Strings.nullToEmpty(input.url).trim());
+    }
+
     Checker updatedChecker =
         checkersUpdate
             .get()

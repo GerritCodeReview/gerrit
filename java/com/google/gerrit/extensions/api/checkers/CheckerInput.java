@@ -19,4 +19,5 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 public class CheckerInput {
   @DefaultInput public String name;
   public String description;
+  public String url;
 }

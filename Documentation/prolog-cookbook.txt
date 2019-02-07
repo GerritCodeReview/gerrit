@@ -1045,8 +1045,7 @@ submit_rule(submit(R)) :-
     R = label('Is-Pure-Revert', ok(U)).
 
 submit_rule(submit(R)) :-
-    gerrit:pure_revert(U),
-    U /= 1,
+    gerrit:pure_revert(0),
     R = label('Is-Pure-Revert', need(_)).
 ----
 
@@ -1066,8 +1065,7 @@ submit_rule(submit(CR, V, R)) :-
 
 submit_rule(submit(CR, V, R)) :-
     base(CR, V),
-    gerrit:pure_revert(U),
-    U /= 1,
+    gerrit:pure_revert(0),
     R = label('Is-Pure-Revert', need(_)).
 
 base(CR, V) :-

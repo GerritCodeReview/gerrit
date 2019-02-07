@@ -15,10 +15,12 @@
 package com.google.gerrit.pgm;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.common.Version.getVersion;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.EventBroker;
@@ -369,7 +371,15 @@ public class Daemon extends SiteProgram {
   }
 
   private String myVersion() {
-    return com.google.gerrit.common.Version.getVersion();
+    List<String> versionParts = new ArrayList<>();
+    if (slave) {
+      versionParts.add("[slave]");
+    }
+    if (headless) {
+      versionParts.add("[headless]");
+    }
+    versionParts.add(getVersion());
+    return Joiner.on(" ").join(versionParts);
   }
 
   private Injector createCfgInjector() {

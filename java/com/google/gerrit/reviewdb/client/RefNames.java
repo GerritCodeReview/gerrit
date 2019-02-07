@@ -353,7 +353,7 @@ public class RefNames {
     return id;
   }
 
-  static String parseShardedUuidFromRefPart(String name) {
+  public static String parseShardedUuidFromRefPart(String name) {
     if (name == null) {
       return null;
     }

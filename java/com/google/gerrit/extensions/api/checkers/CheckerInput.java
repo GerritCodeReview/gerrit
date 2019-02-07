@@ -20,4 +20,5 @@ public class CheckerInput {
   @DefaultInput public String name;
   public String description;
   public String url;
+  public String repository;
 }

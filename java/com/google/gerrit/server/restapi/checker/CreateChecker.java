@@ -83,6 +83,9 @@ public class CreateChecker
     if (input.description != null && !input.description.trim().isEmpty()) {
       checkerUpdateBuilder.setDescription(input.description.trim());
     }
+    if (input.url != null && !input.url.trim().isEmpty()) {
+      checkerUpdateBuilder.setUrl(input.url.trim());
+    }
     Checker checker =
         checkersUpdate
             .get()

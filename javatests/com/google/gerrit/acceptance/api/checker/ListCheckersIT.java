@@ -21,7 +21,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.testsuite.checker.CheckerOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -40,7 +39,6 @@ import org.junit.Test;
 
 @NoHttpd
 @SkipProjectClone
-@Sandboxed
 public class ListCheckersIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private CheckerOperations checkerOperations;

@@ -15,44 +15,48 @@
 package com.google.gerrit.acceptance.api.checker;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static com.google.gerrit.server.testing.CommitSubject.assertCommit;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.testsuite.checker.CheckerOperations;
-import com.google.gerrit.acceptance.testsuite.checker.TestChecker;
+import com.google.gerrit.acceptance.testsuite.checker.CheckerOperations.PerCheckerOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.checkers.CheckerInfo;
 import com.google.gerrit.extensions.api.checkers.CheckerInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.checker.db.CheckerConfig;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.TreeWalk;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 @SkipProjectClone
 public class CreateCheckerIT extends AbstractDaemonTest {
-  @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private CheckerOperations checkerOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @ConfigSuite.Default
   public static Config defaultConfig() {
     Config cfg = new Config();
     cfg.setBoolean("checker", "api", "enabled", true);
     return cfg;
+  }
+
+  @Before
+  public void setTimeForTesting() {
+    TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
+  }
+
+  @After
+  public void resetTime() {
+    TestTimeUtil.useSystemTime();
   }
 
   @Test
@@ -63,9 +67,14 @@ public class CreateCheckerIT extends AbstractDaemonTest {
     assertThat(info.uuid).isNotNull();
     assertThat(info.name).isEqualTo(input.name);
     assertThat(info.description).isNull();
+    assertThat(info.url).isNull();
     assertThat(info.createdOn).isNotNull();
+    assertThat(info.updatedOn).isEqualTo(info.createdOn);
 
-    assertCheckerRef(info.uuid, "[checker]\n\tname = " + input.name + "\n");
+    PerCheckerOperations perVeriferOps = checkerOperations.checker(info.uuid);
+    assertCommit(
+        perVeriferOps.commit(), "Create checker", info.createdOn, perVeriferOps.get().refState());
+    assertThat(perVeriferOps.configText()).isEqualTo("[checker]\n\tname = my-checker\n");
   }
 
   @Test
@@ -76,15 +85,27 @@ public class CreateCheckerIT extends AbstractDaemonTest {
     CheckerInfo info = gApi.checkers().create(input).get();
     assertThat(info.description).isEqualTo(input.description);
 
-    assertCheckerRef(
-        info.uuid,
-        "[checker]\n"
-            + "\tname = "
-            + input.name
-            + "\n"
-            + "\tdescription = "
-            + input.description
-            + "\n");
+    PerCheckerOperations perVeriferOps = checkerOperations.checker(info.uuid);
+    assertCommit(
+        perVeriferOps.commit(), "Create checker", info.createdOn, perVeriferOps.get().refState());
+    assertThat(perVeriferOps.configText())
+        .isEqualTo("[checker]\n" + "\tname = my-checker\n" + "\tdescription = some description\n");
+  }
+
+  @Test
+  public void createCheckerWithUrl() throws Exception {
+    CheckerInput input = new CheckerInput();
+    input.name = "my-checker";
+    input.url = "http://example.com/my-checker";
+    CheckerInfo info = gApi.checkers().create(input).get();
+    assertThat(info.url).isEqualTo(input.url);
+
+    PerCheckerOperations perVeriferOps = checkerOperations.checker(info.uuid);
+    assertCommit(
+        perVeriferOps.commit(), "Create checker", info.createdOn, perVeriferOps.get().refState());
+    assertThat(perVeriferOps.configText())
+        .isEqualTo(
+            "[checker]\n" + "\tname = my-checker\n" + "\turl = http://example.com/my-checker\n");
   }
 
   @Test
@@ -94,7 +115,10 @@ public class CreateCheckerIT extends AbstractDaemonTest {
     CheckerInfo info = gApi.checkers().create(input).get();
     assertThat(info.name).isEqualTo("my-checker");
 
-    assertCheckerRef(info.uuid, "[checker]\n\tname = my-checker\n");
+    PerCheckerOperations perVeriferOps = checkerOperations.checker(info.uuid);
+    assertCommit(
+        perVeriferOps.commit(), "Create checker", info.createdOn, perVeriferOps.get().refState());
+    assertThat(perVeriferOps.configText()).isEqualTo("[checker]\n\tname = my-checker\n");
   }
 
   @Test
@@ -105,8 +129,27 @@ public class CreateCheckerIT extends AbstractDaemonTest {
     CheckerInfo info = gApi.checkers().create(input).get();
     assertThat(info.description).isEqualTo("some description");
 
-    assertCheckerRef(
-        info.uuid, "[checker]\n\tname = " + input.name + "\n\tdescription = some description\n");
+    PerCheckerOperations perVeriferOps = checkerOperations.checker(info.uuid);
+    assertCommit(
+        perVeriferOps.commit(), "Create checker", info.createdOn, perVeriferOps.get().refState());
+    assertThat(perVeriferOps.configText())
+        .isEqualTo("[checker]\n" + "\tname = my-checker\n" + "\tdescription = some description\n");
+  }
+
+  @Test
+  public void createCheckerUrlIsTrimmed() throws Exception {
+    CheckerInput input = new CheckerInput();
+    input.name = "my-checker";
+    input.url = " http://example.com/my-checker ";
+    CheckerInfo info = gApi.checkers().create(input).get();
+    assertThat(info.url).isEqualTo("http://example.com/my-checker");
+
+    PerCheckerOperations perVeriferOps = checkerOperations.checker(info.uuid);
+    assertCommit(
+        perVeriferOps.commit(), "Create checker", info.createdOn, perVeriferOps.get().refState());
+    assertThat(perVeriferOps.configText())
+        .isEqualTo(
+            "[checker]\n" + "\tname = my-checker\n" + "\turl = http://example.com/my-checker\n");
   }
 
   @Test
@@ -161,31 +204,5 @@ public class CreateCheckerIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("administrate checkers not permitted");
     gApi.checkers().create(input);
-  }
-
-  private void assertCheckerRef(String checkerUuid, String expectedCheckerConfig) throws Exception {
-    try (Repository repo = repoManager.openRepository(allProjects);
-        RevWalk rw = new RevWalk(repo);
-        ObjectReader or = repo.newObjectReader()) {
-      Ref ref = repo.exactRef(RefNames.refsCheckers(checkerUuid));
-      assertThat(ref).isNotNull();
-      RevCommit c = rw.parseCommit(ref.getObjectId());
-
-      TestChecker checker = checkerOperations.checker(checkerUuid).get();
-      long timestampDiffMs = Math.abs(c.getCommitTime() * 1000L - checker.createdOn().getTime());
-      assertThat(timestampDiffMs).isAtMost(SECONDS.toMillis(1));
-
-      // Check the 'checker.config' file.
-      try (TreeWalk tw = TreeWalk.forPath(or, CheckerConfig.CHECKER_CONFIG_FILE, c.getTree())) {
-        assertThat(tw).isNotNull();
-
-        // Parse as Config to ensure it's a valid config file.
-        Config cfg = new Config();
-        cfg.fromText(new String(or.open(tw.getObjectId(0), OBJ_BLOB).getBytes(), UTF_8));
-
-        // Verify that the content is as expected.
-        assertThat(cfg.toText()).isEqualTo(expectedCheckerConfig);
-      }
-    }
   }
 }

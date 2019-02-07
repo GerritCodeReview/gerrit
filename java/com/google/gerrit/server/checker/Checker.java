@@ -51,6 +51,15 @@ public abstract class Checker {
   public abstract Optional<String> getDescription();
 
   /**
+   * Returns the URL of the checker.
+   *
+   * <p>Checkers may not have a URL, in this case {@link Optional#empty()} is returned.
+   *
+   * @return the URL of the checker
+   */
+  public abstract Optional<String> getUrl();
+
+  /**
    * Returns the creation timestamp of the checker.
    *
    * @return the creation timestamp
@@ -85,6 +94,8 @@ public abstract class Checker {
     public abstract Builder setName(String name);
 
     public abstract Builder setDescription(String description);
+
+    public abstract Builder setUrl(String url);
 
     public abstract Builder setCreatedOn(Timestamp createdOn);
 

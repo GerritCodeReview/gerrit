@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dba1df61_e533c2d4",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-07T13:44:38Z",
+      "side": 1,
+      "message": "What colour do we give this? (since it dosen\u0027t seem to have had colour before this change).",
+      "range": {
+        "startLine": 112,
+        "startChar": 2,
+        "endLine": 112,
+        "endChar": 33
+      },
+      "revId": "11935a9a1a9a7e9093cc7be4246cfc918b57e3ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

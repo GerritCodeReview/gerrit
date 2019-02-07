@@ -78,6 +78,9 @@ public class CreateVerifier
     if (input.description != null && !input.description.trim().isEmpty()) {
       verifierUpdateBuilder.setDescription(input.description.trim());
     }
+    if (input.url != null && !input.url.trim().isEmpty()) {
+      verifierUpdateBuilder.setUrl(input.url.trim());
+    }
     Verifier verifier =
         verifiersUpdate
             .get()

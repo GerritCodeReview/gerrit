@@ -58,6 +58,7 @@ public class CreateVerifierIT extends AbstractDaemonTest {
     assertThat(info.uuid).isNotNull();
     assertThat(info.name).isEqualTo(input.name);
     assertThat(info.description).isNull();
+    assertThat(info.url).isNull();
     assertThat(info.createdOn).isNotNull();
     assertThat(info.updatedOn).isEqualTo(info.createdOn);
 
@@ -81,6 +82,22 @@ public class CreateVerifierIT extends AbstractDaemonTest {
     assertThat(perVeriferOps.configText())
         .isEqualTo(
             "[verifier]\n" + "\tname = my-verifier\n" + "\tdescription = some description\n");
+  }
+
+  @Test
+  public void createVerifierWithUrl() throws Exception {
+    VerifierInput input = new VerifierInput();
+    input.name = "my-verifier";
+    input.url = "http://example.com/my-verifier";
+    VerifierInfo info = gApi.verifiers().create(input).get();
+    assertThat(info.url).isEqualTo(input.url);
+
+    PerVerifierOperations perVeriferOps = verifierOperations.verifier(info.uuid);
+    assertCommit(
+        perVeriferOps.commit(), "Create verifier", info.createdOn, perVeriferOps.get().refState());
+    assertThat(perVeriferOps.configText())
+        .isEqualTo(
+            "[verifier]\n" + "\tname = my-verifier\n" + "\turl = http://example.com/my-verifier\n");
   }
 
   @Test
@@ -110,6 +127,22 @@ public class CreateVerifierIT extends AbstractDaemonTest {
     assertThat(perVeriferOps.configText())
         .isEqualTo(
             "[verifier]\n" + "\tname = my-verifier\n" + "\tdescription = some description\n");
+  }
+
+  @Test
+  public void createVerifierUrlIsTrimmed() throws Exception {
+    VerifierInput input = new VerifierInput();
+    input.name = "my-verifier";
+    input.url = " http://example.com/my-verifier ";
+    VerifierInfo info = gApi.verifiers().create(input).get();
+    assertThat(info.url).isEqualTo("http://example.com/my-verifier");
+
+    PerVerifierOperations perVeriferOps = verifierOperations.verifier(info.uuid);
+    assertCommit(
+        perVeriferOps.commit(), "Create verifier", info.createdOn, perVeriferOps.get().refState());
+    assertThat(perVeriferOps.configText())
+        .isEqualTo(
+            "[verifier]\n" + "\tname = my-verifier\n" + "\turl = http://example.com/my-verifier\n");
   }
 
   @Test

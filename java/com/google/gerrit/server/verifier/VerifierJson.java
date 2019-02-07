@@ -25,6 +25,7 @@ public class VerifierJson {
     info.uuid = verifier.getUuid();
     info.name = verifier.getName();
     info.description = verifier.getDescription().orElse(null);
+    info.url = verifier.getUrl().orElse(null);
     info.createdOn = verifier.getCreatedOn();
     info.updatedOn = verifier.getUpdatedOn();
     return info;

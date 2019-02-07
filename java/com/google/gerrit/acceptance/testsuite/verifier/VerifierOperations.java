@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.testsuite.verifier;
 
+import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -100,6 +101,15 @@ public interface VerifierOperations {
      * @throws ConfigInvalidException if the verifier config is invalid
      */
     String configText() throws IOException, ConfigInvalidException;
+
+    /**
+     * Returns this verifier as {@link VerifierInfo}.
+     *
+     * <p><strong>Note:</strong>This call will fail with an exception if the verifier doesn't exist.
+     *
+     * @return this verifier as {@link VerifierInfo}
+     */
+    VerifierInfo asInfo();
 
     /**
      * Starts the fluent chain to update a verifier. The returned builder can be used to specify how

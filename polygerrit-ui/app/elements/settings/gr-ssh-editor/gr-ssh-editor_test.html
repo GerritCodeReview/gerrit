@@ -155,7 +155,7 @@ limitations under the License.
       const newKeyString = 'not even close to valid';
 
       const addStub = sinon.stub(element.$.restAPI, 'addAccountSSHKey',
-          () => { return Promise.reject(); });
+          () => { return Promise.reject(new Error('error')); });
 
       element._newKey = newKeyString;
 

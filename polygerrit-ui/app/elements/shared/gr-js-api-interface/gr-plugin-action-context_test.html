@@ -135,7 +135,7 @@ limitations under the License.
         __key: 'key',
         __url: '/changes/1/revisions/2/foo~bar',
       };
-      const sendStub = sandbox.stub().returns(Promise.reject('boom'));
+      const sendStub = sandbox.stub().returns(Promise.reject(new Error('boom')));
       sandbox.stub(plugin, 'restApi').returns({
         send: sendStub,
       });

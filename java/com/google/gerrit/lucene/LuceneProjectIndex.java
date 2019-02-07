@@ -15,8 +15,12 @@
 package com.google.gerrit.lucene;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.google.gerrit.index.project.ProjectField.DESCRIPTION;
 import static com.google.gerrit.index.project.ProjectField.NAME;
+import static com.google.gerrit.index.project.ProjectField.PARENT_NAME;
+import static com.google.gerrit.index.project.ProjectField.STATE;
 
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
@@ -30,16 +34,15 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.SortedDocValuesField;
+import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.search.Sort;
@@ -66,7 +69,6 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
 
   private final GerritIndexWriterConfig indexWriterConfig;
   private final QueryBuilder<ProjectData> queryBuilder;
-  private final Provider<ProjectCache> projectCache;
 
   private static Directory dir(Schema<ProjectData> schema, Config cfg, SitePaths sitePaths)
       throws IOException {
@@ -79,10 +81,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
 
   @Inject
   LuceneProjectIndex(
-      @GerritServerConfig Config cfg,
-      SitePaths sitePaths,
-      Provider<ProjectCache> projectCache,
-      @Assisted Schema<ProjectData> schema)
+      @GerritServerConfig Config cfg, SitePaths sitePaths, @Assisted Schema<ProjectData> schema)
       throws IOException {
     super(
         schema,
@@ -92,8 +91,6 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
         null,
         new GerritIndexWriterConfig(cfg, PROJECTS),
         new SearcherFactory());
-    this.projectCache = projectCache;
-
     indexWriterConfig = new GerritIndexWriterConfig(cfg, PROJECTS);
     queryBuilder = new QueryBuilder<>(schema, indexWriterConfig.getAnalyzer());
   }
@@ -139,7 +136,27 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
   @Override
   protected ProjectData fromDocument(Document doc) {
     Project.NameKey nameKey = new Project.NameKey(doc.getField(NAME.getName()).stringValue());
-    ProjectState projectState = projectCache.get().get(nameKey);
-    return projectState == null ? null : projectState.toProjectData();
+    Project p = new Project(nameKey);
+
+    IndexableField descriptionField = doc.getField(DESCRIPTION.getName());
+    if (descriptionField != null) {
+      p.setDescription(descriptionField.stringValue());
+    }
+
+    IndexableField stateField = doc.getField(STATE.getName());
+    if (stateField != null) {
+      p.setState(ProjectState.valueOf(stateField.stringValue()));
+    }
+
+    IndexableField parentField = doc.getField(PARENT_NAME.getName());
+    if (parentField != null) {
+      p.setParentName(new Project.NameKey(parentField.stringValue()));
+    }
+
+    return new ProjectData(
+        p,
+        p.getParent() == null
+            ? Optional.empty()
+            : Optional.of(new ProjectData(new Project(p.getParent()), Optional.empty())));
   }
 }

@@ -37,6 +37,7 @@ describes the verifier.
   {
     "uuid": "e1f530851409c89dbba927efd0fbbaf270bfaeae",
     "name": "MyVerifier",
+    "repository": "examples/Foo",
     "description": "A simple verifier.",
     "created_on": "2019-01-31 09:59:32.126000000"
   }
@@ -64,7 +65,8 @@ Verifiers] global capability are permitted to create verifiers.
 
   {
     "name": "MyVerifier",
-    "description": "A simple verifier."
+    "description": "A simple verifier.",
+    "repository": "examples/Foo",
   }
 ----
 
@@ -82,6 +84,7 @@ describes the created verifier.
     "uuid": "e1f530851409c89dbba927efd0fbbaf270bfaeae",
     "name": "MyVerifier",
     "description": "A simple verifier.",
+    "repository": "examples/Foo",
     "created_on": "2019-01-31 09:59:32.126000000",
     "updated_on": "2019-01-31 09:59:32.126000000"
   }
@@ -110,6 +113,9 @@ Unsetting properties:
    `400 Bad Request`.
 * `description`: Can be unset by setting an empty string ("") for it.
 * `url`: Can be unset by setting an empty string ("") for it.
+* '`repository`: Cannot be unset. Attempting to set it to an empty
+   string ("") or a string that is empty after trim is rejected as
+   `400 Bad Request`.
 
 Note that only users with the
 link:access-control.html#capability_administrateVerifiers[Administrate
@@ -139,6 +145,7 @@ describes the updated verifier.
     "uuid": "e1f530851409c89dbba927efd0fbbaf270bfaeae",
     "name": "MyVerifier",
     "description": "A simple verifier.",
+    "repository": "examples/Foo",
     "created_on": "2019-01-31 09:59:32.126000000",
     "updated_on": "2019-02-01 07:23:44.158000000"
   }
@@ -176,6 +183,8 @@ The name of the verifier, may not be unique.
 The description of the verifier.
 |`url`           |optional|
 The URL of the verifier.
+|`repository`    ||
+The (exact) name of the repository for which the verifier applies.
 |`created_on`    ||
 The link:rest-api.html#timestamp[timestamp] of when the verifier was
 created.
@@ -197,6 +206,8 @@ The name of the verifier. Must be specified for verifier creation.
 The description of the verifier.
 |`url`           |optional|
 The URL of the verifier.
+|`repository`    |optional|
+The (exact) name of the repository for which the verifier applies.
 |=============================
 
 GERRIT

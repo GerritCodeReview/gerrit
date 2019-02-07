@@ -15,6 +15,7 @@
 package com.google.gerrit.server.verifier.db;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.verifier.Verifier;
 import com.google.gerrit.server.verifier.VerifierCreation;
 import com.google.gerrit.server.verifier.VerifierUpdate;
@@ -125,6 +126,40 @@ enum VerifierConfigEntry {
                   config.setString(SECTION_NAME, null, super.keyName, url);
                 }
               });
+    }
+  },
+
+  /**
+   * The repository for which the verifier applies. This property is equivalent to {@link
+   * Verifier#getRepository()}.
+   *
+   * <p>This is a mandatory property.
+   */
+  REPOSITORY("repository") {
+    @Override
+    void readFromConfig(String verifierUuid, Verifier.Builder verifier, Config config)
+        throws ConfigInvalidException {
+      String repository = config.getString(SECTION_NAME, null, super.keyName);
+      // An empty repository is invalid in NoteDb; VerifierConfig will refuse to store it
+      if (repository == null) {
+        throw new ConfigInvalidException(
+            String.format("repository of verifier %s not set", verifierUuid));
+      }
+      verifier.setRepository(new Project.NameKey(repository));
+    }
+
+    @Override
+    void initNewConfig(Config config, VerifierCreation verifierCreation) {
+      String repository = verifierCreation.getRepository().get();
+      config.setString(SECTION_NAME, null, super.keyName, repository);
+    }
+
+    @Override
+    void updateConfigValue(Config config, VerifierUpdate verifierUpdate) {
+      verifierUpdate
+          .getRepository()
+          .ifPresent(
+              repository -> config.setString(SECTION_NAME, null, super.keyName, repository.get()));
     }
   };
 

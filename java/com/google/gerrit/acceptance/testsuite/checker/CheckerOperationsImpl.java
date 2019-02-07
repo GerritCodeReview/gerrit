@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.gerrit.acceptance.testsuite.checker.TestCheckerUpdate.Builder;
 import com.google.gerrit.common.errors.NoSuchCheckerException;
 import com.google.gerrit.extensions.api.checkers.CheckerInfo;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.checker.Checker;
 import com.google.gerrit.server.checker.CheckerCreation;
@@ -89,7 +90,12 @@ public class CheckerOperationsImpl implements CheckerOperations {
   private CheckerCreation toCheckerCreation(TestCheckerCreation checkerCreation) {
     String checkerUuid = CheckerUuid.make("test-checker");
     String checkerName = checkerCreation.name().orElse("checker-with-uuid-" + checkerUuid);
-    return CheckerCreation.builder().setCheckerUuid(checkerUuid).setName(checkerName).build();
+    Project.NameKey repository = checkerCreation.repository().orElse(allProjectsName);
+    return CheckerCreation.builder()
+        .setCheckerUuid(checkerUuid)
+        .setName(checkerName)
+        .setRepository(repository)
+        .build();
   }
 
   private static CheckerUpdate toCheckerUpdate(TestCheckerCreation checkerCreation) {
@@ -97,6 +103,7 @@ public class CheckerOperationsImpl implements CheckerOperations {
     checkerCreation.name().ifPresent(builder::setName);
     checkerCreation.description().ifPresent(builder::setDescription);
     checkerCreation.url().ifPresent(builder::setUrl);
+    checkerCreation.repository().ifPresent(builder::setRepository);
     return builder.build();
   }
 
@@ -133,6 +140,7 @@ public class CheckerOperationsImpl implements CheckerOperations {
           .name(checker.getName())
           .description(checker.getDescription())
           .url(checker.getUrl())
+          .repository(checker.getRepository())
           .createdOn(checker.getCreatedOn())
           .updatedOn(checker.getUpdatedOn())
           .refState(checker.getRefState())
@@ -187,6 +195,7 @@ public class CheckerOperationsImpl implements CheckerOperations {
       checkerUpdate.name().ifPresent(builder::setName);
       checkerUpdate.description().ifPresent(builder::setDescription);
       checkerUpdate.url().ifPresent(builder::setUrl);
+      checkerUpdate.repository().ifPresent(builder::setRepository);
       return builder.build();
     }
   }

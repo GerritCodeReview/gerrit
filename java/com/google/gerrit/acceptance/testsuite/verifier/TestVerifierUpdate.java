@@ -24,6 +24,8 @@ public abstract class TestVerifierUpdate {
 
   public abstract Optional<String> description();
 
+  public abstract Optional<String> url();
+
   abstract ThrowingConsumer<TestVerifierUpdate> verifierUpdater();
 
   public static Builder builder(ThrowingConsumer<TestVerifierUpdate> verifierUpdater) {
@@ -39,6 +41,12 @@ public abstract class TestVerifierUpdate {
 
     public Builder clearDescription() {
       return description("");
+    }
+
+    public abstract Builder url(String url);
+
+    public Builder clearUrl() {
+      return url("");
     }
 
     abstract Builder verifierUpdater(ThrowingConsumer<TestVerifierUpdate> verifierUpdater);

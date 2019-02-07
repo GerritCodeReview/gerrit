@@ -20,6 +20,7 @@ public class VerifierInfo {
   public String uuid;
   public String name;
   public String description;
+  public String url;
   public Timestamp createdOn;
   public Timestamp updatedOn;
 }

@@ -29,6 +29,10 @@
         type: Map,
         value() { return new Map(); },
       },
+      _importedPlugins: {
+        type: Map,
+        value() { return new Map(); },
+      },
     },
 
     detached() {
@@ -102,6 +106,9 @@
     },
 
     _initModule({moduleName, plugin, type, domHook}) {
+      if (this._importedPlugins.get(plugin.name)) {
+        return;
+      }
       let initPromise;
       switch (type) {
         case 'decorate':
@@ -115,6 +122,7 @@
         console.warn('Unable to initialize module' +
             `${moduleName} from ${plugin.getPluginName()}`);
       }
+      this._importedPlugins.set(plugin.name, true);
       initPromise.then(el => {
         domHook.handleInstanceAttached(el);
         this._domHooks.set(el, domHook);

@@ -29,6 +29,16 @@
         type: Map,
         value() { return new Map(); },
       },
+      /**
+       * This map prevents importing the same endpoint twice.
+       * Without caching, if a plugin is loaded after the loaded plugins
+       * callback fires, it will be imported twice and appear twice on the page.
+       * @type {!Map}
+       */
+      _initializedPlugins: {
+        type: Map,
+        value() { return new Map(); },
+      },
     },
 
     detached() {
@@ -102,6 +112,9 @@
     },
 
     _initModule({moduleName, plugin, type, domHook}) {
+      if (this._initializedPlugins.get(plugin.name)) {
+        return;
+      }
       let initPromise;
       switch (type) {
         case 'decorate':
@@ -115,6 +128,7 @@
         console.warn('Unable to initialize module' +
             `${moduleName} from ${plugin.getPluginName()}`);
       }
+      this._initializedPlugins.set(plugin.name, true);
       initPromise.then(el => {
         domHook.handleInstanceAttached(el);
         this._domHooks.set(el, domHook);

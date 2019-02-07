@@ -21,6 +21,7 @@ import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.Truth;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.checker.Checker;
 import com.google.gerrit.server.testing.ObjectIdSubject;
 import com.google.gerrit.truth.OptionalSubject;
@@ -58,6 +59,12 @@ public class CheckerSubject extends Subject<CheckerSubject, Checker> {
     isNotNull();
     Checker checker = actual();
     return OptionalSubject.assertThat(checker.getUrl(), Truth::assertThat).named("url");
+  }
+
+  public void hasRepository(Project.NameKey expectedRepository) {
+    isNotNull();
+    Checker checker = actual();
+    Truth.assertThat(checker.getRepository()).named("repository").isEqualTo(expectedRepository);
   }
 
   public ComparableSubject<?, Timestamp> hasCreatedOnThat() {

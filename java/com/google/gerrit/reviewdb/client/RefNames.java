@@ -54,6 +54,9 @@ public class RefNames {
   /** Sequence counters in NoteDb. */
   public static final String REFS_SEQUENCES = "refs/sequences/";
 
+  /** Ref that stores the repository to checkers map. */
+  public static final String REFS_META_CHECKERS = "refs/meta/checkers/";
+
   /** NoteDb schema version number. */
   public static final String REFS_VERSION = "refs/meta/version";
 
@@ -301,6 +304,7 @@ public class RefNames {
     return ref.startsWith(REFS_CHANGES)
         || ref.startsWith(REFS_CHECKERS)
         || ref.startsWith(REFS_META)
+        || ref.startsWith(REFS_META_CHECKERS)
         || ref.startsWith(REFS_CACHE_AUTOMERGE)
         || ref.startsWith(REFS_DRAFT_COMMENTS)
         || ref.startsWith(REFS_DELETED_GROUPS)

@@ -103,7 +103,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       super(failureMetadata, target);
     }
 
-    public FakeEmailSenderSubject notSent() {
+    public FakeEmailSenderSubject didNotSend() {
       Message message = actual().peekMessage();
       if (message != null) {
         failWithoutActual(fact("expected no message", message));

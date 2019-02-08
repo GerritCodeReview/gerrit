@@ -109,6 +109,7 @@ limitations under the License.
               items="{{_rules}}"
               as="rule">
             <gr-rule-editor
+                has-range="[[_computeHasRange(name)]]"
                 label="[[_label]]"
                 editing="[[editing]]"
                 group-id="[[rule.id]]"

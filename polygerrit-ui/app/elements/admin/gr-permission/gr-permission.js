@@ -19,6 +19,11 @@
 
   const MAX_AUTOCOMPLETE_RESULTS = 20;
 
+  const RANGE_NAMES = [
+    'QUERY LIMIT',
+    'BATCH CHANGES LIMIT',
+  ];
+
   /**
    * Fired when the permission has been modified or removed.
    *
@@ -268,6 +273,12 @@
       value.added = true;
       this.set(['permission', 'value', 'rules', groupId], value);
       this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
+    },
+
+    _computeHasRange(name) {
+      if (!name) { return false; }
+
+      return RANGE_NAMES.includes(name.toUpperCase());
     },
   });
 })();

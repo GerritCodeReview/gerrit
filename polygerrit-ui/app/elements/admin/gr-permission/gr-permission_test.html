@@ -255,6 +255,14 @@ limitations under the License.
         assert.isFalse(element._deleted);
         assert.isNotOk(element.permission.value.deleted);
       });
+
+      test('_computeHasRange', () => {
+        assert.isTrue(element._computeHasRange('Query Limit'));
+
+        assert.isTrue(element._computeHasRange('Batch Changes Limit'));
+
+        assert.isFalse(element._computeHasRange('test'));
+      });
     });
 
     suite('interactions', () => {

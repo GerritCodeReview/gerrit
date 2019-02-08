@@ -128,7 +128,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
     try (ByteArrayOutputStream displayOut = new ByteArrayOutputStream()) {
 
       listProjects.setStart(numInitialProjects);
-      listProjects.display(displayOut);
+      listProjects.displayToStream(displayOut);
 
       List<String> lines =
           Splitter.on("\n").omitEmptyStrings().splitToList(new String(displayOut.toByteArray()));
@@ -158,7 +158,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
       listProjects.setStart(numInitialProjects);
       listProjects.setFormat(jsonFormat);
-      listProjects.display(displayOut);
+      listProjects.displayToStream(displayOut);
 
       String projectsJsonOutput = new String(displayOut.toByteArray());
 

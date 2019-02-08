@@ -286,33 +286,6 @@ To run a specific test group, e.g. the rest-account test group:
   bazel test //javatests/com/google/gerrit/acceptance/rest/account:rest_account
 ----
 
-The tests run with NoteDb fully enabled by default.
-
-To run the tests against NoteDb backend with write to NoteDb, but not read from
-it:
-
-----
-  bazel test --test_env=GERRIT_NOTEDB=WRITE //...
-----
-
-Write and read from NoteDb:
-
-----
-  bazel test --test_env=GERRIT_NOTEDB=READ_WRITE //...
-----
-
-Primary storage NoteDb:
-
-----
-  bazel test --test_env=GERRIT_NOTEDB=PRIMARY //...
-----
-
-NoteDb entirely disabled:
-
-----
-  bazel test --test_env=GERRIT_NOTEDB=OFF //...
-----
-
 To run only tests that do not use SSH:
 
 ----

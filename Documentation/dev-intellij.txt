@@ -184,10 +184,6 @@ Normally, this approach generates JUnit run configurations. When the Bazel
 plugin manages a project, it intercepts the creation and creates a Bazel test
 run configuration instead, which can be used just like the standard ones.
 
-TIP: Tests run with NoteDb enabled by default. If you would like to execute a
-test with NoteDb turned off, add `--test_env=GERRIT_NOTEDB=OFF` to the *Bazel
-flags* of your run configuration.
-
 [[remote-debug]]
 === Debugging a remote Gerrit server
 If a remote Gerrit server is running and has opened a debug port, you can attach

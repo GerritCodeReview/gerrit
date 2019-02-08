@@ -29,6 +29,7 @@ import static java.util.Comparator.comparing;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.Throwables;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -50,6 +51,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.logging.RequestId;
@@ -600,6 +602,32 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     psas = notes.getApprovals().get(c.currentPatchSetId());
     assertThat(psas).hasSize(1);
     assertThat(psas.get(0).accountId()).isEqualTo(changeOwner.getAccount().id());
+  }
+
+  @Test
+  public void oneReviewerMultipleTypesSameUpdate() throws Exception {
+    for (List<ReviewerStateInternal> states :
+        Collections2.permutations(ImmutableList.copyOf(ReviewerStateInternal.values()))) {
+      Change c = newChange();
+      ChangeUpdate update = newUpdate(c, changeOwner);
+      Account.Id id = otherUser.getAccount().getId();
+      for (ReviewerStateInternal state : states) {
+        if (state != ReviewerStateInternal.REMOVED) {
+          update.putReviewer(id, state);
+        } else {
+          update.removeReviewer(id);
+        }
+      }
+      update.commit();
+
+      String name = "for permutation: " + states;
+      ReviewerSet reviewers = newNotes(c).getReviewers();
+      assertWithMessage(name).that(reviewers.asTable()).hasSize(1);
+      assertWithMessage(name)
+          .that(reviewers.byState(ReviewerStateInternal.REVIEWER))
+          .containsExactly(id);
+      assertWithMessage(name).that(reviewers.byState(ReviewerStateInternal.CC)).isEmpty();
+    }
   }
 
   @Test
@@ -2893,6 +2921,32 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getReviewersByEmail().byState(ReviewerStateInternal.REVIEWER)).isEmpty();
     assertThat(notes.getReviewersByEmail().byState(ReviewerStateInternal.CC)).containsExactly(adr);
     assertThat(notes.getReviewersByEmail().all()).containsExactly(adr);
+  }
+
+  @Test
+  public void oneReviewerByEmailMultipleTypesSameUpdate() throws Exception {
+    for (List<ReviewerStateInternal> states :
+        Collections2.permutations(ImmutableList.copyOf(ReviewerStateInternal.values()))) {
+      Change c = newChange();
+      ChangeUpdate update = newUpdate(c, changeOwner);
+      Address adr = new Address("Foo Bar", "foo.bar@gerritcodereview.com");
+      for (ReviewerStateInternal state : states) {
+        if (state != ReviewerStateInternal.REMOVED) {
+          update.putReviewerByEmail(adr, state);
+        } else {
+          update.removeReviewerByEmail(adr);
+        }
+      }
+      update.commit();
+
+      String name = "for permutation: " + states;
+      ReviewerByEmailSet reviewers = newNotes(c).getReviewersByEmail();
+      assertWithMessage(name).that(reviewers.asTable()).hasSize(1);
+      assertWithMessage(name)
+          .that(reviewers.byState(ReviewerStateInternal.REVIEWER))
+          .containsExactly(adr);
+      assertWithMessage(name).that(reviewers.byState(ReviewerStateInternal.CC)).isEmpty();
+    }
   }
 
   @Test

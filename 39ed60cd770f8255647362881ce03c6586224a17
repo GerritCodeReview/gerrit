@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2d0cac1_a603d4b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-08T00:00:33Z",
+      "side": 1,
+      "message": "Remove.",
+      "revId": "39ed60cd770f8255647362881ce03c6586224a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88f206cf_552a6532",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-08T00:00:33Z",
+      "side": 1,
+      "message": "Remove.",
+      "revId": "39ed60cd770f8255647362881ce03c6586224a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

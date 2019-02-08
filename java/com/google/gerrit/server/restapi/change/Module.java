@@ -29,7 +29,6 @@ import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.DeleteChangeOp;
@@ -43,6 +42,7 @@ import com.google.gerrit.server.change.SetAssigneeOp;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.change.WorkInProgressOp;
+import com.google.gerrit.server.change.reviewer.ReviewerAdder;
 import com.google.gerrit.server.restapi.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.restapi.change.Reviewed.PutReviewed;
 
@@ -187,6 +187,7 @@ public class Module extends RestApiModule {
     delete(CHANGE_MESSAGE_KIND).to(DeleteChangeMessage.DefaultDeleteChangeMessage.class);
     post(CHANGE_MESSAGE_KIND, "delete").to(DeleteChangeMessage.class);
 
+    install(ReviewerAdder.module());
     factory(AccountLoader.Factory.class);
     factory(ChangeInserter.Factory.class);
     factory(ChangeResource.Factory.class);
@@ -195,7 +196,6 @@ public class Module extends RestApiModule {
     factory(DeleteReviewerOp.Factory.class);
     factory(EmailReviewComments.Factory.class);
     factory(PatchSetInserter.Factory.class);
-    factory(AddReviewersOp.Factory.class);
     factory(RebaseChangeOp.Factory.class);
     factory(ReviewerResource.Factory.class);
     factory(SetAssigneeOp.Factory.class);

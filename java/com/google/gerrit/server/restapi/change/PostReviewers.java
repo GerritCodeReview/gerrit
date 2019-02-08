@@ -14,19 +14,23 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.Preconditions.checkState;
+
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
-import com.google.gerrit.server.change.ReviewerAdder;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.ReviewerResource;
+import com.google.gerrit.server.change.reviewer.AddReviewerResultJson;
+import com.google.gerrit.server.change.reviewer.AddReviewersEmailOp;
+import com.google.gerrit.server.change.reviewer.ReviewerAdder;
+import com.google.gerrit.server.change.reviewer.ReviewerAddition;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestCollectionModifyView;
@@ -42,18 +46,21 @@ public class PostReviewers
     extends RetryingRestCollectionModifyView<
         ChangeResource, ReviewerResource, AddReviewerInput, AddReviewerResult> {
 
-  private final ChangeData.Factory changeDataFactory;
+  private final AddReviewersEmailOp.Factory emailOpFactory;
+  private final AddReviewerResultJson json;
   private final NotifyResolver notifyResolver;
   private final ReviewerAdder reviewerAdder;
 
   @Inject
   PostReviewers(
-      ChangeData.Factory changeDataFactory,
+      AddReviewersEmailOp.Factory emailOpFactory,
+      AddReviewerResultJson json,
       RetryHelper retryHelper,
       NotifyResolver notifyResolver,
       ReviewerAdder reviewerAdder) {
     super(retryHelper);
-    this.changeDataFactory = changeDataFactory;
+    this.emailOpFactory = emailOpFactory;
+    this.json = json;
     this.notifyResolver = notifyResolver;
     this.reviewerAdder = reviewerAdder;
   }
@@ -62,26 +69,24 @@ public class PostReviewers
   protected AddReviewerResult applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, AddReviewerInput input)
       throws IOException, RestApiException, UpdateException, PermissionBackendException,
-          ConfigInvalidException {
-    if (input.reviewer == null) {
-      throw new BadRequestException("missing reviewer field");
-    }
+          ConfigInvalidException, NoSuchProjectException {
+    ReviewerAddition addition =
+        reviewerAdder.prepare(
+            rsrc.getNotes(),
+            ImmutableList.of(
+                ReviewerAdder.Input.fromJson(input, ReviewerAdder.Options.forRestApi())));
 
-    ReviewerAddition addition = reviewerAdder.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
-    if (addition.op == null) {
-      return addition.result;
-    }
     try (BatchUpdate bu =
         updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+      bu.addOp(rsrc.getId(), addition);
+      bu.addOp(rsrc.getId(), emailOpFactory.create(rsrc.getProject(), rsrc.getId(), addition));
       bu.setNotify(resolveNotify(rsrc, input));
-      Change.Id id = rsrc.getChange().getId();
-      bu.addOp(id, addition.op);
       bu.execute();
     }
 
-    // Re-read change to take into account results of the update.
-    addition.gatherResults(changeDataFactory.create(rsrc.getProject(), rsrc.getId()));
-    return addition.result;
+    ImmutableList<ReviewerAdder.Result> results = addition.getResults();
+    checkState(results.size() == 1, "expected 1 result: %s", results);
+    return json.reloadAndFormat(results.get(0), rsrc.getNotes());
   }
 
   private NotifyResolver.Result resolveNotify(ChangeResource rsrc, AddReviewerInput input)

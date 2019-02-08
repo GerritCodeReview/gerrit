@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail.send;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -30,7 +31,7 @@ import java.util.List;
 import java.util.Set;
 
 /** Send notice of new patch sets for reviewers. */
-public class ReplacePatchSetSender extends ReplyToChangeSender {
+public class ReplacePatchSetSender extends ReplyToChangeSender implements ReviewerSender {
   public interface Factory {
     ReplacePatchSetSender create(Project.NameKey project, Change.Id id);
   }
@@ -44,12 +45,24 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     super(ea, "newpatchset", newChangeData(ea, project, id));
   }
 
+  @Override
   public void addReviewers(Collection<Account.Id> cc) {
     reviewers.addAll(cc);
   }
 
+  @Override
+  public void addReviewersByEmail(Collection<Address> cc) {
+    // TODO(dborowitz): Implement.
+  }
+
+  @Override
   public void addExtraCC(Collection<Account.Id> cc) {
     extraCC.addAll(cc);
+  }
+
+  @Override
+  public void addExtraCCByEmail(Collection<Address> cc) {
+    // TODO(dborowitz): Implement.
   }
 
   @Override

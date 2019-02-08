@@ -16,38 +16,28 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
-import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInputFromCommitIdentity;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
+import com.google.gerrit.server.change.reviewer.ReviewerAdder;
+import com.google.gerrit.server.change.reviewer.ReviewerAddition;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.CommentAdded;
@@ -56,10 +46,10 @@ import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
+import com.google.gerrit.server.mail.send.NewChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.NoSshInfo;
@@ -71,6 +61,8 @@ import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -78,7 +70,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import org.eclipse.jgit.errors.ConfigInvalidException;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -125,7 +117,7 @@ public class ChangeInserter implements InsertChangeOp {
   private boolean sendMail;
   private boolean updateRef;
   private Change.Id revertOf;
-  private ImmutableList<InternalAddReviewerInput> reviewerInputs;
+  private final List<ReviewerAdder.Input> reviewerInputs = new ArrayList<>();
 
   // Fields set during the insertion process.
   private ReceiveCommand cmd;
@@ -135,7 +127,7 @@ public class ChangeInserter implements InsertChangeOp {
   private PatchSet patchSet;
   private String pushCert;
   private ProjectState projectState;
-  private ReviewerAdditionList reviewerAdditions;
+  private ReviewerAddition reviewerAddition;
 
   @Inject
   ChangeInserter(
@@ -171,7 +163,6 @@ public class ChangeInserter implements InsertChangeOp {
     this.psId = new PatchSet.Id(changeId, INITIAL_PATCH_SET_ID);
     this.commitId = commitId.copy();
     this.refName = refName;
-    this.reviewerInputs = ImmutableList.of();
     this.approvals = Collections.emptyMap();
     this.fireRevisionCreated = true;
     this.sendMail = true;
@@ -249,22 +240,8 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
-  public ChangeInserter setReviewersAndCcs(
-      Iterable<Account.Id> reviewers, Iterable<Account.Id> ccs) {
-    return setReviewersAndCcsAsStrings(
-        Iterables.transform(reviewers, Account.Id::toString),
-        Iterables.transform(ccs, Account.Id::toString));
-  }
-
-  public ChangeInserter setReviewersAndCcsAsStrings(
-      Iterable<String> reviewers, Iterable<String> ccs) {
-    reviewerInputs =
-        Streams.concat(
-                Streams.stream(reviewers)
-                    .distinct()
-                    .map(id -> newAddReviewerInput(id, ReviewerState.REVIEWER)),
-                Streams.stream(ccs).distinct().map(id -> newAddReviewerInput(id, ReviewerState.CC)))
-            .collect(toImmutableList());
+  public ChangeInserter addReviewers(Collection<ReviewerAdder.Input> inputs) {
+    this.reviewerInputs.addAll(inputs);
     return this;
   }
 
@@ -367,11 +344,10 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, IOException, PermissionBackendException, ConfigInvalidException {
+  public boolean updateChange(ChangeContext ctx) throws Exception {
+    RevCommit commit = ctx.getRevWalk().parseCommit(commitId);
     change = ctx.getChange(); // Use defensive copy created by ChangeControl.
-    patchSetInfo =
-        patchSetInfoFactory.get(ctx.getRevWalk(), ctx.getRevWalk().parseCommit(commitId), psId);
+    patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
     ctx.getChange().setCurrentPatchSet(patchSetInfo);
 
     ChangeUpdate update = ctx.getUpdate(psId);
@@ -404,13 +380,12 @@ public class ChangeInserter implements InsertChangeOp {
      */
     update.fixStatus(change.getStatus());
 
-    reviewerAdditions =
-        reviewerAdder.prepare(ctx.getNotes(), ctx.getUser(), getReviewerInputs(), true);
-    Optional<ReviewerAddition> reviewerError = reviewerAdditions.getFailures().stream().findFirst();
+    reviewerAddition = reviewerAdder.prepare(ctx.getNotes(), getReviewerInputs(commit));
+    Optional<String> reviewerError = reviewerAddition.getError();
     if (reviewerError.isPresent()) {
-      throw new UnprocessableEntityException(reviewerError.get().result.error);
+      throw new UnprocessableEntityException(reviewerError.get());
     }
-    reviewerAdditions.updateChange(ctx, patchSet);
+    reviewerAddition.setPatchSet(patchSet).updateChange(ctx);
 
     LabelTypes labelTypes = projectState.getLabelTypes();
     approvalsUtil.addApprovalsForNewPatchSet(
@@ -436,9 +411,20 @@ public class ChangeInserter implements InsertChangeOp {
     return true;
   }
 
+  private ImmutableList<ReviewerAdder.Input> getReviewerInputs(RevCommit commit) {
+    ReviewerAdder.Options opts = ReviewerAdder.Options.forAutoAddingGitIdentity();
+    return Stream.concat(
+            reviewerInputs.stream(),
+            Stream.of(
+                // TODO(dborowitz): This feels like it should be CC instead.
+                ReviewerAdder.Input.fromPersonIdent(commit.getAuthorIdent(), REVIEWER, opts),
+                ReviewerAdder.Input.fromPersonIdent(commit.getCommitterIdent(), REVIEWER, opts)))
+        .collect(toImmutableList());
+  }
+
   @Override
   public void postUpdate(Context ctx) throws Exception {
-    reviewerAdditions.postUpdate(ctx);
+    reviewerAddition.postUpdate(ctx);
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
     if (sendMail && notify.shouldNotify()) {
       Runnable sender =
@@ -446,20 +432,12 @@ public class ChangeInserter implements InsertChangeOp {
             @Override
             public void run() {
               try {
-                CreateChangeSender cm =
+                NewChangeSender cm =
                     createChangeSenderFactory.create(change.getProject(), change.getId());
                 cm.setFrom(change.getOwner());
                 cm.setPatchSet(patchSet, patchSetInfo);
+                reviewerAddition.addReviewersToSender(cm);
                 cm.setNotify(notify);
-                cm.addReviewers(
-                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewers).stream()
-                        .map(PatchSetApproval::getAccountId)
-                        .collect(toImmutableSet()));
-                cm.addReviewersByEmail(
-                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewersByEmail));
-                cm.addExtraCC(reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs));
-                cm.addExtraCCByEmail(
-                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCsByEmail));
                 cm.send();
               } catch (Exception e) {
                 logger.atSevere().withCause(e).log(
@@ -535,34 +513,5 @@ public class ChangeInserter implements InsertChangeOp {
     } catch (CommitValidationException e) {
       throw new ResourceConflictException(e.getFullMessage());
     }
-  }
-
-  private static InternalAddReviewerInput newAddReviewerInput(
-      String reviewer, ReviewerState state) {
-    // Disable individual emails when adding reviewers, as all reviewers will receive the single
-    // bulk new change email.
-    InternalAddReviewerInput input =
-        ReviewerAdder.newAddReviewerInput(reviewer, state, NotifyHandling.NONE);
-
-    // Ignore failures for reasons like the reviewer being inactive or being unable to see the
-    // change. This is required for the push path, where it automatically sets reviewers from
-    // certain commit footers: putting a nonexistent user in a footer should not cause an error. In
-    // theory we could provide finer control to do this for some reviewers and not others, but it's
-    // not worth complicating the ChangeInserter interface further at this time.
-    input.otherFailureBehavior = ReviewerAdder.FailureBehavior.IGNORE;
-
-    return input;
-  }
-
-  private ImmutableList<InternalAddReviewerInput> getReviewerInputs() {
-    return Streams.concat(
-            reviewerInputs.stream(),
-            Streams.stream(
-                newAddReviewerInputFromCommitIdentity(
-                    change, patchSetInfo.getAuthor().getAccount(), NotifyHandling.NONE)),
-            Streams.stream(
-                newAddReviewerInputFromCommitIdentity(
-                    change, patchSetInfo.getCommitter().getAccount(), NotifyHandling.NONE)))
-        .collect(toImmutableList());
   }
 }

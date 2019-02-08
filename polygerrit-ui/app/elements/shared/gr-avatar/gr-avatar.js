@@ -33,6 +33,7 @@
         type: Boolean,
         value: false,
       },
+      _config: Object,
     },
 
     behaviors: [
@@ -40,12 +41,13 @@
     ],
 
     attached() {
-      Promise.all([
-        this.$.restAPI.getConfig(),
-        Gerrit.awaitPluginsLoaded(),
-      ]).then(([cfg]) => {
-        this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-        if (this._hasAvatars && this.account) {
+      this.$.restAPI.getConfig().then(cfg => {
+        this._config = cfg;
+      });
+      Gerrit.awaitPluginsLoaded().then(() => {
+        this._hasAvatars = !!(this._config &&
+            this._config.plugin && this._config.plugin.has_avatars);
+        if (this._hasAvatars) {
           // src needs to be set if avatar becomes visible
           this._updateAvatarURL();
         } else {

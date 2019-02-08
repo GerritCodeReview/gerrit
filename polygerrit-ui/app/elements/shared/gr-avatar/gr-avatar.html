@@ -23,14 +23,16 @@ limitations under the License.
 
 <dom-module id="gr-avatar">
   <template>
-    <style include="shared-styles">
-      :host {
-        display: inline-block;
-        border-radius: 50%;
-        background-size: cover;
-        background-color: var(--background-color, #f1f2f3);
-      }
-    </style>
+    <template is="dom-if" if="[[account]]">
+      <style include="shared-styles">
+        :host {
+          display: inline-block;
+          border-radius: 50%;
+          background-size: cover;
+          background-color: var(--background-color, #f1f2f3);
+        }
+      </style>
+    </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-avatar.js"></script>

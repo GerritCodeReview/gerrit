@@ -17,8 +17,10 @@ package com.google.gerrit.server.checker.db;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.checker.Checker;
 import com.google.gerrit.server.checker.CheckerUuid;
@@ -86,6 +88,29 @@ class NoteDbCheckers implements Checkers {
         }
       }
       return sortedCheckers.build();
+    }
+  }
+
+  @Override
+  public ImmutableSet<Checker> checkersOf(Project.NameKey repositoryName)
+      throws IOException, ConfigInvalidException {
+    try (Repository allProjectsRepo = repoManager.openRepository(allProjectsName)) {
+      ImmutableSet<String> checkerUuids =
+          CheckersByRepositoryNotes.load(allProjectsName, allProjectsRepo).get(repositoryName);
+
+      ImmutableSet.Builder<Checker> checkers = ImmutableSet.builder();
+      for (String checkerUuid : checkerUuids) {
+        try {
+          CheckerConfig checkerConfig =
+              CheckerConfig.loadForChecker(allProjectsName, allProjectsRepo, checkerUuid);
+          checkerConfig.getLoadedChecker().ifPresent(checkers::add);
+        } catch (ConfigInvalidException e) {
+          logger.atWarning().withCause(e).log(
+              "Ignore invalid checker %s on listing checkers for repository %s",
+              checkerUuid, repositoryName);
+        }
+      }
+      return checkers.build();
     }
   }
 }

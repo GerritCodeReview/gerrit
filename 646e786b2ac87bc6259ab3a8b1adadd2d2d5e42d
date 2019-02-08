@@ -16,6 +16,24 @@
       "revId": "646e786b2ac87bc6259ab3a8b1adadd2d2d5e42d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91366b0a_111228d2",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-02-08T18:03:38Z",
+      "side": 1,
+      "message": "Added a comment and updated the variable to _initializedPlugins. I think the initialized prefix helps understand that the cache is really only for plugins that have gone through _initModule.",
+      "parentUuid": "497ed8f6_b4e84452",
+      "revId": "646e786b2ac87bc6259ab3a8b1adadd2d2d5e42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

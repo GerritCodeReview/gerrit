@@ -1,4 +1,79 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1549635851 +0100\nnonce ANwvRnBDrBiAWtyfk9vWnvjm7BPwmCeoTbTfCAZ0rvymx7gNvjDbuJ03+pJg3SE0VnuBkMfTGSjW\n\n0000000000000000000000000000000000000000 67c2a5a65f89b6a61681bae56973db2bf44c12f6 refs/for/master%private\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJcXZELAAoJEHFVO370GiZWIKgH/jSlP46dErWTkQiMtyFIR9cT\nkLoK9mCcbXV1Falq7SoldsZpauB9tfkVjrPyhQwx2/gSB8DvwPuzVNrPa/Ed21+T\nUE5VkFPhJ7ZKqvEnV+3VIY3Es0QKfGJwPu+d6cSYsu/WZW8yeo9iqAm3ZKT6pqxL\nWuBNFazcfzd2teITAakIzEFQGmJecFp0M+4jV6pDeNBfEJH9XU1GCHvO6XRyAPjI\noEsOdVxreH5exHK1uwCj/45grj4vVNeMnOj7w6aNctuvU1mbvQnjUD1mc8184uth\nI24ZcPvwAH03vdGJE6lPsGWP8cJdJMIxUQYkR9nHMzrlzlcOxXsbxYW8r/tP7Ww\u003d\n\u003dcoJe\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "20a6d7f1_81123da2",
+        "filename": "java/com/google/gerrit/extensions/api/verifiers/VerifierInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T15:20:30Z",
+      "side": 1,
+      "message": "Optional: toString, while you\u0027re in here?",
+      "revId": "cd6b6eb8215cccd56c278bc9ff5f755644572fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc40e75b_dcaf6e47",
+        "filename": "java/com/google/gerrit/server/verifier/db/NoteDbVerifiers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T15:20:30Z",
+      "side": 1,
+      "message": "Optional: .flatMap(Streams::stream) works by converting each Optional to a 0-or-1 element stream, and is shorter.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 42
+      },
+      "revId": "cd6b6eb8215cccd56c278bc9ff5f755644572fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa0e5778_fe086452",
+        "filename": "javatests/com/google/gerrit/acceptance/api/verifier/ListVerifiersIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T15:20:30Z",
+      "side": 1,
+      "message": "Shouldn\u0027t ProjectResetter take care of deleting any verifier refs added in these tests?",
+      "revId": "cd6b6eb8215cccd56c278bc9ff5f755644572fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c55485c_cfb313b5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/verifier/ListVerifiersIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T15:20:30Z",
+      "side": 1,
+      "message": "Please don\u0027t use ExpectedException",
+      "revId": "cd6b6eb8215cccd56c278bc9ff5f755644572fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

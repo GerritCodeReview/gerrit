@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c226e33_0bb158f1",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/verifier/VerifierOperationsImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T15:10:15Z",
+      "side": 1,
+      "message": "Use BlobBasedConfig, you can avoid the TreeWalk and even the parseCommit.",
+      "revId": "f87e4f9383297d31da0bc5f0469b2b58732aaf4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cd36a12_b61e6935",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/verifier/VerifierOperationsImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T15:10:15Z",
+      "side": 1,
+      "message": "Nit: static import, for consistency with checkState",
+      "revId": "f87e4f9383297d31da0bc5f0469b2b58732aaf4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9ab2d62_4a06a303",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/verifier/VerifierOperationsImplTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T15:10:15Z",
+      "side": 1,
+      "message": "BlobBasedConfig",
+      "revId": "f87e4f9383297d31da0bc5f0469b2b58732aaf4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

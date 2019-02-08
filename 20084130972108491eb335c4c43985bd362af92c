@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8871c016_2766381a",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-02-08T15:25:52Z",
+      "side": 1,
+      "message": "This line is OK but redundant. Because of the cut operator (line 1043),\nwhen this case of the submit_rule predicate is reached it is guaranteed that\npure_revert(1) was false, therefore pure_revert(0) must be true as 0 is the\nonly other possibility.\n\nTherefore, either delete this line (preferred) or keep it but delete the cut operator (line 1043)\n\nA further simplification is to inline the R variable:\n\n  submit_rule(submit(label(\u0027Is-Pure-Revert\u0027, need(_)))).",
+      "revId": "20084130972108491eb335c4c43985bd362af92c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cb42442_3f464420",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-02-08T15:25:52Z",
+      "side": 1,
+      "message": "I don\u0027t like how this whole example is/was coded. If you are already fixing this code\nthen I propose to simplify this code in the following way:\n\n  submit_rule(submit(CR, V, R)) :-\n    base(CR, V),\n    set_pure_revert_label(R).\n\n  base(CR, V) :-\n    gerrit:max_with_block(-2, 2, \u0027Code-Review\u0027, CR),\n    gerrit:max_with_block(-1, 1, \u0027Verified\u0027, V).\n\n  set_pure_revert_label(R) :-\n    gerrit:pure_revert(1),\n    !,\n    gerrit:uploader(U),\n    R \u003d label(\u0027Is-Pure-Revert\u0027, ok(U)).\n\n  set_pure_revert_label(label(\u0027Is-Pure-Revert\u0027, need(_))).",
+      "revId": "20084130972108491eb335c4c43985bd362af92c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

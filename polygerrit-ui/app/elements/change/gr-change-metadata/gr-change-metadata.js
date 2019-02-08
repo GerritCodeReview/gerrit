@@ -117,6 +117,7 @@
         computed: '_computeShowRequirements(change)',
       },
 
+      _changeArray: Array,
       _assignee: Array,
       _isWip: {
         type: Boolean,
@@ -162,7 +163,8 @@
     },
 
     _changeChanged(change) {
-      this._assignee = change.assignee ? [change.assignee] : [];
+      this._changeArray = change ? [change] : [];
+      this._assignee = change && change.assignee ? [change.assignee] : [];
     },
 
     _assigneeChanged(assigneeRecord) {

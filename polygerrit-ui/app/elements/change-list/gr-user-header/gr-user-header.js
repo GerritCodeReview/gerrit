@@ -87,5 +87,13 @@
       return showDashboardLink && loggedIn ?
           'dashboardLink' : 'dashboardLink hide';
     },
+
+    _accountDetailsArray(details) {
+      if (details) {
+        return [details];
+      }
+
+      return [];
+    },
   });
 })();

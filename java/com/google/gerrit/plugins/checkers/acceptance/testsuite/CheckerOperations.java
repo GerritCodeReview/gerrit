@@ -14,9 +14,12 @@
 
 package com.google.gerrit.plugins.checkers.acceptance.testsuite;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.plugins.checkers.api.CheckerInfo;
+import com.google.gerrit.reviewdb.client.Project;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
@@ -57,6 +60,25 @@ public interface CheckerOperations {
    * @return a builder to create the new checker
    */
   TestCheckerCreation.Builder newChecker();
+
+  /**
+   * Returns the UUIDs of the checkers that apply to the given repository.
+   *
+   * @param repositoryName repository name
+   * @return set of UUIDs of the checkers that apply to the given repository
+   * @throws IOException if reading the checker list fails
+   */
+  ImmutableSet<String> checkersOf(Project.NameKey repositoryName) throws IOException;
+
+  /**
+   * Returns the SHA1s of the repositories that have applying checkers.
+   *
+   * <p>These are the keys used in the {@code NoteMap} of {@code refs/meta/checkers}.
+   *
+   * @return the SHA1s of the repositories that have applying checkers
+   * @throws IOException if reading the repository SHA1s fails
+   */
+  ImmutableSet<ObjectId> sha1sOfRepositoriesWithCheckers() throws IOException;
 
   /** An aggregation of methods on a specific checker. */
   interface PerCheckerOperations {

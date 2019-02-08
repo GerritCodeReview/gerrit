@@ -20,6 +20,9 @@ public class CheckerRef {
   /** Ref namespace for checkers. */
   public static final String REFS_CHECKERS = "refs/checkers/";
 
+  /** Ref that stores the repository to checkers map. */
+  public static final String REFS_META_CHECKERS = "refs/meta/checkers/";
+
   public static String refsCheckers(String checkerUuid) {
     return REFS_CHECKERS + RefNames.shardUuid(checkerUuid);
   }

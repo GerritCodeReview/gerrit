@@ -158,7 +158,12 @@ class NoteDbCheckersUpdate implements CheckersUpdate {
           CheckerConfig.createForNewChecker(allProjectsName, allProjectsRepo, checkerCreation);
       checkerConfig.setCheckerUpdate(checkerUpdate);
 
-      commit(allProjectsRepo, checkerConfig);
+      CheckersByRepositoryNotes checkersByRepositoryNotes =
+          CheckersByRepositoryNotes.load(allProjectsName, allProjectsRepo);
+      checkersByRepositoryNotes.insert(
+          checkerCreation.getCheckerUuid(), checkerCreation.getRepository());
+
+      commit(allProjectsRepo, checkerConfig, checkersByRepositoryNotes);
 
       return checkerConfig
           .getLoadedChecker()
@@ -167,14 +172,19 @@ class NoteDbCheckersUpdate implements CheckersUpdate {
     }
   }
 
-  private void commit(Repository allProjectsRepo, CheckerConfig checkerConfig) throws IOException {
+  private void commit(
+      Repository allProjectsRepo,
+      CheckerConfig checkerConfig,
+      CheckersByRepositoryNotes checkersByRepositoryNotes)
+      throws IOException {
     BatchRefUpdate batchRefUpdate = allProjectsRepo.getRefDatabase().newBatchUpdate();
     try (MetaDataUpdate metaDataUpdate =
         metaDataUpdateFactory.create(allProjectsName, allProjectsRepo, batchRefUpdate)) {
       checkerConfig.commit(metaDataUpdate);
+      checkersByRepositoryNotes.commit(metaDataUpdate);
     }
-
     RefUpdateUtil.executeChecked(batchRefUpdate, allProjectsRepo);
+
     gitRefUpdated.fire(
         allProjectsName, batchRefUpdate, currentUser.map(user -> user.state()).orElse(null));
   }
@@ -244,7 +254,16 @@ class NoteDbCheckersUpdate implements CheckersUpdate {
         throw new NoSuchCheckerException(checkerUuid);
       }
 
-      commit(allProjectsRepo, checkerConfig);
+      CheckersByRepositoryNotes checkersByRepositoryNotes =
+          CheckersByRepositoryNotes.load(allProjectsName, allProjectsRepo);
+      checkerUpdate
+          .getRepository()
+          .ifPresent(
+              repo ->
+                  checkersByRepositoryNotes.update(
+                      checkerUuid, checkerConfig.getLoadedChecker().get().getRepository(), repo));
+
+      commit(allProjectsRepo, checkerConfig, checkersByRepositoryNotes);
 
       Checker updatedChecker =
           checkerConfig

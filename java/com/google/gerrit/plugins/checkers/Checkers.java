@@ -15,6 +15,8 @@
 package com.google.gerrit.plugins.checkers;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.reviewdb.client.Project;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -49,4 +51,19 @@ public interface Checkers {
    * @throws IOException if any checker couldn't be retrieved from the storage
    */
   ImmutableList<Checker> listCheckers() throws IOException;
+
+  /**
+   * Returns the checkers that apply to the given repository.
+   *
+   * <p>Checkers with invalid configuration are silently ignored.
+   *
+   * @param repositoryName the name of the repository for which the applying checkers should be
+   *     returned
+   * @return the checkers that apply that apply to the given repository
+   * @throws IOException if reading the checker list fails or if any checker couldn't be retrieved
+   *     from the storage
+   * @throws ConfigInvalidException if reading the checker list fails
+   */
+  ImmutableSet<Checker> checkersOf(Project.NameKey repositoryName)
+      throws IOException, ConfigInvalidException;
 }

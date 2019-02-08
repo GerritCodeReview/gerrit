@@ -2153,8 +2153,8 @@ In all cases, accounts that are not
 link:config-gerrit.txt#accounts.visibility[visible] to the calling user are not
 considered.
 
-In all cases _except_ a bare account ID, inactive accounts are not considered.
-Inactive accounts may only be referenced by bare ID.
+In all cases _except_ a bare account ID and `self`/`me`, inactive accounts are
+not considered. Inactive accounts should only be referenced by bare ID.
 
 If the input is a bare account ID, this will always resolve to exactly
 one account if there is a visible account with that ID, and zero accounts

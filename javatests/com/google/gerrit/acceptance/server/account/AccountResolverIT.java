@@ -105,6 +105,19 @@ public class AccountResolverIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void bySelfInactive() throws Exception {
+    gApi.accounts().id(user.id.get()).setActive(false);
+
+    requestScopeOperations.setApiUser(user.id);
+    assertThat(gApi.accounts().id("self").getActive()).isFalse();
+
+    Result result = resolveAsResult("self");
+    assertThat(result.asIdSet()).containsExactly(user.id);
+    assertThat(result.isSelf()).isTrue();
+    assertThat(result.asUniqueUser()).isSameAs(self.get());
+  }
+
+  @Test
   public void byExactAccountId() throws Exception {
     Account.Id existingId = accountOperations.newAccount().create();
     Account.Id idWithExistingIdAsFullname =

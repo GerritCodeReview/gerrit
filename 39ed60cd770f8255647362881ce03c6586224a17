@@ -164,6 +164,24 @@
     },
     {
       "key": {
+        "uuid": "6cb9ee2b_ff5b45dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-08T00:39:36Z",
+      "side": 1,
+      "message": "Hmm, it shows a A next to the file meaning it\u0027s being added, this file looks empty.",
+      "parentUuid": "83fde1d1_3460541c",
+      "revId": "39ed60cd770f8255647362881ce03c6586224a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88f206cf_552a6532",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1

@@ -136,6 +136,10 @@ public class AccountResolver {
     public boolean isSelf() {
       return result.isSelf();
     }
+
+    public boolean isEmpty() {
+      return result.asList().isEmpty();
+    }
   }
 
   public static String exceptionMessage(Result result) {

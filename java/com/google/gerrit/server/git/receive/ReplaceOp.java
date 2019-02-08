@@ -14,10 +14,7 @@
 
 package com.google.gerrit.server.git.receive;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
-import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInputFromCommitIdentity;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
@@ -25,14 +22,10 @@ import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeKind;
-import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -48,14 +41,11 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.NotifyResolver;
-import com.google.gerrit.server.change.ReviewerAdder;
-import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
+import com.google.gerrit.server.change.reviewer.ReviewerAdder;
+import com.google.gerrit.server.change.reviewer.ReviewerAddition;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
@@ -66,6 +56,7 @@ import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -85,7 +76,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -153,7 +143,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private String rejectMessage;
   private MergedByPushOp mergedByPushOp;
   private RequestScopePropagator requestScopePropagator;
-  private ReviewerAdditionList reviewerAdditions;
+  private ReviewerAddition reviewerAddition;
   private MailRecipients oldRecipients;
 
   @Inject
@@ -241,7 +231,8 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, IOException, PermissionBackendException, ConfigInvalidException {
+      throws RestApiException, IOException, PermissionBackendException, ConfigInvalidException,
+          NoSuchProjectException {
     notes = ctx.getNotes();
     Change change = notes.getChange();
     if (change == null || change.isClosed()) {
@@ -312,17 +303,12 @@ public class ReplaceOp implements BatchUpdateOp {
     approvalsUtil.addApprovalsForNewPatchSet(
         update, projectState.getLabelTypes(), newPatchSet, ctx.getUser(), approvals);
 
-    reviewerAdditions =
-        reviewerAdder.prepare(
-            ctx.getNotes(),
-            ctx.getUser(),
-            getReviewerInputs(magicBranch, fromFooters, ctx.getChange(), info),
-            true);
-    Optional<ReviewerAddition> reviewerError = reviewerAdditions.getFailures().stream().findFirst();
+    reviewerAddition = reviewerAdder.prepare(ctx.getNotes(), getReviewerInputs(fromFooters));
+    Optional<String> reviewerError = reviewerAddition.getError();
     if (reviewerError.isPresent()) {
-      throw new UnprocessableEntityException(reviewerError.get().result.error);
+      throw new UnprocessableEntityException(reviewerError.get());
     }
-    reviewerAdditions.updateChange(ctx, newPatchSet);
+    reviewerAddition.setPatchSet(newPatchSet).updateChange(ctx);
 
     // Check if approvals are changing in with this update. If so, add current user to reviewers.
     // Note that this is done separately as addReviewers is filtering out the change owner as
@@ -343,45 +329,17 @@ public class ReplaceOp implements BatchUpdateOp {
     return true;
   }
 
-  private static ImmutableList<AddReviewerInput> getReviewerInputs(
-      @Nullable MagicBranchInput magicBranch,
-      MailRecipients fromFooters,
-      Change change,
-      PatchSetInfo psInfo) {
-    // Disable individual emails when adding reviewers, as all reviewers will receive the single
-    // bulk new change email.
-    Stream<AddReviewerInput> inputs =
-        Streams.concat(
-            Streams.stream(
-                newAddReviewerInputFromCommitIdentity(
-                    change, psInfo.getAuthor().getAccount(), NotifyHandling.NONE)),
-            Streams.stream(
-                newAddReviewerInputFromCommitIdentity(
-                    change, psInfo.getCommitter().getAccount(), NotifyHandling.NONE)));
-    if (magicBranch != null) {
-      inputs =
-          Streams.concat(
-              inputs,
-              magicBranch.getCombinedReviewers(fromFooters).stream()
-                  .map(r -> newAddReviewerInput(r, ReviewerState.REVIEWER)),
-              magicBranch.getCombinedCcs(fromFooters).stream()
-                  .map(r -> newAddReviewerInput(r, ReviewerState.CC)));
-    }
-    return inputs.collect(toImmutableList());
-  }
-
-  private static InternalAddReviewerInput newAddReviewerInput(
-      String reviewer, ReviewerState state) {
-    // Disable individual emails when adding reviewers, as all reviewers will receive the single
-    // bulk new patch set email.
-    InternalAddReviewerInput input =
-        ReviewerAdder.newAddReviewerInput(reviewer, state, NotifyHandling.NONE);
-
-    // Ignore failures for reasons like the reviewer being inactive or being unable to see the
-    // change. See discussion in ChangeInserter.
-    input.otherFailureBehavior = ReviewerAdder.FailureBehavior.IGNORE;
-
-    return input;
+  private ImmutableList<ReviewerAdder.Input> getReviewerInputs(MailRecipients fromFooters) {
+    ReviewerAdder.Options opts = ReviewerAdder.Options.forAutoAddingGitIdentity();
+    return ReceiveCommits.getReviewerInputs(magicBranch, fromFooters)
+        // Auto-add Git identities as reviewers. (In the CreateRequest case these are taken care of
+        // by ChangeInserter, but in this case we have to do it manually.) Don't use the
+        // PatchSetInfo, since it uses its own form of PersonIdent -> Account resolution that
+        // doesn't match AccountResolver.
+        // TODO(dborowitz): This feels like it should be CC instead.
+        .add(ReviewerAdder.Input.fromPersonIdent(commit.getAuthorIdent(), REVIEWER, opts))
+        .add(ReviewerAdder.Input.fromPersonIdent(commit.getCommitterIdent(), REVIEWER, opts))
+        .build();
   }
 
   private ChangeMessage createChangeMessage(ChangeContext ctx, String reviewMessage)
@@ -493,7 +451,7 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) throws Exception {
-    reviewerAdditions.postUpdate(ctx);
+    reviewerAddition.postUpdate(ctx);
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
       // TODO(dborowitz): Merge email templates so we only have to send one.
       Runnable e = new ReplaceEmailTask(ctx);
@@ -547,18 +505,9 @@ public class ReplaceOp implements BatchUpdateOp {
         cm.setPatchSet(newPatchSet, info);
         cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
         cm.setNotify(ctx.getNotify(notes.getChangeId()));
-        cm.addReviewers(
-            Streams.concat(
-                    oldRecipients.getReviewers().stream(),
-                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewers).stream()
-                        .map(PatchSetApproval::getAccountId))
-                .collect(toImmutableSet()));
-        cm.addExtraCC(
-            Streams.concat(
-                    oldRecipients.getCcOnly().stream(),
-                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs).stream())
-                .collect(toImmutableSet()));
-        // TODO(dborowitz): Support byEmail
+        cm.addReviewers(oldRecipients.getReviewers());
+        cm.addExtraCC(oldRecipients.getCcOnly());
+        reviewerAddition.addReviewersToSender(cm);
         cm.send();
       } catch (Exception e) {
         logger.atSevere().withCause(e).log(

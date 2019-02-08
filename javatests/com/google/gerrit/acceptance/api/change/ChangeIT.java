@@ -1620,12 +1620,9 @@ public class ChangeIT extends AbstractDaemonTest {
                 + username
                 + "' only matches inactive accounts. To use an inactive account, retry with one of"
                 + " the following exact account IDs:\n"
-                + id
-                + ": Name of user not set ("
-                + id
-                + ")\n"
-                + username
-                + " does not identify a registered user or group");
+                + (id + ": Name of user not set (" + id + ")\n")
+                + ("Group Not Found: " + username + "\n")
+                + "Adding reviewers by email is not enabled on this project");
     assertThat(r.reviewers).isNull();
   }
 
@@ -1894,6 +1891,7 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeResource rsrc = parseResource(r);
     String oldETag = rsrc.getETag();
     Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
+    sender.clear();
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email();
@@ -1958,8 +1956,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .review(ReviewInput.recommend().message("LGTM"));
 
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
-    assertThat(c.reviewers.get(REVIEWER).stream().map(ai -> ai._accountId).collect(toList()))
-        .containsExactly(user.id().get());
+    assertThat(getReviewers(c.reviewers.get(REVIEWER))).containsExactly(user.id());
 
     // Further test: remove the vote, then comment again. The user should be
     // implicitly re-added to the ReviewerSet, as a CC if we're using NoteDb.
@@ -1974,8 +1971,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .review(new ReviewInput().message("hi"));
     c = gApi.changes().id(r.getChangeId()).get();
-    assertThat(c.reviewers.get(CC).stream().map(ai -> ai._accountId).collect(toList()))
-        .containsExactly(user.id().get());
+    assertThat(getReviewers(c.reviewers.get(CC))).containsExactly(user.id());
   }
 
   @Test

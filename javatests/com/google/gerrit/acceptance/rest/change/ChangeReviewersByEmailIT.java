@@ -281,7 +281,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
 
     AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer("");
-    assertThat(result.error).isEqualTo(" is not a valid user identifier");
+    assertThat(result.error).isEqualTo("Empty input provided for reviewer");
     assertThat(result.reviewers).isNull();
   }
 
@@ -290,7 +290,11 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
 
     AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@");
-    assertThat(result.error).isEqualTo("Foo Bar <foo.bar@ is not a valid user identifier");
+    assertThat(result.error)
+        .isEqualTo(
+            "Account 'Foo Bar <foo.bar@' not found\n"
+                + "Group Not Found: Foo Bar <foo.bar@\n"
+                + "'Foo Bar <foo.bar@' does not appear to contain an email address");
     assertThat(result.reviewers).isNull();
   }
 
@@ -307,8 +311,8 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     assertThat(result.error)
         .isEqualTo(
             "Account 'Foo Bar <foo.bar@gerritcodereview.com>' not found\n"
-                + "Foo Bar <foo.bar@gerritcodereview.com> does not identify a registered user or"
-                + " group");
+                + "Group Not Found: Foo Bar <foo.bar@gerritcodereview.com>\n"
+                + "Adding reviewers by email is not enabled on this project");
     assertThat(result.reviewers).isNull();
   }
 

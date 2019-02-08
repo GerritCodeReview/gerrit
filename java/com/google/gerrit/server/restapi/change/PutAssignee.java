@@ -15,10 +15,8 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -28,12 +26,14 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.ReviewerAdder;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.SetAssigneeOp;
+import com.google.gerrit.server.change.reviewer.ReviewerAdder;
+import com.google.gerrit.server.change.reviewer.ReviewerAddition;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -74,7 +74,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
   protected AccountInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, AssigneeInput input)
       throws RestApiException, UpdateException, IOException, PermissionBackendException,
-          ConfigInvalidException {
+          ConfigInvalidException, NoSuchProjectException {
     rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
 
     input.assignee = Strings.nullToEmpty(input.assignee).trim();
@@ -96,24 +96,22 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
         updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       SetAssigneeOp op = assigneeFactory.create(assignee);
       bu.addOp(rsrc.getId(), op);
-
-      ReviewerAddition reviewersAddition = addAssigneeAsCC(rsrc, input.assignee);
-      reviewersAddition.op.suppressEmail();
-      bu.addOp(rsrc.getId(), reviewersAddition.op);
-
+      bu.addOp(rsrc.getId(), addAssigneeAsCc(rsrc, assignee));
       bu.execute();
       return accountLoaderFactory.create(true).fillOne(assignee.getAccountId());
     }
   }
 
-  private ReviewerAddition addAssigneeAsCC(ChangeResource rsrc, String assignee)
-      throws IOException, PermissionBackendException, ConfigInvalidException {
-    AddReviewerInput reviewerInput = new AddReviewerInput();
-    reviewerInput.reviewer = assignee;
-    reviewerInput.state = ReviewerState.CC;
-    reviewerInput.confirmed = true;
-    reviewerInput.notify = NotifyHandling.NONE;
-    return reviewerAdder.prepare(rsrc.getNotes(), rsrc.getUser(), reviewerInput, false);
+  private ReviewerAddition addAssigneeAsCc(ChangeResource rsrc, IdentifiedUser assignee)
+      throws NoSuchProjectException, PermissionBackendException, ConfigInvalidException,
+          IOException {
+    return reviewerAdder.prepare(
+        rsrc.getNotes(),
+        ImmutableList.of(
+            ReviewerAdder.Input.forAccount(
+                assignee.getAccountId(),
+                ReviewerStateInternal.CC,
+                ReviewerAdder.Options.forAutoAddingUsersFromOtherChange())));
   }
 
   @Override

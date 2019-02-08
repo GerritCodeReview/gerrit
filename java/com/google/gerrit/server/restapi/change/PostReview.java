@@ -16,7 +16,10 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -29,8 +32,8 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Ordering;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.HashCode;
@@ -38,7 +41,6 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -46,12 +48,9 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
-import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
-import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
-import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -62,8 +61,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.json.OutputFormat;
-import com.google.gerrit.mail.Address;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -85,14 +82,16 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.change.AddReviewersEmail;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.ChangeResource.Factory;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.NotifyResolver;
-import com.google.gerrit.server.change.ReviewerAdder;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
+import com.google.gerrit.server.change.reviewer.AddReviewerResultJson;
+import com.google.gerrit.server.change.reviewer.AddReviewersEmailOp;
+import com.google.gerrit.server.change.reviewer.ReviewerAdder;
+import com.google.gerrit.server.change.reviewer.ReviewerAddition;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -106,6 +105,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -132,7 +132,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.OptionalInt;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -165,18 +164,19 @@ public class PostReview
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
   private final ReviewerAdder reviewerAdder;
-  private final AddReviewersEmail addReviewersEmail;
   private final NotifyResolver notifyResolver;
   private final Config gerritConfig;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
+  private final AddReviewersEmailOp.Factory addReviewersEmailOpFactory;
+  private final AddReviewerResultJson addReviewerResultJson;
   private final boolean strictLabels;
 
   @Inject
   PostReview(
       RetryHelper retryHelper,
-      ChangeResource.Factory changeResourceFactory,
+      Factory changeResourceFactory,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
@@ -188,12 +188,13 @@ public class PostReview
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,
       ReviewerAdder reviewerAdder,
-      AddReviewersEmail addReviewersEmail,
       NotifyResolver notifyResolver,
       @GerritServerConfig Config gerritConfig,
       WorkInProgressOp.Factory workInProgressOpFactory,
       ProjectCache projectCache,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      AddReviewersEmailOp.Factory addReviewersEmailOpFactory,
+      AddReviewerResultJson addReviewerResultJson) {
     super(retryHelper);
     this.changeResourceFactory = changeResourceFactory;
     this.changeDataFactory = changeDataFactory;
@@ -207,12 +208,13 @@ public class PostReview
     this.email = email;
     this.commentAdded = commentAdded;
     this.reviewerAdder = reviewerAdder;
-    this.addReviewersEmail = addReviewersEmail;
     this.notifyResolver = notifyResolver;
     this.gerritConfig = gerritConfig;
     this.workInProgressOpFactory = workInProgressOpFactory;
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
+    this.addReviewersEmailOpFactory = addReviewersEmailOpFactory;
+    this.addReviewerResultJson = addReviewerResultJson;
     this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
   }
 
@@ -220,14 +222,15 @@ public class PostReview
   protected Response<ReviewResult> applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input)
       throws RestApiException, UpdateException, IOException, PermissionBackendException,
-          ConfigInvalidException, PatchListNotAvailableException {
+          ConfigInvalidException, PatchListNotAvailableException, NoSuchProjectException {
     return apply(updateFactory, revision, input, TimeUtil.nowTs());
   }
 
   public Response<ReviewResult> apply(
       BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input, Timestamp ts)
       throws RestApiException, UpdateException, IOException, PermissionBackendException,
-          ConfigInvalidException, PatchListNotAvailableException {
+          ConfigInvalidException, PatchListNotAvailableException, NoSuchProjectException {
+    Change.Id changeId = revision.getChange().getId();
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
     if (revision.getEdit().isPresent()) {
@@ -254,83 +257,24 @@ public class PostReview
       input.notify = defaultNotify(revision.getChange(), input);
     }
 
-    Map<String, AddReviewerResult> reviewerJsonResults = null;
-    List<ReviewerAddition> reviewerResults = Lists.newArrayList();
-    boolean hasError = false;
-    boolean confirm = false;
-    if (input.reviewers != null) {
-      reviewerJsonResults = Maps.newHashMap();
-      for (AddReviewerInput reviewerInput : input.reviewers) {
-        ReviewerAddition result =
-            reviewerAdder.prepare(revision.getNotes(), revision.getUser(), reviewerInput, true);
-        reviewerJsonResults.put(reviewerInput.reviewer, result.result);
-        if (result.result.error != null) {
-          hasError = true;
-          continue;
-        }
-        if (result.result.confirm != null) {
-          confirm = true;
-          continue;
-        }
-        reviewerResults.add(result);
-      }
-    }
+    ReviewerAddition ccSelf = reviewerAdder.prepare(revision.getNotes(), ccSelfInputs(revision));
+    ReviewerAddition reviewerAddition =
+        reviewerAdder.prepare(revision.getNotes(), reviewerInputs(input));
 
     ReviewResult output = new ReviewResult();
-    output.reviewers = reviewerJsonResults;
-    if (hasError || confirm) {
+    // TODO(dborowitz): Consider changing this behavior to match the intended behavior for push of
+    // warning but not failing the whole operation.
+    if (reviewerAddition.hasError()) {
       output.error = ERROR_ADDING_REVIEWER;
+      output.reviewers =
+          toAddReviewerResults(reviewerAddition, changeDataFactory.create(revision.getNotes()));
       return Response.withStatusCode(SC_BAD_REQUEST, output);
     }
+
     output.labels = input.labels;
 
     try (BatchUpdate bu =
         updateFactory.create(revision.getChange().getProject(), revision.getUser(), ts)) {
-      Account.Id id = revision.getUser().getAccountId();
-      boolean ccOrReviewer = false;
-      if (input.labels != null && !input.labels.isEmpty()) {
-        ccOrReviewer = input.labels.values().stream().filter(v -> v != 0).findFirst().isPresent();
-      }
-
-      if (!ccOrReviewer) {
-        // Check if user was already CCed or reviewing prior to this review.
-        ReviewerSet currentReviewers =
-            approvalsUtil.getReviewers(revision.getChangeResource().getNotes());
-        ccOrReviewer = currentReviewers.all().contains(id);
-      }
-
-      // Apply reviewer changes first. Revision emails should be sent to the
-      // updated set of reviewers. Also keep track of whether the user added
-      // themselves as a reviewer or to the CC list.
-      for (ReviewerAddition reviewerResult : reviewerResults) {
-        reviewerResult.op.suppressEmail(); // Send a single batch email below.
-        bu.addOp(revision.getChange().getId(), reviewerResult.op);
-        if (!ccOrReviewer && reviewerResult.result.reviewers != null) {
-          for (ReviewerInfo reviewerInfo : reviewerResult.result.reviewers) {
-            if (Objects.equals(id.get(), reviewerInfo._accountId)) {
-              ccOrReviewer = true;
-              break;
-            }
-          }
-        }
-        if (!ccOrReviewer && reviewerResult.result.ccs != null) {
-          for (AccountInfo accountInfo : reviewerResult.result.ccs) {
-            if (Objects.equals(id.get(), accountInfo._accountId)) {
-              ccOrReviewer = true;
-              break;
-            }
-          }
-        }
-      }
-
-      if (!ccOrReviewer) {
-        // User posting this review isn't currently in the reviewer or CC list,
-        // isn't being explicitly added, and isn't voting on any label.
-        // Automatically CC them on this change so they receive replies.
-        ReviewerAddition selfAddition = reviewerAdder.ccCurrentUser(revision.getUser(), revision);
-        selfAddition.op.suppressEmail();
-        bu.addOp(revision.getChange().getId(), selfAddition.op);
-      }
 
       // Add WorkInProgressOp if requested.
       if (input.ready || input.workInProgress) {
@@ -351,13 +295,18 @@ public class PostReview
         WorkInProgressOp wipOp =
             workInProgressOpFactory.create(input.workInProgress, new WorkInProgressOp.Input());
         wipOp.suppressEmail();
-        bu.addOp(revision.getChange().getId(), wipOp);
+        bu.addOp(changeId, wipOp);
       }
 
       // Add the review op.
+      bu.addOp(changeId, new Op(projectState, revision.getPatchSet().getId(), input));
+
+      // Add the reviewer ops.
+      bu.addOp(changeId, ccSelf); // Don't generate reviewer-added email for self.
+      bu.addOp(changeId, reviewerAddition);
       bu.addOp(
-          revision.getChange().getId(),
-          new Op(projectState, revision.getPatchSet().getId(), input));
+          changeId,
+          addReviewersEmailOpFactory.create(revision.getProject(), changeId, reviewerAddition));
 
       // Notify based on ReviewInput, ignoring the notify settings from any AddReviewerInputs.
       NotifyResolver.Result notify =
@@ -368,15 +317,16 @@ public class PostReview
 
       // Re-read change to take into account results of the update.
       ChangeData cd = changeDataFactory.create(revision.getProject(), revision.getChange().getId());
-      for (ReviewerAddition reviewerResult : reviewerResults) {
-        reviewerResult.gatherResults(cd);
-      }
-
-      // Sending from AddReviewersOp was suppressed so we can send a single batch email here.
-      batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
+      output.reviewers = toAddReviewerResults(reviewerAddition, cd);
     }
 
     return Response.ok(output);
+  }
+
+  private ImmutableList<ReviewerAdder.Input> ccSelfInputs(RevisionResource revision) {
+    return ImmutableList.of(
+        ReviewerAdder.Input.forAccount(
+            revision.getAccountId(), CC, ReviewerAdder.Options.forCcingSelf()));
   }
 
   private NotifyHandling getNotifyHandling(
@@ -388,6 +338,33 @@ public class PostReview
       return NotifyHandling.ALL;
     }
     return NotifyHandling.NONE;
+  }
+
+  private static ImmutableList<ReviewerAdder.Input> reviewerInputs(ReviewInput reviewInput) {
+    if (reviewInput.reviewers == null) {
+      return ImmutableList.of();
+    }
+    return reviewInput.reviewers.stream()
+        .map(i -> ReviewerAdder.Input.fromJson(i, ReviewerAdder.Options.forRestApi()))
+        .collect(toImmutableList());
+  }
+
+  private AddReviewerResult toJson(ChangeData cd, ReviewerAdder.Result r) {
+    try {
+      return addReviewerResultJson.format(r, cd);
+    } catch (PermissionBackendException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Nullable
+  private ImmutableMap<String, AddReviewerResult> toAddReviewerResults(
+      ReviewerAddition reviewerAddition, ChangeData cd) {
+    ImmutableList<ReviewerAdder.Result> results = reviewerAddition.getResults();
+    return !results.isEmpty()
+        ? reviewerAddition.getResults().stream()
+            .collect(toImmutableMap(r -> r.input().input(), r -> toJson(cd, r)))
+        : null;
   }
 
   private NotifyHandling defaultNotify(Change c, ReviewInput in) {
@@ -412,28 +389,6 @@ public class PostReview
     // Otherwise, it's either a non-WIP change, or a WIP change where review has started. Notify
     // everyone.
     return NotifyHandling.ALL;
-  }
-
-  private void batchEmailReviewers(
-      CurrentUser user,
-      Change change,
-      List<ReviewerAddition> reviewerAdditions,
-      NotifyResolver.Result notify) {
-    List<Account.Id> to = new ArrayList<>();
-    List<Account.Id> cc = new ArrayList<>();
-    List<Address> toByEmail = new ArrayList<>();
-    List<Address> ccByEmail = new ArrayList<>();
-    for (ReviewerAddition addition : reviewerAdditions) {
-      if (addition.state() == ReviewerState.REVIEWER) {
-        to.addAll(addition.reviewers);
-        toByEmail.addAll(addition.reviewersByEmail);
-      } else if (addition.state() == ReviewerState.CC) {
-        cc.addAll(addition.reviewers);
-        ccByEmail.addAll(addition.reviewersByEmail);
-      }
-    }
-    addReviewersEmail.emailReviewers(
-        user.asIdentifiedUser(), change, to, cc, toByEmail, ccByEmail, notify);
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, LabelTypes labelTypes, ReviewInput in)
@@ -1290,6 +1245,7 @@ public class PostReview
           ups.add(c);
         }
       }
+      // Don't use ReviewerAdder, which would generate an extra email to the caller.
       ctx.getUpdate(ctx.getChange().currentPatchSetId()).putReviewer(user.getAccountId(), REVIEWER);
     }
 

@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 /** Sends an email alerting a user to a new change for them to review. */
-public abstract class NewChangeSender extends ChangeEmail {
+public abstract class NewChangeSender extends ChangeEmail implements ReviewerSender {
   private final Set<Account.Id> reviewers = new HashSet<>();
   private final Set<Address> reviewersByEmail = new HashSet<>();
   private final Set<Account.Id> extraCC = new HashSet<>();
@@ -36,20 +36,31 @@ public abstract class NewChangeSender extends ChangeEmail {
     super(ea, "newchange", cd);
   }
 
+  @Override
   public void addReviewers(Collection<Account.Id> cc) {
     reviewers.addAll(cc);
   }
 
+  @Override
   public void addReviewersByEmail(Collection<Address> cc) {
     reviewersByEmail.addAll(cc);
   }
 
+  @Override
   public void addExtraCC(Collection<Account.Id> cc) {
     extraCC.addAll(cc);
   }
 
+  @Override
   public void addExtraCCByEmail(Collection<Address> cc) {
     extraCCByEmail.addAll(cc);
+  }
+
+  public boolean anyReviewersAdded() {
+    return !reviewers.isEmpty()
+        || !reviewersByEmail.isEmpty()
+        || !extraCC.isEmpty()
+        || !extraCCByEmail.isEmpty();
   }
 
   @Override

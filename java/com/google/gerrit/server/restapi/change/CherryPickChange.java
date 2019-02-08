@@ -15,10 +15,14 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -28,7 +32,6 @@ import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -37,16 +40,15 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.change.reviewer.ReviewerAdder;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -64,11 +66,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.TimeZone;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -352,17 +353,23 @@ public class CherryPickChange {
         .map(t -> t + "-" + dest.getShortName())
         .ifPresent(ins::setTopic);
     if (input.keepReviewers && sourceNotes.isPresent()) {
-      ReviewerSet reviewerSet = approvalsUtil.getReviewers(sourceNotes.get());
-      Set<Account.Id> reviewers =
-          new HashSet<>(reviewerSet.byState(ReviewerStateInternal.REVIEWER));
-      reviewers.add(sourceNotes.get().getChange().getOwner());
-      reviewers.remove(user.get().getAccountId());
-      Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
-      ccs.remove(user.get().getAccountId());
-      ins.setReviewersAndCcs(reviewers, ccs);
+      ins.addReviewers(getReviewerInputs(sourceNotes.get()));
     }
     bu.insertChange(ins);
     return changeId;
+  }
+
+  static ImmutableList<ReviewerAdder.Input> getReviewerInputs(ChangeNotes oldNotes) {
+    ReviewerAdder.Options opts = ReviewerAdder.Options.forAutoAddingUsersFromOtherChange();
+    return Stream.concat(
+            Stream.concat(
+                    Stream.of(oldNotes.getChange().getOwner()),
+                    oldNotes.getReviewers().byState(REVIEWER).stream())
+                .distinct()
+                .map(id -> ReviewerAdder.Input.forAccount(id, REVIEWER, opts)),
+            oldNotes.getReviewers().byState(CC).stream()
+                .map(id -> ReviewerAdder.Input.forAccount(id, CC, opts)))
+        .collect(toImmutableList());
   }
 
   private NotifyResolver.Result resolveNotify(CherryPickInput input)

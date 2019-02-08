@@ -26,6 +26,8 @@ import com.google.gerrit.plugins.checkers.acceptance.AbstractCheckersTest;
 import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperations.PerCheckerOperations;
 import com.google.gerrit.plugins.checkers.api.CheckerInfo;
 import com.google.gerrit.plugins.checkers.api.CheckerInput;
+import com.google.gerrit.plugins.checkers.db.CheckersByRepositoryNotes;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.util.concurrent.TimeUnit;
@@ -49,9 +51,11 @@ public class CreateCheckerIT extends AbstractCheckersTest {
 
   @Test
   public void createChecker() throws Exception {
+    Project.NameKey repositoryName = projectOperations.newProject().create();
+
     CheckerInput input = new CheckerInput();
     input.name = "my-checker";
-    input.repository = projectOperations.newProject().create().get();
+    input.repository = repositoryName.get();
     CheckerInfo info = checkersApi.create(input).get();
     assertThat(info.uuid).isNotNull();
     assertThat(info.name).isEqualTo(input.name);
@@ -66,6 +70,9 @@ public class CreateCheckerIT extends AbstractCheckersTest {
         perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
         .isEqualTo("[checker]\n\tname = my-checker\n\trepository = " + input.repository + "\n");
+    assertThat(checkerOperations.sha1sOfRepositoriesWithCheckers())
+        .containsExactly(CheckersByRepositoryNotes.computeRepositorySha1(repositoryName));
+    assertThat(checkerOperations.checkersOf(repositoryName)).containsExactly(info.uuid);
   }
 
   @Test
@@ -277,6 +284,27 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage("repository non-existing not found");
     checkersApi.create(input);
+  }
+
+  @Test
+  public void createMultipleCheckers() throws Exception {
+    Project.NameKey repositoryName1 = projectOperations.newProject().create();
+    Project.NameKey repositoryName2 = projectOperations.newProject().create();
+
+    String checkerUuid1 = checkerOperations.newChecker().repository(repositoryName1).create();
+    String checkerUuid2 = checkerOperations.newChecker().repository(repositoryName1).create();
+    String checkerUuid3 = checkerOperations.newChecker().repository(repositoryName1).create();
+    String checkerUuid4 = checkerOperations.newChecker().repository(repositoryName2).create();
+    String checkerUuid5 = checkerOperations.newChecker().repository(repositoryName2).create();
+
+    assertThat(checkerOperations.sha1sOfRepositoriesWithCheckers())
+        .containsExactly(
+            CheckersByRepositoryNotes.computeRepositorySha1(repositoryName1),
+            CheckersByRepositoryNotes.computeRepositorySha1(repositoryName2));
+    assertThat(checkerOperations.checkersOf(repositoryName1))
+        .containsExactly(checkerUuid1, checkerUuid2, checkerUuid3);
+    assertThat(checkerOperations.checkersOf(repositoryName2))
+        .containsExactly(checkerUuid4, checkerUuid5);
   }
 
   @Test

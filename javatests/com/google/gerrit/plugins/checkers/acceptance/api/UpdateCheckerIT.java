@@ -28,6 +28,8 @@ import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperations
 import com.google.gerrit.plugins.checkers.acceptance.testsuite.TestChecker;
 import com.google.gerrit.plugins.checkers.api.CheckerInfo;
 import com.google.gerrit.plugins.checkers.api.CheckerInput;
+import com.google.gerrit.plugins.checkers.db.CheckersByRepositoryNotes;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
@@ -65,11 +67,13 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
         checkerOperations.newChecker().name("my-checker").repository(allProjects).create();
     TestChecker checker = checkerOperations.checker(checkerUuid).get();
 
+    Project.NameKey repositoryName = projectOperations.newProject().create();
+
     CheckerInput input = new CheckerInput();
     input.name = "my-renamed-checker";
     input.description = "A description.";
     input.url = "http://example.com/my-checker";
-    input.repository = projectOperations.newProject().create().get();
+    input.repository = repositoryName.get();
 
     CheckerInfo info = checkersApi.id(checkerUuid).update(input);
     assertThat(info.uuid).isEqualTo(checkerUuid);
@@ -95,6 +99,9 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
                 + "\n"
                 + "\tdescription = A description.\n"
                 + "\turl = http://example.com/my-checker\n");
+    assertThat(checkerOperations.sha1sOfRepositoriesWithCheckers())
+        .containsExactly(CheckersByRepositoryNotes.computeRepositorySha1(repositoryName));
+    assertThat(checkerOperations.checkersOf(repositoryName)).containsExactly(info.uuid);
   }
 
   @Test
@@ -334,8 +341,10 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
     String checkerUuid =
         checkerOperations.newChecker().name("my-checker").repository(allProjects).create();
 
+    Project.NameKey repositoryName = projectOperations.newProject().create();
+
     CheckerInput input = new CheckerInput();
-    input.repository = projectOperations.newProject().create().get();
+    input.repository = repositoryName.get();
 
     CheckerInfo info = checkersApi.id(checkerUuid).update(input);
     assertThat(info.repository).isEqualTo(input.repository);
@@ -345,6 +354,9 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
         .isEqualTo("[checker]\n\tname = my-checker\n\trepository = " + input.repository + "\n");
+    assertThat(checkerOperations.sha1sOfRepositoriesWithCheckers())
+        .containsExactly(CheckersByRepositoryNotes.computeRepositorySha1(repositoryName));
+    assertThat(checkerOperations.checkersOf(repositoryName)).containsExactly(info.uuid);
   }
 
   @Test

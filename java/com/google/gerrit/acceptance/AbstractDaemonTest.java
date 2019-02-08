@@ -338,7 +338,11 @@ public abstract class AbstractDaemonTest {
     return new ProjectResetter.Config()
         // Don't reset all refs so that refs/sequences/changes is not touched and change IDs are
         // not reused.
-        .reset(allProjects, RefNames.REFS_CONFIG, RefNames.REFS_VERIFIERS + "*")
+        .reset(
+            allProjects,
+            RefNames.REFS_CONFIG,
+            RefNames.REFS_VERIFIERS + "*",
+            RefNames.REFS_META_VERIFIERS)
         // Don't reset refs/sequences/accounts so that account IDs are not reused.
         .reset(
             allUsers,

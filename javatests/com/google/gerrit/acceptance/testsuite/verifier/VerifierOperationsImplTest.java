@@ -19,17 +19,22 @@ import static com.google.common.truth.Truth8.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.base.Joiner;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
 import com.google.gerrit.extensions.api.verifiers.VerifierInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.verifier.VerifierUuid;
 import com.google.gerrit.server.verifier.db.VerifierConfig;
+import com.google.gerrit.server.verifier.db.VerifiersByRepositoryNotes;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Optional;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -309,6 +314,57 @@ public class VerifierOperationsImplTest extends AbstractDaemonTest {
     assertThat(verifierInfo.url).isEqualTo(verifier.url().get());
     assertThat(verifierInfo.createdOn).isEqualTo(verifier.createdOn());
     assertThat(verifierInfo.updatedOn).isEqualTo(verifier.updatedOn());
+  }
+
+  @Test
+  public void getVerifiersOfRepository() throws Exception {
+    String verifierUuid1 = VerifierUuid.make("my-verifier1");
+    String verifierUuid2 = VerifierUuid.make("my-verifier2");
+
+    try (Repository repo = repoManager.openRepository(allProjects)) {
+      new TestRepository<>(repo)
+          .branch(RefNames.REFS_META_VERIFIERS)
+          .commit()
+          .add(
+              VerifiersByRepositoryNotes.computeRepositorySha1(project).getName(),
+              Joiner.on('\n').join(verifierUuid1, verifierUuid2))
+          .create();
+    }
+
+    assertThat(verifierOperations.verifiersOf(project))
+        .containsExactly(verifierUuid1, verifierUuid2);
+  }
+
+  @Test
+  public void getVerifiersOfRepositoryWithoutVerifiers() throws Exception {
+    assertThat(verifierOperations.verifiersOf(project)).isEmpty();
+  }
+
+  @Test
+  public void getVerifiersOfNonExistingRepositor() throws Exception {
+    assertThat(verifierOperations.verifiersOf(new Project.NameKey("non-existing"))).isEmpty();
+  }
+
+  @Test
+  public void getSha1sOfRepositoriesWithVerifiers() throws Exception {
+    String verifierUuid1 = VerifierUuid.make("my-verifier1");
+    String verifierUuid2 = VerifierUuid.make("my-verifier2");
+
+    try (Repository repo = repoManager.openRepository(allProjects)) {
+      new TestRepository<>(repo)
+          .branch(RefNames.REFS_META_VERIFIERS)
+          .commit()
+          .add(VerifiersByRepositoryNotes.computeRepositorySha1(project).getName(), verifierUuid1)
+          .add(
+              VerifiersByRepositoryNotes.computeRepositorySha1(allProjects).getName(),
+              verifierUuid2)
+          .create();
+    }
+
+    assertThat(verifierOperations.sha1sOfRepositoriesWithVerifiers())
+        .containsExactly(
+            VerifiersByRepositoryNotes.computeRepositorySha1(project),
+            VerifiersByRepositoryNotes.computeRepositorySha1(allProjects));
   }
 
   private VerifierInput createArbitraryVerifierInput() {

@@ -30,6 +30,8 @@ import com.google.gerrit.extensions.api.verifiers.VerifierInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.verifier.db.VerifiersByRepositoryNotes;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
@@ -69,11 +71,13 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
         verifierOperations.newVerifier().name("my-verifier").repository(allProjects).create();
     TestVerifier verifier = verifierOperations.verifier(verifierUuid).get();
 
+    Project.NameKey repositoryName = projectOperations.newProject().create();
+
     VerifierInput input = new VerifierInput();
     input.name = "my-renamed-verifier";
     input.description = "A description.";
     input.url = "http://example.com/my-verifier";
-    input.repository = projectOperations.newProject().create().get();
+    input.repository = repositoryName.get();
 
     VerifierInfo info = gApi.verifiers().id(verifierUuid).update(input);
     assertThat(info.uuid).isEqualTo(verifierUuid);
@@ -99,6 +103,9 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
                 + "\n"
                 + "\tdescription = A description.\n"
                 + "\turl = http://example.com/my-verifier\n");
+    assertThat(verifierOperations.sha1sOfRepositoriesWithVerifiers())
+        .containsExactly(VerifiersByRepositoryNotes.computeRepositorySha1(repositoryName));
+    assertThat(verifierOperations.verifiersOf(repositoryName)).containsExactly(info.uuid);
   }
 
   @Test
@@ -362,8 +369,10 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
     String verifierUuid =
         verifierOperations.newVerifier().name("my-verifier").repository(allProjects).create();
 
+    Project.NameKey repositoryName = projectOperations.newProject().create();
+
     VerifierInput input = new VerifierInput();
-    input.repository = projectOperations.newProject().create().get();
+    input.repository = repositoryName.get();
 
     VerifierInfo info = gApi.verifiers().id(verifierUuid).update(input);
     assertThat(info.repository).isEqualTo(input.repository);
@@ -376,6 +385,9 @@ public class UpdateVerifierIT extends AbstractDaemonTest {
         perVerifierOps.get().refState());
     assertThat(perVerifierOps.configText())
         .isEqualTo("[verifier]\n\tname = my-verifier\n\trepository = " + input.repository + "\n");
+    assertThat(verifierOperations.sha1sOfRepositoriesWithVerifiers())
+        .containsExactly(VerifiersByRepositoryNotes.computeRepositorySha1(repositoryName));
+    assertThat(verifierOperations.verifiersOf(repositoryName)).containsExactly(info.uuid);
   }
 
   @Test

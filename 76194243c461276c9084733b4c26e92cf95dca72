@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c52594b4_fc7becc1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-08T13:45:33Z",
+      "side": 1,
+      "message": "Should this be done in gr-permission instead seeing as gr-access-section does not have the name property rather it\u0027s adding it to gr-permission by doing:\n\nname\u003d\"[[_computePermissionName(section.id, permission, permissionValues, capabilities)]]\"",
+      "parentUuid": "88cb01bd_a4e515d4",
+      "revId": "76194243c461276c9084733b4c26e92cf95dca72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "035467ed_16685398",
         "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
         "patchSetId": 11

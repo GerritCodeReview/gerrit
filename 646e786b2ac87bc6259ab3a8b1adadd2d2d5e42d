@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "497ed8f6_b4e84452",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-08T08:34:59Z",
+      "side": 1,
+      "message": "Can you add a comment here about why you are keeping track of plugins?\n\nMaybe add a comment that this will prevent you to use the same endpoint twice in the same plugin, even if you use a different module name.\n\nMaybe rename to just _plugins or _enabledPlugins?",
+      "revId": "646e786b2ac87bc6259ab3a8b1adadd2d2d5e42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -43,14 +44,14 @@ public class SetPrivateOp implements BatchUpdateOp {
   }
 
   public interface Factory {
-    SetPrivateOp create(ChangeMessagesUtil cmUtil, boolean isPrivate, Input input);
+    SetPrivateOp create(ChangeMessagesUtil cmUtil, boolean isPrivate, @Nullable Input input);
   }
 
-  private final ChangeMessagesUtil cmUtil;
-  private final PatchSetUtil psUtil;
-  private final boolean isPrivate;
-  private final Input input;
   private final PrivateStateChanged privateStateChanged;
+  private final PatchSetUtil psUtil;
+  private final ChangeMessagesUtil cmUtil;
+  private final boolean isPrivate;
+  @Nullable private final Input input;
 
   private Change change;
   private PatchSet ps;
@@ -61,12 +62,12 @@ public class SetPrivateOp implements BatchUpdateOp {
       PatchSetUtil psUtil,
       @Assisted ChangeMessagesUtil cmUtil,
       @Assisted boolean isPrivate,
-      @Assisted Input input) {
-    this.cmUtil = cmUtil;
+      @Assisted @Nullable Input input) {
+    this.privateStateChanged = privateStateChanged;
     this.psUtil = psUtil;
+    this.cmUtil = cmUtil;
     this.isPrivate = isPrivate;
     this.input = input;
-    this.privateStateChanged = privateStateChanged;
   }
 
   @Override

@@ -35,6 +35,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
@@ -1458,6 +1459,47 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(message.message).isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
     assertThat(getReviewers(c.reviewers.get(ReviewerState.REVIEWER)))
         .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+  }
+
+  @Test
+  public void listVotesByRevision() throws Exception {
+    // Create patch set 1 and vote on it
+    String changeId = createChange().getChangeId();
+    ListMultimap<String, ApprovalInfo> votes = gApi.changes().id(changeId).current().votes();
+    assertThat(votes).isEmpty();
+    recommend(changeId);
+    votes = gApi.changes().id(changeId).current().votes();
+    assertThat(votes.keySet()).containsExactly("Code-Review");
+    List<ApprovalInfo> approvals = votes.get("Code-Review");
+    assertThat(approvals).hasSize(1);
+    ApprovalInfo approval = approvals.get(0);
+    assertThat(approval._accountId).isEqualTo(admin.id.get());
+    assertThat(approval.email).isEqualTo(admin.email);
+    assertThat(approval.username).isEqualTo(admin.username);
+
+    // Also vote on it with another user
+    requestScopeOperations.setApiUser(user.getId());
+    gApi.changes().id(changeId).current().review(ReviewInput.dislike());
+
+    // Patch set 1 has 2 votes on Code-Review
+    requestScopeOperations.setApiUser(admin.getId());
+    votes = gApi.changes().id(changeId).current().votes();
+    assertThat(votes.keySet()).containsExactly("Code-Review");
+    approvals = votes.get("Code-Review");
+    assertThat(approvals).hasSize(2);
+    assertThat(approvals.stream().map(a -> a._accountId))
+        .containsExactlyElementsIn(ImmutableList.of(admin.id.get(), user.id.get()));
+
+    // Create a new patch set which does not have any votes
+    amendChange(changeId);
+    votes = gApi.changes().id(changeId).current().votes();
+    assertThat(votes).isEmpty();
+
+    // Votes are still returned for ps 1
+    votes = gApi.changes().id(changeId).revision(1).votes();
+    assertThat(votes.keySet()).containsExactly("Code-Review");
+    approvals = votes.get("Code-Review");
+    assertThat(approvals).hasSize(2);
   }
 
   private static void assertCherryPickResult(

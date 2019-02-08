@@ -1,0 +1,232 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2cb027f_0bf7e111",
+        "filename": "java/com/google/gerrit/server/project/BaseProjectConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:33:11Z",
+      "side": 1,
+      "message": "License header",
+      "revId": "277a64aa006e24dc2cff7c73bf3beda5ddfbcc7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1413ff8_9d63253e",
+        "filename": "java/com/google/gerrit/server/project/BaseProjectConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:33:11Z",
+      "side": 1,
+      "message": "Does this need to be public?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 6
+      },
+      "revId": "277a64aa006e24dc2cff7c73bf3beda5ddfbcc7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b1fef93_71398f2e",
+        "filename": "java/com/google/gerrit/server/project/BaseProjectConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:33:11Z",
+      "side": 1,
+      "message": "This is unsafe if callers are assuming that they get a fresh copy that they can mutate; you wouldn\u0027t want them to accidentally touch the original mergedConfig, would you?\n\nI think if you just remove this short-circuit, the loop below will take care of making a full defensive copy of mergedConfig. I wouldn\u0027t worry about the cost of all the baseConfigSections.contains calls.",
+      "revId": "277a64aa006e24dc2cff7c73bf3beda5ddfbcc7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8414dba1_0d9d493c",
+        "filename": "java/com/google/gerrit/server/project/BaseProjectConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:33:11Z",
+      "side": 1,
+      "message": "This would be easier to follow if you don\u0027t use String.format, just string concatenation",
+      "revId": "277a64aa006e24dc2cff7c73bf3beda5ddfbcc7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94c4eb24_8b0263a7",
+        "filename": "java/com/google/gerrit/server/project/BaseProjectConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:33:11Z",
+      "side": 1,
+      "message": "How safe is this assumption?\n\nIIUC you are just making this assumption because it seems like Sets are easier to work with than Lists. But I think we can actually eliminate this assumption and the code won\u0027t be too bad.\n\nWhat if you just iterate over the baseValues and call .remove sequentially on them? List#remove is O(n), sure, but n is likely quite small.",
+      "range": {
+        "startLine": 183,
+        "startChar": 20,
+        "endLine": 183,
+        "endChar": 80
+      },
+      "revId": "277a64aa006e24dc2cff7c73bf3beda5ddfbcc7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea9119bd_5e1f2210",
+        "filename": "java/com/google/gerrit/server/project/BaseProjectConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:33:11Z",
+      "side": 1,
+      "message": "is supposed to",
+      "range": {
+        "startLine": 225,
+        "startChar": 55,
+        "endLine": 225,
+        "endChar": 66
+      },
+      "revId": "277a64aa006e24dc2cff7c73bf3beda5ddfbcc7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "808cf67d_8e9c271d",
+        "filename": "java/com/google/gerrit/server/project/BaseProjectConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:33:11Z",
+      "side": 1,
+      "message": "baseConfig",
+      "range": {
+        "startLine": 255,
+        "startChar": 24,
+        "endLine": 255,
+        "endChar": 36
+      },
+      "revId": "277a64aa006e24dc2cff7c73bf3beda5ddfbcc7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e586582e_9e88c9d8",
+        "filename": "java/com/google/gerrit/server/project/BaseProjectConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:33:11Z",
+      "side": 1,
+      "message": "This looks like you\u0027re just reimplementing List#equals",
+      "revId": "277a64aa006e24dc2cff7c73bf3beda5ddfbcc7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58a7d30c_bc3ff42f",
+        "filename": "java/com/google/gerrit/server/project/testing/ConfigTestUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:33:11Z",
+      "side": 1,
+      "message": "License header",
+      "revId": "277a64aa006e24dc2cff7c73bf3beda5ddfbcc7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5695ebf3_89230d25",
+        "filename": "java/com/google/gerrit/server/project/testing/ConfigTestUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:33:11Z",
+      "side": 1,
+      "message": "ConfigTestUtil",
+      "revId": "277a64aa006e24dc2cff7c73bf3beda5ddfbcc7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0b84304_705622e3",
+        "filename": "javatests/com/google/gerrit/server/project/BaseProjectConfigUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:33:11Z",
+      "side": 1,
+      "message": "Please don\u0027t use ExpectedException.",
+      "revId": "277a64aa006e24dc2cff7c73bf3beda5ddfbcc7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f8f2d8a_294284c2",
+        "filename": "javatests/com/google/gerrit/server/project/BaseProjectConfigUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:33:11Z",
+      "side": 1,
+      "message": "It looks like this is only ever called as:\n\n Config cfg \u003d new Config();\n cfg.fromText(convertToConfigText(...));\n\nHow about changing this method to just return a new Config?",
+      "revId": "277a64aa006e24dc2cff7c73bf3beda5ddfbcc7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

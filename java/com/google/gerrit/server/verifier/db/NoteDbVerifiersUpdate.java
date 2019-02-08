@@ -157,7 +157,12 @@ class NoteDbVerifiersUpdate implements VerifiersUpdate {
           VerifierConfig.createForNewVerifier(allProjectsName, allProjectsRepo, verifierCreation);
       verifierConfig.setVerifierUpdate(verifierUpdate);
 
-      commit(allProjectsRepo, verifierConfig);
+      VerifiersByRepositoryNotes verifiersByRepositoryNotes =
+          VerifiersByRepositoryNotes.load(allProjectsName, allProjectsRepo);
+      verifiersByRepositoryNotes.insert(
+          verifierCreation.getVerifierUuid(), verifierCreation.getRepository());
+
+      commit(allProjectsRepo, verifierConfig, verifiersByRepositoryNotes);
 
       return verifierConfig
           .getLoadedVerifier()
@@ -166,15 +171,19 @@ class NoteDbVerifiersUpdate implements VerifiersUpdate {
     }
   }
 
-  private void commit(Repository allProjectsRepo, VerifierConfig verifierConfig)
+  private void commit(
+      Repository allProjectsRepo,
+      VerifierConfig verifierConfig,
+      VerifiersByRepositoryNotes verifiersByRepositoryNotes)
       throws IOException {
     BatchRefUpdate batchRefUpdate = allProjectsRepo.getRefDatabase().newBatchUpdate();
     try (MetaDataUpdate metaDataUpdate =
         metaDataUpdateFactory.create(allProjectsName, allProjectsRepo, batchRefUpdate)) {
       verifierConfig.commit(metaDataUpdate);
+      verifiersByRepositoryNotes.commit(metaDataUpdate);
     }
-
     RefUpdateUtil.executeChecked(batchRefUpdate, allProjectsRepo);
+
     gitRefUpdated.fire(
         allProjectsName, batchRefUpdate, currentUser.map(user -> user.state()).orElse(null));
   }
@@ -244,7 +253,18 @@ class NoteDbVerifiersUpdate implements VerifiersUpdate {
         throw new NoSuchVerifierException(verifierUuid);
       }
 
-      commit(allProjectsRepo, verifierConfig);
+      VerifiersByRepositoryNotes verifiersByRepositoryNotes =
+          VerifiersByRepositoryNotes.load(allProjectsName, allProjectsRepo);
+      verifierUpdate
+          .getRepository()
+          .ifPresent(
+              repo ->
+                  verifiersByRepositoryNotes.update(
+                      verifierUuid,
+                      verifierConfig.getLoadedVerifier().get().getRepository(),
+                      repo));
+
+      commit(allProjectsRepo, verifierConfig, verifiersByRepositoryNotes);
 
       Verifier updatedVerifier =
           verifierConfig

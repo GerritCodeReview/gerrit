@@ -14,9 +14,12 @@
 
 package com.google.gerrit.acceptance.testsuite.verifier;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
+import com.google.gerrit.reviewdb.client.Project;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
@@ -57,6 +60,25 @@ public interface VerifierOperations {
    * @return a builder to create the new verifier
    */
   TestVerifierCreation.Builder newVerifier();
+
+  /**
+   * Returns the UUIDs of the verifiers that apply to the given repository.
+   *
+   * @param repositoryName repository name
+   * @return set of UUIDs of the verifiers that apply to the given repository
+   * @throws IOException if reading the verifier list fails
+   */
+  ImmutableSet<String> verifiersOf(Project.NameKey repositoryName) throws IOException;
+
+  /**
+   * Returns the SHA1s of the repositories that have applying verifiers.
+   *
+   * <p>These are the keys used in the {@code NoteMap} of {@code refs/meta/verifiers}.
+   *
+   * @return the SHA1s of the repositories that have applying verifiers
+   * @throws IOException if reading the repository SHA1s fails
+   */
+  ImmutableSet<ObjectId> sha1sOfRepositoriesWithVerifiers() throws IOException;
 
   /** An aggregation of methods on a specific verifier. */
   interface PerVerifierOperations {

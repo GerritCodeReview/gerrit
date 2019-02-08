@@ -15,11 +15,18 @@
 package com.google.gerrit.acceptance.testsuite.verifier;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Streams;
 import com.google.gerrit.acceptance.testsuite.verifier.TestVerifierUpdate.Builder;
 import com.google.gerrit.common.errors.NoSuchVerifierException;
 import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -31,16 +38,21 @@ import com.google.gerrit.server.verifier.VerifierUuid;
 import com.google.gerrit.server.verifier.Verifiers;
 import com.google.gerrit.server.verifier.VerifiersUpdate;
 import com.google.gerrit.server.verifier.db.VerifierConfig;
+import com.google.gerrit.server.verifier.db.VerifiersByRepositoryNotes;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BlobBasedConfig;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
  * The implementation of {@code VerifierOperations}.
@@ -105,6 +117,49 @@ public class VerifierOperationsImpl implements VerifierOperations {
     verifierCreation.url().ifPresent(builder::setUrl);
     verifierCreation.repository().ifPresent(builder::setRepository);
     return builder.build();
+  }
+
+  @Override
+  public ImmutableSet<String> verifiersOf(Project.NameKey repositoryName) throws IOException {
+    try (Repository repo = repoManager.openRepository(allProjectsName);
+        RevWalk rw = new RevWalk(repo);
+        ObjectReader or = repo.newObjectReader()) {
+      Ref ref = repo.exactRef(RefNames.REFS_META_VERIFIERS);
+      if (ref == null) {
+        return ImmutableSet.of();
+      }
+
+      RevCommit c = rw.parseCommit(ref.getObjectId());
+      try (TreeWalk tw =
+          TreeWalk.forPath(
+              or,
+              VerifiersByRepositoryNotes.computeRepositorySha1(repositoryName).getName(),
+              c.getTree())) {
+        if (tw == null) {
+          return ImmutableSet.of();
+        }
+
+        return ImmutableSet.copyOf(
+            Splitter.on('\n')
+                .splitToList(new String(or.open(tw.getObjectId(0), OBJ_BLOB).getBytes(), UTF_8)));
+      }
+    }
+  }
+
+  @Override
+  public ImmutableSet<ObjectId> sha1sOfRepositoriesWithVerifiers() throws IOException {
+    try (Repository repo = repoManager.openRepository(allProjectsName);
+        RevWalk rw = new RevWalk(repo);
+        ObjectReader or = repo.newObjectReader()) {
+      Ref ref = repo.exactRef(RefNames.REFS_META_VERIFIERS);
+      if (ref == null) {
+        return ImmutableSet.of();
+      }
+
+      return Streams.stream(NoteMap.read(or, rw.parseCommit(ref.getObjectId())))
+          .map(ObjectId::copy)
+          .collect(toImmutableSet());
+    }
   }
 
   private class PerVerifierOperationsImpl implements PerVerifierOperations {

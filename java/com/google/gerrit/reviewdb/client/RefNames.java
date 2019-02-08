@@ -54,6 +54,9 @@ public class RefNames {
   /** Ref namespace for verifiers. */
   public static final String REFS_VERIFIERS = "refs/verifiers/";
 
+  /** Ref that stores the repository to verifiers map. */
+  public static final String REFS_META_VERIFIERS = "refs/meta/verifiers/";
+
   /** NoteDb schema version number. */
   public static final String REFS_VERSION = "refs/meta/version";
 

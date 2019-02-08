@@ -15,6 +15,8 @@
 package com.google.gerrit.server.verifier;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.reviewdb.client.Project;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -49,4 +51,19 @@ public interface Verifiers {
    * @throws IOException if any verifier couldn't be retrieved from the storage
    */
   ImmutableList<Verifier> listVerifiers() throws IOException;
+
+  /**
+   * Returns the verifiers that apply to the given repository.
+   *
+   * <p>Verifiers with invalid configuration are silently ignored.
+   *
+   * @param repositoryName the name of the repository for which the applying verifiers should be
+   *     returned
+   * @return the verifiers that apply that apply to the given repository
+   * @throws IOException if reading the verifier list fails or if any verifier couldn't be retrieved
+   *     from the storage
+   * @throws ConfigInvalidException if reading the verifier list fails
+   */
+  ImmutableSet<Verifier> verifiersOf(Project.NameKey repositoryName)
+      throws IOException, ConfigInvalidException;
 }

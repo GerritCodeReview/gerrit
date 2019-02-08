@@ -29,6 +29,8 @@ import com.google.gerrit.extensions.api.verifiers.VerifierInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.verifier.db.VerifiersByRepositoryNotes;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.util.concurrent.TimeUnit;
@@ -55,9 +57,11 @@ public class CreateVerifierIT extends AbstractDaemonTest {
 
   @Test
   public void createVerifier() throws Exception {
+    Project.NameKey repositoryName = projectOperations.newProject().create();
+
     VerifierInput input = new VerifierInput();
     input.name = "my-verifier";
-    input.repository = projectOperations.newProject().create().get();
+    input.repository = repositoryName.get();
     VerifierInfo info = gApi.verifiers().create(input).get();
     assertThat(info.uuid).isNotNull();
     assertThat(info.name).isEqualTo(input.name);
@@ -72,6 +76,9 @@ public class CreateVerifierIT extends AbstractDaemonTest {
         perVeriferOps.commit(), "Create verifier", info.createdOn, perVeriferOps.get().refState());
     assertThat(perVeriferOps.configText())
         .isEqualTo("[verifier]\n\tname = my-verifier\n\trepository = " + input.repository + "\n");
+    assertThat(verifierOperations.sha1sOfRepositoriesWithVerifiers())
+        .containsExactly(VerifiersByRepositoryNotes.computeRepositorySha1(repositoryName));
+    assertThat(verifierOperations.verifiersOf(repositoryName)).containsExactly(info.uuid);
   }
 
   @Test
@@ -271,6 +278,27 @@ public class CreateVerifierIT extends AbstractDaemonTest {
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage("repository non-existing not found");
     gApi.verifiers().create(input);
+  }
+
+  @Test
+  public void createMultipleVerifiers() throws Exception {
+    Project.NameKey repositoryName1 = projectOperations.newProject().create();
+    Project.NameKey repositoryName2 = projectOperations.newProject().create();
+
+    String verifierUuid1 = verifierOperations.newVerifier().repository(repositoryName1).create();
+    String verifierUuid2 = verifierOperations.newVerifier().repository(repositoryName1).create();
+    String verifierUuid3 = verifierOperations.newVerifier().repository(repositoryName1).create();
+    String verifierUuid4 = verifierOperations.newVerifier().repository(repositoryName2).create();
+    String verifierUuid5 = verifierOperations.newVerifier().repository(repositoryName2).create();
+
+    assertThat(verifierOperations.sha1sOfRepositoriesWithVerifiers())
+        .containsExactly(
+            VerifiersByRepositoryNotes.computeRepositorySha1(repositoryName1),
+            VerifiersByRepositoryNotes.computeRepositorySha1(repositoryName2));
+    assertThat(verifierOperations.verifiersOf(repositoryName1))
+        .containsExactly(verifierUuid1, verifierUuid2, verifierUuid3);
+    assertThat(verifierOperations.verifiersOf(repositoryName2))
+        .containsExactly(verifierUuid4, verifierUuid5);
   }
 
   @Test

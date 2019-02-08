@@ -17,7 +17,9 @@ package com.google.gerrit.server.verifier.db;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -86,6 +88,29 @@ class NoteDbVerifiers implements Verifiers {
         }
       }
       return sortedVerifiers.build();
+    }
+  }
+
+  @Override
+  public ImmutableSet<Verifier> verifiersOf(Project.NameKey repositoryName)
+      throws IOException, ConfigInvalidException {
+    try (Repository allProjectsRepo = repoManager.openRepository(allProjectsName)) {
+      ImmutableSet<String> verifierUuids =
+          VerifiersByRepositoryNotes.load(allProjectsName, allProjectsRepo).get(repositoryName);
+
+      ImmutableSet.Builder<Verifier> verifiers = ImmutableSet.builder();
+      for (String verifierUuid : verifierUuids) {
+        try {
+          VerifierConfig verifierConfig =
+              VerifierConfig.loadForVerifier(allProjectsName, allProjectsRepo, verifierUuid);
+          verifierConfig.getLoadedVerifier().ifPresent(verifiers::add);
+        } catch (ConfigInvalidException e) {
+          logger.atWarning().withCause(e).log(
+              "Ignore invalid verifier %s on listing verifiers for repository %s",
+              verifierUuid, repositoryName);
+        }
+      }
+      return verifiers.build();
     }
   }
 }

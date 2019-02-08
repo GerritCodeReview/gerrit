@@ -150,7 +150,9 @@ limitations under the License.
       <section>
         <span class="title">Owner</span>
         <span class="value">
-          <gr-account-link account="[[change.owner]]"></gr-account-link>
+          <template is="dom-repeat" items="[[_changeArray]]" as="changes">
+            <gr-account-link account="[[changes.owner]]"></gr-account-link>
+          </template>
           <template is="dom-if" if="[[_pushCertificateValidation]]">
             <gr-tooltip-content
                 has-tooltip
@@ -166,25 +168,31 @@ limitations under the License.
       <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.UPLOADER)]]">
         <span class="title">Uploader</span>
         <span class="value">
-          <gr-account-link
-              account="[[_getNonOwnerRole(change, _CHANGE_ROLE.UPLOADER)]]"
-              ></gr-account-link>
+          <template is="dom-repeat" items="[[_changeArray]]" as="changes">
+            <gr-account-link
+                account="[[_getNonOwnerRole(changes, _CHANGE_ROLE.UPLOADER)]]"
+                ></gr-account-link>
+          </template>
         </span>
       </section>
       <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.AUTHOR)]]">
         <span class="title">Author</span>
         <span class="value">
-          <gr-account-link
-              account="[[_getNonOwnerRole(change, _CHANGE_ROLE.AUTHOR)]]"
-              ></gr-account-link>
+          <template is="dom-repeat" items="[[_changeArray]]" as="changes">
+            <gr-account-link
+                account="[[_getNonOwnerRole(changes, _CHANGE_ROLE.AUTHOR)]]"
+                ></gr-account-link>
+          </template>
         </span>
       </section>
       <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.COMMITTER)]]">
         <span class="title">Committer</span>
         <span class="value">
-          <gr-account-link
-              account="[[_getNonOwnerRole(change, _CHANGE_ROLE.COMMITTER)]]"
-              ></gr-account-link>
+          <template is="dom-repeat" items="[[_changeArray]]" as="changes">
+            <gr-account-link
+                account="[[_getNonOwnerRole(changes, _CHANGE_ROLE.COMMITTER)]]"
+                ></gr-account-link>
+          </template>
         </span>
       </section>
       <section class="assignee">

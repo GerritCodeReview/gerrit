@@ -39,10 +39,12 @@ limitations under the License.
         display: none;
       }
     </style>
-    <gr-avatar
-        account="[[_accountDetails]]"
-        image-size="100"
-        aria-label="Account avatar"></gr-avatar>
+    <template id="chips" is="dom-repeat" items="[[_accountDetailsArray(_accountDetails)]]" as="details">
+      <gr-avatar
+          account="[[details]]"
+          image-size="100"
+          aria-label="Account avatar"></gr-avatar>
+    </template>
     <div class="info">
       <h1 class="name">
         [[_computeDetail(_accountDetails, 'name')]]

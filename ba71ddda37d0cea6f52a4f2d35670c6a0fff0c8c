@@ -34,6 +34,24 @@
       "revId": "ba71ddda37d0cea6f52a4f2d35670c6a0fff0c8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26eca974_d7f77fad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:13:50Z",
+      "side": 1,
+      "message": "Interesting. We could also consider manually interning.",
+      "parentUuid": "d8eff120_e8aa42b5",
+      "revId": "ba71ddda37d0cea6f52a4f2d35670c6a0fff0c8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

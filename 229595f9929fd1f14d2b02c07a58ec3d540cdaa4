@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19a8c66e_f1a90901",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-08T07:02:42Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be better to add the skip to the query itself, rather than on the resulting stream?\n\nSame applies to the limit below.",
+      "range": {
+        "startLine": 361,
+        "startChar": 71,
+        "endLine": 361,
+        "endChar": 84
+      },
+      "revId": "229595f9929fd1f14d2b02c07a58ec3d540cdaa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

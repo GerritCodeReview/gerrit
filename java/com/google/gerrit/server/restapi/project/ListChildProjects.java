@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -90,7 +89,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
         .get()
         .withQuery("parent:" + parent.get())
         .withLimit(limit)
-        .apply(TopLevelResource.INSTANCE)
+        .apply()
         .stream()
         .filter(
             p ->

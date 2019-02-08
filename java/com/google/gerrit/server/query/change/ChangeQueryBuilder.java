@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
+import static com.google.gerrit.server.account.AccountResolver.isSelf;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -951,6 +952,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> visibleto(String who)
       throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+    if (isSelf(who)) {
+      return is_visible();
+    }
     try {
       return Predicate.or(
           parseAccount(who)

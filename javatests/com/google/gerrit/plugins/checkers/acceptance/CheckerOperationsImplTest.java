@@ -19,6 +19,9 @@ import static com.google.common.truth.Truth8.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.base.Joiner;
+import com.google.gerrit.extensions.api.checkers.CheckerInfo;
+import com.google.gerrit.extensions.api.checkers.CheckerInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.plugins.checkers.CheckerRef;
 import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperationsImpl;
@@ -26,9 +29,15 @@ import com.google.gerrit.plugins.checkers.acceptance.testsuite.TestChecker;
 import com.google.gerrit.plugins.checkers.api.CheckerInfo;
 import com.google.gerrit.plugins.checkers.api.CheckerInput;
 import com.google.gerrit.plugins.checkers.db.CheckerConfig;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.checker.CheckerUuid;
+import com.google.gerrit.server.checker.db.CheckerConfig;
+import com.google.gerrit.server.checker.db.CheckersByRepositoryNotes;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Optional;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
@@ -298,6 +307,54 @@ public class CheckerOperationsImplTest extends AbstractCheckersTest {
     assertThat(checkerInfo.url).isEqualTo(checker.url().get());
     assertThat(checkerInfo.createdOn).isEqualTo(checker.createdOn());
     assertThat(checkerInfo.updatedOn).isEqualTo(checker.updatedOn());
+  }
+
+  @Test
+  public void getCheckersOfRepository() throws Exception {
+    String checkerUuid1 = CheckerUuid.make("my-checker1");
+    String checkerUuid2 = CheckerUuid.make("my-checker2");
+
+    try (Repository repo = repoManager.openRepository(allProjects)) {
+      new TestRepository<>(repo)
+          .branch(RefNames.REFS_META_CHECKERS)
+          .commit()
+          .add(
+              CheckersByRepositoryNotes.computeRepositorySha1(project).getName(),
+              Joiner.on('\n').join(checkerUuid1, checkerUuid2))
+          .create();
+    }
+
+    assertThat(checkerOperations.checkersOf(project)).containsExactly(checkerUuid1, checkerUuid2);
+  }
+
+  @Test
+  public void getCheckersOfRepositoryWithoutCheckers() throws Exception {
+    assertThat(checkerOperations.checkersOf(project)).isEmpty();
+  }
+
+  @Test
+  public void getCheckersOfNonExistingRepositor() throws Exception {
+    assertThat(checkerOperations.checkersOf(new Project.NameKey("non-existing"))).isEmpty();
+  }
+
+  @Test
+  public void getSha1sOfRepositoriesWithCheckers() throws Exception {
+    String checkerUuid1 = CheckerUuid.make("my-checker1");
+    String checkerUuid2 = CheckerUuid.make("my-checker2");
+
+    try (Repository repo = repoManager.openRepository(allProjects)) {
+      new TestRepository<>(repo)
+          .branch(RefNames.REFS_META_CHECKERS)
+          .commit()
+          .add(CheckersByRepositoryNotes.computeRepositorySha1(project).getName(), checkerUuid1)
+          .add(CheckersByRepositoryNotes.computeRepositorySha1(allProjects).getName(), checkerUuid2)
+          .create();
+    }
+
+    assertThat(checkerOperations.sha1sOfRepositoriesWithCheckers())
+        .containsExactly(
+            CheckersByRepositoryNotes.computeRepositorySha1(project),
+            CheckersByRepositoryNotes.computeRepositorySha1(allProjects));
   }
 
   private CheckerInput createArbitraryCheckerInput() {

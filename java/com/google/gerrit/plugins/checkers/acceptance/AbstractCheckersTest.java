@@ -38,7 +38,8 @@ public class AbstractCheckersTest extends LightweightPluginDaemonTest {
 
   @Override
   protected ProjectResetter.Config resetProjects() {
-    return super.resetProjects().reset(allProjects, CheckerRef.REFS_CHECKERS + "*");
+    return super.resetProjects()
+        .reset(allProjects, CheckerRef.REFS_CHECKERS + "*", CheckerRef.REFS_META_CHECKERS);
   }
 
   @Before

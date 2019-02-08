@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "a7ace933_b45c89f8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-08T14:04:17Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "306f4c06_c9202772",
+      "revId": "76194243c461276c9084733b4c26e92cf95dca72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "035467ed_16685398",
         "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
         "patchSetId": 11
@@ -69,6 +87,24 @@
       "revId": "76194243c461276c9084733b4c26e92cf95dca72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92e97138_ae1233e2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-08T14:04:17Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "035467ed_16685398",
+      "revId": "76194243c461276c9084733b4c26e92cf95dca72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

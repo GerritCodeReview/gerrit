@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "e08849a6_d0b147d6",
+        "filename": ".mailmap",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-08T00:19:06Z",
+      "side": 1,
+      "message": "nit: this should be added between L14 and L15.",
+      "revId": "39ed60cd770f8255647362881ce03c6586224a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d9e87c6_f23962f0",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-08T00:19:06Z",
+      "side": 1,
+      "message": "Remove tab, also on following lines.",
+      "revId": "39ed60cd770f8255647362881ce03c6586224a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0da9e0dc_b9d9b7ab",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-08T00:19:06Z",
+      "side": 1,
+      "message": "Remove leading spaces.",
+      "revId": "39ed60cd770f8255647362881ce03c6586224a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b2d0cac1_a603d4b6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
         "patchSetId": 1
@@ -30,6 +81,47 @@
       "writtenOn": "2019-02-08T00:00:33Z",
       "side": 1,
       "message": "Remove.",
+      "revId": "39ed60cd770f8255647362881ce03c6586224a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d00ff617_386c8960",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-08T00:19:06Z",
+      "side": 1,
+      "message": "The changes in this file need to be carried over into the file at its new location.",
+      "parentUuid": "88f206cf_552a6532",
+      "revId": "39ed60cd770f8255647362881ce03c6586224a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a993eb1f_436335a4",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-08T00:19:06Z",
+      "side": 1,
+      "message": "This change should not be included.  It was needed on stable-2.15, but not on stable-2.16.",
+      "range": {
+        "startLine": 452,
+        "startChar": 8,
+        "endLine": 453,
+        "endChar": 11
+      },
       "revId": "39ed60cd770f8255647362881ce03c6586224a17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

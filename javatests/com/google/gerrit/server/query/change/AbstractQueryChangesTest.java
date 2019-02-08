@@ -3114,6 +3114,27 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("is:starred");
   }
 
+  @Test
+  public void selfSucceedsForInactiveAccount() throws Exception {
+    Account.Id user2 =
+        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
+
+    TestRepository<Repo> repo = createProject("repo");
+    Change change = insert(repo, newChange(repo));
+    AssigneeInput ain = new AssigneeInput();
+    ain.assignee = user2.toString();
+    gApi.changes().id(change.getId().get()).setAssignee(ain);
+
+    RequestContext adminContext = requestContext.setContext(newRequestContext(user2));
+    assertQuery("assignee:self", change);
+
+    requestContext.setContext(adminContext);
+    gApi.accounts().id(user2.get()).setActive(false);
+
+    requestContext.setContext(newRequestContext(user2));
+    assertQuery("assignee:self", change);
+  }
+
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
     return newChange(repo, null, null, null, null, false);
   }

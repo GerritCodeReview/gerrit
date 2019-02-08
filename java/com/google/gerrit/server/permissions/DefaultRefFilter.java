@@ -133,6 +133,9 @@ class DefaultRefFilter {
     // See if we can get away with a single, cheap ref evaluation.
     if (refs.size() == 1) {
       String refName = Iterables.getOnlyElement(refs.values()).getName();
+      if (opts.filterMeta() && isMetadata(refName)) {
+        return ImmutableMap.of();
+      }
       if (RefNames.isRefsChanges(refName)) {
         return canSeeSingleChangeRef(refName) ? refs : ImmutableMap.of();
       }

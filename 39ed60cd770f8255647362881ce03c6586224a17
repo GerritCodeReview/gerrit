@@ -146,6 +146,24 @@
     },
     {
       "key": {
+        "uuid": "a934074a_70797e89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-08T00:39:19Z",
+      "side": 1,
+      "message": "It\u0027s not removed.  If you look at the diff from parent 1, you can see that this file is added.\n\nIt needs to be explicitly removed by \"git rm\" before committing the merge.\n\nSame for the added ChangeJson file.",
+      "parentUuid": "83fde1d1_3460541c",
+      "revId": "39ed60cd770f8255647362881ce03c6586224a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "88f206cf_552a6532",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1

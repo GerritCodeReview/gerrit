@@ -64,6 +64,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.FieldDef;
@@ -3095,6 +3096,24 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("project:repo+foo", change);
   }
 
+  @Test
+  public void selfFailsForAnonymousUser() throws Exception {
+    for (String query : ImmutableList.of("assignee:self", "is:starred")) {
+      assertQuery(query);
+      RequestContext oldContext = requestContext.setContext(anonymousUserProvider::get);
+
+      try {
+        requestContext.setContext(anonymousUserProvider::get);
+        assertThatAuthException(query)
+            .hasMessageThat()
+            .isEqualTo("Must be signed-in to use this operator");
+      } finally {
+        requestContext.setContext(oldContext);
+      }
+    }
+    assertQuery("is:starred");
+  }
+
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
     return newChange(repo, null, null, null, null, false);
   }
@@ -3220,6 +3239,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       query.get();
       throw new AssertionError("expected BadRequestException for query: " + query);
     } catch (BadRequestException e) {
+      return assertThat(e);
+    }
+  }
+
+  protected ThrowableSubject assertThatAuthException(Object query) throws Exception {
+    try {
+      newQuery(query).get();
+      throw new AssertionError("expected AuthException for query: " + query);
+    } catch (AuthException e) {
       return assertThat(e);
     }
   }

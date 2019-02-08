@@ -1,4 +1,73 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1549635851 +0100\nnonce ANwvRnBDrBiAWtyfk9vWnvjm7BPwmCeoTbTfCAZ0rvymx7gNvjDbuJ03+pJg3SE0VnuBkMfTGSjW\n\n0000000000000000000000000000000000000000 67c2a5a65f89b6a61681bae56973db2bf44c12f6 refs/for/master%private\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJcXZELAAoJEHFVO370GiZWIKgH/jSlP46dErWTkQiMtyFIR9cT\nkLoK9mCcbXV1Falq7SoldsZpauB9tfkVjrPyhQwx2/gSB8DvwPuzVNrPa/Ed21+T\nUE5VkFPhJ7ZKqvEnV+3VIY3Es0QKfGJwPu+d6cSYsu/WZW8yeo9iqAm3ZKT6pqxL\nWuBNFazcfzd2teITAakIzEFQGmJecFp0M+4jV6pDeNBfEJH9XU1GCHvO6XRyAPjI\noEsOdVxreH5exHK1uwCj/45grj4vVNeMnOj7w6aNctuvU1mbvQnjUD1mc8184uth\nI24ZcPvwAH03vdGJE6lPsGWP8cJdJMIxUQYkR9nHMzrlzlcOxXsbxYW8r/tP7Ww\u003d\n\u003dcoJe\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7af9c19_a785a085",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/verifier/VerifierOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:07:55Z",
+      "side": 1,
+      "message": "In isolation, \"SHA1s of repositories\" doesn\u0027t make any sense. Maybe add something like \"These are the keys used in the {@code NoteMap} of {@code refs/meta/verifiers}\"?",
+      "revId": "67c2a5a65f89b6a61681bae56973db2bf44c12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b40fc33e_136614e9",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/verifier/VerifierOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:07:55Z",
+      "side": 1,
+      "message": "Can\u0027t you just do this with a NoteMap? NoteMap is an Iterable\u003cNote\u003e and Note extends ObjectId, so it would just be like:\n\n Streams.stream(NoteMap.read(or, rw.parseCommit(ref.getObjectId()))\n     .map(ObjectId::copy)\n     .collect(toImmutableSet());",
+      "revId": "67c2a5a65f89b6a61681bae56973db2bf44c12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66b97df6_e04c7194",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifiersByRepositoryNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:07:55Z",
+      "side": 1,
+      "message": "See my comment below, I feel like we should just use SortedSets everywhere.",
+      "revId": "67c2a5a65f89b6a61681bae56973db2bf44c12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3170effd_731f5b81",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifiersByRepositoryNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-08T16:07:55Z",
+      "side": 1,
+      "message": "It\u0027s not clear from the code in this file what the policy should be about preserving order vs. re-sorting frequently. Some places use ImmutableSet, which is order-preserving; some use TreeSet, which sorts; this one uses HashSet which is not order-preserving.\n\nI would be in favor of consistently using (Immutable)SortedSets for all local variables, method arguments, and return values, so it\u0027s easier to reason about.\n\n(There could be an argument for favoring order-preserving over sorted sets, to avoid churn in the case where a human accidentally unsorts the list. But this is not something that should ever be touched by humans, and if they do, they can live with the churn.)",
+      "revId": "67c2a5a65f89b6a61681bae56973db2bf44c12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

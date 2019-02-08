@@ -64,6 +64,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.FieldDef;
@@ -77,6 +78,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -155,6 +157,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected ChangeIndexer indexer;
   @Inject protected IndexConfig indexConfig;
   @Inject protected InMemoryRepositoryManager repoManager;
+  @Inject protected Provider<AnonymousUser> anonymousUserProvider;
   @Inject protected Provider<InternalChangeQuery> queryProvider;
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected OneOffRequestContext oneOffRequestContext;
@@ -523,8 +526,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // Convert AccountInfos to strings, either account ID or email.
     List<String> reviewerIds =
-        reviewers
-            .stream()
+        reviewers.stream()
             .map(
                 ai -> {
                   if (ai._accountId != null) {
@@ -2003,10 +2005,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.groups().id(group).addMembers(user2.toString(), user3.toString());
 
     List<String> members =
-        gApi.groups()
-            .id(group)
-            .members()
-            .stream()
+        gApi.groups().id(group).members().stream()
             .map(a -> a._accountId.toString())
             .collect(toList());
     assertThat(members).contains(user2.toString());
@@ -2866,6 +2865,24 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("project:repo+foo", change);
   }
 
+  @Test
+  public void selfFailsForAnonymousUser() throws Exception {
+    for (String query : ImmutableList.of("assignee:self", "is:starred")) {
+      assertQuery(query);
+      RequestContext oldContext = requestContext.setContext(anonymousUserProvider::get);
+
+      try {
+        requestContext.setContext(anonymousUserProvider::get);
+        assertThatAuthException(query)
+            .hasMessageThat()
+            .isEqualTo("Must be signed-in to use this operator");
+      } finally {
+        requestContext.setContext(oldContext);
+      }
+    }
+    assertQuery("is:starred");
+  }
+
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
     return newChange(repo, null, null, null, null, false);
   }
@@ -2991,6 +3008,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       query.get();
       throw new AssertionError("expected BadRequestException for query: " + query);
     } catch (BadRequestException e) {
+      return assertThat(e);
+    }
+  }
+
+  protected ThrowableSubject assertThatAuthException(Object query) throws Exception {
+    try {
+      newQuery(query).get();
+      throw new AssertionError("expected AuthException for query: " + query);
+    } catch (AuthException e) {
       return assertThat(e);
     }
   }

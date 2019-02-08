@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.project.ListProjects;
@@ -155,7 +154,7 @@ class ProjectsImpl implements Projects {
           .withQuery(r.getQuery())
           .withLimit(r.getLimit())
           .withStart(r.getStart())
-          .apply(TopLevelResource.INSTANCE);
+          .apply();
     } catch (OrmException e) {
       throw new RestApiException("Cannot query projects", e);
     }

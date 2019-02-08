@@ -68,7 +68,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  * </ol>
  *
  * <p>The result never includes accounts that are not visible to the calling user. It also never
- * includes inactive accounts, with one specific exception noted in method Javadoc.
+ * includes inactive accounts, with a small number of specific exceptions noted in method Javadoc.
  */
 @Singleton
 public class AccountResolver {
@@ -252,6 +252,11 @@ public class AccountResolver {
 
   private class BySelf extends StringSearcher {
     @Override
+    public boolean callerShouldFilterOutInactiveCandidates() {
+      return false;
+    }
+
+    @Override
     public boolean callerMayAssumeCandidatesAreVisible() {
       return true;
     }
@@ -279,8 +284,6 @@ public class AccountResolver {
   private class ByExactAccountId extends AccountIdSearcher {
     @Override
     public boolean callerShouldFilterOutInactiveCandidates() {
-      // The only case where we *don't* enforce that the account is active is when passing an exact
-      // numeric account ID.
       return false;
     }
 
@@ -497,9 +500,9 @@ public class AccountResolver {
    *
    * <ul>
    *   <li>The strings {@code "self"} and {@code "me"}, if the current user is an {@link
-   *       IdentifiedUser}.
-   *   <li>A bare account ID ({@code "18419"}). In this case, and <strong>only</strong> this case,
-   *       may return exactly one inactive account. This case short-circuits if the input matches.
+   *       IdentifiedUser}. In this case, may return exactly one inactive account.
+   *   <li>A bare account ID ({@code "18419"}). In this case, may return exactly one inactive
+   *       account. This case short-circuits if the input matches.
    *   <li>An account ID in parentheses following a full name ({@code "Full Name (18419)"}). This
    *       case short-circuits if the input matches.
    *   <li>A username ({@code "username"}).

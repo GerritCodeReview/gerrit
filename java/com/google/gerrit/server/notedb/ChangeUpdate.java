@@ -69,6 +69,8 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
@@ -384,22 +386,29 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return reviewers;
   }
 
-  public void putReviewer(Account.Id reviewer, ReviewerStateInternal type) {
-    checkArgument(type != ReviewerStateInternal.REMOVED, "invalid ReviewerType");
-    reviewers.put(reviewer, type);
+  public void putReviewer(Account.Id reviewer, ReviewerStateInternal state) {
+    checkArgument(state != ReviewerStateInternal.REMOVED, "invalid reviewer state");
+    putReviewerImpl(reviewers, reviewer, state);
   }
 
   public void removeReviewer(Account.Id reviewer) {
-    reviewers.put(reviewer, ReviewerStateInternal.REMOVED);
+    putReviewerImpl(reviewers, reviewer, ReviewerStateInternal.REMOVED);
   }
 
-  public void putReviewerByEmail(Address reviewer, ReviewerStateInternal type) {
-    checkArgument(type != ReviewerStateInternal.REMOVED, "invalid ReviewerType");
-    reviewersByEmail.put(reviewer, type);
+  public void putReviewerByEmail(Address reviewer, ReviewerStateInternal state) {
+    checkArgument(state != ReviewerStateInternal.REMOVED, "invalid reviewer state");
+    putReviewerImpl(reviewersByEmail, reviewer, state);
   }
 
   public void removeReviewerByEmail(Address reviewer) {
-    reviewersByEmail.put(reviewer, ReviewerStateInternal.REMOVED);
+    putReviewerImpl(reviewersByEmail, reviewer, ReviewerStateInternal.REMOVED);
+  }
+
+  private static <K> void putReviewerImpl(
+      Map<K, ReviewerStateInternal> map, K key, ReviewerStateInternal newState) {
+    requireNonNull(newState);
+    ReviewerStateInternal oldState = map.get(key);
+    map.put(key, oldState != null ? Collections.max(Arrays.asList(oldState, newState)) : newState);
   }
 
   public void setPatchSetState(PatchSetState psState) {

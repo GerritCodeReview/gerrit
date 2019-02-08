@@ -31,7 +31,7 @@ junit_tests(
     visibility = ["//visibility:public"],
     deps = [
         ":ui_module",
-        "//java/com/google/gerrit/common:client",
+        "//gerrit-common:client",
         "//java/com/google/gerrit/extensions:client",
         "//lib:junit",
         "//lib:truth",

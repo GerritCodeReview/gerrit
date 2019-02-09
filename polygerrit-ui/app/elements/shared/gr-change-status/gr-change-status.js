@@ -26,7 +26,7 @@
   };
 
   const WIP_TOOLTIP = 'This change isn\'t ready to be reviewed or submitted. ' +
-      'It will not appear in dashboards, and email notifications will be ' +
+      'Email notifications will be ' +
       'silenced until the review is started.';
 
   const PRIVATE_TOOLTIP = 'This change is only visible to its owner and ' +

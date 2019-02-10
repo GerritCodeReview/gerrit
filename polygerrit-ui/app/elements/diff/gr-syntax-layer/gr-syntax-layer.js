@@ -22,6 +22,7 @@
     'application/json': 'json',
     'application/x-powershell': 'powershell',
     'application/typescript': 'typescript',
+    'application/xml': 'xml',
     'application/xquery': 'xquery',
     'application/x-erb': 'erb',
     'text/css': 'css',

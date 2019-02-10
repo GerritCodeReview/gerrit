@@ -57,6 +57,7 @@
     'text/x-latex': 'latex',
     'text/x-less': 'less',
     'text/x-lua': 'lua',
+    'text/x-markdown': 'markdown',
     'text/x-mathematica': 'mathematica',
     'text/x-nginx-conf': 'nginx',
     'text/x-nsis': 'nsis',

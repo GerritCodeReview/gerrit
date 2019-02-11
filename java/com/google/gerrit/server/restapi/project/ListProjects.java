@@ -359,7 +359,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
                   natural(), p -> p.name, p -> showDescription ? p : nullifyDescription(p)));
     } catch (OrmException | MethodNotAllowedException e) {
       logger.atWarning().withCause(e).log(
-          "Internal error while processing the query '{}' request", query);
+          "Internal error while processing the query '%s' request", query);
       throw new BadRequestException("Internal error while processing the query request");
     }
   }
@@ -379,7 +379,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       out.flush();
     } catch (OrmException | MethodNotAllowedException e) {
       logger.atWarning().withCause(e).log(
-          "Internal error while processing the query '{}' request", query);
+          "Internal error while processing the query '%s' request", query);
       throw new BadRequestException("Internal error while processing the query request");
     }
   }

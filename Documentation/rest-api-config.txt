@@ -70,6 +70,9 @@ As result a link:#server-info[ServerInfo] entity is returned.
         "REGISTER_NEW_EMAIL"
       ]
     },
+    "checks": {
+      "api_enabled": true
+    },
     "download": {
       "schemes": {
         "anonymous http": {
@@ -1609,6 +1612,20 @@ group consistency check.
 ConsistencyProblemInfo] entities.
 |======================
 
+[[checks-config-info]]
+=== ChecksConfigInfo
+The `ChecksConfigInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#checks[checks]
+section.
+
+[options="header",cols="1,^1,5"]
+|==================================
+|Field Name           ||Description
+|`api_enabled`        |not set if `false`|
+Whether the checks API is link:config-gerrit.html#checks.api.enabled[
+enabled].
+|==================================
+
 [[consistency-check-info]]
 === ConsistencyCheckInfo
 The `ConsistencyCheckInfo` entity contains the results of running
@@ -1911,6 +1928,10 @@ link:#auth-info[AuthInfo] entity.
 Information about the configuration from the
 link:config-gerrit.html#change[change] section as
 link:#change-config-info[ChangeConfigInfo] entity.
+|`checks`                  ||
+Information about the configuration from the
+link:config-gerrit.html#checks[checks] section as
+link:#checks-config-info[ChecksConfigInfo] entity.
 |`download`                ||
 Information about the configured download options as
 link:#download-info[DownloadInfo] entity.

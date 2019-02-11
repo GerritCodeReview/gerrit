@@ -1297,6 +1297,13 @@ bower_archive(
 )
 
 bower_archive(
+    name = "resemblejs",
+    package = "rsmbl/Resemble.js",
+    sha1 = "49d5f022417c389b630d6f7ee667aa9540075c42",
+    version = "2.10.1",
+)
+
+bower_archive(
     name = "codemirror-minified",
     package = "Dominator008/codemirror-minified",
     sha1 = "1524e19087d8223edfe4a5b1ccf04c1e3707235d",

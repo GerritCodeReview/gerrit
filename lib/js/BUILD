@@ -45,3 +45,8 @@ bower_component(
     name = "codemirror-minified",
     license = "//lib:LICENSE-codemirror-minified",
 )
+
+bower_component(
+    name = "resemblejs",
+    license = "//lib:LICENSE-resemblejs",
+)

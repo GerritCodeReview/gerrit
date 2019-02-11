@@ -35,6 +35,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.extensions.common.CombinedCheckState;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -297,6 +298,7 @@ public class ChangeData {
   private int parentCount;
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
+  private CombinedCheckState combinedCheckState;
   private LabelTypes labelTypes;
 
   private ImmutableList<byte[]> refStates;
@@ -1115,6 +1117,22 @@ public class ChangeData {
     } catch (IOException | BadRequestException | ResourceConflictException e) {
       throw new OrmException("could not compute pure revert", e);
     }
+  }
+
+  @Nullable
+  public CombinedCheckState combinedCheckState() throws OrmException {
+    if (combinedCheckState == null) {
+      if (!lazyLoad) {
+        return null;
+      }
+      // TODO(dborowitz): Fill in implementation.
+      combinedCheckState = CombinedCheckState.combine(ImmutableListMultimap.of());
+    }
+    return combinedCheckState;
+  }
+
+  public void setCombinedCheckState(CombinedCheckState combinedCheckState) {
+    this.combinedCheckState = requireNonNull(combinedCheckState);
   }
 
   @Override

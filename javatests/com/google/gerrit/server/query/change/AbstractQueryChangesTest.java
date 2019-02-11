@@ -77,6 +77,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -155,6 +156,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected ChangeIndexer indexer;
   @Inject protected IndexConfig indexConfig;
   @Inject protected InMemoryRepositoryManager repoManager;
+  @Inject protected Provider<AnonymousUser> anonymousUserProvider;
   @Inject protected Provider<InternalChangeQuery> queryProvider;
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected OneOffRequestContext oneOffRequestContext;
@@ -1854,6 +1856,24 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         newRequestContext(
             accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId()));
     assertQuery("is:visible", change1);
+  }
+
+  @Test
+  public void visibleToSelf() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+
+    gApi.changes().id(change2.getChangeId()).setPrivate(true, "private");
+
+    String q = "project:repo";
+    assertQuery(q + " visibleto:self", change2, change1);
+    assertQuery(q + " visibleto:me", change2, change1);
+
+    // Anonymous user cannot see first user's private change.
+    requestContext.setContext(anonymousUserProvider::get);
+    assertQuery(q + " visibleto:self", change1);
+    assertQuery(q + " visibleto:me", change1);
   }
 
   @Test

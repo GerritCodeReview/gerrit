@@ -123,7 +123,7 @@ public class AccountResolver {
         + state.getAccount().getNameEmail(result.accountResolver().anonymousCowardName);
   }
 
-  private static boolean isSelf(String input) {
+  public static boolean isSelf(String input) {
     return "self".equals(input) || "me".equals(input);
   }
 

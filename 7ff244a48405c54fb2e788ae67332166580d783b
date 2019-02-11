@@ -1,0 +1,28 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ad4970f_881c3bf8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1057319
+      },
+      "writtenOn": "2019-02-11T09:16:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1be12c3_8a163837",
+      "range": {
+        "startLine": 29,
+        "startChar": 78,
+        "endLine": 29,
+        "endChar": 78
+      },
+      "revId": "7ff244a48405c54fb2e788ae67332166580d783b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

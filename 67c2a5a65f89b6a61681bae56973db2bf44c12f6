@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "1aeb1ae7_de05e9fa",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/verifier/VerifierOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-11T11:54:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7af9c19_a785a085",
+      "revId": "67c2a5a65f89b6a61681bae56973db2bf44c12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b40fc33e_136614e9",
         "filename": "java/com/google/gerrit/acceptance/testsuite/verifier/VerifierOperationsImpl.java",
         "patchSetId": 1
@@ -34,6 +52,24 @@
       "revId": "67c2a5a65f89b6a61681bae56973db2bf44c12f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "901a2283_f03b17f8",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/verifier/VerifierOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-11T11:54:54Z",
+      "side": 1,
+      "message": "Thanks. Done",
+      "parentUuid": "b40fc33e_136614e9",
+      "revId": "67c2a5a65f89b6a61681bae56973db2bf44c12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "e97631bb_521f616f",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifiersByRepositoryNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-11T11:54:54Z",
+      "side": 1,
+      "message": "Done. Although this is about sorting footers here, not the verifier UUIDs.",
+      "parentUuid": "66b97df6_e04c7194",
+      "revId": "67c2a5a65f89b6a61681bae56973db2bf44c12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3170effd_731f5b81",
         "filename": "java/com/google/gerrit/server/verifier/db/VerifiersByRepositoryNotes.java",
         "patchSetId": 1
@@ -68,6 +122,24 @@
       "revId": "67c2a5a65f89b6a61681bae56973db2bf44c12f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4f01391_362c9056",
+        "filename": "java/com/google/gerrit/server/verifier/db/VerifiersByRepositoryNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-11T11:54:54Z",
+      "side": 1,
+      "message": "Good idea. Done.",
+      "parentUuid": "3170effd_731f5b81",
+      "revId": "67c2a5a65f89b6a61681bae56973db2bf44c12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

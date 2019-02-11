@@ -42,15 +42,18 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class CreateChecker
     implements RestCollectionModifyView<TopLevelResource, CheckerResource, CheckerInput> {
+  private final GlobalCheckerConfig globalCheckerConfig;
   private final PermissionBackend permissionBackend;
   private final Provider<CheckersUpdate> checkersUpdate;
   private final CheckerJson checkerJson;
 
   @Inject
   public CreateChecker(
+      GlobalCheckerConfig globalCheckerConfig,
       PermissionBackend permissionBackend,
       @UserInitiated Provider<CheckersUpdate> checkersUpdate,
       CheckerJson checkerJson) {
+    this.globalCheckerConfig = globalCheckerConfig;
     this.permissionBackend = permissionBackend;
     this.checkersUpdate = checkersUpdate;
     this.checkerJson = checkerJson;
@@ -60,6 +63,7 @@ public class CreateChecker
   public Response<CheckerInfo> apply(TopLevelResource parentResource, CheckerInput input)
       throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException,
           OrmDuplicateKeyException {
+    globalCheckerConfig.checkThatApiIsEnabled();
     permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_CHECKERS);
 
     if (input == null) {

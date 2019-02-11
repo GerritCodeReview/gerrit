@@ -4691,6 +4691,22 @@ notifications if the full name of the user is not set.
 +
 By default "Name of user not set" is used.
 
+[[checker]]
+=== Section checker
+
+[[user.name]]checker.api.enabled::
++
+Whether the checker API is enabled.
++
+If the checker API is disabled all calls of
+link:rest-api-checkers.html[checker REST endpoints] are rejected with
+`405 Method Not Allowed`.
++
+The support for checkers is still experimental, hence the checker API
+should only be enabled for testing, but not in production.
++
+By default, false (checker API disabled).
+
 [[schedule-configuration]]
 === Schedule Configuration
 

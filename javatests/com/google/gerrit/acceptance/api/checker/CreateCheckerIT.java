@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.checker.db.CheckerConfig;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -46,6 +47,13 @@ import org.junit.Test;
 public class CreateCheckerIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private CheckerOperations checkerOperations;
+
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("checker", "api", "enabled", true);
+    return cfg;
+  }
 
   @Test
   public void createChecker() throws Exception {

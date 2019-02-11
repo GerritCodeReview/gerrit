@@ -14,27 +14,28 @@
 
 package com.google.gerrit.server.restapi.checker;
 
-import com.google.gerrit.extensions.api.checkers.CheckerInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.checker.CheckerJson;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
-public class GetChecker implements RestReadView<CheckerResource> {
-  private final GlobalCheckerConfig globalCheckerConfig;
-  private final CheckerJson checkerJson;
+public class GlobalCheckerConfig {
+  private final Config cfg;
 
   @Inject
-  public GetChecker(GlobalCheckerConfig globalCheckerConfig, CheckerJson checkerJson) {
-    this.globalCheckerConfig = globalCheckerConfig;
-    this.checkerJson = checkerJson;
+  GlobalCheckerConfig(@GerritServerConfig Config cfg) {
+    this.cfg = cfg;
   }
 
-  @Override
-  public CheckerInfo apply(CheckerResource resource) throws MethodNotAllowedException {
-    globalCheckerConfig.checkThatApiIsEnabled();
-    return checkerJson.format(resource.getChecker());
+  public void checkThatApiIsEnabled() throws MethodNotAllowedException {
+    if (!apiEnabled()) {
+      throw new MethodNotAllowedException("checker API is disabled");
+    }
+  }
+
+  private boolean apiEnabled() {
+    return cfg.getBoolean("checker", "api", "enabled", false);
   }
 }

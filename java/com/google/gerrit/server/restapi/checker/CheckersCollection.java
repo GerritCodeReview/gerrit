@@ -38,6 +38,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class CheckersCollection implements RestCollection<TopLevelResource, CheckerResource> {
   private final Provider<CurrentUser> self;
+  private final GlobalCheckerConfig globalCheckerConfig;
   private final PermissionBackend permissionBackend;
   private final Checkers checkers;
   private final DynamicMap<RestView<CheckerResource>> views;
@@ -45,10 +46,12 @@ public class CheckersCollection implements RestCollection<TopLevelResource, Chec
   @Inject
   public CheckersCollection(
       Provider<CurrentUser> self,
+      GlobalCheckerConfig globalCheckerConfig,
       PermissionBackend permissionBackend,
       Checkers checkers,
       DynamicMap<RestView<CheckerResource>> views) {
     this.self = self;
+    this.globalCheckerConfig = globalCheckerConfig;
     this.permissionBackend = permissionBackend;
     this.checkers = checkers;
     this.views = views;
@@ -56,14 +59,17 @@ public class CheckersCollection implements RestCollection<TopLevelResource, Chec
 
   @Override
   public RestView<TopLevelResource> list() throws RestApiException {
+    globalCheckerConfig.checkThatApiIsEnabled();
+
     // TODO(ekempin): implement this
     throw new ResourceNotFoundException();
   }
 
   @Override
   public CheckerResource parse(TopLevelResource parent, IdString id)
-      throws AuthException, ResourceNotFoundException, PermissionBackendException, IOException,
-          ConfigInvalidException {
+      throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException {
+    globalCheckerConfig.checkThatApiIsEnabled();
+
     CurrentUser user = self.get();
     if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");

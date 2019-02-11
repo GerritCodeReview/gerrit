@@ -14,13 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ListMultimap;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountState;
@@ -54,14 +49,14 @@ public class BatchAbandon {
       CurrentUser user,
       Collection<ChangeData> changes,
       String msgTxt,
-      NotifyHandling notifyHandling,
-      ListMultimap<RecipientType, Account.Id> accountsToNotify)
+      NotifyResolver.Result notify)
       throws RestApiException, UpdateException {
     if (changes.isEmpty()) {
       return;
     }
     AccountState accountState = user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null;
     try (BatchUpdate u = updateFactory.create(project, user, TimeUtil.nowTs())) {
+      u.setNotify(notify);
       for (ChangeData change : changes) {
         if (!project.equals(change.project())) {
           throw new ResourceConflictException(
@@ -69,9 +64,7 @@ public class BatchAbandon {
                   "Project name \"%s\" doesn't match \"%s\"",
                   change.project().get(), project.get()));
         }
-        u.addOp(
-            change.getId(),
-            abandonOpFactory.create(accountState, msgTxt, notifyHandling, accountsToNotify));
+        u.addOp(change.getId(), abandonOpFactory.create(accountState, msgTxt));
       }
       u.execute();
     }
@@ -84,14 +77,7 @@ public class BatchAbandon {
       Collection<ChangeData> changes,
       String msgTxt)
       throws RestApiException, UpdateException {
-    batchAbandon(
-        updateFactory,
-        project,
-        user,
-        changes,
-        msgTxt,
-        NotifyHandling.ALL,
-        ImmutableListMultimap.of());
+    batchAbandon(updateFactory, project, user, changes, msgTxt, NotifyResolver.Result.all());
   }
 
   public void batchAbandon(
@@ -100,7 +86,6 @@ public class BatchAbandon {
       CurrentUser user,
       Collection<ChangeData> changes)
       throws RestApiException, UpdateException {
-    batchAbandon(
-        updateFactory, project, user, changes, "", NotifyHandling.ALL, ImmutableListMultimap.of());
+    batchAbandon(updateFactory, project, user, changes, "", NotifyResolver.Result.all());
   }
 }

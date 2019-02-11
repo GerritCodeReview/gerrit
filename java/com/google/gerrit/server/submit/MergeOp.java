@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.submit;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Comparator.comparing;
@@ -35,7 +36,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.common.data.SubmitTypeRecord;
-import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -46,7 +47,6 @@ import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -55,7 +55,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
-import com.google.gerrit.server.change.NotifyUtil;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.validators.MergeValidationException;
@@ -228,7 +228,7 @@ public class MergeOp implements AutoCloseable {
   private final SubmitStrategyFactory submitStrategyFactory;
   private final SubmoduleOp.Factory subOpFactory;
   private final Provider<MergeOpRepoManager> ormProvider;
-  private final NotifyUtil notifyUtil;
+  private final NotifyResolver notifyResolver;
   private final RetryHelper retryHelper;
   private final ChangeData.Factory changeDataFactory;
 
@@ -239,7 +239,7 @@ public class MergeOp implements AutoCloseable {
   private MergeOpRepoManager orm;
   private CommitStatus commitStatus;
   private SubmitInput submitInput;
-  private ListMultimap<RecipientType, Account.Id> accountsToNotify;
+  private NotifyResolver.Result notify;
   private Set<Project.NameKey> allProjects;
   private boolean dryrun;
   private TopicMetrics topicMetrics;
@@ -255,7 +255,7 @@ public class MergeOp implements AutoCloseable {
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleOp.Factory subOpFactory,
       Provider<MergeOpRepoManager> ormProvider,
-      NotifyUtil notifyUtil,
+      NotifyResolver notifyResolver,
       TopicMetrics topicMetrics,
       RetryHelper retryHelper,
       ChangeData.Factory changeDataFactory) {
@@ -268,7 +268,7 @@ public class MergeOp implements AutoCloseable {
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpFactory = subOpFactory;
     this.ormProvider = ormProvider;
-    this.notifyUtil = notifyUtil;
+    this.notifyResolver = notifyResolver;
     this.retryHelper = retryHelper;
     this.topicMetrics = topicMetrics;
     this.changeDataFactory = changeDataFactory;
@@ -443,7 +443,9 @@ public class MergeOp implements AutoCloseable {
       throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException,
           PermissionBackendException {
     this.submitInput = submitInput;
-    this.accountsToNotify = notifyUtil.resolveAccounts(submitInput.notifyDetails);
+    this.notify =
+        notifyResolver.resolve(
+            firstNonNull(submitInput.notify, NotifyHandling.ALL), submitInput.notifyDetails);
     this.dryrun = dryrun;
     this.caller = caller;
     this.ts = TimeUtil.nowTs();
@@ -531,7 +533,7 @@ public class MergeOp implements AutoCloseable {
       orm.close();
     }
     orm = ormProvider.get();
-    orm.setContext(ts, caller);
+    orm.setContext(ts, caller, notify);
   }
 
   private ChangeSet reloadChanges(ChangeSet changeSet) {
@@ -674,7 +676,6 @@ public class MergeOp implements AutoCloseable {
                 commitStatus,
                 submissionId,
                 submitInput,
-                accountsToNotify,
                 submoduleOp,
                 dryrun);
         strategies.add(strategy);

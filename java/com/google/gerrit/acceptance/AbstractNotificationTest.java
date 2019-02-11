@@ -103,9 +103,10 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       super(failureMetadata, target);
     }
 
-    public FakeEmailSenderSubject notSent() {
-      if (actual().peekMessage() != null) {
-        failWithoutActual(fact("expected message", "sent"));
+    public FakeEmailSenderSubject didNotSend() {
+      Message message = actual().peekMessage();
+      if (message != null) {
+        failWithoutActual(fact("expected no message", message));
       }
       return this;
     }
@@ -133,7 +134,13 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       }
       EmailHeader header = message.headers().get("X-Gerrit-MessageType");
       if (!header.equals(new EmailHeader.String(messageType))) {
-        failWithoutActual(fact("expected message of type", messageType));
+        failWithoutActual(
+            fact("expected message of type", messageType),
+            fact(
+                "actual",
+                header instanceof EmailHeader.String
+                    ? ((EmailHeader.String) header).getString()
+                    : header));
       }
 
       // Return a named subject that displays a human-readable table of
@@ -493,17 +500,22 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
   }
 
   protected StagedChange stageReviewableChange() throws Exception {
-    return new StagedChange("refs/for/master");
+    StagedChange sc = new StagedChange("refs/for/master");
+    sender.clear();
+    return sc;
   }
 
   protected StagedChange stageWipChange() throws Exception {
-    return new StagedChange("refs/for/master%wip");
+    StagedChange sc = new StagedChange("refs/for/master%wip");
+    sender.clear();
+    return sc;
   }
 
   protected StagedChange stageReviewableWipChange() throws Exception {
     StagedChange sc = stageReviewableChange();
     requestScopeOperations.setApiUser(sc.owner.getId());
     gApi.changes().id(sc.changeId).setWorkInProgress();
+    sender.clear();
     return sc;
   }
 

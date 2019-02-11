@@ -14,12 +14,9 @@
 
 package com.google.gerrit.server.submit;
 
-import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -57,7 +54,6 @@ public class SubmitStrategyFactory {
       CommitStatus commitStatus,
       RequestId submissionId,
       SubmitInput submitInput,
-      ListMultimap<RecipientType, Account.Id> accountsToNotify,
       SubmoduleOp submoduleOp,
       boolean dryrun)
       throws IntegrationException {
@@ -74,7 +70,6 @@ public class SubmitStrategyFactory {
             incoming,
             submissionId,
             submitInput,
-            accountsToNotify,
             submoduleOp,
             dryrun);
     switch (submitType) {

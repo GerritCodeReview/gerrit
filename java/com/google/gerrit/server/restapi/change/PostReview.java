@@ -29,7 +29,6 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
@@ -42,7 +41,6 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
@@ -90,7 +88,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AddReviewersEmail;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
-import com.google.gerrit.server.change.NotifyUtil;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.RevisionResource;
@@ -169,7 +167,7 @@ public class PostReview
   private final CommentAdded commentAdded;
   private final ReviewerAdder reviewerAdder;
   private final AddReviewersEmail addReviewersEmail;
-  private final NotifyUtil notifyUtil;
+  private final NotifyResolver notifyResolver;
   private final Config gerritConfig;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
   private final ProjectCache projectCache;
@@ -192,7 +190,7 @@ public class PostReview
       CommentAdded commentAdded,
       ReviewerAdder reviewerAdder,
       AddReviewersEmail addReviewersEmail,
-      NotifyUtil notifyUtil,
+      NotifyResolver notifyResolver,
       @GerritServerConfig Config gerritConfig,
       WorkInProgressOp.Factory workInProgressOpFactory,
       ProjectCache projectCache,
@@ -211,7 +209,7 @@ public class PostReview
     this.commentAdded = commentAdded;
     this.reviewerAdder = reviewerAdder;
     this.addReviewersEmail = addReviewersEmail;
-    this.notifyUtil = notifyUtil;
+    this.notifyResolver = notifyResolver;
     this.gerritConfig = gerritConfig;
     this.workInProgressOpFactory = workInProgressOpFactory;
     this.projectCache = projectCache;
@@ -253,13 +251,9 @@ public class PostReview
       checkRobotComments(revision, input.robotComments);
     }
 
-    NotifyHandling reviewerNotify = input.notify;
     if (input.notify == null) {
       input.notify = defaultNotify(revision.getChange(), input);
     }
-
-    ListMultimap<RecipientType, Account.Id> accountsToNotify =
-        notifyUtil.resolveAccounts(input.notifyDetails);
 
     Map<String, AddReviewerResult> reviewerJsonResults = null;
     List<ReviewerAddition> reviewerResults = Lists.newArrayList();
@@ -268,12 +262,6 @@ public class PostReview
     if (input.reviewers != null) {
       reviewerJsonResults = Maps.newHashMap();
       for (AddReviewerInput reviewerInput : input.reviewers) {
-        // Prevent individual AddReviewersOps from sending one email each. Instead, we call
-        // batchEmailReviewers at the very end to send out a single email.
-        // TODO(dborowitz): I think this still sends out separate emails if any of input.reviewers
-        // specifies explicit accountsToNotify. Unclear whether that's a good thing.
-        reviewerInput.notify = NotifyHandling.NONE;
-
         ReviewerAddition result =
             reviewerAdder.prepare(revision.getNotes(), revision.getUser(), reviewerInput, true);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
@@ -316,6 +304,7 @@ public class PostReview
       // updated set of reviewers. Also keep track of whether the user added
       // themselves as a reviewer or to the CC list.
       for (ReviewerAddition reviewerResult : reviewerResults) {
+        reviewerResult.op.suppressEmail(); // Send a single batch email below.
         bu.addOp(revision.getChange().getId(), reviewerResult.op);
         if (!ccOrReviewer && reviewerResult.result.reviewers != null) {
           for (ReviewerInfo reviewerInfo : reviewerResult.result.reviewers) {
@@ -340,6 +329,7 @@ public class PostReview
         // isn't being explicitly added, and isn't voting on any label.
         // Automatically CC them on this change so they receive replies.
         ReviewerAddition selfAddition = reviewerAdder.ccCurrentUser(revision.getUser(), revision);
+        selfAddition.op.suppressEmail();
         bu.addOp(revision.getChange().getId(), selfAddition.op);
       }
 
@@ -357,19 +347,21 @@ public class PostReview
           output.ready = true;
         }
 
-        // Suppress notifications in WorkInProgressOp, we'll take care of
-        // them in this endpoint.
-        WorkInProgressOp.Input wipIn = new WorkInProgressOp.Input();
-        wipIn.notify = NotifyHandling.NONE;
-        bu.addOp(
-            revision.getChange().getId(),
-            workInProgressOpFactory.create(input.workInProgress, wipIn));
+        WorkInProgressOp wipOp =
+            workInProgressOpFactory.create(input.workInProgress, new WorkInProgressOp.Input());
+        wipOp.suppressEmail();
+        bu.addOp(revision.getChange().getId(), wipOp);
       }
 
       // Add the review op.
       bu.addOp(
           revision.getChange().getId(),
-          new Op(projectState, revision.getPatchSet().getId(), input, accountsToNotify));
+          new Op(projectState, revision.getPatchSet().getId(), input));
+
+      // Notify based on ReviewInput, ignoring the notify settings from any AddReviewerInputs.
+      NotifyResolver.Result notify =
+          notifyResolver.resolve(getNotifyHandling(input, output, revision), input.notifyDetails);
+      bu.setNotify(notify);
 
       bu.execute();
 
@@ -379,19 +371,22 @@ public class PostReview
         reviewerResult.gatherResults(cd);
       }
 
-      boolean readyForReview =
-          (output.ready != null && output.ready) || !revision.getChange().isWorkInProgress();
       // Sending from AddReviewersOp was suppressed so we can send a single batch email here.
-      batchEmailReviewers(
-          revision.getUser(),
-          revision.getChange(),
-          reviewerResults,
-          reviewerNotify,
-          accountsToNotify,
-          readyForReview);
+      batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
     }
 
     return Response.ok(output);
+  }
+
+  private NotifyHandling getNotifyHandling(
+      ReviewInput input, ReviewResult output, RevisionResource revision) {
+    if (input.notify != null) {
+      return input.notify;
+    }
+    if ((output.ready != null && output.ready) || !revision.getChange().isWorkInProgress()) {
+      return NotifyHandling.ALL;
+    }
+    return NotifyHandling.NONE;
   }
 
   private NotifyHandling defaultNotify(Change c, ReviewInput in) {
@@ -409,11 +404,12 @@ public class PostReview
     }
 
     if (workInProgress && !c.hasReviewStarted()) {
-      // If review hasn't started we want to minimize recipients, no matter who
-      // the author is.
-      return NotifyHandling.OWNER;
+      // If review hasn't started we want to eliminate notifications, no matter who the author is.
+      return NotifyHandling.NONE;
     }
 
+    // Otherwise, it's either a non-WIP change, or a WIP change where review has started. Notify
+    // everyone.
     return NotifyHandling.ALL;
   }
 
@@ -421,9 +417,7 @@ public class PostReview
       CurrentUser user,
       Change change,
       List<ReviewerAddition> reviewerAdditions,
-      @Nullable NotifyHandling notify,
-      ListMultimap<RecipientType, Account.Id> accountsToNotify,
-      boolean readyForReview) {
+      NotifyResolver.Result notify) {
     List<Account.Id> to = new ArrayList<>();
     List<Account.Id> cc = new ArrayList<>();
     List<Address> toByEmail = new ArrayList<>();
@@ -438,15 +432,7 @@ public class PostReview
       }
     }
     addReviewersEmail.emailReviewers(
-        user.asIdentifiedUser(),
-        change,
-        to,
-        cc,
-        toByEmail,
-        ccByEmail,
-        notify,
-        accountsToNotify,
-        readyForReview);
+        user.asIdentifiedUser(), change, to, cc, toByEmail, ccByEmail, notify);
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, LabelTypes labelTypes, ReviewInput in)
@@ -849,7 +835,6 @@ public class PostReview
     private final ProjectState projectState;
     private final PatchSet.Id psId;
     private final ReviewInput in;
-    private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
 
     private IdentifiedUser user;
     private ChangeNotes notes;
@@ -860,15 +845,10 @@ public class PostReview
     private Map<String, Short> approvals = new HashMap<>();
     private Map<String, Short> oldApprovals = new HashMap<>();
 
-    private Op(
-        ProjectState projectState,
-        PatchSet.Id psId,
-        ReviewInput in,
-        ListMultimap<RecipientType, Account.Id> accountsToNotify) {
+    private Op(ProjectState projectState, PatchSet.Id psId, ReviewInput in) {
       this.projectState = projectState;
       this.psId = psId;
       this.in = in;
-      this.accountsToNotify = requireNonNull(accountsToNotify);
     }
 
     @Override
@@ -891,18 +871,10 @@ public class PostReview
       if (message == null) {
         return;
       }
-      if (in.notify.compareTo(NotifyHandling.NONE) > 0 || !accountsToNotify.isEmpty()) {
+      NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
+      if (notify.shouldNotify()) {
         email
-            .create(
-                in.notify,
-                accountsToNotify,
-                notes,
-                ps,
-                user,
-                message,
-                comments,
-                in.message,
-                labelDelta)
+            .create(notify, notes, ps, user, message, comments, in.message, labelDelta)
             .sendAsync();
       }
       commentAdded.fire(

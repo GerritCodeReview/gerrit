@@ -26,7 +26,6 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.FixInput;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
@@ -38,6 +37,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ConsistencyChecker;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -749,11 +749,11 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     ChangeInserter ins;
     try (BatchUpdate bu = newUpdate(owner.getId())) {
       RevCommit commit = patchSetCommit(new PatchSet.Id(id, 1));
+      bu.setNotify(NotifyResolver.Result.none());
       ins =
           changeInserterFactory
               .create(id, commit, dest)
               .setValidate(false)
-              .setNotify(NotifyHandling.NONE)
               .setFireRevisionCreated(false)
               .setSendMail(false);
       bu.insertChange(ins).execute();
@@ -773,12 +773,12 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   private ChangeNotes incrementPatchSet(ChangeNotes notes, RevCommit commit) throws Exception {
     PatchSetInserter ins;
     try (BatchUpdate bu = newUpdate(notes.getChange().getOwner())) {
+      bu.setNotify(NotifyResolver.Result.none());
       ins =
           patchSetInserterFactory
               .create(notes, nextPatchSetId(notes), commit)
               .setValidate(false)
-              .setFireRevisionCreated(false)
-              .setNotify(NotifyHandling.NONE);
+              .setFireRevisionCreated(false);
       bu.addOp(notes.getChangeId(), ins).execute();
     }
     return reload(notes);

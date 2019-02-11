@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
@@ -36,7 +37,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.change.NotifyUtil;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.VoteResource;
 import com.google.gerrit.server.extensions.events.VoteDeleted;
@@ -61,6 +62,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteInput, Response<?>> {
@@ -72,7 +74,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
   private final IdentifiedUser.GenericFactory userFactory;
   private final VoteDeleted voteDeleted;
   private final DeleteVoteSender.Factory deleteVoteSenderFactory;
-  private final NotifyUtil notifyUtil;
+  private final NotifyResolver notifyResolver;
   private final RemoveReviewerControl removeReviewerControl;
   private final ProjectCache projectCache;
 
@@ -85,7 +87,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       IdentifiedUser.GenericFactory userFactory,
       VoteDeleted voteDeleted,
       DeleteVoteSender.Factory deleteVoteSenderFactory,
-      NotifyUtil notifyUtil,
+      NotifyResolver notifyResolver,
       RemoveReviewerControl removeReviewerControl,
       ProjectCache projectCache) {
     super(retryHelper);
@@ -95,7 +97,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
     this.userFactory = userFactory;
     this.voteDeleted = voteDeleted;
     this.deleteVoteSenderFactory = deleteVoteSenderFactory;
-    this.notifyUtil = notifyUtil;
+    this.notifyResolver = notifyResolver;
     this.removeReviewerControl = removeReviewerControl;
     this.projectCache = projectCache;
   }
@@ -103,7 +105,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
   @Override
   protected Response<?> applyImpl(
       BatchUpdate.Factory updateFactory, VoteResource rsrc, DeleteVoteInput input)
-      throws RestApiException, UpdateException, IOException {
+      throws RestApiException, UpdateException, IOException, OrmException, ConfigInvalidException {
     if (input == null) {
       input = new DeleteVoteInput();
     }
@@ -123,6 +125,9 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
     try (BatchUpdate bu =
         updateFactory.create(
             change.getProject(), r.getChangeResource().getUser(), TimeUtil.nowTs())) {
+      bu.setNotify(
+          notifyResolver.resolve(
+              firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails));
       bu.addOp(
           change.getId(),
           new Op(
@@ -217,17 +222,17 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       }
 
       IdentifiedUser user = ctx.getIdentifiedUser();
-      if (NotifyUtil.shouldNotify(input.notify, input.notifyDetails)) {
-        try {
+      try {
+        NotifyResolver.Result notify = ctx.getNotify(change.getId());
+        if (notify.shouldNotify()) {
           ReplyToChangeSender cm = deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
           cm.setFrom(user.getAccountId());
           cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
-          cm.setNotify(input.notify);
-          cm.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
+          cm.setNotify(notify);
           cm.send();
-        } catch (Exception e) {
-          logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
         }
+      } catch (Exception e) {
+        logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
       }
 
       voteDeleted.fire(

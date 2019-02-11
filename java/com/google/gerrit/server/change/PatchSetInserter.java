@@ -19,14 +19,10 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -95,8 +91,6 @@ public class PatchSetInserter implements BatchUpdateOp {
   private boolean checkAddPatchSetPermission = true;
   private List<String> groups = Collections.emptyList();
   private boolean fireRevisionCreated = true;
-  private NotifyHandling notify = NotifyHandling.ALL;
-  private ListMultimap<RecipientType, Account.Id> accountsToNotify = ImmutableListMultimap.of();
   private boolean allowClosed;
 
   // Fields set during some phase of BatchUpdate.Op.
@@ -170,17 +164,6 @@ public class PatchSetInserter implements BatchUpdateOp {
     return this;
   }
 
-  public PatchSetInserter setNotify(NotifyHandling notify) {
-    this.notify = requireNonNull(notify);
-    return this;
-  }
-
-  public PatchSetInserter setAccountsToNotify(
-      ListMultimap<RecipientType, Account.Id> accountsToNotify) {
-    this.accountsToNotify = requireNonNull(accountsToNotify);
-    return this;
-  }
-
   public PatchSetInserter setAllowClosed(boolean allowClosed) {
     this.allowClosed = allowClosed;
     return this;
@@ -229,7 +212,7 @@ public class PatchSetInserter implements BatchUpdateOp {
         psUtil.insert(
             ctx.getRevWalk(), ctx.getUpdate(psId), psId, commitId, newGroups, null, description);
 
-    if (notify != NotifyHandling.NONE) {
+    if (ctx.getNotify(change.getId()).handling() != NotifyHandling.NONE) {
       oldReviewers = approvalsUtil.getReviewers(ctx.getNotes());
     }
 
@@ -258,7 +241,8 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) throws OrmException {
-    if (notify != NotifyHandling.NONE || !accountsToNotify.isEmpty()) {
+    NotifyResolver.Result notify = ctx.getNotify(change.getId());
+    if (notify.shouldNotify()) {
       try {
         ReplacePatchSetSender cm = replacePatchSetFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());
@@ -267,7 +251,6 @@ public class PatchSetInserter implements BatchUpdateOp {
         cm.addReviewers(oldReviewers.byState(REVIEWER));
         cm.addExtraCC(oldReviewers.byState(CC));
         cm.setNotify(notify);
-        cm.setAccountsToNotify(accountsToNotify);
         cm.send();
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(

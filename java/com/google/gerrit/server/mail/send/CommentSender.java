@@ -153,10 +153,10 @@ public class CommentSender extends ReplyToChangeSender {
   protected void init() throws EmailException {
     super.init();
 
-    if (notify.compareTo(NotifyHandling.OWNER_REVIEWERS) >= 0) {
+    if (notify.handling().compareTo(NotifyHandling.OWNER_REVIEWERS) >= 0) {
       ccAllApprovals();
     }
-    if (notify.compareTo(NotifyHandling.ALL) >= 0) {
+    if (notify.handling().compareTo(NotifyHandling.ALL) >= 0) {
       bccStarredBy();
       includeWatchers(NotifyType.ALL_COMMENTS, !change.isWorkInProgress() && !change.isPrivate());
     }

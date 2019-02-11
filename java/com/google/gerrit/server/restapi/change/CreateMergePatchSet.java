@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.change;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.MergeInput;
@@ -41,6 +40,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -183,11 +183,10 @@ public class CreateMergePatchSet
           patchSetInserterFactory.create(rsrc.getNotes(), nextPsId, newCommit);
       try (BatchUpdate bu = updateFactory.create(project, me, now)) {
         bu.setRepository(git, rw, oi);
+        bu.setNotify(NotifyResolver.Result.none());
         psInserter
             .setMessage("Uploaded patch set " + nextPsId.get() + ".")
-            .setNotify(NotifyHandling.NONE)
-            .setCheckAddPatchSetPermission(false)
-            .setNotify(NotifyHandling.NONE);
+            .setCheckAddPatchSetPermission(false);
         if (groups != null) {
           psInserter.setGroups(groups);
         }

@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.or;
 
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -26,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.change.WorkInProgressOp.Input;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -77,6 +80,7 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
 
     try (BatchUpdate bu =
         updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+      bu.setNotify(NotifyResolver.Result.create(firstNonNull(input.notify, NotifyHandling.NONE)));
       bu.addOp(rsrc.getChange().getId(), opFactory.create(true, input));
       bu.execute();
       return Response.ok("");

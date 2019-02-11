@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -46,7 +47,7 @@ public class RevisionCreated {
             PatchSet patchSet,
             AccountState uploader,
             Timestamp when,
-            NotifyHandling notify) {}
+            NotifyResolver.Result notify) {}
       };
 
   private final PluginSetContext<RevisionCreatedListener> listeners;
@@ -68,7 +69,7 @@ public class RevisionCreated {
       PatchSet patchSet,
       AccountState uploader,
       Timestamp when,
-      NotifyHandling notify) {
+      NotifyResolver.Result notify) {
     if (listeners.isEmpty()) {
       return;
     }
@@ -79,7 +80,7 @@ public class RevisionCreated {
               util.revisionInfo(change.getProject(), patchSet),
               util.accountInfo(uploader),
               when,
-              notify);
+              notify.handling());
       listeners.runEach(l -> l.onRevisionCreated(event));
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Couldn't fire event: %s", e.getMessage());

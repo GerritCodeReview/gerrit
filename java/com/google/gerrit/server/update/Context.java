@@ -17,10 +17,12 @@ package com.google.gerrit.server.update;
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.change.NotifyResolver;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.TimeZone;
@@ -84,6 +86,18 @@ public interface Context {
    * @return user.
    */
   CurrentUser getUser();
+
+  /**
+   * Get the notification settings configured by the caller.
+   *
+   * <p>If there are multiple changes in a batch, they may have different settings. For example, WIP
+   * changes may have reduced {@code NotifyHandling} levels, and may be in a batch with non-WIP
+   * changes.
+   *
+   * @param changeId change ID
+   * @return notification settings.
+   */
+  NotifyResolver.Result getNotify(Change.Id changeId);
 
   /**
    * Get the identified user performing the update.

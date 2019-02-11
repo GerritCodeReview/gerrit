@@ -50,6 +50,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -94,6 +95,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -680,7 +682,7 @@ class ReceiveCommits {
     // Update superproject gitlinks if required.
     if (!branches.isEmpty()) {
       try (MergeOpRepoManager orm = ormProvider.get()) {
-        orm.setContext(TimeUtil.nowTs(), user);
+        orm.setContext(TimeUtil.nowTs(), user, NotifyResolver.Result.none());
         SubmoduleOp op = subOpFactory.create(branches, orm);
         op.updateSuperProjects();
       } catch (SubmoduleException e) {
@@ -785,9 +787,15 @@ class ReceiveCommits {
         RevWalk rw = new RevWalk(reader)) {
       bu.setRepository(repo, rw, ins);
       bu.setRefLogMessage("push");
+      if (magicBranch != null) {
+        bu.setNotify(magicBranch.getNotifyForNewChange());
+      }
 
       logger.atFine().log("Adding %d replace requests", newChanges.size());
       for (ReplaceRequest replace : replaceByChange.values()) {
+        if (magicBranch != null) {
+          bu.setNotifyHandling(replace.ontoChange, magicBranch.getNotifyHandling(replace.notes));
+        }
         replace.addOps(bu, replaceProgress);
       }
 
@@ -1386,7 +1394,7 @@ class ReceiveCommits {
             "Notify handling that defines to whom email notifications "
                 + "should be sent. Allowed values are NONE, OWNER, "
                 + "OWNER_REVIEWERS, ALL. If not set, the default is ALL.")
-    private NotifyHandling notify;
+    private NotifyHandling notifyHandling;
 
     @Option(
         name = "--notify-to",
@@ -1516,15 +1524,6 @@ class ReceiveCommits {
           .collect(toImmutableSet());
     }
 
-    ListMultimap<RecipientType, Account.Id> getAccountsToNotify() {
-      ListMultimap<RecipientType, Account.Id> accountsToNotify =
-          MultimapBuilder.hashKeys().arrayListValues().build();
-      accountsToNotify.putAll(RecipientType.TO, notifyTo);
-      accountsToNotify.putAll(RecipientType.CC, notifyCc);
-      accountsToNotify.putAll(RecipientType.BCC, notifyBcc);
-      return accountsToNotify;
-    }
-
     boolean shouldPublishComments() {
       if (publishComments) {
         return true;
@@ -1584,19 +1583,20 @@ class ReceiveCommits {
       return ref.substring(0, split);
     }
 
-    NotifyHandling getNotify() {
-      if (notify != null) {
-        return notify;
-      }
-      if (workInProgress) {
-        return NotifyHandling.OWNER;
-      }
-      return NotifyHandling.ALL;
+    NotifyResolver.Result getNotifyForNewChange() {
+      return NotifyResolver.Result.create(
+          firstNonNull(notifyHandling, workInProgress ? NotifyHandling.OWNER : NotifyHandling.ALL),
+          ImmutableSetMultimap.<RecipientType, Account.Id>builder()
+              .putAll(RecipientType.TO, notifyTo)
+              .putAll(RecipientType.CC, notifyCc)
+              .putAll(RecipientType.BCC, notifyBcc)
+              .build());
     }
 
-    NotifyHandling getNotify(ChangeNotes notes) {
-      if (notify != null) {
-        return notify;
+    NotifyHandling getNotifyHandling(ChangeNotes notes) {
+      requireNonNull(notes);
+      if (notifyHandling != null) {
+        return notifyHandling;
       }
       if (workInProgress || (!ready && notes.getChange().isWorkInProgress())) {
         return NotifyHandling.OWNER;
@@ -2440,14 +2440,13 @@ class ReceiveCommits {
           msg.append("\n").append(magicBranch.message);
         }
 
+        bu.setNotify(magicBranch.getNotifyForNewChange());
         bu.insertChange(
             ins.setReviewersAndCcsAsStrings(
                     magicBranch.getCombinedReviewers(fromFooters),
                     magicBranch.getCombinedCcs(fromFooters))
                 .setApprovals(approvals)
                 .setMessage(msg.toString())
-                .setNotify(magicBranch.getNotify())
-                .setAccountsToNotify(magicBranch.getAccountsToNotify())
                 .setRequestScopePropagator(requestScopePropagator)
                 .setSendMail(true)
                 .setPatchSetDescription(magicBranch.message));

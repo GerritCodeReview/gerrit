@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.extensions.common.AccountsInfo;
 import com.google.gerrit.extensions.common.AuthInfo;
 import com.google.gerrit.extensions.common.ChangeConfigInfo;
+import com.google.gerrit.extensions.common.ChecksInfo;
 import com.google.gerrit.extensions.common.DownloadInfo;
 import com.google.gerrit.extensions.common.DownloadSchemeInfo;
 import com.google.gerrit.extensions.common.GerritInfo;
@@ -42,6 +43,7 @@ import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.change.ArchiveFormat;
+import com.google.gerrit.server.checker.GlobalChecksConfig;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -94,6 +96,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final AgreementJson agreementJson;
   private final ChangeIndexCollection indexes;
   private final SitePaths sitePaths;
+  private final GlobalChecksConfig globalChecksConfig;
 
   @Inject
   public GetServerInfo(
@@ -115,7 +118,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       ProjectCache projectCache,
       AgreementJson agreementJson,
       ChangeIndexCollection indexes,
-      SitePaths sitePaths) {
+      SitePaths sitePaths,
+      GlobalChecksConfig globalChecksConfig) {
     this.config = config;
     this.accountVisibilityProvider = accountVisibilityProvider;
     this.authConfig = authConfig;
@@ -135,6 +139,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.agreementJson = agreementJson;
     this.indexes = indexes;
     this.sitePaths = sitePaths;
+    this.globalChecksConfig = globalChecksConfig;
   }
 
   @Override
@@ -143,6 +148,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.accounts = getAccountsInfo();
     info.auth = getAuthInfo();
     info.change = getChangeInfo();
+    info.checks = getChecksInfo();
     info.download = getDownloadInfo();
     info.gerrit = getGerritInfo();
     info.noteDbEnabled = true;
@@ -236,6 +242,12 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.submitWholeTopic = MergeSuperSet.wholeTopicEnabled(config);
     info.disablePrivateChanges =
         toBoolean(this.config.getBoolean("change", null, "disablePrivateChanges", false));
+    return info;
+  }
+
+  private ChecksInfo getChecksInfo() {
+    ChecksInfo info = new ChecksInfo();
+    info.apiEnabled = toBoolean(globalChecksConfig.apiEnabled());
     return info;
   }
 

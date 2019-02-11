@@ -26,6 +26,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.checker.Checker;
 import com.google.gerrit.server.checker.Checkers;
+import com.google.gerrit.server.checker.GlobalChecksConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -38,6 +39,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class CheckersCollection implements RestCollection<TopLevelResource, CheckerResource> {
   private final Provider<CurrentUser> self;
+  private final GlobalChecksConfig globalChecksConfig;
   private final PermissionBackend permissionBackend;
   private final Checkers checkers;
   private final DynamicMap<RestView<CheckerResource>> views;
@@ -45,10 +47,12 @@ public class CheckersCollection implements RestCollection<TopLevelResource, Chec
   @Inject
   public CheckersCollection(
       Provider<CurrentUser> self,
+      GlobalChecksConfig globalChecksConfig,
       PermissionBackend permissionBackend,
       Checkers checkers,
       DynamicMap<RestView<CheckerResource>> views) {
     this.self = self;
+    this.globalChecksConfig = globalChecksConfig;
     this.permissionBackend = permissionBackend;
     this.checkers = checkers;
     this.views = views;
@@ -56,14 +60,17 @@ public class CheckersCollection implements RestCollection<TopLevelResource, Chec
 
   @Override
   public RestView<TopLevelResource> list() throws RestApiException {
+    globalChecksConfig.checkThatApiIsEnabled();
+
     // TODO(ekempin): implement this
     throw new ResourceNotFoundException();
   }
 
   @Override
   public CheckerResource parse(TopLevelResource parent, IdString id)
-      throws AuthException, ResourceNotFoundException, PermissionBackendException, IOException,
-          ConfigInvalidException {
+      throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException {
+    globalChecksConfig.checkThatApiIsEnabled();
+
     CurrentUser user = self.get();
     if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");

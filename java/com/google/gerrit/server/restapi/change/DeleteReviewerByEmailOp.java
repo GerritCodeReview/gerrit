@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -35,24 +34,20 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
-    DeleteReviewerByEmailOp create(Address reviewer, DeleteReviewerInput input);
+    DeleteReviewerByEmailOp create(Address reviewer);
   }
 
   private final DeleteReviewerSender.Factory deleteReviewerSenderFactory;
   private final Address reviewer;
-  private final DeleteReviewerInput input;
 
   private ChangeMessage changeMessage;
   private Change change;
 
   @Inject
   DeleteReviewerByEmailOp(
-      DeleteReviewerSender.Factory deleteReviewerSenderFactory,
-      @Assisted Address reviewer,
-      @Assisted DeleteReviewerInput input) {
+      DeleteReviewerSender.Factory deleteReviewerSenderFactory, @Assisted Address reviewer) {
     this.deleteReviewerSenderFactory = deleteReviewerSenderFactory;
     this.reviewer = reviewer;
-    this.input = input;
   }
 
   @Override

@@ -63,7 +63,7 @@ public class DeleteReviewer
       bu.setNotify(getNotify(rsrc.getChange(), input));
       BatchUpdateOp op;
       if (rsrc.isByEmail()) {
-        op = deleteReviewerByEmailOpFactory.create(rsrc.getReviewerByEmail(), input);
+        op = deleteReviewerByEmailOpFactory.create(rsrc.getReviewerByEmail());
       } else {
         op = deleteReviewerOpFactory.create(rsrc.getReviewerUser().state(), input);
       }

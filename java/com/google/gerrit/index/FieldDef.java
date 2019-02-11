@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.CharMatcher;
+import com.google.gerrit.common.Nullable;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -60,6 +61,7 @@ public final class FieldDef<I, T> {
 
   @FunctionalInterface
   public interface Getter<I, T> {
+    @Nullable
     T get(I input) throws OrmException, IOException;
   }
 

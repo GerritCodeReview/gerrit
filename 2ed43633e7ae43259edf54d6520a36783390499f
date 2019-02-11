@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c529f495_54104e6a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-02-11T08:48:56Z",
+      "side": 1,
+      "message": "My understanding is that it still will not show up on the general \"Open Changes\" dashboard for the repository, only on your personal dashboard if you are CC\u0027ed or assigned, correct?\nHow about the following wording:\n\n\"...submitted. It will not appear on dashboards unless you are CC\u0027ed or assigned, and email notifications will be silenced until the review is started.\"\n\nWhat do you think?",
+      "revId": "2ed43633e7ae43259edf54d6520a36783390499f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

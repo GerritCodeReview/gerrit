@@ -389,7 +389,7 @@ public class BatchUpdate implements AutoCloseable {
    * Override the {@link NotifyHandling} on a per-change basis.
    *
    * <p>Only the handling enum can be overridden; all changes share the same value for {@link
-   * NotifyResolver.Result#accounts()}.
+   * com.google.gerrit.server.change.NotifyResolver.Result#accounts()}.
    *
    * @param changeId change ID.
    * @param notifyHandling notify handling.

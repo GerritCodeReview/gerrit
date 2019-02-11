@@ -36,6 +36,7 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.extensions.common.CombinedCheckState;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
@@ -111,6 +112,8 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String CHANGES = "changes";
   private static final String CHANGES_OPEN = "open";
   private static final String CHANGES_CLOSED = "closed";
+  private static final String COMBINED_CHECK_STATE_FIELD =
+      ChangeField.COMBINED_CHECK_STATE.getName();
   private static final String ADDED_FIELD = ChangeField.ADDED.getName();
   private static final String APPROVAL_FIELD = ChangeField.APPROVAL.getName();
   private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
@@ -505,6 +508,10 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     decodeUnresolvedCommentCount(doc, cd);
     decodeTotalCommentCount(doc, cd);
+
+    if (fields.contains(COMBINED_CHECK_STATE_FIELD)) {
+      decodeCombinedCheckState(doc, cd);
+    }
     return cd;
   }
 
@@ -631,6 +638,13 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private void decodeRefStatePatterns(ListMultimap<String, IndexableField> doc, ChangeData cd) {
     cd.setRefStatePatterns(copyAsBytes(doc.get(REF_STATE_PATTERN_FIELD)));
+  }
+
+  private void decodeCombinedCheckState(ListMultimap<String, IndexableField> doc, ChangeData cd) {
+    IndexableField f = Iterables.getFirst(doc.get(COMBINED_CHECK_STATE_FIELD), null);
+    if (f != null) {
+      cd.setCombinedCheckState(CombinedCheckState.parse(f.stringValue()));
+    }
   }
 
   private void decodeUnresolvedCommentCount(

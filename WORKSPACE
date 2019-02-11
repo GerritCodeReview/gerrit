@@ -1110,22 +1110,22 @@ maven_jar(
 
 maven_jar(
     name = "mockito",
-    artifact = "org.mockito:mockito-core:2.23.4",
-    sha1 = "a35b6f8ffcfa786771eac7d7d903429e790fdf3f",
+    artifact = "org.mockito:mockito-core:2.24.0",
+    sha1 = "969a7bcb6f16e076904336ebc7ca171d412cc1f9",
 )
 
-BYTE_BUDDY_VERSION = "1.9.3"
+BYTE_BUDDY_VERSION = "1.9.7"
 
 maven_jar(
     name = "byte-buddy",
     artifact = "net.bytebuddy:byte-buddy:" + BYTE_BUDDY_VERSION,
-    sha1 = "f32e510b239620852fc9a2387fac41fd053d6a4d",
+    sha1 = "8fea78fea6449e1738b675cb155ce8422661e237",
 )
 
 maven_jar(
     name = "byte-buddy-agent",
     artifact = "net.bytebuddy:byte-buddy-agent:" + BYTE_BUDDY_VERSION,
-    sha1 = "f5b78c16cf4060664d80b6ca32d80dca4bd3d264",
+    sha1 = "8e7d1b599f4943851ffea125fd9780e572727fc0",
 )
 
 maven_jar(

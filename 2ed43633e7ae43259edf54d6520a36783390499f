@@ -16,6 +16,24 @@
       "revId": "2ed43633e7ae43259edf54d6520a36783390499f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0196ec0_a52f71cd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1057319
+      },
+      "writtenOn": "2019-02-11T09:11:55Z",
+      "side": 1,
+      "message": "Agreed, it\u0027s more accurate.",
+      "parentUuid": "c529f495_54104e6a",
+      "revId": "2ed43633e7ae43259edf54d6520a36783390499f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

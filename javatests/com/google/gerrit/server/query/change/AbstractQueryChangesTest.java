@@ -62,6 +62,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.CombinedCheckState;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -160,6 +161,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected Provider<AnonymousUser> anonymousUserProvider;
   @Inject protected Provider<InternalChangeQuery> queryProvider;
   @Inject protected ChangeNotes.Factory notesFactory;
+  @Inject protected ChangeData.Factory changeDataFactory;
   @Inject protected OneOffRequestContext oneOffRequestContext;
   @Inject protected PatchSetInserter.Factory patchSetFactory;
   @Inject protected PatchSetUtil psUtil;
@@ -3132,6 +3134,46 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     requestContext.setContext(newRequestContext(user2));
     assertQuery("assignee:self", change);
+  }
+
+  @Test
+  public void combinedCheckState() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change = insert(repo, newChange(repo));
+
+    ChangeData cd = changeDataFactory.create(change.getProject(), change.getId());
+    cd.setLazyLoad(false);
+    assertThat(cd.combinedCheckState()).isNull();
+    cd.setLazyLoad(true);
+    assertThat(cd.combinedCheckState()).isEqualTo(CombinedCheckState.NOT_RELEVANT);
+
+    List<ChangeData> cds = queryProvider.get().byKey(change.getKey());
+    assertThat(cds).hasSize(1);
+    cd = cds.get(0);
+    cd.setLazyLoad(false);
+
+    if (getSchemaVersion() >= 57) {
+      assertThat(cd.combinedCheckState()).isEqualTo(CombinedCheckState.NOT_RELEVANT);
+
+      assertThatQueryException("checks:foobar")
+          .hasMessageThat()
+          .isEqualTo("Invalid combined check state: foobar");
+      assertThatQueryException("checks:not_rel_evant")
+          .hasMessageThat()
+          .isEqualTo("Invalid combined check state: not_rel_evant");
+
+      assertQuery("checks:not_relevant", change);
+      assertQuery("checks:NOT_relevant", change);
+      assertQuery("checks:notrelevant", change);
+      assertQuery("checks:notRELEVANT", change);
+      assertQuery("checks:successful");
+    } else {
+      assertThat(cd.combinedCheckState()).isNull();
+
+      assertThatQueryException("checks:not_relevant")
+          .hasMessageThat()
+          .isEqualTo("Unsupported index predicate: checks:notrelevant");
+    }
   }
 
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {

@@ -63,6 +63,7 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.CombinedCheckState;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -297,6 +298,7 @@ public class ChangeData {
   private int parentCount;
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
+  private CombinedCheckState combinedCheckState;
   private LabelTypes labelTypes;
 
   private ImmutableList<byte[]> refStates;
@@ -1115,6 +1117,22 @@ public class ChangeData {
     } catch (IOException | BadRequestException | ResourceConflictException e) {
       throw new OrmException("could not compute pure revert", e);
     }
+  }
+
+  @Nullable
+  public CombinedCheckState combinedCheckState() throws OrmException {
+    if (combinedCheckState == null) {
+      if (!lazyLoad) {
+        return null;
+      }
+      // TODO(dborowitz): Fill in implementation.
+      combinedCheckState = CombinedCheckState.combine(ImmutableListMultimap.of());
+    }
+    return combinedCheckState;
+  }
+
+  public void setCombinedCheckState(CombinedCheckState combinedCheckState) {
+    this.combinedCheckState = requireNonNull(combinedCheckState);
   }
 
   @Override

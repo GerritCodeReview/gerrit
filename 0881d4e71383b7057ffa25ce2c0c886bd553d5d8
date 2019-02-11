@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43be86eb_e211a243",
+        "filename": "javatests/com/google/gerrit/acceptance/api/verifier/CreateVerifierIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-11T17:26:55Z",
+      "side": 1,
+      "message": "Typo: \"Repository\" here and below",
+      "range": {
+        "startLine": 253,
+        "startChar": 37,
+        "endLine": 253,
+        "endChar": 47
+      },
+      "revId": "0881d4e71383b7057ffa25ce2c0c886bd553d5d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c679bfc8_b79b2e1c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/verifier/UpdateVerifierIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-11T17:26:55Z",
+      "side": 1,
+      "message": "I just noticed that this is misspelled throughout this file. But I guess if we\u0027re renaming everything then this will go away as well. Just make sure it gets fixed, because it won\u0027t match if you do s/verifier/checker/ :)",
+      "revId": "0881d4e71383b7057ffa25ce2c0c886bd553d5d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

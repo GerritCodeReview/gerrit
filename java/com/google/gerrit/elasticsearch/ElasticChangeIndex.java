@@ -33,6 +33,7 @@ import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
+import com.google.gerrit.extensions.common.CombinedCheckState;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -395,6 +396,12 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
     // Unresolved-comment-count.
     decodeUnresolvedCommentCount(source, ChangeField.UNRESOLVED_COMMENT_COUNT.getName(), cd);
+
+    if (fields.contains(ChangeField.COMBINED_CHECK_STATE.getName())) {
+      cd.setCombinedCheckState(
+          CombinedCheckState.parse(
+              source.get(ChangeField.COMBINED_CHECK_STATE.getName()).getAsString()));
+    }
 
     return cd;
   }

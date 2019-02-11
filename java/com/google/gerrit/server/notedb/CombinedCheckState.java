@@ -14,8 +14,13 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Combined state of multiple checks on a change.
@@ -48,6 +53,45 @@ public enum CombinedCheckState {
 
   /** No checks are relevant to this change. */
   NOT_RELEVANT;
+
+  private static final ImmutableMap<String, CombinedCheckState> STATES;
+
+  static {
+    Map<String, CombinedCheckState> states = new HashMap<>();
+    for (CombinedCheckState state : values()) {
+      String name = state.name().toLowerCase(Locale.US);
+      states.put(name, state);
+      states.put(CharMatcher.is('_').removeFrom(name), state);
+    }
+    STATES = ImmutableMap.copyOf(states);
+  }
+
+  /**
+   * Parses the given string to a state, throwing {@link IllegalArgumentException} if no match is
+   * found.
+   *
+   * @see #tryParse(String)
+   */
+  public static CombinedCheckState parse(String value) {
+    return tryParse(value)
+        .orElseThrow(() -> new IllegalArgumentException("invalid CombinedCheckState: " + value));
+  }
+
+  /**
+   * Attempts to parse the given string to a state.
+   *
+   * <p>The input string is case-insensitive and may or may not contain underscores. For example,
+   * all of {@code FOO_BAR_BAZ}, {@code foo_bar_baz}, {@code FOOBARBAZ}, and {@code foobarbaz}
+   * resolve to an enum value named {@code FOO_BAR_BAZ}; but {@code FOO_BARBAZ} and {@code
+   * FO_OBAR_BAZ} do not.
+   *
+   * @param value input string; must not be null.
+   * @return optional containing the state corresponding to {@code value}, or empty if none exists.
+   */
+  public static Optional<CombinedCheckState> tryParse(String value) {
+    // Allow "not_relevant" and "notrelevant", but exclude "not_rel_evant".
+    return Optional.ofNullable(STATES.get(value.toLowerCase(Locale.US)));
+  }
 
   /**
    * Combines multiple per-check states into a single combined state.
@@ -97,5 +141,9 @@ public enum CombinedCheckState {
       return SUCCESSFUL;
     }
     return NOT_RELEVANT;
+  }
+
+  public String toIndexString() {
+    return CharMatcher.is('_').removeFrom(name().toLowerCase(Locale.US));
   }
 }

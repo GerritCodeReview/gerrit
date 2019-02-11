@@ -99,6 +99,7 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.CheckState;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -160,6 +161,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected Provider<AnonymousUser> anonymousUserProvider;
   @Inject protected Provider<InternalChangeQuery> queryProvider;
   @Inject protected ChangeNotes.Factory notesFactory;
+  @Inject protected ChangeData.Factory changeDataFactory;
   @Inject protected OneOffRequestContext oneOffRequestContext;
   @Inject protected PatchSetInserter.Factory patchSetFactory;
   @Inject protected PatchSetUtil psUtil;
@@ -3132,6 +3134,28 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     requestContext.setContext(newRequestContext(user2));
     assertQuery("assignee:self", change);
+  }
+
+  @Test
+  public void checkStateStoredField() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change = insert(repo, newChange(repo));
+
+    ChangeData cd = changeDataFactory.create(change.getProject(), change.getId());
+    cd.setLazyLoad(false);
+    assertThat(cd.checkState()).isNull();
+    cd.setLazyLoad(true);
+    assertThat(cd.checkState()).isEqualTo(CheckState.NOT_RELEVANT);
+
+    List<ChangeData> cds = queryProvider.get().byKey(change.getKey());
+    assertThat(cds).hasSize(1);
+    cd = cds.get(0);
+    cd.setLazyLoad(false);
+    if (getSchemaVersion() >= 57) {
+      assertThat(cd.checkState()).isEqualTo(CheckState.NOT_RELEVANT);
+    } else {
+      assertThat(cd.checkState()).isNull();
+    }
   }
 
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {

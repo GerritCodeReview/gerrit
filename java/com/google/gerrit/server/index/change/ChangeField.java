@@ -24,6 +24,7 @@ import static com.google.gerrit.index.FieldDef.prefix;
 import static com.google.gerrit.index.FieldDef.storedOnly;
 import static com.google.gerrit.index.FieldDef.timestamp;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -284,6 +285,12 @@ public class ChangeField {
     }
     return r;
   }
+
+  /** Aggregated {@link com.google.gerrit.server.notedb.CheckState} for a change. */
+  public static final FieldDef<ChangeData, byte[]> CHECK_STATE =
+      storedOnly("check_state")
+          .build(
+              cd -> requireNonNull(cd.checkState()).name().toLowerCase(Locale.US).getBytes(UTF_8));
 
   /** Owner/creator of the change. */
   public static final FieldDef<ChangeData, Integer> OWNER =

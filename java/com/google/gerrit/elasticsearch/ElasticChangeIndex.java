@@ -52,6 +52,7 @@ import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
+import com.google.gerrit.server.notedb.CheckState;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.JsonArray;
@@ -395,6 +396,11 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
     // Unresolved-comment-count.
     decodeUnresolvedCommentCount(source, ChangeField.UNRESOLVED_COMMENT_COUNT.getName(), cd);
+
+    if (fields.contains(ChangeField.CHECK_STATE.getName())) {
+      String value = source.get(ChangeField.CHECK_STATE.getName()).getAsString();
+      cd.setCheckState(CheckState.parse(new String(Base64.decodeBase64(value), UTF_8)));
+    }
 
     return cd;
   }

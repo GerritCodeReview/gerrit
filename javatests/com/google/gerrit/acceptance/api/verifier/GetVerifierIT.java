@@ -25,7 +25,9 @@ import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.verifier.VerifierUuid;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 @NoHttpd
@@ -33,6 +35,13 @@ import org.junit.Test;
 public class GetVerifierIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private VerifierOperations verifierOperations;
+
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("verifier", "api", "enabled", true);
+    return cfg;
+  }
 
   @Test
   public void getVerifier() throws Exception {

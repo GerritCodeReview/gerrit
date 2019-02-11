@@ -4691,6 +4691,22 @@ notifications if the full name of the user is not set.
 +
 By default "Name of user not set" is used.
 
+[[verifier]]
+=== Section verifier
+
+[[user.name]]verifier.api.enabled::
++
+Whether the verifier API is enabled.
++
+If the verifier API is disabled all calls of
+link:rest-api-verifiers.html[verifier REST endpoints] are rejected with
+`405 Method Not Allowed`.
++
+The support for verifiers is still experimental, hence the verifier API
+should only be enabled for testing, but not in production.
++
+By default, false (verifier API disabled).
+
 [[schedule-configuration]]
 === Schedule Configuration
 

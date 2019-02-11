@@ -19,7 +19,9 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
 import com.google.gerrit.acceptance.testsuite.verifier.VerifierOperations;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 public class VerifiersRestApiBindingsIT extends AbstractDaemonTest {
@@ -27,6 +29,13 @@ public class VerifiersRestApiBindingsIT extends AbstractDaemonTest {
       ImmutableList.of(RestCall.get("/verifiers/%s"));
 
   @Inject private VerifierOperations verifierOperations;
+
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("verifier", "api", "enabled", true);
+    return cfg;
+  }
 
   @Test
   public void verifierEndpoints() throws Exception {

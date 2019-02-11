@@ -21,13 +21,22 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
 import com.google.gerrit.extensions.api.verifiers.VerifierInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
 import java.util.Optional;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 public class VerifierOperationsImplTest extends AbstractDaemonTest {
   @Inject private VerifierOperationsImpl verifierOperations;
+
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("verifier", "api", "enabled", true);
+    return cfg;
+  }
 
   @Test
   public void verifierCanBeCreatedWithoutSpecifyingAnyParameters() throws Exception {

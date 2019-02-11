@@ -42,15 +42,18 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class CreateVerifier
     implements RestCollectionModifyView<TopLevelResource, VerifierResource, VerifierInput> {
+  private final GlobalVerifierConfig globalVerifierConfig;
   private final PermissionBackend permissionBackend;
   private final Provider<VerifiersUpdate> verifiersUpdate;
   private final VerifierJson verifierJson;
 
   @Inject
   public CreateVerifier(
+      GlobalVerifierConfig globalVerifierConfig,
       PermissionBackend permissionBackend,
       @UserInitiated Provider<VerifiersUpdate> verifiersUpdate,
       VerifierJson verifierJson) {
+    this.globalVerifierConfig = globalVerifierConfig;
     this.permissionBackend = permissionBackend;
     this.verifiersUpdate = verifiersUpdate;
     this.verifierJson = verifierJson;
@@ -60,6 +63,7 @@ public class CreateVerifier
   public Response<VerifierInfo> apply(TopLevelResource parentResource, VerifierInput input)
       throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException,
           OrmDuplicateKeyException {
+    globalVerifierConfig.checkThatApiIsEnabled();
     permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_VERIFIERS);
 
     if (input == null) {

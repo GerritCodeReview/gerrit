@@ -38,6 +38,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class VerifiersCollection implements RestCollection<TopLevelResource, VerifierResource> {
   private final Provider<CurrentUser> self;
+  private final GlobalVerifierConfig globalVerifierConfig;
   private final PermissionBackend permissionBackend;
   private final Verifiers verifiers;
   private final DynamicMap<RestView<VerifierResource>> views;
@@ -45,10 +46,12 @@ public class VerifiersCollection implements RestCollection<TopLevelResource, Ver
   @Inject
   public VerifiersCollection(
       Provider<CurrentUser> self,
+      GlobalVerifierConfig globalVerifierConfig,
       PermissionBackend permissionBackend,
       Verifiers verifiers,
       DynamicMap<RestView<VerifierResource>> views) {
     this.self = self;
+    this.globalVerifierConfig = globalVerifierConfig;
     this.permissionBackend = permissionBackend;
     this.verifiers = verifiers;
     this.views = views;
@@ -56,14 +59,17 @@ public class VerifiersCollection implements RestCollection<TopLevelResource, Ver
 
   @Override
   public RestView<TopLevelResource> list() throws RestApiException {
+    globalVerifierConfig.checkThatApiIsEnabled();
+
     // TODO(ekempin): implement this
     throw new ResourceNotFoundException();
   }
 
   @Override
   public VerifierResource parse(TopLevelResource parent, IdString id)
-      throws AuthException, ResourceNotFoundException, PermissionBackendException, IOException,
-          ConfigInvalidException {
+      throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException {
+    globalVerifierConfig.checkThatApiIsEnabled();
+
     CurrentUser user = self.get();
     if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");

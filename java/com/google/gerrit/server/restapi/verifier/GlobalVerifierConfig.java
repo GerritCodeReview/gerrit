@@ -14,27 +14,28 @@
 
 package com.google.gerrit.server.restapi.verifier;
 
-import com.google.gerrit.extensions.api.verifiers.VerifierInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.verifier.VerifierJson;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
-public class GetVerifier implements RestReadView<VerifierResource> {
-  private final GlobalVerifierConfig globalVerifierConfig;
-  private final VerifierJson verifierJson;
+public class GlobalVerifierConfig {
+  private final Config cfg;
 
   @Inject
-  public GetVerifier(GlobalVerifierConfig globalVerifierConfig, VerifierJson verifierJson) {
-    this.globalVerifierConfig = globalVerifierConfig;
-    this.verifierJson = verifierJson;
+  GlobalVerifierConfig(@GerritServerConfig Config cfg) {
+    this.cfg = cfg;
   }
 
-  @Override
-  public VerifierInfo apply(VerifierResource resource) throws MethodNotAllowedException {
-    globalVerifierConfig.checkThatApiIsEnabled();
-    return verifierJson.format(resource.getVerifier());
+  public void checkThatApiIsEnabled() throws MethodNotAllowedException {
+    if (!apiEnabled()) {
+      throw new MethodNotAllowedException("verifer API is disabled");
+    }
+  }
+
+  private boolean apiEnabled() {
+    return cfg.getBoolean("verifier", "api", "enabled", false);
   }
 }

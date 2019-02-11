@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.verifier.db.VerifierConfig;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -46,6 +47,13 @@ import org.junit.Test;
 public class CreateVerifierIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private VerifierOperations verifierOperations;
+
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("verifier", "api", "enabled", true);
+    return cfg;
+  }
 
   @Test
   public void createVerifier() throws Exception {

@@ -16,6 +16,8 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
@@ -120,6 +122,47 @@ public class CombinedCheckStateTest extends GerritBaseTests {
         .isEqualTo(CombinedCheckState.WARNING);
     assertThat(combine(statesBuilder().put(CheckState.FAILED, false).put(CheckState.FAILED, true)))
         .isEqualTo(CombinedCheckState.FAILED);
+  }
+
+  @Test
+  public void toIndexString() {
+    assertThat(CombinedCheckState.FAILED.toIndexString()).isEqualTo("failed");
+    assertThat(CombinedCheckState.WARNING.toIndexString()).isEqualTo("warning");
+    assertThat(CombinedCheckState.IN_PROGRESS.toIndexString()).isEqualTo("inprogress");
+    assertThat(CombinedCheckState.SUCCESSFUL.toIndexString()).isEqualTo("successful");
+    assertThat(CombinedCheckState.NOT_RELEVANT.toIndexString()).isEqualTo("notrelevant");
+  }
+
+  @Test
+  public void parse() {
+    assertParse("successful", CombinedCheckState.SUCCESSFUL);
+    assertParse("sUcCessful", CombinedCheckState.SUCCESSFUL);
+    assertParse("SUCCESSFUL", CombinedCheckState.SUCCESSFUL);
+    assertParse("FAILED", CombinedCheckState.FAILED);
+    assertParse("IN_PROGRESS", CombinedCheckState.IN_PROGRESS);
+    assertParse("IN_progress", CombinedCheckState.IN_PROGRESS);
+    assertParse("inPROGRESS", CombinedCheckState.IN_PROGRESS);
+    assertParse("inprogress", CombinedCheckState.IN_PROGRESS);
+
+    assertParseInvalid("");
+    assertParseInvalid("SUCCESS");
+    assertParseInvalid(" SUCCESSFUL");
+    assertParseInvalid("IN PROGRESS");
+  }
+
+  private void assertParse(String value, CombinedCheckState state) {
+    assertThat(CombinedCheckState.tryParse(value)).hasValue(state);
+    assertThat(CombinedCheckState.parse(value)).isEqualTo(state);
+  }
+
+  private static void assertParseInvalid(String value) {
+    assertThat(CombinedCheckState.tryParse(value)).isEmpty();
+    try {
+      CombinedCheckState.parse(value);
+      assert_().fail("expected IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      // Expected.
+    }
   }
 
   private static ImmutableListMultimap.Builder<CheckState, Boolean> statesBuilder() {

@@ -135,6 +135,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_BEFORE = "before";
   public static final String FIELD_CHANGE = "change";
   public static final String FIELD_CHANGE_ID = "change_id";
+  public static final String FIELD_CHECKS = "checks";
   public static final String FIELD_COMMENT = "comment";
   public static final String FIELD_COMMENTBY = "commentby";
   public static final String FIELD_COMMIT = "commit";
@@ -1243,6 +1244,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new RevertOfPredicate(value);
     }
     throw new QueryParseException("'revertof' operator is not supported by change index version");
+  }
+
+  @Operator
+  public Predicate<ChangeData> checks(String str) throws QueryParseException {
+    return new ChecksPredicate(str);
   }
 
   @Override

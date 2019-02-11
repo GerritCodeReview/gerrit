@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ebfb7c0_ce15eaea",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-02-11T08:51:37Z",
+      "side": 1,
+      "message": "[optional]\n\nThere are a lot of places in this file where the cut operator is used\nbut we don\u0027t write such a comment everywhere.\nI don\u0027t think this place is special and needs a comment.",
+      "revId": "04b4785952f42205fafbc7a230d2cb699109eed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "957ae5ee_68004d63",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1076,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-02-11T08:51:37Z",
+      "side": 1,
+      "message": "Same as the previous comment",
+      "range": {
+        "startLine": 1074,
+        "startChar": 0,
+        "endLine": 1076,
+        "endChar": 33
+      },
+      "revId": "04b4785952f42205fafbc7a230d2cb699109eed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

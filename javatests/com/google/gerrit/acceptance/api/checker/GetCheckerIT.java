@@ -25,7 +25,9 @@ import com.google.gerrit.extensions.api.checkers.CheckerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.checker.CheckerUuid;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 @NoHttpd
@@ -33,6 +35,13 @@ import org.junit.Test;
 public class GetCheckerIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private CheckerOperations checkerOperations;
+
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("checks", "api", "enabled", true);
+    return cfg;
+  }
 
   @Test
   public void getChecker() throws Exception {

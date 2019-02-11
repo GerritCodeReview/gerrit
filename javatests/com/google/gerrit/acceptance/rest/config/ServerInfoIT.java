@@ -62,6 +62,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
   @GerritConfig(name = "change.updateDelay", value = "50s")
   @GerritConfig(name = "change.disablePrivateChanges", value = "true")
 
+  // checks
+  @GerritConfig(name = "checks.api.enabled", value = "true")
+
   // download
   @GerritConfig(
       name = "download.archive",
@@ -103,6 +106,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.change.replyLabel).isEqualTo("Vote\u2026");
     assertThat(i.change.updateDelay).isEqualTo(50);
     assertThat(i.change.disablePrivateChanges).isTrue();
+
+    // checks
+    assertThat(i.checks.apiEnabled).isTrue();
 
     // download
     assertThat(i.download.archives).containsExactly("tar", "tbz2", "tgz", "txz");
@@ -170,6 +176,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.change.replyLabel).isEqualTo("Reply\u2026");
     assertThat(i.change.updateDelay).isEqualTo(300);
     assertThat(i.change.disablePrivateChanges).isNull();
+
+    // checks
+    assertThat(i.checks.apiEnabled).isNull();
 
     // download
     assertThat(i.download.archives).containsExactly("tar", "tbz2", "tgz", "txz");

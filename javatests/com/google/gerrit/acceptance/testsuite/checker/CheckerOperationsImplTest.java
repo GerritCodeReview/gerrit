@@ -21,13 +21,22 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.api.checkers.CheckerInfo;
 import com.google.gerrit.extensions.api.checkers.CheckerInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
 import java.util.Optional;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 public class CheckerOperationsImplTest extends AbstractDaemonTest {
   @Inject private CheckerOperationsImpl checkerOperations;
+
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("checks", "api", "enabled", true);
+    return cfg;
+  }
 
   @Test
   public void checkerCanBeCreatedWithoutSpecifyingAnyParameters() throws Exception {

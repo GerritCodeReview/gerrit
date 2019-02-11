@@ -15,22 +15,27 @@
 package com.google.gerrit.server.restapi.checker;
 
 import com.google.gerrit.extensions.api.checkers.CheckerInfo;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.checker.CheckerJson;
+import com.google.gerrit.server.checker.GlobalChecksConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class GetChecker implements RestReadView<CheckerResource> {
+  private final GlobalChecksConfig globalChecksConfig;
   private final CheckerJson checkerJson;
 
   @Inject
-  public GetChecker(CheckerJson checkerJson) {
+  public GetChecker(GlobalChecksConfig globalChecksConfig, CheckerJson checkerJson) {
+    this.globalChecksConfig = globalChecksConfig;
     this.checkerJson = checkerJson;
   }
 
   @Override
-  public CheckerInfo apply(CheckerResource resource) {
+  public CheckerInfo apply(CheckerResource resource) throws MethodNotAllowedException {
+    globalChecksConfig.checkThatApiIsEnabled();
     return checkerJson.format(resource.getChecker());
   }
 }

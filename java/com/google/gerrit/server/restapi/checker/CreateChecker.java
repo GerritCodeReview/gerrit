@@ -29,6 +29,7 @@ import com.google.gerrit.server.checker.CheckerName;
 import com.google.gerrit.server.checker.CheckerUpdate;
 import com.google.gerrit.server.checker.CheckerUuid;
 import com.google.gerrit.server.checker.CheckersUpdate;
+import com.google.gerrit.server.checker.GlobalChecksConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -42,15 +43,18 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class CreateChecker
     implements RestCollectionModifyView<TopLevelResource, CheckerResource, CheckerInput> {
+  private final GlobalChecksConfig globalChecksConfig;
   private final PermissionBackend permissionBackend;
   private final Provider<CheckersUpdate> checkersUpdate;
   private final CheckerJson checkerJson;
 
   @Inject
   public CreateChecker(
+      GlobalChecksConfig globalChecksConfig,
       PermissionBackend permissionBackend,
       @UserInitiated Provider<CheckersUpdate> checkersUpdate,
       CheckerJson checkerJson) {
+    this.globalChecksConfig = globalChecksConfig;
     this.permissionBackend = permissionBackend;
     this.checkersUpdate = checkersUpdate;
     this.checkerJson = checkerJson;
@@ -60,6 +64,7 @@ public class CreateChecker
   public Response<CheckerInfo> apply(TopLevelResource parentResource, CheckerInput input)
       throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException,
           OrmDuplicateKeyException {
+    globalChecksConfig.checkThatApiIsEnabled();
     permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_CHECKERS);
 
     if (input == null) {

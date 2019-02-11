@@ -14,8 +14,13 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Combined state of multiple checks on a change.
@@ -48,6 +53,28 @@ public enum CombinedCheckState {
 
   /** No checks are relevant to this change. */
   NOT_RELEVANT;
+
+  private static final ImmutableMap<String, CombinedCheckState> STATES;
+
+  static {
+    Map<String, CombinedCheckState> states = new HashMap<>();
+    for (CombinedCheckState state : values()) {
+      String name = state.name().toLowerCase(Locale.US);
+      states.put(name, state);
+      states.put(CharMatcher.is('_').removeFrom(name), state);
+    }
+    STATES = ImmutableMap.copyOf(states);
+  }
+
+  public static CombinedCheckState parse(String value) {
+    return tryParse(value)
+        .orElseThrow(() -> new IllegalArgumentException("invalid CombinedCheckState: " + value));
+  }
+
+  public static Optional<CombinedCheckState> tryParse(String value) {
+    // Allow "not_relevant" and "notrelevant", but exclude "not_rel_evant".
+    return Optional.ofNullable(STATES.get(value.toLowerCase(Locale.US)));
+  }
 
   public static CombinedCheckState combine(
       ImmutableListMultimap<CheckState, Boolean> statesAndRequired) {
@@ -87,5 +114,9 @@ public enum CombinedCheckState {
       return SUCCESSFUL;
     }
     return NOT_RELEVANT;
+  }
+
+  public String toIndexString() {
+    return CharMatcher.is('_').removeFrom(name().toLowerCase(Locale.US));
   }
 }

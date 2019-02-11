@@ -23,6 +23,53 @@
       "revId": "09616c9e69cc4c3aa31ad166071bb45758f761a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b76a9501_5fc7a775",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-11T07:58:42Z",
+      "side": 1,
+      "message": "I think \"is:starred\" and \"starredby:self\" execute different code paths that result in the same error message. For \"starredby:self\" the QueryRequiresAuthException is thrown from ChangeQueryBuilder#parseAccount, for \"is:starred\" it comes from ChangeQueryBuilder.Arguments#getIdentifiedUser. Since the ChangeQueryBuilder#parseAccount code path is already covered by \"assignee:self\", it\u0027s better to use \"is:starred\" here to cover the second code path as well.\nBut for readability we should maybe just test both \"starredby:self\" and \"is:starred\"?",
+      "parentUuid": "f154d7df_6e4804a6",
+      "range": {
+        "startLine": 3101,
+        "startChar": 58,
+        "endLine": 3101,
+        "endChar": 70
+      },
+      "revId": "09616c9e69cc4c3aa31ad166071bb45758f761a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "012c0635_f0c851c0",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-11T07:58:42Z",
+      "side": 1,
+      "message": "Remove this as it\u0027s already done above?",
+      "range": {
+        "startLine": 3114,
+        "startChar": 4,
+        "endLine": 3114,
+        "endChar": 30
+      },
+      "revId": "09616c9e69cc4c3aa31ad166071bb45758f761a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

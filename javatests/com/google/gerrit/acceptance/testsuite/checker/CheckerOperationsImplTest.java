@@ -43,6 +43,13 @@ import org.junit.Test;
 public class CheckerOperationsImplTest extends AbstractDaemonTest {
   @Inject private CheckerOperationsImpl checkerOperations;
 
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("checks", "api", "enabled", true);
+    return cfg;
+  }
+
   @Test
   public void checkerCanBeCreatedWithoutSpecifyingAnyParameters() throws Exception {
     String checkerUuid = checkerOperations.newChecker().create();

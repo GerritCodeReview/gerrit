@@ -19,7 +19,9 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
 import com.google.gerrit.acceptance.testsuite.checker.CheckerOperations;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 public class CheckersRestApiBindingsIT extends AbstractDaemonTest {
@@ -27,6 +29,13 @@ public class CheckersRestApiBindingsIT extends AbstractDaemonTest {
       ImmutableList.of(RestCall.get("/checkers/%s"), RestCall.post("/checkers/%s"));
 
   @Inject private CheckerOperations checkerOperations;
+
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("checks", "api", "enabled", true);
+    return cfg;
+  }
 
   @Test
   public void checkerEndpoints() throws Exception {

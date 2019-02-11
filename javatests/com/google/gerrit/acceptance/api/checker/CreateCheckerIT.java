@@ -44,6 +44,13 @@ public class CreateCheckerIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private CheckerOperations checkerOperations;
 
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("checks", "api", "enabled", true);
+    return cfg;
+  }
+
   @Before
   public void setTimeForTesting() {
     TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);

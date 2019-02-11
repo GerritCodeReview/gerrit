@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f92d9a65_b56fa7be",
+        "filename": "javatests/com/google/gerrit/server/verifier/VerifierUuidTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-11T17:22:42Z",
+      "side": 1,
+      "message": "Maybe also add one for \"refs/verifiers/43/7ee373885fbc47b103dc722800448320e8bc61\"",
+      "revId": "b2de018f5096b37f1a223964c649740d7d1ccf8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

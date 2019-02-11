@@ -22,6 +22,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.rest.util.RestCall;
+import com.google.gerrit.testing.ConfigSuite;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 /**
@@ -53,7 +55,19 @@ public class RootCollectionsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/plugins/"),
           RestCall.put("/plugins/new-plugin"),
           RestCall.get("/projects/"),
-          RestCall.put("/projects/new-project"));
+          RestCall.put("/projects/new-project"),
+          RestCall.builder(GET, "/checkers/")
+              // GET /checkers/ is not implemented
+              .expectedResponseCode(SC_NOT_FOUND)
+              .build(),
+          RestCall.post("/checkers/"));
+
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("checker", "api", "enabled", true);
+    return cfg;
+  }
 
   @Test
   @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")

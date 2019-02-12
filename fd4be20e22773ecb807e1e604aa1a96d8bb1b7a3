@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1549936660 -0800\nnonce ANwvRnCHEiu+YxjRGFB9APzRrFSNOvL3PP7/fULPdZEBhiwBbTu2sBqrP6C6Z5qtYqS+UxsMmddp\n\n0000000000000000000000000000000000000000 15489af4bc10ade03ccae982f4b4dfc29a4eefc3 refs/for/master%topic\u003dcheck-state-field,r\u003daliceks@google.com,r\u003dekempin@google.com,private\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlxiKBQVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMFmAQAMRl0J3j8JoZrTXGuGKyIyTgelZD\nG9ka/ueXd2l9rOXZZuWz8tiWrauPBFrsTYnNgMoz1XUDReki/5IcJS8ST9C2PuFD\nVCj3hPsxPuTNwsph4qQm/4zWqK1MYOs9SSlzUPXmrejD7vcoiVPh2njcHWWspW/5\nSO67saUOiJ9Xx0zQKDSltHNN7Pr0zBtV3SoWobZNnPubcuMgXEceg8HxV/vQP6BW\nsPF+xvBcQ1et81UA9hFOAj9QnRm4cH9YI2eMDb4f0Lw4Fkn1IHRQLzKFw9fYsAAA\njTmp6UTGQnvVb8Yr56vsiZ50h0WrCIqGTqyDItmRgr8mSz+3Vml8lQZIM2P7EtRc\nDDt1j8tcr471aSn2+tmFeXclkRZskY9pbz1xjp1rhBjssH0NDYX7nTfgyHdMADAD\nYVl0O5aay0/ncWfc5gwJF8dyQTkrIOQf4HfAJshyG0AUEDq5qW7e5xTkKO+eqeI3\niXQcGC+hya3wImTGaEpHTRKMi9PzOXetlB+SmFYWMYrKDNB7OtO3uzQnTQnIDQd2\nyDmn4IaKoULNWD0P9lWD+QxRXOJGXPmKf5pMA49vHMosfb7vitnvlJcRJcCELgVo\nSo3bw7YSNgbsxkehrwlOK30hAeimsrtzqFWyZe22s0JGo5KORdHlvUakdvFQpRCt\nZL1EjohQckm63vyT\n\u003dguH9\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5af2bf51_7d39b844",
+        "filename": "java/com/google/gerrit/server/notedb/CheckState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-12T08:01:40Z",
+      "side": 1,
+      "message": "I think this enum accurately describes the state of a check (result of a checker on a patch set). However according to go/ccr-cuj (section \u0027Checking the build status on the dashboard\u0027) the aggregated check state has different values (Failed, Warning, In Progress, Passed, Unknown).",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 62
+      },
+      "revId": "fd4be20e22773ecb807e1e604aa1a96d8bb1b7a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

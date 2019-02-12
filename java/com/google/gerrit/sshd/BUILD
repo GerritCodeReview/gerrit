@@ -27,6 +27,7 @@ java_library(
         "//lib:gwtorm",
         "//lib:jsch",
         "//lib:servlet-api-3_1",
+        "//lib/auto:auto-factory",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/bouncycastle:bcprov-neverlink",

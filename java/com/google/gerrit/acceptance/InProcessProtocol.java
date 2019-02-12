@@ -32,7 +32,7 @@ import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
-import com.google.gerrit.server.git.validators.UploadValidators;
+import com.google.gerrit.server.git.validators.UploadValidatorsFactory;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -192,7 +192,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final TransferConfig transferConfig;
     private final PluginSetContext<UploadPackInitializer> uploadPackInitializers;
     private final DynamicSet<PreUploadHook> preUploadHooks;
-    private final UploadValidators.Factory uploadValidatorsFactory;
+    private final UploadValidatorsFactory uploadValidatorsFactory;
     private final ThreadLocalRequestContext threadContext;
     private final ProjectCache projectCache;
     private final PermissionBackend permissionBackend;
@@ -202,7 +202,7 @@ class InProcessProtocol extends TestProtocol<Context> {
         TransferConfig transferConfig,
         PluginSetContext<UploadPackInitializer> uploadPackInitializers,
         DynamicSet<PreUploadHook> preUploadHooks,
-        UploadValidators.Factory uploadValidatorsFactory,
+        UploadValidatorsFactory uploadValidatorsFactory,
         ThreadLocalRequestContext threadContext,
         ProjectCache projectCache,
         PermissionBackend permissionBackend) {

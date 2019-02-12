@@ -11,6 +11,7 @@ junit_tests(
         "//lib:gwtorm",
         "//lib:junit",
         "//lib:protobuf",
+        "//lib/auto:auto-factory",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/jgit/org.eclipse.jgit:jgit",

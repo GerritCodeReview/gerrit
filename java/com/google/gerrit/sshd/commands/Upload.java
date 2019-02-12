@@ -21,7 +21,7 @@ import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.validators.UploadValidationException;
-import com.google.gerrit.server.git.validators.UploadValidators;
+import com.google.gerrit.server.git.validators.UploadValidatorsFactory;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -43,7 +43,7 @@ final class Upload extends AbstractGitCommand {
   @Inject private DynamicSet<PreUploadHook> preUploadHooks;
   @Inject private DynamicSet<PostUploadHook> postUploadHooks;
   @Inject private DynamicSet<UploadPackInitializer> uploadPackInitializers;
-  @Inject private UploadValidators.Factory uploadValidatorsFactory;
+  @Inject private UploadValidatorsFactory uploadValidatorsFactory;
   @Inject private SshSession session;
   @Inject private PermissionBackend permissionBackend;
 

@@ -34,6 +34,7 @@ import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
+import com.google.gerrit.server.git.validators.UploadValidatorsFactory;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
@@ -334,7 +335,7 @@ public class GitOverHttpServlet extends GitServlet {
   }
 
   static class UploadFilter implements Filter {
-    private final UploadValidators.Factory uploadValidatorsFactory;
+    private final UploadValidatorsFactory uploadValidatorsFactory;
     private final PermissionBackend permissionBackend;
     private final Provider<CurrentUser> userProvider;
     private final GroupAuditService groupAuditService;
@@ -342,7 +343,7 @@ public class GitOverHttpServlet extends GitServlet {
 
     @Inject
     UploadFilter(
-        UploadValidators.Factory uploadValidatorsFactory,
+        UploadValidatorsFactory uploadValidatorsFactory,
         PermissionBackend permissionBackend,
         Provider<CurrentUser> userProvider,
         GroupAuditService groupAuditService,

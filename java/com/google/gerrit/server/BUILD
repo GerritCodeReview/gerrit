@@ -94,6 +94,7 @@ java_library(
         "//lib:servlet-api-3_1",
         "//lib:soy",
         "//lib:tukaani-xz",
+        "//lib/auto:auto-factory",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/bouncycastle:bcpkix-neverlink",

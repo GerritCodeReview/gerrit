@@ -52,6 +52,7 @@ java_library(
         "//lib:gwtorm",
         "//lib:protobuf",
         "//lib:servlet-api-3_1-without-neverlink",
+        "//lib/auto:auto-factory",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/flogger:api",

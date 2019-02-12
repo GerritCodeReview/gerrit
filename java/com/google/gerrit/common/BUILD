@@ -24,6 +24,7 @@ java_library(
         "//lib:guava",
         "//lib:gwtorm",
         "//lib:servlet-api-3_1",
+        "//lib/auto:auto-factory",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/flogger:api",

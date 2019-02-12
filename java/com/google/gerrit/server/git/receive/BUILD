@@ -15,6 +15,7 @@ java_library(
         "//lib:args4j",
         "//lib:guava",
         "//lib:gwtorm",
+        "//lib/auto:auto-factory",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/flogger:api",

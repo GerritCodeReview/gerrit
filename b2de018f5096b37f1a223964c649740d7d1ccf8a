@@ -16,6 +16,24 @@
       "revId": "b2de018f5096b37f1a223964c649740d7d1ccf8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b832bcfb_0f95600e",
+        "filename": "javatests/com/google/gerrit/server/verifier/VerifierUuidTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-12T10:03:19Z",
+      "side": 1,
+      "message": "Good idea. Done.",
+      "parentUuid": "f92d9a65_b56fa7be",
+      "revId": "b2de018f5096b37f1a223964c649740d7d1ccf8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

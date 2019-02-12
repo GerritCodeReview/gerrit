@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d298f6b6_8ea51e5f",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/verifier/VerifierOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-12T02:41:03Z",
+      "side": 1,
+      "message": "You don\u0027t need to open new ObjectReader for this, you can just use rw.getObjectReader().",
+      "revId": "b89861df2853278cf7796dfde7041628688b6efc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

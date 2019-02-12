@@ -34,6 +34,7 @@ java_library(
         "//lib:jsch",
         "//lib:servlet-api-3_1",
         "//lib:soy",
+        "//lib/auto:auto-factory",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/commons:codec",

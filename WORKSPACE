@@ -594,6 +594,46 @@ maven_jar(
     sha1 = "18d4d07010c24405129a6dbb0e92057f8779fb9d",
 )
 
+AUTO_FACTORY_VERSION = "1.0-beta6"
+
+maven_jar(
+    name = "auto-factory",
+    artifact = "com.google.auto.factory:auto-factory:" + AUTO_FACTORY_VERSION,
+    sha1 = "58c804763a4d80c0884ac8a740fcff4d61da72bc",
+)
+
+GOOGLE_JAVA_FORMAT_VERSION = "1.7"
+
+maven_jar(
+    name = "googlejavaformat",
+    artifact = "com.google.googlejavaformat:google-java-format:" + GOOGLE_JAVA_FORMAT_VERSION,
+    sha1 = "97cb6afc835d65682edc248e19170a8e4ecfe4c4",
+)
+
+AUTO_COMMON_VERSION = "0.10"
+
+maven_jar(
+    name = "auto-common",
+    artifact = "com.google.auto:auto-common:" + AUTO_COMMON_VERSION,
+    sha1 = "c8f153ebe04a17183480ab4016098055fb474364",
+)
+
+JAVA_POET_VERSION = "1.11.1"
+
+maven_jar(
+    name = "java-poet",
+    artifact = "com.squareup:javapoet:" + JAVA_POET_VERSION,
+    sha1 = "210e69f58dfa76c5529a303913b4a30c2bfeb76b",
+)
+
+JAVAC_SHADED = "9+181-r4173-1"
+
+maven_jar(
+    name = "javac-shaded",
+    artifact = "com.google.errorprone:javac-shaded:" + JAVAC_SHADED,
+    sha1 = "a399ee380b6d6b6ea53af1cfbcb086b108d1efb7",
+)
+
 AUTO_VALUE_VERSION = "1.6.3"
 
 maven_jar(

@@ -11,6 +11,7 @@ junit_tests(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
+        "//lib/auto:auto-factory",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/truth",

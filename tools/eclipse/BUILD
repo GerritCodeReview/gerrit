@@ -17,6 +17,7 @@ DEPS = [
     "//java/com/google/gerrit/server",
     "//java/com/google/gerrit/asciidoctor:asciidoc_lib",
     "//java/com/google/gerrit/asciidoctor:doc_indexer_lib",
+    "//lib/auto:auto-factory",
     "//lib/auto:auto-value",
     "//lib/jetty:servlets",
     "//lib/prolog:compiler-lib",

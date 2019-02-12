@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git.validators;
 
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.validators.ValidationException;
@@ -26,6 +28,7 @@ import org.eclipse.jgit.transport.PreUploadHook;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 
+@AutoFactory
 public class UploadValidators implements PreUploadHook {
 
   private final PluginSetContext<UploadValidationListener> uploadValidationListeners;
@@ -33,16 +36,12 @@ public class UploadValidators implements PreUploadHook {
   private final Repository repository;
   private final String remoteHost;
 
-  public interface Factory {
-    UploadValidators create(Project project, Repository repository, String remoteAddress);
-  }
 
-  @Inject
   UploadValidators(
-      PluginSetContext<UploadValidationListener> uploadValidationListeners,
-      @Assisted Project project,
-      @Assisted Repository repository,
-      @Assisted String remoteHost) {
+      @Provided PluginSetContext<UploadValidationListener> uploadValidationListeners,
+      Project project,
+      Repository repository,
+      String remoteHost) {
     this.uploadValidationListeners = uploadValidationListeners;
     this.project = project;
     this.repository = repository;

@@ -66,6 +66,7 @@ junit_tests(
         "//lib:guava-retrying",
         "//lib:gwtorm",
         "//lib:protobuf",
+        "//lib/auto:auto-factory",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/commons:codec",

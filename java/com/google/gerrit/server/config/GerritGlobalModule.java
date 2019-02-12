@@ -129,7 +129,6 @@ import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.UploadValidationListener;
-import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.db.GroupDbModule;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.mail.AutoReplyMailFilter;
@@ -398,7 +397,6 @@ public class GerritGlobalModule extends FactoryModule {
         .annotatedWith(Exports.named("AutoReplyMailFilter"))
         .to(AutoReplyMailFilter.class);
 
-    factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);
 
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);

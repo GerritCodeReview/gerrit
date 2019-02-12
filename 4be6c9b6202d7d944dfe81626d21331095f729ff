@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d222537_1c9b081d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/verifier/VerifierRefsIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-12T19:01:11Z",
+      "side": 1,
+      "message": "New file didn\u0027t get added.",
+      "revId": "4be6c9b6202d7d944dfe81626d21331095f729ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

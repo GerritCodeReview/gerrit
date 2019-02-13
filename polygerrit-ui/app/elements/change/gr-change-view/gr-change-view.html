@@ -486,6 +486,12 @@ limitations under the License.
                   [[_computeCollapseText(_commitCollapsed)]]
                 </gr-button>
               </div>
+              <gr-endpoint-decorator name="commit-container">
+                <gr-endpoint-param name="change" value="[[_change]]">
+                </gr-endpoint-param>
+                <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
+                </gr-endpoint-param>
+              </gr-endpoint-decorator>
             </div>
             <div class="relatedChanges">
               <gr-related-changes-list id="relatedChanges"

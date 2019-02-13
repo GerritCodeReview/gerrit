@@ -16,6 +16,24 @@
       "revId": "d2dc7bba0b9b2e2c13f643ac952e5ed612b2b60c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8788568a_1f288e53",
+        "filename": "javatests/com/google/gerrit/acceptance/api/checker/CreateCheckerIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-13T08:32:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6f7ef57_39103fac",
+      "revId": "d2dc7bba0b9b2e2c13f643ac952e5ed612b2b60c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

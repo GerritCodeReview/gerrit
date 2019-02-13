@@ -1,4 +1,114 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1550014116 -0800\nnonce ANwvRnDA0ntXTGOrFAJqg1s9HjNxiNVdjAqfAonNFsfZ0hMVsWRT6HQ2pkK5eHgtQN7tXXO/+oNY\n\n0000000000000000000000000000000000000000 301b7f081d2b427b0b6ed254197051c56695e02d refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlxjVqQVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMsWUP/imoJQER7/fSUIKBnChA8TsQOMWb\nHJH8dgIu/glgwwLJ2nn8+k9n2FudD0Z5hSke6OI+sDMp858Tm4V2zSY/CjmwWjA5\nlf+WJA6qSbiGPnGtzSN9hvPbFQURCYZIZBqWExM0m/GSZWeDhTH0M9bXkqAoMva4\nE5AdFER4xDlhTGQKzJb5ZGHjohdoqw9dPjDvDK8bW6icp/drxIgE9JA0x7/2QWYf\nngVWKgG/SG6LjGHM/Dalo02r/jiuyV+sAdKaWsgGnxl4fE7owWOsm9UZPVpFJZsj\nOZ4/uzOwuQaI99U3K6RuK7NWNcBDl+rfqDeX+q2gwenmmVhnb36PCHYjZr3KFkLW\nKCPtIxztQmMZj7qRCRLQy3mTqQoQkj/IZ0Gj9Ze1uqDGQV/WGr0rnsmrkovqy0wY\nn2Um+5Orz2+qbdszkK6pNcPZM3yWsrO9rQgfhx4I836NBAFmMrCGTz0h9xG2I1bZ\noqw+LLwLvhPVnVOSmOzkZeF5OaDrgEe0CV1EH6AAJelRrgPlivnCNW3CmLGP5R5p\n8nwj5EeVZohVRrlRhMNKbhcoOHhX9GvIk6ddc6SPLkzX7w05M/iuCSyd7/dz5sv3\nnpl/6YXi0eJ91mLLBpoWxKJS2pK71LpqxQ5FAm78fZQpOiAFuFOwsBDYKLqpQX0J\ncdOGJIA1pCQc7EmU\n\u003dZ8fn\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "41ccccfd_f0ca923b",
+        "filename": "java/com/google/gerrit/server/notedb/CheckState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-13T09:48:11Z",
+      "side": 1,
+      "message": "Make clearer that this is both\n1. the check run and found an issue with the code\n2. there was a failure that prevented the check to run, or the run failed, but not due to the code",
+      "revId": "bf63b084267008f77449b4299abb32afba6bfd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b889e8b_cae4160c",
+        "filename": "java/com/google/gerrit/server/notedb/CombinedCheckState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-13T09:48:11Z",
+      "side": 1,
+      "message": "Why not call this AggregatedCheckState?\nAre you proposing to change the term?",
+      "range": {
+        "startLine": 29,
+        "startChar": 12,
+        "endLine": 29,
+        "endChar": 30
+      },
+      "revId": "bf63b084267008f77449b4299abb32afba6bfd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bd99c13_1647c166",
+        "filename": "java/com/google/gerrit/server/notedb/CombinedCheckState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-13T09:48:11Z",
+      "side": 1,
+      "message": "I thought it should be FAILED as soon as at least one required check failed, no matter if some checks are still running.",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 30,
+        "endChar": 78
+      },
+      "revId": "bf63b084267008f77449b4299abb32afba6bfd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbabf6bb_a5433333",
+        "filename": "java/com/google/gerrit/server/notedb/CombinedCheckState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-13T09:48:11Z",
+      "side": 1,
+      "message": "state?",
+      "range": {
+        "startLine": 53,
+        "startChar": 64,
+        "endLine": 53,
+        "endChar": 70
+      },
+      "revId": "bf63b084267008f77449b4299abb32afba6bfd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64f6cea3_bba62765",
+        "filename": "java/com/google/gerrit/server/notedb/CombinedCheckState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-13T09:48:11Z",
+      "side": 1,
+      "message": "states?",
+      "range": {
+        "startLine": 53,
+        "startChar": 33,
+        "endLine": 53,
+        "endChar": 40
+      },
+      "revId": "bf63b084267008f77449b4299abb32afba6bfd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

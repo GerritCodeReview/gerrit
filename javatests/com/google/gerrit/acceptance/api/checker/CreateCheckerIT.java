@@ -26,6 +26,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.checkers.CheckerInfo;
 import com.google.gerrit.extensions.api.checkers.CheckerInput;
+import com.google.gerrit.extensions.api.checkers.CheckerStatus;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -77,6 +78,7 @@ public class CreateCheckerIT extends AbstractDaemonTest {
     assertThat(info.description).isNull();
     assertThat(info.url).isNull();
     assertThat(info.repository).isEqualTo(input.repository);
+    assertThat(info.status).isEqualTo(CheckerStatus.ENABLED);
     assertThat(info.createdOn).isNotNull();
     assertThat(info.updatedOn).isEqualTo(info.createdOn);
 
@@ -269,6 +271,17 @@ public class CreateCheckerIT extends AbstractDaemonTest {
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage("repository non-existing not found");
     gApi.checkers().create(input);
+  }
+
+  @Test
+  public void createDisabledChecker() throws Exception {
+    CheckerInput input = new CheckerInput();
+    input.name = "my-checker";
+    input.repository = allProjects.get();
+    input.status = CheckerStatus.DISABLED;
+
+    CheckerInfo info = gApi.checkers().create(input).get();
+    assertThat(info.status).isEqualTo(CheckerStatus.DISABLED);
   }
 
   @Test

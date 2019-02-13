@@ -23,6 +23,7 @@ import com.google.common.base.Joiner;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.api.checkers.CheckerInfo;
 import com.google.gerrit.extensions.api.checkers.CheckerInput;
+import com.google.gerrit.extensions.api.checkers.CheckerStatus;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -251,6 +252,22 @@ public class CheckerOperationsImplTest extends AbstractDaemonTest {
     Optional<String> currentDescription =
         checkerOperations.checker(checkerUuid).get().description();
     assertThat(currentDescription).isEmpty();
+  }
+
+  @Test
+  public void statusCanBeUpdated() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().description("original description").create();
+    assertThat(checkerOperations.checker(checkerUuid).asInfo().status)
+        .isEqualTo(CheckerStatus.ENABLED);
+
+    checkerOperations.checker(checkerUuid).forUpdate().disable().update();
+    assertThat(checkerOperations.checker(checkerUuid).asInfo().status)
+        .isEqualTo(CheckerStatus.DISABLED);
+
+    checkerOperations.checker(checkerUuid).forUpdate().enable().update();
+    assertThat(checkerOperations.checker(checkerUuid).asInfo().status)
+        .isEqualTo(CheckerStatus.ENABLED);
   }
 
   @Test

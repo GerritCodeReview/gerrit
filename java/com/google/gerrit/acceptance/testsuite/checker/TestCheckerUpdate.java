@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.testsuite.checker;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
+import com.google.gerrit.extensions.api.checkers.CheckerStatus;
 import com.google.gerrit.reviewdb.client.Project;
 import java.util.Optional;
 
@@ -28,6 +29,8 @@ public abstract class TestCheckerUpdate {
   public abstract Optional<String> url();
 
   public abstract Optional<Project.NameKey> repository();
+
+  public abstract Optional<CheckerStatus> status();
 
   abstract ThrowingConsumer<TestCheckerUpdate> checkerUpdater();
 
@@ -53,6 +56,16 @@ public abstract class TestCheckerUpdate {
     }
 
     public abstract Builder repository(Project.NameKey repository);
+
+    abstract Builder status(CheckerStatus status);
+
+    public Builder enable() {
+      return status(CheckerStatus.ENABLED);
+    }
+
+    public Builder disable() {
+      return status(CheckerStatus.DISABLED);
+    }
 
     abstract Builder checkerUpdater(ThrowingConsumer<TestCheckerUpdate> checkerUpdater);
 

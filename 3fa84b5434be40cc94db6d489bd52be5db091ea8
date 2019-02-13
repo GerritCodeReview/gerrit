@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7a1ee9b_f11e3b15",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/RootCollectionsRestApiBindingsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-13T08:48:42Z",
+      "side": 0,
+      "message": "Removing this was not intended.",
+      "range": {
+        "startLine": 58,
+        "startChar": 10,
+        "endLine": 58,
+        "endChar": 49
+      },
+      "revId": "3fa84b5434be40cc94db6d489bd52be5db091ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

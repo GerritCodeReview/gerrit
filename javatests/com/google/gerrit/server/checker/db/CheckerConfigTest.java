@@ -19,6 +19,7 @@ import static com.google.gerrit.truth.OptionalSubject.assertThat;
 import static org.hamcrest.CoreMatchers.instanceOf;
 
 import com.google.common.truth.StringSubject;
+import com.google.gerrit.extensions.api.checkers.CheckerStatus;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.checker.Checker;
@@ -393,6 +394,29 @@ public class CheckerConfigTest extends GerritBaseTests {
   }
 
   @Test
+  public void updateStatusToSameStatus() throws Exception {
+    Optional<Checker> checker = createArbitraryChecker(checkerUuid);
+    assertThat(checker.get().getStatus()).isEqualTo(CheckerStatus.ENABLED);
+
+    CheckerUpdate checkerUpdate = CheckerUpdate.builder().setStatus(CheckerStatus.ENABLED).build();
+    checker = updateChecker(checkerUuid, checkerUpdate);
+    assertThat(checker.get().getStatus()).isEqualTo(CheckerStatus.ENABLED);
+  }
+
+  @Test
+  public void disableAndReenable() throws Exception {
+    createArbitraryChecker(checkerUuid);
+
+    CheckerUpdate checkerUpdate = CheckerUpdate.builder().setStatus(CheckerStatus.DISABLED).build();
+    Optional<Checker> checker = updateChecker(checkerUuid, checkerUpdate);
+    assertThat(checker.get().getStatus()).isEqualTo(CheckerStatus.DISABLED);
+
+    checkerUpdate = CheckerUpdate.builder().setStatus(CheckerStatus.ENABLED).build();
+    checker = updateChecker(checkerUuid, checkerUpdate);
+    assertThat(checker.get().getStatus()).isEqualTo(CheckerStatus.ENABLED);
+  }
+
+  @Test
   public void refStateIsCorrectlySet() throws Exception {
     CheckerCreation checkerCreation =
         getPrefilledCheckerCreationBuilder().setCheckerUuid(checkerUuid).build();
@@ -419,10 +443,10 @@ public class CheckerConfigTest extends GerritBaseTests {
         .isEqualTo(expectedRefStateAfterUpdate);
   }
 
-  private void createArbitraryChecker(String checkerUuid) throws Exception {
+  private Optional<Checker> createArbitraryChecker(String checkerUuid) throws Exception {
     CheckerCreation checkerCreation =
         getPrefilledCheckerCreationBuilder().setCheckerUuid(checkerUuid).build();
-    createChecker(checkerCreation);
+    return createChecker(checkerCreation);
   }
 
   private CheckerCreation.Builder getPrefilledCheckerCreationBuilder() {

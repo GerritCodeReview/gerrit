@@ -27,6 +27,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.checkers.CheckerInfo;
 import com.google.gerrit.extensions.api.checkers.CheckerInput;
+import com.google.gerrit.extensions.api.checkers.CheckerStatus;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -98,9 +99,8 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
         .isEqualTo(
             "[checker]\n"
                 + "\tname = my-renamed-checker\n"
-                + "\trepository = "
-                + input.repository
-                + "\n"
+                + ("\trepository = " + input.repository + "\n")
+                + "\tstatus = enabled\n"
                 + "\tdescription = A description.\n"
                 + "\turl = http://example.com/my-checker\n");
     assertThat(checkerOperations.sha1sOfRepositoriesWithCheckers())
@@ -125,7 +125,11 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
         info.updatedOn,
         perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-renamed-checker\n\trepository = All-Projects\n");
+        .isEqualTo(
+            "[checker]\n"
+                + "\tname = my-renamed-checker\n"
+                + "\trepository = All-Projects\n"
+                + "\tstatus = enabled\n");
   }
 
   @Test
@@ -171,7 +175,11 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
         info.updatedOn,
         perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = other-checker\n\trepository = All-Projects\n");
+        .isEqualTo(
+            "[checker]\n"
+                + "\tname = other-checker\n"
+                + "\trepository = All-Projects\n"
+                + "\tstatus = enabled\n");
   }
 
   @Test
@@ -191,6 +199,7 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
         .isEqualTo(
             "[checker]\n\tname = my-checker\n"
                 + "\trepository = All-Projects\n"
+                + "\tstatus = enabled\n"
                 + "\tdescription = A description.\n");
   }
 
@@ -212,6 +221,7 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
         .isEqualTo(
             "[checker]\n\tname = my-checker\n"
                 + "\trepository = All-Projects\n"
+                + "\tstatus = enabled\n"
                 + "\tdescription = A new description.\n");
   }
 
@@ -230,7 +240,11 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-checker\n\trepository = All-Projects\n");
+        .isEqualTo(
+            "[checker]\n"
+                + "\tname = my-checker\n"
+                + "\trepository = All-Projects\n"
+                + "\tstatus = enabled\n");
   }
 
   @Test
@@ -250,6 +264,7 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
         .isEqualTo(
             "[checker]\n\tname = my-checker\n"
                 + "\trepository = All-Projects\n"
+                + "\tstatus = enabled\n"
                 + "\tdescription = A description.\n");
   }
 
@@ -270,6 +285,7 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
         .isEqualTo(
             "[checker]\n\tname = my-checker\n"
                 + "\trepository = All-Projects\n"
+                + "\tstatus = enabled\n"
                 + "\turl = http://example.com/my-checker\n");
   }
 
@@ -295,6 +311,7 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
         .isEqualTo(
             "[checker]\n\tname = my-checker\n"
                 + "\trepository = All-Projects\n"
+                + "\tstatus = enabled\n"
                 + "\turl = http://example.com/my-checker-foo\n");
   }
 
@@ -317,7 +334,11 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-checker\n\trepository = All-Projects\n");
+        .isEqualTo(
+            "[checker]\n"
+                + "\tname = my-checker\n"
+                + "\trepository = All-Projects\n"
+                + "\tstatus = enabled\n");
   }
 
   @Test
@@ -337,6 +358,7 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
         .isEqualTo(
             "[checker]\n\tname = my-checker\n"
                 + "\trepository = All-Projects\n"
+                + "\tstatus = enabled\n"
                 + "\turl = http://example.com/my-checker\n");
   }
 
@@ -357,7 +379,11 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-checker\n\trepository = " + input.repository + "\n");
+        .isEqualTo(
+            "[checker]\n"
+                + "\tname = my-checker\n"
+                + ("\trepository = " + input.repository + "\n")
+                + "\tstatus = enabled\n");
     assertThat(checkerOperations.sha1sOfRepositoriesWithCheckers())
         .containsExactly(CheckersByRepositoryNotes.computeRepositorySha1(repositoryName));
     assertThat(checkerOperations.checkersOf(repositoryName)).containsExactly(info.uuid);
@@ -397,6 +423,69 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage("repository non-existing not found");
     gApi.checkers().id(checkerUuid).update(checkerInput);
+  }
+
+  @Test
+  public void disableAndReenable() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().name("my-checker").repository(allProjects).create();
+    assertThat(checkerOperations.checkersOf(allProjects)).containsExactly(checkerUuid);
+
+    CheckerInput input = new CheckerInput();
+    input.status = CheckerStatus.DISABLED;
+
+    CheckerInfo info = gApi.checkers().id(checkerUuid).update(input);
+    assertThat(info.status).isEqualTo(CheckerStatus.DISABLED);
+    assertThat(checkerOperations.checkersOf(allProjects)).isEmpty();
+
+    input = new CheckerInput();
+    input.status = CheckerStatus.ENABLED;
+    info = gApi.checkers().id(checkerUuid).update(input);
+    assertThat(info.status).isEqualTo(CheckerStatus.ENABLED);
+    assertThat(checkerOperations.checkersOf(allProjects)).containsExactly(checkerUuid);
+  }
+
+  @Test
+  public void updateRepositoryDuringDisable() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().name("my-checker").repository(allProjects).create();
+
+    Project.NameKey repositoryName = projectOperations.newProject().create();
+
+    CheckerInput input = new CheckerInput();
+    input.repository = repositoryName.get();
+    input.status = CheckerStatus.DISABLED;
+
+    CheckerInfo info = gApi.checkers().id(checkerUuid).update(input);
+    assertThat(info.repository).isEqualTo(input.repository);
+    assertThat(info.status).isEqualTo(CheckerStatus.DISABLED);
+    assertThat(checkerOperations.checkersOf(allProjects)).isEmpty();
+  }
+
+  @Test
+  public void updateRepositoryDuringEnable() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().name("my-checker").repository(allProjects).create();
+
+    Project.NameKey repositoryName = projectOperations.newProject().create();
+    assertThat(checkerOperations.checkersOf(allProjects)).containsExactly(checkerUuid);
+    assertThat(checkerOperations.checkersOf(repositoryName)).isEmpty();
+
+    CheckerInput input = new CheckerInput();
+    input.status = CheckerStatus.DISABLED;
+
+    CheckerInfo info = gApi.checkers().id(checkerUuid).update(input);
+    assertThat(info.status).isEqualTo(CheckerStatus.DISABLED);
+    assertThat(checkerOperations.checkersOf(allProjects)).isEmpty();
+    assertThat(checkerOperations.checkersOf(repositoryName)).isEmpty();
+
+    input = new CheckerInput();
+    input.status = CheckerStatus.ENABLED;
+    input.repository = repositoryName.get();
+    info = gApi.checkers().id(checkerUuid).update(input);
+    assertThat(info.status).isEqualTo(CheckerStatus.ENABLED);
+    assertThat(checkerOperations.checkersOf(allProjects)).isEmpty();
+    assertThat(checkerOperations.checkersOf(repositoryName)).containsExactly(checkerUuid);
   }
 
   @Test

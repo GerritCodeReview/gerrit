@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1550078870 -0800\nnonce ANwvRnCzlLgF6zWSigbKmh3QG67lkGQUkuy9JjM68YpRJubN5blKjvkXDQSvqfNXFeSSh8EBLMrM\n\n0000000000000000000000000000000000000000 e52a4a1f0ab1048e03663ff1cb13e33ee8d5e221 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlxkU5YVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMrNgQAMHxEeWedsGyjqDY6n4MNWuqg3cO\nCVncb/GO84iagAVsPBihPir9EVwWjHvFC1QbrA9tqSSRPZgP7kwoU3T+XCQBqPqp\nru3utgU5fpz4f1dkbH58UKTrPsl8h9GLAXzW0LZi7ydBcmN5lRp776QWOgFzrbbE\nPssAe9aSgInT5ZpiUPgKsN4XleOYuqkF65N6joOvzrVzsXiqSGwwrwMFiz8eVVpq\n3uT+xuDlK60m/3KLvYkOy1ztDHnvP7QGVZ9upd4+FcfhOjkUdivWx/WoBj8Quz7Y\nhXVgF1nFm6c2ZF/i3hje99uN84iRprgfqUX+6gu4301LOtxZ85sUz2uTs15fqi0/\ny9OluAf4n2i+sQy0EfeJTbAyEkB66RWWaUd4kIwF5IY83ZY3eZfZCWmoPa+H3IbZ\nRCNlh3Pm9Z2o1sZde+KVwtfjVMc2zhSKjTdNFgVeUNsJsWI8/vGlQlJU1Q/jMmH3\nM7yycQIz1EtY++gewmSZ8AuWAqmhVp8xuDl5LaN1SNNHdHIcOViWFx7f/hKz+uAS\ncY18o9nFxdYYBtJLCtVkhOBJmwYYasEqwZO8LpN7FY48v/dodm9W5ixXQK+VwsBg\nRkCagrVgRZjELBkI43JQe/cTTxwyyGDXeHwa3Tdmds81Vs7IGq80hOLORBUccXXs\nyPqiBs4+rNWvah7R\n\u003dWeLq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c6fb6ea_63702fe2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/checker/UpdateCheckerIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-13T23:08:39Z",
+      "side": 1,
+      "message": "Having to do this for every test for every new mandatory property we add is pretty annoying, as I\u0027ve found out.\n\nI\u0027m also not sure what determines the ordering here, TBH. CheckerConfig#updateCheckerProperties() just has:\n\n    checkerUpdate.ifPresent(\n        checkerUpdate -\u003e\n            Arrays.stream(CheckerConfigEntry.values())\n                .forEach(configEntry -\u003e configEntry.updateConfigValue(config, checkerUpdate)));\n\nHow does that code produce this order? Is it stable and not, say, dependent on HashMap ordering within Config?\n\nI might rather just add some asserts in CheckerConfig test using the JGit Config API to check that an update produces a specific value from Config#getStringList, without worrying about the vagaries of formatting.",
+      "revId": "320a68bb036d5fbc4240ad4b99fe2717225ba4ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

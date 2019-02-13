@@ -78,7 +78,10 @@ public enum ListChangesOption {
   TRACKING_IDS(21),
 
   /** Skip mergeability data */
-  SKIP_MERGEABLE(22);
+  SKIP_MERGEABLE(22),
+
+  /** Include combined check state for the change. */
+  COMBINED_CHECK_STATE(23);
 
   private final int value;
 

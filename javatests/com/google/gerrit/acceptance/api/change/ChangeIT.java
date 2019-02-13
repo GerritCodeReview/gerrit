@@ -108,6 +108,7 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.CombinedCheckState;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
@@ -139,6 +140,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.checker.GlobalChecksConfig;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -187,6 +189,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private ChangeIndexCollection changeIndexCollection;
   @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
   @Inject private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
+  @Inject private GlobalChecksConfig globalChecksConfig;
   @Inject private GroupOperations groupOperations;
   @Inject private IndexConfig indexConfig;
   @Inject private ProjectOperations projectOperations;
@@ -4212,6 +4215,28 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(gApi.changes().id(project.get(), number).get(ImmutableSet.of()).changeId)
           .isEqualTo(change.getChangeId());
     }
+  }
+
+  @Test
+  public void checksApiDisabled() throws Exception {
+    // TODO(dborowitz): Add @GerritConfig if the default flips.
+    assertThat(globalChecksConfig.apiEnabled()).isFalse();
+
+    String changeId = createChange().getChangeId();
+    assertThat(gApi.changes().id(changeId).info().checkState).isNull();
+    assertThat(gApi.changes().id(changeId).get(ListChangesOption.COMBINED_CHECK_STATE).checkState)
+        .isNull();
+  }
+
+  @Test
+  @GerritConfig(name = "checks.api.enabled", value = "true")
+  public void checksApiEnabled() throws Exception {
+    String changeId = createChange().getChangeId();
+    assertThat(gApi.changes().id(changeId).info().checkState).isNull();
+    assertThat(gApi.changes().id(changeId).get(ListChangesOption.COMBINED_CHECK_STATE).checkState)
+        .isEqualTo(CombinedCheckState.NOT_RELEVANT);
+    // TODO(dborowitz): Mutate the state when APIs exist for that. At that point it may make more
+    // sense to move these methods to a separate test class.
   }
 
   private PushOneCommit.Result createWorkInProgressChange() throws Exception {

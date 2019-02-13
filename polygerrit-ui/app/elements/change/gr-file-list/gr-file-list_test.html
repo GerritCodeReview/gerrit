@@ -552,6 +552,14 @@ limitations under the License.
               'unresolved.file', 'comment'), '3 comments (1 unresolved)');
     });
 
+    test('_reviewedTitle', () => {
+      assert.equal(
+          element._reviewedTitle(true), 'Mark as not reviewed (shortcut: r)');
+
+      assert.equal(
+          element._reviewedTitle(false), 'Mark as reviewed (shortcut: r)');
+    });
+
     suite('keyboard shortcuts', () => {
       setup(() => {
         element._filesByPath = {

@@ -14,12 +14,20 @@
 
 package com.google.gerrit.plugins.checkers.api;
 
-import com.google.gerrit.extensions.restapi.DefaultInput;
+/**
+ * Status of a configured checker.
+ *
+ * <p>This status is a property of the checker's configuration; not to be confused with {@code
+ * CheckState}, which is the state of an individual check performed by a checker against a specific
+ * change.
+ */
+public enum CheckerStatus {
+  /** The checker is enabled. */
+  ENABLED,
 
-public class CheckerInput {
-  @DefaultInput public String name;
-  public String description;
-  public String url;
-  public String repository;
-  public CheckerStatus status;
+  /**
+   * The checker is disabled, meaning its checks are not displayed alongside any changes, and the
+   * results are not considered when determining submit requirements.
+   */
+  DISABLED
 }

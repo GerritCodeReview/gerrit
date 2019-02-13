@@ -24,6 +24,7 @@ import com.google.common.truth.Subject;
 import com.google.common.truth.Truth;
 import com.google.common.truth.Truth8;
 import com.google.gerrit.plugins.checkers.Checker;
+import com.google.gerrit.plugins.checkers.api.CheckerStatus;
 import com.google.gerrit.plugins.checkers.db.CheckerConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.testing.ObjectIdSubject;
@@ -59,6 +60,10 @@ public class CheckerConfigSubject extends Subject<CheckerConfigSubject, CheckerC
 
   public void hasRepository(Project.NameKey expectedRepository) {
     Truth.assertThat(checker().getRepository()).named("repository").isEqualTo(expectedRepository);
+  }
+
+  public void hasStatus(CheckerStatus expectedStatus) {
+    Truth.assertThat(checker().getStatus()).named("status").isEqualTo(expectedStatus);
   }
 
   public ComparableSubject<?, Timestamp> hasCreatedOnThat() {

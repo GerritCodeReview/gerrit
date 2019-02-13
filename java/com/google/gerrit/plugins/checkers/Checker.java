@@ -15,6 +15,7 @@
 package com.google.gerrit.plugins.checkers;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.plugins.checkers.api.CheckerStatus;
 import com.google.gerrit.reviewdb.client.Project;
 import java.sql.Timestamp;
 import java.util.Optional;
@@ -70,6 +71,13 @@ public abstract class Checker {
   public abstract Project.NameKey getRepository();
 
   /**
+   * Returns the status of the checker.
+   *
+   * @return the status of the checker.
+   */
+  public abstract CheckerStatus getStatus();
+
+  /**
    * Returns the creation timestamp of the checker.
    *
    * @return the creation timestamp
@@ -108,6 +116,8 @@ public abstract class Checker {
     public abstract Builder setUrl(String url);
 
     public abstract Builder setRepository(Project.NameKey repository);
+
+    public abstract Builder setStatus(CheckerStatus status);
 
     public abstract Builder setCreatedOn(Timestamp createdOn);
 

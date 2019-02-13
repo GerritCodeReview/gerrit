@@ -26,6 +26,7 @@ import com.google.gerrit.plugins.checkers.acceptance.AbstractCheckersTest;
 import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperations.PerCheckerOperations;
 import com.google.gerrit.plugins.checkers.api.CheckerInfo;
 import com.google.gerrit.plugins.checkers.api.CheckerInput;
+import com.google.gerrit.plugins.checkers.api.CheckerStatus;
 import com.google.gerrit.plugins.checkers.db.CheckersByRepositoryNotes;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testing.TestTimeUtil;
@@ -62,6 +63,7 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     assertThat(info.description).isNull();
     assertThat(info.url).isNull();
     assertThat(info.repository).isEqualTo(input.repository);
+    assertThat(info.status).isEqualTo(CheckerStatus.ENABLED);
     assertThat(info.createdOn).isNotNull();
     assertThat(info.updatedOn).isEqualTo(info.createdOn);
 
@@ -254,6 +256,17 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage("repository non-existing not found");
     checkersApi.create(input);
+  }
+
+  @Test
+  public void createDisabledChecker() throws Exception {
+    CheckerInput input = new CheckerInput();
+    input.name = "my-checker";
+    input.repository = allProjects.get();
+    input.status = CheckerStatus.DISABLED;
+
+    CheckerInfo info = checkersApi.create(input).get();
+    assertThat(info.status).isEqualTo(CheckerStatus.DISABLED);
   }
 
   @Test

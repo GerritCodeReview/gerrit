@@ -27,6 +27,7 @@ public class CheckerJson {
     info.description = checker.getDescription().orElse(null);
     info.url = checker.getUrl().orElse(null);
     info.repository = checker.getRepository().get();
+    info.status = checker.getStatus();
     info.createdOn = checker.getCreatedOn();
     info.updatedOn = checker.getUpdatedOn();
     return info;

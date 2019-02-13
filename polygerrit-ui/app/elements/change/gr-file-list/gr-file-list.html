@@ -364,7 +364,7 @@ limitations under the License.
               <span class$="reviewedLabel [[_computeReviewedClass(file.isReviewed)]]">Reviewed</span>
               <label>
                 <input class="reviewed" type="checkbox" checked="[[file.isReviewed]]">
-                <span class="markReviewed" title="Mark as reviewed (shortcut: r)">[[_computeReviewedText(file.isReviewed)]]</span>
+                <span class="markReviewed" title$="[[_reviewedTitle(file.isReviewed)]]">[[_computeReviewedText(file.isReviewed)]]</span>
               </label>
             </div>
             <div class="editFileControls showOnEdit">

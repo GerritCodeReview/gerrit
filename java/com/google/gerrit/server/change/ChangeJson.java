@@ -18,6 +18,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.ALL_COMMITS;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CHANGE_ACTIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CHECK;
+import static com.google.gerrit.extensions.client.ListChangesOption.COMBINED_CHECK_STATE;
 import static com.google.gerrit.extensions.client.ListChangesOption.COMMIT_FOOTERS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_ACTIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
@@ -83,6 +84,7 @@ import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.checker.GlobalChecksConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -217,6 +219,7 @@ public class ChangeJson {
   private final TrackingFooters trackingFooters;
   private final Metrics metrics;
   private final RevisionJson revisionJson;
+  private final GlobalChecksConfig globalChecksConfig;
   private final Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory;
   private final boolean excludeMergeableInChangeInfo;
   private final boolean lazyLoad;
@@ -239,6 +242,7 @@ public class ChangeJson {
       TrackingFooters trackingFooters,
       Metrics metrics,
       RevisionJson.Factory revisionJsonFactory,
+      GlobalChecksConfig globalChecksConfig,
       @GerritServerConfig Config cfg,
       @Assisted Iterable<ListChangesOption> options,
       @Assisted Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory) {
@@ -255,6 +259,7 @@ public class ChangeJson {
     this.trackingFooters = trackingFooters;
     this.metrics = metrics;
     this.revisionJson = revisionJsonFactory.create(options);
+    this.globalChecksConfig = globalChecksConfig;
     this.options = Sets.immutableEnumSet(options);
     this.excludeMergeableInChangeInfo =
         cfg.getBoolean("change", "api", "excludeMergeableInChangeInfo", false);
@@ -575,6 +580,11 @@ public class ChangeJson {
       out.plugins = pluginDefinedAttributesFactory.get().create(cd);
     }
     out.revertOf = cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null;
+    if (globalChecksConfig.apiEnabled() && has(COMBINED_CHECK_STATE)) {
+      // TODO(dborowitz): Could be a 400/405 if the API is disabled, but changing the exceptions in
+      // the message signature will be messy.
+      out.checkState = cd.combinedCheckState();
+    }
 
     if (has(REVIEWER_UPDATES)) {
       out.reviewerUpdates = reviewerUpdates(cd);

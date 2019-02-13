@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa498c7d_d1fb9340",
+        "filename": "java/com/google/gerrit/server/restapi/checker/GlobalChecksConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-13T16:50:49Z",
+      "side": 1,
+      "message": "I think this needs to live not in the restapi package, because we will need to depend on it from other packages under server (and there is already a build dep from restapi -\u003e server). In particular, ChangeJson needs to know whether checks APIs are enabled in order to populate the combined check state field.",
+      "range": {
+        "startLine": 15,
+        "startChar": 33,
+        "endLine": 15,
+        "endChar": 40
+      },
+      "revId": "e2e1078d9780d256d75d0d6cdf6a0f482c63c471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

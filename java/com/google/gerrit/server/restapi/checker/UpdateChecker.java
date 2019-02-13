@@ -93,6 +93,10 @@ public class UpdateChecker implements RestModifyView<CheckerResource, CheckerInp
       checkerUpdateBuilder.setRepository(repository);
     }
 
+    if (input.status != null) {
+      checkerUpdateBuilder.setStatus(input.status);
+    }
+
     Checker updatedChecker =
         checkersUpdate
             .get()

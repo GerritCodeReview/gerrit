@@ -16,6 +16,7 @@ package com.google.gerrit.server.checker.db;
 
 import com.google.common.base.Throwables;
 import com.google.gerrit.common.errors.NoSuchCheckerException;
+import com.google.gerrit.extensions.api.checkers.CheckerStatus;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.reviewdb.client.Project;
@@ -255,12 +256,29 @@ class NoteDbCheckersUpdate implements CheckersUpdate {
 
       CheckersByRepositoryNotes checkersByRepositoryNotes =
           CheckersByRepositoryNotes.load(allProjectsName, allProjectsRepo);
-      checkerUpdate
-          .getRepository()
-          .ifPresent(
-              repo ->
-                  checkersByRepositoryNotes.update(
-                      checkerUuid, checkerConfig.getLoadedChecker().get().getRepository(), repo));
+
+      Checker checker = checkerConfig.getLoadedChecker().get();
+      Project.NameKey oldRepositoryName = checker.getRepository();
+      Project.NameKey newRepositoryName = checkerUpdate.getRepository().orElse(oldRepositoryName);
+
+      CheckerStatus newStatus = checkerUpdate.getStatus().orElse(checker.getStatus());
+      switch (newStatus) {
+          // May produce some redundant notes updates, but CheckersByRepositoryNotes knows how to
+          // short-circuit on no-ops, and the logic in this method is simple.
+        case DISABLED:
+          checkersByRepositoryNotes.remove(checkerUuid, oldRepositoryName);
+          checkersByRepositoryNotes.remove(checkerUuid, newRepositoryName);
+          break;
+        case ENABLED:
+          if (oldRepositoryName.equals(newRepositoryName)) {
+            checkersByRepositoryNotes.insert(checkerUuid, newRepositoryName);
+          } else {
+            checkersByRepositoryNotes.update(checkerUuid, oldRepositoryName, newRepositoryName);
+          }
+          break;
+        default:
+          throw new IllegalStateException("invalid checker status: " + newStatus);
+      }
 
       commit(allProjectsRepo, checkerConfig, checkersByRepositoryNotes);
 

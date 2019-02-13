@@ -98,6 +98,9 @@ public class CreateChecker
     if (input.url != null) {
       checkerUpdateBuilder.setUrl(CheckerUrl.clean(input.url));
     }
+    if (input.status != null) {
+      checkerUpdateBuilder.setStatus(input.status);
+    }
     Checker checker =
         checkersUpdate
             .get()

@@ -19,6 +19,7 @@ import static com.google.gerrit.server.checker.testing.CheckerConfigSubject.asse
 import static org.hamcrest.CoreMatchers.instanceOf;
 
 import com.google.common.truth.StringSubject;
+import com.google.gerrit.extensions.api.checkers.CheckerStatus;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.checker.CheckerCreation;
@@ -407,6 +408,39 @@ public class CheckerConfigTest extends GerritBaseTests {
   }
 
   @Test
+  public void createDisabledChecker() throws Exception {
+    CheckerCreation checkerCreation = getPrefilledCheckerCreationBuilder().build();
+    CheckerUpdate checkerUpdate = CheckerUpdate.builder().setStatus(CheckerStatus.DISABLED).build();
+    CheckerConfig checker = createChecker(checkerCreation, checkerUpdate);
+
+    assertThat(checker).hasStatus(CheckerStatus.DISABLED);
+    assertThatCommitMessage(checkerUuid).isEqualTo("Create checker");
+  }
+
+  @Test
+  public void updateStatusToSameStatus() throws Exception {
+    CheckerConfig checker = createArbitraryChecker(checkerUuid);
+    assertThat(checker).hasStatus(CheckerStatus.ENABLED);
+
+    CheckerUpdate checkerUpdate = CheckerUpdate.builder().setStatus(CheckerStatus.ENABLED).build();
+    checker = updateChecker(checkerUuid, checkerUpdate);
+    assertThat(checker).hasStatus(CheckerStatus.ENABLED);
+  }
+
+  @Test
+  public void disableAndReenable() throws Exception {
+    createArbitraryChecker(checkerUuid);
+
+    CheckerUpdate checkerUpdate = CheckerUpdate.builder().setStatus(CheckerStatus.DISABLED).build();
+    CheckerConfig checker = updateChecker(checkerUuid, checkerUpdate);
+    assertThat(checker).hasStatus(CheckerStatus.DISABLED);
+
+    checkerUpdate = CheckerUpdate.builder().setStatus(CheckerStatus.ENABLED).build();
+    checker = updateChecker(checkerUuid, checkerUpdate);
+    assertThat(checker).hasStatus(CheckerStatus.ENABLED);
+  }
+
+  @Test
   public void refStateIsCorrectlySet() throws Exception {
     CheckerCreation checkerCreation =
         getPrefilledCheckerCreationBuilder().setCheckerUuid(checkerUuid).build();
@@ -424,10 +458,10 @@ public class CheckerConfigTest extends GerritBaseTests {
     assertThat(updatedChecker).hasRefStateThat().isEqualTo(expectedRefStateAfterUpdate);
   }
 
-  private void createArbitraryChecker(String checkerUuid) throws Exception {
+  private CheckerConfig createArbitraryChecker(String checkerUuid) throws Exception {
     CheckerCreation checkerCreation =
         getPrefilledCheckerCreationBuilder().setCheckerUuid(checkerUuid).build();
-    createChecker(checkerCreation);
+    return createChecker(checkerCreation);
   }
 
   private CheckerCreation.Builder getPrefilledCheckerCreationBuilder() {

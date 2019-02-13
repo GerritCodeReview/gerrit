@@ -23,6 +23,7 @@ import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.Truth;
 import com.google.common.truth.Truth8;
+import com.google.gerrit.extensions.api.checkers.CheckerStatus;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.checker.Checker;
 import com.google.gerrit.server.checker.db.CheckerConfig;
@@ -69,6 +70,12 @@ public class CheckerConfigSubject extends Subject<CheckerConfigSubject, CheckerC
     isNotNull();
     Checker checker = checker();
     Truth.assertThat(checker.getRepository()).named("repository").isEqualTo(expectedRepository);
+  }
+
+  public void hasStatus(CheckerStatus expectedStatus) {
+    isNotNull();
+    Checker checker = checker();
+    Truth.assertThat(checker.getStatus()).named("status").isEqualTo(expectedStatus);
   }
 
   public ComparableSubject<?, Timestamp> hasCreatedOnThat() {

@@ -116,6 +116,7 @@ Unsetting properties:
 * '`repository`: Cannot be unset. Attempting to set it to an empty
    string ("") or a string that is empty after trim is rejected as
    `400 Bad Request`.
+* `status`: Cannot be unset.
 
 Note that only users with the
 link:access-control.html#capability_administrateCheckers[Administrate
@@ -146,6 +147,7 @@ describes the updated checker.
     "name": "MyChecker",
     "description": "A simple checker.",
     "repository": "examples/Foo",
+    "status": "ENABLED",
     "created_on": "2019-01-31 09:59:32.126000000",
     "updated_on": "2019-02-01 07:23:44.158000000"
   }
@@ -185,6 +187,8 @@ The description of the checker.
 The URL of the checker.
 |`repository`    ||
 The (exact) name of the repository for which the checker applies.
+|`status`        ||
+The status of the checker; one of `ENABLED` or `DISABLED`.
 |`created_on`    ||
 The link:rest-api.html#timestamp[timestamp] of when the checker was
 created.
@@ -208,6 +212,8 @@ The description of the checker.
 The URL of the checker.
 |`repository`    |optional|
 The (exact) name of the repository for which the checker applies.
+|`status`        |optional|
+The status of the checker; one of `ENABLED` or `DISABLED`.
 |=============================
 
 GERRIT

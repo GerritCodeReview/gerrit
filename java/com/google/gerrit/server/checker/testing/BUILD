@@ -5,6 +5,7 @@ java_library(
     testonly = True,
     srcs = glob(["*.java"]),
     deps = [
+        "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/testing",

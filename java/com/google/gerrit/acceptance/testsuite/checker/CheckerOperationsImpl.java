@@ -250,6 +250,7 @@ public class CheckerOperationsImpl implements CheckerOperations {
       checkerUpdate.description().ifPresent(builder::setDescription);
       checkerUpdate.url().ifPresent(builder::setUrl);
       checkerUpdate.repository().ifPresent(builder::setRepository);
+      checkerUpdate.status().ifPresent(builder::setStatus);
       return builder.build();
     }
   }

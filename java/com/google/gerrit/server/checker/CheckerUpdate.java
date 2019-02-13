@@ -15,6 +15,7 @@
 package com.google.gerrit.server.checker;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.extensions.api.checkers.CheckerStatus;
 import com.google.gerrit.reviewdb.client.Project;
 import java.sql.Timestamp;
 import java.util.Optional;
@@ -45,6 +46,9 @@ public abstract class CheckerUpdate {
    */
   public abstract Optional<Project.NameKey> getRepository();
 
+  /** Defines the new status for the checker. If not specified, the status remains unchanged. */
+  public abstract Optional<CheckerStatus> getStatus();
+
   /**
    * Defines the {@code Timestamp} to be used for the NoteDb commits of the update. If not
    * specified, the current {@code Timestamp} when creating the commit will be used.
@@ -70,6 +74,8 @@ public abstract class CheckerUpdate {
     public abstract Builder setUrl(String url);
 
     public abstract Builder setRepository(Project.NameKey repository);
+
+    public abstract Builder setStatus(CheckerStatus status);
 
     public abstract Builder setUpdatedOn(Timestamp timestamp);
 

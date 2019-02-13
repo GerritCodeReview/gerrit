@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ad28c23_eb2a27f3",
+        "filename": "Documentation/rest-api-checkers.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-13T08:42:44Z",
+      "side": 1,
+      "message": "Unintended reformat.",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 23
+      },
+      "revId": "3fa84b5434be40cc94db6d489bd52be5db091ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

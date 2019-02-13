@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bcdc8f82_6baf5c40",
+        "filename": "java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-13T12:36:53Z",
+      "side": 1,
+      "message": "Fixed the sort order in the new series. Switching to ImmutableSortedSet can be done in a separate change.",
+      "parentUuid": "e6548ab8_44ee2fc8",
+      "revId": "4bfea3bca1f2390df8af0da5f969858f9149a6a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce3c1b5c_92dc7c23",
         "filename": "java/com/google/gerrit/server/permissions/GlobalPermission.java",
         "patchSetId": 19
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5bf4fd8d_dfedd0ca",
+        "filename": "java/com/google/gerrit/server/permissions/GlobalPermission.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-13T12:36:53Z",
+      "side": 1,
+      "message": "Done in the new series.",
+      "parentUuid": "ce3c1b5c_92dc7c23",
+      "revId": "4bfea3bca1f2390df8af0da5f969858f9149a6a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "123db7cb_1d6bbe8a",
         "filename": "resources/com/google/gerrit/server/config/CapabilityConstants.properties",
         "patchSetId": 19
@@ -47,6 +83,24 @@
       "writtenOn": "2019-02-12T18:57:46Z",
       "side": 1,
       "message": "Reorder",
+      "revId": "4bfea3bca1f2390df8af0da5f969858f9149a6a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "712e03ad_bee46819",
+        "filename": "resources/com/google/gerrit/server/config/CapabilityConstants.properties",
+        "patchSetId": 19
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-13T12:36:53Z",
+      "side": 1,
+      "message": "Done in the new series.",
+      "parentUuid": "123db7cb_1d6bbe8a",
       "revId": "4bfea3bca1f2390df8af0da5f969858f9149a6a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

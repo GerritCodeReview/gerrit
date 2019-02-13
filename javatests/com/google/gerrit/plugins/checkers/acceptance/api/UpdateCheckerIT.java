@@ -28,6 +28,7 @@ import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperations
 import com.google.gerrit.plugins.checkers.acceptance.testsuite.TestChecker;
 import com.google.gerrit.plugins.checkers.api.CheckerInfo;
 import com.google.gerrit.plugins.checkers.api.CheckerInput;
+import com.google.gerrit.plugins.checkers.api.CheckerStatus;
 import com.google.gerrit.plugins.checkers.db.CheckersByRepositoryNotes;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testing.ConfigSuite;
@@ -355,6 +356,69 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage("only http/https URLs supported: ftp://example.com/my-checker");
     checkersApi.id(checkerUuid).update(input);
+  }
+
+  @Test
+  public void disableAndReenable() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().name("my-checker").repository(allProjects).create();
+    assertThat(checkerOperations.checkersOf(allProjects)).containsExactly(checkerUuid);
+
+    CheckerInput input = new CheckerInput();
+    input.status = CheckerStatus.DISABLED;
+
+    CheckerInfo info = checkersApi.id(checkerUuid).update(input);
+    assertThat(info.status).isEqualTo(CheckerStatus.DISABLED);
+    assertThat(checkerOperations.checkersOf(allProjects)).isEmpty();
+
+    input = new CheckerInput();
+    input.status = CheckerStatus.ENABLED;
+    info = checkersApi.id(checkerUuid).update(input);
+    assertThat(info.status).isEqualTo(CheckerStatus.ENABLED);
+    assertThat(checkerOperations.checkersOf(allProjects)).containsExactly(checkerUuid);
+  }
+
+  @Test
+  public void updateRepositoryDuringDisable() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().name("my-checker").repository(allProjects).create();
+
+    Project.NameKey repositoryName = projectOperations.newProject().create();
+
+    CheckerInput input = new CheckerInput();
+    input.repository = repositoryName.get();
+    input.status = CheckerStatus.DISABLED;
+
+    CheckerInfo info = checkersApi.id(checkerUuid).update(input);
+    assertThat(info.repository).isEqualTo(input.repository);
+    assertThat(info.status).isEqualTo(CheckerStatus.DISABLED);
+    assertThat(checkerOperations.checkersOf(allProjects)).isEmpty();
+  }
+
+  @Test
+  public void updateRepositoryDuringEnable() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().name("my-checker").repository(allProjects).create();
+
+    Project.NameKey repositoryName = projectOperations.newProject().create();
+    assertThat(checkerOperations.checkersOf(allProjects)).containsExactly(checkerUuid);
+    assertThat(checkerOperations.checkersOf(repositoryName)).isEmpty();
+
+    CheckerInput input = new CheckerInput();
+    input.status = CheckerStatus.DISABLED;
+
+    CheckerInfo info = checkersApi.id(checkerUuid).update(input);
+    assertThat(info.status).isEqualTo(CheckerStatus.DISABLED);
+    assertThat(checkerOperations.checkersOf(allProjects)).isEmpty();
+    assertThat(checkerOperations.checkersOf(repositoryName)).isEmpty();
+
+    input = new CheckerInput();
+    input.status = CheckerStatus.ENABLED;
+    input.repository = repositoryName.get();
+    info = checkersApi.id(checkerUuid).update(input);
+    assertThat(info.status).isEqualTo(CheckerStatus.ENABLED);
+    assertThat(checkerOperations.checkersOf(allProjects)).isEmpty();
+    assertThat(checkerOperations.checkersOf(repositoryName)).containsExactly(checkerUuid);
   }
 
   @Test

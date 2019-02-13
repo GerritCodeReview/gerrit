@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.plugins.checkers.Checker;
 import com.google.gerrit.plugins.checkers.CheckerCreation;
 import com.google.gerrit.plugins.checkers.CheckerUpdate;
+import com.google.gerrit.plugins.checkers.api.CheckerStatus;
 import com.google.gerrit.reviewdb.client.Project;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -158,6 +159,32 @@ enum CheckerConfigEntry {
           .getRepository()
           .ifPresent(
               repository -> config.setString(SECTION_NAME, null, super.keyName, repository.get()));
+    }
+  },
+
+  STATUS("status") {
+    @Override
+    void readFromConfig(String checkerUuid, Checker.Builder checker, Config config)
+        throws ConfigInvalidException {
+      String value = config.getString(SECTION_NAME, null, super.keyName);
+      if (value == null) {
+        throw new ConfigInvalidException(
+            String.format("status of checker %s not set", checkerUuid));
+      }
+      checker.setStatus(config.getEnum(SECTION_NAME, null, super.keyName, CheckerStatus.ENABLED));
+    }
+
+    @Override
+    void initNewConfig(Config config, CheckerCreation checkerCreation) {
+      // New checkers default to enabled.
+      config.setEnum(SECTION_NAME, null, super.keyName, CheckerStatus.ENABLED);
+    }
+
+    @Override
+    void updateConfigValue(Config config, CheckerUpdate checkerUpdate) {
+      checkerUpdate
+          .getStatus()
+          .ifPresent(status -> config.setEnum(SECTION_NAME, null, super.keyName, status));
     }
   };
 

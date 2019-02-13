@@ -23,6 +23,7 @@ import com.google.gerrit.plugins.checkers.CheckerCreation;
 import com.google.gerrit.plugins.checkers.CheckerRef;
 import com.google.gerrit.plugins.checkers.CheckerUpdate;
 import com.google.gerrit.plugins.checkers.CheckerUuid;
+import com.google.gerrit.plugins.checkers.api.CheckerStatus;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -407,6 +408,44 @@ public class CheckerConfigTest extends GerritBaseTests {
   }
 
   @Test
+  public void createDisabledChecker() throws Exception {
+    CheckerCreation checkerCreation = getPrefilledCheckerCreationBuilder().build();
+    CheckerUpdate checkerUpdate = CheckerUpdate.builder().setStatus(CheckerStatus.DISABLED).build();
+    CheckerConfig checker = createChecker(checkerCreation, checkerUpdate);
+
+    assertThat(checker).hasStatus(CheckerStatus.DISABLED);
+    assertThat(checker).configStringList("status").containsExactly("disabled");
+    assertThatCommitMessage(checkerUuid).isEqualTo("Create checker");
+  }
+
+  @Test
+  public void updateStatusToSameStatus() throws Exception {
+    CheckerConfig checker = createArbitraryChecker(checkerUuid);
+    assertThat(checker).hasStatus(CheckerStatus.ENABLED);
+    assertThat(checker).configStringList("status").containsExactly("enabled");
+
+    CheckerUpdate checkerUpdate = CheckerUpdate.builder().setStatus(CheckerStatus.ENABLED).build();
+    checker = updateChecker(checkerUuid, checkerUpdate);
+    assertThat(checker).hasStatus(CheckerStatus.ENABLED);
+    assertThat(checker).configStringList("status").containsExactly("enabled");
+  }
+
+  @Test
+  public void disableAndReenable() throws Exception {
+    createArbitraryChecker(checkerUuid);
+
+    CheckerUpdate checkerUpdate = CheckerUpdate.builder().setStatus(CheckerStatus.DISABLED).build();
+    CheckerConfig checker = updateChecker(checkerUuid, checkerUpdate);
+    assertThat(checker).hasStatus(CheckerStatus.DISABLED);
+    assertThat(checker).configStringList("status").containsExactly("disabled");
+
+    checkerUpdate = CheckerUpdate.builder().setStatus(CheckerStatus.ENABLED).build();
+    checker = updateChecker(checkerUuid, checkerUpdate);
+    assertThat(checker).hasStatus(CheckerStatus.ENABLED);
+    assertThat(checker).configStringList("status").containsExactly("enabled");
+  }
+
+  @Test
   public void refStateIsCorrectlySet() throws Exception {
     CheckerCreation checkerCreation =
         getPrefilledCheckerCreationBuilder().setCheckerUuid(checkerUuid).build();
@@ -424,10 +463,10 @@ public class CheckerConfigTest extends GerritBaseTests {
     assertThat(updatedChecker).hasRefStateThat().isEqualTo(expectedRefStateAfterUpdate);
   }
 
-  private void createArbitraryChecker(String checkerUuid) throws Exception {
+  private CheckerConfig createArbitraryChecker(String checkerUuid) throws Exception {
     CheckerCreation checkerCreation =
         getPrefilledCheckerCreationBuilder().setCheckerUuid(checkerUuid).build();
-    createChecker(checkerCreation);
+    return createChecker(checkerCreation);
   }
 
   private CheckerCreation.Builder getPrefilledCheckerCreationBuilder() {

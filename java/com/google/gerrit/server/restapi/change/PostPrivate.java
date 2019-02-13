@@ -93,7 +93,10 @@ public class PostPrivate
     return new UiAction.Description()
         .setLabel("Mark private")
         .setTitle("Mark change as private")
-        .setVisible(and(!disablePrivateChanges && !change.isPrivate(), canSetPrivate(rsrc)));
+        .setVisible(
+            and(
+                !disablePrivateChanges && !change.isPrivate() && change.isNew(),
+                canSetPrivate(rsrc)));
   }
 
   private BooleanCondition canSetPrivate(ChangeResource rsrc) {

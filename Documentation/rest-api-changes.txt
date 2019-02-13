@@ -2213,8 +2213,8 @@ if no review comment is added.
 'POST /changes/link:#change-id[\{change-id\}]/private'
 --
 
-Marks the change to be private. Changes may only be marked private by the
-owner or site administrators.
+Marks the change to be private. Only open changes can be marked private.
+Changes may only be marked private by the owner or site administrators.
 
 A message can be specified in the request body inside a
 link:#private-input[PrivateInput] entity.

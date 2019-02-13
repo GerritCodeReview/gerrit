@@ -300,6 +300,20 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setMergedChangePrivate() throws Exception {
+    PushOneCommit.Result result = createChange();
+    approve(result.getChangeId());
+    merge(result);
+
+    String changeId = result.getChangeId();
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("cannot set a non-open change to private");
+    gApi.changes().id(changeId).setPrivate(true);
+  }
+
+  @Test
   public void administratorCanSetUserChangePrivate() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
@@ -369,16 +383,6 @@ public class ChangeIT extends AbstractDaemonTest {
     merge(result);
     gApi.changes().id(changeId).setPrivate(false, null);
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
-  }
-
-  @Test
-  public void administratorCanMarkPrivateAfterMerging() throws Exception {
-    PushOneCommit.Result result = createChange();
-    String changeId = result.getChangeId();
-    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
-    merge(result);
-    gApi.changes().id(changeId).setPrivate(true, null);
-    assertThat(gApi.changes().id(changeId).get().isPrivate).isTrue();
   }
 
   @Test

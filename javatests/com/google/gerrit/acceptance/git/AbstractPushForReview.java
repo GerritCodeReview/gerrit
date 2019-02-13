@@ -136,6 +136,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Inject private RequestScopeOperations requestScopeOperations;
 
+  private static String NEW_CHANGE_INDICATOR = " [NEW]";
   private LabelType patchSetLock;
 
   @BeforeClass
@@ -376,7 +377,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r1.assertOkStatus();
     r1.assertChange(Change.Status.NEW, null);
     r1.assertMessage(
-        "New changes:\n  " + url + id1 + " " + r1.getCommit().getShortMessage() + "\n");
+        url + id1 + " " + r1.getCommit().getShortMessage() + NEW_CHANGE_INDICATOR + "\n");
 
     testRepo.reset(initialHead);
     String newMsg = r1.getCommit().getShortMessage() + " v2";
@@ -396,18 +397,17 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r2.assertMessage(
         "success\n"
             + "\n"
-            + "New changes:\n"
-            + "  "
-            + url
-            + id2
-            + " another commit\n"
-            + "\n"
-            + "Updated changes:\n"
             + "  "
             + url
             + id1
             + " "
             + newMsg
+            + "\n"
+            + "  "
+            + url
+            + id2
+            + " another commit"
+            + NEW_CHANGE_INDICATOR
             + "\n");
   }
 
@@ -898,8 +898,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(edit).isPresent();
     EditInfo editInfo = edit.get();
     r.assertMessage(
-        "Updated Changes:\n  "
-            + canonicalWebUrl.get()
+        canonicalWebUrl.get()
             + "c/"
             + project.get()
             + "/+/"
@@ -2410,6 +2409,74 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertPushOk(pr, r);
     assertThat(pr.getMessages())
         .contains("warning: " + amended.abbreviate(7).name() + ": no files changed, was rebased");
+  }
+
+  @Test
+  public void sequentialCommitMessages() throws Exception {
+    String url = canonicalWebUrl.get() + "c/" + project.get() + "/+/";
+    ObjectId initialHead = testRepo.getRepository().resolve("HEAD");
+
+    PushOneCommit.Result r1 = pushTo("refs/for/master");
+    Change.Id id1 = r1.getChange().getId();
+    r1.assertOkStatus();
+    r1.assertChange(Change.Status.NEW, null);
+    r1.assertMessage(
+        url + id1 + " " + r1.getCommit().getShortMessage() + NEW_CHANGE_INDICATOR + "\n");
+
+    PushOneCommit.Result r2 = pushTo("refs/for/master");
+    Change.Id id2 = r2.getChange().getId();
+    r2.assertOkStatus();
+    r2.assertChange(Change.Status.NEW, null);
+    r2.assertMessage(
+        url + id2 + " " + r2.getCommit().getShortMessage() + NEW_CHANGE_INDICATOR + "\n");
+
+    testRepo.reset(initialHead);
+
+    // rearrange the commit so that change no. 2 is the parent of change no. 1
+    String r1Message = "Position 2";
+    String r2Message = "Position 1";
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .message(r2Message)
+        .insertChangeId(r2.getChangeId().substring(1))
+        .create();
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .message(r1Message)
+        .insertChangeId(r1.getChangeId().substring(1))
+        .create();
+
+    PushOneCommit.Result r3 =
+        pushFactory
+            .create(admin.getIdent(), testRepo, "another commit", "b.txt", "bbb")
+            .to("refs/for/master");
+    Change.Id id3 = r3.getChange().getId();
+    r3.assertOkStatus();
+    r3.assertChange(Change.Status.NEW, null);
+    // should display commit r2, r1, r3 in that order.
+    r3.assertMessage(
+        "success\n"
+            + "\n"
+            + "  "
+            + url
+            + id2
+            + " "
+            + r2Message
+            + "\n"
+            + "  "
+            + url
+            + id1
+            + " "
+            + r1Message
+            + "\n"
+            + "  "
+            + url
+            + id3
+            + " another commit"
+            + NEW_CHANGE_INDICATOR
+            + "\n");
   }
 
   private DraftInput newDraft(String path, int line, String message) {

@@ -12,5 +12,6 @@ java_library(
         "//lib:guava",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/truth",
+        "//lib/truth:truth-java8-extension",
     ],
 )

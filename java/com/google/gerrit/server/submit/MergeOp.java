@@ -53,6 +53,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -386,8 +387,7 @@ public class MergeOp implements AutoCloseable {
         if (!cd.change().isNew()) {
           if (!(cd.change().isMerged() && allowMerged)) {
             commitStatus.problem(
-                cd.getId(),
-                "Change " + cd.getId() + " is " + cd.change().getStatus().toString().toLowerCase());
+                cd.getId(), "Change " + cd.getId() + " is " + ChangeUtil.status(cd.change()));
           }
         } else if (cd.change().isWorkInProgress()) {
           commitStatus.problem(cd.getId(), "Change " + cd.getId() + " is work in progress");

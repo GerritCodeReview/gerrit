@@ -12,6 +12,7 @@ java_library(
         "//java/com/google/gerrit/server/testing",
         "//java/com/google/gerrit/truth",
         "//lib/truth",
+        "//lib/truth:truth-java8-extension",
         "//plugins:plugin-api",
     ],
 )

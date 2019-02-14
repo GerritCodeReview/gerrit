@@ -194,6 +194,18 @@ limitations under the License.
               </gr-select>
             </span>
           </section>
+          <section hidden$="[[!_localPrefs.default_base_for_merges]]">
+            <span class="title">Default Base For Merges</span>
+            <span class="value">
+              <gr-select
+                  bind-value="{{_localPrefs.default_base_for_merges}}">
+                <select>
+                  <option value="AUTO_MERGE">Auto Merge</option>
+                  <option value="FIRST_PARENT">First Parent</option>
+                </select>
+              </gr-select>
+            </span>
+          </section>
           <section>
             <span class="title">Diff view</span>
             <span class="value">

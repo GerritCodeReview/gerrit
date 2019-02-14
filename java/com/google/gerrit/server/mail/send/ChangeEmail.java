@@ -112,7 +112,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     patchSetInfo = psi;
   }
 
-  public void setChangeMessage(String cm, Timestamp t) {
+  public void setChangeMessage(@Nullable String cm, Timestamp t) {
     changeMessage = cm;
     timestamp = t;
   }

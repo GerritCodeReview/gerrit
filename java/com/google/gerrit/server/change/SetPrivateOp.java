@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.change;
+package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
@@ -56,6 +56,7 @@ public class SetPrivateOp implements BatchUpdateOp {
 
   private Change change;
   private PatchSet ps;
+  private boolean isNoOp;
 
   @Inject
   SetPrivateOp(
@@ -75,6 +76,12 @@ public class SetPrivateOp implements BatchUpdateOp {
   public boolean updateChange(ChangeContext ctx)
       throws ResourceConflictException, OrmException, BadRequestException {
     change = ctx.getChange();
+    if (ctx.getChange().isPrivate() == isPrivate) {
+      // No-op
+      isNoOp = true;
+      return false;
+    }
+
     if (isPrivate && !change.getStatus().isOpen()) {
       throw new BadRequestException("cannot set a non-open change to private");
     }
@@ -90,7 +97,9 @@ public class SetPrivateOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) {
-    privateStateChanged.fire(change, ps, ctx.getAccount(), ctx.getWhen());
+    if (!isNoOp) {
+      privateStateChanged.fire(change, ps, ctx.getAccount(), ctx.getWhen());
+    }
   }
 
   private void addMessage(ChangeContext ctx, ChangeUpdate update) {

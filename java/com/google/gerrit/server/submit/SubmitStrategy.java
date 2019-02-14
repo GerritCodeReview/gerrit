@@ -30,6 +30,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.change.RebaseChangeOp;
+import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -111,6 +112,7 @@ public abstract class SubmitStrategy {
     final TagCache tagCache;
     final Provider<InternalChangeQuery> queryProvider;
     final ProjectConfig.Factory projectConfigFactory;
+    final SetPrivateOp.Factory setPrivateOpFactory;
 
     final Branch.NameKey destBranch;
     final CodeReviewRevWalk rw;
@@ -149,6 +151,7 @@ public abstract class SubmitStrategy {
         TagCache tagCache,
         Provider<InternalChangeQuery> queryProvider,
         ProjectConfig.Factory projectConfigFactory,
+        SetPrivateOp.Factory setPrivateOpFactory,
         @Assisted Branch.NameKey destBranch,
         @Assisted CommitStatus commitStatus,
         @Assisted CodeReviewRevWalk rw,
@@ -176,6 +179,7 @@ public abstract class SubmitStrategy {
       this.rebaseFactory = rebaseFactory;
       this.tagCache = tagCache;
       this.queryProvider = queryProvider;
+      this.setPrivateOpFactory = setPrivateOpFactory;
 
       this.serverIdent = serverIdent;
       this.destBranch = destBranch;
@@ -244,12 +248,14 @@ public abstract class SubmitStrategy {
     Collections.reverse(difference);
     for (CodeReviewCommit c : difference) {
       Change.Id id = c.change().getId();
+      bu.addOp(id, args.setPrivateOpFactory.create(args.cmUtil, false, null));
       bu.addOp(id, new ImplicitIntegrateOp(args, c));
       maybeAddTestHelperOp(bu, id);
     }
 
     // Then ops for explicitly merged changes
     for (SubmitStrategyOp op : ops) {
+      bu.addOp(op.getId(), args.setPrivateOpFactory.create(args.cmUtil, false, null));
       bu.addOp(op.getId(), op);
       maybeAddTestHelperOp(bu, op.getId());
     }

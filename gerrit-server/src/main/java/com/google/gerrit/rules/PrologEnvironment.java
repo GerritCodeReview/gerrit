@@ -80,7 +80,9 @@ public class PrologEnvironment extends BufferingPrologControl {
   @Override
   public void setPredicate(Predicate goal) {
     super.setPredicate(goal);
-    setReductionLimit(args.reductionLimit(goal));
+    int reductionLimit = args.reductionLimit(goal);
+    log.info("setting reductionLimit {}", reductionLimit);
+    setReductionLimit(reductionLimit);
   }
 
   /**
@@ -200,6 +202,8 @@ public class PrologEnvironment extends BufferingPrologControl {
               "compileReductionLimit",
               (int) Math.min(10L * limit, Integer.MAX_VALUE));
       compileLimit = limit <= 0 ? Integer.MAX_VALUE : limit;
+
+      log.info("reductionLimit: {}, compileLimit: {}", reductionLimit, compileLimit);
     }
 
     private int reductionLimit(Predicate goal) {

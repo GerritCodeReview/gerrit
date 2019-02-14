@@ -187,6 +187,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
                 // Do not post message after inserting new patchset because there
                 // will be one about change being merged already.
                 .setPostMessage(false)
+                .setSendEmail(false)
                 .setMatchAuthorToCommitterDate(
                     args.project.is(BooleanProjectConfig.MATCH_AUTHOR_TO_COMMITTER_DATE));
         try {

@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.ComparableSubject;
 import com.google.common.truth.FailureMetadata;
+import com.google.common.truth.IterableSubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.Truth;
@@ -66,6 +67,13 @@ public class CheckerConfigSubject extends Subject<CheckerConfigSubject, CheckerC
 
   public ObjectIdSubject hasRefStateThat() {
     return ObjectIdSubject.assertThat(checker().getRefState()).named("refState");
+  }
+
+  public IterableSubject configStringList(String name) {
+    isNotNull();
+    return Truth.assertThat(actual().getConfigForTesting().getStringList("checker", null, name))
+        .asList()
+        .named("value of checker.%s", name);
   }
 
   private Checker checker() {

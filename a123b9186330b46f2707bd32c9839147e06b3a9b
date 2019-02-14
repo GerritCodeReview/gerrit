@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27b0da76_aaa543cb",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/ConsistencyCheckerIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-14T13:02:05Z",
+      "side": 1,
+      "message": "should we put this in quotes?\n\nPreviously it was clear that this was the state because of the all-caps.",
+      "range": {
+        "startLine": 337,
+        "startChar": 43,
+        "endLine": 337,
+        "endChar": 49
+      },
+      "revId": "a123b9186330b46f2707bd32c9839147e06b3a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

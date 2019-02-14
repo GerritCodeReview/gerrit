@@ -83,8 +83,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
 
   private void ensureDeletable(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)
       throws ResourceConflictException, MethodNotAllowedException, IOException {
-    Change.Status status = ctx.getChange().getStatus();
-    if (status == Change.Status.MERGED) {
+    if (ctx.getChange().isMerged()) {
       throw new MethodNotAllowedException("Deleting merged change " + id + " is not allowed");
     }
     for (PatchSet patchSet : patchSets) {

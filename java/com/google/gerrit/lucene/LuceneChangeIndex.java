@@ -207,7 +207,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     // sub-index, so just pick one.
     Document doc = openIndex.toDocument(cd);
     try {
-      if (cd.change().getStatus().isOpen()) {
+      if (cd.change().isNew()) {
         Futures.allAsList(closedIndex.delete(id), openIndex.replace(id, doc)).get();
       } else {
         Futures.allAsList(openIndex.delete(id), closedIndex.replace(id, doc)).get();

@@ -188,7 +188,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
             changeIds,
             cn -> {
               Change c = cn.getChange();
-              return c.getDest().equals(branch) && c.getStatus() != Change.Status.MERGED;
+              return c.getDest().equals(branch) && !c.isMerged();
             });
     return Lists.transform(notes, n -> changeDataFactory.create(n));
   }

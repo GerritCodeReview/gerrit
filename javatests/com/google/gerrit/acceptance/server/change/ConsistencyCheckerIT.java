@@ -379,7 +379,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
             "Marked change as merged"));
 
     notes = reload(notes);
-    assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.MERGED);
+    assertThat(notes.getChange().isMerged()).isTrue();
     assertNoProblems(notes, null);
   }
 
@@ -422,7 +422,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
             "Marked change as merged"));
 
     notes = reload(notes);
-    assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.MERGED);
+    assertThat(notes.getChange().isMerged()).isTrue();
     assertNoProblems(notes, null);
   }
 
@@ -572,7 +572,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     notes = reload(notes);
     PatchSet.Id psId3 = new PatchSet.Id(notes.getChangeId(), 3);
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(psId3);
-    assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.MERGED);
+    assertThat(notes.getChange().isMerged()).isTrue();
     assertThat(psUtil.byChangeAsMap(notes).keySet()).containsExactly(ps2.getId(), psId3);
     assertThat(psUtil.get(notes, psId3).getRevision().get()).isEqualTo(rev1);
   }
@@ -620,7 +620,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     notes = reload(notes);
     PatchSet.Id psId4 = new PatchSet.Id(notes.getChangeId(), 4);
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(psId4);
-    assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.MERGED);
+    assertThat(notes.getChange().isMerged()).isTrue();
     assertThat(psUtil.byChangeAsMap(notes).keySet())
         .containsExactly(ps1.getId(), ps3.getId(), psId4);
     assertThat(psUtil.get(notes, psId4).getRevision().get()).isEqualTo(rev2);
@@ -657,7 +657,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
     notes = reload(notes);
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(psId2);
-    assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.MERGED);
+    assertThat(notes.getChange().isMerged()).isTrue();
     assertThat(psUtil.byChangeAsMap(notes).keySet()).containsExactly(ps1.getId(), psId2);
     assertThat(psUtil.get(notes, psId2).getRevision().get()).isEqualTo(rev2);
   }

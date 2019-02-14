@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeUtil;
@@ -194,8 +193,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
               + " was rebased");
     }
 
-    if (base != null && base.notes().getChange().getStatus() != Change.Status.MERGED) {
-      if (base.notes().getChange().getStatus() != Change.Status.MERGED) {
+    if (base != null && !base.notes().getChange().isMerged()) {
+      if (!base.notes().getChange().isMerged()) {
         // Add to end of relation chain for open base change.
         patchSetInserter.setGroups(base.patchSet().getGroups());
       } else {

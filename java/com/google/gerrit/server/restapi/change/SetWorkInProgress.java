@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
@@ -70,7 +69,7 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
     WorkInProgressOp.checkPermissions(permissionBackend, user.get(), rsrc.getChange());
 
     Change change = rsrc.getChange();
-    if (change.getStatus() != Status.NEW) {
+    if (!change.isNew()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     }
 
@@ -94,7 +93,7 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
         .setTitle("Set Work In Progress")
         .setVisible(
             and(
-                rsrc.getChange().getStatus() == Status.NEW && !rsrc.getChange().isWorkInProgress(),
+                rsrc.getChange().isNew() && !rsrc.getChange().isWorkInProgress(),
                 or(
                     rsrc.isUserOwner(),
                     or(

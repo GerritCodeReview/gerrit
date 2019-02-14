@@ -41,7 +41,6 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountLoader;
@@ -107,7 +106,7 @@ public class LabelsJson {
 
     LabelTypes labelTypes = cd.getLabelTypes();
     Map<String, LabelWithStatus> withStatus =
-        cd.change().getStatus() == Change.Status.MERGED
+        cd.change().isMerged()
             ? labelsForSubmittedChange(accountLoader, cd, labelTypes, standard, detailed)
             : labelsForUnsubmittedChange(accountLoader, cd, labelTypes, standard, detailed);
     return ImmutableMap.copyOf(Maps.transformValues(withStatus, LabelWithStatus::label));
@@ -116,7 +115,7 @@ public class LabelsJson {
   /** Returns all labels that the provided user has permission to vote on. */
   Map<String, Collection<String>> permittedLabels(Account.Id filterApprovalsBy, ChangeData cd)
       throws OrmException, PermissionBackendException {
-    boolean isMerged = cd.change().getStatus() == Change.Status.MERGED;
+    boolean isMerged = cd.change().isMerged();
     LabelTypes labelTypes = cd.getLabelTypes();
     Map<String, LabelType> toCheck = new HashMap<>();
     for (SubmitRecord rec : submitRecords(cd)) {
@@ -434,9 +433,10 @@ public class LabelsJson {
   private void setAllApprovals(
       AccountLoader accountLoader, ChangeData cd, Map<String, LabelWithStatus> labels)
       throws OrmException, PermissionBackendException {
-    Change.Status status = cd.change().getStatus();
     checkState(
-        status != Change.Status.MERGED, "should not call setAllApprovals on %s change", status);
+        !cd.change().isMerged(),
+        "should not call setAllApprovals on %s change",
+        cd.change().getStatus());
 
     // Include a user in the output for this label if either:
     //  - They are an explicit reviewer.

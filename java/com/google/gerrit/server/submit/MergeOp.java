@@ -383,9 +383,8 @@ public class MergeOp implements AutoCloseable {
         !cs.furtherHiddenChanges(), "checkSubmitRulesAndState called for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
       try {
-        Change.Status status = cd.change().getStatus();
-        if (status != Change.Status.NEW) {
-          if (!(status == Change.Status.MERGED && allowMerged)) {
+        if (!cd.change().isNew()) {
+          if (!(cd.change().isMerged() && allowMerged)) {
             commitStatus.problem(
                 cd.getId(),
                 "Change " + cd.getId() + " is " + cd.change().getStatus().toString().toLowerCase());
@@ -906,7 +905,7 @@ public class MergeOp implements AutoCloseable {
                 @Override
                 public boolean updateChange(ChangeContext ctx) {
                   Change change = ctx.getChange();
-                  if (!change.getStatus().isOpen()) {
+                  if (!change.isNew()) {
                     return false;
                   }
 

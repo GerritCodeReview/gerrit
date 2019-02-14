@@ -246,7 +246,7 @@ public class ReplaceOp implements BatchUpdateOp {
           ConfigInvalidException {
     notes = ctx.getNotes();
     Change change = notes.getChange();
-    if (change == null || change.getStatus().isClosed()) {
+    if (change == null || change.isClosed()) {
       rejectMessage = CHANGE_IS_CLOSED;
       return false;
     }

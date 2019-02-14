@@ -27,7 +27,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
@@ -115,7 +114,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
         RevWalk rw = new RevWalk(reader);
         BatchUpdate bu =
             updateFactory.create(change.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
-      if (!change.getStatus().isOpen()) {
+      if (!change.isNew()) {
         throw new ResourceConflictException("change is " + ChangeUtil.status(change));
       } else if (!hasOneParent(rw, rsrc.getPatchSet())) {
         throw new ResourceConflictException(
@@ -175,7 +174,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     } else if (!baseChange.getDest().equals(change.getDest())) {
       throw new ResourceConflictException(
           "base change is targeting wrong branch: " + baseChange.getDest());
-    } else if (baseChange.getStatus() == Status.ABANDONED) {
+    } else if (baseChange.isAbandoned()) {
       throw new ResourceConflictException("base change is abandoned: " + baseChange.getKey());
     } else if (isMergedInto(rw, rsrc.getPatchSet(), base.patchSet())) {
       throw new ResourceConflictException(
@@ -207,7 +206,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
             .setVisible(false);
 
     Change change = rsrc.getChange();
-    if (!(change.getStatus().isOpen() && rsrc.isCurrent())) {
+    if (!(change.isNew() && rsrc.isCurrent())) {
       return description;
     }
 

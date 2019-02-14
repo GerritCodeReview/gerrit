@@ -1975,7 +1975,7 @@ class ReceiveCommits {
    */
   private boolean requestReplace(
       ReceiveCommand cmd, boolean checkMergedInto, Change change, RevCommit newCommit) {
-    if (change.getStatus().isClosed()) {
+    if (change.isClosed()) {
       reject(
           cmd,
           changeFormatter.changeClosed(
@@ -2712,7 +2712,7 @@ class ReceiveCommits {
         return false;
       }
 
-      if (change.getStatus().isClosed()) {
+      if (change.isClosed()) {
         reject(inputCommand, "change " + ontoChange + " closed");
         return false;
       } else if (revisions.containsKey(newCommit)) {

@@ -145,7 +145,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       throws IOException, OrmException, RestApiException, UpdateException, NoSuchChangeException,
           PermissionBackendException, NoSuchProjectException, ConfigInvalidException {
     Change change = rsrc.getChange();
-    if (change.getStatus() != Change.Status.MERGED) {
+    if (!change.isMerged()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     }
 
@@ -265,7 +265,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
         .setTitle("Revert the change")
         .setVisible(
             and(
-                change.getStatus() == Change.Status.MERGED && projectStatePermitsWrite,
+                change.isMerged() && projectStatePermitsWrite,
                 permissionBackend
                     .user(rsrc.getUser())
                     .ref(change.getDest())

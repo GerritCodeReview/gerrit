@@ -145,7 +145,7 @@ public class PatchSetUtil {
   /** Is the current patch set locked against state changes? */
   public boolean isPatchSetLocked(ChangeNotes notes) throws OrmException, IOException {
     Change change = notes.getChange();
-    if (change.getStatus() == Change.Status.MERGED) {
+    if (change.isMerged()) {
       return false;
     }
 

@@ -99,7 +99,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
     }
 
     Change change = rsrc.getChange();
-    if (!change.getStatus().isOpen()) {
+    if (!change.isNew()) {
       throw new PreconditionFailedException("change is " + ChangeUtil.status(change));
     }
     if (!rsrc.getUser().isIdentifiedUser()) {

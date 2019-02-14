@@ -397,7 +397,7 @@ public class ChangeEditModifier {
     }
 
     Change c = notes.getChange();
-    if (!c.getStatus().isOpen()) {
+    if (!c.isNew()) {
       throw new ResourceConflictException(
           String.format(
               "change %s is %s", c.getChangeId(), c.getStatus().toString().toLowerCase()));

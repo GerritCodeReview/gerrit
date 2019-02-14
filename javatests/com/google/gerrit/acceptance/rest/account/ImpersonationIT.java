@@ -50,7 +50,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -336,7 +335,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).current().submit(in);
 
     ChangeData cd = r.getChange();
-    assertThat(cd.change().getStatus()).isEqualTo(Change.Status.MERGED);
+    assertThat(cd.change().isMerged()).isTrue();
     PatchSetApproval submitter =
         approvalsUtil.getSubmitter(cd.notes(), cd.change().currentPatchSetId());
     assertThat(submitter.getAccountId()).isEqualTo(admin2.id);

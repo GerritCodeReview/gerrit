@@ -173,7 +173,7 @@ public class ChangeData {
       throws OrmException {
     List<ChangeData> pending = new ArrayList<>();
     for (ChangeData cd : changes) {
-      if (cd.reviewedBy == null && cd.change().getStatus().isOpen()) {
+      if (cd.reviewedBy == null && cd.change().isNew()) {
         pending.add(cd);
       }
     }
@@ -886,9 +886,9 @@ public class ChangeData {
       if (c == null) {
         return null;
       }
-      if (c.getStatus() == Change.Status.MERGED) {
+      if (c.isMerged()) {
         mergeable = true;
-      } else if (c.getStatus() == Change.Status.ABANDONED) {
+      } else if (c.isAbandoned()) {
         return null;
       } else if (c.isWorkInProgress()) {
         return null;

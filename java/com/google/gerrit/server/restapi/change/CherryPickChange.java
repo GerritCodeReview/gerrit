@@ -31,7 +31,6 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -307,15 +306,15 @@ public class CherryPickChange {
     }
 
     Change change = changeDatas.get(0).change();
-    Change.Status status = change.getStatus();
-    if (status == Status.NEW || status == Status.MERGED) {
+    if (!change.isAbandoned()) {
       // The base commit is a valid change revision.
       return baseCommit;
     }
 
     throw new ResourceConflictException(
         String.format(
-            "Change %s with commit %s is %s", change.getChangeId(), base, status.asChangeStatus()));
+            "Change %s with commit %s is %s",
+            change.getChangeId(), base, change.getStatus().asChangeStatus()));
   }
 
   private Change.Id insertPatchSet(

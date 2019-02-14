@@ -22,6 +22,30 @@
       "revId": "db1ac128cc7a0a17b6e2931243a78ff77ae608fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f25326d_46198ccb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-14T07:03:02Z",
+      "side": 1,
+      "message": "I\u0027ll need to dig into this again to find out the exact use cases.\n\nLooking back at my notes from when I was working on this in November, one use case is creating a branch from the UI.\n\nWith the reverse DNS lookup the ref log looks like:\n\n test-project.git $ git log -g foo\n commit c3c39f9cf3427a6407a75271b6b7d3a3769208d2 (HEAD -\u003e master, foo, refs/changes/06/706/2)\n Reflog: foo@{0} (Administrator \u003cadmin|account-1000000@localhost\u003e)\n Reflog message: created via REST from master\n\ni.e. the entry has \"@localhost\".\n\nBut when the reverse DNS lookup is disabled it looks like:\n\n test-project.git $ git log -g bar\n commit c3c39f9cf3427a6407a75271b6b7d3a3769208d2 (HEAD -\u003e master, foo, bar, refs/changes/06/706/2)\n Reflog: bar@{0} (Administrator \u003cadmin|account-1000000@0:0:0:0:0:0:0:1\u003e)\n Reflog message: created via REST from master\n\ni.e. the entry now has the IP address instead.\n\nI need to double check whether that\u0027s the hostname/IP of the gerrit server or of the client.",
+      "parentUuid": "9d046b00_f89c18bc",
+      "range": {
+        "startLine": 10,
+        "startChar": 33,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "db1ac128cc7a0a17b6e2931243a78ff77ae608fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

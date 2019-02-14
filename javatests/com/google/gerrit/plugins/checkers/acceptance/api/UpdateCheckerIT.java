@@ -17,6 +17,7 @@ package com.google.gerrit.plugins.checkers.acceptance.api;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.testing.CommitSubject.assertCommit;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -26,6 +27,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.plugins.checkers.acceptance.AbstractCheckersTest;
 import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperations.PerCheckerOperations;
 import com.google.gerrit.plugins.checkers.acceptance.testsuite.TestChecker;
+import com.google.gerrit.plugins.checkers.api.BlockingCondition;
 import com.google.gerrit.plugins.checkers.api.CheckerInfo;
 import com.google.gerrit.plugins.checkers.api.CheckerInput;
 import com.google.gerrit.plugins.checkers.api.CheckerStatus;
@@ -419,6 +421,20 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
     assertThat(info.status).isEqualTo(CheckerStatus.ENABLED);
     assertThat(checkerOperations.checkersOf(allProjects)).isEmpty();
     assertThat(checkerOperations.checkersOf(repositoryName)).containsExactly(checkerUuid);
+  }
+
+  @Test
+  public void updateCheckerWithBlockingConditions() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().name("my-checker").repository(allProjects).create();
+
+    CheckerInput input = new CheckerInput();
+    input.name = "my-checker";
+    input.repository = allProjects.get();
+    input.blockingConditions = ImmutableSet.of(BlockingCondition.STATE_NOT_PASSING);
+
+    CheckerInfo info = checkersApi.id(checkerUuid).update(input);
+    assertThat(info.blockingConditions).containsExactly(BlockingCondition.STATE_NOT_PASSING);
   }
 
   @Test

@@ -70,6 +70,30 @@
       "revId": "e344cac79d2faf9e482cc162a44eb782ede3b263",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dc53dc6_1b2f1b7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-14T08:40:45Z",
+      "side": 1,
+      "message": "OK, then I will rename it.",
+      "parentUuid": "c815e308_101f08b9",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 57
+      },
+      "revId": "e344cac79d2faf9e482cc162a44eb782ede3b263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

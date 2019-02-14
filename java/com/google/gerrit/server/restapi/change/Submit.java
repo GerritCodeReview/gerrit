@@ -195,7 +195,7 @@ public class Submit
       throws OrmException, RestApiException, IOException, UpdateException, ConfigInvalidException,
           PermissionBackendException {
     Change change = rsrc.getChange();
-    if (!change.getStatus().isOpen()) {
+    if (!change.isNew()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     } else if (!ProjectUtil.branchExists(repoManager, change.getDest())) {
       throw new ResourceConflictException(
@@ -216,16 +216,13 @@ public class Submit
       }
     }
 
-    switch (change.getStatus()) {
-      case MERGED:
-        return change;
-      case NEW:
-        throw new RestApiException(
-            "change unexpectedly had status " + change.getStatus() + " after submit attempt");
-      case ABANDONED:
-      default:
-        throw new ResourceConflictException("change is " + ChangeUtil.status(change));
+    if (change.isMerged()) {
+      return change;
     }
+    if (change.isNew()) {
+      throw new RestApiException("change unexpectedly had status NEW after submit attempt");
+    }
+    throw new ResourceConflictException("change is " + ChangeUtil.status(change));
   }
 
   /**
@@ -300,7 +297,7 @@ public class Submit
   @Override
   public UiAction.Description getDescription(RevisionResource resource) {
     Change change = resource.getChange();
-    if (!change.getStatus().isOpen()
+    if (!change.isNew()
         || change.isWorkInProgress()
         || !resource.isCurrent()
         || !resource.permissions().testOrFalse(ChangePermission.SUBMIT)) {

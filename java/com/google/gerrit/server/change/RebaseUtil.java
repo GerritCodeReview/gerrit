@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.PatchSetUtil;
@@ -164,12 +163,12 @@ public class RebaseUtil {
           continue;
         }
         Change depChange = cd.change();
-        if (depChange.getStatus() == Status.ABANDONED) {
+        if (depChange.isAbandoned()) {
           throw new ResourceConflictException(
               "Cannot rebase a change with an abandoned parent: " + depChange.getKey());
         }
 
-        if (depChange.getStatus().isOpen()) {
+        if (depChange.isNew()) {
           if (depPatchSet.getId().equals(depChange.currentPatchSetId())) {
             throw new ResourceConflictException(
                 "Change is already based on the latest patch set of the dependent change.");

@@ -671,6 +671,22 @@ public final class Change {
     status = newStatus.getCode();
   }
 
+  public boolean isNew() {
+    return getStatus().equals(Status.NEW);
+  }
+
+  public boolean isMerged() {
+    return getStatus().equals(Status.MERGED);
+  }
+
+  public boolean isAbandoned() {
+    return getStatus().equals(Status.ABANDONED);
+  }
+
+  public boolean isClosed() {
+    return isAbandoned() || isMerged();
+  }
+
   public String getTopic() {
     return topic;
   }

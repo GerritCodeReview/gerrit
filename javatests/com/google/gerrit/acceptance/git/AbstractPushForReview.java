@@ -1783,7 +1783,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     // Added a new patch set and auto-closed the change.
     cd = byChangeId(id);
-    assertThat(cd.change().getStatus()).isEqualTo(Change.Status.MERGED);
+    assertThat(cd.change().isMerged()).isTrue();
     assertThat(getPatchSetRevisions(cd))
         .containsExactlyEntriesIn(
             ImmutableMap.of(1, ps1Rev, 2, testRepo.getRepository().resolve("HEAD").name()));
@@ -1801,7 +1801,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     // Change not updated.
     cd = byChangeId(id);
-    assertThat(cd.change().getStatus()).isEqualTo(Change.Status.NEW);
+    assertThat(cd.change().isNew()).isTrue();
     assertThat(getPatchSetRevisions(cd)).containsExactlyEntriesIn(ImmutableMap.of(1, ps1Rev));
   }
 
@@ -1851,7 +1851,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     testRepo.reset(ps2Commit);
 
     ChangeData cd = byCommit(ps1Commit);
-    assertThat(cd.change().getStatus()).isEqualTo(Change.Status.NEW);
+    assertThat(cd.change().isNew()).isTrue();
     assertThat(getPatchSetRevisions(cd))
         .containsExactlyEntriesIn(ImmutableMap.of(1, ps1Commit.name()));
     return c.getId();

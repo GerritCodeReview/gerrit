@@ -137,7 +137,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
             .setVisible(false);
 
     Change change = rsrc.getChange();
-    if (!change.getStatus().isOpen()) {
+    if (!change.isNew()) {
       return description;
     }
 

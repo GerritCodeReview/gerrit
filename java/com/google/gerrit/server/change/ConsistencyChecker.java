@@ -368,12 +368,12 @@ public class ConsistencyChecker {
 
   private void checkMergedBitMatchesStatus(PatchSet.Id psId, RevCommit commit, boolean merged) {
     String refName = change().getDest().get();
-    if (merged && change().getStatus() != Change.Status.MERGED) {
+    if (merged && !change().isMerged()) {
       ProblemInfo p = wrongChangeStatus(psId, commit);
       if (fix != null) {
         fixMerged(p);
       }
-    } else if (!merged && change().getStatus() == Change.Status.MERGED) {
+    } else if (!merged && change().isMerged()) {
       problem(
           String.format(
               "Patch set %d (%s) is not merged into"

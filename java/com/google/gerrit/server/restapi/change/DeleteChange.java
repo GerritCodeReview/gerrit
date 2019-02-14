@@ -50,7 +50,7 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
   protected Response<?> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException, PermissionBackendException {
-    if (!isChangeDeletable(rsrc.getChange().getStatus())) {
+    if (!isChangeDeletable(rsrc)) {
       throw new MethodNotAllowedException("delete not permitted");
     }
     rsrc.permissions().check(ChangePermission.DELETE);
@@ -66,16 +66,16 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
 
   @Override
   public UiAction.Description getDescription(ChangeResource rsrc) {
-    Change.Status status = rsrc.getChange().getStatus();
     PermissionBackend.ForChange perm = rsrc.permissions();
     return new UiAction.Description()
         .setLabel("Delete")
         .setTitle("Delete change " + rsrc.getId())
-        .setVisible(and(isChangeDeletable(status), perm.testCond(ChangePermission.DELETE)));
+        .setVisible(and(isChangeDeletable(rsrc), perm.testCond(ChangePermission.DELETE)));
   }
 
-  private static boolean isChangeDeletable(Change.Status status) {
-    if (status == Change.Status.MERGED) {
+  private static boolean isChangeDeletable(ChangeResource rsrc) {
+    Change change = rsrc.getChange();
+    if (change.isMerged()) {
       // Merged changes should never be deleted.
       return false;
     }

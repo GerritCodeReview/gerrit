@@ -33,7 +33,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -133,7 +132,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     }
     input.destinationBranch = RefNames.fullName(input.destinationBranch);
 
-    if (change.getStatus().isClosed()) {
+    if (!change.isNew()) {
       throw new ResourceConflictException("Change is " + ChangeUtil.status(change));
     }
 
@@ -181,7 +180,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     public boolean updateChange(ChangeContext ctx)
         throws OrmException, ResourceConflictException, IOException {
       change = ctx.getChange();
-      if (change.getStatus() != Status.NEW) {
+      if (!change.isNew()) {
         throw new ResourceConflictException("Change is " + ChangeUtil.status(change));
       }
 
@@ -293,7 +292,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
             .setVisible(false);
 
     Change change = rsrc.getChange();
-    if (!change.getStatus().isOpen()) {
+    if (!change.isNew()) {
       return description;
     }
 

@@ -510,7 +510,7 @@ public class ChangeJson {
     out.assignee = in.getAssignee() != null ? accountLoader.get(in.getAssignee()) : null;
     out.hashtags = cd.hashtags();
     out.changeId = in.getKey().get();
-    if (in.getStatus().isOpen()) {
+    if (in.isNew()) {
       SubmitTypeRecord str = cd.submitTypeRecord();
       if (str.isOk()) {
         out.submitType = str.type;
@@ -547,7 +547,7 @@ public class ChangeJson {
       }
     }
 
-    if (in.getStatus().isOpen() && has(REVIEWED) && user.isIdentifiedUser()) {
+    if (in.isNew() && has(REVIEWED) && user.isIdentifiedUser()) {
       out.reviewed = cd.isReviewedBy(user.getAccountId()) ? true : null;
     }
 
@@ -560,7 +560,7 @@ public class ChangeJson {
       if (user.isIdentifiedUser()
           && (!limitToPsId.isPresent() || limitToPsId.get().equals(in.currentPatchSetId()))) {
         out.permittedLabels =
-            cd.change().getStatus() != Change.Status.ABANDONED
+            !cd.change().isAbandoned()
                 ? labelsJson.permittedLabels(user.getAccountId(), cd)
                 : ImmutableMap.of();
       }

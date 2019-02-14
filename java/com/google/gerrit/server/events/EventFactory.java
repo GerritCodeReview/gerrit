@@ -190,7 +190,7 @@ public class EventFactory {
    */
   public void extend(ChangeAttribute a, Change change) {
     a.lastUpdated = change.getLastUpdatedOn().getTime() / 1000L;
-    a.open = change.getStatus().isOpen();
+    a.open = change.isNew();
   }
 
   /**

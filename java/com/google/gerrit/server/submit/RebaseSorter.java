@@ -16,7 +16,6 @@ package com.google.gerrit.server.submit;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -126,8 +125,7 @@ public class RebaseSorter {
       // check if the commit associated change is merged in the same branch
       List<ChangeData> changes = queryProvider.get().byCommit(commit);
       for (ChangeData change : changes) {
-        if (change.change().getStatus() == Status.MERGED
-            && change.change().getDest().equals(dest)) {
+        if (change.change().isMerged() && change.change().getDest().equals(dest)) {
           logger.atFine().log(
               "Dependency %s associated with merged change %s.", commit.getName(), change.getId());
           return true;

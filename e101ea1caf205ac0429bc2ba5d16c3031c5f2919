@@ -35,6 +35,24 @@
       "revId": "e101ea1caf205ac0429bc2ba5d16c3031c5f2919",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81998ac1_19cab6c2",
+        "filename": "java/com/google/gerrit/server/restapi/checker/UpdateChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-14T15:04:43Z",
+      "side": 1,
+      "message": "\u003e \u003e I feel like we need some additional sanitization here. This should be a valid URL,\n\u003e \u003e and it definitely should not be, say, a javascript: URL. I might suggest allowing only http://\n\u003e \u003e and https:// URLs.\n\u003e \n\u003e Good point. Do you think it would be enough to ensure that it starts with \"http://\" or \"https://\" and then check if new java.net.URL(url) throws MalformedUrlException?\n\nWell if you\u0027re going to parse it, might as well pull the protocol out with a method. But yeah I think running through java.net.URL is good enough.\n\n\u003e \u003e Although, this raises the larger question of at what level do we want to do input validation.\n\u003e \u003e If we only do the validation here as opposed to, say, CheckerConfigEntry, then how sure are\n\u003e \u003e we that all callers within Gerrit are using this high-level API? We would not want to\n\u003e \u003e accidentally call a low-level API with no validation and accidentally pass it some user-provided input.\n\u003e \n\u003e I think at the moment we do this kind of validation only on the high-level API and let the low-level API only care about a consistent format (e.g. don\u0027t write data that we could not load).\n\u003e\n\u003e But yes, that\u0027s a valid question.\n\u003e \n\u003e \u003e Would it make sense to change CheckerConfigEntry#updateConfigValue to possibly throw ConfigInvalidException,\n\u003e \u003e and do the validation there? There\u0027s still the question of how to propagate the exception message to turn it\n\u003e \u003e into a BadRequestException here, but that problem seems surmountable.\n\u003e \n\u003e I\u0027m fine with this, but not sure if we want to do this right now or later.\n\nI\u0027m ok with leaving it at the high level for now.\n\nThe reason I thought of this is that validation of the upcoming query field may be more complicated: it needs to not only be in valid syntax but also use only a subset of fields. Depending on how it\u0027s implemented, we might need a ChangeQueryBuilder for that, which will _not_ be available in CheckerConfigEntry (which is in the wrong package and can\u0027t take inject stuff).",
+      "parentUuid": "4dc2d819_b958c403",
+      "revId": "e101ea1caf205ac0429bc2ba5d16c3031c5f2919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

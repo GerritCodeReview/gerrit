@@ -66,6 +66,10 @@ public class CheckerConfigSubject extends Subject<CheckerConfigSubject, CheckerC
     Truth.assertThat(checker().getStatus()).named("status").isEqualTo(expectedStatus);
   }
 
+  public IterableSubject hasBlockingConditionSetThat() {
+    return Truth.assertThat(checker().getBlockingConditions());
+  }
+
   public ComparableSubject<?, Timestamp> hasCreatedOnThat() {
     return Truth.assertThat(checker().getCreatedOn()).named("createdOn");
   }

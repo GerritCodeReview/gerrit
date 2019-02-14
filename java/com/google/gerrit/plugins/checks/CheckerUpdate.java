@@ -15,6 +15,8 @@
 package com.google.gerrit.plugins.checks;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.gerrit.plugins.checks.api.BlockingCondition;
 import com.google.gerrit.plugins.checks.api.CheckerStatus;
 import com.google.gerrit.reviewdb.client.Project;
 import java.sql.Timestamp;
@@ -50,6 +52,12 @@ public abstract class CheckerUpdate {
   public abstract Optional<CheckerStatus> getStatus();
 
   /**
+   * Defines the new blocking conditions for the checker. Specifies the entire set, not a delta. If
+   * not specified, the blocking conditions remain unchanged.
+   */
+  public abstract Optional<ImmutableSortedSet<BlockingCondition>> getBlockingConditions();
+
+  /**
    * Defines the {@code Timestamp} to be used for the NoteDb commits of the update. If not
    * specified, the current {@code Timestamp} when creating the commit will be used.
    *
@@ -76,6 +84,9 @@ public abstract class CheckerUpdate {
     public abstract Builder setRepository(Project.NameKey repository);
 
     public abstract Builder setStatus(CheckerStatus status);
+
+    public abstract Builder setBlockingConditions(
+        ImmutableSortedSet<BlockingCondition> blockingConditions);
 
     public abstract Builder setUpdatedOn(Timestamp timestamp);
 

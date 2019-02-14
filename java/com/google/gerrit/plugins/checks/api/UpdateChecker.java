@@ -15,6 +15,7 @@
 package com.google.gerrit.plugins.checks.api;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -93,6 +94,11 @@ public class UpdateChecker implements RestModifyView<CheckerResource, CheckerInp
 
     if (input.status != null) {
       checkerUpdateBuilder.setStatus(input.status);
+    }
+
+    if (input.blockingConditions != null) {
+      checkerUpdateBuilder.setBlockingConditions(
+          ImmutableSortedSet.copyOf(input.blockingConditions));
     }
 
     Checker updatedChecker =

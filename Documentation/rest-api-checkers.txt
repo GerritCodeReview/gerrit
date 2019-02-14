@@ -85,6 +85,7 @@ describes the created checker.
     "name": "MyChecker",
     "description": "A simple checker.",
     "repository": "examples/Foo",
+    "blocking": [],
     "created_on": "2019-01-31 09:59:32.126000000",
     "updated_on": "2019-01-31 09:59:32.126000000"
   }
@@ -117,6 +118,7 @@ Unsetting properties:
    string ("") or a string that is empty after trim is rejected as
    `400 Bad Request`.
 * `status`: Cannot be unset.
+* `blocking`: Can be unset by setting an empty list ([]) for it.
 
 Note that only users with the
 link:access-control.html#capability_administrateCheckers[Administrate
@@ -189,6 +191,10 @@ The URL of the checker.
 The (exact) name of the repository for which the checker applies.
 |`status`        ||
 The status of the checker; one of `ENABLED` or `DISABLED`.
+|`blocking`      ||
+A list of conditions that describe when the checker should block
+change submission. +
+The only currently supported condition is `STATE_NOT_PASSING`.
 |`created_on`    ||
 The link:rest-api.html#timestamp[timestamp] of when the checker was
 created.
@@ -214,6 +220,10 @@ The URL of the checker.
 The (exact) name of the repository for which the checker applies.
 |`status`        |optional|
 The status of the checker; one of `ENABLED` or `DISABLED`.
+|`blocking`      |optional|
+A list of conditions that describe when the checker should block
+change submission. +
+The only currently supported condition is `STATE_NOT_PASSING`.
 |=============================
 
 GERRIT

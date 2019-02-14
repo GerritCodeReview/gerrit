@@ -14,14 +14,28 @@
 
 package com.google.gerrit.plugins.checks.db;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSortedSet.toImmutableSortedSet;
+import static java.util.Comparator.naturalOrder;
+
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.Streams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.plugins.checks.Checker;
 import com.google.gerrit.plugins.checks.CheckerCreation;
 import com.google.gerrit.plugins.checks.CheckerUpdate;
+import com.google.gerrit.plugins.checks.api.BlockingCondition;
 import com.google.gerrit.plugins.checks.api.CheckerStatus;
 import com.google.gerrit.reviewdb.client.Project;
+import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.Locale;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * A basic property of a checker.
@@ -186,7 +200,66 @@ enum CheckerConfigEntry {
           .getStatus()
           .ifPresent(status -> config.setEnum(SECTION_NAME, null, super.keyName, status));
     }
+  },
+
+  BLOCKING_CONDITIONS("blocking") {
+    @Override
+    void readFromConfig(String checkerUuid, Checker.Builder checker, Config config) {
+      checker.setBlockingConditions(
+          getEnumSet(config, SECTION_NAME, null, super.keyName, BlockingCondition.values()));
+    }
+
+    @Override
+    void initNewConfig(Config config, CheckerCreation checkerCreation) {
+      // Do nothing. Blocking conditions will be set by updateConfigValue.
+    }
+
+    @Override
+    void updateConfigValue(Config config, CheckerUpdate checkerUpdate) {
+      checkerUpdate
+          .getBlockingConditions()
+          .ifPresent(
+              blockingConditions ->
+                  setEnumList(config, SECTION_NAME, null, super.keyName, blockingConditions));
+    }
   };
+
+  private static <T extends Enum<T>> ImmutableSortedSet<T> getEnumSet(
+      Config config, String section, @Nullable String subsection, String name, T[] all) {
+    return Arrays.stream(config.getStringList(section, subsection, name))
+        .map(v -> resolveEnum(section, subsection, name, v, all))
+        .collect(toImmutableSortedSet(naturalOrder()));
+  }
+
+  private static <T extends Enum<T>> T resolveEnum(
+      String section, @Nullable String subsection, String name, String value, T[] all) {
+    // Match some resolution semantics of DefaultTypedConfigGetter#getEnum.
+    // TODO(dborowitz): Sure would be nice if Config exposed this logic (or getEnumList) so we
+    // didn't have to replicate it.
+    value = value.replace(' ', '_');
+    for (T e : all) {
+      if (StringUtils.equalsIgnoreCase(e.name(), value)) {
+        return e;
+      }
+    }
+    if (subsection != null) {
+      throw new IllegalArgumentException(
+          MessageFormat.format(
+              JGitText.get().enumValueNotSupported3, section, subsection, name, value));
+    }
+    throw new IllegalArgumentException(
+        MessageFormat.format(JGitText.get().enumValueNotSupported2, section, name, value));
+  }
+
+  private static <T extends Enum<T>> void setEnumList(
+      Config config, String section, @Nullable String subsection, String name, Iterable<T> values) {
+    // Match semantics of Config#setEnum.
+    ImmutableList<String> strings =
+        Streams.stream(values)
+            .map(v -> v.name().toLowerCase(Locale.ROOT).replace('_', ' '))
+            .collect(toImmutableList());
+    config.setStringList(section, subsection, name, strings);
+  }
 
   private static final String SECTION_NAME = "checker";
 

@@ -15,6 +15,8 @@
 package com.google.gerrit.plugins.checks;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.gerrit.plugins.checks.api.BlockingCondition;
 import com.google.gerrit.plugins.checks.api.CheckerStatus;
 import com.google.gerrit.reviewdb.client.Project;
 import java.sql.Timestamp;
@@ -78,6 +80,13 @@ public abstract class Checker {
   public abstract CheckerStatus getStatus();
 
   /**
+   * Returns the blocking conditions for the checker.
+   *
+   * @return the blocking conditions for the checker.
+   */
+  public abstract ImmutableSortedSet<BlockingCondition> getBlockingConditions();
+
+  /**
    * Returns the creation timestamp of the checker.
    *
    * @return the creation timestamp
@@ -118,6 +127,8 @@ public abstract class Checker {
     public abstract Builder setRepository(Project.NameKey repository);
 
     public abstract Builder setStatus(CheckerStatus status);
+
+    public abstract Builder setBlockingConditions(Iterable<BlockingCondition> enumList);
 
     public abstract Builder setCreatedOn(Timestamp createdOn);
 

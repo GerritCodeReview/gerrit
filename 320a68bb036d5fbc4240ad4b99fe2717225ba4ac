@@ -53,6 +53,24 @@
       "revId": "320a68bb036d5fbc4240ad4b99fe2717225ba4ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "200a7778_133be500",
+        "filename": "javatests/com/google/gerrit/acceptance/api/checker/UpdateCheckerIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-02-14T16:44:28Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "8a73b892_2a830db1",
+      "revId": "320a68bb036d5fbc4240ad4b99fe2717225ba4ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

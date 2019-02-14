@@ -100,6 +100,7 @@ public class CheckerConfigTest extends GerritBaseTests {
 
     CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
     assertThat(checkerConfig).hasName(checkerName);
+    assertThat(checkerConfig).configStringList("name").containsExactly(checkerName);
   }
 
   @Test
@@ -113,6 +114,7 @@ public class CheckerConfigTest extends GerritBaseTests {
 
     CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
     assertThat(checkerConfig).hasName(anotherName);
+    assertThat(checkerConfig).configStringList("name").containsExactly(anotherName);
   }
 
   @Test
@@ -140,6 +142,7 @@ public class CheckerConfigTest extends GerritBaseTests {
 
     CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
     assertThat(checkerConfig).hasDescriptionThat().isEmpty();
+    assertThat(checkerConfig).configStringList("description").isEmpty();
   }
 
   @Test
@@ -152,6 +155,7 @@ public class CheckerConfigTest extends GerritBaseTests {
 
     CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
     assertThat(checkerConfig).hasDescriptionThat().value().isEqualTo(description);
+    assertThat(checkerConfig).configStringList("description").containsExactly(description);
   }
 
   @Test
@@ -162,6 +166,7 @@ public class CheckerConfigTest extends GerritBaseTests {
 
     CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
     assertThat(checkerConfig).hasDescriptionThat().isEmpty();
+    assertThat(checkerConfig).configStringList("description").isEmpty();
   }
 
   @Test
@@ -176,6 +181,7 @@ public class CheckerConfigTest extends GerritBaseTests {
 
     CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
     assertThat(checkerConfig).hasUrlThat().isEmpty();
+    assertThat(checkerConfig).configStringList("url").isEmpty();
   }
 
   @Test
@@ -188,6 +194,7 @@ public class CheckerConfigTest extends GerritBaseTests {
 
     CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
     assertThat(checkerConfig).hasUrlThat().value().isEqualTo(url);
+    assertThat(checkerConfig).configStringList("url").containsExactly(url);
   }
 
   @Test
@@ -198,6 +205,7 @@ public class CheckerConfigTest extends GerritBaseTests {
 
     CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
     assertThat(checkerConfig).hasUrlThat().isEmpty();
+    assertThat(checkerConfig).configStringList("url").isEmpty();
   }
 
   @Test
@@ -208,6 +216,9 @@ public class CheckerConfigTest extends GerritBaseTests {
 
     CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
     assertThat(checkerConfig).hasRepository(checkerRepository);
+    assertThat(checkerConfig)
+        .configStringList("repository")
+        .containsExactly(checkerRepository.get());
   }
 
   @Test
@@ -221,6 +232,9 @@ public class CheckerConfigTest extends GerritBaseTests {
 
     CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
     assertThat(checkerConfig).hasRepository(anotherRepository);
+    assertThat(checkerConfig)
+        .configStringList("repository")
+        .containsExactly(anotherRepository.get());
   }
 
   @Test
@@ -295,6 +309,7 @@ public class CheckerConfigTest extends GerritBaseTests {
 
     CheckerConfig checkerConfig = loadChecker(checkerUuid);
     assertThat(checkerConfig).hasName(newName);
+    assertThat(checkerConfig).configStringList("name").containsExactly(newName);
 
     assertThatCommitMessage(checkerUuid)
         .isEqualTo("Update checker\n\nRename from " + checkerName + " to " + newName);
@@ -321,6 +336,7 @@ public class CheckerConfigTest extends GerritBaseTests {
 
     CheckerConfig checkerConfig = loadChecker(checkerUuid);
     assertThat(checkerConfig).hasDescriptionThat().value().isEqualTo(newDescription);
+    assertThat(checkerConfig).configStringList("description").containsExactly(newDescription);
   }
 
   @Test
@@ -330,6 +346,7 @@ public class CheckerConfigTest extends GerritBaseTests {
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setDescription("").build();
     CheckerConfig checkerConfig = updateChecker(checkerUuid, checkerUpdate);
     assertThat(checkerConfig).hasDescriptionThat().isEmpty();
+    assertThat(checkerConfig).configStringList("description").isEmpty();
   }
 
   @Test
@@ -342,6 +359,7 @@ public class CheckerConfigTest extends GerritBaseTests {
 
     CheckerConfig checkerConfig = loadChecker(checkerUuid);
     assertThat(checkerConfig).hasUrlThat().value().isEqualTo(newUrl);
+    assertThat(checkerConfig).configStringList("url").containsExactly(newUrl);
   }
 
   @Test
@@ -351,6 +369,7 @@ public class CheckerConfigTest extends GerritBaseTests {
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setUrl("").build();
     CheckerConfig checkerConfig = updateChecker(checkerUuid, checkerUpdate);
     assertThat(checkerConfig).hasUrlThat().isEmpty();
+    assertThat(checkerConfig).configStringList("url").isEmpty();
   }
 
   @Test
@@ -369,6 +388,7 @@ public class CheckerConfigTest extends GerritBaseTests {
 
     CheckerConfig checkerConfig = loadChecker(checkerUuid);
     assertThat(checkerConfig).hasRepository(newRepository);
+    assertThat(checkerConfig).configStringList("repository").containsExactly(newRepository.get());
 
     assertThatCommitMessage(checkerUuid).isEqualTo("Update checker");
   }

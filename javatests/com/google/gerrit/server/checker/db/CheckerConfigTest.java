@@ -15,29 +15,25 @@
 package com.google.gerrit.server.checker.db;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.truth.OptionalSubject.assertThat;
+import static com.google.gerrit.server.checker.testing.CheckerConfigSubject.assertThat;
 import static org.hamcrest.CoreMatchers.instanceOf;
 
 import com.google.common.truth.StringSubject;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.checker.Checker;
 import com.google.gerrit.server.checker.CheckerCreation;
 import com.google.gerrit.server.checker.CheckerUpdate;
 import com.google.gerrit.server.checker.CheckerUuid;
-import com.google.gerrit.server.checker.testing.CheckerSubject;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritBaseTests;
-import com.google.gerrit.truth.OptionalSubject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
-import java.util.Optional;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -82,8 +78,8 @@ public class CheckerConfigTest extends GerritBaseTests {
         getPrefilledCheckerCreationBuilder().setCheckerUuid(checkerUuid).build();
     createChecker(checkerCreation);
 
-    Optional<Checker> checker = loadChecker(checkerUuid);
-    assertThatChecker(checker).value().hasUuid(checkerUuid);
+    CheckerConfig checkerConfig = loadChecker(checkerUuid);
+    assertThat(checkerConfig).hasUuid(checkerUuid);
   }
 
   @Test
@@ -102,8 +98,8 @@ public class CheckerConfigTest extends GerritBaseTests {
         getPrefilledCheckerCreationBuilder().setName(checkerName).build();
     createChecker(checkerCreation);
 
-    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
-    assertThatChecker(checker).value().hasName(checkerName);
+    CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
+    assertThat(checkerConfig).hasName(checkerName);
   }
 
   @Test
@@ -115,8 +111,8 @@ public class CheckerConfigTest extends GerritBaseTests {
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setName(anotherName).build();
     createChecker(checkerCreation, checkerUpdate);
 
-    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
-    assertThatChecker(checker).value().hasName(anotherName);
+    CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
+    assertThat(checkerConfig).hasName(anotherName);
   }
 
   @Test
@@ -142,8 +138,8 @@ public class CheckerConfigTest extends GerritBaseTests {
             .build();
     createChecker(checkerCreation);
 
-    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
-    assertThatChecker(checker).value().hasDescriptionThat().isEmpty();
+    CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
+    assertThat(checkerConfig).hasDescriptionThat().isEmpty();
   }
 
   @Test
@@ -154,8 +150,8 @@ public class CheckerConfigTest extends GerritBaseTests {
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setDescription(description).build();
     createChecker(checkerCreation, checkerUpdate);
 
-    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
-    assertThatChecker(checker).value().hasDescriptionThat().value().isEqualTo(description);
+    CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
+    assertThat(checkerConfig).hasDescriptionThat().value().isEqualTo(description);
   }
 
   @Test
@@ -164,8 +160,8 @@ public class CheckerConfigTest extends GerritBaseTests {
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setDescription("").build();
     createChecker(checkerCreation, checkerUpdate);
 
-    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
-    assertThatChecker(checker).value().hasDescriptionThat().isEmpty();
+    CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
+    assertThat(checkerConfig).hasDescriptionThat().isEmpty();
   }
 
   @Test
@@ -178,8 +174,8 @@ public class CheckerConfigTest extends GerritBaseTests {
             .build();
     createChecker(checkerCreation);
 
-    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
-    assertThatChecker(checker).value().hasUrlThat().isEmpty();
+    CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
+    assertThat(checkerConfig).hasUrlThat().isEmpty();
   }
 
   @Test
@@ -190,8 +186,8 @@ public class CheckerConfigTest extends GerritBaseTests {
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setUrl(url).build();
     createChecker(checkerCreation, checkerUpdate);
 
-    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
-    assertThatChecker(checker).value().hasUrlThat().value().isEqualTo(url);
+    CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
+    assertThat(checkerConfig).hasUrlThat().value().isEqualTo(url);
   }
 
   @Test
@@ -200,8 +196,8 @@ public class CheckerConfigTest extends GerritBaseTests {
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setUrl("").build();
     createChecker(checkerCreation, checkerUpdate);
 
-    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
-    assertThatChecker(checker).value().hasUrlThat().isEmpty();
+    CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
+    assertThat(checkerConfig).hasUrlThat().isEmpty();
   }
 
   @Test
@@ -210,8 +206,8 @@ public class CheckerConfigTest extends GerritBaseTests {
         getPrefilledCheckerCreationBuilder().setRepository(checkerRepository).build();
     createChecker(checkerCreation);
 
-    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
-    assertThatChecker(checker).value().hasRepository(checkerRepository);
+    CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
+    assertThat(checkerConfig).hasRepository(checkerRepository);
   }
 
   @Test
@@ -223,8 +219,8 @@ public class CheckerConfigTest extends GerritBaseTests {
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setRepository(anotherRepository).build();
     createChecker(checkerCreation, checkerUpdate);
 
-    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
-    assertThatChecker(checker).value().hasRepository(anotherRepository);
+    CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
+    assertThat(checkerConfig).hasRepository(anotherRepository);
   }
 
   @Test
@@ -248,8 +244,8 @@ public class CheckerConfigTest extends GerritBaseTests {
     Timestamp testStart = TimeUtil.truncateToSecond(TimeUtil.nowTs());
 
     createArbitraryChecker(checkerUuid);
-    Optional<Checker> checker = loadChecker(checkerUuid);
-    assertThatChecker(checker).value().hasCreatedOnThat().isAtLeast(testStart);
+    CheckerConfig checkerConfig = loadChecker(checkerUuid);
+    assertThat(checkerConfig).hasCreatedOnThat().isAtLeast(testStart);
   }
 
   @Test
@@ -260,8 +256,8 @@ public class CheckerConfigTest extends GerritBaseTests {
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setUpdatedOn(createdOn).build();
     createChecker(checkerCreation, checkerUpdate);
 
-    Optional<Checker> checker = loadChecker(checkerCreation.getCheckerUuid());
-    assertThatChecker(checker).value().hasCreatedOnThat().isEqualTo(createdOn);
+    CheckerConfig checkerConfig = loadChecker(checkerCreation.getCheckerUuid());
+    assertThat(checkerConfig).hasCreatedOnThat().isEqualTo(createdOn);
   }
 
   @Test
@@ -297,8 +293,8 @@ public class CheckerConfigTest extends GerritBaseTests {
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setName(newName).build();
     updateChecker(checkerUuid, checkerUpdate);
 
-    Optional<Checker> checker = loadChecker(checkerUuid);
-    assertThatChecker(checker).value().hasName(newName);
+    CheckerConfig checkerConfig = loadChecker(checkerUuid);
+    assertThat(checkerConfig).hasName(newName);
 
     assertThatCommitMessage(checkerUuid)
         .isEqualTo("Update checker\n\nRename from " + checkerName + " to " + newName);
@@ -323,8 +319,8 @@ public class CheckerConfigTest extends GerritBaseTests {
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setDescription(newDescription).build();
     updateChecker(checkerUuid, checkerUpdate);
 
-    Optional<Checker> checker = loadChecker(checkerUuid);
-    assertThatChecker(checker).value().hasDescriptionThat().value().isEqualTo(newDescription);
+    CheckerConfig checkerConfig = loadChecker(checkerUuid);
+    assertThat(checkerConfig).hasDescriptionThat().value().isEqualTo(newDescription);
   }
 
   @Test
@@ -332,9 +328,8 @@ public class CheckerConfigTest extends GerritBaseTests {
     createArbitraryChecker(checkerUuid);
 
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setDescription("").build();
-    Optional<Checker> checker = updateChecker(checkerUuid, checkerUpdate);
-
-    assertThatChecker(checker).value().hasDescriptionThat().isEmpty();
+    CheckerConfig checkerConfig = updateChecker(checkerUuid, checkerUpdate);
+    assertThat(checkerConfig).hasDescriptionThat().isEmpty();
   }
 
   @Test
@@ -345,8 +340,8 @@ public class CheckerConfigTest extends GerritBaseTests {
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setUrl(newUrl).build();
     updateChecker(checkerUuid, checkerUpdate);
 
-    Optional<Checker> checker = loadChecker(checkerUuid);
-    assertThatChecker(checker).value().hasUrlThat().value().isEqualTo(newUrl);
+    CheckerConfig checkerConfig = loadChecker(checkerUuid);
+    assertThat(checkerConfig).hasUrlThat().value().isEqualTo(newUrl);
   }
 
   @Test
@@ -354,9 +349,8 @@ public class CheckerConfigTest extends GerritBaseTests {
     createArbitraryChecker(checkerUuid);
 
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setUrl("").build();
-    Optional<Checker> checker = updateChecker(checkerUuid, checkerUpdate);
-
-    assertThatChecker(checker).value().hasUrlThat().isEmpty();
+    CheckerConfig checkerConfig = updateChecker(checkerUuid, checkerUpdate);
+    assertThat(checkerConfig).hasUrlThat().isEmpty();
   }
 
   @Test
@@ -373,8 +367,8 @@ public class CheckerConfigTest extends GerritBaseTests {
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setRepository(newRepository).build();
     updateChecker(checkerUuid, checkerUpdate);
 
-    Optional<Checker> checker = loadChecker(checkerUuid);
-    assertThatChecker(checker).value().hasRepository(newRepository);
+    CheckerConfig checkerConfig = loadChecker(checkerUuid);
+    assertThat(checkerConfig).hasRepository(newRepository);
 
     assertThatCommitMessage(checkerUuid).isEqualTo("Update checker");
   }
@@ -396,27 +390,18 @@ public class CheckerConfigTest extends GerritBaseTests {
   public void refStateIsCorrectlySet() throws Exception {
     CheckerCreation checkerCreation =
         getPrefilledCheckerCreationBuilder().setCheckerUuid(checkerUuid).build();
-    Optional<Checker> newChecker = createChecker(checkerCreation);
+    CheckerConfig newChecker = createChecker(checkerCreation);
     ObjectId expectedRefStateAfterCreation = getCheckerRefState(checkerUuid);
-    assertThatChecker(newChecker)
-        .value()
-        .hasRefStateThat()
-        .isEqualTo(expectedRefStateAfterCreation);
+    assertThat(newChecker).hasRefStateThat().isEqualTo(expectedRefStateAfterCreation);
 
-    Optional<Checker> loadedChecker = loadChecker(checkerUuid);
-    assertThatChecker(loadedChecker)
-        .value()
-        .hasRefStateThat()
-        .isEqualTo(expectedRefStateAfterCreation);
+    CheckerConfig checker = loadChecker(checkerUuid);
+    assertThat(checker).hasRefStateThat().isEqualTo(expectedRefStateAfterCreation);
 
     CheckerUpdate checkerUpdate = CheckerUpdate.builder().setDescription("A description.").build();
-    Optional<Checker> updatedChecker = updateChecker(checkerUuid, checkerUpdate);
+    CheckerConfig updatedChecker = updateChecker(checkerUuid, checkerUpdate);
     ObjectId expectedRefStateAfterUpdate = getCheckerRefState(checkerUuid);
     assertThat(expectedRefStateAfterUpdate).isNotEqualTo(expectedRefStateAfterCreation);
-    assertThatChecker(updatedChecker)
-        .value()
-        .hasRefStateThat()
-        .isEqualTo(expectedRefStateAfterUpdate);
+    assertThat(updatedChecker).hasRefStateThat().isEqualTo(expectedRefStateAfterUpdate);
   }
 
   private void createArbitraryChecker(String checkerUuid) throws Exception {
@@ -432,34 +417,33 @@ public class CheckerConfigTest extends GerritBaseTests {
         .setRepository(checkerRepository);
   }
 
-  private Optional<Checker> createChecker(CheckerCreation checkerCreation) throws Exception {
+  private CheckerConfig createChecker(CheckerCreation checkerCreation) throws Exception {
     CheckerConfig checkerConfig =
         CheckerConfig.createForNewChecker(projectName, repository, checkerCreation);
     commit(checkerConfig);
-    return checkerConfig.getLoadedChecker();
+    return loadChecker(checkerCreation.getCheckerUuid());
   }
 
-  private Optional<Checker> createChecker(
-      CheckerCreation checkerCreation, CheckerUpdate checkerUpdate) throws Exception {
+  private CheckerConfig createChecker(CheckerCreation checkerCreation, CheckerUpdate checkerUpdate)
+      throws Exception {
     CheckerConfig checkerConfig =
         CheckerConfig.createForNewChecker(projectName, repository, checkerCreation);
     checkerConfig.setCheckerUpdate(checkerUpdate);
     commit(checkerConfig);
-    return checkerConfig.getLoadedChecker();
+    return loadChecker(checkerCreation.getCheckerUuid());
   }
 
-  private Optional<Checker> updateChecker(String checkerUuid, CheckerUpdate checkerUpdate)
+  private CheckerConfig updateChecker(String checkerUuid, CheckerUpdate checkerUpdate)
       throws Exception {
     CheckerConfig checkerConfig =
         CheckerConfig.loadForChecker(projectName, repository, checkerUuid);
     checkerConfig.setCheckerUpdate(checkerUpdate);
     commit(checkerConfig);
-    return checkerConfig.getLoadedChecker();
+    return loadChecker(checkerUuid);
   }
 
-  private Optional<Checker> loadChecker(String uuid) throws Exception {
-    CheckerConfig checkerConfig = CheckerConfig.loadForChecker(projectName, repository, uuid);
-    return checkerConfig.getLoadedChecker();
+  private CheckerConfig loadChecker(String uuid) throws Exception {
+    return CheckerConfig.loadForChecker(projectName, repository, uuid);
   }
 
   private void commit(CheckerConfig checkerConfig) throws IOException {
@@ -499,11 +483,6 @@ public class CheckerConfigTest extends GerritBaseTests {
       RevCommit commit = rw.parseCommit(getCheckerRefState(checkerUuid));
       return assertThat(commit.getFullMessage()).named("commit message");
     }
-  }
-
-  private static OptionalSubject<CheckerSubject, Checker> assertThatChecker(
-      Optional<Checker> loadedChecker) {
-    return assertThat(loadedChecker, CheckerSubject::assertThat);
   }
 
   private static Timestamp toTimestamp(LocalDateTime localDateTime) {

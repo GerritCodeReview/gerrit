@@ -144,6 +144,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.PostReview;
@@ -378,9 +379,9 @@ public class ChangeIT extends AbstractDaemonTest {
   public void administratorCanUnmarkPrivateAfterMerging() throws Exception {
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
-    gApi.changes().id(changeId).setPrivate(true, null);
-    assertThat(gApi.changes().id(changeId).get().isPrivate).isTrue();
     merge(result);
+    markMergedChangePrivate(new Change.Id(gApi.changes().id(changeId).get()._number));
+
     gApi.changes().id(changeId).setPrivate(false, null);
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
   }
@@ -403,22 +404,54 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void mergingPrivateChangePublishesIt() throws Exception {
+    PushOneCommit.Result result = createChange();
+    gApi.changes().id(result.getChangeId()).setPrivate(true);
+    assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
+
+    approve(result.getChangeId());
+    merge(result);
+
+    assertThat(gApi.changes().id(result.getChangeId()).get().status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isNull();
+  }
+
+  @Test
   public void ownerCanUnmarkPrivateAfterMerging() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
         pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
 
     String changeId = result.getChangeId();
-    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
     gApi.changes().id(changeId).addReviewer(admin.getId().toString());
-    gApi.changes().id(changeId).setPrivate(true, null);
-    assertThat(gApi.changes().id(changeId).get().isPrivate).isTrue();
-
     merge(result);
+    markMergedChangePrivate(new Change.Id(gApi.changes().id(changeId).get()._number));
 
     requestScopeOperations.setApiUser(user.getId());
     gApi.changes().id(changeId).setPrivate(false, null);
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+  }
+
+  private void markMergedChangePrivate(Change.Id changeId) throws Exception {
+    try (BatchUpdate u =
+        batchUpdateFactory.create(
+            project, identifiedUserFactory.create(admin.id), TimeUtil.nowTs())) {
+      u.addOp(
+              changeId,
+              new BatchUpdateOp() {
+                @Override
+                public boolean updateChange(ChangeContext ctx) {
+                  ctx.getChange().setPrivate(true);
+                  ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
+                  ctx.getChange().setPrivate(true);
+                  ctx.getChange().setLastUpdatedOn(ctx.getWhen());
+                  update.setPrivate(true);
+                  return true;
+                }
+              })
+          .execute();
+    }
+    assertThat(gApi.changes().id(changeId.get()).get().isPrivate).isTrue();
   }
 
   @Test

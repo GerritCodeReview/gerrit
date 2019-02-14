@@ -92,6 +92,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private List<String> groups = Collections.emptyList();
   private boolean fireRevisionCreated = true;
   private boolean allowClosed;
+  private boolean sendEmail = true;
 
   // Fields set during some phase of BatchUpdate.Op.
   private Change change;
@@ -169,6 +170,11 @@ public class PatchSetInserter implements BatchUpdateOp {
     return this;
   }
 
+  public PatchSetInserter setSendEmail(boolean sendEmail) {
+    this.sendEmail = sendEmail;
+    return this;
+  }
+
   public Change getChange() {
     checkState(change != null, "getChange() only valid after executing update");
     return change;
@@ -240,9 +246,10 @@ public class PatchSetInserter implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws OrmException {
+  public void postUpdate(Context ctx) {
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
-    if (notify.shouldNotify()) {
+    if (notify.shouldNotify() && sendEmail) {
+      requireNonNull(changeMessage);
       try {
         ReplacePatchSetSender cm = replacePatchSetFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());

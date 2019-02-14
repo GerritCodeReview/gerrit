@@ -170,7 +170,8 @@ limitations under the License.
         <gr-change-view
             params="[[params]]"
             view-state="{{_viewState.changeView}}"
-            back-page="[[_lastSearchPage]]"></gr-change-view>
+            back-page="[[_lastSearchPage]]"
+            prefs="[[_prefs]]"></gr-change-view>
       </template>
       <template is="dom-if" if="[[_showEditorView]]" restamp="true">
         <gr-editor-view

@@ -48,6 +48,8 @@
         observer: '_accountChanged',
       },
 
+      _prefs: Object,
+
       /**
        * The last time the g key was pressed in milliseconds (or a keydown event
        * was handled if the key is held down).
@@ -128,6 +130,9 @@
 
       this.$.restAPI.getAccount().then(account => {
         this._account = account;
+      });
+      this.$.restAPI.getPreferences().then(prefs => {
+        this._prefs = prefs;
       });
       this.$.restAPI.getConfig().then(config => {
         this._serverConfig = config;

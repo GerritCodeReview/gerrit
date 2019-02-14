@@ -85,10 +85,7 @@
       /**
        * URL params passed from the router.
        */
-      params: {
-        type: Object,
-        observer: '_paramsChanged',
-      },
+      params: Object,
       /** @type {?} */
       viewState: {
         type: Object,
@@ -97,6 +94,7 @@
         observer: '_viewStateChanged',
       },
       backPage: String,
+      prefs: Object,
       hasParent: Boolean,
       keyEventTarget: {
         type: Object,
@@ -243,6 +241,7 @@
         type: Boolean,
         value: true,
       },
+      _defaultBaseForMerges: String,
     },
 
     behaviors: [
@@ -262,7 +261,9 @@
       'fullscreen-overlay-closed': '_handleShowBackgroundContent',
       'diff-comments-modified': '_handleReloadCommentThreads',
     },
+
     observers: [
+      '_paramsChanged(params, prefs)',
       '_labelsChanged(_change.labels.*)',
       '_paramsAndChangeChanged(params, _change)',
       '_patchNumChanged(_patchRange.patchNum)',
@@ -618,7 +619,7 @@
       this.$.fileList.collapseAllDiffs();
     },
 
-    _paramsChanged(value) {
+    _paramsChanged(value, prefs) {
       // Change the content of the comment tabs back to messages list, but
       // do not yet change the tab itself. The animation of tab switching will
       // get messed up if changed here, because it requires the tabs to be on
@@ -644,9 +645,18 @@
         this._initialLoadComplete = false;
       }
 
+      let parent = 'PARENT';
+
+      if (prefs &&
+          prefs.default_base_for_merges === 'FIRST_PARENT' &&
+          value.basePatchNum === undefined &&
+          new RegExp(/\-[0-9]/g).test(value.basePatchNum) === false) {
+        parent = '-1';
+      }
+
       const patchRange = {
         patchNum: value.patchNum,
-        basePatchNum: value.basePatchNum || 'PARENT',
+        basePatchNum: value.basePatchNum || parent,
       };
 
       this.$.fileList.collapseAllDiffs();

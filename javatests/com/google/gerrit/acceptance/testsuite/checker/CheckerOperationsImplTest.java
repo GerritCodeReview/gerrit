@@ -21,6 +21,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.Joiner;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.extensions.api.checkers.BlockingCondition;
 import com.google.gerrit.extensions.api.checkers.CheckerInfo;
 import com.google.gerrit.extensions.api.checkers.CheckerInput;
 import com.google.gerrit.extensions.api.checkers.CheckerStatus;
@@ -268,6 +269,23 @@ public class CheckerOperationsImplTest extends AbstractDaemonTest {
     checkerOperations.checker(checkerUuid).forUpdate().enable().update();
     assertThat(checkerOperations.checker(checkerUuid).asInfo().status)
         .isEqualTo(CheckerStatus.ENABLED);
+  }
+
+  @Test
+  public void blockingConditionsCanBeUpdated() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().description("original description").create();
+    assertThat(checkerOperations.checker(checkerUuid).asInfo().blockingConditions).isEmpty();
+
+    checkerOperations
+        .checker(checkerUuid)
+        .forUpdate()
+        .blockingConditions(BlockingCondition.STATE_NOT_PASSING)
+        .update();
+    assertThat(checkerOperations.checker(checkerUuid).asInfo().blockingConditions)
+        .containsExactly(BlockingCondition.STATE_NOT_PASSING);
+    checkerOperations.checker(checkerUuid).forUpdate().clearBlockingConditions().update();
+    assertThat(checkerOperations.checker(checkerUuid).asInfo().blockingConditions).isEmpty();
   }
 
   @Test

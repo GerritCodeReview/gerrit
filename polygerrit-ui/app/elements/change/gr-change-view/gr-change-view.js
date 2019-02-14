@@ -644,9 +644,16 @@
         this._initialLoadComplete = false;
       }
 
+      let parent = 'PARENT';
+
+      if (value.basePatchNum === undefined &&
+          new RegExp(/\-[0-9]/g).test(value.basePatchNum) === false) {
+          parent = '-1';
+      }
+
       const patchRange = {
         patchNum: value.patchNum,
-        basePatchNum: value.basePatchNum || 'PARENT',
+        basePatchNum: value.basePatchNum || parent,
       };
 
       this.$.fileList.collapseAllDiffs();

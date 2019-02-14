@@ -112,7 +112,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     String insertIndex;
 
     try {
-      if (cd.change().getStatus().isOpen()) {
+      if (cd.change().isNew()) {
         insertIndex = OPEN_CHANGES;
         deleteIndex = CLOSED_CHANGES;
       } else {

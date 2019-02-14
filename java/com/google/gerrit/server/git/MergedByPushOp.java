@@ -125,8 +125,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     info = getPatchSetInfo(ctx);
 
     ChangeUpdate update = ctx.getUpdate(psId);
-    Change.Status status = change.getStatus();
-    if (status == Change.Status.MERGED) {
+    if (change.isMerged()) {
       return true;
     }
     change.setCurrentPatchSet(info);

@@ -253,7 +253,7 @@ public class ChangeProtoConverterTest {
     assertThat(change.currentPatchSetId()).isNull();
     // Default values for unset protobuf fields which can't be unset in the entity object.
     assertThat(change.getRowVersion()).isEqualTo(0);
-    assertThat(change.getStatus()).isEqualTo(Change.Status.NEW);
+    assertThat(change.isNew()).isTrue();
     assertThat(change.isPrivate()).isFalse();
     assertThat(change.isWorkInProgress()).isFalse();
     assertThat(change.hasReviewStarted()).isFalse();

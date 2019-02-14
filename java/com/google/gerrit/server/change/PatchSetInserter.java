@@ -194,7 +194,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     ChangeUpdate update = ctx.getUpdate(psId);
     update.setSubjectForCommit("Create patch set " + psId.get());
 
-    if (!change.getStatus().isOpen() && !allowClosed) {
+    if (!change.isNew() && !allowClosed) {
       throw new ResourceConflictException(
           String.format(
               "Cannot create new patch set of change %s because it is %s",

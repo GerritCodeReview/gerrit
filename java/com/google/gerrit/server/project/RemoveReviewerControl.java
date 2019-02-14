@@ -92,7 +92,7 @@ public class RemoveReviewerControl {
       Account.Id reviewer,
       int value)
       throws PermissionBackendException {
-    if (change.getStatus().equals(Change.Status.MERGED)) {
+    if (change.isMerged()) {
       return false;
     }
 

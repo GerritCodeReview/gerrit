@@ -215,7 +215,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         "%s#updateChange for change %s", getClass().getSimpleName(), toMerge.change().getId());
     toMerge.setNotes(ctx.getNotes()); // Update change and notes from ctx.
 
-    if (ctx.getChange().getStatus() == Change.Status.MERGED) {
+    if (ctx.getChange().isMerged()) {
       // Either another thread won a race, or we are retrying a whole topic submission after one
       // repo failed with lock failure.
       if (alreadyMergedCommit == null) {

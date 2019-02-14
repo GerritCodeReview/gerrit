@@ -165,7 +165,7 @@ class ChangeControl {
 
   /** Can this user edit the topic name? */
   private boolean canEditTopicName() {
-    if (getChange().getStatus().isOpen()) {
+    if (getChange().isNew()) {
       return isOwner() // owner (aka creator) of the change can edit topic
           || refControl.isOwner() // branch owner can edit topic
           || getProjectControl().isOwner() // project owner can edit topic
@@ -178,7 +178,7 @@ class ChangeControl {
 
   /** Can this user edit the description? */
   private boolean canEditDescription() {
-    if (getChange().getStatus().isOpen()) {
+    if (getChange().isNew()) {
       return isOwner() // owner (aka creator) of the change can edit desc
           || refControl.isOwner() // branch owner can edit desc
           || getProjectControl().isOwner() // project owner can edit desc

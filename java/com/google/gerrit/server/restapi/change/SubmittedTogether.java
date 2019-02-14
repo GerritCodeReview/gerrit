@@ -21,7 +21,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherOption;
-import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -124,11 +123,11 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       List<ChangeData> cds;
       int hidden;
 
-      if (c.getStatus().isOpen()) {
+      if (c.isNew()) {
         ChangeSet cs = mergeSuperSet.get().completeChangeSet(c, resource.getUser());
         cds = ensureRequiredDataIsLoaded(cs.changes().asList());
         hidden = cs.nonVisibleChanges().size();
-      } else if (c.getStatus().asChangeStatus() == ChangeStatus.MERGED) {
+      } else if (c.isMerged()) {
         cds = queryProvider.get().bySubmissionId(c.getSubmissionId());
         hidden = 0;
       } else {

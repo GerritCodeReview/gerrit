@@ -1122,7 +1122,7 @@ public class PostReview
       // If no labels were modified and change is closed, abort early.
       // This avoids trying to record a modified label caused by a user
       // losing access to a label after the change was submitted.
-      if (inLabels.isEmpty() && ctx.getChange().getStatus().isClosed()) {
+      if (inLabels.isEmpty() && ctx.getChange().isClosed()) {
         return false;
       }
 
@@ -1201,11 +1201,11 @@ public class PostReview
         List<PatchSetApproval> ups,
         List<PatchSetApproval> del)
         throws ResourceConflictException {
-      if (ctx.getChange().getStatus().isOpen()) {
+      if (ctx.getChange().isNew()) {
         return; // Not closed, nothing to validate.
       } else if (del.isEmpty() && ups.isEmpty()) {
         return; // No new votes.
-      } else if (ctx.getChange().getStatus() != Change.Status.MERGED) {
+      } else if (!ctx.getChange().isMerged()) {
         throw new ResourceConflictException("change is closed");
       }
 

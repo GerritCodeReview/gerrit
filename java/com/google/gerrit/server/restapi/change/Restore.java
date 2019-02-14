@@ -113,7 +113,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
     @Override
     public boolean updateChange(ChangeContext ctx) throws OrmException, ResourceConflictException {
       change = ctx.getChange();
-      if (change == null || change.getStatus() != Status.ABANDONED) {
+      if (change == null || !change.isAbandoned()) {
         throw new ResourceConflictException("change is " + ChangeUtil.status(change));
       }
       PatchSet.Id psId = change.currentPatchSetId();
@@ -162,7 +162,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
             .setVisible(false);
 
     Change change = rsrc.getChange();
-    if (change.getStatus() != Status.ABANDONED) {
+    if (!change.isAbandoned()) {
       return description;
     }
 

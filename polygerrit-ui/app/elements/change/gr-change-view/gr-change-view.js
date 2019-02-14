@@ -122,6 +122,7 @@
         type: Object,
         value: {},
       },
+      _prefs: Object,
       /** @type {?} */
       _changeComments: Object,
       _canStartReview: {
@@ -133,6 +134,10 @@
       _change: {
         type: Object,
         observer: '_changeChanged',
+      },
+      _revisionInfo: {
+        type: Object,
+        computed: '_getRevisionInfo(_change)',
       },
       /** @type {?} */
       _commitInfo: Object,
@@ -262,6 +267,7 @@
       'fullscreen-overlay-closed': '_handleShowBackgroundContent',
       'diff-comments-modified': '_handleReloadCommentThreads',
     },
+
     observers: [
       '_labelsChanged(_change.labels.*)',
       '_paramsAndChangeChanged(params, _change)',
@@ -286,6 +292,10 @@
     },
 
     attached() {
+      this.$.restAPI.getPreferences().then(prefs => {
+        this._prefs = prefs;
+      });
+
       this._getServerConfig().then(config => {
         this._serverConfig = config;
       });
@@ -790,11 +800,35 @@
 
     _changeChanged(change) {
       if (!change || !this._patchRange || !this._allPatchSets) { return; }
+
+      let parent = 'PARENT';
+      let isMerge = false;
+
+      const num = this._patchRange.patchNum ||
+              this.computeLatestPatchNum(this._allPatchSets);
+      if (this._patchRange.basePatchNum === 'PARENT' && (this._patchRange.patchNum == null || this._patchRange.patchNum == undefined)) {
+        //console.error(' num ' + num);
+        const revisionInfo = this._getRevisionInfo(change);
+        if (revisionInfo) {
+          const parentCounts = revisionInfo.getParentCountMap();
+          //console.error('parent count ' + parentCounts);
+          //console.log(parentCounts);
+          const currentParentCount = parentCounts.hasOwnProperty(num) ?
+              parentCounts[num] : 1;
+          //console.error('cu ' + currentParentCount);
+          isMerge = currentParentCount;
+        }
+        //console.error('is merge ' + isMerge);
+        if (isMerge >= 2 && this._prefs &&
+            this._prefs.default_base_for_merges === 'FIRST_PARENT' &&
+            new RegExp(/\-[0-9]/g).test(this._patchRange.basePatchNum) === false) {
+          parent = '-1';
+        }
+      }
+
       this.set('_patchRange.basePatchNum',
-          this._patchRange.basePatchNum || 'PARENT');
-      this.set('_patchRange.patchNum',
-          this._patchRange.patchNum ||
-              this.computeLatestPatchNum(this._allPatchSets));
+          this._patchRange.basePatchNum !== 'PARENT' || parent);
+      this.set('_patchRange.patchNum', num);
 
       // Reset the related changes toggle in the event it was previously
       // displayed on an earlier change.
@@ -1659,6 +1693,10 @@
     _handleToggleStar(e) {
       this.$.restAPI.saveChangeStarred(e.detail.change._number,
           e.detail.starred);
+    },
+
+    _getRevisionInfo(change) {
+      return new Gerrit.RevisionInfo(change);
     },
 
     _computeCurrentRevision(currentRevision, revisions) {

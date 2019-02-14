@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3183359d_4ecc1d44",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-14T18:47:38Z",
+      "side": 1,
+      "message": "Inline \"url\".",
+      "range": {
+        "startLine": 291,
+        "startChar": 22,
+        "endLine": 291,
+        "endChar": 25
+      },
+      "revId": "04ec5adc556d447b31d45cd3136836101fb85d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46bf0746_9ffbd4c9",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-14T18:47:38Z",
+      "side": 1,
+      "message": "Could you return directly here with \"if (weblink) return weblink;\"? Then you would not need the \"found\" variable at all.",
+      "revId": "04ec5adc556d447b31d45cd3136836101fb85d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c198756_9082894a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-14T18:47:38Z",
+      "side": 1,
+      "message": "Maybe rename to \"commitWeblink\"?",
+      "range": {
+        "startLine": 329,
+        "startChar": 12,
+        "endLine": 329,
+        "endChar": 18
+      },
+      "revId": "04ec5adc556d447b31d45cd3136836101fb85d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

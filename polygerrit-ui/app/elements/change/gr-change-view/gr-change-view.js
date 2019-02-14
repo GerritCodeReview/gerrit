@@ -122,6 +122,7 @@
         type: Object,
         value: {},
       },
+      _prefs: Object,
       /** @type {?} */
       _changeComments: Object,
       _canStartReview: {
@@ -133,6 +134,10 @@
       _change: {
         type: Object,
         observer: '_changeChanged',
+      },
+      _revisionInfo: {
+        type: Object,
+        computed: '_getRevisionInfo(_change)',
       },
       /** @type {?} */
       _commitInfo: Object,
@@ -262,6 +267,7 @@
       'fullscreen-overlay-closed': '_handleShowBackgroundContent',
       'diff-comments-modified': '_handleReloadCommentThreads',
     },
+
     observers: [
       '_labelsChanged(_change.labels.*)',
       '_paramsAndChangeChanged(params, _change)',
@@ -286,6 +292,10 @@
     },
 
     attached() {
+      this.$.restAPI.getPreferences().then(prefs => {
+        this._prefs = prefs;
+      });
+
       this._getServerConfig().then(config => {
         this._serverConfig = config;
       });
@@ -668,6 +678,13 @@
       this.$.relatedChanges.clear();
 
       this._reload(true).then(() => {
+        if (this._change !== undefined) {
+
+          // We have to call this here to make sure that the default merge base
+          // is choosen correctly.
+          this._changeChanged(this._change);
+        }
+
         this._performPostLoadTasks();
       });
     },
@@ -790,10 +807,14 @@
 
     _changeChanged(change) {
       if (!change || !this._patchRange || !this._allPatchSets) { return; }
-      this.set('_patchRange.basePatchNum',
-          this._patchRange.basePatchNum || 'PARENT');
-      this.set('_patchRange.patchNum',
-          this._patchRange.patchNum ||
+
+      const parent = this._getParent(change, this._patchRange);
+
+      const parentBase = this._patchRange.basePatchNum !== 'PARENT' ?
+          this._patchRange.basePatchNum : parent;
+
+      this.set('_patchRange.basePatchNum', parentBase);
+      this.set('_patchRange.patchNum', this._patchRange.patchNum ||
               this.computeLatestPatchNum(this._allPatchSets));
 
       // Reset the related changes toggle in the event it was previously
@@ -802,6 +823,29 @@
 
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});
+    },
+
+    _getParent(change, patchRange) {
+      let parent = 'PARENT';
+      let isMerge = false;
+
+      if (patchRange.basePatchNum === 'PARENT') {
+        const revisionInfo = this._getRevisionInfo(change);
+        if (revisionInfo) {
+          const parentCounts = revisionInfo.getParentCountMap();
+          // check that there is at least 2 parents otherwise fall back to 1,
+          // which means there is only one parent.
+          const currentParentCount = parentCounts.hasOwnProperty(1) ?
+              parentCounts[1] : 1;
+          isMerge = currentParentCount > 1;
+        }
+        if (isMerge && this._prefs &&
+            this._prefs.default_base_for_merges === 'FIRST_PARENT') {
+          parent = '-1';
+        }
+      }
+
+      return parent;
     },
 
     _computeChangeUrl(change) {
@@ -1659,6 +1703,10 @@
     _handleToggleStar(e) {
       this.$.restAPI.saveChangeStarred(e.detail.change._number,
           e.detail.starred);
+    },
+
+    _getRevisionInfo(change) {
+      return new Gerrit.RevisionInfo(change);
     },
 
     _computeCurrentRevision(currentRevision, revisions) {

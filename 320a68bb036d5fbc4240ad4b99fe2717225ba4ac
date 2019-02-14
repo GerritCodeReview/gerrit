@@ -35,6 +35,24 @@
       "revId": "320a68bb036d5fbc4240ad4b99fe2717225ba4ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a73b892_2a830db1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/checker/UpdateCheckerIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-14T15:56:24Z",
+      "side": 1,
+      "message": "\u003e I think the order is stable. First comes the mandatory properties from CheckerCreation, then the optional properties from CheckerUpdate. For both the order is defined by the order of the enum values.\n\nMakes sense, although I haven\u0027t verified that it exactly matches. It\u0027s still not obvious for me if I try to guess where a new field will appear.\n\n\u003e \u003e I might rather just add some asserts in CheckerConfig test using the JGit Config API to check that an update\n\u003e \u003e produces a specific value from Config#getStringList, without worrying about the vagaries of formatting.\n\u003e \n\u003e I agree that this would be better.\n\nI think I\u0027m motivated enough to do this, because I have \u003e1 new field on my plate to add :)\n\nThis change is fine as-is, I\u0027ll do it as a followup.",
+      "parentUuid": "14f0eafe_5a853590",
+      "revId": "320a68bb036d5fbc4240ad4b99fe2717225ba4ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

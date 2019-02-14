@@ -94,15 +94,6 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
         "Update checker\n\nRename from my-checker to my-renamed-checker",
         info.updatedOn,
         perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo(
-            "[checker]\n"
-                + "\tname = my-renamed-checker\n"
-                + "\trepository = "
-                + input.repository
-                + "\n"
-                + "\tdescription = A description.\n"
-                + "\turl = http://example.com/my-checker\n");
     assertThat(checkerOperations.sha1sOfRepositoriesWithCheckers())
         .containsExactly(CheckersByRepositoryNotes.computeRepositorySha1(repositoryName));
     assertThat(checkerOperations.checkersOf(repositoryName)).containsExactly(info.uuid);
@@ -124,8 +115,6 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
         "Update checker\n\nRename from my-checker to my-renamed-checker",
         info.updatedOn,
         perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-renamed-checker\n\trepository = All-Projects\n");
   }
 
   @Test
@@ -170,8 +159,6 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
         "Update checker\n\nRename from my-checker to other-checker",
         info.updatedOn,
         perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = other-checker\n\trepository = All-Projects\n");
   }
 
   @Test
@@ -187,11 +174,6 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo(
-            "[checker]\n\tname = my-checker\n"
-                + "\trepository = All-Projects\n"
-                + "\tdescription = A description.\n");
   }
 
   @Test
@@ -208,11 +190,6 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo(
-            "[checker]\n\tname = my-checker\n"
-                + "\trepository = All-Projects\n"
-                + "\tdescription = A new description.\n");
   }
 
   @Test
@@ -229,8 +206,6 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-checker\n\trepository = All-Projects\n");
   }
 
   @Test
@@ -246,11 +221,6 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo(
-            "[checker]\n\tname = my-checker\n"
-                + "\trepository = All-Projects\n"
-                + "\tdescription = A description.\n");
   }
 
   @Test
@@ -266,11 +236,6 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo(
-            "[checker]\n\tname = my-checker\n"
-                + "\trepository = All-Projects\n"
-                + "\turl = http://example.com/my-checker\n");
   }
 
   @Test
@@ -291,11 +256,6 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo(
-            "[checker]\n\tname = my-checker\n"
-                + "\trepository = All-Projects\n"
-                + "\turl = http://example.com/my-checker-foo\n");
   }
 
   @Test
@@ -316,8 +276,6 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-checker\n\trepository = All-Projects\n");
   }
 
   @Test
@@ -333,11 +291,6 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo(
-            "[checker]\n\tname = my-checker\n"
-                + "\trepository = All-Projects\n"
-                + "\turl = http://example.com/my-checker\n");
   }
 
   @Test
@@ -356,8 +309,6 @@ public class UpdateCheckerIT extends AbstractDaemonTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-checker\n\trepository = " + input.repository + "\n");
     assertThat(checkerOperations.sha1sOfRepositoriesWithCheckers())
         .containsExactly(CheckersByRepositoryNotes.computeRepositorySha1(repositoryName));
     assertThat(checkerOperations.checkersOf(repositoryName)).containsExactly(info.uuid);

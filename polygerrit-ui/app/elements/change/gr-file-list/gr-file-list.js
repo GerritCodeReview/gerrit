@@ -1247,5 +1247,13 @@
       }
       return '';
     },
+
+    _reviewedTitle(reviewed) {
+      if (reviewed) {
+        return 'Mark as not reviewed (shortcut: r)';
+      }
+
+      return 'Mark as reviewed (shortcut: r)';
+    },
   });
 })();

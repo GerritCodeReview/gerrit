@@ -21,61 +21,70 @@ import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.Truth;
+import com.google.common.truth.Truth8;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.checker.Checker;
+import com.google.gerrit.server.checker.db.CheckerConfig;
 import com.google.gerrit.server.testing.ObjectIdSubject;
 import com.google.gerrit.truth.OptionalSubject;
 import java.sql.Timestamp;
+import java.util.Optional;
 
-public class CheckerSubject extends Subject<CheckerSubject, Checker> {
-  public static CheckerSubject assertThat(Checker checker) {
-    return assertAbout(CheckerSubject::new).that(checker);
+public class CheckerConfigSubject extends Subject<CheckerConfigSubject, CheckerConfig> {
+  public static CheckerConfigSubject assertThat(CheckerConfig checkerConfig) {
+    return assertAbout(CheckerConfigSubject::new).that(checkerConfig);
   }
 
-  private CheckerSubject(FailureMetadata metadata, Checker actual) {
+  private CheckerConfigSubject(FailureMetadata metadata, CheckerConfig actual) {
     super(metadata, actual);
   }
 
   public void hasUuid(String expectedUuid) {
     isNotNull();
-    Checker checker = actual();
+    Checker checker = checker();
     Truth.assertThat(checker.getUuid()).named("uuid").isEqualTo(expectedUuid);
   }
 
   public void hasName(String expectedName) {
     isNotNull();
-    Checker checker = actual();
+    Checker checker = checker();
     Truth.assertThat(checker.getName()).named("name").isEqualTo(expectedName);
   }
 
   public OptionalSubject<StringSubject, String> hasDescriptionThat() {
     isNotNull();
-    Checker checker = actual();
+    Checker checker = checker();
     return OptionalSubject.assertThat(checker.getDescription(), Truth::assertThat)
         .named("description");
   }
 
   public OptionalSubject<StringSubject, String> hasUrlThat() {
     isNotNull();
-    Checker checker = actual();
+    Checker checker = checker();
     return OptionalSubject.assertThat(checker.getUrl(), Truth::assertThat).named("url");
   }
 
   public void hasRepository(Project.NameKey expectedRepository) {
     isNotNull();
-    Checker checker = actual();
+    Checker checker = checker();
     Truth.assertThat(checker.getRepository()).named("repository").isEqualTo(expectedRepository);
   }
 
   public ComparableSubject<?, Timestamp> hasCreatedOnThat() {
     isNotNull();
-    Checker checker = actual();
+    Checker checker = checker();
     return Truth.assertThat(checker.getCreatedOn()).named("createdOn");
   }
 
   public ObjectIdSubject hasRefStateThat() {
     isNotNull();
-    Checker checker = actual();
+    Checker checker = checker();
     return ObjectIdSubject.assertThat(checker.getRefState()).named("refState");
+  }
+
+  private Checker checker() {
+    Optional<Checker> checker = actual().getLoadedChecker();
+    Truth8.assertThat(checker).named("checker is loaded").isPresent();
+    return checker.get();
   }
 }

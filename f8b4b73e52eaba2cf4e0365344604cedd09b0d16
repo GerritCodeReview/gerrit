@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "fb91d93c_457a6355",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetPrivateOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-14T03:45:07Z",
+      "side": 1,
+      "message": "Correction: !change.getStatus().isOpen();",
+      "parentUuid": "e2b0baa0_b1333162",
+      "range": {
+        "startLine": 78,
+        "startChar": 21,
+        "endLine": 78,
+        "endChar": 60
+      },
+      "revId": "f8b4b73e52eaba2cf4e0365344604cedd09b0d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "095423c8_3c08f58f",
         "filename": "java/com/google/gerrit/server/restapi/change/SetPrivateOp.java",
         "patchSetId": 1

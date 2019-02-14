@@ -17,6 +17,7 @@ package com.google.gerrit.plugins.checkers.acceptance.api;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.testing.CommitSubject.assertCommit;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -24,6 +25,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.plugins.checkers.acceptance.AbstractCheckersTest;
 import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperations.PerCheckerOperations;
+import com.google.gerrit.plugins.checkers.api.BlockingCondition;
 import com.google.gerrit.plugins.checkers.api.CheckerInfo;
 import com.google.gerrit.plugins.checkers.api.CheckerInput;
 import com.google.gerrit.plugins.checkers.api.CheckerStatus;
@@ -64,6 +66,7 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     assertThat(info.url).isNull();
     assertThat(info.repository).isEqualTo(input.repository);
     assertThat(info.status).isEqualTo(CheckerStatus.ENABLED);
+    assertThat(info.blockingConditions).isEmpty();
     assertThat(info.createdOn).isNotNull();
     assertThat(info.updatedOn).isEqualTo(info.createdOn);
 
@@ -267,6 +270,17 @@ public class CreateCheckerIT extends AbstractCheckersTest {
 
     CheckerInfo info = checkersApi.create(input).get();
     assertThat(info.status).isEqualTo(CheckerStatus.DISABLED);
+  }
+
+  @Test
+  public void createCheckerWithBlockingConditions() throws Exception {
+    CheckerInput input = new CheckerInput();
+    input.name = "my-checker";
+    input.repository = allProjects.get();
+    input.blockingConditions = ImmutableSet.of(BlockingCondition.STATE_NOT_PASSING);
+
+    CheckerInfo info = checkersApi.create(input).get();
+    assertThat(info.blockingConditions).containsExactly(BlockingCondition.STATE_NOT_PASSING);
   }
 
   @Test

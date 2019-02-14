@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d046b00_f89c18bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-02-14T06:52:29Z",
+      "side": 1,
+      "message": "Can this be replaced with a summary so it\u0027s easier to get the information in one place? E.g.\n\n For example, in some installations, it adds a noticeable delay (around 5 seconds)\n when hitting the Code Review +2 button before the UI is responsive again.\n\n[...]\n\n Reported-by: Roman Karstetter \u003cRoman.Karlstetter@ifta.com\u003e\n Change-Id: ...\n\nAlso, can this say a little about what the reverse DNS lookup is for? E.g. is it about readable reflogs, or does it provide some other useful kind of information? What, if anything, are we losing by this?",
+      "range": {
+        "startLine": 10,
+        "startChar": 33,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "db1ac128cc7a0a17b6e2931243a78ff77ae608fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

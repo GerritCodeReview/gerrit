@@ -23,6 +23,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestProjectInput;
@@ -116,6 +117,21 @@ public class ListProjectsIT extends AbstractDaemonTest {
       assertThat(projectCacheImpl.sizeAllByName())
           .isAtMost((long) (i + 2)); // 2 = AllProjects + AllUsers
     }
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.listProjectsFromIndex", value = "true")
+  public void listProjectsFromIndexShouldBeLimitedTo500() throws Exception {
+    int numTestProjects = 501;
+    assertThat(createProjects("foo", numTestProjects)).hasSize(numTestProjects);
+    assertThat(gApi.projects().list().get()).hasSize(500);
+  }
+
+  @Test
+  public void listProjectsShouldNotBeLimitedByDefault() throws Exception {
+    int numTestProjects = 501;
+    assertThat(createProjects("foo", numTestProjects)).hasSize(numTestProjects);
+    assertThat(gApi.projects().list().get().size()).isAtLeast(numTestProjects);
   }
 
   @Test

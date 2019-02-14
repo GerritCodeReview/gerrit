@@ -334,7 +334,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
                 + ") is not merged into destination ref"
                 + " refs/heads/master ("
                 + tip.name()
-                + "), but change status is MERGED"));
+                + "), but change status is merged"));
   }
 
   @Test
@@ -354,7 +354,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
                 + ") is merged into destination ref"
                 + " refs/heads/master ("
                 + rev
-                + "), but change status is NEW"));
+                + "), but change status is new"));
   }
 
   @Test
@@ -374,7 +374,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
                 + ") is merged into destination ref"
                 + " refs/heads/master ("
                 + rev
-                + "), but change status is NEW",
+                + "), but change status is new",
             FIXED,
             "Marked change as merged"));
 
@@ -417,7 +417,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
                 + ") is merged into destination ref"
                 + " refs/heads/master ("
                 + rev
-                + "), but change status is NEW",
+                + "), but change status is new",
             FIXED,
             "Marked change as merged"));
 

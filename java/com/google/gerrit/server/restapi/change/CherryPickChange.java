@@ -314,7 +314,7 @@ public class CherryPickChange {
     throw new ResourceConflictException(
         String.format(
             "Change %s with commit %s is %s",
-            change.getChangeId(), base, change.getStatus().asChangeStatus()));
+            change.getChangeId(), base, ChangeUtil.status(change)));
   }
 
   private Change.Id insertPatchSet(

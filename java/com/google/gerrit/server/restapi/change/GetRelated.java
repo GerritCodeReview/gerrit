@@ -27,6 +27,7 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
@@ -147,7 +148,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       info._revisionNumber = ps != null ? ps.getPatchSetId() : null;
       PatchSet.Id curr = change.currentPatchSetId();
       info._currentRevisionNumber = curr != null ? curr.get() : null;
-      info.status = change.getStatus().asChangeStatus().toString();
+      info.status = ChangeUtil.status(change);
     }
 
     info.commit = new CommitInfo();

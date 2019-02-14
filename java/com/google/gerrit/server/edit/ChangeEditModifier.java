@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -399,8 +400,7 @@ public class ChangeEditModifier {
     Change c = notes.getChange();
     if (!c.isNew()) {
       throw new ResourceConflictException(
-          String.format(
-              "change %s is %s", c.getChangeId(), c.getStatus().toString().toLowerCase()));
+          String.format("change %s is %s", c.getChangeId(), ChangeUtil.status(c)));
     }
 
     // Not allowed to edit if the current patch set is locked.

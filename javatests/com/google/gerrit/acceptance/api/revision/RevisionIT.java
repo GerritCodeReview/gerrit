@@ -881,8 +881,8 @@ public class RevisionIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage(
         String.format(
-            "Change %s with commit %s is %s",
-            change2.getChange().getId().get(), input.base, ChangeStatus.ABANDONED));
+            "Change %s with commit %s is abandoned",
+            change2.getChange().getId().get(), input.base));
     gApi.changes().id(change1.getChangeId()).current().cherryPick(input);
   }
 

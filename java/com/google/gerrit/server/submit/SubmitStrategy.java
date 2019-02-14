@@ -248,14 +248,14 @@ public abstract class SubmitStrategy {
     Collections.reverse(difference);
     for (CodeReviewCommit c : difference) {
       Change.Id id = c.change().getId();
-      bu.addOp(id, args.setPrivateOpFactory.create(args.cmUtil, false, null));
+      bu.addOp(id, args.setPrivateOpFactory.create(false, null));
       bu.addOp(id, new ImplicitIntegrateOp(args, c));
       maybeAddTestHelperOp(bu, id);
     }
 
     // Then ops for explicitly merged changes
     for (SubmitStrategyOp op : ops) {
-      bu.addOp(op.getId(), args.setPrivateOpFactory.create(args.cmUtil, false, null));
+      bu.addOp(op.getId(), args.setPrivateOpFactory.create(false, null));
       bu.addOp(op.getId(), op);
       maybeAddTestHelperOp(bu, op.getId());
     }

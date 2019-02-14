@@ -14,14 +14,14 @@
 
 package com.google.gerrit.plugins.checkers.api;
 
-import com.google.gerrit.extensions.restapi.DefaultInput;
-import java.util.Set;
-
-public class CheckerInput {
-  @DefaultInput public String name;
-  public String description;
-  public String url;
-  public String repository;
-  public CheckerStatus status;
-  public Set<BlockingCondition> blockingConditions;
+/**
+ * Conditions evaluated on a check in the context of a change that determine whether the check
+ * blocks submission of a change.
+ */
+public enum BlockingCondition {
+  /**
+   * Block submission unless the check is either {@link CheckState#SUCCESSFUL} or {@link
+   * CheckState#NOT_RELEVANT}.
+   */
+  STATE_NOT_PASSING;
 }

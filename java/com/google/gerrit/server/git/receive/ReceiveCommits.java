@@ -96,6 +96,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.SetHashtagsOp;
+import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfig;
@@ -322,6 +323,7 @@ class ReceiveCommits {
   private final SubmoduleOp.Factory subOpFactory;
   private final TagCache tagCache;
   private final ProjectConfig.Factory projectConfigFactory;
+  private final SetPrivateOp.Factory setPrivateOpFactory;
 
   // Assisted injected fields.
   private final AllRefsWatcher allRefsWatcher;
@@ -396,6 +398,7 @@ class ReceiveCommits {
       SetHashtagsOp.Factory hashtagsFactory,
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
+      SetPrivateOp.Factory setPrivateOpFactory,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
@@ -436,6 +439,7 @@ class ReceiveCommits {
     this.subOpFactory = subOpFactory;
     this.tagCache = tagCache;
     this.projectConfigFactory = projectConfigFactory;
+    this.setPrivateOpFactory = setPrivateOpFactory;
 
     // Assisted injected fields.
     this.allRefsWatcher = allRefsWatcher;
@@ -3172,6 +3176,7 @@ class ReceiveCommits {
                   Optional<ChangeNotes> notes = getChangeNotes(psId.getParentKey());
                   if (notes.isPresent() && notes.get().getChange().getDest().equals(branch)) {
                     existingPatchSets++;
+                    bu.addOp(notes.get().getChangeId(), setPrivateOpFactory.create(false, null));
                     bu.addOp(
                         psId.getParentKey(),
                         mergedByPushOpFactory.create(requestScopePropagator, psId, refName));
@@ -3204,6 +3209,7 @@ class ReceiveCommits {
                   continue;
                 }
                 req.addOps(bu, null);
+                bu.addOp(id, setPrivateOpFactory.create(false, null));
                 bu.addOp(
                     id,
                     mergedByPushOpFactory

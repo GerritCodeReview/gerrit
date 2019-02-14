@@ -212,6 +212,18 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
   }
 
+  @Test
+  public void mergingPrivateChangeThroughGitPublishesIt() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).setPrivate(true);
+
+    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
+    PushOneCommit.Result result = push.to("refs/heads/master");
+    result.assertOkStatus();
+
+    assertThat(gApi.changes().id(r.getChangeId()).get().isPrivate).isNull();
+  }
+
   private void markMergedChangePrivate(Change.Id changeId) throws Exception {
     try (BatchUpdate u =
         batchUpdateFactory.create(

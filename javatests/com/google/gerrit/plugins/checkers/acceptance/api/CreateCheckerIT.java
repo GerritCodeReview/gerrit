@@ -68,8 +68,6 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(info.uuid);
     assertCommit(
         perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-checker\n\trepository = " + input.repository + "\n");
     assertThat(checkerOperations.sha1sOfRepositoriesWithCheckers())
         .containsExactly(CheckersByRepositoryNotes.computeRepositorySha1(repositoryName));
     assertThat(checkerOperations.checkersOf(repositoryName)).containsExactly(info.uuid);
@@ -87,12 +85,6 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(info.uuid);
     assertCommit(
         perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo(
-            "[checker]\n"
-                + "\tname = my-checker\n"
-                + "\trepository = All-Projects\n"
-                + "\tdescription = some description\n");
   }
 
   @Test
@@ -107,12 +99,6 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(info.uuid);
     assertCommit(
         perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo(
-            "[checker]\n"
-                + "\tname = my-checker\n"
-                + "\trepository = All-Projects\n"
-                + "\turl = http://example.com/my-checker\n");
   }
 
   @Test
@@ -126,8 +112,6 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(info.uuid);
     assertCommit(
         perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-checker\n\trepository = All-Projects\n");
   }
 
   @Test
@@ -142,12 +126,6 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(info.uuid);
     assertCommit(
         perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo(
-            "[checker]\n"
-                + "\tname = my-checker\n"
-                + "\trepository = All-Projects\n"
-                + "\tdescription = some description\n");
   }
 
   @Test
@@ -162,12 +140,6 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(info.uuid);
     assertCommit(
         perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo(
-            "[checker]\n"
-                + "\tname = my-checker\n"
-                + "\trepository = All-Projects\n"
-                + "\turl = http://example.com/my-checker\n");
   }
 
   @Test
@@ -181,8 +153,6 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(info.uuid);
     assertCommit(
         perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-checker\n\trepository = All-Projects\n");
   }
 
   @Test

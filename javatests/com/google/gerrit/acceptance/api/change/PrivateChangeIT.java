@@ -39,7 +39,7 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Test;
 
-public class PrivateChangeIT  extends AbstractDaemonTest {
+public class PrivateChangeIT extends AbstractDaemonTest {
 
   @Inject private RequestScopeOperations requestScopeOperations;
 
@@ -212,23 +212,35 @@ public class PrivateChangeIT  extends AbstractDaemonTest {
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
   }
 
+  @Test
+  public void mergingPrivateChangeThroughGitPublishesIt() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).setPrivate(true);
+
+    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
+    PushOneCommit.Result result = push.to("refs/heads/master");
+    result.assertOkStatus();
+
+    assertThat(gApi.changes().id(r.getChangeId()).get().isPrivate).isNull();
+  }
+
   private void markMergedChangePrivate(Change.Id changeId) throws Exception {
     try (BatchUpdate u =
         batchUpdateFactory.create(
             project, identifiedUserFactory.create(admin.id), TimeUtil.nowTs())) {
       u.addOp(
-          changeId,
-          new BatchUpdateOp() {
-            @Override
-            public boolean updateChange(ChangeContext ctx) {
-              ctx.getChange().setPrivate(true);
-              ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
-              ctx.getChange().setPrivate(true);
-              ctx.getChange().setLastUpdatedOn(ctx.getWhen());
-              update.setPrivate(true);
-              return true;
-            }
-          })
+              changeId,
+              new BatchUpdateOp() {
+                @Override
+                public boolean updateChange(ChangeContext ctx) {
+                  ctx.getChange().setPrivate(true);
+                  ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
+                  ctx.getChange().setPrivate(true);
+                  ctx.getChange().setLastUpdatedOn(ctx.getWhen());
+                  update.setPrivate(true);
+                  return true;
+                }
+              })
           .execute();
     }
     assertThat(gApi.changes().id(changeId.get()).get().isPrivate).isTrue();

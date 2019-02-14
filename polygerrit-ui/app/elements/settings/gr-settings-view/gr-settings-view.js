@@ -25,6 +25,7 @@
     'diff_view',
     'publish_comments_on_push',
     'work_in_progress_by_default',
+    'default_base_for_merges',
     'signed_off_by',
     'email_format',
     'size_bar_in_change_table',

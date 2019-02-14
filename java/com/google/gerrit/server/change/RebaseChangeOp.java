@@ -71,6 +71,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   private boolean forceContentMerge;
   private boolean detailedCommitMessage;
   private boolean postMessage = true;
+  private boolean sendEmail = true;
   private boolean matchAuthorToCommitterDate = false;
 
   private RevCommit rebasedCommit;
@@ -132,6 +133,11 @@ public class RebaseChangeOp implements BatchUpdateOp {
 
   public RebaseChangeOp setPostMessage(boolean postMessage) {
     this.postMessage = postMessage;
+    return this;
+  }
+
+  public RebaseChangeOp setSendEmail(boolean sendEmail) {
+    this.sendEmail = sendEmail;
     return this;
   }
 

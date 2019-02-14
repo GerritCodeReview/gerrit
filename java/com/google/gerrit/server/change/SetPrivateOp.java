@@ -45,7 +45,7 @@ public class SetPrivateOp implements BatchUpdateOp {
   }
 
   public interface Factory {
-    SetPrivateOp create(ChangeMessagesUtil cmUtil, boolean isPrivate, @Nullable Input input);
+    SetPrivateOp create(boolean isPrivate, @Nullable Input input);
   }
 
   private final PrivateStateChanged privateStateChanged;
@@ -62,7 +62,7 @@ public class SetPrivateOp implements BatchUpdateOp {
   SetPrivateOp(
       PrivateStateChanged privateStateChanged,
       PatchSetUtil psUtil,
-      @Assisted ChangeMessagesUtil cmUtil,
+      ChangeMessagesUtil cmUtil,
       @Assisted boolean isPrivate,
       @Assisted @Nullable Input input) {
     this.privateStateChanged = privateStateChanged;

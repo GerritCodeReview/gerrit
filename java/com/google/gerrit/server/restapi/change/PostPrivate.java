@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -43,7 +42,6 @@ import org.eclipse.jgit.lib.Config;
 public class PostPrivate
     extends RetryingRestModifyView<ChangeResource, SetPrivateOp.Input, Response<String>>
     implements UiAction<ChangeResource> {
-  private final ChangeMessagesUtil cmUtil;
   private final PermissionBackend permissionBackend;
   private final SetPrivateOp.Factory setPrivateOpFactory;
   private final boolean disablePrivateChanges;
@@ -51,12 +49,10 @@ public class PostPrivate
   @Inject
   PostPrivate(
       RetryHelper retryHelper,
-      ChangeMessagesUtil cmUtil,
       PermissionBackend permissionBackend,
       SetPrivateOp.Factory setPrivateOpFactory,
       @GerritServerConfig Config config) {
     super(retryHelper);
-    this.cmUtil = cmUtil;
     this.permissionBackend = permissionBackend;
     this.setPrivateOpFactory = setPrivateOpFactory;
     this.disablePrivateChanges = config.getBoolean("change", null, "disablePrivateChanges", false);
@@ -78,7 +74,7 @@ public class PostPrivate
       return Response.ok("");
     }
 
-    SetPrivateOp op = setPrivateOpFactory.create(cmUtil, true, input);
+    SetPrivateOp op = setPrivateOpFactory.create(true, input);
     try (BatchUpdate u =
         updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       u.addOp(rsrc.getId(), op).execute();

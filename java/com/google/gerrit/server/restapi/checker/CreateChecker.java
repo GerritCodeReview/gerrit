@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.checker;
 
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.extensions.api.checkers.CheckerInfo;
 import com.google.gerrit.extensions.api.checkers.CheckerInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -100,6 +101,10 @@ public class CreateChecker
     }
     if (input.status != null) {
       checkerUpdateBuilder.setStatus(input.status);
+    }
+    if (input.blockingConditions != null) {
+      checkerUpdateBuilder.setBlockingConditions(
+          ImmutableSortedSet.copyOf(input.blockingConditions));
     }
     Checker checker =
         checkersUpdate

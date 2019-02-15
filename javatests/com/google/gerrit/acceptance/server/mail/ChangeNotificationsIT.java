@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.reviewdb.client.Project;
@@ -54,6 +55,8 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.inject.Inject;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -1480,17 +1483,43 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
    */
 
   @Test
-  public void mergeByOwner() throws Exception {
-    StagedChange sc = stageChangeReadyForMerge();
-    merge(sc.changeId, sc.owner);
-    assertThat(sender)
-        .sent("merged", sc)
-        .cc(sc.reviewer, sc.ccer)
-        .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS, SUBMITTED_CHANGES)
-        .noOneElse();
-    assertThat(sender).didNotSend();
+  public void mergeByOwnerAllSubmitStrategies() throws Exception {
+    testMergeByOwnerAllSubmitStrategies(false);
+  }
+
+  @Test
+  public void mergeByOwnerAllSubmitStrategiesWithAdvancingBranch() throws Exception {
+    testMergeByOwnerAllSubmitStrategies(true);
+  }
+
+  private void testMergeByOwnerAllSubmitStrategies(boolean advanceBranchBeforeSubmitting)
+      throws Exception {
+    for (SubmitType submitType : SubmitType.values()) {
+      try (ProjectConfigUpdate u = updateProject(project)) {
+        u.getConfig().getProject().setSubmitType(submitType);
+        u.save();
+      }
+      StagedChange sc = stageChangeReadyForMerge();
+      if (advanceBranchBeforeSubmitting) {
+        if (submitType == SubmitType.FAST_FORWARD_ONLY) {
+          continue;
+        }
+        try (Repository repo = repoManager.openRepository(project)) {
+          new TestRepository<>(repo).branch("master").commit().create();
+        }
+      }
+
+      merge(sc.changeId, sc.owner);
+      assertThat(sender)
+          .named("merged sender for %s", submitType)
+          .sent("merged", sc)
+          .cc(sc.reviewer, sc.ccer)
+          .cc(sc.reviewerByEmail, sc.ccerByEmail)
+          .bcc(sc.starrer)
+          .bcc(ALL_COMMENTS, SUBMITTED_CHANGES)
+          .noOneElse();
+      assertThat(sender).named("sender for %s", submitType).didNotSend();
+    }
   }
 
   @Test

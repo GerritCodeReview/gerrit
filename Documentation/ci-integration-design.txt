@@ -1,0 +1,334 @@
+Gerrit CI/analyzer integration
+Workflow/API
+[Public]
+Author: aliceks@google.com
+Objective
+Provide first-class CI integration in Gerrit and lay the foundations for analyzer support.
+Background
+In its 10 years of history, Gerrit has never offered a dedicated integration of CI/analyzers. To work around that, people have used Gerrit’s label system instead to show the result of a build and possibly block submission. Further details (like a text message or a link to the build result) are provided via messages on the Gerrit change.
+Some issues with this are:
+Additional details (state, link, description, duration, …) cannot be associated with a label.
+Change messages mix with human comments and can be very confusing (e.g. due to their large amount).
+The voting system of labels is confusing for users.
+Labels used for CI/analyzer integration are different for each host and not easily recognized by users as CI/analyzer input.
+Submit requirements aren’t clear to users.
+Re-running CI/analyzer systems is only possible by removing their label vote
+which is not intuitive and
+which only trusted persons may do since the permission to remove a vote also applies to all human labels.
+
+We want to provide a better experience for our users. Our first priority will be to provide first-class support for CI systems.
+Requirements
+Functional
+Even though we concentrate on CI systems for now, the design must be flexible enough to integrate analyzers too. Necessary additions for analyzers like improvements of robot comments are not covered now. The following requirements are from a general CI integration perspective:
+
+Must
+Associate build/analyzer result with a specific patch set of a change.
+Show a helpful name for the build/analyzer result.
+Support many builds/analyzers per change and patch set.
+Clearly show the individual and combined build/analyzer result to the user.
+Block Gerrit change submission until build/analyzers succeed.
+
+Should
+Allow re-run of all or dedicated builds/analyzers.
+Indicate intermediate states of the build/analyzer (e.g. “running”).
+Display a link (e.g. to the build result or a running build).
+Show the overall result of blocking builds/analyzers on the dashboard.
+Support non-blocking builds/analyzers (e.g. optional analyzers).
+Associate build/analyzer with a subset of changes (e.g. matching a specific branch or set of files).
+
+Nice-to-have
+Show a short description of the build/test/analyzer (e.g. “checks that the code conforms with the style guide”).
+Show timestamps for updates.
+Show duration of build/analysis.
+Display custom, additional messages on states (e.g. “step 3 out of 19”, “4 test failures so far”).
+Obsolete builds are identified and possibly not run/finished (e.g. abandoned changes; newer patch sets) without having the need to implement that logic in every CI/analyzer system.
+Manually skip unnecessary builds (e.g. on a prototype change).
+Give some changes a higher priority (e.g. for a critical fix).
+Non-functional
+In addition to the regular non-functional requirements (e.g. maintainability), the design must also:
+Be general enough to allow unknown build/analyzer systems.
+Be robust/resilient to failures due to dependence on systems external to Gerrit (e.g. network, CI/analyzer systems). This also includes staying responsive for Gerrit users.
+Scale (small/large hosts; few/many builds/analyzers).
+Be flexible enough to allow unknown needs of CI/analyzer systems. (within bounds)
+Glossary
+Background:
+CI system
+(Continuous integration system)
+An automation system which allows continuous integration and facilitates continuous delivery. Examples: Jenkins, TeamCity
+Build
+A set of operations which are run in a CI system and have a common aspect. Examples: code compiler; all unit tests
+Analyzer system
+An automation system which runs various static analyses or various static analysis tools.
+Analyzer
+A set of analyzing operations which have a common aspect. Examples: Error Prone, google-java-format checker
+
+New Gerrit terminology:
+Checker
+A CI/analyzer system or a build/analyzer, depending on which integration variant is chosen.
+Check
+The work the checker does on a patch set.
+Sub-check
+Sub-work of a checker. Each check can have multiple sub-checks (e.g. a specific bug pattern of Error Prone).
+Overview
+Integration per CI/analyzer system or per build/analyzer
+Integrating systems will have the choice whether a checker represents a single build/analyzer or a whole CI/analyzer system. This choice can be made for each checker on its own. The former (recommended) variant offers better integration, more support in Gerrit, less traffic, and less load on Gerrit and the CI/analyzer system. The latter allows more flexibility (e.g. determining set of checks on the fly) from the integrating system perspective. See Comparison of checker representations for more details.
+Configuration
+Checkers must be configured in Gerrit before they can send any details to Gerrit. The configuration contains
+details about the checker (e.g. name, description),
+to which kind of Gerrit changes it applies (e.g. in which repository), and
+whether/how the checker blocks submission of changes.
+Checks on changes
+Each patch set features a check for each configured, applying checker. Upon upload of a patch set, the properties (e.g. state, link) of a check are set to the default values.
+Interaction between Gerrit and a checker
+When a new patch set is uploaded, the following interaction happens:
+
+
+
+The sent event will only be a trigger to query Gerrit for pending checks. It won’t point to a specific patch set of a change.
+
+Pending checks will be offered for a specific checker and point to a specific patch set of a change, though won’t include the full change details. Checkers will have the choice about how many checks they want to schedule right away. They only have to make sure to appropriately update the check state (e.g. to “scheduled”) before they query for pending checks again.
+Re-run
+When the user requests a re-run for a specific check, Gerrit sets the state of that check to not started and sends the trigger event again.
+Detailed Design
+REST endpoints
+REST endpoints marked by (*) are especially useful for Gerrit’s UI.
+On checkers
+The checker collection type will be added to Gerrit’s REST API and the following REST endpoints will be available for it:
+Add checker
+Update checker
+Soft delete checker
+Get checker
+Get all checkers
+Get pending checks
+On patch sets
+The following patch set (aka revision) endpoints will be added:
+Update check
+Get check
+Get all checks (*)
+Re-run a specific check (*)
+Re-run all checks (*)
+On changes
+The ChangeInfo type will get an optional field for the aggregated status of all checks of the latest patch set. The resulting aggregated status will have a different range of values (failed; in progress; warning; successful; not relevant) than the state available for individual checks. The logic applied for aggregation will focus on the most negative state but make a difference between required (→ failed) and non-required (→ warning) checks. The ChangeInfo field will be populated for the Get Change and Query Changes REST endpoints if the new query parameter CHECK_STATE is specified on the request. (*)
+Partial update
+Partial updates will be possible for checks and the configuration of checkers. Similar to other, existing REST endpoints in Gerrit, only properties/fields which are specified in the input are updated. To clear a property, a special value must be specified (e.g. empty string for strings). Those values will be documented.
+Configuration of checkers
+The configuration of a checker will feature at least:
+UUID (generated; not updatable)
+Name
+Short description (optional field)
+Enabled flag (true by default)
+Repository (optional field)
+Change query (optional field)
+Token for staleness (optional field)
+List of conditions which block submission (empty by default)
+UUID
+Gerrit will generate the UUID and include it in the returned result upon creation of the checker configuration. The generated UUID will be unique per Gerrit host, which Gerrit will enforce by additional means, but it will typically be also unique across hosts (without enforcement).
+Name
+Uniqueness of names is not enforced within Gerrit.
+Logic to which changes a checker applies
+Single-repository checkers
+Checkers apply to a specific repository. If nothing is specified, the checker won’t apply to any repository. We intend to allow the specification of cross-repository checkers in the future.
+Change queries
+Change queries may consist of a whitelisted set of query operators. Operators which don’t make sense in this context (e.g. “star”) or would conflict with other fields of the checker (e.g. “repositories”) will not be available in this context. Upon addition/update of a change query, Gerrit verifies that it can be parsed and executed (e.g. doesn’t hit internal Gerrit due to query length).
+Logic in Gerrit vs. external system
+CI/analyzer systems will own the logic to which changes a build/analyzer applies. By additionally specifying some of the logic in Gerrit (currently: enabled flag, repository, and change query), the following benefits are unlocked:
+Checks don’t show up on changes to which they don’t apply. → Less UI clutter and confusion for users.
+Faster and more reliable submission of changes for blocking (but not applying) checks as there’s no roundtrip with an external system.
+Smaller volume of data to store in Gerrit (as storage of checks can be omitted if they don’t apply). This especially becomes significant if the corresponding checker only applies to a small set of changes on a change-heavy Gerrit host.
+Less traffic between Gerrit and the CI/analyzer system as the CI/analyzer system doesn’t need to query Gerrit for additional details (e.g. target branch).
+Less load and QPS on Gerrit and on the CI/analyzer system as
+Gerrit won’t be asked for e.g. change details, which might involve other, mandatory expensive operations.
+CI/analyzer system wouldn’t even need to spend resources as they wouldn’t even be triggered.
+
+The price for those benefits is the additional overhead to synchronize the logic between Gerrit and the CI/analyzer system. We suggest that those systems include some consistency mechanism at some point to ensure that both configurations don’t deviate from each other. To simplify the consistency mechanism, the token field can be filled appropriately (e.g. with a timestamp or commit SHA-1) to avoid having to go over all fields individually.
+
+Of course, not all possible logic can be expressed by the current options in Gerrit. In this case, checkers have to be configured such that they do apply to the changes. After being triggered and evaluating their own logic, they set the check state to not relevant.
+
+Our recommendation is to configure as much logic as possible within Gerrit and only cover those aspects within the CI/analyzer system which can’t be expressed.
+No real, manual deletion
+The configuration of checkers cannot simply be deleted as checks on patch sets will reference them by their UUID in order to avoid having to store the name, short description, and potential future details about the checker in each check. This also allows automatic updates of those details for affected changes without having to update all stored checks.
+
+To allow a variant of deletion, we offer a REST endpoint for soft deletion. Upon receiving such a request, Gerrit sets the checker to disabled and resets all fields which aren’t necessary anymore. It additionally marks such a checker as deleted. Gerrit will have the option to optimize this operation in the future (e.g. use another storage format for deleted checkers; remove never referenced, deleted checkers).
+
+It may be necessary in some circumstances to permanently delete checker data, but we don't expect this to happen in normal operation and don't provide API endpoints for it. If necessary, real deletion will be handled differently (e.g. write a script to delete the internal data).
+Blocking change submission
+Checkers block submission if any of their blocking conditions applies to the latest patch set. Non-blocking checkers are represented with an empty list. At the moment, we only have one blocking condition: “check state is not passing”. Passing states are successful and not relevant.
+
+Technically, submission of changes will be blocked by a submit rule, which takes the configuration of the checker and the check state of the change in question into account.
+Checks
+Internally, the checks defined for a patch set (represented by a change and patchset identifier) will feature:
+UUID of this check (generated, not updatable)
+UUID of the checker (not updatable)
+Current state
+Start timestamp (optional field)
+Duration (optional field)
+Link (optional field)
+When a check is retrieved via the REST API, a request option can be set to return the following details (determined from the corresponding checker) as well:
+Name
+Short description (optional field)
+Required (true if the list of blocking conditions is non-empty)
+This will allow the UI to issue only one call to display the “Build/Analyzer” table on the change screen. If no checker can be found for the checker UUID, the UUID is taken as name.
+Update
+A check is only accepted if the checker UUID points to a configured checker. That checker doesn’t necessarily need to apply to the change on which the check is provided. In such a case, the check is automatically reported as not being required.
+Check states
+The following check states will be available:
+
+
+The arrows mark likely state transitions, though updates to any state are allowed.
+
+See Blocking change submission for how check states block submission.
+Not started
+Indicates that no action has been taken yet. This is the default state upon each patch set. This state is also used to indicate that the check needs to run again for the patch set.
+Scheduled
+Indicates that the build/analysis is scheduled (= known to the CI/analyzer system and considered to run at some point in the future). This state may be skipped if the CI/analyzer system doesn’t support it.
+Running
+Indicates that the build/analysis is running.
+Successful
+Indicates that the build/analysis was successful.
+Failed
+Indicates that the build/analysis failed. This includes both a failed check (e.g. issues were detected) as well as failure due to inability to run the build/analysis (e.g. infrastructure issues).
+Not relevant
+Indicates that running the check on this change / patch set isn’t necessary. This state is especially useful if the options for the checker aren’t expressive enough to define to which changes the checker should apply. In this case, change queries should be defined to match a wider set of changes so that the checker is triggered and hence can decide on its own whether it needs to run (-> state “scheduled”/”running”) or not (-> state “not relevant”).
+Pending checks
+A check is pending if a checker applies to a patch set, the patch set belongs to an open change, and the check state (for that checker) is not final. Until we add filtering by check state, we add another implicit condition: the check state is not started.
+
+By providing their UUID on a dedicated REST endpoint, checkers can retrieve a list of their pending checks from Gerrit. Specifying multiple checker UUIDs or none at all will not be supported.
+
+Each entry in the list of pending checks features:
+Repository name
+Change identifier (likely change number - to be decided yet)
+Patch set identifier (likely SHA-1 - to be decided yet)
+The following fields might be added if we decide that they are helpful (e.g. to avoid round-trips)
+URL to Git repository
+Git reference to change
+Target branch
+List of modified file paths of the patch set
+Order
+The list of pending checks will be ordered by increasing creation time of the patch sets and hence place the most urgent checks (= oldest patch sets) at the top. Checkers are expected to honor this order. This policy will enable the addition of further features to Gerrit in the future even without adjusting checkers.
+Change visibility
+Change visibility is taken into account when generating the list of pending checks of a checker. For this, the permissions of the calling account are relevant and hence have to be set appropriately (see also Permissions on new REST endpoints).
+Limit
+In a reasonable way (e.g. a number in the hundreds or thousands), Gerrit may limit the size of the list of pending checks it gives out to checkers without additional indication. If checkers want to access checks which are excluded due to this size limit, they have to process and act on the other checks first. Checkers will also have the possibility to specify a limit (which will be capped by the Gerrit-internal limit) to only request the amount of checks they can currently handle.
+Trigger event
+The trigger event won’t include any details about which checks need to run. It’s simply a trigger which tells other systems to call Gerrit and ask for pending checks.
+
+To save unnecessary round-trips, Gerrit will include a list of checker UUIDs for checkers which are affected by an upload of a patch set or a re-run. Whether checkers filter incoming events according to their own UUID as optimization is up to them.
+Re-run
+When requesting a re-run, Gerrit needs the following details:
+Change identifier
+Patch set identifier
+List of checker UUIDs
+
+If no checker UUID is specified, all checkers are triggered. Otherwise, only the specified checkers are triggered.
+
+Similar to other existing REST endpoints of Gerrit, specifying the patch set identifier (instead of automatically taking the latest one) is necessary as a new patch set might be uploaded while another user requests a re-run on the previously latest patch set. Due to this, the backend will also allow to re-run checkers on not-latest patch sets. Whether the frontend supports this too is still to be decided.
+Permissions on new REST endpoints
+REST endpoints
+REST endpoints regarding checkers will be guarded by a new, dedicated Gerrit permission. The same permission will be used to guard who may post checks. (We might consider to change this in the future.)
+
+Reading checks will be possible for anybody who can see the corresponding change. (We might consider to change this in the future.)
+
+Listing pending checks for a checker will not be guarded by any permission. However, change visibility is taken into account.
+
+Re-running a check will only be possible for change owners (maybe uploaders) and admins. We will consider to widen this to more users if necessary.
+Implications
+The account which is used to access Gerrit from the checker must be granted the new permission and considered for other permissions/ACLs which restrict (or in the case of private changes widen) change visibility. This means setting the corresponding Gerrit ACLs. Admin users should have the new permission too in order to fix issues.
+
+All of this means that checkers (or anybody else using their service account) may even update Gerrit’s configuration of other checkers and post checks for other checkers. Admins who care about this should make a considerate choice of the checkers for a Gerrit host and only select those they trust to behave correctly.
+No obligation to use event system
+Even though the recommended way is to react to the trigger event, this is not strongly required. For CI/analyzer systems which can’t receive events from Gerrit (e.g. no SSH events or other mechanism available for the Gerrit host or on the receiving end), the described approach still works. Instead of reacting to events, those systems would periodically ask for pending checks.
+Recovery from failures
+The described design was deliberately chosen to mitigate potential failures due to e.g.:
+Missed events.
+The CI/analyzer system might have an outage.
+The communication layer (e.g. network) between the CI/analyzer system and Gerrit might have issues.
+Gerrit itself might not successfully execute an incoming request (e.g. too many concurrent requests aka unresolvable lock failure).
+
+Missed checks will automatically be included in the list of pending checks which is requested on subsequent trigger events. Critical systems also have the choice to additionally ask Gerrit for pending checks either periodically (e.g. once per hour) or upon special incidents (e.g. after an outage).
+
+Missed updates on the check state are less of an issue if the update is to a non-final state as subsequent updates are likely to happen. Missed updates to a final state could result in changes being indefinitely blocked. This can be corrected by users requesting a re-run upon which the check will show up as pending again.
+
+Admins will have the option to set blocking checks to not relevant in order to unblock submission for critical changes.
+Comparison of checker representations
+
+
+
+CI/analyzer system as checker + builds/analyzers as sub-checks
+Build/analyzer as checker
+User perspective
+Without sub-checks support: No indication of builds/analyzers.
+With sub-checks support:
+Builds/analyzers ‘magically’ appear at some point after patch set upload.
+User sees from the beginning which builds/analyzers will run.
+Configuration overhead
+Less configuration overhead as most logic for when to run builds/analyzers is only within the CI/analyzer system.
+Duplication of logic depends on whether additional Gerrit support is used.
+Grouping
+Grouped by CI/analyzer system. Can hopefully be combined with categories if we can come up with an appropriate UI design.
+No grouping as long as we don’t have categories.
+Blocking submission
+Only state of CI/analyzer system blocks. CI/analyzer system has to set its state appropriately depending on which logic should apply to failing builds/analyzers. Even with sub-checks support, builds/analyzers never have a “Required” tag in the UI.
+Build/analyzer automatically block submission if configured and are marked as such on the UI.
+Re-run
+Only possible per CI/analyzer system by default. CI/analyzer systems may implement their own, additional logic.
+Possible per build/analyzer by default.
+Update of details like name and description
+Name/Description of the CI/analyzer system are automatically updated on all affected changes.
+With sub-checks support: Updates of name/description of a build/analyzer are not reflected on changes except if the CI/analyzer system updates all affected changes manually.
+Name/Description of a build/analyzer are automatically updated on all affected changes.
+Partial updates on change screen
+Only possible for the CI/analyzer system.
+With sub-checks support: Details about builds/analyzers always have to be updated as a whole.
+Possible per build/analyzer.
+Traffic/Load
+More traffic and load due to even more extreme form of storing logic only in external system.
+With sub-checks support: Additional overhead as details like name/description need to be sent for each patch set and partial updates are not possible.
+Load/traffic depending on chosen approach for logic in Gerrit vs. external system.
+Sharing computed artifacts among multiple builds/analyzers
+CI/analyzer system can run the artifact generating process first and set its check state to running. When the artifacts are ready, it spawns multiple builds/analyzer for which results are posted as sub-checks with sub-checks support whenever they are available.
+CI/analyzer system can run the artifact generating process first and set the check states of all affected builds/analyzers to running. When the artifacts are ready, it spawns multiple builds/analyzer for which results are posted as checks whenever they are available.
+Other/Future Considerations
+This section contains ideas on how the described design can be extended to support further use cases.
+Support for sub-checks
+To better support the use case when a CI/analyzer system is configured as checker, we could also allow to associate sub-checks with a specific check. Sub-checks would feature:
+Name
+Short description (optional field)
+Current state
+Start timestamp (optional field)
+Duration (optional field)
+Link (optional field)
+
+The name of a sub-check acts as identifier and hence must be unique for a specific check. The state can be of the same values as the check state.
+
+Sub-checks cannot be nested further. They only exist if they are provided by the checker and are purely informational (→ non-blocking).
+
+Once a sub-check has been added to a check, it can only be updated further. Deletion is not possible. Subsequent updates happen by posting a new version of the sub-check. Partial updates are not possible.
+
+Supporting sub-checks would require a proper UI design for them (which doesn’t conflict with Categories), which we don’t have yet.
+Categories
+If the number of checkers grows, it will make sense to logically group them into categories and thus reduce the cognitive burden for users. Examples for categories: “required analyzers”, “optional analyzers”, “tests”, “builds”. We could also have sub-categories for more granular grouping.
+
+Each checker would belong to at most one category (or sub-category), which would need to be configured once.
+
+To support categories, we would need a proper UI design, which also considers sub-categories if those are desired.
+Cross-repository checkers
+Checkers might want to apply to multiple or even all repositories. To support this use case, we would allow to specify a prefix regex (e.g. an asterisk for all repositories). The configuration of a checker in Gerrit would support to either specify a single repository or the specially marked prefix regex depending on which behavior is desired for the checker.
+Carry over of checks
+The current approach with labels allows to configure when a label should be carried over to a new patch set. This is especially useful if the check is blocking and nothing effectively changed for the check between patch sets (e.g. it only applies to code and just the commit message was updated).
+
+We could add a mechanism to Gerrit which is triggered after a new patch set is uploaded. That mechanism would inspect earlier patch sets and carry over suitable results of checks (e.g. state is successful or failed) which still apply. Sending the trigger event would be delayed until this mechanism has finished. The sent along list of checker UUIDs would be reduced accordingly.
+
+The carry-over logic would be configured by carry-over conditions (similar to blocking conditions) in the configuration of the checker. No conditions would mean that carry-over is disabled.
+Obsolete or less important checks
+Several actions in Gerrit can result in checks becoming obsolete or less important.
+Examples:
+Upon an upload of a new patch set, any checks of previous patch sets become informational only.
+If a change is abandoned, any checks for its patch sets will be unnecessary.
+
+Especially the first example can be annoying to users if they upload many patch sets in a row as checks of earlier patch sets will be handled with priority due to their earlier upload time.
+
+This could be solved by introducing a priority field for pending checks. Checks of not-current patch sets would be assigned a lower priority than usual. The list of pending checks would be ordered first by priority and then by upload time of the patch set. Additionally, we could allow the list of pending checks to be filtered according to priority or a more semantic mechanism so that checkers have the choice of whether they even want to see checks for not-current patch sets or not.
+
+Introducing the priority system would also enable another feature: allowing a limited set of users to indicate which changes should be handled with priority (e.g. due to a critical fix).
+More fields for checks
+Some checkers might want to show additional details for their checks in Gerrit. If their use case is reasonable for a larger number of checkers, we will add further fields to the checks. One example for this could be a status message (e.g. “step 2 of 5”, “system crash” to explain failure).

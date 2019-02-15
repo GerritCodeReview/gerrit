@@ -16,6 +16,24 @@
       "revId": "850935c444ab3902df34995695fbe5349816039d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da6ef2ea_4b1c658c",
+        "filename": "java/com/google/gerrit/gpg/server/GpgKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1079507
+      },
+      "writtenOn": "2019-02-15T08:11:05Z",
+      "side": 1,
+      "message": "The ArmoredOutputStream actually does not close the ByteArrayOutputStream.\n\nI have not closed the BAOS, because it is known for not having resources which needs to be closed, and is (at least for Eclipse) excluded from try-with-resource warnings.\n\nThe third patchset wraps the BAOS with try-with-resource, that should prevent any warnings for validators without that exception.",
+      "parentUuid": "bde587fc_b9ad385f",
+      "revId": "850935c444ab3902df34995695fbe5349816039d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

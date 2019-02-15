@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1550183153 -0800\nnonce ANwvRnAVE0UoMTDFq3i6Cf5xhDG4QlQLHBM1Z9cveFa8LeHAT5v+PmS1BgORZ6LrpKtgkZ0rtiNG\n\n0000000000000000000000000000000000000000 46b54280528ff77981716d318ce781f30d05f9a2 refs/for/master%r\u003dhiesel@google.com,t\u003dchecks-api\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlxl6vEVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMAJ4P/1o0clHP+oNTo4NTxrdibuI+dCfi\n1kKm73swOtNS5ujU5BkhzB+EHIrcmo23bJoWuCo7NcngKe0fkxrBK+Ps+OU8BMoX\nT4fIUbvrA0nR5Ow/CfnZS0t8keZhbLGy9jqR8Kofe3WkR3EIzMYXtstnY09XPwEb\nGdlXbgd/hl3+ewGNv6OitBNP0DUAnJnQzakPpCP7QHuA+2jJJnzpQqq9unvh3ZzI\n4yua/XYEamrjDifpQJABQjfXc9rwydtv1cmIC7t0PdkQIDRssCCWV+dil7xHeq9J\nJ1CkfPk4emXBECjT2MxrYAeYdWhyrmQX2XkapeHVQb5e9WnHbqyYYzF5Maqv5S9y\noQ9bz53jRqXjPEqb8D+c5H7tG5f3RN5tdC1Doq3ntLO3MF62O/DlSSQxS+JaOJZs\nBuO0/yKEVPisj54EY/KJxH5Ztyd4n+9+r/SgLqEM37H+LWtcSHYSQj+zCCK/5mCs\nWtpxRqVVQ6E/j4Tj9S3MKnwMpZpQwLuGJCdJHmAbS9BLgkq5s00RwNYPzkbNg2fL\ncBy6AHLB4XhjLm+ZQUQVN/Z1x8WKUg9v/35hWRhRlrBmEYjBvmFi5j0zMGkJ0zxu\n9lAt1yK5cKQylnRHiY43Xk9D3hQBTynA3zcBz3YA5Vy2yAcRoLE9deH6MrzB5UZz\nal8734B9Rha36kjq\n\u003dTN+9\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b254fd58_94f3b8f0",
+        "filename": "javatests/com/google/gerrit/server/checker/db/CheckerConfigTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-15T11:55:00Z",
+      "side": 1,
+      "message": "Should we assert that this was a no-op in that it didn\u0027t create a Git commit?",
+      "revId": "d4afdefccea815a450a8d77fda7697ae9124eec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

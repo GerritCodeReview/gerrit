@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.change;
+package com.google.gerrit.server.change;
 
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
@@ -35,7 +35,6 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.change.NotifyUtil;
 import com.google.gerrit.server.extensions.events.ReviewerDeleted;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;

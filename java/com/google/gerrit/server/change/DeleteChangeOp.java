@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.change;
+package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
 
@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
-import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.extensions.events.ChangeDeleted;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -42,7 +41,7 @@ import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-class DeleteChangeOp implements BatchUpdateOp {
+public class DeleteChangeOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final StarredChangesUtil starredChangesUtil;
   private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;

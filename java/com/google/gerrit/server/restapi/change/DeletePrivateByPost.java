@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.inject.Inject;

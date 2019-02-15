@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;

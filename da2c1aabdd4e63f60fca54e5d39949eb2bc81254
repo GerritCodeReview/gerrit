@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1550183189 -0800\nnonce ANwvRnAImZPb2WTOy9C7GgcC7C7hinWRVlMnI33XvUMx2/UuPDNL92aTpHRIJmnfzntOORDRZsC3\n\n0000000000000000000000000000000000000000 349d468f4b9afe2970f10aa7b25e7c448f07ee09 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlxl6xUVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM8CIP/Aj2evJQjT740PZsg2ncymLYeWJw\ntLp1gE2xH57GOHOS5K6FnXiv17FFGOPy0G/KZEY3ZVjMRQKU+TW9IQAbfK+S79oy\nXZDk3bpS+CArdWGw4+7/POcHTyoS5uaWFsMMYJ1CYvBFF6/Uv/62YPX1ZFaZUDHm\nMhpAtEjkOr9K4QW86A4btvZlxFuH8wHN0377IBtERXB1I1OwogA8T/GVMRe4avfR\n8+PSBF0e7ID9CZCI+MC5ZH4dU1DaoRrbFcgRs/BK9ksCsHAQ3YJYEFu2B+QsjIsV\njMlE8U4TShns6v1o7saeC1PKjbihKfSlFZx8pHe/5v2kCkbvtzyK+ue8mTIYF23Y\nKZT4BOHwSuGNJDI9oVmvuIFss4ePtIfwyxskHIAPzOb10EC3xZPcF6vx0gSq1Ysn\nKT5igcFUXnxrggJHUF5GqXw0nQJyceW46SoaL7UjC0Hf4j2v79xfOuq7zDg8a96B\nGerlGhTOTPgLjz5fXUdLCZnV5RwDxZvHqSuzn9LNmRCMwAjwuhEASqw9wN0h47Cg\nvTzTtfu7h1N+Ut2eOGp3rR1fwX/QYuaeUQFwS6xclD32Hrwajlbxy6DDQSUC6oM/\ng1j9P1YW0DPzBNbRdOPM+0C7PlfpyHKKHBVXv1dg7j2cSoz/Fc4GAJ8aJ/PVJ/9E\nvTxuW87E+j3iEXj1\n\u003dxU9t\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5193104_847405e6",
+        "filename": "java/com/google/gerrit/extensions/common/CheckState.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-15T13:30:14Z",
+      "side": 1,
+      "message": "optional:\n\nShould we mark the final ones here explicitly by offering isFinal() (or alternatively isInProgress())?\n\nYou check this once in your test and given the comments on the previous change I would expect that we have more need for distinguishing between final/in progress in the actual implementation as well.",
+      "revId": "da2c1aabdd4e63f60fca54e5d39949eb2bc81254",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fe76f8_99a8e258",
+        "filename": "javatests/com/google/gerrit/extensions/common/CombinedCheckStateTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-15T13:30:14Z",
+      "side": 1,
+      "message": "Any particular reason why two instances are not enough? That could make us spare the loop here.",
+      "revId": "da2c1aabdd4e63f60fca54e5d39949eb2bc81254",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

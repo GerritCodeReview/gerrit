@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "456ae990_1ca87305",
+        "filename": "java/com/google/gerrit/server/change/SetPrivateOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-15T00:34:11Z",
+      "side": 0,
+      "message": "optional: moving out of the restapi package could be done in a separate change.\n\nNote that there are a few other *Op classes in the restapi package. Should they also be moved?\n\n gerrit $ git ls-files | grep Op.java | grep restapi\n java/com/google/gerrit/server/restapi/change/DeleteChangeOp.java\n java/com/google/gerrit/server/restapi/change/DeleteReviewerByEmailOp.java\n java/com/google/gerrit/server/restapi/change/DeleteReviewerOp.java\n java/com/google/gerrit/server/restapi/change/SetPrivateOp.java",
+      "revId": "0830025c0c5eded9cb68b90a9d45f441ae7e0824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

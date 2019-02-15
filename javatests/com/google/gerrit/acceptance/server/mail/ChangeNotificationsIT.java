@@ -77,11 +77,14 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   @Before
   public void grantPermissions() throws Exception {
-    grant(project, "refs/*", Permission.FORGE_COMMITTER, false, REGISTERED_USERS);
-    grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
-    grant(project, "refs/heads/master", Permission.ABANDON, false, REGISTERED_USERS);
-    ProjectConfig cfg = projectCache.get(project).getConfig();
-    Util.allow(cfg, Permission.forLabel("Code-Review"), -2, +2, REGISTERED_USERS, "refs/*");
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      ProjectConfig cfg = u.getConfig();
+      Util.allow(cfg, Permission.FORGE_COMMITTER, REGISTERED_USERS, "refs/*");
+      Util.allow(cfg, Permission.SUBMIT, REGISTERED_USERS, "refs/*");
+      Util.allow(cfg, Permission.ABANDON, REGISTERED_USERS, "refs/*");
+      Util.allow(cfg, Permission.forLabel("Code-Review"), -2, +2, REGISTERED_USERS, "refs/*");
+      u.save();
+    }
   }
 
   /*

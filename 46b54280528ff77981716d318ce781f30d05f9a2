@@ -1,4 +1,79 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1550183153 -0800\nnonce ANwvRnAVE0UoMTDFq3i6Cf5xhDG4QlQLHBM1Z9cveFa8LeHAT5v+PmS1BgORZ6LrpKtgkZ0rtiNG\n\n0000000000000000000000000000000000000000 46b54280528ff77981716d318ce781f30d05f9a2 refs/for/master%r\u003dhiesel@google.com,t\u003dchecks-api\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlxl6vEVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMAJ4P/1o0clHP+oNTo4NTxrdibuI+dCfi\n1kKm73swOtNS5ujU5BkhzB+EHIrcmo23bJoWuCo7NcngKe0fkxrBK+Ps+OU8BMoX\nT4fIUbvrA0nR5Ow/CfnZS0t8keZhbLGy9jqR8Kofe3WkR3EIzMYXtstnY09XPwEb\nGdlXbgd/hl3+ewGNv6OitBNP0DUAnJnQzakPpCP7QHuA+2jJJnzpQqq9unvh3ZzI\n4yua/XYEamrjDifpQJABQjfXc9rwydtv1cmIC7t0PdkQIDRssCCWV+dil7xHeq9J\nJ1CkfPk4emXBECjT2MxrYAeYdWhyrmQX2XkapeHVQb5e9WnHbqyYYzF5Maqv5S9y\noQ9bz53jRqXjPEqb8D+c5H7tG5f3RN5tdC1Doq3ntLO3MF62O/DlSSQxS+JaOJZs\nBuO0/yKEVPisj54EY/KJxH5Ztyd4n+9+r/SgLqEM37H+LWtcSHYSQj+zCCK/5mCs\nWtpxRqVVQ6E/j4Tj9S3MKnwMpZpQwLuGJCdJHmAbS9BLgkq5s00RwNYPzkbNg2fL\ncBy6AHLB4XhjLm+ZQUQVN/Z1x8WKUg9v/35hWRhRlrBmEYjBvmFi5j0zMGkJ0zxu\n9lAt1yK5cKQylnRHiY43Xk9D3hQBTynA3zcBz3YA5Vy2yAcRoLE9deH6MrzB5UZz\nal8734B9Rha36kjq\n\u003dTN+9\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "784aefd5_eff2fa02",
+        "filename": "Documentation/rest-api-checkers.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-15T13:17:04Z",
+      "side": 1,
+      "message": "Please explain what the semantics of \u0027STATE_NOT_PASSING\u0027 are exactly (see my comment in the enum\u0027s JavaDoc).\n\nWe should also explain the semantics of having more than one blocking condition (OR vs AND). From my understanding, they are OR\u0027d together, so a single failure would block submission.\n\nApart from documenting what the states are and how they play together, I think we should consider splitting up STATE_NOT_PASSING into three conditions:\n- NO_RESULT\n- SCHEDULED\n- RUNNING\n- FAILED\n\nAlternatively, we look at the states and identify only three of them as \u0027final\u0027 (succeeded, failed, not relevant). So we could split STATE_NOT_PASSING into two conditions:\n- STATE_IS_FAILED\n- STATE_IS_NOT_FINAL\n\nI slightly prefer the second suggestion of splitting up, but would also be OK to go with what we have and just document it better.",
+      "revId": "46b54280528ff77981716d318ce781f30d05f9a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3db3352_2ae9eda1",
+        "filename": "java/com/google/gerrit/extensions/api/checkers/BlockingCondition.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-15T13:17:04Z",
+      "side": 1,
+      "message": "This is hard to parse for me.\n\nThe semantics are: Block the change iff\n- The check has not reported a result OR\n- The check returned a result that is no in {OK, NOT_RELEVANT}\n\nCan we write this out in more detail?",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 82
+      },
+      "revId": "46b54280528ff77981716d318ce781f30d05f9a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f779295_77cb4be6",
+        "filename": "java/com/google/gerrit/server/checker/db/CheckerConfigEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-15T13:17:04Z",
+      "side": 1,
+      "message": "I am torn apart between just using standard Java logic for serializing / deserializing to ENUMs and not caring about what JGit does internally vs. the approach you have right now where you match internal JGit semantics of serialization (no replacing, no equalsIgnoreCase).\n\nI think we should keep what you have if we commit to upstreaming the method (getEnumList/setEnumList) into JGit\u0027s config. If this is out of scope, then we shouldn\u0027t care here for matching semantics and can cut down on complexity.\n\nI would prefer (1), so keeping this as-is and upstreaming the method in the near future.",
+      "revId": "46b54280528ff77981716d318ce781f30d05f9a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e6072ed_ea6d75ed",
+        "filename": "javatests/com/google/gerrit/acceptance/api/checker/CreateCheckerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-15T13:17:04Z",
+      "side": 1,
+      "message": "Should we add a test for the list being empty by default?",
+      "revId": "46b54280528ff77981716d318ce781f30d05f9a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

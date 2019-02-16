@@ -38,6 +38,7 @@
   Polymer({
     is: 'gr-permission',
 
+    
     properties: {
       labels: Object,
       name: String,
@@ -59,6 +60,7 @@
         computed: '_computeLabel(permission, labels)',
       },
       _groupFilter: String,
+      _groupFilterId: String,
       _query: {
         type: Function,
         value() {
@@ -114,6 +116,7 @@
         this._deleted = false;
         delete this.permission.value.deleted;
         this._groupFilter = '';
+        this._groupFilterId = '';
         this._rules = this._rules.filter(rule => !rule.value.added);
         for (const key of Object.keys(this.permission.value.rules)) {
           if (this.permission.value.rules[key].added) {
@@ -232,12 +235,13 @@
               if (!response.hasOwnProperty(key)) { continue; }
               groups.push({
                 name: key,
-                value: response[key],
+                value: decodeURIComponent(response[key].id),
               });
             }
             // Does not return groups in which we already have rules for.
             return groups.filter(group => {
-              return !this._groupsWithRules[group.value.id];
+              console.log(group);
+              return !this._groupsWithRules[group.value];
             });
           });
     },
@@ -249,7 +253,9 @@
     _handleAddRuleItem(e) {
       // The group id is encoded, but have to decode in order for the access
       // API to work as expected.
-      const groupId = decodeURIComponent(e.detail.value.id);
+      console.log(e.detail);
+      console.log(e.detail.value);
+      const groupId = decodeURIComponent(e.detail.value);
       this.set(['permission', 'value', 'rules', groupId], {});
 
       // Purposely don't recompute sorted array so that the newly added rule
@@ -261,7 +267,7 @@
       // Add the new group name to the groups object so the name renders
       // correctly.
       if (this.groups && !this.groups[groupId]) {
-        this.groups[groupId] = {name: this.$.groupAutocomplete.text};
+        this.groups[groupId] = {name: this.$.groupAutocomplete.value};
       }
 
       // Wait for new rule to get value populated via gr-rule-editor, and then

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21659c93_5d472e63",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-16T12:13:19Z",
+      "side": 1,
+      "message": "Instead of passing null here, should we pass an input with a message that the change was made public on submit?\n\nIf it\u0027s acceptable to not give any message, i.e. null input, should we add a factory method that doesn\u0027t take the input and delegates to the other (this existing one) with null?",
+      "range": {
+        "startLine": 251,
+        "startChar": 71,
+        "endLine": 251,
+        "endChar": 75
+      },
+      "revId": "d4e3f2d1fbfc8a064df5f31cb3a1f831dd5c6b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

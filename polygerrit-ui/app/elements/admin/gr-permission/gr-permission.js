@@ -249,7 +249,7 @@
     _handleAddRuleItem(e) {
       // The group id is encoded, but have to decode in order for the access
       // API to work as expected.
-      const groupId = decodeURIComponent(e.detail.value.id);
+      const groupId = decodeURIComponent(e.detail.value.id).replace(/\+/g, ' ');
       this.set(['permission', 'value', 'rules', groupId], {});
 
       // Purposely don't recompute sorted array so that the newly added rule

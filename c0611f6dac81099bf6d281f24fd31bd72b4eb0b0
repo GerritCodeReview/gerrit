@@ -1,0 +1,268 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11c51fc0_e2231f6e",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-02-16T00:17:54Z",
+      "side": 1,
+      "message": "Do we understand what they find confusing about it?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 51
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72079cae_7c72bb56",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-02-16T00:17:54Z",
+      "side": 1,
+      "message": "I\u0027m not sure where this comes from. I don\u0027t know of any restriction like this.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 76
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8387d67_35905fe6",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-02-16T00:17:54Z",
+      "side": 1,
+      "message": "In concrete (technical?) terms, what is \"first-class support\"?",
+      "range": {
+        "startLine": 19,
+        "startChar": 92,
+        "endLine": 19,
+        "endChar": 111
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ec44696_7ebcffcd",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-02-16T00:17:54Z",
+      "side": 1,
+      "message": "How does Gerrit as-is not already support these? (through the use of labels)",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 55
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d679c56_cf612f75",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-02-16T00:17:54Z",
+      "side": 1,
+      "message": "For the sake of discussion, the task plugin (using labels as results) covers these, except that we haven\u0027t ported the UI to PolyGerrit and upstreamed it.\n\nPlease read https://gerrit.googlesource.com/plugins/task/+/master/src/main/resources/Documentation/task.md if you haven\u0027t previously.",
+      "range": {
+        "startLine": 26,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 75
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc124f9f_9925b475",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-02-16T00:17:54Z",
+      "side": 1,
+      "message": "We had planned to add this functionality to the task plugin through a rules engine integration (as plugins can contribute rules).",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 60
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2baf73e2_1a0bde39",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-02-16T00:17:54Z",
+      "side": 1,
+      "message": "What does this imply? Isn\u0027t this up to the CI system itself to implement?",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 49
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc0d932f_2ff54739",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-02-16T00:17:54Z",
+      "side": 1,
+      "message": "Which dashboard are you referring to here?",
+      "range": {
+        "startLine": 35,
+        "startChar": 56,
+        "endLine": 35,
+        "endChar": 69
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caa749be_859aee81",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-02-16T00:17:54Z",
+      "side": 1,
+      "message": "Why isn\u0027t this in the \"Must\" category? I think without this the implication would be that all builds/analyzers are applicable to all changes on a server, correct?\n\nDoes this also include a flexible way to indicate \"readiness\" for build/analyzer (for use by users, other CI systems, etc)?",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 37,
+        "endChar": 100
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40fc7a70_6643b21f",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-02-16T00:17:54Z",
+      "side": 1,
+      "message": "Another nice-to-have would be the ability to mine the data to report CI system metrics (how long are changes waiting for CI, how many PSs fail, etc).",
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "396000de_15b98707",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-02-16T00:17:54Z",
+      "side": 1,
+      "message": "I\u0027d like to add that we should be flexible enough that the idea of \"user as CI\" is supported.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 121
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecec2de6_91ac7e93",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-02-16T00:17:54Z",
+      "side": 1,
+      "message": "fyi, haven\u0027t reviewed past here yet, but wanted to publish comments.",
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

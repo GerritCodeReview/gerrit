@@ -310,11 +310,11 @@ limitations under the License.
         element.name = 'Priority';
         element.section = 'refs/*';
         element.groups = {};
-        element.$.groupAutocomplete.text = 'new group name';
+        element.$.groupAutocomplete.text = 'ldap/tests tests';
         const e = {
           detail: {
             value: {
-              id: 'newUserGroupId',
+              id: 'ldap:CN=test+test',
             },
           },
         };
@@ -323,11 +323,11 @@ limitations under the License.
         assert.equal(Object.keys(element._groupsWithRules).length, 2);
         element._handleAddRuleItem(e);
         flushAsynchronousOperations();
-        assert.deepEqual(element.groups, {newUserGroupId: {
-          name: 'new group name'}});
+        assert.deepEqual(element.groups, {'ldap:CN=test test': {
+          name: 'ldap/tests tests'}});
         assert.equal(element._rules.length, 3);
         assert.equal(Object.keys(element._groupsWithRules).length, 3);
-        assert.deepEqual(element.permission.value.rules['newUserGroupId'],
+        assert.deepEqual(element.permission.value.rules['ldap:CN=test test'],
             {action: 'ALLOW', min: -2, max: 2, added: true});
         // New rule should be removed if cancel from editing.
         element.editing = false;

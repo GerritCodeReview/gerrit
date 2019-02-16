@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.change;
+package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
-import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.extensions.events.ChangeDeleted;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.project.NoSuchChangeException;

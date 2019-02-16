@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.change;
+package com.google.gerrit.server.change;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.mail.Address;
@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;

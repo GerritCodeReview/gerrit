@@ -19,6 +19,8 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.change.DeleteReviewerByEmailOp;
+import com.google.gerrit.server.change.DeleteReviewerOp;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.update.BatchUpdate;

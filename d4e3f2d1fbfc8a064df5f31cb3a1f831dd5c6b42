@@ -22,6 +22,30 @@
       "revId": "d4e3f2d1fbfc8a064df5f31cb3a1f831dd5c6b42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fa31f8d_1451a62a",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-16T12:15:29Z",
+      "side": 1,
+      "message": "Actually, I just tried to add another method on the interface and it doesn\u0027t seem to work (although I don\u0027t discount that I did something wrong) so I guess for this change it\u0027s just a question of whether we need the message or not.",
+      "parentUuid": "21659c93_5d472e63",
+      "range": {
+        "startLine": 251,
+        "startChar": 71,
+        "endLine": 251,
+        "endChar": 75
+      },
+      "revId": "d4e3f2d1fbfc8a064df5f31cb3a1f831dd5c6b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

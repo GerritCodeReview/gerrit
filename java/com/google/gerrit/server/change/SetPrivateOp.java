@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.PrivateStateChanged;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -76,7 +77,8 @@ public class SetPrivateOp implements BatchUpdateOp {
       throws ResourceConflictException, OrmException, BadRequestException {
     change = ctx.getChange();
     if (isPrivate && !change.isNew()) {
-      throw new BadRequestException("cannot set a non-open change to private");
+      throw new BadRequestException(
+          String.format("cannot set %s change to private", ChangeUtil.status(change)));
     }
     ChangeNotes notes = ctx.getNotes();
     ps = psUtil.get(notes, change.currentPatchSetId());

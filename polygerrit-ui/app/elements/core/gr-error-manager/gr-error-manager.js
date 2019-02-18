@@ -283,6 +283,9 @@
     },
 
     _showErrorDialog(message) {
+      const detail = {name: 'ErrorDialog: ' + message};
+      document.dispatchEvent(new CustomEvent('error', {detail}));
+
       this.$.errorDialog.text = message;
       this.$.errorOverlay.open();
     },

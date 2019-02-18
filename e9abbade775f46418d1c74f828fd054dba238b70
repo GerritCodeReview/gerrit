@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bcecfde_b699c890",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-18T09:45:46Z",
+      "side": 1,
+      "message": "Can you elaborate in the commit message why this was not working before and how you are fixing this?",
+      "revId": "e9abbade775f46418d1c74f828fd054dba238b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caf1c4f9_9c147153",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-18T09:45:46Z",
+      "side": 1,
+      "message": "It is unusual to suppress a style element. Can you explain in a comment why you are doing this?",
+      "revId": "e9abbade775f46418d1c74f828fd054dba238b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68e04ec6_2ffa518d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-18T09:45:46Z",
+      "side": 1,
+      "message": "If you only want to wait on one promise, then you don\u0027t need Promise.all. You can call then() directly on Gerrit.awaitPluginsLoaded().",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 48
+      },
+      "revId": "e9abbade775f46418d1c74f828fd054dba238b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

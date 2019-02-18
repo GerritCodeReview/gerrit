@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e6e14e7_ec5d397e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-18T09:45:46Z",
+      "side": 0,
+      "message": "Why do you remove the \"this.account\" check?",
+      "range": {
+        "startLine": 48,
+        "startChar": 29,
+        "endLine": 48,
+        "endChar": 44
+      },
+      "revId": "ccf646765eb85e009f829ef6f966485b4cb6cf3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

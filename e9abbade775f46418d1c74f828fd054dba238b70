@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "6e30aee5_85d0fdfc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-18T14:49:27Z",
+      "side": 1,
+      "message": "I did this as it was better then keeping this hidden for ever (since account) sometime returned null from when i ran a console.log on it.\n\nI\u0027ve explained in the commit msg.",
+      "parentUuid": "caf1c4f9_9c147153",
+      "revId": "e9abbade775f46418d1c74f828fd054dba238b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "68e04ec6_2ffa518d",
         "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
         "patchSetId": 12
@@ -56,6 +74,30 @@
       "revId": "e9abbade775f46418d1c74f828fd054dba238b70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "106a95cf_f79a1332",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-18T14:49:27Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "68e04ec6_2ffa518d",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 48
+      },
+      "revId": "e9abbade775f46418d1c74f828fd054dba238b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

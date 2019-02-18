@@ -74,20 +74,15 @@ limitations under the License.
       const browserLink = {name: 'browser', url: 'browser/url'};
       const mapLinksToConfig = weblinks => ({options: {weblinks}});
       sandbox.stub(element, '_getBrowseCommitWeblink').returns(browserLink);
-      sandbox.stub(element, 'getBaseUrl').returns('base');
 
       assert.deepEqual(
           element._getChangeWeblinks(mapLinksToConfig([link, browserLink]))[0],
-          {name: 'test', url: 'base/test/url'});
+          {name: 'test', url: 'test/url'});
 
       assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig([link]))[0],
-          {name: 'test', url: 'base/test/url'});
+          {name: 'test', url: 'test/url'});
 
-      link.url = '/' + link.url;
-      assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig([link]))[0],
-          {name: 'test', url: 'base/test/url'});
-
-      link.url = 'https:/' + link.url;
+      link.url = 'https://' + link.url;
       assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig([link]))[0],
           {name: 'test', url: 'https://test/url'});
     });

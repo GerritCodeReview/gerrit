@@ -326,13 +326,7 @@
       return weblinks.filter(weblink =>
         !commitWeblink ||
         !commitWeblink.name ||
-        weblink.name !== commitWeblink.name)
-          .map(({name, url}) => {
-            if (!url.startsWith('https:') && !url.startsWith('http:')) {
-              url = this.getBaseUrl() + (url.startsWith('/') ? '' : '/') + url;
-            }
-            return {name, url};
-          });
+        weblink.name !== commitWeblink.name);
     },
 
     _getFileWebLinks({repo, commit, file, options: {weblinks}}) {

@@ -29,6 +29,7 @@ public class ElasticQueryAdapter {
   private final String stringFieldType;
   private final String indexProperty;
   private final String versionDiscoveryUrl;
+  private final String includeTypeNameParam;
 
   ElasticQueryAdapter(ElasticVersion version) {
     this.ignoreUnmapped = false;
@@ -40,6 +41,7 @@ public class ElasticQueryAdapter {
     this.exactFieldType = "keyword";
     this.stringFieldType = "text";
     this.indexProperty = "true";
+    this.includeTypeNameParam = version.isV7OrLater() ? "?include_type_name=true" : "";
   }
 
   void setIgnoreUnmapped(JsonObject properties) {
@@ -88,5 +90,9 @@ public class ElasticQueryAdapter {
 
   String getVersionDiscoveryUrl(String name) {
     return String.format(versionDiscoveryUrl, name);
+  }
+
+  String includeTypeNameParam() {
+    return includeTypeNameParam;
   }
 }

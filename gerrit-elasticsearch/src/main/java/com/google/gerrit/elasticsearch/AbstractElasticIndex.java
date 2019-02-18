@@ -163,7 +163,9 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
     // Recreate the index.
     String indexCreationFields = concatJsonString(getSettings(), getMappings());
-    response = performRequest("PUT", indexName, indexCreationFields);
+    response =
+        performRequest(
+            "PUT", indexName + client.adapter().includeTypeNameParam(), indexCreationFields);
     statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       String error = String.format("Failed to create index %s: %s", indexName, statusCode);

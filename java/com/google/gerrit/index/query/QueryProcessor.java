@@ -233,10 +233,6 @@ public abstract class QueryProcessor<T> {
         int limit = getEffectiveLimit(q);
         limits.add(limit);
 
-        if (limit == getBackendSupportedLimit()) {
-          limit--;
-        }
-
         int page = (start / limit) + 1;
         if (page > indexConfig.maxPages()) {
           throw new QueryParseException(
@@ -246,7 +242,10 @@ public abstract class QueryProcessor<T> {
         // Always bump limit by 1, even if this results in exceeding the permitted
         // max for this user. The only way to see if there are more entities is to
         // ask for one more result from the query.
-        QueryOptions opts = createOptions(indexConfig, start, limit + 1, getRequestedFields());
+        if (limit < Integer.MAX_VALUE && limit + start < getBackendSupportedLimit()) {
+          limit = limit + 1;
+        }
+        QueryOptions opts = createOptions(indexConfig, start, limit, getRequestedFields());
         logger.atFine().log("Query options: " + opts);
         Predicate<T> pred = rewriter.rewrite(q, opts);
         if (enforceVisibility) {
@@ -357,12 +356,32 @@ public abstract class QueryProcessor<T> {
     return indexConfig.maxLimit();
   }
 
-  private int getEffectiveLimit(Predicate<T> p) {
-    if (isNoLimit == true) {
+  /**
+   * Get the effective number of change results to return beyond the given "start" (number of
+   * changes to skip).
+   *
+   * <p>This method does like this because the "--limit" parameter in {@code QueryChanges} has been
+   * used by clients, e.g. PG, as the number of changes to return in addition to the given "--start"
+   * number of changes. Thus to stay consistent, here we need to subtract the "start" from the
+   * available limit supported by the backend. if the query backend supports 10,000 results and
+   * "start = 1000", the effective limit of the backend will be 9,000.
+   *
+   * @param p a query predicate.
+   * @return the effective number of change results to return.
+   */
+  private int getEffectiveLimit(Predicate<T> p) throws QueryParseException {
+    if (isNoLimit) {
       return Integer.MAX_VALUE;
     }
+
+    // Makes sure the query doesn't exceed the number of changes supported by the index backend.
+    if (start >= getBackendSupportedLimit()) {
+      throw new QueryParseException(
+          "Cannot skip " + start + " changes beyond the backend supports");
+    }
+
     List<Integer> possibleLimits = new ArrayList<>(4);
-    possibleLimits.add(getBackendSupportedLimit());
+    possibleLimits.add(getBackendSupportedLimit() - start);
     possibleLimits.add(getPermittedLimit());
     if (userProvidedLimit > 0) {
       possibleLimits.add(userProvidedLimit);

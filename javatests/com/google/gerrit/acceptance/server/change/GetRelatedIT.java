@@ -68,11 +68,13 @@ import org.junit.Test;
 @NoHttpd
 public class GetRelatedIT extends AbstractDaemonTest {
   private static final int MAX_TERMS = 10;
+  private static final int MAX_LIMIT = 10;
 
   @ConfigSuite.Default
   public static Config defaultConfig() {
     Config cfg = new Config();
     cfg.setInt("index", null, "maxTerms", MAX_TERMS);
+    cfg.setInt("index", null, "maxLimit", MAX_LIMIT);
     return cfg;
   }
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "10c01d27_284ad6fe",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-18T14:31:34Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "d0fba7d9_53fa5159",
+      "revId": "f1ca7c8bbb63a0324c9a9ba140636386977276d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9a5dbc2_3bd32eba",
         "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
         "patchSetId": 6

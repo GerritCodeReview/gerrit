@@ -243,6 +243,11 @@ public abstract class QueryProcessor<T> {
               "Cannot go beyond page " + indexConfig.maxPages() + " of results");
         }
 
+        if (start + limit + 1 > indexConfig.maxLimit()) {
+          throw new QueryParseException(
+              "Cannot query more than " + indexConfig.maxLimit() + " results");
+        }
+
         // Always bump limit by 1, even if this results in exceeding the permitted
         // max for this user. The only way to see if there are more entities is to
         // ask for one more result from the query.
@@ -358,7 +363,7 @@ public abstract class QueryProcessor<T> {
   }
 
   private int getEffectiveLimit(Predicate<T> p) {
-    if (isNoLimit == true) {
+    if (isNoLimit) {
       return Integer.MAX_VALUE;
     }
     List<Integer> possibleLimits = new ArrayList<>(4);

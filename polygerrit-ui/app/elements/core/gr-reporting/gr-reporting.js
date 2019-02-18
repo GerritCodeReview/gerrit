@@ -69,6 +69,11 @@
     CATEGORY: 'exception',
   };
 
+  const ERROR_DIALOG = {
+    TYPE: 'error',
+    CATEGORY: 'Error Dialog',
+  };
+
   const TIMER = {
     CHANGE_DISPLAYED: 'ChangeDisplayed',
     CHANGE_LOAD_FULL: 'ChangeFullyLoaded',
@@ -451,6 +456,11 @@
 
       // Mark the time and reinitialize the timer.
       timer.end().reset();
+    },
+
+    reportErrorDialog(message) {
+      this.reporter(ERROR_DIALOG.TYPE, ERROR_DIALOG.CATEGORY,
+        'ErrorDialog: ' + message, {});
     },
   });
 

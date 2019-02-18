@@ -33,6 +33,24 @@
       "revId": "f1ca7c8bbb63a0324c9a9ba140636386977276d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3afaa387_971e3bec",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-02-18T10:47:13Z",
+      "side": 1,
+      "message": "\u003e I am not sure whether group names can contain plus signs, but that could potentially break.\n\nI\u0027m worried about that too.\n\nWithout much knowledge of the codebase here... but it seems that encode().decode() does not yield the original content here? Shouldn\u0027t we get to the core of the problem of it instead?",
+      "parentUuid": "b9a5dbc2_3bd32eba",
+      "revId": "f1ca7c8bbb63a0324c9a9ba140636386977276d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

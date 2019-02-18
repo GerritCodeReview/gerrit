@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2165c1c4_9744588d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-18T00:05:26Z",
+      "side": 1,
+      "message": "Should this be decodeURIComponent(e.detail.value.id).replace(/\\+/g, \u0027 \u0027);?",
+      "range": {
+        "startLine": 252,
+        "startChar": 22,
+        "endLine": 252,
+        "endChar": 80
+      },
+      "revId": "b8cdc6f0bdab8c61f2e79f9386b71b9fe85d4b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

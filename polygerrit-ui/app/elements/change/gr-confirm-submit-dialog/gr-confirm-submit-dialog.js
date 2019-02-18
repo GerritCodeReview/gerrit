@@ -46,6 +46,12 @@
        *  }}
        */
       action: Object,
+
+      _isChangePrivate: {
+        type: Boolean,
+        computed: '_computeIsChangePrivate(change)',
+        notify: true,
+      },
     },
 
     resetFocus(e) {
@@ -60,6 +66,10 @@
     _handleCancelTap(e) {
       e.preventDefault();
       this.dispatchEvent(new CustomEvent('cancel', {bubbles: false}));
+    },
+
+    _computeIsChangePrivate(change) {
+      return this.changeStatuses(change).includes('Private');
     },
   });
 })();

@@ -83,7 +83,7 @@ public class PrologEnvironment extends BufferingPrologControl {
   public void setPredicate(Predicate goal) {
     super.setPredicate(goal);
     int reductionLimit = args.reductionLimit(goal);
-    logger.atInfo().log("setting reductionLimit %d", reductionLimit);
+    logger.atFine().log("setting reductionLimit %d", reductionLimit);
     setReductionLimit(reductionLimit);
   }
 

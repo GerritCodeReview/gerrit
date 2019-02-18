@@ -304,11 +304,14 @@ limitations under the License.
     test('show-error', () => {
       const openStub = sandbox.stub(element.$.errorOverlay, 'open');
       const closeStub = sandbox.stub(element.$.errorOverlay, 'close');
+      const reportStub = sandbox.stub(element.$.reporting, 'reportErrorDialog');
+
       const message = 'test message';
       element.fire('show-error', {message});
       flushAsynchronousOperations();
 
       assert.isTrue(openStub.called);
+      assert.isTrue(reportStub.called);
       assert.equal(element.$.errorDialog.text, message);
 
       element.$.errorDialog.fire('dismiss');

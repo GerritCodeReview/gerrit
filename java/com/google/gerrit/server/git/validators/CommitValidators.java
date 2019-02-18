@@ -331,7 +331,7 @@ public class CommitValidators {
             .append(getCommitMessageHookInstallationHint())
             .append("\n")
             .append("and then amend the commit:\n")
-            .append("  git commit --amend\n");
+            .append("  git commit --amend --no-edit\n");
       }
       return new CommitValidationMessage(sb.toString(), Type.ERROR);
     }

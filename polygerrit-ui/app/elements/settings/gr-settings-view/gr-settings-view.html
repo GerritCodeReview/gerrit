@@ -349,19 +349,20 @@ limitations under the License.
             </span>
           </section>
           <section>
-          <div class="pref">
-            <span class="title">Ignore Whitespace</span>
-            <span class="value">
-              <gr-select bind-value="{{_diffPrefs.ignore_whitespace}}">
-                <select>
-                  <option value="IGNORE_NONE">None</option>
-                  <option value="IGNORE_TRAILING">Trailing</option>
-                  <option value="IGNORE_LEADING_AND_TRAILING">Leading & trailing</option>
-                  <option value="IGNORE_ALL">All</option>
-                </select>
-              </gr-select>
-            </span>
-          </div>
+            <div class="pref">
+              <span class="title">Ignore Whitespace</span>
+              <span class="value">
+                <gr-select bind-value="{{_diffPrefs.ignore_whitespace}}">
+                  <select>
+                    <option value="IGNORE_NONE">None</option>
+                    <option value="IGNORE_TRAILING">Trailing</option>
+                    <option value="IGNORE_LEADING_AND_TRAILING">Leading & trailing</option>
+                    <option value="IGNORE_ALL">All</option>
+                  </select>
+                </gr-select>
+              </span>
+            </div>
+          </section>
           <gr-button
               id="saveDiffPrefs"
               on-tap="_handleSaveDiffPreferences"

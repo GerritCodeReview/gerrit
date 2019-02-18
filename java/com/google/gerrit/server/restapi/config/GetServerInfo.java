@@ -298,6 +298,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.docSearch = docSearcher.isAvailable();
     info.editGpgKeys =
         toBoolean(enableSignedPush && config.getBoolean("gerrit", null, "editGpgKeys", true));
+    info.primaryWeblinkName = config.getString("gerrit", null, "primaryWeblinkName");
     return info;
   }
 

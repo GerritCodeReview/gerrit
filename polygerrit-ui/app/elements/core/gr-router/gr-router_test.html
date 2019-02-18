@@ -44,20 +44,46 @@ limitations under the License.
 
     teardown(() => { sandbox.restore(); });
 
-    test('_getChangeWeblinks', () => {
-      sandbox.stub(element, '_isDirectCommit').returns(false);
-      sandbox.stub(element, 'getBaseUrl').returns('base');
+    test('_firstCodeBrowserWeblink', () => {
+      assert.deepEqual(element._firstCodeBrowserWeblink([
+        {name: 'gitweb'},
+        {name: 'gitiles'},
+        {name: 'browse'},
+        {name: 'test'}]), {name: 'gitiles'});
+
+      assert.deepEqual(element._firstCodeBrowserWeblink([
+        {name: 'gitweb'},
+        {name: 'test'}]), {name: 'gitweb'});
+    });
+
+    test('_getBrowseCommitWeblink', () => {
+      const browserLink = {name: 'browser', url: 'browser/url'};
       const link = {name: 'test', url: 'test/url'};
-      const mapLinksToConfig = weblink => ({options: {weblinks: [weblink]}});
-      assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig(link))[0],
-          {name: 'test', url: 'base/test/url'});
+      const weblinks = [browserLink, link];
+      const config = {gerrit: {primary_weblink_name: browserLink.name}};
+      sandbox.stub(element, '_firstCodeBrowserWeblink').returns(link);
 
-      link.url = '/' + link.url;
-      assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig(link))[0],
-          {name: 'test', url: 'base/test/url'});
+      assert.deepEqual(element._getBrowseCommitWeblink(weblinks, config),
+          browserLink);
 
-      link.url = 'https:/' + link.url;
-      assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig(link))[0],
+      assert.deepEqual(element._getBrowseCommitWeblink(weblinks, {}), link);
+    });
+
+    test('_getChangeWeblinks', () => {
+      const link = {name: 'test', url: 'test/url'};
+      const browserLink = {name: 'browser', url: 'browser/url'};
+      const mapLinksToConfig = weblinks => ({options: {weblinks}});
+      sandbox.stub(element, '_getBrowseCommitWeblink').returns(browserLink);
+
+      assert.deepEqual(
+          element._getChangeWeblinks(mapLinksToConfig([link, browserLink]))[0],
+          {name: 'test', url: 'test/url'});
+
+      assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig([link]))[0],
+          {name: 'test', url: 'test/url'});
+
+      link.url = 'https://' + link.url;
+      assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig([link]))[0],
           {name: 'test', url: 'https://test/url'});
     });
 

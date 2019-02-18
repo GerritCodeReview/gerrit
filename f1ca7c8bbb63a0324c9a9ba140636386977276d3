@@ -105,6 +105,24 @@
       "revId": "f1ca7c8bbb63a0324c9a9ba140636386977276d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d0f9baf_1b5f1cd2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-18T17:30:59Z",
+      "side": 1,
+      "message": "I know why this dosen\u0027t affect groups with +, it\u0027s because with groups in gerrit it generates a normal id like 34d.... where as with singleusergroups it\u0027s value is like \u003cval\u003e:\u003cval\u003e same for ldap where it\u0027s ldap:\u003cval\u003e.",
+      "parentUuid": "2ca3484f_579fa543",
+      "revId": "f1ca7c8bbb63a0324c9a9ba140636386977276d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

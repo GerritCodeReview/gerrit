@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b854afaf_6f887cc8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-18T15:25:01Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5da70c5b_dfff5059",
+      "range": {
+        "startLine": 295,
+        "startChar": 6,
+        "endLine": 295,
+        "endChar": 37
+      },
+      "revId": "f2f2689f580d37e8d60b66ff5148c94b2b23a1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7edcdc7f_710b47f6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 13
@@ -45,6 +69,30 @@
       "revId": "f2f2689f580d37e8d60b66ff5148c94b2b23a1ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c195f6f4_0246ae6b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-18T15:25:01Z",
+      "side": 1,
+      "message": "When i was testing this change, this was required.\n\nI needed to do this both in _changeChanged and _paramsChanged. I cannot say with 100% certain but it\u0027s because _changeChanged is loaded on the refresh (not hard refresh) unlike _paramsChanged hence why this is needed in two places to set _patchRange.basePatchNum.\n\nBut i also reused this function as it a made this change look cleaner and b made sure to not duplicate anything even if that function is doing additional stuff.",
+      "parentUuid": "7edcdc7f_710b47f6",
+      "range": {
+        "startLine": 682,
+        "startChar": 10,
+        "endLine": 683,
+        "endChar": 34
+      },
+      "revId": "f2f2689f580d37e8d60b66ff5148c94b2b23a1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +130,24 @@
     },
     {
       "key": {
+        "uuid": "5be1cbe3_9eefdcdb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-18T15:25:01Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "62978a2e_a04cc8ec",
+      "revId": "f2f2689f580d37e8d60b66ff5148c94b2b23a1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a152031_3b37edba",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 13
@@ -99,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "ef4014c9_eb05805a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-18T15:25:01Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6a152031_3b37edba",
+      "revId": "f2f2689f580d37e8d60b66ff5148c94b2b23a1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a940f6eb_a8cb8b37",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 13
@@ -113,6 +197,24 @@
       "revId": "f2f2689f580d37e8d60b66ff5148c94b2b23a1ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f062750_962a8af4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-18T15:25:01Z",
+      "side": 1,
+      "message": "I doin\u0027t know where in core, but if you go to a merge change like https://gerrit-review.googlesource.com/c/gerrit/+/214707 then select `Parent 1 which takes you to https://gerrit-review.googlesource.com/c/gerrit/+/214707/-1..1 (the -1 is the first parent) secondly it\u0027s also in the preference name \u0027FIRST_PARENT\u0027 :)",
+      "parentUuid": "a940f6eb_a8cb8b37",
+      "revId": "f2f2689f580d37e8d60b66ff5148c94b2b23a1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

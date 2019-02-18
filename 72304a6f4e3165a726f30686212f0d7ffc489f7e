@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "123ce8ae_1cb15b4d",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-02-18T12:46:39Z",
+      "side": 1,
+      "message": "I am surprised you would need this here - isn\u0027t this only for public properties that you want to propagate changes to the parent for?\nhttps://polymer-library.polymer-project.org/1.0/docs/devguide/data-binding",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 21
+      },
+      "revId": "72304a6f4e3165a726f30686212f0d7ffc489f7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4917f061_509dc64d",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-02-18T12:46:39Z",
+      "side": 1,
+      "message": "Wonder if this should not be an enum value or something like that - looks a bit brittle as a plain string...",
+      "range": {
+        "startLine": 72,
+        "startChar": 50,
+        "endLine": 72,
+        "endChar": 59
+      },
+      "revId": "72304a6f4e3165a726f30686212f0d7ffc489f7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

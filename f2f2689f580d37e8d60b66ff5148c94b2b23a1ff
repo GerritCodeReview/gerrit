@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5da70c5b_dfff5059",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-18T09:28:12Z",
+      "side": 1,
+      "message": "Can you wrap this in a _getPreferences() method? That would make it consistent with:\n\n_getLoggedIn()\n_getServerConfig()\n_getProjectConfig()",
+      "range": {
+        "startLine": 295,
+        "startChar": 6,
+        "endLine": 295,
+        "endChar": 37
+      },
+      "revId": "f2f2689f580d37e8d60b66ff5148c94b2b23a1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7edcdc7f_710b47f6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-18T09:28:12Z",
+      "side": 1,
+      "message": "Why? reload calls getChangeDetail, which in turns sets _change, which has _changeChanged as an observer.",
+      "range": {
+        "startLine": 682,
+        "startChar": 10,
+        "endLine": 683,
+        "endChar": 34
+      },
+      "revId": "f2f2689f580d37e8d60b66ff5148c94b2b23a1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1885d8f_7a180c20",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-18T09:28:12Z",
+      "side": 1,
+      "message": "Move this logic into the _getParent() method.",
+      "revId": "f2f2689f580d37e8d60b66ff5148c94b2b23a1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62978a2e_a04cc8ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-18T09:28:12Z",
+      "side": 1,
+      "message": "Rename _getParent() to _getBasePatchNum().\n\nAdd a comment to the method.",
+      "revId": "f2f2689f580d37e8d60b66ff5148c94b2b23a1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a152031_3b37edba",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-18T09:28:12Z",
+      "side": 1,
+      "message": "Instead of nested ifs guard clauses might be nicer to read, i.e. inverse the logic:\n\nif (patchRange.basePatchNum !\u003d\u003d \u0027PARENT\u0027) return patchRange.basePatchNum;",
+      "revId": "f2f2689f580d37e8d60b66ff5148c94b2b23a1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a940f6eb_a8cb8b37",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-18T09:28:12Z",
+      "side": 1,
+      "message": "Can you point me to where this magic number comes from and how it is used?",
+      "revId": "f2f2689f580d37e8d60b66ff5148c94b2b23a1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

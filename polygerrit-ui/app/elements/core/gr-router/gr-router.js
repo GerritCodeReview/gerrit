@@ -281,38 +281,52 @@
 
     _getPatchSetWeblink(params) {
       const {commit, options} = params;
-      const {weblinks} = options || {};
+      const {weblinks, config} = options || {};
       const name = commit && commit.slice(0, 7);
-      const url = this._getSupportedWeblinkUrl(weblinks);
-      if (!url) {
+      const weblink = this._getBrowseCommitWeblink(weblinks, config);
+      if (!weblink || !weblink.url) {
         return {name};
       } else {
-        return {name, url};
+        return {name, url: weblink.url};
       }
     },
 
-    _isDirectCommit(link) {
-      // This is a whitelist of web link types that provide direct links to
-      // the commit in the url property.
-      return link.name === 'gitiles' || link.name === 'gitweb';
+    _firstCodeBrowserWeblink(weblinks) {
+      // This is an ordered whitelist of web link types that provide direct
+      // links to the commit in the url property.
+      const codeBrowserLinks = ['gitiles', 'browse', 'gitweb'];
+      for (let i = 0; i < codeBrowserLinks.length; i++) {
+        const weblink =
+          weblinks.find(weblink => weblink.name === codeBrowserLinks[i]);
+        if (weblink) { return weblink; }
+      }
+      return null;
     },
 
-    _getSupportedWeblinkUrl(weblinks) {
+
+    _getBrowseCommitWeblink(weblinks, config) {
       if (!weblinks) { return null; }
-      const weblink = weblinks.find(this._isDirectCommit);
+      let weblink;
+      // Use primary weblink if configured and exists.
+      if (config && config.gerrit && config.gerrit.primary_weblink_name) {
+        weblink = weblinks.find(
+            weblink => weblink.name === config.gerrit.primary_weblink_name
+        );
+      }
+      if (!weblink) {
+        weblink = this._firstCodeBrowserWeblink(weblinks);
+      }
       if (!weblink) { return null; }
-      return weblink.url;
+      return weblink;
     },
 
-    _getChangeWeblinks({repo, commit, options: {weblinks}}) {
+    _getChangeWeblinks({repo, commit, options: {weblinks, config}}) {
       if (!weblinks || !weblinks.length) return [];
-      return weblinks.filter(weblink => !this._isDirectCommit(weblink)).map(
-          ({name, url}) => {
-            if (!url.startsWith('https:') && !url.startsWith('http:')) {
-              url = this.getBaseUrl() + (url.startsWith('/') ? '' : '/') + url;
-            }
-            return {name, url};
-          });
+      const commitWeblink = this._getBrowseCommitWeblink(weblinks, config);
+      return weblinks.filter(weblink =>
+        !commitWeblink ||
+        !commitWeblink.name ||
+        weblink.name !== commitWeblink.name);
     },
 
     _getFileWebLinks({repo, commit, file, options: {weblinks}}) {

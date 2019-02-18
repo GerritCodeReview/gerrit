@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1550246701 -0800\nnonce ANwvRnCstBKw1NWT0Uwl03tBPwaalfWu/c0hyDsDqXoTcYD9If5pOLNCwtsFn9ZjUN6+mOYRUixL\n\n0000000000000000000000000000000000000000 8ab0b80ac9af414bdf2aa730d0006c8ea4b1091a refs/for/master%r\u003dxchangcheng\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlxm4y0VHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMTRUQAI8/3KBuyK/Mss+/plMMomOKNrJz\nyYG9kgM3lm2AWXjwuRjx0XHokx/ps4CGk6iYfCp8mkdvYdVoxoMKG+YL0QblUYkP\npjL6MYUC6M1CMBXwPqlopa2WWJAzPt7eCqiPmiKIkBZeiXSe5Ew/a4GoP/ttbrnN\njLZb/TpXoJc4gQlekvNGR8muobXtxQAFA34504J67mts64AYo47mW4yUXfjbUC5d\nyZ+UECSNLLoH1EP4aglMjl+pKrqSmDxGhMOvler7qneYq66g769Yd6fkYkPrRY4z\n6b6Pn6cm8z6hkSTDQ4ZizY6fomfkiuF8IWZt2Ki8PzC5+uK8niWrWwVguMn8YW6F\nmALXn51//FHQYu8Mh7+BV5Nqrv6ERv/iNnCUYjytW9GgcGSkPYzqEsbeSHQNYe9R\nnxHFNiuyUfchHmMXp+vhvBqXTdalYqB71NWEo7sUwd4EObUs6tgW3etnifDkWD6v\nh12J7QjpygiKQyoS0EaVtqFdvZuz0bD7iiI8cgxoA36SW8ySWQMxZ8hE8KyCYxUE\nX1a81pf5WXiNFpjNj1YE5aqY+d7MLpdJoPSJozim1C08mVMxB7C5T2tXaeDwm6TF\nHxpwdfjzHZK3Pg1Z8+ssMZtFv5Yqpc2cFfNxmdhuvIpOiso1kgSYLX1T3vbu+hWi\nFhN+5RVfsrOxiddG\n\u003dv5w0\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f17e4f8_1c7f6087",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-18T08:47:28Z",
+      "side": 1,
+      "message": "It would have been good to add some context here, i.e. that using ProjectConfigUpdate only results in a single update of the project metadata rather than multiple updates when using the grant method.",
+      "revId": "abddbcca762827700fbd9daca4a5a903cd6d4f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

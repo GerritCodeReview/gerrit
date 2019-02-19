@@ -172,7 +172,7 @@ limitations under the License.
       assert.isTrue(element._loading);
 
       const showPrefsStub =
-          sandbox.stub(element.$.diffPreferences.$.prefsOverlay, 'open',
+          sandbox.stub(element, 'openDiffPreference',
               () => Promise.resolve());
 
       MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
@@ -365,8 +365,7 @@ limitations under the License.
 
     test('prefsButton opens gr-diff-preferences', () => {
       const handlePrefsTapSpy = sandbox.spy(element, '_handlePrefsTap');
-      const overlayOpenStub = sandbox.stub(element.$.diffPreferences,
-          'open');
+      const overlayOpenStub = sandbox.stub(element, 'openDiffPreference');
       const prefsButton =
           Polymer.dom(element.root).querySelector('.prefsButton');
 

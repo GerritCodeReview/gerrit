@@ -43,7 +43,6 @@ limitations under the License.
     let element;
     let account;
     let preferences;
-    let diffPreferences;
     let config;
     let sandbox;
 
@@ -96,31 +95,12 @@ limitations under the License.
         ],
         change_table: [],
       };
-      diffPreferences = {
-        context: 10,
-        tab_size: 8,
-        font_size: 12,
-        line_length: 100,
-        cursor_blink_rate: 0,
-        line_wrapping: false,
-        intraline_difference: true,
-        show_line_endings: true,
-        show_tabs: true,
-        show_whitespace_errors: true,
-        syntax_highlighting: true,
-        auto_hide_diff_table_header: true,
-        theme: 'DEFAULT',
-        ignore_whitespace: 'IGNORE_NONE',
-      };
       config = {auth: {editable_account_fields: []}};
 
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(true); },
         getAccount() { return Promise.resolve(account); },
         getPreferences() { return Promise.resolve(preferences); },
-        getDiffPreferences() {
-          return Promise.resolve(diffPreferences);
-        },
         getWatchedProjects() {
           return Promise.resolve([]);
         },
@@ -259,56 +239,6 @@ limitations under the License.
         assert.isFalse(element._menuChanged);
         done();
       });
-    });
-
-    test('diff preferences', done => {
-      // Rendered with the expected preferences selected.
-      assert.equal(valueOf('Context', 'diffPreferences')
-          .firstElementChild.bindValue, diffPreferences.context);
-      assert.equal(valueOf('Diff width', 'diffPreferences')
-          .firstElementChild.bindValue, diffPreferences.line_length);
-      assert.equal(valueOf('Tab width', 'diffPreferences')
-          .firstElementChild.bindValue, diffPreferences.tab_size);
-      assert.equal(valueOf('Font size', 'diffPreferences')
-          .firstElementChild.bindValue, diffPreferences.font_size);
-      assert.equal(valueOf('Show tabs', 'diffPreferences')
-          .firstElementChild.checked, diffPreferences.show_tabs);
-      assert.equal(valueOf('Show trailing whitespace', 'diffPreferences')
-          .firstElementChild.checked, diffPreferences.show_whitespace_errors);
-      assert.equal(valueOf('Fit to screen', 'diffPreferences')
-          .firstElementChild.checked, diffPreferences.line_wrapping);
-
-      assert.isFalse(element._diffPrefsChanged);
-
-      const showTabsCheckbox = valueOf('Show tabs', 'diffPreferences')
-          .firstElementChild;
-      showTabsCheckbox.checked = false;
-      element._handleDiffShowTabsChanged();
-
-      assert.isTrue(element._diffPrefsChanged);
-
-      stub('gr-rest-api-interface', {
-        saveDiffPreferences(prefs) {
-          assert.equal(prefs.show_tabs, false);
-          return Promise.resolve();
-        },
-      });
-
-      // Save the change.
-      element._handleSaveDiffPreferences().then(() => {
-        assert.isFalse(element._diffPrefsChanged);
-        done();
-      });
-    });
-
-    test('columns input is hidden with fit to scsreen is selected', () => {
-      assert.isFalse(element.$.columnsPref.hidden);
-
-      MockInteractions.tap(element.$.diffLineWrapping);
-      assert.isTrue(element.$.columnsPref.hidden);
-
-      MockInteractions.tap(element.$.diffLineWrapping);
-      assert.isFalse(element.$.columnsPref.hidden);
     });
 
     test('menu', done => {

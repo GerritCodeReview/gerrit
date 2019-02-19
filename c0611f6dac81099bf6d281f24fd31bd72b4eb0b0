@@ -263,6 +263,75 @@
       "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73c0f492_99ee095d",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-02-19T12:44:58Z",
+      "side": 1,
+      "message": "Did you mean: checker UUID is known?\n\nBtw, what will guarantee authenticity of the checker UUID in the incoming request\ni.e. that it is really from the system which is supposed to provide checks with that UUID?\nIn other words, what prevents another system to send checks with the same UUID?\n\ncontinuing in the next comment below ...",
+      "range": {
+        "startLine": 172,
+        "startChar": 32,
+        "endLine": 172,
+        "endChar": 75
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abd2d7f7_e7133095",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-02-19T12:44:58Z",
+      "side": 1,
+      "message": "What would that permission be? Will it be something like: check-UUID?\nThis way one could protect which user could be used for posting checks with the UUID.\nOf did you imagine something else?",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 88
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6beb8f1d_9277f47b",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-02-19T12:44:58Z",
+      "side": 1,
+      "message": "Does this mean that, by design, admins must be involved into configuring all (new) checkers?\nHow would that scale for large Gerrit sites with several thousands of repositories?\nWould it be possible for a development team to register new checker(s) and configure them for\ntheir own repositories without needing assistance of a Gerrit admin?",
+      "range": {
+        "startLine": 237,
+        "startChar": 171,
+        "endLine": 237,
+        "endChar": 318
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -61,6 +61,7 @@ import com.google.gerrit.server.config.TrackingFootersProvider;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
+import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.IndexModule.IndexType;
@@ -169,6 +170,7 @@ public class InMemoryModule extends FactoryModule {
     install(new PluginApiModule());
     install(new DefaultPermissionBackendModule());
     install(new SearchingChangeCacheImpl.Module());
+    install(new PureRevertCache.Module());
     factory(GarbageCollection.Factory.class);
     install(new AuditModule());
 

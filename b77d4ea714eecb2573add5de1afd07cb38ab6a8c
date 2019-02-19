@@ -123,6 +123,23 @@
     },
     {
       "key": {
+        "uuid": "b7526375_904b1664",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-02-19T13:36:20Z",
+      "side": 1,
+      "message": "How would this fit with a list of repositories, prefix, regex etc...?\nI imagine that some queries can be shared across repositories but there could be\nchange queries which are very specific to one repository, or even to a branch inside that\nrepository. Wouldn\u0027t it be more natural if these queries are stored in their corresponding\nrepositories?",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "461bc896_a03f2ea3",
         "filename": "Documentation/ci-integration-storage.md",
         "patchSetId": 1

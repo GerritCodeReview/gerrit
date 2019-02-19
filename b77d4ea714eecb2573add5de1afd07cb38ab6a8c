@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7901a36c_65c53e89",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-02-19T17:23:19Z",
+      "side": 1,
+      "message": "The intent is documented in the parent doc, posted by Alice.",
+      "parentUuid": "82a523ec_86139d86",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6661f279_7ef42fd1",
         "filename": "Documentation/ci-integration-storage.md",
         "patchSetId": 1

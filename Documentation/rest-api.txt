@@ -13,8 +13,6 @@ link:rest-api-accounts.html[/accounts/]::
   Account related REST endpoints
 link:rest-api-changes.html[/changes/]::
   Change related REST endpoints
-link:rest-api-checker.html[/checkers/]::
-  Checker related REST endpoints
 link:rest-api-config.html[/config/]::
   Config related REST endpoints
 link:rest-api-groups.html[/groups/]::

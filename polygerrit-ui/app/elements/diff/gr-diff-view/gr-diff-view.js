@@ -115,6 +115,8 @@
       },
       _prefs: Object,
       _localPrefs: Object,
+      /** @type {?} */
+      _diffPrefsChanged: Boolean,
       _projectConfig: Object,
       _userPrefs: Object,
       _diffMode: {
@@ -606,9 +608,10 @@
         return;
       }
 
-      const promises = [];
+      const promises = [
+        this.$.diffPreferences.loadData(),
+      ];
 
-      this._localPrefs = this.$.storage.getPreferences();
       promises.push(this._getDiffPreferences().then(prefs => {
         this._prefs = prefs;
       }));
@@ -837,21 +840,10 @@
 
     _handlePrefsTap(e) {
       e.preventDefault();
-      this.$.diffPreferences.open();
-    },
-
-    _handlePrefsSave(e) {
-      e.stopPropagation();
-      const el = Polymer.dom(e).rootTarget;
-      el.disabled = true;
-      this.$.storage.savePreferences(this._localPrefs);
-      this._saveDiffPreferences().then(response => {
-        el.disabled = false;
-        if (!response.ok) { return response; }
-
-        this.$.prefsOverlay.close();
-      }).catch(err => {
-        el.disabled = false;
+      this.$.diffPrefsOverlay.open().then(() => {
+        const focusStops = this.getFocusStops();
+        this.$.diffPrefsOverlay.setFocusStops(focusStops);
+        this.resetFocus();
       });
     },
 
@@ -1035,6 +1027,28 @@
           .filter(file =>
           (file === this._path || !this._reviewedFiles.has(file)));
       this._navToFile(this._path, unreviewedFiles, 1);
+    },
+
+    getFocusStops() {
+      return {
+        start: this.$.diffPreferences.$.contextSelect,
+        end: this.$.diffPreferences.$.saveButton,
+      };
+    },
+
+    resetFocus() {
+      this.$.diffPreferences.$.contextSelect.focus();
+    },
+
+    _handleSaveDiffPreferences() {
+      this.$.diffPreferences.save().then(() => {
+        this.$.diffPrefsOverlay.close();
+      });
+    },
+
+    _handleDiffCancel(e) {
+      e.stopPropagation();
+      this.$.diffPrefsOverlay.close();
     },
   });
 })();

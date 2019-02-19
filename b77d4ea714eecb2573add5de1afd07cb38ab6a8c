@@ -88,6 +88,30 @@
     },
     {
       "key": {
+        "uuid": "7daf9a16_9393e43f",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-02-19T16:59:50Z",
+      "side": 1,
+      "message": "this means that it must be unique across all instances that share data (eg. master/slave)",
+      "parentUuid": "99b6c49e_2787ab86",
+      "range": {
+        "startLine": 56,
+        "startChar": 18,
+        "endLine": 56,
+        "endChar": 49
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f45fc260_cdc68ecc",
         "filename": "Documentation/ci-integration-storage.md",
         "patchSetId": 1
@@ -99,6 +123,24 @@
       "writtenOn": "2019-02-19T10:43:05Z",
       "side": 1,
       "message": "could this be a path relative to the Gerrit hosting the checker ?",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df162618_bbd10753",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-02-19T16:59:50Z",
+      "side": 1,
+      "message": "I think so.",
+      "parentUuid": "f45fc260_cdc68ecc",
       "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -140,6 +182,24 @@
     },
     {
       "key": {
+        "uuid": "770a118b_cbfcf781",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-02-19T16:59:50Z",
+      "side": 1,
+      "message": "We also want to provide checkers that transcend repositories. For example, you could have a global policy that all Java files are formatted with google-java-format.\n\nI don\u0027t think we considered checking in files explicitly. Implicit in the design is that CI systems could be extended to support Gerrit generically, by having the CI system issue REST calls to configure CI. eg. Jenkins could contact Gerrit to configure itself from the Jenkins configuration page.\n\nMaking the configuration a part of the source tree pretty much guarantees that it has to be configured by humans. We\u0027d like to be able to offer a point \u0026 click solution instead.",
+      "parentUuid": "0b1282e7_b8f08f8f",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b7526375_904b1664",
         "filename": "Documentation/ci-integration-storage.md",
         "patchSetId": 1
@@ -151,6 +211,24 @@
       "writtenOn": "2019-02-19T13:36:20Z",
       "side": 1,
       "message": "How would this fit with a list of repositories, prefix, regex etc...?\nI imagine that some queries can be shared across repositories but there could be\nchange queries which are very specific to one repository, or even to a branch inside that\nrepository. Wouldn\u0027t it be more natural if these queries are stored in their corresponding\nrepositories?",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "082242e2_9c5c2412",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-02-19T16:59:50Z",
+      "side": 1,
+      "message": "see above.",
+      "parentUuid": "b7526375_904b1664",
       "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -214,6 +292,24 @@
     },
     {
       "key": {
+        "uuid": "c0d83c32_6f72b1eb",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-02-19T16:59:50Z",
+      "side": 1,
+      "message": "We already know we can repos with ~2M refs without big problems, so it should be OK for this design too.",
+      "parentUuid": "2ceef24d_2a173ec5",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "afbe4db3_cb0a1222",
         "filename": "Documentation/ci-integration-storage.md",
         "patchSetId": 1
@@ -225,6 +321,30 @@
       "writtenOn": "2019-02-19T10:43:05Z",
       "side": 1,
       "message": "All-Projects repository\n\nthis means if a repository is moved to another Gerrit server the corresponding check configurations need to be also moved/copied to the other server",
+      "range": {
+        "startLine": 112,
+        "startChar": 49,
+        "endLine": 112,
+        "endChar": 71
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a664432_f85f2061",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-02-19T16:59:50Z",
+      "side": 1,
+      "message": "Moving repositories between gerrit servers isn\u0027t a well supported operation anyway (we\u0027d have to rewrite the NoteDB data to change the server ID); when we do this, we could build something that moves the check configs too.",
+      "parentUuid": "afbe4db3_cb0a1222",
       "range": {
         "startLine": 112,
         "startChar": 49,

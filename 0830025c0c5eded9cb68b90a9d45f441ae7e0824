@@ -16,6 +16,24 @@
       "revId": "0830025c0c5eded9cb68b90a9d45f441ae7e0824",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b47feea2_475e6e23",
+        "filename": "java/com/google/gerrit/server/change/SetPrivateOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-19T09:09:47Z",
+      "side": 0,
+      "message": "I agree that this is a good idea, but I would rather not touch this series again if there is no issues with logic or tests. Moving all the other ops out of the rest api package sounds worthwhile to me.",
+      "parentUuid": "456ae990_1ca87305",
+      "revId": "0830025c0c5eded9cb68b90a9d45f441ae7e0824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

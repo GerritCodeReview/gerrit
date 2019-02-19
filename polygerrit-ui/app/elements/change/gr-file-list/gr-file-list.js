@@ -124,8 +124,9 @@
         observer: '_updateDiffPreferences',
       },
       /** @type {?} */
+      _diffPrefsChanged: Boolean,
+      /** @type {?} */
       _userPrefs: Object,
-      _localPrefs: Object,
       _showInlineDiffs: Boolean,
       numFilesShown: {
         type: Number,
@@ -269,7 +270,6 @@
         });
       }));
 
-      this._localPrefs = this.$.storage.getPreferences();
       promises.push(this._getDiffPreferences().then(prefs => {
         this.diffPrefs = prefs;
       }));
@@ -297,7 +297,11 @@
     },
 
     openDiffPrefs() {
-      this.$.diffPreferences.open();
+      this.$.diffPrefsOverlay.open().then(() => {
+        const focusStops = this.getFocusStops();
+        this.$.diffPrefsOverlay.setFocusStops(focusStops);
+        this.resetFocus();
+      });
     },
 
     _calculatePatchChange(files) {
@@ -1254,6 +1258,36 @@
       }
 
       return 'Mark as reviewed (shortcut: r)';
+    },
+
+
+    _computeHeaderClass(changed) {
+      return changed ? 'edited' : '';
+    },
+
+    getFocusStops() {
+      return {
+        start: this.$.diffPreferences.$.contextSelect,
+        end: this.$.diffPreferences.$.saveButton,
+      };
+    },
+
+    resetFocus() {
+      this.$.diffPreferences.$.contextSelect.focus();
+    },
+
+    _handleSaveDiffPreferences() {
+      this.$.diffPreferences.save().then(() => {
+        this._getDiffPreferences().then(prefs => {
+          this.diffPrefs = prefs;
+        });
+        this.$.diffPrefsOverlay.close();
+      });
+    },
+
+    _handleDiffCancel(e) {
+      e.stopPropagation();
+      this.$.diffPrefsOverlay.close();
     },
   });
 })();

@@ -283,7 +283,7 @@ limitations under the License.
       });
 
       test(', should open diff preferences', () => {
-        const stub = sandbox.stub(element.$.fileList.$.diffPreferences, 'open');
+        const stub = sandbox.stub(element.$.fileList, 'openDiffPrefs');
         MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
         assert.isTrue(stub.called);
       });

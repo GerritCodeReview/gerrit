@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.reviewdb.client.RobotComment;
+import com.google.gson.reflect.TypeToken;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,9 +37,10 @@ public class RobotCommentsRevisionNote extends RevisionNote<RobotComment> {
 
   @Override
   protected List<RobotComment> parse(byte[] raw, int offset) throws IOException {
+    TypeToken<List<RobotComment>> listType = new TypeToken<List<RobotComment>>() {};
     try (InputStream is = new ByteArrayInputStream(raw, offset, raw.length - offset);
         Reader r = new InputStreamReader(is, UTF_8)) {
-      return noteUtil.getGson().fromJson(r, RobotCommentsRevisionNoteData.class).comments;
+      return noteUtil.getGson().fromJson(r, listType.getType());
     }
   }
 }

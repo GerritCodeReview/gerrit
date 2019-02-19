@@ -68,6 +68,7 @@ import com.google.gerrit.server.events.EventBroker;
 import com.google.gerrit.server.events.StreamEventsApiListener;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
+import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.IndexModule;
@@ -289,6 +290,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new GerritApiModule());
     modules.add(new PluginApiModule());
     modules.add(new SearchingChangeCacheImpl.Module());
+    modules.add(new PureRevertCache.Module());
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultPermissionBackendModule());
     modules.add(new DefaultMemoryCacheModule());

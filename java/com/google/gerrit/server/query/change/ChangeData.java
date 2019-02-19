@@ -1111,7 +1111,7 @@ public class ChangeData {
       return null;
     }
     try {
-      return pureRevert.get(notes(), null).isPureRevert;
+      return pureRevert.get(notes(), Optional.empty());
     } catch (IOException | BadRequestException | ResourceConflictException e) {
       throw new OrmException("could not compute pure revert", e);
     }

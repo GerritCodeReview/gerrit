@@ -88,6 +88,23 @@
     },
     {
       "key": {
+        "uuid": "73db934e_5e1e3d32",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-02-19T13:14:35Z",
+      "side": 1,
+      "message": "If repository is a property of a checker configuration then why not store the configuration\nin that repository? It could be a simple yaml (or json, etc..) file inside a specific directory/file? An example from Gitlab:\n\nhttps://docs.gitlab.com/ee/ci/yaml/\n\nMoving a repository to a different Gerrit server would then automatically also move all\nits checker definitions. Further, there is no need to provide REST endpoint(s) for\nregistering checker(s), they can be added by a \"git push\".",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "461bc896_a03f2ea3",
         "filename": "Documentation/ci-integration-storage.md",
         "patchSetId": 1
@@ -122,6 +139,23 @@
         "endLine": 82,
         "endChar": 158
       },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ceef24d_2a173ec5",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-02-19T13:14:35Z",
+      "side": 1,
+      "message": "Can this be elaborated a bit more? What does it mean that it is okay?",
       "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -30,9 +30,6 @@ public class RefNames {
 
   public static final String REFS_CHANGES = "refs/changes/";
 
-  /** Ref namespace for checkers. */
-  public static final String REFS_CHECKERS = "refs/checkers/";
-
   public static final String REFS_META = "refs/meta/";
 
   /** Note tree listing commits we refuse {@code refs/meta/reject-commits} */
@@ -242,10 +239,6 @@ public class RefNames {
     return refsUsers(accountId) + '/' + EDIT_PREFIX;
   }
 
-  public static String refsCheckers(String checkerUuid) {
-    return REFS_CHECKERS + shardUuid(checkerUuid);
-  }
-
   public static boolean isRefsEdit(String ref) {
     return ref != null && ref.startsWith(REFS_USERS) && ref.contains(EDIT_PREFIX);
   }
@@ -284,21 +277,12 @@ public class RefNames {
   }
 
   /**
-   * Whether the ref is a checker branch that stores NoteDb data of a checker. Returns {@code true}
-   * for all refs that start with {@code refs/checkers/}.
-   */
-  public static boolean isRefsCheckers(String ref) {
-    return ref.startsWith(REFS_CHECKERS);
-  }
-
-  /**
    * Whether the ref is managed by Gerrit. Covers all Gerrit-internal refs like refs/cache-automerge
    * and refs/meta as well as refs/changes. Does not cover user-created refs like branches or custom
    * ref namespaces like refs/my-company.
    */
   public static boolean isGerritRef(String ref) {
     return ref.startsWith(REFS_CHANGES)
-        || ref.startsWith(REFS_CHECKERS)
         || ref.startsWith(REFS_META)
         || ref.startsWith(REFS_CACHE_AUTOMERGE)
         || ref.startsWith(REFS_DRAFT_COMMENTS)

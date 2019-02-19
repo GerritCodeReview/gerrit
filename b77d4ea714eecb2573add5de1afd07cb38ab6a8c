@@ -278,6 +278,24 @@
     },
     {
       "key": {
+        "uuid": "654fa0d6_3a8fe8e5",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T17:32:07Z",
+      "side": 1,
+      "message": "When would Jenkins call this REST API if the CI pipeline is defined in the source code ?\nProjects taking this approach typically do no manual configuration via the Jenkins UI.",
+      "parentUuid": "26fe3564_61e6bac7",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b7526375_904b1664",
         "filename": "Documentation/ci-integration-storage.md",
         "patchSetId": 1

@@ -52,6 +52,24 @@
       "revId": "0830025c0c5eded9cb68b90a9d45f441ae7e0824",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "439e637e_1f96bd0d",
+        "filename": "java/com/google/gerrit/server/change/SetPrivateOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-19T10:46:13Z",
+      "side": 0,
+      "message": "This class, and the other Op classes that are in restapi, were already moved in a separate change on stable-2.16 which already got merged up to master.",
+      "parentUuid": "5bb9d78c_39a82eb2",
+      "revId": "0830025c0c5eded9cb68b90a9d45f441ae7e0824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

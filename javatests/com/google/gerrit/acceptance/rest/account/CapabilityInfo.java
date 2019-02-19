@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance.rest.account;
 class CapabilityInfo {
   public boolean accessDatabase;
   public boolean administrateServer;
-  public boolean administrateCheckers;
   public BatchChangesLimit batchChangesLimit;
   public boolean createAccount;
   public boolean createGroup;

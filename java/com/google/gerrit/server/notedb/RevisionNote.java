@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.reviewdb.client.Comment;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -26,7 +25,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.util.MutableInteger;
 
-abstract class RevisionNote<T extends Comment> {
+public abstract class RevisionNote<T> {
   static final int MAX_NOTE_SZ = 25 << 20;
 
   protected static void trimLeadingEmptyLines(byte[] bytes, MutableInteger p) {
@@ -41,7 +40,7 @@ abstract class RevisionNote<T extends Comment> {
   private byte[] raw;
   private ImmutableList<T> comments;
 
-  RevisionNote(ObjectReader reader, ObjectId noteId) {
+  public RevisionNote(ObjectReader reader, ObjectId noteId) {
     this.reader = reader;
     this.noteId = noteId;
   }

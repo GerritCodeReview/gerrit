@@ -222,6 +222,16 @@ public class RefNames {
   }
 
   /**
+   * Returns the reference for this patch set: refs/changes/UU/UUUUU/x
+   *
+   * @param psId patch set id
+   * @return reference for this patchset
+   */
+  public static String patchSetRef(PatchSet.Id psId) {
+    return REFS_CHANGES + shard(psId.changeId.get()) + "/" + psId.patchSetId;
+  }
+
+  /**
    * Returns reference prefix for this change edit with sharded user and change number:
    * refs/users/UU/UUUU/edit-CCCC/.
    *

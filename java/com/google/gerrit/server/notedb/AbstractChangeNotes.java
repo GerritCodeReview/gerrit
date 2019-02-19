@@ -44,10 +44,10 @@ public abstract class AbstractChangeNotes<T> {
   public static class Args {
     // TODO(dborowitz): Some less smelly way of disabling NoteDb in tests.
     public final AtomicBoolean failOnLoadForTest;
+    public final ChangeNoteJson changeNoteJson;
 
     final GitRepositoryManager repoManager;
     final AllUsersName allUsers;
-    final ChangeNoteJson changeNoteJson;
     final LegacyChangeNoteRead legacyChangeNoteRead;
     final NoteDbMetrics metrics;
 
@@ -116,7 +116,7 @@ public abstract class AbstractChangeNotes<T> {
   private ObjectId revision;
   private boolean loaded;
 
-  AbstractChangeNotes(Args args, Change.Id changeId) {
+  public AbstractChangeNotes(Args args, Change.Id changeId) {
     this.args = requireNonNull(args);
     this.changeId = requireNonNull(changeId);
   }

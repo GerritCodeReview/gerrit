@@ -22,6 +22,7 @@ import java.util.Optional;
 
 @AutoValue
 public abstract class CheckerUpdate {
+
   /** Defines the new name of the checker. If not specified, the name remains unchanged. */
   public abstract Optional<String> getName();
 

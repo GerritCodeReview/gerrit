@@ -112,6 +112,30 @@
     },
     {
       "key": {
+        "uuid": "12985601_0cbf7a8f",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T17:13:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7daf9a16_9393e43f",
+      "range": {
+        "startLine": 56,
+        "startChar": 18,
+        "endLine": 56,
+        "endChar": 49
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f45fc260_cdc68ecc",
         "filename": "Documentation/ci-integration-storage.md",
         "patchSetId": 1
@@ -144,6 +168,24 @@
       "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b036fee_7d4ec1d3",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T17:13:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "df162618_bbd10753",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -328,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "3c13e96b_8053fd9c",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T17:13:44Z",
+      "side": 1,
+      "message": "Which implementation of ref storage do you assume with this statement ?\n- packed-refs\n- reftable \n- another implementation/storage",
+      "parentUuid": "c0d83c32_6f72b1eb",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "afbe4db3_cb0a1222",
         "filename": "Documentation/ci-integration-storage.md",
         "patchSetId": 1
@@ -363,6 +423,30 @@
       "side": 1,
       "message": "Moving repositories between gerrit servers isn\u0027t a well supported operation anyway (we\u0027d have to rewrite the NoteDB data to change the server ID); when we do this, we could build something that moves the check configs too.",
       "parentUuid": "afbe4db3_cb0a1222",
+      "range": {
+        "startLine": 112,
+        "startChar": 49,
+        "endLine": 112,
+        "endChar": 71
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbb0a60f_df50f1ab",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T17:13:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8a664432_f85f2061",
       "range": {
         "startLine": 112,
         "startChar": 49,

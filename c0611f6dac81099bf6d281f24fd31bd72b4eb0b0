@@ -507,6 +507,24 @@
     },
     {
       "key": {
+        "uuid": "8e607eb1_d8f2a62c",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-19T17:53:27Z",
+      "side": 1,
+      "message": "When people talk about \"configuration as code\", I think often what they mean is \"code as a UI to configuration\". So the question we\u0027re considering here is whether writing code is actually the UI that people want to use for setting up checkers in Gerrit. I would argue that the answer is no: they may want to write code to configure their build/CI system, but they don\u0027t want to have to write *more* code to get their CI system wired up with Gerrit. The model here is, you configure your CI system using whatever UI it provides (web, code, etc.), and the CI system speaks the Gerrit REST API to set up the integration between the itself and Gerrit. Asking a human to manage that integration manually is not better UX.",
+      "parentUuid": "d71b5e85_bdc34bab",
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb97671b_3384a63f",
         "filename": "Documentation/ci-integration-design.txt",
         "patchSetId": 1

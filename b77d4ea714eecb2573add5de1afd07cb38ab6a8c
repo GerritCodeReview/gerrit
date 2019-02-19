@@ -314,6 +314,24 @@
     },
     {
       "key": {
+        "uuid": "fcad49a0_be1ad360",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-02-19T17:52:39Z",
+      "side": 1,
+      "message": "The CI pipeline itself (which commands to execute against which docker images etc.) is outside of the scope of this design: it is up to the CI system to figure out where to get these details.\n\nThe Gerrit REST API for configuration governs is just for configuring details such as \n\n - should this block submission or not\n\n - which changes should be checked against this system (only a certain branch, only a certain file extensions, etc.)\n\nThis data highly structured, and it must obey certain constraints, and storing these entities directly instead of freeform text data makes our life easier.\n\nFor example, each check must have its own identity. The design enforces this by stipulating the use of unique UUIDs. If people can write configuration files, we have to write extra parsing and verification to make sure they obey these rules.\n\nI think you assume that writing config files is easy, but it actually requires people to read the documentation, so it\u0027s actually not that straightforward. By contrast, a REST API allows us to write web tooling that could be point\u0026click.\n\nIf we use config files, we\u0027d have to settle on config file format. The JGit format isn\u0027t that flexible, so we\u0027d either subject ourselves to those limitations again, or we\u0027d have to pick another format. \n\nSince we specify the REST API as public API, we have the opportunity to change the format. If we find there is a performance problem, we could change the storage details. If the API were a config files checked in somewhere, a change of implementation would be very hard.migrate data.\n\nThe current design does not stipulate fine grained permission details, so a config file + code review offers more control, but we can also add more fine-grained permissions for setting up checks on top of the current design.",
+      "parentUuid": "654fa0d6_3a8fe8e5",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b7526375_904b1664",
         "filename": "Documentation/ci-integration-storage.md",
         "patchSetId": 1

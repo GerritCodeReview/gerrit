@@ -200,6 +200,24 @@
     },
     {
       "key": {
+        "uuid": "26fe3564_61e6bac7",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T17:00:54Z",
+      "side": 1,
+      "message": "CI/CD systems tend to favour configuration as code these days, this means CI pipeline definitions\nare stored as source code in the source code repository which they act on.\nSimilarly Gerrit checkers and their configuration could be defined in the same way.\nGerrit would need to index these files when new versions arrive during push to feed an index for\nfast access to these definitions.\n\nadvantages I see for that approach:\n* I guess this would simplify implementation considerably compared to adding more data to notedb\n* developers (who probably do this configuration) are already familiar with such an approach\nsince most CI/CD tools configure build and deployment pipelines in this way\n* doesn\u0027t add a ton of refs to a central repository",
+      "parentUuid": "0b1282e7_b8f08f8f",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b7526375_904b1664",
         "filename": "Documentation/ci-integration-storage.md",
         "patchSetId": 1

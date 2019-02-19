@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4fcb66d5_b0c6b152",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-19T23:21:03Z",
+      "side": 1,
+      "message": "This is a cherry-pick of a change that was already submitted on master, hence I didn\u0027t edit the commit message other than adding the issue reference below.",
+      "parentUuid": "5429d725_668da6a0",
+      "range": {
+        "startLine": 11,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "cbac6f8882ac0a2a19f9907d39f291f07b6cdc58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b4548ca4_c00a005d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -76,6 +100,30 @@
       "writtenOn": "2019-02-19T19:56:13Z",
       "side": 1,
       "message": "Not sure I understand the connection between this change and that issue.",
+      "range": {
+        "startLine": 59,
+        "startChar": 11,
+        "endLine": 59,
+        "endChar": 16
+      },
+      "revId": "cbac6f8882ac0a2a19f9907d39f291f07b6cdc58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45bcb81d_542b817d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-19T23:21:03Z",
+      "side": 1,
+      "message": "I\u0027ve pasted the wrong issue.  Should be 10106",
+      "parentUuid": "705de2fc_576a4878",
       "range": {
         "startLine": 59,
         "startChar": 11,

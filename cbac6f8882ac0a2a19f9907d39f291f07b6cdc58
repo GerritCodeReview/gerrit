@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5429d725_668da6a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-02-19T19:56:13Z",
+      "side": 1,
+      "message": "throw",
+      "range": {
+        "startLine": 11,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "cbac6f8882ac0a2a19f9907d39f291f07b6cdc58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4548ca4_c00a005d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-02-19T19:56:13Z",
+      "side": 1,
+      "message": "removal.",
+      "range": {
+        "startLine": 37,
+        "startChar": 55,
+        "endLine": 37,
+        "endChar": 62
+      },
+      "revId": "cbac6f8882ac0a2a19f9907d39f291f07b6cdc58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5721580_f06e2fc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-02-19T19:56:13Z",
+      "side": 1,
+      "message": "In all of the above examples, when we say either \"Throws\" or \"Does not throw\", do we mean before or after this change? Or, does this fix now cover all of the above cases without throwing anything? (Clarify this overall above?)",
+      "revId": "cbac6f8882ac0a2a19f9907d39f291f07b6cdc58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "705de2fc_576a4878",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-02-19T19:56:13Z",
+      "side": 1,
+      "message": "Not sure I understand the connection between this change and that issue.",
+      "range": {
+        "startLine": 59,
+        "startChar": 11,
+        "endLine": 59,
+        "endChar": 16
+      },
+      "revId": "cbac6f8882ac0a2a19f9907d39f291f07b6cdc58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

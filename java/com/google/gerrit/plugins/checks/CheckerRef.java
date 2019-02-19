@@ -14,7 +14,11 @@
 
 package com.google.gerrit.plugins.checks;
 
-import com.google.gerrit.reviewdb.client.RefNames;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
+import static com.google.gerrit.reviewdb.client.RefNames.shard;
+import static com.google.gerrit.reviewdb.client.RefNames.shardUuid;
+
+import com.google.gerrit.reviewdb.client.Change;
 
 public class CheckerRef {
   /** Ref namespace for checkers. */
@@ -23,8 +27,15 @@ public class CheckerRef {
   /** Ref that stores the repository to checkers map. */
   public static final String REFS_META_CHECKERS = "refs/meta/checkers/";
 
+  /** Suffix for check refs. */
+  public static final String CHECKS_SUFFIX = "/checks";
+
   public static String refsCheckers(String checkerUuid) {
-    return REFS_CHECKERS + RefNames.shardUuid(checkerUuid);
+    return REFS_CHECKERS + shardUuid(checkerUuid);
+  }
+
+  public static String checksRef(Change.Id changeId) {
+    return REFS_CHANGES + shard(changeId.get()) + CHECKS_SUFFIX;
   }
 
   /**

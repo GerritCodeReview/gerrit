@@ -16,11 +16,12 @@ package com.google.gerrit.plugins.checks.acceptance;
 
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.ProjectResetter;
-import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.plugins.checks.CheckerRef;
+import com.google.gerrit.plugins.checks.acceptance.testsuite.CheckOperations;
 import com.google.gerrit.plugins.checks.acceptance.testsuite.CheckerOperations;
 import com.google.gerrit.plugins.checks.api.Checkers;
+import com.google.gerrit.plugins.checks.api.ChecksFactory;
 import org.junit.Before;
 
 // TODO(dborowitz): Improve the plugin test framework so we can avoid subclassing:
@@ -31,10 +32,11 @@ import org.junit.Before;
     name = "checks",
     sysModule = "com.google.gerrit.plugins.checks.acceptance.TestModule",
     httpModule = "com.google.gerrit.plugins.checks.api.HttpModule")
-@SkipProjectClone
 public class AbstractCheckersTest extends LightweightPluginDaemonTest {
   protected CheckerOperations checkerOperations;
+  protected CheckOperations checkOperations;
   protected Checkers checkersApi;
+  protected ChecksFactory checksApiFactory;
 
   @Override
   protected ProjectResetter.Config resetProjects() {
@@ -45,7 +47,9 @@ public class AbstractCheckersTest extends LightweightPluginDaemonTest {
   @Before
   public void setUpCheckersPlugin() throws Exception {
     checkerOperations = plugin.getSysInjector().getInstance(CheckerOperations.class);
+    checkOperations = plugin.getSysInjector().getInstance(CheckOperations.class);
     checkersApi = plugin.getHttpInjector().getInstance(Checkers.class);
+    checksApiFactory = plugin.getHttpInjector().getInstance(ChecksFactory.class);
 
     allowGlobalCapabilities(group("Administrators").getGroupUUID(), "checks-administrateCheckers");
   }

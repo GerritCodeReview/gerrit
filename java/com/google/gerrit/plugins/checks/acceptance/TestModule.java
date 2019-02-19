@@ -15,6 +15,8 @@
 package com.google.gerrit.plugins.checks.acceptance;
 
 import com.google.gerrit.plugins.checks.Module;
+import com.google.gerrit.plugins.checks.acceptance.testsuite.CheckOperations;
+import com.google.gerrit.plugins.checks.acceptance.testsuite.CheckOperationsImpl;
 import com.google.gerrit.plugins.checks.acceptance.testsuite.CheckerOperations;
 import com.google.gerrit.plugins.checks.acceptance.testsuite.CheckerOperationsImpl;
 import com.google.inject.AbstractModule;
@@ -27,5 +29,6 @@ public class TestModule extends AbstractModule {
     // Only add bindings here that are specifically required for tests, in order to keep the Guice
     // setup in tests as realistic as possible by delegating to the original module.
     bind(CheckerOperations.class).to(CheckerOperationsImpl.class);
+    bind(CheckOperations.class).to(CheckOperationsImpl.class);
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f184dc6d_f1049a5b",
+        "filename": "java/com/google/gerrit/server/git/PureRevertCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-02-19T09:13:49Z",
+      "side": 1,
+      "message": "this is effectively false, no? Wouldnt it be safe to persist the value instead? The same for l.167",
+      "range": {
+        "startLine": 171,
+        "startChar": 22,
+        "endLine": 171,
+        "endChar": 41
+      },
+      "revId": "2d703ab982188338b7dde14cb6a57784cc168e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "revId": "0830025c0c5eded9cb68b90a9d45f441ae7e0824",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bb9d78c_39a82eb2",
+        "filename": "java/com/google/gerrit/server/change/SetPrivateOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-02-19T09:21:00Z",
+      "side": 0,
+      "message": "I\u0027d rather see the Op classes stay in restapi unless there is a good reason to not have them there. If they\u0027re not in restapi, they migrate back into the server package which is the giant hairball we want to make smaller.",
+      "parentUuid": "b47feea2_475e6e23",
+      "revId": "0830025c0c5eded9cb68b90a9d45f441ae7e0824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

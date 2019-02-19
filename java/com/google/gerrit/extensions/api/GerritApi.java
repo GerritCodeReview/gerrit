@@ -16,7 +16,6 @@ package com.google.gerrit.extensions.api;
 
 import com.google.gerrit.extensions.api.accounts.Accounts;
 import com.google.gerrit.extensions.api.changes.Changes;
-import com.google.gerrit.extensions.api.checkers.Checkers;
 import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.groups.Groups;
 import com.google.gerrit.extensions.api.plugins.Plugins;
@@ -27,8 +26,6 @@ public interface GerritApi {
   Accounts accounts();
 
   Changes changes();
-
-  Checkers checkers();
 
   Config config();
 
@@ -50,11 +47,6 @@ public interface GerritApi {
 
     @Override
     public Changes changes() {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public Checkers checkers() {
       throw new NotImplementedException();
     }
 

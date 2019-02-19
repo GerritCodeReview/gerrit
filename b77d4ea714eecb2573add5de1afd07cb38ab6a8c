@@ -1,0 +1,871 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6661f279_7ef42fd1",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "check details for all checkers that apply to a change ...",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 57
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a84e9e9_4c534eac",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "checker for",
+      "range": {
+        "startLine": 43,
+        "startChar": 21,
+        "endLine": 43,
+        "endChar": 31
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99b6c49e_2787ab86",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "what does this mean in case of a master-slave, multi-master, multi-site setup ?",
+      "range": {
+        "startLine": 56,
+        "startChar": 18,
+        "endLine": 56,
+        "endChar": 49
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f45fc260_cdc68ecc",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "could this be a path relative to the Gerrit hosting the checker ?",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "461bc896_a03f2ea3",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "then I would name this Check Status",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed466259_adb544ee",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "Passed or",
+      "range": {
+        "startLine": 82,
+        "startChar": 150,
+        "endLine": 82,
+        "endChar": 158
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afbe4db3_cb0a1222",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "All-Projects repository\n\nthis means if a repository is moved to another Gerrit server the corresponding check configurations need to be also moved/copied to the other server",
+      "range": {
+        "startLine": 112,
+        "startChar": 49,
+        "endLine": 112,
+        "endChar": 71
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb2af877_33c70b32",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "Reindex a or Reindexing of a",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 16
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4719e04c_f1f2a758",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "All-Projects repository",
+      "range": {
+        "startLine": 154,
+        "startChar": 51,
+        "endLine": 154,
+        "endChar": 73
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ea80dc6_9c7a3e6c",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "refs/checker/\u003csharded-UUID\u003e ref",
+      "range": {
+        "startLine": 182,
+        "startChar": 242,
+        "endLine": 182,
+        "endChar": 272
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88074191_69104288",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "refs/meta/checkers notes",
+      "range": {
+        "startLine": 186,
+        "startChar": 160,
+        "endLine": 186,
+        "endChar": 183
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76e68690_73ca4070",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "bad indentation",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5875777f_52fdfd54",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "disabled and",
+      "range": {
+        "startLine": 197,
+        "startChar": 89,
+        "endLine": 197,
+        "endChar": 100
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bea4f29_434e5d5a",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "repository or",
+      "range": {
+        "startLine": 199,
+        "startChar": 117,
+        "endLine": 199,
+        "endChar": 129
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26587ff9_398cecf3",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "access to",
+      "range": {
+        "startLine": 201,
+        "startChar": 12,
+        "endLine": 201,
+        "endChar": 20
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "714be316_a2248633",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "note",
+      "range": {
+        "startLine": 201,
+        "startChar": 211,
+        "endLine": 201,
+        "endChar": 215
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa63c66a_b6b9aeab",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "All-Projects repository",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 213,
+        "endChar": 26
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68073c80_7dda539f",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "refs/checkers/\u003csharded-checker-UUID\u003e and",
+      "range": {
+        "startLine": 221,
+        "startChar": 66,
+        "endLine": 221,
+        "endChar": 105
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfb02112_2316ce33",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "refs/meta/checkers when",
+      "range": {
+        "startLine": 223,
+        "startChar": 87,
+        "endLine": 223,
+        "endChar": 109
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3af84083_09e85b99",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "note",
+      "range": {
+        "startLine": 223,
+        "startChar": 549,
+        "endLine": 223,
+        "endChar": 553
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "894360e7_ac0151b7",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "All-Checkers repository",
+      "range": {
+        "startLine": 231,
+        "startChar": 338,
+        "endLine": 231,
+        "endChar": 360
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3b3b259_0a4c722b",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "All-Checkers repository",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3df575e_66a44658",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "All-Projects for",
+      "range": {
+        "startLine": 231,
+        "startChar": 676,
+        "endLine": 231,
+        "endChar": 691
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17490da2_34d859d6",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "refs/meta/config branch",
+      "range": {
+        "startLine": 231,
+        "startChar": 194,
+        "endLine": 231,
+        "endChar": 216
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3456d2d2_d5cfa046",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "All-Projects is",
+      "range": {
+        "startLine": 231,
+        "startChar": 4,
+        "endLine": 231,
+        "endChar": 18
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b4842b4_70a3b82e",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "All-Projects without",
+      "range": {
+        "startLine": 231,
+        "startChar": 596,
+        "endLine": 231,
+        "endChar": 615
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61b48ff4_1c343036",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "refs/meta/checkers ref",
+      "range": {
+        "startLine": 233,
+        "startChar": 69,
+        "endLine": 233,
+        "endChar": 90
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66ceaca4_cc9a2169",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "All-Projects repository",
+      "range": {
+        "startLine": 233,
+        "startChar": 37,
+        "endLine": 233,
+        "endChar": 59
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96d8fbc6_c17b0b39",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "checkers",
+      "range": {
+        "startLine": 235,
+        "startChar": 403,
+        "endLine": 235,
+        "endChar": 410
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cda8b820_04994cfa",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "repositories to",
+      "range": {
+        "startLine": 237,
+        "startChar": 43,
+        "endLine": 237,
+        "endChar": 57
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2973275_be1ae334",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "* this would have the advantage that moving a repository to another Gerrit server would also include its checker configurations",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16bbf1e3_f979b278",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "refs/meta/config branch",
+      "range": {
+        "startLine": 241,
+        "startChar": 70,
+        "endLine": 241,
+        "endChar": 92
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f905963_722bdaf1",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "checkers/\u003cchecker-UUID\u003e file",
+      "range": {
+        "startLine": 241,
+        "startChar": 35,
+        "endLine": 241,
+        "endChar": 62
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcdf46e2_ea9a8bc4",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "refs/changes/\u003csharded-change-number\u003e/checks ref",
+      "range": {
+        "startLine": 341,
+        "startChar": 61,
+        "endLine": 341,
+        "endChar": 107
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5a4d72f_1db84827",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "retry for a short moment",
+      "range": {
+        "startLine": 350,
+        "startChar": 38,
+        "endLine": 350,
+        "endChar": 69
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b0710f9_21e5e9a0",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "writes fail",
+      "range": {
+        "startLine": 372,
+        "startChar": 49,
+        "endLine": 372,
+        "endChar": 75
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cbdb03f_62adf0f8",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "LOCK\\_FAILURES on",
+      "range": {
+        "startLine": 380,
+        "startChar": 14,
+        "endLine": 380,
+        "endChar": 30
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae31072a_478e6853",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "LOCK\\_FAILURES (",
+      "range": {
+        "startLine": 380,
+        "startChar": 251,
+        "endLine": 380,
+        "endChar": 266
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "046562fe_3fd9ed3d",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T10:43:05Z",
+      "side": 1,
+      "message": "All-Checkers repository",
+      "range": {
+        "startLine": 401,
+        "startChar": 42,
+        "endLine": 401,
+        "endChar": 64
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

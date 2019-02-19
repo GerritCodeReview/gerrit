@@ -296,6 +296,24 @@
     },
     {
       "key": {
+        "uuid": "864a501a_a575f0fb",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-02-19T17:38:33Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think we considered checking in files explicitly.\n\nSince this seems to be the mainstream these days and, as Patrick pointed out, we also\nwant to learn from others, it should at least be evaluated and discussed. If this approach\ndoesn\u0027t work for Gerrit then we should also document why is it so.",
+      "parentUuid": "26fe3564_61e6bac7",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b7526375_904b1664",
         "filename": "Documentation/ci-integration-storage.md",
         "patchSetId": 1
@@ -483,6 +501,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "8a664432_f85f2061",
+      "range": {
+        "startLine": 112,
+        "startChar": 49,
+        "endLine": 112,
+        "endChar": 71
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58ec8fd3_b48b2265",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-02-19T17:38:33Z",
+      "side": 1,
+      "message": "IIRC one of the promises of the NoteDB was that moving repository to another Gerrit server would be easy.\n\n\u003e we could build something that moves the check configs too.\nYes. But wouldn\u0027t it be even better if we wouldn\u0027t need to build such a tool for moving checkers?",
+      "parentUuid": "cbb0a60f_df50f1ab",
       "range": {
         "startLine": 112,
         "startChar": 49,

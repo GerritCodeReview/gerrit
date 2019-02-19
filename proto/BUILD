@@ -19,3 +19,14 @@ java_proto_library(
     visibility = ["//visibility:public"],
     deps = [":entities_proto"],
 )
+
+proto_library(
+    name = "test_proto",
+    srcs = ["test.proto"],
+)
+
+java_proto_library(
+    name = "test_java_proto",
+    visibility = ["//visibility:public"],
+    deps = [":test_proto"],
+)

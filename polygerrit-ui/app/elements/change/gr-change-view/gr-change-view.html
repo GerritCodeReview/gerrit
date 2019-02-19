@@ -142,13 +142,13 @@ limitations under the License.
           padding-right: 0;
         }
       }
-      .changeStatuses,
+      .changeStates,
       .commitActions,
       .statusText {
         align-items: center;
         display: flex;
       }
-      .changeStatuses {
+      .changeStates {
         flex-wrap: wrap;
       }
       .mainChangeInfo {
@@ -369,8 +369,8 @@ limitations under the License.
               change="{{_change}}"
               on-toggle-star="_handleToggleStar"
               hidden$="[[!_loggedIn]]"></gr-change-star>
-          <div class="changeStatuses">
-            <template is="dom-repeat" items="[[_changeStatuses]]" as="status">
+          <div class="changeStates">
+            <template is="dom-repeat" items="[[_changeStates]]" as="status">
               <gr-change-status
                   max-width="100"
                   status="[[status]]"></gr-change-status>
@@ -379,7 +379,7 @@ limitations under the License.
           <div class="statusText">
             <template
                 is="dom-if"
-                if="[[_computeShowCommitInfo(_changeStatus, _change.current_revision)]]">
+                if="[[_computeShowCommitInfo(_change)]]">
               <span class="text"> as </span>
               <gr-commit-info
                   change="[[_change]]"

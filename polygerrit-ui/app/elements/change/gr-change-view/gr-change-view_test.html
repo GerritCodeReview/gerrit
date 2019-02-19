@@ -476,8 +476,8 @@ limitations under the License.
       });
     });
 
-    test('_changeStatuses', () => {
-      sandbox.stub(element, 'changeStatuses').returns(
+    test('_changeStates', () => {
+      sandbox.stub(element, 'changeStates').returns(
           ['Merged', 'WIP']);
       element._loading = false;
       element._change = {
@@ -500,8 +500,8 @@ limitations under the License.
       };
       element._mergeable = true;
       expectedStatuses = ['Merged', 'WIP'];
-      assert.deepEqual(element._changeStatuses, expectedStatuses);
-      assert.equal(element._changeStatus, expectedStatuses.join(', '));
+      assert.deepEqual(element._changeStates, expectedStatuses);
+      assert.equal(element._changeStates, expectedStatuses.join(', '));
       flushAsynchronousOperations();
       const statusChips = Polymer.dom(element.root)
           .querySelectorAll('gr-change-status');

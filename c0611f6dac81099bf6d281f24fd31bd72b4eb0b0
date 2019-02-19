@@ -266,6 +266,115 @@
     },
     {
       "key": {
+        "uuid": "e22adc50_39c2ca62",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T16:49:32Z",
+      "side": 1,
+      "message": "did you mean: hit internal Gerrit limit",
+      "range": {
+        "startLine": 132,
+        "startChar": 348,
+        "endLine": 132,
+        "endChar": 367
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "705005d1_eed1a90d",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T16:49:32Z",
+      "side": 1,
+      "message": "do you mean check results ?",
+      "range": {
+        "startLine": 137,
+        "startChar": 57,
+        "endLine": 137,
+        "endChar": 63
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "668a3703_24e58858",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T16:49:32Z",
+      "side": 1,
+      "message": "This would be also possible by storing the checker configuration as a regular file in the respective branch(es) in the source code repository on which the checker should be run.\nChanges in checker configuration would then also show up naturally in the history of the source code repository they are checking and undergo the code review like any other source code.",
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbb0f20a_dc75b30a",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T16:49:32Z",
+      "side": 1,
+      "message": "I don\u0027t understand what you want to say here",
+      "range": {
+        "startLine": 155,
+        "startChar": 235,
+        "endLine": 155,
+        "endChar": 281
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb920b06_c30eee14",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T16:49:32Z",
+      "side": 1,
+      "message": "looks like you mean \"the name is taken as UUID\"",
+      "range": {
+        "startLine": 170,
+        "startChar": 155,
+        "endLine": 170,
+        "endChar": 180
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73c0f492_99ee095d",
         "filename": "Documentation/ci-integration-design.txt",
         "patchSetId": 1
@@ -282,6 +391,52 @@
         "startChar": 32,
         "endLine": 172,
         "endChar": 75
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8490c38f_5cc531b5",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T16:49:32Z",
+      "side": 1,
+      "message": "I think the newest patch set is the most urgent since it supersedes older patchsets, it may also make sense to cancel running checks for old patchsets if a newer one already exists in order to save resources on the check systems",
+      "range": {
+        "startLine": 207,
+        "startChar": 109,
+        "endLine": 207,
+        "endChar": 149
+      },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f50aabb_93cea2b8",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T16:49:32Z",
+      "side": 1,
+      "message": "does this mean all checkers available in this gerrit instance ?",
+      "range": {
+        "startLine": 222,
+        "startChar": 33,
+        "endLine": 222,
+        "endChar": 45
       },
       "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -329,6 +484,40 @@
         "endLine": 237,
         "endChar": 318
       },
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d71b5e85_bdc34bab",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T16:49:32Z",
+      "side": 1,
+      "message": "CI/CD systems tend to favour configuration as code these days, this means CI pipeline definitions are stored as source code in the source code repository which they act on. Similarly Gerrit checkers and their configuration could be defined in the same way. Gerrit would need to index these files when new versions arrive during push to feed an index for fast access to these definitions.",
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb97671b_3384a63f",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T16:49:32Z",
+      "side": 1,
+      "message": "how about end timestamp which could enable performance stats and analysis ?",
       "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

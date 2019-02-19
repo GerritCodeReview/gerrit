@@ -525,6 +525,24 @@
     },
     {
       "key": {
+        "uuid": "9975d2e2_09569199",
+        "filename": "Documentation/ci-integration-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-02-19T21:10:37Z",
+      "side": 1,
+      "message": "ok, if this is the goal I agree a REST API is favorable, though this requires to enhance the CI/analyzer systems to use this REST API\n\nI translate \"configuration as code\" to \"CI/CD configuration is versioned and reviewed together with source code\" instead of an ad-hoc configuration typically done in some tool specific Web UI.",
+      "parentUuid": "8e607eb1_d8f2a62c",
+      "revId": "c0611f6dac81099bf6d281f24fd31bd72b4eb0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb97671b_3384a63f",
         "filename": "Documentation/ci-integration-design.txt",
         "patchSetId": 1

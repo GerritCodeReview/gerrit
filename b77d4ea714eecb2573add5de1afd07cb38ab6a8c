@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "82a523ec_86139d86",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-02-19T16:53:32Z",
+      "side": 1,
+      "message": "It would be good if the intro to this doc outlined what the intent is. By reading up to here, I have no idea what this document is really about, i.e. what value is it trying to deliver?  Mostly it is telling me that it must be fast and should not do things in bad ways. I think it would be clearer if it told us first what the delivered value would be without assuming external knowledge of the intent.",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6661f279_7ef42fd1",
         "filename": "Documentation/ci-integration-storage.md",
         "patchSetId": 1

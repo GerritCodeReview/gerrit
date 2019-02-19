@@ -57,6 +57,7 @@ import com.google.gerrit.server.extensions.events.EventUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
@@ -160,6 +161,7 @@ public class BatchProgramModule extends FactoryModule {
     install(ChangeKindCacheImpl.module());
     install(MergeabilityCacheImpl.module());
     install(TagCache.module());
+    install(new PureRevertCache.Module());
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);
     factory(ProjectState.Factory.class);

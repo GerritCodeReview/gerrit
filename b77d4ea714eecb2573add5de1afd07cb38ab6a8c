@@ -460,6 +460,24 @@
     },
     {
       "key": {
+        "uuid": "981c4963_417c5517",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-02-19T17:54:01Z",
+      "side": 1,
+      "message": "reftable.",
+      "parentUuid": "3c13e96b_8053fd9c",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "afbe4db3_cb0a1222",
         "filename": "Documentation/ci-integration-storage.md",
         "patchSetId": 1
@@ -543,6 +561,30 @@
       "side": 1,
       "message": "IIRC one of the promises of the NoteDB was that moving repository to another Gerrit server would be easy.\n\n\u003e we could build something that moves the check configs too.\nYes. But wouldn\u0027t it be even better if we wouldn\u0027t need to build such a tool for moving checkers?",
       "parentUuid": "cbb0a60f_df50f1ab",
+      "range": {
+        "startLine": 112,
+        "startChar": 49,
+        "endLine": 112,
+        "endChar": 71
+      },
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba81f577_f99e32b7",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-02-19T17:54:01Z",
+      "side": 1,
+      "message": "it is easy, but it is nonzero amount of work. Moving the checker refs to another server would also be easy, but nonzero amount of work.",
+      "parentUuid": "58ec8fd3_b48b2265",
       "range": {
         "startLine": 112,
         "startChar": 49,

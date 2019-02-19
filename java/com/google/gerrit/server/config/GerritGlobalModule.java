@@ -117,6 +117,7 @@ import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.NotesBranchUtil;
+import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
@@ -237,6 +238,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(SubmitStrategy.module());
     install(TagCache.module());
     install(OAuthTokenCache.module());
+    install(PureRevertCache.module());
 
     install(new AccessControlModule());
     install(new CmdLineParserModule());

@@ -12,7 +12,7 @@ CORE_PLUGINS = [
 ]
 
 CUSTOM_PLUGINS = [
-    # Add custom core plugins here
+    "checks",
 ]
 
 CUSTOM_PLUGINS_TEST_DEPS = [

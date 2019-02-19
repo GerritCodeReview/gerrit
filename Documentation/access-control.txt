@@ -1225,14 +1225,6 @@ users to otherwise access Gerrit as any other normal user would,
 without needing two different accounts.
 
 
-[[capability_administrateCheckers]]
-=== Administrate Checkers
-
-Allow checker administration. This includes permissions to see and
-update any checker and create new checkers, see
-link:rest-api-checkers.html[checkers REST API].
-
-
 [[capability_batchChangesLimit]]
 === Batch Changes Limit
 

@@ -24,7 +24,6 @@ public class GerritApiModule extends FactoryModule {
 
     install(new com.google.gerrit.server.api.accounts.Module());
     install(new com.google.gerrit.server.api.changes.Module());
-    install(new com.google.gerrit.server.api.checkers.Module());
     install(new com.google.gerrit.server.api.config.Module());
     install(new com.google.gerrit.server.api.groups.Module());
     install(new com.google.gerrit.server.api.projects.Module());

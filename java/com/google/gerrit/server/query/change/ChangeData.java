@@ -36,7 +36,6 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -57,11 +56,11 @@ import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.StarRef;
 import com.google.gerrit.server.change.MergeabilityCache;
-import com.google.gerrit.server.change.PureRevert;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
@@ -250,7 +249,7 @@ public class ChangeData {
   private final PatchSetUtil psUtil;
   private final ProjectCache projectCache;
   private final TrackingFooters trackingFooters;
-  private final PureRevert pureRevert;
+  private final PureRevertCache pureRevertCache;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   // Required assisted injected fields.
@@ -317,7 +316,7 @@ public class ChangeData {
       PatchSetUtil psUtil,
       ProjectCache projectCache,
       TrackingFooters trackingFooters,
-      PureRevert pureRevert,
+      PureRevertCache pureRevertCache,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id,
@@ -336,7 +335,7 @@ public class ChangeData {
     this.projectCache = projectCache;
     this.starredChangesUtil = starredChangesUtil;
     this.trackingFooters = trackingFooters;
-    this.pureRevert = pureRevert;
+    this.pureRevertCache = pureRevertCache;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
 
     this.project = project;
@@ -1111,8 +1110,8 @@ public class ChangeData {
       return null;
     }
     try {
-      return pureRevert.get(notes(), null).isPureRevert;
-    } catch (IOException | BadRequestException | ResourceConflictException e) {
+      return pureRevertCache.isPureRevert(notes());
+    } catch (IOException | BadRequestException e) {
       throw new OrmException("could not compute pure revert", e);
     }
   }

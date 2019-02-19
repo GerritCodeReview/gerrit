@@ -3785,7 +3785,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void pureRevertThrowsExceptionWhenChangeIsNotARevertAndNoIdProvided() throws Exception {
     exception.expect(BadRequestException.class);
-    exception.expectMessage("no ID was provided and change isn't a revert");
+    exception.expectMessage("revertOf not set");
     gApi.changes().id(createChange().getChangeId()).pureRevert();
   }
 

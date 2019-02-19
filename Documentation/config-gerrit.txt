@@ -979,6 +979,11 @@ cache `"prolog_rules"`::
 Caches parsed `rules.pl` contents for each project. This cache uses the same
 size as the `projects` cache, and cannot be configured independently.
 
+cache `"pure_revert"`::
++
+Result of checking if one change or commit is a pure/clean revert of
+another.
+
 cache `"sshkeys"`::
 +
 Caches unpacked versions of user SSH keys, so the internal SSH daemon

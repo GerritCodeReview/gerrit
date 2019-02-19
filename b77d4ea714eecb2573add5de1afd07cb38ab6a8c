@@ -105,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "0b1282e7_b8f08f8f",
+        "filename": "Documentation/ci-integration-storage.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-02-19T13:22:04Z",
+      "side": 1,
+      "message": "It could also be a file in the refs/meta/config (or refs/meta/checker). Still, having a file\ninside the normal (refs/heads/*) branches would be easier for most of the developers who are\nnot familiar with Gerrit internals.",
+      "parentUuid": "73db934e_5e1e3d32",
+      "revId": "b77d4ea714eecb2573add5de1afd07cb38ab6a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "461bc896_a03f2ea3",
         "filename": "Documentation/ci-integration-storage.md",
         "patchSetId": 1

@@ -27,6 +27,7 @@ limitations under the License.
 <link rel="import" href="../../settings/gr-change-table-editor/gr-change-table-editor.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
+<link rel="import" href="../../shared/gr-diff-preferences/gr-diff-preferences.html">
 <link rel="import" href="../../shared/gr-page-nav/gr-page-nav.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
@@ -259,110 +260,9 @@ limitations under the License.
           Diff Preferences
         </h2>
         <fieldset id="diffPreferences">
-          <section>
-            <span class="title">Context</span>
-            <span class="value">
-              <gr-select bind-value="{{_diffPrefs.context}}">
-                <select>
-                  <option value="3">3 lines</option>
-                  <option value="10">10 lines</option>
-                  <option value="25">25 lines</option>
-                  <option value="50">50 lines</option>
-                  <option value="75">75 lines</option>
-                  <option value="100">100 lines</option>
-                  <option value="-1">Whole file</option>
-                </select>
-              </gr-select>
-            </span>
-          </section>
-          <section>
-            <span class="title">Fit to screen</span>
-            <span class="value">
-              <input
-                  id="diffLineWrapping"
-                  type="checkbox"
-                  checked$="[[_diffPrefs.line_wrapping]]"
-                  on-change="_handleDiffLineWrappingChanged">
-            </span>
-          </section>
-          <section id="columnsPref" hidden$="[[_diffPrefs.line_wrapping]]">
-            <span class="title">Diff width</span>
-            <span class="value">
-              <input
-                  is="iron-input"
-                  type="number"
-                  prevent-invalid-input
-                  allowed-pattern="[0-9]"
-                  bind-value="{{_diffPrefs.line_length}}">
-            </span>
-          </section>
-          <section>
-            <span class="title">Tab width</span>
-            <span class="value">
-              <input
-                  is="iron-input"
-                  type="number"
-                  prevent-invalid-input
-                  allowed-pattern="[0-9]"
-                  bind-value="{{_diffPrefs.tab_size}}">
-            </span>
-          </section>
-          <section hidden$="[[!_diffPrefs.font_size]]">
-            <span class="title">Font size</span>
-            <span class="value">
-              <input
-                  is="iron-input"
-                  type="number"
-                  prevent-invalid-input
-                  allowed-pattern="[0-9]"
-                  bind-value="{{_diffPrefs.font_size}}">
-            </span>
-          </section>
-          <section>
-            <span class="title">Show tabs</span>
-            <span class="value">
-              <input
-                  id="diffShowTabs"
-                  type="checkbox"
-                  checked$="[[_diffPrefs.show_tabs]]"
-                  on-change="_handleDiffShowTabsChanged">
-            </span>
-          </section>
-          <section>
-            <span class="title">Show trailing whitespace</span>
-            <span class="value">
-              <input
-                  id="showTrailingWhitespace"
-                  type="checkbox"
-                  checked$="[[_diffPrefs.show_whitespace_errors]]"
-                  on-change="_handleShowTrailingWhitespaceChanged">
-            </span>
-          </section>
-          <section>
-            <span class="title">Syntax highlighting</span>
-            <span class="value">
-              <input
-                  id="diffSyntaxHighlighting"
-                  type="checkbox"
-                  checked$="[[_diffPrefs.syntax_highlighting]]"
-                  on-change="_handleDiffSyntaxHighlightingChanged">
-            </span>
-          </section>
-          <section>
-            <div class="pref">
-              <span class="title">Ignore Whitespace</span>
-              <span class="value">
-                <gr-select bind-value="{{_diffPrefs.ignore_whitespace}}">
-                  <select>
-                    <option value="IGNORE_NONE">None</option>
-                    <option value="IGNORE_TRAILING">Trailing</option>
-                    <option value="IGNORE_LEADING_AND_TRAILING">Leading & trailing</option>
-                    <option value="IGNORE_ALL">All</option>
-                  </select>
-                </gr-select>
-              </span>
-            </div>
-          </section>
+          <gr-diff-preferences
+              id="diffPrefs"
+              has-unsaved-changes="{{_diffPrefsChanged}}"></gr-diff-preferences>
           <gr-button
               id="saveDiffPrefs"
               on-tap="_handleSaveDiffPreferences"

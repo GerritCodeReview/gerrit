@@ -43,11 +43,6 @@ public class RootCollectionsRestApiBindingsIT extends AbstractDaemonTest {
               .build(),
           RestCall.get("/changes/"),
           RestCall.post("/changes/"),
-          RestCall.builder(GET, "/checkers/")
-              // GET /checkers/ is not implemented
-              .expectedResponseCode(SC_NOT_FOUND)
-              .build(),
-          RestCall.post("/checkers/"),
           RestCall.get("/groups/"),
           RestCall.put("/groups/new-group"),
           RestCall.get("/plugins/"),

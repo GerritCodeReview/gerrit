@@ -214,13 +214,10 @@
         value: true,
         computed: '_computeReplyDisabled(_serverConfig)',
       },
-      _changeStatus: {
-        type: String,
-        computed: 'changeStatusString(_change)',
-      },
-      _changeStatuses: {
-        type: String,
-        computed: '_computeChangeStatusChips(_change, _mergeable)',
+      /** @type {Array<string>} */
+      _changeStates: {
+        type: Array,
+        computed: '_computeChangeStates(_change, _mergeable)',
       },
       _commitCollapsed: {
         type: Boolean,
@@ -406,7 +403,7 @@
       this._editingCommitMessage = false;
     },
 
-    _computeChangeStatusChips(change, mergeable) {
+    _computeChangeStates(change, mergeable) {
       // Show no chips until mergeability is loaded.
       if (mergeable === null || mergeable === undefined) { return []; }
 
@@ -415,7 +412,7 @@
         mergeable: !!mergeable,
         submitEnabled: this._submitEnabled,
       };
-      return this.changeStatuses(change, options);
+      return this.changeStates(change, options);
     },
 
     _computeHideEditCommitMessage(loggedIn, editing, change, editMode) {
@@ -825,8 +822,9 @@
       return Gerrit.Nav.getUrlForChange(change);
     },
 
-    _computeShowCommitInfo(changeStatus, current_revision) {
-      return changeStatus === 'Merged' && current_revision;
+    _computeShowCommitInfo(change) {
+      return change && change.status === this.ChangeStatus.MERGED &&
+          change.current_revision;
     },
 
     _computeMergedCommitInfo(current_revision, revisions) {

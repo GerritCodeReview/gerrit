@@ -46,7 +46,7 @@
       },
       statuses: {
         type: Array,
-        computed: 'changeStatuses(change)',
+        computed: 'changeStates(change)',
       },
       showStar: {
         type: Boolean,

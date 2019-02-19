@@ -69,7 +69,7 @@ limitations under the License.
     test('changeBaseURL', () => {
       assert.deepEqual(
           element.changeBaseURL('test/project', '1', '2'),
-          '/r/changes/test%2Fproject~1/revisions/2'
+          '/r/changes/test%2Fproject~1/revisions/2',
       );
     });
 
@@ -88,43 +88,43 @@ limitations under the License.
         labels: {},
         mergeable: true,
       };
-      let statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, []);
-      assert.equal(statusString, '');
+      let states = element.changeStates(change);
+      const statesString = element.changeStatesString(change);
+      assert.deepEqual(states, []);
+      assert.equal(statesString, '');
 
       change.submittable = false;
-      statuses = element.changeStatuses(change,
+      states = element.changeStates(change,
           {includeDerived: true});
-      assert.deepEqual(statuses, ['Active']);
+      assert.deepEqual(states, [element.ChangeStates.ACTIVE]);
 
       // With no missing labels but no submitEnabled option.
       change.submittable = true;
-      statuses = element.changeStatuses(change,
+      states = element.changeStates(change,
           {includeDerived: true});
-      assert.deepEqual(statuses, ['Active']);
+      assert.deepEqual(states, [element.ChangeStates.ACTIVE]);
 
       // Without missing labels and enabled submit
-      statuses = element.changeStatuses(change,
+      states = element.changeStates(change,
           {includeDerived: true, submitEnabled: true});
-      assert.deepEqual(statuses, ['Ready to submit']);
+      assert.deepEqual(states, [element.ChangeStates.READY]);
 
       change.mergeable = false;
       change.submittable = true;
-      statuses = element.changeStatuses(change,
+      states = element.changeStates(change,
           {includeDerived: true});
-      assert.deepEqual(statuses, ['Merge Conflict']);
+      assert.deepEqual(states, [element.ChangeStates.MERGE_CONFLICT]);
 
       delete change.mergeable;
       change.submittable = true;
-      statuses = element.changeStatuses(change,
+      states = element.changeStates(change,
           {includeDerived: true, mergeable: true, submitEnabled: true});
-      assert.deepEqual(statuses, ['Ready to submit']);
+      assert.deepEqual(states, [element.ChangeStates.READY]);
 
       change.submittable = true;
-      statuses = element.changeStatuses(change,
+      states = element.changeStates(change,
           {includeDerived: true, mergeable: false});
-      assert.deepEqual(statuses, ['Merge Conflict']);
+      assert.deepEqual(states, [element.ChangeStates.MERGE_CONFLICT]);
     });
 
     test('Merge conflict', () => {
@@ -138,10 +138,10 @@ limitations under the License.
         labels: {},
         mergeable: false,
       };
-      const statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, ['Merge Conflict']);
-      assert.equal(statusString, 'Merge Conflict');
+      const states = element.changeStates(change);
+      const statesString = element.changeStatesString(change);
+      assert.deepEqual(states, [element.ChangeStates.MERGE_CONFLICT]);
+      assert.equal(statesString, 'Merge Conflict');
     });
 
     test('mergeable prop undefined', () => {
@@ -154,10 +154,10 @@ limitations under the License.
         status: 'NEW',
         labels: {},
       };
-      const statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, []);
-      assert.equal(statusString, '');
+      const states = element.changeStates(change);
+      const statesString = element.changeStatesString(change);
+      assert.deepEqual(states, []);
+      assert.equal(statesString, '');
     });
 
     test('Merged status', () => {
@@ -170,10 +170,10 @@ limitations under the License.
         status: 'MERGED',
         labels: {},
       };
-      const statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, ['Merged']);
-      assert.equal(statusString, 'Merged');
+      const states = element.changeStates(change);
+      const statesString = element.changeStatesString(change);
+      assert.deepEqual(states, [element.ChangeStates.MERGED]);
+      assert.equal(statesString, 'Merged');
     });
 
     test('Abandoned status', () => {
@@ -186,10 +186,10 @@ limitations under the License.
         status: 'ABANDONED',
         labels: {},
       };
-      const statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, ['Abandoned']);
-      assert.equal(statusString, 'Abandoned');
+      const states = element.changeStates(change);
+      const statesString = element.changeStatesString(change);
+      assert.deepEqual(states, [element.ChangeStates.ABANDONED]);
+      assert.equal(statesString, 'Abandoned');
     });
 
     test('Open status with private and wip', () => {
@@ -205,10 +205,11 @@ limitations under the License.
         labels: {},
         mergeable: true,
       };
-      const statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, ['WIP', 'Private']);
-      assert.equal(statusString, 'WIP, Private');
+      const states = element.changeStates(change);
+      const statesString = element.changeStatesString(change);
+      assert.deepEqual(
+          states, [element.ChangeStates.WIP, element.ChangeStates.PRIVATE]);
+      assert.equal(statesString, 'WIP, Private');
     });
 
     test('Merge conflict with private and wip', () => {
@@ -224,10 +225,13 @@ limitations under the License.
         labels: {},
         mergeable: false,
       };
-      const statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, ['Merge Conflict', 'WIP', 'Private']);
-      assert.equal(statusString, 'Merge Conflict, WIP, Private');
+      const states = element.changeStates(change);
+      const statesString = element.changeStatesString(change);
+      assert.deepEqual(states, [
+        element.ChangeStates.MERGE_CONFLICT,
+        element.ChangeStates.WIP,
+        element.ChangeStates.PRIVATE]);
+      assert.equal(statesString, 'Merge Conflict, WIP, Private');
     });
   });
 </script>

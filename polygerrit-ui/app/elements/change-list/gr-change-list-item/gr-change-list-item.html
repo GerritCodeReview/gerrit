@@ -76,7 +76,7 @@ limitations under the License.
       .status .comma {
         padding-right: .2rem;
       }
-      /* Used to hide the leading separator comma for statuses. */
+      /* Used to hide the leading separator comma for states. */
       .status .comma:first-of-type {
         display: none;
       }
@@ -147,11 +147,11 @@ limitations under the License.
     </td>
     <td class="cell status"
         hidden$="[[isColumnHidden('Status', visibleChangeTableColumns)]]">
-      <template is="dom-repeat" items="[[statuses]]" as="status">
+      <template is="dom-repeat" items="[[states]]" as="status">
         <div class="comma">,</div>
         <gr-change-status flat status="[[status]]"></gr-change-status>
       </template>
-      <template is="dom-if" if="[[!statuses.length]]">
+      <template is="dom-if" if="[[!states.length]]">
         <span class="placeholder">--</span>
       </template>
     </td>

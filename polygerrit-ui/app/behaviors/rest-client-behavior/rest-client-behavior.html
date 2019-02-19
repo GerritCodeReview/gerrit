@@ -33,10 +33,32 @@ limitations under the License.
       REWRITE: 'REWRITE',
     },
 
+    /**
+     * Matches the status field in ChangeInfo.
+     *
+     * @enum {string}
+     */
     ChangeStatus: {
       ABANDONED: 'ABANDONED',
       MERGED: 'MERGED',
       NEW: 'NEW',
+    },
+
+    /**
+     * Possible state strings that a change can be in, based on multiple fields
+     * in ChangeInfo. A change can have multiple of these states at the same
+     * time.
+     *
+     * @enum {string}
+     */
+    ChangeStates: {
+      ABANDONED: 'Abandoned',
+      ACTIVE: 'Active',
+      MERGED: 'Merged',
+      MERGE_CONFLICT: 'Merge Conflict',
+      PRIVATE: 'Private',
+      READY: 'Ready to submit',
+      WIP: 'WIP',
     },
 
     // Must be kept in sync with the ListChangesOption enum and protobuf.
@@ -131,21 +153,21 @@ limitations under the License.
      * @param {!Object} change
      * @param {!Object=} opt_options
      *
-     * @return {!Array}
+     * @return {!Array<ChangeStates>}
      */
-    changeStatuses(change, opt_options) {
+    changeStates(change, opt_options) {
       const states = [];
       if (change.status === this.ChangeStatus.MERGED) {
-        states.push('Merged');
+        states.push(this.ChangeStates.MERGED);
       } else if (change.status === this.ChangeStatus.ABANDONED) {
-        states.push('Abandoned');
+        states.push(this.ChangeStates.ABANDONED);
       } else if (change.mergeable === false ||
           (opt_options && opt_options.mergeable === false)) {
         // 'mergeable' prop may not always exist (@see Issue 6819)
-        states.push('Merge Conflict');
+        states.push(this.ChangeStates.MERGE_CONFLICT);
       }
-      if (change.work_in_progress) { states.push('WIP'); }
-      if (change.is_private) { states.push('Private'); }
+      if (change.work_in_progress) { states.push(this.ChangeStates.WIP); }
+      if (change.is_private) { states.push(this.ChangeStates.PRIVATE); }
 
       // If there are any pre-defined statuses, only return those. Otherwise,
       // will determine the derived status.
@@ -153,10 +175,10 @@ limitations under the License.
 
       // If no missing requirements, either active or ready to submit.
       if (change.submittable && opt_options.submitEnabled) {
-        states.push('Ready to submit');
+        states.push(this.ChangeStates.READY);
       } else {
         // Otherwise it is active.
-        states.push('Active');
+        states.push(this.ChangeStates.ACTIVE);
       }
       return states;
     },
@@ -165,8 +187,8 @@ limitations under the License.
      * @param {!Object} change
      * @return {String}
      */
-    changeStatusString(change) {
-      return this.changeStatuses(change).join(', ');
+    changeStatesString(change) {
+      return this.changeStates(change).join(', ');
     },
   },
     Gerrit.BaseUrlBehavior,

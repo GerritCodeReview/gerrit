@@ -44,9 +44,9 @@
         reflectToAttribute: true,
         computed: '_computeItemNeedsReview(change.reviewed)',
       },
-      statuses: {
+      states: {
         type: Array,
-        computed: 'changeStatuses(change)',
+        computed: 'changeStates(change)',
       },
       showStar: {
         type: Boolean,

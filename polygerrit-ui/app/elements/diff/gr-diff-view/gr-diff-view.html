@@ -29,6 +29,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-dropdown-list/gr-dropdown-list.html">
 <link rel="import" href="../../shared/gr-fixed-panel/gr-fixed-panel.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../shared/revision-info/revision-info.html">
@@ -153,6 +154,34 @@ limitations under the License.
         --trigger-style: {
           text-transform: none;
         }
+      }
+      .diffHeader,
+      .diffActions {
+        padding: 1em 1.5em;
+      }
+      .diffHeader,
+      .diffActions {
+        background-color: var(--dialog-background-color);
+      }
+      .diffHeader {
+        border-bottom: 1px solid var(--border-color);
+        font-weight: var(--font-weight-bold);
+      }
+      .diffActions {
+        border-top: 1px solid var(--border-color);
+        display: flex;
+        justify-content: flex-end;
+      }
+      .diffPrefsOverlay gr-button {
+        margin-left: 1em;
+      }
+      div.edited:after {
+        color: var(--deemphasized-text-color);
+        content: ' *';
+      }
+      #diffPreferences {
+        display: flex;
+        padding: .35em 1.5em;
       }
       @media screen and (max-width: 50em) {
         header {
@@ -338,10 +367,28 @@ limitations under the License.
         is-blame-loaded="{{_isBlameLoaded}}"
         on-line-selected="_onLineSelected">
     </gr-diff-host>
-    <gr-diff-preferences
-        id="diffPreferences"
-        prefs="{{_prefs}}"
-        local-prefs="{{_localPrefs}}"></gr-diff-preferences>
+    <gr-overlay id="diffPrefsOverlay" with-backdrop>
+      <div class$="diffHeader [[_computeHeaderClass(_diffPrefsChanged)]]">Diff Preferences</div>
+      <gr-diff-preferences
+          id="diffPreferences"
+          diff-prefs="{{_prefs}}"
+          has-unsaved-changes="{{_diffPrefsChanged}}"></gr-diff-preferences>
+      <div class="diffActions">
+        <gr-button
+            id="cancelButton"
+            link
+            on-tap="_handleDiffCancel">
+            Cancel
+        </gr-button>
+        <gr-button
+            id="saveButton"
+            link primary
+            on-tap="_handleSaveDiffPreferences"
+            disabled$="[[!_diffPrefsChanged]]">
+            Save
+        </gr-button>
+      </div>
+    </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
     <gr-diff-cursor id="cursor"></gr-diff-cursor>

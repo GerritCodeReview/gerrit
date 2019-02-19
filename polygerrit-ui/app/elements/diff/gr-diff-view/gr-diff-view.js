@@ -115,6 +115,8 @@
       },
       _prefs: Object,
       _localPrefs: Object,
+      /** @type {?} */
+      _diffPrefsChanged: Boolean,
       _projectConfig: Object,
       _userPrefs: Object,
       _diffMode: {
@@ -258,7 +260,9 @@
     },
 
     _getDiffPreferences() {
-      return this.$.restAPI.getDiffPreferences();
+      return this.$.restAPI.getDiffPreferences().then(prefs => {
+        this._prefs = prefs;
+      });
     },
 
     _getPreferences() {
@@ -457,7 +461,7 @@
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      this.$.diffPreferences.open();
+      this.openDiffPreference();
     },
 
     _handleToggleDiffMode(e) {
@@ -608,10 +612,7 @@
 
       const promises = [];
 
-      this._localPrefs = this.$.storage.getPreferences();
-      promises.push(this._getDiffPreferences().then(prefs => {
-        this._prefs = prefs;
-      }));
+      promises.push(this._getDiffPreferences());
 
       promises.push(this._getPreferences().then(prefs => {
         this._userPrefs = prefs;
@@ -837,21 +838,14 @@
 
     _handlePrefsTap(e) {
       e.preventDefault();
-      this.$.diffPreferences.open();
+      this.openDiffPreference();
     },
 
-    _handlePrefsSave(e) {
-      e.stopPropagation();
-      const el = Polymer.dom(e).rootTarget;
-      el.disabled = true;
-      this.$.storage.savePreferences(this._localPrefs);
-      this._saveDiffPreferences().then(response => {
-        el.disabled = false;
-        if (!response.ok) { return response; }
-
-        this.$.prefsOverlay.close();
-      }).catch(err => {
-        el.disabled = false;
+    openDiffPreference() {
+      this.$.diffPrefsOverlay.open().then(() => {
+        const focusStops = this.getFocusStops();
+        this.$.diffPrefsOverlay.setFocusStops(focusStops);
+        this.resetFocus();
       });
     },
 
@@ -1035,6 +1029,33 @@
           .filter(file =>
           (file === this._path || !this._reviewedFiles.has(file)));
       this._navToFile(this._path, unreviewedFiles, 1);
+    },
+
+    _computeHeaderClass(changed) {
+      return changed ? 'edited' : '';
+    },
+
+    getFocusStops() {
+      return {
+        start: this.$.diffPreferences.$.contextSelect,
+        end: this.$.diffPreferences.$.saveButton,
+      };
+    },
+
+    resetFocus() {
+      this.$.diffPreferences.$.contextSelect.focus();
+    },
+
+    _handleSaveDiffPreferences() {
+      this.$.diffPreferences.save().then(() => {
+        this._getDiffPreferences();
+        this.$.diffPrefsOverlay.close();
+      });
+    },
+
+    _handleDiffCancel(e) {
+      e.stopPropagation();
+      this.$.diffPrefsOverlay.close();
     },
   });
 })();

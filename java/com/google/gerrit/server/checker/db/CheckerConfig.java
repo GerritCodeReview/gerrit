@@ -17,6 +17,7 @@ package com.google.gerrit.server.checker.db;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.checker.Checker;
@@ -226,10 +227,7 @@ public class CheckerConfig extends VersionedMetaData {
       return false;
     }
 
-    if (getNewName().equals(Optional.of(""))) {
-      throw new ConfigInvalidException(
-          String.format("Name of the checker %s must be defined", checkerUuid));
-    }
+    ensureThatMandatoryPropertiesAreSet();
 
     // Commit timestamps are internally truncated to seconds. To return the correct 'createdOn' time
     // for new checkers, we explicitly need to truncate the timestamp here.
@@ -249,6 +247,18 @@ public class CheckerConfig extends VersionedMetaData {
     return true;
   }
 
+  private void ensureThatMandatoryPropertiesAreSet() throws ConfigInvalidException {
+    if (getNewName().equals(Optional.of(""))) {
+      throw new ConfigInvalidException(
+          String.format("Name of the checker %s must be defined", checkerUuid));
+    }
+
+    if (getNewRepository().equals(Optional.of(""))) {
+      throw new ConfigInvalidException(
+          String.format("Repository of the checker %s must be defined", checkerUuid));
+    }
+  }
+
   private void checkLoaded() {
     checkState(isLoaded, "Checker %s not loaded yet", checkerUuid);
   }
@@ -259,6 +269,21 @@ public class CheckerConfig extends VersionedMetaData {
     }
     if (checkerCreation.isPresent()) {
       return Optional.of(CheckerName.clean(checkerCreation.get().getName()));
+    }
+    return Optional.empty();
+  }
+
+  private Optional<String> getNewRepository() {
+    if (checkerUpdate.isPresent()) {
+      return checkerUpdate
+          .get()
+          .getRepository()
+          .map(Project.NameKey::get)
+          .map(Strings::nullToEmpty)
+          .map(String::trim);
+    }
+    if (checkerCreation.isPresent()) {
+      return Optional.of(Strings.nullToEmpty(checkerCreation.get().getRepository().get()).trim());
     }
     return Optional.empty();
   }

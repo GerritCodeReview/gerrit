@@ -23,12 +23,13 @@ public class CheckerInfo {
   public String name;
   public String description;
   public String url;
+  public String repository;
   public Timestamp createdOn;
   public Timestamp updatedOn;
 
   @Override
   public int hashCode() {
-    return Objects.hash(uuid, name, description, url, createdOn, updatedOn);
+    return Objects.hash(uuid, name, description, url, repository, createdOn, updatedOn);
   }
 
   @Override
@@ -41,6 +42,7 @@ public class CheckerInfo {
         && Objects.equals(name, o.name)
         && Objects.equals(description, o.description)
         && Objects.equals(url, o.url)
+        && Objects.equals(repository, o.repository)
         && Objects.equals(createdOn, o.createdOn)
         && Objects.equals(updatedOn, o.updatedOn);
   }
@@ -51,6 +53,7 @@ public class CheckerInfo {
         .add("uuid", uuid)
         .add("name", name)
         .add("description", description)
+        .add("repository", repository)
         .add("url", url)
         .add("createdOn", createdOn)
         .add("updatedOn", updatedOn)

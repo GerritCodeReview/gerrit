@@ -14,12 +14,24 @@
 
 package com.google.gerrit.plugins.checkers;
 
-import com.google.gerrit.plugins.checkers.db.NoteDbCheckersModule;
-import com.google.inject.AbstractModule;
+import static com.google.inject.Scopes.SINGLETON;
 
-public class Module extends AbstractModule {
+import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.plugins.checkers.db.NoteDbCheckersModule;
+import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.MergeValidationListener;
+
+public class Module extends FactoryModule {
   @Override
   protected void configure() {
     install(new NoteDbCheckersModule());
+
+    DynamicSet.bind(binder(), CommitValidationListener.class)
+        .to(CheckerCommitValidator.class)
+        .in(SINGLETON);
+    DynamicSet.bind(binder(), MergeValidationListener.class)
+        .to(CheckerMergeValidator.class)
+        .in(SINGLETON);
   }
 }

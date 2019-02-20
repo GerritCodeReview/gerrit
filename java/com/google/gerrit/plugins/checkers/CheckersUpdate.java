@@ -47,4 +47,18 @@ public interface CheckersUpdate {
    */
   Checker createChecker(CheckerCreation checkerCreation, CheckerUpdate checkerUpdate)
       throws OrmDuplicateKeyException, IOException, ConfigInvalidException;
+
+  /**
+   * Updates the specified checker.
+   *
+   * @param checkerUuid the UUID of the checker to update
+   * @param checkerUpdate an {@code CheckerUpdate} which indicates the desired updates on the
+   *     checker
+   * @throws NoSuchCheckerException if the specified checker doesn't exist
+   * @throws IOException if an error occurs while reading/writing from/to storage
+   * @throws ConfigInvalidException if the existing checker config is invalid
+   * @return the updated {@code Checker}
+   */
+  Checker updateChecker(String checkerUuid, CheckerUpdate checkerUpdate)
+      throws NoSuchCheckerException, IOException, ConfigInvalidException;
 }

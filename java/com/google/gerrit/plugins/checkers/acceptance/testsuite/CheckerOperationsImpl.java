@@ -22,12 +22,20 @@ import com.google.gerrit.plugins.checkers.CheckerUpdate;
 import com.google.gerrit.plugins.checkers.CheckerUuid;
 import com.google.gerrit.plugins.checkers.Checkers;
 import com.google.gerrit.plugins.checkers.CheckersUpdate;
+import com.google.gerrit.plugins.checkers.db.CheckerConfig;
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.BlobBasedConfig;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * The implementation of {@code CheckerOperations}.
@@ -38,11 +46,19 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class CheckerOperationsImpl implements CheckerOperations {
   private final Checkers checkers;
   private final CheckersUpdate checkersUpdate;
+  private final GitRepositoryManager repoManager;
+  private final AllProjectsName allProjectsName;
 
   @Inject
-  public CheckerOperationsImpl(Checkers checkers, @ServerInitiated CheckersUpdate checkersUpdate) {
+  public CheckerOperationsImpl(
+      Checkers checkers,
+      @ServerInitiated CheckersUpdate checkersUpdate,
+      GitRepositoryManager repoManager,
+      AllProjectsName allProjectsName) {
     this.checkers = checkers;
     this.checkersUpdate = checkersUpdate;
+    this.repoManager = repoManager;
+    this.allProjectsName = allProjectsName;
   }
 
   @Override
@@ -109,7 +125,35 @@ public class CheckerOperationsImpl implements CheckerOperations {
           .name(checker.getName())
           .description(checker.getDescription())
           .createdOn(checker.getCreatedOn())
+          .updatedOn(checker.getUpdatedOn())
+          .refState(checker.getRefState())
           .build();
+    }
+
+    @Override
+    public RevCommit commit() throws IOException {
+      Optional<Checker> checker = getChecker(checkerUuid);
+      checkState(checker.isPresent(), "Tried to get commit for a non-existing test checker");
+
+      try (Repository repo = repoManager.openRepository(allProjectsName);
+          RevWalk rw = new RevWalk(repo)) {
+        return rw.parseCommit(checker.get().getRefState());
+      }
+    }
+
+    @Override
+    public String configText() throws IOException, ConfigInvalidException {
+      Optional<Checker> checker = getChecker(checkerUuid);
+      checkState(checker.isPresent(), "Tried to get config text for a non-existing test checker");
+
+      try (Repository repo = repoManager.openRepository(allProjectsName);
+          RevWalk rw = new RevWalk(repo);
+          ObjectReader or = repo.newObjectReader()) {
+        // Parse as Config to ensure it's a valid config file.
+        return new BlobBasedConfig(
+                null, repo, checker.get().getRefState(), CheckerConfig.CHECKER_CONFIG_FILE)
+            .toText();
+      }
     }
   }
 }

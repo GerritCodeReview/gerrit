@@ -37,6 +37,7 @@ public class HttpModule extends HttpPluginModule {
             DynamicMap.mapOf(binder(), CHECKER_KIND);
             postOnCollection(CHECKER_KIND).to(CreateChecker.class);
             get(CHECKER_KIND).to(GetChecker.class);
+            post(CHECKER_KIND).to(UpdateChecker.class);
           }
         });
 

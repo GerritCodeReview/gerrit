@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1550701769 -0800\nnonce ANwvRnBw2pfCaIsXtO4bmk8XFovTiWlEn+IccL+FSn1xRu+5+lW7LxNYf0PBkarxRh3jeLIbJJK1\n\n0000000000000000000000000000000000000000 95cc62b995c48ee6264a3fa2b6fdc2629db384fc refs/for/master%r\u003ddpursehouse@collab.net,r\u003dhiesel@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlxt1MkVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMuP8P/i8ElCnLPVNqs8UVVlTmAzfw0qSi\nS9mVUrCCO/D6pb0bw9JdsOpO/e2ge0fjLGkFqysFj3RjV4GThkwTV5jZ8BJFfGYd\n+6zeGoDkCWIHapZa+p9WmxOCgumHf01enZoA/bzsdQFU7SntOEjOUcYCA80LgQh3\n1YX+ywwbpC2Ecv6satl26+D3/wyOs5yt78eyyCmS0PoE+uO6iTlzKTj8RRvJTAdA\nwEFdLUZ1Mzohe3YfMSh3zrsXn6SHJWyAAMHqyRbzyyhaIKq8i4ST67jQI1aACWYU\nPS8z+B56uxa42QGkrJhzKMsUzKwCZ+1Ik01dQmrWFsGECS8x6Ijvs7wtXwZBvgPq\nt6+NcrHfzWKn0Xj1xTnq45sjC/c3Msml90Ygr9DacClGendfLUgAHv2fnAhT070z\n0zPOVXg2UxsaDiwBG9hpCPk2uiKGpMgCHvzx4jANTuh/tB/GoO71yBJPIHK0SkBG\nTE4nfRgyEhSuXwddBIHu1wBHcy6l/hAhdQHmrslsl3rgCk6JuoK1gHaG6Eq1AVO6\nxsp1ssQPINtIMGSwU4903Px6PCPGhAoShrfgPC0+HzfaMYLc1MUmEb5QRpBd369Z\n3iNf5Lylqw2SPN5fXKSakuxQf9rojULJ12sYFJ4i452hHNezTUvPgHl4bBRT2Wf+\n2bIQvH6SJ6uoTpP5\n\u003db2Ea\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a85f7087_4f767d40",
+        "filename": "java/com/google/gerrit/server/testing/CommitSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-20T23:16:08Z",
+      "side": 1,
+      "message": "Add a javadoc to mention that it allows up to 1 second drift between the expected and actual time stamps?",
+      "revId": "95cc62b995c48ee6264a3fa2b6fdc2629db384fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

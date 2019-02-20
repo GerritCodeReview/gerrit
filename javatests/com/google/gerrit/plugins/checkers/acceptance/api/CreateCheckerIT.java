@@ -12,33 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.plugins.checkers.acceptance;
+package com.google.gerrit.plugins.checkers.acceptance.api;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static com.google.gerrit.server.testing.CommitSubject.assertCommit;
 
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.plugins.checkers.CheckerRef;
-import com.google.gerrit.plugins.checkers.acceptance.testsuite.TestChecker;
+import com.google.gerrit.plugins.checkers.acceptance.AbstractCheckersTest;
+import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperations.PerCheckerOperations;
 import com.google.gerrit.plugins.checkers.api.CheckerInfo;
 import com.google.gerrit.plugins.checkers.api.CheckerInput;
-import com.google.gerrit.plugins.checkers.db.CheckerConfig;
+import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.TreeWalk;
+import java.util.concurrent.TimeUnit;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class CreateCheckerIT extends AbstractCheckersTest {
   @Inject private RequestScopeOperations requestScopeOperations;
+
+  @Before
+  public void setTimeForTesting() {
+    TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
+  }
+
+  @After
+  public void resetTime() {
+    TestTimeUtil.useSystemTime();
+  }
 
   @Test
   public void createChecker() throws Exception {
@@ -49,8 +53,12 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     assertThat(info.name).isEqualTo(input.name);
     assertThat(info.description).isNull();
     assertThat(info.createdOn).isNotNull();
+    assertThat(info.updatedOn).isEqualTo(info.createdOn);
 
-    assertCheckerRef(info.uuid, "[checker]\n\tname = " + input.name + "\n");
+    PerCheckerOperations perCheckerOps = checkerOperations.checker(info.uuid);
+    assertCommit(
+        perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
+    assertThat(perCheckerOps.configText()).isEqualTo("[checker]\n\tname = my-checker\n");
   }
 
   @Test
@@ -61,15 +69,11 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     CheckerInfo info = checkersApi.create(input).get();
     assertThat(info.description).isEqualTo(input.description);
 
-    assertCheckerRef(
-        info.uuid,
-        "[checker]\n"
-            + "\tname = "
-            + input.name
-            + "\n"
-            + "\tdescription = "
-            + input.description
-            + "\n");
+    PerCheckerOperations perCheckerOps = checkerOperations.checker(info.uuid);
+    assertCommit(
+        perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
+    assertThat(perCheckerOps.configText())
+        .isEqualTo("[checker]\n\tname = my-checker\n\tdescription = some description\n");
   }
 
   @Test
@@ -79,7 +83,10 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     CheckerInfo info = checkersApi.create(input).get();
     assertThat(info.name).isEqualTo("my-checker");
 
-    assertCheckerRef(info.uuid, "[checker]\n\tname = my-checker\n");
+    PerCheckerOperations perCheckerOps = checkerOperations.checker(info.uuid);
+    assertCommit(
+        perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
+    assertThat(perCheckerOps.configText()).isEqualTo("[checker]\n\tname = my-checker\n");
   }
 
   @Test
@@ -90,8 +97,11 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     CheckerInfo info = checkersApi.create(input).get();
     assertThat(info.description).isEqualTo("some description");
 
-    assertCheckerRef(
-        info.uuid, "[checker]\n\tname = " + input.name + "\n\tdescription = some description\n");
+    PerCheckerOperations perCheckerOps = checkerOperations.checker(info.uuid);
+    assertCommit(
+        perCheckerOps.commit(), "Create checker", info.createdOn, perCheckerOps.get().refState());
+    assertThat(perCheckerOps.configText())
+        .isEqualTo("[checker]\n\tname = my-checker\n\tdescription = some description\n");
   }
 
   @Test
@@ -146,31 +156,5 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     exception.expect(AuthException.class);
     exception.expectMessage("administrateCheckers for plugin checkers not permitted");
     checkersApi.create(input);
-  }
-
-  private void assertCheckerRef(String checkerUuid, String expectedCheckerConfig) throws Exception {
-    try (Repository repo = repoManager.openRepository(allProjects);
-        RevWalk rw = new RevWalk(repo);
-        ObjectReader or = repo.newObjectReader()) {
-      Ref ref = repo.exactRef(CheckerRef.refsCheckers(checkerUuid));
-      assertThat(ref).isNotNull();
-      RevCommit c = rw.parseCommit(ref.getObjectId());
-
-      TestChecker checker = checkerOperations.checker(checkerUuid).get();
-      long timestampDiffMs = Math.abs(c.getCommitTime() * 1000L - checker.createdOn().getTime());
-      assertThat(timestampDiffMs).isAtMost(SECONDS.toMillis(1));
-
-      // Check the 'checker.config' file.
-      try (TreeWalk tw = TreeWalk.forPath(or, CheckerConfig.CHECKER_CONFIG_FILE, c.getTree())) {
-        assertThat(tw).isNotNull();
-
-        // Parse as Config to ensure it's a valid config file.
-        Config cfg = new Config();
-        cfg.fromText(new String(or.open(tw.getObjectId(0), OBJ_BLOB).getBytes(), UTF_8));
-
-        // Verify that the content is as expected.
-        assertThat(cfg.toText()).isEqualTo(expectedCheckerConfig);
-      }
-    }
   }
 }

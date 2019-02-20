@@ -15,6 +15,7 @@
 package com.google.gerrit.plugins.checkers.db;
 
 import com.google.common.base.Throwables;
+import com.google.gerrit.common.errors.NoSuchCheckerException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.plugins.checkers.Checker;
@@ -29,10 +30,13 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryHelper.ActionType;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -201,5 +205,53 @@ class NoteDbCheckersUpdate implements CheckersUpdate {
     MetaDataUpdate create(
         Project.NameKey projectName, Repository repository, BatchRefUpdate batchRefUpdate)
         throws IOException;
+  }
+
+  @Override
+  public Checker updateChecker(String checkerUuid, CheckerUpdate checkerUpdate)
+      throws NoSuchCheckerException, IOException, ConfigInvalidException {
+    Optional<Timestamp> updatedOn = checkerUpdate.getUpdatedOn();
+    if (!updatedOn.isPresent()) {
+      updatedOn = Optional.of(TimeUtil.nowTs());
+      checkerUpdate = checkerUpdate.toBuilder().setUpdatedOn(updatedOn.get()).build();
+    }
+    return updateCheckerWithRetry(checkerUuid, checkerUpdate);
+  }
+
+  private Checker updateCheckerWithRetry(String checkerUuid, CheckerUpdate checkerUpdate)
+      throws NoSuchCheckerException, IOException, ConfigInvalidException {
+    try {
+      return retryHelper.execute(
+          ActionType.PLUGIN_UPDATE,
+          () -> updateCheckerInNoteDb(checkerUuid, checkerUpdate),
+          LockFailureException.class::isInstance);
+    } catch (Exception e) {
+      Throwables.throwIfUnchecked(e);
+      Throwables.throwIfInstanceOf(e, IOException.class);
+      Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
+      Throwables.throwIfInstanceOf(e, NoSuchCheckerException.class);
+      throw new IOException(e);
+    }
+  }
+
+  private Checker updateCheckerInNoteDb(String checkerUuid, CheckerUpdate checkerUpdate)
+      throws IOException, ConfigInvalidException, NoSuchCheckerException {
+    try (Repository allProjectsRepo = repoManager.openRepository(allProjectsName)) {
+      CheckerConfig checkerConfig =
+          CheckerConfig.loadForChecker(allProjectsName, allProjectsRepo, checkerUuid);
+      checkerConfig.setCheckerUpdate(checkerUpdate);
+      if (!checkerConfig.getLoadedChecker().isPresent()) {
+        throw new NoSuchCheckerException(checkerUuid);
+      }
+
+      commit(allProjectsRepo, checkerConfig);
+
+      Checker updatedChecker =
+          checkerConfig
+              .getLoadedChecker()
+              .orElseThrow(
+                  () -> new IllegalStateException("Updated checker wasn't automatically loaded"));
+      return updatedChecker;
+    }
   }
 }

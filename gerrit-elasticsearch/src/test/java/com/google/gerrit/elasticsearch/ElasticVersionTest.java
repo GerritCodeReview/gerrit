@@ -26,13 +26,13 @@ public class ElasticVersionTest {
   @Test
   public void supportedVersion() throws Exception {
     assertThat(ElasticVersion.forVersion("5.6.0")).isEqualTo(ElasticVersion.V5_6);
-    assertThat(ElasticVersion.forVersion("5.6.11")).isEqualTo(ElasticVersion.V5_6);
+    assertThat(ElasticVersion.forVersion("5.6.1")).isEqualTo(ElasticVersion.V5_6);
 
     assertThat(ElasticVersion.forVersion("6.2.0")).isEqualTo(ElasticVersion.V6_2);
-    assertThat(ElasticVersion.forVersion("6.2.4")).isEqualTo(ElasticVersion.V6_2);
+    assertThat(ElasticVersion.forVersion("6.2.1")).isEqualTo(ElasticVersion.V6_2);
 
     assertThat(ElasticVersion.forVersion("6.3.0")).isEqualTo(ElasticVersion.V6_3);
-    assertThat(ElasticVersion.forVersion("6.3.2")).isEqualTo(ElasticVersion.V6_3);
+    assertThat(ElasticVersion.forVersion("6.3.1")).isEqualTo(ElasticVersion.V6_3);
 
     assertThat(ElasticVersion.forVersion("6.4.0")).isEqualTo(ElasticVersion.V6_4);
     assertThat(ElasticVersion.forVersion("6.4.1")).isEqualTo(ElasticVersion.V6_4);

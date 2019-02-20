@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "02f17218_f2c0befe",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-20T10:10:45Z",
+      "side": 1,
+      "message": "Done. Copy and Paste fail.",
+      "parentUuid": "123ce8ae_1cb15b4d",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 21
+      },
+      "revId": "72304a6f4e3165a726f30686212f0d7ffc489f7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4917f061_509dc64d",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-02-18T12:46:39Z",
       "side": 1,
       "message": "Wonder if this should not be an enum value or something like that - looks a bit brittle as a plain string...",
+      "range": {
+        "startLine": 72,
+        "startChar": 50,
+        "endLine": 72,
+        "endChar": 59
+      },
+      "revId": "72304a6f4e3165a726f30686212f0d7ffc489f7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3162a7f7_b078a3ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-20T10:10:45Z",
+      "side": 1,
+      "message": "Done. Blows up the change a little, but yeah, of course this should be an enum.",
+      "parentUuid": "4917f061_509dc64d",
       "range": {
         "startLine": 72,
         "startChar": 50,

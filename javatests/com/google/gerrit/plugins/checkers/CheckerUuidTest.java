@@ -16,10 +16,12 @@ package com.google.gerrit.plugins.checkers;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.testing.GerritBaseTests;
+import org.eclipse.jgit.lib.Ref;
 import org.junit.Test;
 
 public class CheckerUuidTest extends GerritBaseTests {
@@ -77,5 +79,31 @@ public class CheckerUuidTest extends GerritBaseTests {
     } catch (IllegalStateException e) {
       assertThat(e.getMessage()).isEqualTo(String.format("invalid checker UUID: %s", checkerUuid));
     }
+  }
+
+  @Test
+  public void fromRef() throws Exception {
+    // valid checker refs
+    assertThat(CheckerUuid.fromRef("refs/checkers/43/437ee373885fbc47b103dc722800448320e8bc61"))
+        .hasValue("437ee373885fbc47b103dc722800448320e8bc61");
+
+    String checkerUuid = CheckerUuid.make("my-checker");
+    assertThat(CheckerUuid.fromRef(CheckerRef.refsCheckers(checkerUuid))).hasValue(checkerUuid);
+
+    // invalid checker refs
+    assertThat(CheckerUuid.fromRef((Ref) null)).isEmpty();
+    assertThat(CheckerUuid.fromRef((String) null)).isEmpty();
+    assertThat(CheckerUuid.fromRef("")).isEmpty();
+    assertThat(CheckerUuid.fromRef("refs/checkers/437ee373885fbc47b103dc722800448320e8bc61"))
+        .isEmpty();
+    assertThat(CheckerUuid.fromRef("refs/checkers/61/437ee373885fbc47b103dc722800448320e8bc61"))
+        .isEmpty();
+    assertThat(CheckerUuid.fromRef("refs/checker/43/437ee373885fbc47b103dc722800448320e8bc61"))
+        .isEmpty();
+    assertThat(CheckerUuid.fromRef("refs/checker/43/7ee373885fbc47b103dc722800448320e8bc61"))
+        .isEmpty();
+    assertThat(CheckerUuid.fromRef("refs/checkers/foo")).isEmpty();
+    assertThat(CheckerUuid.fromRef("refs/groups/43/437ee373885fbc47b103dc722800448320e8bc61"))
+        .isEmpty();
   }
 }

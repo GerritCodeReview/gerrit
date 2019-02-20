@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -58,7 +59,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   @Singleton
   public static class Factory {
     private final Provider<InternalAccountQuery> accountQueryProvider;
-    private final UrlFormatter urlFormatter;
+    private final DynamicItem<UrlFormatter> urlFormatter;
     private final IdentifiedUser.GenericFactory userFactory;
     private final int maxTrustDepth;
     private final ImmutableMap<Long, Fingerprint> trusted;
@@ -68,7 +69,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
         @GerritServerConfig Config cfg,
         Provider<InternalAccountQuery> accountQueryProvider,
         IdentifiedUser.GenericFactory userFactory,
-        UrlFormatter urlFormatter) {
+        DynamicItem<UrlFormatter> urlFormatter) {
       this.accountQueryProvider = accountQueryProvider;
       this.urlFormatter = urlFormatter;
       this.userFactory = userFactory;
@@ -101,7 +102,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   }
 
   private final Provider<InternalAccountQuery> accountQueryProvider;
-  private final UrlFormatter urlFormatter;
+  private final DynamicItem<UrlFormatter> urlFormatter;
   private final IdentifiedUser.GenericFactory userFactory;
 
   private IdentifiedUser expectedUser;
@@ -144,7 +145,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   private CheckResult checkIdsForExpectedUser(PGPPublicKey key) throws PGPException {
     Set<String> allowedUserIds = getAllowedUserIds(expectedUser);
     if (allowedUserIds.isEmpty()) {
-      Optional<String> settings = urlFormatter.getSettingsUrl("Identities");
+      Optional<String> settings = urlFormatter.get().getSettingsUrl("Identities");
       return CheckResult.bad(
           "No identities found for user"
               + (settings.isPresent() ? "; check " + settings.get() : ""));

@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -85,7 +86,7 @@ public class EventFactory {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AccountCache accountCache;
-  private final UrlFormatter urlFormatter;
+  private final DynamicItem<UrlFormatter> urlFormatter;
   private final Emails emails;
   private final PatchListCache patchListCache;
   private final Provider<PersonIdent> myIdent;
@@ -100,7 +101,7 @@ public class EventFactory {
   EventFactory(
       AccountCache accountCache,
       Emails emails,
-      UrlFormatter urlFormatter,
+      DynamicItem<UrlFormatter> urlFormatter,
       PatchListCache patchListCache,
       @GerritPersonIdent Provider<PersonIdent> myIdent,
       ChangeData.Factory changeDataFactory,
@@ -678,7 +679,7 @@ public class EventFactory {
   /** Get a link to the change; null if the server doesn't know its own address. */
   private String getChangeUrl(Change change) {
     if (change != null) {
-      return urlFormatter.getChangeViewUrl(change.getProject(), change.getId()).orElse(null);
+      return urlFormatter.get().getChangeViewUrl(change.getProject(), change.getId()).orElse(null);
     }
     return null;
   }

@@ -17,6 +17,24 @@
       "revId": "349d468f4b9afe2970f10aa7b25e7c448f07ee09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd7523b2_171185e8",
+        "filename": "java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-20T23:44:15Z",
+      "side": 1,
+      "message": "\u003e Since the field is indexed, should we just always serve it? I think historically we added options when fields are expensive to compute or would send a lot of data that might not be needed. Both seems to not hold for this case.\n\nIt\u0027s not served from the index in the case of GET of a single /changes/X.\n\n(In the plugin-based approach this is a non-issue, since plugins can\u0027t contribute fields via that path. It will have to come from a separate REST API call.)",
+      "parentUuid": "870a6c48_e6cb193b",
+      "revId": "349d468f4b9afe2970f10aa7b25e7c448f07ee09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

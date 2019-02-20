@@ -39,6 +39,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class CheckersCollection implements RestCollection<TopLevelResource, CheckerResource> {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
+  private final ListCheckers listCheckers;
   private final Checkers checkers;
   private final DynamicMap<RestView<CheckerResource>> views;
   private final AdministrateCheckersPermission permission;
@@ -47,11 +48,13 @@ public class CheckersCollection implements RestCollection<TopLevelResource, Chec
   public CheckersCollection(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
+      ListCheckers listCheckers,
       Checkers checkers,
       DynamicMap<RestView<CheckerResource>> views,
       AdministrateCheckersPermission permission) {
     this.self = self;
     this.permissionBackend = permissionBackend;
+    this.listCheckers = listCheckers;
     this.checkers = checkers;
     this.views = views;
     this.permission = permission;
@@ -59,8 +62,7 @@ public class CheckersCollection implements RestCollection<TopLevelResource, Chec
 
   @Override
   public RestView<TopLevelResource> list() throws RestApiException {
-    // TODO(ekempin): implement this
-    throw new ResourceNotFoundException();
+    return listCheckers;
   }
 
   @Override

@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.plugins.checkers.AdministrateCheckersPermission;
 import com.google.gerrit.plugins.checkers.Checker;
 import com.google.gerrit.plugins.checkers.CheckerJson;
@@ -26,9 +27,12 @@ import com.google.gerrit.plugins.checkers.CheckerUpdate;
 import com.google.gerrit.plugins.checkers.CheckerUrl;
 import com.google.gerrit.plugins.checkers.CheckersUpdate;
 import com.google.gerrit.plugins.checkers.NoSuchCheckerException;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -40,6 +44,7 @@ public class UpdateChecker implements RestModifyView<CheckerResource, CheckerInp
   private final PermissionBackend permissionBackend;
   private final Provider<CheckersUpdate> checkersUpdate;
   private final CheckerJson checkerJson;
+  private final ProjectCache projectCache;
 
   private final AdministrateCheckersPermission permission;
 
@@ -48,11 +53,13 @@ public class UpdateChecker implements RestModifyView<CheckerResource, CheckerInp
       PermissionBackend permissionBackend,
       @UserInitiated Provider<CheckersUpdate> checkersUpdate,
       CheckerJson checkerJson,
-      AdministrateCheckersPermission permission) {
+      AdministrateCheckersPermission permission,
+      ProjectCache projectCache) {
     this.permissionBackend = permissionBackend;
     this.checkersUpdate = checkersUpdate;
     this.checkerJson = checkerJson;
     this.permission = permission;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -79,10 +86,29 @@ public class UpdateChecker implements RestModifyView<CheckerResource, CheckerInp
       checkerUpdateBuilder.setUrl(CheckerUrl.clean(input.url));
     }
 
+    if (input.repository != null) {
+      Project.NameKey repository = resolveRepository(input.repository);
+      checkerUpdateBuilder.setRepository(repository);
+    }
+
     Checker updatedChecker =
         checkersUpdate
             .get()
             .updateChecker(resource.getChecker().getUuid(), checkerUpdateBuilder.build());
     return checkerJson.format(updatedChecker);
+  }
+
+  private Project.NameKey resolveRepository(String repository)
+      throws BadRequestException, UnprocessableEntityException, IOException {
+    if (repository == null || repository.trim().isEmpty()) {
+      throw new BadRequestException("repository cannot be unset");
+    }
+
+    ProjectState projectState = projectCache.checkedGet(new Project.NameKey(repository.trim()));
+    if (projectState == null) {
+      throw new UnprocessableEntityException(String.format("repository %s not found", repository));
+    }
+
+    return projectState.getNameKey();
   }
 }

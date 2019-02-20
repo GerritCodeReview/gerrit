@@ -15,6 +15,7 @@
 package com.google.gerrit.plugins.checkers;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.reviewdb.client.Project;
 import java.sql.Timestamp;
 import java.util.Optional;
 
@@ -39,6 +40,12 @@ public abstract class CheckerUpdate {
   public abstract Optional<String> getUrl();
 
   /**
+   * Defines the new repository for which the checker applies. If not specified, the repository
+   * remains unchanged.
+   */
+  public abstract Optional<Project.NameKey> getRepository();
+
+  /**
    * Defines the {@code Timestamp} to be used for the NoteDb commits of the update. If not
    * specified, the current {@code Timestamp} when creating the commit will be used.
    *
@@ -61,6 +68,8 @@ public abstract class CheckerUpdate {
     public abstract Builder setDescription(String description);
 
     public abstract Builder setUrl(String url);
+
+    public abstract Builder setRepository(Project.NameKey repository);
 
     public abstract Builder setUpdatedOn(Timestamp timestamp);
 

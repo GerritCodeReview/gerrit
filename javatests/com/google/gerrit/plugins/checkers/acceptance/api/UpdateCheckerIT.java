@@ -18,9 +18,11 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.testing.CommitSubject.assertCommit;
 
 import com.google.gerrit.acceptance.SkipProjectClone;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.plugins.checkers.acceptance.AbstractCheckersTest;
 import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperations.PerCheckerOperations;
 import com.google.gerrit.plugins.checkers.acceptance.testsuite.TestChecker;
@@ -38,6 +40,7 @@ import org.junit.Test;
 @SkipProjectClone
 public class UpdateCheckerIT extends AbstractCheckersTest {
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ProjectOperations projectOperations;
 
   @ConfigSuite.Default
   public static Config defaultConfig() {
@@ -58,19 +61,22 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
 
   @Test
   public void updateMultipleCheckerPropertiesAtOnce() throws Exception {
-    String checkerUuid = checkerOperations.newChecker().name("my-checker").create();
+    String checkerUuid =
+        checkerOperations.newChecker().name("my-checker").repository(allProjects).create();
     TestChecker checker = checkerOperations.checker(checkerUuid).get();
 
     CheckerInput input = new CheckerInput();
     input.name = "my-renamed-checker";
     input.description = "A description.";
     input.url = "http://example.com/my-checker";
+    input.repository = projectOperations.newProject().create().get();
 
     CheckerInfo info = checkersApi.id(checkerUuid).update(input);
     assertThat(info.uuid).isEqualTo(checkerUuid);
     assertThat(info.name).isEqualTo(input.name);
     assertThat(info.description).isEqualTo(input.description);
     assertThat(info.url).isEqualTo(input.url);
+    assertThat(info.repository).isEqualTo(input.repository);
     assertThat(info.createdOn).isEqualTo(checker.createdOn());
     assertThat(info.createdOn).isLessThan(info.updatedOn);
 
@@ -84,6 +90,9 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
         .isEqualTo(
             "[checker]\n"
                 + "\tname = my-renamed-checker\n"
+                + "\trepository = "
+                + input.repository
+                + "\n"
                 + "\tdescription = A description.\n"
                 + "\turl = http://example.com/my-checker\n");
   }
@@ -104,7 +113,8 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
         "Update checker\n\nRename from my-checker to my-renamed-checker",
         info.updatedOn,
         perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText()).isEqualTo("[checker]\n\tname = my-renamed-checker\n");
+    assertThat(perCheckerOps.configText())
+        .isEqualTo("[checker]\n\tname = my-renamed-checker\n\trepository = All-Projects\n");
   }
 
   @Test
@@ -149,7 +159,8 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
         "Update checker\n\nRename from my-checker to other-checker",
         info.updatedOn,
         perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText()).isEqualTo("[checker]\n\tname = other-checker\n");
+    assertThat(perCheckerOps.configText())
+        .isEqualTo("[checker]\n\tname = other-checker\n\trepository = All-Projects\n");
   }
 
   @Test
@@ -166,7 +177,10 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-checker\n\tdescription = A description.\n");
+        .isEqualTo(
+            "[checker]\n\tname = my-checker\n"
+                + "\trepository = All-Projects\n"
+                + "\tdescription = A description.\n");
   }
 
   @Test
@@ -184,7 +198,10 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-checker\n\tdescription = A new description.\n");
+        .isEqualTo(
+            "[checker]\n\tname = my-checker\n"
+                + "\trepository = All-Projects\n"
+                + "\tdescription = A new description.\n");
   }
 
   @Test
@@ -201,7 +218,8 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText()).isEqualTo("[checker]\n\tname = my-checker\n");
+    assertThat(perCheckerOps.configText())
+        .isEqualTo("[checker]\n\tname = my-checker\n\trepository = All-Projects\n");
   }
 
   @Test
@@ -218,7 +236,10 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-checker\n\tdescription = A description.\n");
+        .isEqualTo(
+            "[checker]\n\tname = my-checker\n"
+                + "\trepository = All-Projects\n"
+                + "\tdescription = A description.\n");
   }
 
   @Test
@@ -235,7 +256,10 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-checker\n\turl = http://example.com/my-checker\n");
+        .isEqualTo(
+            "[checker]\n\tname = my-checker\n"
+                + "\trepository = All-Projects\n"
+                + "\turl = http://example.com/my-checker\n");
   }
 
   @Test
@@ -257,7 +281,10 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-checker\n\turl = http://example.com/my-checker-foo\n");
+        .isEqualTo(
+            "[checker]\n\tname = my-checker\n"
+                + "\trepository = All-Projects\n"
+                + "\turl = http://example.com/my-checker-foo\n");
   }
 
   @Test
@@ -278,7 +305,8 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
     PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
-    assertThat(perCheckerOps.configText()).isEqualTo("[checker]\n\tname = my-checker\n");
+    assertThat(perCheckerOps.configText())
+        .isEqualTo("[checker]\n\tname = my-checker\n\trepository = All-Projects\n");
   }
 
   @Test
@@ -295,7 +323,64 @@ public class UpdateCheckerIT extends AbstractCheckersTest {
     assertCommit(
         perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
     assertThat(perCheckerOps.configText())
-        .isEqualTo("[checker]\n\tname = my-checker\n\turl = http://example.com/my-checker\n");
+        .isEqualTo(
+            "[checker]\n\tname = my-checker\n"
+                + "\trepository = All-Projects\n"
+                + "\turl = http://example.com/my-checker\n");
+  }
+
+  @Test
+  public void updateRepository() throws Exception {
+    String checkerUuid =
+        checkerOperations.newChecker().name("my-checker").repository(allProjects).create();
+
+    CheckerInput input = new CheckerInput();
+    input.repository = projectOperations.newProject().create().get();
+
+    CheckerInfo info = checkersApi.id(checkerUuid).update(input);
+    assertThat(info.repository).isEqualTo(input.repository);
+
+    PerCheckerOperations perCheckerOps = checkerOperations.checker(checkerUuid);
+    assertCommit(
+        perCheckerOps.commit(), "Update checker", info.updatedOn, perCheckerOps.get().refState());
+    assertThat(perCheckerOps.configText())
+        .isEqualTo("[checker]\n\tname = my-checker\n\trepository = " + input.repository + "\n");
+  }
+
+  @Test
+  public void cannotSetRepositoryToEmptyString() throws Exception {
+    String checkerUuid = checkerOperations.newChecker().create();
+
+    CheckerInput checkerInput = new CheckerInput();
+    checkerInput.repository = "";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("repository cannot be unset");
+    checkersApi.id(checkerUuid).update(checkerInput);
+  }
+
+  @Test
+  public void cannotSetRepositoryToStringWhichIsEmptyAfterTrim() throws Exception {
+    String checkerUuid = checkerOperations.newChecker().create();
+
+    CheckerInput checkerInput = new CheckerInput();
+    checkerInput.repository = " ";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("repository cannot be unset");
+    checkersApi.id(checkerUuid).update(checkerInput);
+  }
+
+  @Test
+  public void cannotSetNonExistingRepository() throws Exception {
+    String checkerUuid = checkerOperations.newChecker().create();
+
+    CheckerInput checkerInput = new CheckerInput();
+    checkerInput.repository = "non-existing";
+
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("repository non-existing not found");
+    checkersApi.id(checkerUuid).update(checkerInput);
   }
 
   @Test

@@ -15,6 +15,7 @@
 package com.google.gerrit.plugins.checkers;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.reviewdb.client.Project;
 import java.sql.Timestamp;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
@@ -60,6 +61,15 @@ public abstract class Checker {
   public abstract Optional<String> getUrl();
 
   /**
+   * Returns the repository to which the checker applies.
+   *
+   * <p>The repository is the exact name of a repository (no prefix, no regexp).
+   *
+   * @return the repository to which the checker applies
+   */
+  public abstract Project.NameKey getRepository();
+
+  /**
    * Returns the creation timestamp of the checker.
    *
    * @return the creation timestamp
@@ -96,6 +106,8 @@ public abstract class Checker {
     public abstract Builder setDescription(String description);
 
     public abstract Builder setUrl(String url);
+
+    public abstract Builder setRepository(Project.NameKey repository);
 
     public abstract Builder setCreatedOn(Timestamp createdOn);
 

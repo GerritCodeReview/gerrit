@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.plugins.checkers.AdministrateCheckersPermission;
 import com.google.gerrit.plugins.checkers.Checker;
 import com.google.gerrit.plugins.checkers.CheckerCreation;
@@ -28,9 +29,12 @@ import com.google.gerrit.plugins.checkers.CheckerUpdate;
 import com.google.gerrit.plugins.checkers.CheckerUrl;
 import com.google.gerrit.plugins.checkers.CheckerUuid;
 import com.google.gerrit.plugins.checkers.CheckersUpdate;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,17 +49,20 @@ public class CreateChecker
   private final Provider<CheckersUpdate> checkersUpdate;
   private final CheckerJson checkerJson;
   private final AdministrateCheckersPermission permission;
+  private final ProjectCache projectCache;
 
   @Inject
   public CreateChecker(
       PermissionBackend permissionBackend,
       @UserInitiated Provider<CheckersUpdate> checkersUpdate,
       CheckerJson checkerJson,
-      AdministrateCheckersPermission permission) {
+      AdministrateCheckersPermission permission,
+      ProjectCache projectCache) {
     this.permissionBackend = permissionBackend;
     this.checkersUpdate = checkersUpdate;
     this.checkerJson = checkerJson;
     this.permission = permission;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -72,10 +79,14 @@ public class CreateChecker
     if (name.isEmpty()) {
       throw new BadRequestException("name is required");
     }
+    Project.NameKey repository = resolveRepository(input.repository);
 
     String checkerUuid = CheckerUuid.make(name);
     CheckerCreation.Builder checkerCreationBuilder =
-        CheckerCreation.builder().setCheckerUuid(checkerUuid).setName(name);
+        CheckerCreation.builder()
+            .setCheckerUuid(checkerUuid)
+            .setName(name)
+            .setRepository(repository);
     CheckerUpdate.Builder checkerUpdateBuilder = CheckerUpdate.builder();
     if (input.description != null && !input.description.trim().isEmpty()) {
       checkerUpdateBuilder.setDescription(input.description.trim());
@@ -88,5 +99,19 @@ public class CreateChecker
             .get()
             .createChecker(checkerCreationBuilder.build(), checkerUpdateBuilder.build());
     return Response.created(checkerJson.format(checker));
+  }
+
+  private Project.NameKey resolveRepository(String repository)
+      throws BadRequestException, UnprocessableEntityException, IOException {
+    if (repository == null || repository.trim().isEmpty()) {
+      throw new BadRequestException("repository is required");
+    }
+
+    ProjectState projectState = projectCache.checkedGet(new Project.NameKey(repository.trim()));
+    if (projectState == null) {
+      throw new UnprocessableEntityException(String.format("repository %s not found", repository));
+    }
+
+    return projectState.getNameKey();
   }
 }

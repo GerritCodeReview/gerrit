@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.plugins.checkers.Checker;
 import com.google.gerrit.plugins.checkers.CheckerCreation;
 import com.google.gerrit.plugins.checkers.CheckerUpdate;
+import com.google.gerrit.reviewdb.client.Project;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
@@ -123,6 +124,40 @@ enum CheckerConfigEntry {
                   config.setString(SECTION_NAME, null, super.keyName, url);
                 }
               });
+    }
+  },
+
+  /**
+   * The repository for which the checker applies. This property is equivalent to {@link
+   * Checker#getRepository()}.
+   *
+   * <p>This is a mandatory property.
+   */
+  REPOSITORY("repository") {
+    @Override
+    void readFromConfig(String checkerUuid, Checker.Builder checker, Config config)
+        throws ConfigInvalidException {
+      String repository = config.getString(SECTION_NAME, null, super.keyName);
+      // An empty repository is invalid in NoteDb; CheckerConfig will refuse to store it
+      if (repository == null) {
+        throw new ConfigInvalidException(
+            String.format("repository of checker %s not set", checkerUuid));
+      }
+      checker.setRepository(new Project.NameKey(repository));
+    }
+
+    @Override
+    void initNewConfig(Config config, CheckerCreation checkerCreation) {
+      String repository = checkerCreation.getRepository().get();
+      config.setString(SECTION_NAME, null, super.keyName, repository);
+    }
+
+    @Override
+    void updateConfigValue(Config config, CheckerUpdate checkerUpdate) {
+      checkerUpdate
+          .getRepository()
+          .ifPresent(
+              repository -> config.setString(SECTION_NAME, null, super.keyName, repository.get()));
     }
   };
 

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.gerrit.common.UsedAt;
+
 /** Constants and utilities for Gerrit-specific ref names. */
 public class RefNames {
   public static final String HEAD = "HEAD";
@@ -198,7 +200,8 @@ public class RefNames {
     return sb;
   }
 
-  private static String shardUuid(String uuid) {
+  @UsedAt(UsedAt.Project.PLUGINS_ALL)
+  public static String shardUuid(String uuid) {
     if (uuid == null || uuid.length() < 2) {
       throw new IllegalArgumentException("UUIDs must consist of at least two characters");
     }

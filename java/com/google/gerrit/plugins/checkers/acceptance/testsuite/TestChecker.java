@@ -15,6 +15,7 @@
 package com.google.gerrit.plugins.checkers.acceptance.testsuite;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.reviewdb.client.Project;
 import java.sql.Timestamp;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
@@ -28,6 +29,8 @@ public abstract class TestChecker {
   public abstract Optional<String> description();
 
   public abstract Optional<String> url();
+
+  public abstract Project.NameKey repository();
 
   public abstract Timestamp createdOn();
 
@@ -53,6 +56,8 @@ public abstract class TestChecker {
     public abstract Builder url(String url);
 
     public abstract Builder url(Optional<String> url);
+
+    public abstract Builder repository(Project.NameKey repository);
 
     public abstract Builder createdOn(Timestamp createdOn);
 

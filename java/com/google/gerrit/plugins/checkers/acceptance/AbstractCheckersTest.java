@@ -16,7 +16,6 @@ package com.google.gerrit.plugins.checkers.acceptance;
 
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.ProjectResetter;
-import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.plugins.checkers.CheckerRef;
 import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperations;
@@ -31,7 +30,6 @@ import org.junit.Before;
     name = "checkers",
     sysModule = "com.google.gerrit.plugins.checkers.acceptance.TestModule",
     httpModule = "com.google.gerrit.plugins.checkers.api.HttpModule")
-@SkipProjectClone
 public class AbstractCheckersTest extends LightweightPluginDaemonTest {
   protected CheckerOperations checkerOperations;
   protected Checkers checkersApi;

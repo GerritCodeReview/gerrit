@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a30e524_2b8ab8e3",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-20T14:57:58Z",
+      "side": 1,
+      "message": "All reporting events should be dispatched from gr-reporting. Otherwise you have to search the entire app for events that might be useful for reporting.\n\nAdd a method \u0027serverError()\u0027 to gr-reporting and call that from line 106. Then you can pass the status code as a parameter.\n\nMaybe you can define:\n  const SERVER_ERROR \u003d {\n    TYPE: \u0027error\u0027,\n    CATEGORY: \u0027Server Error\u0027,\n  };\n\nAnd implement serverError(status) method as:\nthis.reporter(SERVER_ERROR.TYPE, SERVER_ERROR.CATEGORY, status);\n\nThen status would show up as the \"event_label\" in the GerritUIClientLogEvent proto and re-use the JS_ERROR type. JS_ERROR is not quite accurate, but I think we can live with that. If you want, you could also add another field like the TimingInfo to the proto, and pass the status as the detail.value instead of the detail.name. But that is more work. :-) And I think we can also live with the status_code being the event_label. But not that the CATEGORY is not really relevant for the clearcut proto, so with this approach exceptions and server errors will look extremely similar in the clearcut logs.",
+      "range": {
+        "startLine": 286,
+        "startChar": 6,
+        "endLine": 287,
+        "endChar": 65
+      },
+      "revId": "6786e70557a48c2751ece3656e404d947d798c93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

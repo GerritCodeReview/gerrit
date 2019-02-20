@@ -20,7 +20,7 @@ import static java.util.Comparator.naturalOrder;
 
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.primitives.Ints;
-import com.google.gerrit.server.UsedAt;
+import com.google.gerrit.common.UsedAt;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 import java.util.stream.Stream;

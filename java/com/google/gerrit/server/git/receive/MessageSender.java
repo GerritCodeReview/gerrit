@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.receive;
 
-import com.google.gerrit.server.UsedAt;
+import com.google.gerrit.common.UsedAt;
 
 /**
  * Interface used by {@link ReceiveCommits} for send messages over the wire during {@code

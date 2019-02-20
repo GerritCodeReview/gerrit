@@ -17,12 +17,12 @@ package com.google.gerrit.server.schema;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.notedb.Sequences;
 import java.util.Optional;
 

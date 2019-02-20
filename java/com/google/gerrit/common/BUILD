@@ -1,11 +1,13 @@
 ANNOTATIONS = [
     "Nullable.java",
+    "UsedAt.java",
 ]
 
 java_library(
     name = "annotations",
     srcs = ANNOTATIONS,
     visibility = ["//visibility:public"],
+    deps = ["//lib:guava"],
 )
 
 java_library(

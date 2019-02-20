@@ -20,6 +20,7 @@ import static com.google.gerrit.server.schema.AclUtil.grant;
 import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeReviewLabel;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
@@ -28,7 +29,6 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;

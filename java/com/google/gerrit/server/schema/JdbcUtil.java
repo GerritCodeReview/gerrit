@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.server.UsedAt;
+import com.google.gerrit.common.UsedAt;
 
 public class JdbcUtil {
 

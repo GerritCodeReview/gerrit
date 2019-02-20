@@ -29,6 +29,9 @@ case "$VERSION" in
 1.6)
     SHA1="02b3e84e52d2473e2c4868189709905a51647d03"
     ;;
+1.7)
+    SHA1="b6d34a51e579b08db7c624505bdf9af4397f1702"
+    ;;
 *)
     echo "unknown google-java-format version: $VERSION"
     exit 1

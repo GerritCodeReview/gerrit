@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
@@ -87,6 +88,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
@@ -102,6 +104,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
@@ -115,6 +118,8 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
+import com.google.gerrit.server.plugins.TestServerPlugin;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
@@ -136,6 +141,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Modifier;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
@@ -279,9 +285,12 @@ public abstract class AbstractDaemonTest {
   @Inject private ChangeIndexCollection changeIndexes;
   @Inject private EventRecorder.Factory eventRecorderFactory;
   @Inject private InProcessProtocol inProcessProtocol;
+  @Inject private PluginGuiceEnvironment pluginGuiceEnvironment;
+  @Inject private PluginUser.Factory pluginUserFactory;
   @Inject private ProjectIndexCollection projectIndexes;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private SitePaths sitePaths;
 
   private ProjectResetter resetter;
   private List<Repository> toClose;
@@ -1574,5 +1583,29 @@ public abstract class AbstractDaemonTest {
     }
     comments.sort(Comparator.comparing(c -> c.id));
     return comments;
+  }
+
+  protected AutoCloseable installPlugin(String pluginName, Class<? extends Module> sysModuleClass)
+      throws Exception {
+    checkArgument(
+        (sysModuleClass.getModifiers() & Modifier.STATIC) != 0,
+        "module must be static: %s",
+        sysModuleClass.getName());
+    TestServerPlugin plugin =
+        new TestServerPlugin(
+            pluginName,
+            "http://example.com/" + pluginName,
+            pluginUserFactory.create(pluginName),
+            getClass().getClassLoader(),
+            sysModuleClass.getName(),
+            null,
+            null,
+            sitePaths.data_dir.resolve(pluginName));
+    plugin.start(pluginGuiceEnvironment);
+    pluginGuiceEnvironment.onStartPlugin(plugin);
+    return () -> {
+      plugin.stop(pluginGuiceEnvironment);
+      pluginGuiceEnvironment.onStopPlugin(plugin);
+    };
   }
 }

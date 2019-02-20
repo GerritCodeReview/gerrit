@@ -15,12 +15,15 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIMIT;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.IndexPredicate;
@@ -41,10 +44,10 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -54,7 +57,9 @@ import java.util.Set;
  * holding on to a single instance.
  */
 public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
-    implements DynamicOptions.BeanReceiver, PluginDefinedAttributesFactory {
+    implements DynamicOptions.BeanReceiver {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   /**
    * Register a ChangeAttributeFactory in a config Module like this:
    *
@@ -67,9 +72,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
 
   private final Provider<CurrentUser> userProvider;
   private final ChangeNotes.Factory notesFactory;
-  private final DynamicMap<ChangeAttributeFactory> attributeFactories;
-  private final Multimap<String, ChangeAttributeFactory> attributeFactoriesByPlugin =
-      HashMultimap.create();
+  private final ImmutableList<Extension<ChangeAttributeFactory>> attributeFactories;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final Provider<AnonymousUser> anonymousUserProvider;
@@ -105,11 +108,12 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
         () -> limitsFactory.create(userProvider.get()).getQueryLimit());
     this.userProvider = userProvider;
     this.notesFactory = notesFactory;
-    this.attributeFactories = attributeFactories;
+    // Snapshot plugin-provided attribute factories at creation time, so all changes returned by
+    // this query are guaranteed to share the same set of attributes.
+    this.attributeFactories = ImmutableList.copyOf(attributeFactories);
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.anonymousUserProvider = anonymousUserProvider;
-    setupAttributeFactories();
   }
 
   @Override
@@ -133,35 +137,32 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     return dynamicBeans.get(plugin);
   }
 
-  public void setupAttributeFactories() {
-    for (String plugin : attributeFactories.plugins()) {
-      for (Provider<ChangeAttributeFactory> provider :
-          attributeFactories.byPlugin(plugin).values()) {
-        attributeFactoriesByPlugin.put(plugin, provider.get());
-      }
-    }
+  public PluginDefinedAttributesFactory getAttributesFactory() {
+    return this::createPluginDefinedAttributes;
   }
 
-  @Override
-  public List<PluginDefinedInfo> create(ChangeData cd) {
-    List<PluginDefinedInfo> plugins = new ArrayList<>(attributeFactories.plugins().size());
-    for (Map.Entry<String, ChangeAttributeFactory> e : attributeFactoriesByPlugin.entries()) {
-      String plugin = e.getKey();
-      PluginDefinedInfo pda = null;
-      try {
-        pda = e.getValue().create(cd, this, plugin);
-      } catch (RuntimeException ex) {
-        /* Eat runtime exceptions so that queries don't fail. */
-      }
-      if (pda != null) {
-        pda.name = plugin;
-        plugins.add(pda);
-      }
-    }
-    if (plugins.isEmpty()) {
-      plugins = null;
-    }
-    return plugins;
+  private List<PluginDefinedInfo> createPluginDefinedAttributes(ChangeData cd) {
+    List<PluginDefinedInfo> result =
+        attributeFactories
+            .stream()
+            .map(
+                e -> {
+                  try {
+                    PluginDefinedInfo info = e.get().create(cd, this, e.getPluginName());
+                    if (info != null) {
+                      info.name = e.getPluginName();
+                    }
+                    return info;
+                  } catch (RuntimeException ex) {
+                    logger.atWarning().atMostEvery(1, MINUTES).withCause(ex).log(
+                        "error populating attribute on change %s from plugin %s",
+                        cd.getId(), e.getPluginName());
+                    return null;
+                  }
+                })
+            .filter(Objects::nonNull)
+            .collect(toImmutableList());
+    return !result.isEmpty() ? result : null;
   }
 
   @Override

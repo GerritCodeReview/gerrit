@@ -52,6 +52,7 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -73,8 +74,10 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -114,6 +117,7 @@ import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
+import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
@@ -146,6 +150,7 @@ import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryProcessor.ChangeAttributeFactory;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -153,12 +158,15 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -2601,6 +2609,67 @@ public class ChangeIT extends AbstractDaemonTest {
         .isEqualTo(r.getChangeId());
     requestScopeOperations.setApiUser(user.getId());
     assertThat(query("owner:self project:{" + project.get() + "}")).isEmpty();
+  }
+
+  static class CustomAttributeModule extends AbstractModule {
+    static class MyInfo extends PluginDefinedInfo {
+      public String theAttribute;
+    }
+
+    @Override
+    public void configure() {
+      bind(ChangeAttributeFactory.class)
+          .annotatedWith(Exports.named("my-attr"))
+          .toInstance(
+              (cd, qp, plugin) -> {
+                try {
+                  String topic = cd.change().getTopic();
+                  if (Strings.isNullOrEmpty(topic)) {
+                    return null;
+                  }
+                  MyInfo myInfo = new MyInfo();
+                  myInfo.theAttribute = "topic: " + topic;
+                  return myInfo;
+                } catch (OrmException e) {
+                  throw new RuntimeException(e);
+                }
+              });
+    }
+  }
+
+  @Test
+  public void queryChangeWithCustomAttributes() throws Exception {
+    Change.Id id1 = createChange().getChange().getId();
+    Change.Id id2 = createChange().getChange().getId();
+    gApi.changes().id(id2.get()).topic("foo");
+
+    Function<Change.Id, QueryRequest> byQuery =
+        id ->
+            gApi.changes().query(id.toString()).withOptions(EnumSet.allOf(ListChangesOption.class));
+    assertThat(gApi.changes().id(id1.get()).get().plugins).isNull();
+    assertThat(gApi.changes().id(id2.get()).get().plugins).isNull();
+    assertThat(Iterables.getOnlyElement(byQuery.apply(id1).get()).plugins).isNull();
+    assertThat(Iterables.getOnlyElement(byQuery.apply(id2).get()).plugins).isNull();
+
+    try (AutoCloseable ignored = installPlugin("my-plugin", CustomAttributeModule.class)) {
+      // Plugin attributes only set in queries.
+      assertThat(gApi.changes().id(id1.get()).get().plugins).isNull();
+      assertThat(gApi.changes().id(id2.get()).get().plugins).isNull();
+
+      assertThat(Iterables.getOnlyElement(byQuery.apply(id1).get()).plugins).isNull();
+      List<PluginDefinedInfo> pluginInfos =
+          Iterables.getOnlyElement(byQuery.apply(id2).get()).plugins;
+      assertThat(pluginInfos).hasSize(1);
+      assertThat(pluginInfos.get(0)).isInstanceOf(CustomAttributeModule.MyInfo.class);
+      CustomAttributeModule.MyInfo myInfo = (CustomAttributeModule.MyInfo) pluginInfos.get(0);
+      assertThat(myInfo.name).isEqualTo("my-plugin");
+      assertThat(myInfo.theAttribute).isEqualTo("topic: foo");
+    }
+
+    assertThat(gApi.changes().id(id1.get()).get().plugins).isNull();
+    assertThat(gApi.changes().id(id2.get()).get().plugins).isNull();
+    assertThat(Iterables.getOnlyElement(byQuery.apply(id1).get()).plugins).isNull();
+    assertThat(Iterables.getOnlyElement(byQuery.apply(id2).get()).plugins).isNull();
   }
 
   @Test

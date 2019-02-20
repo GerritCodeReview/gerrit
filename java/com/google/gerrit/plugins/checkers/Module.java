@@ -16,12 +16,15 @@ package com.google.gerrit.plugins.checkers;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.plugins.checkers.api.CombinedChangeStateFactory;
 import com.google.gerrit.plugins.checkers.db.NoteDbCheckersModule;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidationListener;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
+import com.google.gerrit.server.query.change.ChangeQueryProcessor.ChangeAttributeFactory;
 
 public class Module extends FactoryModule {
   @Override
@@ -37,5 +40,9 @@ public class Module extends FactoryModule {
     DynamicSet.bind(binder(), RefOperationValidationListener.class)
         .to(CheckerRefOperationValidator.class)
         .in(SINGLETON);
+
+    bind(ChangeAttributeFactory.class)
+        .annotatedWith(Exports.named("combined_change_state"))
+        .to(CombinedChangeStateFactory.class);
   }
 }

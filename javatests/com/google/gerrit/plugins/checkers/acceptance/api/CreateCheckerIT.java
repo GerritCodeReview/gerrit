@@ -18,21 +18,27 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.testing.CommitSubject.assertCommit;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.plugins.checkers.acceptance.AbstractCheckersTest;
 import com.google.gerrit.plugins.checkers.acceptance.testsuite.CheckerOperations.PerCheckerOperations;
 import com.google.gerrit.plugins.checkers.api.BlockingCondition;
+import com.google.gerrit.plugins.checkers.api.CheckPluginDefinedInfo;
 import com.google.gerrit.plugins.checkers.api.CheckerInfo;
 import com.google.gerrit.plugins.checkers.api.CheckerInput;
 import com.google.gerrit.plugins.checkers.api.CheckerStatus;
+import com.google.gerrit.plugins.checkers.api.CombinedCheckState;
 import com.google.gerrit.plugins.checkers.db.CheckersByRepositoryNotes;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Before;
@@ -315,5 +321,16 @@ public class CreateCheckerIT extends AbstractCheckersTest {
     exception.expect(AuthException.class);
     exception.expectMessage("administrateCheckers for plugin checkers not permitted");
     checkersApi.create(input);
+  }
+
+  // TODO(hiesel): This method belongs in a class related to checks, not checkers.
+  @Test
+  public void combinedCheckStateField() throws Exception {
+    Change.Id id = createChange().getChange().getId();
+    assertThat(gApi.changes().id(id.get()).get().plugins).isNull();
+    List<PluginDefinedInfo> plugins =
+        Iterables.getOnlyElement(gApi.changes().query(id.toString()).get()).plugins;
+    assertThat(plugins)
+        .containsExactly(new CheckPluginDefinedInfo(CombinedCheckState.NOT_RELEVANT));
   }
 }

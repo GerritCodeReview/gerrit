@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -34,17 +35,22 @@ public class ChangeCleanupConfig {
           + "\n"
           + "If this change is still wanted it should be restored.";
 
+  private final Config cfg;
+  private final DynamicItem<UrlFormatter> urlFormatter;
   private final Optional<Schedule> schedule;
   private final long abandonAfter;
   private final boolean abandonIfMergeable;
-  private final String abandonMessage;
+
+  private String abandonMessage;
 
   @Inject
-  ChangeCleanupConfig(@GerritServerConfig Config cfg, UrlFormatter urlFormatter) {
+  ChangeCleanupConfig(@GerritServerConfig Config cfg, DynamicItem<UrlFormatter> urlFormatter) {
+    this.cfg = cfg;
+    this.urlFormatter = urlFormatter;
     schedule = ScheduleConfig.createSchedule(cfg, SECTION);
     abandonAfter = readAbandonAfter(cfg);
     abandonIfMergeable = cfg.getBoolean(SECTION, null, KEY_ABANDON_IF_MERGEABLE, true);
-    abandonMessage = readAbandonMessage(cfg, urlFormatter);
+    abandonMessage = null;
   }
 
   private long readAbandonAfter(Config cfg) {
@@ -53,13 +59,14 @@ public class ChangeCleanupConfig {
     return abandonAfter >= 0 ? abandonAfter : 0;
   }
 
-  private String readAbandonMessage(Config cfg, UrlFormatter urlFormatter) {
+  private String readAbandonMessage() {
     String abandonMessage = cfg.getString(SECTION, null, KEY_ABANDON_MESSAGE);
     if (Strings.isNullOrEmpty(abandonMessage)) {
       abandonMessage = DEFAULT_ABANDON_MESSAGE;
     }
 
-    String docUrl = urlFormatter.getDocUrl("user-change-cleanup.html", "auto-abandon").orElse("");
+    String docUrl =
+        urlFormatter.get().getDocUrl("user-change-cleanup.html", "auto-abandon").orElse("");
     if (!docUrl.isEmpty()) {
       abandonMessage = abandonMessage.replaceAll("\\$\\{URL\\}", docUrl);
     }
@@ -80,6 +87,9 @@ public class ChangeCleanupConfig {
   }
 
   public String getAbandonMessage() {
+    if (abandonMessage == null) {
+      abandonMessage = readAbandonMessage();
+    }
     return abandonMessage;
   }
 }

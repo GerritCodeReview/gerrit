@@ -14,7 +14,9 @@
 
 package com.google.gerrit.plugins.checkers.api;
 
+import com.google.common.base.MoreObjects;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class CheckerInfo {
   public String uuid;
@@ -23,4 +25,35 @@ public class CheckerInfo {
   public String url;
   public Timestamp createdOn;
   public Timestamp updatedOn;
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(uuid, name, description, url, createdOn, updatedOn);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof CheckerInfo)) {
+      return false;
+    }
+    CheckerInfo o = (CheckerInfo) obj;
+    return Objects.equals(uuid, o.uuid)
+        && Objects.equals(name, o.name)
+        && Objects.equals(description, o.description)
+        && Objects.equals(url, o.url)
+        && Objects.equals(createdOn, o.createdOn)
+        && Objects.equals(updatedOn, o.updatedOn);
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("uuid", uuid)
+        .add("name", name)
+        .add("description", description)
+        .add("url", url)
+        .add("createdOn", createdOn)
+        .add("updatedOn", updatedOn)
+        .toString();
+  }
 }

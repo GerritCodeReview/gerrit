@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "66827838_23231c25",
+        "filename": "Documentation/rest-api-checkers.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-20T02:14:45Z",
+      "side": 1,
+      "message": "You should talk to Alice and/or Ben about this. I don\u0027t really have strong preferences, I would have been fine with a boolean ;)\n\nMy weak preference is to keep it as is. I think it\u0027s ok to add more conditions that represent different sets of allowed states, without opening it up to allowing all possible subsets. I want the conditions to be based on concrete real-world use cases.",
+      "parentUuid": "784aefd5_eff2fa02",
+      "revId": "46b54280528ff77981716d318ce781f30d05f9a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c3db3352_2ae9eda1",
         "filename": "java/com/google/gerrit/extensions/api/checkers/BlockingCondition.java",
         "patchSetId": 1

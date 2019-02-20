@@ -45,6 +45,29 @@
       "revId": "1746440783be7edf4ca4e9e31966ce5ff4bcadcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a48c5aa_09beb3b8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-02-20T09:20:45Z",
+      "side": 1,
+      "message": "Nit: Slightly inconsistent to use statuses here and states everywhere else...",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 14
+      },
+      "revId": "1746440783be7edf4ca4e9e31966ce5ff4bcadcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

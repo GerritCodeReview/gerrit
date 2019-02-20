@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "84c0d105_ae4596d9",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-20T13:26:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42e06f78_705834aa",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 16
+      },
+      "revId": "1746440783be7edf4ca4e9e31966ce5ff4bcadcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddf3a196_5a4b6f2e",
         "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "48e862ec_1c5fe106",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-20T13:26:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddf3a196_5a4b6f2e",
+      "range": {
+        "startLine": 148,
+        "startChar": 23,
+        "endLine": 148,
+        "endChar": 29
+      },
+      "revId": "1746440783be7edf4ca4e9e31966ce5ff4bcadcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a48c5aa_09beb3b8",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2019-02-20T09:20:45Z",
       "side": 1,
       "message": "Nit: Slightly inconsistent to use statuses here and states everywhere else...",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 14
+      },
+      "revId": "1746440783be7edf4ca4e9e31966ce5ff4bcadcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00fcc761_83a05635",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-20T13:26:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a48c5aa_09beb3b8",
       "range": {
         "startLine": 47,
         "startChar": 6,

@@ -28,6 +28,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
@@ -89,7 +90,7 @@ public class CommitValidators {
   @Singleton
   public static class Factory {
     private final PersonIdent gerritIdent;
-    private final UrlFormatter urlFormatter;
+    private final DynamicItem<UrlFormatter> urlFormatter;
     private final PluginSetContext<CommitValidationListener> pluginValidators;
     private final GitRepositoryManager repoManager;
     private final AllUsersName allUsers;
@@ -102,7 +103,7 @@ public class CommitValidators {
     @Inject
     Factory(
         @GerritPersonIdent PersonIdent gerritIdent,
-        UrlFormatter urlFormatter,
+        DynamicItem<UrlFormatter> urlFormatter,
         @GerritServerConfig Config cfg,
         PluginSetContext<CommitValidationListener> pluginValidators,
         GitRepositoryManager repoManager,
@@ -140,11 +141,16 @@ public class CommitValidators {
               new UploadMergesPermissionValidator(perm),
               new ProjectStateValidationListener(projectState),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
-              new AuthorUploaderValidator(user, perm, urlFormatter),
-              new CommitterUploaderValidator(user, perm, urlFormatter),
+              new AuthorUploaderValidator(user, perm, urlFormatter.get()),
+              new CommitterUploaderValidator(user, perm, urlFormatter.get()),
               new SignedOffByValidator(user, perm, projectState),
               new ChangeIdValidator(
-                  projectState, user, urlFormatter, installCommitMsgHookCommand, sshInfo, change),
+                  projectState,
+                  user,
+                  urlFormatter.get(),
+                  installCommitMsgHookCommand,
+                  sshInfo,
+                  change),
               new ConfigValidator(branch, user, rw, allUsers, allProjects),
               new BannedCommitsValidator(rejectCommits),
               new PluginCommitValidationListener(pluginValidators),
@@ -168,10 +174,15 @@ public class CommitValidators {
               new UploadMergesPermissionValidator(perm),
               new ProjectStateValidationListener(projectState),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
-              new AuthorUploaderValidator(user, perm, urlFormatter),
+              new AuthorUploaderValidator(user, perm, urlFormatter.get()),
               new SignedOffByValidator(user, perm, projectCache.checkedGet(branch.getParentKey())),
               new ChangeIdValidator(
-                  projectState, user, urlFormatter, installCommitMsgHookCommand, sshInfo, change),
+                  projectState,
+                  user,
+                  urlFormatter.get(),
+                  installCommitMsgHookCommand,
+                  sshInfo,
+                  change),
               new ConfigValidator(branch, user, rw, allUsers, allProjects),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
@@ -200,8 +211,8 @@ public class CommitValidators {
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
               new ProjectStateValidationListener(projectCache.checkedGet(branch.getParentKey())),
-              new AuthorUploaderValidator(user, perm, urlFormatter),
-              new CommitterUploaderValidator(user, perm, urlFormatter)));
+              new AuthorUploaderValidator(user, perm, urlFormatter.get()),
+              new CommitterUploaderValidator(user, perm, urlFormatter.get())));
     }
   }
 

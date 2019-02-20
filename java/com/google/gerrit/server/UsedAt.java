@@ -19,7 +19,6 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -27,7 +26,6 @@ import java.lang.annotation.Target;
  * A marker for a method that is public solely because it is called from inside a project or an
  * organisation using Gerrit.
  */
-@BindingAnnotation
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
 @GwtCompatible

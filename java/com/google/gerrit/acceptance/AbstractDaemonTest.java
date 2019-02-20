@@ -25,6 +25,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.testing.Util.category;
 import static com.google.gerrit.server.project.testing.Util.value;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
@@ -207,10 +208,7 @@ public abstract class AbstractDaemonTest {
                 firstTest = description;
               }
               beforeTest(description);
-              ProjectResetter.Config input = resetProjects();
-              if (input == null) {
-                input = defaultResetProjects();
-              }
+              ProjectResetter.Config input = requireNonNull(resetProjects());
 
               try (ProjectResetter resetter = projectResetter.builder().build(input)) {
                 AbstractDaemonTest.this.resetter = resetter;
@@ -331,10 +329,6 @@ public abstract class AbstractDaemonTest {
 
   /** Controls which project and branches should be reset after each test case. */
   protected ProjectResetter.Config resetProjects() {
-    return null;
-  }
-
-  private ProjectResetter.Config defaultResetProjects() {
     return new ProjectResetter.Config()
         // Don't reset all refs so that refs/sequences/changes is not touched and change IDs are
         // not reused.

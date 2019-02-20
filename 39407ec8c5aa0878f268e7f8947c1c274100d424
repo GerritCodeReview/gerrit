@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1d52a03_0a25b20e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-20T10:45:12Z",
+      "side": 1,
+      "message": "This isn\u0027t strictly necessary and could be removed.  If we do want to refer to the previous change, it would be better to just use the change -Id.\n\nAlso, please wrap the commit message at around 70 columns.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 157
+      },
+      "revId": "39407ec8c5aa0878f268e7f8947c1c274100d424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

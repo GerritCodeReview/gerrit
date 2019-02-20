@@ -18,11 +18,13 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.plugins.checkers.Checker;
 import com.google.gerrit.plugins.checkers.CheckerCreation;
+import com.google.gerrit.plugins.checkers.CheckerJson;
 import com.google.gerrit.plugins.checkers.CheckerUpdate;
 import com.google.gerrit.plugins.checkers.CheckerUuid;
 import com.google.gerrit.plugins.checkers.Checkers;
 import com.google.gerrit.plugins.checkers.CheckersUpdate;
 import com.google.gerrit.plugins.checkers.NoSuchCheckerException;
+import com.google.gerrit.plugins.checkers.api.CheckerInfo;
 import com.google.gerrit.plugins.checkers.db.CheckerConfig;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -49,17 +51,20 @@ public class CheckerOperationsImpl implements CheckerOperations {
   private final CheckersUpdate checkersUpdate;
   private final GitRepositoryManager repoManager;
   private final AllProjectsName allProjectsName;
+  private final CheckerJson checkerJson;
 
   @Inject
   public CheckerOperationsImpl(
       Checkers checkers,
       @ServerInitiated CheckersUpdate checkersUpdate,
       GitRepositoryManager repoManager,
-      AllProjectsName allProjectsName) {
+      AllProjectsName allProjectsName,
+      CheckerJson checkerJson) {
     this.checkers = checkers;
     this.checkersUpdate = checkersUpdate;
     this.repoManager = repoManager;
     this.allProjectsName = allProjectsName;
+    this.checkerJson = checkerJson;
   }
 
   @Override
@@ -157,6 +162,13 @@ public class CheckerOperationsImpl implements CheckerOperations {
                 null, repo, checker.get().getRefState(), CheckerConfig.CHECKER_CONFIG_FILE)
             .toText();
       }
+    }
+
+    @Override
+    public CheckerInfo asInfo() {
+      Optional<Checker> checker = getChecker(checkerUuid);
+      checkState(checker.isPresent(), "Tried to get a non-existing test checker as CheckerInfo");
+      return checkerJson.format(checker.get());
     }
 
     public TestCheckerUpdate.Builder forUpdate() {

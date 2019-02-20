@@ -21,18 +21,24 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.List;
 
 @Singleton
 public class CheckersImpl implements Checkers {
   private final CheckerApiImpl.Factory api;
   private final CreateChecker createChecker;
+  private final ListCheckers listCheckers;
   private final CheckersCollection checkers;
 
   @Inject
   CheckersImpl(
-      CheckerApiImpl.Factory api, CreateChecker createChecker, CheckersCollection checkers) {
+      CheckerApiImpl.Factory api,
+      CreateChecker createChecker,
+      ListCheckers listCheckers,
+      CheckersCollection checkers) {
     this.api = api;
     this.createChecker = createChecker;
+    this.listCheckers = listCheckers;
     this.checkers = checkers;
   }
 
@@ -52,6 +58,15 @@ public class CheckersImpl implements Checkers {
       return id(info.uuid);
     } catch (Exception e) {
       throw asRestApiException("Cannot create checker " + input.name, e);
+    }
+  }
+
+  @Override
+  public List<CheckerInfo> all() throws RestApiException {
+    try {
+      return listCheckers.apply(TopLevelResource.INSTANCE);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list all checkers ", e);
     }
   }
 }

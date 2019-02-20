@@ -12,14 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.plugins.checkers.api;
+package com.google.gerrit.plugins.checkers;
 
-import java.sql.Timestamp;
+/** Indicates the checker does not exist. */
+public class NoSuchCheckerException extends Exception {
+  private static final long serialVersionUID = 1L;
 
-public class CheckerInfo {
-  public String uuid;
-  public String name;
-  public String description;
-  public Timestamp createdOn;
-  public Timestamp updatedOn;
+  public static final String MESSAGE = "Checker Not Found: ";
+
+  public NoSuchCheckerException(String uuid) {
+    this(uuid, null);
+  }
+
+  public NoSuchCheckerException(String uuid, Throwable why) {
+    super(MESSAGE + uuid, why);
+  }
 }

@@ -68,7 +68,8 @@ public class RetryHelper {
     ACCOUNT_UPDATE,
     CHANGE_UPDATE,
     GROUP_UPDATE,
-    INDEX_QUERY
+    INDEX_QUERY,
+    PLUGIN_UPDATE
   }
 
   /**

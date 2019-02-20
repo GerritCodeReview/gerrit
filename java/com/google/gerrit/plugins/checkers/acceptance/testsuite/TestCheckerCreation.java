@@ -16,6 +16,7 @@ package com.google.gerrit.plugins.checkers.acceptance.testsuite;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
+import com.google.gerrit.reviewdb.client.Project;
 import java.util.Optional;
 
 @AutoValue
@@ -26,6 +27,8 @@ public abstract class TestCheckerCreation {
   public abstract Optional<String> description();
 
   public abstract Optional<String> url();
+
+  public abstract Optional<Project.NameKey> repository();
 
   abstract ThrowingFunction<TestCheckerCreation, String> checkerCreator();
 
@@ -49,6 +52,8 @@ public abstract class TestCheckerCreation {
     public Builder clearUrl() {
       return url("");
     }
+
+    public abstract Builder repository(Project.NameKey repository);
 
     abstract Builder checkerCreator(ThrowingFunction<TestCheckerCreation, String> checkerCreator);
 

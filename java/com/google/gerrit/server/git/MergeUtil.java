@@ -30,6 +30,7 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
@@ -164,7 +165,7 @@ public class MergeUtil {
 
   private final Provider<ReviewDb> db;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
-  private final UrlFormatter urlFormatter;
+  private final DynamicItem<UrlFormatter> urlFormatter;
   private final ApprovalsUtil approvalsUtil;
   private final ProjectState project;
   private final boolean useContentMerge;
@@ -176,7 +177,7 @@ public class MergeUtil {
       @GerritServerConfig Config serverConfig,
       Provider<ReviewDb> db,
       IdentifiedUser.GenericFactory identifiedUserFactory,
-      UrlFormatter urlFormatter,
+      DynamicItem<UrlFormatter> urlFormatter,
       ApprovalsUtil approvalsUtil,
       PluggableCommitMessageGenerator commitMessageGenerator,
       @Assisted ProjectState project) {
@@ -196,7 +197,7 @@ public class MergeUtil {
       @GerritServerConfig Config serverConfig,
       Provider<ReviewDb> db,
       IdentifiedUser.GenericFactory identifiedUserFactory,
-      UrlFormatter urlFormatter,
+      DynamicItem<UrlFormatter> urlFormatter,
       ApprovalsUtil approvalsUtil,
       @Assisted ProjectState project,
       PluggableCommitMessageGenerator commitMessageGenerator,
@@ -491,7 +492,7 @@ public class MergeUtil {
       msgbuf.append('\n');
     }
 
-    Optional<String> url = urlFormatter.getChangeViewUrl(null, c.getId());
+    Optional<String> url = urlFormatter.get().getChangeViewUrl(null, c.getId());
     if (url.isPresent()) {
       if (!contains(footers, FooterConstants.REVIEWED_ON, url.get())) {
         msgbuf

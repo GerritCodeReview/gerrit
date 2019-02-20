@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -55,14 +56,14 @@ public class GarbageCollect
   private final boolean canGC;
   private final GarbageCollection.Factory garbageCollectionFactory;
   private final WorkQueue workQueue;
-  private final UrlFormatter urlFormatter;
+  private final DynamicItem<UrlFormatter> urlFormatter;
 
   @Inject
   GarbageCollect(
       GitRepositoryManager repoManager,
       GarbageCollection.Factory garbageCollectionFactory,
       WorkQueue workQueue,
-      UrlFormatter urlFormatter) {
+      DynamicItem<UrlFormatter> urlFormatter) {
     this.workQueue = workQueue;
     this.urlFormatter = urlFormatter;
     this.canGC = repoManager instanceof LocalDiskRepositoryManager;
@@ -99,7 +100,9 @@ public class GarbageCollect
     WorkQueue.Task<Void> task = (WorkQueue.Task<Void>) workQueue.getDefaultQueue().submit(job);
 
     Optional<String> url =
-        urlFormatter.getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
+        urlFormatter
+            .get()
+            .getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
     // We're in a HTTP handler, so must be present.
     checkState(url.isPresent());
     return Response.accepted(url.get());

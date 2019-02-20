@@ -22,6 +22,30 @@
       "revId": "6786e70557a48c2751ece3656e404d947d798c93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "338c2720_b5dd6b29",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1075224
+      },
+      "writtenOn": "2019-02-20T16:45:53Z",
+      "side": 1,
+      "message": "Done, with small differences from what you said. I used \"error dialog\" terminology, I think it\u0027s more precise description. Also, I call `reportErrorDialog` from inside `_showErrorDialog` because `_showErrorDialog` is called in `_handleShowErrorDialog` too -- don\u0027t what to put error reporting in several places.\n\nAs for having \"status\" as a parameter -- I think it would be nice, but I agree that we can live with current solution. Anyway, in order to get the most of it I\u0027d need to extend GerritUIClientLogEvent and that is more work :)",
+      "parentUuid": "0a30e524_2b8ab8e3",
+      "range": {
+        "startLine": 286,
+        "startChar": 6,
+        "endLine": 287,
+        "endChar": 65
+      },
+      "revId": "6786e70557a48c2751ece3656e404d947d798c93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

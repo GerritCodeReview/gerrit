@@ -303,6 +303,7 @@ public class CheckerOperationsImplTest extends AbstractCheckersTest {
   private CheckerInput createArbitraryCheckerInput() {
     CheckerInput checkerInput = new CheckerInput();
     checkerInput.name = name("test-checker");
+    checkerInput.repository = allProjects.get();
     return checkerInput;
   }
 

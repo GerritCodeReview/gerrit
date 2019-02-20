@@ -15,6 +15,7 @@
 package com.google.gerrit.plugins.checkers;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.reviewdb.client.Project;
 
 @AutoValue
 public abstract class CheckerCreation {
@@ -28,6 +29,9 @@ public abstract class CheckerCreation {
   /** Defines the name the checker should have. */
   public abstract String getName();
 
+  /** Defines the repository for which the checker applies. */
+  public abstract Project.NameKey getRepository();
+
   public static Builder builder() {
     return new AutoValue_CheckerCreation.Builder();
   }
@@ -37,6 +41,8 @@ public abstract class CheckerCreation {
     public abstract Builder setCheckerUuid(String checkerUuid);
 
     public abstract Builder setName(String name);
+
+    public abstract Builder setRepository(Project.NameKey repository);
 
     public abstract CheckerCreation build();
   }

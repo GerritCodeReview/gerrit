@@ -37,6 +37,7 @@ describes the checker.
   {
     "uuid": "e1f530851409c89dbba927efd0fbbaf270bfaeae",
     "name": "MyChecker",
+    "repository": "examples/Foo",
     "description": "A simple checker.",
     "created_on": "2019-01-31 09:59:32.126000000"
   }
@@ -64,7 +65,8 @@ Checkers] global capability are permitted to create checkers.
 
   {
     "name": "MyChecker",
-    "description": "A simple checker."
+    "description": "A simple checker.",
+    "repository": "examples/Foo",
   }
 ----
 
@@ -82,6 +84,7 @@ describes the created checker.
     "uuid": "e1f530851409c89dbba927efd0fbbaf270bfaeae",
     "name": "MyChecker",
     "description": "A simple checker.",
+    "repository": "examples/Foo",
     "created_on": "2019-01-31 09:59:32.126000000",
     "updated_on": "2019-01-31 09:59:32.126000000"
   }
@@ -110,6 +113,9 @@ Unsetting properties:
    `400 Bad Request`.
 * `description`: Can be unset by setting an empty string ("") for it.
 * `url`: Can be unset by setting an empty string ("") for it.
+* '`repository`: Cannot be unset. Attempting to set it to an empty
+   string ("") or a string that is empty after trim is rejected as
+   `400 Bad Request`.
 
 Note that only users with the
 link:access-control.html#capability_administrateCheckers[Administrate
@@ -139,6 +145,7 @@ describes the updated checker.
     "uuid": "e1f530851409c89dbba927efd0fbbaf270bfaeae",
     "name": "MyChecker",
     "description": "A simple checker.",
+    "repository": "examples/Foo",
     "created_on": "2019-01-31 09:59:32.126000000",
     "updated_on": "2019-02-01 07:23:44.158000000"
   }
@@ -176,6 +183,8 @@ The name of the checker, may not be unique.
 The description of the checker.
 |`url`           |optional|
 The URL of the checker.
+|`repository`    ||
+The (exact) name of the repository for which the checker applies.
 |`created_on`    ||
 The link:rest-api.html#timestamp[timestamp] of when the checker was
 created.
@@ -197,6 +206,8 @@ The name of the checker. Must be specified for checker creation.
 The description of the checker.
 |`url`           |optional|
 The URL of the checker.
+|`repository`    |optional|
+The (exact) name of the repository for which the checker applies.
 |=============================
 
 GERRIT

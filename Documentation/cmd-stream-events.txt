@@ -280,6 +280,8 @@ type:: wip-state-changed
 
 change:: link:json.html#change[change attribute]
 
+patchSet:: link:json.html#patchSet[patchSet attribute]
+
 changer:: link:json.html#account[account attribute]
 
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
@@ -293,6 +295,8 @@ change has changed.
 type:: private-state-changed
 
 change:: link:json.html#change[change attribute]
+
+patchSet:: link:json.html#patchSet[patchSet attribute]
 
 changer:: link:json.html#account[account attribute]
 

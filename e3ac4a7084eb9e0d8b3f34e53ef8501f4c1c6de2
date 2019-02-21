@@ -238,6 +238,30 @@
       "revId": "e3ac4a7084eb9e0d8b3f34e53ef8501f4c1c6de2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09b9414c_4658b0e6",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:38:28Z",
+      "side": 1,
+      "message": "\u003e \u003e The problem is that the Extension wrapper does not cache the extension, instead every call to e.get() calls get() on the underlying Provider. If the factory is not marked @Singleton, that gives a different instance on every iteration. \n\u003e \n\u003e That sounds like an undesired functional change. The original code made sure to call the same factory instance so that it could cache data throughout the lifespan of a query.\n\nGood eye! That definitely sounds like a reason to not depend on Extension. (Actually it sounds like a reason to fix Extension to do the caching, but like I said I\u0027m not sure if that would break things.)\n\n\u003e \n\u003e As for logging, I think you are pointing out the very real complexities of logging during a query, and why we took the easy route and skipped it. We figured, if you have an issue in a plugin, log there.\n\nI\u0027m not sure it\u0027s a good assumption that plugins will always be logging. For checked exceptions--sure. But here we are talking about RuntimeExceptions, which are typically programmer error.\n\n\u003e I suggest separating the concerns of this change, if you want to add a fancy logging mechanism, perhaps that deserves its own change?\n\nDid you look at the most recent patch set? Logging once per minute is literally a one-liner with Flogger:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/214994/2..5/java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java\n\nI would not want to go implementing such a fancy logging mechanism myself, but they\u0027ve already done it for me, so it\u0027s really easy to use.\n\nAnyway, I think the fact that we can\u0027t use Extension means this change needs to be reworked. The only things I feel strongly about are making setupAttributeFactories non-public and logging, so I will do those in separate changes.",
+      "parentUuid": "fb8a13b0_6fbab324",
+      "range": {
+        "startLine": 156,
+        "startChar": 20,
+        "endLine": 156,
+        "endChar": 26
+      },
+      "revId": "e3ac4a7084eb9e0d8b3f34e53ef8501f4c1c6de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

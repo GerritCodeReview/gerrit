@@ -16,6 +16,24 @@
       "revId": "77d4ce6ac6c8ef9da4c687d426b620a7f684765a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a875a48d_80a0cf8d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-02-21T13:01:17Z",
+      "side": 1,
+      "message": "I don\u0027t think there are any authorities to quote in this case, it\u0027s more the unofficial standard for commit messages AFAICT.\nAllegedly it\u0027s derived from the 80 char width:\nGit log/show appends 4 ws to the beginning of each line of the commit message.\nTo center the message, for readability, in an 80 char terminal you need to add a corresponding 4 ws border on the opposite side:\n4+72+4",
+      "parentUuid": "45b934f9_48819337",
+      "revId": "77d4ce6ac6c8ef9da4c687d426b620a7f684765a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

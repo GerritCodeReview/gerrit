@@ -166,6 +166,30 @@
       "revId": "e3ac4a7084eb9e0d8b3f34e53ef8501f4c1c6de2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f043fd1_8d856ab0",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-02-21T00:30:46Z",
+      "side": 1,
+      "message": "Add each attribute factory throwing an exception to a Set on the query processor, if the set.add() finds a dup, don\u0027t log it?",
+      "parentUuid": "b3fb2e82_1cae2b7e",
+      "range": {
+        "startLine": 156,
+        "startChar": 20,
+        "endLine": 156,
+        "endChar": 26
+      },
+      "revId": "e3ac4a7084eb9e0d8b3f34e53ef8501f4c1c6de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

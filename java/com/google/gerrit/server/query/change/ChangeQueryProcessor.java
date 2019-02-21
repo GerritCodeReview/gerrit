@@ -16,9 +16,11 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIMIT;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.index.IndexConfig;
@@ -55,6 +57,8 @@ import java.util.Set;
  */
 public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     implements DynamicOptions.BeanReceiver, PluginDefinedAttributesFactory {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   /**
    * Register a ChangeAttributeFactory in a config Module like this:
    *
@@ -151,7 +155,9 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       try {
         pda = e.getValue().create(cd, this, plugin);
       } catch (RuntimeException ex) {
-        /* Eat runtime exceptions so that queries don't fail. */
+        // Log once a minute, to avoid spamming logs with one stack trace per change.
+        logger.atWarning().atMostEvery(1, MINUTES).withCause(ex).log(
+            "error populating attribute on change %s from plugin %s", cd.getId(), plugin);
       }
       if (pda != null) {
         pda.name = plugin;

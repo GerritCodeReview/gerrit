@@ -143,6 +143,14 @@
         type: String,
         value: '',
       },
+      _commitMessagePath: {
+        type: String,
+        value: '/COMMIT_MSG',
+      },
+      _commitMessageLineLength: {
+        type: Number,
+        value: 72,
+      },
       /** @type {?Object} */
       baseImage: Object,
       /** @type {?Object} */
@@ -600,17 +608,19 @@
 
       this._blame = null;
 
+      const lineLength = this.path === this._commitMessagePath ?
+        this._commitMessageLineLength : prefs.line_length;
       const stylesToUpdate = {};
 
       if (prefs.line_wrapping) {
         this._diffTableClass = 'full-width';
         if (this.viewMode === 'SIDE_BY_SIDE') {
           stylesToUpdate['--content-width'] = 'none';
-          stylesToUpdate['--line-limit'] = prefs.line_length + 'ch';
+          stylesToUpdate['--line-limit'] = lineLength + 'ch';
         }
       } else {
         this._diffTableClass = '';
-        stylesToUpdate['--content-width'] = prefs.line_length + 'ch';
+        stylesToUpdate['--content-width'] = lineLength + 'ch';
       }
 
       if (prefs.font_size) {

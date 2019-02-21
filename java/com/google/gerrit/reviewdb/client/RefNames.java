@@ -334,7 +334,8 @@ public class RefNames {
     return id;
   }
 
-  static String parseShardedUuidFromRefPart(String name) {
+  @UsedAt(UsedAt.Project.PLUGINS_ALL)
+  public static String parseShardedUuidFromRefPart(String name) {
     if (name == null) {
       return null;
     }

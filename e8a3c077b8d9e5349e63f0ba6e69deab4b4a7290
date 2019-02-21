@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a8ca83eb_4b93c2c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-21T18:09:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7b093131_269c48ff",
+      "range": {
+        "startLine": 498,
+        "startChar": 4,
+        "endLine": 519,
+        "endChar": 17
+      },
+      "revId": "e8a3c077b8d9e5349e63f0ba6e69deab4b4a7290",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54aadeac_dc43b570",
         "filename": "polygerrit-ui/app/elements/shared/gr-diff-preferences/gr-diff-preferences.html",
         "patchSetId": 14

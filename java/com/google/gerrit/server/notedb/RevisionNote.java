@@ -28,7 +28,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.util.MutableInteger;
 
 @UsedAt(UsedAt.Project.PLUGIN_CHECKS)
-public abstract class RevisionNote<T extends Comment> {
+public abstract class RevisionNote<T> {
   static final int MAX_NOTE_SZ = 25 << 20;
 
   protected static void trimLeadingEmptyLines(byte[] bytes, MutableInteger p) {

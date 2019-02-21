@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "2780ad45_311a6fad",
+        "filename": "java/com/google/gerrit/server/checker/db/CheckerConfigEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T15:10:29Z",
+      "side": 1,
+      "message": "I also agree I would like to commit to upstreaming this.",
+      "parentUuid": "6f779295_77cb4be6",
+      "revId": "46b54280528ff77981716d318ce781f30d05f9a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e6072ed_ea6d75ed",
         "filename": "javatests/com/google/gerrit/acceptance/api/checker/CreateCheckerIT.java",
         "patchSetId": 1
@@ -89,6 +107,24 @@
       "writtenOn": "2019-02-15T13:17:04Z",
       "side": 1,
       "message": "Should we add a test for the list being empty by default?",
+      "revId": "46b54280528ff77981716d318ce781f30d05f9a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57aa39_177ca0bc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/checker/CreateCheckerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T15:10:29Z",
+      "side": 1,
+      "message": "That\u0027s done in createChecker() on line 84.",
+      "parentUuid": "0e6072ed_ea6d75ed",
       "revId": "46b54280528ff77981716d318ce781f30d05f9a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

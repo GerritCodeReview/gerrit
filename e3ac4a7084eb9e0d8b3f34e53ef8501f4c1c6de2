@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "34dee9b9_bea131f8",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T00:13:16Z",
+      "side": 1,
+      "message": "Yes, and I would argue that that\u0027s a feature, not a bug. It would be frankly bizarre from a client perspective if different changes in the same query have different output.\n\nFWIW this is not a change from the old implementation. The old setupAttributeFactories method snapshots the attributeFactories.plugins() list at creation time as well.",
+      "parentUuid": "9a0ca73c_5e1e29db",
+      "range": {
+        "startLine": 112,
+        "startChar": 29,
+        "endLine": 112,
+        "endChar": 50
+      },
+      "revId": "e3ac4a7084eb9e0d8b3f34e53ef8501f4c1c6de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4fce0bc6_4076499f",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "writtenOn": "2019-02-21T00:07:47Z",
       "side": 1,
       "message": "We generally avoid logging on anything that iterates over changes is a query because we don\u0027t want 2M entries in our logs if someone runs a status:merged query. If you are going to log, I would suggest doing on the first occurrence of an exception only.",
+      "range": {
+        "startLine": 156,
+        "startChar": 20,
+        "endLine": 156,
+        "endChar": 26
+      },
+      "revId": "e3ac4a7084eb9e0d8b3f34e53ef8501f4c1c6de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3545760_e35ef597",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T00:13:16Z",
+      "side": 1,
+      "message": "Fair enough. I am strongly against ever completely swallowing exceptions, but I understand wanting to avoid that kind of logs blowup. Will do.",
+      "parentUuid": "4fce0bc6_4076499f",
       "range": {
         "startLine": 156,
         "startChar": 20,

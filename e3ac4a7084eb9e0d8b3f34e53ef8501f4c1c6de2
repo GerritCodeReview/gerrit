@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "26ca5d2f_64aa2eb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T00:14:17Z",
+      "side": 1,
+      "message": "I don\u0027t think it changes my desire to clean this up, but thanks for the heads up.",
+      "parentUuid": "d1e2cf18_f7c0a1d5",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 46
+      },
+      "revId": "e3ac4a7084eb9e0d8b3f34e53ef8501f4c1c6de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a0ca73c_5e1e29db",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
         "patchSetId": 1

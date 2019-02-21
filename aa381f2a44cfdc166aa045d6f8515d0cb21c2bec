@@ -70,6 +70,30 @@
       "revId": "aa381f2a44cfdc166aa045d6f8515d0cb21c2bec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3822bf03_ba46a96f",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1075224
+      },
+      "writtenOn": "2019-02-21T13:17:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64dfed8b_017fde73",
+      "range": {
+        "startLine": 463,
+        "startChar": 35,
+        "endLine": 463,
+        "endChar": 39
+      },
+      "revId": "aa381f2a44cfdc166aa045d6f8515d0cb21c2bec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

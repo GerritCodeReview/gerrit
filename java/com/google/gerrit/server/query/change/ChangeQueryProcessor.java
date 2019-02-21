@@ -70,7 +70,6 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
 
   private final Provider<CurrentUser> userProvider;
   private final ChangeNotes.Factory notesFactory;
-  private final DynamicMap<ChangeAttributeFactory> attributeFactories;
   private final ImmutableListMultimap<String, ChangeAttributeFactory> attributeFactoriesByPlugin;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
@@ -107,7 +106,6 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
         () -> limitsFactory.create(userProvider.get()).getQueryLimit());
     this.userProvider = userProvider;
     this.notesFactory = notesFactory;
-    this.attributeFactories = attributeFactories;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.anonymousUserProvider = anonymousUserProvider;
@@ -143,7 +141,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
 
   @Override
   public List<PluginDefinedInfo> create(ChangeData cd) {
-    List<PluginDefinedInfo> plugins = new ArrayList<>(attributeFactories.plugins().size());
+    List<PluginDefinedInfo> plugins = new ArrayList<>(attributeFactoriesByPlugin.size());
     for (Map.Entry<String, ChangeAttributeFactory> e : attributeFactoriesByPlugin.entries()) {
       String plugin = e.getKey();
       PluginDefinedInfo pda = null;

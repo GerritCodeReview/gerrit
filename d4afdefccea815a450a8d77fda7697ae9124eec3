@@ -17,6 +17,24 @@
       "revId": "d4afdefccea815a450a8d77fda7697ae9124eec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a62fc20_729499f9",
+        "filename": "javatests/com/google/gerrit/server/checker/db/CheckerConfigTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T15:06:56Z",
+      "side": 1,
+      "message": "It was not quite trivial to add this to CheckerConfigSubject, so I\u0027d like to do this in a followup.",
+      "parentUuid": "b254fd58_94f3b8f0",
+      "revId": "d4afdefccea815a450a8d77fda7697ae9124eec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -492,7 +492,7 @@ public class MergeUtil {
       msgbuf.append('\n');
     }
 
-    Optional<String> url = urlFormatter.get().getChangeViewUrl(null, c.getId());
+    Optional<String> url = urlFormatter.get().getChangeViewUrl(c.getProject(), c.getId());
     if (url.isPresent()) {
       if (!contains(footers, FooterConstants.REVIEWED_ON, url.get())) {
         msgbuf

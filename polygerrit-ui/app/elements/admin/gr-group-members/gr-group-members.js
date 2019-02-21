@@ -199,7 +199,7 @@
 
     _handleSavingIncludedGroups() {
       return this.$.restAPI.saveIncludedGroup(this._groupName,
-          this._includedGroupSearchId, err => {
+          this._includedGroupSearchId.replace(/\+/g, ' '), err => {
             if (err.status === 404) {
               this.dispatchEvent(new CustomEvent('show-alert', {
                 detail: {message: SAVING_ERROR_TEXT},
@@ -223,7 +223,7 @@
     },
 
     _handleDeleteIncludedGroup(e) {
-      const id = decodeURIComponent(e.model.get('item.id'));
+      const id = decodeURIComponent(e.model.get('item.id')).replace(/\+/g, ' ');
       const name = e.model.get('item.name');
       const item = name || id;
       if (!item) { return ''; }

@@ -74,6 +74,24 @@
     },
     {
       "key": {
+        "uuid": "7fb9d43b_c7d5642e",
+        "filename": "Documentation/rest-api-checkers.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T23:25:29Z",
+      "side": 1,
+      "message": "Per IM discussion with Alice, we think adding extra states gives unneeded flexibility to the point of being confusing.",
+      "parentUuid": "d3dc91bf_0fee61e4",
+      "revId": "46b54280528ff77981716d318ce781f30d05f9a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3db3352_2ae9eda1",
         "filename": "java/com/google/gerrit/extensions/api/checkers/BlockingCondition.java",
         "patchSetId": 1

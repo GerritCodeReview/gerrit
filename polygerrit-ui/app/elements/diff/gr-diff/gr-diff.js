@@ -39,6 +39,16 @@
   const FULL_CONTEXT = -1;
   const LIMITED_CONTEXT = 10;
 
+  const COMMIT_MSG_PATH = '/COMMIT_MSG';
+  /**
+   * 72 is the inofficial length standard for git commit messages.
+   * Derived from the fact that git log/show appends 4 ws in the beginning of
+   * each line when displaying commit messages. To center the commit message
+   * in an 80 char terminal a 4 ws border is added to the rightmost side:
+   * 4 + 72 + 4
+   */
+  const COMMIT_MSG_LINE_LENGTH = 72;
+
   Polymer({
     is: 'gr-diff',
 
@@ -600,17 +610,19 @@
 
       this._blame = null;
 
+      const lineLength = this.path === COMMIT_MSG_PATH ?
+        COMMIT_MSG_LINE_LENGTH : prefs.line_length;
       const stylesToUpdate = {};
 
       if (prefs.line_wrapping) {
         this._diffTableClass = 'full-width';
         if (this.viewMode === 'SIDE_BY_SIDE') {
           stylesToUpdate['--content-width'] = 'none';
-          stylesToUpdate['--line-limit'] = prefs.line_length + 'ch';
+          stylesToUpdate['--line-limit'] = lineLength + 'ch';
         }
       } else {
         this._diffTableClass = '';
-        stylesToUpdate['--content-width'] = prefs.line_length + 'ch';
+        stylesToUpdate['--content-width'] = lineLength + 'ch';
       }
 
       if (prefs.font_size) {

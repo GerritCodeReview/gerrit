@@ -138,6 +138,17 @@
       return shortRev + '.diff.' + (opt_zip ? 'zip' : 'base64');
     },
 
+    _computeHidePatchFile(change, patchNum) {
+      for (const rev of Object.values(change.revisions || {})) {
+        if (this.patchNumEquals(rev._number, patchNum)) {
+          const parentLength = rev.commit && rev.commit.parents ?
+                rev.commit.parents.length : 0;
+          return parentLength == 0;
+        }
+      }
+      return false;
+    },
+
     _computeArchiveDownloadLink(change, patchNum, format) {
       return this.changeBaseURL(change.project, change._number, patchNum) +
           '/archive?format=' + format;

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aea06720_3f09b625",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-21T13:15:45Z",
+      "side": 1,
+      "message": "The patchRange is an Object, right?",
+      "revId": "71f8d32dd03aef1f21a35d6cc623543e852b0262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9818032_76f0ce2a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-21T13:15:45Z",
+      "side": 1,
+      "message": "if (!revisionInfo) return \u0027PARENT\u0027;",
+      "revId": "71f8d32dd03aef1f21a35d6cc623543e852b0262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06d2bfaa_903d1bd7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-21T13:15:45Z",
+      "side": 1,
+      "message": "You could do:\nlet preferFirst \u003d ...\nreturn preferFirst ? -1 : \u0027PARENT\u0027;",
+      "revId": "71f8d32dd03aef1f21a35d6cc623543e852b0262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4171a50_6b86546f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-21T13:15:45Z",
+      "side": 1,
+      "message": "just return \u0027-1\u0027;\n\nDoes it have to be a string? Can you also return -1?",
+      "revId": "71f8d32dd03aef1f21a35d6cc623543e852b0262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94643b46_73449bd4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-21T13:15:45Z",
+      "side": 1,
+      "message": "return \u0027PARENT\u0027;",
+      "revId": "71f8d32dd03aef1f21a35d6cc623543e852b0262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

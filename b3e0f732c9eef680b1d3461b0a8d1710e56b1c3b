@@ -1,0 +1,1001 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2145db5a_92042711",
+        "filename": "java/com/google/gerrit/plugins/checkers/Check.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Not sure this is the right word choice. Isn\u0027t this just the state that the check is currently in?",
+      "range": {
+        "startLine": 27,
+        "startChar": 28,
+        "endLine": 27,
+        "endChar": 34
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd3e8763_37dce413",
+        "filename": "java/com/google/gerrit/plugins/checkers/Check.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Nit: be consistent about blank lines between methods. (I prefer to have them.)",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51a9ce56_cb92bf34",
+        "filename": "java/com/google/gerrit/plugins/checkers/Check.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "started",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32c958c2_c793ffc4",
+        "filename": "java/com/google/gerrit/plugins/checkers/Check.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "finished\n\nAlso I think we need to resolve our discussion of which states correspond to finished/in-progress. But maybe not as a blocker for this change.",
+      "range": {
+        "startLine": 33,
+        "startChar": 44,
+        "endLine": 33,
+        "endChar": 51
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cb8f6b1_8b9d6dcf",
+        "filename": "java/com/google/gerrit/plugins/checkers/CheckKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Nit: style guide says this should be checkerUuid",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9b075a5_c17ece3e",
+        "filename": "java/com/google/gerrit/plugins/checkers/CheckerUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Unnecessary whitespace change.",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4e5adde_1fcc1fc0",
+        "filename": "java/com/google/gerrit/plugins/checkers/acceptance/testsuite/CheckOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Remove this? Wouldn\u0027t it belong in CheckerOperations anyway?",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7cba72a_82b692a8",
+        "filename": "java/com/google/gerrit/plugins/checkers/acceptance/testsuite/CheckOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "ImmutableMap?",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb77835f_f3fcf3ae",
+        "filename": "java/com/google/gerrit/plugins/checkers/acceptance/testsuite/CheckOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "I would slightly prefer ImmutableMap.Builder which preserves order.",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc719052_3d9ffe12",
+        "filename": "java/com/google/gerrit/plugins/checkers/acceptance/testsuite/CheckOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "for (Note note : notes) {",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 29
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e747679d_ba0aa0c6",
+        "filename": "java/com/google/gerrit/plugins/checkers/acceptance/testsuite/TestCheck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Why can\u0027t we just use Check? Elsewhere in Gerrit, e.g. accounts, we do this because the test objects are nice AutoValues whereas Gerrit\u0027s native data objects are gross mutable ReviewDb objects. But here, we have the luxury of making Check an AutoValue from the start, so ISTM this is line-by-line identical to Check and not really buying us anything.\n\nI don\u0027t think it would be difficult to add this later if we have some reason for it, but right now I feel like YAGNI.",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "714b04f0_eaffd2e4",
+        "filename": "java/com/google/gerrit/plugins/checkers/acceptance/testsuite/TestCheckKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Same comment as TestCheck, can we just use the real type?",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d6344aa_46ae7c01",
+        "filename": "java/com/google/gerrit/plugins/checkers/acceptance/testsuite/TestCheckKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Style guide says this should be checkerUuid.",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49900071_ab64685d",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/CheckApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Doesn\u0027t this indicate programmer error? If so, consider an unchecked exception like ISE.",
+      "range": {
+        "startLine": 88,
+        "startChar": 43,
+        "endLine": 88,
+        "endChar": 54
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62c76794_bce14011",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/CheckInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "checkerUuid",
+      "range": {
+        "startLine": 30,
+        "startChar": 16,
+        "endLine": 30,
+        "endChar": 27
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0519683a_7d345e82",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/CheckInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Optional: toString?",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "146dd514_c4615afd",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/CheckInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "checkerUuid",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2811e1f_bfcd8158",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/CheckInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Optional: toString?",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d848897_b6ee521c",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/CheckResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Uuid",
+      "range": {
+        "startLine": 50,
+        "startChar": 16,
+        "endLine": 50,
+        "endChar": 30
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f0d1b7c_449a8c87",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/Checks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Checks?",
+      "range": {
+        "startLine": 35,
+        "startChar": 34,
+        "endLine": 35,
+        "endChar": 42
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bcdd9e3_41ab23ef",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/ChecksCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Hm, why is this cast necessary?",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24261857_7221a200",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/ChecksCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "orElseThrow(new RNFE(...))?",
+      "range": {
+        "startLine": 65,
+        "startChar": 43,
+        "endLine": 65,
+        "endChar": 46
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8491aa3_f14ad9d2",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/ChecksFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "I would just return revision(notes.getChange().currentPatchSetId()), it\u0027s much more readable than duplicating the code. Worrying about the implementation of PatchSetUtil#current is premature optimization, and anyway it does exactly what I just proposed so the cost is equivalent.",
+      "range": {
+        "startLine": 54,
+        "startChar": 31,
+        "endLine": 54,
+        "endChar": 38
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc8abcc6_e1feb160",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/ChecksImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Blech, I hope someday we can rename one of these classes. Same thing with the two Checkerses, and I don\u0027t think we nee to solve it now.",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5701550_b9f201bb",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/ChecksImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Uuid",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9916ada0_f547854a",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/ChecksImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "orElseThrow?",
+      "range": {
+        "startLine": 78,
+        "startChar": 80,
+        "endLine": 78,
+        "endChar": 83
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4951b8a0_402989a5",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/ChecksImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "These are swapped. (Thank goodness for named setters otherwise I never would have caught it.)",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51311172_3bd5e4a4",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/ChecksImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "ImmutableList?",
+      "range": {
+        "startLine": 110,
+        "startChar": 9,
+        "endLine": 110,
+        "endChar": 19
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f17fc2fb_6d2cbe5a",
+        "filename": "java/com/google/gerrit/plugins/checkers/api/HttpModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Please add a TODO in CheckersRestApiBindingsIT to add tests for these.",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c16ed01b_85825d5f",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/CheckNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Do we want a timer here too?",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17f8f5b1_37548d44",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/CheckNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "I\u0027d slightly prefer preserving order by using ImmutableListMultimap.Builder",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "557d7bc6_43353d90",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbCheck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "checkerUuid",
+      "range": {
+        "startLine": 18,
+        "startChar": 16,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f86b0d1d_f8d95681",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbCheck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Here and below: if update.state() is empty and state !\u003d null, .get() will throw ISE.",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53bcef89_52bebd9a",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Should the interface just return ImmutableList?",
+      "range": {
+        "startLine": 51,
+        "startChar": 9,
+        "endLine": 51,
+        "endChar": 13
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f1da5c3_56a16a02",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Feels like there should be a private method which returns a Stream, to avoid the intermediate list.",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bf16866_bc77351c",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "This returns an arbitrary result if we fail to maintain the invariant that there is at most one check per UUID per patch set. If we instead stored a Map in the note, we would get this invariant for free. (Also left this comment on the design doc just now.)",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dce53e3_eadc598f",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecksUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "You should never have to implement a compare method anymore, you can use comparing(c -\u003e c.checkerUUID). If you really want an Ordering, you can use Ordering.from(comparing(...)) (but see below, I don\u0027t think it\u0027s necessary to use Guava here.)",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43d1d963_645cf9d6",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecksUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Maybe add a fallback to last updated or something?\n\nIf we fail to enforce the invariant that there is at most one check per UUID, then I\u0027m concerned that we won\u0027t even maintain a stable ordering over time.",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2a163d2_d2601b6b",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecksUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Why do you need a force update here? This is always a fast-forward, we\u0027re never rewriting history, are we?",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b0ef1f4_c038b9d9",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecksUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "This whole block is duplicated below, could be a private method.",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6288be6f_32c94982",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecksUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "\" not",
+      "range": {
+        "startLine": 207,
+        "startChar": 64,
+        "endLine": 207,
+        "endChar": 68
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8f9a899_db683ed6",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecksUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Seems like this would be easier if newNotes was just a ListMultimap. If there\u0027s some reason that doesn\u0027t work (e.g. you need to distinguish between present and mapped to empty list, and absent), then leave a comment saying so.",
+      "range": {
+        "startLine": 214,
+        "startChar": 4,
+        "endLine": 217,
+        "endChar": 5
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "719709b2_a4a7c6cc",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecksUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "If you don\u0027t need the resulting NoteDbCheck, then just use .stream().anyMatch(...)",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a47c7de3_6cb07948",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecksUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "This error message is a little misleading, it\u0027s perfectly fine for this particular checker to exist. Maybe show the full CheckKey? Or more natural language, like \"check by checker %s already exists in patch set %s\"",
+      "range": {
+        "startLine": 225,
+        "startChar": 41,
+        "endLine": 225,
+        "endChar": 75
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9cf37cf_cff3d342",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecksUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "TimeUtil.nowTs() here and elsewhere.\n\nActually, maybe this should just reuse the timestamp from the PersonIdent?",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60aa9820_1efc2820",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecksUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "These days you can do ImmutableList.sortedCopyOf(CHECK_ORDER, checks), which means you don\u0027t need it to be an Ordering at all, it could just be a Comparator.",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5468027_0cbc475a",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Please move to a separate change.",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "310fe5e6_c5e83427",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Please move to a separate change.",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aef95ae_9dde8e8e",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "protected?",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c7378ac_40d36e5e",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "protected?",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f23340bb_71888a42",
+        "filename": "java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "Please move to a separate change",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa4f49c_d2851f7f",
+        "filename": "javatests/com/google/gerrit/plugins/checkers/acceptance/api/CreateCheckIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "containsExactly?",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a084bae7_3911cd9b",
+        "filename": "javatests/com/google/gerrit/plugins/checkers/acceptance/api/CreateCheckIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T18:16:08Z",
+      "side": 1,
+      "message": "I\u0027m not convinced this method will be reused even when we have more tests, I\u0027d suggest just inlining it.",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

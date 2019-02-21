@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "588351b0_cc44bcb0",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-21T05:24:49Z",
+      "side": 0,
+      "message": "Was there a specific reason not to include the project name here?",
+      "range": {
+        "startLine": 495,
+        "startChar": 63,
+        "endLine": 495,
+        "endChar": 67
+      },
+      "revId": "69406174fee70fb10b0a81fb122a2588bdafc8b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

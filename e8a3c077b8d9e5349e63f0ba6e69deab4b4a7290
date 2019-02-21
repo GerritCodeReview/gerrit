@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b093131_269c48ff",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-21T13:27:14Z",
+      "side": 1,
+      "message": "Can you maybe create another component gr-preferences-dialog and use that in both the file-list and the diff-view?",
+      "range": {
+        "startLine": 498,
+        "startChar": 4,
+        "endLine": 519,
+        "endChar": 17
+      },
+      "revId": "e8a3c077b8d9e5349e63f0ba6e69deab4b4a7290",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54aadeac_dc43b570",
+        "filename": "polygerrit-ui/app/elements/shared/gr-diff-preferences/gr-diff-preferences.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-21T13:27:14Z",
+      "side": 1,
+      "message": "Sorry for the dumb question, but is it not possible in Gerrit to mark this file as \"moved\", so that I can review the changes vs the original?",
+      "revId": "e8a3c077b8d9e5349e63f0ba6e69deab4b4a7290",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

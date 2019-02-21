@@ -18,8 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIMIT;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -72,8 +71,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   private final Provider<CurrentUser> userProvider;
   private final ChangeNotes.Factory notesFactory;
   private final DynamicMap<ChangeAttributeFactory> attributeFactories;
-  private final Multimap<String, ChangeAttributeFactory> attributeFactoriesByPlugin =
-      HashMultimap.create();
+  private final ImmutableListMultimap<String, ChangeAttributeFactory> attributeFactoriesByPlugin;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final Provider<AnonymousUser> anonymousUserProvider;
@@ -113,12 +111,13 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.anonymousUserProvider = anonymousUserProvider;
-    for (String plugin : this.attributeFactories.plugins()) {
-      for (Provider<ChangeAttributeFactory> provider :
-          this.attributeFactories.byPlugin(plugin).values()) {
-        attributeFactoriesByPlugin.put(plugin, provider.get());
-      }
-    }
+
+    ImmutableListMultimap.Builder<String, ChangeAttributeFactory> factoriesBuilder =
+        ImmutableListMultimap.builder();
+    // Eagerly call Extension#get() rather than storing Extensions, since that method invokes the
+    // Provider on every call, which could be expensive if we invoke it once for every change.
+    attributeFactories.forEach(e -> factoriesBuilder.put(e.getPluginName(), e.get()));
+    attributeFactoriesByPlugin = factoriesBuilder.build();
   }
 
   @Override

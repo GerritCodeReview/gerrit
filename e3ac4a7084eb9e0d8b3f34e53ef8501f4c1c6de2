@@ -214,6 +214,30 @@
       "revId": "e3ac4a7084eb9e0d8b3f34e53ef8501f4c1c6de2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb8a13b0_6fbab324",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-02-21T17:31:02Z",
+      "side": 1,
+      "message": "\u003e The problem is that the Extension wrapper does not cache the extension, instead every call to e.get() calls get() on the underlying Provider. If the factory is not marked @Singleton, that gives a different instance on every iteration. \n\nThat sounds like an undesired functional change. The original code made sure to call the same factory instance so that it could cache data throughout the lifespan of a query. If you change that, then plugin factory performance will drastically suffer.\n\nAs for logging, I think you are pointing out the very real complexities of logging during a query, and why we took the easy route and skipped it. We figured, if you have an issue in a plugin, log there. I suggest separating the concerns of this change, if you want to add a fancy logging mechanism, perhaps that deserves its own change?",
+      "parentUuid": "c6390693_526e71bd",
+      "range": {
+        "startLine": 156,
+        "startChar": 20,
+        "endLine": 156,
+        "endChar": 26
+      },
+      "revId": "e3ac4a7084eb9e0d8b3f34e53ef8501f4c1c6de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

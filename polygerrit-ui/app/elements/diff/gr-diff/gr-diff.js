@@ -39,6 +39,9 @@
   const FULL_CONTEXT = -1;
   const LIMITED_CONTEXT = 10;
 
+  const COMMIT_MSG_PATH = '/COMMIT_MSG';
+  const COMMIT_MSG_LINE_LENGTH = 72;
+
   Polymer({
     is: 'gr-diff',
 
@@ -600,17 +603,19 @@
 
       this._blame = null;
 
+      const lineLength = this.path === COMMIT_MSG_PATH ?
+        COMMIT_MSG_LINE_LENGTH : prefs.line_length;
       const stylesToUpdate = {};
 
       if (prefs.line_wrapping) {
         this._diffTableClass = 'full-width';
         if (this.viewMode === 'SIDE_BY_SIDE') {
           stylesToUpdate['--content-width'] = 'none';
-          stylesToUpdate['--line-limit'] = prefs.line_length + 'ch';
+          stylesToUpdate['--line-limit'] = lineLength + 'ch';
         }
       } else {
         this._diffTableClass = '';
-        stylesToUpdate['--content-width'] = prefs.line_length + 'ch';
+        stylesToUpdate['--content-width'] = lineLength + 'ch';
       }
 
       if (prefs.font_size) {

@@ -19,8 +19,8 @@ limitations under the License.
 
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
-<link rel="import" href="../../shared/gr-download-commands/gr-download-commands.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-download-commands/gr-download-commands.html">
 
 <dom-module id="gr-download-dialog">
   <template>
@@ -87,7 +87,7 @@ limitations under the License.
           selected-scheme="{{_selectedScheme}}"></gr-download-commands>
     </section>
     <section class="flexContainer">
-      <div class="patchFiles">
+      <div class="patchFiles" hidden="[[_computeHidePatchFile(change, patchNum)]]" hidden>
         <label>Patch file</label>
         <div>
           <a

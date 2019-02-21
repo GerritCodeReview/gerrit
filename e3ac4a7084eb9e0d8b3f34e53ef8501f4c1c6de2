@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1550701461 -0800\nnonce ANwvRnCzoFfwqGFG4AQISehJcATSkS+kjewUaOj6tzrbWNwSSedQ5Hs01a+SrDOD58xe7ZzBfK0P\n\n0000000000000000000000000000000000000000 e3ac4a7084eb9e0d8b3f34e53ef8501f4c1c6de2 refs/for/master%r\u003dhiesel@google.com,r\u003ddpursehouse@collab.net\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlxt05UVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMM0AP/2mHAF49Mv8GagQ01z5TEFc16btL\n7MAWnX0g3iMlpEq980vBUvSmmujdBjVBf9nQA+siC8q5VIeM2LjI5f9jHlQ6gZdH\nQV88KZXmUB1LnKhYy55WxJtfuNSql7s0OoSWbXJCjOZU1/XvYVilhgwu2b0l39eV\nks5GfeB9q2BbTAa9HannrMRSXD+6D2pSCcnkkHM/rk3u/rWToj5IBBEmIbhh6RjR\nTwad20eFqpo740eeKZ+5Txl2bXgr8yp5STm8v0LaF2k5npyGoYtDwoh4wRIPTa8I\niDESTEV3ChvytgF98vXlrxRaW0RTs20qyphR57lafle+/blFtEapRTAikxjSvrMi\nMTW1bWjQTniklSeuYZEtVBu49S1COI93U6gfi4wNIKUlL5IhhDACpc9BW7DSXcBG\n780EmISUIURr3SEyLEM4tXqSV9XTPUYh5i17AQSZR53QE4g4SFihvDkguNK9PuiA\n9fwxziUsMLCgTlISfnvbQQRjP6idvl1mbqmPbd8ULhXQNfzVxeDy/rAznslDFjag\nxA+8OhHZn7raMYZdK8JcngadW5W1bywwxeXCCNfzLxWRcIIw9dpdyyID18bp/eZ6\nz0im0bz2ZbIVphvtCeS+Nmdtd7B2w5KWVqYXIqd6+GVVTZt2NYH+cP28ysQtrv+t\niYF37SQmF3haUEvr\n\u003d224d\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1e2cf18_f7c0a1d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-02-21T00:07:47Z",
+      "side": 1,
+      "message": "FYI, we have a new change coming soon that adds a bulk interface for factories instead. The idea is that knowing which changes we need to add data to up front allows us to query external sources for the full set of changes up front instead of querying for each change one at a time. This results in a significant performance improvement. I am just mentioning this in case it influences the approach you want to take here.",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 46
+      },
+      "revId": "e3ac4a7084eb9e0d8b3f34e53ef8501f4c1c6de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a0ca73c_5e1e29db",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-02-21T00:07:47Z",
+      "side": 1,
+      "message": "Could this prevent plugins from being unloaded until the query is complete (some queries can run for over an hour on our server)?",
+      "range": {
+        "startLine": 112,
+        "startChar": 29,
+        "endLine": 112,
+        "endChar": 50
+      },
+      "revId": "e3ac4a7084eb9e0d8b3f34e53ef8501f4c1c6de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fce0bc6_4076499f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-02-21T00:07:47Z",
+      "side": 1,
+      "message": "We generally avoid logging on anything that iterates over changes is a query because we don\u0027t want 2M entries in our logs if someone runs a status:merged query. If you are going to log, I would suggest doing on the first occurrence of an exception only.",
+      "range": {
+        "startLine": 156,
+        "startChar": 20,
+        "endLine": 156,
+        "endChar": 26
+      },
+      "revId": "e3ac4a7084eb9e0d8b3f34e53ef8501f4c1c6de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

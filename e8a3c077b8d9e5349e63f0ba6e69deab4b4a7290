@@ -39,6 +39,24 @@
       "revId": "e8a3c077b8d9e5349e63f0ba6e69deab4b4a7290",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b903765b_1684ae57",
+        "filename": "polygerrit-ui/app/elements/shared/gr-diff-preferences/gr-diff-preferences.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-21T13:29:16Z",
+      "side": 1,
+      "message": "Nope, since it is a big change (ie i\u0027ve changed everything about it) so because i renamed the file it will look like a new file.\n\nNow if i made smallish changes to this file and renamed it, gerrit may pick up on that and show you the diff between the original and the new version.",
+      "parentUuid": "54aadeac_dc43b570",
+      "revId": "e8a3c077b8d9e5349e63f0ba6e69deab4b4a7290",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

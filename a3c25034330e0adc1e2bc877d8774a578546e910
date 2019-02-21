@@ -71,6 +71,30 @@
       "revId": "a3c25034330e0adc1e2bc877d8774a578546e910",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a04571f8_28a274e1",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-02-21T19:35:53Z",
+      "side": 1,
+      "message": "Yes, I see now that is what you fixed later. You may want to re-order the fix first, it would then make this change simpler.",
+      "parentUuid": "42b4f8ff_9139ffc5",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 27
+      },
+      "revId": "a3c25034330e0adc1e2bc877d8774a578546e910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

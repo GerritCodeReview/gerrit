@@ -897,6 +897,24 @@
     },
     {
       "key": {
+        "uuid": "799a01b7_0f881e5b",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T21:45:07Z",
+      "side": 1,
+      "message": "Actually this already exists as PatchSet.Id.toRefName()",
+      "parentUuid": "f5468027_0cbc475a",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "310fe5e6_c5e83427",
         "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
         "patchSetId": 1
@@ -911,6 +929,24 @@
       "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f0324a2_0de9ef5a",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T21:45:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "310fe5e6_c5e83427",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

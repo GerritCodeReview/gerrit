@@ -190,6 +190,30 @@
       "revId": "e3ac4a7084eb9e0d8b3f34e53ef8501f4c1c6de2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6390693_526e71bd",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T15:00:19Z",
+      "side": 1,
+      "message": "The problem is that the Extension wrapper does not cache the extension, instead every call to e.get() calls get() on the underlying Provider. If the factory is not marked @Singleton, that gives a different instance on every iteration. That won\u0027t work unless these attribute factories are defining equals, which I doubt. (For example, the example in the docs is a non-singleton without equals.)\n\nWe might be able to change Extension to eagerly call provider.get(), but I\u0027m not sure if that would have unintended side effects.\n\nI suppose the other alternative is to warn once per plugin rather than once per ChangeAttributeFactory.\n\nThe other question is whether logging once per request per plugin is actually better than logging once per minute. If you have a broken plugin and you\u0027re getting, say, 10qps of query requests, would you rather have 10qps of log entries, or 1 per minute?",
+      "parentUuid": "7f043fd1_8d856ab0",
+      "range": {
+        "startLine": 156,
+        "startChar": 20,
+        "endLine": 156,
+        "endChar": 26
+      },
+      "revId": "e3ac4a7084eb9e0d8b3f34e53ef8501f4c1c6de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

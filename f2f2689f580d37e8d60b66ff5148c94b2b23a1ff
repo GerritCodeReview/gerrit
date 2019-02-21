@@ -216,6 +216,30 @@
     },
     {
       "key": {
+        "uuid": "f91e0fc1_21da5da0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-21T14:56:45Z",
+      "side": 1,
+      "message": "Tested that just now, that didn\u0027t work either on a hard refresh or a soft refresh.",
+      "parentUuid": "1a37de6c_16251a29",
+      "range": {
+        "startLine": 682,
+        "startChar": 10,
+        "endLine": 683,
+        "endChar": 34
+      },
+      "revId": "f2f2689f580d37e8d60b66ff5148c94b2b23a1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f1885d8f_7a180c20",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 13

@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a7e203a6_348a63ae",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-21T12:51:23Z",
+      "side": 1,
+      "message": "This is still a bit strange to hide an element by suppressing the style. I would prefer to have two styles, one for showing and one for hiding, e.g. :host(.hide) { display: none; }. And then do a this.classList.toggle(\u0027hide\u0027, ...) in the js file.\n\nAlternatively, you could also set this.hidden in the js file in the updateAvatarUrl() method while in attached() you only update the _hasAvatars property.",
+      "parentUuid": "6e30aee5_85d0fdfc",
+      "revId": "e9abbade775f46418d1c74f828fd054dba238b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "68e04ec6_2ffa518d",
         "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
         "patchSetId": 12

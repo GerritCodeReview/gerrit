@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52752fbd_84498c33",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-21T12:51:23Z",
+      "side": 1,
+      "message": "I think it is important to wait for the config to be loaded before calculating this._hasAvatars. Currently Gerrit.awaitPluginsLoaded().then() might be executed before _config is set, and then _hasAvatars will never be recomputed. Why not go back to the Promise.all() code? Why did you change that?",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 68
+      },
+      "revId": "c315a7c7efdd267336cbe3587227317351380aea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -113,7 +113,12 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.anonymousUserProvider = anonymousUserProvider;
-    setupAttributeFactories();
+    for (String plugin : this.attributeFactories.plugins()) {
+      for (Provider<ChangeAttributeFactory> provider :
+          this.attributeFactories.byPlugin(plugin).values()) {
+        attributeFactoriesByPlugin.put(plugin, provider.get());
+      }
+    }
   }
 
   @Override
@@ -135,15 +140,6 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
 
   public DynamicBean getDynamicBean(String plugin) {
     return dynamicBeans.get(plugin);
-  }
-
-  public void setupAttributeFactories() {
-    for (String plugin : attributeFactories.plugins()) {
-      for (Provider<ChangeAttributeFactory> provider :
-          attributeFactories.byPlugin(plugin).values()) {
-        attributeFactoriesByPlugin.put(plugin, provider.get());
-      }
-    }
   }
 
   @Override

@@ -56,6 +56,24 @@
     },
     {
       "key": {
+        "uuid": "d3dc91bf_0fee61e4",
+        "filename": "Documentation/rest-api-checkers.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-21T17:10:22Z",
+      "side": 1,
+      "message": "For the record: I would have been fine with a boolean as well ;)",
+      "parentUuid": "66827838_23231c25",
+      "revId": "46b54280528ff77981716d318ce781f30d05f9a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c3db3352_2ae9eda1",
         "filename": "java/com/google/gerrit/extensions/api/checkers/BlockingCondition.java",
         "patchSetId": 1

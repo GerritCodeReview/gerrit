@@ -2698,7 +2698,12 @@ public class ChangeIT extends AbstractDaemonTest {
     List<String> expectedFooters =
         Arrays.asList(
             "Change-Id: " + r2.getChangeId(),
-            "Reviewed-on: " + canonicalWebUrl.get() + "c/" + r2.getChange().getId(),
+            "Reviewed-on: "
+                + canonicalWebUrl.get()
+                + "c/"
+                + project.get()
+                + "/+/"
+                + r2.getChange().getId(),
             "Reviewed-by: Administrator <admin@example.com>",
             "Custom2: Administrator <admin@example.com>",
             "Tested-by: Administrator <admin@example.com>");
@@ -2740,7 +2745,12 @@ public class ChangeIT extends AbstractDaemonTest {
     List<String> expectedFooters =
         Arrays.asList(
             "Change-Id: " + change.getChangeId(),
-            "Reviewed-on: " + canonicalWebUrl.get() + "c/" + change.getChange().getId(),
+            "Reviewed-on: "
+                + canonicalWebUrl.get()
+                + "c/"
+                + project.get()
+                + "/+/"
+                + change.getChange().getId(),
             "Custom: refs/heads/master");
     assertThat(footers).containsExactlyElementsIn(expectedFooters);
   }

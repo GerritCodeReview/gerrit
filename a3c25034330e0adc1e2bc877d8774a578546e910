@@ -23,6 +23,30 @@
       "revId": "a3c25034330e0adc1e2bc877d8774a578546e910",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "941b31fa_4abcc701",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T19:29:10Z",
+      "side": 1,
+      "message": "As of this change, it\u0027s still used in the implementation of create; it\u0027s removed later in the series.",
+      "parentUuid": "d8553c8c_47402598",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 27
+      },
+      "revId": "a3c25034330e0adc1e2bc877d8774a578546e910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "901325bf_0de1f2ff",
+        "filename": "Documentation/rest-api-checkers.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-21T17:10:16Z",
+      "side": 1,
+      "message": "BTW:\n\n\u003e Please explain what the semantics of \u0027STATE_NOT_PASSING\u0027 are exactly\n\nAgreed this belongs here.\n\n\u003e We should also explain the semantics of having more than one blocking condition (OR vs AND).\n\nAlso agreed that this should be documented here. Although in this case I punted because there\u0027s only one possibility, so OR and AND are equivalent :)",
+      "parentUuid": "66827838_23231c25",
+      "revId": "46b54280528ff77981716d318ce781f30d05f9a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c3db3352_2ae9eda1",
         "filename": "java/com/google/gerrit/extensions/api/checkers/BlockingCondition.java",
         "patchSetId": 1

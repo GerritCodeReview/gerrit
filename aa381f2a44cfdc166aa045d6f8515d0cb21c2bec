@@ -22,6 +22,30 @@
       "revId": "aa381f2a44cfdc166aa045d6f8515d0cb21c2bec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2467b227_9e40a033",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1075224
+      },
+      "writtenOn": "2019-02-21T12:30:49Z",
+      "side": 1,
+      "message": "The fourth parameter is `eventValue` and the reporter tries to access `eventValue.error` in case of `type \u003d\u003d\u003d ERROR.TYPE` (see `defaultReporter` and `cachingReporter`). Currently ERROR.TYPE \u003d\u003d\u003d ERROR_DIALOG.TYPE, because we using the same event type. With {} `eventValue.error` is `undefined` (instead of \"TypeError: Cannot read property \u0027error\u0027 of undefined\") and reporter fallbacks to using `eventName`.",
+      "parentUuid": "4095906e_f0a4e81e",
+      "range": {
+        "startLine": 463,
+        "startChar": 35,
+        "endLine": 463,
+        "endChar": 39
+      },
+      "revId": "aa381f2a44cfdc166aa045d6f8515d0cb21c2bec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

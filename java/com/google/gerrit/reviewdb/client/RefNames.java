@@ -292,7 +292,8 @@ public class RefNames {
         || ref.startsWith(REFS_STARRED_CHANGES);
   }
 
-  static Integer parseShardedRefPart(String name) {
+  @UsedAt(UsedAt.Project.PLUGINS_ALL)
+  public static Integer parseShardedRefPart(String name) {
     if (name == null) {
       return null;
     }

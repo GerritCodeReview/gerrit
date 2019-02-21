@@ -138,6 +138,15 @@
       return shortRev + '.diff.' + (opt_zip ? 'zip' : 'base64');
     },
 
+    _computeHidePatchFile(change) {
+      const revisionInfo = this._getRevisionInfo(change);
+      if (!revisionInfo) { return true; }
+
+      const parentCounts = revisionInfo.getParentCountMap();
+
+      return parentCounts && parentCounts[0] > 0 ? false : true;
+    },
+
     _computeArchiveDownloadLink(change, patchNum, format) {
       return this.changeBaseURL(change.project, change._number, patchNum) +
           '/archive?format=' + format;
@@ -175,6 +184,10 @@
 
     _computeShowDownloadCommands(schemes) {
       return schemes.length ? '' : 'hidden';
+    },
+
+    _getRevisionInfo(change) {
+      return new Gerrit.RevisionInfo(change);
     },
   });
 })();

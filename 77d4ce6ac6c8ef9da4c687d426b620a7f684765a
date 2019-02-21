@@ -34,6 +34,24 @@
       "revId": "77d4ce6ac6c8ef9da4c687d426b620a7f684765a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "850de3c0_ab58f6a3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-21T13:34:15Z",
+      "side": 1,
+      "message": "Sounds good. Can you move this explanation into a code comment?",
+      "parentUuid": "a875a48d_80a0cf8d",
+      "revId": "77d4ce6ac6c8ef9da4c687d426b620a7f684765a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

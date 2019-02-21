@@ -49,7 +49,7 @@ public interface UrlFormatter {
   }
 
   /** Returns a URL pointing to a section of the settings page. */
-  default Optional<String> getSettingsUrl(String section) {
+  default Optional<String> getSettingsUrl(@Nullable String section) {
     return getWebUrl()
         .map(url -> url + "settings" + (Strings.isNullOrEmpty(section) ? "" : "#" + section));
   }

@@ -45,6 +45,9 @@ limitations under the License.
       revisions: {
         '34685798fe548b6d17d1e8e5edc43a26d055cc72': {
           _number: 1,
+          commit: {
+            parents: [],
+          },
           fetch: {
             repo: {
               commands: {
@@ -105,6 +108,9 @@ limitations under the License.
       revisions: {
         '34685798fe548b6d17d1e8e5edc43a26d055cc72': {
           _number: 1,
+          commit: {
+            parents: [],
+          },
           fetch: {},
         },
       },
@@ -187,6 +193,26 @@ limitations under the License.
     test('_computeShowDownloadCommands', () => {
       assert.equal(element._computeShowDownloadCommands([]), 'hidden');
       assert.equal(element._computeShowDownloadCommands(['test']), '');
+    });
+
+    test('_computeHidePatchFile', () => {
+      const patchNum = '1';
+
+      const change1 = {
+        revisions: {
+          r1: {_number: 1, commit: {parents: []}},
+        },
+      };
+      assert.isTrue(element._computeHidePatchFile(change1, patchNum));
+
+      const change2 = {
+        revisions: {
+          r1: {_number: 1, commit: {parents: [
+            {commit: 'p1'},
+          ]}},
+        },
+      };
+      assert.isFalse(element._computeHidePatchFile(change2, patchNum));
     });
   });
 </script>

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8c3a6cc_aa469eb5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-21T14:34:03Z",
+      "side": 1,
+      "message": "remove empty line",
+      "revId": "6bc78f5e32c777c56ad94d0efd99dfeb46d6c983",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "224f6373_3529d3ed",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-21T14:34:03Z",
+      "side": 1,
+      "message": "Maybe rename to just \"parentCount\"?",
+      "range": {
+        "startLine": 846,
+        "startChar": 12,
+        "endLine": 846,
+        "endChar": 30
+      },
+      "revId": "6bc78f5e32c777c56ad94d0efd99dfeb46d6c983",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6699b3b3_ad201de8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-21T14:34:03Z",
+      "side": 1,
+      "message": "Maybe rename to \"preferFirst\"?",
+      "range": {
+        "startLine": 850,
+        "startChar": 12,
+        "endLine": 850,
+        "endChar": 16
+      },
+      "revId": "6bc78f5e32c777c56ad94d0efd99dfeb46d6c983",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81a7e5e3_feb20642",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-21T14:34:03Z",
+      "side": 1,
+      "message": "Remove \"preferFirst\" variable and just use currentParentCount \u003e 1 directly here.",
+      "range": {
+        "startLine": 853,
+        "startChar": 13,
+        "endLine": 853,
+        "endChar": 24
+      },
+      "revId": "6bc78f5e32c777c56ad94d0efd99dfeb46d6c983",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

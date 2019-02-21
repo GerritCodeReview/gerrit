@@ -21,14 +21,24 @@ def gerrit_plugin(
         dir_name = None,
         target_suffix = "",
         **kwargs):
-    native.java_library(
-        name = name + "__plugin",
-        srcs = srcs,
-        resources = resources,
-        deps = provided_deps + deps + PLUGIN_DEPS_NEVERLINK,
-        visibility = ["//visibility:public"],
-        **kwargs
-    )
+    plugin_lib_deps = provided_deps + deps + PLUGIN_DEPS_NEVERLINK
+    if srcs:
+        # If there are any srcs, compile an intermediate java_library.
+        plugin_deps = [":%s__plugin" % name]
+        native.java_library(
+            name = name + "__plugin",
+            srcs = srcs,
+            resources = resources,
+            deps = plugin_lib_deps,
+            visibility = ["//visibility:public"],
+            **kwargs
+        )
+    else:
+        # Otherwise, don't use an intermediate library, since a java_library
+        # must have at least one src. Just keep track of the deps we would have
+        # added to the java_library so we can add them directly to the
+        # java_binary.
+        plugin_deps = plugin_lib_deps
 
     static_jars = []
 
@@ -39,9 +49,7 @@ def gerrit_plugin(
         name = "%s__non_stamped" % name,
         deploy_manifest_lines = manifest_entries + ["Gerrit-ApiType: plugin"],
         main_class = "Dummy",
-        runtime_deps = [
-            ":%s__plugin" % name,
-        ] + static_jars,
+        runtime_deps = plugin_deps + static_jars,
         visibility = ["//visibility:public"],
         **kwargs
     )

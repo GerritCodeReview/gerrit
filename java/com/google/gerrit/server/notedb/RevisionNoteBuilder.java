@@ -68,7 +68,7 @@ class RevisionNoteBuilder {
   RevisionNoteBuilder(RevisionNote<? extends Comment> base) {
     if (base != null) {
       baseRaw = base.getRaw();
-      baseComments = base.getComments();
+      baseComments = base.getEntities();
       put = Maps.newHashMapWithExpectedSize(baseComments.size());
       if (base instanceof ChangeRevisionNote) {
         pushCert = ((ChangeRevisionNote) base).getPushCert();

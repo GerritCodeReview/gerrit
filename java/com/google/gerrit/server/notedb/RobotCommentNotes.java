@@ -97,7 +97,7 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
             args.changeNoteJson, reader, NoteMap.read(reader, tipCommit));
     ListMultimap<RevId, RobotComment> cs = MultimapBuilder.hashKeys().arrayListValues().build();
     for (RobotCommentsRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
-      for (RobotComment c : rn.getComments()) {
+      for (RobotComment c : rn.getEntities()) {
         cs.put(new RevId(c.revId), c);
       }
     }

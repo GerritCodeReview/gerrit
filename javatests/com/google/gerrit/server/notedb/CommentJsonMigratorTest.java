@@ -482,7 +482,7 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
           .revisionNotes
           .values()
           .stream()
-          .flatMap(crn -> crn.getComments().stream())
+          .flatMap(crn -> crn.getEntities().stream())
           .collect(toImmutableMap(c -> c.key, c -> c.legacyFormat));
     }
   }

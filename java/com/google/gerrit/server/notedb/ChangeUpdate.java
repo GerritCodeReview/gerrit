@@ -544,7 +544,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     // Prohibit various kinds of illegal operations on comments.
     Set<Comment.Key> existing = new HashSet<>();
     for (ChangeRevisionNote rn : existingNotes.values()) {
-      for (Comment c : rn.getComments()) {
+      for (Comment c : rn.getEntities()) {
         existing.add(c.key);
         if (draftUpdate != null) {
           // Take advantage of an existing update on All-Users to prune any

@@ -40,7 +40,7 @@ public abstract class RevisionNote<T> {
   private final ObjectId noteId;
 
   private byte[] raw;
-  private ImmutableList<T> comments;
+  private ImmutableList<T> entities;
 
   public RevisionNote(ObjectReader reader, ObjectId noteId) {
     this.reader = reader;
@@ -52,9 +52,9 @@ public abstract class RevisionNote<T> {
     return raw;
   }
 
-  public ImmutableList<T> getComments() {
+  public ImmutableList<T> getEntities() {
     checkParsed();
-    return comments;
+    return entities;
   }
 
   public void parse() throws IOException, ConfigInvalidException {
@@ -62,11 +62,11 @@ public abstract class RevisionNote<T> {
     MutableInteger p = new MutableInteger();
     trimLeadingEmptyLines(raw, p);
     if (p.value >= raw.length) {
-      comments = ImmutableList.of();
+      entities = ImmutableList.of();
       return;
     }
 
-    comments = ImmutableList.copyOf(parse(raw, p.value));
+    entities = ImmutableList.copyOf(parse(raw, p.value));
   }
 
   protected abstract List<T> parse(byte[] raw, int offset)

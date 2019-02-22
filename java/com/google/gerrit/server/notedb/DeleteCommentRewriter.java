@@ -144,7 +144,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
         .revisionNotes
         .values()
         .stream()
-        .flatMap(n -> n.getComments().stream())
+        .flatMap(n -> n.getEntities().stream())
         .collect(toMap(c -> c.key.uuid, Function.identity()));
   }
 

@@ -722,7 +722,7 @@ class ChangeNotesParser {
     Map<RevId, ChangeRevisionNote> rns = revisionNoteMap.revisionNotes;
 
     for (Map.Entry<RevId, ChangeRevisionNote> e : rns.entrySet()) {
-      for (Comment c : e.getValue().getComments()) {
+      for (Comment c : e.getValue().getEntities()) {
         comments.put(e.getKey(), c);
       }
     }

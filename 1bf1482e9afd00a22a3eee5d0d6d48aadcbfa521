@@ -16,6 +16,24 @@
       "revId": "1bf1482e9afd00a22a3eee5d0d6d48aadcbfa521",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e04bd2a_d206f451",
+        "filename": "java/com/google/gerrit/server/config/ChangeCleanupConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-22T03:22:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5bcb1db_d7f86243",
+      "revId": "1bf1482e9afd00a22a3eee5d0d6d48aadcbfa521",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "9a3cb329_6a82d735",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-22T02:27:31Z",
+      "side": 1,
+      "message": "Thanks for that suggestion. I found the problem, it\u0027s because we doin\u0027t set hidden back to false when the 2 variables are defined that being hasAvatar \u0026\u0026 account, thus it stayed hidden permanently.\n\nI\u0027ve fixed this so that it sets hidden back to false.",
+      "parentUuid": "a7e203a6_348a63ae",
+      "revId": "e9abbade775f46418d1c74f828fd054dba238b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68e04ec6_2ffa518d",
         "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
         "patchSetId": 12

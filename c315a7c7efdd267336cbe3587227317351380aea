@@ -22,6 +22,30 @@
       "revId": "c315a7c7efdd267336cbe3587227317351380aea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19907819_e13ab25b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-22T02:27:31Z",
+      "side": 1,
+      "message": "I changed it to make testing easier, but i\u0027ve fixed this now (and moved it back to Promise.all).",
+      "parentUuid": "52752fbd_84498c33",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 68
+      },
+      "revId": "c315a7c7efdd267336cbe3587227317351380aea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

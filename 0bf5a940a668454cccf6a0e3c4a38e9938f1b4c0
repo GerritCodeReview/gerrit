@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e058d4bf_07492f9d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-22T12:49:33Z",
+      "side": 1,
+      "message": "Optional improvement: Move these six lines into _updateAvatarURL() and just call _updateAvatarURL() from here.\n\nThen _updateAvatarURL() would start with:\n\n        if (!this._hasAvatars || !this.account) {\n          this.hidden \u003d true;\n          return;\n        }\n        this.hidden \u003d false;\n\nThen you have all code that changes the \"hidden\" attribute encapsulated in one method that is called both when _hasAvatar or account changes.",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 54,
+        "endChar": 9
+      },
+      "revId": "0bf5a940a668454cccf6a0e3c4a38e9938f1b4c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

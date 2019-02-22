@@ -90,6 +90,9 @@
     },
 
     handleCreateRepo() {
+      if (this._repoConfig && this._repoConfig.name) {
+        this._repoConfig.name = this._repoConfig.name.replace(/\//g, '');
+      }
       return this.$.restAPI.createRepo(this._repoConfig)
           .then(repoRegistered => {
             if (repoRegistered.status === 201) {

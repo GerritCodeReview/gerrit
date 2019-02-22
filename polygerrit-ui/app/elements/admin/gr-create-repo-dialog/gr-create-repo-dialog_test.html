@@ -98,6 +98,97 @@ limitations under the License.
       });
     });
 
+    test('repo created, contains slash', done => {
+      const configInputObj = {
+        name: 'test/repo',
+        create_empty_commit: true,
+        parent: 'All-Project',
+        permissions_only: false,
+        owners: ['testId'],
+      };
+
+      const saveStub = sandbox.stub(element.$.restAPI,
+          'createRepo', () => {
+            return Promise.resolve({});
+          });
+
+      assert.isFalse(element.hasNewRepoName);
+
+      element._repoConfig = {
+        name: 'test/repo',
+        create_empty_commit: true,
+        parent: 'All-Project',
+        permissions_only: false,
+      };
+
+      element._repoOwner = 'test';
+      element._repoOwnerId = 'testId';
+
+      element.$.repoNameInput.bindValue = configInputObj.name;
+      element.$.rightsInheritFromInput.bindValue = configInputObj.parent;
+      element.$.ownerInput.text = configInputObj.owners[0];
+      element.$.initalCommit.bindValue =
+          configInputObj.create_empty_commit;
+      element.$.parentRepo.bindValue =
+          configInputObj.permissions_only;
+
+      assert.isTrue(element.hasNewRepoName);
+
+      assert.deepEqual(element._repoConfig, configInputObj);
+
+      element.handleCreateRepo().then(() => {
+        assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
+        done();
+      });
+    });
+
+    test('repo created, ends with slash', done => {
+      const configInputObj = {
+        name: 'test-repo/',
+        create_empty_commit: true,
+        parent: 'All-Project',
+        permissions_only: false,
+        owners: ['testId'],
+      };
+
+      const saveStub = sandbox.stub(element.$.restAPI,
+          'createRepo', () => {
+            return Promise.resolve({});
+          });
+
+      assert.isFalse(element.hasNewRepoName);
+
+      element._repoConfig = {
+        name: 'test-repo/',
+        create_empty_commit: true,
+        parent: 'All-Project',
+        permissions_only: false,
+      };
+
+      element._repoOwner = 'test';
+      element._repoOwnerId = 'testId';
+
+      element.$.repoNameInput.bindValue = configInputObj.name;
+      element.$.rightsInheritFromInput.bindValue = configInputObj.parent;
+      element.$.ownerInput.text = configInputObj.owners[0];
+      element.$.initalCommit.bindValue =
+          configInputObj.create_empty_commit;
+      element.$.parentRepo.bindValue =
+          configInputObj.permissions_only;
+
+      assert.isTrue(element.hasNewRepoName);
+
+      assert.deepEqual(element._repoConfig, configInputObj);
+
+      element.handleCreateRepo().then(() => {
+        if (configInputObj.name) {
+          configInputObj.name = configInputObj.name.replace(/\/$/g, '');
+        }
+        assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
+        done();
+      });
+    });
+
     test('testing observer of _repoOwner', () => {
       element._repoOwnerId = 'test-5';
       assert.deepEqual(element._repoConfig.owners, ['test-5']);

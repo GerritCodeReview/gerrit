@@ -51,7 +51,7 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
 
       changeNum = 42;
-      patchNum = 1;
+      patchNum = 2;
 
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({}); },
@@ -162,6 +162,41 @@ limitations under the License.
           flush(() => {
             MockInteractions.tap(element.$$('.send'));
           });
+        });
+      });
+    });
+
+    test('commenting on a old patchset', done => {
+      element.patchNum = 1;
+
+      // Async tick is needed because iron-selector content is distributed and
+      // distributed content requires an observer to be set up.
+      // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
+      flush(() => {
+        flush(() => {
+          element.draft = 'Testing commenting on patchset 1';
+
+          stubSaveReview(review => {
+            assert.deepEqual(review, {
+              drafts: 'PUBLISH_ALL_REVISIONS',
+              labels: {
+                'Code-Review': 0,
+                'Verified': 0,
+              },
+              message: 'Testing commenting on patchset 1',
+              reviewers: [],
+            });
+            assert.isFalse(element.$.commentList.hidden);
+            done();
+          });
+
+          // This is needed on non-Blink engines most likely due to the ways in
+          // which the dom-repeat elements are stamped.
+          flush(() => {
+            MockInteractions.tap(element.$$('.send'));
+          });
+
+          assert.equal(element.patchNum, 1);
         });
       });
     });

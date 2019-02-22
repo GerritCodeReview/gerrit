@@ -15,15 +15,23 @@
 package com.google.gerrit.acceptance.rest.binding;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.plugins.InstallPluginInput;
 import com.google.gerrit.extensions.restapi.RawInput;
+import com.google.gerrit.testing.ConfigSuite;
+import com.google.inject.Singleton;
+import com.google.inject.servlet.ServletModule;
+import java.io.IOException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 /**
@@ -33,8 +41,17 @@ import org.junit.Test;
  * the functionality of the plugin REST endpoints.
  */
 public class PluginsRestApiBindingsIT extends AbstractDaemonTest {
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("plugins", null, "allowRemoteAdmin", true);
+    return cfg;
+  }
+
   /**
-   * Plugin REST endpoints to be tested, each URL contains a placeholder for the plugin identifier.
+   * Plugin REST endpoints to be tested.
+   *
+   * <p>Each URL contains a placeholder for the plugin identifier.
    */
   private static final ImmutableList<RestCall> PLUGIN_ENDPOINTS =
       ImmutableList.of(
@@ -51,20 +68,58 @@ public class PluginsRestApiBindingsIT extends AbstractDaemonTest {
           // Plugin deletion must be tested last
           RestCall.delete("/plugins/%s"));
 
+  /**
+   * Plugin REST endpoints bound by {@link MyPluginModule} with Guice serlvet definitions.
+   *
+   * <p>Each URL contains a placeholder for the plugin identifier.
+   *
+   * <p>Currently does not include any resource or documentation URLs, since those would require
+   * installing a plugin from a jar, which is trickier than just defining a module in this file.
+   */
+  private static final ImmutableList<RestCall> SERVER_TOP_LEVEL_PLUGIN_ENDPOINTS =
+      ImmutableList.of(RestCall.get("/plugins/%s/hello"));
+
   private static final String JS_PLUGIN = "Gerrit.install(function(self){});\n";
   private static final RawInput JS_PLUGIN_CONTENT = RawInputUtil.create(JS_PLUGIN.getBytes(UTF_8));
 
   @Test
-  @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")
-  public void pluginEndpoints() throws Exception {
+  public void pluginAdminEndpoints() throws Exception {
     String pluginName = "my-plugin";
-    installPlugin(pluginName);
-    RestApiCallHelper.execute(adminRestSession, PLUGIN_ENDPOINTS, pluginName);
+    try (AutoCloseable ignored = installJsPlugin(pluginName)) {
+      RestApiCallHelper.execute(adminRestSession, PLUGIN_ENDPOINTS, pluginName);
+    }
   }
 
-  private void installPlugin(String pluginName) throws Exception {
+  static class MyPluginModule extends ServletModule {
+    @Override
+    public void configureServlets() {
+      serve("/hello").with(HelloServlet.class);
+    }
+  }
+
+  @Singleton
+  static class HelloServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
+      res.setStatus(SC_OK);
+      res.getWriter().println("Hello world");
+    }
+  }
+
+  @Test
+  public void serverPluginTopLevelEndpoints() throws Exception {
+    String pluginName = "my-plugin";
+    try (AutoCloseable ignored = installPlugin(pluginName, null, MyPluginModule.class, null)) {
+      RestApiCallHelper.execute(adminRestSession, SERVER_TOP_LEVEL_PLUGIN_ENDPOINTS, pluginName);
+    }
+  }
+
+  private AutoCloseable installJsPlugin(String pluginName) throws Exception {
     InstallPluginInput input = new InstallPluginInput();
     input.raw = JS_PLUGIN_CONTENT;
     gApi.plugins().install(pluginName + ".js", input);
+    return () -> gApi.plugins().name(pluginName).disable();
   }
 }

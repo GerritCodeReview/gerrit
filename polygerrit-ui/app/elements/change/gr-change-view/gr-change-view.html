@@ -631,7 +631,7 @@ limitations under the License.
         with-backdrop>
       <gr-reply-dialog id="replyDialog"
           change="{{_change}}"
-          patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
+          patch-num="[[_patchRange.patchNum]]"
           permitted-labels="[[_change.permitted_labels]]"
           diff-drafts="[[_diffDrafts]]"
           server-config="[[_serverConfig]]"

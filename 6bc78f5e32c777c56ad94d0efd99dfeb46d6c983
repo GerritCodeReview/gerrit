@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "48fdf50a_e2c3abd2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-22T12:40:24Z",
+      "side": 1,
+      "message": "Well, I guess the code compiling is not so surprising, because JavaScript does not care. But I would still prefer that we define the properties that we are using. Can you add this back?",
+      "parentUuid": "24641e93_6f108d54",
+      "revId": "6bc78f5e32c777c56ad94d0efd99dfeb46d6c983",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8c3a6cc_aa469eb5",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 15

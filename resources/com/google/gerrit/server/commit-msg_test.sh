@@ -46,6 +46,21 @@ EOF
   fi
 }
 
+# Change-Id should not be inserted if gerrit.createChangeId=false
+function test_suppress_changeid {
+  cat << EOF > input
+bla bla
+EOF
+
+  git config gerrit.createChangeId false
+  ${hook} input || fail "failed hook execution"
+  git config --unset gerrit.createChangeId
+  found=$(grep -c '^Change-Id' input || true)
+  if [[ "${found}" != "0" ]]; then
+    fail "got ${found} Change-Ids, want 0"
+  fi
+}
+
 # Change-Id goes after existing trailers.
 function test_at_end {
   cat << EOF > input

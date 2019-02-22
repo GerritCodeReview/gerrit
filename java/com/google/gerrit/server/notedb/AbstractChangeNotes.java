@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -41,20 +42,20 @@ import org.eclipse.jgit.lib.Repository;
 public abstract class AbstractChangeNotes<T> {
   @VisibleForTesting
   @Singleton
+  @UsedAt(UsedAt.Project.PLUGIN_CHECKS)
   public static class Args {
     // TODO(dborowitz): Some less smelly way of disabling NoteDb in tests.
     public final AtomicBoolean failOnLoadForTest;
-
-    final GitRepositoryManager repoManager;
-    final AllUsersName allUsers;
-    final ChangeNoteJson changeNoteJson;
-    final LegacyChangeNoteRead legacyChangeNoteRead;
-    final NoteDbMetrics metrics;
+    public final ChangeNoteJson changeNoteJson;
+    public final GitRepositoryManager repoManager;
+    public final AllUsersName allUsers;
+    public final LegacyChangeNoteRead legacyChangeNoteRead;
+    public final NoteDbMetrics metrics;
 
     // Providers required to avoid dependency cycles.
 
     // ChangeNoteCache -> Args
-    final Provider<ChangeNotesCache> cache;
+    public final Provider<ChangeNotesCache> cache;
 
     @Inject
     Args(
@@ -116,7 +117,7 @@ public abstract class AbstractChangeNotes<T> {
   private ObjectId revision;
   private boolean loaded;
 
-  AbstractChangeNotes(Args args, Change.Id changeId) {
+  protected AbstractChangeNotes(Args args, Change.Id changeId) {
     this.args = requireNonNull(args);
     this.changeId = requireNonNull(changeId);
   }

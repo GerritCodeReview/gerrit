@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d0355f4_431fc0bc",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-22T23:57:52Z",
+      "side": 1,
+      "message": "Threshold is misspelled.",
+      "revId": "da7b4d367403a965b9eebc2430385cd3341a1157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18a8adb7_0568ccf4",
+        "filename": "java/com/google/gerrit/acceptance/LogThreshold.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-22T23:57:52Z",
+      "side": 1,
+      "message": "2019",
+      "revId": "da7b4d367403a965b9eebc2430385cd3341a1157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

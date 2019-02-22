@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f876e80c_d5e9f4bf",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-22T12:56:09Z",
+      "side": 1,
+      "message": "You could drop the hasNoParent variable and just call \"return parentLength \u003d\u003d 0\" here and \"return false\" below.",
+      "revId": "0d3ac3b7372221154e80a0d174d39bbf856864a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

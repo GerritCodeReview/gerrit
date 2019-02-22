@@ -16,6 +16,24 @@
       "revId": "0d3ac3b7372221154e80a0d174d39bbf856864a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8976f06_a7528931",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-22T13:07:22Z",
+      "side": 1,
+      "message": "Thanks,done.",
+      "parentUuid": "f876e80c_d5e9f4bf",
+      "revId": "0d3ac3b7372221154e80a0d174d39bbf856864a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

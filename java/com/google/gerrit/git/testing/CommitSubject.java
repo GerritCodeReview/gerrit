@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.testing;
+package com.google.gerrit.git.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
 import static java.util.concurrent.TimeUnit.SECONDS;

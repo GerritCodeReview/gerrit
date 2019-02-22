@@ -20,6 +20,7 @@ import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.AccessPath;
@@ -54,6 +55,8 @@ import org.eclipse.jgit.lib.Config;
  */
 @Singleton
 class ContainerAuthFilter implements Filter {
+  private static final String LFS_AUTH_PREFIX = "Ssh: ";
+
   private final DynamicItem<WebSession> session;
   private final AccountCache accountCache;
   private final Config config;
@@ -90,6 +93,13 @@ class ContainerAuthFilter implements Filter {
   }
 
   private boolean verify(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+    String hdr = req.getHeader(AUTHORIZATION);
+    if (!Strings.isNullOrEmpty(hdr) && hdr.startsWith(LFS_AUTH_PREFIX)) {
+      // LFS-over-SSH auth request cannot be authorized by container
+      // therefore let it go through the filter
+      return true;
+    }
+
     String username = RemoteUserUtil.getRemoteUser(req, loginHttpHeader);
     if (username == null) {
       rsp.sendError(SC_FORBIDDEN);

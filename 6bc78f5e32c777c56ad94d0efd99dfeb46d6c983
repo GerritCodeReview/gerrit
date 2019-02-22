@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "24641e93_6f108d54",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-22T11:50:48Z",
+      "side": 1,
+      "message": "You have removed this _prefs property, but are still referencing it from your latest patch set. How does that work? I still compiles, so I guess I am missing something ...",
+      "revId": "6bc78f5e32c777c56ad94d0efd99dfeb46d6c983",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8c3a6cc_aa469eb5",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 15

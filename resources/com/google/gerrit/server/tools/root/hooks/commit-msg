@@ -43,6 +43,11 @@ if test ! -s "${dest}" ; then
   exit 1
 fi
 
+# Do not create a change id if requested
+if test "false" = "`git config --bool --get gerrit.createChangeId`" ; then
+  exit 0
+fi
+
 # Avoid the --in-place option which only appeared in Git 2.8
 # Avoid the --if-exists option which only appeared in Git 2.15
 if ! git -c trailer.ifexists=doNothing interpret-trailers \

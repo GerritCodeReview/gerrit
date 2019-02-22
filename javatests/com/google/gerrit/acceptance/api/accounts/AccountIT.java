@@ -2870,7 +2870,9 @@ public class AccountIT extends AbstractDaemonTest {
         .isEqualTo(Fingerprint.toString(expected.getPublicKey().getFingerprint()));
     List<String> userIds = ImmutableList.copyOf(expected.getPublicKey().getUserIDs());
     assertThat(actual.userIds).named(id).containsExactlyElementsIn(userIds);
-    assertThat(actual.key).named(id).startsWith("-----BEGIN PGP PUBLIC KEY BLOCK-----\n");
+    String key = actual.key;
+    assertThat(key).named(id).startsWith("-----BEGIN PGP PUBLIC KEY BLOCK-----\n");
+    assertThat(key).named(id).endsWith("-----END PGP PUBLIC KEY BLOCK-----\n");
     assertThat(actual.status).isEqualTo(GpgKeyInfo.Status.TRUSTED);
     assertThat(actual.problems).isEmpty();
   }

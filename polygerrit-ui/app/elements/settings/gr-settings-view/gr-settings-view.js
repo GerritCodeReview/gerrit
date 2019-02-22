@@ -29,6 +29,7 @@
     'signed_off_by',
     'email_format',
     'size_bar_in_change_table',
+    'relative_date_in_change_table',
   ];
 
   const GERRIT_DOCS_BASE_URL = 'https://gerrit-review.googlesource.com/' +
@@ -268,6 +269,11 @@
     _handlePrefsChanged(prefs) {
       if (this._isLoading()) { return; }
       this._prefsChanged = true;
+    },
+
+    _handleRelativeDateInChangeTable() {
+      this.set('_localPrefs.relative_date_in_change_table',
+          this.$.relativeDateInChangeTable.checked);
     },
 
     _handleShowSizeBarsInFileListChanged() {

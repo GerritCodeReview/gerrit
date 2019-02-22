@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06a94963_cc99124b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-22T18:29:43Z",
+      "side": 1,
+      "message": "Needs a new line.\n\nMinor style update\n\nAdds margin below show more button in change description",
+      "revId": "6d0546fe93bd070fcf92dbc1be617abffad42465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

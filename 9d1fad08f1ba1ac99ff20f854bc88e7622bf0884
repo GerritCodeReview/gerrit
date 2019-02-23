@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a51f85d_6c57ad44",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-23T04:49:25Z",
+      "side": 1,
+      "message": "Threshold is still misspelled here.",
+      "revId": "9d1fad08f1ba1ac99ff20f854bc88e7622bf0884",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

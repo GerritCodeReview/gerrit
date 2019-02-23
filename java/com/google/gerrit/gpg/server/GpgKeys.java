@@ -219,13 +219,14 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
       Iterator<String> userIds = key.getUserIDs();
       info.userIds = ImmutableList.copyOf(userIds);
 
-      try (ByteArrayOutputStream out = new ByteArrayOutputStream(4096);
-          ArmoredOutputStream aout = new ArmoredOutputStream(out)) {
-        // This is not exactly the key stored in the store, but is equivalent. In
-        // particular, it will have a Bouncy Castle version string. The armored
-        // stream reader in PublicKeyStore doesn't give us an easy way to extract
-        // the original ASCII armor.
-        key.encode(aout);
+      try (ByteArrayOutputStream out = new ByteArrayOutputStream(4096)) {
+        try (ArmoredOutputStream aout = new ArmoredOutputStream(out)) {
+          // This is not exactly the key stored in the store, but is equivalent. In
+          // particular, it will have a Bouncy Castle version string. The armored
+          // stream reader in PublicKeyStore doesn't give us an easy way to extract
+          // the original ASCII armor.
+          key.encode(aout);
+        }
         info.key = new String(out.toByteArray(), UTF_8);
       }
     }

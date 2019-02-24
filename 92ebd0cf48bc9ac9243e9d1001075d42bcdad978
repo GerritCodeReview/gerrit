@@ -22,6 +22,30 @@
       "revId": "92ebd0cf48bc9ac9243e9d1001075d42bcdad978",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e66d2ceb_63e35267",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-24T00:49:23Z",
+      "side": 1,
+      "message": "Note: Both of these changes were in 2.16, so this fix should be moved to stable-2.16 (or cherry-picked back if you want to submit on master first for some reason).",
+      "parentUuid": "57652293_273cc560",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "92ebd0cf48bc9ac9243e9d1001075d42bcdad978",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

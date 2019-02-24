@@ -86,6 +86,20 @@ limitations under the License.
         </span>
       </section>
       <section>
+        <span class="title">Key Map</span>
+        <span class="value">
+          <gr-select
+              bind-value="{{editPrefs.key_map_type}}">
+            <select>
+              <option value="DEFAULT">default</option>
+              <option value="EMACS">emacs</option>
+              <option value="SUBLIME">sublime</option>
+              <option value="VIM">vim</option>
+            </select>
+          </gr-select>
+        </span>
+      </section>
+      <section>
         <span class="title">Tab width</span>
         <span class="value">
           <input

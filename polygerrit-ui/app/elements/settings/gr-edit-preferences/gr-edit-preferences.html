@@ -27,6 +27,63 @@ limitations under the License.
     <style include="gr-form-styles"></style>
     <div id="editPreferences" class="gr-form-styles">
       <section>
+        <span class="title">Theme</span>
+        <span class="value">
+          <gr-select
+              bind-value="{{editPrefs.theme}}">
+            <select>
+              <option value="BASE16_DARK">base16_dark</option>
+              <option value="BESPIN">bespin</option>
+              <option value="BLACKBOARD">blackboard</option>
+              <option value="COBALT">cobalt</option>
+              <option value="COLORFORTH">colorforth</option>
+              <option value="ABCDEF">abcdef</option>
+              <option value="AMBIANCE">ambiance</option>
+              <option value="BASE16_LIGHT">base16_light</option>
+              <option value="DAY_3024">day_3024</option>
+              <option value="DEFAULT">default</option>
+              <option value="DRACULA">dracula</option>
+              <option value="DUOTONE_DARK">duotone_dark</option>
+              <option value="DUOTONE_LIGHT">duotone_light</option>
+              <option value="ECLIPSE">eclipse</option>
+              <option value="ELEGANT">elegant</option>
+              <option value="ERLANG_DARK">erlang_dark</option>
+              <option value="HOPSCOTCH">hopscotch</option>
+              <option value="ICECODER">icecoder</option>
+              <option value="ISOTOPE">isotope</option>
+              <option value="LESSER_DARK">lesser_dark</option>
+              <option value="LIQUIBYTE">liquibyte</option>
+              <option value="MATERIAL">material</option>
+              <option value="MBO">mbo</option>
+              <option value="MDN_LIKE">mdn_like</option>
+              <option value="MIDNIGHT">midnight</option>
+              <option value="MONOKAI">monokai</option>
+              <option value="NEAT">neat</option>
+              <option value="NEO">neo</option>
+              <option value="NIGHT">night</option>
+              <option value="NIGHT_3024">night_3024</option>
+              <option value="PARAISO_DARK">paraiso_dark</option>
+              <option value="PARAISO_LIGHT">paraiso_light</option>
+              <option value="PASTEL_ON_DARK">pastel_on_dark</option>
+              <option value="RAILSCASTS">railscasts</option>
+              <option value="RUBYBLUE">rubyblue</option>
+              <option value="SETI">seti</option>
+              <option value="SOLARIZED">solarized</option>
+              <option value="THE_MATRIX">the_matrix</option>
+              <option value="TOMORROW_NIGHT_BRIGHT">tomorrow_night_bright</option>
+              <option value="TOMORROW_NIGHT_EIGHTIES">tomorrow_night_eighties</option>
+              <option value="TTCN">ttcn</option>
+              <option value="TWILIGHT">twilight</option>
+              <option value="VIBRANT_INK">vibrant_ink</option>
+              <option value="XQ_DARK">xq_dark</option>
+              <option value="XQ_LIGHT">xq_light</option>
+              <option value="YETI">yeti</option>
+              <option value="ZENBURN">zenburn</option>
+            </select>
+          </gr-select>
+        </span>
+      </section>
+      <section>
         <span class="title">Tab width</span>
         <span class="value">
           <input

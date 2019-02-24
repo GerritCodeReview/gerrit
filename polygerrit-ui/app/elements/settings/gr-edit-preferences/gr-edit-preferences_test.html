@@ -84,6 +84,8 @@ limitations under the License.
 
     test('renders', () => {
       // Rendered with the expected preferences selected.
+      assert.equal(valueOf('Theme', 'editPreferences')
+          .firstElementChild.bindValue, editPreferences.theme);
       assert.equal(valueOf('Tab width', 'editPreferences')
           .firstElementChild.bindValue, editPreferences.tab_size);
       assert.equal(valueOf('Columns', 'editPreferences')

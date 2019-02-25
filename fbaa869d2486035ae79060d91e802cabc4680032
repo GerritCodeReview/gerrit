@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7132a0e1_ce298cf8",
+        "filename": "java/com/google/gerrit/server/config/DisableReverseDnsLookup.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-25T01:02:24Z",
+      "side": 1,
+      "message": "This has been moved to a different package.",
+      "revId": "fbaa869d2486035ae79060d91e802cabc4680032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "revId": "92ebd0cf48bc9ac9243e9d1001075d42bcdad978",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bbc8186_b6dbfd4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1079848
+      },
+      "writtenOn": "2019-02-25T20:30:51Z",
+      "side": 1,
+      "message": "I\u0027ve created https://gerrit-review.googlesource.com/c/gerrit/+/215572 targeting stable-2.16. We can drop this change if it makes more sense to submit the other.",
+      "parentUuid": "3341de7a_2b0c805b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "92ebd0cf48bc9ac9243e9d1001075d42bcdad978",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

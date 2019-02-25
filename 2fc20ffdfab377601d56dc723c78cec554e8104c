@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "226e2b2b_2d96cba0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-25T00:56:15Z",
+      "side": 1,
+      "message": "Should we also check the Content-Type header to make sure it really is an LFS request?",
+      "revId": "2fc20ffdfab377601d56dc723c78cec554e8104c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "2fc20ffdfab377601d56dc723c78cec554e8104c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5232c50b_84fc1f61",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-02-25T10:54:39Z",
+      "side": 1,
+      "message": "Improved check to be both content and URI specific in addition to auth token constraint - this way we don\u0027t expose anything but LFS that relies on its own auth anyway.",
+      "parentUuid": "226e2b2b_2d96cba0",
+      "revId": "2fc20ffdfab377601d56dc723c78cec554e8104c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

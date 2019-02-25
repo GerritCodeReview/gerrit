@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9e1960b_9340dbcc",
+        "filename": "java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-25T23:45:47Z",
+      "side": 1,
+      "message": "Is this suppressing an actual warning in Eclipse or IntelliJ?\n\nIt should be OK to have a method that\u0027s unused within the class if its visibility is public.",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 29
+      },
+      "revId": "4ecde0602586a86d3bafe7188469ee980c93ff17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

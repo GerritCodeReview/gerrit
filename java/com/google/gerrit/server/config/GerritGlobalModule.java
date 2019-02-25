@@ -295,8 +295,8 @@ public class GerritGlobalModule extends FactoryModule {
     bind(SoyTofu.class).annotatedWith(MailTemplates.class).toProvider(MailSoyTofuProvider.class);
     bind(FromAddressGenerator.class).toProvider(FromAddressGeneratorProvider.class).in(SINGLETON);
     bind(Boolean.class)
-        .annotatedWith(DisableReverseDnsLookup.class)
-        .toProvider(DisableReverseDnsLookupProvider.class)
+        .annotatedWith(EnableReverseDnsLookup.class)
+        .toProvider(EnableReverseDnsLookupProvider.class)
         .in(SINGLETON);
 
     bind(PatchSetInfoFactory.class);

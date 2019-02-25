@@ -14,11 +14,20 @@
 
 package com.google.gerrit.server.config;
 
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import org.eclipse.jgit.lib.Config;
 
-import com.google.inject.BindingAnnotation;
-import java.lang.annotation.Retention;
+public class EnableReverseDnsLookupProvider implements Provider<Boolean> {
+  private final Boolean enableReverseDnsLookup;
 
-@Retention(RUNTIME)
-@BindingAnnotation
-public @interface DisableReverseDnsLookup {}
+  @Inject
+  EnableReverseDnsLookupProvider(@GerritServerConfig Config config) {
+    enableReverseDnsLookup = config.getBoolean("gerrit", null, "enableReverseDnsLookup", false);
+  }
+
+  @Override
+  public Boolean get() {
+    return enableReverseDnsLookup;
+  }
+}

@@ -94,6 +94,30 @@
       "revId": "92ebd0cf48bc9ac9243e9d1001075d42bcdad978",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b6cd37c_39ae3b4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-25T23:18:38Z",
+      "side": 1,
+      "message": "There is a \"move\" option in the UI which will change the destination branch, but now there\u0027s another change on that branch we can\u0027t do that.  Since there is review history on this change, it would be better to continue with this one.  If we backport this to stable-2.16 later then the other one can be reused.",
+      "parentUuid": "8bbc8186_b6dbfd4e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "92ebd0cf48bc9ac9243e9d1001075d42bcdad978",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

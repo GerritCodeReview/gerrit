@@ -35,6 +35,7 @@
     properties: {
       /**
        * @type {{
+       *    is_private: boolean,
        *    subject: string,
        *  }}
        */

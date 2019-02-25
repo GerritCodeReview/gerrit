@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -30,10 +29,9 @@ public class DeletePrivateByPost extends DeletePrivate implements UiAction<Chang
   @Inject
   DeletePrivateByPost(
       RetryHelper retryHelper,
-      ChangeMessagesUtil cmUtil,
       PermissionBackend permissionBackend,
       SetPrivateOp.Factory setPrivateOpFactory) {
-    super(retryHelper, cmUtil, permissionBackend, setPrivateOpFactory);
+    super(retryHelper, permissionBackend, setPrivateOpFactory);
   }
 
   @Override

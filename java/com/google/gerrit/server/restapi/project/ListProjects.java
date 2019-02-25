@@ -44,6 +44,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.ioutil.RegexListSearcher;
@@ -82,6 +83,7 @@ import java.util.TreeSet;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -253,6 +255,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private String matchRegex;
   private AccountGroup.UUID groupUuid;
   private final Provider<QueryProjects> queryProjectsProvider;
+  private final boolean listProjectsFromIndex;
 
   @Inject
   protected ListProjects(
@@ -264,7 +267,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       PermissionBackend permissionBackend,
       ProjectNode.Factory projectNodeFactory,
       WebLinks webLinks,
-      Provider<QueryProjects> queryProjectsProvider) {
+      Provider<QueryProjects> queryProjectsProvider,
+      @GerritServerConfig Config config) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.groupResolver = groupResolver;
@@ -274,6 +278,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.projectNodeFactory = projectNodeFactory;
     this.webLinks = webLinks;
     this.queryProjectsProvider = queryProjectsProvider;
+    this.listProjectsFromIndex = config.getBoolean("gerrit", "listProjectsFromIndex", false);
   }
 
   public List<String> getShowBranch() {
@@ -322,7 +327,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   private Optional<String> expressAsProjectsQuery() {
-    return !all
+    return listProjectsFromIndex
+            && !all
             && state != HIDDEN
             && isNullOrEmpty(matchPrefix)
             && isNullOrEmpty(matchRegex)

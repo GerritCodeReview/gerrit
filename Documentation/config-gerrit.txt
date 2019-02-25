@@ -1967,6 +1967,23 @@ Example:
   installModule = com.example.abc.OurSpecialSauceModule
 ----
 
+[[gerrit.listProjectsFromIndex]]gerrit.listProjectsFromIndex::
++
+Enable rendering of project list from the secondary index instead
+of purely relying on the in-memory cache.
++
+By default false.
++
+[NOTE]
+The in-memory cache (set to false) rendering provides an **unlimited list** as a result
+of the list project API, causing the full list of projects to be
+returned as a result of the link:rest-api-projects.html[/projects/] REST API
+or the link:cmd-ls-projects.html[gerrit ls-projects] SSH command.
+When the rendering from the secondary index (set to true),
+the **list is limited** by the global capability
+link:access-control.html#capability_queryLimit[queryLimit]
+which is defaulted to 500 entries.
+
 [[gerrit.primaryWeblinkName]]gerrit.primaryWeblinkName::
 +
 Name of the link:dev-plugins.html#links-to-external-tools[Weblink] that should

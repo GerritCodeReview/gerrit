@@ -27,12 +27,12 @@ import com.google.gerrit.extensions.restapi.RawInput;
 import org.junit.Test;
 
 /**
- * Tests for checking the bindings of the plugins REST API.
+ * Tests for checking the remote administration bindings of the plugins REST API.
  *
  * <p>These tests only verify that the plugin REST endpoints are correctly bound, they do no test
  * the functionality of the plugin REST endpoints.
  */
-public class PluginsRestApiBindingsIT extends AbstractDaemonTest {
+public class PluginsRemoteAdminRestApiBindingsIT extends AbstractDaemonTest {
   /**
    * Plugin REST endpoints to be tested, each URL contains a placeholder for the plugin identifier.
    */

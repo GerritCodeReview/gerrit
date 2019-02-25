@@ -1587,19 +1587,27 @@ public abstract class AbstractDaemonTest {
 
   protected AutoCloseable installPlugin(String pluginName, Class<? extends Module> sysModuleClass)
       throws Exception {
-    checkArgument(
-        (sysModuleClass.getModifiers() & Modifier.STATIC) != 0,
-        "module must be static: %s",
-        sysModuleClass.getName());
+    return installPlugin(pluginName, sysModuleClass, null, null);
+  }
+
+  protected AutoCloseable installPlugin(
+      String pluginName,
+      @Nullable Class<? extends Module> sysModuleClass,
+      @Nullable Class<? extends Module> httpModuleClass,
+      @Nullable Class<? extends Module> sshModuleClass)
+      throws Exception {
+    checkStatic(sysModuleClass);
+    checkStatic(httpModuleClass);
+    checkStatic(sshModuleClass);
     TestServerPlugin plugin =
         new TestServerPlugin(
             pluginName,
             "http://example.com/" + pluginName,
             pluginUserFactory.create(pluginName),
             getClass().getClassLoader(),
-            sysModuleClass.getName(),
-            null,
-            null,
+            sysModuleClass != null ? sysModuleClass.getName() : null,
+            httpModuleClass != null ? httpModuleClass.getName() : null,
+            sshModuleClass != null ? sshModuleClass.getName() : null,
             sitePaths.data_dir.resolve(pluginName));
     plugin.start(pluginGuiceEnvironment);
     pluginGuiceEnvironment.onStartPlugin(plugin);
@@ -1607,5 +1615,14 @@ public abstract class AbstractDaemonTest {
       plugin.stop(pluginGuiceEnvironment);
       pluginGuiceEnvironment.onStopPlugin(plugin);
     };
+  }
+
+  private static void checkStatic(@Nullable Class<? extends Module> moduleClass) {
+    if (moduleClass != null) {
+      checkArgument(
+          (moduleClass.getModifiers() & Modifier.STATIC) != 0,
+          "module must be static: %s",
+          moduleClass.getName());
+    }
   }
 }

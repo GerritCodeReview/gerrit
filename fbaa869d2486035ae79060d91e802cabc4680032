@@ -16,6 +16,24 @@
       "revId": "fbaa869d2486035ae79060d91e802cabc4680032",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48302d19_fdf706bc",
+        "filename": "java/com/google/gerrit/server/config/DisableReverseDnsLookup.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-25T01:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7132a0e1_ce298cf8",
+      "revId": "fbaa869d2486035ae79060d91e802cabc4680032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

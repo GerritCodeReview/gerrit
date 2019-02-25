@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a833f4e6_b97bc21a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-02-25T02:51:02Z",
+      "side": 1,
+      "message": "Nothing references this footnote any more. In other words, I was proposing\n\n Disable gerrit.enableReverseDnsLookup by default\n\n Using ...\n\n ... disabled.\n\n Reported-by: ...\n Change-Id: ...\n\nSorry for the lack of clarity.",
+      "revId": "682069216ad9b1121176643d4d90cbcf35348da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

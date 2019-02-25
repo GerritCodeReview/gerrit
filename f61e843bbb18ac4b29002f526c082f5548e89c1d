@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec15a5f7_813ca860",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-02-25T02:38:55Z",
+      "side": 1,
+      "message": "Thanks for the nice summary and for crediting the reporter. (And thanks to the reporter for discovering the issue and Luca Milanesio for tracking it down.)",
+      "revId": "f61e843bbb18ac4b29002f526c082f5548e89c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c35a36f6_ec2e948e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-02-25T02:38:55Z",
+      "side": 1,
+      "message": "I think I\u0027d leave this part out. The paragraph above covers the basics; people interested in the fuller discussion would have to look in Gerrit for review comments anyway, and the mailing list is discoverable from there. (This comes from my general experience of scratching my head too long on changes that relied on links to a long mailing list thread instead of summarizing them.)",
+      "revId": "f61e843bbb18ac4b29002f526c082f5548e89c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

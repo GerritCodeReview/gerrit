@@ -141,3 +141,19 @@ link:rest-api-changes.html#change-info[ChangeInfo]
 +
 The submit action, including the title and label, an instance of
 link:rest-api-changes.html#action-info[ActionInfo]
+
+== Dynamic Plugin endpoints
+
+The following endpoints are available to plugins.
+
+=== change-list-header
+The `change-list-header` extension point adds a header to the change list view.
+
+
+=== change-list-item-cell
+The `change-list-item-cell` extension point adds a cell to the change list item.
+
+* `change`
++
+current change of the row, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]

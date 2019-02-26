@@ -185,6 +185,30 @@ See list of supported link:pg-plugin-endpoints.html[endpoints].
 
 Note: TODO
 
+=== registerApiHook
+`plugin.registerApiHook(apiEndpointName, addParameterFunction)`
+
+Registers a rest api hook to add plugin params to core rest api calls.
+The addParameterFunction only needs to return plugin specific params, not the
+entire params object.
+
+Supported endpoints are `changes` and `change`.
+
+```
+Gerrit.install('my-plugin-name', plugin => {
+  plugin.restApiHooks().registerRestApiParams('changes', params => {
+    return 'my-plugin-option';
+  });
+});
+
+// will update the changes query params to be:
+
+{
+  // existing changes params
+  'my-plugin-name': 'my-plugin-option',
+}
+```
+
 === registerStyleModule
 `plugin.registerStyleModule(endpointName, moduleName)`
 

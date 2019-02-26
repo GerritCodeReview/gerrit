@@ -141,7 +141,7 @@ public class AuthorizedKeysTest extends GerritBaseTests {
   }
 
   private static String toWindowsLineEndings(String s) {
-    return s.replaceAll("\n", "\r\n");
+    return s.replace("\n", "\r\n");
   }
 
   private static void assertSerialization(

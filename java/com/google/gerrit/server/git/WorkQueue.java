@@ -392,8 +392,7 @@ public class WorkQueue {
     private String getMetricName(String queueName, String metricName) {
       String name =
           CaseFormat.UPPER_CAMEL.to(
-              CaseFormat.LOWER_UNDERSCORE,
-              queueName.replaceFirst("SSH", "Ssh").replaceAll("-", ""));
+              CaseFormat.LOWER_UNDERSCORE, queueName.replaceFirst("SSH", "Ssh").replace("-", ""));
       return metrics.sanitizeMetricName(String.format("queue/%s/%s", name, metricName));
     }
 

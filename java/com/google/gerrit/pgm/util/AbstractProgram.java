@@ -66,9 +66,9 @@ public abstract class AbstractProgram {
         final Throwable cause = err.getCause();
         final String diemsg = err.getMessage();
         if (cause != null && !cause.getMessage().equals(diemsg)) {
-          System.err.println("fatal: " + cause.getMessage().replaceAll("\n", "\nfatal: "));
+          System.err.println("fatal: " + cause.getMessage().replace("\n", "\nfatal: "));
         }
-        System.err.println("fatal: " + diemsg.replaceAll("\n", "\nfatal: "));
+        System.err.println("fatal: " + diemsg.replace("\n", "\nfatal: "));
       }
       return 128;
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0eb14bdf_e99973ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-02-26T01:56:34Z",
+      "side": 1,
+      "message": "Can you explain a bit more on the expected use cases for this new mechanism? It\u0027s not really clear to me from this message.",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "ca12d716e5596a09712eba1ad5f78fb4773f9669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

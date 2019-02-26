@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.AbandonUtil;
+import com.google.gerrit.server.config.ChangeCleanupConfig;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
@@ -44,6 +45,7 @@ import org.junit.Test;
 
 public class AbandonIT extends AbstractDaemonTest {
   @Inject private AbandonUtil abandonUtil;
+  @Inject private ChangeCleanupConfig cleanupConfig;
 
   @Test
   public void abandon() throws Exception {
@@ -120,6 +122,31 @@ public class AbandonIT extends AbstractDaemonTest {
     abandonUtil.abandonInactiveOpenChanges(batchUpdateFactory);
     assertThat(toChangeNumbers(query("is:open"))).containsExactly(id3);
     assertThat(toChangeNumbers(query("is:abandoned"))).containsExactly(id1, id2);
+  }
+
+  @Test
+  public void changeCleanupConfigDefaultAbandonMessage() throws Exception {
+    assertThat(cleanupConfig.getAbandonMessage())
+        .startsWith(
+            "Auto-Abandoned due to inactivity, see "
+                + canonicalWebUrl.get()
+                + "Documentation/user-change-cleanup.html#auto-abandon");
+  }
+
+  @Test
+  @GerritConfig(name = "changeCleanup.abandonMessage", value = "XX ${URL} XX")
+  public void changeCleanupConfigCustomAbandonMessageWithUrlReplacement() throws Exception {
+    assertThat(cleanupConfig.getAbandonMessage())
+        .isEqualTo(
+            "XX "
+                + canonicalWebUrl.get()
+                + "Documentation/user-change-cleanup.html#auto-abandon XX");
+  }
+
+  @Test
+  @GerritConfig(name = "changeCleanup.abandonMessage", value = "XX YYY XX")
+  public void changeCleanupConfigCustomAbandonMessageWithoutUrlReplacement() throws Exception {
+    assertThat(cleanupConfig.getAbandonMessage()).isEqualTo("XX YYY XX");
   }
 
   @Test

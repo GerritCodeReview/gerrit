@@ -22,6 +22,30 @@
       "revId": "4ecde0602586a86d3bafe7188469ee980c93ff17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bcf38ac_dd4233c8",
+        "filename": "java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-26T09:00:36Z",
+      "side": 1,
+      "message": "Done. I added it prematurely :)",
+      "parentUuid": "a9e1960b_9340dbcc",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 29
+      },
+      "revId": "4ecde0602586a86d3bafe7188469ee980c93ff17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

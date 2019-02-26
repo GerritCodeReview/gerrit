@@ -149,6 +149,7 @@
 
   function Plugin(opt_url) {
     this._domHooks = new GrDomHooksManager(this);
+    this._restApiHooks = new GrRestApiHooks();
 
     if (!opt_url) {
       console.warn('Plugin not being loaded from /plugins base path.',
@@ -228,6 +229,20 @@
    */
   Plugin.prototype.hook = function(endpointName, opt_options) {
     return this.registerCustomComponent(endpointName, undefined, opt_options);
+  };
+
+  /**
+   * Registers an api hook for a particular api endpoint.
+   */
+  Plugin.prototype.registerApiHook = function(endpointName, mutationFunction) {
+    this._restApiHooks.register(endpointName, mutationFunction);
+  };
+
+  /**
+   * Returns the registered api hook for a particular api endpoint.
+   */
+  Plugin.prototype.getApiHook = function(endpointName) {
+    return this._restApiHooks.get(endpointName);
   };
 
   Plugin.prototype.getServerInfo = function() {
@@ -550,6 +565,20 @@
     } catch (e) {
       Gerrit._pluginInstallError(`${e.name}: ${e.message}`);
     }
+  };
+
+  /** Gets the params for a particular mutation endpoint. */
+  Gerrit.pluginParams = function(mutationEndpoint, initialParams) {
+    return Object.values(_plugins).reduce((accum, plugin) => {
+      const mutationFunction = plugin.getApiHook(mutationEndpoint);
+      if (mutationFunction) {
+        const pluginParams = mutationFunction(initialParams);
+        if (pluginParams) {
+          accum[plugin.getPluginName()] = JSON.stringify(pluginParams);
+        }
+      }
+      return accum;
+    }, {});
   };
 
   Gerrit.getLoggedIn = function() {

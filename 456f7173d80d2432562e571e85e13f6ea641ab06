@@ -22,6 +22,30 @@
       "revId": "456f7173d80d2432562e571e85e13f6ea641ab06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da005b02_0e7bed1f",
+        "filename": "java/com/google/gerrit/server/config/ChangeCleanupConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-26T08:46:26Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/215648",
+      "parentUuid": "7732acc6_ed2aa974",
+      "range": {
+        "startLine": 79,
+        "startChar": 62,
+        "endLine": 79,
+        "endChar": 96
+      },
+      "revId": "456f7173d80d2432562e571e85e13f6ea641ab06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

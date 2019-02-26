@@ -185,6 +185,13 @@ See list of supported link:pg-plugin-endpoints.html[endpoints].
 
 Note: TODO
 
+=== registerApiHook
+`plugin.registerApiHook(apiEndpointName, mutationFunction)`
+
+Registers a rest api hook to add plugin the params to core rest api calls.
+
+Supported endpoints are `changes` and `change`.
+
 === registerStyleModule
 `plugin.registerStyleModule(endpointName, moduleName)`
 

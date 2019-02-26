@@ -222,6 +222,15 @@ limitations under the License.
         [[_computeLabelValue(change, labelName)]]
       </td>
     </template>
+    <template is="dom-repeat" items="[[_dynamicCellEndpoints]]"
+      as="pluginEndpointName">
+      <td class="cell endpoint">
+        <gr-endpoint-decorator name$="[[pluginEndpointName]]">
+          <gr-endpoint-param name="change" value="[[change]]">
+          </gr-endpoint-param>
+        </gr-endpoint-decorator>
+      </td>
+    </template>
   </template>
   <script src="gr-change-list-item.js"></script>
 </dom-module>

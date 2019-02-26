@@ -52,6 +52,13 @@ limitations under the License.
             [[_computeLabelShortcut(labelName)]]
           </th>
         </template>
+        <template is="dom-repeat" items="[[_dynamicHeaderEndpoints]]"
+          as="pluginHeader">
+          <th class="endpoint">
+            <gr-endpoint-decorator name$="[[pluginHeader]]">
+            </gr-endpoint-decorator>
+          </th>
+        </template>
       </tr>
       <template is="dom-repeat" items="[[sections]]" as="changeSection"
           index-as="sectionIndex">

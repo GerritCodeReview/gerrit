@@ -397,7 +397,7 @@ public class OutputStreamQuery {
       // Idention for multi-line text is
       // current depth indetion + length of field + length of ": "
       indent = indent(indent.length() + field.length() + spacesDepthRatio);
-      out.print(((String) value).replaceAll("\n", "\n" + indent).trim());
+      out.print(((String) value).replace("\n", "\n" + indent).trim());
       out.print('\n');
     } else if (value instanceof Long && isDateField(field)) {
       out.print(' ');

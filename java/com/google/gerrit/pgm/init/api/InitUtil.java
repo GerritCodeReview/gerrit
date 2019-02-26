@@ -97,7 +97,7 @@ public class InitUtil {
       p = name.indexOf(".");
       if (0 < p) {
         name = name.substring(p + 1);
-        name = "DC=" + name.replaceAll("\\.", ",DC=");
+        name = "DC=" + name.replace(".", ",DC=");
       } else {
         name = null;
       }

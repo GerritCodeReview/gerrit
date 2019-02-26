@@ -224,7 +224,7 @@ public abstract class ConsoleUI {
 
     @Override
     public void header(String fmt, Object... args) {
-      fmt = fmt.replaceAll("\n", "\n*** ");
+      fmt = fmt.replace("\n", "\n*** ");
       console.printf("\n*** " + fmt + "\n*** \n\n", args);
     }
 

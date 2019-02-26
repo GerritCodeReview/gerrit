@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -67,7 +68,7 @@ public class EmailArguments {
   final AnonymousUser anonymousUser;
   final String anonymousCowardName;
   final PersonIdent gerritPersonIdent;
-  final UrlFormatter urlFormatter;
+  final DynamicItem<UrlFormatter> urlFormatter;
   final AllProjectsName allProjectsName;
   final List<String> sshAddresses;
   final SitePaths site;
@@ -100,7 +101,7 @@ public class EmailArguments {
       AnonymousUser anonymousUser,
       @AnonymousCowardName String anonymousCowardName,
       GerritPersonIdentProvider gerritPersonIdentProvider,
-      UrlFormatter urlFormatter,
+      DynamicItem<UrlFormatter> urlFormatter,
       AllProjectsName allProjectsName,
       ChangeQueryBuilder queryBuilder,
       ChangeData.Factory changeDataFactory,

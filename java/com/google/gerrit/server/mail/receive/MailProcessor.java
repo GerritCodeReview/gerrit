@@ -20,6 +20,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -96,7 +97,7 @@ public class MailProcessor {
   private final CommentAdded commentAdded;
   private final ApprovalsUtil approvalsUtil;
   private final AccountCache accountCache;
-  private final UrlFormatter urlFormatter;
+  private final DynamicItem<UrlFormatter> urlFormatter;
 
   @Inject
   public MailProcessor(
@@ -114,7 +115,7 @@ public class MailProcessor {
       ApprovalsUtil approvalsUtil,
       CommentAdded commentAdded,
       AccountCache accountCache,
-      UrlFormatter urlFormatter) {
+      DynamicItem<UrlFormatter> urlFormatter) {
     this.emails = emails;
     this.emailRejectionSender = emailRejectionSender;
     this.retryHelper = retryHelper;
@@ -240,7 +241,10 @@ public class MailProcessor {
       // If URL is not defined, we won't be able to parse line comments. We still attempt to get the
       // other ones.
       String changeUrl =
-          urlFormatter.getChangeViewUrl(cd.project(), cd.getId()).orElse("http://gerrit.invalid/");
+          urlFormatter
+              .get()
+              .getChangeViewUrl(cd.project(), cd.getId())
+              .orElse("http://gerrit.invalid/");
 
       List<MailComment> parsedComments;
       if (useHtmlParser(message)) {

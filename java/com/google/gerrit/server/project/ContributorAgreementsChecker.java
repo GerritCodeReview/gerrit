@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
@@ -43,7 +44,7 @@ import java.util.regex.PatternSyntaxException;
 @Singleton
 public class ContributorAgreementsChecker {
 
-  private final UrlFormatter urlFormatter;
+  private final DynamicItem<UrlFormatter> urlFormatter;
   private final ProjectCache projectCache;
   private final Metrics metrics;
 
@@ -62,7 +63,7 @@ public class ContributorAgreementsChecker {
 
   @Inject
   ContributorAgreementsChecker(
-      UrlFormatter urlFormatter, ProjectCache projectCache, Metrics metrics) {
+      DynamicItem<UrlFormatter> urlFormatter, ProjectCache projectCache, Metrics metrics) {
     this.urlFormatter = urlFormatter;
     this.projectCache = projectCache;
     this.metrics = metrics;
@@ -129,7 +130,7 @@ public class ContributorAgreementsChecker {
           .append(iUser.getAccountId())
           .append(")");
 
-      msg.append(urlFormatter.getSettingsUrl("Agreements").orElse(""));
+      msg.append(urlFormatter.get().getSettingsUrl("Agreements").orElse(""));
       throw new AuthException(msg.toString());
     }
   }

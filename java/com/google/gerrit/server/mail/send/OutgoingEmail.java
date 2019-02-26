@@ -292,7 +292,7 @@ public abstract class OutgoingEmail {
   }
 
   public String getGerritUrl() {
-    return args.urlFormatter.getWebUrl().orElse(null);
+    return args.urlFormatter.get().getWebUrl().orElse(null);
   }
 
   /** Set a header in the outgoing message. */

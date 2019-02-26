@@ -40,16 +40,15 @@ public interface UrlFormatter {
   Optional<String> getWebUrl();
 
   /** Returns the URL for viewing a change. */
-  default Optional<String> getChangeViewUrl(@Nullable Project.NameKey project, Change.Id id) {
+  default Optional<String> getChangeViewUrl(Project.NameKey project, Change.Id id) {
 
     // In the PolyGerrit URL (contrary to REST URLs) there is no need to URL-escape strings, since
     // the /+/ separator unambiguously defines how to parse the path.
-    return getWebUrl()
-        .map(url -> url + "c/" + (project != null ? project.get() + "/+/" : "") + id.get());
+    return getWebUrl().map(url -> url + "c/" + project.get() + "/+/" + id.get());
   }
 
   /** Returns a URL pointing to a section of the settings page. */
-  default Optional<String> getSettingsUrl(String section) {
+  default Optional<String> getSettingsUrl(@Nullable String section) {
     return getWebUrl()
         .map(url -> url + "settings" + (Strings.isNullOrEmpty(section) ? "" : "#" + section));
   }

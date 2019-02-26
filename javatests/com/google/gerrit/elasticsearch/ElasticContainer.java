@@ -37,7 +37,7 @@ public class ElasticContainer extends ElasticsearchContainer {
   private static String getImageName(ElasticVersion version) {
     switch (version) {
       case V5_6:
-        return "docker.elastic.co/elasticsearch/elasticsearch:5.6.14";
+        return "docker.elastic.co/elasticsearch/elasticsearch:5.6.15";
       case V6_2:
         return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.4";
       case V6_3:
@@ -47,7 +47,7 @@ public class ElasticContainer extends ElasticsearchContainer {
       case V6_5:
         return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.5.4";
       case V6_6:
-        return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.6.0";
+        return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.6.1";
       case V7_0:
         return "docker.elastic.co/elasticsearch/elasticsearch-oss:7.0.0-beta1";
     }

@@ -55,8 +55,8 @@ limitations under the License.
       .cell {
         vertical-align: middle;
       }
-      th:not(.label),
-      .cell:not(.label) {
+      th:not(.label):not(.endpoint),
+      .cell:not(.label):not(.endpoint) {
         padding-right: 8px;
       }
       th.label {
@@ -128,8 +128,10 @@ limitations under the License.
       .star {
         width: 30px;
       }
-      .label {
+      .label, .endpoint {
         border-left: 1px solid var(--border-color);
+      }
+      .label {
         text-align: center;
         width: 3rem;
       }

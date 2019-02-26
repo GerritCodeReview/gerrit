@@ -57,6 +57,9 @@
         type: String,
         computed: '_computeChangeSize(change)',
       },
+      _pluginEndpoints: {
+        type: Array,
+      },
     },
 
     behaviors: [
@@ -66,6 +69,12 @@
       Gerrit.RESTClientBehavior,
       Gerrit.URLEncodingBehavior,
     ],
+
+    attached() {
+      Gerrit.awaitPluginsLoaded().then(() => {
+        this._pluginEndpoints = Gerrit._endpoints.getDynamicEndpoints('change-list-item-cell');
+      });
+    },
 
     _computeItemNeedsReview(reviewed) {
       return !reviewed;

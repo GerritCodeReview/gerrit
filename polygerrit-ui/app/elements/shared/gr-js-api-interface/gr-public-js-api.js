@@ -149,6 +149,7 @@
 
   function Plugin(opt_url) {
     this._domHooks = new GrDomHooksManager(this);
+    this.restApiHooks = new GrRestApiHooks();
 
     if (!opt_url) {
       console.warn('Plugin not being loaded from /plugins base path.',
@@ -550,6 +551,18 @@
     } catch (e) {
       Gerrit._pluginInstallError(`${e.name}: ${e.message}`);
     }
+  };
+
+  /** Gets the params for a particular mutation endpoint. */
+  Gerrit.pluginParams = function(mutationEndpoint, initialParams) {
+    return Object.values(_plugins).reduce((accum, plugin) => {
+      const pluginParams = plugin.restApiHooks.getRestApiParams(
+          mutationEndpoint, initialParams);
+      if (pluginParams) {
+        accum[plugin.getPluginName()] = JSON.stringify(pluginParams);
+      }
+      return accum;
+    }, {});
   };
 
   Gerrit.getLoggedIn = function() {

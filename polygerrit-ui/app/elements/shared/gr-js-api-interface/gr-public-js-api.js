@@ -149,6 +149,7 @@
 
   function Plugin(opt_url) {
     this._domHooks = new GrDomHooksManager(this);
+    this.changeListHeader = false;
 
     if (!opt_url) {
       console.warn('Plugin not being loaded from /plugins base path.',
@@ -586,6 +587,10 @@
     }
     return plugin;
   };
+
+  Gerrit.getChangeListPlugins = function() {
+    return Object.values(_plugins).filter(plugin => plugin.changeListHeader);
+  }
 
   Gerrit.awaitPluginsLoaded = function() {
     if (!_allPluginsPromise) {

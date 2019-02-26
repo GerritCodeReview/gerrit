@@ -52,6 +52,13 @@ public abstract class RevisionNote<T> {
     return raw;
   }
 
+  @UsedAt(UsedAt.Project.PLUGIN_CHECKS)
+  public T getOnlyEntity() {
+    checkParsed();
+    checkState(entities.size() == 1, "expected exactly one entity");
+    return entities.get(0);
+  }
+
   public ImmutableList<T> getEntities() {
     checkParsed();
     return entities;

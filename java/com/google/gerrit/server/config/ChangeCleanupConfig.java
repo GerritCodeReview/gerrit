@@ -76,6 +76,6 @@ public class ChangeCleanupConfig {
   public String getAbandonMessage() {
     String docUrl =
         urlFormatter.get().getDocUrl("user-change-cleanup.html", "auto-abandon").orElse("");
-    return docUrl.isEmpty() ? abandonMessage : abandonMessage.replaceAll("\\$\\{URL\\}", docUrl);
+    return docUrl.isEmpty() ? abandonMessage : abandonMessage.replace("${URL}", docUrl);
   }
 }

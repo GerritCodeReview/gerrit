@@ -217,10 +217,12 @@ limitations under the License.
         ([[_version]])
       </div>
       <div>
+        <template is="dom-if" if="[[_feedbackUrl]]" restamp="true">
         <a class="feedback"
             href$="[[_feedbackUrl]]"
-            rel="noopener" target="_blank">Send feedback</a>
-        | Press &ldquo;?&rdquo; for keyboard shortcuts
+            rel="noopener" target="_blank">[[_feedbackText]]</a> |
+        </template>
+        Press &ldquo;?&rdquo; for keyboard shortcuts
       </div>
     </footer>
     <gr-overlay id="keyboardShortcuts" with-backdrop>

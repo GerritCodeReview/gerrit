@@ -85,10 +85,10 @@
         computed: '_computePluginScreenName(params)',
       },
       _settingsUrl: String,
-      _feedbackUrl: {
+      _feedbackUrl: String,
+      _feedbackText: {
         type: String,
-        value: 'https://bugs.chromium.org/p/gerrit/issues/entry' +
-          '?template=PolyGerrit%20Issue',
+        value: 'Report Bug',
       },
     },
 
@@ -134,6 +134,9 @@
 
         if (config && config.gerrit && config.gerrit.report_bug_url) {
           this._feedbackUrl = config.gerrit.report_bug_url;
+          if (config.gerrit.report_bug_text) {
+            this._feedbackText = config.gerrit.report_bug_text;
+          }
         }
       });
       this.$.restAPI.getVersion().then(version => {
@@ -434,7 +437,9 @@
       }
       const renderTime = new Date(window.performance.timing.loadEventStart);
       console.log(`Document loaded at: ${renderTime}`);
-      console.log(`Please file bugs and feedback at: ${this._feedbackUrl}`);
+      if (this._feedbackUrl) {
+        console.log(`Please file bugs and feedback at: ${this._feedbackUrl}`);
+      }
       console.groupEnd();
     },
 

@@ -20,6 +20,7 @@
   function GrPluginEndpoints() {
     this._endpoints = {};
     this._callbacks = {};
+    this._dynamicPlugins = {};
   }
 
   GrPluginEndpoints.prototype.onNewEndpoint = function(endpoint, callback) {
@@ -51,8 +52,21 @@
     }
   };
 
+  /**
+   * Register a plugin to an endpoint.
+   *
+   * Dynamic plugins are registered to a specific prefix, such as
+   * 'change-list-header'. These plugins are then fetched by prefix to determine
+   * which endpoints to dynamically add to the page.
+   */
   GrPluginEndpoints.prototype.registerModule = function(plugin, endpoint, type,
-      moduleName, domHook) {
+      moduleName, domHook, dynamicEndpoint) {
+    if (dynamicEndpoint) {
+      if (!this._dynamicPlugins[dynamicEndpoint]) {
+        this._dynamicPlugins[dynamicEndpoint] = new Set();
+      }
+      this._dynamicPlugins[dynamicEndpoint].add(endpoint);
+    }
     if (!this._endpoints[endpoint]) {
       this._endpoints[endpoint] = [];
     }
@@ -61,6 +75,12 @@
     if (Gerrit._arePluginsLoaded() && this._callbacks[endpoint]) {
       this._callbacks[endpoint].forEach(callback => callback(moduleInfo));
     }
+  };
+
+  GrPluginEndpoints.prototype.getDynamicEndpoints = function(dynamicEndpoint) {
+    const plugins = this._dynamicPlugins[dynamicEndpoint];
+    if (!plugins) return [];
+    return Array.from(plugins);
   };
 
   /**

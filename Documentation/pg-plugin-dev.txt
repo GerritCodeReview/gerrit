@@ -177,6 +177,14 @@ See list of supported link:pg-plugin-endpoints.html[endpoints].
 
 Note: TODO
 
+=== registerDynamicCustomComponent
+`plugin.registerDynamicCustomComponent(dynamicEndpointName, opt_moduleName,
+opt_options)`
+
+See list of supported link:pg-plugin-endpoints.html[endpoints].
+
+Note: TODO
+
 === registerStyleModule
 `plugin.registerStyleModule(endpointName, moduleName)`
 

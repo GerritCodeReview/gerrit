@@ -76,6 +76,9 @@
         type: Array,
         computed: '_computeLabelNames(sections)',
       },
+      _dynamicHeaderEndpoints: {
+        type: Array,
+      },
       selectedIndex: {
         type: Number,
         notify: true,
@@ -126,6 +129,13 @@
         [this.Shortcut.TOGGLE_CHANGE_STAR]: '_toggleChangeStar',
         [this.Shortcut.REFRESH_CHANGE_LIST]: '_refreshChangeList',
       };
+    },
+
+    attached() {
+      Gerrit.awaitPluginsLoaded().then(() => {
+        this._dynamicHeaderEndpoints = Gerrit._endpoints.getDynamicEndpoints(
+            'change-list-header');
+      });
     },
 
     /**

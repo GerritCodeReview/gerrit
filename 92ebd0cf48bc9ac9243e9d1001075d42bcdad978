@@ -142,6 +142,30 @@
       "revId": "92ebd0cf48bc9ac9243e9d1001075d42bcdad978",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81700a82_4bfcb251",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-02-27T00:57:07Z",
+      "side": 1,
+      "message": "I realised that the other change was done with a different Change-Id, so it is in fact possible to move this one.",
+      "parentUuid": "e16ee6e5_76473f60",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "92ebd0cf48bc9ac9243e9d1001075d42bcdad978",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

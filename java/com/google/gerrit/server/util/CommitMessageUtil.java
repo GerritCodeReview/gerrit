@@ -15,6 +15,7 @@
 package com.google.gerrit.server.util;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 
 /** Utility functions to manipulate commit messages. */
@@ -23,18 +24,22 @@ public class CommitMessageUtil {
   private CommitMessageUtil() {}
 
   /**
-   * Checks for null or empty commit messages and appends a newline character to the commit message.
+   * Checks for invalid (empty or containing \0) commit messages and appends a newline character to
+   * the commit message.
    *
    * @throws BadRequestException if the commit message is null or empty
    * @returns the trimmed message with a trailing newline character
    */
-  public static String checkAndSanitizeCommitMessage(String commitMessage)
+  public static String checkAndSanitizeCommitMessage(@Nullable String commitMessage)
       throws BadRequestException {
-    String wellFormedMessage = Strings.nullToEmpty(commitMessage).trim();
-    if (wellFormedMessage.isEmpty()) {
+    String trimmed = Strings.nullToEmpty(commitMessage).trim();
+    if (trimmed.isEmpty()) {
       throw new BadRequestException("Commit message cannot be null or empty");
     }
-    wellFormedMessage = wellFormedMessage + "\n";
-    return wellFormedMessage;
+    if (trimmed.indexOf(0) >= 0) {
+      throw new BadRequestException("Commit message cannot have NUL character");
+    }
+    trimmed = trimmed + "\n";
+    return trimmed;
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "145b1bea_eb70ed24",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-02-27T20:58:30Z",
+      "side": 1,
+      "message": "Will this fire after all the messages are shown?\n\nmy reason for this change is so that i can hook on (using listen) so that a function is executed when you press the show all / show 5 more button. This is to prettify CI comments. Im doing something like https://phabricator.wikimedia.org/F28291464 (without this change). But i need this change so that the function is re executed and makes the hidden messages also prettify.",
+      "range": {
+        "startLine": 316,
+        "startChar": 6,
+        "endLine": 316,
+        "endChar": 44
+      },
+      "revId": "c8465e54362b445216d1941a2c942586db5f934c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

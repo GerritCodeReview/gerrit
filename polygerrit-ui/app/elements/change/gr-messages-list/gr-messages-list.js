@@ -311,6 +311,8 @@
     _handleShowAllTap() {
       this._visibleMessages = this._processedMessages;
       this.$.reporting.reportInteraction(ReportingEvent.SHOW_ALL);
+
+      this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_MORE_MESSAGES, {});
     },
 
     _handleIncrementShownMessages() {

@@ -311,6 +311,9 @@
     _handleShowAllTap() {
       this._visibleMessages = this._processedMessages;
       this.$.reporting.reportInteraction(ReportingEvent.SHOW_ALL);
+
+      // Allows plugin integration
+      this.fire('all-messages-updated', {});
     },
 
     _handleIncrementShownMessages() {

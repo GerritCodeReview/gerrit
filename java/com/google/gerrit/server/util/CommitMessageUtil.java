@@ -30,11 +30,14 @@ public class CommitMessageUtil {
    */
   public static String checkAndSanitizeCommitMessage(String commitMessage)
       throws BadRequestException {
-    String wellFormedMessage = Strings.nullToEmpty(commitMessage).trim();
-    if (wellFormedMessage.isEmpty()) {
+    String msg = Strings.nullToEmpty(commitMessage).trim();
+    if (msg.isEmpty()) {
       throw new BadRequestException("Commit message cannot be null or empty");
     }
-    wellFormedMessage = wellFormedMessage + "\n";
-    return wellFormedMessage;
+    if (msg.indexOf(0) >= 0) {
+      throw new BadRequestException("Commit message cannot have NULL character");
+    }
+    msg = msg + "\n";
+    return msg;
   }
 }

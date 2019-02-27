@@ -1264,6 +1264,30 @@
     },
     {
       "key": {
+        "uuid": "26da703e_eff4e281",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-27T13:02:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53bcef89_52bebd9a",
+      "range": {
+        "startLine": 51,
+        "startChar": 9,
+        "endLine": 51,
+        "endChar": 13
+      },
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f1da5c3_56a16a02",
         "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecks.java",
         "patchSetId": 1
@@ -1281,6 +1305,24 @@
     },
     {
       "key": {
+        "uuid": "28881c9d_4d86bc9f",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-27T13:02:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f1da5c3_56a16a02",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bf16866_bc77351c",
         "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecks.java",
         "patchSetId": 1
@@ -1295,6 +1337,24 @@
       "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0340bc86_b9d1b986",
+        "filename": "java/com/google/gerrit/plugins/checkers/db/NoteDbChecks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-27T13:02:22Z",
+      "side": 1,
+      "message": "Done This is now guaranteed by the storage.",
+      "parentUuid": "8bf16866_bc77351c",
+      "revId": "b3e0f732c9eef680b1d3461b0a8d1710e56b1c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

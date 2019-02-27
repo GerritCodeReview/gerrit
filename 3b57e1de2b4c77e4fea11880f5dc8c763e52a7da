@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09a9d79c_ff34a953",
+        "filename": "java/com/google/gerrit/server/cache/serialize/ProtobufSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-02-27T15:09:16Z",
+      "side": 1,
+      "message": "This is an implementation detail. Sometimes it makes sense to mention such details. For this class, I think we should rather describe what\u0027s happening (e.g. \"A CacheSerializer for Protobuf messages.\").",
+      "range": {
+        "startLine": 21,
+        "startChar": 20,
+        "endLine": 21,
+        "endChar": 58
+      },
+      "revId": "3b57e1de2b4c77e4fea11880f5dc8c763e52a7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7de65106_d100fb95",
+        "filename": "java/com/google/gerrit/server/cache/serialize/ProtobufSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-02-27T15:09:16Z",
+      "side": 1,
+      "message": "All of our cache serializers use the methods from Protos (main reason: guaranteed deterministic serialization). Even though the deterministic serialization is only necessary for keys, we decided to make it a good habit to always use it (\u003d always use the methods of Protos). Since the ProtobufSerializer can be used both for keys and values, it should definitely guarantee deterministic serialization.",
+      "range": {
+        "startLine": 31,
+        "startChar": 11,
+        "endLine": 31,
+        "endChar": 31
+      },
+      "revId": "3b57e1de2b4c77e4fea11880f5dc8c763e52a7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03e04700_bc7eaf99",
+        "filename": "java/com/google/gerrit/server/cache/serialize/ProtobufSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-02-27T15:09:16Z",
+      "side": 1,
+      "message": "See my comment above.",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 34
+      },
+      "revId": "3b57e1de2b4c77e4fea11880f5dc8c763e52a7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b28f9d5_62148189",
+        "filename": "java/com/google/gerrit/server/git/PureRevertCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-02-27T15:09:16Z",
+      "side": 1,
+      "message": "Do we have a dedicated test which ensures that the mapping done in this method works correctly? (For the other caches, this is typically covered by testing the CacheSerializer which contains that logic. Since ProtobufSerializer is generic, we need other tests.)",
+      "range": {
+        "startLine": 118,
+        "startChar": 17,
+        "endLine": 118,
+        "endChar": 29
+      },
+      "revId": "3b57e1de2b4c77e4fea11880f5dc8c763e52a7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df9a0f74_6d1eed13",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/ProtobufSerializerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-02-27T15:09:16Z",
+      "side": 1,
+      "message": "Theoretically, this could be flaky due to missing determinism. I don\u0027t think that we need this assertion here as we already test the round trip above.",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 58
+      },
+      "revId": "3b57e1de2b4c77e4fea11880f5dc8c763e52a7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e05ce1ee_1b38e93d",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-02-27T15:09:16Z",
+      "side": 1,
+      "message": "We typically have a test which is close to the mapping logic of the serialization and which ensures that the set of fields matches what we expect for serialization. See the Javadoc of SerializedClassSubject for an explanation. I guess we want to have a similar test (especially for a reminder of the consideration to bump the cache version).",
+      "range": {
+        "startLine": 239,
+        "startChar": 8,
+        "endLine": 239,
+        "endChar": 26
+      },
+      "revId": "3b57e1de2b4c77e4fea11880f5dc8c763e52a7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44dbe954_ace85f91",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-02-27T15:09:16Z",
+      "side": 1,
+      "message": "Please add \"Next ID:\" line.",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 7
+      },
+      "revId": "3b57e1de2b4c77e4fea11880f5dc8c763e52a7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0d767af_9190c7b1",
+        "filename": "proto/test.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-02-27T15:09:16Z",
+      "side": 1,
+      "message": "Would it be possible to have this file only in test code (test-only Bazel target + ideally under a test file path)?",
+      "revId": "3b57e1de2b4c77e4fea11880f5dc8c763e52a7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

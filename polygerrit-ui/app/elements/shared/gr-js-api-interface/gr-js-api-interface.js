@@ -20,6 +20,7 @@
   const EventType = {
     HISTORY: 'history',
     LABEL_CHANGE: 'labelchange',
+    SHOW_MORE_MESSAGES: 'showmoremessages',
     SHOW_CHANGE: 'showchange',
     SUBMIT_CHANGE: 'submitchange',
     COMMIT_MSG_EDIT: 'commitmsgedit',
@@ -68,6 +69,9 @@
             break;
           case EventType.LABEL_CHANGE:
             this._handleLabelChange(detail);
+            break;
+          case EventType.SHOW_MORE_MESSAGES:
+            this._handleShowMoreMessages(detail);
             break;
           default:
             console.warn('handleEvent called with unsupported event type:',
@@ -182,6 +186,16 @@
       for (const cb of this._getEventCallbacks(EventType.LABEL_CHANGE)) {
         try {
           cb(detail.change);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    },
+
+    _handleShowMoreMessages(detail) {
+      for (const cb of this._getEventCallbacks(EventType.SHOW_MORE_MESSAGES)) {
+        try {
+          cb(detail);
         } catch (err) {
           console.error(err);
         }

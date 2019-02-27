@@ -3533,6 +3533,18 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void changeCommitMessageNullNotAllowed() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertThat(getCommitMessage(r.getChangeId()))
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("NULL character");
+    gApi.changes()
+        .id(r.getChangeId())
+        .setMessage("test\0commit\n\nChange-Id: " + r.getChangeId() + "\n");
+  }
+
+  @Test
   public void changeCommitMessageWithWrongChangeIdFails() throws Exception {
     PushOneCommit.Result otherChange = createChange();
     PushOneCommit.Result r = createChange();

@@ -3180,6 +3180,10 @@ class ReceiveCommits {
                     bu.addOp(
                         psId.getParentKey(),
                         mergedByPushOpFactory.create(requestScopePropagator, psId, refName));
+                    if (magicBranch != null) {
+                      bu.setNotifyHandling(
+                          notes.get().getChangeId(), magicBranch.getNotifyHandling(notes.get()));
+                    }
                     continue COMMIT;
                   }
                 }
@@ -3216,6 +3220,11 @@ class ReceiveCommits {
                         .create(requestScopePropagator, req.psId, refName)
                         .setPatchSetProvider(req.replaceOp::getPatchSet));
                 bu.addOp(id, new ChangeProgressOp(progress));
+
+                if (magicBranch != null) {
+                  bu.setNotifyHandling(id, magicBranch.getNotifyHandling(req.notes));
+                }
+
                 ids.add(id);
               }
 

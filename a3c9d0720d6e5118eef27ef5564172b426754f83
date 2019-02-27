@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7c49666_efc64431",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3183,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-02-27T17:49:37Z",
+      "side": 1,
+      "message": "this won\u0027t work. magicBranch is always null for autoclosed changes.",
+      "range": {
+        "startLine": 3183,
+        "startChar": 24,
+        "endLine": 3183,
+        "endChar": 35
+      },
+      "revId": "a3c9d0720d6e5118eef27ef5564172b426754f83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

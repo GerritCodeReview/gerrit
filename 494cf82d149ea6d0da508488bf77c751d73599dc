@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4619423_e3d7f56e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-27T09:28:52Z",
+      "side": 1,
+      "message": "Move this to GrPluginEndpoints and instead add a registerDynamicComponent() method to this class.\n\nFor the plugin it would then by very similar whether to register a normal component or a dynamic component. Either call\nregisterCustomComponent() or registerDynamicComponent() with an additional enum parameter (e.g. CHANGE_LIST_COL).\n\nThe implementation of registerDynamicComponent() would probably be identical to registerCustomComponent, but registerModule in GrPluginEndpoints would have an additional optional parameter for the enum to fill.",
+      "range": {
+        "startLine": 152,
+        "startChar": 34,
+        "endLine": 153,
+        "endChar": 0
+      },
+      "revId": "494cf82d149ea6d0da508488bf77c751d73599dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e233d15a_8de2f55a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-02-27T09:28:52Z",
+      "side": 1,
+      "message": "Move this to GrPluginEndpoints. That component can then manage a map of dynamic endpoints.",
+      "range": {
+        "startLine": 591,
+        "startChar": 2,
+        "endLine": 594,
+        "endChar": 0
+      },
+      "revId": "494cf82d149ea6d0da508488bf77c751d73599dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

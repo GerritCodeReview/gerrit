@@ -184,9 +184,7 @@ public class ReviewerRecommender {
 
     // Sort results
     Stream<Entry<Account.Id, MutableDouble>> sorted =
-        reviewerScores
-            .entrySet()
-            .stream()
+        reviewerScores.entrySet().stream()
             .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
     List<Account.Id> sortedSuggestions = sorted.map(Map.Entry::getKey).collect(toList());
     return sortedSuggestions;

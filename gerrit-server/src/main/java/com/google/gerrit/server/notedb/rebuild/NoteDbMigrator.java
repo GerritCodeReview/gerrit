@@ -448,8 +448,7 @@ public class NoteDbMigrator implements AutoCloseable {
       int sequenceGap,
       boolean autoMigrate)
       throws MigrationException {
-    if (ImmutableList.of(!changes.isEmpty(), !projects.isEmpty(), !skipProjects.isEmpty())
-            .stream()
+    if (ImmutableList.of(!changes.isEmpty(), !projects.isEmpty(), !skipProjects.isEmpty()).stream()
             .filter(e -> e)
             .count()
         > 1) {
@@ -629,8 +628,7 @@ public class NoteDbMigrator implements AutoCloseable {
 
     try (ContextHelper contextHelper = new ContextHelper()) {
       List<ListenableFuture<Boolean>> futures =
-          allChanges
-              .stream()
+          allChanges.stream()
               .map(
                   id ->
                       executor.submit(

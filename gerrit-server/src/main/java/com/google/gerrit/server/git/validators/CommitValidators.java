@@ -671,8 +671,7 @@ public class CommitValidators {
           List<ConsistencyProblemInfo> problems =
               externalIdsConsistencyChecker.check(receiveEvent.commit);
           List<CommitValidationMessage> msgs =
-              problems
-                  .stream()
+              problems.stream()
                   .map(
                       p ->
                           new CommitValidationMessage(
@@ -730,8 +729,7 @@ public class CommitValidators {
         if (!errorMessages.isEmpty()) {
           throw new CommitValidationException(
               "invalid account configuration",
-              errorMessages
-                  .stream()
+              errorMessages.stream()
                   .map(m -> new CommitValidationMessage(m, true))
                   .collect(toList()));
         }

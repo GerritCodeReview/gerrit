@@ -191,8 +191,7 @@ public class Schema_159_to_160_Test {
       VersionedAccountPreferences prefs = prefsSupplier.get();
       prefs.load(repo);
       Config cfg = prefs.getConfig();
-      return cfg.getSubsections(MY)
-          .stream()
+      return cfg.getSubsections(MY).stream()
           .collect(toImmutableMap(i -> i, i -> cfg.getString(MY, i, KEY_URL)));
     }
   }

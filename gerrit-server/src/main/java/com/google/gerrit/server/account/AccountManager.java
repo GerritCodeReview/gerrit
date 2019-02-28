@@ -443,8 +443,7 @@ public class AccountManager {
 
     if (!filteredExtIdsByScheme.isEmpty()
         && (filteredExtIdsByScheme.size() > 1
-            || !filteredExtIdsByScheme
-                .stream()
+            || !filteredExtIdsByScheme.stream()
                 .filter(e -> e.key().equals(who.getExternalIdKey()))
                 .findAny()
                 .isPresent())) {

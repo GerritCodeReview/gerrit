@@ -215,9 +215,7 @@ public class AccountControl {
   }
 
   private Set<AccountGroup.UUID> groupsOf(IdentifiedUser user) {
-    return user.getEffectiveGroups()
-        .getKnownGroups()
-        .stream()
+    return user.getEffectiveGroups().getKnownGroups().stream()
         .filter(a -> !SystemGroupBackend.isSystemGroup(a))
         .collect(toSet());
   }

@@ -77,9 +77,7 @@ public class Schema_161 extends SchemaVersion {
                 starRef.labels(), StarredChangesUtil.UNREVIEWED_LABEL);
 
         List<String> newLabels =
-            starRef
-                .labels()
-                .stream()
+            starRef.labels().stream()
                 .map(
                     l -> {
                       if (l.startsWith(MUTE_LABEL)) {

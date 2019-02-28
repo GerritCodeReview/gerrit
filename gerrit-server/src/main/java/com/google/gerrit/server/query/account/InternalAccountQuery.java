@@ -135,8 +135,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
       return ImmutableList.of();
     }
 
-    return query(AccountPredicates.preferredEmail(email))
-        .stream()
+    return query(AccountPredicates.preferredEmail(email)).stream()
         .filter(a -> a.getAccount().getPreferredEmail().equals(email))
         .collect(toList());
   }
@@ -155,8 +154,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
     if (hasPreferredEmailExact()) {
       List<List<AccountState>> r =
           query(
-              emailList
-                  .stream()
+              emailList.stream()
                   .map(e -> AccountPredicates.preferredEmailExact(e))
                   .collect(toList()));
       Multimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();
@@ -176,8 +174,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
     for (int i = 0; i < emailList.size(); i++) {
       String email = emailList.get(i);
       Set<AccountState> matchingAccounts =
-          r.get(i)
-              .stream()
+          r.get(i).stream()
               .filter(a -> a.getAccount().getPreferredEmail().equals(email))
               .collect(toSet());
       accountsByEmail.putAll(email, matchingAccounts);

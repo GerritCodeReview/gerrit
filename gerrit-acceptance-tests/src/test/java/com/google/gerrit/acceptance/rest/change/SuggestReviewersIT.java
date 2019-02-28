@@ -464,8 +464,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
       List<TestAccount> expectedUsers,
       List<InternalGroup> expectedGroups) {
     List<Integer> actualAccountIds =
-        actual
-            .stream()
+        actual.stream()
             .filter(i -> i.account != null)
             .map(i -> i.account._accountId)
             .collect(toList());

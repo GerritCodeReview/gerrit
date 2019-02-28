@@ -43,6 +43,7 @@ import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -436,7 +437,7 @@ public class LabelsJson {
     checkState(
         !cd.change().isMerged(),
         "should not call setAllApprovals on %s change",
-        cd.change().getStatus());
+        ChangeUtil.status(cd.change()));
 
     // Include a user in the output for this label if either:
     //  - They are an explicit reviewer.

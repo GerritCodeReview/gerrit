@@ -64,6 +64,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -360,10 +361,10 @@ public class ConsistencyChecker {
   private ProblemInfo wrongChangeStatus(PatchSet.Id psId, RevCommit commit) {
     String refName = change().getDest().get();
     return problem(
-        String.format(
+        formatProblemMessage(
             "Patch set %d (%s) is merged into destination ref %s (%s), but change"
                 + " status is %s",
-            psId.get(), commit.name(), refName, tip.name(), change().getStatus()));
+            psId.get(), commit.name(), refName, tip.name()));
   }
 
   private void checkMergedBitMatchesStatus(PatchSet.Id psId, RevCommit commit, boolean merged) {
@@ -375,11 +376,22 @@ public class ConsistencyChecker {
       }
     } else if (!merged && change().isMerged()) {
       problem(
-          String.format(
+          formatProblemMessage(
               "Patch set %d (%s) is not merged into"
                   + " destination ref %s (%s), but change status is %s",
-              currPs.getId().get(), commit.name(), refName, tip.name(), change().getStatus()));
+              currPs.getId().get(), commit.name(), refName, tip.name()));
     }
+  }
+
+  private String formatProblemMessage(
+      String message, int psId, String commitName, String refName, String tipName) {
+    return String.format(
+        message,
+        psId,
+        commitName,
+        refName,
+        tipName,
+        ChangeUtil.status(change()).toUpperCase(Locale.US));
   }
 
   private void checkExpectMergedAs() {

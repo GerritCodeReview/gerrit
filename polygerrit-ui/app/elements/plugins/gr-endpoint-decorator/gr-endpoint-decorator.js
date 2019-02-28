@@ -112,7 +112,7 @@
     },
 
     _initModule({moduleName, plugin, type, domHook}) {
-      if (this._initializedPlugins.get(plugin.name)) {
+      if (this._initializedPlugins.get(plugin.getPluginName())) {
         return;
       }
       let initPromise;
@@ -128,7 +128,7 @@
         console.warn('Unable to initialize module' +
             `${moduleName} from ${plugin.getPluginName()}`);
       }
-      this._initializedPlugins.set(plugin.name, true);
+      this._initializedPlugins.set(plugin.getPluginName(), true);
       initPromise.then(el => {
         domHook.handleInstanceAttached(el);
         this._domHooks.set(el, domHook);

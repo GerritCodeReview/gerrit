@@ -32,6 +32,9 @@ limitations under the License.
     <gr-syntax-layer
         id="syntaxLayer"
         diff="[[diff]]"></gr-syntax-layer>
+    <gr-coverage-layer
+        id="coverageLayer"
+        coverage-ranges="[[coverageRanges]]"></gr-coverage-layer>
     <gr-diff-processor
         id="processor"
         groups="{{_groups}}"></gr-diff-processor>
@@ -114,6 +117,11 @@ limitations under the License.
             type: Array,
             value: () => [],
           },
+          /** @type {!Array<!Gerrit.CoverageRange>} */
+          coverageRanges: {
+            type: Array,
+            value: () => [],
+          },
         },
 
         get diffElement() {
@@ -182,6 +190,7 @@ limitations under the License.
             this._createIntralineLayer(),
             this._createTabIndicatorLayer(),
             this.$.rangeLayer,
+            this.$.coverageLayer,
           ];
 
           // Get layers from plugins (if any).

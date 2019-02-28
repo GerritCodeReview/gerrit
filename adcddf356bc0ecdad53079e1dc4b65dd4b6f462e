@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab95e414_151c92d1",
+        "filename": "java/com/google/gerrit/server/util/CommitMessageUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-28T12:37:06Z",
+      "side": 1,
+      "message": "wellFormedMessage was a nice name IMO",
+      "revId": "adcddf356bc0ecdad53079e1dc4b65dd4b6f462e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a70f94d9_52662305",
+        "filename": "java/com/google/gerrit/server/util/CommitMessageUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-02-28T12:37:06Z",
+      "side": 1,
+      "message": "I think Git calls this NUL\n\nExample: https://googlers.googlesource.com/sop/jgit/+/reftable/Documentation/technical/reftable.md",
+      "range": {
+        "startLine": 40,
+        "startChar": 64,
+        "endLine": 40,
+        "endChar": 68
+      },
+      "revId": "adcddf356bc0ecdad53079e1dc4b65dd4b6f462e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

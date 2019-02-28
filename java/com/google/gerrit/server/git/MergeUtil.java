@@ -32,6 +32,7 @@ import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -125,20 +126,31 @@ public class MergeUtil {
     }
 
     public String generate(
-        RevCommit original, RevCommit mergeTip, Branch.NameKey dest, String current) {
+        RevCommit original, RevCommit mergeTip, Branch.NameKey dest, String originalMessage) {
       requireNonNull(original.getRawBuffer());
       if (mergeTip != null) {
         requireNonNull(mergeTip.getRawBuffer());
       }
-      for (ChangeMessageModifier changeMessageModifier : changeMessageModifiers) {
+
+      int count = 0;
+      String current = originalMessage;
+      for (Extension<ChangeMessageModifier> ext : changeMessageModifiers.entries()) {
+        ChangeMessageModifier changeMessageModifier = ext.get();
+        String className = changeMessageModifier.getClass().getName();
         current = changeMessageModifier.onSubmit(current, original, mergeTip, dest);
-        requireNonNull(
-            current,
-            () ->
-                String.format(
-                    "%s.OnSubmit returned null instead of new commit message",
-                    changeMessageModifier.getClass().getName()));
+        checkState(
+            current != null,
+            "%s.onSubmit from plugin %s returned null instead of new commit message",
+            className,
+            ext.getPluginName());
+        count++;
+        logger.atFine().log(
+            "Invoked %s from plugin %s, message length now %d",
+            className, ext.getPluginName(), current.length());
       }
+      logger.atFine().log(
+          "Invoked %d ChangeMessageModifiers on message with original length %d",
+          count, originalMessage.length());
       return current;
     }
   }

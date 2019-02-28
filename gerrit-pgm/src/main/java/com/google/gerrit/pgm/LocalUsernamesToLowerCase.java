@@ -17,15 +17,16 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsBatchUpdate;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
-import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.util.Collection;
@@ -49,9 +50,11 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
     manager.start();
     dbInjector
         .createChildInjector(
-            new AbstractModule() {
+            new FactoryModule() {
               @Override
               protected void configure() {
+                bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
+
                 // The LocalUsernamesToLowerCase program needs to access all external IDs only
                 // once to update them. After the update they are not accessed again. Hence the
                 // LocalUsernamesToLowerCase program doesn't benefit from caching external IDs and

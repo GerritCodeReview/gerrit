@@ -153,7 +153,8 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
             .hasMessageThat()
             .isEqualTo(
                 modifier1.getClass().getName()
-                    + ".OnSubmit returned null instead of new commit message");
+                    + ".onSubmit from plugin modifier-1 returned null instead of new commit"
+                    + " message");
       }
     }
   }

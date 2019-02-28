@@ -1946,9 +1946,7 @@ public class AccountIT extends AbstractDaemonTest {
     Iterable<String> expectedFps =
         expected.transform(k -> BaseEncoding.base16().encode(k.getPublicKey().getFingerprint()));
     Iterable<String> actualFps =
-        externalIds
-            .byAccount(currAccountId, SCHEME_GPGKEY)
-            .stream()
+        externalIds.byAccount(currAccountId, SCHEME_GPGKEY).stream()
             .map(e -> e.key().id())
             .collect(toSet());
     assertThat(actualFps).named("external IDs in database").containsExactlyElementsIn(expectedFps);

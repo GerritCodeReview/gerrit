@@ -650,8 +650,7 @@ public class ChangeField {
 
   @VisibleForTesting
   static List<SubmitRecord> parseSubmitRecords(Collection<String> values) {
-    return values
-        .stream()
+    return values.stream()
         .map(v -> GSON.fromJson(v, StoredSubmitRecord.class).toSubmitRecord())
         .collect(toList());
   }

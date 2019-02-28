@@ -269,8 +269,7 @@ public class GroupsUpdate {
   private void addNewGroupMembers(ReviewDb db, AccountGroup group, Set<Account.Id> newMemberIds)
       throws OrmException, IOException {
     Set<AccountGroupMember> newMembers =
-        newMemberIds
-            .stream()
+        newMemberIds.stream()
             .map(accountId -> new AccountGroupMember.Key(accountId, group.getId()))
             .map(AccountGroupMember::new)
             .collect(toImmutableSet());

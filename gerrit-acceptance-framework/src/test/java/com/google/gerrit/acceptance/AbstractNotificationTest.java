@@ -119,9 +119,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       recipients.put(CC, parseAddresses(message, "CC"));
       recipients.put(
           BCC,
-          message
-              .rcpt()
-              .stream()
+          message.rcpt().stream()
               .map(Address::getEmail)
               .filter(e -> !recipients.get(TO).contains(e) && !recipients.get(CC).contains(e))
               .collect(toList()));

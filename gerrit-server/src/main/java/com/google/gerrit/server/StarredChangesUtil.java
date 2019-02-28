@@ -418,8 +418,7 @@ public class StarredChangesUtil {
   }
 
   public static Set<Integer> getStarredPatchSets(Set<String> labels, String label) {
-    return labels
-        .stream()
+    return labels.stream()
         .filter(l -> l.startsWith(label))
         .filter(l -> Ints.tryParse(l.substring(label.length() + 1)) != null)
         .map(l -> Integer.valueOf(l.substring(label.length() + 1)))

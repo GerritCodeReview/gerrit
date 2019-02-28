@@ -253,9 +253,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     info.configVisible = checkReadConfig || pc.isOwner();
 
     info.groups =
-        visibleGroups
-            .entrySet()
-            .stream()
+        visibleGroups.entrySet().stream()
             .filter(e -> e.getValue() != INVISIBLE_SENTINEL)
             .collect(toMap(e -> e.getKey().get(), e -> e.getValue()));
 

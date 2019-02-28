@@ -696,9 +696,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
     if (!rewriters.isEmpty()) {
       Optional<String> conflictKey =
-          rewriters
-              .keySet()
-              .stream()
+          rewriters.keySet().stream()
               .filter(k -> (draftUpdates.containsKey(k) || robotCommentUpdates.containsKey(k)))
               .findAny();
       if (conflictKey.isPresent()) {

@@ -194,8 +194,7 @@ public class DeleteRef {
     List<String> refs =
         prefix == null
             ? refsToDelete
-            : refsToDelete
-                .stream()
+            : refsToDelete.stream()
                 .map(ref -> ref.startsWith(R_REFS) ? ref : prefix + ref)
                 .collect(toList());
     for (String ref : refs) {

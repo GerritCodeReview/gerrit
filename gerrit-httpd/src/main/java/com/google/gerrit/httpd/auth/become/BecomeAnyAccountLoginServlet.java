@@ -220,10 +220,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   private AuthResult byPreferredEmail(String email) {
     try (ReviewDb db = schema.open()) {
       Optional<Account> match =
-          queryProvider
-              .get()
-              .byPreferredEmail(email)
-              .stream()
+          queryProvider.get().byPreferredEmail(email).stream()
               .map(AccountState::getAccount)
               .findFirst();
       return match.isPresent() ? auth(match.get()) : null;

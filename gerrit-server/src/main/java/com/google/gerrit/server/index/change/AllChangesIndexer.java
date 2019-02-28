@@ -136,10 +136,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     // Estimate size based on IDs that show up in ref names. This is not perfect, since patch set
     // refs may exist for changes whose metadata was never successfully stored. But that's ok, as
     // the estimate is just used as a heuristic for sorting projects.
-    return repo.getRefDatabase()
-        .getRefs(RefNames.REFS_CHANGES)
-        .values()
-        .stream()
+    return repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES).values().stream()
         .map(r -> Change.Id.fromRef(r.getName()))
         .filter(Objects::nonNull)
         .distinct()

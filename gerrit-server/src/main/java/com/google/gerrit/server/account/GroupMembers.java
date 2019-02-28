@@ -107,9 +107,7 @@ public class GroupMembers {
     GroupControl groupControl = groupControlFactory.controlFor(new InternalGroupDescription(group));
 
     Set<Account> directMembers =
-        group
-            .getMembers()
-            .stream()
+        group.getMembers().stream()
             .filter(groupControl::canSeeMember)
             .map(accountCache::get)
             .map(AccountState::getAccount)

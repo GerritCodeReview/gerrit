@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0be3a3e_a3adac38",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-28T19:56:38Z",
+      "side": 0,
+      "message": "I didn\u0027t remember this test existed when I started writing my new tests. I like the new ones better anyway, more plugins and less boilerplate.",
+      "revId": "f58c8c77ef14d478d26df897fb77cc40e89bf8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

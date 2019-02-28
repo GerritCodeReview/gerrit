@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1551381435 -0800\nnonce AC6AUtPt6eGskyH1ULzG2/AG+HSsPyM8DC7XTPUUXHUQhGvVEnIfc9QXWY9r9/Ma4OybENYMPkl0\n\n0000000000000000000000000000000000000000 1248788af664dbb20c7dd18c15a9b33a9f488304 refs/for/master%r\u003dhiesel@google.com,r\u003dtandrii@chromium.org\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlx4M7sVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM41cP+wQjvrbHcZ0aWVaEypfW16I7n94Y\nNUhTA+PvtEYXmAKncvQAioxiCbE+kqAOtCVZt+NeUm5BPwi9aTH3tESPfPCEi0iW\n9p9mW/X7ULobYbbJNr71MnEvmzfFvLBj+8nwm+IXKTWhUDwbZMQyghsmWsQn57Fc\nvRnZWkfnmKeHUbdpDnoJh9SXS9U9ujcR/4JvrOAAiL6TuLJpYIuDlAeWwzwMCd4q\ngINFRgz5Rt6av4ulOk73wHrlTosR0FXw/H8eJtrtbt2bZZ2JBi4VJkWJ0gSf2wqV\nsRecqUYgVpHMJXEpgYbKFuNV/B+rOvo4AgYgVLPyBJw3bH6BnHGvXefWT+QZyeXl\nUr6OXY77tNaILAe74aNfRZfQcS1yRSB7V1mi5mqLm02Q93flfuUDv6geZfU0lNGK\nznqtnmcbhSgVkG/ntVVfeE9har9OkGm4XrI7vRe8uj5vlPaJSCzWsXTY4lPqkCTl\niZTYVIJltIQbejUmN+8M5Z50kpFPJIitTbJzZZv9JHt5xod2gJ6IaiJa58+NEh4n\nD/obI1Rki2liYnq4jmLw+RGRjCygGDDWa7/zQZVrOxgIE8QRyo7u4ojqoTA2xVV6\nJCYJgMfiHZNSFfkNTOoqZoPKS/4pAtdA5cYDIx9nYqGxGl9PeBHY7bKAwLWvkVAG\nhUr7+cXM7CHh7lOI\n\u003d0R0V\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "71d8a7ad_800b44af",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmitByRebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-02-28T19:56:38Z",
+      "side": 1,
+      "message": "There is some bug or something in submitWithRebase that makes it not actually do a rebase with commit footers in the SubmitByRebaseIfNecessaryIT case. I just punted and moved these tests to the subclass.",
+      "revId": "8dc5711f888fe16a6750409fc74a134124e64780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

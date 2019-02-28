@@ -1277,6 +1277,16 @@ public class RestApiServlet extends HttpServlet {
       }
     }
 
+    if (r.isEmpty()) {
+      // Check a second time of we have a child collection
+      for (String plugin : views.plugins()) {
+        RestView<RestResource> action = views.get(plugin, "GET." + p.get(0));
+        if (action != null) {
+          r.put(PluginName.GERRIT, action); // TODO(hiesel): This needs to be the actual plugin name
+        }
+      }
+    }
+
     if (r.size() == 1) {
       Map.Entry<String, RestView<RestResource>> entry = Iterables.getOnlyElement(r.entrySet());
       return new ViewData(entry.getKey(), entry.getValue());

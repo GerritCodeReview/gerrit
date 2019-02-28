@@ -15,10 +15,12 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -29,10 +31,19 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.UrlFormatter;
+import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -40,7 +51,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public abstract class AbstractSubmitByRebase extends AbstractSubmit {
+  @Inject private DynamicSet<ChangeMessageModifier> changeMessageModifiers;;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private UrlFormatter urlFormatter;
 
   @Override
   protected abstract SubmitType getSubmitType();
@@ -70,7 +83,8 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     submitWithRebase(user);
   }
 
-  private void submitWithRebase(TestAccount submitter) throws Exception {
+  private ImmutableList<PushOneCommit.Result> submitWithRebase(TestAccount submitter)
+      throws Exception {
     requestScopeOperations.setApiUser(submitter.getId());
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
@@ -97,6 +111,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
         headAfterFirstSubmit.name(),
         change2.getChangeId(),
         headAfterSecondSubmit.name());
+    return ImmutableList.of(change, change2);
   }
 
   @Test
@@ -377,5 +392,87 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     // Do manual rebase first.
     gApi.changes().id(change2.getChangeId()).current().rebase();
     submit(change2.getChangeId());
+  }
+
+  @Test
+  public void rebaseInvokesChangeMessageModifiers() throws Exception {
+    ChangeMessageModifier modifier1 =
+        (msg, orig, tip, dest) -> msg + "This-change-before-rebase: " + orig.name() + "\n";
+    ChangeMessageModifier modifier2 =
+        (msg, orig, tip, dest) -> msg + "Previous-step-tip: " + tip.name() + "\n";
+    ChangeMessageModifier modifier3 =
+        (msg, orig, tip, dest) -> msg + "Dest: " + dest.getShortName() + "\n";
+
+    try (AutoCloseable ignored = installChangeMessageModifiers(modifier1, modifier2, modifier3)) {
+      ImmutableList<PushOneCommit.Result> changes = submitWithRebase(admin);
+      ChangeData cd1 = changes.get(0).getChange();
+      ChangeData cd2 = changes.get(1).getChange();
+      String change1Ps2Commit = cd1.patchSet(new PatchSet.Id(cd1.getId(), 2)).getRevision().get();
+      String change2Ps1Commit = cd2.patchSet(new PatchSet.Id(cd2.getId(), 1)).getRevision().get();
+
+      assertThat(gApi.changes().id(cd2.getId().get()).current().commit(false).message)
+          .isEqualTo(
+              "Change 2\n\n"
+                  + ("Change-Id: " + cd2.change().getKey() + "\n")
+                  + ("Reviewed-on: "
+                      + urlFormatter.getChangeViewUrl(project, cd2.getId()).get()
+                      + "\n")
+                  + "Reviewed-by: Administrator <admin@example.com>\n"
+                  + ("This-change-before-rebase: " + change2Ps1Commit + "\n")
+                  + ("Previous-step-tip: " + change1Ps2Commit + "\n")
+                  + "Dest: master\n");
+    }
+  }
+
+  @Test
+  public void failingChangeMessageModifierShortCircuits() throws Exception {
+    ChangeMessageModifier modifier1 =
+        (msg, orig, tip, dest) -> {
+          throw new IllegalStateException("boom");
+        };
+    ChangeMessageModifier modifier2 = (msg, orig, tip, dest) -> msg + "A-footer: value\n";
+    try (AutoCloseable ignored = installChangeMessageModifiers(modifier1, modifier2)) {
+      try {
+        submitWithRebase();
+        assert_().fail("expected ResourceConflictException");
+      } catch (ResourceConflictException e) {
+        Throwable cause = Throwables.getRootCause(e);
+        assertThat(cause).isInstanceOf(IllegalStateException.class);
+        assertThat(cause).hasMessageThat().isEqualTo("boom");
+      }
+    }
+  }
+
+  @Test
+  public void changeMessageModifierReturningNullShortCircuits() throws Exception {
+    ChangeMessageModifier modifier1 = (msg, orig, tip, dest) -> null;
+    ChangeMessageModifier modifier2 = (msg, orig, tip, dest) -> msg + "A-footer: value\n";
+    try (AutoCloseable ignored = installChangeMessageModifiers(modifier1, modifier2)) {
+      try {
+        submitWithRebase();
+        assert_().fail("expected ResourceConflictException");
+      } catch (ResourceConflictException e) {
+        Throwable cause = Throwables.getRootCause(e);
+        assertThat(cause).isInstanceOf(IllegalStateException.class);
+        assertThat(cause)
+            .hasMessageThat()
+            .isEqualTo(
+                modifier1.getClass().getName()
+                    + ".onSubmit from plugin modifier-1 returned null instead of new commit"
+                    + " message");
+      }
+    }
+  }
+
+  private AutoCloseable installChangeMessageModifiers(ChangeMessageModifier... modifiers) {
+    Deque<RegistrationHandle> handles = new ArrayDeque<>(modifiers.length);
+    for (int i = 0; i < modifiers.length; i++) {
+      handles.push(changeMessageModifiers.add("modifier-" + (i + 1), modifiers[i]));
+    }
+    return () -> {
+      while (!handles.isEmpty()) {
+        handles.pop().remove();
+      }
+    };
   }
 }

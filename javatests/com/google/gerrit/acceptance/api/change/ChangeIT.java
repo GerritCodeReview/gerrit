@@ -4010,12 +4010,28 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).ignore(true);
     assertThat(gApi.changes().id(r.getChangeId()).ignored()).isTrue();
 
+    // New patch set notification is not sent to users ignoring the change
     sender.clear();
     setApiUser(admin);
-    gApi.changes().id(r.getChangeId()).abandon();
+    amendChange(r.getChangeId());
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
-    assertThat(messages.get(0).rcpt()).containsExactly(new Address(fullname, email));
+    Address address = new Address(fullname, email);
+    assertThat(messages.get(0).rcpt()).containsExactly(address);
+
+    // Review notification is not sent to users ignoring the change
+    sender.clear();
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    assertThat(messages.get(0).rcpt()).containsExactly(address);
+
+    // Abandoned notification is not sent to users ignoring the change
+    sender.clear();
+    gApi.changes().id(r.getChangeId()).abandon();
+    messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    assertThat(messages.get(0).rcpt()).containsExactly(address);
 
     setApiUser(user);
     gApi.changes().id(r.getChangeId()).ignore(false);

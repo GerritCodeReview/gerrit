@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-coverage-layer</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../gr-diff/gr-diff-line.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="gr-coverage-layer.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-coverage-layer></gr-coverage-layer>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-coverage-layer', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      const initialCoverageRanges = [
+        {
+          type: 'COVERED',
+          side: 'left',
+          codeRange: {
+            end_character: 9,
+            end_line: 39,
+            start_character: 6,
+            start_line: 36,
+          },
+        },
+      ];
+
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+      element.coverageRanges = initialCoverageRanges;
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    suite('annotate', () => {
+      let sandbox;
+      let el;
+      let line;
+      let annotateElementStub;
+      const lineNumberEl = document.createElement('td');
+
+      setup(() => {
+        sandbox = sinon.sandbox.create();
+        annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+        el = document.createElement('div');
+        el.setAttribute('data-side', 'left');
+        line = new GrDiffLine(GrDiffLine.Type.BOTH);
+        line.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit,';
+      });
+
+      teardown(() => {
+        sandbox.restore();
+      });
+
+      test('TODO(brohlfs) implement a test', () => {
+      });
+    });
+  });
+</script>

@@ -265,6 +265,15 @@ limitations under the License.
       .newlineWarning.hidden {
         display: none;
       }
+      .lineNum.COVERED {
+         background-color: #E0F2F1;
+      }
+      .lineNum.NOT_COVERED {
+        background-color: #FFD1A4;
+      }
+      .lineNum.PARTIALLY_COVERED {
+        background: linear-gradient(to right bottom, #FFD1A4, #FFD1A4 50%, #E0F2F1 50%);
+      }
     </style>
     <style include="gr-syntax-theme"></style>
     <div id="diffHeader" hidden$="[[_computeDiffHeaderHidden(_diffHeaderItems)]]">
@@ -284,6 +293,7 @@ limitations under the License.
           <gr-diff-builder
               id="diffBuilder"
               comment-ranges="[[_commentRanges]]"
+              coverage-ranges="[[coverageRanges]]"
               project-name="[[projectName]]"
               diff="[[diff]]"
               diff-path="[[path]]"

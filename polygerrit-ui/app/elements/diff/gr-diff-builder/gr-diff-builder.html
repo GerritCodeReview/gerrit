@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
+<link rel="import" href="../gr-coverage-layer/gr-coverage-layer.html">
 <link rel="import" href="../gr-diff-processor/gr-diff-processor.html">
 <link rel="import" href="../gr-ranged-comment-layer/gr-ranged-comment-layer.html">
 <link rel="import" href="../gr-syntax-layer/gr-syntax-layer.html">
@@ -32,6 +33,14 @@ limitations under the License.
     <gr-syntax-layer
         id="syntaxLayer"
         diff="[[diff]]"></gr-syntax-layer>
+    <gr-coverage-layer
+        id="coverageLayer"
+        coverage-ranges="[[_leftCoverageRanges]]"
+        side="left"></gr-coverage-layer>
+    <gr-coverage-layer
+        id="coverageLayer"
+        coverage-ranges="[[_rightCoverageRanges]]"
+        side="right"></gr-coverage-layer>
     <gr-diff-processor
         id="processor"
         groups="{{_groups}}"></gr-diff-processor>
@@ -109,6 +118,19 @@ limitations under the License.
             type: Array,
             value: () => [],
           },
+          /** @type {!Array<!Gerrit.CoverageRange>} */
+          coverageRanges: {
+            type: Array,
+            value: () => [],
+          },
+          _leftCoverageRanges: {
+            type: Array,
+            computed: '_computeLeftCoverageRanges(coverageRanges)',
+          },
+          _rightCoverageRanges: {
+            type: Array,
+            computed: '_computeRightCoverageRanges(coverageRanges)',
+          },
           /**
            * The promise last returned from `render()` while the asynchronous
            * rendering is running - `null` otherwise. Provides a `cancel()`
@@ -125,6 +147,14 @@ limitations under the License.
         observers: [
           '_groupsChanged(_groups.splices)',
         ],
+
+        _computeLeftCoverageRanges(coverageRanges) {
+          return coverageRanges.filter(range => range && range.side === 'left');
+        },
+
+        _computeRightCoverageRanges(coverageRanges) {
+          return coverageRanges.filter(range => range && range.side === 'right');
+        },
 
         render(keyLocations, prefs) {
           // Setting up annotation layers must happen after plugins are
@@ -189,6 +219,7 @@ limitations under the License.
             this._createIntralineLayer(),
             this._createTabIndicatorLayer(),
             this.$.rangeLayer,
+            this.$.coverageLayer,
           ];
 
           // Get layers from plugins (if any).

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14b7f615_3e2d39ef",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-02-28T12:32:41Z",
+      "side": 1,
+      "message": "this seems unnecessary. It\u0027s testing the exact same code path, and makes the tests take longer to complete.",
+      "range": {
+        "startLine": 317,
+        "startChar": 14,
+        "endLine": 317,
+        "endChar": 39
+      },
+      "revId": "c41656f8d2aabad7526d6644dfeadbf8ceee6ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

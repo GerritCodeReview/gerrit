@@ -23,11 +23,13 @@ import java.util.List;
 
 class DynamicMapProvider<T> implements Provider<DynamicMap<T>> {
   private final TypeLiteral<T> type;
+  private final String pluginName;
 
   @Inject private Injector injector;
 
-  DynamicMapProvider(TypeLiteral<T> type) {
+  DynamicMapProvider(TypeLiteral<T> type, String pluginName) {
     this.type = type;
+    this.pluginName = pluginName;
   }
 
   @Override
@@ -37,7 +39,7 @@ class DynamicMapProvider<T> implements Provider<DynamicMap<T>> {
     if (bindings != null) {
       for (Binding<T> b : bindings) {
         if (b.getKey().getAnnotation() != null) {
-          m.put(PluginName.GERRIT, b.getKey(), b.getProvider());
+          m.put(pluginName, b.getKey(), b.getProvider());
         }
       }
     }

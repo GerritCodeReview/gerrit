@@ -76,11 +76,24 @@ public abstract class DynamicMap<T> implements Iterable<Extension<T>> {
    * @param member type of value in the map.
    */
   public static <T> void mapOf(Binder binder, TypeLiteral<T> member) {
+    mapOf(binder, member, PluginName.GERRIT);
+  }
+
+  /**
+   * Declare a singleton {@code DynamicMap<T>} with a binder.
+   *
+   * @see #mapOf(Binder, TypeLiteral)
+   *
+   * @param binder a new binder created in the module.
+   * @param member type of value in the map.
+   * @param pluginName name of the plugin that binds this {@link DynamicMap}.
+   */
+  public static <T> void mapOf(Binder binder, TypeLiteral<T> member, String pluginName) {
     @SuppressWarnings("unchecked")
     Key<DynamicMap<T>> key =
         (Key<DynamicMap<T>>)
             Key.get(Types.newParameterizedType(DynamicMap.class, member.getType()));
-    binder.bind(key).toProvider(new DynamicMapProvider<>(member)).in(Scopes.SINGLETON);
+    binder.bind(key).toProvider(new DynamicMapProvider<>(member, pluginName)).in(Scopes.SINGLETON);
   }
 
   /** Returns an empty DynamicMap instance * */

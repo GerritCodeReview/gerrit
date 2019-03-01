@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2866cafc_5f8fcbec",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-01T16:49:46Z",
+      "side": 1,
+      "message": "Maybe pass a boolean into the header component to drop the \"Files\" title, if _showFileTabs is true?",
+      "range": {
+        "startLine": 542,
+        "startChar": 11,
+        "endLine": 542,
+        "endChar": 30
+      },
+      "revId": "851d3cb14dad2a883e49e5fa8543a00d9bcacbc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

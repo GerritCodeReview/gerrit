@@ -313,6 +313,7 @@ public class MergeUtil {
     return commit;
   }
 
+  @SuppressWarnings("resource") // TemporaryBuffer requires calling close before reading.
   public static ObjectId mergeWithConflicts(
       RevWalk rw,
       ObjectInserter ins,
@@ -346,12 +347,19 @@ public class MergeUtil {
     Map<String, ObjectId> resolved = new HashMap<>();
     for (Map.Entry<String, MergeResult<? extends Sequence>> entry : mergeResults.entrySet()) {
       MergeResult<? extends Sequence> p = entry.getValue();
-      try (TemporaryBuffer buf = new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024)) {
+      TemporaryBuffer buf = null;
+      try {
+        // TODO(dborowitz): Respect inCoreLimit here.
+        buf = new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024);
         fmt.formatMerge(buf, p, "BASE", oursNameFormatted, theirsNameFormatted, UTF_8.name());
         buf.close();
 
         try (InputStream in = buf.openInputStream()) {
           resolved.put(entry.getKey(), ins.insert(Constants.OBJ_BLOB, buf.length(), in));
+        }
+      } finally {
+        if (buf != null) {
+          buf.destroy();
         }
       }
     }

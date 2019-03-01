@@ -253,6 +253,25 @@
         type: Boolean,
         value: true,
       },
+      _showFileTabContent: {
+        type: Boolean,
+        value: true,
+      },
+      /** @type {Array<string>} */
+      _dynamicTabHeaderEndpoints: {
+        type: Array,
+      },
+      _showPrimaryTabs: {
+        type: Boolean,
+        computed: '_computeShowPrimaryTabs(_dynamicTabHeaderEndpoints)',
+      },
+      /** @type {Array<string>} */
+      _dynamicTabContentEndpoints: {
+        type: Array,
+      },
+      _selectedFilesTabPluginEndpoint: {
+        type: String,
+      },
     },
 
     behaviors: [
@@ -308,6 +327,17 @@
           });
         }
         this._setDiffViewMode();
+      });
+
+      Gerrit.awaitPluginsLoaded().then(() => {
+        this._dynamicTabHeaderEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints('change-view-tab-header');
+        this._dynamicTabContentEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints('change-view-tab-content');
+        if (this._dynamicTabContentEndpoints.length
+            !== this._dynamicTabHeaderEndpoints.length) {
+          console.warn('Different number of tab headers and tab content.');
+        }
       });
 
       this.addEventListener('comment-save', this._handleCommentSave.bind(this));
@@ -368,8 +398,16 @@
       }
     },
 
-    _handleTabChange() {
+    _handleCommentTabChange() {
       this._showMessagesView = this.$.commentTabs.selected === 0;
+    },
+
+    _handleFileTabChange() {
+      const selectedIndex = this.$$('#primaryTabs').selected;
+      this._showFileTabContent = selectedIndex === 0;
+      // Initial tab is the static files list.
+      this._selectedFilesTabPluginEndpoint =
+          this._dynamicTabContentEndpoints[selectedIndex - 1];
     },
 
     _handleEditCommitMessage(e) {
@@ -699,6 +737,8 @@
       // Selected has to be set after the paper-tabs are visible because
       // the selected underline depends on calculations made by the browser.
       this.$.commentTabs.selected = 0;
+      const primaryTabs = this.$$('#primaryTabs');
+      if (primaryTabs) primaryTabs.selected = 0;
 
       this.async(() => {
         if (this.viewState.scrollTop) {
@@ -819,6 +859,10 @@
 
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});
+    },
+
+    _computeShowPrimaryTabs(dynamicTabContentEndpoints) {
+      return dynamicTabContentEndpoints.length > 0;
     },
 
     _computeChangeUrl(change) {

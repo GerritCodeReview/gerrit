@@ -149,11 +149,44 @@ The following endpoints are available to plugins.
 === change-list-header
 The `change-list-header` extension point adds a header to the change list view.
 
-
 === change-list-item-cell
 The `change-list-item-cell` extension point adds a cell to the change list item.
+
+In addition to default parameters, the following are available:
 
 * `change`
 +
 current change of the row, an instance of
 link:rest-api-changes.html#change-info[ChangeInfo]
+
+=== change-view-tab-header
+The `change-view-tab-header` extension point adds a primary tab to the change
+view. This must be used in conjunction with `change-view-tab-content`.
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `revision`
++
+current revision displayed, an instance of
+link:rest-api-changes.html#revision-info[RevisionInfo]
+
+=== change-view-tab-content
+The `change-view-tab-content` extension point adds primary tab content to
+the change view. This must be used in conjunction with `change-view-tab-header`.
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `revision`
++
+current revision displayed, an instance of
+link:rest-api-changes.html#revision-info[RevisionInfo]

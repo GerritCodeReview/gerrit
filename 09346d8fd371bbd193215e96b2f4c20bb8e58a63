@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1551383650 -0800\nnonce AC6AUtM99U/BUSgNbMAyz1BTtI8uaRdluCQDU3bh1qySR8WHNmIDI6Dl8fWjKHPt+cqaaeoupc1Y\n\n0000000000000000000000000000000000000000 501c20134bb19e864747eb4fddb829574dd66b5b refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlx4PGIVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMvY8P/jJZ4PP2DSMSJQENHMrmFGcqSerj\nqsfsA8JilCbBvMW7FpMkhG4yOwZpT3RgzfMrW3qE8fykSLqm07YNwHwXNoglOXjH\nL+3f4aeDLbQRmZj2v/dc2l81huvy2gsQh4anRB019/tyF5AgkebDSXrguzJAajHs\nm/B405l2L9Jh6a0cUWU1o4WYDVmBKg+CJ9RvsPr96I7C6icvNWf2SEPnXNvjy5pR\nolcLgAMBrtrK7d+/NvCDoHpb4YJW6GmQYCrawqpbeHAFJpknQH/7qlC3qPiqhaef\nDbdpEWO8DAi2Xm0FKe1na54RKQeFCkkTrnbPMH+NCCcCuDlG8ELT4i5lcMVJKXlM\nPaq2KD47npi92WlmlfOIdI40MqDnaEvLmgP5U09Gr0yhVk83M9B/MAeysTYnoOVH\nYpQmdbfA78NAWvzINKrMSQOJeY0uGFIECt04zYepr1JszBzAuqwWka6onu0lUIiy\n/14EdBylQwVoe0YAYAUp5uxFc1E/4KvsEZSbkyf0bQExVsckXYBSI+x0I08qsYQd\npNSh5/d8e6m+8OO3ncM4i2aU0+M2pNFDZUR+CaEbGFl7COyFN3kAAjHBw1xYzaUO\nmi8sLi0QC4Hj51L0guaKT2uag2uftuTFbO93OL5ZvhSssgOIP8eA9GkqDclb2NH0\nmz89pLnYX6GEgn+8\n\u003dB1R0\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "deae1fb9_c755a850",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-01T02:57:46Z",
+      "side": 1,
+      "message": "Extra semicolon here.",
+      "range": {
+        "startLine": 44,
+        "startChar": 75,
+        "endLine": 44,
+        "endChar": 76
+      },
+      "revId": "09346d8fd371bbd193215e96b2f4c20bb8e58a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "817d0272_4a12a171",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-01T02:57:46Z",
+      "side": 1,
+      "message": "DynamicSet\u003cUrlFormatter\u003e",
+      "range": {
+        "startLine": 45,
+        "startChar": 18,
+        "endLine": 45,
+        "endChar": 30
+      },
+      "revId": "09346d8fd371bbd193215e96b2f4c20bb8e58a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

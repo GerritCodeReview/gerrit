@@ -70,7 +70,8 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     submitWithRebase(user);
   }
 
-  private void submitWithRebase(TestAccount submitter) throws Exception {
+  protected ImmutableList<PushOneCommit.Result> submitWithRebase(TestAccount submitter)
+      throws Exception {
     requestScopeOperations.setApiUser(submitter.getId());
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
@@ -97,6 +98,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
         headAfterFirstSubmit.name(),
         change2.getChangeId(),
         headAfterSecondSubmit.name());
+    return ImmutableList.of(change, change2);
   }
 
   @Test

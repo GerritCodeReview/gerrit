@@ -84,6 +84,8 @@ import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestTimeUtil;
@@ -1074,11 +1076,15 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private void assertPushToGroupBranch(
       Project.NameKey project, String groupRefName, String expectedErrorOnUpdate) throws Exception {
-    grant(project, RefNames.REFS_GROUPS + "*", Permission.CREATE, false, REGISTERED_USERS);
-    grant(project, RefNames.REFS_GROUPS + "*", Permission.PUSH, false, REGISTERED_USERS);
-    grant(project, RefNames.REFS_DELETED_GROUPS + "*", Permission.CREATE, false, REGISTERED_USERS);
-    grant(project, RefNames.REFS_DELETED_GROUPS + "*", Permission.PUSH, false, REGISTERED_USERS);
-    grant(project, RefNames.REFS_GROUPNAMES, Permission.PUSH, false, REGISTERED_USERS);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      ProjectConfig cfg = u.getConfig();
+      Util.allow(cfg, Permission.CREATE, REGISTERED_USERS, RefNames.REFS_GROUPS + "*");
+      Util.allow(cfg, Permission.PUSH, REGISTERED_USERS, RefNames.REFS_GROUPS + "*");
+      Util.allow(cfg, Permission.CREATE, REGISTERED_USERS, RefNames.REFS_DELETED_GROUPS + "*");
+      Util.allow(cfg, Permission.PUSH, REGISTERED_USERS, RefNames.REFS_DELETED_GROUPS + "*");
+      Util.allow(cfg, Permission.PUSH, REGISTERED_USERS, RefNames.REFS_GROUPNAMES);
+      u.save();
+    }
 
     TestRepository<InMemoryRepository> repo = cloneProject(project);
 
@@ -1097,8 +1103,12 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void assertCreateGroupBranch(Project.NameKey project) throws Exception {
-    grant(project, RefNames.REFS_GROUPS + "*", Permission.CREATE, false, REGISTERED_USERS);
-    grant(project, RefNames.REFS_GROUPS + "*", Permission.PUSH, false, REGISTERED_USERS);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      ProjectConfig cfg = u.getConfig();
+      Util.allow(cfg, Permission.CREATE, REGISTERED_USERS, RefNames.REFS_GROUPS + "*");
+      Util.allow(cfg, Permission.PUSH, REGISTERED_USERS, RefNames.REFS_GROUPS + "*");
+      u.save();
+    }
     TestRepository<InMemoryRepository> repo = cloneProject(project);
     PushOneCommit.Result r =
         pushFactory

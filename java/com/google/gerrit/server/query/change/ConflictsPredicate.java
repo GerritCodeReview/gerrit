@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
@@ -26,6 +27,7 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -41,6 +43,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -55,14 +58,20 @@ public class ConflictsPredicate {
   private ConflictsPredicate() {}
 
   public static Predicate<ChangeData> create(Arguments args, String value, Change c)
-      throws QueryParseException, OrmException {
+      throws QueryParseException {
     ChangeData cd;
     List<String> files;
     try {
       cd = args.changeDataFactory.create(c);
       files = cd.currentFilePaths();
-    } catch (IOException e) {
-      throw new OrmException(e);
+    } catch (IOException | OrmException e) {
+      logWithOccasionalStackTrace(
+          logger::atWarning,
+          e,
+          "Error constructing conflicts predicates for change %s in %s",
+          c.getId(),
+          c.getProject());
+      return Predicate.not(Predicate.any());
     }
 
     if (3 + files.size() > args.indexConfig.maxTerms()) {
@@ -103,67 +112,67 @@ public class ConflictsPredicate {
     }
 
     @Override
-    public boolean match(ChangeData object) throws OrmException {
-      Change otherChange = object.change();
-      if (otherChange == null || !otherChange.getDest().equals(dest)) {
-        return false;
-      }
-
-      SubmitTypeRecord str = object.submitTypeRecord();
-      if (!str.isOk()) {
-        return false;
-      }
-
-      ProjectState projectState;
+    public boolean match(ChangeData object) {
+      Change.Id id = object.getId();
+      Project.NameKey otherProject = null;
+      ObjectId other = null;
       try {
-        projectState = changeDataCache.getProjectState();
-      } catch (NoSuchProjectException e) {
-        return false;
-      }
+        Change otherChange = object.change();
+        if (otherChange == null || !otherChange.getDest().equals(dest)) {
+          return false;
+        }
+        otherProject = otherChange.getProject();
 
-      ObjectId other = ObjectId.fromString(object.currentPatchSet().getRevision().get());
-      ConflictKey conflictsKey =
-          ConflictKey.create(
-              changeDataCache.getTestAgainst(),
-              other,
-              str.type,
-              projectState.is(BooleanProjectConfig.USE_CONTENT_MERGE));
-      Boolean maybeConflicts = args.conflictsCache.getIfPresent(conflictsKey);
-      if (maybeConflicts != null) {
-        return maybeConflicts;
-      }
+        SubmitTypeRecord str = object.submitTypeRecord();
+        if (!str.isOk()) {
+          return false;
+        }
 
-      try (Repository repo = args.repoManager.openRepository(otherChange.getProject());
-          CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-        boolean conflicts =
-            !args.submitDryRun.run(
-                null,
-                str.type,
-                repo,
-                rw,
-                otherChange.getDest(),
+        ProjectState projectState;
+        try {
+          projectState = changeDataCache.getProjectState();
+        } catch (NoSuchProjectException e) {
+          return false;
+        }
+
+        other = ObjectId.fromString(object.currentPatchSet().getRevision().get());
+        ConflictKey conflictsKey =
+            ConflictKey.create(
                 changeDataCache.getTestAgainst(),
                 other,
-                getAlreadyAccepted(repo, rw));
-        args.conflictsCache.put(conflictsKey, conflicts);
-        return conflicts;
-      } catch (IntegrationException e) {
-        BiConsumer<LoggingApi, String> logConsumer =
-            (api, prefix) ->
-                api.log(
-                    "%sMerge failure checking conflicts of change %s in %s (%s): %s",
-                    prefix,
-                    otherChange.getId(),
-                    otherChange.getProject(),
-                    lazy(() -> other.name()),
-                    e.getMessage());
-        logConsumer.accept(logger.atWarning(), "");
-        logConsumer.accept(
-            logger.atWarning().withCause(e).atMostEvery(1, MINUTES),
-            "(Re-logging with stack trace) ");
+                str.type,
+                projectState.is(BooleanProjectConfig.USE_CONTENT_MERGE));
+        Boolean maybeConflicts = args.conflictsCache.getIfPresent(conflictsKey);
+        if (maybeConflicts != null) {
+          return maybeConflicts;
+        }
+
+        try (Repository repo = args.repoManager.openRepository(otherChange.getProject());
+            CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
+          boolean conflicts =
+              !args.submitDryRun.run(
+                  null,
+                  str.type,
+                  repo,
+                  rw,
+                  otherChange.getDest(),
+                  changeDataCache.getTestAgainst(),
+                  other,
+                  getAlreadyAccepted(repo, rw));
+          args.conflictsCache.put(conflictsKey, conflicts);
+          return conflicts;
+        }
+      } catch (IntegrationException | NoSuchProjectException | OrmException | IOException e) {
+        ObjectId finalOther = other;
+        logWithOccasionalStackTrace(
+            logger::atWarning,
+            e,
+            "Merge failure checking conflicts of change %s in %s (%s): %s",
+            id,
+            firstNonNull(otherProject, "unknown project"),
+            lazy(() -> finalOther != null ? finalOther.name() : "unknown commit"),
+            e.getMessage());
         return false;
-      } catch (NoSuchProjectException | IOException e) {
-        throw new OrmException(e);
       }
     }
 
@@ -224,5 +233,14 @@ public class ConflictsPredicate {
       }
       return alreadyAccepted;
     }
+  }
+
+  private static <API extends LoggingApi<API>> void logWithOccasionalStackTrace(
+      Supplier<LoggingApi<API>> logSupplier, Throwable cause, String format, Object... args) {
+    BiConsumer<LoggingApi<API>, String> logConsumer = (api, f) -> api.logVarargs(f, args);
+    logConsumer.accept(logSupplier.get(), format);
+    logConsumer.accept(
+        logSupplier.get().withCause(cause).atMostEvery(1, MINUTES),
+        "(Re-logging with stack trace) " + format);
   }
 }

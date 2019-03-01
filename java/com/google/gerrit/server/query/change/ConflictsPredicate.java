@@ -14,6 +14,11 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.flogger.LazyArgs.lazy;
+import static java.util.concurrent.TimeUnit.MINUTES;
+
+import com.google.common.flogger.FluentLogger;
+import com.google.common.flogger.LoggingApi;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.index.query.Predicate;
@@ -35,12 +40,15 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class ConflictsPredicate {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   // UI code may depend on this string, so use caution when changing.
   protected static final String TOO_MANY_FILES = "too many files to find conflicts";
 
@@ -139,7 +147,22 @@ public class ConflictsPredicate {
                 getAlreadyAccepted(repo, rw));
         args.conflictsCache.put(conflictsKey, conflicts);
         return conflicts;
-      } catch (IntegrationException | NoSuchProjectException | IOException e) {
+      } catch (IntegrationException e) {
+        BiConsumer<LoggingApi, String> logConsumer =
+            (api, prefix) ->
+                api.log(
+                    "%sMerge failure checking conflicts of change %s in %s (%s): %s",
+                    prefix,
+                    otherChange.getId(),
+                    otherChange.getProject(),
+                    lazy(() -> other.name()),
+                    e.getMessage());
+        logConsumer.accept(logger.atWarning(), "");
+        logConsumer.accept(
+            logger.atWarning().withCause(e).atMostEvery(1, MINUTES),
+            "(Re-logging with stack trace) ");
+        return false;
+      } catch (NoSuchProjectException | IOException e) {
         throw new OrmException(e);
       }
     }

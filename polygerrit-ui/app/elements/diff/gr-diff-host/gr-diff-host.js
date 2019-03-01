@@ -193,6 +193,16 @@
         value: null,
       },
 
+      /**
+       * TODO(brohlfs): Replace Object type by Gerrit.CoverageRange.
+       *
+       * @type {!Array<!Object>}
+       */
+      _coverageRanges: {
+        type: Array,
+        value: () => [],
+      },
+
       _loadedWhitespaceLevel: String,
 
       _parentIndex: {
@@ -246,6 +256,21 @@
       this._loading = true;
       this._errorMessage = null;
       const whitespaceLevel = this._getIgnoreWhitespace();
+
+      this._coverageRanges = [];
+      const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
+      this.$.jsAPI.getCoverageRanges(changeNum, path, basePatchNum, patchNum).
+          then(coverageRanges => {
+            if (changeNum !== this.changeNum ||
+                path !== this.path ||
+                basePatchNum !== this.patchRange.basePatchNum ||
+                patchNum !== this.patchRange.patchNum) {
+              return;
+            }
+            this._coverageRanges = coverageRanges;
+          }).catch(err => {
+            console.warn('Loading coverage ranges failed: ', err);
+          });
 
       const diffRequest = this._getDiff()
           .then(diff => {

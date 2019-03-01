@@ -67,7 +67,7 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
 
   @VisibleForTesting
   static QueryOptions convertOptions(QueryOptions opts) {
-    opts = opts.convertForBackend();
+    opts = opts.convertForBackend(0);
     return IndexedChangeQuery.createOptions(
         opts.config(), opts.start(), opts.limit(), opts.fields());
   }

@@ -44,6 +44,6 @@ public class IndexedGroupQuery extends IndexedQuery<AccountGroup.UUID, InternalG
       Predicate<InternalGroup> pred,
       QueryOptions opts)
       throws QueryParseException {
-    super(index, pred, opts.convertForBackend());
+    super(index, pred, opts.convertForBackend(0));
   }
 }

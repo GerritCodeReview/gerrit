@@ -28,6 +28,6 @@ public class IndexedProjectQuery extends IndexedQuery<Project.NameKey, ProjectDa
   public IndexedProjectQuery(
       Index<Project.NameKey, ProjectData> index, Predicate<ProjectData> pred, QueryOptions opts)
       throws QueryParseException {
-    super(index, pred, opts.convertForBackend());
+    super(index, pred, opts.convertForBackend(0));
   }
 }

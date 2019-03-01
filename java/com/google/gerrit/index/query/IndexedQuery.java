@@ -88,7 +88,7 @@ public class IndexedQuery<I, T> extends Predicate<T> implements DataSource<T>, P
 
   @Override
   public ResultSet<T> restart(int start) throws OrmException {
-    opts = opts.withStart(start);
+    opts = opts.withStart(start).convertForBackend(start);
     try {
       source = index.getSource(pred, opts);
     } catch (QueryParseException e) {

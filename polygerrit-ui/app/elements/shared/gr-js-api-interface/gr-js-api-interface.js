@@ -227,6 +227,21 @@
       return layers;
     },
 
+    getCoverageRanges(changeNum, path, basePatchNum, patchNum) {
+      return Gerrit.awaitPluginsLoaded().then(() => {
+        for (const annotationApi of
+            this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
+          const provider = annotationApi.getCoverageProvider();
+          // Only one coverage provider makes sense. If there are more, then we
+          // simply ignore them.
+          if (provider) {
+            return provider(changeNum, path, basePatchNum, patchNum);
+          }
+        }
+        return Promise.resolve([]);
+      });
+    },
+
     getAdminMenuLinks() {
       const links = [];
       for (const adminApi of

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf96658c_22bd9ac7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-01T16:58:45Z",
+      "side": 1,
+      "message": "Do you need a method to remove the previously added ranges when they are popped from coverageRanges?",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 12
+      },
+      "revId": "0d43092c6e12c98011de8272cb6b6c7838a47360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

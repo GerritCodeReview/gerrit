@@ -22,6 +22,30 @@
       "revId": "c41656f8d2aabad7526d6644dfeadbf8ceee6ffc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfd8ee16_ad62c2cb",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-01T02:50:48Z",
+      "side": 1,
+      "message": "The purpose is to make sure we get the proper exception message for abandoned changes.  Does it really add so much overhead that it would be better to omit it?",
+      "parentUuid": "14b7f615_3e2d39ef",
+      "range": {
+        "startLine": 317,
+        "startChar": 14,
+        "endLine": 317,
+        "endChar": 39
+      },
+      "revId": "c41656f8d2aabad7526d6644dfeadbf8ceee6ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

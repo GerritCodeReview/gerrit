@@ -178,6 +178,12 @@
         value: null,
       },
 
+      /** @type {!Array<!Gerrit.CoverageRange>} */
+      _coverageRanges: {
+        type: Array,
+        value: () => [],
+      },
+
       _loadedWhitespaceLevel: String,
 
       _parentIndex: {
@@ -225,6 +231,12 @@
       this._loading = true;
       this._errorMessage = null;
       const whitespaceLevel = this._getIgnoreWhitespace();
+
+      this.$.jsAPI.getCoverageRanges(this.changeNum, this.path,
+          this.patchRange.basePatchNum, this.patchRange.patchNum).
+          then(coverageRanges => {
+            this._coverageRanges = coverageRanges;
+          });
 
       const diffRequest = this._getDiff()
           .then(diff => {

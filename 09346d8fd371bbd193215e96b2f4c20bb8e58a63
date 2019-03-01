@@ -46,6 +46,30 @@
       "revId": "09346d8fd371bbd193215e96b2f4c20bb8e58a63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c020d7c_26a06418",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-01T02:58:30Z",
+      "side": 1,
+      "message": "Sorry, I meant DynamicItem",
+      "parentUuid": "817d0272_4a12a171",
+      "range": {
+        "startLine": 45,
+        "startChar": 18,
+        "endLine": 45,
+        "endChar": 30
+      },
+      "revId": "09346d8fd371bbd193215e96b2f4c20bb8e58a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

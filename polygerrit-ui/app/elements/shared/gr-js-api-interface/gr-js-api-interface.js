@@ -228,6 +228,36 @@
       return layers;
     },
 
+    /**
+     * Retrieves coverage data possibly provided by a plugin.
+     *
+     * Will wait for plugins to be loaded. If multiple plugins offer a coverage
+     * provider, the first one is used. If no plugin offers a coverage provider,
+     * will resolve to [].
+     *
+     * TODO(brohlfs): Replace Array<Object> type by Array<Gerrit.CoverageRange>.
+     *
+     * @param {string|number} changeNum
+     * @param {string} path
+     * @param {string|number} basePatchNum
+     * @param {string|number} patchNum
+     * @return {!Promise<!Array<Object>>}
+     */
+    getCoverageRanges(changeNum, path, basePatchNum, patchNum) {
+      return Gerrit.awaitPluginsLoaded().then(() => {
+        for (const annotationApi of
+            this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
+          const provider = annotationApi.getCoverageProvider();
+          // Only one coverage provider makes sense. If there are more, then we
+          // simply ignore them.
+          if (provider) {
+            return provider(changeNum, path, basePatchNum, patchNum);
+          }
+        }
+        return [];
+      });
+    },
+
     getAdminMenuLinks() {
       const links = [];
       for (const adminApi of

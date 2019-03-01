@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15a21b16_2d7b1991",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-03-01T16:35:24Z",
+      "side": 1,
+      "message": "Would also do the same update for the current 1.3 version in Documentation/dev-eclipse.txt.",
+      "revId": "be9fecd09871104562cc1657e31ebfbfbf0ca2e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

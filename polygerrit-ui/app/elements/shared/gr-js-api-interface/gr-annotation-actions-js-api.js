@@ -26,6 +26,8 @@
     // notifying their listeners in the notify function.
     this._annotationLayers = [];
 
+    this._coverageProvider = null;
+
     // Default impl is a no-op.
     this._addLayerFunc = annotationActionsContext => {};
   }
@@ -53,6 +55,30 @@
     // Register the notify function with the plugin's function.
     notifyFunc(this.notify.bind(this));
     return this;
+  };
+
+  /**
+   * The specified function will be called when a gr-diff component is built,
+   * and feeds the returned coverage data into the diff. Optional.
+   *
+   * Be sure to call this only at most once and only from at most one plugin.
+   * Multiple coverage providers are not supported.
+   *
+   * @param {function(changeNum, path, basePatchNum, patchNum):
+   * !Promise<!Array<CoverageRange>>} coverageProvider
+   */
+  GrAnnotationActionsInterface.prototype.setCoverageProvider = function(
+      coverageProvider) {
+    this._coverageProvider = coverageProvider;
+    return this;
+  };
+
+  /**
+   * Used by Gerrit to look up the coverage provider. Not intended to be called
+   * by plugins.
+   */
+  GrAnnotationActionsInterface.prototype.getCoverageProvider = function() {
+    return this._coverageProvider;
   };
 
   /**

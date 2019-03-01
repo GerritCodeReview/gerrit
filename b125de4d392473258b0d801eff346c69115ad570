@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7aadaee1_5dd41fb9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-03-01T17:08:40Z",
+      "side": 1,
+      "message": "good calling making this async!",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 13
+      },
+      "revId": "b125de4d392473258b0d801eff346c69115ad570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8048a1e_1d782f12",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-03-01T17:08:40Z",
+      "side": 1,
+      "message": "what happens when someone in the UI changes the revision that they are viewing? Are we going to all getCoverageRanges again?",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 53
+      },
+      "revId": "b125de4d392473258b0d801eff346c69115ad570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9eddecc3_0b80fa8a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-03-01T17:08:40Z",
+      "side": 1,
+      "message": "since this is async there could be a subtle race condition when a user is flipping between viewing different revisions, I think we are going to need an async guard clause after getting the response from the provider.",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 69
+      },
+      "revId": "b125de4d392473258b0d801eff346c69115ad570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

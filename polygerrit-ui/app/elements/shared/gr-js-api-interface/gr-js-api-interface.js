@@ -228,6 +228,31 @@
       return layers;
     },
 
+    /**
+     * Waits on all plugins to be loaded, then iterates over all plugins that
+     * have registered with the Annotation API and tries to get a coverage
+     * provider. Uses the first provider found and applies the provider function
+     * to the given parameters. Returns a promise of coverage ranges.
+     *
+     * TODO(brohlfs): Replace Array<Object> type by Array<Gerrit.CoverageRange>.
+     *
+     * @return {!Promise<!Array<Object>>}
+     */
+    getCoverageRanges(changeNum, path, basePatchNum, patchNum) {
+      return Gerrit.awaitPluginsLoaded().then(() => {
+        for (const annotationApi of
+            this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
+          const provider = annotationApi.getCoverageProvider();
+          // Only one coverage provider makes sense. If there are more, then we
+          // simply ignore them.
+          if (provider) {
+            return provider(changeNum, path, basePatchNum, patchNum);
+          }
+        }
+        return Promise.resolve([]);
+      });
+    },
+
     getAdminMenuLinks() {
       const links = [];
       for (const adminApi of

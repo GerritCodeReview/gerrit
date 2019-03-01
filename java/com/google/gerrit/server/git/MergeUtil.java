@@ -349,12 +349,20 @@ public class MergeUtil {
     Map<String, ObjectId> resolved = new HashMap<>();
     for (Map.Entry<String, MergeResult<? extends Sequence>> entry : mergeResults.entrySet()) {
       MergeResult<? extends Sequence> p = entry.getValue();
-      try (TemporaryBuffer buf = new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024)) {
+      @SuppressWarnings("resource") // TemporaryBuffer requires calling close before reading.
+      TemporaryBuffer buf = null;
+      try {
+        // TODO(dborowitz): Respect inCoreLimit here.
+        buf = new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024);
         fmt.formatMerge(buf, p, "BASE", oursNameFormatted, theirsNameFormatted, UTF_8);
-        buf.close();
+        buf.close(); // Flush file and close for writes, but leave available for reading.
 
         try (InputStream in = buf.openInputStream()) {
           resolved.put(entry.getKey(), ins.insert(Constants.OBJ_BLOB, buf.length(), in));
+        }
+      } finally {
+        if (buf != null) {
+          buf.destroy();
         }
       }
     }

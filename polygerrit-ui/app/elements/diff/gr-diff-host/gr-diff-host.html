@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-comment-thread/gr-comment-thread.html">
+<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../gr-diff/gr-diff.html">
 
 <dom-module id="gr-diff-host">
@@ -45,8 +46,10 @@ limitations under the License.
         error-message="[[_errorMessage]]"
         base-image="[[_baseImage]]"
         revision-image=[[_revisionImage]]
+        coverage-ranges="[[_coverageRanges]]"
         blame="[[_blame]]"
         diff="[[_diff]]"></gr-diff>
+    <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-reporting id="reporting" category="diff"></gr-reporting>
   </template>

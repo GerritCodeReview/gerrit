@@ -22,6 +22,29 @@
       "revId": "0d43092c6e12c98011de8272cb6b6c7838a47360",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6e10204_d8356055",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-03-01T17:05:12Z",
+      "side": 1,
+      "message": "I think on the parent interface we should provide a way to set patchset, since we could have different coverage information for every patachset.",
+      "range": {
+        "startLine": 71,
+        "startChar": 35,
+        "endLine": 71,
+        "endChar": 38
+      },
+      "revId": "0d43092c6e12c98011de8272cb6b6c7838a47360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

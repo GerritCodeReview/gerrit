@@ -253,6 +253,23 @@
         type: Boolean,
         value: true,
       },
+      _showFileTabContent: {
+        type: Boolean,
+        value: true,
+      },
+      _dynamicTabHeaderEndpoints: {
+        type: Array,
+      },
+      _showFileTabs: {
+        type: Boolean,
+        computed: '_computeShowFileTabs(_dynamicTabHeaderEndpoints)',
+      },
+      _dynamicTabContentEndpoints: {
+        type: Array,
+      },
+      _selectedFilesTabPluginEndpoint: {
+        type: String,
+      },
     },
 
     behaviors: [
@@ -308,6 +325,13 @@
           });
         }
         this._setDiffViewMode();
+      });
+
+      Gerrit.awaitPluginsLoaded().then(() => {
+        this._dynamicTabHeaderEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints('change-view-tab-header');
+        this._dynamicTabContentEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints('change-view-tab-content');
       });
 
       this.addEventListener('comment-save', this._handleCommentSave.bind(this));
@@ -368,8 +392,15 @@
       }
     },
 
-    _handleTabChange() {
+    _handleCommentTabChange() {
       this._showMessagesView = this.$.commentTabs.selected === 0;
+    },
+
+    _handleFileTabChange() {
+      const selectedIndex = this.$$('#fileTabs').selected;
+      this._showFileTabContent = selectedIndex === 0;
+      this._selectedFilesTabPluginEndpoint =
+          this._dynamicTabContentEndpoints[selectedIndex - 1];
     },
 
     _handleEditCommitMessage(e) {
@@ -699,6 +730,8 @@
       // Selected has to be set after the paper-tabs are visible because
       // the selected underline depends on calculations made by the browser.
       this.$.commentTabs.selected = 0;
+      const fileTabs = this.$$('#fileTabs');
+      if (fileTabs) fileTabs.selected = 0;
 
       this.async(() => {
         if (this.viewState.scrollTop) {
@@ -819,6 +852,10 @@
 
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});
+    },
+
+    _computeShowFileTabs(dynamicTabContentEndpoints) {
+      return dynamicTabContentEndpoints.length > 0;
     },
 
     _computeChangeUrl(change) {

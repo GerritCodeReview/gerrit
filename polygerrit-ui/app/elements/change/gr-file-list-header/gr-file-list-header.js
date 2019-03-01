@@ -81,6 +81,10 @@
         type: String,
         value: '',
       },
+      showHeader: {
+        type: Boolean,
+        value: true,
+      },
       _descriptionReadOnly: {
         type: Boolean,
         computed: '_computeDescriptionReadOnly(loggedIn, change, account)',

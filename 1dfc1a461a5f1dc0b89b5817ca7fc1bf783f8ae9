@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "5dc99dcc_9ef7b77e",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-02T02:07:35Z",
+      "side": 1,
+      "message": "An alternative way to do this would be to create an instance that overrides the close() method to also call destroy().\n\nSomething like this: http://paste.openstack.org/show/746638/",
+      "parentUuid": "ed52b684_8d6e3e98",
+      "revId": "1dfc1a461a5f1dc0b89b5817ca7fc1bf783f8ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "31f9994d_32c74398",
         "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 1

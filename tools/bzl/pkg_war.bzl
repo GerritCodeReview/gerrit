@@ -76,35 +76,39 @@ def _war_impl(ctx):
     ]
 
     # Add lib
-    transitive_lib_deps = depset()
+    transitive_libs = []
     for l in ctx.attr.libs:
         if hasattr(l, "java"):
-            transitive_lib_deps += l.java.transitive_runtime_deps
+            transitive_libs.append(l.java.transitive_runtime_deps)
         elif hasattr(l, "files"):
-            transitive_lib_deps += l.files
+            transitive_libs.append(l.files)
 
+    transitive_lib_deps = depset(transitive = transitive_libs)
     for dep in transitive_lib_deps.to_list():
         cmd += _add_file(dep, build_output + "/WEB-INF/lib/")
         inputs.append(dep)
 
     # Add pgm lib
-    transitive_pgmlib_deps = depset()
+    transitive_pgmlibs = []
     for l in ctx.attr.pgmlibs:
-        transitive_pgmlib_deps += l.java.transitive_runtime_deps
+        transitive_pgmlibs.append(l.java.transitive_runtime_deps)
 
+    transitive_pgmlib_deps = depset(transitive = transitive_pgmlibs)
     for dep in transitive_pgmlib_deps.to_list():
         if dep not in inputs:
             cmd += _add_file(dep, build_output + "/WEB-INF/pgm-lib/")
             inputs.append(dep)
 
     # Add context
-    transitive_context_deps = depset()
+    transitive_context_libs = []
     if ctx.attr.context:
         for jar in ctx.attr.context:
             if hasattr(jar, "java"):
-                transitive_context_deps += jar.java.transitive_runtime_deps
+                transitive_context_libs.append(jar.java.transitive_runtime_deps)
             elif hasattr(jar, "files"):
-                transitive_context_deps += jar.files
+                transitive_context_libs.append(jar.files)
+
+    transitive_context_deps = depset(transitive = transitive_context_libs)
     for dep in transitive_context_deps.to_list():
         cmd += _add_context(dep, build_output)
         inputs.append(dep)

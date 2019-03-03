@@ -16,9 +16,11 @@ package com.google.gerrit.server.config;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
+import com.google.gerrit.extensions.config.PluginProjectPermissionDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
@@ -44,15 +46,26 @@ public class ListCapabilitiesTest extends GerritBaseTests {
           @Override
           protected void configure() {
             DynamicMap.mapOf(binder(), CapabilityDefinition.class);
+            DynamicMap.mapOf(binder(), PluginProjectPermissionDefinition.class);
             bind(CapabilityDefinition.class)
-                .annotatedWith(Exports.named("printHello"))
+                .annotatedWith(Exports.named("foo"))
                 .toInstance(
                     new CapabilityDefinition() {
                       @Override
                       public String getDescription() {
-                        return "Print Hello";
+                        return "Print hello";
                       }
                     });
+            bind(CapabilityDefinition.class)
+                .annotatedWith(Exports.named("bar"))
+                .toInstance(
+                    new CapabilityDefinition() {
+                      @Override
+                      public String getDescription() {
+                        return "Print hello";
+                      }
+                    });
+
             bind(PermissionBackend.class).to(FakePermissionBackend.class);
           }
         };
@@ -69,10 +82,11 @@ public class ListCapabilitiesTest extends GerritBaseTests {
       assertThat(m.get(id).name).isNotNull();
     }
 
-    String pluginCapability = "gerrit-printHello";
-    assertThat(m).containsKey(pluginCapability);
-    assertThat(m.get(pluginCapability).id).isEqualTo(pluginCapability);
-    assertThat(m.get(pluginCapability).name).isEqualTo("Print Hello");
+    for (String pluginCapability : ImmutableSet.of("gerrit-foo", "gerrit-bar")) {
+      assertThat(m).containsKey(pluginCapability);
+      assertThat(m.get(pluginCapability).id).isEqualTo(pluginCapability);
+      assertThat(m.get(pluginCapability).name).isEqualTo("Print Hello");
+    }
   }
 
   @Singleton

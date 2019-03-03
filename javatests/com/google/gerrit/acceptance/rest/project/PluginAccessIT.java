@@ -26,15 +26,16 @@ import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
+import com.google.gerrit.extensions.config.PluginProjectPermissionDefinition;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import org.junit.Test;
 
 public class PluginAccessIT extends AbstractDaemonTest {
-
-  private static final String CORE_PLUGIN_PREFIX = "gerrit-";
-  private static final String PLUGIN_CAPABILITY = "printHello";
+  private static final String TEST_PLUGIN_NAME = "gerrit";
+  private static final String TEST_PLUGIN_CAPABILITY = "aPluginCapability";
+  private static final String TEST_PLUGIN_PROJECT_PERMISSION = "aPluginProjectPermission";
 
   @Override
   public Module createModule() {
@@ -42,12 +43,21 @@ public class PluginAccessIT extends AbstractDaemonTest {
       @Override
       protected void configure() {
         bind(CapabilityDefinition.class)
-            .annotatedWith(Exports.named(PLUGIN_CAPABILITY))
+            .annotatedWith(Exports.named(TEST_PLUGIN_CAPABILITY))
             .toInstance(
                 new CapabilityDefinition() {
                   @Override
                   public String getDescription() {
-                    return "Print Hello";
+                    return "A Plugin Capability";
+                  }
+                });
+        bind(PluginProjectPermissionDefinition.class)
+            .annotatedWith(Exports.named(TEST_PLUGIN_PROJECT_PERMISSION))
+            .toInstance(
+                new PluginProjectPermissionDefinition() {
+                  @Override
+                  public String getDescription() {
+                    return "A Plugin Project Permission";
                   }
                 });
       }
@@ -56,23 +66,31 @@ public class PluginAccessIT extends AbstractDaemonTest {
 
   @Test
   public void addPluginCapability() throws Exception {
-    ProjectAccessInput accessInput = new ProjectAccessInput();
-    AccessSectionInfo accessSectionInfo = new AccessSectionInfo();
-    PermissionInfo email = new PermissionInfo(null, null);
-    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    addPluginPermission(AccessSection.GLOBAL_CAPABILITIES, TEST_PLUGIN_CAPABILITY);
+  }
 
-    email.rules = ImmutableMap.of(SystemGroupBackend.REGISTERED_USERS.get(), pri);
-    accessSectionInfo.permissions = ImmutableMap.of(CORE_PLUGIN_PREFIX + PLUGIN_CAPABILITY, email);
-    accessInput.add = ImmutableMap.of(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
+  @Test
+  public void addPluginProjectPermission() throws Exception {
+    addPluginPermission("refs/heads/plugin-permission", TEST_PLUGIN_PROJECT_PERMISSION);
+  }
+
+  private void addPluginPermission(String accessSection, String permission) throws Exception {
+    ProjectAccessInput accessInput = new ProjectAccessInput();
+    PermissionRuleInfo ruleInfo = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    PermissionInfo email = new PermissionInfo(null, null);
+    email.rules = ImmutableMap.of(SystemGroupBackend.REGISTERED_USERS.get(), ruleInfo);
+    String permissionConfigName = TEST_PLUGIN_NAME + "-" + permission;
+    if (!accessSection.equals(AccessSection.GLOBAL_CAPABILITIES)) {
+      permissionConfigName = "plugin-" + permissionConfigName;
+    }
+    AccessSectionInfo accessSectionInfo = new AccessSectionInfo();
+    accessSectionInfo.permissions = ImmutableMap.of(permissionConfigName, email);
+    accessInput.add = ImmutableMap.of(accessSection, accessSectionInfo);
 
     ProjectAccessInfo updatedAccessSectionInfo =
         gApi.projects().name(allProjects.get()).access(accessInput);
-    assertThat(
-            updatedAccessSectionInfo
-                .local
-                .get(AccessSection.GLOBAL_CAPABILITIES)
-                .permissions
-                .keySet())
+
+    assertThat(updatedAccessSectionInfo.local.get(accessSection).permissions.keySet())
         .containsAllIn(accessSectionInfo.permissions.keySet());
   }
 }

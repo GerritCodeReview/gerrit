@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3eebdaa9_a4b56d81",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1031439
+      },
+      "writtenOn": "2019-03-03T15:42:54Z",
+      "side": 1,
+      "message": "You may use the direct argument (https://docs.bazel.build/versions/master/skylark/lib/globals.html#depset) to add items that are not depsets.\n\n    transitive_zipfiles \u003d depset(\n        direct \u003d [ctx.file.zipfile],\n        transitive \u003d [d.transitive_zipfiles for d in ctx.attr.deps])",
+      "revId": "450c7e90ab0cc204e5b7498eec50ba82651f7f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e3c2098_c3f9f499",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1031439
+      },
+      "writtenOn": "2019-03-03T15:42:54Z",
+      "side": 1,
+      "message": "If you can, avoid this and make sure the field always contains a depset.",
+      "revId": "450c7e90ab0cc204e5b7498eec50ba82651f7f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

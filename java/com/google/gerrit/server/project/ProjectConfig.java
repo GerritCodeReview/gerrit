@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.common.data.Permission.isPermission;
 import static com.google.gerrit.reviewdb.client.Project.DEFAULT_SUBMIT_TYPE;
+import static com.google.gerrit.server.permissions.PluginPermissionsUtil.isPluginPermission;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
@@ -747,7 +748,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         for (String varName : rc.getStringList(ACCESS, refName, KEY_GROUP_PERMISSIONS)) {
           for (String n : Splitter.on(EXCLUSIVE_PERMISSIONS_SPLIT_PATTERN).split(varName)) {
             n = convertLegacyPermission(n);
-            if (isPermission(n)) {
+            if (isCoreOrPluginPermission(n)) {
               as.getPermission(n, true).setExclusiveGroup(true);
             }
           }
@@ -755,7 +756,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
         for (String varName : rc.getNames(ACCESS, refName)) {
           String convertedName = convertLegacyPermission(varName);
-          if (isPermission(convertedName)) {
+          if (isCoreOrPluginPermission(convertedName)) {
             Permission perm = as.getPermission(convertedName, true);
             loadPermissionRules(
                 rc,
@@ -782,6 +783,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       loadPermissionRules(
           rc, CAPABILITY, null, varName, groupsByName, perm, GlobalCapability.hasRange(varName));
     }
+  }
+
+  private boolean isCoreOrPluginPermission(String permission) {
+    // Since plugins are loaded dynamically, here we can't load all plugin permissions and verify
+    // their existence.
+    return isPermission(permission) || isPluginPermission(permission);
   }
 
   private boolean isValidRegex(String refPattern) {
@@ -1360,7 +1367,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       }
 
       for (String varName : rc.getNames(ACCESS, refName)) {
-        if (isPermission(convertLegacyPermission(varName))
+        if (isCoreOrPluginPermission(convertLegacyPermission(varName))
             && !have.contains(varName.toLowerCase())) {
           rc.unset(ACCESS, refName, varName);
         }

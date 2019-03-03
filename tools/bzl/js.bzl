@@ -299,11 +299,7 @@ def _bundle_impl(ctx):
 
     # intermediate artifact if split is wanted.
     if ctx.attr.split:
-        bundled = ctx.new_file(
-            ctx.configuration.genfiles_dir,
-            ctx.outputs.html,
-            ".bundled.html",
-        )
+        bundled = ctx.actions.declare_file(ctx.outputs.html.path + ".bundled.html")
     else:
         bundled = ctx.outputs.html
     destdir = ctx.outputs.html.path + ".dir"

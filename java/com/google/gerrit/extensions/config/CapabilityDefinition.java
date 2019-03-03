@@ -18,7 +18,4 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
 /** Specifies a capability declared by a plugin. */
 @ExtensionPoint
-public abstract class CapabilityDefinition {
-  /** @return description of the capability. */
-  public abstract String getDescription();
-}
+public abstract class CapabilityDefinition implements PluginPermissionDefinition {}

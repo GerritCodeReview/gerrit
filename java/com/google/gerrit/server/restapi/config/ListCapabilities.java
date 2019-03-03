@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.config;
 
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -24,19 +26,16 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.config.CapabilityConstants;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PluginPermissionsUtil;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /** List capabilities visible to the calling user. */
 @Singleton
 public class ListCapabilities implements RestReadView<ConfigResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  private static final Pattern PLUGIN_NAME_PATTERN = Pattern.compile("^[a-zA-Z0-9-]+$");
 
   private final PermissionBackend permissionBackend;
   private final DynamicMap<CapabilityDefinition> pluginCapabilities;
@@ -59,21 +58,17 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
   }
 
   public Map<String, CapabilityInfo> collectPluginCapabilities() {
-    Map<String, CapabilityInfo> output = new HashMap<>();
-    for (String pluginName : pluginCapabilities.plugins()) {
-      if (!PLUGIN_NAME_PATTERN.matcher(pluginName).matches()) {
-        logger.atWarning().log(
-            "Plugin name '%s' must match '%s' to use capabilities; rename the plugin",
-            pluginName, PLUGIN_NAME_PATTERN.pattern());
-        continue;
-      }
-      for (Map.Entry<String, Provider<CapabilityDefinition>> entry :
-          pluginCapabilities.byPlugin(pluginName).entrySet()) {
-        String id = String.format("%s-%s", pluginName, entry.getKey());
-        output.put(id, new CapabilityInfo(id, entry.getValue().get().getDescription()));
-      }
-    }
-    return output;
+    return convertToPermissionInfos(
+        PluginPermissionsUtil.collectPluginCapabilities(pluginCapabilities));
+  }
+
+  private static ImmutableMap<String, CapabilityInfo> convertToPermissionInfos(
+      ImmutableMap<String, String> permissionIdNames) {
+    return permissionIdNames
+        .entrySet()
+        .stream()
+        .collect(
+            toImmutableMap(Map.Entry::getKey, e -> new CapabilityInfo(e.getKey(), e.getValue())));
   }
 
   private Map<String, CapabilityInfo> collectCoreCapabilities()

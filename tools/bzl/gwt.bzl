@@ -195,17 +195,17 @@ def _gwt_binary_impl(ctx):
     )
 
 def _get_transitive_closure(ctx):
-    deps = depset()
+    deps = []
     for dep in ctx.attr.module_deps:
-        deps += dep.java.transitive_runtime_deps
-        deps += dep.java.transitive_source_jars
+        deps.append(dep.java.transitive_runtime_deps)
+        deps.append(dep.java.transitive_source_jars)
     for dep in ctx.attr.deps:
         if hasattr(dep, "java"):
-            deps += dep.java.transitive_runtime_deps
+            deps.append(dep.java.transitive_runtime_deps)
         elif hasattr(dep, "files"):
-            deps += dep.files
+            deps.append(dep.files)
 
-    return deps
+    return depset(transitive = deps)
 
 gwt_binary = rule(
     attrs = {

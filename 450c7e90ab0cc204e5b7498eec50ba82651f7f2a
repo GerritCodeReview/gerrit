@@ -33,6 +33,24 @@
       "revId": "450c7e90ab0cc204e5b7498eec50ba82651f7f2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d2a7ab6_1e7e0992",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-03-03T15:54:58Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s unfortunate. The point is, that depset union works for both:\n\n* depset\n* list\n\nwhile depset constructor expects depset only for transitive argument. This required that hack with type(foo) check and additional depset construction.",
+      "parentUuid": "6e3c2098_c3f9f499",
+      "revId": "450c7e90ab0cc204e5b7498eec50ba82651f7f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

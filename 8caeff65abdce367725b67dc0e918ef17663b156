@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "397b3584_d657c420",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/PluginProvidedChildRestApiBindingsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T18:23:58Z",
+      "side": 1,
+      "message": "Why not just make TEST_CALLS an ImmutableList?",
+      "revId": "8caeff65abdce367725b67dc0e918ef17663b156",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07005171_23094316",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/PluginProvidedRootRestApiBindingsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T18:23:58Z",
+      "side": 1,
+      "message": "Why not just make TEST_CALLS an ImmutableList?",
+      "range": {
+        "startLine": 149,
+        "startChar": 61,
+        "endLine": 149,
+        "endChar": 67
+      },
+      "revId": "8caeff65abdce367725b67dc0e918ef17663b156",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

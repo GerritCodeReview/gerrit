@@ -1,5 +1,7 @@
 package com.google.gerrit.server.permissions;
 
+import static com.google.gerrit.extensions.api.access.PluginProjectPermission.PLUGIN_PERMISSION_NAME_PATTERN_STRING;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
@@ -28,7 +30,13 @@ public class PluginPermissionsUtil {
    * data migration is done.
    */
   private static final Pattern PLUGIN_PERMISSION_NAME_IN_CONFIG_PATTERN =
-      Pattern.compile("^" + "plugin-" + PLUGIN_NAME_PATTERN_STRING + "-[a-zA-Z]+" + "$");
+      Pattern.compile(
+          "^"
+              + "plugin-"
+              + PLUGIN_NAME_PATTERN_STRING
+              + "-"
+              + PLUGIN_PERMISSION_NAME_PATTERN_STRING
+              + "$");
 
   /** Name pattern for a Gerrit plugin. */
   private static final Pattern PLUGIN_NAME_PATTERN =

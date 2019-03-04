@@ -16,10 +16,13 @@ package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_TAGS;
+import static com.google.gerrit.server.permissions.PermissionBackendUtil.newSet;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.api.access.CoreOrPluginProjectPermission;
+import com.google.gerrit.extensions.api.access.PluginProjectPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -45,7 +48,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -372,17 +374,18 @@ class ProjectControl {
     }
 
     @Override
-    public void check(ProjectPermission perm) throws AuthException, PermissionBackendException {
+    public void check(CoreOrPluginProjectPermission perm)
+        throws AuthException, PermissionBackendException {
       if (!can(perm)) {
         throw new AuthException(perm.describeForException() + " not permitted");
       }
     }
 
     @Override
-    public Set<ProjectPermission> test(Collection<ProjectPermission> permSet)
+    public <T extends CoreOrPluginProjectPermission> Set<T> test(Collection<T> permSet)
         throws PermissionBackendException {
-      EnumSet<ProjectPermission> ok = EnumSet.noneOf(ProjectPermission.class);
-      for (ProjectPermission perm : permSet) {
+      Set<T> ok = newSet(permSet);
+      for (T perm : permSet) {
         if (can(perm)) {
           ok.add(perm);
         }
@@ -391,7 +394,7 @@ class ProjectControl {
     }
 
     @Override
-    public BooleanCondition testCond(ProjectPermission perm) {
+    public BooleanCondition testCond(CoreOrPluginProjectPermission perm) {
       return new PermissionBackendCondition.ForProject(this, perm, getUser());
     }
 
@@ -402,6 +405,16 @@ class ProjectControl {
         refFilter = refFilterFactory.create(ProjectControl.this);
       }
       return refFilter.filter(refs, repo, opts);
+    }
+
+    private boolean can(CoreOrPluginProjectPermission perm) throws PermissionBackendException {
+      if (perm instanceof ProjectPermission) {
+        return can((ProjectPermission) perm);
+      } else if (perm instanceof PluginProjectPermission) {
+        return false;
+      }
+
+      throw new PermissionBackendException(perm + " unsupported");
     }
 
     private boolean can(ProjectPermission perm) throws PermissionBackendException {

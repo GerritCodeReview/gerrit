@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.extensions.api.access.CoreOrPluginProjectPermission;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -300,18 +301,21 @@ public abstract class PermissionBackend {
     }
 
     /** Verify scoped user can {@code perm}, throwing if denied. */
-    public abstract void check(ProjectPermission perm)
+    public abstract void check(CoreOrPluginProjectPermission perm)
         throws AuthException, PermissionBackendException;
 
     /** Filter {@code permSet} to permissions scoped user might be able to perform. */
-    public abstract Set<ProjectPermission> test(Collection<ProjectPermission> permSet)
+    public abstract <T extends CoreOrPluginProjectPermission> Set<T> test(Collection<T> permSet)
         throws PermissionBackendException;
 
-    public boolean test(ProjectPermission perm) throws PermissionBackendException {
-      return test(EnumSet.of(perm)).contains(perm);
+    public boolean test(CoreOrPluginProjectPermission perm) throws PermissionBackendException {
+      if (perm instanceof ProjectPermission) {
+        return test(EnumSet.of((ProjectPermission) perm)).contains(perm);
+      }
+      return false;
     }
 
-    public boolean testOrFalse(ProjectPermission perm) {
+    public boolean testOrFalse(CoreOrPluginProjectPermission perm) {
       try {
         return test(perm);
       } catch (PermissionBackendException e) {
@@ -320,7 +324,7 @@ public abstract class PermissionBackend {
       }
     }
 
-    public abstract BooleanCondition testCond(ProjectPermission perm);
+    public abstract BooleanCondition testCond(CoreOrPluginProjectPermission perm);
 
     /**
      * Filter a map of references by visibility.

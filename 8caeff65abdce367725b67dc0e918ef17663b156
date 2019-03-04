@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "eff6749b_bfeef2d0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/PluginProvidedChildRestApiBindingsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-03-04T18:30:52Z",
+      "side": 1,
+      "message": "Please see my follow-up change. I think ImmutableSet is a better fit here.",
+      "parentUuid": "397b3584_d657c420",
+      "revId": "8caeff65abdce367725b67dc0e918ef17663b156",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07005171_23094316",
         "filename": "javatests/com/google/gerrit/acceptance/rest/binding/PluginProvidedRootRestApiBindingsIT.java",
         "patchSetId": 3

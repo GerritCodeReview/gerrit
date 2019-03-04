@@ -22,7 +22,7 @@ import static com.google.gerrit.server.restapi.project.DashboardsCollection.DEFA
 import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
@@ -47,8 +47,8 @@ import org.junit.Test;
  * the functionality of the project REST endpoints.
  */
 public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
-  private static final ImmutableList<RestCall> PROJECT_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> PROJECT_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/projects/%s"),
           RestCall.put("/projects/%s"),
           RestCall.get("/projects/%s/description"),
@@ -85,15 +85,15 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
    * Child project REST endpoints to be tested, each URL contains placeholders for the parent
    * project identifier and the child project identifier.
    */
-  private static final ImmutableList<RestCall> CHILD_PROJECT_ENDPOINTS =
-      ImmutableList.of(RestCall.get("/projects/%s/children/%s"));
+  private static final ImmutableSet<RestCall> CHILD_PROJECT_ENDPOINTS =
+      ImmutableSet.of(RestCall.get("/projects/%s/children/%s"));
 
   /**
    * Branch REST endpoints to be tested, each URL contains placeholders for the project identifier
    * and the branch identifier.
    */
-  private static final ImmutableList<RestCall> BRANCH_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> BRANCH_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/projects/%s/branches/%s"),
           RestCall.put("/projects/%s/branches/%s"),
           RestCall.get("/projects/%s/branches/%s/mergeable"),
@@ -114,15 +114,15 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
    * Branch file REST endpoints to be tested, each URL contains placeholders for the project
    * identifier, the branch identifier and the file identifier.
    */
-  private static final ImmutableList<RestCall> BRANCH_FILE_ENDPOINTS =
-      ImmutableList.of(RestCall.get("/projects/%s/branches/%s/files/%s/content"));
+  private static final ImmutableSet<RestCall> BRANCH_FILE_ENDPOINTS =
+      ImmutableSet.of(RestCall.get("/projects/%s/branches/%s/files/%s/content"));
 
   /**
    * Dashboard REST endpoints to be tested, each URL contains placeholders for the project
    * identifier and the dashboard identifier.
    */
-  private static final ImmutableList<RestCall> DASHBOARD_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> DASHBOARD_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/projects/%s/dashboards/%s"),
           RestCall.put("/projects/%s/dashboards/%s"),
 
@@ -133,8 +133,8 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
    * Tag REST endpoints to be tested, each URL contains placeholders for the project identifier and
    * the tag identifier.
    */
-  private static final ImmutableList<RestCall> TAG_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> TAG_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/projects/%s/tags/%s"),
           RestCall.put("/projects/%s/tags/%s"),
           RestCall.delete("/projects/%s/tags/%s"));
@@ -143,8 +143,8 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
    * Commit REST endpoints to be tested, each URL contains placeholders for the project identifier
    * and the commit identifier.
    */
-  private static final ImmutableList<RestCall> COMMIT_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> COMMIT_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/projects/%s/commits/%s"),
           RestCall.get("/projects/%s/commits/%s/in"),
           RestCall.get("/projects/%s/commits/%s/files"),
@@ -154,8 +154,8 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
    * Commit file REST endpoints to be tested, each URL contains placeholders for the project
    * identifier, the commit identifier and the file identifier.
    */
-  private static final ImmutableList<RestCall> COMMIT_FILE_ENDPOINTS =
-      ImmutableList.of(RestCall.get("/projects/%s/commits/%s/files/%s/content"));
+  private static final ImmutableSet<RestCall> COMMIT_FILE_ENDPOINTS =
+      ImmutableSet.of(RestCall.get("/projects/%s/commits/%s/files/%s/content"));
 
   private static final String FILENAME = "test.txt";
   @Inject private ProjectOperations projectOperations;

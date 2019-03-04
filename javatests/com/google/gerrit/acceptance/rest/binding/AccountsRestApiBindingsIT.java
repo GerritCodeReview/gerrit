@@ -20,6 +20,7 @@ import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithoutExpiration;
 import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.UseSsh;
@@ -48,8 +49,8 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
    * Account REST endpoints to be tested, each URL contains a placeholder for the account
    * identifier.
    */
-  private static final ImmutableList<RestCall> ACCOUNT_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> ACCOUNT_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/accounts/%s"),
           RestCall.put("/accounts/%s"),
           RestCall.get("/accounts/%s/detail"),
@@ -103,8 +104,8 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
    * Email REST endpoints to be tested, each URL contains a placeholders for the account and email
    * identifier.
    */
-  private static final ImmutableList<RestCall> EMAIL_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> EMAIL_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/accounts/%s/emails/%s"),
           RestCall.put("/accounts/%s/emails/%s"),
           RestCall.put("/accounts/%s/emails/%s/preferred"),
@@ -116,8 +117,8 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
    * GPG key REST endpoints to be tested, each URL contains a placeholders for the account
    * identifier and the GPG key identifier.
    */
-  private static final ImmutableList<RestCall> GPG_KEY_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> GPG_KEY_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/accounts/%s/gpgkeys/%s"),
 
           // GPG key deletion must be tested last
@@ -127,8 +128,8 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
    * SSH key REST endpoints to be tested, each URL contains a placeholders for the account and SSH
    * key identifier.
    */
-  private static final ImmutableList<RestCall> SSH_KEY_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> SSH_KEY_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/accounts/%s/sshkeys/%s"),
 
           // SSH key deletion must be tested last
@@ -138,8 +139,8 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
    * Star REST endpoints to be tested, each URL contains a placeholders for the account and change
    * identifier.
    */
-  private static final ImmutableList<RestCall> STAR_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> STAR_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.put("/accounts/%s/starred.changes/%s"),
           RestCall.delete("/accounts/%s/starred.changes/%s"),
           RestCall.get("/accounts/%s/stars.changes/%s"),

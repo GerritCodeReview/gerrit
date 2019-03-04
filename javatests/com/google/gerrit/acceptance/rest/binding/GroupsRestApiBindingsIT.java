@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.binding;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
@@ -30,8 +30,8 @@ public class GroupsRestApiBindingsIT extends AbstractDaemonTest {
   /**
    * Group REST endpoints to be tested, each URL contains a placeholder for the group identifier.
    */
-  private static final ImmutableList<RestCall> GROUP_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> GROUP_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/groups/%s"),
           RestCall.put("/groups/%s"),
           RestCall.get("/groups/%s/detail"),
@@ -59,8 +59,8 @@ public class GroupsRestApiBindingsIT extends AbstractDaemonTest {
    * Member REST endpoints to be tested, each URL contains placeholders for the group identifier and
    * the member identifier.
    */
-  private static final ImmutableList<RestCall> MEMBER_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> MEMBER_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/groups/%s/members/%s"),
           RestCall.put("/groups/%s/members/%s"),
 
@@ -71,8 +71,8 @@ public class GroupsRestApiBindingsIT extends AbstractDaemonTest {
    * Subgroup REST endpoints to be tested, each URL contains placeholders for the group identifier
    * and the subgroup identifier.
    */
-  private static final ImmutableList<RestCall> SUBGROUP_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> SUBGROUP_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/groups/%s/groups/%s"),
           RestCall.put("/groups/%s/groups/%s"),
 

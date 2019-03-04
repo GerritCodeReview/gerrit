@@ -16,7 +16,7 @@ package com.google.gerrit.acceptance.rest.binding;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
@@ -36,8 +36,8 @@ public class PluginsRemoteAdminRestApiBindingsIT extends AbstractDaemonTest {
   /**
    * Plugin REST endpoints to be tested, each URL contains a placeholder for the plugin identifier.
    */
-  private static final ImmutableList<RestCall> PLUGIN_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> PLUGIN_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.put("/plugins/%s"),
 
           // For GET requests prefixing the view name with 'gerrit~' is required.

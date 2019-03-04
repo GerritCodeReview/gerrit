@@ -1,0 +1,272 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3486eab_5693e2b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:18:58Z",
+      "side": 1,
+      "message": "The format for capabilities is just {pluginName}-{capability}. Why is it different for plugins?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9b698b8_9faeceed",
+        "filename": "java/com/google/gerrit/extensions/config/PluginPermissionDefinition.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:18:58Z",
+      "side": 1,
+      "message": "Missing copyright header",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ea06a12_2c501c83",
+        "filename": "java/com/google/gerrit/extensions/config/PluginProjectPermissionDefinition.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:18:58Z",
+      "side": 1,
+      "message": "Missing copyright header",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "360e3cb7_1c66ad32",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:18:58Z",
+      "side": 1,
+      "message": "Missing copyright header",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19473154_473f8975",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:18:58Z",
+      "side": 1,
+      "message": "This description seems like it belongs in the commit message. Especially the part about keeping the old format before a data migration; that comment isn\u0027t directly relevant to this code.",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7dbb120_a404403c",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:18:58Z",
+      "side": 1,
+      "message": "\"to have a name\"",
+      "range": {
+        "startLine": 22,
+        "startChar": 59,
+        "endLine": 22,
+        "endChar": 69
+      },
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b123efb2_ab638eb5",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:18:58Z",
+      "side": 1,
+      "message": "\"isn\u0027t clear\"",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f73e7b7_fbeb94e0",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:18:58Z",
+      "side": 1,
+      "message": "contain",
+      "range": {
+        "startLine": 25,
+        "startChar": 78,
+        "endLine": 25,
+        "endChar": 86
+      },
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7a92321_1f5cb518",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:18:58Z",
+      "side": 1,
+      "message": "Optional: consider making this class non-static so you can get this via injection.",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f3d416b_a43f5c65",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:18:58Z",
+      "side": 1,
+      "message": "\"permissions\"?",
+      "range": {
+        "startLine": 67,
+        "startChar": 53,
+        "endLine": 67,
+        "endChar": 65
+      },
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21428c88_fb1ca64c",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:18:58Z",
+      "side": 1,
+      "message": "This iterates over the internal DynamicMap multiple times. To ensure consistency while iterating, this method should consist of a single loop over the DynamicMap (which is an Iterable\u003cExtension\u003cT\u003e\u003e). I think that should also improve readability, because you will be able to use .getPluginName() and .getExportName() to refer to the different Strings.\n\n(As an aside, IMO there should be a variant of DynamicMap#byPlugin that returns a List\u003cExtension\u003cT\u003e\u003e, which would be even closer to what you want here.)",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9571996d_e2f98210",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:18:58Z",
+      "side": 1,
+      "message": "Optional: string concatenation is faster and just as readable in this case.",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3585592e_877b658b",
+        "filename": "javatests/com/google/gerrit/server/permissions/PluginPermissionsUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:18:58Z",
+      "side": 1,
+      "message": "Missing copyright header",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "965ab222_a2891ba1",
+        "filename": "javatests/com/google/gerrit/server/permissions/PluginPermissionsUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:18:58Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 19,
+        "startChar": 76,
+        "endLine": 19,
+        "endChar": 79
+      },
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

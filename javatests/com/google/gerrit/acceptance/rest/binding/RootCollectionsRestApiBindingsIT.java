@@ -18,7 +18,7 @@ import static com.google.gerrit.acceptance.rest.util.RestApiCallHelper.execute;
 import static com.google.gerrit.acceptance.rest.util.RestCall.Method.GET;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.rest.util.RestCall;
@@ -32,8 +32,8 @@ import org.junit.Test;
  */
 public class RootCollectionsRestApiBindingsIT extends AbstractDaemonTest {
   /** Root REST endpoints to be tested, the URLs contain no placeholders. */
-  private static final ImmutableList<RestCall> ROOT_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> ROOT_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/access/"),
           RestCall.get("/accounts/"),
           RestCall.put("/accounts/new-account"),

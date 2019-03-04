@@ -392,8 +392,12 @@ public class RestApiServlet extends HttpServlet {
             if (isRead(req)) {
               viewData = new ViewData(null, c.list());
             } else if (isPost(req)) {
+              // TODO: Here and on other collection methods: There is a bug that binds child views
+              // with pluginName="gerrit" instead of the real plugin name. This has never worked
+              // correctly and should be fixed where the binding gets created (DynamicMapProvider)
+              // and here.
               RestView<RestResource> restCollectionView =
-                  c.views().get(viewData.pluginName, "POST_ON_COLLECTION./");
+                  c.views().get(PluginName.GERRIT, "POST_ON_COLLECTION./");
               if (restCollectionView != null) {
                 viewData = new ViewData(null, restCollectionView);
               } else {
@@ -401,7 +405,7 @@ public class RestApiServlet extends HttpServlet {
               }
             } else if (isDelete(req)) {
               RestView<RestResource> restCollectionView =
-                  c.views().get(viewData.pluginName, "DELETE_ON_COLLECTION./");
+                  c.views().get(PluginName.GERRIT, "DELETE_ON_COLLECTION./");
               if (restCollectionView != null) {
                 viewData = new ViewData(null, restCollectionView);
               } else {
@@ -1264,6 +1268,8 @@ public class RestApiServlet extends HttpServlet {
       return new ViewData(PluginName.GERRIT, core);
     }
 
+    // Check if we want to delegate to a child collection. Child collections are bound with
+    // GET.name so we have to check for this since we haven't found any other views.
     core = views.get(PluginName.GERRIT, "GET." + p.get(0));
     if (core != null) {
       return new ViewData(PluginName.GERRIT, core);
@@ -1274,6 +1280,17 @@ public class RestApiServlet extends HttpServlet {
       RestView<RestResource> action = views.get(plugin, name);
       if (action != null) {
         r.put(plugin, action);
+      }
+    }
+
+    if (r.isEmpty()) {
+      // Check if we want to delegate to a child collection. Child collections are bound with
+      // GET.name so we have to check for this since we haven't found any other views.
+      for (String plugin : views.plugins()) {
+        RestView<RestResource> action = views.get(plugin, "GET." + p.get(0));
+        if (action != null) {
+          r.put(plugin, action);
+        }
       }
     }
 

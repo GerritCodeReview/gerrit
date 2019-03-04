@@ -30,18 +30,18 @@ import org.junit.Ignore;
 /** Helper to execute REST API calls using the HTTP client. */
 @Ignore
 public class RestApiCallHelper {
-  /** @see #execute(RestSession, Set, BeforeRestCall, String...) */
-  public static void execute(RestSession restSession, Set<RestCall> restCalls, String... args)
+  /** @see #execute(RestSession, Set, BeforeRestCall, Object...) */
+  public static void execute(RestSession restSession, Set<RestCall> restCalls, Object... args)
       throws Exception {
     execute(restSession, restCalls, () -> {}, args);
   }
 
-  /** @see #execute(RestSession, Set, BeforeRestCall, String...) */
+  /** @see #execute(RestSession, Set, BeforeRestCall, Object...) */
   public static void execute(
       RestSession restSession,
       Set<RestCall> restCalls,
       BeforeRestCall beforeRestCall,
-      String... args)
+      Object... args)
       throws Exception {
     for (RestCall restCall : restCalls) {
       beforeRestCall.run();
@@ -56,7 +56,7 @@ public class RestApiCallHelper {
    * the purpose of the test is only to verify that the REST endpoint implementations are correctly
    * bound.
    */
-  public static void execute(RestSession restSession, RestCall restCall, String... args)
+  public static void execute(RestSession restSession, RestCall restCall, Object... args)
       throws Exception {
     String method = restCall.httpMethod().name();
     String uri = restCall.uri(args);

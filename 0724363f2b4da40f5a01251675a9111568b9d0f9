@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98421aab_60d369ed",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/PluginProvidedChildRestApiBindingsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T18:39:02Z",
+      "side": 1,
+      "message": "See my comment on the old PS: please document that it\u0027s a bug to allow it without plugin~.",
+      "revId": "0724363f2b4da40f5a01251675a9111568b9d0f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

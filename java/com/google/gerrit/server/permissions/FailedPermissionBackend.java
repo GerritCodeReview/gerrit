@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.permissions;
 
+import com.google.gerrit.extensions.api.access.CoreOrPluginProjectPermission;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.reviewdb.client.Project;
@@ -124,18 +125,18 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public void check(ProjectPermission perm) throws PermissionBackendException {
+    public void check(CoreOrPluginProjectPermission perm) throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
     }
 
     @Override
-    public Set<ProjectPermission> test(Collection<ProjectPermission> permSet)
+    public <T extends CoreOrPluginProjectPermission> Set<T> test(Collection<T> permSet)
         throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
     }
 
     @Override
-    public BooleanCondition testCond(ProjectPermission perm) {
+    public BooleanCondition testCond(CoreOrPluginProjectPermission perm) {
       throw new UnsupportedOperationException(
           "FailedPermissionBackend does not support conditions");
     }

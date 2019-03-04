@@ -17,7 +17,7 @@ package com.google.gerrit.server.restapi.account;
 import static com.google.gerrit.common.data.GlobalCapability.PRIORITY;
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalOrPluginPermissionName;
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalPermissionName;
-import static com.google.gerrit.server.permissions.DefaultPermissionMappings.pluginPermissionName;
+import static com.google.gerrit.server.permissions.DefaultPermissionMappings.pluginCapabilityName;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -113,7 +113,7 @@ public class GetCapabilities implements RestReadView<AccountResource> {
     for (String pluginName : pluginCapabilities.plugins()) {
       for (String capability : pluginCapabilities.byPlugin(pluginName).keySet()) {
         PluginPermission p = new PluginPermission(pluginName, capability);
-        if (want(pluginPermissionName(p))) {
+        if (want(pluginCapabilityName(p))) {
           toTest.add(p);
         }
       }

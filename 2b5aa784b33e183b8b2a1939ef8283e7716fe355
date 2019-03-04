@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfd9d886_d995c05d",
+        "filename": "java/com/google/gerrit/pgm/init/InitJavaOptions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-04T10:40:52Z",
+      "side": 1,
+      "message": "Could you add a link to some info about the (necessity) of this option?",
+      "revId": "2b5aa784b33e183b8b2a1939ef8283e7716fe355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

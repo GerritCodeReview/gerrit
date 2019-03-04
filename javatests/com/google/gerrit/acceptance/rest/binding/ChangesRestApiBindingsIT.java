@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
@@ -51,8 +52,8 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
   /**
    * Change REST endpoints to be tested, each URL contains a placeholder for the change identifier.
    */
-  private static final ImmutableList<RestCall> CHANGE_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> CHANGE_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/changes/%s"),
           RestCall.get("/changes/%s/detail"),
           RestCall.get("/changes/%s/topic"),
@@ -115,8 +116,8 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
    * Reviewer REST endpoints to be tested, each URL contains placeholders for the change identifier
    * and the reviewer identifier.
    */
-  private static final ImmutableList<RestCall> REVIEWER_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> REVIEWER_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/changes/%s/reviewers/%s"),
           RestCall.get("/changes/%s/reviewers/%s/votes"),
           RestCall.post("/changes/%s/reviewers/%s/delete"),
@@ -126,8 +127,8 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
    * Vote REST endpoints to be tested, each URL contains placeholders for the change identifier, the
    * reviewer identifier and the label identifier.
    */
-  private static final ImmutableList<RestCall> VOTE_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> VOTE_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.post("/changes/%s/reviewers/%s/votes/%s/delete"),
           RestCall.delete("/changes/%s/reviewers/%s/votes/%s"));
 
@@ -135,8 +136,8 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
    * Revision REST endpoints to be tested, each URL contains placeholders for the change identifier
    * and the revision identifier.
    */
-  private static final ImmutableList<RestCall> REVISION_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> REVISION_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/changes/%s/revisions/%s/actions"),
           RestCall.post("/changes/%s/revisions/%s/cherrypick"),
           RestCall.get("/changes/%s/revisions/%s/commit"),
@@ -170,8 +171,8 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
    * Revision reviewer REST endpoints to be tested, each URL contains placeholders for the change
    * identifier, the revision identifier and the reviewer identifier.
    */
-  private static final ImmutableList<RestCall> REVISION_REVIEWER_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> REVISION_REVIEWER_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/changes/%s/revisions/%s/reviewers/%s"),
           RestCall.get("/changes/%s/revisions/%s/reviewers/%s/votes"),
           RestCall.post("/changes/%s/revisions/%s/reviewers/%s/delete"),
@@ -181,8 +182,8 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
    * Revision vote REST endpoints to be tested, each URL contains placeholders for the change
    * identifier, the revision identifier, the reviewer identifier and the label identifier.
    */
-  private static final ImmutableList<RestCall> REVISION_VOTE_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> REVISION_VOTE_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.post("/changes/%s/revisions/%s/reviewers/%s/votes/%s/delete"),
           RestCall.delete("/changes/%s/revisions/%s/reviewers/%s/votes/%s"));
 
@@ -190,8 +191,8 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
    * Draft comment REST endpoints to be tested, each URL contains placeholders for the change
    * identifier, the revision identifier and the draft comment identifier.
    */
-  private static final ImmutableList<RestCall> DRAFT_COMMENT_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> DRAFT_COMMENT_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/changes/%s/revisions/%s/drafts/%s"),
           RestCall.put("/changes/%s/revisions/%s/drafts/%s"),
           RestCall.delete("/changes/%s/revisions/%s/drafts/%s"));
@@ -200,8 +201,8 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
    * Comment REST endpoints to be tested, each URL contains placeholders for the change identifier,
    * the revision identifier and the comment identifier.
    */
-  private static final ImmutableList<RestCall> COMMENT_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> COMMENT_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/changes/%s/revisions/%s/comments/%s"),
           RestCall.delete("/changes/%s/revisions/%s/comments/%s"),
           RestCall.post("/changes/%s/revisions/%s/comments/%s/delete"));
@@ -210,22 +211,22 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
    * Robot comment REST endpoints to be tested, each URL contains placeholders for the change
    * identifier, the revision identifier and the robot comment identifier.
    */
-  private static final ImmutableList<RestCall> ROBOT_COMMENT_ENDPOINTS =
-      ImmutableList.of(RestCall.get("/changes/%s/revisions/%s/robotcomments/%s"));
+  private static final ImmutableSet<RestCall> ROBOT_COMMENT_ENDPOINTS =
+      ImmutableSet.of(RestCall.get("/changes/%s/revisions/%s/robotcomments/%s"));
 
   /**
    * Fix REST endpoints to be tested, each URL contains placeholders for the change identifier, the
    * revision identifier and the fix identifier.
    */
-  private static final ImmutableList<RestCall> FIX_ENDPOINTS =
-      ImmutableList.of(RestCall.post("/changes/%s/revisions/%s/fixes/%s/apply"));
+  private static final ImmutableSet<RestCall> FIX_ENDPOINTS =
+      ImmutableSet.of(RestCall.post("/changes/%s/revisions/%s/fixes/%s/apply"));
 
   /**
    * Revision file REST endpoints to be tested, each URL contains placeholders for the change
    * identifier, the revision identifier and the file identifier.
    */
-  private static final ImmutableList<RestCall> REVISION_FILE_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> REVISION_FILE_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.put("/changes/%s/revisions/%s/files/%s/reviewed"),
           RestCall.delete("/changes/%s/revisions/%s/files/%s/reviewed"),
           RestCall.get("/changes/%s/revisions/%s/files/%s/content"),
@@ -237,15 +238,15 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
    * Change message REST endpoints to be tested, each URL contains placeholders for the change
    * identifier and the change message identifier.
    */
-  private static final ImmutableList<RestCall> CHANGE_MESSAGE_ENDPOINTS =
-      ImmutableList.of(RestCall.get("/changes/%s/messages/%s"));
+  private static final ImmutableSet<RestCall> CHANGE_MESSAGE_ENDPOINTS =
+      ImmutableSet.of(RestCall.get("/changes/%s/messages/%s"));
 
   /**
    * Change edit REST endpoints that create an edit to be tested, each URL contains placeholders for
    * the change identifier and the change edit identifier.
    */
-  private static final ImmutableList<RestCall> CHANGE_EDIT_CREATE_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> CHANGE_EDIT_CREATE_ENDPOINTS =
+      ImmutableSet.of(
           // Create change edit by editing an existing file.
           RestCall.put("/changes/%s/edit/%s"),
 
@@ -256,8 +257,8 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
    * Change edit REST endpoints to be tested, each URL contains placeholders for the change
    * identifier and the change edit identifier.
    */
-  private static final ImmutableList<RestCall> CHANGE_EDIT_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> CHANGE_EDIT_ENDPOINTS =
+      ImmutableSet.of(
           // Calls on existing change edit.
           RestCall.get("/changes/%s/edit/%s"),
           RestCall.put("/changes/%s/edit/%s"),

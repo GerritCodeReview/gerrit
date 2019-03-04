@@ -24,22 +24,22 @@ import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
-import java.util.List;
+import java.util.Set;
 import org.junit.Ignore;
 
 /** Helper to execute REST API calls using the HTTP client. */
 @Ignore
 public class RestApiCallHelper {
-  /** @see #execute(RestSession, List, BeforeRestCall, String...) */
-  public static void execute(RestSession restSession, List<RestCall> restCalls, String... args)
+  /** @see #execute(RestSession, Set, BeforeRestCall, String...) */
+  public static void execute(RestSession restSession, Set<RestCall> restCalls, String... args)
       throws Exception {
     execute(restSession, restCalls, () -> {}, args);
   }
 
-  /** @see #execute(RestSession, List, BeforeRestCall, String...) */
+  /** @see #execute(RestSession, Set, BeforeRestCall, String...) */
   public static void execute(
       RestSession restSession,
-      List<RestCall> restCalls,
+      Set<RestCall> restCalls,
       BeforeRestCall beforeRestCall,
       String... args)
       throws Exception {

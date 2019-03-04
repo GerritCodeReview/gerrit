@@ -17,7 +17,7 @@ package com.google.gerrit.acceptance.rest.binding;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
@@ -41,8 +41,8 @@ public class ConfigRestApiBindingsIT extends AbstractDaemonTest {
    * Config REST endpoints to be tested, the URLs contain no placeholders since the only supported
    * config identifier ('server') can be hard-coded.
    */
-  private static final ImmutableList<RestCall> CONFIG_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> CONFIG_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/config/server/version"),
           RestCall.get("/config/server/info"),
           RestCall.get("/config/server/preferences"),
@@ -66,15 +66,15 @@ public class ConfigRestApiBindingsIT extends AbstractDaemonTest {
    * Since there is only supported a single supported config identifier ('server') it can be
    * hard-coded.
    */
-  private static final ImmutableList<RestCall> CACHE_ENDPOINTS =
-      ImmutableList.of(RestCall.get("/config/server/caches/%s"));
+  private static final ImmutableSet<RestCall> CACHE_ENDPOINTS =
+      ImmutableSet.of(RestCall.get("/config/server/caches/%s"));
 
   /**
    * Task REST endpoints to be tested, the URLs contain a placeholder for the task identifier. Since
    * there is only supported a single supported config identifier ('server') it can be hard-coded.
    */
-  private static final ImmutableList<RestCall> TASK_ENDPOINTS =
-      ImmutableList.of(
+  private static final ImmutableSet<RestCall> TASK_ENDPOINTS =
+      ImmutableSet.of(
           RestCall.get("/config/server/tasks/%s"),
 
           // Task deletion must be tested last

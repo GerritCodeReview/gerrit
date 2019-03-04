@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "16998763_870125d5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/PluginProvidedChildRestApiBindingsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T18:28:42Z",
+      "side": 1,
+      "message": "Please add tests for plugin~test-collection.\n\nIt is a bug to allow these without the plugin~ prefix. I think it\u0027s ok that we have this bug (as long as it does work with the prefix), but I don\u0027t think it\u0027s super important to test the buggy behavior. It\u0027s ok to leave it in, but if you do, please add a comment explicitly stating that this is buggy behavior and we expect it to 404 in the future.",
+      "range": {
+        "startLine": 58,
+        "startChar": 49,
+        "endLine": 58,
+        "endChar": 64
+      },
+      "revId": "8caeff65abdce367725b67dc0e918ef17663b156",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "397b3584_d657c420",
         "filename": "javatests/com/google/gerrit/acceptance/rest/binding/PluginProvidedChildRestApiBindingsIT.java",
         "patchSetId": 3

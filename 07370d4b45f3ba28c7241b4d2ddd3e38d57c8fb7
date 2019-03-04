@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c4e9975_8ae15405",
+        "filename": "javatests/com/google/gerrit/server/extensions/webui/UiActionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:34:17Z",
+      "side": 0,
+      "message": "Huh. Looks like you fixed a bug in the old implementation: it shouldn\u0027t be returning READ unless READ was in the input permSet.",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

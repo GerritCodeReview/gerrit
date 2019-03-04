@@ -1,0 +1,203 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37cc1d8f_0ec1af76",
+        "filename": "java/com/google/gerrit/extensions/api/access/CoreOrPluginProjectPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:34:17Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2959866b_caac817d",
+        "filename": "java/com/google/gerrit/extensions/api/access/PluginProjectPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:34:17Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "424a71ba_edf67752",
+        "filename": "java/com/google/gerrit/extensions/api/access/PluginProjectPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:34:17Z",
+      "side": 1,
+      "message": "Include permission name in error message",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6478bb70_bd7bbda9",
+        "filename": "java/com/google/gerrit/extensions/api/access/PluginProjectPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:34:17Z",
+      "side": 1,
+      "message": "Use MoreObjects.toStringHelper",
+      "range": {
+        "startLine": 56,
+        "startChar": 12,
+        "endLine": 56,
+        "endChar": 28
+      },
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca1478e1_47ed12e6",
+        "filename": "java/com/google/gerrit/extensions/api/access/PluginProjectPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:34:17Z",
+      "side": 1,
+      "message": "Isn\u0027t there something in PluginPermissionsUtil for this?",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e60a287f_209bde05",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionMappings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:34:17Z",
+      "side": 1,
+      "message": "Not related to this change: I don\u0027t understand why these FooPermission -\u003e String methods are statically defined in this class instead of being methods on the FooPermission classes/interfaces.\n\nWhat you have here is fine for consistency with globalOrPluginPermissionName, etc.",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd301b22_538cce7e",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:34:17Z",
+      "side": 1,
+      "message": "Add a TODO?",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5fbf23b_fa011a6c",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackendUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:34:17Z",
+      "side": 1,
+      "message": "Missing copyright header",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b84aa14d_a1c38ec4",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackendUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:34:17Z",
+      "side": 1,
+      "message": "This is certainly premature optimization. It was less objectionable when it was just a single private method, but now you\u0027re introducing a brand new class just to hold this. I guess you can leave it if you really want.",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1477a57d_8fc98e2b",
+        "filename": "java/com/google/gerrit/server/permissions/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:34:17Z",
+      "side": 1,
+      "message": "describeForException?",
+      "range": {
+        "startLine": 417,
+        "startChar": 43,
+        "endLine": 417,
+        "endChar": 47
+      },
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8459757_23584b7b",
+        "filename": "javatests/com/google/gerrit/server/extensions/webui/UiActionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T17:34:17Z",
+      "side": 1,
+      "message": "It took me a minute to figure out what was going on here. At first glance, it looked like you might be adding a ProjectPermission when permSet\u0027s type was actually Collection\u003cPluginProjectPermission\u003e. I think we need a comment, something like: \n\n\"Allow ProjectPermission.READ, if it was requested in the input permSet. This implies that permSet has type Collection\u003cProjectPermission\u003e, otherwise no permission would compare equal to READ.\"",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

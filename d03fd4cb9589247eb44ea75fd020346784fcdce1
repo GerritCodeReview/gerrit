@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "411eff70_c7ab7b1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T16:17:02Z",
+      "side": 1,
+      "message": "\"papers\" or something?",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "d03fd4cb9589247eb44ea75fd020346784fcdce1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5b83cbb_67775987",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/PluginProvidedRestApiBindingsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T16:17:02Z",
+      "side": 1,
+      "message": "I think we want a test for binding a top-level collection as well.",
+      "revId": "d03fd4cb9589247eb44ea75fd020346784fcdce1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8f674ac_8db61a18",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/PluginProvidedRestApiBindingsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T16:17:02Z",
+      "side": 1,
+      "message": "Not related to this change: execute could just take Object... instead of String....",
+      "revId": "d03fd4cb9589247eb44ea75fd020346784fcdce1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "785bb648_0f15e63e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/PluginProvidedRestApiBindingsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T16:17:02Z",
+      "side": 1,
+      "message": "These all have the same setup and the same placeholders in their strings, they can just go in a single ImmutableList\u003cRestCall\u003e and get tested in a single test method.",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 3
+      },
+      "revId": "d03fd4cb9589247eb44ea75fd020346784fcdce1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2dde224e_32dbacf0",
+        "filename": "java/com/google/gerrit/extensions/api/access/CoreOrPluginProjectPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37cc1d8f_0ec1af76",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2959866b_caac817d",
         "filename": "java/com/google/gerrit/extensions/api/access/PluginProjectPermission.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "02f97ba5_97ce2984",
+        "filename": "java/com/google/gerrit/extensions/api/access/PluginProjectPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2959866b_caac817d",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "424a71ba_edf67752",
         "filename": "java/com/google/gerrit/extensions/api/access/PluginProjectPermission.java",
         "patchSetId": 1
@@ -50,6 +86,24 @@
       "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3aead8e5_03746133",
+        "filename": "java/com/google/gerrit/extensions/api/access/PluginProjectPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "424a71ba_edf67752",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "22ed3e38_1fcd16b4",
+        "filename": "java/com/google/gerrit/extensions/api/access/PluginProjectPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6478bb70_bd7bbda9",
+      "range": {
+        "startLine": 56,
+        "startChar": 12,
+        "endLine": 56,
+        "endChar": 28
+      },
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1478e1_47ed12e6",
         "filename": "java/com/google/gerrit/extensions/api/access/PluginProjectPermission.java",
         "patchSetId": 1
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "46905dff_0a952a0b",
+        "filename": "java/com/google/gerrit/extensions/api/access/PluginProjectPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:42Z",
+      "side": 1,
+      "message": "that\u0027s different. There, we check if the config name pattern, which should look like \"plugin-\u003cpluginName\u003e-\u003cpermission\u003e\". Here it\u0027s only about the permission. \n\nBTW, they share the same \"PLUGIN_PERMISSION_NAME_PATTERN_STRING\".",
+      "parentUuid": "ca1478e1_47ed12e6",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e60a287f_209bde05",
         "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionMappings.java",
         "patchSetId": 1
@@ -104,6 +200,24 @@
       "writtenOn": "2019-03-04T17:34:17Z",
       "side": 1,
       "message": "Not related to this change: I don\u0027t understand why these FooPermission -\u003e String methods are statically defined in this class instead of being methods on the FooPermission classes/interfaces.\n\nWhat you have here is fine for consistency with globalOrPluginPermissionName, etc.",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "921a59d8_00955c2b",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionMappings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:42Z",
+      "side": 1,
+      "message": "My understanding is they are here because most of those methods requires those static map defined above in order to work. And you\u0027re the author of this class. :)",
+      "parentUuid": "e60a287f_209bde05",
       "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "09323457_829e1ea0",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd301b22_538cce7e",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5fbf23b_fa011a6c",
         "filename": "java/com/google/gerrit/server/permissions/PermissionBackendUtil.java",
         "patchSetId": 1
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "aa48677c_39578bc4",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackendUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5fbf23b_fa011a6c",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b84aa14d_a1c38ec4",
         "filename": "java/com/google/gerrit/server/permissions/PermissionBackendUtil.java",
         "patchSetId": 1
@@ -158,6 +308,24 @@
       "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a802f58_cdf0d44e",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackendUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:42Z",
+      "side": 1,
+      "message": "I would rather keep it because otherwise we have to make it public in the PB implementation so that it can be shared. Also it will also be used by internal implementations.",
+      "parentUuid": "b84aa14d_a1c38ec4",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -184,6 +352,30 @@
     },
     {
       "key": {
+        "uuid": "7bd3c6c8_8e11dbbd",
+        "filename": "java/com/google/gerrit/server/permissions/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1477a57d_8fc98e2b",
+      "range": {
+        "startLine": 417,
+        "startChar": 43,
+        "endLine": 417,
+        "endChar": 47
+      },
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8459757_23584b7b",
         "filename": "javatests/com/google/gerrit/server/extensions/webui/UiActionsTest.java",
         "patchSetId": 1
@@ -198,6 +390,24 @@
       "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5550cf0d_5e0fc024",
+        "filename": "javatests/com/google/gerrit/server/extensions/webui/UiActionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:42Z",
+      "side": 1,
+      "message": "sg",
+      "parentUuid": "b8459757_23584b7b",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

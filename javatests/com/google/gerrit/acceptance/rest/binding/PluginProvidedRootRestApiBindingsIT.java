@@ -146,7 +146,7 @@ public class PluginProvidedRootRestApiBindingsIT extends AbstractDaemonTest {
   @Test
   public void testEndpoints() throws Exception {
     try (AutoCloseable ignored = installPlugin(PLUGIN_NAME, null, MyPluginHttpModule.class, null)) {
-      RestApiCallHelper.execute(adminRestSession, TEST_CALLS.asList());
+      RestApiCallHelper.execute(adminRestSession, TEST_CALLS);
     }
   }
 }

@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.common.data.Permission.isPermission;
 import static com.google.gerrit.reviewdb.client.Project.DEFAULT_SUBMIT_TYPE;
-import static com.google.gerrit.server.permissions.PluginPermissionsUtil.isPluginPermission;
+import static com.google.gerrit.server.permissions.PluginPermissionsUtil.isValidPluginPermission;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
@@ -788,7 +788,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private boolean isCoreOrPluginPermission(String permission) {
     // Since plugins are loaded dynamically, here we can't load all plugin permissions and verify
     // their existence.
-    return isPermission(permission) || isPluginPermission(permission);
+    return isPermission(permission) || isValidPluginPermission(permission);
   }
 
   private boolean isValidRegex(String refPattern) {

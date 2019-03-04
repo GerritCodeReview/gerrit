@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2d8c6a3b_6e03c721",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:18Z",
+      "side": 1,
+      "message": "This is mainly for helping us to tell if a config \"name\" could be plugin provided permission. For capabilities, we don\u0027t do additional checks in ProjectConfig, which means they can be loaded and saved correctly.\n\nBut for permission in the Access section, we filtered out all unknown names which can\u0027t pass \"Permission#isPermission\" check. My understanding is we don\u0027t have a straightforward way to list all plugin provided permission/capabilities in ProjectConfig especially when it\u0027s called during site creation.",
+      "parentUuid": "d3486eab_5693e2b2",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c9b698b8_9faeceed",
         "filename": "java/com/google/gerrit/extensions/config/PluginPermissionDefinition.java",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74e2b953_23374fbd",
+        "filename": "java/com/google/gerrit/extensions/config/PluginPermissionDefinition.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:18Z",
+      "side": 1,
+      "message": "Strange. Looks like my IntelliJ didn\u0027t help me add them automatically any more.",
+      "parentUuid": "c9b698b8_9faeceed",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "87d3760e_d13f05a2",
+        "filename": "java/com/google/gerrit/extensions/config/PluginProjectPermissionDefinition.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ea06a12_2c501c83",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "360e3cb7_1c66ad32",
         "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
         "patchSetId": 1
@@ -73,6 +133,24 @@
       "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dc4d256_a3f0afc9",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "360e3cb7_1c66ad32",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -116,6 +194,48 @@
     },
     {
       "key": {
+        "uuid": "e2bb3c38_2282f077",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19473154_473f8975",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8484bed_e606a5ef",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7dbb120_a404403c",
+      "range": {
+        "startLine": 22,
+        "startChar": 59,
+        "endLine": 22,
+        "endChar": 69
+      },
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b123efb2_ab638eb5",
         "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
         "patchSetId": 1
@@ -130,6 +250,24 @@
       "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ff2098b_e2354d99",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b123efb2_ab638eb5",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -156,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "2b3d1e84_9db09894",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f73e7b7_fbeb94e0",
+      "range": {
+        "startLine": 25,
+        "startChar": 78,
+        "endLine": 25,
+        "endChar": 86
+      },
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7a92321_1f5cb518",
         "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
         "patchSetId": 1
@@ -167,6 +329,24 @@
       "writtenOn": "2019-03-04T17:18:58Z",
       "side": 1,
       "message": "Optional: consider making this class non-static so you can get this via injection.",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91f489a3_cc776217",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:18Z",
+      "side": 1,
+      "message": "I like this idea.",
+      "parentUuid": "d7a92321_1f5cb518",
       "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -196,6 +376,30 @@
     },
     {
       "key": {
+        "uuid": "8fef19af_4e7c4dea",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f3d416b_a43f5c65",
+      "range": {
+        "startLine": 67,
+        "startChar": 53,
+        "endLine": 67,
+        "endChar": 65
+      },
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21428c88_fb1ca64c",
         "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
         "patchSetId": 1
@@ -213,6 +417,24 @@
     },
     {
       "key": {
+        "uuid": "aa44bab4_cf3aa72e",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21428c88_fb1ca64c",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9571996d_e2f98210",
         "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
         "patchSetId": 1
@@ -224,6 +446,24 @@
       "writtenOn": "2019-03-04T17:18:58Z",
       "side": 1,
       "message": "Optional: string concatenation is faster and just as readable in this case.",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e53b3e9_604b843c",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9571996d_e2f98210",
       "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -247,6 +487,24 @@
     },
     {
       "key": {
+        "uuid": "6f613d21_17ac65f2",
+        "filename": "javatests/com/google/gerrit/server/permissions/PluginPermissionsUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3585592e_877b658b",
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "965ab222_a2891ba1",
         "filename": "javatests/com/google/gerrit/server/permissions/PluginPermissionsUtilTest.java",
         "patchSetId": 1
@@ -267,6 +525,30 @@
       "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e9fb475_617f3e76",
+        "filename": "javatests/com/google/gerrit/server/permissions/PluginPermissionsUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-04T18:59:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "965ab222_a2891ba1",
+      "range": {
+        "startLine": 19,
+        "startChar": 76,
+        "endLine": 19,
+        "endChar": 79
+      },
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

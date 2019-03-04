@@ -15,10 +15,10 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalPermissionName;
+import static com.google.gerrit.server.permissions.PermissionBackendUtil.newSet;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
-import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
@@ -40,7 +40,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -147,7 +146,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
         return can((GlobalPermission) perm);
       } else if (perm instanceof PluginPermission) {
         PluginPermission pluginPermission = (PluginPermission) perm;
-        return has(DefaultPermissionMappings.pluginPermissionName(pluginPermission))
+        return has(DefaultPermissionMappings.pluginCapabilityName(pluginPermission))
             || (pluginPermission.fallBackToAdmin() && isAdmin());
       }
       throw new PermissionBackendException(perm + " unsupported");
@@ -268,15 +267,5 @@ public class DefaultPermissionBackend extends PermissionBackend {
               .collect(toSet());
       return denied.isEmpty() || !user.getEffectiveGroups().containsAnyOf(denied);
     }
-  }
-
-  private static <T extends GlobalOrPluginPermission> Set<T> newSet(Collection<T> permSet) {
-    if (permSet instanceof EnumSet) {
-      @SuppressWarnings({"unchecked", "rawtypes"})
-      Set<T> s = ((EnumSet) permSet).clone();
-      s.clear();
-      return s;
-    }
-    return Sets.newHashSetWithExpectedSize(permSet.size());
   }
 }

@@ -142,10 +142,7 @@ public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
     PatchSet.Id patchSetId = createChange().getPatchSetId();
     try (AutoCloseable ignored = installPlugin(PLUGIN_NAME, MyPluginSysModule.class, null, null)) {
       RestApiCallHelper.execute(
-          adminRestSession,
-          TEST_CALLS,
-          String.valueOf(patchSetId.changeId.id),
-          String.valueOf(patchSetId.patchSetId));
+          adminRestSession, TEST_CALLS, patchSetId.changeId.id, patchSetId.patchSetId);
     }
   }
 }

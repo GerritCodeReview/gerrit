@@ -60,7 +60,7 @@ public abstract class RestCall {
 
   public abstract Optional<String> expectedMessage();
 
-  public String uri(String... args) {
+  public String uri(Object... args) {
     String uriFormat = uriFormat();
     int expectedArgNum = StringUtils.countMatches(uriFormat, "%s");
     checkState(

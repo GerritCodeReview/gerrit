@@ -15,7 +15,7 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.permissions.PluginPermissionsUtil.isPluginPermission;
+import static com.google.gerrit.server.permissions.PluginPermissionsUtil.isValidPluginPermission;
 
 import org.junit.Test;
 
@@ -24,16 +24,16 @@ public class PluginPermissionsUtilTest {
 
   @Test
   public void pluginPermissionNameInConfigPattern() {
-    assertThat(isPluginPermission("create")).isFalse();
-    assertThat(isPluginPermission("label-Code-Review")).isFalse();
-    assertThat(isPluginPermission("plugin-foo")).isFalse();
-    assertThat(isPluginPermission("plugin-foo")).isFalse();
+    assertThat(isValidPluginPermission("create")).isFalse();
+    assertThat(isValidPluginPermission("label-Code-Review")).isFalse();
+    assertThat(isValidPluginPermission("plugin-foo")).isFalse();
+    assertThat(isValidPluginPermission("plugin-foo")).isFalse();
 
-    assertThat(isPluginPermission("plugin-foo-a")).isTrue();
+    assertThat(isValidPluginPermission("plugin-foo-a")).isTrue();
     // "-" is allowed for a plugin name. Here "foo-a" should be the name of the plugin.
-    assertThat(isPluginPermission("plugin-foo-a-b")).isTrue();
+    assertThat(isValidPluginPermission("plugin-foo-a-b")).isTrue();
 
-    assertThat(isPluginPermission("plugin-foo-a-")).isFalse();
-    assertThat(isPluginPermission("plugin-foo-a1")).isFalse();
+    assertThat(isValidPluginPermission("plugin-foo-a-")).isFalse();
+    assertThat(isValidPluginPermission("plugin-foo-a1")).isFalse();
   }
 }

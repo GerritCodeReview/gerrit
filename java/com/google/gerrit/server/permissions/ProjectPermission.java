@@ -16,10 +16,11 @@ package com.google.gerrit.server.permissions;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.gerrit.extensions.api.access.CoreOrPluginProjectPermission;
 import com.google.gerrit.extensions.api.access.GerritPermission;
 import com.google.gerrit.reviewdb.client.RefNames;
 
-public enum ProjectPermission implements GerritPermission {
+public enum ProjectPermission implements CoreOrPluginProjectPermission {
   /**
    * Can access at least one reference or change within the repository.
    *

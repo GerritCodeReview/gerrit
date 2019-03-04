@@ -16,14 +16,12 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-/**
- * @param diffLines
- * @param email
- * @param fromName
- * @param patchSet
- * @param projectName
- */
 {template .SetAssigneeHtml}
+  {@param diffLines: ?}
+  {@param email: ?}
+  {@param fromName: ?}
+  {@param patchSet: ?}
+  {@param projectName: ?}
   <p>
     {$fromName} has <strong>assigned</strong> a change to{sp}
     {$email.assigneeName}.{sp}

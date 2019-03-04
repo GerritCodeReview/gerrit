@@ -19,14 +19,14 @@
 /**
  * The .ReplacePatchSet template will determine the contents of the email
  * related to a user submitting a new patchset for a change.
- * @param change
- * @param email
- * @param fromEmail
- * @param fromName
- * @param patchSet
- * @param projectName
  */
 {template .ReplacePatchSet kind="text"}
+  {@param change: ?}
+  {@param email: ?}
+  {@param fromEmail: ?}
+  {@param fromName: ?}
+  {@param patchSet: ?}
+  {@param projectName: ?}
   {if $email.reviewerNames and $fromEmail == $change.ownerEmail}
     Hello{sp}
     {for $reviewerName in $email.reviewerNames}

@@ -19,12 +19,12 @@
 /**
  * The .Restored template will determine the contents of the email related to a
  * change being restored.
- * @param change
- * @param coverLetter
- * @param email
- * @param fromName
  */
 {template .Restored kind="text"}
+  {@param change: ?}
+  {@param coverLetter: ?}
+  {@param email: ?}
+  {@param fromName: ?}
   {$fromName} has restored this change.
   {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
   {\n}

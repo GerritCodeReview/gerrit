@@ -19,13 +19,13 @@
 /**
  * The .NewChange template will determine the contents of the email related to a
  * user submitting a new change for review.
- * @param change
- * @param email
- * @param ownerName
- * @param patchSet
- * @param projectName
  */
 {template .NewChange kind="text"}
+  {@param change: ?}
+  {@param email: ?}
+  {@param ownerName: ?}
+  {@param patchSet: ?}
+  {@param projectName: ?}
   {if $email.reviewerNames}
     Hello{sp}
     {for $reviewerName in $email.reviewerNames}

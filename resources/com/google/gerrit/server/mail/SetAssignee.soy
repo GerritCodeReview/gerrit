@@ -19,13 +19,13 @@
 /**
  * The .SetAssignee template will determine the contents of the email related
  * to a user being assigned to a change.
- * @param change
- * @param email
- * @param fromName
- * @param patchSet
- * @param projectName
  */
 {template .SetAssignee kind="text"}
+  {@param change: ?}
+  {@param email: ?}
+  {@param fromName: ?}
+  {@param patchSet: ?}
+  {@param projectName: ?}
   Hello{sp}
   {$email.assigneeName},
 

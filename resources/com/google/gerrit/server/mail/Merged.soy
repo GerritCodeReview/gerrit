@@ -20,11 +20,11 @@
 /**
  * The .Merged template will determine the contents of the email related to
  * a change successfully merged to the head.
- * @param change
- * @param email
- * @param fromName
  */
 {template .Merged kind="text"}
+  {@param change: ?}
+  {@param email: ?}
+  {@param fromName: ?}
   {$fromName} has submitted this change and it was merged.
   {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
   {\n}

@@ -16,12 +16,10 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-/**
- * @param coverLetter
- * @param email
- * @param fromName
- */
 {template .AbandonedHtml}
+  {@param coverLetter: ?}
+  {@param email: ?}
+  {@param fromName: ?}
   <p>
     {$fromName} <strong>abandoned</strong> this change.
   </p>

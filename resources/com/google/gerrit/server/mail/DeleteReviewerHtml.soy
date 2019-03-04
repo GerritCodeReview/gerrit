@@ -16,11 +16,9 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-/**
- * @param email
- * @param fromName
- */
 {template .DeleteReviewerHtml}
+  {@param email: ?}
+  {@param fromName: ?}
   <p>
     {$fromName}{sp}
     <strong>

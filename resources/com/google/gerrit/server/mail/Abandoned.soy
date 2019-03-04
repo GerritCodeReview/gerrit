@@ -19,12 +19,12 @@
 /**
  * .Abandoned template will determine the contents of the email related to a
  * change being abandoned.
- * @param change
- * @param coverLetter
- * @param email
- * @param fromName
  */
 {template .Abandoned kind="text"}
+  {@param change: ?}
+  {@param coverLetter: ?}
+  {@param email: ?}
+  {@param fromName: ?}
   {$fromName} has abandoned this change.
   {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
   {\n}

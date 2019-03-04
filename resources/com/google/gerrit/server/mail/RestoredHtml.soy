@@ -16,11 +16,9 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-/**
- * @param email
- * @param fromName
- */
 {template .RestoredHtml}
+  {@param email: ?}
+  {@param fromName: ?}
   <p>
     {$fromName} <strong>restored</strong> this change.
   </p>

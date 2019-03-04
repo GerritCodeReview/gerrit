@@ -19,12 +19,12 @@
 /**
  * The .DeleteReviewer template will determine the contents of the email related
  * to removal of a reviewer (and the reviewer's votes) from reviews.
- * @param change
- * @param coverLetter
- * @param email
- * @param fromName
  */
 {template .DeleteReviewer kind="text"}
+  {@param change: ?}
+  {@param coverLetter: ?}
+  {@param email: ?}
+  {@param fromName: ?}
   {$fromName} has removed{sp}
   {for $reviewerName in $email.reviewerNames}
     {if not isFirst($reviewerName)},{sp}{/if}

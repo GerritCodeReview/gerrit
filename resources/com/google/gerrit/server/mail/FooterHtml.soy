@@ -16,10 +16,8 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-/**
- * @param footers
- */
 {template .FooterHtml}
+  {@param footers: ?}
   {\n}
   {\n}
   {for $footer in $footers}

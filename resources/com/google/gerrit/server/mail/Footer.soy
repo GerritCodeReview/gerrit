@@ -20,9 +20,9 @@
  * The .Footer template will determine the contents of the footer text
  * appended to the end of all outgoing emails after the ChangeFooter and
  * CommentFooter.
- * @param footers
  */
 {template .Footer kind="text"}
+  {@param footers: ?}
   {for $footer in $footers}
     {$footer}{\n}
   {/for}

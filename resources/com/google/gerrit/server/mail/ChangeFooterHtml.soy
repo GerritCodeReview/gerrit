@@ -16,11 +16,9 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-/**
- * @param change
- * @param email
- */
 {template .ChangeFooterHtml}
+  {@param change: ?}
+  {@param email: ?}
   {if $email.changeUrl or $email.settingsUrl}
     <p>
       {if $email.changeUrl}

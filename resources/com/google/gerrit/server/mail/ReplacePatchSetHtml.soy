@@ -16,15 +16,13 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-/**
- * @param change
- * @param email
- * @param fromName
- * @param fromEmail
- * @param patchSet
- * @param projectName
- */
 {template .ReplacePatchSetHtml}
+  {@param change: ?}
+  {@param email: ?}
+  {@param fromName: ?}
+  {@param fromEmail: ?}
+  {@param patchSet: ?}
+  {@param projectName: ?}
   <p>
     {$fromName} <strong>uploaded patch set #{$patchSet.patchSetId}</strong>{sp}
     to{sp}

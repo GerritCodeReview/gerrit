@@ -16,10 +16,8 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-/**
- * @param email
- */
 {template .AddKeyHtml}
+  {@param email: ?}
   <p>
     One or more new {$email.keyType} keys have been added to Gerrit Code Review
     at {$email.gerritHost}:

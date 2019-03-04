@@ -16,15 +16,13 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-/**
- * @param commentFiles
- * @param commentCount
- * @param email
- * @param labels
- * @param patchSet
- * @param patchSetCommentBlocks
- */
 {template .CommentHtml}
+  {@param commentFiles: ?}
+  {@param commentCount: ?}
+  {@param email: ?}
+  {@param labels: ?}
+  {@param patchSet: ?}
+  {@param patchSetCommentBlocks: ?}
   {let $commentHeaderStyle kind="css"}
     margin-bottom: 4px;
   {/let}

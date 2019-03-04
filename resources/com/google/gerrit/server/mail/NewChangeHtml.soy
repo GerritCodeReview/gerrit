@@ -16,15 +16,13 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-/**
- * @param diffLines
- * @param email
- * @param fromName
- * @param ownerName
- * @param patchSet
- * @param projectName
- */
 {template .NewChangeHtml}
+  {@param diffLines: ?}
+  {@param email: ?}
+  {@param fromName: ?}
+  {@param ownerName: ?}
+  {@param patchSet: ?}
+  {@param projectName: ?}
   <p>
     {if $email.reviewerNames}
       {$fromName} would like{sp}

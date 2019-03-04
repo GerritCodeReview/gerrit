@@ -22,17 +22,17 @@
 
 /**
  * Private template to generate "View Change" buttons.
- * @param email
  */
 {template .ViewChangeButton}
+  {@param email: ?}
   <a href="{$email.changeUrl}">View Change</a>
 {/template}
 
 /**
  * Private template to render PRE block with consistent font-sizing.
- * @param content
  */
 {template .Pre}
+  {@param content: ?}
   {let $preStyle kind="css"}
     font-family: monospace,monospace; // Use this to avoid browsers scaling down
                                       // monospace text.
@@ -53,10 +53,9 @@
  *
  * This mechanism encodes as little structure as possible in order to depend on
  * the Soy autoescape mechanism for all of the content.
- *
- * @param content
  */
 {template .WikiFormat}
+  {@param content: ?}
   {let $blockquoteStyle kind="css"}
     border-left: 1px solid #aaa;
     margin: 10px 0;
@@ -87,10 +86,8 @@
   {/for}
 {/template}
 
-/**
- * @param diffLines
- */
 {template .UnifiedDiff}
+  {@param diffLines: ?}
   {let $addStyle kind="css"}
     color: hsl(120, 100%, 40%);
   {/let}

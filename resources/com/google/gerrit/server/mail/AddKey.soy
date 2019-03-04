@@ -19,9 +19,9 @@
 /**
  * The .AddKey template will determine the contents of the email related to
  * adding a new SSH or GPG key to an account.
- * @param email
  */
 {template .AddKey kind="text"}
+  {@param email: ?}
   One or more new {$email.keyType} keys have been added to Gerrit Code Review at
   {sp}{$email.gerritHost}:
 

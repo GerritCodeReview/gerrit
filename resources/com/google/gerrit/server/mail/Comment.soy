@@ -19,13 +19,13 @@
 /**
  * The .Comment template will determine the contents of the email related to a
  * user submitting comments on changes.
- * @param change
- * @param coverLetter
- * @param email
- * @param fromName
- * @param commentFiles
  */
 {template .Comment kind="text"}
+  {@param change: ?}
+  {@param coverLetter: ?}
+  {@param email: ?}
+  {@param fromName: ?}
+  {@param commentFiles: ?}
   {$fromName} has posted comments on this change.
   {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
   {\n}

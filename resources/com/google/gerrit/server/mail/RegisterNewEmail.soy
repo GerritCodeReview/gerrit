@@ -19,9 +19,9 @@
 /**
  * The .RegisterNewEmail template will determine the contents of the email
  * related to registering new email accounts.
- * @param email
  */
 {template .RegisterNewEmail kind="text"}
+  {@param email: ?}
   Welcome to Gerrit Code Review at {$email.gerritHost}.{\n}
 
   {\n}

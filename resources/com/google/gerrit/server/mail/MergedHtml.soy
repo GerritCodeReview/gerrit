@@ -16,12 +16,10 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-/**
- * @param diffLines
- * @param email
- * @param fromName
- */
 {template .MergedHtml}
+  {@param diffLines: ?}
+  {@param email: ?}
+  {@param fromName: ?}
   <p>
     {$fromName} <strong>merged</strong> this change.
   </p>

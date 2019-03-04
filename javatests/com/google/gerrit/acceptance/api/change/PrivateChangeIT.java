@@ -81,7 +81,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void setMergedChangePrivate() throws Exception {
+  public void cannotSetMergedChangePrivate() throws Exception {
     PushOneCommit.Result result = createChange();
     approve(result.getChangeId());
     merge(result);

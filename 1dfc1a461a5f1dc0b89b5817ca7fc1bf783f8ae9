@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "b14c9901_847da696",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T16:02:06Z",
+      "side": 1,
+      "message": "\u003e An alternative way to do this would be to create an instance that overrides the close() method to also call destroy().\n\nI agree that makes this calling code nicer, but we really we should not have to do that in order to use this API. Upstream has some rethinking to do.",
+      "parentUuid": "5dc99dcc_9ef7b77e",
+      "revId": "1dfc1a461a5f1dc0b89b5817ca7fc1bf783f8ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "31f9994d_32c74398",
         "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 1
@@ -49,6 +67,30 @@
       "writtenOn": "2019-03-02T02:01:59Z",
       "side": 1,
       "message": "Unrelated to this change, but should this be getting explicitly closed here if it\u0027s in a t-w-r?",
+      "range": {
+        "startLine": 347,
+        "startChar": 8,
+        "endLine": 347,
+        "endChar": 20
+      },
+      "revId": "1dfc1a461a5f1dc0b89b5817ca7fc1bf783f8ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34f048c6_414ccd49",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-04T16:02:06Z",
+      "side": 1,
+      "message": "As I mentioned in another thread, this code is using close to mean (correctly, I think) \"flush the file and close it to future writes, but don\u0027t delete it\". At a minimum we need to replace this with a flush.\n\nI think I want to hold off on this until I have documented the TemporaryBuffer API better.",
+      "parentUuid": "31f9994d_32c74398",
       "range": {
         "startLine": 347,
         "startChar": 8,

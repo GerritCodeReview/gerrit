@@ -90,7 +90,20 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
 
     exception.expect(BadRequestException.class);
-    exception.expectMessage("cannot set a non-open change to private");
+    exception.expectMessage("cannot set merged change to private");
+    gApi.changes().id(changeId).setPrivate(true);
+  }
+
+  @Test
+  public void cannotSetAbandonedChangePrivate() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+
+    gApi.changes().id(changeId).abandon();
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("cannot set abandoned change to private");
     gApi.changes().id(changeId).setPrivate(true);
   }
 

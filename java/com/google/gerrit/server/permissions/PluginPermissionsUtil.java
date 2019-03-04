@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.permissions;
 
+import static com.google.gerrit.extensions.api.access.PluginProjectPermission.PLUGIN_PERMISSION_NAME_PATTERN_STRING;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
@@ -41,7 +43,12 @@ public final class PluginPermissionsUtil {
    * enough for this purpose since some core permissions, e.g. "label-", also contain "-".
    */
   private static final Pattern PLUGIN_PERMISSION_NAME_IN_CONFIG_PATTERN =
-      Pattern.compile("^plugin-" + PLUGIN_NAME_PATTERN_STRING + "-[a-zA-Z]+$");
+      Pattern.compile(
+          "^plugin-"
+              + PLUGIN_NAME_PATTERN_STRING
+              + "-"
+              + PLUGIN_PERMISSION_NAME_PATTERN_STRING
+              + "$");
 
   /** Name pattern for a Gerrit plugin. */
   private static final Pattern PLUGIN_NAME_PATTERN =
@@ -104,7 +111,7 @@ public final class PluginPermissionsUtil {
    * @param name a config name which may stand for a plugin permission.
    * @return whether the name matches the plugin permission name pattern for configs.
    */
-  public static boolean isPluginPermission(String name) {
+  public static boolean isValidPluginPermission(String name) {
     return PLUGIN_PERMISSION_NAME_IN_CONFIG_PATTERN.matcher(name).matches();
   }
 }

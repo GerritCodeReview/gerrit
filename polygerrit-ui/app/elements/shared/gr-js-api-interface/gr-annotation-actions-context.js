@@ -65,5 +65,21 @@
     }
   };
 
+  GrAnnotationActionsContext.prototype.addLink = function(link, text) {
+    if (this._contentEl) {
+      let childAnchor = document.createElement("a");
+      childAnchor.href = link;
+      childAnchor.innerHTML = text;
+      this._contentEl.appendChild(childAnchor);
+    }
+  }
+
+  GrAnnotationActionsContext.prototype.getContent = function() {
+    if (this._contentEl) {
+      return this._contentEl.innerHTML;
+    }
+    return undefined;
+  }
+
   window.GrAnnotationActionsContext = GrAnnotationActionsContext;
 })(window);

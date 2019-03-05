@@ -1,0 +1,22 @@
+<dom-module id='add-link'>
+  <script>
+    (function() {
+      'use strict';
+
+      let RENDER_TEST_REGEX = '/.*render_tests.*\.png\.sha1$/'
+
+      let STORAGE_URL = 'https://storage.googleapis.com/chromium-android-render-test-goldens/'
+
+      Gerrit.install(functin(plugin) {
+        let annotationApi = plugin.annotationApi();
+        annotationApi.addLayer(context => {
+          const path = context.path;
+          if (path.match(RENDER_TEST_REGEX) && context.getContent()) {
+            context.addLink(STORAGE_URL + context.getContent(),
+                'View in Google Storage');
+          }
+        });
+      });
+    });
+  </script>
+</dom-module>

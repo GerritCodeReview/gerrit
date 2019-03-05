@@ -67,7 +67,7 @@ public class ConflictsPredicate {
           "Error constructing conflicts predicates for change %s in %s",
           c.getId(),
           c.getProject());
-      return Predicate.not(Predicate.any());
+      return ChangeIndexPredicate.none();
     }
 
     if (3 + files.size() > args.indexConfig.maxTerms()) {

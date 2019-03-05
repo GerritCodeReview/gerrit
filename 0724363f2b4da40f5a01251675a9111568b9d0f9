@@ -35,6 +35,24 @@
       "revId": "0724363f2b4da40f5a01251675a9111568b9d0f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4c16fc8_ad91ec70",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/PluginProvidedChildRestApiBindingsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-05T16:38:43Z",
+      "side": 1,
+      "message": "I am of the opinion that we should not allow plugins to provide URLs in a way that hides the fact that those URLs came from plugins. Doesn\u0027t matter if the URLs are core endpoints, new top-level collections, new child collections, new views on existing collections, or whatever. They should all have the plugin name in them. You may be right that some plugins are already relying on this behavior. That doesn\u0027t change my opinion about whether it should be allowed in theory, but I admit it does make it harder to change the behavior.\n\nWe don\u0027t need to solve this problem now. Just as long as something is documented, I\u0027m happy.",
+      "parentUuid": "e51467db_752cebcb",
+      "revId": "0724363f2b4da40f5a01251675a9111568b9d0f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,29 @@
+<dom-module id='add-link'>
+  <script>
+    (function() {
+      'use strict';
+
+      let RENDER_TEST_REGEX = /^.*render_tests.*\.png\.sha1$/
+      let SHA1_REGEX = /^.*([a-zA-Z0-9]{40}).*$/
+
+      let STORAGE_URL = 'https://storage.googleapis.com/chromium-android-render-test-goldens/'
+
+      Gerrit.install(function(plugin) {
+        let annotationApi = plugin.annotationApi();
+        annotationApi.addLayer(context => {
+          const path = context.path;
+          const content = context.getContent();
+          if (RENDER_TEST_REGEX.test(path) && content) {
+            const matches = content.match(SHA1_REGEX);
+            if (matches.length === 0) {
+              console.error('Unable to extract SHA1 hash from "' + context.getContent() + '"');
+              return;
+            }
+            context.addLink(STORAGE_URL + matches[1],
+                'View in Google Storage');
+          }
+        });
+      });
+    })();
+  </script>
+</dom-module>

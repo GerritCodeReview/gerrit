@@ -16,16 +16,14 @@
 
 {namespace com.google.gerrit.httpd.raw}
 
-/**
- * @param canonicalPath
- * @param staticResourcePath
- * @param? assetsPath {string} URL to static assets root, if served from CDN.
- * @param? assetsBundle {string} Assets bundle .html file, served from $assetsPath.
- * @param? faviconPath
- * @param? versionInfo
- * @param? deprecateGwtUi
- */
 {template .Index}
+  {@param canonicalPath: ?}
+  {@param staticResourcePath: ?}
+  {@param? assetsPath: ?}  /** {string} URL to static assets root, if served from CDN. */
+  {@param? assetsBundle: ?}  /** {string} Assets bundle .html file, served from $assetsPath. */
+  {@param? faviconPath: ?}
+  {@param? versionInfo: ?}
+  {@param? deprecateGwtUi: ?}
   <!DOCTYPE html>{\n}
   <html lang="en">{\n}
   <meta charset="utf-8">{\n}

@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
@@ -69,6 +71,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -3134,6 +3137,26 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("assignee:self", change);
   }
 
+  @Test
+  public void none() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change = insert(repo, newChange(repo));
+
+    assertQuery(ChangeIndexPredicate.none());
+
+    for (Predicate<ChangeData> matchingOneChange :
+        ImmutableList.of(
+            // One index query, one post-filtering query.
+            queryBuilder.parse(change.getId().toString()),
+            queryBuilder.parse("ownerin:Administrators"))) {
+      assertQuery(matchingOneChange, change);
+      assertQuery(Predicate.or(ChangeIndexPredicate.none(), matchingOneChange), change);
+      assertQuery(Predicate.and(ChangeIndexPredicate.none(), matchingOneChange));
+      assertQuery(
+          Predicate.and(Predicate.not(ChangeIndexPredicate.none()), matchingOneChange), change);
+    }
+  }
+
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
     return newChange(repo, null, null, null, null, false);
   }
@@ -3311,6 +3334,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .containsExactlyElementsIn(Arrays.asList(changes))
         .inOrder();
     return result;
+  }
+
+  protected void assertQuery(Predicate<ChangeData> predicate, Change... changes) throws Exception {
+    List<ChangeData> result = queryProvider.get().query(predicate);
+    assertThat(result.stream().map(ChangeData::getId))
+        .containsExactlyElementsIn(
+            Arrays.stream(changes).map(Change::getId).collect(toImmutableList()))
+        .inOrder();
   }
 
   private String format(

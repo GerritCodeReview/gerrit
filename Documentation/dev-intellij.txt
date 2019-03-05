@@ -107,7 +107,9 @@ the code style settings, simply confirm that.
 === Copyright
 Copy the folder `$(gerrit_source_code)/tools/intellij/copyright` (not just the
 contents) to `$(project_data_directory)/.idea`. If it already exists, replace
-it.
+it. Then go to *File -> Settings -> Editor -> Copyright -> Copyright Profiles*,
+and import `Gerrit_Copyright.xml` to IntelliJ in case it doesn't pick the
+copyright up automatically.
 
 === File header
 By default, IntelliJ adds a file header containing the name of the author and

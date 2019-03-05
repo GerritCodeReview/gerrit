@@ -1,0 +1,245 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbed2379_abedfb5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-05T08:56:00Z",
+      "side": 1,
+      "message": "The convention is to not have a dot here. I know, this kind of check should be automated.",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06dd2a06_0e0ce381",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-05T08:56:00Z",
+      "side": 1,
+      "message": "Might be worth showing example screenshots here of both states.",
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50152ef1_c2551688",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-05T08:56:00Z",
+      "side": 1,
+      "message": "Should we mention here that you have to use this two together? Or can one use one without the other? If they have to be used together, I would almost merge them into one header, and just explain there they each do - right now you say for both that they add a tab, nothing about what header and content are (though that is probably fairly obvious).",
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a087b08_600459f3",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-05T08:56:00Z",
+      "side": 1,
+      "message": "Might want to call out, in naming and/or documentation, that this is for the top tabs, not the bottom tabs? Or maybe primary vs secondary tabs?",
+      "range": {
+        "startLine": 163,
+        "startChar": 56,
+        "endLine": 163,
+        "endChar": 74
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76f4fcb2_c6e9e288",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-05T08:56:00Z",
+      "side": 1,
+      "message": "Indented one too far - we should really support a formatter.",
+      "range": {
+        "startLine": 524,
+        "startChar": 8,
+        "endLine": 524,
+        "endChar": 10
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c53ae0f1_d35783e9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-05T08:56:00Z",
+      "side": 1,
+      "message": "This seems weirdly manual. I think you allow multiple dynamic tabs (that\u0027s why they are arrays, no?) and then you just have a boolean \"file tab content or not\". I think it would be clearer to check here if selectedIndex \u003e 0, or maybe if _selectedFilesTabPluginEndpoint is truthy, and then make that return null/undefined if the selectedIndex \u003e 0.",
+      "range": {
+        "startLine": 591,
+        "startChar": 30,
+        "endLine": 591,
+        "endChar": 59
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5e42672_364ee914",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-05T08:56:00Z",
+      "side": 1,
+      "message": "Maybe add a Closure type annotation specifying what the type of the elements of the array are? Same below.",
+      "range": {
+        "startLine": 260,
+        "startChar": 5,
+        "endLine": 260,
+        "endChar": 32
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16bb3a3c_ffff241f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-05T08:56:00Z",
+      "side": 1,
+      "message": "Optional: Wonder if we should rather name these primary-tabs or top-tabs.",
+      "range": {
+        "startLine": 400,
+        "startChar": 38,
+        "endLine": 400,
+        "endChar": 42
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77e2c0fa_494b880d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-05T08:56:00Z",
+      "side": 1,
+      "message": "Do we need to do some error handling in case the plugin author provided more headers than content?",
+      "range": {
+        "startLine": 403,
+        "startChar": 15,
+        "endLine": 403,
+        "endChar": 42
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d233dc89_3b02d6e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-05T08:56:00Z",
+      "side": 1,
+      "message": "A comment would not hurt here: 0 is the static file tab, \u003e0 is one of the plugin tabs.",
+      "range": {
+        "startLine": 403,
+        "startChar": 57,
+        "endLine": 403,
+        "endChar": 60
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b64b1224_3daa45a4",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-05T08:56:00Z",
+      "side": 1,
+      "message": "Nit: I would call this title, given the whole component is called header.",
+      "range": {
+        "startLine": 158,
+        "startChar": 22,
+        "endLine": 158,
+        "endChar": 28
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

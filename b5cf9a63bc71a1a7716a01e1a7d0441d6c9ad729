@@ -260,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "eb8484e1_a99a4b9c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-05T16:06:24Z",
+      "side": 1,
+      "message": "I see. Okay then, let\u0027s keep it as is.",
+      "parentUuid": "e6fd5820_60983d81",
+      "range": {
+        "startLine": 591,
+        "startChar": 30,
+        "endLine": 591,
+        "endChar": 59
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5e42672_364ee914",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 4

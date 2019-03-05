@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "20f547d0_a7e8130d",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-05T16:37:43Z",
+      "side": 1,
+      "message": "ok. Then let\u0027s merge them.",
+      "parentUuid": "f7033dfb_8f2d7dd9",
+      "range": {
+        "startLine": 44,
+        "startChar": 25,
+        "endLine": 44,
+        "endChar": 29
+      },
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f10851bc_310c055a",
         "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
         "patchSetId": 4
@@ -59,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "17d07d9f_ec0524b3",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-05T16:37:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f10851bc_310c055a",
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ca5613d_85f8bb6f",
         "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
         "patchSetId": 4
@@ -70,6 +112,30 @@
       "writtenOn": "2019-03-05T13:38:00Z",
       "side": 1,
       "message": "this seems duplicate. can we return a Map\u003cString, String\u003e that is a Map\u003cpluginName, permissionName\u003e?",
+      "range": {
+        "startLine": 75,
+        "startChar": 10,
+        "endLine": 75,
+        "endChar": 46
+      },
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef3756d8_bea4594f",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-05T16:37:43Z",
+      "side": 1,
+      "message": "They are the user facing names for PluginProjectPermission, and they should have prefix just like what we have in the config file, right?\n\nAlso this stays consistent with what we had for \"collectPluginCapabilities\" before.\n\nHow do you think?",
+      "parentUuid": "4ca5613d_85f8bb6f",
       "range": {
         "startLine": 75,
         "startChar": 10,
@@ -116,6 +182,24 @@
     },
     {
       "key": {
+        "uuid": "25fa8522_e7025d93",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PluginAccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-05T16:37:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c08575e9_cc5a4ccc",
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffce41bc_064ddde3",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/PluginAccessIT.java",
         "patchSetId": 4
@@ -133,6 +217,24 @@
     },
     {
       "key": {
+        "uuid": "f0b50789_acc848b9",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PluginAccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-05T16:37:43Z",
+      "side": 1,
+      "message": "sg",
+      "parentUuid": "ffce41bc_064ddde3",
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a76c6b9a_8056b410",
         "filename": "javatests/com/google/gerrit/server/config/ListCapabilitiesTest.java",
         "patchSetId": 4
@@ -147,6 +249,24 @@
       "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7188507_b019b3e2",
+        "filename": "javatests/com/google/gerrit/server/config/ListCapabilitiesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-05T16:37:43Z",
+      "side": 1,
+      "message": "That\u0027s right. But this test is a small test doesn\u0027t bring up a Gerrit test instance. We could possiblity install a plugin like what we did in \"PluginProvidedRestApiBindingsIT\" but it\u0027s out scope of this change.",
+      "parentUuid": "a76c6b9a_8056b410",
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

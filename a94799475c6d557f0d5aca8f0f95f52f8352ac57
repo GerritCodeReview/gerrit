@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a04ae8cd_e25b403a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-03-05T15:38:00Z",
+      "side": 1,
+      "message": "Effectively, \"--limit\" means \"end\" for QueryChanges. Correct?",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "a94799475c6d557f0d5aca8f0f95f52f8352ac57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "829c5496_e143f27e",
         "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
         "patchSetId": 1
@@ -87,6 +110,29 @@
         "startChar": 45,
         "endLine": 380,
         "endChar": 72
+      },
+      "revId": "a94799475c6d557f0d5aca8f0f95f52f8352ac57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ee6365d_dc210b96",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-03-05T15:38:00Z",
+      "side": 1,
+      "message": "From this PoV, it looks like you want to allow fetching up to getBackendSupportedLimit() items per fetch, no matter which offset (start) is used. Is that right?\n\nNOTE: I find all of this somehow confusing, maybe it would be better to straighten out the terms used, like s/limit/end/.\n\nAlos, what happens if \"limit \u003c start\" right now? Or in this specific case: getBackendSupportedLimit() - start \u003c 0?",
+      "range": {
+        "startLine": 384,
+        "startChar": 4,
+        "endLine": 384,
+        "endChar": 59
       },
       "revId": "a94799475c6d557f0d5aca8f0f95f52f8352ac57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

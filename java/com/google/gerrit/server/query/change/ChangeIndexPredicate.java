@@ -17,9 +17,22 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Matchable;
+import com.google.gerrit.index.query.Predicate;
 
 public abstract class ChangeIndexPredicate extends IndexPredicate<ChangeData>
     implements Matchable<ChangeData> {
+  /**
+   * Returns an index predicate that matches no changes in the index.
+   *
+   * <p>This predicate should be used in preference to a non-index predicate (such as {@code
+   * Predicate.not(Predicate.any())}), since it can be matched efficiently against the index.
+   *
+   * @return an index predicate matching no changes.
+   */
+  public static Predicate<ChangeData> none() {
+    return ChangeStatusPredicate.NONE;
+  }
+
   protected ChangeIndexPredicate(FieldDef<ChangeData, ?> def, String value) {
     super(def, value);
   }

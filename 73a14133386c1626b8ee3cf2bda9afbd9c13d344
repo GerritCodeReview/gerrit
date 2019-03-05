@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42f5df12_04e50790",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-03-05T13:38:00Z",
+      "side": 1,
+      "message": "I don\u0027t think we currently make any guarantees about the plugin name. I think we could though, we would need to be more generous as existing plugins use an underscore for example.\n\nIMO we have to make these guarantees in PluginLoader and our internal equivalent and refuse to load the plugin if it\u0027s name doesn\u0027t comply.\n\nI see that this is kinda unrelated to this change because the previous ListCapabilities endpoint already had this pattern, but I also think we can fairly easy port this to PluginLoader",
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7033dfb_8f2d7dd9",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-03-05T13:38:00Z",
+      "side": 1,
+      "message": "nit: just concat the strings. I don\u0027t think it really helps readability to separate them by groups",
+      "range": {
+        "startLine": 44,
+        "startChar": 25,
+        "endLine": 44,
+        "endChar": 29
+      },
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f10851bc_310c055a",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-03-05T13:38:00Z",
+      "side": 1,
+      "message": "nit: injected constructors should be package-private",
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ca5613d_85f8bb6f",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-03-05T13:38:00Z",
+      "side": 1,
+      "message": "this seems duplicate. can we return a Map\u003cString, String\u003e that is a Map\u003cpluginName, permissionName\u003e?",
+      "range": {
+        "startLine": 75,
+        "startChar": 10,
+        "endLine": 75,
+        "endChar": 46
+      },
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48092e1e_5cd3a4b9",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-03-05T13:38:00Z",
+      "side": 1,
+      "message": "In theory we probably could because we can inject a list of plugin names through the factory, but I would rather not add that extra complexity.",
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c08575e9_cc5a4ccc",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PluginAccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-03-05T13:38:00Z",
+      "side": 1,
+      "message": "(same as below)",
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffce41bc_064ddde3",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PluginAccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-03-05T13:38:00Z",
+      "side": 1,
+      "message": "Please add a test for listing plugin-defined project permissions",
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a76c6b9a_8056b410",
+        "filename": "javatests/com/google/gerrit/server/config/ListCapabilitiesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-03-05T13:38:00Z",
+      "side": 1,
+      "message": "This works, but is actually wrong, because the bindings are done in the sysInjector. To make the test more accurate, I\u0027d suggest actually binding a plugin:\n\nYou can look at PluginProvidedRestApiBindingsIT.java for an example of this.",
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

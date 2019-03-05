@@ -54,7 +54,12 @@ public class ConflictsPredicate {
       cd = args.changeDataFactory.create(args.db.get(), c);
       files = cd.currentFilePaths();
     } catch (IOException e) {
-      throw new OrmException(e);
+      warnWithOccasionalStackTrace(
+          e,
+          "Error constructing conflicts predicates for change %s in %s",
+          c.getId(),
+          c.getProject());
+      return ChangeIndexPredicate.none();
     }
 
     if (3 + files.size() > args.indexConfig.maxTerms()) {

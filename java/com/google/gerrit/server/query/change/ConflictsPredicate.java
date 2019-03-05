@@ -19,7 +19,6 @@ import static com.google.common.flogger.LazyArgs.lazy;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.common.flogger.LoggingApi;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.index.query.Predicate;
@@ -42,8 +41,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.Supplier;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -66,7 +63,6 @@ public class ConflictsPredicate {
       files = cd.currentFilePaths();
     } catch (IOException | OrmException e) {
       logWithOccasionalStackTrace(
-          logger::atWarning,
           e,
           "Error constructing conflicts predicates for change %s in %s",
           c.getId(),
@@ -165,7 +161,6 @@ public class ConflictsPredicate {
       } catch (IntegrationException | NoSuchProjectException | OrmException | IOException e) {
         ObjectId finalOther = other;
         logWithOccasionalStackTrace(
-            logger::atWarning,
             e,
             "Merge failure checking conflicts of change %s in %s (%s): %s",
             id,
@@ -235,12 +230,11 @@ public class ConflictsPredicate {
     }
   }
 
-  private static <API extends LoggingApi<API>> void logWithOccasionalStackTrace(
-      Supplier<LoggingApi<API>> logSupplier, Throwable cause, String format, Object... args) {
-    BiConsumer<LoggingApi<API>, String> logConsumer = (api, f) -> api.logVarargs(f, args);
-    logConsumer.accept(logSupplier.get(), format);
-    logConsumer.accept(
-        logSupplier.get().withCause(cause).atMostEvery(1, MINUTES),
-        "(Re-logging with stack trace) " + format);
+  private static void logWithOccasionalStackTrace(Throwable cause, String format, Object... args) {
+    logger
+        .atWarning()
+        .withCause(cause)
+        .atMostEvery(1, MINUTES)
+        .logVarargs("(Re-logging with stack trace) " + format, args);
   }
 }

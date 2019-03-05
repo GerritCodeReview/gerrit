@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "8abfe84b_5bfb126b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-05T15:40:18Z",
+      "side": 1,
+      "message": "Done. Just added one for the new state, as the old state looks the same.",
+      "parentUuid": "06dd2a06_0e0ce381",
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50152ef1_c2551688",
         "filename": "Documentation/pg-plugin-endpoints.txt",
         "patchSetId": 4
@@ -80,6 +98,24 @@
       "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "829a8c89_c5616ac2",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-05T15:40:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50152ef1_c2551688",
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -103,6 +139,30 @@
       "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfe82b21_19cf5a97",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-05T15:40:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a087b08_600459f3",
+      "range": {
+        "startLine": 163,
+        "startChar": 56,
+        "endLine": 163,
+        "endChar": 74
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
@@ -73,6 +74,7 @@ import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
@@ -3198,6 +3200,64 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("project:repo+foo", change);
   }
 
+  @Test
+  public void selfFailsForAnonymousUser() throws Exception {
+    for (String query : ImmutableList.of("assignee:self", "starredby:self", "is:starred")) {
+      assertQuery(query);
+      RequestContext oldContext = requestContext.setContext(anonymousUserProvider::get);
+
+      try {
+        requestContext.setContext(anonymousUserProvider::get);
+        assertThatAuthException(query)
+            .hasMessageThat()
+            .isEqualTo("Must be signed-in to use this operator");
+      } finally {
+        requestContext.setContext(oldContext);
+      }
+    }
+  }
+
+  @Test
+  public void selfSucceedsForInactiveAccount() throws Exception {
+    Account.Id user2 =
+        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
+
+    TestRepository<Repo> repo = createProject("repo");
+    Change change = insert(repo, newChange(repo));
+    AssigneeInput ain = new AssigneeInput();
+    ain.assignee = user2.toString();
+    gApi.changes().id(change.getId().get()).setAssignee(ain);
+
+    RequestContext adminContext = requestContext.setContext(newRequestContext(user2));
+    assertQuery("assignee:self", change);
+
+    requestContext.setContext(adminContext);
+    gApi.accounts().id(user2.get()).setActive(false);
+
+    requestContext.setContext(newRequestContext(user2));
+    assertQuery("assignee:self", change);
+  }
+
+  @Test
+  public void none() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change = insert(repo, newChange(repo));
+
+    assertQuery(ChangeIndexPredicate.none());
+
+    for (Predicate<ChangeData> matchingOneChange :
+        ImmutableList.of(
+            // One index query, one post-filtering query.
+            queryBuilder.parse(change.getId().toString()),
+            queryBuilder.parse("ownerin:Administrators"))) {
+      assertQuery(matchingOneChange, change);
+      assertQuery(Predicate.or(ChangeIndexPredicate.none(), matchingOneChange), change);
+      assertQuery(Predicate.and(ChangeIndexPredicate.none(), matchingOneChange));
+      assertQuery(
+          Predicate.and(Predicate.not(ChangeIndexPredicate.none()), matchingOneChange), change);
+    }
+  }
+
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
     return newChange(repo, null, null, null, null, false, false);
   }
@@ -3359,21 +3419,32 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     List<ChangeInfo> result = query.get();
     Iterable<Change.Id> ids = ids(result);
     assertThat(ids)
-        .named(format(query, ids, changes))
+        .named(format(query.getQuery(), ids, changes))
         .containsExactlyElementsIn(Arrays.asList(changes))
         .inOrder();
     return result;
   }
 
-  private String format(
-      QueryRequest query, Iterable<Change.Id> actualIds, Change.Id... expectedChanges)
+  protected void assertQuery(Predicate<ChangeData> predicate, Change... changes) throws Exception {
+    ImmutableList<Change.Id> actualIds =
+        queryProvider.get().query(predicate).stream()
+            .map(ChangeData::getId)
+            .collect(toImmutableList());
+    Change.Id[] expectedIds = Arrays.stream(changes).map(Change::getId).toArray(Change.Id[]::new);
+    assertThat(actualIds)
+        .named(format(predicate.toString(), actualIds, expectedIds))
+        .containsExactlyElementsIn(expectedIds)
+        .inOrder();
+  }
+
+  private String format(String query, Iterable<Change.Id> actualIds, Change.Id... expectedChanges)
       throws RestApiException {
-    StringBuilder b = new StringBuilder();
-    b.append("query '").append(query.getQuery()).append("' with expected changes ");
-    b.append(format(Arrays.asList(expectedChanges)));
-    b.append(" and result ");
-    b.append(format(actualIds));
-    return b.toString();
+    return "query '"
+        + query
+        + "' with expected changes "
+        + format(Arrays.asList(expectedChanges))
+        + " and result "
+        + format(actualIds);
   }
 
   private String format(Iterable<Change.Id> changeIds) throws RestApiException {

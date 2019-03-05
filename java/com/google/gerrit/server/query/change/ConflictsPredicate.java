@@ -53,8 +53,18 @@ public class ConflictsPredicate {
     try {
       cd = args.changeDataFactory.create(args.db.get(), c);
       files = cd.currentFilePaths();
+<<<<<<< HEAD   (b5e7ce Cache repository locations in LocalDiskRepositoryManager)
     } catch (IOException e) {
       throw new OrmException(e);
+=======
+    } catch (IOException | OrmException e) {
+      warnWithOccasionalStackTrace(
+          e,
+          "Error constructing conflicts predicates for change %s in %s",
+          c.getId(),
+          c.getProject());
+      return ChangeIndexPredicate.none();
+>>>>>>> CHANGE (d9679c Add an index-safe predicate that matches all changes)
     }
 
     if (3 + files.size() > args.indexConfig.maxTerms()) {

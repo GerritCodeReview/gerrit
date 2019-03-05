@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fae6aff_9133b5f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-05T08:28:05Z",
+      "side": 1,
+      "message": "I think this message should explain *why* you do this. Does this address a bug? Is this in preparation for another change? Looking at the change, it\u0027s obvious that you add an overlay z-index variable, what\u0027s unclear is why you do that.",
+      "revId": "b8f9529f5257565560c3080fc5ba60341af015f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00c16acd_522846f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-05T08:28:05Z",
+      "side": 1,
+      "message": "Not explicitly called out, but the example uses a capital letter here, and that\u0027s all I have seen so far: https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#commit-message",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 1
+      },
+      "revId": "b8f9529f5257565560c3080fc5ba60341af015f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

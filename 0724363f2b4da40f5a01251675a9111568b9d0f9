@@ -53,6 +53,24 @@
       "revId": "0724363f2b4da40f5a01251675a9111568b9d0f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d0a15b9_97207904",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/PluginProvidedChildRestApiBindingsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-03-05T16:46:58Z",
+      "side": 1,
+      "message": "I agree with you in that this should be removed and we should force plugins to use the FQN, but this needs to be a separate effort as it can break callers.",
+      "parentUuid": "f4c16fc8_ad91ec70",
+      "revId": "0724363f2b4da40f5a01251675a9111568b9d0f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

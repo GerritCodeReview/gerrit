@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e85bea8a_bb8dacb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-05T15:31:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbed2379_abedfb5e",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06dd2a06_0e0ce381",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -105,6 +129,30 @@
     },
     {
       "key": {
+        "uuid": "45a5b7d8_c46862e1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-05T15:31:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76f4fcb2_c6e9e288",
+      "range": {
+        "startLine": 524,
+        "startChar": 8,
+        "endLine": 524,
+        "endChar": 10
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c53ae0f1_d35783e9",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 4
@@ -125,6 +173,30 @@
       "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6fd5820_60983d81",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-05T15:31:34Z",
+      "side": 1,
+      "message": "There is no selected index if the tabs are not available, so it does need a boolean check. I could make a new variable name from _showFileTabContent, but it would be the same logic",
+      "parentUuid": "c53ae0f1_d35783e9",
+      "range": {
+        "startLine": 591,
+        "startChar": 30,
+        "endLine": 591,
+        "endChar": 59
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +223,30 @@
     },
     {
       "key": {
+        "uuid": "05a46c04_c416d99e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-05T15:31:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5e42672_364ee914",
+      "range": {
+        "startLine": 260,
+        "startChar": 5,
+        "endLine": 260,
+        "endChar": 32
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16bb3a3c_ffff241f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 4
@@ -171,6 +267,30 @@
       "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c1fe1d9_b18aa388",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-05T15:31:34Z",
+      "side": 1,
+      "message": "yeah I don\u0027t love the name fileTabs. I like primary tabs.",
+      "parentUuid": "16bb3a3c_ffff241f",
+      "range": {
+        "startLine": 400,
+        "startChar": 38,
+        "endLine": 400,
+        "endChar": 42
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -220,6 +340,54 @@
     },
     {
       "key": {
+        "uuid": "734dee37_ffa2ce67",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-05T15:31:34Z",
+      "side": 1,
+      "message": "Done. Added a console warning when the tabs length is different than the content length",
+      "parentUuid": "77e2c0fa_494b880d",
+      "range": {
+        "startLine": 403,
+        "startChar": 15,
+        "endLine": 403,
+        "endChar": 42
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84e19c64_f8dd9775",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-05T15:31:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d233dc89_3b02d6e7",
+      "range": {
+        "startLine": 403,
+        "startChar": 57,
+        "endLine": 403,
+        "endChar": 60
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64b1224_3daa45a4",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
         "patchSetId": 4
@@ -240,6 +408,30 @@
       "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86ea4984_1242c7af",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-05T15:31:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b64b1224_3daa45a4",
+      "range": {
+        "startLine": 158,
+        "startChar": 22,
+        "endLine": 158,
+        "endChar": 28
+      },
+      "revId": "b5cf9a63bc71a1a7716a01e1a7d0441d6c9ad729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

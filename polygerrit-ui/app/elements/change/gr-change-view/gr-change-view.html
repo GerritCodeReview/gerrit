@@ -519,8 +519,27 @@ limitations under the License.
           </div>
         </div>
       </section>
+
       <section class="patchInfo">
-        <gr-file-list-header
+        <template is="dom-if" if="[[_showPrimaryTabs]]">
+          <paper-tabs id="primaryTabs" on-selected-changed="_handleFileTabChange">
+            <paper-tab>Files</paper-tab>
+            <template is="dom-repeat" items="[[_dynamicTabHeaderEndpoints]]"
+              as="tabHeader">
+              <paper-tab>
+                  <gr-endpoint-decorator name$="[[tabHeader]]">
+                      <gr-endpoint-param name="change" value="[[_change]]">
+                      </gr-endpoint-param>
+                      <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
+                      </gr-endpoint-param>
+                  </gr-endpoint-decorator>
+              </paper-tab>
+            </template>
+          </paper-tabs>
+        </template>
+
+        <div hidden$="[[!_showFileTabContent]]">
+          <gr-file-list-header
             id="fileListHeader"
             account="[[_account]]"
             all-patch-sets="[[_allPatchSets]]"
@@ -539,6 +558,7 @@ limitations under the License.
             base-patch-num="{{_patchRange.basePatchNum}}"
             files-expanded="[[_filesExpanded]]"
             diff-prefs-disabled="[[_diffPrefsDisabled]]"
+            show-title="[[!_showPrimaryTabs]]"
             on-open-diff-prefs="_handleOpenDiffPrefs"
             on-open-download-dialog="_handleOpenDownloadDialog"
             on-open-upload-help-dialog="_handleOpenUploadHelpDialog"
@@ -566,7 +586,18 @@ limitations under the License.
             on-files-shown-changed="_setShownFiles"
             on-file-action-tap="_handleFileActionTap"
             on-reload-drafts="_reloadDraftsWithCallback"></gr-file-list>
+        </div>
+
+        <template is="dom-if" if="[[!_showFileTabContent]]">
+            <gr-endpoint-decorator name$="[[_selectedFilesTabPluginEndpoint]]">
+                <gr-endpoint-param name="change" value="[[_change]]">
+                </gr-endpoint-param>
+                <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
+                </gr-endpoint-param>
+            </gr-endpoint-decorator>
+        </template>
       </section>
+
       <gr-endpoint-decorator name="change-view-integration">
         <gr-endpoint-param name="change" value="[[_change]]">
         </gr-endpoint-param>
@@ -575,7 +606,7 @@ limitations under the License.
       </gr-endpoint-decorator>
       <paper-tabs
           id="commentTabs"
-          on-selected-changed="_handleTabChange">
+          on-selected-changed="_handleCommentTabChange">
         <paper-tab class="changeLog">Change Log</paper-tab>
         <paper-tab
             class="commentThreads">

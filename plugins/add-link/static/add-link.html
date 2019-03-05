@@ -1,0 +1,33 @@
+<dom-module id='add-link'>
+  <script>
+    (function() {
+      'use strict';
+      console.info("ASDF in plugin definition");
+
+      let RENDER_TEST_REGEX = /^.*render_tests.*\.png\.sha1$/
+
+      let STORAGE_URL = 'https://storage.googleapis.com/chromium-android-render-test-goldens/'
+
+      Gerrit.install(function(plugin) {
+        console.info("ASDF installing");
+        let annotationApi = plugin.annotationApi();
+        annotationApi.addLayer(context => {
+          console.info("ASDF adding layer");
+          const path = context.path;
+          console.info("ASDF path is " + path);
+          if (RENDER_TEST_REGEX.test(path)) {
+            console.info("ASDF path matches");
+          }
+          if (context.getContent()) {
+            console.info("Has content");
+          }
+          if (RENDER_TEST_REGEX.test(path) && context.getContent()) {
+            console.info("ASDF should be adding link");
+            context.addLink(STORAGE_URL + context.getContent(),
+                'View in Google Storage');
+          }
+        });
+      });
+    })();
+  </script>
+</dom-module>

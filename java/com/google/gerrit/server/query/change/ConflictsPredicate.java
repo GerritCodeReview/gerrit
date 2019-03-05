@@ -14,6 +14,12 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.flogger.LazyArgs.lazy;
+import static java.util.concurrent.TimeUnit.MINUTES;
+
+import com.google.common.flogger.FluentLogger;
+
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.index.query.Predicate;
@@ -54,7 +60,12 @@ public class ConflictsPredicate {
       cd = args.changeDataFactory.create(args.db.get(), c);
       files = cd.currentFilePaths();
     } catch (IOException e) {
-      throw new OrmException(e);
+      warnWithOccasionalStackTrace(
+          e,
+          "Error constructing conflicts predicates for change %s in %s",
+          c.getId(),
+          c.getProject());
+      return ChangeIndexPredicate.none();
     }
 
     if (3 + files.size() > args.indexConfig.maxTerms()) {
@@ -200,5 +211,14 @@ public class ConflictsPredicate {
       }
       return alreadyAccepted;
     }
+  }
+  
+    private static void warnWithOccasionalStackTrace(Throwable cause, String format, Object... args) {
+    logger.atWarning().logVarargs(format, args);
+    logger
+        .atWarning()
+        .withCause(cause)
+        .atMostEvery(1, MINUTES)
+        .logVarargs("(Re-logging with stack trace) " + format, args);
   }
 }

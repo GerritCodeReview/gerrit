@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelType;
@@ -218,8 +219,8 @@ public abstract class PermissionBackend {
     }
 
     /** Filter {@code permSet} to permissions scoped user might be able to perform. */
-    public abstract <T extends GlobalOrPluginPermission> Set<T> test(Collection<T> permSet)
-        throws PermissionBackendException;
+    public abstract ImmutableSet<GlobalOrPluginPermission> test(
+        Collection<GlobalOrPluginPermission> permSet) throws PermissionBackendException;
 
     public boolean test(GlobalOrPluginPermission perm) throws PermissionBackendException {
       return test(Collections.singleton(perm)).contains(perm);
@@ -305,12 +306,12 @@ public abstract class PermissionBackend {
         throws AuthException, PermissionBackendException;
 
     /** Filter {@code permSet} to permissions scoped user might be able to perform. */
-    public abstract <T extends CoreOrPluginProjectPermission> Set<T> test(Collection<T> permSet)
-        throws PermissionBackendException;
+    public abstract ImmutableSet<CoreOrPluginProjectPermission> test(
+        Collection<CoreOrPluginProjectPermission> permSet) throws PermissionBackendException;
 
     public boolean test(CoreOrPluginProjectPermission perm) throws PermissionBackendException {
       if (perm instanceof ProjectPermission) {
-        return test(EnumSet.of((ProjectPermission) perm)).contains(perm);
+        return test(ImmutableSet.of(perm)).contains(perm);
       }
 
       // TODO: implement for plugin defined project permissions.

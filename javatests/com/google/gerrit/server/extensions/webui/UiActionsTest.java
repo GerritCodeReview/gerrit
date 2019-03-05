@@ -15,7 +15,6 @@
 package com.google.gerrit.server.extensions.webui;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.permissions.PermissionBackendUtil.newSet;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -35,7 +34,6 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 import org.easymock.EasyMock;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -63,19 +61,16 @@ public class UiActionsTest extends GerritBaseTests {
     }
 
     @Override
-    public <T extends CoreOrPluginProjectPermission> Set<T> test(Collection<T> permSet)
-        throws PermissionBackendException {
+    public ImmutableSet<CoreOrPluginProjectPermission> test(
+        Collection<CoreOrPluginProjectPermission> permSet) throws PermissionBackendException {
       assertThat(allowValueQueries).isTrue();
-      Set<T> ok = newSet(permSet);
-      for (T perm : permSet) {
-        // Allow ProjectPermission.READ, if it was requested in the input permSet. This implies
-        // that permSet has type Collection<ProjectPermission>, otherwise no permission would
-        // compare equal to READ.
-        if (perm.equals(ProjectPermission.READ)) {
-          ok.add(perm);
+      ImmutableSet.Builder<CoreOrPluginProjectPermission> builder = ImmutableSet.builder();
+      for (CoreOrPluginProjectPermission perm : permSet) {
+        if (perm instanceof ProjectPermission && perm.equals(ProjectPermission.READ)) {
+          builder.add(perm);
         }
       }
-      return ok;
+      return builder.build();
     }
 
     @Override

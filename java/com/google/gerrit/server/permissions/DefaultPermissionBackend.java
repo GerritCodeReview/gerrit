@@ -15,10 +15,10 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalPermissionName;
-import static com.google.gerrit.server.permissions.PermissionBackendUtil.newSet;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
@@ -125,15 +125,15 @@ public class DefaultPermissionBackend extends PermissionBackend {
     }
 
     @Override
-    public <T extends GlobalOrPluginPermission> Set<T> test(Collection<T> permSet)
+    public ImmutableSet<GlobalOrPluginPermission> test(Collection<GlobalOrPluginPermission> permSet)
         throws PermissionBackendException {
-      Set<T> ok = newSet(permSet);
-      for (T perm : permSet) {
+      ImmutableSet.Builder<GlobalOrPluginPermission> builder = ImmutableSet.builder();
+      for (GlobalOrPluginPermission perm : permSet) {
         if (can(perm)) {
-          ok.add(perm);
+          builder.add(perm);
         }
       }
-      return ok;
+      return builder.build();
     }
 
     @Override

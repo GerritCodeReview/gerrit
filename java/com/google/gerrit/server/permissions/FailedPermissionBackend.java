@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.permissions;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.api.access.CoreOrPluginProjectPermission;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
@@ -92,7 +93,7 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public <T extends GlobalOrPluginPermission> Set<T> test(Collection<T> permSet)
+    public ImmutableSet<GlobalOrPluginPermission> test(Collection<GlobalOrPluginPermission> permSet)
         throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
     }
@@ -130,8 +131,8 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public <T extends CoreOrPluginProjectPermission> Set<T> test(Collection<T> permSet)
-        throws PermissionBackendException {
+    public ImmutableSet<CoreOrPluginProjectPermission> test(
+        Collection<CoreOrPluginProjectPermission> permSet) throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
     }
 

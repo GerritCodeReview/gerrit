@@ -16,8 +16,8 @@ package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_TAGS;
-import static com.google.gerrit.server.permissions.PermissionBackendUtil.newSet;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -382,15 +382,16 @@ class ProjectControl {
     }
 
     @Override
-    public <T extends CoreOrPluginProjectPermission> Set<T> test(Collection<T> permSet)
-        throws PermissionBackendException {
-      Set<T> ok = newSet(permSet);
-      for (T perm : permSet) {
+    public ImmutableSet<CoreOrPluginProjectPermission> test(
+        Collection<CoreOrPluginProjectPermission> permSet) throws PermissionBackendException {
+      ImmutableSet.Builder<CoreOrPluginProjectPermission> builder = ImmutableSet.builder();
+
+      for (CoreOrPluginProjectPermission perm : permSet) {
         if (can(perm)) {
-          ok.add(perm);
+          builder.add(perm);
         }
       }
-      return ok;
+      return builder.build();
     }
 
     @Override

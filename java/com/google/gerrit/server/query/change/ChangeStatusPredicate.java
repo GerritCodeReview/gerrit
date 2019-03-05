@@ -41,7 +41,7 @@ import java.util.TreeMap;
  */
 public final class ChangeStatusPredicate extends ChangeIndexPredicate {
   private static final String INVALID_STATUS = "__invalid__";
-  private static final Predicate<ChangeData> NONE = new ChangeStatusPredicate(null);
+  static final Predicate<ChangeData> NONE = new ChangeStatusPredicate(null);
 
   private static final TreeMap<String, Predicate<ChangeData>> PREDICATES;
   private static final Predicate<ChangeData> CLOSED;

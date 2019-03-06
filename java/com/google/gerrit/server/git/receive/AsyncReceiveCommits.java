@@ -179,6 +179,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private static class Metrics {
     private final Histogram1<ResultChangeIds.Key> changes;
     private final Timer1<String> latencyPerChange;
+    private final Timer1<String> latencyPerPush;
     private final Counter0 timeouts;
 
     @Inject
@@ -198,6 +199,14 @@ public class AsyncReceiveCommits implements PreReceiveHook {
                   .setUnit(Units.MILLISECONDS)
                   .setCumulative(),
               Field.ofString("type", "type of update (create/replace, autoclose)"));
+
+      latencyPerPush =
+          metricMaker.newTimer(
+              "receivecommits/push_latency",
+              new Description("delay for a processing single batch of pushes")
+                  .setUnit(Units.MILLISECONDS)
+                  .setCumulative(),
+              Field.ofString("type", "type of push (create/replace, autoclose)"));
 
       timeouts =
           metricMaker.newCounter(
@@ -354,12 +363,13 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       totalChanges += autoclosed.size();
     }
 
+    String pushType =
+        resultChangeIds.isMagicPush() ? "CREATE_REPLACE" : ResultChangeIds.Key.AUTOCLOSED.name();
     if (totalChanges > 0) {
-      metrics.latencyPerChange.record(
-          resultChangeIds.isMagicPush() ? "CREATE_REPLACE" : ResultChangeIds.Key.AUTOCLOSED.name(),
-          deltaNanos / totalChanges,
-          NANOSECONDS);
+      metrics.latencyPerChange.record(pushType, deltaNanos / totalChanges, NANOSECONDS);
     }
+
+    metrics.latencyPerPush.record(pushType, deltaNanos, NANOSECONDS);
   }
 
   /** Returns the Change.Ids that were processed in onPreReceive */

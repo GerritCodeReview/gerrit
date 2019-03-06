@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7ba2bb93_e9ae8a5b",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-03-06T16:25:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "42f5df12_04e50790",
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7033dfb_8f2d7dd9",
         "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
         "patchSetId": 4
@@ -148,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "a6cbf208_a0444e49",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-03-06T16:25:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ef3756d8_bea4594f",
+      "range": {
+        "startLine": 75,
+        "startChar": 10,
+        "endLine": 75,
+        "endChar": 46
+      },
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48092e1e_5cd3a4b9",
         "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
         "patchSetId": 4
@@ -264,6 +306,24 @@
       "side": 1,
       "message": "That\u0027s right. But this test is a small test doesn\u0027t bring up a Gerrit test instance. We could possiblity install a plugin like what we did in \"PluginProvidedRestApiBindingsIT\" but it\u0027s out scope of this change.",
       "parentUuid": "a76c6b9a_8056b410",
+      "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4ecf23_607588bf",
+        "filename": "javatests/com/google/gerrit/server/config/ListCapabilitiesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-03-06T16:25:40Z",
+      "side": 1,
+      "message": "Oh, your are right. Sorry for pointing in the wrong direction.",
+      "parentUuid": "f7188507_b019b3e2",
       "revId": "73a14133386c1626b8ee3cf2bda9afbd9c13d344",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

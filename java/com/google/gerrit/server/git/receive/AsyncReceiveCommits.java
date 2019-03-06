@@ -351,6 +351,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     } else {
       List<Change.Id> autoclosed = resultChangeIds.get(ResultChangeIds.Key.AUTOCLOSED);
       metrics.changes.record(ResultChangeIds.Key.AUTOCLOSED, autoclosed.size());
+      totalChanges += autoclosed.size();
     }
 
     if (totalChanges > 0) {

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "5524ff92_85c0e4f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-06T16:07:03Z",
+      "side": 1,
+      "message": "sg",
+      "parentUuid": "626af5eb_3a15de13",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9b698b8_9faeceed",
         "filename": "java/com/google/gerrit/extensions/config/PluginPermissionDefinition.java",
         "patchSetId": 1

@@ -89,5 +89,74 @@ limitations under the License.
       instance.annotateLineNumber(cssClass, 'right');
       assert.isTrue(lineNumberEl.classList.contains(cssClass));
     });
+
+    test('test addLink', () => {
+      // The content should initially not have any children.
+      assert.equal(el.childElementCount, 0);
+      instance.addLink('http://testlink/', 'testText');
+
+      // The content should now have a <br> and an <a> child that points to the
+      // link we provided.
+      assert.equal(el.childElementCount, 2);
+      assert.equal(el.children[0].nodeName, 'BR');
+      assert.equal(el.children[1].nodeName, 'A');
+      assert.equal(el.children[1].href, 'http://testlink/');
+      assert.equal(el.children[1].innerHTML, 'testText');
+    });
+
+    function getElementCount(element, elementName) {
+      let count = 0;
+      if (element.nodeName === elementName) {
+        count++;
+      }
+      for (const child of element.children) {
+        count += getElementCount(child, elementName);
+      }
+      return count;
+    }
+
+    test('test addLink without content', () => {
+      const initialAnchorCount = document.anchors.length;
+      const initialBreakCount = getElementCount(document.documentElement, 'BR');
+      instance._contentEl = undefined;
+      instance.addLink('http://testlink', 'testText');
+      assert.equal(document.anchors.length, initialAnchorCount);
+      assert.equal(getElementCount(document.documentElement, 'BR'),
+          initialBreakCount);
+    });
+
+    test('test addImage', () => {
+      // The content should initially not have any children.
+      assert.equal(el.childElementCount, 0);
+      instance.addImage('http://testimagelink/');
+
+      // The content should now have a <br> and an <img> child that points to
+      // the link we provided.
+      assert.equal(el.childElementCount, 2);
+      assert.equal(el.children[0].nodeName, 'BR');
+      assert.equal(el.children[1].nodeName, 'IMG');
+      assert.equal(el.children[1].src, 'http://testimagelink/');
+    });
+
+    test('test addImage without content', () => {
+      const initialImageCount = getElementCount(
+          document.documentElement, 'IMG');
+      const initialBreakCount = getElementCount(document.documentElement, 'BR');
+      instance._contentEl = undefined;
+      instance.addImage('http://testimagelink/');
+      assert.equal(getElementCount(document.documentElement, 'IMG'),
+          initialImageCount);
+      assert.equal(getElementCount(document.documentElement, 'BR'),
+          initialBreakCount);
+    });
+
+    test('test getContent', () => {
+      assert.equal(instance.getContent(), 'lorem ipsum blah blah');
+    });
+
+    test('test getContent without content', () => {
+      instance._contentEl = undefined;
+      assert.equal(instance.getContent(), undefined);
+    });
   });
 </script>

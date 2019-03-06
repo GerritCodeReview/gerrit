@@ -27,6 +27,8 @@ in a single upload, split up by update type (new change created,
 existing changed updated, change autoclosed).
 * `receivecommits/latency`: latency per change for processing a push,
 split up by update type (create+replace, and autoclose)
+* `receivecommits/push_latency`: total latency for processing a push,
+split up by update type (create+replace, autoclose, normal)
 * `receivecommits/timeout`: number of timeouts during push processing.
 
 === Process

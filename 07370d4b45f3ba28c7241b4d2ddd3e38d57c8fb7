@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "626af5eb_3a15de13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-06T15:49:10Z",
+      "side": 1,
+      "message": "I figured this out after reading the rest of the change. I think we should probably eventually change the format of capability names as well but we don\u0027t need to shave that yak now.",
+      "parentUuid": "2d8c6a3b_6e03c721",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "07370d4b45f3ba28c7241b4d2ddd3e38d57c8fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9b698b8_9faeceed",
         "filename": "java/com/google/gerrit/extensions/config/PluginPermissionDefinition.java",
         "patchSetId": 1

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e3df2a7c_e99abced",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-03-06T17:42:41Z",
+      "side": 1,
+      "message": "I don\u0027t understand how your phrasing differs from mine. What do you think is unclear?",
+      "parentUuid": "db57013c_5d23cc4a",
+      "range": {
+        "startLine": 198,
+        "startChar": 30,
+        "endLine": 198,
+        "endChar": 64
+      },
+      "revId": "2ae6eb0c378721e3a46902ce550869bf856f4672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "98bd58a3_7b27ce47",
         "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-03-06T15:38:15Z",
       "side": 1,
       "message": "Should \"batch of pushes\" be \"a single push (which may consist of multiple changes)\"?",
+      "range": {
+        "startLine": 206,
+        "startChar": 70,
+        "endLine": 206,
+        "endChar": 76
+      },
+      "revId": "2ae6eb0c378721e3a46902ce550869bf856f4672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "109eee40_c8bf967c",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-03-06T17:42:41Z",
+      "side": 1,
+      "message": "no, you can have multiple ReceiveCommands in a single invocation, eg.\n\n\n  git push origin a:b c:d",
+      "parentUuid": "98bd58a3_7b27ce47",
       "range": {
         "startLine": 206,
         "startChar": 70,

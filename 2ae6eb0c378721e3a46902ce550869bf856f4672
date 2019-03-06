@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f9415964_245aa22b",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-03-06T22:35:34Z",
+      "side": 1,
+      "message": "What differs is basically a bit more context for those who don\u0027t know. All the information available to the unwary encounter of this metric is:\n\n  name \u003d \"receivecommits/latency\"\n  description \u003d \"average delay per updated change\"\n\nThat leaves this person with quite some questions. For example: what does each data point in the histogram represent? Obviously, if the metric was just the \"average delay per updated change\", it could\u0027ve just as well been a single int64 metric exporting the average.\n\nIn contrast, my amended description tries to say that the \"unit\" of this metric is the push.",
+      "parentUuid": "e3df2a7c_e99abced",
+      "range": {
+        "startLine": 198,
+        "startChar": 30,
+        "endLine": 198,
+        "endChar": 64
+      },
+      "revId": "2ae6eb0c378721e3a46902ce550869bf856f4672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "98bd58a3_7b27ce47",
         "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "no, you can have multiple ReceiveCommands in a single invocation, eg.\n\n\n  git push origin a:b c:d",
       "parentUuid": "98bd58a3_7b27ce47",
+      "range": {
+        "startLine": 206,
+        "startChar": 70,
+        "endLine": 206,
+        "endChar": 76
+      },
+      "revId": "2ae6eb0c378721e3a46902ce550869bf856f4672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e82b4fe6_48ff4c85",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-03-06T22:35:34Z",
+      "side": 1,
+      "message": "\u003e no, you can have multiple ReceiveCommands in a single invocation, eg.\n\u003e \n\u003e   git push origin a:b c:d\n\nAnd those will be added together? I think it\u0027s useful to give this example in the description. I know I\u0027ll forget about this in short order.",
+      "parentUuid": "109eee40_c8bf967c",
       "range": {
         "startLine": 206,
         "startChar": 70,

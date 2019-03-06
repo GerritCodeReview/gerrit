@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db57013c_5d23cc4a",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-03-06T15:38:15Z",
+      "side": 1,
+      "message": "Maybe reword this as:\n\n\"Average delay per updated change for a push (calculated as duration_of_push / number_of_changes_in_push).\"\n\nBecause that\u0027s what I think is happening now. If that\u0027s not what\u0027s happening, then a rewording would be even better.",
+      "range": {
+        "startLine": 198,
+        "startChar": 30,
+        "endLine": 198,
+        "endChar": 64
+      },
+      "revId": "2ae6eb0c378721e3a46902ce550869bf856f4672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98bd58a3_7b27ce47",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-03-06T15:38:15Z",
+      "side": 1,
+      "message": "Should \"batch of pushes\" be \"a single push (which may consist of multiple changes)\"?",
+      "range": {
+        "startLine": 206,
+        "startChar": 70,
+        "endLine": 206,
+        "endChar": 76
+      },
+      "revId": "2ae6eb0c378721e3a46902ce550869bf856f4672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

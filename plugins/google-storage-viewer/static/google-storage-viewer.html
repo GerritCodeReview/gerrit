@@ -1,0 +1,56 @@
+<dom-module id='google-storage-viewer'>
+  <script>
+    (function() {
+      'use strict';
+
+      function extractSHA1Hash(content) {
+        const SHA1_REGEX = /^.*([a-zA-Z0-9]{40}).*$/;
+        const matches = content.match(SHA1_REGEX);
+        // matches[0] should be the full match, matches[1] should be the actual
+        // hash.
+        if (matches.length < 2) {
+          console.error('Unable to extract SHA1 hash from "' + content + '"');
+          return undefined;
+        }
+        return matches[1];
+      }
+
+      function isRenderTestPath(context) {
+        // Checks for "*render_tests*.png.sha1"
+        const RENDER_TEST_REGEX = /^.*render_tests.*\.png\.sha1$/;
+        // We only want to annotate if the file is a RenderTest golden image
+        // hash and there's actually content to annotate.
+        return RENDER_TEST_REGEX.test(context.path) && context.getContent();
+      }
+
+      function applyRenderTestAnnotation(context) {
+        const RENDERTEST_STORAGE_URL = ('https://storage.googleapis.com/' +
+            'chromium-android-render-test-goldens/');
+        const hash = extractSHA1Hash(context.getContent());
+        if (hash === undefined) return;
+        const imageUrl = RENDERTEST_STORAGE_URL + hash;
+        context.addLink(imageUrl, 'View in Google Storage');
+        context.addImage(imageUrl);
+      }
+
+      const STORAGE_ANNOTATION_TYPES = Object.freeze([
+          // Android RenderTest golden images.
+          {
+            checkFunction: isRenderTestPath,
+            applyFunction: applyRenderTestAnnotation,
+          },
+      ]);
+
+      Gerrit.install(function(plugin) {
+        let annotationApi = plugin.annotationApi();
+        annotationApi.addLayer(context => {
+          for (const annotationType of STORAGE_ANNOTATION_TYPES) {
+            if (annotationType.checkFunction(context)) {
+              annotationType.applyFunction(context);
+            }
+          }
+        });
+      });
+    })();
+  </script>
+</dom-module>

@@ -71,6 +71,24 @@
       "revId": "0724363f2b4da40f5a01251675a9111568b9d0f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "121bd56b_06783e79",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/PluginProvidedChildRestApiBindingsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-03-06T07:54:16Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is a bug. I thought it\u0027s an intended feature that allows us to move REST endpoints from Gerrit core into a plugin easily without need to adapt all the callers?",
+      "parentUuid": "9d0a15b9_97207904",
+      "revId": "0724363f2b4da40f5a01251675a9111568b9d0f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.index.query;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.Iterables;
@@ -82,6 +83,8 @@ public abstract class Predicate<T> {
 
   /** Invert the passed node. */
   public static <T> Predicate<T> not(Predicate<T> that) {
+    checkArgument(
+        !(that instanceof Any), "negating any() is unsafe because it post-filters all results");
     if (that instanceof NotPredicate) {
       // Negate of a negate is the original predicate.
       //

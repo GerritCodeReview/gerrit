@@ -177,8 +177,9 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
   @Singleton
   private static class Metrics {
-    private final Histogram1<ResultChangeIds.Key> changes;
+    private final Histogram1<String> changes;
     private final Timer1<String> latencyPerChange;
+    private final Timer1<String> latencyPerPush;
     private final Counter0 timeouts;
 
     @Inject
@@ -187,17 +188,23 @@ public class AsyncReceiveCommits implements PreReceiveHook {
           metricMaker.newHistogram(
               "receivecommits/changes",
               new Description("number of changes uploaded in a single push.").setCumulative(),
-              Field.ofEnum(
-                  ResultChangeIds.Key.class,
-                  "type",
-                  "type of update (replace, create, autoclose)"));
+              Field.ofString("type", "type of push (create/replace, autoclose)"));
       latencyPerChange =
           metricMaker.newTimer(
               "receivecommits/latency",
-              new Description("average delay per updated change")
+              new Description(
+                      "Processing delay per push divided by the number of changes in said push. (Only includes pushes which contain changes.)")
                   .setUnit(Units.MILLISECONDS)
                   .setCumulative(),
-              Field.ofString("type", "type of update (create/replace, autoclose)"));
+              Field.ofString("type", "type of push (create/replace, autoclose)"));
+
+      latencyPerPush =
+          metricMaker.newTimer(
+              "receivecommits/push_latency",
+              new Description("processing delay for a processing single push")
+                  .setUnit(Units.MILLISECONDS)
+                  .setCumulative(),
+              Field.ofString("type", "type of push (create/replace, autoclose, normal)"));
 
       timeouts =
           metricMaker.newCounter(
@@ -342,24 +349,29 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     long deltaNanos = System.nanoTime() - startNanos;
     int totalChanges = 0;
 
+    String pushType;
     if (resultChangeIds.isMagicPush()) {
+      pushType = "CREATE_REPLACE";
       List<Change.Id> created = resultChangeIds.get(ResultChangeIds.Key.CREATED);
-      metrics.changes.record(ResultChangeIds.Key.CREATED, created.size());
       List<Change.Id> replaced = resultChangeIds.get(ResultChangeIds.Key.REPLACED);
-      metrics.changes.record(ResultChangeIds.Key.REPLACED, replaced.size());
+      metrics.changes.record(pushType, created.size() + replaced.size());
       totalChanges += replaced.size() + created.size();
     } else {
       List<Change.Id> autoclosed = resultChangeIds.get(ResultChangeIds.Key.AUTOCLOSED);
-      metrics.changes.record(ResultChangeIds.Key.AUTOCLOSED, autoclosed.size());
-      totalChanges += autoclosed.size();
+      if (!autoclosed.isEmpty()) {
+        pushType = ResultChangeIds.Key.AUTOCLOSED.name();
+        metrics.changes.record(ResultChangeIds.Key.AUTOCLOSED.name(), autoclosed.size());
+        totalChanges += autoclosed.size();
+      } else {
+        pushType = "NORMAL";
+      }
     }
 
     if (totalChanges > 0) {
-      metrics.latencyPerChange.record(
-          resultChangeIds.isMagicPush() ? "CREATE_REPLACE" : ResultChangeIds.Key.AUTOCLOSED.name(),
-          deltaNanos / totalChanges,
-          NANOSECONDS);
+      metrics.latencyPerChange.record(pushType, deltaNanos / totalChanges, NANOSECONDS);
     }
+
+    metrics.latencyPerPush.record(pushType, deltaNanos, NANOSECONDS);
   }
 
   /** Returns the Change.Ids that were processed in onPreReceive */

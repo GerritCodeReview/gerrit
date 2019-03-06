@@ -65,5 +65,47 @@
     }
   };
 
+  /**
+   * Method to add an <a> element as a child to the content line. Also adds a
+   * <br> element to ensure that the added link is displayed below the line.
+   * @param {string} href The value that will be linked to.
+   * @param {string} displayText The text to display for the link.
+   */
+  GrAnnotationActionsContext.prototype.addLink = function(href, displayText) {
+    if (this._contentEl) {
+      const childAnchor = document.createElement('a');
+      childAnchor.href = href;
+      childAnchor.innerHTML = displayText;
+      this._contentEl.appendChild(document.createElement('br'));
+      this._contentEl.appendChild(childAnchor);
+    }
+  };
+
+  /**
+   * Method to add an <img> element as a child to the content line. Also adds a
+   * <br> element to ensure that the added image is displayed below the line.
+   * @param {string} src The source link of the image that will be displayed.
+   */
+  GrAnnotationActionsContext.prototype.addImage = function(src) {
+    if (this._contentEl) {
+      const childImage = document.createElement('img');
+      childImage.src = src;
+      this._contentEl.appendChild(document.createElement('br'));
+      this._contentEl.appendChild(childImage);
+    }
+  };
+
+  /**
+   * Method to retrieve the contents of the content element.
+   * @return {string|undefined} The contents of the content element if the
+   *    element exists, otherwise undefined.
+   */
+  GrAnnotationActionsContext.prototype.getContent = function() {
+    if (this._contentEl) {
+      return this._contentEl.innerHTML;
+    }
+    return undefined;
+  };
+
   window.GrAnnotationActionsContext = GrAnnotationActionsContext;
 })(window);

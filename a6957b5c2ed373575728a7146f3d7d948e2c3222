@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cf9c6d4_4f045e48",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-03-06T22:30:07Z",
+      "side": 1,
+      "message": "Now that the concept of NORMAL as separate from CREATE/REPLACE/CLOSE has been defined, I think it makes sense to avoid incrementing this metric for NORMAL-type pushes.\n\nI know it\u0027s a bit asymmetric, but given that it\u0027s impossible to \"subtract\" data from a histogram I think it\u0027s more useful that way. I imagine plotting this alongside the latency per change and the latency per push to see a pattern in whether the number of changes per push suddenly changed et cetera. The signal is much clearer if it isn\u0027t muddied by the 99% (which are NORMAL pushes).\n\nIf you agree, the description of the \"changes\" metric would need to be amended to state that it no longer contains NORMAL pushes.",
+      "range": {
+        "startLine": 361,
+        "startChar": 0,
+        "endLine": 363,
+        "endChar": 40
+      },
+      "revId": "a6957b5c2ed373575728a7146f3d7d948e2c3222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

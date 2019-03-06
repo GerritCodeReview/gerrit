@@ -93,6 +93,29 @@
       "revId": "2ae6eb0c378721e3a46902ce550869bf856f4672",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e952cfbf_3065e082",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-03-06T22:30:07Z",
+      "side": 1,
+      "message": "According to our off-line discussion, shouldn\u0027t this list include NORMAL?",
+      "range": {
+        "startLine": 209,
+        "startChar": 52,
+        "endLine": 209,
+        "endChar": 77
+      },
+      "revId": "2ae6eb0c378721e3a46902ce550869bf856f4672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

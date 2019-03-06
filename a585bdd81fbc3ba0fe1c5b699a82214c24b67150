@@ -347,6 +347,24 @@
     },
     {
       "key": {
+        "uuid": "3bd28d01_5e0a14f0",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackendUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-06T16:13:46Z",
+      "side": 1,
+      "message": "OK. Let\u0027s just remove it then.",
+      "parentUuid": "b7724b57_07f952f3",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1477a57d_8fc98e2b",
         "filename": "java/com/google/gerrit/server/permissions/ProjectControl.java",
         "patchSetId": 1

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d81a071_e3b7fa5f",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-06T15:52:47Z",
+      "side": 1,
+      "message": "TODO(xchangcheng)",
+      "range": {
+        "startLine": 316,
+        "startChar": 9,
+        "endLine": 316,
+        "endChar": 13
+      },
+      "revId": "35294b9bee0090535a55e6585ea500d4dab0151d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "671e347e_1df4eaa8",
+        "filename": "java/com/google/gerrit/server/permissions/ProjectControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-06T15:52:47Z",
+      "side": 1,
+      "message": "TODO(xchangcheng)",
+      "revId": "35294b9bee0090535a55e6585ea500d4dab0151d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

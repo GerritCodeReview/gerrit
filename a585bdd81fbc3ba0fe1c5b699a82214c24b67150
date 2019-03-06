@@ -329,6 +329,24 @@
     },
     {
       "key": {
+        "uuid": "b7724b57_07f952f3",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackendUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-06T15:52:47Z",
+      "side": 1,
+      "message": "What I\u0027m saying is that you can eliminate this method entirely and just call \"new HashSet\u003c\u003e()\" or \"Sets.newHashSetWithExpectedSize(old.size())\" at the call sites.\n\nThe only possible argument for this method to exist is that EnumSets are smaller and cheaper to allocate, and I think that\u0027s premature optimization. We have no evidence to indicate that the cost of allocating HashSets to do permission checks would be noticeable, and this is far from the only HashMap constructed in the course of processing a typical request.",
+      "parentUuid": "6a802f58_cdf0d44e",
+      "revId": "a585bdd81fbc3ba0fe1c5b699a82214c24b67150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1477a57d_8fc98e2b",
         "filename": "java/com/google/gerrit/server/permissions/ProjectControl.java",
         "patchSetId": 1

@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "b11b36da_02fefd8c",
+        "filename": "javatests/com/google/gerrit/server/permissions/PluginPermissionsUtilTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-07T12:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7a7ea28_0cffd851",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 41
+      },
+      "revId": "25b9557a4ac54193389aa1c4faf52705775c4a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d62b8b8_83bdc078",
         "filename": "javatests/com/google/gerrit/server/permissions/PluginPermissionsUtilTest.java",
         "patchSetId": 3
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "04750a23_ac90bef3",
+        "filename": "javatests/com/google/gerrit/server/permissions/PluginPermissionsUtilTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-07T12:16:41Z",
+      "side": 1,
+      "message": "Let\u0027s go with \"isPluginPermissionReturnsFalseForInvalidName\"",
+      "parentUuid": "1d62b8b8_83bdc078",
+      "range": {
+        "startLine": 40,
+        "startChar": 14,
+        "endLine": 40,
+        "endChar": 43
+      },
+      "revId": "25b9557a4ac54193389aa1c4faf52705775c4a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f84e252_9244684d",
         "filename": "javatests/com/google/gerrit/server/permissions/PluginPermissionsUtilTest.java",
         "patchSetId": 3
@@ -91,6 +139,30 @@
       "revId": "25b9557a4ac54193389aa1c4faf52705775c4a42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "367e2124_e9576aab",
+        "filename": "javatests/com/google/gerrit/server/permissions/PluginPermissionsUtilTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-07T12:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f84e252_9244684d",
+      "range": {
+        "startLine": 41,
+        "startChar": 26,
+        "endLine": 41,
+        "endChar": 48
+      },
+      "revId": "25b9557a4ac54193389aa1c4faf52705775c4a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

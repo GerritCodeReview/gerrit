@@ -16,6 +16,24 @@
       "revId": "8606b0b04505bc9215402f522a9ad56ece6ea7dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a8d8df3_826429f0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1071987
+      },
+      "writtenOn": "2019-03-07T19:51:44Z",
+      "side": 1,
+      "message": "I had a hard time explaining this in a simple way - it kind of requires a good understanding of how microtasks work in JS. I added a longer comment explaining the purpose etc. \n\nTo respond to you questions: When you call this function multiple times synchronously in sequence, nothing happens until the current thread of execution is done, and something (usually some sort of setTimeout, async, ...) gives back control to the scheduler. Then it runs any outstanding microtasks. One of them is the one scheduled by debounce, and will then call _renderDiffTable a single time - even if debounce was previously called multiple times. This happens only with multiple invocations in the same microtask - if you make one call, setTimeout 200ms and then make another, there will be two calls to render.\n\ncancelDebouncer can basically \"unschedule\" all callbacks made with debounce. It does not actually interrupt anything once it started running.\n\nDoes that make more sense now?\n\nThis is a pretty good explanations details that explains how this sort of thing works: https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/",
+      "parentUuid": "0e507a3b_e098e686",
+      "revId": "8606b0b04505bc9215402f522a9ad56ece6ea7dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

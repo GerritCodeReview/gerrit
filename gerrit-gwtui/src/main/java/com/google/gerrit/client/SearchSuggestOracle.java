@@ -138,6 +138,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("is:ignored");
     suggestions.add("is:wip");
     suggestions.add("is:assigned");
+    suggestions.add("is:submittable");
 
     suggestions.add("status:");
     suggestions.add("status:open");

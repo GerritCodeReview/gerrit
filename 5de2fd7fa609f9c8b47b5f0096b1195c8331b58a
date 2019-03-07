@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ccf2ae69_e7e32e57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-07T11:55:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d2ed959_031e825e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "5de2fd7fa609f9c8b47b5f0096b1195c8331b58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0621f28_4cbbf708",
         "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e8de284b_cf755bf5",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-07T11:55:15Z",
+      "side": 1,
+      "message": "Updated to say this is also to honor java best practices.",
+      "parentUuid": "a0621f28_4cbbf708",
+      "range": {
+        "startLine": 30,
+        "startChar": 7,
+        "endLine": 30,
+        "endChar": 12
+      },
+      "revId": "5de2fd7fa609f9c8b47b5f0096b1195c8331b58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7cb6f78_04e2f531",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/PluginAccessIT.java",
         "patchSetId": 1
@@ -62,6 +110,24 @@
       "revId": "5de2fd7fa609f9c8b47b5f0096b1195c8331b58a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a9cb286_bf3b664a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PluginAccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-07T11:55:15Z",
+      "side": 1,
+      "message": "OK. Let\u0027s stay consistent with other tests.",
+      "parentUuid": "d7cb6f78_04e2f531",
+      "revId": "5de2fd7fa609f9c8b47b5f0096b1195c8331b58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "0c994afa_2c237078",
+        "filename": "javatests/com/google/gerrit/server/permissions/PluginPermissionsUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-07T11:55:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "736fa185_2d452cb5",
+      "range": {
+        "startLine": 36,
+        "startChar": 5,
+        "endLine": 36,
+        "endChar": 7
+      },
+      "revId": "5de2fd7fa609f9c8b47b5f0096b1195c8331b58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d65fcaa8_0ec07c44",
         "filename": "javatests/com/google/gerrit/server/permissions/PluginPermissionsUtilTest.java",
         "patchSetId": 1
@@ -108,6 +198,30 @@
       "revId": "5de2fd7fa609f9c8b47b5f0096b1195c8331b58a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f3d9033_478b13ef",
+        "filename": "javatests/com/google/gerrit/server/permissions/PluginPermissionsUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-07T11:55:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d65fcaa8_0ec07c44",
+      "range": {
+        "startLine": 52,
+        "startChar": 23,
+        "endLine": 52,
+        "endChar": 53
+      },
+      "revId": "5de2fd7fa609f9c8b47b5f0096b1195c8331b58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

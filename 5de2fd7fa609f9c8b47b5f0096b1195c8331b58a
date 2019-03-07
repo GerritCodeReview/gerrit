@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d2ed959_031e825e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-07T11:43:27Z",
+      "side": 1,
+      "message": "The commit message should be more specific about what is being changed, and why.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "5de2fd7fa609f9c8b47b5f0096b1195c8331b58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0621f28_4cbbf708",
+        "filename": "java/com/google/gerrit/server/permissions/PluginPermissionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-07T11:43:27Z",
+      "side": 1,
+      "message": "The commit message says the changes are for readability, but why does adding \u0027final\u0027 make the code more readable?",
+      "range": {
+        "startLine": 30,
+        "startChar": 7,
+        "endLine": 30,
+        "endChar": 12
+      },
+      "revId": "5de2fd7fa609f9c8b47b5f0096b1195c8331b58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7cb6f78_04e2f531",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PluginAccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-07T11:43:27Z",
+      "side": 1,
+      "message": "nit: typically we don\u0027t use underscores in method names.",
+      "revId": "5de2fd7fa609f9c8b47b5f0096b1195c8331b58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "736fa185_2d452cb5",
+        "filename": "javatests/com/google/gerrit/server/permissions/PluginPermissionsUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-07T11:43:27Z",
+      "side": 1,
+      "message": "redundant semi-colon",
+      "range": {
+        "startLine": 36,
+        "startChar": 5,
+        "endLine": 36,
+        "endChar": 7
+      },
+      "revId": "5de2fd7fa609f9c8b47b5f0096b1195c8331b58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d65fcaa8_0ec07c44",
+        "filename": "javatests/com/google/gerrit/server/permissions/PluginPermissionsUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-07T11:43:27Z",
+      "side": 1,
+      "message": "inline this at L54",
+      "range": {
+        "startLine": 52,
+        "startChar": 23,
+        "endLine": 52,
+        "endChar": 53
+      },
+      "revId": "5de2fd7fa609f9c8b47b5f0096b1195c8331b58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

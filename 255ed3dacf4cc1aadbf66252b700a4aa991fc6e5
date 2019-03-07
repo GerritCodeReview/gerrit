@@ -22,6 +22,30 @@
       "revId": "255ed3dacf4cc1aadbf66252b700a4aa991fc6e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04f4b9f2_2170c060",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2019-03-07T17:28:27Z",
+      "side": 1,
+      "message": "my 2 cents:\n\nNote that the whole annotations API was written for a single use case but others have found it useful. I have also added other APIs solely for chromium_behavior which are now used in other places. We have to start somewhere :) (as long as the proposals are sane and not way too use case specific)\nPersonally, the additions here are fairly simple and tested and could be generally useful. But, your alternate suggestion might be better (I have not looked in detail).",
+      "parentUuid": "bfab6a43_8807c330",
+      "range": {
+        "startLine": 17,
+        "startChar": 45,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "255ed3dacf4cc1aadbf66252b700a4aa991fc6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

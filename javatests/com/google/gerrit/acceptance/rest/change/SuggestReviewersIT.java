@@ -518,6 +518,17 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(Iterables.getOnlyElement(reviewers).account.secondaryEmails).isNull();
   }
 
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void nonVisibleAccountIsNotSuggested() throws Exception {
+    requestScopeOperations.setApiUser(user.getId());
+    String username = name("foo");
+    accountOperations.newAccount().username(username).create();
+    String changeId = createChange().getChangeId();
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, username, 6);
+    assertThat(reviewers).isEmpty();
+  }
+
   private TestAccount createAccountWithSecondaryEmail(String name, String secondaryEmail)
       throws Exception {
     TestAccount foo = accountCreator.create(name(name), "foo.primary@example.com", "Foo");

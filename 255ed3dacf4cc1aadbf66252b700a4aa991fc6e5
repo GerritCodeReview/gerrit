@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfab6a43_8807c330",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-07T16:41:11Z",
+      "side": 1,
+      "message": "I doubt that and I am hesitant to add plugin APIs for just one use case. I think we will need to go deeper and rather provide an API that allows switching between a raw and a generated view of a file - for some definition of generated.",
+      "range": {
+        "startLine": 17,
+        "startChar": 45,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "255ed3dacf4cc1aadbf66252b700a4aa991fc6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

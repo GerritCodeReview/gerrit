@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d177732_2100fbed",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-03-07T14:04:50Z",
+      "side": 1,
+      "message": "\"Number of changes of each type (create, replace, autoclose) uploaded in a single push. If a push has changes of multiple types, multiple events will be added to the histogram (one for each type).\"\n\n\u003c--- which also shows that we don\u0027t have a metric which tracks the number of changes in a push regardless of type. Despite the loss of information, WDYT about joining CREATE and REPLACE in this metric to make it more comparable to receivecommits/latency?",
+      "range": {
+        "startLine": 190,
+        "startChar": 31,
+        "endLine": 190,
+        "endChar": 75
+      },
+      "revId": "c0aafc15faf95b171f6119565b266e6ec70c0449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "283d5ca7_223c6d54",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-03-07T14:04:50Z",
+      "side": 1,
+      "message": "This is OK. What sounds even clearer to me is:\n\n  Processing delay per push divided by the number of changes in said push. (Only includes pushes which contain changes.)",
+      "range": {
+        "startLine": 197,
+        "startChar": 50,
+        "endLine": 197,
+        "endChar": 74
+      },
+      "revId": "c0aafc15faf95b171f6119565b266e6ec70c0449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a49a4e66_10068ad1",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-03-07T14:04:50Z",
+      "side": 1,
+      "message": "Is it legal for a push to be both `isMagicPush()` and `totalChanges \u003d\u003d 0`? Would it end up here?",
+      "range": {
+        "startLine": 368,
+        "startChar": 0,
+        "endLine": 370,
+        "endChar": 5
+      },
+      "revId": "c0aafc15faf95b171f6119565b266e6ec70c0449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "494723ac_600fa637",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-03-07T14:04:50Z",
+      "side": 1,
+      "message": "Suggestion: personally, I would postfix-comment each of the types as such:\n\n pushType \u003d \"CREATE_REPLACE\"; // A push with new and/or updated changes.\n pushType \u003d ResultChangeIds.Key.AUTOCLOSED.name();\n pushType \u003d \"NORMAL\"; // No changes in the push (regular git push).",
+      "range": {
+        "startLine": 373,
+        "startChar": 6,
+        "endLine": 373,
+        "endChar": 26
+      },
+      "revId": "c0aafc15faf95b171f6119565b266e6ec70c0449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

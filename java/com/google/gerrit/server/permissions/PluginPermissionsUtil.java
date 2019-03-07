@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 /** Utilities for plugin permissions. */
 @Singleton
-public class PluginPermissionsUtil {
+public final class PluginPermissionsUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String PLUGIN_NAME_PATTERN_STRING = "[a-zA-Z0-9-]+";

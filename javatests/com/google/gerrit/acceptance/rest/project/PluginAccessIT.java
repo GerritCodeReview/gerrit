@@ -32,9 +32,10 @@ import com.google.gerrit.server.permissions.PluginPermissionsUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import java.util.Set;
 import org.junit.Test;
 
-public class PluginAccessIT extends AbstractDaemonTest {
+public final class PluginAccessIT extends AbstractDaemonTest {
   private static final String TEST_PLUGIN_NAME = "gerrit";
   private static final String TEST_PLUGIN_CAPABILITY = "aPluginCapability";
   private static final String TEST_PLUGIN_PROJECT_PERMISSION = "aPluginProjectPermission";
@@ -69,40 +70,48 @@ public class PluginAccessIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void addPluginCapability() throws Exception {
-    addPluginPermission(AccessSection.GLOBAL_CAPABILITIES, TEST_PLUGIN_CAPABILITY);
+  public void setAccess_addPluginCapability_succeed() throws Exception {
+    String pluginCapability = TEST_PLUGIN_NAME + "-" + TEST_PLUGIN_CAPABILITY;
+    ProjectAccessInput accessInput =
+        createAccessInput(AccessSection.GLOBAL_CAPABILITIES, pluginCapability);
 
+    ProjectAccessInfo projectAccessInfo =
+        gApi.projects().name(allProjects.get()).access(accessInput);
+
+    Set<String> capabilities =
+        projectAccessInfo.local.get(AccessSection.GLOBAL_CAPABILITIES).permissions.keySet();
+    assertThat(capabilities).contains(pluginCapability);
     // Verifies the plugin defined capability could be listed.
-    assertThat(pluginPermissionsUtil.collectPluginCapabilities())
-        .containsKey(TEST_PLUGIN_NAME + "-" + TEST_PLUGIN_CAPABILITY);
+    assertThat(pluginPermissionsUtil.collectPluginCapabilities()).containsKey(pluginCapability);
   }
 
   @Test
-  public void addPluginProjectPermission() throws Exception {
-    addPluginPermission("refs/heads/plugin-permission", TEST_PLUGIN_PROJECT_PERMISSION);
+  public void setAccess_addPluginProjectPermission_succeed() throws Exception {
+    String pluginProjectPermission =
+        "plugin-" + TEST_PLUGIN_NAME + "-" + TEST_PLUGIN_PROJECT_PERMISSION;
+    String accessSection = "refs/heads/plugin-permission";
+    ProjectAccessInput accessInput = createAccessInput(accessSection, pluginProjectPermission);
 
+    ProjectAccessInfo projectAccessInfo =
+        gApi.projects().name(allProjects.get()).access(accessInput);
+
+    Set<String> permissions = projectAccessInfo.local.get(accessSection).permissions.keySet();
+    assertThat(permissions).contains(pluginProjectPermission);
     // Verifies the plugin defined capability could be listed.
     assertThat(pluginPermissionsUtil.collectPluginProjectPermissions())
-        .containsKey("plugin-" + TEST_PLUGIN_NAME + "-" + TEST_PLUGIN_PROJECT_PERMISSION);
+        .containsKey(pluginProjectPermission);
   }
 
-  private void addPluginPermission(String accessSection, String permission) throws Exception {
+  private static ProjectAccessInput createAccessInput(
+      String accessSection, String permissionNameInConfig) {
     ProjectAccessInput accessInput = new ProjectAccessInput();
     PermissionRuleInfo ruleInfo = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
     PermissionInfo email = new PermissionInfo(null, null);
     email.rules = ImmutableMap.of(SystemGroupBackend.REGISTERED_USERS.get(), ruleInfo);
-    String permissionConfigName = TEST_PLUGIN_NAME + "-" + permission;
-    if (!accessSection.equals(AccessSection.GLOBAL_CAPABILITIES)) {
-      permissionConfigName = "plugin-" + permissionConfigName;
-    }
     AccessSectionInfo accessSectionInfo = new AccessSectionInfo();
-    accessSectionInfo.permissions = ImmutableMap.of(permissionConfigName, email);
+    accessSectionInfo.permissions = ImmutableMap.of(permissionNameInConfig, email);
     accessInput.add = ImmutableMap.of(accessSection, accessSectionInfo);
 
-    ProjectAccessInfo updatedAccessSectionInfo =
-        gApi.projects().name(allProjects.get()).access(accessInput);
-
-    assertThat(updatedAccessSectionInfo.local.get(accessSection).permissions.keySet())
-        .containsAllIn(accessSectionInfo.permissions.keySet());
+    return accessInput;
   }
 }

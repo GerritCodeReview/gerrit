@@ -1410,6 +1410,7 @@ limitations under the License.
         ignore_whitespace: 'IGNORE_NONE',
       };
       diff._diff = mock.diffResponse;
+      diff.$.diff.flushDebouncer('renderDiffTable');
     };
 
     const renderAndGetNewDiffs = function(index) {

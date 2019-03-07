@@ -102,6 +102,8 @@
    */
   const COMMIT_MSG_LINE_LENGTH = 72;
 
+  const RENDER_DIFF_TABLE_DEBOUNCE_NAME = 'renderDiffTable';
+
   Polymer({
     is: 'gr-diff',
 
@@ -392,6 +394,7 @@
     /** Cancel any remaining diff builder rendering work. */
     cancel() {
       this.$.diffBuilder.cancel();
+      this.cancelDebouncer(RENDER_DIFF_TABLE_DEBOUNCE_NAME);
     },
 
     /** @return {!Array<!HTMLElement>} */
@@ -679,15 +682,30 @@
       this.updateStyles(stylesToUpdate);
 
       if (this.diff && !this.noRenderOnPrefsChange) {
-        this._renderDiffTable();
+        this._debounceRenderDiffTable();
       }
     },
 
     _diffChanged(newValue) {
       if (newValue) {
         this._diffLength = this.$.diffBuilder.getDiffLength();
-        this._renderDiffTable();
+        this._debounceRenderDiffTable();
       }
+    },
+
+    /**
+     * When called multiple times from the same microtask, will call
+     * _renderDiffTable only once, in the next microtask, unless it is cancelled
+     * before that microtask runs.
+     *
+     * This should be used instead of calling _renderDiffTable directly to
+     * render the diff in response to an input change, because there may be
+     * multiple inputs changing in the same microtask, but we only want to
+     * render once.
+     */
+    _debounceRenderDiffTable() {
+      this.debounce(
+          RENDER_DIFF_TABLE_DEBOUNCE_NAME, () => this._renderDiffTable());
     },
 
     _renderDiffTable() {
@@ -791,12 +809,12 @@
 
     _handleFullBypass() {
       this._safetyBypass = FULL_CONTEXT;
-      this._renderDiffTable();
+      this._debounceRenderDiffTable();
     },
 
     _handleLimitedBypass() {
       this._safetyBypass = LIMITED_CONTEXT;
-      this._renderDiffTable();
+      this._debounceRenderDiffTable();
     },
 
     /** @return {string} */

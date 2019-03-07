@@ -116,11 +116,18 @@
      * @event show-auth-required
      */
 
-     /**
-      * Fired when a comment is created
-      *
-      * @event create-comment
-      */
+    /**
+     * Fired when a comment is created
+     *
+     * @event create-comment
+     */
+
+    /**
+     * Fired when rendering, including syntax highlighting, is done. Also fired
+     * when no rendering can be done because required preferences are not set.
+     *
+     * @event render
+     */
 
     properties: {
       changeNum: String,
@@ -700,7 +707,11 @@
       this._showWarning = false;
 
       const keyLocations = this._computeKeyLocations();
-      this.$.diffBuilder.render(keyLocations, this._getBypassPrefs());
+      this.$.diffBuilder.render(keyLocations, this._getBypassPrefs())
+          .then(() => {
+            this.dispatchEvent(
+                new CustomEvent('render', {bubbles: true}));
+          });
     },
 
     _handleRenderContent() {

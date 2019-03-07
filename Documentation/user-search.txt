@@ -201,7 +201,8 @@ all related changes in a series.
 [[hashtag]]
 hashtag:'HASHTAG'::
 +
-Changes whose link:intro-user.html#hashtags[hashtag] matches 'HASHTAG' exactly.
+Changes whose link:intro-user.html#hashtags[hashtag] matches 'HASHTAG'.
+The match is case-insensitive.
 
 [[ref]]
 ref:'REF'::

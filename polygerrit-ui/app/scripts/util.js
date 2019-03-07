@@ -41,5 +41,37 @@
     }
     return '';
   };
+
+  /**
+   * Make the promise cancelable.
+   *
+   * Returns a promise with a `cancel()` method wrapped around `promise`.
+   * Calling `cancel()` will reject the returned promise with
+   * {isCancelled: true} synchronously. If the inner promise for a cancelled
+   * promise resolves or rejects this is ignored.
+   */
+  util.makeCancelable = promise => {
+    let wasCanceled = false;
+
+    let rejectPromise;
+
+    const wrappedPromise = new Promise((resolve, reject) => {
+      rejectPromise = reject;
+      promise.then(val => {
+        if (!wasCanceled) resolve(val);
+      });
+      promise.catch(error => {
+        if (!wasCanceled) reject(error);
+      });
+    });
+
+    wrappedPromise.cancel = () => {
+      if (wasCanceled) return;
+      rejectPromise({isCanceled: true});
+      wasCanceled = true;
+    };
+    return wrappedPromise;
+  };
+
   window.util = util;
 })(window);

@@ -65,6 +65,7 @@
     'is:reviewed',
     'is:reviewer',
     'is:starred',
+    'is:submittable',
     'is:watched',
     'is:wip',
     'label:',

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e507a3b_e098e686",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-07T17:03:02Z",
+      "side": 1,
+      "message": "Sorry, I am not 100% sure I understand what debounce does even though I have found https://polymer-library.polymer-project.org/1.0/api/classes/Polymer.Base.\n\nDoes that mean _renderDiffTable() will only be called after the last call has finished?\n\nOr will it even prevent any future _renderDiffTable() calls until cancelDebouncer() is called?\n\nMaybe add a comment to the code.",
+      "revId": "8606b0b04505bc9215402f522a9ad56ece6ea7dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -80,12 +80,6 @@ limitations under the License.
          */
 
         /**
-         * Fired when the diff is rendered.
-         *
-         * @event render
-         */
-
-        /**
          * Fired when the diff finishes rendering text content, but not
          * necessarily syntax highlights.
          *
@@ -169,8 +163,6 @@ limitations under the License.
                 return this.$.syntaxLayer.process().then(() => {
                   reporting.timeEnd(TimingLabel.SYNTAX);
                   reporting.timeEnd(TimingLabel.TOTAL);
-                  this.dispatchEvent(
-                      new CustomEvent('render', {bubbles: true}));
                 });
               });
         },

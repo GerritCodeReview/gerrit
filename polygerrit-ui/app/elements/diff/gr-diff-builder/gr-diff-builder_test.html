@@ -850,14 +850,13 @@ limitations under the License.
         assert.strictEqual(sections[1], section[1]);
       });
 
-      test('render-start and render are fired', done => {
+      test('render-start and render-content are fired', done => {
         const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
         element.render(keyLocations, {}).then(() => {
           const firedEventTypes = dispatchEventStub.getCalls()
               .map(c => { return c.args[0].type; });
           assert.include(firedEventTypes, 'render-start');
           assert.include(firedEventTypes, 'render-content');
-          assert.include(firedEventTypes, 'render');
           done();
         });
       });
@@ -869,10 +868,6 @@ limitations under the License.
       test('rendering large diff disables syntax', done => {
         // Before it renders, set the first diff line to 500 '*' characters.
         element.diff.content[0].a = [new Array(501).join('*')];
-        element.addEventListener('render', () => {
-          assert.isFalse(element.$.syntaxLayer.enabled);
-          done();
-        });
         const prefs = {
           line_length: 10,
           show_tabs: true,
@@ -880,7 +875,10 @@ limitations under the License.
           context: -1,
           syntax_highlighting: true,
         };
-        element.render(keyLocations, prefs);
+        element.render(keyLocations, prefs).then(() => {
+          assert.isFalse(element.$.syntaxLayer.enabled);
+          done();
+        });
       });
 
       test('cancel', () => {

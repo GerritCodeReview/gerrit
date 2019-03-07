@@ -155,6 +155,16 @@
       },
       /** @type {?number} */
       _processHandle: Number,
+      /**
+       * The promise last returned from `process()` while the asynchronous
+       * processing is running - `null` otherwise. Provides a `cancel()`
+       * method that rejects it with `{isCancelled: true}`.
+       * @type {?Object}
+       */
+      _processPromise: {
+        type: Object,
+        value: null,
+      },
       _hljs: Object,
     },
 
@@ -212,6 +222,10 @@
      * @return {Promise}
      */
     process() {
+      // Cancel any still running process() calls, because they append to the
+      // same _baseRanges and _revisionRanges fields.
+      this.cancel();
+
       // Discard existing ranges.
       this._baseRanges = [];
       this._revisionRanges = [];
@@ -219,8 +233,6 @@
       if (!this.enabled || !this.diff.content.length) {
         return Promise.resolve();
       }
-
-      this.cancel();
 
       if (this.diff.meta_a) {
         this._baseLanguage = this._getLanguage(this.diff.meta_a);
@@ -241,48 +253,54 @@
         lastNotify: {left: 1, right: 1},
       };
 
-      return this._loadHLJS().then(() => {
-        return new Promise(resolve => {
-          const nextStep = () => {
-            this._processHandle = null;
-            this._processNextLine(state);
+      this._processPromise = util.makeCancelable(this._loadHLJS()
+          .then(() => {
+            return new Promise(resolve => {
+              const nextStep = () => {
+                this._processHandle = null;
+                this._processNextLine(state);
 
-            // Move to the next line in the section.
-            state.lineIndex++;
+                // Move to the next line in the section.
+                state.lineIndex++;
 
-            // If the section has been exhausted, move to the next one.
-            if (this._isSectionDone(state)) {
-              state.lineIndex = 0;
-              state.sectionIndex++;
-            }
+                // If the section has been exhausted, move to the next one.
+                if (this._isSectionDone(state)) {
+                  state.lineIndex = 0;
+                  state.sectionIndex++;
+                }
 
-            // If all sections have been exhausted, finish.
-            if (state.sectionIndex >= this.diff.content.length) {
-              resolve();
-              this._notify(state);
-              return;
-            }
+                // If all sections have been exhausted, finish.
+                if (state.sectionIndex >= this.diff.content.length) {
+                  resolve();
+                  this._notify(state);
+                  return;
+                }
 
-            if (state.lineIndex % 100 === 0) {
-              this._notify(state);
-              this._processHandle = this.async(nextStep, ASYNC_DELAY);
-            } else {
-              nextStep.call(this);
-            }
-          };
+                if (state.lineIndex % 100 === 0) {
+                  this._notify(state);
+                  this._processHandle = this.async(nextStep, ASYNC_DELAY);
+                } else {
+                  nextStep.call(this);
+                }
+              };
 
-          this._processHandle = this.async(nextStep, 1);
-        });
-      });
+              this._processHandle = this.async(nextStep, 1);
+            });
+          }));
+      return this._processPromise
+          .finally(() => { this._processPromise = null; });
     },
 
     /**
      * Cancel any asynchronous syntax processing jobs.
      */
     cancel() {
-      if (this._processHandle) {
+      if (this._processHandle != null) {
         this.cancelAsync(this._processHandle);
         this._processHandle = null;
+      }
+      if (this._processPromise) {
+        this._processPromise.cancel();
       }
     },
 

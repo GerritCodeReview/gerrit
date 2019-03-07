@@ -17,23 +17,40 @@ package com.google.gerrit.server.permissions;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.permissions.PluginPermissionsUtil.isPluginPermission;
 
+import com.google.common.collect.ImmutableList;
 import org.junit.Test;
 
 /** Small tests for {@link PluginPermissionsUtil}. */
-public class PluginPermissionsUtilTest {
+public final class PluginPermissionsUtilTest {
 
   @Test
-  public void pluginPermissionNameInConfigPattern() {
-    assertThat(isPluginPermission("create")).isFalse();
-    assertThat(isPluginPermission("label-Code-Review")).isFalse();
-    assertThat(isPluginPermission("plugin-foo")).isFalse();
-    assertThat(isPluginPermission("plugin-foo")).isFalse();
-
-    assertThat(isPluginPermission("plugin-foo-a")).isTrue();
+  public void isPluginPermissionReturnsTrueForValidName() {
     // "-" is allowed for a plugin name. Here "foo-a" should be the name of the plugin.
-    assertThat(isPluginPermission("plugin-foo-a-b")).isTrue();
+    ImmutableList<String> validPluginPermissions =
+        ImmutableList.of("plugin-foo-a", "plugin-foo-a-b");
 
-    assertThat(isPluginPermission("plugin-foo-a-")).isFalse();
-    assertThat(isPluginPermission("plugin-foo-a1")).isFalse();
+    for (String permission : validPluginPermissions) {
+      assertThat(isPluginPermission(permission))
+          .named("valid plugin permission: %s", permission)
+          .isTrue();
+    }
+  }
+
+  @Test
+  public void isPluginPermissionReturnsFalseForInvalidName() {
+    ImmutableList<String> inValidPluginPermissions =
+        ImmutableList.of(
+            "create",
+            "label-Code-Review",
+            "plugin-foo",
+            "plugin-foo",
+            "plugin-foo-a-",
+            "plugin-foo-a1");
+
+    for (String permission : inValidPluginPermissions) {
+      assertThat(isPluginPermission(permission))
+          .named("invalid plugin permission: %s", permission)
+          .isFalse();
+    }
   }
 }

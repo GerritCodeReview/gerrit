@@ -82,6 +82,7 @@
 
       /** @type {number|undefined} */
       _nextStepHandle: Number,
+      _cancelablePromise: Object,
       _isScrolling: Boolean,
     },
 
@@ -108,6 +109,10 @@
      *     processed.
      */
     process(content, isBinary) {
+      // Cancel any still running process() calls, because they append to the
+      // same groups field.
+      this.cancel();
+
       this.groups = [];
       this.push('groups', this._makeFileComments());
 
@@ -115,48 +120,50 @@
       // so finish processing.
       if (isBinary) { return Promise.resolve(); }
 
-      return new Promise(resolve => {
-        const state = {
-          lineNums: {left: 0, right: 0},
-          sectionIndex: 0,
-        };
 
-        content = this._splitCommonGroupsWithComments(content);
+      return this._cancelablePromise = util.makeCancelable(
+          new Promise(resolve => {
+            const state = {
+              lineNums: {left: 0, right: 0},
+              sectionIndex: 0,
+            };
 
-        let currentBatch = 0;
-        const nextStep = () => {
-          if (this._isScrolling) {
-            this.async(nextStep, 100);
-            return;
-          }
-          // If we are done, resolve the promise.
-          if (state.sectionIndex >= content.length) {
-            resolve(this.groups);
-            this._nextStepHandle = undefined;
-            return;
-          }
+            content = this._splitCommonGroupsWithComments(content);
 
-          // Process the next section and incorporate the result.
-          const result = this._processNext(state, content);
-          for (const group of result.groups) {
-            this.push('groups', group);
-            currentBatch += group.lines.length;
-          }
-          state.lineNums.left += result.lineDelta.left;
-          state.lineNums.right += result.lineDelta.right;
+            let currentBatch = 0;
+            const nextStep = () => {
+              if (this._isScrolling) {
+                this.async(nextStep, 100);
+                return;
+              }
+              // If we are done, resolve the promise.
+              if (state.sectionIndex >= content.length) {
+                resolve(this.groups);
+                this._nextStepHandle = undefined;
+                return;
+              }
 
-          // Increment the index and recurse.
-          state.sectionIndex++;
-          if (currentBatch >= this._asyncThreshold) {
-            currentBatch = 0;
-            this._nextStepHandle = this.async(nextStep, 1);
-          } else {
+              // Process the next section and incorporate the result.
+              const result = this._processNext(state, content);
+              for (const group of result.groups) {
+                this.push('groups', group);
+                currentBatch += group.lines.length;
+              }
+              state.lineNums.left += result.lineDelta.left;
+              state.lineNums.right += result.lineDelta.right;
+
+              // Increment the index and recurse.
+              state.sectionIndex++;
+              if (currentBatch >= this._asyncThreshold) {
+                currentBatch = 0;
+                this._nextStepHandle = this.async(nextStep, 1);
+              } else {
+                nextStep.call(this);
+              }
+            };
+
             nextStep.call(this);
-          }
-        };
-
-        nextStep.call(this);
-      });
+          }));
     },
 
     /**
@@ -166,6 +173,10 @@
       if (this._nextStepHandle !== undefined) {
         this.cancelAsync(this._nextStepHandle);
         this._nextStepHandle = undefined;
+      }
+      if (this._cancelablePromise !== undefined) {
+        this._cancelablePromise.cancel();
+        this._cancelablePromise = undefined;
       }
     },
 

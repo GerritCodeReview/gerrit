@@ -102,6 +102,8 @@
    */
   const COMMIT_MSG_LINE_LENGTH = 72;
 
+  const RENDER_DIFF_TABLE_DEBOUNCE_NAME = 'renderDiffTable';
+
   Polymer({
     is: 'gr-diff',
 
@@ -392,6 +394,7 @@
     /** Cancel any remaining diff builder rendering work. */
     cancel() {
       this.$.diffBuilder.cancel();
+      this.cancelDebouncer(RENDER_DIFF_TABLE_DEBOUNCE_NAME);
     },
 
     /** @return {!Array<!HTMLElement>} */
@@ -679,15 +682,21 @@
       this.updateStyles(stylesToUpdate);
 
       if (this.diff && !this.noRenderOnPrefsChange) {
-        this._renderDiffTable();
+        this._debounceRenderDiffTable();
       }
     },
 
     _diffChanged(newValue) {
       if (newValue) {
         this._diffLength = this.$.diffBuilder.getDiffLength();
-        this._renderDiffTable();
+        this._debounceRenderDiffTable();
       }
+    },
+
+    /** Schedule rendering on the next microtask (but only do it once). */
+    _debounceRenderDiffTable() {
+      this.debounce(
+          RENDER_DIFF_TABLE_DEBOUNCE_NAME, () => this._renderDiffTable());
     },
 
     _renderDiffTable() {
@@ -791,12 +800,12 @@
 
     _handleFullBypass() {
       this._safetyBypass = FULL_CONTEXT;
-      this._renderDiffTable();
+      this._debounceRenderDiffTable();
     },
 
     _handleLimitedBypass() {
       this._safetyBypass = LIMITED_CONTEXT;
-      this._renderDiffTable();
+      this._debounceRenderDiffTable();
     },
 
     /** @return {string} */

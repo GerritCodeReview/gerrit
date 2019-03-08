@@ -548,7 +548,8 @@ request.
 ----
 Alternatively, click *Ready* from the Change screen.
 
-Only change owners, project owners and site administrators can mark changes as
+Change owners, project owners, site administrators and members of a group that
+was granted "Toggle Work In Progress state" permission can mark changes as
 `work-in-progress` and `ready`.
 
 [[wip-polygerrit]]

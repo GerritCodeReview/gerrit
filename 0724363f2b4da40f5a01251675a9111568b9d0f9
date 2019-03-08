@@ -89,6 +89,24 @@
       "revId": "0724363f2b4da40f5a01251675a9111568b9d0f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb2b2a5_f4ecff68",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/PluginProvidedChildRestApiBindingsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-08T15:59:24Z",
+      "side": 1,
+      "message": "What you\u0027re saying is a reasonable use case, but I\u0027m having a hard time believing it\u0027s intentional. There are 3 ways that plugins can contribute REST API endpoints: top-level collections, top-level endpoints, and views on existing collections. Of those 3, only 1 supports unprefixed names at all. If it were really intentional I would expect at least 2 of them to support it :)\n\nAnyway, we discussed this and decided that we\u0027d like for all types of endpoints to support unprefixed names, if the plugin declares that it wants to do so. That is a nontrivial amount more work on top of what this change does.",
+      "parentUuid": "121bd56b_06783e79",
+      "revId": "0724363f2b4da40f5a01251675a9111568b9d0f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

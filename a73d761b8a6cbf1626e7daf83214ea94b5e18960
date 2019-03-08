@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8846ac0c_1e6cbe8b",
+        "filename": "java/com/google/gerrit/acceptance/LogThreshold.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-08T01:04:47Z",
+      "side": 1,
+      "message": "What was the rationale for using String here, instead of org.apache.log4j.Level ?",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 33
+      },
+      "revId": "a73d761b8a6cbf1626e7daf83214ea94b5e18960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

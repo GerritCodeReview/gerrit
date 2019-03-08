@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad6a2212_9281ebc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-03-08T21:35:02Z",
+      "side": 1,
+      "message": "If you can enumerate them now, why are they dynamic?\nCould they be regular endpoints?",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "081e1bc9bc4f2ab3ea4ec11e0d1fa78df8c7c899",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

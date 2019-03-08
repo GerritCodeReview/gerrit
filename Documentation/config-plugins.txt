@@ -9,6 +9,10 @@ Plugin installation is as easy as dropping the plugin jar into the
 link:config-gerrit.html#plugins.checkFrequency[a few minutes] until
 the server picks up new and updated plugins.
 
+Due to caching, you might need to flush your browser cache after
+installing a plugin. Users will usually see the result within
+several minutes.
+
 Plugins can also be installed via
 link:rest-api-plugins.html#install-plugin[REST] and
 link:cmd-plugin-install.html[SSH].

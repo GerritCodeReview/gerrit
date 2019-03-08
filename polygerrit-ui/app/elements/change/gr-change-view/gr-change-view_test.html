@@ -297,7 +297,8 @@ limitations under the License.
       });
 
       test(', should open diff preferences', () => {
-        const stub = sandbox.stub(element.$.fileList.$.diffPreferences, 'open');
+        const stub = sandbox.stub(
+            element.$.fileList.$.diffPreferencesDialog, 'open');
         element._loggedIn = false;
         element.disableDiffPrefs = true;
         MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
@@ -1604,8 +1605,8 @@ limitations under the License.
     });
 
     test('_selectedRevision updates when patchNum is changed', () => {
-      const revision1 = {_number: 1, commit: {}};
-      const revision2 = {_number: 2, commit: {}};
+      const revision1 = {_number: 1, commit: {parents: []}};
+      const revision2 = {_number: 2, commit: {parents: []}};
       sandbox.stub(element.$.restAPI, 'getChangeDetail').returns(
           Promise.resolve({
             revisions: {
@@ -1618,6 +1619,7 @@ limitations under the License.
             change_id: 'loremipsumdolorsitamet',
           }));
       sandbox.stub(element, '_getEdit').returns(Promise.resolve());
+      sandbox.stub(element, '_getPreferences').returns(Promise.resolve({}));
       element._patchRange = {patchNum: '2'};
       return element._getChangeDetail().then(() => {
         assert.strictEqual(element._selectedRevision, revision2);

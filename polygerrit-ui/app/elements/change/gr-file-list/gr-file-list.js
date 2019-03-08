@@ -125,7 +125,6 @@
       },
       /** @type {?} */
       _userPrefs: Object,
-      _localPrefs: Object,
       _showInlineDiffs: Boolean,
       numFilesShown: {
         type: Number,
@@ -269,7 +268,6 @@
         });
       }));
 
-      this._localPrefs = this.$.storage.getPreferences();
       promises.push(this._getDiffPreferences().then(prefs => {
         this.diffPrefs = prefs;
       }));
@@ -297,7 +295,7 @@
     },
 
     openDiffPrefs() {
-      this.$.diffPreferences.open();
+      this.$.diffPreferencesDialog.open();
     },
 
     _calculatePatchChange(files) {
@@ -1254,6 +1252,12 @@
       }
 
       return 'Mark as reviewed (shortcut: r)';
+    },
+
+    _handleReloadingDiffPreference() {
+      this._getDiffPreferences().then(prefs => {
+        this.diffPrefs = prefs;
+      });
     },
   });
 })();

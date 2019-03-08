@@ -46,6 +46,30 @@
       "revId": "a73d761b8a6cbf1626e7daf83214ea94b5e18960",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b10ed214_73975c88",
+        "filename": "java/com/google/gerrit/acceptance/LogThreshold.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-08T08:47:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9aab7fc0_ccb2d3df",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 33
+      },
+      "revId": "a73d761b8a6cbf1626e7daf83214ea94b5e18960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

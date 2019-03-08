@@ -41,17 +41,17 @@
 
     attached() {
       Promise.all([
-        this.$.restAPI.getConfig(),
+        this._getConfig(),
         Gerrit.awaitPluginsLoaded(),
       ]).then(([cfg]) => {
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-        if (this._hasAvatars && this.account) {
-          // src needs to be set if avatar becomes visible
-          this._updateAvatarURL();
-        } else {
-          this.hidden = true;
-        }
+
+        this._updateAvatarURL();
       });
+    },
+
+    _getConfig() {
+      return this.$.restAPI.getConfig();
     },
 
     _accountChanged(account) {
@@ -59,7 +59,12 @@
     },
 
     _updateAvatarURL() {
-      if (this.hidden || !this._hasAvatars) { return; }
+      if (!this._hasAvatars || !this.account) {
+        this.hidden = true;
+        return;
+      }
+      this.hidden = false;
+
       const url = this._buildAvatarURL(this.account);
       if (url) {
         this.style.backgroundImage = 'url("' + url + '")';

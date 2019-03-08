@@ -132,6 +132,7 @@
         type: Object,
         value: {},
       },
+      _prefs: Object,
       /** @type {?} */
       _changeComments: Object,
       _canStartReview: {
@@ -143,6 +144,10 @@
       _change: {
         type: Object,
         observer: '_changeChanged',
+      },
+      _revisionInfo: {
+        type: Object,
+        computed: '_getRevisionInfo(_change)',
       },
       /** @type {?} */
       _commitInfo: Object,
@@ -291,6 +296,7 @@
       'fullscreen-overlay-closed': '_handleShowBackgroundContent',
       'diff-comments-modified': '_handleReloadCommentThreads',
     },
+
     observers: [
       '_labelsChanged(_change.labels.*)',
       '_paramsAndChangeChanged(params, _change)',
@@ -375,7 +381,7 @@
     _setDiffViewMode(opt_reset) {
       if (!opt_reset && this.viewState.diffViewMode) { return; }
 
-      return this.$.restAPI.getPreferences().then( prefs => {
+      return this._getPreferences().then( prefs => {
         if (!this.viewState.diffMode) {
           this.set('viewState.diffMode', prefs.default_diff_view);
         }
@@ -847,10 +853,11 @@
 
     _changeChanged(change) {
       if (!change || !this._patchRange || !this._allPatchSets) { return; }
-      this.set('_patchRange.basePatchNum',
-          this._patchRange.basePatchNum || 'PARENT');
-      this.set('_patchRange.patchNum',
-          this._patchRange.patchNum ||
+
+      const parent = this._getBasePatchNum(change, this._patchRange);
+
+      this.set('_patchRange.basePatchNum', parent);
+      this.set('_patchRange.patchNum', this._patchRange.patchNum ||
               this.computeLatestPatchNum(this._allPatchSets));
 
       // Reset the related changes toggle in the event it was previously
@@ -859,6 +866,35 @@
 
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});
+    },
+
+    /**
+     * Gets base patch number, if is a parent try and
+     * decide from preference weather to default to `auto merge`
+     * or `Parent 1`.
+     * @param {Object} change
+     * @param {Object} patchRange
+     * @return {number|string}
+     */
+    _getBasePatchNum(change, patchRange) {
+      if (patchRange.basePatchNum &&
+          patchRange.basePatchNum !== 'PARENT') {
+        return patchRange.basePatchNum;
+      }
+
+      const revisionInfo = this._getRevisionInfo(change);
+      if (!revisionInfo) return 'PARENT';
+
+      const parentCounts = revisionInfo.getParentCountMap();
+      // check that there is at least 2 parents otherwise fall back to 1,
+      // which means there is only one parent.
+      const parentCount = parentCounts.hasOwnProperty(1) ?
+          parentCounts[1] : 1;
+
+      const preferFirst = this._prefs &&
+          this._prefs.default_base_for_merges === 'FIRST_PARENT';
+
+      return parentCount > 1 && preferFirst ? -1 : 'PARENT';
     },
 
     _computeShowPrimaryTabs(dynamicTabContentEndpoints) {
@@ -1120,6 +1156,10 @@
           });
     },
 
+    _getPreferences() {
+      return this.$.restAPI.getPreferences();
+    },
+
     _updateRebaseAction(revisionActions) {
       if (revisionActions && revisionActions.rebase) {
         revisionActions.rebase.rebaseOnCurrent =
@@ -1173,9 +1213,12 @@
       const detailCompletes = this.$.restAPI.getChangeDetail(
           this._changeNum, this._handleGetChangeDetailError.bind(this));
       const editCompletes = this._getEdit();
+      const prefCompletes = this._getPreferences();
 
-      return Promise.all([detailCompletes, editCompletes])
-          .then(([change, edit]) => {
+      return Promise.all([detailCompletes, editCompletes, prefCompletes])
+          .then(([change, edit, prefs]) => {
+            this._prefs = prefs;
+
             if (!change) {
               return '';
             }
@@ -1722,6 +1765,10 @@
     _handleToggleStar(e) {
       this.$.restAPI.saveChangeStarred(e.detail.change._number,
           e.detail.starred);
+    },
+
+    _getRevisionInfo(change) {
+      return new Gerrit.RevisionInfo(change);
     },
 
     _computeCurrentRevision(currentRevision, revisions) {

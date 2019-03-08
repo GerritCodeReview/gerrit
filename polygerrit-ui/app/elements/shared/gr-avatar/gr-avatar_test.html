@@ -35,12 +35,15 @@ limitations under the License.
 <script>
   suite('gr-avatar tests', () => {
     let element;
+    let sandbox;
 
     setup(() => {
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({plugin: {has_avatars: true}}); },
-      });
+      sandbox = sinon.sandbox.create();
       element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
     });
 
     test('methods', () => {
@@ -94,22 +97,32 @@ limitations under the License.
             ],
           }),
           '/accounts/123/avatar?s=16');
+      assert.equal(element._buildAvatarURL(undefined), '');
     });
 
     test('dom for existing account', () => {
       assert.isFalse(element.hasAttribute('hidden'));
+
+      sandbox.stub(element, '_getConfig', () => {
+        return Promise.resolve({plugin: {has_avatars: true}});
+      });
+
       element.imageSize = 64;
       element.account = {
         _account_id: 123,
       };
+
       assert.strictEqual(element.style.backgroundImage, '');
+
       // Emulate plugins loaded.
       Gerrit._setPluginsPending([]);
-      return Promise.all([
+
+      Promise.all([
         element.$.restAPI.getConfig(),
         Gerrit.awaitPluginsLoaded(),
       ]).then(() => {
         assert.isFalse(element.hasAttribute('hidden'));
+
         assert.isTrue(
             element.style.backgroundImage.includes('/accounts/123/avatar?s=64'));
       });
@@ -117,10 +130,57 @@ limitations under the License.
 
     test('dom for non available account', () => {
       assert.isFalse(element.hasAttribute('hidden'));
-      element.account = null;
-      assert.isFalse(element.hasAttribute('hidden'));
+
+      sandbox.stub(element, '_getConfig', () => {
+        return Promise.resolve({plugin: {has_avatars: true}});
+      });
+
       // Emulate plugins loaded.
       Gerrit._setPluginsPending([]);
+
+      return Promise.all([
+        element.$.restAPI.getConfig(),
+        Gerrit.awaitPluginsLoaded(),
+      ]).then(() => {
+        assert.isTrue(element.hasAttribute('hidden'));
+
+        assert.strictEqual(element.style.backgroundImage, '');
+      });
+    });
+
+    test('avatar config not set and account not set', () => {
+      assert.isFalse(element.hasAttribute('hidden'));
+
+      sandbox.stub(element, '_getConfig', () => {
+        return Promise.resolve({});
+      });
+
+      // Emulate plugins loaded.
+      Gerrit._setPluginsPending([]);
+
+      return Promise.all([
+        element.$.restAPI.getConfig(),
+        Gerrit.awaitPluginsLoaded(),
+      ]).then(() => {
+        assert.isTrue(element.hasAttribute('hidden'));
+      });
+    });
+
+    test('avatar config not set and account set', () => {
+      assert.isFalse(element.hasAttribute('hidden'));
+
+      sandbox.stub(element, '_getConfig', () => {
+        return Promise.resolve({});
+      });
+
+      element.imageSize = 64;
+      element.account = {
+        _account_id: 123,
+      };
+
+      // Emulate plugins loaded.
+      Gerrit._setPluginsPending([]);
+
       return Promise.all([
         element.$.restAPI.getConfig(),
         Gerrit.awaitPluginsLoaded(),

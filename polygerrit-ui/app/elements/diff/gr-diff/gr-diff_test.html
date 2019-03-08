@@ -943,7 +943,8 @@ limitations under the License.
       setup(() => {
         element = fixture('basic');
         element.prefs = {};
-        renderStub = sandbox.stub(element.$.diffBuilder, 'render');
+        renderStub = sandbox.stub(element.$.diffBuilder, 'render')
+            .returns(new Promise(() => {}));
       });
 
       test('lineOfInterest is a key location', () => {

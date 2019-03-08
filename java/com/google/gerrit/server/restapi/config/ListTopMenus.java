@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.restapi.config;
 
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.TopMenu;
+import com.google.gerrit.extensions.webui.TopMenu.MenuEntry;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
@@ -33,9 +35,9 @@ class ListTopMenus implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public List<TopMenu.MenuEntry> apply(ConfigResource resource) {
+  public Response<List<MenuEntry>> apply(ConfigResource resource) {
     List<TopMenu.MenuEntry> entries = new ArrayList<>();
     extensions.runEach(extension -> entries.addAll(extension.getEntries()));
-    return entries;
+    return Response.ok(entries).caching(ConfigResource.DEFAULT_CACHE_CONTROL);
   }
 }

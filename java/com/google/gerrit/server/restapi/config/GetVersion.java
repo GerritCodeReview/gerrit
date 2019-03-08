@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.config;
 
 import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.inject.Singleton;
@@ -23,11 +24,11 @@ import com.google.inject.Singleton;
 @Singleton
 public class GetVersion implements RestReadView<ConfigResource> {
   @Override
-  public String apply(ConfigResource resource) throws ResourceNotFoundException {
+  public Response<String> apply(ConfigResource resource) throws ResourceNotFoundException {
     String version = Version.getVersion();
     if (version == null) {
       throw new ResourceNotFoundException();
     }
-    return version;
+    return Response.ok(version).caching(ConfigResource.DEFAULT_CACHE_CONTROL);
   }
 }

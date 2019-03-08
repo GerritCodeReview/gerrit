@@ -101,7 +101,6 @@ public class ConfigInfoImpl extends ConfigInfo {
     for (UiAction.Description d : uiActions.from(views, new ProjectResource(projectState, user))) {
       actions.put(d.getId(), new ActionInfo(d));
     }
-    this.theme = projectState.getTheme();
 
     this.extensionPanelNames = projectState.getConfig().getExtensionPanelSections();
   }

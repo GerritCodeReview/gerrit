@@ -614,18 +614,6 @@ Project-specific download commands that are defined on a parent project
 are inherited by the child projects. A child project can overwrite an
 inherited download command, or remove it by assigning no value to it.
 
-[[theme]]
-== Theme
-
-Gerrit supports project-specific themes for customizing the appearance
-of the change screen and the diff screens. It is possible to define an
-HTML header and footer and to adapt Gerrit's CSS. Details about themes
-are explained in the link:config-themes.html[Themes] section.
-
-Project-specific themes can only be installed by Gerrit administrators
-since the theme files must be copied into the Gerrit installation
-folder.
-
 [[tool-integration]]
 == Integration with other tools
 

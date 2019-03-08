@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "f6bff737_42f85b95",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-08T14:15:25Z",
+      "side": 1,
+      "message": "If you want to hook into this with a plugin, then you should call jsApi.handleEvent() here and an EventType and use plugin.on() for listening to the event.\n\nThat would make it more stable. Otherwise you are basically reaching out into implementation details. And we want to be able to change/refactor any fire/event code without having to worry about plugins.",
+      "revId": "c8465e54362b445216d1941a2c942586db5f934c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "145b1bea_eb70ed24",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 4
@@ -59,6 +76,23 @@
         "endLine": 316,
         "endChar": 44
       },
+      "revId": "c8465e54362b445216d1941a2c942586db5f934c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e878c22a_1114d7a1",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-08T14:15:25Z",
+      "side": 1,
+      "message": "If you fire a custom event, then you should also document that with an @event comment.",
       "revId": "c8465e54362b445216d1941a2c942586db5f934c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

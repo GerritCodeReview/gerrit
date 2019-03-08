@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b0933c2_3a3af985",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-08T12:01:03Z",
+      "side": 1,
+      "message": "according to the code the version is cached for 30 seconds, not 300.",
+      "range": {
+        "startLine": 16,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 8
+      },
+      "revId": "de05752ab00d249f198336a1d43c6ca42e60097d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2691a04f_27eacf17",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-08T12:01:03Z",
+      "side": 1,
+      "message": "Maybe add \"due to caching\" or similar here?",
+      "revId": "de05752ab00d249f198336a1d43c6ca42e60097d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b9595c1_180d4095",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetVersion.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-08T12:01:03Z",
+      "side": 1,
+      "message": "Does wrapping this in Response.ok change the formatting of the output?",
+      "revId": "de05752ab00d249f198336a1d43c6ca42e60097d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

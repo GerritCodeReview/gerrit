@@ -178,6 +178,50 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createProjectThatEndsWithSlashNotEncoded() throws Exception {
+    String newProjectName = name("newProject");
+    ProjectInfo p = gApi.projects().create(newProjectName + "/").get();
+    assertThat(p.name).isEqualTo(newProjectName);
+    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    assertThat(projectState).isNotNull();
+    assertProjectInfo(projectState.getProject(), p);
+    assertHead(newProjectName, "refs/heads/master");
+  }
+
+  @Test
+  public void createProjectThatContainsSlashNotEncoded() throws Exception {
+    String newProjectName = name("newProject/newProject");
+    ProjectInfo p = gApi.projects().create(newProjectName).get();
+    assertThat(p.name).isEqualTo(newProjectName);
+    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    assertThat(projectState).isNotNull();
+    assertProjectInfo(projectState.getProject(), p);
+    assertHead(newProjectName, "refs/heads/master");
+  }
+
+  @Test
+  public void createProjectThatEndsWithSlashEncoded() throws Exception {
+    String newProjectName = name("newProject");
+    ProjectInfo p = gApi.projects().create(newProjectName + "%2F").get();
+    assertThat(p.name).isEqualTo(newProjectName);
+    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    assertThat(projectState).isNotNull();
+    assertProjectInfo(projectState.getProject(), p);
+    assertHead(newProjectName, "refs/heads/master");
+  }
+
+  @Test
+  public void createProjectThatContainsSlashEncoded() throws Exception {
+    String newProjectName = name("newProject/newProject");
+    ProjectInfo p = gApi.projects().create("newProject%2FnewProject").get();
+    assertThat(p.name).isEqualTo(newProjectName);
+    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    assertThat(projectState).isNotNull();
+    assertProjectInfo(projectState.getProject(), p);
+    assertHead(newProjectName, "refs/heads/master");
+  }
+
+  @Test
   public void createProjectWithProperties() throws Exception {
     String newProjectName = name("newProject");
     ProjectInput in = new ProjectInput();

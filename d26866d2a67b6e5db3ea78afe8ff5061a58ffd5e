@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3625019a_7c3e5d00",
+        "filename": "java/com/google/gerrit/common/ProjectUtil.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-09T05:28:02Z",
+      "side": 1,
+      "message": "actually, instead of using regex here we could do the same as at L24-26.  In fact that code could be extracted out to this method.",
+      "range": {
+        "startLine": 32,
+        "startChar": 11,
+        "endLine": 32,
+        "endChar": 37
+      },
+      "revId": "d26866d2a67b6e5db3ea78afe8ff5061a58ffd5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

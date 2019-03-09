@@ -266,7 +266,9 @@
     },
 
     _getDiffPreferences() {
-      return this.$.restAPI.getDiffPreferences();
+      return this.$.restAPI.getDiffPreferences().then(prefs => {
+        this._prefs = prefs;
+      });
     },
 
     _getPreferences() {
@@ -466,7 +468,7 @@
       if (this._diffPrefsDisabled) { return; }
 
       e.preventDefault();
-      this.$.diffPreferences.open();
+      this.$.diffPreferencesDialog.open();
     },
 
     _handleToggleDiffMode(e) {
@@ -617,10 +619,7 @@
 
       const promises = [];
 
-      this._localPrefs = this.$.storage.getPreferences();
-      promises.push(this._getDiffPreferences().then(prefs => {
-        this._prefs = prefs;
-      }));
+      promises.push(this._getDiffPreferences());
 
       promises.push(this._getPreferences().then(prefs => {
         this._userPrefs = prefs;
@@ -846,22 +845,7 @@
 
     _handlePrefsTap(e) {
       e.preventDefault();
-      this.$.diffPreferences.open();
-    },
-
-    _handlePrefsSave(e) {
-      e.stopPropagation();
-      const el = Polymer.dom(e).rootTarget;
-      el.disabled = true;
-      this.$.storage.savePreferences(this._localPrefs);
-      this._saveDiffPreferences().then(response => {
-        el.disabled = false;
-        if (!response.ok) { return response; }
-
-        this.$.prefsOverlay.close();
-      }).catch(err => {
-        el.disabled = false;
-      });
+      this.$.diffPreferencesDialog.open();
     },
 
     /**
@@ -1048,6 +1032,10 @@
           .filter(file =>
           (file === this._path || !this._reviewedFiles.has(file)));
       this._navToFile(this._path, unreviewedFiles, 1);
+    },
+
+    _handleReloadingDiffPreference() {
+      this._getDiffPreferences();
     },
   });
 })();

@@ -89,10 +89,7 @@
         type: Boolean,
         computed: '_computeDescriptionReadOnly(loggedIn, change, account)',
       },
-      _revisionInfo: {
-        type: Object,
-        computed: '_getRevisionInfo(change)',
-      },
+      revisionInfo: Object,
     },
 
     behaviors: [
@@ -232,10 +229,6 @@
         return '';
       }
       return 'patchInfoOldPatchSet';
-    },
-
-    _getRevisionInfo(change) {
-      return new Gerrit.RevisionInfo(change);
     },
 
     _hideIncludedIn(change) {

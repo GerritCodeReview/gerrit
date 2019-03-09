@@ -168,7 +168,7 @@ public class CreateProject
     }
 
     CreateProjectArgs args = new CreateProjectArgs();
-    args.setProjectName(ProjectUtil.stripGitSuffix(name));
+    args.setProjectName(strip(name));
 
     String parentName =
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
@@ -238,6 +238,12 @@ public class CreateProject
     } finally {
       nameLock.unlock();
     }
+  }
+
+  private String strip(String name) {
+    projectName = ProjectUtil.stripGitSuffix(name);
+    projectName = ProjectUtil.stripEndSlash(name);
+    return projectName;
   }
 
   private ProjectState createProject(CreateProjectArgs args)

@@ -168,7 +168,7 @@ public class CreateProject
     }
 
     CreateProjectArgs args = new CreateProjectArgs();
-    args.setProjectName(ProjectUtil.stripGitSuffix(name));
+    args.setProjectName(ProjectUtil.sanitizeProjectName(name));
 
     String parentName =
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());

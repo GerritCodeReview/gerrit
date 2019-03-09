@@ -15,15 +15,26 @@
 package com.google.gerrit.common;
 
 public class ProjectUtil {
+  public static String sanitizeProjectName(String name) {
+    name = stripGitSuffix(name);
+    name = stripTrailingSlash(name);
+    return name;
+  }
+
   public static String stripGitSuffix(String name) {
     if (name.endsWith(".git")) {
       // Be nice and drop the trailing ".git" suffix, which we never keep
       // in our database, but clients might mistakenly provide anyway.
       //
       name = name.substring(0, name.length() - 4);
-      while (name.endsWith("/")) {
-        name = name.substring(0, name.length() - 1);
-      }
+      name = stripTrailingSlash(name);
+    }
+    return name;
+  }
+
+  private static String stripTrailingSlash(String name) {
+    while (name.endsWith("/")) {
+      name = name.substring(0, name.length() - 1);
     }
     return name;
   }

@@ -49,4 +49,38 @@ public class CreateProjectIT extends AbstractDaemonTest {
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNull();
   }
+
+  @Test
+  public void withDotGit() throws Exception {
+    String newGroupName = "newGroup";
+    adminRestSession.put("/groups/" + newGroupName);
+    String newProjectName = name("newProject");
+    adminSshSession.exec(
+        "gerrit create-project --branch master --owner "
+            + newGroupName
+            + " "
+            + newProjectName
+            + ".git");
+    adminSshSession.assertSuccess();
+    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    assertThat(projectState).isNotNull();
+    assertThat(projectState.getName()).isEqualTo(newProjectName);
+  }
+
+  @Test
+  public void withTrailingSlash() throws Exception {
+    String newGroupName = "newGroup";
+    adminRestSession.put("/groups/" + newGroupName);
+    String newProjectName = name("newProject");
+    adminSshSession.exec(
+        "gerrit create-project --branch master --owner "
+            + newGroupName
+            + " "
+            + newProjectName
+            + "/");
+    adminSshSession.assertSuccess();
+    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    assertThat(projectState).isNotNull();
+    assertThat(projectState.getName()).isEqualTo(newProjectName);
+  }
 }

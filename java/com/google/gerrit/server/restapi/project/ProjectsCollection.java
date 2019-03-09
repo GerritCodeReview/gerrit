@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.ProjectUtil;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -42,7 +43,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.eclipse.jgit.lib.Constants;
 
 @Singleton
 public class ProjectsCollection
@@ -136,9 +136,7 @@ public class ProjectsCollection
   @Nullable
   private ProjectResource _parse(String id, boolean checkAccess)
       throws IOException, PermissionBackendException, ResourceConflictException {
-    if (id.endsWith(Constants.DOT_GIT_EXT)) {
-      id = id.substring(0, id.length() - Constants.DOT_GIT_EXT.length());
-    }
+    id = ProjectUtil.sanitizeProjectName(id);
 
     Project.NameKey nameKey = new Project.NameKey(id);
     ProjectState state = projectCache.checkedGet(nameKey);

@@ -178,6 +178,28 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createProjectThatEndsWithSlash() throws Exception {
+    String newProjectName = name("newProject");
+    ProjectInfo p = gApi.projects().create(newProjectName + "/").get();
+    assertThat(p.name).isEqualTo(newProjectName);
+    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    assertThat(projectState).isNotNull();
+    assertProjectInfo(projectState.getProject(), p);
+    assertHead(newProjectName, "refs/heads/master");
+  }
+
+  @Test
+  public void createProjectThatContainsSlash() throws Exception {
+    String newProjectName = name("newProject/newProject");
+    ProjectInfo p = gApi.projects().create(newProjectName).get();
+    assertThat(p.name).isEqualTo(newProjectName);
+    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    assertThat(projectState).isNotNull();
+    assertProjectInfo(projectState.getProject(), p);
+    assertHead(newProjectName, "refs/heads/master");
+  }
+
+  @Test
   public void createProjectWithProperties() throws Exception {
     String newProjectName = name("newProject");
     ProjectInput in = new ProjectInput();

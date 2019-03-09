@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a8f98d1_01da274f",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-03-09T02:39:27Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5f994f73_72896af5",
+      "revId": "38c70521545f8ca18862bd4518bd739b127d9e73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b243aff_3f6980d8",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5514d37c_598cb22f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-03-09T02:39:27Z",
+      "side": 1,
+      "message": "Whoops, thanks, done!",
+      "parentUuid": "3b243aff_3f6980d8",
+      "revId": "38c70521545f8ca18862bd4518bd739b127d9e73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d45eda42_cf70f171",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 8
@@ -50,6 +86,24 @@
       "revId": "38c70521545f8ca18862bd4518bd739b127d9e73",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31ccdf84_ba2cc141",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-03-09T02:39:27Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "d45eda42_cf70f171",
+      "revId": "38c70521545f8ca18862bd4518bd739b127d9e73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "06d4e235_29e618bf",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-03-09T02:39:27Z",
+      "side": 1,
+      "message": "I doin\u0027t think so. But that has me thinking now, won\u0027t the client encode it now (that being PolyGerrit)?",
+      "parentUuid": "315efeed_69e9b88e",
+      "range": {
+        "startLine": 191,
+        "startChar": 44,
+        "endLine": 191,
+        "endChar": 45
+      },
+      "revId": "38c70521545f8ca18862bd4518bd739b127d9e73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a345a57e_bbbfeb23",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
         "patchSetId": 8
@@ -90,6 +168,24 @@
       "revId": "38c70521545f8ca18862bd4518bd739b127d9e73",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59ac1678_035c617d",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-03-09T02:39:27Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a345a57e_bbbfeb23",
+      "revId": "38c70521545f8ca18862bd4518bd739b127d9e73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

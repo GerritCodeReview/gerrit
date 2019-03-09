@@ -28,5 +28,9 @@ public class ProjectUtil {
     return name;
   }
 
+  public static String stripEndSlash(String name) {
+    return name.replaceAll("/\/$/", "")
+  }
+
   private ProjectUtil() {}
 }

@@ -93,8 +93,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   public DataSource<AccountState> getSource(Predicate<AccountState> p, QueryOptions opts)
       throws QueryParseException {
     JsonArray sortArray = getSortArray(AccountField.ID.getName());
-    return new ElasticQuerySource(
-        p, opts.filterFields(IndexUtils::accountFields), ACCOUNTS, sortArray);
+    return new ElasticQuerySource(p, opts.filterFields(IndexUtils::accountFields), type, sortArray);
   }
 
   @Override

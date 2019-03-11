@@ -300,6 +300,17 @@ limitations under the License.
       assert.isTrue(errorStub.calledTwice);
     });
 
+    test('highlightjs-loaded event', done => {
+      const testHljs = {_number: 42};
+      plugin.on(element.EventType.HIGHLIGHTJS_LOADED, throwErrFn);
+      plugin.on(element.EventType.HIGHLIGHTJS_LOADED, hljs => {
+        assert.deepEqual(hljs, testHljs);
+        assert.isTrue(errorStub.calledOnce);
+        done();
+      });
+      element.handleEvent(element.EventType.HIGHLIGHTJS_LOADED, {hljs: testHljs});
+    });
+
     test('versioning', () => {
       const callback = sandbox.spy();
       Gerrit.install(callback, '0.0pre-alpha');

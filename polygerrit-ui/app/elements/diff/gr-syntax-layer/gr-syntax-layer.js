@@ -83,6 +83,7 @@
     'text/x-swift': 'swift',
     'text/x-systemverilog': 'sv',
     'text/x-tcl': 'tcl',
+    'text/x-torque': 'torque',
     'text/x-twig': 'twig',
     'text/x-vb': 'vb',
     'text/x-verilog': 'v',

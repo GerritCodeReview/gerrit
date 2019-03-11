@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dd7c9c0_d8bb1cf2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-11T12:59:18Z",
+      "side": 1,
+      "message": "It would be nice to have better type info here. If this is difficult to declare in a @type, then maybe a textual comment would also help.",
+      "revId": "d5525babc23236d25b87a2bfe607ebce60556ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca9fd06d_c49d3f98",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-11T12:59:18Z",
+      "side": 1,
+      "message": "Not this change, but what is \"p\"? Can you maybe rename while you are here?",
+      "range": {
+        "startLine": 262,
+        "startChar": 29,
+        "endLine": 262,
+        "endChar": 30
+      },
+      "revId": "d5525babc23236d25b87a2bfe607ebce60556ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

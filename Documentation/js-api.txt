@@ -188,6 +188,12 @@ Supported events:
   comments, file-level comments and summary comments, and it may change
   with new Gerrit versions.
 
+* `highlightjs-loaded`: Invoked when the highlight.js library has
+  finished loading. The global `hljs` object (also now accessible via
+  `window.hljs`) is passed as an argument to the callback function.
+  This event can be used to register a new language highlighter with
+  the highlight.js library before syntax highlighting begins.
+
 [[self_onAction]]
 === self.onAction()
 Register a JavaScript callback to be invoked when the user clicks

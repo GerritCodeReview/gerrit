@@ -22,6 +22,30 @@
       "revId": "d1f3642ce3c15e5f4481592d92c3aad933101031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40b59ee4_d98c2c40",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-11T14:50:26Z",
+      "side": 1,
+      "message": "Do you *want* to remove it? :-)\n\nFWIW, I would like to change the server to return the language directly instead of the mime type, because the mime type is only used for determining the language anyway. And this static map is indeed stupid. But that would entail more work.",
+      "parentUuid": "f7b8201e_6faa67fe",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 86,
+        "endChar": 30
+      },
+      "revId": "d1f3642ce3c15e5f4481592d92c3aad933101031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

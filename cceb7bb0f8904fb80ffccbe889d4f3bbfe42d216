@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2802f4b7_2bba852d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-11T12:59:01Z",
+      "side": 1,
+      "message": "It would help understanding the code a lot to know which types these properties have.",
+      "revId": "cceb7bb0f8904fb80ffccbe889d4f3bbfe42d216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cec37f90_6a785760",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-11T12:59:01Z",
+      "side": 1,
+      "message": "What about a typedef for this?",
+      "revId": "cceb7bb0f8904fb80ffccbe889d4f3bbfe42d216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d49d41ef_2b57c78b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-11T12:59:01Z",
+      "side": 1,
+      "message": "It would be nice to have these strings in a common file for everyone to depend on. Would this be a behavior, a shared component or a util in Polymer?",
+      "range": {
+        "startLine": 130,
+        "startChar": 41,
+        "endLine": 130,
+        "endChar": 64
+      },
+      "revId": "cceb7bb0f8904fb80ffccbe889d4f3bbfe42d216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7b8201e_6faa67fe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1080076
+      },
+      "writtenOn": "2019-03-11T14:12:58Z",
+      "side": 1,
+      "message": "This is one part we still need to figure out. I can configure the server to set an appropriate MIME type for the .tq file by using the mimetype section in the project config file (as per https://gerrit-review.googlesource.com/Documentation/config-project-config.html#mimetype-section) but the front-end has a hard-coded mapping here that isn\u0027t extensible. Any ideas for how to fix that so that I can remove this line?",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 86,
+        "endChar": 30
+      },
+      "revId": "d1f3642ce3c15e5f4481592d92c3aad933101031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

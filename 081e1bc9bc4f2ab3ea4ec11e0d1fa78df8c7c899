@@ -22,6 +22,30 @@
       "revId": "081e1bc9bc4f2ab3ea4ec11e0d1fa78df8c7c899",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5c44c13_4c792952",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-11T02:01:27Z",
+      "side": 1,
+      "message": "Note that this is a cherry-pick of a commit that was already submitted on master.  If improvements are needed, they should be done as a separate follow-up to that commit, and then also backported.",
+      "parentUuid": "ad6a2212_9281ebc4",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "081e1bc9bc4f2ab3ea4ec11e0d1fa78df8c7c899",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

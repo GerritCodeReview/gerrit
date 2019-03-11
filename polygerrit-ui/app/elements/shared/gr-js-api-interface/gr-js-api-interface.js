@@ -28,6 +28,7 @@
     POST_REVERT: 'postrevert',
     ANNOTATE_DIFF: 'annotatediff',
     ADMIN_MENU_LINKS: 'admin-menu-links',
+    HIGHLIGHTJS_LOADED: 'highlightjs-loaded',
   };
 
   const Element = {
@@ -68,6 +69,9 @@
             break;
           case EventType.LABEL_CHANGE:
             this._handleLabelChange(detail);
+            break;
+          case EventType.HIGHLIGHTJS_LOADED:
+            this._handleHighlightjsLoaded(detail);
             break;
           default:
             console.warn('handleEvent called with unsupported event type:',
@@ -182,6 +186,16 @@
       for (const cb of this._getEventCallbacks(EventType.LABEL_CHANGE)) {
         try {
           cb(detail.change);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    },
+
+    _handleHighlightjsLoaded(detail) {
+      for (const cb of this._getEventCallbacks(EventType.HIGHLIGHTJS_LOADED)) {
+        try {
+          cb(detail.hljs);
         } catch (err) {
           console.error(err);
         }

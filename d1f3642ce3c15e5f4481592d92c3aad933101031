@@ -46,6 +46,30 @@
       "revId": "d1f3642ce3c15e5f4481592d92c3aad933101031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "938392ae_a377435c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1080076
+      },
+      "writtenOn": "2019-03-11T14:57:37Z",
+      "side": 1,
+      "message": "Fair point, I\u0027ll leave it here if it\u0027s fine by you :).\n\nI could make a change later when I have some free time that adds a new config option to the server that maps a file extension to a highlight.js language name and deprecate the whole mime type thing. Gerrit doesn\u0027t even use it as a real content-type, it just sets a field in the json called content_type...",
+      "parentUuid": "40b59ee4_d98c2c40",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 86,
+        "endChar": 30
+      },
+      "revId": "d1f3642ce3c15e5f4481592d92c3aad933101031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

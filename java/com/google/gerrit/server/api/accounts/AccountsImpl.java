@@ -69,7 +69,7 @@ public class AccountsImpl implements Accounts {
     try {
       return api.create(accounts.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(id)));
     } catch (Exception e) {
-      throw asRestApiException("Cannot parse change", e);
+      throw asRestApiException("Cannot parse account", e);
     }
   }
 

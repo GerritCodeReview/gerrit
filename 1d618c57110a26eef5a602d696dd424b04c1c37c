@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f262443b_776bdf94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-11T05:36:04Z",
+      "side": 1,
+      "message": "As far as I can see, this change only affects PG tests.  Maybe reword this to something like \"Use Firefox headless mode in PolyGerrit tests\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "1d618c57110a26eef5a602d696dd424b04c1c37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

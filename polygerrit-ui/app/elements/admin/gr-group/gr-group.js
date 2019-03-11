@@ -180,13 +180,10 @@
     },
 
     _handleSaveOptions() {
-      let options;
-      // The value is in string so we have to convert it to a boolean.
-      if (this._groupConfig.options.visible_to_all) {
-        options = {visible_to_all: true};
-      } else if (!this._groupConfig.options.visible_to_all) {
-        options = {visible_to_all: false};
-      }
+      const visible = this._groupConfig.options.visible_to_all;
+
+      const options = {visible_to_all: visible};
+
       return this.$.restAPI.saveGroupOptions(this.groupId,
           options).then(config => {
             this._options = false;

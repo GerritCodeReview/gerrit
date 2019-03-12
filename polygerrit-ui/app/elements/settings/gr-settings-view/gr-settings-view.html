@@ -208,6 +208,16 @@ limitations under the License.
             </span>
           </section>
           <section>
+            <span class="title">Show Relative Dates In Changes Table</span>
+            <span class="value">
+              <input
+                  id="relativeDateInChangeTable"
+                  type="checkbox"
+                  checked$="[[_localPrefs.relative_date_in_change_table]]"
+                  on-change="_handleRelativeDateInChangeTable">
+            </span>
+          </section>
+          <section>
             <span class="title">Diff view</span>
             <span class="value">
               <gr-select

@@ -1321,6 +1321,8 @@
      * @param {function()=} opt_cancelCondition
      */
     getChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
+      // This list MUST be kept in sync with
+      // ChangeIT#changeDetailsDoesNotRequireIndex
       const options = [
         this.ListChangesOption.ALL_COMMITS,
         this.ListChangesOption.ALL_REVISIONS,

@@ -236,7 +236,11 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       if (hasOneParent(rw, rsrc.getPatchSet())) {
         enabled = rebaseUtil.canRebase(rsrc.getPatchSet(), change.getDest(), repo, rw);
       }
-    } catch (IOException e) {
+    } catch (Exception e) {
+      // Be generous here with the exceptions that we log and swallow. RebaseUtil#canRebase uses the
+      // change index and this UI action is on the critical path of rendering a change details page.
+      // If the index is broken, we log and disable the UI action, but still show the page to the
+      // user.
       logger.atSevere().withCause(e).log(
           "Failed to check if patch set can be rebased: %s", rsrc.getPatchSet());
       return description;

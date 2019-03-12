@@ -4204,11 +4204,25 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void changeDetailsDoesNotRequireIndex() throws Exception {
-    PushOneCommit.Result change = createChange();
-    int number = gApi.changes().id(change.getChangeId()).get()._number;
+    // This set of options must be kept in sync with gr-rest-api-interface.js
+    Set<ListChangesOption> options =
+        ImmutableSet.of(
+            ListChangesOption.ALL_COMMITS,
+            ListChangesOption.ALL_REVISIONS,
+            ListChangesOption.CHANGE_ACTIONS,
+            ListChangesOption.CURRENT_ACTIONS,
+            ListChangesOption.DETAILED_LABELS,
+            ListChangesOption.DOWNLOAD_COMMANDS,
+            ListChangesOption.MESSAGES,
+            ListChangesOption.SUBMITTABLE,
+            ListChangesOption.WEB_LINKS,
+            ListChangesOption.SKIP_MERGEABLE);
 
-    try (AutoCloseable ctx = disableChangeIndex()) {
-      assertThat(gApi.changes().id(project.get(), number).get(ImmutableSet.of()).changeId)
+    PushOneCommit.Result change = createChange();
+    int number = gApi.changes().id(change.getChangeId()).get(options)._number;
+
+    try (AutoCloseable ignored = disableChangeIndex()) {
+      assertThat(gApi.changes().id(project.get(), number).get().changeId)
           .isEqualTo(change.getChangeId());
     }
   }

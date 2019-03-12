@@ -26,7 +26,6 @@ acceptance_tests(
         "docker",
         "elastic",
         "exclusive",
-        "flaky",
         "pgm",
         "no_windows",
     ],

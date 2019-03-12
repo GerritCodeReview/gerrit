@@ -65,7 +65,7 @@ ELASTICSEARCH_TAGS = [
     name = "elasticsearch_query_%ss_test_V6" % name,
     size = "large",
     srcs = [src],
-    tags = ELASTICSEARCH_TAGS + ["flaky"],
+    tags = ELASTICSEARCH_TAGS,
     deps = ELASTICSEARCH_DEPS + [QUERY_TESTS_DEP % name],
 ) for name, src in ELASTICSEARCH_TESTS_V6.items()]
 
@@ -73,7 +73,7 @@ ELASTICSEARCH_TAGS = [
     name = "elasticsearch_query_%ss_test_V7" % name,
     size = "large",
     srcs = [src],
-    tags = ELASTICSEARCH_TAGS + ["flaky"],
+    tags = ELASTICSEARCH_TAGS,
     deps = ELASTICSEARCH_DEPS + [QUERY_TESTS_DEP % name] + [
         "//lib/httpcomponents:httpasyncclient",
         "//lib/httpcomponents:httpclient",

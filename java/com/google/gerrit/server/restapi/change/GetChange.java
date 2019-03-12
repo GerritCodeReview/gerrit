@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -37,7 +38,7 @@ public class GetChange implements RestReadView<ChangeResource> {
 
   @Option(name = "-O", usage = "Output option flags, in hex")
   void setOptionFlagsHex(String hex) {
-    options.addAll(ListChangesOption.fromBits(Integer.parseInt(hex, 16)));
+    options.addAll(ListOption.fromBits(ListChangesOption.class, Integer.parseInt(hex, 16)));
   }
 
   @Inject

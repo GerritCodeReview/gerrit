@@ -22,6 +22,30 @@
       "revId": "ddc7e255990ca40cc72bd3df6c1b4a0dcbd0c95c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e24d630f_2b05fc90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-03-12T02:07:55Z",
+      "side": 1,
+      "message": "Thanks, done.\n\n(Jw was js) was just a spelling mistake due to autocorrect.",
+      "parentUuid": "072fd381_d38d959e",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "ddc7e255990ca40cc72bd3df6c1b4a0dcbd0c95c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

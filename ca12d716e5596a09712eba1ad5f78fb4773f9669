@@ -46,6 +46,30 @@
       "revId": "ca12d716e5596a09712eba1ad5f78fb4773f9669",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aad16090_e04ac268",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-03-12T22:33:41Z",
+      "side": 1,
+      "message": "Oh oh, I think I understand. So if a plugin want to add a new column and populate that column with data from a plugin-provided query attribute, this enables that?\n\nIf I got that right, this is excellent!",
+      "parentUuid": "bd5c0fe1_fd1366f4",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "ca12d716e5596a09712eba1ad5f78fb4773f9669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

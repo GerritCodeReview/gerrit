@@ -70,6 +70,30 @@
       "revId": "ca12d716e5596a09712eba1ad5f78fb4773f9669",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2faee0f_4b22d020",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-12T23:10:29Z",
+      "side": 1,
+      "message": "Exactly. Without this change, the only way for the server-side half of the plugin to populate a new attribute is for it to populate it on *all* query requests, which is potentially a bad idea. With this change, the client-side half of the plugin tells the server-side half to populate it only when specifically rendering a change table in the UI.",
+      "parentUuid": "aad16090_e04ac268",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "ca12d716e5596a09712eba1ad5f78fb4773f9669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "6fe49b20a7be552ff2948c5543f85963c3d154f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17e69dd8_8628832d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-12T12:47:32Z",
+      "side": 1,
+      "message": "Done. Since when was does the change-id need to be exactly 10 digits? I\u0027m pretty sure that the abbreviated change-id only needed to be unambiguous in the past for the automatic linking.",
+      "parentUuid": "c670e7df_432ee2cc",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 60
+      },
+      "revId": "6fe49b20a7be552ff2948c5543f85963c3d154f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

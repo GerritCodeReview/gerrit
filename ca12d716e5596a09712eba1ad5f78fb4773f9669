@@ -22,6 +22,30 @@
       "revId": "ca12d716e5596a09712eba1ad5f78fb4773f9669",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd5c0fe1_fd1366f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-12T20:58:32Z",
+      "side": 1,
+      "message": "Certainly. Gerrit rest api allows for plugins to mutate the changes response in https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#query_attributes. This change allows for plugins to mutate the changes query in the UI.",
+      "parentUuid": "0eb14bdf_e99973ad",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "ca12d716e5596a09712eba1ad5f78fb4773f9669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

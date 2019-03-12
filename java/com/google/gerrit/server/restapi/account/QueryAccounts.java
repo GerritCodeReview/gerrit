@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.account;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.client.ListAccountsOption;
+import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -97,7 +98,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
 
   @Option(name = "-O", usage = "Output option flags, in hex")
   void setOptionFlagsHex(String hex) {
-    options.addAll(ListAccountsOption.fromBits(Integer.parseInt(hex, 16)));
+    options.addAll(ListOption.fromBits(ListAccountsOption.class, Integer.parseInt(hex, 16)));
   }
 
   @Option(

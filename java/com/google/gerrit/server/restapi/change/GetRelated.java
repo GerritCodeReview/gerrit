@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -148,7 +149,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       info._revisionNumber = ps != null ? ps.getPatchSetId() : null;
       PatchSet.Id curr = change.currentPatchSetId();
       info._currentRevisionNumber = curr != null ? curr.get() : null;
-      info.status = ChangeUtil.status(change);
+      info.status = ChangeUtil.status(change).toUpperCase(Locale.US);
     }
 
     info.commit = new CommitInfo();

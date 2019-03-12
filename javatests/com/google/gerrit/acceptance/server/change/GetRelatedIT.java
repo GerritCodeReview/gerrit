@@ -22,6 +22,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -33,6 +34,7 @@ import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.index.IndexConfig;
@@ -56,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -618,6 +621,48 @@ public class GetRelatedIT extends AbstractDaemonTest {
     assertRelated(lastPsId, expected);
   }
 
+  @Test
+  public void stateOfRelatedChangesMatchesDocumentedValues() throws Exception {
+    // Set up three related changes, one new, the other abandoned, and the third merged.
+    RevCommit commit1 =
+        commitBuilder().add("a.txt", "File content 1").message("Subject 1").create();
+    RevCommit commit2 =
+        commitBuilder().add("b.txt", "File content 2").message("Subject 2").create();
+    RevCommit commit3 =
+        commitBuilder().add("c.txt", "File content 3").message("Subject 3").create();
+    pushHead(testRepo, "refs/for/master", false);
+    Change change1 = getChange(commit1).change();
+    Change change2 = getChange(commit2).change();
+    Change change3 = getChange(commit3).change();
+    gApi.changes().id(change1.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(change1.getChangeId()).current().submit();
+    gApi.changes().id(change2.getChangeId()).abandon();
+
+    List<RelatedChangeAndCommitInfo> relatedChanges =
+        gApi.changes().id(change3.getChangeId()).current().related().changes;
+
+    // Ensure that our REST API returns the states exactly as documented (and required by the
+    // frontend).
+    assertThat(relatedChanges)
+        .comparingElementsUsing(getRelatedChangeToStatusCorrespondence())
+        .containsExactly("NEW", "ABANDONED", "MERGED");
+  }
+
+  private static Correspondence<RelatedChangeAndCommitInfo, String>
+      getRelatedChangeToStatusCorrespondence() {
+    return new Correspondence<RelatedChangeAndCommitInfo, String>() {
+      @Override
+      public boolean compare(RelatedChangeAndCommitInfo relatedChangeAndCommitInfo, String status) {
+        return Objects.equals(relatedChangeAndCommitInfo.status, status);
+      }
+
+      @Override
+      public String toString() {
+        return "has status";
+      }
+    };
+  }
+
   private RevCommit parseBody(RevCommit c) throws Exception {
     testRepo.getRevWalk().parseBody(c);
     return c;
@@ -682,6 +727,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
       assertThat(a._currentRevisionNumber)
           .named("current revision of " + name)
           .isEqualTo(e._currentRevisionNumber);
+      assertThat(a.status).isEqualTo(e.status);
     }
   }
 }

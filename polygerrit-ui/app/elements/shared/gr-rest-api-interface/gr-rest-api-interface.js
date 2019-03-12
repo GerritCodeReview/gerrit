@@ -353,7 +353,7 @@
 
     /**
      * @param {string} url
-     * @param {?Object=} opt_params URL params, key-value hash.
+     * @param {?Object|string=} opt_params URL params, key-value hash.
      * @return {string}
      */
     _urlWithParams(url, opt_params) {
@@ -1352,30 +1352,32 @@
      * @param {function()=} opt_cancelCondition
      */
     getDiffChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
-      const params = this.listChangesOptionsToHex(
+      const optionsHex = this.listChangesOptionsToHex(
           this.ListChangesOption.ALL_COMMITS,
           this.ListChangesOption.ALL_REVISIONS,
           this.ListChangesOption.SKIP_MERGEABLE
       );
-      return this._getChangeDetail(changeNum, params, opt_errFn,
+      return this._getChangeDetail(changeNum, optionsHex, opt_errFn,
           opt_cancelCondition);
     },
 
     /**
      * @param {number|string} changeNum
+     * @param {string|undefined} optionsHex list changes options in hex
      * @param {function(?Response, string=)=} opt_errFn
      * @param {function()=} opt_cancelCondition
      */
-    _getChangeDetail(changeNum, params, opt_errFn, opt_cancelCondition) {
+    _getChangeDetail(changeNum, optionsHex, opt_errFn, opt_cancelCondition) {
       return this.getChangeActionURL(changeNum, null, '/detail').then(url => {
-        const urlWithParams = this._urlWithParams(url, params);
+        const urlWithParams = this._urlWithParams(url, optionsHex);
+        const params = {O: optionsHex};
         const req = {
           url,
           errFn: opt_errFn,
           cancelCondition: opt_cancelCondition,
-          params: {O: params},
+          params,
           fetchOptions: this._etags.getOptions(urlWithParams),
-          anonymizedUrl: '/changes/*~*/detail?O=' + params,
+          anonymizedUrl: '/changes/*~*/detail?O=' + optionsHex,
         };
         return this._fetchRawJSON(req).then(response => {
           if (response && response.status === 304) {

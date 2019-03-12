@@ -1151,12 +1151,12 @@ limitations under the License.
       test('_getChangeDetail passes params to ETags decorator', () => {
         const changeNum = 4321;
         element._projectLookup[changeNum] = 'test';
-        const params = {foo: 'bar'};
         const expectedUrl =
-            window.CANONICAL_PATH + '/changes/test~4321/detail?foo=bar';
+            window.CANONICAL_PATH + '/changes/test~4321/detail?'+
+            '0=5&1=1&2=6&3=7&4=1&5=4';
         sandbox.stub(element._etags, 'getOptions');
         sandbox.stub(element._etags, 'collect');
-        return element._getChangeDetail(changeNum, params).then(() => {
+        return element._getChangeDetail(changeNum, '516714').then(() => {
           assert.isTrue(element._etags.getOptions.calledWithExactly(
               expectedUrl));
           assert.equal(element._etags.collect.lastCall.args[0], expectedUrl);
@@ -1169,7 +1169,7 @@ limitations under the License.
             .returns(Promise.resolve(''));
         sandbox.stub(element, '_fetchRawJSON')
             .returns(Promise.resolve({ok: false, status: 500}));
-        return element._getChangeDetail(123, {}, errFn).then(() => {
+        return element._getChangeDetail(123, '516714', errFn).then(() => {
           assert.isTrue(errFn.called);
         });
       });
@@ -1185,7 +1185,7 @@ limitations under the License.
           parsed: mockResponse,
           raw: JSON.stringify(mockResponse),
         }));
-        return element._getChangeDetail(1).then(() => {
+        return element._getChangeDetail(1, '516714').then(() => {
           assert.equal(Object.keys(element._projectLookup).length, 1);
           assert.equal(element._projectLookup[1], 'test');
         });
@@ -1216,7 +1216,7 @@ limitations under the License.
             ok: true,
           }));
 
-          return element._getChangeDetail(123, {}).then(detail => {
+          return element._getChangeDetail(123, '516714').then(detail => {
             assert.isFalse(getPayloadSpy.called);
             assert.isTrue(collectSpy.calledOnce);
             const cachedResponse = element._etags.getCachedPayload(requestUrl);

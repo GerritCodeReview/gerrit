@@ -88,6 +88,7 @@ limitations under the License.
         email_strategy: 'ENABLED',
         email_format: 'HTML_PLAINTEXT',
         default_base_for_merges: 'FIRST_PARENT',
+        relative_date_in_change_table: false,
         size_bar_in_change_table: true,
 
         my: [
@@ -151,6 +152,9 @@ limitations under the License.
           .firstElementChild.bindValue, preferences.email_format);
       assert.equal(valueOf('Default Base For Merges', 'preferences')
           .firstElementChild.bindValue, preferences.default_base_for_merges);
+      assert.equal(
+          valueOf('Show Relative Dates In Changes Table', 'preferences')
+              .firstElementChild.checked, false);
       assert.equal(valueOf('Diff view', 'preferences')
           .firstElementChild.bindValue, preferences.diff_view);
       assert.equal(valueOf('Show size bars in file list', 'preferences')

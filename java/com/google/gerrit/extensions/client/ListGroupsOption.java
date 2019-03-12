@@ -14,10 +14,8 @@
 
 package com.google.gerrit.extensions.client;
 
-import java.util.EnumSet;
-
 /** Output options available when using {@code /groups/} RPCs. */
-public enum ListGroupsOption {
+public enum ListGroupsOption implements ListOption {
   /** Return information on the direct group members. */
   MEMBERS(0),
 
@@ -30,32 +28,8 @@ public enum ListGroupsOption {
     this.value = v;
   }
 
+  @Override
   public int getValue() {
     return value;
-  }
-
-  public static EnumSet<ListGroupsOption> fromBits(int v) {
-    EnumSet<ListGroupsOption> r = EnumSet.noneOf(ListGroupsOption.class);
-    for (ListGroupsOption o : ListGroupsOption.values()) {
-      if ((v & (1 << o.value)) != 0) {
-        r.add(o);
-        v &= ~(1 << o.value);
-      }
-      if (v == 0) {
-        return r;
-      }
-    }
-    if (v != 0) {
-      throw new IllegalArgumentException("unknown " + Integer.toHexString(v));
-    }
-    return r;
-  }
-
-  public static int toBits(EnumSet<ListGroupsOption> set) {
-    int r = 0;
-    for (ListGroupsOption o : set) {
-      r |= 1 << o.value;
-    }
-    return r;
   }
 }

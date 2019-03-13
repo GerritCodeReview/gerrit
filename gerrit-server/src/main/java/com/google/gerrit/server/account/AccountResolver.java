@@ -177,10 +177,7 @@ public class AccountResolver {
 
     // At this point we have no clue. Just perform a whole bunch of suggestions
     // and pray we come up with a reasonable result list.
-    return accountQueryProvider
-        .get()
-        .byDefault(nameOrEmail)
-        .stream()
+    return accountQueryProvider.get().byDefault(nameOrEmail).stream()
         .map(a -> a.getAccount().getId())
         .collect(toSet());
   }

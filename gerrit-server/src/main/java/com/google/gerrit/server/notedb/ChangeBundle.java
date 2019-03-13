@@ -733,9 +733,7 @@ public class ChangeBundle {
   private static boolean createdOnIsMonotonic(
       Map<?, PatchSet> patchSets, Set<PatchSet.Id> limitToIds) {
     List<PatchSet> orderedById =
-        patchSets
-            .values()
-            .stream()
+        patchSets.values().stream()
             .filter(ps -> limitToIds.contains(ps.getId()))
             .sorted(ChangeUtil.PS_ID_ORDER)
             .collect(toList());

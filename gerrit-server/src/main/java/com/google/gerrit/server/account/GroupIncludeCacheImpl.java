@@ -196,10 +196,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
         throws OrmException, NoSuchGroupException {
       GroupIndex groupIndex = groupIndexProvider.get();
       if (groupIndex != null && groupIndex.getSchema().hasField(GroupField.MEMBER)) {
-        return groupQueryProvider
-            .get()
-            .byMember(memberId)
-            .stream()
+        return groupQueryProvider.get().byMember(memberId).stream()
             .map(InternalGroup::getGroupUUID)
             .collect(toImmutableSet());
       }
@@ -256,10 +253,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) throws OrmException {
       GroupIndex groupIndex = groupIndexProvider.get();
       if (groupIndex != null && groupIndex.getSchema().hasField(GroupField.SUBGROUP)) {
-        return groupQueryProvider
-            .get()
-            .bySubgroup(key)
-            .stream()
+        return groupQueryProvider.get().bySubgroup(key).stream()
             .map(InternalGroup::getGroupUUID)
             .collect(toImmutableList());
       }

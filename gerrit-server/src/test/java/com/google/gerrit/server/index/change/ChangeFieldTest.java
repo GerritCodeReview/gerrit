@@ -109,8 +109,7 @@ public class ChangeFieldTest extends GerritBaseTests {
   private static void assertStoredRecordRoundTrip(SubmitRecord... records) {
     List<SubmitRecord> recordList = ImmutableList.copyOf(records);
     List<String> stored =
-        ChangeField.storedSubmitRecords(recordList)
-            .stream()
+        ChangeField.storedSubmitRecords(recordList).stream()
             .map(s -> new String(s, UTF_8))
             .collect(toList());
     assertThat(ChangeField.parseSubmitRecords(stored))

@@ -225,8 +225,7 @@ public class ReviewersUtil {
       throws OrmException {
     try (Timer0.Context ctx = metrics.loadAccountsLatency.start()) {
       List<SuggestedReviewerInfo> reviewer =
-          accountIds
-              .stream()
+          accountIds.stream()
               .map(accountLoader::get)
               .filter(Objects::nonNull)
               .map(

@@ -218,11 +218,7 @@ public class RevisionIT extends AbstractDaemonTest {
     setApiUser(admin);
     gApi.changes().id(changeId).reviewer(user.username).deleteVote("Code-Review");
     Optional<ApprovalInfo> crUser =
-        get(changeId, DETAILED_LABELS)
-            .labels
-            .get("Code-Review")
-            .all
-            .stream()
+        get(changeId, DETAILED_LABELS).labels.get("Code-Review").all.stream()
             .filter(a -> a._accountId == user.id.get())
             .findFirst();
     assertThat(crUser).isPresent();
@@ -237,13 +233,7 @@ public class RevisionIT extends AbstractDaemonTest {
     revision(r).review(in);
 
     ApprovalInfo cr =
-        gApi.changes()
-            .id(changeId)
-            .get(DETAILED_LABELS)
-            .labels
-            .get("Code-Review")
-            .all
-            .stream()
+        gApi.changes().id(changeId).get(DETAILED_LABELS).labels.get("Code-Review").all.stream()
             .filter(a -> a._accountId == user.getId().get())
             .findFirst()
             .get();

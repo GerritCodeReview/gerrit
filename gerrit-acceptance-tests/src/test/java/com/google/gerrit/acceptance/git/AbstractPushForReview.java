@@ -1756,9 +1756,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(getLastMessage(r.getChangeId())).isEqualTo("Uploaded patch set 3.\n\n(3 comments)");
 
     List<String> messages =
-        sender
-            .getMessages()
-            .stream()
+        sender.getMessages().stream()
             .map(m -> m.body())
             .sorted(Comparator.comparingInt(m -> m.contains("reexamine") ? 0 : 1))
             .collect(toList());
@@ -1979,11 +1977,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   private Collection<CommentInfo> getPublishedComments(String changeId) throws Exception {
-    return gApi.changes()
-        .id(changeId)
-        .comments()
-        .values()
-        .stream()
+    return gApi.changes().id(changeId).comments().values().stream()
         .flatMap(cs -> cs.stream())
         .collect(toList());
   }

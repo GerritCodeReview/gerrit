@@ -150,8 +150,7 @@ public class FakeEmailSender implements EmailSender {
   public List<Message> getMessages(String changeId, String type) {
     final String idFooter = "\nGerrit-Change-Id: " + changeId + "\n";
     final String typeFooter = "\nGerrit-MessageType: " + type + "\n";
-    return getMessages()
-        .stream()
+    return getMessages().stream()
         .filter(in -> in.body().contains(idFooter) && in.body().contains(typeFooter))
         .collect(toList());
   }

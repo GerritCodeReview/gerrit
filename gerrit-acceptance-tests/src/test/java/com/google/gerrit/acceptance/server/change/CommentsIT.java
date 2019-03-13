@@ -959,9 +959,7 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   private List<CommentInfo> getRevisionComments(String changeId, String revId) throws Exception {
-    return getPublishedComments(changeId, revId)
-        .values()
-        .stream()
+    return getPublishedComments(changeId, revId).values().stream()
         .flatMap(List::stream)
         .collect(toList());
   }

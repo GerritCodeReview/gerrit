@@ -23,6 +23,30 @@
       "revId": "67e98ebde772d517832ab75ff98b440ee88f78d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89447117_a41ef961",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-13T22:01:29Z",
+      "side": 1,
+      "message": "Ah, I was holding it wrong. IMHO the problem is that the option parser happily accepted an illegal name argument in the @Option. I\u0027ll see if I can make it throw an exception in that case, to inform plugin authors when they\u0027re holding it wrong.",
+      "parentUuid": "9b7da20d_5f4c8129",
+      "range": {
+        "startLine": 888,
+        "startChar": 17,
+        "endLine": 888,
+        "endChar": 20
+      },
+      "revId": "67e98ebde772d517832ab75ff98b440ee88f78d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

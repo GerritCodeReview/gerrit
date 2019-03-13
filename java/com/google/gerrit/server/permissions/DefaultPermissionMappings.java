@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.api.access.PluginPermission;
+import com.google.gerrit.extensions.api.access.PluginProjectPermission;
 import com.google.gerrit.server.permissions.LabelPermission.ForUser;
 import java.util.EnumSet;
 import java.util.Optional;
@@ -120,14 +121,18 @@ public class DefaultPermissionMappings {
     return Optional.ofNullable(CAPABILITIES.inverse().get(capabilityName));
   }
 
-  public static String pluginPermissionName(PluginPermission pluginPermission) {
+  public static String pluginCapabilityName(PluginPermission pluginPermission) {
     return pluginPermission.pluginName() + '-' + pluginPermission.capability();
+  }
+
+  public static String pluginProjectPermissionName(PluginProjectPermission pluginPermission) {
+    return "plugin-" + pluginPermission.pluginName() + '-' + pluginPermission.permission();
   }
 
   public static String globalOrPluginPermissionName(GlobalOrPluginPermission permission) {
     return permission instanceof GlobalPermission
         ? globalPermissionName((GlobalPermission) permission)
-        : pluginPermissionName((PluginPermission) permission);
+        : pluginCapabilityName((PluginPermission) permission);
   }
 
   public static Optional<String> projectPermissionName(ProjectPermission projectPermission) {

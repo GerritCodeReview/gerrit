@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.permissions;
 
+import com.google.gerrit.extensions.api.access.CoreOrPluginProjectPermission;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.conditions.PrivateInternals_BooleanCondition;
@@ -100,10 +101,11 @@ public abstract class PermissionBackendCondition
 
   public static class ForProject extends PermissionBackendCondition {
     private final PermissionBackend.ForProject impl;
-    private final ProjectPermission perm;
+    private final CoreOrPluginProjectPermission perm;
     private final CurrentUser user;
 
-    public ForProject(PermissionBackend.ForProject impl, ProjectPermission perm, CurrentUser user) {
+    public ForProject(
+        PermissionBackend.ForProject impl, CoreOrPluginProjectPermission perm, CurrentUser user) {
       this.impl = impl;
       this.perm = perm;
       this.user = user;
@@ -113,7 +115,7 @@ public abstract class PermissionBackendCondition
       return impl;
     }
 
-    public ProjectPermission permission() {
+    public CoreOrPluginProjectPermission permission() {
       return perm;
     }
 

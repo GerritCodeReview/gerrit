@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aeb9f094_82134355",
+        "filename": "Documentation/pg-plugin-dev.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-03-13T03:58:49Z",
+      "side": 1,
+      "message": "This doesn\u0027t read like English. Did you miss a word by accident?\n\nAlso, whatever this becomes could be a good hint for wording to use in the commit message too.",
+      "range": {
+        "startLine": 191,
+        "startChar": 26,
+        "endLine": 191,
+        "endChar": 50
+      },
+      "revId": "a58e127f30b613de59d450d3bbd75e496a3792d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

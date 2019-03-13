@@ -94,6 +94,30 @@
       "revId": "ca12d716e5596a09712eba1ad5f78fb4773f9669",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "823c58d8_fbec0a40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-03-13T03:58:49Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s clear. but this line in the commit message totally didn\u0027t convey that to me. Maybe tie it together a bit more in the message?",
+      "parentUuid": "e2faee0f_4b22d020",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "ca12d716e5596a09712eba1ad5f78fb4773f9669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

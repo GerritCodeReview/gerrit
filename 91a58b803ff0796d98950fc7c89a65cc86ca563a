@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "968c1de6_d22a5b68",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-03-13T20:18:52Z",
+      "side": 1,
+      "message": "Updating the version this way in stable-2.14 given production deployments still using the latter.",
+      "range": {
+        "startLine": 909,
+        "startChar": 52,
+        "endLine": 909,
+        "endChar": 56
+      },
+      "revId": "91a58b803ff0796d98950fc7c89a65cc86ca563a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

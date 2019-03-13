@@ -23,6 +23,30 @@
       "revId": "f1257f3ee9ea76509fe2532753e03efd762e9a51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1b3e5d7_3d210e12",
+        "filename": "java/com/google/gerrit/extensions/client/ListOption.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-13T13:58:30Z",
+      "side": 1,
+      "message": "I was thinking \"O\" for \"Option\", but I don\u0027t feel strongly at all. Done.",
+      "parentUuid": "3a0f2869_29f37667",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "f1257f3ee9ea76509fe2532753e03efd762e9a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

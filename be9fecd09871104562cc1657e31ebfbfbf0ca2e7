@@ -52,6 +52,24 @@
       "revId": "be9fecd09871104562cc1657e31ebfbfbf0ca2e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2e1856f_653be315",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-13T07:18:16Z",
+      "side": 1,
+      "message": "Done in https://github.com/google/google-java-format/pull/350",
+      "parentUuid": "5295f77f_b4a3b7ca",
+      "revId": "be9fecd09871104562cc1657e31ebfbfbf0ca2e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

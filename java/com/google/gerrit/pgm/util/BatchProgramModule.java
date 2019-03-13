@@ -73,6 +73,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
+import com.google.gerrit.server.restapi.change.GetChange;
 import com.google.gerrit.server.restapi.group.GroupModule;
 import com.google.gerrit.server.rules.DefaultSubmitRule;
 import com.google.gerrit.server.rules.IgnoreSelfApprovalRule;
@@ -113,6 +114,8 @@ public class BatchProgramModule extends FactoryModule {
         .toProvider(CommentLinkProvider.class)
         .in(SINGLETON);
     bind(new TypeLiteral<DynamicMap<ChangeQueryProcessor.ChangeAttributeFactory>>() {})
+        .toInstance(DynamicMap.emptyMap());
+    bind(new TypeLiteral<DynamicMap<GetChange.ChangeAttributeFactory>>() {})
         .toInstance(DynamicMap.emptyMap());
     bind(new TypeLiteral<DynamicMap<RestView<CommitResource>>>() {})
         .toInstance(DynamicMap.emptyMap());

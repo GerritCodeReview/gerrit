@@ -28,14 +28,18 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
-import com.google.gerrit.server.query.change.ChangeQueryProcessor.ChangeAttributeFactory;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.OutputStreamQuery;
+import com.google.gerrit.server.restapi.change.GetChange;
 import com.google.gerrit.server.restapi.change.QueryChanges;
 import com.google.gerrit.sshd.PluginCommandModule;
 import com.google.gerrit.sshd.commands.Query;
@@ -53,6 +57,9 @@ import org.kohsuke.args4j.Option;
 
 @UseSsh
 public class PluginFieldsIT extends AbstractDaemonTest {
+  private static final Gson REST_GSON = OutputFormat.JSON.newGson();
+  private static final Gson SSH_GSON = OutputStreamQuery.GSON;
+
   static class MyInfo extends PluginDefinedInfo {
     @Nullable String theAttribute;
 
@@ -89,20 +96,60 @@ public class PluginFieldsIT extends AbstractDaemonTest {
   }
 
   static class NullAttributeModule extends AbstractModule {
+    static class AttrFactory
+        implements ChangeQueryProcessor.ChangeAttributeFactory, GetChange.ChangeAttributeFactory {
+
+      @Override
+      public PluginDefinedInfo create(ChangeData cd, ChangeQueryProcessor qp, String plugin) {
+        return create();
+      }
+
+      @Override
+      public PluginDefinedInfo create(ChangeData cd, GetChange getChange, String plugin) {
+        return create();
+      }
+
+      private PluginDefinedInfo create() {
+        return null;
+      }
+    }
+
     @Override
     public void configure() {
-      bind(ChangeAttributeFactory.class)
-          .annotatedWith(Exports.named("always-null"))
-          .toInstance((cd, qp, p) -> null);
+      Export export = Exports.named("always-null");
+      bind(ChangeQueryProcessor.ChangeAttributeFactory.class)
+          .annotatedWith(export)
+          .to(AttrFactory.class);
+      bind(GetChange.ChangeAttributeFactory.class).annotatedWith(export).to(AttrFactory.class);
     }
   }
 
   static class SimpleAttributeModule extends AbstractModule {
+    static class AttrFactory
+        implements ChangeQueryProcessor.ChangeAttributeFactory, GetChange.ChangeAttributeFactory {
+
+      @Override
+      public PluginDefinedInfo create(ChangeData cd, ChangeQueryProcessor qp, String plugin) {
+        return create(cd);
+      }
+
+      @Override
+      public PluginDefinedInfo create(ChangeData cd, GetChange getChange, String plugin) {
+        return create(cd);
+      }
+
+      private PluginDefinedInfo create(ChangeData cd) {
+        return new MyInfo("change " + cd.getId());
+      }
+    }
+
     @Override
     public void configure() {
-      bind(ChangeAttributeFactory.class)
-          .annotatedWith(Exports.named("simple"))
-          .toInstance((cd, qp, p) -> new MyInfo("change " + cd.getId()));
+      Export export = Exports.named("simple");
+      bind(ChangeQueryProcessor.ChangeAttributeFactory.class)
+          .annotatedWith(export)
+          .to(AttrFactory.class);
+      bind(GetChange.ChangeAttributeFactory.class).annotatedWith(export).to(AttrFactory.class);
     }
   }
 
@@ -112,15 +159,32 @@ public class PluginFieldsIT extends AbstractDaemonTest {
   }
 
   static class OptionAttributeSysModule extends AbstractModule {
+    static class AttrFactory
+        implements ChangeQueryProcessor.ChangeAttributeFactory, GetChange.ChangeAttributeFactory {
+
+      @Override
+      public PluginDefinedInfo create(ChangeData cd, ChangeQueryProcessor qp, String plugin) {
+        return create(cd, qp.getDynamicBean(plugin));
+      }
+
+      @Override
+      public PluginDefinedInfo create(ChangeData cd, GetChange getChange, String plugin) {
+        return create(cd, getChange.getDynamicBean(plugin));
+      }
+
+      private PluginDefinedInfo create(ChangeData cd, DynamicOptions.DynamicBean bean) {
+        MyOptions opts = (MyOptions) bean;
+        return opts != null ? new MyInfo("opt " + opts.opt) : null;
+      }
+    }
+
     @Override
     public void configure() {
-      bind(ChangeAttributeFactory.class)
-          .annotatedWith(Exports.named("simple"))
-          .toInstance(
-              (cd, qp, p) -> {
-                MyOptions opts = (MyOptions) qp.getDynamicBean(p);
-                return opts != null ? new MyInfo("opt " + opts.opt) : null;
-              });
+      Export export = Exports.named("option");
+      bind(ChangeQueryProcessor.ChangeAttributeFactory.class)
+          .annotatedWith(export)
+          .to(AttrFactory.class);
+      bind(GetChange.ChangeAttributeFactory.class).annotatedWith(export).to(AttrFactory.class);
     }
   }
 
@@ -135,28 +199,43 @@ public class PluginFieldsIT extends AbstractDaemonTest {
     @Override
     protected void configureServlets() {
       bind(DynamicBean.class).annotatedWith(Exports.named(QueryChanges.class)).to(MyOptions.class);
+      bind(DynamicBean.class).annotatedWith(Exports.named(GetChange.class)).to(MyOptions.class);
     }
   }
 
   @Test
   public void queryChangeApiWithNullAttribute() throws Exception {
-    queryChangeWithNullAttribute(
+    getChangeWithNullAttribute(
         id -> pluginInfoFromSingletonList(gApi.changes().query(id.toString()).get()));
   }
 
   @Test
   public void queryChangeRestWithNullAttribute() throws Exception {
-    queryChangeWithNullAttribute(
+    getChangeWithNullAttribute(
         id -> pluginInfoFromSingletonListRest(adminRestSession.get(changeQueryUrl(id))));
   }
 
   @Test
   public void queryChangeSshWithNullAttribute() throws Exception {
-    queryChangeWithNullAttribute(
+    getChangeWithNullAttribute(
         id -> pluginInfoFromSingletonListSsh(adminSshSession.exec(changeQueryCmd(id))));
   }
 
-  private void queryChangeWithNullAttribute(PluginInfoGetter getter) throws Exception {
+  @Test
+  public void getChangeApiWithNullAttribute() throws Exception {
+    getChangeWithNullAttribute(
+        id -> pluginInfoFromChangeInfo(gApi.changes().id(id.toString()).get()));
+  }
+
+  @Test
+  public void getChangeRestWithNullAttribute() throws Exception {
+    getChangeWithNullAttribute(
+        id -> pluginInfoFromChangeInfoRest(adminRestSession.get(changeUrl(id))));
+  }
+
+  // No tests for getting a single change over SSH, since the only API is the query API.
+
+  private void getChangeWithNullAttribute(PluginInfoGetter getter) throws Exception {
     Change.Id id = createChange().getChange().getId();
     assertThat(getter.call(id)).isNull();
 
@@ -169,23 +248,37 @@ public class PluginFieldsIT extends AbstractDaemonTest {
 
   @Test
   public void queryChangeApiWithSimpleAttribute() throws Exception {
-    queryChangeWithSimpleAttribute(
+    getChangeWithSimpleAttribute(
         id -> pluginInfoFromSingletonList(gApi.changes().query(id.toString()).get()));
   }
 
   @Test
   public void queryChangeRestWithSimpleAttribute() throws Exception {
-    queryChangeWithSimpleAttribute(
+    getChangeWithSimpleAttribute(
         id -> pluginInfoFromSingletonListRest(adminRestSession.get(changeQueryUrl(id))));
   }
 
   @Test
   public void queryChangeSshWithSimpleAttribute() throws Exception {
-    queryChangeWithSimpleAttribute(
+    getChangeWithSimpleAttribute(
         id -> pluginInfoFromSingletonListSsh(adminSshSession.exec(changeQueryCmd(id))));
   }
 
-  private void queryChangeWithSimpleAttribute(PluginInfoGetter getter) throws Exception {
+  @Test
+  public void getChangeApiWithSimpleAttribute() throws Exception {
+    getChangeWithSimpleAttribute(
+        id -> pluginInfoFromChangeInfo(gApi.changes().id(id.toString()).get()));
+  }
+
+  @Test
+  public void getChangeRestWithSimpleAttribute() throws Exception {
+    getChangeWithSimpleAttribute(
+        id -> pluginInfoFromChangeInfoRest(adminRestSession.get(changeUrl(id))));
+  }
+
+  // No tests for getting a single change over SSH, since the only API is the query API.
+
+  private void getChangeWithSimpleAttribute(PluginInfoGetter getter) throws Exception {
     Change.Id id = createChange().getChange().getId();
     assertThat(getter.call(id)).isNull();
 
@@ -199,7 +292,7 @@ public class PluginFieldsIT extends AbstractDaemonTest {
 
   @Test
   public void queryChangeSshWithOption() throws Exception {
-    queryChangeWithOption(
+    getChangeWithOption(
         id -> pluginInfoFromSingletonListSsh(adminSshSession.exec(changeQueryCmd(id))),
         (id, opts) ->
             pluginInfoFromSingletonListSsh(adminSshSession.exec(changeQueryCmd(id, opts))));
@@ -207,11 +300,20 @@ public class PluginFieldsIT extends AbstractDaemonTest {
 
   @Test
   public void queryChangeRestWithOption() throws Exception {
-    queryChangeWithOption(
+    getChangeWithOption(
         id -> pluginInfoFromSingletonListRest(adminRestSession.get(changeQueryUrl(id))),
         (id, opts) ->
             pluginInfoFromSingletonListRest(adminRestSession.get(changeQueryUrl(id, opts))));
   }
+
+  @Test
+  public void getChangeRestWithOption() throws Exception {
+    getChangeWithOption(
+        id -> pluginInfoFromChangeInfoRest(adminRestSession.get(changeUrl(id))),
+        (id, opts) -> pluginInfoFromChangeInfoRest(adminRestSession.get(changeUrl(id, opts))));
+  }
+
+  // No tests for getting a single change over SSH, since the only API is the query API.
 
   // No test for plugin-provided options over the extension API. There are currently two separate
   // DynamicMap<DynamicBean> maps initialized in the SSH and HTTP injectors, and plugins have to
@@ -219,7 +321,7 @@ public class PluginFieldsIT extends AbstractDaemonTest {
   // API, we would have to move everything into the sys injector.
   // TODO(dborowitz): Determine whether this is possible without breaking existing plugins.
 
-  private void queryChangeWithOption(
+  private void getChangeWithOption(
       PluginInfoGetter getterWithoutOptions, PluginInfoGetterWithOptions getterWithOptions)
       throws Exception {
     Change.Id id = createChange().getChange().getId();
@@ -246,7 +348,7 @@ public class PluginFieldsIT extends AbstractDaemonTest {
 
   private String changeQueryUrl(Change.Id id, ImmutableListMultimap<String, String> opts) {
     String url = "/changes/?q=" + id;
-    String queryString = Joiner.on('&').withKeyValueSeparator('=').join(opts.entries());
+    String queryString = buildQueryString(opts);
     if (!queryString.isEmpty()) {
       url += "&" + queryString;
     }
@@ -259,18 +361,37 @@ public class PluginFieldsIT extends AbstractDaemonTest {
 
   private String changeQueryCmd(Change.Id id, ImmutableListMultimap<String, String> pluginOptions) {
     return "gerrit query --format json "
-        + pluginOptions
-            .entries()
-            .stream()
+        + pluginOptions.entries().stream()
             .flatMap(e -> Stream.of("--" + e.getKey(), e.getValue()))
             .collect(joining(" "))
         + " "
         + id;
   }
 
+  private String changeUrl(Change.Id id) {
+    return changeUrl(id, ImmutableListMultimap.of());
+  }
+
+  private String changeUrl(Change.Id id, ImmutableListMultimap<String, String> pluginOptions) {
+    String url = "/changes/" + project + "~" + id;
+    String queryString = buildQueryString(pluginOptions);
+    if (!queryString.isEmpty()) {
+      url += "?" + queryString;
+    }
+    return url;
+  }
+
+  private String buildQueryString(ImmutableListMultimap<String, String> opts) {
+    return Joiner.on('&').withKeyValueSeparator('=').join(opts.entries());
+  }
+
   private static List<MyInfo> pluginInfoFromSingletonList(List<ChangeInfo> changeInfos) {
     assertThat(changeInfos).hasSize(1);
-    List<PluginDefinedInfo> pluginInfo = changeInfos.get(0).plugins;
+    return pluginInfoFromChangeInfo(changeInfos.get(0));
+  }
+
+  private static List<MyInfo> pluginInfoFromChangeInfo(ChangeInfo changeInfo) {
+    List<PluginDefinedInfo> pluginInfo = changeInfo.plugins;
     if (pluginInfo == null) {
       return null;
     }
@@ -283,15 +404,11 @@ public class PluginFieldsIT extends AbstractDaemonTest {
 
     // Don't deserialize to ChangeInfo directly, since that would treat the plugins field as
     // List<PluginDefinedInfo> and ignore the unknown keys found in MyInfo.
-    Gson gson = OutputFormat.JSON.newGson();
     List<Map<String, Object>> changeInfos =
-        gson.fromJson(res.getReader(), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        REST_GSON.fromJson(
+            res.getReader(), new TypeToken<List<Map<String, Object>>>() {}.getType());
     assertThat(changeInfos).hasSize(1);
-    Object plugins = changeInfos.get(0).get("plugins");
-    if (plugins == null) {
-      return null;
-    }
-    return gson.fromJson(gson.toJson(plugins), new TypeToken<List<MyInfo>>() {}.getType());
+    return myInfo(changeInfos.get(0));
   }
 
   @Nullable
@@ -315,6 +432,25 @@ public class PluginFieldsIT extends AbstractDaemonTest {
       return null;
     }
     return gson.fromJson(gson.toJson(plugins), new TypeToken<List<MyInfo>>() {}.getType());
+  }
+
+  @Nullable
+  private List<MyInfo> pluginInfoFromChangeInfoRest(RestResponse res) throws Exception {
+    res.assertOK();
+
+    // Don't deserialize to ChangeInfo directly, since that would treat the plugins field as
+    // List<PluginDefinedInfo> and ignore the unknown keys found in MyInfo.
+    return myInfo(
+        REST_GSON.fromJson(res.getReader(), new TypeToken<Map<String, Object>>() {}.getType()));
+  }
+
+  private static List<MyInfo> myInfo(Map<String, Object> changeInfo) {
+    Object plugins = changeInfo.get("plugins");
+    if (plugins == null) {
+      return null;
+    }
+    return REST_GSON.fromJson(
+        REST_GSON.toJson(plugins), new TypeToken<List<MyInfo>>() {}.getType());
   }
 
   @FunctionalInterface

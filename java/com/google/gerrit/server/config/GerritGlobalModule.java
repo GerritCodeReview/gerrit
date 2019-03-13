@@ -170,6 +170,7 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.quota.QuotaEnforcer;
+import com.google.gerrit.server.restapi.change.GetChange;
 import com.google.gerrit.server.restapi.change.SuggestReviewers;
 import com.google.gerrit.server.restapi.group.GroupModule;
 import com.google.gerrit.server.rules.DefaultSubmitRule;
@@ -406,6 +407,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeHasOperandFactory.class);
     DynamicMap.mapOf(binder(), ChangeQueryProcessor.ChangeAttributeFactory.class);
+    DynamicMap.mapOf(binder(), GetChange.ChangeAttributeFactory.class);
 
     install(new GitwebConfig.LegacyModule(cfg));
 

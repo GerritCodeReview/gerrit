@@ -194,6 +194,30 @@
     },
     {
       "key": {
+        "uuid": "a889af79_81dd175c",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-03-13T15:20:18Z",
+      "side": 1,
+      "message": "if the destination is refs/for/XXX it is a magic push, so it is a CREATE_REPLACE pushType.\n\nWe don\u0027t consider it an error. It\u0027s just something that is effectively a NOP. Just as doing a fetch where you\u0027re up to date.\n\nthe effect would be to take decrease the average for changes processed in a push. I think we should still treat in the CREATE_REPLACE case, because we need to do administrative processing to verify that nothing changed.",
+      "parentUuid": "7de959e2_868e3fb3",
+      "range": {
+        "startLine": 368,
+        "startChar": 0,
+        "endLine": 370,
+        "endChar": 5
+      },
+      "revId": "c0aafc15faf95b171f6119565b266e6ec70c0449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "494723ac_600fa637",
         "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
         "patchSetId": 3

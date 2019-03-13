@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfc8c059_fb0ff895",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-03-13T20:38:07Z",
+      "side": 1,
+      "message": "1.10.7 released but not fully available in repo yet, may amend this change once ready.",
+      "range": {
+        "startLine": 911,
+        "startChar": 26,
+        "endLine": 911,
+        "endChar": 32
+      },
+      "revId": "f8a14ad5d69df7d84640aa66657334e09418254c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

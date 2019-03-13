@@ -866,8 +866,9 @@ Plugins can provide additional attributes to be returned from the Get Change and
 Query Change APIs by implementing implementing the `ChangeAttributeFactory`
 interface and registering it to the class in the plugin module's `configure()`
 method. The new attribute(s) will be output under a `plugin` attribute in the
-change output. This can be further controlled with an option registered in
-the Http and Ssh modules' `configure*()` methods.
+change output. This can be further controlled by registering a class containing
+@Option declarations as a `DynamicBean`, annotated with the with HTTP/SSH
+commands on which the options should be available.
 
 The example below shows a plugin that adds two attributes (`exampleName` and
 `changeValue`), to the change query output, when the query command is provided
@@ -878,36 +879,31 @@ the `--myplugin-name--all` option.
 public class Module extends AbstractModule {
   @Override
   protected void configure() {
+    // Register attribute factory.
     bind(ChangeAttributeFactory.class)
         .annotatedWith(Exports.named("example"))
         .to(AttributeFactory.class);
+
+    // Register options for GET /changes/X/change and /changes/X/detail.
+    bind(DynamicBean.class)
+        .annotatedWith(Exports.named(GetChange.class))
+        .to(MyChangeOptions.class);
+
+    // Register options for GET /changes/?q=...
+    bind(DynamicBean.class)
+        .annotatedWith(Exports.named(QueryChanges.class))
+        .to(MyChangeOptions.class);
+
+    // Register options for ssh gerrit query.
+    bind(DynamicBean.class)
+        .annotatedWith(Exports.named(Query.class))
+        .to(MyChangeOptions.class);
   }
 }
 
 public class MyChangeOptions implements DynamicBean {
   @Option(name = "--all", usage = "Include plugin output")
   public boolean all = false;
-}
-
-public static class HttpModule extends ServletModule {
-  @Override
-  protected void configureServlets() {
-    bind(DynamicBean.class)
-        .annotatedWith(Exports.named(GetChange.class))
-        .to(MyChangeOptions.class);
-    bind(DynamicBean.class)
-        .annotatedWith(Exports.named(QueryChanges.class))
-        .to(MyChangeOptions.class);
-  }
-}
-
-public static class SshModule extends PluginCommandModule {
-  @Override
-  protected void configureCommands() {
-    bind(DynamicBean.class)
-        .annotatedWith(Exports.named(Query.class))
-        .to(MyChangeOptions.class);
-  }
 }
 
 public class AttributeFactory implements ChangeAttributeFactory {

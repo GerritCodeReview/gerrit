@@ -38,11 +38,9 @@ import com.google.gerrit.server.change.ChangeAttributeFactory;
 import com.google.gerrit.server.query.change.OutputStreamQuery;
 import com.google.gerrit.server.restapi.change.GetChange;
 import com.google.gerrit.server.restapi.change.QueryChanges;
-import com.google.gerrit.sshd.PluginCommandModule;
 import com.google.gerrit.sshd.commands.Query;
 import com.google.gson.Gson;
 import com.google.inject.AbstractModule;
-import com.google.inject.servlet.ServletModule;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,7 +113,7 @@ public class PluginFieldsIT extends AbstractDaemonTest {
     private String opt;
   }
 
-  static class OptionAttributeSysModule extends AbstractModule {
+  static class OptionAttributeModule extends AbstractModule {
     @Override
     public void configure() {
       bind(ChangeAttributeFactory.class)
@@ -125,19 +123,7 @@ public class PluginFieldsIT extends AbstractDaemonTest {
                 MyOptions opts = (MyOptions) bp.getDynamicBean(p);
                 return opts != null ? new MyInfo("opt " + opts.opt) : null;
               });
-    }
-  }
-
-  static class OptionAttributeSshModule extends PluginCommandModule {
-    @Override
-    protected void configureCommands() {
       bind(DynamicBean.class).annotatedWith(Exports.named(Query.class)).to(MyOptions.class);
-    }
-  }
-
-  static class OptionAttributeHttpModule extends ServletModule {
-    @Override
-    protected void configureServlets() {
       bind(DynamicBean.class).annotatedWith(Exports.named(QueryChanges.class)).to(MyOptions.class);
       bind(DynamicBean.class).annotatedWith(Exports.named(GetChange.class)).to(MyOptions.class);
     }
@@ -276,11 +262,7 @@ public class PluginFieldsIT extends AbstractDaemonTest {
   // No tests for /detail via the extension API, since the extension API doesn't have that method.
   // No tests for getting a single change over SSH, since the only API is the query API.
 
-  // No test for plugin-provided options over the extension API. There are currently two separate
-  // DynamicMap<DynamicBean> maps initialized in the SSH and HTTP injectors, and plugins have to
-  // define separate SSH/HTTP modules and bind their DynamicBeans in each one. To use the extension
-  // API, we would have to move everything into the sys injector.
-  // TODO(dborowitz): Determine whether this is possible without breaking existing plugins.
+  // TODO(dborowitz): Add extension API support for passing plugin options.
 
   private void getChangeWithOption(
       PluginInfoGetter getterWithoutOptions, PluginInfoGetterWithOptions getterWithOptions)
@@ -288,12 +270,7 @@ public class PluginFieldsIT extends AbstractDaemonTest {
     Change.Id id = createChange().getChange().getId();
     assertThat(getterWithoutOptions.call(id)).isNull();
 
-    try (AutoCloseable ignored =
-        installPlugin(
-            "my-plugin",
-            OptionAttributeSysModule.class,
-            OptionAttributeHttpModule.class,
-            OptionAttributeSshModule.class)) {
+    try (AutoCloseable ignored = installPlugin("my-plugin", OptionAttributeModule.class)) {
       assertThat(getterWithoutOptions.call(id))
           .containsExactly(new MyInfo("my-plugin", "opt null"));
       assertThat(getterWithOptions.call(id, ImmutableListMultimap.of("my-plugin--opt", "foo")))

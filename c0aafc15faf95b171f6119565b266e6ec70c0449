@@ -242,6 +242,30 @@
     },
     {
       "key": {
+        "uuid": "25f6ed7b_ff9ad4c7",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-03-13T15:59:22Z",
+      "side": 1,
+      "message": "\u003e if the destination is refs/for/XXX it is a magic push, so it is a CREATE_REPLACE pushType.\n\nRight. Human code emulation failure.\n\n\u003e We don\u0027t consider it an error. It\u0027s just something that is effectively a NOP. Just as doing a fetch where you\u0027re up to date.\n\u003e \n\u003e the effect would be to take decrease the average for changes processed in a push. I think we should still treat in the CREATE_REPLACE case, because we need to do administrative processing to verify that nothing changed.\n\nI understand.\n\nSomething tells me that automated users, or users with scripts running in the background or people who forget the state of the remote branch are doing this often enough that it could impact the latencyPerPush metric. (I checked our metrics and the vast majority of REPLACE samples for the changes metric are in the bucket [0..1), meaning 0 changes.)\n\nMaybe it will be different once this change is submitted and we see CREATE_REPLACE together. Let\u0027s study the data and course adjust if necessary.\n\nOn a related note: the default bucketing schema (exponential) doesn\u0027t work well for the \"changes\" metric. Can we change that so it has the following buckets:\n\n [0,1)\n [1,2)\n [2,3)\n [3,4)\n [4,5)\n [5,6)\n [6,7)\n [7,8)\n [8,9)\n [9,10)\n [10,20)\n [20,30)\n [90,100)\n [100,+inf)\n\nThat would be both cheaper to store than the default and more useful for this set of data.",
+      "parentUuid": "a889af79_81dd175c",
+      "range": {
+        "startLine": 368,
+        "startChar": 0,
+        "endLine": 370,
+        "endChar": 5
+      },
+      "revId": "c0aafc15faf95b171f6119565b266e6ec70c0449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "494723ac_600fa637",
         "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
         "patchSetId": 3

@@ -74,6 +74,29 @@
       "revId": "739b9fa8711e2c1439abcbd10268f68e6370bb85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "516716b8_43e1b130",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-03-13T15:59:22Z",
+      "side": 1,
+      "message": "Maybe s/+\u003d/\u003d/, same for the autoclosed branch below. It\u0027s easier on the brain stack machine as I don\u0027t have to think about what totalChanges was before.",
+      "range": {
+        "startLine": 358,
+        "startChar": 6,
+        "endLine": 358,
+        "endChar": 55
+      },
+      "revId": "739b9fa8711e2c1439abcbd10268f68e6370bb85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

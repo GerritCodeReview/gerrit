@@ -2572,30 +2572,30 @@ provided fetch info map is also included.
 
   )]}'
   {
-    "commit":{
-      "parents":[
+    "commit": {
+      "parents": [
         {
-          "commit":"1eee2c9d8f352483781e772f35dc586a69ff5646",
+          "commit": "1eee2c9d8f352483781e772f35dc586a69ff5646",
         }
       ],
-      "author":{
-        "name":"Shawn O. Pearce",
-        "email":"sop@google.com",
-        "date":"2012-04-24 18:08:08.000000000",
-        "tz":-420
+      "author": {
+        "name": "Shawn O. Pearce",
+        "email": "sop@google.com",
+        "date": "2012-04-24 18:08:08.000000000",
+        "tz": -420
        },
-       "committer":{
-         "name":"Shawn O. Pearce",
-         "email":"sop@google.com",
-         "date":"2012-04-24 18:08:08.000000000",
-         "tz":-420
+       "committer": {
+         "name": "Shawn O. Pearce",
+         "email": "sop@google.com",
+         "date": "2012-04-24 18:08:08.000000000",
+         "tz": -420
        },
-       "subject":"Use an EventBus to manage star icons",
-       "message":"Use an EventBus to manage star icons\n\nImage widgets that need to ..."
+       "subject": "Use an EventBus to manage star icons",
+       "message": "Use an EventBus to manage star icons\n\nImage widgets that need to ..."
     },
-    "base_patch_set_number":1,
-    "base_revision":"c35558e0925e6985c91f3a16921537d5e572b7a3",
-    "ref":"refs/users/01/1000001/edit-76482/1"
+    "base_patch_set_number": 1,
+    "base_revision": "c35558e0925e6985c91f3a16921537d5e572b7a3",
+    "ref": "refs/users/01/1000001/edit-76482/1"
   }
 ----
 
@@ -2783,7 +2783,7 @@ returned.
 
   )]}'
   {
-  "web_links":[
+  "web_links": [
     {
       "show_on_side_by_side_diff_view": true,
       "name": "side-by-side preview diff",
@@ -4806,30 +4806,30 @@ resulting change edit is returned.
 
     )]}'
     {
-      "commit":{
-        "parents":[
+      "commit": {
+        "parents": [
           {
-            "commit":"1eee2c9d8f352483781e772f35dc586a69ff5646",
+            "commit": "1eee2c9d8f352483781e772f35dc586a69ff5646",
           }
         ],
-        "author":{
-          "name":"John Doe",
-          "email":"john.doe@example.com",
-          "date":"2013-05-07 15:21:27.000000000",
-          "tz":120
+        "author": {
+          "name": "John Doe",
+          "email": "john.doe@example.com",
+          "date": "2013-05-07 15:21:27.000000000",
+          "tz": 120
          },
-         "committer":{
-           "name":"Jane Doe",
-           "email":"jane.doe@example.com",
-           "date":"2013-05-07 15:35:43.000000000",
-           "tz":120
+         "committer": {
+           "name": "Jane Doe",
+           "email": "jane.doe@example.com",
+           "date": "2013-05-07 15:35:43.000000000",
+           "tz": 120
          },
-         "subject":"Implement feature X",
-         "message":"Implement feature X\n\nWith this feature ..."
+         "subject": "Implement feature X",
+         "message": "Implement feature X\n\nWith this feature ..."
       },
-      "base_patch_set_number":1,
-      "base_revision":"674ac754f91e64a0efb8087e59a176484bd534d1"
-      "ref":"refs/users/01/1000001/edit-42622/1"
+      "base_patch_set_number": 1,
+      "base_revision": "674ac754f91e64a0efb8087e59a176484bd534d1"
+      "ref": "refs/users/01/1000001/edit-42622/1"
     }
 ----
 

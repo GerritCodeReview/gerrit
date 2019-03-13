@@ -288,11 +288,11 @@ GET /projects/?t HTTP/1.0
     },
     "child-project": {
       "id": "child-project",
-      "parent":"parent-project"
+      "parent": "parent-project"
     },
     "parent-project": {
       "id": "parent-project",
-      "parent":"All-Projects"
+      "parent": "All-Projects"
     }
   }
 ----
@@ -1271,14 +1271,14 @@ a link:#change-info[ChangeInfo] entity describing the resulting change.
   Content-Type: application/json; charset=UTF-8
 
   {
-    "add":{
-      "refs/heads/*":{
-        "permissions":{
-          "read":{
-            "rules":{
+    "add": {
+      "refs/heads/*": {
+        "permissions": {
+          "read": {
+            "rules": {
               "global:Anonymous-Users": {
-                "action":"DENY",
-                "force":false
+                "action": "DENY",
+                "force": false
               }
             }
           }

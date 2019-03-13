@@ -23,6 +23,30 @@
       "revId": "91dbc648cb90b91a079f9257c59bab4719f12cb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "583e3a32_573a10c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-13T22:04:44Z",
+      "side": 1,
+      "message": "Oh sure, you still need the same number of bindings in your plugin code. They would just all be in a single module instead of spread across 3 modules. Look at the test code in this change: it went from defining 3 modules to defining 1 module.\n\nAll I\u0027m saying here is that in some cases, we\u0027d be able to reduce boilerplate. It\u0027s certainly the case that PluginFieldsIT has less boilerplate in this change than prior to this change. You\u0027re welcome to argue that the boilerplate reduction is minor/rare enough to make it not worth gratuitously breaking plugins.",
+      "parentUuid": "b299e99f_07bbd016",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 21
+      },
+      "revId": "91dbc648cb90b91a079f9257c59bab4719f12cb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

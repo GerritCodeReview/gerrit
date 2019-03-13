@@ -76,6 +76,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountControl;
@@ -403,6 +404,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);
 
+    DynamicMap.mapOf(binder(), DynamicOptions.DynamicBean.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeHasOperandFactory.class);
     DynamicMap.mapOf(binder(), ChangeQueryProcessor.ChangeAttributeFactory.class);

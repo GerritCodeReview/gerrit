@@ -15,11 +15,9 @@
 package com.google.gerrit.httpd.plugins;
 
 import com.google.gerrit.extensions.api.lfs.LfsDefinitions;
-import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.httpd.resources.ResourceKey;
 import com.google.gerrit.httpd.resources.ResourceWeigher;
-import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
@@ -65,7 +63,5 @@ public class HttpPluginModule extends ServletModule {
                 .weigher(ResourceWeigher.class);
           }
         });
-
-    DynamicMap.mapOf(binder(), DynamicOptions.DynamicBean.class);
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "addb1ce6_22f4d6be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-03-13T00:09:33Z",
+      "side": 1,
+      "message": "Thanks. I wasn\u0027t sure if I should use this one or the original/older issue#.",
+      "range": {
+        "startLine": 11,
+        "startChar": 11,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "4729d7de860eb139b3431ad95ad4a0fa8b0d66bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

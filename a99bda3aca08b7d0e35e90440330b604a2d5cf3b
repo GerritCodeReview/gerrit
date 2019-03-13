@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5284c92_f54ced04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-03-13T12:39:53Z",
+      "side": 1,
+      "message": "I will deploy the new releases to Maven central later today",
+      "revId": "a99bda3aca08b7d0e35e90440330b604a2d5cf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

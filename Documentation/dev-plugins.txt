@@ -889,7 +889,7 @@ public class MyQueryOptions implements DynamicBean {
   public boolean all = false;
 }
 
-public static class HttpModule extends HttpPluginModule {
+public static class HttpModule extends ServletModule {
   @Override
   protected void configureServlets() {
     bind(DynamicBean.class)
@@ -1661,7 +1661,7 @@ an HTTP Module:
 
 [source,java]
 ----
-public class HttpModule extends HttpPluginModule {
+public class HttpModule extends ServletModule {
   @Override
   protected void configureServlets() {
     DynamicSet.bind(binder(), WebUiPlugin.class)
@@ -2205,9 +2205,9 @@ public class LfsApiServlet extends LfsProtocolServlet {
 /** Register the LfsApiServlet to listen on the default LFS protocol endpoint */
 import static com.google.gerrit.httpd.plugins.LfsPluginServlet.URL_REGEX;
 
-import com.google.gerrit.httpd.plugins.HttpPluginModule;
+import com.google.inject.servlet.ServletModule;
 
-public class HttpModule extends HttpPluginModule {
+public class HttpModule extends ServletModule {
 
   @Override
   protected void configureServlets() {

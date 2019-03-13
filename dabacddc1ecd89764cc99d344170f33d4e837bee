@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaf13f5e_ffc454bb",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-03-13T19:04:14Z",
+      "side": 1,
+      "message": "As per the below comment, confirm that the proper versions are used also for these two dependencies.",
+      "range": {
+        "startLine": 895,
+        "startChar": 0,
+        "endLine": 897,
+        "endChar": 0
+      },
+      "revId": "dabacddc1ecd89764cc99d344170f33d4e837bee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a05b65c_1797024f",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-03-13T19:04:14Z",
+      "side": 1,
+      "message": "Update this sha1 accordingly once the 6.6.2 jar becomes available in maven repos.",
+      "range": {
+        "startLine": 900,
+        "startChar": 12,
+        "endLine": 900,
+        "endChar": 52
+      },
+      "revId": "dabacddc1ecd89764cc99d344170f33d4e837bee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "acc33d7d_ef29cfc5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1249,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-13T21:46:46Z",
+      "side": 1,
+      "message": "I agree, although I don\u0027t know of a way around this. We could change the polygerrit plugin loading mechanism to where the plugin loading broadcasts the menu of what is in the plugin and we only wait for plugins that broadcast they will be part of the changes list.",
+      "parentUuid": "23b55e61_691f5597",
+      "revId": "a58e127f30b613de59d450d3bbd75e496a3792d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3115f33f_bf7c268a",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 7
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "6fe4b918_b77a851d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-13T21:46:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3115f33f_bf7c268a",
+      "revId": "a58e127f30b613de59d450d3bbd75e496a3792d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53d00359_83891f2e",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 7
@@ -73,6 +109,24 @@
       "revId": "a58e127f30b613de59d450d3bbd75e496a3792d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6bbc229_6f671e04",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1382,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-13T21:46:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53d00359_83891f2e",
+      "revId": "a58e127f30b613de59d450d3bbd75e496a3792d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -96,6 +150,30 @@
       "revId": "a58e127f30b613de59d450d3bbd75e496a3792d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2d306d5_c650f1fd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1390,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-13T21:46:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cb2d970f_88246404",
+      "range": {
+        "startLine": 1390,
+        "startChar": 46,
+        "endLine": 1390,
+        "endChar": 48
+      },
+      "revId": "a58e127f30b613de59d450d3bbd75e496a3792d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

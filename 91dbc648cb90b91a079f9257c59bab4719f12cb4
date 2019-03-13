@@ -47,6 +47,30 @@
       "revId": "91dbc648cb90b91a079f9257c59bab4719f12cb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "885e861c_35cafe25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-13T22:09:20Z",
+      "side": 1,
+      "message": "I think we\u0027re getting sidetracked by the discussion of boilerplate. The real benefit of this change is that it makes it possible to pass plugin-provided options via the Java extension API. Without moving the binding into the sysinjector, it\u0027s not possible to make that work.",
+      "parentUuid": "583e3a32_573a10c2",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 21
+      },
+      "revId": "91dbc648cb90b91a079f9257c59bab4719f12cb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

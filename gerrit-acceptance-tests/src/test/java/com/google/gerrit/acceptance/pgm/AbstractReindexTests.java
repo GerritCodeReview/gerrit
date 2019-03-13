@@ -71,11 +71,7 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
           .containsExactly(adminId.get());
       // Query group index
       assertThat(
-              gApi.groups()
-                  .query("Group")
-                  .withOption(MEMBERS)
-                  .get()
-                  .stream()
+              gApi.groups().query("Group").withOption(MEMBERS).get().stream()
                   .flatMap(g -> g.members.stream())
                   .map(a -> a._accountId))
           .containsExactly(adminId.get());
@@ -166,10 +162,7 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
 
   private void assertWriteVersions(ServerContext ctx, Integer... expected) {
     assertThat(
-            ctx.getInjector()
-                .getInstance(ChangeIndexCollection.class)
-                .getWriteIndexes()
-                .stream()
+            ctx.getInjector().getInstance(ChangeIndexCollection.class).getWriteIndexes().stream()
                 .map(i -> i.getSchema().getVersion()))
         .named("write versions")
         .containsExactlyElementsIn(ImmutableSet.copyOf(expected));

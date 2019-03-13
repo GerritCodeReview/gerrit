@@ -1416,11 +1416,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     CommentInfo draftInfo = putDraft(user, id, 1, "draft comment", null, Side.PARENT);
     putComment(user, id, 1, "published comment", null, Side.PARENT);
     CommentInfo commentInfo =
-        gApi.changes()
-            .id(id.get())
-            .comments()
-            .values()
-            .stream()
+        gApi.changes().id(id.get()).comments().values().stream()
             .flatMap(List::stream)
             .findFirst()
             .get();

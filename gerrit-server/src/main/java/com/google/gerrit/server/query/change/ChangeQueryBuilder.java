@@ -1238,11 +1238,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   private Set<Account.Id> getMembers(AccountGroup.UUID g) throws OrmException {
     Set<Account.Id> accounts;
     Set<Account.Id> allMembers =
-        args.listMembers
-            .get()
-            .setRecursive(true)
-            .apply(g)
-            .stream()
+        args.listMembers.get().setRecursive(true).apply(g).stream()
             .map(a -> new Account.Id(a._accountId))
             .collect(toSet());
     int maxTerms = args.indexConfig.maxTerms();
@@ -1317,8 +1313,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       if (!forDefaultField || accounts.size() <= MAX_ACCOUNTS_PER_DEFAULT_FIELD) {
         reviewerPredicate =
             Predicate.or(
-                accounts
-                    .stream()
+                accounts.stream()
                     .map(id -> ReviewerPredicate.forState(id, state))
                     .collect(toList()));
       }

@@ -71,8 +71,7 @@ public class DeleteWatchedProjects
     Account.Id accountId = rsrc.getUser().getAccountId();
     watchConfig.deleteProjectWatches(
         accountId,
-        input
-            .stream()
+        input.stream()
             .filter(Objects::nonNull)
             .map(w -> ProjectWatchKey.create(new Project.NameKey(w.project), w.filter))
             .collect(toList()));

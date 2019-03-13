@@ -134,10 +134,8 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
   public static Map<String, Comment> getPublishedComments(
       ChangeNoteUtil noteUtil, Change.Id changeId, ObjectReader reader, NoteMap noteMap)
       throws IOException, ConfigInvalidException {
-    return RevisionNoteMap.parse(noteUtil, changeId, reader, noteMap, PUBLISHED)
-        .revisionNotes
-        .values()
-        .stream()
+    return RevisionNoteMap.parse(noteUtil, changeId, reader, noteMap, PUBLISHED).revisionNotes
+        .values().stream()
         .flatMap(n -> n.getComments().stream())
         .collect(toMap(c -> c.key.uuid, c -> c));
   }
@@ -173,9 +171,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
    */
   private List<Comment> getDeletedComments(
       Map<String, Comment> parMap, Map<String, Comment> curMap) {
-    return parMap
-        .entrySet()
-        .stream()
+    return parMap.entrySet().stream()
         .filter(c -> !curMap.containsKey(c.getKey()))
         .map(c -> c.getValue())
         .collect(toList());

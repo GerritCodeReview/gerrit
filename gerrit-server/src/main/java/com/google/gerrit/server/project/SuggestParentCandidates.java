@@ -49,10 +49,7 @@ public class SuggestParentCandidates {
   }
 
   public List<Project.NameKey> getNameKeys() throws PermissionBackendException {
-    return permissionBackend
-        .user(user)
-        .filter(ProjectPermission.ACCESS, parents())
-        .stream()
+    return permissionBackend.user(user).filter(ProjectPermission.ACCESS, parents()).stream()
         .sorted()
         .collect(toList());
   }

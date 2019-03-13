@@ -96,10 +96,7 @@ public class ExternalIdsConsistencyChecker {
       }
     }
 
-    emails
-        .asMap()
-        .entrySet()
-        .stream()
+    emails.asMap().entrySet().stream()
         .filter(e -> e.getValue().size() > 1)
         .forEach(
             e ->
@@ -107,8 +104,7 @@ public class ExternalIdsConsistencyChecker {
                     String.format(
                         "Email '%s' is not unique, it's used by the following external IDs: %s",
                         e.getKey(),
-                        e.getValue()
-                            .stream()
+                        e.getValue().stream()
                             .map(k -> "'" + k.get() + "'")
                             .sorted()
                             .collect(joining(", "))),

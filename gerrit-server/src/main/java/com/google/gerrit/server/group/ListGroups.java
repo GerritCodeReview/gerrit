@@ -285,8 +285,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   private Stream<GroupDescription.Internal> getAllExistingGroups() throws OrmException {
     if (!projects.isEmpty()) {
-      return projects
-          .stream()
+      return projects.stream()
           .map(ProjectControl::getProjectState)
           .map(ProjectState::getAllGroups)
           .flatMap(Collection::stream)

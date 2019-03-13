@@ -619,8 +619,7 @@ public class ChangeJson {
     if (has(TRACKING_IDS)) {
       ListMultimap<String, String> set = trackingFooters.extract(cd.commitFooters());
       out.trackingIds =
-          set.entries()
-              .stream()
+          set.entries().stream()
               .map(e -> new TrackingIdInfo(e.getKey(), e.getValue()))
               .collect(toList());
     }
@@ -844,9 +843,7 @@ public class ChangeJson {
         Maps.newHashMapWithExpectedSize(permittedLabels.size());
     for (String label : permittedLabels.keySet()) {
       List<Integer> permittedVotingRange =
-          permittedLabels
-              .get(label)
-              .stream()
+          permittedLabels.get(label).stream()
               .map(this::parseRangeValue)
               .filter(java.util.Objects::nonNull)
               .sorted()
@@ -934,9 +931,7 @@ public class ChangeJson {
     }
 
     if (detailed) {
-      labels
-          .entrySet()
-          .stream()
+      labels.entrySet().stream()
           .filter(e -> labelTypes.byLabel(e.getKey()) != null)
           .forEach(e -> setLabelValues(labelTypes.byLabel(e.getKey()), e.getValue()));
     }
@@ -1189,16 +1184,14 @@ public class ChangeJson {
   }
 
   private Collection<AccountInfo> toAccountInfo(Collection<Account.Id> accounts) {
-    return accounts
-        .stream()
+    return accounts.stream()
         .map(accountLoader::get)
         .sorted(AccountInfoComparator.ORDER_NULLS_FIRST)
         .collect(toList());
   }
 
   private Collection<AccountInfo> toAccountInfoByEmail(Collection<Address> addresses) {
-    return addresses
-        .stream()
+    return addresses.stream()
         .map(a -> new AccountInfo(a.getName(), a.getEmail()))
         .sorted(AccountInfoComparator.ORDER_NULLS_FIRST)
         .collect(toList());

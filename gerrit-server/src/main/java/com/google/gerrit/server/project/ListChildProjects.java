@@ -80,10 +80,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
         children.put(c.getNameKey(), c.getProject());
       }
     }
-    return permissionBackend
-        .user(user)
-        .filter(ProjectPermission.ACCESS, children.keySet())
-        .stream()
+    return permissionBackend.user(user).filter(ProjectPermission.ACCESS, children.keySet()).stream()
         .sorted()
         .map((p) -> json.format(children.get(p)))
         .collect(toList());
@@ -131,8 +128,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
       Project.NameKey parent)
       throws PermissionBackendException {
     List<Project.NameKey> canSee =
-        perm.filter(ProjectPermission.ACCESS, children.get(parent))
-            .stream()
+        perm.filter(ProjectPermission.ACCESS, children.get(parent)).stream()
             .sorted()
             .collect(toList());
     children.removeAll(parent); // removing all entries prevents cycles.

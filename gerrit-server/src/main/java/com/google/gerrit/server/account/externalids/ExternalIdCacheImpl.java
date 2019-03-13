@@ -248,9 +248,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   abstract static class AllExternalIds {
     static AllExternalIds create(Multimap<Account.Id, ExternalId> byAccount) {
       ImmutableSetMultimap<String, ExternalId> byEmail =
-          byAccount
-              .values()
-              .stream()
+          byAccount.values().stream()
               .filter(e -> !Strings.isNullOrEmpty(e.email()))
               .collect(toImmutableSetMultimap(ExternalId::email, e -> e));
       return new AutoValue_ExternalIdCacheImpl_AllExternalIds(

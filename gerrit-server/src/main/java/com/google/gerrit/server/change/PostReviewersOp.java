@@ -200,8 +200,7 @@ public class PostReviewersOp implements BatchUpdateOp {
         accountsToNotify);
     if (!addedReviewers.isEmpty()) {
       List<Account> reviewers =
-          addedReviewers
-              .stream()
+          addedReviewers.stream()
               .map(r -> accountCache.get(r.getAccountId()).getAccount())
               .collect(toList());
       reviewerAdded.fire(change, patchSet, reviewers, ctx.getAccount(), ctx.getWhen());

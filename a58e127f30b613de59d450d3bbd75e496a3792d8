@@ -22,6 +22,80 @@
       "revId": "a58e127f30b613de59d450d3bbd75e496a3792d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23b55e61_691f5597",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1249,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-13T20:30:19Z",
+      "side": 1,
+      "message": "I am slightly concerned that this will slow down the page load, but I guess bundled plugins should be loaded fairly quickly, so hopefully my concern is not valid. So this is just FYI.",
+      "revId": "a58e127f30b613de59d450d3bbd75e496a3792d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3115f33f_bf7c268a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-13T20:30:19Z",
+      "side": 1,
+      "message": "Can you add a comment what \"optionsHex\" is? I have no idea ... :-)",
+      "revId": "a58e127f30b613de59d450d3bbd75e496a3792d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53d00359_83891f2e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1382,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-13T20:30:19Z",
+      "side": 1,
+      "message": "Can you add a dedicated API class for this? Maybe call it gr-rest-hooks-api. Then gr-public-js-api would just return an instance of this API. Adding a \"param mutate function\" would just be the first of potentially more features of this new API.\n\ngr-js-api-interface is the binding between the app and the plugin logic. You should keep track there.",
+      "revId": "a58e127f30b613de59d450d3bbd75e496a3792d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb2d970f_88246404",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1390,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-13T20:30:19Z",
+      "side": 1,
+      "message": "Does this have to be removed?",
+      "range": {
+        "startLine": 1390,
+        "startChar": 46,
+        "endLine": 1390,
+        "endChar": 48
+      },
+      "revId": "a58e127f30b613de59d450d3bbd75e496a3792d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

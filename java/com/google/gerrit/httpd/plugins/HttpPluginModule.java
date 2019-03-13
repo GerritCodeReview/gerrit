@@ -65,7 +65,5 @@ public class HttpPluginModule extends ServletModule {
                 .weigher(ResourceWeigher.class);
           }
         });
-
-    DynamicMap.mapOf(binder(), DynamicOptions.DynamicBean.class);
   }
 }

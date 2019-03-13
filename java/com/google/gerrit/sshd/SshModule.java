@@ -20,10 +20,8 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.GerritConfigListener;
@@ -102,7 +100,6 @@ public class SshModule extends LifecycleModule {
         .annotatedWith(UniqueAnnotations.create())
         .to(SshPluginStarterCallback.class);
 
-    DynamicMap.mapOf(binder(), DynamicOptions.DynamicBean.class);
     DynamicItem.itemOf(binder(), SshCreateCommandInterceptor.class);
 
     listener().toInstance(registerInParentInjectors());

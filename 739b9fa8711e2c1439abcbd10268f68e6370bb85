@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "45663505_93b0eede",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-13T15:29:52Z",
+      "side": 1,
+      "message": "Nit: please wrap lines at 100 chars.",
+      "revId": "739b9fa8711e2c1439abcbd10268f68e6370bb85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9321cb07_7452c59b",
         "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
         "patchSetId": 4

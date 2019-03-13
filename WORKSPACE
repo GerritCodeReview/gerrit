@@ -908,18 +908,18 @@ maven_jar(
     sha1 = "0f5a654e4675769c716e5b387830d19b501ca191",
 )
 
-TESTCONTAINERS_VERSION = "1.10.3"
+TESTCONTAINERS_VERSION = "1.10.6"
 
 maven_jar(
     name = "testcontainers",
     artifact = "org.testcontainers:testcontainers:" + TESTCONTAINERS_VERSION,
-    sha1 = "e561ce99fc616b383d85f35ce881e58e8de59ae7",
+    sha1 = "435c94ec099e229e62295cec4feec91c192aa764",
 )
 
 maven_jar(
     name = "testcontainers-elasticsearch",
     artifact = "org.testcontainers:elasticsearch:" + TESTCONTAINERS_VERSION,
-    sha1 = "0cb114ecba0ed54a116e2be2f031bc45ca4cbfc8",
+    sha1 = "143a88bd8f5c5a917e5bac5a728bb6a7fc54a50c",
 )
 
 maven_jar(

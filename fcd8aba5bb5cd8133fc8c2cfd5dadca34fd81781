@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52eedda4_ad988e21",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-03-14T16:21:23Z",
+      "side": 1,
+      "message": "this version should now be available on Maven central, looks like just replication\nfrom oss.sonatype.org to maven central was horribly slow this time",
+      "revId": "fcd8aba5bb5cd8133fc8c2cfd5dadca34fd81781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

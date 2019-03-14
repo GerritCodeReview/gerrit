@@ -37,6 +37,7 @@ import com.google.gerrit.server.DynamicOptions.DynamicBean;
 import com.google.gerrit.server.change.ChangeAttributeFactory;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.OutputStreamQuery;
+import com.google.gerrit.server.restapi.change.GetChange;
 import com.google.gerrit.server.restapi.change.QueryChanges;
 import com.google.gerrit.sshd.PluginCommandModule;
 import com.google.gerrit.sshd.commands.Query;
@@ -92,18 +93,26 @@ public class PluginFieldsIT extends AbstractDaemonTest {
   static class NullAttributeModule extends AbstractModule {
     @Override
     public void configure() {
+      ChangeAttributeFactory f = (cd, br, p) -> null;
       bind(ChangeAttributeFactory.class)
           .annotatedWith(Exports.named(ChangeQueryProcessor.class))
-          .toInstance((cd, br, p) -> null);
+          .toInstance(f);
+      bind(ChangeAttributeFactory.class)
+          .annotatedWith(Exports.named(GetChange.class))
+          .toInstance(f);
     }
   }
 
   static class SimpleAttributeModule extends AbstractModule {
     @Override
     public void configure() {
+      ChangeAttributeFactory f = (cd, br, p) -> new MyInfo("change " + cd.getId());
       bind(ChangeAttributeFactory.class)
           .annotatedWith(Exports.named(ChangeQueryProcessor.class))
-          .toInstance((cd, br, p) -> new MyInfo("change " + cd.getId()));
+          .toInstance(f);
+      bind(ChangeAttributeFactory.class)
+          .annotatedWith(Exports.named(GetChange.class))
+          .toInstance(f);
     }
   }
 
@@ -115,13 +124,17 @@ public class PluginFieldsIT extends AbstractDaemonTest {
   static class OptionAttributeSysModule extends AbstractModule {
     @Override
     public void configure() {
+      ChangeAttributeFactory f =
+          (cd, br, p) -> {
+            MyOptions opts = (MyOptions) br.getDynamicBean(p);
+            return opts != null ? new MyInfo("opt " + opts.opt) : null;
+          };
       bind(ChangeAttributeFactory.class)
           .annotatedWith(Exports.named(ChangeQueryProcessor.class))
-          .toInstance(
-              (cd, br, p) -> {
-                MyOptions opts = (MyOptions) br.getDynamicBean(p);
-                return opts != null ? new MyInfo("opt " + opts.opt) : null;
-              });
+          .toInstance(f);
+      bind(ChangeAttributeFactory.class)
+          .annotatedWith(Exports.named(GetChange.class))
+          .toInstance(f);
     }
   }
 
@@ -260,9 +273,7 @@ public class PluginFieldsIT extends AbstractDaemonTest {
 
   private String changeQueryCmd(Change.Id id, ImmutableListMultimap<String, String> pluginOptions) {
     return "gerrit query --format json "
-        + pluginOptions
-            .entries()
-            .stream()
+        + pluginOptions.entries().stream()
             .flatMap(e -> Stream.of("--" + e.getKey(), e.getValue()))
             .collect(joining(" "))
         + " "

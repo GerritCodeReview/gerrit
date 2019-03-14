@@ -14,21 +14,39 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.PluginDefinedInfo;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.DynamicOptions;
+import com.google.gerrit.server.DynamicOptions.DynamicBean;
+import com.google.gerrit.server.change.ChangeAttributeFactory;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import org.kohsuke.args4j.Option;
 
-public class GetChange implements RestReadView<ChangeResource> {
+public class GetChange implements RestReadView<ChangeResource>, DynamicOptions.BeanReceiver, DynamicOptions.BeanProvider {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final ChangeJson.Factory json;
+  private final DynamicMap<ChangeAttributeFactory> attrFactories;
   private final EnumSet<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
+  private final Map<String, DynamicBean> dynamicBeans = new HashMap<>();
 
   @Option(name = "-o", usage = "Output options")
   void addOption(ListChangesOption o) {
@@ -41,16 +59,56 @@ public class GetChange implements RestReadView<ChangeResource> {
   }
 
   @Inject
-  GetChange(ChangeJson.Factory json) {
+  GetChange(ChangeJson.Factory json, DynamicMap<ChangeAttributeFactory> attrFactories) {
     this.json = json;
+    this.attrFactories = attrFactories;
+  }
+
+  @Override
+  public void setDynamicBean(String plugin, DynamicOptions.DynamicBean dynamicBean) {
+    dynamicBeans.put(plugin, dynamicBean);
+  }
+
+  @Override
+  public DynamicBean getDynamicBean(String plugin) {
+    return dynamicBeans.get(plugin);
   }
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
-    return Response.withMustRevalidate(json.create(options).format(rsrc));
+    return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 
   Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException {
-    return Response.withMustRevalidate(json.create(options).format(rsrc));
+    return Response.withMustRevalidate(newChangeJson().format(rsrc));
+  }
+
+  private ChangeJson newChangeJson() {
+    return json.create(options, this::buildPluginInfo);
+  }
+
+  private ImmutableList<PluginDefinedInfo> buildPluginInfo(ChangeData cd) {
+    ImmutableList<PluginDefinedInfo> result =
+        Streams.stream(attrFactories)
+            .filter(e -> getClass().getCanonicalName().equals(e.getExportName()))
+            .map(
+                e -> {
+                  String plugin = e.getPluginName();
+                  PluginDefinedInfo pdi = null;
+                  try {
+                    pdi = e.get().create(cd, this, plugin);
+                  } catch (RuntimeException ex) {
+                    logger.atWarning().withCause(ex).log(
+                        "error populating attribute on change %s from plugin %s",
+                        cd.getId(), e.getPluginName());
+                  }
+                  if (pdi != null) {
+                    pdi.name = plugin;
+                  }
+                  return pdi;
+                })
+            .filter(Objects::nonNull)
+            .collect(toImmutableList());
+    return !result.isEmpty() ? result : null;
   }
 }

@@ -860,14 +860,14 @@ boolean json;
 ----
 
 [[query_attributes]]
-=== Query Attributes ===
+=== Change Attributes ===
 
-Plugins can provide additional attributes to be returned in Gerrit queries by
-implementing the `ChangeAttributeFactory` interface and registering it to the
-class in the plugin module's `configure()` method. The new attribute(s) will be
-output under a `plugin` attribute in the change query output. This can be
-further controlled with an option registered in the Http and Ssh modules'
-`configure*()` methods.
+Plugins can provide additional attributes to be returned from the Get Change and
+Query Change APIs by implementing implementing the `ChangeAttributeFactory`
+interface and registering it to the class in the plugin module's `configure()`
+method. The new attribute(s) will be output under a `plugin` attribute in the
+change output. This can be further controlled with an option registered in
+the Http and Ssh modules' `configure*()` methods.
 
 The example below shows a plugin that adds two attributes (`exampleName` and
 `changeValue`), to the change query output, when the query command is provided
@@ -884,7 +884,7 @@ public class Module extends AbstractModule {
   }
 }
 
-public class MyQueryOptions implements DynamicBean {
+public class MyChangeOptions implements DynamicBean {
   @Option(name = "--all", usage = "Include plugin output")
   public boolean all = false;
 }
@@ -893,8 +893,11 @@ public static class HttpModule extends ServletModule {
   @Override
   protected void configureServlets() {
     bind(DynamicBean.class)
+        .annotatedWith(Exports.named(GetChange.class))
+        .to(MyChangeOptions.class);
+    bind(DynamicBean.class)
         .annotatedWith(Exports.named(QueryChanges.class))
-        .to(MyQueryOptions.class);
+        .to(MyChangeOptions.class);
   }
 }
 
@@ -903,12 +906,12 @@ public static class SshModule extends PluginCommandModule {
   protected void configureCommands() {
     bind(DynamicBean.class)
         .annotatedWith(Exports.named(Query.class))
-        .to(MyQueryOptions.class);
+        .to(MyChangeOptions.class);
   }
 }
 
 public class AttributeFactory implements ChangeAttributeFactory {
-  protected MyQueryOptions options;
+  protected MyChangeOptions options;
 
   public class PluginAttribute extends PluginDefinedInfo {
     public String exampleName;
@@ -923,7 +926,7 @@ public class AttributeFactory implements ChangeAttributeFactory {
   @Override
   public PluginDefinedInfo create(ChangeData c, BeanProvider bp, String plugin) {
     if (options == null) {
-      options = (MyQueryOptions) bp.getDynamicBean(plugin);
+      options = (MyChangeOptions) bp.getDynamicBean(plugin);
     }
     if (options.all) {
       return new PluginAttribute(c);
@@ -950,6 +953,23 @@ Output:
       }
    ],
     ...
+}
+
+curl http://localhost:8080/changes/1?myplugin-name--all
+
+Output:
+
+{
+  "_number": 1,
+  ...
+  "plugins": [
+    {
+      "name": "myplugin-name",
+      "example_name": "Attribute Example",
+      "change_value": "1"
+    }
+  ],
+  ...
 }
 ----
 

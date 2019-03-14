@@ -153,6 +153,17 @@ public class DynamicOptions {
    */
   public interface BeanReceiver {
     void setDynamicBean(String plugin, DynamicBean dynamicBean);
+
+    /**
+     * Returns the class that should be used for looking up exported DynamicBean bindings from
+     * plugins. Override when a particular REST/SSH endpoint should respect DynamicBeans bound on a
+     * different endpoint. For example, {@code GetDetail} is just a synonym for a variant of {@code
+     * GetChange}, and it should respect any DynamicBeans on GetChange. GetChange}. So it should
+     * return {@code GetChange.class} from this method.
+     */
+    default Class<? extends BeanReceiver> getExportedBeanReceiver() {
+      return getClass();
+    }
   }
 
   public interface BeanProvider {
@@ -199,9 +210,13 @@ public class DynamicOptions {
     this.bean = bean;
     this.injector = injector;
     beansByPlugin = new HashMap<>();
+    Class<?> beanClass =
+        (bean instanceof BeanReceiver)
+            ? ((BeanReceiver) bean).getExportedBeanReceiver()
+            : getClass();
     for (String plugin : dynamicBeans.plugins()) {
       Provider<DynamicBean> provider =
-          dynamicBeans.byPlugin(plugin).get(bean.getClass().getCanonicalName());
+          dynamicBeans.byPlugin(plugin).get(beanClass.getCanonicalName());
       if (provider != null) {
         beansByPlugin.put(plugin, getDynamicBean(bean, provider.get()));
       }

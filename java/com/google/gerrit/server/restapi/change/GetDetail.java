@@ -18,12 +18,14 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.DynamicOptions;
+import com.google.gerrit.server.DynamicOptions.DynamicBean;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import org.kohsuke.args4j.Option;
 
-public class GetDetail implements RestReadView<ChangeResource> {
+public class GetDetail implements RestReadView<ChangeResource>, DynamicOptions.BeanReceiver {
   private final GetChange delegate;
 
   @Option(name = "-o", usage = "Output options")
@@ -44,6 +46,16 @@ public class GetDetail implements RestReadView<ChangeResource> {
     delegate.addOption(ListChangesOption.DETAILED_ACCOUNTS);
     delegate.addOption(ListChangesOption.MESSAGES);
     delegate.addOption(ListChangesOption.REVIEWER_UPDATES);
+  }
+
+  @Override
+  public void setDynamicBean(String plugin, DynamicBean dynamicBean) {
+    delegate.setDynamicBean(plugin, dynamicBean);
+  }
+
+  @Override
+  public Class<? extends DynamicOptions.BeanReceiver> getExportedBeanReceiver() {
+    return delegate.getExportedBeanReceiver();
   }
 
   @Override

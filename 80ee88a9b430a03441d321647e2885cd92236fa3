@@ -1,0 +1,320 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9bb8275b_291633ef",
+        "filename": "java/com/google/gerrit/server/change/PureRevert.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-14T17:45:23Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we rather avoid using objects of our REST API in an internal server class? I think we could just return a boolean value here and wrap it in PureRevertInfo in GetPureRevert.",
+      "range": {
+        "startLine": 40,
+        "startChar": 9,
+        "endLine": 40,
+        "endChar": 23
+      },
+      "revId": "80ee88a9b430a03441d321647e2885cd92236fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b3f6b25_500b81dc",
+        "filename": "java/com/google/gerrit/server/change/PureRevert.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-14T17:45:23Z",
+      "side": 1,
+      "message": "Should be a primitive boolean.",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 11
+      },
+      "revId": "80ee88a9b430a03441d321647e2885cd92236fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e401309_9f0cd165",
+        "filename": "java/com/google/gerrit/server/git/PureRevertCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-14T17:45:23Z",
+      "side": 1,
+      "message": "Is this constant package private on purpose?",
+      "range": {
+        "startLine": 57,
+        "startChar": 22,
+        "endLine": 57,
+        "endChar": 30
+      },
+      "revId": "80ee88a9b430a03441d321647e2885cd92236fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dd78dfe_93f00cdc",
+        "filename": "java/com/google/gerrit/server/git/PureRevertCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-14T17:45:23Z",
+      "side": 1,
+      "message": "This method doesn\u0027t have a \u0027claimedOriginal\u0027. Hence, the Javadoc description is a bit confusing.",
+      "range": {
+        "startLine": 87,
+        "startChar": 5,
+        "endLine": 87,
+        "endChar": 20
+      },
+      "revId": "80ee88a9b430a03441d321647e2885cd92236fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8e72f9b_7db4f236",
+        "filename": "java/com/google/gerrit/server/git/PureRevertCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-14T17:45:23Z",
+      "side": 1,
+      "message": "nit: problem",
+      "range": {
+        "startLine": 91,
+        "startChar": 40,
+        "endLine": 91,
+        "endChar": 47
+      },
+      "revId": "80ee88a9b430a03441d321647e2885cd92236fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2efe2c39_d60b5928",
+        "filename": "java/com/google/gerrit/server/git/PureRevertCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-14T17:45:23Z",
+      "side": 1,
+      "message": "nit: problem",
+      "range": {
+        "startLine": 92,
+        "startChar": 41,
+        "endLine": 92,
+        "endChar": 48
+      },
+      "revId": "80ee88a9b430a03441d321647e2885cd92236fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49186fc8_9745005d",
+        "filename": "java/com/google/gerrit/server/git/PureRevertCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-14T17:45:23Z",
+      "side": 1,
+      "message": "Do you happen to know whether it\u0027s better to use ChangeNotes#getCurrentPatchSet or PatchSetUtil#current(ChangeNotes)?\n\nWhy I\u0027m asking: Within the isPureRevert() method, both are currently used (here and line 1010). It would be better to be consistent.",
+      "range": {
+        "startLine": 106,
+        "startChar": 28,
+        "endLine": 106,
+        "endChar": 62
+      },
+      "revId": "80ee88a9b430a03441d321647e2885cd92236fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3e22c30_9a231b4d",
+        "filename": "java/com/google/gerrit/server/git/PureRevertCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-14T17:45:23Z",
+      "side": 1,
+      "message": "nit: problem",
+      "range": {
+        "startLine": 116,
+        "startChar": 40,
+        "endLine": 116,
+        "endChar": 47
+      },
+      "revId": "80ee88a9b430a03441d321647e2885cd92236fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e33e35b8_21fd9c43",
+        "filename": "java/com/google/gerrit/server/git/PureRevertCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-14T17:45:23Z",
+      "side": 1,
+      "message": "Just a general note: We need those inconvenient conversions because the proto is directly used as key. It\u0027s something we should consider if we want to skip introducing the AutoValue class for the key again for another cache.",
+      "revId": "80ee88a9b430a03441d321647e2885cd92236fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bda2733f_55c5df96",
+        "filename": "java/com/google/gerrit/server/git/PureRevertCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-14T17:45:23Z",
+      "side": 1,
+      "message": "How can this be safely false? Can\u0027t a repository have only two commits, the second being the pure revert of the first? (I understand that we might have an issue with some computation because of which we originally threw an exception but switching to the value \u0027false\u0027 makes a statement and I\u0027m not sure it is true.)",
+      "range": {
+        "startLine": 174,
+        "startChar": 10,
+        "endLine": 176,
+        "endChar": 11
+      },
+      "revId": "80ee88a9b430a03441d321647e2885cd92236fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "646be26a_bb5d5969",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-14T17:45:23Z",
+      "side": 1,
+      "message": "Why is this changed directly to the PureRevertCache? Don\u0027t we want to benefit from the additional logic in PureRevert?",
+      "range": {
+        "startLine": 1113,
+        "startChar": 13,
+        "endLine": 1113,
+        "endChar": 28
+      },
+      "revId": "80ee88a9b430a03441d321647e2885cd92236fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7981800_4ee58c77",
+        "filename": "javatests/com/google/gerrit/server/git/PureRevertCacheKeyTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-14T17:45:23Z",
+      "side": 1,
+      "message": "Please adjust the name of the test. This test isn\u0027t doing a round trip.",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 27
+      },
+      "revId": "80ee88a9b430a03441d321647e2885cd92236fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e573b7b8_10b8536e",
+        "filename": "javatests/com/google/gerrit/server/git/PureRevertCacheKeyTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-14T17:45:23Z",
+      "side": 1,
+      "message": "In other tests, we rather directly define the byte array (see ObjectIdCacheSerializerTest). (One reason might be that we shouldn\u0027t depend on the logic of ObjectId#copyRawTo.)",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 46
+      },
+      "revId": "80ee88a9b430a03441d321647e2885cd92236fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de3849e4_986a24c4",
+        "filename": "proto/cache.proto",
+        "patchSetId": 5
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-14T17:45:23Z",
+      "side": 1,
+      "message": "That\u0027s not accurate, is it? The other protos are serialized forms of an AutoValue but this isn\u0027t.",
+      "range": {
+        "startLine": 238,
+        "startChar": 3,
+        "endLine": 238,
+        "endChar": 66
+      },
+      "revId": "80ee88a9b430a03441d321647e2885cd92236fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

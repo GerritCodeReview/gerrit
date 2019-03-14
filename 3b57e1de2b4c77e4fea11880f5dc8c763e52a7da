@@ -371,6 +371,24 @@
       "revId": "3b57e1de2b4c77e4fea11880f5dc8c763e52a7da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0cfe6e_64bdad09",
+        "filename": "proto/test.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-14T17:45:23Z",
+      "side": 1,
+      "message": "In that case, could we maybe have a \u0027testing\u0027 subfolder?",
+      "parentUuid": "67585df0_7a12e0e0",
+      "revId": "3b57e1de2b4c77e4fea11880f5dc8c763e52a7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "5b68e693e9295e8ca72e028412e8b226d4f7c2bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a186469_8c4e07f4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-14T18:55:02Z",
+      "side": 0,
+      "message": "Oh, well, if that\u0027s a requirement, then it seems like we have to go with two interfaces (i.e. https://gerrit-review.googlesource.com/c/gerrit/+/217838). If we use one interface not tied to CQP, then by definition it\u0027s not gonna get a CQP as an argument. The only way we can expose more getters is by adding them to the common superinterface we\u0027re extracting for GetChange/CQP. (IOW, BeanProvider on steroids.)\n\nThat said I\u0027m not sure how this is a reduction in functionality. If a plugin ChangeAttributeFactory wants injected fields, it can and should should inject them itself instead of reaching through the ChangeQueryProcessor. Anyway, there are currently no public getter methods on CQP _except_ getDynamicBean.\n\nThere are public _setter_ methods plus query() and friends, but plugins _really_ should not be calling those in the middle of iterating over the query. (In fact, changing the interface to prevent plugins from recursively calling query() from inside ChangeAttributeFactory#create strikes me as a feature, not a bug.)",
+      "parentUuid": "2f5a40b1_06ed4007",
+      "range": {
+        "startLine": 924,
+        "startChar": 48,
+        "endLine": 924,
+        "endChar": 68
+      },
+      "revId": "5b68e693e9295e8ca72e028412e8b226d4f7c2bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "53489a8d_1b351479",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-14T17:26:58Z",
+      "side": 1,
+      "message": "Done. Although I opted to have a single one rather than re-creating a class every time.",
+      "parentUuid": "45f9f423_14a2aa35",
+      "range": {
+        "startLine": 234,
+        "startChar": 2,
+        "endLine": 246,
+        "endChar": 4
+      },
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5889d7e_2ba7f30b",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 12
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "aa0d02a9_21d18b4b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-14T17:26:58Z",
+      "side": 1,
+      "message": "Unfortunately this results in a cyclical dependency. GrJsApiInterface depends on GrRestApiInterface, so I cannot have GrRestApiInterface rely on GrJsApiInterface.",
+      "parentUuid": "e5889d7e_2ba7f30b",
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbd20a33_8615aba6",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
         "patchSetId": 12
@@ -56,6 +98,24 @@
       "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b7bf01c_027a5348",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-14T17:26:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbd20a33_8615aba6",
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -102,6 +162,54 @@
       "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b70d5c5_364d1c18",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-14T17:26:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba2ba94e_56173e62",
+      "range": {
+        "startLine": 27,
+        "startChar": 27,
+        "endLine": 27,
+        "endChar": 35
+      },
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9848485_047ffb1d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-14T17:26:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc262e60_9f5115df",
+      "range": {
+        "startLine": 27,
+        "startChar": 61,
+        "endLine": 27,
+        "endChar": 77
+      },
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

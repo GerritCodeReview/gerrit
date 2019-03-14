@@ -81,8 +81,7 @@ public class SerializedClassSubject extends Subject<SerializedClassSubject, Clas
   public void hasFields(Map<String, Type> expectedFields) {
     isConcrete();
     assertThat(
-            FieldUtils.getAllFieldsList(actual())
-                .stream()
+            FieldUtils.getAllFieldsList(actual()).stream()
                 .filter(f -> !Modifier.isStatic(f.getModifiers()))
                 .collect(toImmutableMap(Field::getName, Field::getGenericType)))
         .containsExactlyEntriesIn(expectedFields);

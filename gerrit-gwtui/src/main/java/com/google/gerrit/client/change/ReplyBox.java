@@ -126,9 +126,7 @@ public class ReplyBox extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
 
     List<String> names =
-        permitted
-            .keySet()
-            .stream()
+        permitted.keySet().stream()
             .sorted()
             .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     if (names.isEmpty()) {
@@ -446,8 +444,7 @@ public class ReplyBox extends Composite {
     }
 
     List<String> paths =
-        m.keySet()
-            .stream()
+        m.keySet().stream()
             .sorted()
             .collect(collectingAndThen(toList(), Collections::unmodifiableList));
 

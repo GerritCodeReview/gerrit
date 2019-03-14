@@ -364,12 +364,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
   private SortedMap<String, ProjectInfo> applyAsQuery(String query) throws BadRequestException {
     try {
-      return queryProjectsProvider
-          .get()
-          .withQuery(query)
-          .withStart(start)
-          .withLimit(limit)
-          .apply()
+      return queryProjectsProvider.get().withQuery(query).withStart(start).withLimit(limit).apply()
           .stream()
           .collect(
               ImmutableSortedMap.toImmutableSortedMap(
@@ -663,9 +658,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       return projectCache.byName(matchPrefix).stream();
     } else if (matchSubstring != null) {
       checkMatchOptions(matchPrefix == null && matchRegex == null);
-      return projectCache
-          .all()
-          .stream()
+      return projectCache.all().stream()
           .filter(
               p -> p.get().toLowerCase(Locale.US).contains(matchSubstring.toLowerCase(Locale.US)));
     } else if (matchRegex != null) {

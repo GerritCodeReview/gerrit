@@ -53,8 +53,7 @@ public class ListChangeMessages implements RestReadView<ChangeResource> {
     List<ChangeMessage> messages =
         changeMessagesUtil.byChange(dbProvider.get(), resource.getNotes());
     List<ChangeMessageInfo> messageInfos =
-        messages
-            .stream()
+        messages.stream()
             .map(m -> createChangeMessageInfo(m, accountLoader))
             .collect(Collectors.toList());
     accountLoader.fill();

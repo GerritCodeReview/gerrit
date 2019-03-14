@@ -1358,8 +1358,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       if (!forDefaultField || accounts.size() <= MAX_ACCOUNTS_PER_DEFAULT_FIELD) {
         reviewerPredicate =
             Predicate.or(
-                accounts
-                    .stream()
+                accounts.stream()
                     .map(id -> ReviewerPredicate.forState(id, state))
                     .collect(toList()));
       }

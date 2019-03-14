@@ -125,9 +125,7 @@ public class Schema_154 extends SchemaVersion {
     JdbcSchema schema = (JdbcSchema) db;
     Connection connection = schema.getConnection();
     Set<String> columns = schema.getDialect().listColumns(connection, TABLE);
-    return ACCOUNT_FIELDS_MAP
-        .entrySet()
-        .stream()
+    return ACCOUNT_FIELDS_MAP.entrySet().stream()
         .filter(e -> columns.contains(e.getKey()))
         .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
   }

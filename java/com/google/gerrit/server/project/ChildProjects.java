@@ -93,8 +93,7 @@ public class ChildProjects {
       Project.NameKey parent)
       throws PermissionBackendException {
     List<Project.NameKey> canSee =
-        perm.filter(ProjectPermission.ACCESS, children.get(parent))
-            .stream()
+        perm.filter(ProjectPermission.ACCESS, children.get(parent)).stream()
             .sorted()
             .collect(toList());
     children.removeAll(parent); // removing all entries prevents cycles.

@@ -383,13 +383,9 @@ public class ReplaceOp implements BatchUpdateOp {
       inputs =
           Streams.concat(
               inputs,
-              magicBranch
-                  .getCombinedReviewers(fromFooters)
-                  .stream()
+              magicBranch.getCombinedReviewers(fromFooters).stream()
                   .map(r -> newAddReviewerInput(r, ReviewerState.REVIEWER)),
-              magicBranch
-                  .getCombinedCcs(fromFooters)
-                  .stream()
+              magicBranch.getCombinedCcs(fromFooters).stream()
                   .map(r -> newAddReviewerInput(r, ReviewerState.CC)));
     }
     return inputs.collect(toImmutableList());
@@ -582,9 +578,7 @@ public class ReplaceOp implements BatchUpdateOp {
         cm.addReviewers(
             Streams.concat(
                     oldRecipients.getReviewers().stream(),
-                    reviewerAdditions
-                        .flattenResults(AddReviewersOp.Result::addedReviewers)
-                        .stream()
+                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewers).stream()
                         .map(PatchSetApproval::getAccountId))
                 .collect(toImmutableSet()));
         cm.addExtraCC(

@@ -85,12 +85,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   private List<ProjectInfo> directChildProjects(Project.NameKey parent)
       throws OrmException, RestApiException {
     PermissionBackend.WithUser currentUser = permissionBackend.currentUser();
-    return queryProvider
-        .get()
-        .withQuery("parent:" + parent.get())
-        .withLimit(limit)
-        .apply()
-        .stream()
+    return queryProvider.get().withQuery("parent:" + parent.get()).withLimit(limit).apply().stream()
         .filter(
             p ->
                 currentUser

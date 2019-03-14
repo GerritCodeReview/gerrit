@@ -154,9 +154,7 @@ public class ChangeResource implements RestResource, HasETag {
       accounts.add(getChange().getAssignee());
     }
     try {
-      patchSetUtil
-          .byChange(db.get(), notes)
-          .stream()
+      patchSetUtil.byChange(db.get(), notes).stream()
           .map(PatchSet::getUploader)
           .forEach(accounts::add);
 

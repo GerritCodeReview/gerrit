@@ -61,9 +61,7 @@ public class ProjectField {
       storedOnly("ref_state")
           .buildRepeatable(
               projectData ->
-                  projectData
-                      .tree()
-                      .stream()
+                  projectData.tree().stream()
                       .filter(p -> p.getProject().getConfigRefState() != null)
                       .map(p -> toRefState(p.getProject()))
                       .collect(toImmutableList()));

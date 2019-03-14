@@ -105,8 +105,7 @@ public enum CommitMergeStatus {
             commit, otherCommit, cd.getId().get());
       }
       Optional<PatchSet> patchSet =
-          cd.patchSets()
-              .stream()
+          cd.patchSets().stream()
               .filter(ps -> ps.getRevision().get().equals(otherCommit))
               .findAny();
       if (patchSet.isPresent()) {

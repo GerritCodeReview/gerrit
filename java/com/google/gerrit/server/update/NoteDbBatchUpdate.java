@@ -139,8 +139,7 @@ public class NoteDbBatchUpdate extends BatchUpdate {
       // Fire ref update events only after all mutations are finished, since callers may assume a
       // patch set ref being created means the change was created, or a branch advancing meaning
       // some changes were closed.
-      updates
-          .stream()
+      updates.stream()
           .filter(u -> u.batchRefUpdate != null)
           .forEach(
               u -> u.gitRefUpdated.fire(u.project, u.batchRefUpdate, u.getAccount().orElse(null)));

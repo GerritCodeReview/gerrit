@@ -655,8 +655,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private static List<byte[]> copyAsBytes(Collection<IndexableField> fields) {
-    return fields
-        .stream()
+    return fields.stream()
         .map(
             f -> {
               BytesRef ref = f.binaryValue();

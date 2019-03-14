@@ -462,9 +462,7 @@ public class AccountsUpdate {
   }
 
   private static Set<Account.Id> getUpdatedAccounts(BatchRefUpdate batchRefUpdate) {
-    return batchRefUpdate
-        .getCommands()
-        .stream()
+    return batchRefUpdate.getCommands().stream()
         .map(c -> Account.Id.fromRef(c.getRefName()))
         .filter(Objects::nonNull)
         .collect(toSet());

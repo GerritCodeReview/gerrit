@@ -419,9 +419,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   private static List<Comment> getComments(
       ChangeBundle bundle, String serverId, PatchLineComment.Status status, PatchSet ps) {
-    return bundle
-        .getPatchLineComments()
-        .stream()
+    return bundle.getPatchLineComments().stream()
         .filter(c -> c.getPatchSetId().equals(ps.getId()) && c.getStatus() == status)
         .map(plc -> plc.asComment(serverId))
         .sorted(CommentsUtil.COMMENT_ORDER)

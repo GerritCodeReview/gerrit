@@ -221,8 +221,7 @@ public class CommentsUtil {
       }
       return c;
     }
-    return draftByChangeAuthor(db, notes, user.getAccountId())
-        .stream()
+    return draftByChangeAuthor(db, notes, user.getAccountId()).stream()
         .filter(c -> key.equals(c.key))
         .findFirst();
   }

@@ -45,8 +45,7 @@ public abstract class AllExternalIds {
 
   private static ImmutableSetMultimap<String, ExternalId> byEmailCopy(
       Collection<ExternalId> externalIds) {
-    return externalIds
-        .stream()
+    return externalIds.stream()
         .filter(e -> !Strings.isNullOrEmpty(e.email()))
         .collect(toImmutableSetMultimap(e -> e.email(), e -> e));
   }
@@ -62,10 +61,7 @@ public abstract class AllExternalIds {
     public byte[] serialize(AllExternalIds object) {
       ObjectIdConverter idConverter = ObjectIdConverter.create();
       AllExternalIdsProto.Builder allBuilder = AllExternalIdsProto.newBuilder();
-      object
-          .byAccount()
-          .values()
-          .stream()
+      object.byAccount().values().stream()
           .map(extId -> toProto(idConverter, extId))
           .forEach(allBuilder::addExternalId);
       return ProtoCacheSerializers.toByteArray(allBuilder.build());
@@ -92,8 +88,7 @@ public abstract class AllExternalIds {
     public AllExternalIds deserialize(byte[] in) {
       ObjectIdConverter idConverter = ObjectIdConverter.create();
       return create(
-          ProtoCacheSerializers.parseUnchecked(AllExternalIdsProto.parser(), in)
-              .getExternalIdList()
+          ProtoCacheSerializers.parseUnchecked(AllExternalIdsProto.parser(), in).getExternalIdList()
               .stream()
               .map(proto -> toExternalId(idConverter, proto))
               .collect(toList()));

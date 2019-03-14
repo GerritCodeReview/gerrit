@@ -326,9 +326,7 @@ public class LabelsJson {
     }
 
     if (detailed) {
-      labels
-          .entrySet()
-          .stream()
+      labels.entrySet().stream()
           .filter(e -> labelTypes.byLabel(e.getKey()) != null)
           .forEach(e -> setLabelValues(labelTypes.byLabel(e.getKey()), e.getValue()));
     }
@@ -524,9 +522,7 @@ public class LabelsJson {
         Maps.newHashMapWithExpectedSize(permittedLabels.size());
     for (String label : permittedLabels.keySet()) {
       List<Integer> permittedVotingRange =
-          permittedLabels
-              .get(label)
-              .stream()
+          permittedLabels.get(label).stream()
               .map(this::parseRangeValue)
               .filter(java.util.Objects::nonNull)
               .sorted()

@@ -497,7 +497,6 @@ public class ChangeInserter implements InsertChangeOp {
                 cm.setNotify(notify);
                 cm.setAccountsToNotify(accountsToNotify);
                 cm.addReviewers(reviewers);
-                cm.addExtraCC(extraCC);
                 cm.send();
               } catch (Exception e) {
                 log.error("Cannot send email for new change {}", change.getId(), e);

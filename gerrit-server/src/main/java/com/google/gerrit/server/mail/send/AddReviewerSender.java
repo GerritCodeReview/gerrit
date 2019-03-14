@@ -38,6 +38,5 @@ public class AddReviewerSender extends NewChangeSender {
   protected void init() throws EmailException {
     super.init();
 
-    ccExistingReviewers();
   }
 }

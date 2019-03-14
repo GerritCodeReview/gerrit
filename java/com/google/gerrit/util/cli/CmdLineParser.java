@@ -34,6 +34,7 @@
 
 package com.google.gerrit.util.cli;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.util.cli.Localizable.localizable;
 
 import com.google.common.base.Strings;
@@ -426,6 +427,7 @@ public class CmdLineParser {
 
     PrefixedOption(String prefix, Option o) {
       this.prefix = prefix;
+      checkArgument(o.name().startsWith("-"), "Option name must start with '-': %s", o);
       this.o = o;
     }
 

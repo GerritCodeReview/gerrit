@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "5f9ed66b_a62475e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-14T23:02:55Z",
+      "side": 1,
+      "message": "I don\u0027t know how Gerrit.pluginParams would work if each call to .restApiHooks created a new instance. Unless we change GrRestApiHooks to register in some other global space, which is possible. Thoughts?",
+      "parentUuid": "376301d6_3037a64a",
+      "range": {
+        "startLine": 234,
+        "startChar": 2,
+        "endLine": 246,
+        "endChar": 4
+      },
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e5889d7e_2ba7f30b",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 12
@@ -120,6 +144,24 @@
       "side": 1,
       "message": "Understand. But then let\u0027s move the pluginParams function to GrRestApiHooks?\n\nAnd maybe add a comment that this is supposed to be called by the app, not the plugins.",
       "parentUuid": "aa0d02a9_21d18b4b",
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b08d94c_840b591e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-14T23:02:55Z",
+      "side": 1,
+      "message": "I changed the pluginParams function to _pluginParams to signal it\u0027s not a public function. However without another global const, it needs to remain the same scope as _plugins. Thoughts?",
+      "parentUuid": "7c7de687_45b81628",
       "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

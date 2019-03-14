@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "ebdaf390_8330c82a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-14T23:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e897ba35_07b5bd75",
+      "range": {
+        "startLine": 24,
+        "startChar": 9,
+        "endLine": 24,
+        "endChar": 22
+      },
+      "revId": "ec835ff96a0585da1327a8df60d02e93b59ae9e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68642fb9_173b948b",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
         "patchSetId": 14
@@ -62,6 +86,24 @@
       "revId": "ec835ff96a0585da1327a8df60d02e93b59ae9e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14c92ab1_9ea620b0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-14T23:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68642fb9_173b948b",
+      "revId": "ec835ff96a0585da1327a8df60d02e93b59ae9e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +147,48 @@
     },
     {
       "key": {
+        "uuid": "b758007a_096af9e8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-14T23:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1050fdd_c520ca09",
+      "range": {
+        "startLine": 39,
+        "startChar": 5,
+        "endLine": 39,
+        "endChar": 37
+      },
+      "revId": "ec835ff96a0585da1327a8df60d02e93b59ae9e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eacb89f9_55ac07b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-14T23:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8265ce7_db2ed007",
+      "revId": "ec835ff96a0585da1327a8df60d02e93b59ae9e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70dfdad0_16e23792",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
         "patchSetId": 14
@@ -122,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "8ceb9020_4b5135f4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-14T23:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70dfdad0_16e23792",
+      "revId": "ec835ff96a0585da1327a8df60d02e93b59ae9e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9ae7891_e9d02ab0",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
         "patchSetId": 14
@@ -136,6 +238,24 @@
       "revId": "ec835ff96a0585da1327a8df60d02e93b59ae9e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e1c0091_9ea9d414",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-14T23:02:55Z",
+      "side": 1,
+      "message": "No, it just returns params for the plugin, so if nothing is registered then nothing is returned.",
+      "parentUuid": "b9ae7891_e9d02ab0",
+      "revId": "ec835ff96a0585da1327a8df60d02e93b59ae9e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

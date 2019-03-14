@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "e46e1db2_2349059f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-14T14:21:27Z",
+      "side": 1,
+      "message": "Sure. It\u0027s still up to the plugin author to decide which approach is going to have better performance.\n\nI will point out that if the plugin code is fast enough to produce results for N changes on the dashboard (e.g. it has some kind of cache), it\u0027s also likely fast enough to produce results for a single change on the change screen.",
+      "parentUuid": "5124ff95_30fdf540",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 69
+      },
+      "revId": "32da182b55e804a0211dbf281fcbdb1c2ba44cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53dab8e8_d8936d46",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2019-03-14T00:04:53Z",
       "side": 1,
       "message": "Perhaps a different solution would be to allow plugins to annotate there factory with the places they want it \"considered\"\n\nAlso for queries, we tend to makes someone have to add a switch to make a plugin add data, so plugins can always use this as the differentiator.",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "32da182b55e804a0211dbf281fcbdb1c2ba44cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8c52b5f_77946694",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-14T14:21:27Z",
+      "side": 1,
+      "message": "Interesting idea. I\u0027ll give that a shot.\n\nI don\u0027t want to require an annotation on the factory type itself, because right now it works just fine if the factory is a lambda. But I think we can do this with export names, like we already do for DynamicBeans.",
+      "parentUuid": "53dab8e8_d8936d46",
       "range": {
         "startLine": 38,
         "startChar": 20,
@@ -69,6 +117,30 @@
       "revId": "32da182b55e804a0211dbf281fcbdb1c2ba44cd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45008467_b24402f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-14T14:21:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "419abaf4_c05107b7",
+      "range": {
+        "startLine": 44,
+        "startChar": 3,
+        "endLine": 44,
+        "endChar": 9
+      },
+      "revId": "32da182b55e804a0211dbf281fcbdb1c2ba44cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

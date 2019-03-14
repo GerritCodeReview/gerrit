@@ -23,6 +23,30 @@
       "revId": "700702b16b5c5ecbbf8369aa5d6ce0007342df38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "149462fa_3abea8ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-03-14T18:37:58Z",
+      "side": 1,
+      "message": "I suspect it is applicable since it was introduced, so all stable branches.",
+      "parentUuid": "19ecf663_9a082847",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "700702b16b5c5ecbbf8369aa5d6ce0007342df38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "9f4dc3e8_95ee8308",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-14T15:41:31Z",
+      "side": 1,
+      "message": "I see. IIUC what you\u0027re saying is you would prefer:\n\n5. Single interface, identical behavior in all codepaths. Callers can control behavior with an explicit option rather than depending on the context.\n\nAm I interpreting correctly?\n\nThe use case we have is we have a single field we want to add, where:\n\n* On the dashboard we want to populate the field from a cache (eventually from an index once we figure out how to do that), for fast performance at the risk of staleness.\n* On the change screen we want to reread the field from primary storage. This is too slow to do for N changes on the dashboard, but not absolutely slow so we\u0027re not worried about adding latency to /detail.\n\nI think our implementation will not be especially complicated under any of these proposals, so I\u0027m happy to go with (5) if that\u0027s your preference.",
+      "parentUuid": "44fd7ffc_089a57ed",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "32da182b55e804a0211dbf281fcbdb1c2ba44cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "419abaf4_c05107b7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f5a40b1_06ed4007",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-03-14T18:45:33Z",
+      "side": 0,
+      "message": "Unfortunately, I think this will greatly reduce functionality for plugins. Having access to the processor allows plugins to get many injected fields and other arguments from the processor, not just the beans.",
+      "range": {
+        "startLine": 924,
+        "startChar": 48,
+        "endLine": 924,
+        "endChar": 68
+      },
+      "revId": "5b68e693e9295e8ca72e028412e8b226d4f7c2bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

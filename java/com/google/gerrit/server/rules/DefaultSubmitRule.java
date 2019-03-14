@@ -124,8 +124,7 @@ public final class DefaultSubmitRule implements SubmitRule {
 
   private static List<PatchSetApproval> getApprovalsForLabel(
       List<PatchSetApproval> approvals, LabelType t) {
-    return approvals
-        .stream()
+    return approvals.stream()
         .filter(input -> input.getLabel().equals(t.getLabelId().get()))
         .collect(toImmutableList());
   }

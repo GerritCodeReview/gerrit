@@ -185,8 +185,7 @@ public class CommentsUtil {
 
   public Optional<Comment> getDraft(ChangeNotes notes, IdentifiedUser user, Comment.Key key)
       throws OrmException {
-    return draftByChangeAuthor(notes, user.getAccountId())
-        .stream()
+    return draftByChangeAuthor(notes, user.getAccountId()).stream()
         .filter(c -> key.equals(c.key))
         .findFirst();
   }

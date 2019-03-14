@@ -922,10 +922,7 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts().id(foo.id.hashCode()).addEmail(input);
 
     assertThat(
-            gApi.accounts()
-                .id(foo.id.get())
-                .getEmails()
-                .stream()
+            gApi.accounts().id(foo.id.get()).getEmails().stream()
                 .map(e -> e.email)
                 .collect(toSet()))
         .containsExactly(email, secondaryEmail);
@@ -2474,10 +2471,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(bgCounterA1.get()).isEqualTo(0);
     assertThat(bgCounterA2.get()).isEqualTo(0);
     assertThat(
-            gApi.accounts()
-                .id(accountId.get())
-                .getExternalIds()
-                .stream()
+            gApi.accounts().id(accountId.get()).getExternalIds().stream()
                 .map(i -> i.identity)
                 .collect(toSet()))
         .containsExactly(extIdA1.key().get());
@@ -2507,10 +2501,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(updatedAccount.get().getExternalIds()).containsExactly(extIdB2);
     assertThat(accounts.get(accountId).get().getExternalIds()).containsExactly(extIdB2);
     assertThat(
-            gApi.accounts()
-                .id(accountId.get())
-                .getExternalIds()
-                .stream()
+            gApi.accounts().id(accountId.get()).getExternalIds().stream()
                 .map(i -> i.identity)
                 .collect(toSet()))
         .containsExactly(extIdB2.key().get());
@@ -2737,11 +2728,7 @@ public class AccountIT extends AbstractDaemonTest {
       requestScopeOperations.setApiUser(testAccount.getId());
       for (ChangeInfo changeInfo : gApi.changes().query("has:draft").get()) {
         for (CommentInfo c :
-            gApi.changes()
-                .id(changeInfo.id)
-                .drafts()
-                .values()
-                .stream()
+            gApi.changes().id(changeInfo.id).drafts().values().stream()
                 .flatMap(List::stream)
                 .collect(toImmutableList())) {
           gApi.changes().id(changeInfo.id).revision(c.patchSet).draft(c.id).delete();
@@ -2829,9 +2816,7 @@ public class AccountIT extends AbstractDaemonTest {
     Iterable<String> expectedFps =
         expected.transform(k -> BaseEncoding.base16().encode(k.getPublicKey().getFingerprint()));
     Iterable<String> actualFps =
-        externalIds
-            .byAccount(currAccountId, SCHEME_GPGKEY)
-            .stream()
+        externalIds.byAccount(currAccountId, SCHEME_GPGKEY).stream()
             .map(e -> e.key().id())
             .collect(toSet());
     assertThat(actualFps).named("external IDs in database").containsExactlyElementsIn(expectedFps);

@@ -85,8 +85,7 @@ public class AccountResolverTest extends GerritBaseTests {
 
     @Override
     public String toString() {
-      return accounts
-          .stream()
+      return accounts.stream()
           .map(a -> a.getAccount().getId().toString())
           .collect(joining(",", pattern + "(", ")"));
     }
@@ -358,9 +357,7 @@ public class AccountResolverTest extends GerritBaseTests {
   }
 
   private static ImmutableSet<Account.Id> filteredInactiveIds(Result result) {
-    return result
-        .filteredInactive()
-        .stream()
+    return result.filteredInactive().stream()
         .map(a -> a.getAccount().getId())
         .collect(toImmutableSet());
   }

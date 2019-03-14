@@ -528,8 +528,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // Convert AccountInfos to strings, either account ID or email.
     List<String> reviewerIds =
-        reviewers
-            .stream()
+        reviewers.stream()
             .map(
                 ai -> {
                   if (ai._accountId != null) {
@@ -2235,10 +2234,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.groups().id(group).addMembers(user2.toString(), user3.toString());
 
     List<String> members =
-        gApi.groups()
-            .id(group)
-            .members()
-            .stream()
+        gApi.groups().id(group).members().stream()
             .map(a -> a._accountId.toString())
             .collect(toList());
     assertThat(members).contains(user2.toString());
@@ -3337,10 +3333,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected void assertQuery(Predicate<ChangeData> predicate, Change... changes) throws Exception {
     ImmutableList<Change.Id> actualIds =
-        queryProvider
-            .get()
-            .query(predicate)
-            .stream()
+        queryProvider.get().query(predicate).stream()
             .map(ChangeData::getId)
             .collect(toImmutableList());
     Change.Id[] expectedIds = Arrays.stream(changes).map(Change::getId).toArray(Change.Id[]::new);

@@ -42,9 +42,7 @@ public class ReindexProjectsAtStartup implements LifecycleListener {
 
   @Override
   public void start() {
-    repoMgr
-        .list()
-        .stream()
+    repoMgr.list().stream()
         .forEach(
             projectName -> {
               try {

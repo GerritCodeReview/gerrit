@@ -222,9 +222,7 @@ public class CommitsCollectionTest extends GerritBaseTests {
             .getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
             .getPermission(GlobalCapability.ADMINISTRATE_SERVER);
 
-    return adminPermission
-        .getRules()
-        .stream()
+    return adminPermission.getRules().stream()
         .map(PermissionRule::getGroup)
         .map(GroupReference::getUUID)
         .collect(ImmutableList.toImmutableList());

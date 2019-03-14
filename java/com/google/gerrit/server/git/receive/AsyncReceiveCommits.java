@@ -175,29 +175,45 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     }
   }
 
+  private enum PushType {
+    CREATE_REPLACE,
+    NORMAL,
+    AUTOCLOSE,
+  };
+
   @Singleton
   private static class Metrics {
-    private final Histogram1<ResultChangeIds.Key> changes;
-    private final Timer1<String> latencyPerChange;
+    private final Histogram1<PushType> changes;
+    private final Timer1<PushType> latencyPerChange;
+    private final Timer1<PushType> latencyPerPush;
     private final Counter0 timeouts;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
       changes =
           metricMaker.newHistogram(
-              "receivecommits/changes",
+              "receivecommits/changes_per_push",
               new Description("number of changes uploaded in a single push.").setCumulative(),
-              Field.ofEnum(
-                  ResultChangeIds.Key.class,
-                  "type",
-                  "type of update (replace, create, autoclose)"));
+              Field.ofEnum(PushType.class, "type", "type of push (create/replace, autoclose)"));
+
       latencyPerChange =
           metricMaker.newTimer(
-              "receivecommits/latency",
-              new Description("average delay per updated change")
+              "receivecommits/latency_per_push_per_change",
+              new Description(
+                      "Processing delay per push divided by the number of changes in said push. "
+                          + "(Only includes pushes which contain changes.)")
                   .setUnit(Units.MILLISECONDS)
                   .setCumulative(),
-              Field.ofString("type", "type of update (create/replace, autoclose)"));
+              Field.ofEnum(PushType.class, "type", "type of push (create/replace, autoclose)"));
+
+      latencyPerPush =
+          metricMaker.newTimer(
+              "receivecommits/latency_per_push",
+              new Description("processing delay for a processing single push")
+                  .setUnit(Units.MILLISECONDS)
+                  .setCumulative(),
+              Field.ofEnum(
+                  PushType.class, "type", "type of push (create/replace, autoclose, normal)"));
 
       timeouts =
           metricMaker.newCounter(
@@ -342,24 +358,29 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     long deltaNanos = System.nanoTime() - startNanos;
     int totalChanges = 0;
 
+    PushType pushType;
     if (resultChangeIds.isMagicPush()) {
+      pushType = PushType.CREATE_REPLACE;
       List<Change.Id> created = resultChangeIds.get(ResultChangeIds.Key.CREATED);
-      metrics.changes.record(ResultChangeIds.Key.CREATED, created.size());
       List<Change.Id> replaced = resultChangeIds.get(ResultChangeIds.Key.REPLACED);
-      metrics.changes.record(ResultChangeIds.Key.REPLACED, replaced.size());
-      totalChanges += replaced.size() + created.size();
+      metrics.changes.record(pushType, created.size() + replaced.size());
+      totalChanges = replaced.size() + created.size();
     } else {
       List<Change.Id> autoclosed = resultChangeIds.get(ResultChangeIds.Key.AUTOCLOSED);
-      metrics.changes.record(ResultChangeIds.Key.AUTOCLOSED, autoclosed.size());
-      totalChanges += autoclosed.size();
+      if (!autoclosed.isEmpty()) {
+        pushType = PushType.AUTOCLOSE;
+        metrics.changes.record(pushType, autoclosed.size());
+        totalChanges = autoclosed.size();
+      } else {
+        pushType = PushType.NORMAL;
+      }
     }
 
     if (totalChanges > 0) {
-      metrics.latencyPerChange.record(
-          resultChangeIds.isMagicPush() ? "CREATE_REPLACE" : ResultChangeIds.Key.AUTOCLOSED.name(),
-          deltaNanos / totalChanges,
-          NANOSECONDS);
+      metrics.latencyPerChange.record(pushType, deltaNanos / totalChanges, NANOSECONDS);
     }
+
+    metrics.latencyPerPush.record(pushType, deltaNanos, NANOSECONDS);
   }
 
   /** Returns the Change.Ids that were processed in onPreReceive */

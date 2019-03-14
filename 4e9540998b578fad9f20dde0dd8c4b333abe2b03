@@ -22,6 +22,30 @@
       "revId": "4e9540998b578fad9f20dde0dd8c4b333abe2b03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e13c86b2_63b7df27",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-14T15:49:03Z",
+      "side": 1,
+      "message": "Yes it transforms the input which is something like \u00275643\u0027 to \u00270\u003d5\u00261\u003d6\u00262\u003d4\u00263\u003d3\". I do not understand why. This does not change the functionality of what is happening now, just adds more accurate typing. I imagine removing the call to _urlWithParams from getChangeDetail would be ok, but I\u0027m not sure.",
+      "parentUuid": "8fd62d59_2462508e",
+      "range": {
+        "startLine": 356,
+        "startChar": 23,
+        "endLine": 356,
+        "endChar": 29
+      },
+      "revId": "4e9540998b578fad9f20dde0dd8c4b333abe2b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

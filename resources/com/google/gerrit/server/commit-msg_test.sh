@@ -11,6 +11,11 @@ function fail {
   exit 1
 }
 
+function prereq_modern_git {
+  # "git interpret-trailers --where" was introduced in Git 2.15.0.
+  git interpret-trailers -h 2>&1 | grep -e --where > /dev/null
+}
+
 function test_nonexistent_argument {
   rm -f input
   if ${hook} input ; then
@@ -24,6 +29,50 @@ function test_empty {
   if ${hook} input ; then
     fail "must fail on empty message"
   fi
+}
+
+function test_empty_with_comments {
+  rm -f input
+  cat << EOF > input
+# comment
+
+# comment2
+EOF
+  if ${hook} input ; then
+    fail "must fail on empty message"
+  fi
+}
+
+function test_keep_cutoff_line {
+  if ! prereq_modern_git ; then
+    echo "old version of Git detected; skipping scissors test."
+    return 0
+  fi
+  rm -f input
+  cat << EOF > input
+Do something nice
+
+# Please enter the commit message for your changes.
+# ------------------------ >8 ------------------------
+# Do not modify or remove the line above.
+# Everything below it will be ignored.
+diff --git a/file.txt b/file.txt
+index 625fd613d9..03aeba3b21 100755
+--- a/file.txt
++++ b/file.txt
+@@ -38,6 +38,7 @@
+ context
+ line
+ 
++hello, world
+ 
+ context
+ line
+EOF
+  ${hook} input || fail "failed hook execution"
+  grep '>8' input || fail "lost cut-off line"
+  sed -n -e '1,/>8/ p' input >top
+  grep '^Change-Id' top || fail "missing Change-Id above cut-off line"
 }
 
 # a Change-Id already set is preserved.
@@ -128,7 +177,7 @@ EOF
 
 
 # Test driver.
-
+git init
 for func in $( declare -F | awk '{print $3;}' | sort); do
   case ${func} in
     test_*)

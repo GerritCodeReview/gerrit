@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45f9f423_14a2aa35",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-14T10:36:26Z",
+      "side": 1,
+      "message": "Sorry for not being clearer in my last comment, but what I meant it the you only return an instance of GrRestApiHooks here, similar to what other public methods do:\nchangeMetadata()\nadmin()\nsettings()\nproject()\ntheme()\nchangeActions()\nchangeReply()\nannotationApi()",
+      "range": {
+        "startLine": 234,
+        "startChar": 2,
+        "endLine": 246,
+        "endChar": 4
+      },
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5889d7e_2ba7f30b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-14T10:36:26Z",
+      "side": 1,
+      "message": "Move this functionality to GrJsApiInterface and use getDiffLayers() as a blueprint: GrRestApiHooks is instantiated per plugin and calls plugin.on(\u0027rest-api-call\u0027, this) in the constructor (needs a new EventType in GrJsApiInterface). GrRestApiInterface calls addRestApiParams() in GrJsApiInterface instead of Gerrit.pluginParams().",
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbd20a33_8615aba6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-14T10:36:26Z",
+      "side": 1,
+      "message": "Can you document the signature of the mutationFunction and what the function actually does? Maybe just copy and paste from pg-plugin-dev.txt.",
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc262e60_9f5115df",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-14T10:36:26Z",
+      "side": 1,
+      "message": "Maybe rename mutationFunction to addParameterFunction, because parameters are not mutated. You are just adding another parameter with the fixed name of the plugin.",
+      "range": {
+        "startLine": 27,
+        "startChar": 61,
+        "endLine": 27,
+        "endChar": 77
+      },
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba2ba94e_56173e62",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-14T10:36:26Z",
+      "side": 1,
+      "message": "It would be nice to rename the methods to be clearer about what they do, e.g. addParameterHook. I could image that we want to extend this API later to also allow modifying response or some such.",
+      "range": {
+        "startLine": 27,
+        "startChar": 27,
+        "endLine": 27,
+        "endChar": 35
+      },
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed956992_a4342253",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-03-14T08:20:33Z",
+      "side": 1,
+      "message": "This isn\u0027t available on Maven Central yet.",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 34
+      },
+      "revId": "e478725628408ceec9b4be58b635aa6ade141ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

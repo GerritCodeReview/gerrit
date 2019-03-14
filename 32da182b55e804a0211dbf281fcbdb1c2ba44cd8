@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "44fd7ffc_089a57ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-03-14T15:32:38Z",
+      "side": 1,
+      "message": "I am not sure why you would want your factory to behave differently in different contexts. My point about the switch was not to make it behave differently in different contexts, but rather whether to output data or not. In other words, the behavior should always be the same for a specific switch, regardless of context, and if you want different data, send a different switch. If you want no data, don\u0027t send a switch.",
+      "parentUuid": "3e3455b4_caca1947",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "32da182b55e804a0211dbf281fcbdb1c2ba44cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "419abaf4_c05107b7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

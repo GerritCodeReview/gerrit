@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b47564bb_740dff39",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-14T21:22:31Z",
+      "side": 1,
+      "message": "Maybe rename pluginParams and mutationEndpoint to match the other new names.",
+      "range": {
+        "startLine": 557,
+        "startChar": 9,
+        "endLine": 557,
+        "endChar": 49
+      },
+      "revId": "ec835ff96a0585da1327a8df60d02e93b59ae9e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e897ba35_07b5bd75",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-14T21:22:31Z",
+      "side": 1,
+      "message": "Maybe rename this to _addParameterFunctions?",
+      "range": {
+        "startLine": 24,
+        "startChar": 9,
+        "endLine": 24,
+        "endChar": 22
+      },
+      "revId": "ec835ff96a0585da1327a8df60d02e93b59ae9e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68642fb9_173b948b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-14T21:22:31Z",
+      "side": 1,
+      "message": "Maybe add a comment that this supposed to be called by plugins, not the app.",
+      "revId": "ec835ff96a0585da1327a8df60d02e93b59ae9e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1050fdd_c520ca09",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-14T21:22:31Z",
+      "side": 1,
+      "message": "It actually applies the hook and returns the patched params, right?",
+      "range": {
+        "startLine": 39,
+        "startChar": 5,
+        "endLine": 39,
+        "endChar": 37
+      },
+      "revId": "ec835ff96a0585da1327a8df60d02e93b59ae9e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8265ce7_db2ed007",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-14T21:22:31Z",
+      "side": 1,
+      "message": "Maybe add a comment that this is supposed to be called by the app, not the plugin.",
+      "revId": "ec835ff96a0585da1327a8df60d02e93b59ae9e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70dfdad0_16e23792",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-14T21:22:31Z",
+      "side": 1,
+      "message": "remove empty line",
+      "revId": "ec835ff96a0585da1327a8df60d02e93b59ae9e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9ae7891_e9d02ab0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-14T21:22:31Z",
+      "side": 1,
+      "message": "Should this return initialParams?",
+      "revId": "ec835ff96a0585da1327a8df60d02e93b59ae9e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "376301d6_3037a64a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-14T21:22:31Z",
+      "side": 1,
+      "message": "I have spent a lot of time figuring out the different concepts of how these plugin APIs work: https://docs.google.com/document/d/1VNK7MQy6BYQWWfeYD9mPrYEoExRaOWM10aymXUXJgsg/edit?usp\u003dsharing\n\nAnd my primary concern is that the plugin APIs each have different designs. Therefore I put consistency and symmetry before everything else. All these 9 methods return a new API instance:\n\n  Plugin.prototype.annotationApi \u003d function() {\n    return new GrAnnotationActionsInterface(this);\n  };\n\n  Plugin.prototype.changeActions \u003d function() {\n    return new GrChangeActionsInterface(this,\n      Plugin._sharedAPIElement.getElement(\n          Plugin._sharedAPIElement.Element.CHANGE_ACTIONS));\n  };\n\n  Plugin.prototype.changeReply \u003d function() {\n    return new GrChangeReplyInterface(this,\n      Plugin._sharedAPIElement.getElement(\n          Plugin._sharedAPIElement.Element.REPLY_DIALOG));\n  };\n\n  Plugin.prototype.changeView \u003d function() {\n    return new GrChangeViewApi(this);\n  };\n\n  Plugin.prototype.theme \u003d function() {\n    return new GrThemeApi(this);\n  };\n\n  Plugin.prototype.project \u003d function() {\n    return new GrRepoApi(this);\n  };\n\n  Plugin.prototype.changeMetadata \u003d function() {\n    return new GrChangeMetadataApi(this);\n  };\n\n  Plugin.prototype.admin \u003d function() {\n    return new GrAdminApi(this);\n  };\n\n  Plugin.prototype.settings \u003d function() {\n    return new GrSettingsApi(this);\n  };\n\nPlease make the new API consistent with these.",
+      "parentUuid": "53489a8d_1b351479",
+      "range": {
+        "startLine": 234,
+        "startChar": 2,
+        "endLine": 246,
+        "endChar": 4
+      },
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e5889d7e_2ba7f30b",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 12
@@ -81,6 +105,24 @@
       "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c7de687_45b81628",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-14T21:22:31Z",
+      "side": 1,
+      "message": "Understand. But then let\u0027s move the pluginParams function to GrRestApiHooks?\n\nAnd maybe add a comment that this is supposed to be called by the app, not the plugins.",
+      "parentUuid": "aa0d02a9_21d18b4b",
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

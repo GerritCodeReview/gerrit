@@ -32,7 +32,7 @@ public class Extension<T> {
   private final @Nullable String exportName;
   private final Provider<T> provider;
 
-  protected Extension(String pluginName, Provider<T> provider) {
+  public Extension(String pluginName, Provider<T> provider) {
     this(pluginName, null, provider);
   }
 

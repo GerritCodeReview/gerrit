@@ -54,7 +54,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
-import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeMessageResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.SetPrivateOp;
@@ -68,6 +67,7 @@ import com.google.gerrit.server.restapi.change.DeleteAssignee;
 import com.google.gerrit.server.restapi.change.DeleteChange;
 import com.google.gerrit.server.restapi.change.DeletePrivate;
 import com.google.gerrit.server.restapi.change.GetAssignee;
+import com.google.gerrit.server.restapi.change.GetChange;
 import com.google.gerrit.server.restapi.change.GetHashtags;
 import com.google.gerrit.server.restapi.change.GetPastAssignees;
 import com.google.gerrit.server.restapi.change.GetPureRevert;
@@ -132,7 +132,7 @@ class ChangeApiImpl implements ChangeApi {
   private final PutTopic putTopic;
   private final ChangeIncludedIn includedIn;
   private final PostReviewers postReviewers;
-  private final ChangeJson.Factory changeJson;
+  private final Provider<GetChange> getChangeProvider;
   private final PostHashtags postHashtags;
   private final GetHashtags getHashtags;
   private final PutAssignee putAssignee;
@@ -180,7 +180,7 @@ class ChangeApiImpl implements ChangeApi {
       PutTopic putTopic,
       ChangeIncludedIn includedIn,
       PostReviewers postReviewers,
-      ChangeJson.Factory changeJson,
+      Provider<GetChange> getChangeProvider,
       PostHashtags postHashtags,
       GetHashtags getHashtags,
       PutAssignee putAssignee,
@@ -226,7 +226,7 @@ class ChangeApiImpl implements ChangeApi {
     this.putTopic = putTopic;
     this.includedIn = includedIn;
     this.postReviewers = postReviewers;
-    this.changeJson = changeJson;
+    this.getChangeProvider = getChangeProvider;
     this.postHashtags = postHashtags;
     this.getHashtags = getHashtags;
     this.putAssignee = putAssignee;
@@ -454,7 +454,9 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public ChangeInfo get(EnumSet<ListChangesOption> s) throws RestApiException {
     try {
-      return changeJson.create(s).format(change);
+      GetChange getChange = getChangeProvider.get();
+      s.forEach(getChange::addOption);
+      return getChange.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve change", e);
     }

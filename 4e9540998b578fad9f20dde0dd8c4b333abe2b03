@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fd62d59_2462508e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-14T07:01:17Z",
+      "side": 1,
+      "message": "I do not understand this change - if opt_params is a string, then the for loop will iterate over it\u0027s characters, and hasOwnProperty will return false, so we will continue through the full loop, and then ignore the parameter. What am I missing?",
+      "range": {
+        "startLine": 356,
+        "startChar": 23,
+        "endLine": 356,
+        "endChar": 29
+      },
+      "revId": "4e9540998b578fad9f20dde0dd8c4b333abe2b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

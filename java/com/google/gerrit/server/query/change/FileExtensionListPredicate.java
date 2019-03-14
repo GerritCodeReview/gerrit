@@ -22,9 +22,7 @@ import com.google.gwtorm.server.OrmException;
 
 public class FileExtensionListPredicate extends ChangeIndexPredicate {
   private static String clean(String extList) {
-    return Splitter.on(',')
-        .splitToList(extList)
-        .stream()
+    return Splitter.on(',').splitToList(extList).stream()
         .map(FileExtensionPredicate::clean)
         .distinct()
         .sorted()

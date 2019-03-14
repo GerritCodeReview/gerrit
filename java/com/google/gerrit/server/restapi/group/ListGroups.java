@@ -308,8 +308,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   private Stream<GroupReference> getAllExistingGroups() throws IOException, ConfigInvalidException {
     if (!projects.isEmpty()) {
-      return projects
-          .stream()
+      return projects.stream()
           .map(ProjectState::getAllGroups)
           .flatMap(Collection::stream)
           .distinct();

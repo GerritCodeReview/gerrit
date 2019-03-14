@@ -643,8 +643,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS);
     ImmutableList<AccountInfo> ccs =
-        firstNonNull(ci.reviewers.get(ReviewerState.CC), ImmutableList.<AccountInfo>of())
-            .stream()
+        firstNonNull(ci.reviewers.get(ReviewerState.CC), ImmutableList.<AccountInfo>of()).stream()
             .sorted(comparing((AccountInfo a) -> a.email))
             .collect(toImmutableList());
     assertThat(ccs).hasSize(2);
@@ -2058,9 +2057,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(getLastMessage(r.getChangeId())).isEqualTo("Uploaded patch set 3.\n\n(3 comments)");
 
     List<String> messages =
-        sender
-            .getMessages()
-            .stream()
+        sender.getMessages().stream()
             .map(Message::body)
             .sorted(Comparator.comparingInt(m -> m.contains("reexamine") ? 0 : 1))
             .collect(toList());
@@ -2494,11 +2491,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   private Collection<CommentInfo> getPublishedComments(String changeId) throws Exception {
-    return gApi.changes()
-        .id(changeId)
-        .comments()
-        .values()
-        .stream()
+    return gApi.changes().id(changeId).comments().values().stream()
         .flatMap(Collection::stream)
         .collect(toList());
   }

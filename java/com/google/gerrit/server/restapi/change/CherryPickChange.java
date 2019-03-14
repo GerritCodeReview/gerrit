@@ -383,9 +383,7 @@ public class CherryPickChange {
 
     if (!cherryPickCommit.getFilesWithGitConflicts().isEmpty()) {
       stringBuilder.append("\n\nThe following files contain Git conflicts:\n");
-      cherryPickCommit
-          .getFilesWithGitConflicts()
-          .stream()
+      cherryPickCommit.getFilesWithGitConflicts().stream()
           .sorted()
           .forEach(filePath -> stringBuilder.append("* ").append(filePath).append("\n"));
     }

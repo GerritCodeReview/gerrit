@@ -106,9 +106,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
   }
 
   private List<TaskInfo> getTasks() {
-    return workQueue
-        .getTaskInfos(TaskInfo::new)
-        .stream()
+    return workQueue.getTaskInfos(TaskInfo::new).stream()
         .sorted(
             comparing((TaskInfo t) -> t.state.ordinal())
                 .thenComparing(t -> t.delay)

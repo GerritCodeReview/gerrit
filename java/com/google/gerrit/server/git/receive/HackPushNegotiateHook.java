@@ -79,10 +79,7 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
     if (r == null) {
       try {
         r =
-            rp.getRepository()
-                .getRefDatabase()
-                .getRefs()
-                .stream()
+            rp.getRepository().getRefDatabase().getRefs().stream()
                 .collect(toMap(Ref::getName, x -> x));
       } catch (ServiceMayNotContinueException e) {
         throw e;

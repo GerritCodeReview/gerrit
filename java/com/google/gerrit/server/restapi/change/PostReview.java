@@ -775,8 +775,7 @@ public class PostReview
   private static void ensureRangesDoNotOverlap(
       String commentPath, List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
     List<Range> sortedRanges =
-        fixReplacementInfos
-            .stream()
+        fixReplacementInfos.stream()
             .map(fixReplacementInfo -> fixReplacementInfo.range)
             .sorted()
             .collect(toList());
@@ -1033,17 +1032,13 @@ public class PostReview
     }
 
     private Set<CommentSetEntry> readExistingComments(ChangeContext ctx) throws OrmException {
-      return commentsUtil
-          .publishedByChange(ctx.getNotes())
-          .stream()
+      return commentsUtil.publishedByChange(ctx.getNotes()).stream()
           .map(CommentSetEntry::create)
           .collect(toSet());
     }
 
     private Set<CommentSetEntry> readExistingRobotComments(ChangeContext ctx) throws OrmException {
-      return commentsUtil
-          .robotCommentsByChange(ctx.getNotes())
-          .stream()
+      return commentsUtil.robotCommentsByChange(ctx.getNotes()).stream()
           .map(CommentSetEntry::create)
           .collect(toSet());
     }
@@ -1255,8 +1250,7 @@ public class PostReview
       if (!reduced.isEmpty()) {
         throw new ResourceConflictException(
             "Cannot reduce vote on labels for closed change: "
-                + reduced
-                    .stream()
+                + reduced.stream()
                     .map(PatchSetApproval::getLabel)
                     .distinct()
                     .sorted()

@@ -154,10 +154,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     @Override
     public ImmutableSet<AccountGroup.UUID> load(Account.Id memberId) throws OrmException {
       try (TraceTimer timer = TraceContext.newTimer("Loading groups with member %s", memberId)) {
-        return groupQueryProvider
-            .get()
-            .byMember(memberId)
-            .stream()
+        return groupQueryProvider.get().byMember(memberId).stream()
             .map(InternalGroup::getGroupUUID)
             .collect(toImmutableSet());
       }
@@ -176,10 +173,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     @Override
     public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) throws OrmException {
       try (TraceTimer timer = TraceContext.newTimer("Loading parent groups of %s", key)) {
-        return groupQueryProvider
-            .get()
-            .bySubgroup(key)
-            .stream()
+        return groupQueryProvider.get().bySubgroup(key).stream()
             .map(InternalGroup::getGroupUUID)
             .collect(toImmutableList());
       }

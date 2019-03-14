@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "3e3455b4_caca1947",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-14T15:23:41Z",
+      "side": 1,
+      "message": "Summing up, here are the proposals so far:\n\n1. Separate interfaces with the same name and similar methods.\n\n2. Single interface, explicit Context option to the #create method.\n\n3. Single interface, plugins declare which codepaths to support via .annotatedWith(Exports.named(...))\n\n4. Single interface, plugins declare which codepaths to support via custom annotation on the impl class.\n\nI\u0027ve documented various specific downsides of these proposals elsewhere, so let\u0027s take a step back and look at a bigger picture.\n\nIMO the major advantage of 1/2 (especially 2) compared to 3/4 is less magic. If I\u0027m a plugin author and I want to distinguish between the get/query codepaths, I don\u0027t have to go back to the plugin docs and look up the name of the annotation or the classname I need to export. I get all the information I need from the interface itself. It\u0027s obvious that ChangeQueryProcessor.ChangeAttributeFactory/Context.QUERY is about query, and GetChange.ChangeAttributeFactory/Context.GET is about get.",
+      "parentUuid": "9c8f5afd_26be75af",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "32da182b55e804a0211dbf281fcbdb1c2ba44cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "419abaf4_c05107b7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

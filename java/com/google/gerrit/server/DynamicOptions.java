@@ -155,6 +155,10 @@ public class DynamicOptions {
     void setDynamicBean(String plugin, DynamicBean dynamicBean);
   }
 
+  public interface BeanProvider {
+    DynamicBean getDynamicBean(String plugin);
+  }
+
   /**
    * MergedClassloaders allow us to load classes from both plugin classloaders. Store the merged
    * classloaders in a Map to avoid creating a new classloader for each invocation. Use a

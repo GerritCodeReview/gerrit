@@ -96,7 +96,6 @@ import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
-import com.google.gerrit.server.query.change.PluginDefinedAttributesFactory;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

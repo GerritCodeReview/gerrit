@@ -863,15 +863,15 @@ boolean json;
 === Query Attributes ===
 
 Plugins can provide additional attributes to be returned in Gerrit queries by
-implementing the ChangeAttributeFactory interface and registering it to the
-ChangeQueryProcessor.ChangeAttributeFactory class in the plugin module's
-'configure()' method. The new attribute(s) will be output under a "plugin"
-attribute in the change query output. This can be further controlled with an
-option registered in the Http and Ssh modules' 'configure*()' methods.
+implementing the `ChangeAttributeFactory` interface and registering it to the
+class in the plugin module's `configure()` method. The new attribute(s) will be
+output under a `plugin` attribute in the change query output. This can be
+further controlled with an option registered in the Http and Ssh modules'
+`configure*()` methods.
 
-The example below shows a plugin that adds two attributes ('exampleName' and
-'changeValue'), to the change query output, when the query command is provided
-the --myplugin-name--all option.
+The example below shows a plugin that adds two attributes (`exampleName` and
+`changeValue`), to the change query output, when the query command is provided
+the `--myplugin-name--all` option.
 
 [source, java]
 ----
@@ -921,9 +921,9 @@ public class AttributeFactory implements ChangeAttributeFactory {
   }
 
   @Override
-  public PluginDefinedInfo create(ChangeData c, ChangeQueryProcessor qp, String plugin) {
+  public PluginDefinedInfo create(ChangeData c, BeanProvider bp, String plugin) {
     if (options == null) {
-      options = (MyQueryOptions) qp.getDynamicBean(plugin);
+      options = (MyQueryOptions) bp.getDynamicBean(plugin);
     }
     if (options.all) {
       return new PluginAttribute(c);

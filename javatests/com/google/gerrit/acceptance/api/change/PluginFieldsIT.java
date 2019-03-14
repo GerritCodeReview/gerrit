@@ -34,7 +34,7 @@ import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
-import com.google.gerrit.server.query.change.ChangeQueryProcessor.ChangeAttributeFactory;
+import com.google.gerrit.server.change.ChangeAttributeFactory;
 import com.google.gerrit.server.query.change.OutputStreamQuery;
 import com.google.gerrit.server.restapi.change.QueryChanges;
 import com.google.gerrit.sshd.PluginCommandModule;
@@ -92,8 +92,8 @@ public class PluginFieldsIT extends AbstractDaemonTest {
     @Override
     public void configure() {
       bind(ChangeAttributeFactory.class)
-          .annotatedWith(Exports.named("always-null"))
-          .toInstance((cd, qp, p) -> null);
+          .annotatedWith(Exports.named("null"))
+          .toInstance((cd, bp, p) -> null);
     }
   }
 
@@ -102,7 +102,7 @@ public class PluginFieldsIT extends AbstractDaemonTest {
     public void configure() {
       bind(ChangeAttributeFactory.class)
           .annotatedWith(Exports.named("simple"))
-          .toInstance((cd, qp, p) -> new MyInfo("change " + cd.getId()));
+          .toInstance((cd, bp, p) -> new MyInfo("change " + cd.getId()));
     }
   }
 
@@ -117,8 +117,8 @@ public class PluginFieldsIT extends AbstractDaemonTest {
       bind(ChangeAttributeFactory.class)
           .annotatedWith(Exports.named("simple"))
           .toInstance(
-              (cd, qp, p) -> {
-                MyOptions opts = (MyOptions) qp.getDynamicBean(p);
+              (cd, bp, p) -> {
+                MyOptions opts = (MyOptions) bp.getDynamicBean(p);
                 return opts != null ? new MyInfo("opt " + opts.opt) : null;
               });
     }

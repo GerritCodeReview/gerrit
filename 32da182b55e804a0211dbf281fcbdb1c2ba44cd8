@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "9c8f5afd_26be75af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-14T15:17:51Z",
+      "side": 1,
+      "message": "BTW forgot to respond to:\n\n\u003e Also for queries, we tend to makes someone have to add a switch to make a plugin add data, so plugins can always use this as the differentiator.\n\nYou mean pass one switch in the query path and a different switch in the get path? That would work in theory. But my first guess as a user would be for the switch to be the same. If I want the \"foo\" field, you pass \"--myplugin-foo\", regardless of which endpoint I\u0027m hitting. It\u0027d feel weird to have to pass \"--myplugin-query-foo\" in query and \"--myplugin-get-foo\" in get.",
+      "parentUuid": "a8c52b5f_77946694",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "32da182b55e804a0211dbf281fcbdb1c2ba44cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "419abaf4_c05107b7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

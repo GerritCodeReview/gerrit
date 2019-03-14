@@ -18,14 +18,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.gerrit.extensions.restapi.RawInput;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.servlet.http.HttpServletRequest;
 
-@GwtIncompatible("Unemulated classes in java.io and javax.servlet")
 public class RawInputUtil {
   public static RawInput create(String content) {
     return create(content.getBytes(UTF_8));

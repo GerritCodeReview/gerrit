@@ -18,7 +18,6 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.common.annotations.GwtCompatible;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -28,7 +27,6 @@ import java.lang.annotation.Target;
  */
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
-@GwtCompatible
 public @interface UsedAt {
   /** Enumeration of projects that call a method that would otherwise be private. */
   enum Project {

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ import java.util.List;
 import org.eclipse.jgit.transport.RefSpec;
 
 /** Portion of a {@link Project} describing superproject subscription rules. */
-@GwtIncompatible("Unemulated org.eclipse.jgit.transport.RefSpec")
 public class SubscribeSection {
 
   private final List<RefSpec> multiMatchRefSpecs;

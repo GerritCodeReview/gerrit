@@ -17,13 +17,11 @@ package com.google.gerrit.common.data;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 
 /** Describes a requirement to submit a change. */
-@GwtIncompatible
 @AutoValue
 @AutoValue.CopyAnnotations
 public abstract class SubmitRequirement {

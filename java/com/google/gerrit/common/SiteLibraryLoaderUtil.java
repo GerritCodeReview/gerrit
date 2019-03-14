@@ -18,7 +18,6 @@ import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.common.FileUtil.lastModified;
 import static java.util.stream.Collectors.joining;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
@@ -30,7 +29,6 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.List;
 
-@GwtIncompatible("Unemulated classes in java.nio and Guava")
 public final class SiteLibraryLoaderUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

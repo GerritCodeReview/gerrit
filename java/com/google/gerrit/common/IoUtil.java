@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Sets;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +29,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-@GwtIncompatible("Unemulated methods in Class and OutputStream")
 public final class IoUtil {
   public static void copyWithThread(InputStream src, OutputStream dst) {
     new Thread("IoUtil-Copy") {

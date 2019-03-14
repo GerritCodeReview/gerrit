@@ -336,8 +336,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       ScanResult sr = scanChangeIds(repo);
       PrimaryStorage defaultStorage = args.migration.changePrimaryStorage();
 
-      return sr.all()
-          .stream()
+      return sr.all().stream()
           .map(id -> scanOneNoteDbChange(db, project, sr, defaultStorage, id))
           .filter(Objects::nonNull);
     }

@@ -235,8 +235,7 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
-    return all()
-        .stream()
+    return all().stream()
         .map(n -> byName.getIfPresent(n.get()))
         .filter(Objects::nonNull)
         .flatMap(p -> p.getConfig().getAllGroupUUIDs().stream())

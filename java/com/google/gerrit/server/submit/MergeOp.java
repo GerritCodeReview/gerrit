@@ -339,9 +339,7 @@ public class MergeOp implements AutoCloseable {
       blockingConditions.add(describeLabels(cd, record.labels));
     }
     if (record.requirements != null) {
-      record
-          .requirements
-          .stream()
+      record.requirements.stream()
           .map(SubmitRequirement::fallbackText)
           .forEach(blockingConditions::add);
     }

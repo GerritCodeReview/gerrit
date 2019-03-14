@@ -127,9 +127,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
   @VisibleForTesting
   public static Set<String> getAllGroups(ChangeNotes notes, ReviewDb db, PatchSetUtil psUtil)
       throws OrmException {
-    return psUtil
-        .byChange(db, notes)
-        .stream()
+    return psUtil.byChange(db, notes).stream()
         .flatMap(ps -> ps.getGroups().stream())
         .collect(toSet());
   }

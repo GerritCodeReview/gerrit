@@ -139,17 +139,13 @@ abstract class GroupBundle {
       return create(
           Source.NOTE_DB,
           accountGroup,
-          internalGroup
-              .getMembers()
-              .stream()
+          internalGroup.getMembers().stream()
               .map(
                   accountId ->
                       new AccountGroupMember(new AccountGroupMember.Key(accountId, groupId)))
               .collect(toImmutableSet()),
           auditLogReader.getMembersAudit(repo, uuid),
-          internalGroup
-              .getSubgroups()
-              .stream()
+          internalGroup.getSubgroups().stream()
               .map(
                   subgroupUuid ->
                       new AccountGroupById(new AccountGroupById.Key(groupId, subgroupUuid)))
@@ -518,8 +514,7 @@ abstract class GroupBundle {
 
   private static ListMultimap<String, AuditEntry> toMemberAuditEntriesByMemberId(
       ImmutableSet<AccountGroupMemberAudit> memberAudits) {
-    return memberAudits
-        .stream()
+    return memberAudits.stream()
         .flatMap(GroupBundle::toAuditEntries)
         .collect(
             Multimaps.toMultimap(
@@ -550,8 +545,7 @@ abstract class GroupBundle {
 
   private static ListMultimap<String, AuditEntry> toByIdAuditEntriesById(
       ImmutableSet<AccountGroupByIdAud> byIdAudits) {
-    return byIdAudits
-        .stream()
+    return byIdAudits.stream()
         .flatMap(GroupBundle::toAuditEntries)
         .collect(
             Multimaps.toMultimap(
@@ -587,15 +581,11 @@ abstract class GroupBundle {
       ListMultimap<String, AuditEntry> noteDbMemberAuditsByTarget) {
     for (String target : reviewDbMemberAuditsByTarget.keySet()) {
       ImmutableList<AuditEntry> reviewDbAuditEntries =
-          reviewDbMemberAuditsByTarget
-              .get(target)
-              .stream()
+          reviewDbMemberAuditsByTarget.get(target).stream()
               .sorted(AUDIT_ENTRY_COMPARATOR)
               .collect(toImmutableList());
       ImmutableSet<AuditEntry> noteDbAuditEntries =
-          noteDbMemberAuditsByTarget
-              .get(target)
-              .stream()
+          noteDbMemberAuditsByTarget.get(target).stream()
               .sorted(AUDIT_ENTRY_COMPARATOR)
               .collect(toImmutableSet());
 

@@ -91,10 +91,7 @@ final class ShowConnections extends SshCommand {
     }
 
     final ImmutableList<IoSession> list =
-        acceptor
-            .getManagedSessions()
-            .values()
-            .stream()
+        acceptor.getManagedSessions().values().stream()
             .sorted(
                 (arg0, arg1) -> {
                   if (arg0 instanceof MinaSession) {

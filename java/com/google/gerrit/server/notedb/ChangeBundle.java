@@ -557,8 +557,7 @@ public class ChangeBundle {
     }
     if (!bs.isEmpty()) {
       sb.append("Only in B:");
-      bs.values()
-          .stream()
+      bs.values().stream()
           .sorted(CHANGE_MESSAGE_COMPARATOR)
           .forEach(cm -> sb.append("\n  ").append(cm));
     }
@@ -675,9 +674,7 @@ public class ChangeBundle {
   private static boolean createdOnIsMonotonic(
       Map<?, PatchSet> patchSets, Set<PatchSet.Id> limitToIds) {
     List<PatchSet> orderedById =
-        patchSets
-            .values()
-            .stream()
+        patchSets.values().stream()
             .filter(ps -> limitToIds.contains(ps.getId()))
             .sorted(ChangeUtil.PS_ID_ORDER)
             .collect(toList());

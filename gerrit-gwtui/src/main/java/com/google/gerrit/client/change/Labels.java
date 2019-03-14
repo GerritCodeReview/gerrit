@@ -140,8 +140,7 @@ class Labels extends Grid {
 
   void set(ChangeInfo info) {
     List<String> names =
-        info.labels()
-            .stream()
+        info.labels().stream()
             .sorted()
             .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     Set<Integer> removable = info.removableReviewerIds();

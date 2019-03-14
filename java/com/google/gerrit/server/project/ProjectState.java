@@ -219,8 +219,7 @@ public class ProjectState {
     }
 
     // If not, we check the parents.
-    return parents()
-        .stream()
+    return parents().stream()
         .map(ProjectState::getConfig)
         .map(ProjectConfig::getRulesId)
         .anyMatch(Objects::nonNull);

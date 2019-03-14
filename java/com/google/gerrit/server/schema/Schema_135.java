@@ -76,11 +76,8 @@ public class Schema_135 extends SchemaVersion {
 
       Set<GroupReference> groups =
           Stream.concat(
-                  config
-                      .getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
-                      .getPermission(GlobalCapability.ADMINISTRATE_SERVER, true)
-                      .getRules()
-                      .stream()
+                  config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
+                      .getPermission(GlobalCapability.ADMINISTRATE_SERVER, true).getRules().stream()
                       .map(PermissionRule::getGroup),
                   Stream.of(systemGroupBackend.getGroup(PROJECT_OWNERS)))
               .filter(g -> createRefsMetaConfigPermission.getRule(g) == null)

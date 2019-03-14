@@ -267,8 +267,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
       fail("expected read-only exception");
     } catch (RestApiException e) {
       Optional<Throwable> oe =
-          Throwables.getCausalChain(e)
-              .stream()
+          Throwables.getCausalChain(e).stream()
               .filter(x -> x instanceof OrmRuntimeException)
               .findFirst();
       assertThat(oe).named("OrmRuntimeException in causal chain of " + e).isPresent();
@@ -511,12 +510,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
   }
 
   private List<Account.Id> getReviewers(Change.Id id) throws Exception {
-    return gApi.changes()
-        .id(id.get())
-        .get()
-        .reviewers
-        .values()
-        .stream()
+    return gApi.changes().id(id.get()).get().reviewers.values().stream()
         .flatMap(Collection::stream)
         .map(a -> new Account.Id(a._accountId))
         .collect(toList());

@@ -291,9 +291,7 @@ public class MergeUtil {
           ((ResolveMerger) m).getMergeResults();
 
       filesWithGitConflicts =
-          mergeResults
-              .entrySet()
-              .stream()
+          mergeResults.entrySet().stream()
               .filter(e -> e.getValue().containsConflicts())
               .map(Map.Entry::getKey)
               .collect(toImmutableSet());

@@ -565,23 +565,17 @@ public abstract class ChangeNotesState {
               .changeId(changeId)
               .columns(toChangeColumns(changeId, proto.getColumns()))
               .pastAssignees(
-                  proto
-                      .getPastAssigneeList()
-                      .stream()
+                  proto.getPastAssigneeList().stream()
                       .map(Account.Id::new)
                       .collect(toImmutableSet()))
               .hashtags(proto.getHashtagList())
               .patchSets(
-                  proto
-                      .getPatchSetList()
-                      .stream()
+                  proto.getPatchSetList().stream()
                       .map(PATCH_SET_CODEC::decode)
                       .map(ps -> Maps.immutableEntry(ps.getId(), ps))
                       .collect(toImmutableList()))
               .approvals(
-                  proto
-                      .getApprovalList()
-                      .stream()
+                  proto.getApprovalList().stream()
                       .map(APPROVAL_CODEC::decode)
                       .map(a -> Maps.immutableEntry(a.getPatchSetId(), a))
                       .collect(toImmutableList()))
@@ -590,28 +584,20 @@ public abstract class ChangeNotesState {
               .pendingReviewers(toReviewerSet(proto.getPendingReviewerList()))
               .pendingReviewersByEmail(toReviewerByEmailSet(proto.getPendingReviewerByEmailList()))
               .allPastReviewers(
-                  proto
-                      .getPastReviewerList()
-                      .stream()
+                  proto.getPastReviewerList().stream()
                       .map(Account.Id::new)
                       .collect(toImmutableList()))
               .reviewerUpdates(toReviewerStatusUpdateList(proto.getReviewerUpdateList()))
               .submitRecords(
-                  proto
-                      .getSubmitRecordList()
-                      .stream()
+                  proto.getSubmitRecordList().stream()
                       .map(r -> GSON.fromJson(r, StoredSubmitRecord.class).toSubmitRecord())
                       .collect(toImmutableList()))
               .changeMessages(
-                  proto
-                      .getChangeMessageList()
-                      .stream()
+                  proto.getChangeMessageList().stream()
                       .map(MESSAGE_CODEC::decode)
                       .collect(toImmutableList()))
               .publishedComments(
-                  proto
-                      .getPublishedCommentList()
-                      .stream()
+                  proto.getPublishedCommentList().stream()
                       .map(r -> GSON.fromJson(r, Comment.class))
                       .collect(toImmutableListMultimap(c -> new RevId(c.revId), c -> c)));
       if (proto.getHasReadOnlyUntil()) {

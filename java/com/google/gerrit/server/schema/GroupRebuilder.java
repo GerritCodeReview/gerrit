@@ -229,16 +229,12 @@ class GroupRebuilder {
     return b ->
         b.setMemberModification(
                 in ->
-                    bundle
-                        .members()
-                        .stream()
+                    bundle.members().stream()
                         .map(AccountGroupMember::getAccountId)
                         .collect(toImmutableSet()))
             .setSubgroupModification(
                 in ->
-                    bundle
-                        .byId()
-                        .stream()
+                    bundle.byId().stream()
                         .map(AccountGroupById::getIncludeUUID)
                         .collect(toImmutableSet()));
   }

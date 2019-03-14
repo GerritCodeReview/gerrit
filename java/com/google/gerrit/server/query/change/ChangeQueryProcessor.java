@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.IndexPredicate;
@@ -33,6 +34,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
 import com.google.gerrit.server.account.AccountLimits;
+import com.google.gerrit.server.change.ChangeAttributeFactory;
+import com.google.gerrit.server.change.PluginDefinedAttributesFactory;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
@@ -55,18 +58,10 @@ import java.util.Set;
  * holding on to a single instance.
  */
 public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
-    implements DynamicOptions.BeanReceiver, PluginDefinedAttributesFactory {
+    implements DynamicOptions.BeanReceiver,
+        DynamicOptions.BeanProvider,
+        PluginDefinedAttributesFactory {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  /**
-   * Register a ChangeAttributeFactory in a config Module like this:
-   *
-   * <p>bind(ChangeAttributeFactory.class) .annotatedWith(Exports.named("export-name"))
-   * .to(YourClass.class);
-   */
-  public interface ChangeAttributeFactory {
-    PluginDefinedInfo create(ChangeData a, ChangeQueryProcessor qp, String plugin);
-  }
 
   private final Provider<CurrentUser> userProvider;
   private final ChangeNotes.Factory notesFactory;
@@ -112,9 +107,14 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
 
     ImmutableListMultimap.Builder<String, ChangeAttributeFactory> factoriesBuilder =
         ImmutableListMultimap.builder();
-    // Eagerly call Extension#get() rather than storing Extensions, since that method invokes the
-    // Provider on every call, which could be expensive if we invoke it once for every change.
-    attributeFactories.forEach(e -> factoriesBuilder.put(e.getPluginName(), e.get()));
+    for (Extension<ChangeAttributeFactory> e : attributeFactories) {
+      if (getClass().getCanonicalName().equals(e.getExportName())) {
+        // Eagerly call Extension#get() rather than storing Extensions, since that method invokes
+        // the Provider on every call, which could be expensive if we invoke it once for every
+        // change.
+        factoriesBuilder.put(e.getPluginName(), e.get());
+      }
+    }
     attributeFactoriesByPlugin = factoriesBuilder.build();
   }
 
@@ -135,6 +135,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     dynamicBeans.put(plugin, dynamicBean);
   }
 
+  @Override
   public DynamicBean getDynamicBean(String plugin) {
     return dynamicBeans.get(plugin);
   }

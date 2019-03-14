@@ -217,6 +217,30 @@
     },
     {
       "key": {
+        "uuid": "befaebb1_63343ac0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-14T16:52:14Z",
+      "side": 1,
+      "message": "\u003e Yes, that was my preference because it seems cleaner and yet still flexible with less implied behavior.\n\nThanks for the discussion, I\u0027ll go ahead with this.\n\n\u003e Would your dashboard concerns go away if you had a bulk interface?\n\nUnfortunately no. We need to read data from a repo (NoteDb), and opening arbitrarily many repos in a single request path is problematic.\n\n(I\u0027m in no way opposed to a bulk interface, though.)",
+      "parentUuid": "92ac287a_5cac9215",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "32da182b55e804a0211dbf281fcbdb1c2ba44cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "419abaf4_c05107b7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

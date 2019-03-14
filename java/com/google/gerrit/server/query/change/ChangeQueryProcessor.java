@@ -33,6 +33,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
 import com.google.gerrit.server.account.AccountLimits;
+import com.google.gerrit.server.change.ChangeAttributeFactory;
+import com.google.gerrit.server.change.PluginDefinedAttributesFactory;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
@@ -55,18 +57,10 @@ import java.util.Set;
  * holding on to a single instance.
  */
 public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
-    implements DynamicOptions.BeanReceiver, PluginDefinedAttributesFactory {
+    implements DynamicOptions.BeanReceiver,
+        DynamicOptions.BeanProvider,
+        PluginDefinedAttributesFactory {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  /**
-   * Register a ChangeAttributeFactory in a config Module like this:
-   *
-   * <p>bind(ChangeAttributeFactory.class) .annotatedWith(Exports.named("export-name"))
-   * .to(YourClass.class);
-   */
-  public interface ChangeAttributeFactory {
-    PluginDefinedInfo create(ChangeData a, ChangeQueryProcessor qp, String plugin);
-  }
 
   private final Provider<CurrentUser> userProvider;
   private final ChangeNotes.Factory notesFactory;
@@ -135,6 +129,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     dynamicBeans.put(plugin, dynamicBean);
   }
 
+  @Override
   public DynamicBean getDynamicBean(String plugin) {
     return dynamicBeans.get(plugin);
   }

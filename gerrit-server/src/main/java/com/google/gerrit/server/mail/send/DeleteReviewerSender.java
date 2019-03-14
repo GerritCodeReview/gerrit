@@ -61,7 +61,6 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
 
     ccAllApprovals();
     bccStarredBy();
-    ccExistingReviewers();
     includeWatchers(NotifyType.ALL_COMMENTS);
     add(RecipientType.TO, reviewers);
     addByEmail(RecipientType.TO, reviewersByEmail);

@@ -250,8 +250,6 @@ public class PostReviewersOp implements BatchUpdateOp {
       cm.setFrom(userId);
       cm.addReviewers(toMail);
       cm.addReviewersByEmail(addedByEmail);
-      cm.addExtraCC(toCopy);
-      cm.addExtraCCByEmail(copiedByEmail);
       cm.send();
     } catch (Exception err) {
       log.error("Cannot send email to new reviewers of change " + change.getId(), err);

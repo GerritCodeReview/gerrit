@@ -441,6 +441,15 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     soyContext.put("changeId", change.getKey().get());
     soyContext.put("coverLetter", getCoverLetter());
+
+    // If there is a patchset, make ChangeEmail originate from PatchSet uploader
+    // as opposed to ChangeOwner
+    // If there is no patchset or it cannot be retrieved, the default fromId
+    // is ChangeOwner
+    if (patchSet != null) {
+      setFrom(patchSet.getUploader());
+    }
+
     soyContext.put("fromName", getNameFor(fromId));
     soyContext.put("fromEmail", getNameEmailFor(fromId));
     soyContext.put("diffLines", getDiffTemplateData());

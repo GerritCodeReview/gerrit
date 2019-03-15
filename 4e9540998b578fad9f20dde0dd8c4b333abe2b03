@@ -46,6 +46,30 @@
       "revId": "4e9540998b578fad9f20dde0dd8c4b333abe2b03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0f8baa_d1871a21",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-15T09:55:14Z",
+      "side": 1,
+      "message": "That is indeed very strange functionality. It seems like it might just be a bug?\nDid this cause any compile error? Probably not since things are not actually properly compiled. \n\nAlso weird to describe a string parameter \"list changes options in hex\". And then the anonymizedUrl created one proper parameter O\u003d\u003coptionsHex\u003e.\n\nI spend a bit to dig into where this is used etc. and there are lots and lot\u0027s of things that do not make sense to me. Unfortunately it is too risky and takes too much time to get to the bottom of this, so I will leave it there. Snif.",
+      "parentUuid": "e13c86b2_63b7df27",
+      "range": {
+        "startLine": 356,
+        "startChar": 23,
+        "endLine": 356,
+        "endChar": 29
+      },
+      "revId": "4e9540998b578fad9f20dde0dd8c4b333abe2b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

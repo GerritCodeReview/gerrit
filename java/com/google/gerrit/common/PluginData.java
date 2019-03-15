@@ -14,11 +14,9 @@
 
 package com.google.gerrit.common;
 
-import com.google.common.annotations.GwtIncompatible;
 import java.nio.file.Path;
 import java.util.Objects;
 
-@GwtIncompatible("Unemulated java.nio.file.Path")
 public class PluginData {
   public final String name;
   public final String version;

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.gerrit.reviewdb.client.Account;
 import java.util.Collection;
 import java.util.List;
@@ -65,7 +64,7 @@ public class SubmitRecord {
 
   public Status status;
   public List<Label> labels;
-  @GwtIncompatible public List<SubmitRequirement> requirements;
+  public List<SubmitRequirement> requirements;
   public String errorMessage;
 
   public static class Label {
@@ -136,7 +135,6 @@ public class SubmitRecord {
     }
   }
 
-  @GwtIncompatible
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -164,7 +162,6 @@ public class SubmitRecord {
     return sb.toString();
   }
 
-  @GwtIncompatible
   @Override
   public boolean equals(Object o) {
     if (o instanceof SubmitRecord) {
@@ -177,7 +174,6 @@ public class SubmitRecord {
     return false;
   }
 
-  @GwtIncompatible
   @Override
   public int hashCode() {
     return Objects.hash(status, labels, errorMessage, requirements);

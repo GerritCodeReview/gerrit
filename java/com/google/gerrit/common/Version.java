@@ -16,7 +16,6 @@ package com.google.gerrit.common;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.flogger.FluentLogger;
 import java.io.BufferedReader;
@@ -24,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-@GwtIncompatible("Unemulated com.google.gerrit.common.Version")
 public class Version {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

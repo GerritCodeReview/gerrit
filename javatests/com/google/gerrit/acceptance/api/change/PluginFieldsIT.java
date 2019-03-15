@@ -388,13 +388,12 @@ public class PluginFieldsIT extends AbstractDaemonTest {
 
   @Nullable
   private static List<MyInfo> pluginInfoFromSingletonListSsh(String sshOutput) throws Exception {
-    Gson gson = OutputStreamQuery.GSON;
     List<Map<String, Object>> changeAttrs = new ArrayList<>();
     for (String line : CharStreams.readLines(new StringReader(sshOutput))) {
       // Don't deserialize to ChangeAttribute directly, since that would treat the plugins field as
       // List<PluginDefinedInfo> and ignore the unknown keys found in MyInfo.
       Map<String, Object> changeAttr =
-          gson.fromJson(line, new TypeToken<Map<String, Object>>() {}.getType());
+          SSH_GSON.fromJson(line, new TypeToken<Map<String, Object>>() {}.getType());
       if (!"stats".equals(changeAttr.get("type"))) {
         changeAttrs.add(changeAttr);
       }
@@ -406,7 +405,7 @@ public class PluginFieldsIT extends AbstractDaemonTest {
     if (plugins == null) {
       return null;
     }
-    return gson.fromJson(gson.toJson(plugins), new TypeToken<List<MyInfo>>() {}.getType());
+    return SSH_GSON.fromJson(SSH_GSON.toJson(plugins), new TypeToken<List<MyInfo>>() {}.getType());
   }
 
   @Nullable

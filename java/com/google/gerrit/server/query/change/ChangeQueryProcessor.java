@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIMIT;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -45,7 +46,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -56,9 +56,7 @@ import java.util.Set;
  * holding on to a single instance.
  */
 public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
-    implements DynamicOptions.BeanReceiver,
-        DynamicOptions.BeanProvider,
-        PluginDefinedAttributesFactory {
+    implements DynamicOptions.BeanReceiver, DynamicOptions.BeanProvider {
   private final Provider<CurrentUser> userProvider;
   private final ChangeNotes.Factory notesFactory;
   private final ImmutableListMultimap<String, ChangeAttributeFactory> attributeFactoriesByPlugin;
@@ -131,8 +129,11 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     return dynamicBeans.get(plugin);
   }
 
-  @Override
-  public List<PluginDefinedInfo> create(ChangeData cd) {
+  public PluginDefinedAttributesFactory getAttributesFactory() {
+    return this::buildPluginInfo;
+  }
+
+  private ImmutableList<PluginDefinedInfo> buildPluginInfo(ChangeData cd) {
     return PluginDefinedAttributesFactories.createAll(
         cd,
         this,

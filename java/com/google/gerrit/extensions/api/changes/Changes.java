@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -77,6 +79,7 @@ public interface Changes {
     private int start;
     private boolean isNoLimit;
     private EnumSet<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
+    private ListMultimap<String, String> pluginOptions = ArrayListMultimap.create();
 
     public abstract List<ChangeInfo> get() throws RestApiException;
 
@@ -118,6 +121,18 @@ public interface Changes {
       return this;
     }
 
+    /** Set a plugin option on the request, appending to existing options. */
+    public QueryRequest withPluginOption(String name, String value) {
+      this.pluginOptions.put(name, value);
+      return this;
+    }
+
+    /** Set a plugin option on the request, replacing existing options. */
+    public QueryRequest withPluginOptions(ListMultimap<String, String> options) {
+      this.pluginOptions = ArrayListMultimap.create(options);
+      return this;
+    }
+
     public String getQuery() {
       return query;
     }
@@ -136,6 +151,10 @@ public interface Changes {
 
     public EnumSet<ListChangesOption> getOptions() {
       return options;
+    }
+
+    public ListMultimap<String, String> getPluginOptions() {
+      return pluginOptions;
     }
 
     @Override

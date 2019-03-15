@@ -16,6 +16,8 @@ package com.google.gerrit.server.api.changes;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -49,9 +51,12 @@ import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gerrit.server.change.ChangeMessageResource;
@@ -97,14 +102,18 @@ import com.google.gerrit.server.restapi.change.SetWorkInProgress;
 import com.google.gerrit.server.restapi.change.SubmittedTogether;
 import com.google.gerrit.server.restapi.change.SuggestChangeReviewers;
 import com.google.gerrit.server.restapi.change.Unignore;
+import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.kohsuke.args4j.CmdLineException;
 
 class ChangeApiImpl implements ChangeApi {
   interface Factory {
@@ -157,6 +166,7 @@ class ChangeApiImpl implements ChangeApi {
   private final PutMessage putMessage;
   private final Provider<GetPureRevert> getPureRevertProvider;
   private final StarredChangesUtil stars;
+  private final DynamicOptionParser dynamicOptionParser;
 
   @Inject
   ChangeApiImpl(
@@ -205,6 +215,7 @@ class ChangeApiImpl implements ChangeApi {
       PutMessage putMessage,
       Provider<GetPureRevert> getPureRevertProvider,
       StarredChangesUtil stars,
+      DynamicOptionParser dynamicOptionParser,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -251,6 +262,7 @@ class ChangeApiImpl implements ChangeApi {
     this.putMessage = putMessage;
     this.getPureRevertProvider = getPureRevertProvider;
     this.stars = stars;
+    this.dynamicOptionParser = dynamicOptionParser;
     this.change = change;
   }
 
@@ -452,10 +464,13 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public ChangeInfo get(EnumSet<ListChangesOption> s) throws RestApiException {
+  public ChangeInfo get(
+      EnumSet<ListChangesOption> options, ImmutableListMultimap<String, String> pluginOptions)
+      throws RestApiException {
     try {
       GetChange getChange = getChangeProvider.get();
-      s.forEach(getChange::addOption);
+      options.forEach(getChange::addOption);
+      dynamicOptionParser.parseDynamicOptions(getChange, pluginOptions);
       return getChange.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve change", e);
@@ -660,6 +675,38 @@ class ChangeApiImpl implements ChangeApi {
       return changeMessageApi.create(resource);
     } catch (Exception e) {
       throw asRestApiException("Cannot parse change message " + id, e);
+    }
+  }
+
+  @Singleton
+  static class DynamicOptionParser {
+    private final CmdLineParser.Factory cmdLineParserFactory;
+    private final Injector injector;
+    private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
+
+    @Inject
+    DynamicOptionParser(
+        CmdLineParser.Factory cmdLineParserFactory,
+        Injector injector,
+        DynamicMap<DynamicOptions.DynamicBean> dynamicBeans) {
+      this.cmdLineParserFactory = cmdLineParserFactory;
+      this.injector = injector;
+      this.dynamicBeans = dynamicBeans;
+    }
+
+    void parseDynamicOptions(Object bean, ListMultimap<String, String> pluginOptions)
+        throws BadRequestException {
+      CmdLineParser clp = cmdLineParserFactory.create(bean);
+      DynamicOptions dynamicOptions = new DynamicOptions(bean, injector, dynamicBeans);
+      dynamicOptions.parseDynamicBeans(clp);
+      dynamicOptions.setDynamicBeans();
+      dynamicOptions.onBeanParseStart();
+      try {
+        clp.parseOptionMap(pluginOptions);
+      } catch (CmdLineException | NumberFormatException e) {
+        throw new BadRequestException(e.getMessage(), e);
+      }
+      dynamicOptions.onBeanParseEnd();
     }
   }
 }

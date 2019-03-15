@@ -229,6 +229,15 @@ public class PluginFieldsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void queryChangeApiWithOption() throws Exception {
+    getChangeWithOption(
+        id -> pluginInfoFromSingletonList(gApi.changes().query(id.toString()).get()),
+        (id, opts) ->
+            pluginInfoFromSingletonList(
+                gApi.changes().query(id.toString()).withPluginOptions(opts).get()));
+  }
+
+  @Test
   public void queryChangeSshWithOption() throws Exception {
     getChangeWithOption(
         id -> pluginInfoFromSingletonListSsh(adminSshSession.exec(changeQueryCmd(id))),
@@ -252,6 +261,13 @@ public class PluginFieldsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void getChangeApiWithOption() throws Exception {
+    getChangeWithOption(
+        id -> pluginInfoFromChangeInfo(gApi.changes().id(id.get()).get()),
+        (id, opts) -> pluginInfoFromChangeInfo(gApi.changes().id(id.get()).get(opts)));
+  }
+
+  @Test
   public void getChangeDetailRestWithOption() throws Exception {
     getChangeWithOption(
         id -> pluginInfoFromChangeInfoRest(adminRestSession.get(changeDetailUrl(id))),
@@ -261,8 +277,6 @@ public class PluginFieldsIT extends AbstractDaemonTest {
 
   // No tests for /detail via the extension API, since the extension API doesn't have that method.
   // No tests for getting a single change over SSH, since the only API is the query API.
-
-  // TODO(dborowitz): Add extension API support for passing plugin options.
 
   private void getChangeWithOption(
       PluginInfoGetter getterWithoutOptions, PluginInfoGetterWithOptions getterWithOptions)

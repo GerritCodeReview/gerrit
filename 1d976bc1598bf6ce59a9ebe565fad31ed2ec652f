@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab063e2c_245e13c5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-15T08:33:37Z",
+      "side": 1,
+      "message": "I am not a JavaScript expert, but would \"return undefined;\" be better style? https://palantir.github.io/tslint/rules/return-undefined/\n\nAlso maybe add a comment to the jsdoc about this method potentially returning undefined.",
+      "revId": "1d976bc1598bf6ce59a9ebe565fad31ed2ec652f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -29,6 +29,7 @@
     ANNOTATE_DIFF: 'annotatediff',
     ADMIN_MENU_LINKS: 'admin-menu-links',
     HIGHLIGHTJS_LOADED: 'highlightjs-loaded',
+    GENERATE_CONTENT: 'generatecontent',
   };
 
   const Element = {
@@ -225,6 +226,58 @@
         }
       }
       return layers;
+    },
+
+    getContentGenerators(path) {
+      const contentGenerators = [];
+      for (const generatedContentApi of
+          this._getEventCallbacks(EventType.GENERATE_CONTENT)) {
+        try {
+          contentGenerators.concat(generatedContentApi.getMatchingGenerators(
+              path));
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      if (contentGenerators.length > 1) {
+        console.warning(
+            'Got ' + contentGenerators.length + ' content generators for ' +
+            path + ', using first returned generator.');
+      }
+      return contentGenerators;
+    },
+
+    getNumContentRequiredContentGenerators() {
+      let count = 0;
+      for (const generatedContentApi of
+          this._getEventCallbacks(EventType.GENERATE_CONTENT)) {
+        try {
+          count += generatedContentApi.numContentRequiredContentGenerators();
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      return count;
+    }
+
+    getContentRequiredContentGenerators(path, content) {
+      const contentGenerators = [];
+      for (const generatedContentApi of
+          this._getEventCallbacks(EventType.GENERATE_CONTENT)) {
+        try {
+          contentGenerators.concat(
+              generatedContentApi.getMatchingContentRequiredGenerators(
+                  path, content));
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      if (contentGenerators.length > 1) {
+        console.warning(
+            'Got ' + contentGenerators.length + ' content generators for ' +
+            path + ', using first returned generator.');
+      }
+      return contentGenerators;
     },
 
     getAdminMenuLinks() {

@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "b35d43f6_1cf24f0b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-15T18:57:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39f7981f_d72ce198",
+      "range": {
+        "startLine": 234,
+        "startChar": 2,
+        "endLine": 246,
+        "endChar": 4
+      },
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5889d7e_2ba7f30b",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 12
@@ -207,6 +231,24 @@
       "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6673c4b8_0f4e0e42",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2019-03-15T18:57:40Z",
+      "side": 1,
+      "message": "Done. Although I had to keep Gerrit._pluginPararams. I could not figure out how to get the template test to pass without going through the Gerrit global. It would continually state \"GrRestApiHooks is not defined\" although I would be importing it in the html import file.",
+      "parentUuid": "016c3af9_4076ea33",
+      "revId": "042a57f0feff7364f9821d6860e896777e9aa965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

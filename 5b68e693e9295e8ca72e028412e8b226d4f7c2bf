@@ -94,6 +94,30 @@
       "revId": "5b68e693e9295e8ca72e028412e8b226d4f7c2bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34a766c1_5c2c8a8e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-15T13:51:04Z",
+      "side": 0,
+      "message": "Got it, thanks. (For the record I\u0027m ok with extending the BeanProvider interface if there are additional common, specific things that plugins need.)",
+      "parentUuid": "e776974d_9483a9d7",
+      "range": {
+        "startLine": 924,
+        "startChar": 48,
+        "endLine": 924,
+        "endChar": 68
+      },
+      "revId": "5b68e693e9295e8ca72e028412e8b226d4f7c2bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

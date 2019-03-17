@@ -82,7 +82,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     if (id.get().equals("current")) {
       PatchSet ps = psUtil.current(change.getNotes());
       if (ps != null && visible(change)) {
-        return RevisionResource.createNonCachable(change, ps);
+        return RevisionResource.createNonCacheable(change, ps);
       }
       throw new ResourceNotFoundException(id);
     }

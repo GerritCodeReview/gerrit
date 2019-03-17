@@ -468,6 +468,42 @@ limitations under the License.
       assert.isTrue(overlayOpen.called);
     });
 
+    test('_hideHttpAuth', () => {
+      let serverConfig;
+
+      serverConfig = {
+        auth: {
+          git_basic_auth_policy: 'HTTP',
+        },
+      };
+
+      assert.isFalse(element._hideHttpAuth(serverConfig));
+
+      serverConfig = {
+        auth: {
+          git_basic_auth_policy: 'HTTP_LDAP',
+        },
+      };
+
+      assert.isFalse(element._hideHttpAuth(serverConfig));
+
+      serverConfig = {
+        auth: {
+          git_basic_auth_policy: 'LDAP',
+        },
+      };
+
+      assert.isTrue(element._hideHttpAuth(serverConfig));
+
+      serverConfig = {
+        auth: {
+          git_basic_auth_policy: 'OAUTH',
+        },
+      };
+
+      assert.isTrue(element._hideHttpAuth(serverConfig));
+    });
+
     suite('_getFilterDocsLink', () => {
       test('with http: docs base URL', () => {
         const base = 'http://example.com/';

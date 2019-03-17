@@ -33,6 +33,11 @@
   const ABSOLUTE_URL_PATTERN = /^https?:/;
   const TRAILING_SLASH_PATTERN = /\/$/;
 
+  const HTTP_AUTH = [
+    'HTTP',
+    'HTTP_LDAP',
+  ];
+
   Polymer({
     is: 'gr-settings-view',
 
@@ -394,6 +399,16 @@
       base = base.replace(TRAILING_SLASH_PATTERN, '');
 
       return base + GERRIT_DOCS_FILTER_PATH;
+    },
+
+    _showHttpAuth(config) {
+      if (config && config.auth &&
+          config.auth.git_basic_auth_policy) {
+        return HTTP_AUTH.includes(
+            config.auth.git_basic_auth_policy.toUpperCase());
+      }
+
+      return false;
     },
   });
 })();

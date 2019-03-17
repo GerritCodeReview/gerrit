@@ -892,7 +892,7 @@ maven_jar(
     sha1 = "76716d529710fc03d1d429b43e3cedd4419f78d4",
 )
 
-# When upgrading elasticsearch-rest-client, also upgrade http-niocore
+# When upgrading elasticsearch-rest-client, also upgrade httpcore-nio
 # and httpasyncclient as necessary.
 maven_jar(
     name = "elasticsearch-rest-client",

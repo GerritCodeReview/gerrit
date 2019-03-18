@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7e329b0_c36e11ab",
+        "filename": "java/com/google/gerrit/server/change/PureRevert.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-03-18T14:24:39Z",
+      "side": 1,
+      "message": "javadoc?\n\nThis class seems like just a wrapper around the cache. Does it still serve a purpose?",
+      "revId": "fb34d00dad59f85eee5bb578cab512cb448ebfea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

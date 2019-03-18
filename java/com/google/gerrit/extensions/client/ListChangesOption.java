@@ -14,11 +14,8 @@
 
 package com.google.gerrit.extensions.client;
 
-import java.util.EnumSet;
-import java.util.Set;
-
 /** Output options available for retrieval of change details. */
-public enum ListChangesOption {
+public enum ListChangesOption implements ListOption {
   LABELS(0),
   DETAILED_LABELS(8),
 
@@ -86,32 +83,8 @@ public enum ListChangesOption {
     this.value = v;
   }
 
+  @Override
   public int getValue() {
     return value;
-  }
-
-  public static EnumSet<ListChangesOption> fromBits(int v) {
-    EnumSet<ListChangesOption> r = EnumSet.noneOf(ListChangesOption.class);
-    for (ListChangesOption o : ListChangesOption.values()) {
-      if ((v & (1 << o.value)) != 0) {
-        r.add(o);
-        v &= ~(1 << o.value);
-      }
-      if (v == 0) {
-        return r;
-      }
-    }
-    if (v != 0) {
-      throw new IllegalArgumentException("unknown " + Integer.toHexString(v));
-    }
-    return r;
-  }
-
-  public static int toBits(Set<ListChangesOption> set) {
-    int r = 0;
-    for (ListChangesOption o : set) {
-      r |= 1 << o.value;
-    }
-    return r;
   }
 }

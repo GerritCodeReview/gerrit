@@ -25,6 +25,7 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.ListGroupsOption;
+import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -202,7 +203,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   @Option(name = "-O", usage = "Output option flags, in hex")
   void setOptionFlagsHex(String hex) {
-    options.addAll(ListGroupsOption.fromBits(Integer.parseInt(hex, 16)));
+    options.addAll(ListOption.fromBits(ListGroupsOption.class, Integer.parseInt(hex, 16)));
   }
 
   @Option(name = "--owned-by", usage = "list groups owned by the given group uuid")

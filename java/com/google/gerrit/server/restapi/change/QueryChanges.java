@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -70,7 +71,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
 
   @Option(name = "-O", usage = "Output option flags, in hex")
   void setOptionFlagsHex(String hex) {
-    options.addAll(ListChangesOption.fromBits(Integer.parseInt(hex, 16)));
+    options.addAll(ListOption.fromBits(ListChangesOption.class, Integer.parseInt(hex, 16)));
   }
 
   @Option(

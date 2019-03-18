@@ -112,8 +112,8 @@ public class BatchProgramModule extends FactoryModule {
     bind(new TypeLiteral<List<CommentLinkInfo>>() {})
         .toProvider(CommentLinkProvider.class)
         .in(SINGLETON);
-    bind(new TypeLiteral<DynamicMap<ChangeAttributeFactory>>() {})
-        .toInstance(DynamicMap.emptyMap());
+    bind(new TypeLiteral<DynamicSet<ChangeAttributeFactory>>() {})
+        .toInstance(DynamicSet.emptySet());
     bind(new TypeLiteral<DynamicMap<RestView<CommitResource>>>() {})
         .toInstance(DynamicMap.emptyMap());
     bind(String.class)

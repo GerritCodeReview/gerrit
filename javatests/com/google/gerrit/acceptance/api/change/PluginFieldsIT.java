@@ -31,6 +31,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.restapi.change.QueryChanges;
 import com.google.gerrit.sshd.commands.Query;
 import com.google.gson.Gson;
 import com.google.inject.AbstractModule;
+import com.google.inject.Module;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,13 +95,19 @@ public class PluginFieldsIT extends AbstractDaemonTest {
   static class NullAttributeModule extends AbstractModule {
     @Override
     public void configure() {
-      bind(ChangeAttributeFactory.class)
-          .annotatedWith(Exports.named("null"))
-          .toInstance((cd, bp, p) -> null);
+      DynamicSet.bind(binder(), ChangeAttributeFactory.class).toInstance((cd, bp, p) -> null);
     }
   }
 
   static class SimpleAttributeModule extends AbstractModule {
+    @Override
+    public void configure() {
+      DynamicSet.bind(binder(), ChangeAttributeFactory.class)
+          .toInstance((cd, bp, p) -> new MyInfo("change " + cd.getId()));
+    }
+  }
+
+  static class SimpleAttributeWithExplicitExportModule extends AbstractModule {
     @Override
     public void configure() {
       bind(ChangeAttributeFactory.class)
@@ -116,8 +124,7 @@ public class PluginFieldsIT extends AbstractDaemonTest {
   static class OptionAttributeModule extends AbstractModule {
     @Override
     public void configure() {
-      bind(ChangeAttributeFactory.class)
-          .annotatedWith(Exports.named("simple"))
+      DynamicSet.bind(binder(), ChangeAttributeFactory.class)
           .toInstance(
               (cd, bp, p) -> {
                 MyOptions opts = (MyOptions) bp.getDynamicBean(p);
@@ -217,11 +224,26 @@ public class PluginFieldsIT extends AbstractDaemonTest {
 
   // No tests for getting a single change over SSH, since the only API is the query API.
 
+  @Test
+  public void getChangeApiWithSimpleAttributeWithExplicitExport() throws Exception {
+    // For backwards compatibility with old plugins, allow modules to bind into the
+    // DynamicSet<ChangeAttributeFactory> as if it were a DynamicMap. We only need one variant of
+    // this test to prove that the mapping works.
+    getChangeWithSimpleAttribute(
+        id -> pluginInfoFromChangeInfo(gApi.changes().id(id.toString()).get()),
+        SimpleAttributeWithExplicitExportModule.class);
+  }
+
   private void getChangeWithSimpleAttribute(PluginInfoGetter getter) throws Exception {
+    getChangeWithSimpleAttribute(getter, SimpleAttributeModule.class);
+  }
+
+  private void getChangeWithSimpleAttribute(
+      PluginInfoGetter getter, Class<? extends Module> moduleClass) throws Exception {
     Change.Id id = createChange().getChange().getId();
     assertThat(getter.call(id)).isNull();
 
-    try (AutoCloseable ignored = installPlugin("my-plugin", SimpleAttributeModule.class)) {
+    try (AutoCloseable ignored = installPlugin("my-plugin", moduleClass)) {
       assertThat(getter.call(id)).containsExactly(new MyInfo("my-plugin", "change " + id));
     }
 

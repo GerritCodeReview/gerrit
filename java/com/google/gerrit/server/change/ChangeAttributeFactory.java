@@ -25,12 +25,8 @@ import com.google.gerrit.server.query.change.ChangeData;
  * <p>Register a {@code ChangeAttributeFactory} in a plugin {@code Module} like this:
  *
  * <pre>
- * bind(ChangeAttributeFactory.class)
- *     .annotatedWith(Exports.named("export-name"))
- *     .to(YourClass.class);
+ * DynamicSet.bind(binder(), ChangeAttributeFactory.class).to(YourClass.class);
  * </pre>
- *
- * The export name can be anything unique to your plugin; the name is not exposed.
  *
  * <p>See the <a
  * href="https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#query_attributes">plugin

@@ -20,7 +20,7 @@ import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIM
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
-import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
@@ -81,7 +81,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       ChangeIndexCollection indexes,
       ChangeIndexRewriter rewriter,
       ChangeNotes.Factory notesFactory,
-      DynamicMap<ChangeAttributeFactory> attributeFactories,
+      DynamicSet<ChangeAttributeFactory> attributeFactories,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       Provider<AnonymousUser> anonymousUserProvider) {
@@ -103,7 +103,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
         ImmutableListMultimap.builder();
     // Eagerly call Extension#get() rather than storing Extensions, since that method invokes the
     // Provider on every call, which could be expensive if we invoke it once for every change.
-    attributeFactories.forEach(e -> factoriesBuilder.put(e.getPluginName(), e.get()));
+    attributeFactories.entries().forEach(e -> factoriesBuilder.put(e.getPluginName(), e.get()));
     attributeFactoriesByPlugin = factoriesBuilder.build();
   }
 

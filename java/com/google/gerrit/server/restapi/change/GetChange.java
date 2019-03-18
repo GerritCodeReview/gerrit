@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
-import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.DynamicOptions;
@@ -43,7 +43,7 @@ public class GetChange
         DynamicOptions.BeanReceiver,
         DynamicOptions.BeanProvider {
   private final ChangeJson.Factory json;
-  private final DynamicMap<ChangeAttributeFactory> attrFactories;
+  private final DynamicSet<ChangeAttributeFactory> attrFactories;
   private final EnumSet<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
   private final Map<String, DynamicBean> dynamicBeans = new HashMap<>();
 
@@ -58,7 +58,7 @@ public class GetChange
   }
 
   @Inject
-  GetChange(ChangeJson.Factory json, DynamicMap<ChangeAttributeFactory> attrFactories) {
+  GetChange(ChangeJson.Factory json, DynamicSet<ChangeAttributeFactory> attrFactories) {
     this.json = json;
     this.attrFactories = attrFactories;
   }
@@ -87,6 +87,7 @@ public class GetChange
   }
 
   private ImmutableList<PluginDefinedInfo> buildPluginInfo(ChangeData cd) {
-    return PluginDefinedAttributesFactories.createAll(cd, this, Streams.stream(attrFactories));
+    return PluginDefinedAttributesFactories.createAll(
+        cd, this, Streams.stream(attrFactories.entries()));
   }
 }

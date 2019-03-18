@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.api.change;
+package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.io.CharStreams;
+import com.google.gerrit.acceptance.AbstractPluginFieldsTest;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
@@ -33,7 +34,7 @@ import java.util.stream.Stream;
 import org.junit.Test;
 
 @UseSsh
-public class PluginFieldsSshIT extends AbstractPluginFieldsTest {
+public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
   // No tests for getting a single change over SSH, since the only API is the query API.
 
   private static final Gson GSON = OutputStreamQuery.GSON;

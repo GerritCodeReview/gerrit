@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.api.change;
+package com.google.gerrit.acceptance;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
@@ -20,7 +20,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -36,15 +35,13 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import java.util.List;
 import java.util.Objects;
-import org.junit.Ignore;
 import org.kohsuke.args4j.Option;
 
-@Ignore
 public class AbstractPluginFieldsTest extends AbstractDaemonTest {
   protected static class MyInfo extends PluginDefinedInfo {
     @Nullable String theAttribute;
 
-    MyInfo(@Nullable String theAttribute) {
+    public MyInfo(@Nullable String theAttribute) {
       this.theAttribute = theAttribute;
     }
 

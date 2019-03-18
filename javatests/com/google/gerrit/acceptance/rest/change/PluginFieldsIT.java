@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.api.change;
+package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.gerrit.acceptance.AbstractPluginFieldsTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.json.OutputFormat;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 
-public class PluginFieldsRestIT extends AbstractPluginFieldsTest {
+public class PluginFieldsIT extends AbstractPluginFieldsTest {
   private static final Gson GSON = OutputFormat.JSON.newGson();
 
   @Test

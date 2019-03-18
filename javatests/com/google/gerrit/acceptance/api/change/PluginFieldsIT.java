@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.api.change;
 
+import com.google.gerrit.acceptance.AbstractPluginFieldsTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.server.change.ChangeAttributeFactory;

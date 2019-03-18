@@ -1,0 +1,210 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3144720c_51fc93d0",
+        "filename": "Documentation/pg-plugin-dev.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-18T09:45:50Z",
+      "side": 1,
+      "message": "missing brackets for restApiHooks",
+      "range": {
+        "startLine": 199,
+        "startChar": 9,
+        "endLine": 199,
+        "endChar": 21
+      },
+      "revId": "d3ba63408931274fdd71faa221a62cc0f24bc320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efb52312_99ae3792",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-18T09:45:50Z",
+      "side": 1,
+      "message": "Can you add a comment here that this is just a hack to make the tests work, and that you should rather call GrRestApiHooks directly.",
+      "revId": "d3ba63408931274fdd71faa221a62cc0f24bc320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6294780c_4fa1a91c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-18T09:45:50Z",
+      "side": 1,
+      "message": "It would be helpful, if restHooks and restApiHooks had a comment, at least about their types.",
+      "revId": "d3ba63408931274fdd71faa221a62cc0f24bc320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96f06e9d_e1a73413",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-18T09:45:50Z",
+      "side": 1,
+      "message": "Maybe rename to apiInstances?",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 18
+      },
+      "revId": "d3ba63408931274fdd71faa221a62cc0f24bc320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aba3940e_2985e692",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-18T09:45:50Z",
+      "side": 1,
+      "message": "Maybe rename to addParameterFunctions?",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 22
+      },
+      "revId": "d3ba63408931274fdd71faa221a62cc0f24bc320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f1228ed_34904680",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-18T09:45:50Z",
+      "side": 1,
+      "message": "Maybe guard against this._restApiHooks[endpointName] already being defined.",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 36
+      },
+      "revId": "d3ba63408931274fdd71faa221a62cc0f24bc320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b29587b1_54f13fca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-18T09:45:50Z",
+      "side": 1,
+      "message": "Add \"... or null.\"",
+      "revId": "d3ba63408931274fdd71faa221a62cc0f24bc320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cdde483_888fbae1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-18T09:45:50Z",
+      "side": 1,
+      "message": "remove empty line",
+      "revId": "d3ba63408931274fdd71faa221a62cc0f24bc320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33917193_9eb16d18",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-18T09:45:50Z",
+      "side": 1,
+      "message": "Add comments that pluginParams and getRestApiParams are not supposed to be called by plugins, but by the app.",
+      "range": {
+        "startLine": 59,
+        "startChar": 17,
+        "endLine": 59,
+        "endChar": 29
+      },
+      "revId": "d3ba63408931274fdd71faa221a62cc0f24bc320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c382d966_69cb278c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-18T09:45:50Z",
+      "side": 1,
+      "message": "If you are iterating over _restHooks, then it might be less confusing to call this variable restHook.",
+      "range": {
+        "startLine": 60,
+        "startChar": 59,
+        "endLine": 60,
+        "endChar": 71
+      },
+      "revId": "d3ba63408931274fdd71faa221a62cc0f24bc320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

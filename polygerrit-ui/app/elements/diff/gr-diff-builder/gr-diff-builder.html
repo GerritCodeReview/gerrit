@@ -38,6 +38,7 @@ limitations under the License.
     <gr-reporting id="reporting"></gr-reporting>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
   </template>
+  <script src="../../../scripts/util.js"></script>
   <script src="../gr-diff/gr-diff-line.js"></script>
   <script src="../gr-diff/gr-diff-group.js"></script>
   <script src="../gr-diff-highlight/gr-annotation.js"></script>
@@ -108,6 +109,13 @@ limitations under the License.
             type: Array,
             value: () => [],
           },
+          /**
+           * The promise last returned from `render()` while the asynchronous
+           * rendering is running - `null` otherwise. Provides a `cancel()`
+           * method that rejects it with `{isCancelled: true}`.
+           * @type {?Object}
+           */
+          _cancelableRenderPromise: Object,
         },
 
         get diffElement() {
@@ -146,25 +154,32 @@ limitations under the License.
           reporting.time(TimingLabel.TOTAL);
           reporting.time(TimingLabel.CONTENT);
           this.dispatchEvent(new CustomEvent('render-start', {bubbles: true}));
-          return this.$.processor.process(this.diff.content, isBinary)
-              .then(() => {
-                if (this.isImageDiff) {
-                  this._builder.renderDiff();
-                }
-                this.dispatchEvent(new CustomEvent('render-content',
-                    {bubbles: true}));
+          this._cancelableRenderPromise = util.makeCancelable(
+              this.$.processor.process(this.diff.content, isBinary)
+                  .then(() => {
+                    if (this.isImageDiff) {
+                      this._builder.renderDiff();
+                    }
+                    this.dispatchEvent(new CustomEvent('render-content',
+                        {bubbles: true}));
 
-                if (this._diffTooLargeForSyntax()) {
-                  this.$.syntaxLayer.enabled = false;
-                }
+                    if (this._diffTooLargeForSyntax()) {
+                      this.$.syntaxLayer.enabled = false;
+                    }
 
-                reporting.timeEnd(TimingLabel.CONTENT);
-                reporting.time(TimingLabel.SYNTAX);
-                return this.$.syntaxLayer.process().then(() => {
-                  reporting.timeEnd(TimingLabel.SYNTAX);
-                  reporting.timeEnd(TimingLabel.TOTAL);
-                });
-              });
+                    reporting.timeEnd(TimingLabel.CONTENT);
+                    reporting.time(TimingLabel.SYNTAX);
+                    return this.$.syntaxLayer.process().then(() => {
+                      reporting.timeEnd(TimingLabel.SYNTAX);
+                      reporting.timeEnd(TimingLabel.TOTAL);
+                    });
+                  }));
+          return this._cancelableRenderPromise
+              .finally(() => { this._cancelableRenderPromise = null; })
+              // Mocca testing does not like uncaught rejections, so we catch
+              // the cancels which are expected and should not throw errors in
+              // tests.
+              .catch(e => { if (!e.isCanceled) return Promise.reject(e); });
         },
 
         _setupAnnotationLayers() {
@@ -259,6 +274,10 @@ limitations under the License.
         cancel() {
           this.$.processor.cancel();
           this.$.syntaxLayer.cancel();
+          if (this._cancelableRenderPromise) {
+            this._cancelableRenderPromise.cancel();
+            this._cancelableRenderPromise = null;
+          }
         },
 
         _handlePreferenceError(pref) {

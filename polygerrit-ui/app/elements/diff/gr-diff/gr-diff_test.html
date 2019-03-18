@@ -40,6 +40,8 @@ limitations under the License.
     let element;
     let sandbox;
 
+    const MINIMAL_PREFS = {tab_size: 2, line_length: 80};
+
     setup(() => {
       sandbox = sinon.sandbox.create();
     });
@@ -81,14 +83,14 @@ limitations under the License.
 
     test('line limit with line_wrapping', () => {
       element = fixture('basic');
-      element.prefs = {line_wrapping: true, line_length: 80, tab_size: 2};
+      element.prefs = Object.assign({}, MINIMAL_PREFS, {line_wrapping: true});
       flushAsynchronousOperations();
       assert.equal(element.customStyle['--line-limit'], '80ch');
     });
 
     test('line limit without line_wrapping', () => {
       element = fixture('basic');
-      element.prefs = {line_wrapping: false, line_length: 80, tab_size: 2};
+      element.prefs = Object.assign({}, MINIMAL_PREFS, {line_wrapping: false});
       flushAsynchronousOperations();
       assert.isNotOk(element.customStyle['--line-limit']);
     });
@@ -225,7 +227,7 @@ limitations under the License.
 
         const mock = document.createElement('mock-diff-response');
         element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder(
-            mock.diffResponse, {tab_size: 2, line_length: 80});
+            mock.diffResponse, Object.assign({}, MINIMAL_PREFS));
 
         // No thread groups.
         assert.isNotOk(element._getThreadGroupForLine(contentEl));
@@ -448,7 +450,7 @@ limitations under the License.
             binary: true,
           };
 
-          element.addEventListener('render', () => {
+          function rendered() {
             // Recognizes that it should be an image diff.
             assert.isTrue(element.isImageDiff);
             assert.instanceOf(
@@ -460,7 +462,9 @@ limitations under the License.
             assert.isNotOk(leftImage);
             assert.isOk(rightImage);
             done();
-          });
+            element.removeEventListener('render', rendered);
+          }
+          element.addEventListener('render', rendered);
 
           element.revisionImage = mockFile2;
           element.diff = mockDiff;
@@ -483,7 +487,7 @@ limitations under the License.
             binary: true,
           };
 
-          element.addEventListener('render', () => {
+          function rendered() {
             // Recognizes that it should be an image diff.
             assert.isTrue(element.isImageDiff);
             assert.instanceOf(
@@ -495,7 +499,9 @@ limitations under the License.
             assert.isOk(leftImage);
             assert.isNotOk(rightImage);
             done();
-          });
+            element.removeEventListener('render', rendered);
+          }
+          element.addEventListener('render', rendered);
 
           element.baseImage = mockFile1;
           element.diff = mockDiff;
@@ -519,7 +525,7 @@ limitations under the License.
           };
           mockFile1.type = 'image/jpeg-evil';
 
-          element.addEventListener('render', () => {
+          function rendered() {
             // Recognizes that it should be an image diff.
             assert.isTrue(element.isImageDiff);
             assert.instanceOf(
@@ -527,7 +533,9 @@ limitations under the License.
             const leftImage = element.$.diffTable.querySelector('td.left img');
             assert.isNotOk(leftImage);
             done();
-          });
+            element.removeEventListener('render', rendered);
+          }
+          element.addEventListener('render', rendered);
 
           element.baseImage = mockFile1;
           element.diff = mockDiff;
@@ -679,12 +687,14 @@ limitations under the License.
             change_type: 'MODIFIED',
             content: [{skip: 66}],
           };
+          element.flushDebouncer('renderDiffTable');
         });
 
         test('change in preferences re-renders diff', () => {
           sandbox.stub(element, '_renderDiffTable');
-          element.prefs = {};
-          element.prefs = {time_format: 'HHMM_12'};
+          element.prefs = Object.assign(
+              {}, MINIMAL_PREFS, {time_format: 'HHMM_12'});
+          element.flushDebouncer('renderDiffTable');
           assert.isTrue(element._renderDiffTable.called);
         });
 
@@ -692,8 +702,9 @@ limitations under the License.
             'noRenderOnPrefsChange', () => {
           sandbox.stub(element, '_renderDiffTable');
           element.noRenderOnPrefsChange = true;
-          element.prefs = {};
-          element.prefs = {time_format: 'HHMM_12'};
+          element.prefs = Object.assign(
+              {}, MINIMAL_PREFS, {time_format: 'HHMM_12'});
+          element.flushDebouncer('renderDiffTable');
           assert.isFalse(element._renderDiffTable.called);
         });
       });
@@ -760,33 +771,39 @@ limitations under the License.
       });
 
       test('large render w/ context = 10', done => {
-        element.prefs = {context: 10};
-        element.addEventListener('render', () => {
+        element.prefs = Object.assign({}, MINIMAL_PREFS, {context: 10});
+        function rendered() {
           assert.isTrue(renderStub.called);
           assert.isFalse(element._showWarning);
           done();
-        });
+          element.removeEventListener('render', rendered);
+        }
+        element.addEventListener('render', rendered);
         element._renderDiffTable();
       });
 
       test('large render w/ whole file and bypass', done => {
-        element.prefs = {context: -1};
+        element.prefs = Object.assign({}, MINIMAL_PREFS, {context: -1});
         element._safetyBypass = 10;
-        element.addEventListener('render', () => {
+        function rendered() {
           assert.isTrue(renderStub.called);
           assert.isFalse(element._showWarning);
           done();
-        });
+          element.removeEventListener('render', rendered);
+        }
+        element.addEventListener('render', rendered);
         element._renderDiffTable();
       });
 
       test('large render w/ whole file and no bypass', done => {
-        element.prefs = {context: -1};
-        element.addEventListener('render', () => {
+        element.prefs = Object.assign({}, MINIMAL_PREFS, {context: -1});
+        function rendered() {
           assert.isFalse(renderStub.called);
           assert.isTrue(element._showWarning);
           done();
-        });
+          element.removeEventListener('render', rendered);
+        }
+        element.addEventListener('render', rendered);
         element._renderDiffTable();
       });
     });

@@ -234,10 +234,8 @@
      * User-perceived app start time, should be reported when the app is ready.
      */
     appStarted(hidden) {
-      const startTime =
-          new Date().getTime() - this.performanceTiming.navigationStart;
       this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-          TIMING.APP_STARTED, startTime);
+          TIMING.APP_STARTED, this.now());
       if (hidden) {
         this.reporter(PAGE_VISIBILITY.TYPE, PAGE_VISIBILITY.CATEGORY,
             PAGE_VISIBILITY.STARTED_HIDDEN);

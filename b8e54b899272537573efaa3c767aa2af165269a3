@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a52fba83_9bbc2780",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-18T15:00:09Z",
+      "side": 1,
+      "message": "Do we currently do anything with these numbers? Wondering if a discrepancy between the time origin and navigationStart could lead to the semantics of this number changing. But I don\u0027t know enough to judge.",
+      "revId": "b8e54b899272537573efaa3c767aa2af165269a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

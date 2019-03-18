@@ -16,6 +16,52 @@
       "revId": "fb34d00dad59f85eee5bb578cab512cb448ebfea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06990c66_3852183c",
+        "filename": "java/com/google/gerrit/server/git/PureRevertCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-18T16:07:54Z",
+      "side": 1,
+      "message": "Nit: The current recommendation is to rather add an import (except if a new dependency would need to be added to a BUILD rule).",
+      "range": {
+        "startLine": 82,
+        "startChar": 19,
+        "endLine": 82,
+        "endChar": 81
+      },
+      "revId": "fb34d00dad59f85eee5bb578cab512cb448ebfea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21a0d8d5_1b49f50e",
+        "filename": "java/com/google/gerrit/server/git/PureRevertCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-18T16:07:54Z",
+      "side": 1,
+      "message": "Nit: Using a name which indicates that this is the original or claimed revert might really be helpful when reading this method.",
+      "range": {
+        "startLine": 94,
+        "startChar": 16,
+        "endLine": 94,
+        "endChar": 27
+      },
+      "revId": "fb34d00dad59f85eee5bb578cab512cb448ebfea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

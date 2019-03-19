@@ -425,7 +425,7 @@ def bundle_assets(*args, **kwargs):
     """Combine html, js, css files and optionally split into js and html bundles."""
     _bundle_rule(pkg = native.package_name(), *args, **kwargs)
 
-def polygerrit_plugin(name, app, srcs = [], assets = None, plugin_name = None, **kwargs):
+def polygerrit_plugin(name, app, srcs = [], deps = [], assets = None, plugin_name = None, **kwargs):
     """Bundles plugin dependencies for deployment.
 
     This rule bundles all Polymer elements and JS dependencies into .html and .js files.
@@ -450,6 +450,7 @@ def polygerrit_plugin(name, app, srcs = [], assets = None, plugin_name = None, *
             name = name + "_combined",
             app = app,
             srcs = srcs,
+            deps = deps,
             pkg = native.package_name(),
             **kwargs
         )

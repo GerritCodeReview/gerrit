@@ -55,6 +55,7 @@
 
       /**
        * The diff views to cursor through and listen to.
+       * @type {!Array} diffElements (GrDiffElement)
        */
       diffs: {
         type: Array,

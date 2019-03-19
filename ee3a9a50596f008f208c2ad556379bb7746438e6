@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0e3e7afb_772125d6",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-19T13:21:45Z",
+      "side": 1,
+      "message": "No, most core plugins are git submodules. You are welcome to also make image-diff a git submodule, but not something I want to tackle today. :-)",
+      "parentUuid": "fb17d0bc_ee610636",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 25
+      },
+      "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "283e6ac6_3afbe5b2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7280e41b_57a0ea60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-19T13:21:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "283e6ac6_3afbe5b2",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "27506f24_e032cc66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-19T13:21:45Z",
+      "side": 1,
+      "message": "It is a different repository.",
+      "parentUuid": "b245f15c_5c738e8d",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 19
+      },
+      "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c81e8b5_ca46202b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -85,6 +157,24 @@
       "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c035fa0d_55978fa9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-19T13:21:45Z",
+      "side": 1,
+      "message": "Could not find it.",
+      "parentUuid": "2c81e8b5_ca46202b",
+      "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -108,6 +198,30 @@
       "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a99aa595_797d5085",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-19T13:21:45Z",
+      "side": 1,
+      "message": "Submitted a pull request https://github.com/rsmbl/Resemble.js/pull/172 and added a TODO.",
+      "parentUuid": "b5d57cb1_60a342db",
+      "range": {
+        "startLine": 468,
+        "startChar": 13,
+        "endLine": 468,
+        "endChar": 35
+      },
+      "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

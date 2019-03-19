@@ -38,7 +38,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.util.cli.Localizable.localizable;
 import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoAnnotation;
 import com.google.common.base.Strings;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -424,7 +423,7 @@ public class CmdLineParser {
     requireNonNull(prefix);
     checkArgument(o.name().startsWith("-"), "Option name must start with '-': %s", o);
     String[] aliases = Arrays.stream(o.aliases()).map(prefix::concat).toArray(String[]::new);
-    return newOption(
+    return OptionUtil.newOption(
         prefix + o.name(),
         aliases,
         o.usage(),
@@ -435,22 +434,6 @@ public class CmdLineParser {
         o.handler(),
         o.depends(),
         new String[0]);
-  }
-
-  @AutoAnnotation
-  private static Option newOption(
-      String name,
-      String[] aliases,
-      String usage,
-      String metaVar,
-      boolean required,
-      boolean help,
-      boolean hidden,
-      Class<? extends OptionHandler> handler,
-      String[] depends,
-      String[] forbids) {
-    return new AutoAnnotation_CmdLineParser_newOption(
-        name, aliases, usage, metaVar, required, help, hidden, handler, depends, forbids);
   }
 
   public class MyParser extends org.kohsuke.args4j.CmdLineParser {
@@ -640,7 +623,7 @@ public class CmdLineParser {
     }
 
     private Option newHelpOption() {
-      return newOption(
+      return OptionUtil.newOption(
           "--help",
           new String[] {"-h"},
           "display this help text",

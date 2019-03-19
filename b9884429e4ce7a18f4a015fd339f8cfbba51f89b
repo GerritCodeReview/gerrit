@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1553004614 -0700\nnonce AC6AUtNbMN7TzEkIceioj0CXJLji1vIdlHrb7T7P+3bz7y7DIDww5KhjFzN/p4HHm/P2FPgFZ/AY\n\n0000000000000000000000000000000000000000 b9884429e4ce7a18f4a015fd339f8cfbba51f89b refs/for/master%r\u003dekempin@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlyQ+EYVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM830P/2xGLp6gmyFqvfLaesO5rusFokzP\n0UEsrfZlsjMZWhVMP01gD9KDbpFmVrOE2KZZtpFPJkLLc7zokKAtlia0oY0siUc0\n/ksXzbzQprFdlQjK95/2ZCWZISgAVwIcHv8DXUxKw/SlrgVAyt7dcS8oedoqBK5v\n51v8yfzjclsHr4fX+YvenxKSC/ar0+mTjaOSG+f9Y+FIljnlibHjJmwuX5w8iATB\nBCEXMLhwVrBGW9HY+lyzs9QYb8QSeKfb9Rx83hWn1cgLRnWQQ9LvOnAPFs/bmrkT\nPJDE9fBEq2Mggeg3YMxVJnbug/Ns1NNpt5EqO+rTiZqF0OyTY3mESRCzTjVdv6pz\nhLVEbXViyIwDXSzUn8nHdISbPDrnBvvoQxumzHrz2bNoOztjjVV4yuPk/qGsY9Dt\n+lqTsTojYaRwMSspkDer3Q/vajbb6HlV0bw0VeDNNr6aPIyvSbzOHGLkDuGdlAV+\n7LAewqwxZj85q1bR0XbCGzBh+dNqTNVyQm+pMHSM6PDkW0gHECnDEeM0M7wy+S9i\nciDXneeS0MBxz6jBbLw54Wy1Lz5DN/XglTby3UhEfFhWdPo7PQLrtezC8B2Osyh3\nRQLONIyrdwEMuc4cIcFRPd4lrw2UNo+T3Gk6w6jMrzyBPgPIMM+0X23pFfxoT+ob\n5M3Bizs2/x35hZLD\n\u003dFCUF\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "82a8de83_631213dc",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/PluginFieldsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-19T14:13:40Z",
+      "side": 1,
+      "message": "Oops, this belongs in the parent change, IntelliJ didn\u0027t auto-save in time :/",
+      "revId": "b9884429e4ce7a18f4a015fd339f8cfbba51f89b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

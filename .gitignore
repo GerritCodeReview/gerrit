@@ -32,6 +32,7 @@
 /local.properties
 /node_modules/
 /package-lock.json
+/plugins/image-diff/
 /plugins/cookbook-plugin/
 /test_site
 /tools/format

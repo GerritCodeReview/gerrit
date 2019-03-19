@@ -77,6 +77,7 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
@@ -1211,6 +1212,36 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).delete();
     result = idx.get(id, IndexedChangeQuery.createOptions(indexConfig, 0, 1, ImmutableSet.of()));
     assertThat(result.isPresent()).isFalse();
+  }
+
+  @Test
+  public void deleteChangeRemovesDraftComment() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    requestScopeOperations.setApiUser(user.getId());
+
+    DraftInput dri = new DraftInput();
+    dri.message = "hello";
+    dri.path = "a.txt";
+    dri.line = 1;
+
+    gApi.changes().id(r.getChangeId()).current().createDraft(dri);
+    Change.Id num = r.getChange().getId();
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(
+              repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftComments(num, user.getId())))
+          .isNotEmpty();
+    }
+
+    requestScopeOperations.setApiUser(admin.getId());
+
+    gApi.changes().id(r.getChangeId()).delete();
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(
+              repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftComments(num, user.getId())))
+          .isEmpty();
+    }
   }
 
   @Test

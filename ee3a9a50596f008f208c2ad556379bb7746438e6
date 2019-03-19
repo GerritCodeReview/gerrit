@@ -270,6 +270,30 @@
       "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "066ae8c9_76ce78ba",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-19T16:08:08Z",
+      "side": 1,
+      "message": "I am really confused, but I cannot reproduce the problem anymore. This build command completes just fine: bazel build plugins/image-diff:image-diff\n\nSo I have reverted this change. Let\u0027s see when it comes back, and then maybe tackle it by adding an externs.js file.",
+      "parentUuid": "a99aa595_797d5085",
+      "range": {
+        "startLine": 468,
+        "startChar": 13,
+        "endLine": 468,
+        "endChar": 35
+      },
+      "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

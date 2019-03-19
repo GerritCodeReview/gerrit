@@ -17,6 +17,24 @@
       "revId": "b9884429e4ce7a18f4a015fd339f8cfbba51f89b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28229eb5_4db683f8",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/PluginFieldsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-19T14:16:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82a8de83_631213dc",
+      "revId": "b9884429e4ce7a18f4a015fd339f8cfbba51f89b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

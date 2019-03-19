@@ -75,6 +75,8 @@ public class OutputStreamQuery {
     JSON
   }
 
+  public static final Gson GSON = new Gson();
+
   private final GitRepositoryManager repoManager;
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeQueryProcessor queryProcessor;
@@ -322,7 +324,7 @@ public class OutputStreamQuery {
       eventFactory.addDependencies(rw, c, d.change(), d.currentPatchSet());
     }
 
-    c.plugins = queryProcessor.create(d);
+    c.plugins = queryProcessor.getAttributesFactory().create(d);
     return c;
   }
 
@@ -355,7 +357,7 @@ public class OutputStreamQuery {
         break;
 
       case JSON:
-        out.print(new Gson().toJson(data));
+        out.print(GSON.toJson(data));
         out.print('\n');
         break;
     }

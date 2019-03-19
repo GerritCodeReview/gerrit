@@ -860,55 +860,53 @@ boolean json;
 ----
 
 [[query_attributes]]
-=== Query Attributes ===
+=== Change Attributes ===
 
-Plugins can provide additional attributes to be returned in Gerrit queries by
-implementing the ChangeAttributeFactory interface and registering it to the
-ChangeQueryProcessor.ChangeAttributeFactory class in the plugin module's
-'configure()' method. The new attribute(s) will be output under a "plugin"
-attribute in the change query output. This can be further controlled with an
-option registered in the Http and Ssh modules' 'configure*()' methods.
+Plugins can provide additional attributes to be returned from the Get Change and
+Query Change APIs by implementing implementing the `ChangeAttributeFactory`
+interface and adding it to the `DynamicSet` in the plugin module's `configure()`
+method. The new attribute(s) will be output under a `plugin` attribute in the
+change output. This can be further controlled by registering a class containing
+@Option declarations as a `DynamicBean`, annotated with the with HTTP/SSH
+commands on which the options should be available.
 
-The example below shows a plugin that adds two attributes ('exampleName' and
-'changeValue'), to the change query output, when the query command is provided
-the --myplugin-name--all option.
+The example below shows a plugin that adds two attributes (`exampleName` and
+`changeValue`), to the change query output, when the query command is provided
+the `--myplugin-name--all` option.
 
 [source, java]
 ----
 public class Module extends AbstractModule {
   @Override
   protected void configure() {
-    bind(ChangeAttributeFactory.class)
-        .annotatedWith(Exports.named("example"))
+    // Register attribute factory.
+    DynamicSet.bind(binder(), ChangeAttributeFactory.class)
         .to(AttributeFactory.class);
+
+    // Register options for GET /changes/X/change and /changes/X/detail.
+    bind(DynamicBean.class)
+        .annotatedWith(Exports.named(GetChange.class))
+        .to(MyChangeOptions.class);
+
+    // Register options for GET /changes/?q=...
+    bind(DynamicBean.class)
+        .annotatedWith(Exports.named(QueryChanges.class))
+        .to(MyChangeOptions.class);
+
+    // Register options for ssh gerrit query.
+    bind(DynamicBean.class)
+        .annotatedWith(Exports.named(Query.class))
+        .to(MyChangeOptions.class);
   }
 }
 
-public class MyQueryOptions implements DynamicBean {
+public class MyChangeOptions implements DynamicBean {
   @Option(name = "--all", usage = "Include plugin output")
   public boolean all = false;
 }
 
-public static class HttpModule extends HttpPluginModule {
-  @Override
-  protected void configureServlets() {
-    bind(DynamicBean.class)
-        .annotatedWith(Exports.named(QueryChanges.class))
-        .to(MyQueryOptions.class);
-  }
-}
-
-public static class SshModule extends PluginCommandModule {
-  @Override
-  protected void configureCommands() {
-    bind(DynamicBean.class)
-        .annotatedWith(Exports.named(Query.class))
-        .to(MyQueryOptions.class);
-  }
-}
-
 public class AttributeFactory implements ChangeAttributeFactory {
-  protected MyQueryOptions options;
+  protected MyChangeOptions options;
 
   public class PluginAttribute extends PluginDefinedInfo {
     public String exampleName;
@@ -921,9 +919,9 @@ public class AttributeFactory implements ChangeAttributeFactory {
   }
 
   @Override
-  public PluginDefinedInfo create(ChangeData c, ChangeQueryProcessor qp, String plugin) {
+  public PluginDefinedInfo create(ChangeData c, BeanProvider bp, String plugin) {
     if (options == null) {
-      options = (MyQueryOptions) qp.getDynamicBean(plugin);
+      options = (MyChangeOptions) bp.getDynamicBean(plugin);
     }
     if (options.all) {
       return new PluginAttribute(c);
@@ -950,6 +948,23 @@ Output:
       }
    ],
     ...
+}
+
+curl http://localhost:8080/changes/1?myplugin-name--all
+
+Output:
+
+{
+  "_number": 1,
+  ...
+  "plugins": [
+    {
+      "name": "myplugin-name",
+      "example_name": "Attribute Example",
+      "change_value": "1"
+    }
+  ],
+  ...
 }
 ----
 
@@ -1661,7 +1676,7 @@ an HTTP Module:
 
 [source,java]
 ----
-public class HttpModule extends HttpPluginModule {
+public class HttpModule extends ServletModule {
   @Override
   protected void configureServlets() {
     DynamicSet.bind(binder(), WebUiPlugin.class)
@@ -2205,9 +2220,9 @@ public class LfsApiServlet extends LfsProtocolServlet {
 /** Register the LfsApiServlet to listen on the default LFS protocol endpoint */
 import static com.google.gerrit.httpd.plugins.LfsPluginServlet.URL_REGEX;
 
-import com.google.gerrit.httpd.plugins.HttpPluginModule;
+import com.google.inject.servlet.ServletModule;
 
-public class HttpModule extends HttpPluginModule {
+public class HttpModule extends ServletModule {
 
   @Override
   protected void configureServlets() {

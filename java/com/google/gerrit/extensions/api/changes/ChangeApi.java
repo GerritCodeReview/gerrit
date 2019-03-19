@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -220,7 +221,18 @@ public interface ChangeApi {
    */
   List<ReviewerInfo> reviewers() throws RestApiException;
 
-  ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException;
+  ChangeInfo get(
+      EnumSet<ListChangesOption> options, ImmutableListMultimap<String, String> pluginOptions)
+      throws RestApiException;
+
+  default ChangeInfo get(ImmutableListMultimap<String, String> pluginOptions)
+      throws RestApiException {
+    return get(EnumSet.noneOf(ListChangesOption.class), pluginOptions);
+  }
+
+  default ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException {
+    return get(options, ImmutableListMultimap.of());
+  }
 
   default ChangeInfo get(Iterable<ListChangesOption> options) throws RestApiException {
     return get(Sets.newEnumSet(options, ListChangesOption.class));
@@ -488,7 +500,9 @@ public interface ChangeApi {
     }
 
     @Override
-    public ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException {
+    public ChangeInfo get(
+        EnumSet<ListChangesOption> options, ImmutableListMultimap<String, String> pluginOptions)
+        throws RestApiException {
       throw new NotImplementedException();
     }
 

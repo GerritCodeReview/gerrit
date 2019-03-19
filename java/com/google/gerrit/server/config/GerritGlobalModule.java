@@ -76,6 +76,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountControl;
@@ -97,6 +98,7 @@ import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.change.AbandonOp;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
+import com.google.gerrit.server.change.ChangeAttributeFactory;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
@@ -167,7 +169,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
-import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.quota.QuotaEnforcer;
 import com.google.gerrit.server.restapi.change.SuggestReviewers;
@@ -403,9 +404,10 @@ public class GerritGlobalModule extends FactoryModule {
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);
 
+    DynamicMap.mapOf(binder(), DynamicOptions.DynamicBean.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeHasOperandFactory.class);
-    DynamicMap.mapOf(binder(), ChangeQueryProcessor.ChangeAttributeFactory.class);
+    DynamicSet.setOf(binder(), ChangeAttributeFactory.class);
 
     install(new GitwebConfig.LegacyModule(cfg));
 

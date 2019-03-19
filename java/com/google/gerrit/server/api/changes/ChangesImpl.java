@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.api.changes.ChangeApiImpl.DynamicOptionParser;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.server.restapi.change.CreateChange;
 import com.google.gerrit.server.restapi.change.QueryChanges;
@@ -43,6 +44,7 @@ class ChangesImpl implements Changes {
   private final ChangesCollection changes;
   private final ChangeApiImpl.Factory api;
   private final CreateChange createChange;
+  private final DynamicOptionParser dynamicOptionParser;
   private final Provider<QueryChanges> queryProvider;
 
   @Inject
@@ -50,10 +52,12 @@ class ChangesImpl implements Changes {
       ChangesCollection changes,
       ChangeApiImpl.Factory api,
       CreateChange createChange,
+      DynamicOptionParser dynamicOptionParser,
       Provider<QueryChanges> queryProvider) {
     this.changes = changes;
     this.api = api;
     this.createChange = createChange;
+    this.dynamicOptionParser = dynamicOptionParser;
     this.queryProvider = queryProvider;
   }
 
@@ -120,6 +124,7 @@ class ChangesImpl implements Changes {
     for (ListChangesOption option : q.getOptions()) {
       qc.addOption(option);
     }
+    dynamicOptionParser.parseDynamicOptions(qc, q.getPluginOptions());
 
     try {
       List<?> result = qc.apply(TopLevelResource.INSTANCE);

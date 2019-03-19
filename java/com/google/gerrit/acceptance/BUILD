@@ -115,6 +115,8 @@ java_library2(
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/util/time",
+        "//java/com/google/gerrit/sshd",
+        "//lib:args4j",
         "//lib:gson",
         "//lib:guava-retrying",
         "//lib:gwtorm",

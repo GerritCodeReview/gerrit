@@ -14,25 +14,41 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Streams;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.PluginDefinedInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.DynamicOptions;
+import com.google.gerrit.server.DynamicOptions.DynamicBean;
+import com.google.gerrit.server.change.ChangeAttributeFactory;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.PluginDefinedAttributesFactories;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import org.kohsuke.args4j.Option;
 
-public class GetChange implements RestReadView<ChangeResource> {
+public class GetChange
+    implements RestReadView<ChangeResource>,
+        DynamicOptions.BeanReceiver,
+        DynamicOptions.BeanProvider {
   private final ChangeJson.Factory json;
+  private final DynamicSet<ChangeAttributeFactory> attrFactories;
   private final EnumSet<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
+  private final Map<String, DynamicBean> dynamicBeans = new HashMap<>();
 
   @Option(name = "-o", usage = "Output options")
-  void addOption(ListChangesOption o) {
+  public void addOption(ListChangesOption o) {
     options.add(o);
   }
 
@@ -42,16 +58,36 @@ public class GetChange implements RestReadView<ChangeResource> {
   }
 
   @Inject
-  GetChange(ChangeJson.Factory json) {
+  GetChange(ChangeJson.Factory json, DynamicSet<ChangeAttributeFactory> attrFactories) {
     this.json = json;
+    this.attrFactories = attrFactories;
+  }
+
+  @Override
+  public void setDynamicBean(String plugin, DynamicOptions.DynamicBean dynamicBean) {
+    dynamicBeans.put(plugin, dynamicBean);
+  }
+
+  @Override
+  public DynamicBean getDynamicBean(String plugin) {
+    return dynamicBeans.get(plugin);
   }
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
-    return Response.withMustRevalidate(json.create(options).format(rsrc));
+    return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 
   Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException {
-    return Response.withMustRevalidate(json.create(options).format(rsrc));
+    return Response.withMustRevalidate(newChangeJson().format(rsrc));
+  }
+
+  private ChangeJson newChangeJson() {
+    return json.create(options, this::buildPluginInfo);
+  }
+
+  private ImmutableList<PluginDefinedInfo> buildPluginInfo(ChangeData cd) {
+    return PluginDefinedAttributesFactories.createAll(
+        cd, this, Streams.stream(attrFactories.entries()));
   }
 }

@@ -232,7 +232,7 @@
         this._loggedIn = loggedIn;
       });
 
-      this.$.cursor.push('diffs', this.$.diffHost);
+      this.$.cursor.push('diffs', this.$.diffHost.$.diff);
     },
 
     _getLoggedIn() {

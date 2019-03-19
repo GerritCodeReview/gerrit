@@ -853,7 +853,8 @@
     _updateDiffCursor() {
       // Overwrite the cursor's list of diffs:
       this.$.diffCursor.splice(
-          ...['diffs', 0, this.$.diffCursor.diffs.length].concat(this.diffs));
+          ...['diffs', 0, this.$.diffCursor.diffs.length]
+              .concat(this.diffs.map(diffHost => diffHost.$.diff)));
     },
 
     _filesChanged() {

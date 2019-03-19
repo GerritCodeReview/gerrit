@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Objects.requireNonNull;
@@ -31,6 +32,8 @@ import com.google.gerrit.server.change.ChangeAttributeFactory;
 import com.google.gerrit.server.restapi.change.GetChange;
 import com.google.gerrit.server.restapi.change.QueryChanges;
 import com.google.gerrit.sshd.commands.Query;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import java.util.List;
@@ -162,6 +165,27 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
       return null;
     }
     return pluginInfo.stream().map(MyInfo.class::cast).collect(toImmutableList());
+  }
+
+  /**
+   * Decode {@code MyInfo}s from a raw list of maps returned from Gson.
+   *
+   * <p>This method is used instead of decoding {@code ChangeInfo} or {@code ChangAttribute}, since
+   * Gson would decode the {@code plugins} field as a {@code List<PluginDefinedInfo>}, which would
+   * return the base type and silently ignore any fields that are defined only in the subclass.
+   * Instead, decode the enclosing {@code ChangeInfo} or {@code ChangeAttribute} as a raw {@code
+   * Map<String, Object>}, and pass the {@code "plugins"} value to this method.
+   *
+   * @param gson Gson converter.
+   * @param plugins list of {@code MyInfo} objects, each as a raw map returned from Gson.
+   * @return decoded list of {@code MyInfo}s.
+   */
+  protected static List<MyInfo> decodeRawPluginsList(Gson gson, @Nullable Object plugins) {
+    if (plugins == null) {
+      return null;
+    }
+    checkArgument(plugins instanceof List, "not a list: %s", plugins);
+    return gson.fromJson(gson.toJson(plugins), new TypeToken<List<MyInfo>>() {}.getType());
   }
 
   @FunctionalInterface

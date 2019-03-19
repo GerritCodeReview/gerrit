@@ -135,30 +135,17 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   @Nullable
   private static List<MyInfo> pluginInfoFromSingletonList(RestResponse res) throws Exception {
     res.assertOK();
-
-    // Don't deserialize to ChangeInfo directly, since that would treat the plugins field as
-    // List<PluginDefinedInfo> and ignore the unknown keys found in MyInfo.
     List<Map<String, Object>> changeInfos =
         GSON.fromJson(res.getReader(), new TypeToken<List<Map<String, Object>>>() {}.getType());
     assertThat(changeInfos).hasSize(1);
-    return myInfo(changeInfos.get(0));
+    return decodeRawPluginsList(GSON, changeInfos.get(0).get("plugins"));
   }
 
   @Nullable
   private List<MyInfo> pluginInfoFromChangeInfo(RestResponse res) throws Exception {
     res.assertOK();
-
-    // Don't deserialize to ChangeInfo directly, since that would treat the plugins field as
-    // List<PluginDefinedInfo> and ignore the unknown keys found in MyInfo.
-    return myInfo(
-        GSON.fromJson(res.getReader(), new TypeToken<Map<String, Object>>() {}.getType()));
-  }
-
-  private static List<MyInfo> myInfo(Map<String, Object> changeInfo) {
-    Object plugins = changeInfo.get("plugins");
-    if (plugins == null) {
-      return null;
-    }
-    return GSON.fromJson(GSON.toJson(plugins), new TypeToken<List<MyInfo>>() {}.getType());
+    Map<String, Object> changeInfo =
+        GSON.fromJson(res.getReader(), new TypeToken<Map<String, Object>>() {}.getType());
+    return decodeRawPluginsList(GSON, changeInfo.get("plugins"));
   }
 }

@@ -33,62 +33,62 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   private static final Gson GSON = OutputFormat.JSON.newGson();
 
   @Test
-  public void queryChangeRestWithNullAttribute() throws Exception {
+  public void queryChangeWithNullAttribute() throws Exception {
     getChangeWithNullAttribute(
-        id -> pluginInfoFromSingletonListRest(adminRestSession.get(changeQueryUrl(id))));
+        id -> pluginInfoFromSingletonList(adminRestSession.get(changeQueryUrl(id))));
   }
 
   @Test
-  public void getChangeRestWithNullAttribute() throws Exception {
+  public void getChangeWithNullAttribute() throws Exception {
     getChangeWithNullAttribute(
-        id -> pluginInfoFromChangeInfoRest(adminRestSession.get(changeUrl(id))));
+        id -> pluginInfoFromChangeInfo(adminRestSession.get(changeUrl(id))));
   }
 
   @Test
-  public void getChangeDetailRestWithNullAttribute() throws Exception {
+  public void getChangeDetailWithNullAttribute() throws Exception {
     getChangeWithNullAttribute(
-        id -> pluginInfoFromChangeInfoRest(adminRestSession.get(changeDetailUrl(id))));
+        id -> pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id))));
   }
 
   @Test
-  public void queryChangeRestWithSimpleAttribute() throws Exception {
+  public void queryChangeWithSimpleAttribute() throws Exception {
     getChangeWithSimpleAttribute(
-        id -> pluginInfoFromSingletonListRest(adminRestSession.get(changeQueryUrl(id))));
+        id -> pluginInfoFromSingletonList(adminRestSession.get(changeQueryUrl(id))));
   }
 
   @Test
-  public void getChangeRestWithSimpleAttribute() throws Exception {
+  public void getChangeWithSimpleAttribute() throws Exception {
     getChangeWithSimpleAttribute(
-        id -> pluginInfoFromChangeInfoRest(adminRestSession.get(changeUrl(id))));
+        id -> pluginInfoFromChangeInfo(adminRestSession.get(changeUrl(id))));
   }
 
   @Test
-  public void getChangeDetailRestWithSimpleAttribute() throws Exception {
+  public void getChangeDetailWithSimpleAttribute() throws Exception {
     getChangeWithSimpleAttribute(
-        id -> pluginInfoFromChangeInfoRest(adminRestSession.get(changeDetailUrl(id))));
+        id -> pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id))));
   }
 
   @Test
-  public void queryChangeRestWithOption() throws Exception {
+  public void queryChangeWithOption() throws Exception {
     getChangeWithOption(
-        id -> pluginInfoFromSingletonListRest(adminRestSession.get(changeQueryUrl(id))),
+        id -> pluginInfoFromSingletonList(adminRestSession.get(changeQueryUrl(id))),
         (id, opts) ->
-            pluginInfoFromSingletonListRest(adminRestSession.get(changeQueryUrl(id, opts))));
+            pluginInfoFromSingletonList(adminRestSession.get(changeQueryUrl(id, opts))));
   }
 
   @Test
-  public void getChangeRestWithOption() throws Exception {
+  public void getChangeWithOption() throws Exception {
     getChangeWithOption(
-        id -> pluginInfoFromChangeInfoRest(adminRestSession.get(changeUrl(id))),
-        (id, opts) -> pluginInfoFromChangeInfoRest(adminRestSession.get(changeUrl(id, opts))));
+        id -> pluginInfoFromChangeInfo(adminRestSession.get(changeUrl(id))),
+        (id, opts) -> pluginInfoFromChangeInfo(adminRestSession.get(changeUrl(id, opts))));
   }
 
   @Test
-  public void getChangeDetailRestWithOption() throws Exception {
+  public void getChangeDetailWithOption() throws Exception {
     getChangeWithOption(
-        id -> pluginInfoFromChangeInfoRest(adminRestSession.get(changeDetailUrl(id))),
+        id -> pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id))),
         (id, opts) ->
-            pluginInfoFromChangeInfoRest(adminRestSession.get(changeDetailUrl(id, opts))));
+            pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id, opts))));
   }
 
   private String changeQueryUrl(Change.Id id) {
@@ -136,7 +136,7 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   }
 
   @Nullable
-  private static List<MyInfo> pluginInfoFromSingletonListRest(RestResponse res) throws Exception {
+  private static List<MyInfo> pluginInfoFromSingletonList(RestResponse res) throws Exception {
     res.assertOK();
 
     // Don't deserialize to ChangeInfo directly, since that would treat the plugins field as
@@ -148,7 +148,7 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   }
 
   @Nullable
-  private List<MyInfo> pluginInfoFromChangeInfoRest(RestResponse res) throws Exception {
+  private List<MyInfo> pluginInfoFromChangeInfo(RestResponse res) throws Exception {
     res.assertOK();
 
     // Don't deserialize to ChangeInfo directly, since that would treat the plugins field as

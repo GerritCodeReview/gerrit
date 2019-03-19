@@ -40,23 +40,23 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
   private static final Gson GSON = OutputStreamQuery.GSON;
 
   @Test
-  public void queryChangeSshWithNullAttribute() throws Exception {
+  public void queryChangeWithNullAttribute() throws Exception {
     getChangeWithNullAttribute(
-        id -> pluginInfoFromSingletonListSsh(adminSshSession.exec(changeQueryCmd(id))));
+        id -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id))));
   }
 
   @Test
-  public void queryChangeSshWithSimpleAttribute() throws Exception {
+  public void queryChangeWithSimpleAttribute() throws Exception {
     getChangeWithSimpleAttribute(
-        id -> pluginInfoFromSingletonListSsh(adminSshSession.exec(changeQueryCmd(id))));
+        id -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id))));
   }
 
   @Test
-  public void queryChangeSshWithOption() throws Exception {
+  public void queryChangeWithOption() throws Exception {
     getChangeWithOption(
-        id -> pluginInfoFromSingletonListSsh(adminSshSession.exec(changeQueryCmd(id))),
+        id -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id))),
         (id, opts) ->
-            pluginInfoFromSingletonListSsh(adminSshSession.exec(changeQueryCmd(id, opts))));
+            pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id, opts))));
   }
 
   private String changeQueryCmd(Change.Id id) {
@@ -73,7 +73,7 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
   }
 
   @Nullable
-  private static List<MyInfo> pluginInfoFromSingletonListSsh(String sshOutput) throws Exception {
+  private static List<MyInfo> pluginInfoFromSingletonList(String sshOutput) throws Exception {
     List<Map<String, Object>> changeAttrs = new ArrayList<>();
     for (String line : CharStreams.readLines(new StringReader(sshOutput))) {
       // Don't deserialize to ChangeAttribute directly, since that would treat the plugins field as

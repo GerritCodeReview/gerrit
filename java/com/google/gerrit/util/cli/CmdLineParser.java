@@ -48,8 +48,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -71,7 +69,6 @@ import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.EnumOptionHandler;
-import org.kohsuke.args4j.spi.FieldSetter;
 import org.kohsuke.args4j.spi.MethodSetter;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Setter;
@@ -289,7 +286,7 @@ public class CmdLineParser {
   }
 
   public boolean wasHelpRequestedByOption() {
-    return parser.help.value;
+    return parser.help;
   }
 
   public void parseArgument(String... args) throws CmdLineException {
@@ -457,11 +454,12 @@ public class CmdLineParser {
   }
 
   public class MyParser extends org.kohsuke.args4j.CmdLineParser {
+    boolean help;
+
     @SuppressWarnings("rawtypes")
     private List<OptionHandler> optionsList;
 
     private Map<String, QueuedOption> queuedOptionsByName = new LinkedHashMap<>();
-    private HelpOption help;
 
     private class QueuedOption {
       public final Option option;
@@ -628,10 +626,31 @@ public class CmdLineParser {
 
     private void ensureOptionsInitialized() {
       if (optionsList == null) {
-        help = new HelpOption();
         optionsList = new ArrayList<>();
-        addOption(help, help);
+        addOption(newHelpSetter(), newHelpOption());
       }
+    }
+
+    private Setter<?> newHelpSetter() {
+      try {
+        return Setters.create(getClass().getDeclaredField("help"), this);
+      } catch (NoSuchFieldException e) {
+        throw new IllegalStateException(e);
+      }
+    }
+
+    private Option newHelpOption() {
+      return newOption(
+          "--help",
+          new String[] {"-h"},
+          "display this help text",
+          "",
+          false,
+          false,
+          false,
+          BooleanOptionHandler.class,
+          new String[0],
+          new String[0]);
     }
 
     private boolean isHandlerSpecified(OptionDef option) {
@@ -644,90 +663,6 @@ public class CmdLineParser {
 
     private <T> boolean isPrimitive(Setter<T> setter) {
       return setter.getType().isPrimitive();
-    }
-  }
-
-  private static class HelpOption implements Option, Setter<Boolean> {
-    private boolean value;
-
-    @Override
-    public String name() {
-      return "--help";
-    }
-
-    @Override
-    public String[] aliases() {
-      return new String[] {"-h"};
-    }
-
-    @Override
-    public String[] depends() {
-      return new String[] {};
-    }
-
-    @Override
-    public boolean hidden() {
-      return false;
-    }
-
-    @Override
-    public String usage() {
-      return "display this help text";
-    }
-
-    @Override
-    public void addValue(Boolean val) {
-      value = val;
-    }
-
-    @Override
-    public Class<? extends OptionHandler<Boolean>> handler() {
-      return BooleanOptionHandler.class;
-    }
-
-    @Override
-    public String metaVar() {
-      return "";
-    }
-
-    @Override
-    public boolean required() {
-      return false;
-    }
-
-    @Override
-    public Class<? extends Annotation> annotationType() {
-      return Option.class;
-    }
-
-    @Override
-    public FieldSetter asFieldSetter() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public AnnotatedElement asAnnotatedElement() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Class<Boolean> getType() {
-      return Boolean.class;
-    }
-
-    @Override
-    public boolean isMultiValued() {
-      return false;
-    }
-
-    @Override
-    public String[] forbids() {
-      return null;
-    }
-
-    @Override
-    public boolean help() {
-      return false;
     }
   }
 

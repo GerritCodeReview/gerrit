@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8f61dd9_13c51ab8",
+        "filename": "proto/cache.proto",
+        "patchSetId": 8
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-19T18:19:35Z",
+      "side": 1,
+      "message": "I just noticed that we don\u0027t include the project name in other cache keys (e.g. the mergeability cache doesn\u0027t have it). Is there a reason that we need it for this case? The SHA-1s should be distinct enough, shouldn\u0027t they?",
+      "range": {
+        "startLine": 241,
+        "startChar": 2,
+        "endLine": 241,
+        "endChar": 21
+      },
+      "revId": "563e1c856ee61bb586a4e74d993593232220393b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

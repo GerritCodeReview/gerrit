@@ -26,31 +26,31 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   // No tests for /detail via the extension API, since the extension API doesn't have that method.
 
   @Test
-  public void queryChangeApiWithNullAttribute() throws Exception {
+  public void queryChangeWithNullAttribute() throws Exception {
     getChangeWithNullAttribute(
         id -> pluginInfoFromSingletonList(gApi.changes().query(id.toString()).get()));
   }
 
   @Test
-  public void getChangeApiWithNullAttribute() throws Exception {
+  public void getChangeWithNullAttribute() throws Exception {
     getChangeWithNullAttribute(
         id -> pluginInfoFromChangeInfo(gApi.changes().id(id.toString()).get()));
   }
 
   @Test
-  public void queryChangeApiWithSimpleAttribute() throws Exception {
+  public void queryChangeWithSimpleAttribute() throws Exception {
     getChangeWithSimpleAttribute(
         id -> pluginInfoFromSingletonList(gApi.changes().query(id.toString()).get()));
   }
 
   @Test
-  public void getChangeApiWithSimpleAttribute() throws Exception {
+  public void getChangeWithSimpleAttribute() throws Exception {
     getChangeWithSimpleAttribute(
         id -> pluginInfoFromChangeInfo(gApi.changes().id(id.toString()).get()));
   }
 
   @Test
-  public void queryChangeApiWithOption() throws Exception {
+  public void queryChangeWithOption() throws Exception {
     getChangeWithOption(
         id -> pluginInfoFromSingletonList(gApi.changes().query(id.toString()).get()),
         (id, opts) ->
@@ -59,7 +59,7 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   }
 
   @Test
-  public void getChangeApiWithOption() throws Exception {
+  public void getChangeWithOption() throws Exception {
     getChangeWithOption(
         id -> pluginInfoFromChangeInfo(gApi.changes().id(id.get()).get()),
         (id, opts) -> pluginInfoFromChangeInfo(gApi.changes().id(id.get()).get(opts)));
@@ -75,7 +75,7 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   }
 
   @Test
-  public void getChangeApiWithSimpleAttributeWithExplicitExport() throws Exception {
+  public void getChangeWithSimpleAttributeWithExplicitExport() throws Exception {
     // For backwards compatibility with old plugins, allow modules to bind into the
     // DynamicSet<ChangeAttributeFactory> as if it were a DynamicMap. We only need one variant of
     // this test to prove that the mapping works.

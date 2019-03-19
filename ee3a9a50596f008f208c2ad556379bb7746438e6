@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "cfa4bc39_70d7343b",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-19T13:29:43Z",
+      "side": 1,
+      "message": "Please don\u0027t add this here. The only reason the cookbook plugin is here is because it was previously a core plugin and was removed. It probably doesn\u0027t need to be here any more, but that\u0027s for another change.",
+      "parentUuid": "0e3e7afb_772125d6",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 25
+      },
+      "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "283e6ac6_3afbe5b2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

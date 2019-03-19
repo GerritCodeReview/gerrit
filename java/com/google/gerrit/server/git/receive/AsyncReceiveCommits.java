@@ -179,7 +179,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     CREATE_REPLACE,
     NORMAL,
     AUTOCLOSE,
-  };
+  }
 
   @Singleton
   private static class Metrics {

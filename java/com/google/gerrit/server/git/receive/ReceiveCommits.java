@@ -1802,7 +1802,7 @@ class ReceiveCommits {
       logger.atInfo().log("deprecated topic push seen for project %s", project.getName());
     }
 
-    if (validateConnected(magicBranch.cmd, magicBranch.dest, tip)) {
+    if (validateConnected(magicBranch.cmd, magicBranch.dest, tip) && validRefOperation(cmd)) {
       this.magicBranch = magicBranch;
     }
   }

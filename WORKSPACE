@@ -156,18 +156,18 @@ maven_jar(
     sha1 = "94ad16d728b374d65bd897625f3fbb3da223a2b6",
 )
 
-FLOGGER_VERS = "0.3.1"
+FLOGGER_VERS = "0.4"
 
 maven_jar(
     name = "flogger",
     artifact = "com.google.flogger:flogger:" + FLOGGER_VERS,
-    sha1 = "585030fe1ec709760cbef997a459729fb965df0e",
+    sha1 = "9c8863dcc913b56291c0c88e6d4ca9715b43df98",
 )
 
 maven_jar(
     name = "flogger-log4j-backend",
     artifact = "com.google.flogger:flogger-log4j-backend:" + FLOGGER_VERS,
-    sha1 = "d5085e3996bddc4b105d53b886190cc9a8811a9e",
+    sha1 = "17aa5e31daa1354187e14b6978597d630391c028",
 )
 
 maven_jar(
@@ -1054,12 +1054,12 @@ maven_jar(
     sha1 = "76716d529710fc03d1d429b43e3cedd4419f78d4",
 )
 
-# When upgrading elasticsearch-rest-client, also upgrade http-niocore
+# When upgrading elasticsearch-rest-client, also upgrade httpcore-nio
 # and httpasyncclient as necessary.
 maven_jar(
     name = "elasticsearch-rest-client",
-    artifact = "org.elasticsearch.client:elasticsearch-rest-client:6.6.1",
-    sha1 = "dc1c9284ffca28cd169fae2776c3956e90b76c00",
+    artifact = "org.elasticsearch.client:elasticsearch-rest-client:6.6.2",
+    sha1 = "2c429141e488091c358aa43b1e6873d457464c5d",
 )
 
 JACKSON_VERSION = "2.9.8"
@@ -1070,18 +1070,18 @@ maven_jar(
     sha1 = "0f5a654e4675769c716e5b387830d19b501ca191",
 )
 
-TESTCONTAINERS_VERSION = "1.10.3"
+TESTCONTAINERS_VERSION = "1.10.7"
 
 maven_jar(
     name = "testcontainers",
     artifact = "org.testcontainers:testcontainers:" + TESTCONTAINERS_VERSION,
-    sha1 = "e561ce99fc616b383d85f35ce881e58e8de59ae7",
+    sha1 = "e7575fedfd010ca1ad80c8c9bf971a8057b1ff8a",
 )
 
 maven_jar(
     name = "testcontainers-elasticsearch",
     artifact = "org.testcontainers:elasticsearch:" + TESTCONTAINERS_VERSION,
-    sha1 = "0cb114ecba0ed54a116e2be2f031bc45ca4cbfc8",
+    sha1 = "1ee43ebd81aea1f29bf60a56643bad80c134f998",
 )
 
 maven_jar(

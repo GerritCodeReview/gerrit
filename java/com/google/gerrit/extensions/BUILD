@@ -30,6 +30,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//lib:guava",
+        "//lib/auto:auto-value-annotations",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
     ],

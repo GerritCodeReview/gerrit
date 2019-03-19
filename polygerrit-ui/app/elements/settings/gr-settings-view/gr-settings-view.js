@@ -40,6 +40,11 @@
 
   const RELOAD_MESSAGE = 'Reloading...';
 
+  const HTTP_AUTH = [
+    'HTTP',
+    'HTTP_LDAP',
+  ];
+
   Polymer({
     is: 'gr-settings-view',
 
@@ -412,6 +417,16 @@
       this.async(() => {
         window.location.reload();
       }, 1);
+    },
+
+    _showHttpAuth(config) {
+      if (config && config.auth &&
+          config.auth.git_basic_auth_policy) {
+        return HTTP_AUTH.includes(
+            config.auth.git_basic_auth_policy.toUpperCase());
+      }
+
+      return false;
     },
   });
 })();

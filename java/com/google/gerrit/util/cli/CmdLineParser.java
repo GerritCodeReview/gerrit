@@ -36,7 +36,9 @@ package com.google.gerrit.util.cli;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.util.cli.Localizable.localizable;
+import static java.util.Objects.requireNonNull;
 
+import com.google.auto.value.AutoAnnotation;
 import com.google.common.base.Strings;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -421,79 +423,37 @@ public class CmdLineParser {
     throw new CmdLineException(parser, localizable("invalid boolean \"%s=%s\""), name, value);
   }
 
-  private static class PrefixedOption implements Option {
-    private final String prefix;
-    private final Option o;
+  private static Option newPrefixedOption(String prefix, Option o) {
+    requireNonNull(prefix);
+    checkArgument(o.name().startsWith("-"), "Option name must start with '-': %s", o);
+    String[] aliases = Arrays.stream(o.aliases()).map(prefix::concat).toArray(String[]::new);
+    return newOption(
+        prefix + o.name(),
+        aliases,
+        o.usage(),
+        o.metaVar(),
+        o.required(),
+        false,
+        o.hidden(),
+        o.handler(),
+        o.depends(),
+        new String[0]);
+  }
 
-    PrefixedOption(String prefix, Option o) {
-      this.prefix = prefix;
-      checkArgument(o.name().startsWith("-"), "Option name must start with '-': %s", o);
-      this.o = o;
-    }
-
-    @Override
-    public String name() {
-      return getPrefixedName(prefix, o.name());
-    }
-
-    @Override
-    public String[] aliases() {
-      String[] prefixedAliases = new String[o.aliases().length];
-      for (int i = 0; i < prefixedAliases.length; i++) {
-        prefixedAliases[i] = getPrefixedName(prefix, o.aliases()[i]);
-      }
-      return prefixedAliases;
-    }
-
-    @Override
-    public String usage() {
-      return o.usage();
-    }
-
-    @Override
-    public String metaVar() {
-      return o.metaVar();
-    }
-
-    @Override
-    public boolean required() {
-      return o.required();
-    }
-
-    @Override
-    public boolean hidden() {
-      return o.hidden();
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public Class<? extends OptionHandler> handler() {
-      return o.handler();
-    }
-
-    @Override
-    public String[] depends() {
-      return o.depends();
-    }
-
-    @Override
-    public String[] forbids() {
-      return null;
-    }
-
-    @Override
-    public boolean help() {
-      return false;
-    }
-
-    @Override
-    public Class<? extends Annotation> annotationType() {
-      return o.annotationType();
-    }
-
-    private static String getPrefixedName(String prefix, String name) {
-      return prefix + name;
-    }
+  @AutoAnnotation
+  private static Option newOption(
+      String name,
+      String[] aliases,
+      String usage,
+      String metaVar,
+      boolean required,
+      boolean help,
+      boolean hidden,
+      Class<? extends OptionHandler> handler,
+      String[] depends,
+      String[] forbids) {
+    return new AutoAnnotation_CmdLineParser_newOption(
+        name, aliases, usage, metaVar, required, help, hidden, handler, depends, forbids);
   }
 
   public class MyParser extends org.kohsuke.args4j.CmdLineParser {
@@ -569,7 +529,7 @@ public class CmdLineParser {
           Option o = m.getAnnotation(Option.class);
           if (o != null) {
             queueOption(
-                new PrefixedOption(prefix, o),
+                newPrefixedOption(prefix, o),
                 new MethodSetter(this, bean, m),
                 m.getAnnotation(RequiresOptions.class));
           }
@@ -578,7 +538,7 @@ public class CmdLineParser {
           Option o = f.getAnnotation(Option.class);
           if (o != null) {
             queueOption(
-                new PrefixedOption(prefix, o),
+                newPrefixedOption(prefix, o),
                 Setters.create(f, bean),
                 f.getAnnotation(RequiresOptions.class));
           }

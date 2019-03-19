@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "a485ac7f_a5f3dc1e",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-19T14:08:32Z",
+      "side": 1,
+      "message": "Removed this here, but sent https://gerrit-review.googlesource.com/c/gerrit/+/218450.",
+      "parentUuid": "cfa4bc39_70d7343b",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 25
+      },
+      "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "283e6ac6_3afbe5b2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

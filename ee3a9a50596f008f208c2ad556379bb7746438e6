@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb17d0bc_ee610636",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-19T12:35:34Z",
+      "side": 1,
+      "message": "This seems odd - should we not maybe ignore all plugins, and then whitelist the ones that are checked in?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 25
+      },
+      "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "283e6ac6_3afbe5b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-19T12:35:34Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me from the diff how it\u0027s related to bower_components - could you add some more explanation how bower_components relate to the changes you make?",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b245f15c_5c738e8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-19T12:35:34Z",
+      "side": 1,
+      "message": "Should that fix be rebased onto this to ensure the submit order is correct?",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 19
+      },
+      "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5d57cb1_60a342db",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-19T12:35:34Z",
+      "side": 1,
+      "message": "Is there maybe a more local suppression we can use, something like this:\nhttp://google3/third_party/javascript/polygerrit/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js?l\u003d2603\u0026rcl\u003d238450503\n\n? \n\nThis suppress here catches any undefined variable anywhere, no?",
+      "range": {
+        "startLine": 468,
+        "startChar": 13,
+        "endLine": 468,
+        "endChar": 35
+      },
+      "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

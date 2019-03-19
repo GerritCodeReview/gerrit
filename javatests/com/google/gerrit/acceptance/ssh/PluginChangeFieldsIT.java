@@ -55,8 +55,7 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
   public void queryChangeWithOption() throws Exception {
     getChangeWithOption(
         id -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id))),
-        (id, opts) ->
-            pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id, opts))));
+        (id, opts) -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id, opts))));
   }
 
   private String changeQueryCmd(Change.Id id) {
@@ -76,8 +75,6 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
   private static List<MyInfo> pluginInfoFromSingletonList(String sshOutput) throws Exception {
     List<Map<String, Object>> changeAttrs = new ArrayList<>();
     for (String line : CharStreams.readLines(new StringReader(sshOutput))) {
-      // Don't deserialize to ChangeAttribute directly, since that would treat the plugins field as
-      // List<PluginDefinedInfo> and ignore the unknown keys found in MyInfo.
       Map<String, Object> changeAttr =
           GSON.fromJson(line, new TypeToken<Map<String, Object>>() {}.getType());
       if (!"stats".equals(changeAttr.get("type"))) {
@@ -86,11 +83,6 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
     }
 
     assertThat(changeAttrs).hasSize(1);
-
-    Object plugins = changeAttrs.get(0).get("plugins");
-    if (plugins == null) {
-      return null;
-    }
-    return GSON.fromJson(GSON.toJson(plugins), new TypeToken<List<MyInfo>>() {}.getType());
+    return decodeRawPluginsList(GSON, changeAttrs.get(0).get("plugins"));
   }
 }

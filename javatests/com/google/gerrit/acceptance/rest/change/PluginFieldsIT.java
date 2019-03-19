@@ -40,8 +40,7 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
 
   @Test
   public void getChangeWithNullAttribute() throws Exception {
-    getChangeWithNullAttribute(
-        id -> pluginInfoFromChangeInfo(adminRestSession.get(changeUrl(id))));
+    getChangeWithNullAttribute(id -> pluginInfoFromChangeInfo(adminRestSession.get(changeUrl(id))));
   }
 
   @Test
@@ -72,8 +71,7 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   public void queryChangeWithOption() throws Exception {
     getChangeWithOption(
         id -> pluginInfoFromSingletonList(adminRestSession.get(changeQueryUrl(id))),
-        (id, opts) ->
-            pluginInfoFromSingletonList(adminRestSession.get(changeQueryUrl(id, opts))));
+        (id, opts) -> pluginInfoFromSingletonList(adminRestSession.get(changeQueryUrl(id, opts))));
   }
 
   @Test
@@ -87,8 +85,7 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   public void getChangeDetailWithOption() throws Exception {
     getChangeWithOption(
         id -> pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id))),
-        (id, opts) ->
-            pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id, opts))));
+        (id, opts) -> pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id, opts))));
   }
 
   private String changeQueryUrl(Change.Id id) {
@@ -138,30 +135,17 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   @Nullable
   private static List<MyInfo> pluginInfoFromSingletonList(RestResponse res) throws Exception {
     res.assertOK();
-
-    // Don't deserialize to ChangeInfo directly, since that would treat the plugins field as
-    // List<PluginDefinedInfo> and ignore the unknown keys found in MyInfo.
     List<Map<String, Object>> changeInfos =
         GSON.fromJson(res.getReader(), new TypeToken<List<Map<String, Object>>>() {}.getType());
     assertThat(changeInfos).hasSize(1);
-    return myInfo(changeInfos.get(0));
+    return decodeRawPluginsList(GSON, changeInfos.get(0).get("plugins"));
   }
 
   @Nullable
   private List<MyInfo> pluginInfoFromChangeInfo(RestResponse res) throws Exception {
     res.assertOK();
-
-    // Don't deserialize to ChangeInfo directly, since that would treat the plugins field as
-    // List<PluginDefinedInfo> and ignore the unknown keys found in MyInfo.
-    return myInfo(
-        GSON.fromJson(res.getReader(), new TypeToken<Map<String, Object>>() {}.getType()));
-  }
-
-  private static List<MyInfo> myInfo(Map<String, Object> changeInfo) {
-    Object plugins = changeInfo.get("plugins");
-    if (plugins == null) {
-      return null;
-    }
-    return GSON.fromJson(GSON.toJson(plugins), new TypeToken<List<MyInfo>>() {}.getType());
+    Map<String, Object> changeInfo =
+        GSON.fromJson(res.getReader(), new TypeToken<Map<String, Object>>() {}.getType());
+    return decodeRawPluginsList(GSON, changeInfo.get("plugins"));
   }
 }

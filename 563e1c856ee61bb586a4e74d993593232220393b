@@ -46,6 +46,30 @@
       "revId": "563e1c856ee61bb586a4e74d993593232220393b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a59faad4_31c7afe6",
+        "filename": "proto/cache.proto",
+        "patchSetId": 8
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-20T13:37:15Z",
+      "side": 1,
+      "message": "As discussed in person, having the project name in the keys is better as we then don\u0027t need to \u0027smuggle in\u0027 the project name to the cache loader as other caches do and hence the cache value can be computed completely from the key. The argument in favor of not using the project name in the cache key would have been that we could re-use the cache entries across repositories but it\u0027s very unlikely that two repositories contain exactly the same commits and we don\u0027t need to optimize for that situation.\n\nSo, let\u0027s include the project name in the key and strive to do the same for other caches in the future.",
+      "parentUuid": "bce7c88a_df23538b",
+      "range": {
+        "startLine": 241,
+        "startChar": 2,
+        "endLine": 241,
+        "endChar": 21
+      },
+      "revId": "563e1c856ee61bb586a4e74d993593232220393b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

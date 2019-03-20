@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbdfbd0e_038cc981",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-03-20T22:21:36Z",
+      "side": 1,
+      "message": "ReviewDb? Why? Modification to changes/patchsets that have an impact on ReviewDb should not trigger the RefOperationValidation isn\u0027t it?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 53
+      },
+      "revId": "2b526a366a17c4971ba1d675ea44afad79c61737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5de8edfc_24f2196b",
+        "filename": "java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-03-20T22:21:36Z",
+      "side": 1,
+      "message": "Why are we running the validation only for the refs/changes/*?\nAre you expecting anything that would be different from that? If yes, why then you would not run validation on them?",
+      "range": {
+        "startLine": 322,
+        "startChar": 27,
+        "endLine": 322,
+        "endChar": 75
+      },
+      "revId": "2b526a366a17c4971ba1d675ea44afad79c61737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "293a0db8_4c1dafbc",
+        "filename": "java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-03-20T22:21:36Z",
+      "side": 1,
+      "message": "if changeCommands is empty, then the stream will be empty and won\u0027t do anything anyway. This if() is redundant IMHO.",
+      "range": {
+        "startLine": 325,
+        "startChar": 10,
+        "endLine": 325,
+        "endChar": 35
+      },
+      "revId": "2b526a366a17c4971ba1d675ea44afad79c61737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6a242fb_da5c453a",
+        "filename": "java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-03-20T22:21:36Z",
+      "side": 1,
+      "message": "There is no point in creating this multiple times for each validator: just create once outside the lambda in a final variable and use it inside.",
+      "range": {
+        "startLine": 330,
+        "startChar": 24,
+        "endLine": 330,
+        "endChar": 74
+      },
+      "revId": "2b526a366a17c4971ba1d675ea44afad79c61737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eda7fd1b_e82c8936",
+        "filename": "java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-03-20T22:21:36Z",
+      "side": 1,
+      "message": "This isn\u0027t a runtime exception: we should instead collect the exception and returning it back in the results.",
+      "range": {
+        "startLine": 336,
+        "startChar": 26,
+        "endLine": 336,
+        "endChar": 49
+      },
+      "revId": "2b526a366a17c4971ba1d675ea44afad79c61737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ad5d97d_751220b4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/RefUpdateListenerIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-03-20T22:21:36Z",
+      "side": 1,
+      "message": "We should not force the notedb mode, but just honor the one that is currently used.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 3
+      },
+      "revId": "2b526a366a17c4971ba1d675ea44afad79c61737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

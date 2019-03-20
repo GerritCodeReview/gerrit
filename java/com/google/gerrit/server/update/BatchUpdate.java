@@ -38,6 +38,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
+import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -93,6 +94,7 @@ public abstract class BatchUpdate implements AutoCloseable {
     return new FactoryModule() {
       @Override
       public void configure() {
+        factory(RefOperationValidators.Factory.class);
         factory(ReviewDbBatchUpdate.AssistedFactory.class);
         factory(NoteDbBatchUpdate.AssistedFactory.class);
       }

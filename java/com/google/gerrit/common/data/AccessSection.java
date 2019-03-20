@@ -25,13 +25,13 @@ import java.util.List;
 import java.util.Set;
 
 /** Portion of a {@link Project} describing access rules. */
-public class AccessSection extends RefConfigSection implements Comparable<AccessSection> {
+public final class AccessSection extends RefConfigSection implements Comparable<AccessSection> {
   /** Special name given to the global capabilities; not a valid reference. */
   public static final String GLOBAL_CAPABILITIES = "GLOBAL_CAPABILITIES";
 
-  protected List<Permission> permissions;
+  private List<Permission> permissions;
 
-  protected AccessSection() {}
+  public AccessSection() {}
 
   public AccessSection(String refPattern) {
     super(refPattern);

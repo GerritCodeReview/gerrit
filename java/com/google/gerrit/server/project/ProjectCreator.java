@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.RefConfigSectionHeader;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -162,7 +163,7 @@ public class ProjectCreator {
       }
 
       if (!args.ownerIds.isEmpty()) {
-        AccessSection all = config.getAccessSection(AccessSection.ALL, true);
+        AccessSection all = config.getAccessSection(RefConfigSectionHeader.ALL, true);
         for (AccountGroup.UUID ownerId : args.ownerIds) {
           GroupDescription.Basic g = groupBackend.get(ownerId);
           if (g != null) {

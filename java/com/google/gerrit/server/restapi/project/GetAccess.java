@@ -29,7 +29,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.common.data.RefConfigSectionHeader;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
@@ -196,7 +196,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
           info.local.put(section.getName(), createAccessSection(groups, section));
         }
 
-      } else if (RefConfigSection.isValid(name)) {
+      } else if (RefConfigSectionHeader.isValid(name)) {
         if (check(perm, name, WRITE_CONFIG)) {
           info.local.put(name, createAccessSection(groups, section));
           info.ownerOf.add(name);
@@ -240,7 +240,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
         permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
         // Special case: If the section list is empty, this project has no current
         // access control information. Fall back to site administrators.
-        info.ownerOf.add(AccessSection.ALL);
+        info.ownerOf.add(RefConfigSectionHeader.ALL);
       } catch (AuthException e) {
         // Do nothing.
       }

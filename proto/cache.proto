@@ -234,3 +234,11 @@ message AllExternalIdsProto {
   }
   repeated ExternalIdProto external_id = 1;
 }
+
+// Key for com.google.gerrit.server.git.PureRevertCache.
+// Next ID: 4
+message PureRevertKeyProto {
+  string project = 1;
+  bytes claimed_original = 2;
+  bytes claimed_revert = 3;
+}

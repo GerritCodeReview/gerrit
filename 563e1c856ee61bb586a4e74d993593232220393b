@@ -22,6 +22,30 @@
       "revId": "563e1c856ee61bb586a4e74d993593232220393b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bce7c88a_df23538b",
+        "filename": "proto/cache.proto",
+        "patchSetId": 8
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-03-20T09:00:34Z",
+      "side": 1,
+      "message": "I included it for debuggability because it makes it easier to attribute the cache entries that sit on disk when looking into issues. This isn\u0027t necessarily true for us (see my internal comments).\n\nIf your preference is to remove this, I am absolutely fine with removing it.",
+      "parentUuid": "b8f61dd9_13c51ab8",
+      "range": {
+        "startLine": 241,
+        "startChar": 2,
+        "endLine": 241,
+        "endChar": 21
+      },
+      "revId": "563e1c856ee61bb586a4e74d993593232220393b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

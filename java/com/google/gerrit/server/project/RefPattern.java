@@ -18,7 +18,6 @@ import com.google.common.base.Throwables;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.errors.InvalidNameException;
 import dk.brics.automaton.RegExp;
@@ -67,7 +66,7 @@ public class RefPattern {
   }
 
   public static boolean isRE(String refPattern) {
-    return refPattern.startsWith(AccessSection.REGEX_PREFIX);
+    return refPattern.startsWith(RefConfigSection.REGEX_PREFIX);
   }
 
   public static RegExp toRegExp(String refPattern) {

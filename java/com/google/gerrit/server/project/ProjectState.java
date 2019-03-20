@@ -138,11 +138,11 @@ public class ProjectState {
                 .setUnit(Units.NANOSECONDS),
             Field.ofString("method"));
 
-    if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
+    if (isAllProjects && !Permission.canBeOnAllProjects(RefConfigSection.ALL, Permission.OWNER)) {
       localOwners = Collections.emptySet();
     } else {
       HashSet<AccountGroup.UUID> groups = new HashSet<>();
-      AccessSection all = config.getAccessSection(AccessSection.ALL);
+      AccessSection all = config.getAccessSection(RefConfigSection.ALL);
       if (all != null) {
         Permission owner = all.getPermission(Permission.OWNER);
         if (owner != null) {

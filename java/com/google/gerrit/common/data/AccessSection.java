@@ -25,16 +25,35 @@ import java.util.List;
 import java.util.Set;
 
 /** Portion of a {@link Project} describing access rules. */
-public final class AccessSection extends RefConfigSection implements Comparable<AccessSection> {
+public final class AccessSection implements Comparable<AccessSection> {
   /** Special name given to the global capabilities; not a valid reference. */
   public static final String GLOBAL_CAPABILITIES = "GLOBAL_CAPABILITIES";
+  /** Pattern that matches all references in a project. */
+  public static final String ALL = "refs/*";
+
+  /** Pattern that matches all branches in a project. */
+  public static final String HEADS = "refs/heads/*";
+
+  /** Prefix that triggers a regular expression pattern. */
+  public static final String REGEX_PREFIX = "^";
+
+  /** Name of the access section. It could be a ref pattern or else. */
+  private String name;
 
   private List<Permission> permissions;
 
-  public AccessSection() {}
+  public AccessSection(String name) {
+    this.name = name;
+    this.permissions = new ArrayList<>();
+  }
 
-  public AccessSection(String refPattern) {
-    super(refPattern);
+  /** @return true if the name is likely to be a valid reference section name. */
+  public static boolean isValidRefSectionName(String name) {
+    return name.startsWith("refs/") || name.startsWith("^refs/");
+  }
+
+  public String getName() {
+    return name;
   }
 
   public ImmutableList<Permission> getPermissions() {
@@ -145,7 +164,12 @@ public final class AccessSection extends RefConfigSection implements Comparable<
 
   @Override
   public boolean equals(Object obj) {
-    if (!super.equals(obj) || !(obj instanceof AccessSection)) {
+    if (!(obj instanceof AccessSection)) {
+      return false;
+    }
+
+    AccessSection other = (AccessSection) obj;
+    if (!getName().equals(other.getName())) {
       return false;
     }
     return new HashSet<>(getPermissions())
@@ -160,6 +184,7 @@ public final class AccessSection extends RefConfigSection implements Comparable<
         hashCode += permission.hashCode();
       }
     }
+    hashCode += getName().hashCode();
     return hashCode;
   }
 }

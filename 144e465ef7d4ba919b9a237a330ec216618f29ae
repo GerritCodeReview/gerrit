@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b3518a4_ffa79941",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-20T18:31:28Z",
+      "side": 1,
+      "message": "True. On the other hand, having a specific type for the section name can still be useful, e.g. if it grows additional methods, or if there are interfaces that take multiple String arguments.\n\nI think I would like to see where this is going first, before deciding.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "144e465ef7d4ba919b9a237a330ec216618f29ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bb4021b_bc0380eb",
+        "filename": "java/com/google/gerrit/common/data/RefConfigSection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-20T18:31:28Z",
+      "side": 1,
+      "message": "I think this class needs a new name. \"Section\" implies that it contains both the section name and also all the values under that section. Maybe \"RefConfigSectionHeader\" or \"RefConfigHeader\"?",
+      "revId": "144e465ef7d4ba919b9a237a330ec216618f29ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

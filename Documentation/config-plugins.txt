@@ -234,6 +234,17 @@ Plugin Documentation] |
 link:https://gerrit.googlesource.com/plugins/changemessage/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[checks]]
+=== checks
+
+The checks plugin provides a REST API and UI extensions for integrating
+CI systems with Gerrit.
+
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/checks[
+Project] |
+link:https://gerrit.googlesource.com/plugins/checks/+doc/master/src/main/resources/Documentation/about.md[
+Plugin Documentation]]
+
 [[egit]]
 === egit
 

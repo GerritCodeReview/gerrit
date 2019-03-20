@@ -118,6 +118,15 @@ public class TestTimeUtil {
     clockMs.addAndGet(clockStepUnit.toMillis(clockStep));
   }
 
+  /**
+   * Returns the current timestamp.
+   *
+   * @return current timestamp
+   */
+  public static synchronized Timestamp getCurrentTimestamp() {
+    return new Timestamp(clockMs.get());
+  }
+
   /** Reset the clock to use the actual system clock. */
   public static synchronized void useSystemTime() {
     clockMs = null;

@@ -718,7 +718,6 @@ definition which creates a `MyPredicate`:
 
 [source,java]
 ----
-@Singleton
 public class SampleOperator
     implements ChangeQueryBuilder.ChangeOperatorFactory {
   public static class MyPredicate extends OperatorChangePredicate<ChangeData> {
@@ -751,7 +750,6 @@ A sample `ChangeHasOperandFactory` class implementing, and registering, a
 new `has:sample_pluginName` operand is shown below:
 
 ====
-  @Singleton
   public class SampleHasOperand implements ChangeHasOperandFactory {
     public static class Module extends AbstractModule {
       @Override

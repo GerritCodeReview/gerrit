@@ -27,7 +27,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -482,7 +481,7 @@ public class ProjectState {
             continue;
           }
 
-          if (RefConfigSection.isValid(refPattern) && match(destination, refPattern)) {
+          if (AccessSection.isValidRefSectionName(refPattern) && match(destination, refPattern)) {
             r.add(l);
             break;
           }

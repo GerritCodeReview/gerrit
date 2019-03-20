@@ -41,7 +41,7 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
-import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.common.data.RefConfigSectionHeader;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -742,7 +742,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     accessSections = new HashMap<>();
     sectionsWithUnknownPermissions = new HashSet<>();
     for (String refName : rc.getSubsections(ACCESS)) {
-      if (RefConfigSection.isValid(refName) && isValidRegex(refName)) {
+      if (RefConfigSectionHeader.isValid(refName) && isValidRegex(refName)) {
         AccessSection as = getAccessSection(refName, true);
 
         for (String varName : rc.getStringList(ACCESS, refName, KEY_GROUP_PERMISSIONS)) {
@@ -1373,7 +1373,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
 
     for (String name : rc.getSubsections(ACCESS)) {
-      if (RefConfigSection.isValid(name) && !accessSections.containsKey(name)) {
+      if (RefConfigSectionHeader.isValid(name) && !accessSections.containsKey(name)) {
         rc.unsetSection(ACCESS, name);
       }
     }

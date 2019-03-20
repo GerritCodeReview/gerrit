@@ -16,6 +16,7 @@ package com.google.gerrit.server.update;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
@@ -23,15 +24,20 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.validators.RefOperationValidationException;
+import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -43,11 +49,15 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.stream.Stream;
+
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -262,6 +272,7 @@ public class NoteDbBatchUpdate extends BatchUpdate {
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeIndexer indexer;
   private final GitReferenceUpdated gitRefUpdated;
+  private final RefOperationValidators.Factory refOperationValidators;
   private final ReviewDb db;
 
   @Inject
@@ -273,6 +284,7 @@ public class NoteDbBatchUpdate extends BatchUpdate {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeIndexer indexer,
       GitReferenceUpdated gitRefUpdated,
+      RefOperationValidators.Factory refOperationValidators,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
@@ -283,6 +295,7 @@ public class NoteDbBatchUpdate extends BatchUpdate {
     this.updateManagerFactory = updateManagerFactory;
     this.indexer = indexer;
     this.gitRefUpdated = gitRefUpdated;
+    this.refOperationValidators = refOperationValidators;
     this.db = db;
   }
 
@@ -307,6 +320,24 @@ public class NoteDbBatchUpdate extends BatchUpdate {
       logDebug("Executing updateRepo on %d RepoOnlyOps", repoOnlyOps.size());
       for (RepoOnlyOp op : repoOnlyOps) {
         op.updateRepo(ctx);
+      }
+
+      final Project thisProject = new Project(this.project);
+      final IdentifiedUser identifiedUser = user.asIdentifiedUser();
+
+      // Validation of /changes/ refs has yet to take place as they have been generated internally by Gerrit and thus
+      // they haven't had a chance to be verified at ReceiveCommits time yet.
+      final Iterator<ReceiveCommand> changesIterator =
+          getRefUpdates().values().stream()
+            .filter(command -> command.getRefName().startsWith(RefNames.REFS_CHANGES))
+            .iterator();
+
+      while(changesIterator.hasNext()) {
+        final ReceiveCommand c = changesIterator.next();
+
+        refOperationValidators
+            .create(thisProject, identifiedUser, c)
+            .validateForRefOperation();
       }
 
       if (onSubmitValidators != null && !getRefUpdates().isEmpty()) {

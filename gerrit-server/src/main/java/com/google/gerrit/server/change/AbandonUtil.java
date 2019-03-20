@@ -76,7 +76,11 @@ public class AbandonUtil {
       ImmutableListMultimap.Builder<Project.NameKey, ChangeData> builder =
           ImmutableListMultimap.builder();
       for (ChangeData cd : changesToAbandon) {
-        builder.put(cd.project(), cd);
+        try {
+          builder.put(cd.project(), cd);
+        } catch (OrmException e) {
+          log.warn("Failed to query inactive open change for auto-abandoning.", e);
+        }
       }
 
       int count = 0;

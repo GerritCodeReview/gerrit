@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.RefConfigSectionHeader;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 
@@ -27,7 +28,7 @@ import com.google.gerrit.server.CurrentUser;
 public class SectionMatcher extends RefPatternMatcher {
   static SectionMatcher wrap(Project.NameKey project, AccessSection section) {
     String ref = section.getName();
-    if (AccessSection.isValid(ref)) {
+    if (RefConfigSectionHeader.isValid(ref)) {
       return new SectionMatcher(project, section, getMatcher(ref));
     }
     return null;

@@ -14,7 +14,10 @@
 
 package com.google.gerrit.common.data;
 
-public abstract class RefConfigSection {
+import com.google.auto.value.AutoValue;
+
+@AutoValue
+public abstract class RefConfigSectionHeader {
   /** Pattern that matches all references in a project. */
   public static final String ALL = "refs/*";
 
@@ -29,32 +32,10 @@ public abstract class RefConfigSection {
     return name.startsWith("refs/") || name.startsWith("^refs/");
   }
 
-  protected String name;
-
-  public RefConfigSection() {}
-
-  public RefConfigSection(String name) {
-    setName(name);
+  public static RefConfigSectionHeader create(String name) {
+    return new AutoValue_RefConfigSectionHeader(name);
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (!(obj instanceof RefConfigSection)) {
-      return false;
-    }
-    return name.equals(((RefConfigSection) obj).name);
-  }
-
-  @Override
-  public int hashCode() {
-    return name.hashCode();
-  }
+  /** Name of the ref config section. */
+  public abstract String name();
 }

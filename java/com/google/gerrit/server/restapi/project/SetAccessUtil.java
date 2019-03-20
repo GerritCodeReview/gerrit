@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.RefConfigSectionHeader;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
@@ -146,7 +147,7 @@ public class SetAccessUtil {
       boolean isGlobalCapabilities = AccessSection.GLOBAL_CAPABILITIES.equals(name);
 
       if (!isGlobalCapabilities) {
-        if (!AccessSection.isValid(name)) {
+        if (!RefConfigSectionHeader.isValid(name)) {
           throw new BadRequestException("invalid section name");
         }
         RefPattern.validate(name);

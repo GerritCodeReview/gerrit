@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.util;
 
-import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.server.project.RefPattern;
 import java.util.Comparator;
 import org.apache.commons.lang.StringUtils;
@@ -40,7 +40,7 @@ import org.apache.commons.lang.StringUtils;
  * are infinite, but refs/heads/[a-zA-Z]* has more transitions, which after all turns it more
  * specific.
  */
-public final class MostSpecificComparator implements Comparator<RefConfigSection> {
+public final class MostSpecificComparator implements Comparator<AccessSection> {
   private final String refName;
 
   public MostSpecificComparator(String refName) {
@@ -48,7 +48,7 @@ public final class MostSpecificComparator implements Comparator<RefConfigSection
   }
 
   @Override
-  public int compare(RefConfigSection a, RefConfigSection b) {
+  public int compare(AccessSection a, AccessSection b) {
     return compare(a.getName(), b.getName());
   }
 

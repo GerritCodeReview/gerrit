@@ -27,7 +27,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.common.data.RefConfigSectionHeader;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -138,11 +138,12 @@ public class ProjectState {
                 .setUnit(Units.NANOSECONDS),
             Field.ofString("method"));
 
-    if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
+    if (isAllProjects
+        && !Permission.canBeOnAllProjects(RefConfigSectionHeader.ALL, Permission.OWNER)) {
       localOwners = Collections.emptySet();
     } else {
       HashSet<AccountGroup.UUID> groups = new HashSet<>();
-      AccessSection all = config.getAccessSection(AccessSection.ALL);
+      AccessSection all = config.getAccessSection(RefConfigSectionHeader.ALL);
       if (all != null) {
         Permission owner = all.getPermission(Permission.OWNER);
         if (owner != null) {
@@ -482,7 +483,7 @@ public class ProjectState {
             continue;
           }
 
-          if (RefConfigSection.isValid(refPattern) && match(destination, refPattern)) {
+          if (RefConfigSectionHeader.isValid(refPattern) && match(destination, refPattern)) {
             r.add(l);
             break;
           }

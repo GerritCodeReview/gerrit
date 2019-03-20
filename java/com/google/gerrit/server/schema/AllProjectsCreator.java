@@ -30,6 +30,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.common.data.RefConfigSectionHeader;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -152,7 +153,7 @@ public class AllProjectsCreator {
 
   private void initDefaultAcls(ProjectConfig config, AllProjectsInput input) {
     AccessSection capabilities = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
-    AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
+    AccessSection heads = config.getAccessSection(RefConfigSectionHeader.HEADS, true);
 
     checkArgument(input.codeReviewLabel().isPresent());
     LabelType codeReviewLabel = input.codeReviewLabel().get();
@@ -175,7 +176,7 @@ public class AllProjectsCreator {
   private void initDefaultAclsForRegisteredUsers(
       AccessSection heads, LabelType codeReviewLabel, ProjectConfig config) {
     AccessSection refsFor = config.getAccessSection("refs/for/*", true);
-    AccessSection magic = config.getAccessSection("refs/for/" + AccessSection.ALL, true);
+    AccessSection magic = config.getAccessSection("refs/for/" + RefConfigSectionHeader.ALL, true);
 
     grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
     grant(config, heads, codeReviewLabel, -1, 1, registered);
@@ -201,7 +202,7 @@ public class AllProjectsCreator {
       AccessSection heads,
       LabelType codeReviewLabel,
       GroupReference adminsGroup) {
-    AccessSection all = config.getAccessSection(AccessSection.ALL, true);
+    AccessSection all = config.getAccessSection(RefConfigSectionHeader.ALL, true);
     AccessSection tags = config.getAccessSection("refs/tags/*", true);
     AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);
 

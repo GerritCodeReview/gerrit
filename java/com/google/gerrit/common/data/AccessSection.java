@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import static com.google.gerrit.common.data.RefConfigSectionHeader.REGEX_PREFIX;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
@@ -25,16 +26,20 @@ import java.util.List;
 import java.util.Set;
 
 /** Portion of a {@link Project} describing access rules. */
-public final class AccessSection extends RefConfigSection implements Comparable<AccessSection> {
+public final class AccessSection implements Comparable<AccessSection> {
   /** Special name given to the global capabilities; not a valid reference. */
   public static final String GLOBAL_CAPABILITIES = "GLOBAL_CAPABILITIES";
 
+  private RefConfigSectionHeader refConfigSectionHeader;
   private List<Permission> permissions;
 
-  public AccessSection() {}
-
   public AccessSection(String refPattern) {
-    super(refPattern);
+    refConfigSectionHeader = RefConfigSectionHeader.create(refPattern);
+    permissions = new ArrayList<>();
+  }
+
+  public String getName() {
+    return refConfigSectionHeader.name();
   }
 
   public ImmutableList<Permission> getPermissions() {
@@ -145,7 +150,12 @@ public final class AccessSection extends RefConfigSection implements Comparable<
 
   @Override
   public boolean equals(Object obj) {
-    if (!super.equals(obj) || !(obj instanceof AccessSection)) {
+    if (!(obj instanceof AccessSection)) {
+      return false;
+    }
+
+    AccessSection other = (AccessSection) obj;
+    if (!getName().equals(other.getName())) {
       return false;
     }
     return new HashSet<>(getPermissions())

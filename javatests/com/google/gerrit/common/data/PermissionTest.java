@@ -95,12 +95,17 @@ public class PermissionTest extends GerritBaseTests {
 
   @Test
   public void canBeOnAllProjects() {
-    assertThat(Permission.canBeOnAllProjects(AccessSection.ALL, Permission.ABANDON)).isTrue();
-    assertThat(Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)).isFalse();
-    assertThat(Permission.canBeOnAllProjects(AccessSection.ALL, Permission.LABEL + "Code-Review"))
+    assertThat(Permission.canBeOnAllProjects(RefConfigSectionHeader.ALL, Permission.ABANDON))
+        .isTrue();
+    assertThat(Permission.canBeOnAllProjects(RefConfigSectionHeader.ALL, Permission.OWNER))
+        .isFalse();
+    assertThat(
+            Permission.canBeOnAllProjects(
+                RefConfigSectionHeader.ALL, Permission.LABEL + "Code-Review"))
         .isTrue();
     assertThat(
-            Permission.canBeOnAllProjects(AccessSection.ALL, Permission.LABEL_AS + "Code-Review"))
+            Permission.canBeOnAllProjects(
+                RefConfigSectionHeader.ALL, Permission.LABEL_AS + "Code-Review"))
         .isTrue();
 
     assertThat(Permission.canBeOnAllProjects("refs/heads/*", Permission.ABANDON)).isTrue();

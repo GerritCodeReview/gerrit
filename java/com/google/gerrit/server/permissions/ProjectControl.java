@@ -21,6 +21,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.RefConfigSectionHeader;
 import com.google.gerrit.extensions.api.access.CoreOrPluginProjectPermission;
 import com.google.gerrit.extensions.api.access.PluginProjectPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
@@ -276,7 +277,7 @@ class ProjectControl {
   private boolean canPerformOnAllRefs(String permission, Set<String> ignore) {
     boolean canPerform = false;
     Set<String> patterns = allRefPatterns(permission);
-    if (patterns.contains(AccessSection.ALL)) {
+    if (patterns.contains(RefConfigSectionHeader.ALL)) {
       // Only possible if granted on the pattern that
       // matches every possible reference.  Check all
       // patterns also have the permission.

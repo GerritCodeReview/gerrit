@@ -14,7 +14,9 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.util.cli.Localizable.localizable;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
@@ -40,20 +42,27 @@ import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.util.cli.CmdLineParser;
+import com.google.gerrit.util.cli.OptionUtil;
 import com.google.gson.JsonSyntaxException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.lang.reflect.AnnotatedElement;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.spi.FieldSetter;
+import org.kohsuke.args4j.spi.OneArgumentOptionHandler;
+import org.kohsuke.args4j.spi.Setter;
 
 @CommandMetaData(name = "review", description = "Apply reviews to one or more patch sets")
 public class ReviewCommand extends SshCommand {
@@ -61,10 +70,8 @@ public class ReviewCommand extends SshCommand {
 
   @Override
   protected final CmdLineParser newCmdLineParser(Object options) {
-    final CmdLineParser parser = super.newCmdLineParser(options);
-    for (ApproveOption c : optionList) {
-      parser.addOption(c, c);
-    }
+    CmdLineParser parser = super.newCmdLineParser(options);
+    optionMap.forEach((o, s) -> parser.addOption(s, o));
     return parser;
   }
 
@@ -154,7 +161,7 @@ public class ReviewCommand extends SshCommand {
 
   @Inject private PatchSetParser psParser;
 
-  private List<ApproveOption> optionList;
+  private Map<Option, LabelSetter> optionMap;
   private Map<String, Short> customLabels;
 
   @Override
@@ -257,11 +264,8 @@ public class ReviewCommand extends SshCommand {
     review.notify = notify;
     review.labels = new TreeMap<>();
     review.drafts = ReviewInput.DraftHandling.PUBLISH;
-    for (ApproveOption ao : optionList) {
-      Short v = ao.value();
-      if (v != null) {
-        review.labels.put(ao.getLabelName(), v);
-      }
+    for (LabelSetter setter : optionMap.values()) {
+      setter.getValue().ifPresent(v -> review.labels.put(setter.getLabelName(), v));
     }
     review.labels.putAll(customLabels);
 
@@ -315,7 +319,7 @@ public class ReviewCommand extends SshCommand {
 
   @Override
   protected void parseCommandLine() throws UnloggedFailure {
-    optionList = new ArrayList<>();
+    optionMap = new LinkedHashMap<>();
     customLabels = new HashMap<>();
 
     ProjectState allProjectsState;
@@ -332,10 +336,111 @@ public class ReviewCommand extends SshCommand {
         usage.append(v.format()).append("\n");
       }
 
-      final String name = "--" + type.getName().toLowerCase();
-      optionList.add(new ApproveOption(name, usage.toString(), type));
+      optionMap.put(newApproveOption(type, usage.toString()), new LabelSetter(type));
     }
 
     super.parseCommandLine();
+  }
+
+  private static String asOptionName(LabelType type) {
+    return "--" + type.getName().toLowerCase();
+  }
+
+  private static Option newApproveOption(LabelType type, String usage) {
+    return OptionUtil.newOption(
+        asOptionName(type),
+        new String[0],
+        usage,
+        "N",
+        false,
+        false,
+        false,
+        LabelHandler.class,
+        new String[0],
+        new String[0]);
+  }
+
+  private static class LabelSetter implements Setter<Short> {
+    private final LabelType type;
+    private Optional<Short> value;
+
+    LabelSetter(LabelType type) {
+      this.type = requireNonNull(type);
+      this.value = Optional.empty();
+    }
+
+    Optional<Short> getValue() {
+      return value;
+    }
+
+    LabelType getLabelType() {
+      return type;
+    }
+
+    String getLabelName() {
+      return type.getName();
+    }
+
+    @Override
+    public void addValue(Short value) {
+      this.value = Optional.of(value);
+    }
+
+    @Override
+    public Class<Short> getType() {
+      return Short.class;
+    }
+
+    @Override
+    public boolean isMultiValued() {
+      return false;
+    }
+
+    @Override
+    public FieldSetter asFieldSetter() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public AnnotatedElement asAnnotatedElement() {
+      throw new UnsupportedOperationException();
+    }
+  }
+
+  public static class LabelHandler extends OneArgumentOptionHandler<Short> {
+    private final LabelType type;
+
+    public LabelHandler(
+        org.kohsuke.args4j.CmdLineParser parser, OptionDef option, Setter<Short> setter) {
+      super(parser, option, setter);
+      this.type = ((LabelSetter) setter).getLabelType();
+    }
+
+    @Override
+    protected Short parse(String token) throws NumberFormatException, CmdLineException {
+      String argument = token;
+      if (argument.startsWith("+")) {
+        argument = argument.substring(1);
+      }
+
+      short value = Short.parseShort(argument);
+      LabelValue min = type.getMin();
+      LabelValue max = type.getMax();
+
+      if (value < min.getValue() || value > max.getValue()) {
+        String e =
+            "\""
+                + token
+                + "\" must be in range "
+                + min.formatValue()
+                + ".."
+                + max.formatValue()
+                + " for \""
+                + asOptionName(type)
+                + "\"";
+        throw new CmdLineException(owner, localizable(e));
+      }
+      return value;
+    }
   }
 }

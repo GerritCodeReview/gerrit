@@ -14,10 +14,10 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.auto.value.AutoAnnotation;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -45,32 +45,13 @@ class ConfigAnnotationParser {
     return cfg;
   }
 
-  static class GlobalPluginConfigToGerritConfig implements GerritConfig {
-    private final GlobalPluginConfig delegate;
+  private static GerritConfig toGerritConfig(GlobalPluginConfig annotation) {
+    return newGerritConfig(annotation.name(), annotation.value(), annotation.values());
+  }
 
-    GlobalPluginConfigToGerritConfig(GlobalPluginConfig delegate) {
-      this.delegate = delegate;
-    }
-
-    @Override
-    public Class<? extends Annotation> annotationType() {
-      return delegate.annotationType();
-    }
-
-    @Override
-    public String name() {
-      return delegate.name();
-    }
-
-    @Override
-    public String value() {
-      return delegate.value();
-    }
-
-    @Override
-    public String[] values() {
-      return delegate.values();
-    }
+  @AutoAnnotation
+  private static GerritConfig newGerritConfig(String name, String value, String[] values) {
+    return new AutoAnnotation_ConfigAnnotationParser_newGerritConfig(name, value, values);
   }
 
   static Map<String, Config> parse(GlobalPluginConfig annotation) {
@@ -79,7 +60,7 @@ class ConfigAnnotationParser {
     }
     Map<String, Config> result = new HashMap<>();
     Config cfg = new Config();
-    parseAnnotation(cfg, new GlobalPluginConfigToGerritConfig(annotation));
+    parseAnnotation(cfg, toGerritConfig(annotation));
     result.put(annotation.pluginName(), cfg);
     return result;
   }
@@ -100,7 +81,7 @@ class ConfigAnnotationParser {
         config = new Config();
         result.put(pluginName, config);
       }
-      parseAnnotation(config, new GlobalPluginConfigToGerritConfig(c));
+      parseAnnotation(config, toGerritConfig(c));
     }
 
     return result;

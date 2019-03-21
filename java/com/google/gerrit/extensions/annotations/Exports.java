@@ -14,11 +14,14 @@
 
 package com.google.gerrit.extensions.annotations;
 
+import com.google.auto.value.AutoAnnotation;
+
 /** Static constructors for {@link Export} annotations. */
 public final class Exports {
   /** Create an annotation to export under a specific name. */
-  public static Export named(String name) {
-    return new ExportImpl(name);
+  @AutoAnnotation
+  public static Export named(String value) {
+    return new AutoAnnotation_Exports_named(value);
   }
 
   /** Create an annotation to export based on a cannonical class name. */

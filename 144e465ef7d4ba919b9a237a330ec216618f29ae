@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c4f24aaa_fe91a7c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-21T16:23:41Z",
+      "side": 1,
+      "message": "Yeah. I think we can live with it in its own class.\n\n\u003e I think I would like to see where this is going first, before deciding.\n\nSorry I don\u0027t get what you mean.",
+      "parentUuid": "1b3518a4_ffa79941",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "144e465ef7d4ba919b9a237a330ec216618f29ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7bb4021b_bc0380eb",
         "filename": "java/com/google/gerrit/common/data/RefConfigSection.java",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "144e465ef7d4ba919b9a237a330ec216618f29ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd7178fb_3c272fb8",
+        "filename": "java/com/google/gerrit/common/data/RefConfigSection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-03-21T16:23:41Z",
+      "side": 1,
+      "message": "Agree a better name is expected here. Originally I think it could be something like \"RefConfigSectionName\", but I\u0027m also fine with \"RefConfigSectionHeader\".",
+      "parentUuid": "7bb4021b_bc0380eb",
+      "revId": "144e465ef7d4ba919b9a237a330ec216618f29ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

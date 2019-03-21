@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "374c6534_6a6961bc",
+        "filename": "java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-03-21T17:37:52Z",
+      "side": 1,
+      "message": "We do expect NoteDbBatchUpdate.executeUpdateRepo() to deal with other ref-updates other than the ones starting with refs/changes/*\n\n*All* ref-updates pass through here (as far as I can tell).\n\nThe difference with other refs is that refs/changes have *not* had the chance to be validated before as they have been derived *later* by gerrit when processing `refs/for`.\n\nThat\u0027s why we are filtering only for those here",
+      "parentUuid": "45e515ae_c4226cd6",
+      "range": {
+        "startLine": 322,
+        "startChar": 27,
+        "endLine": 322,
+        "endChar": 75
+      },
+      "revId": "2b526a366a17c4971ba1d675ea44afad79c61737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "293a0db8_4c1dafbc",
         "filename": "java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
         "patchSetId": 5
@@ -469,6 +493,30 @@
       "side": 1,
       "message": "So this test should self-disable itself when running on ReviewDb, right? Rather than setting a global system property on the JVM and impacting potentially other tests.",
       "parentUuid": "2c3f9cfd_a81d29cc",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 3
+      },
+      "revId": "2b526a366a17c4971ba1d675ea44afad79c61737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a158261_fb04b952",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/RefUpdateListenerIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-03-21T17:37:52Z",
+      "side": 1,
+      "message": "Thank you @luca, I didn\u0027t know you could use junits assumptions to do that. I will fix this now.",
+      "parentUuid": "a3b86d4b_8591d723",
       "range": {
         "startLine": 61,
         "startChar": 0,

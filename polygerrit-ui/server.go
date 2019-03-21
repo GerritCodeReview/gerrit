@@ -17,6 +17,7 @@ package main
 import (
 	"archive/zip"
 	"bufio"
+	"bytes"
 	"compress/gzip"
 	"encoding/json"
 	"errors"
@@ -32,20 +33,16 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/robfig/soy"
-	"github.com/robfig/soy/soyhtml"
 	"golang.org/x/tools/godoc/vfs/httpfs"
 	"golang.org/x/tools/godoc/vfs/zipfs"
 )
 
 var (
-	plugins  = flag.String("plugins", "", "comma seperated plugin paths to serve")
-	port     = flag.String("port", ":8081", "Port to serve HTTP requests on")
-	prod     = flag.Bool("prod", false, "Serve production assets")
-	restHost = flag.String("host", "gerrit-review.googlesource.com", "Host to proxy requests to")
-	scheme   = flag.String("scheme", "https", "URL scheme")
-
-	tofu *soyhtml.Tofu
+	plugins    = flag.String("plugins", "", "comma seperated plugin paths to serve")
+	port       = flag.String("port", ":8081", "Port to serve HTTP requests on")
+	host       = flag.String("host", "gerrit-review.googlesource.com", "Host to proxy requests to")
+	scheme     = flag.String("scheme", "https", "URL scheme")
+	cdnPattern = regexp.MustCompile("https://cdn.googlesource.com/polygerrit_ui/[0-9.]*")
 )
 
 func main() {
@@ -61,53 +58,33 @@ func main() {
 		log.Fatal(err)
 	}
 
-	tofu, err = resolveIndexTemplate()
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	workspace := os.Getenv("BUILD_WORKSPACE_DIRECTORY")
 	if err := os.Chdir(filepath.Join(workspace, "polygerrit-ui")); err != nil {
 		log.Fatal(err)
 	}
 
-	http.HandleFunc("/index.html", handleIndex)
-
-	if *prod {
-		http.Handle("/", http.FileServer(http.Dir("dist")))
-	} else {
-		http.Handle("/", http.FileServer(http.Dir("app")))
-	}
-
+	http.Handle("/", http.FileServer(http.Dir("app")))
 	http.Handle("/bower_components/",
 		http.FileServer(httpfs.New(zipfs.New(componentsArchive, "bower_components"))))
 	http.Handle("/fonts/",
 		http.FileServer(httpfs.New(zipfs.New(fontsArchive, "fonts"))))
 
-	http.HandleFunc("/changes/", handleRESTProxy)
-	http.HandleFunc("/accounts/", handleRESTProxy)
-	http.HandleFunc("/config/", handleRESTProxy)
-	http.HandleFunc("/projects/", handleRESTProxy)
+	http.HandleFunc("/index.html", handleIndex)
+	http.HandleFunc("/changes/", handleProxy)
+	http.HandleFunc("/accounts/", handleProxy)
+	http.HandleFunc("/config/", handleProxy)
+	http.HandleFunc("/projects/", handleProxy)
 	http.HandleFunc("/accounts/self/detail", handleAccountDetail)
+
 	if len(*plugins) > 0 {
 		http.Handle("/plugins/", http.StripPrefix("/plugins/",
 			http.FileServer(http.Dir("../plugins"))))
 		log.Println("Local plugins from", "../plugins")
 	} else {
-		http.HandleFunc("/plugins/", handleRESTProxy)
+		http.HandleFunc("/plugins/", handleProxy)
 	}
 	log.Println("Serving on port", *port)
 	log.Fatal(http.ListenAndServe(*port, &server{}))
-}
-
-func resolveIndexTemplate() (*soyhtml.Tofu, error) {
-	basePath, err := resourceBasePath()
-	if err != nil {
-		return nil, err
-	}
-	return soy.NewBundle().
-		AddTemplateFile(basePath + ".runfiles/gerrit/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy").
-		CompileToTofu()
 }
 
 func openDataArchive(path string) (*zip.ReadCloser, error) {
@@ -122,40 +99,40 @@ func resourceBasePath() (string, error) {
 	return filepath.Abs(os.Args[0])
 }
 
-func handleIndex(w http.ResponseWriter, r *http.Request) {
-	var obj = map[string]interface{}{
-		"canonicalPath":      "",
-		"staticResourcePath": "",
+func handleIndex(writer http.ResponseWriter, originalRequest *http.Request) {
+	fakeRequest := &http.Request{
+		URL: &url.URL{
+			Path: "/",
+		},
 	}
-	w.Header().Set("Content-Type", "text/html")
-	tofu.Render(w, "com.google.gerrit.httpd.raw.Index", obj)
+	handleProxy(writer, fakeRequest)
 }
 
-func handleRESTProxy(w http.ResponseWriter, r *http.Request) {
-	req := &http.Request{
+func handleProxy(writer http.ResponseWriter, originalRequest *http.Request) {
+	patchedRequest := &http.Request{
 		Method: "GET",
 		URL: &url.URL{
 			Scheme:   *scheme,
-			Host:     *restHost,
-			Opaque:   r.URL.EscapedPath(),
-			RawQuery: r.URL.RawQuery,
+			Host:     *host,
+			Opaque:   originalRequest.URL.EscapedPath(),
+			RawQuery: originalRequest.URL.RawQuery,
 		},
 	}
-	res, err := http.DefaultClient.Do(req)
+	response, err := http.DefaultClient.Do(patchedRequest)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(writer, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	defer res.Body.Close()
-	for name, values := range res.Header {
+	defer response.Body.Close()
+	for name, values := range response.Header {
 		for _, value := range values {
 			if name != "Content-Length" {
-				w.Header().Add(name, value)
+				writer.Header().Add(name, value)
 			}
 		}
 	}
-	w.WriteHeader(res.StatusCode)
-	if _, err := io.Copy(w, patchResponse(r, res)); err != nil {
+	writer.WriteHeader(response.StatusCode)
+	if _, err := io.Copy(writer, patchResponse(originalRequest, response)); err != nil {
 		log.Println("Error copying response to ResponseWriter:", err)
 		return
 	}
@@ -188,8 +165,10 @@ func setJsonPropByPath(json map[string]interface{}, path []string, value interfa
 	}
 }
 
-func patchResponse(r *http.Request, res *http.Response) io.Reader {
-	switch r.URL.EscapedPath() {
+func patchResponse(req *http.Request, res *http.Response) io.Reader {
+	switch req.URL.EscapedPath() {
+	case "/":
+		return replaceCdn(res.Body)
 	case "/config/server/info":
 		return injectLocalPlugins(res.Body)
 	default:
@@ -197,13 +176,23 @@ func patchResponse(r *http.Request, res *http.Response) io.Reader {
 	}
 }
 
-func injectLocalPlugins(r io.Reader) io.Reader {
+func replaceCdn(reader io.Reader) io.Reader {
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(reader)
+	original := buf.String()
+
+	replaced := cdnPattern.ReplaceAllString(original, "")
+
+	return strings.NewReader(replaced)
+}
+
+func injectLocalPlugins(reader io.Reader) io.Reader {
 	if len(*plugins) == 0 {
-		return r
+		return reader
 	}
 	// Skip escape prefix
-	io.CopyN(ioutil.Discard, r, 5)
-	dec := json.NewDecoder(r)
+	io.CopyN(ioutil.Discard, reader, 5)
+	dec := json.NewDecoder(reader)
 
 	var response map[string]interface{}
 	err := dec.Decode(&response)

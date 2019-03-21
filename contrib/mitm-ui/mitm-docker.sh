@@ -32,11 +32,16 @@ mitm_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 CMD="${mitm_dir}/$1"
 
+echo mitm ${mitm_dir}
+echo gerrit ${gerrit_dir}
+echo extra ${extra_volume}
+echo cmd ${CMD}
+
 docker run --rm -it \
        -v ~/.mitmproxy:/home/mitmproxy/.mitmproxy \
        -v ${mitm_dir}:${mitm_dir} \
        -v ${gerrit_dir}:${gerrit_dir} \
        -v ${extra_volume} \
        -p 8888:8888 \
-       mitmproxy/mitmproxy:2.0.2 \
+       mitmproxy/mitmproxy:4.0.4 \
        mitmdump -q -p 8888 -s "${CMD}"

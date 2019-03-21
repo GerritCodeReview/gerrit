@@ -24,133 +24,83 @@
 #
 # Example:
 #  --assets ~/gerrit-testsite/assets/a3be19f.html
-#
 
-from mitmproxy import http
-from mitmproxy.script import concurrent
-import re
-import argparse
-import os.path
-import json
+from mitmproxy import ctx, http, net
+
 import mimetypes
+import os.path
+import re
+import time
+import zipfile
 
-class Server:
-    def __init__(self, devpath, plugins, pluginroot, assets, strip_assets, theme):
-        if devpath:
-            print("Serving app from " + devpath)
-        if pluginroot:
-            print("Serving plugins from " + pluginroot)
-        if assets:
-            self.assets_root, self.assets_file = os.path.split(assets)
-            print("Assets: using " + self.assets_file + " from " + self.assets_root)
-        else:
-            self.assets_root = None
-        if plugins:
-            self.plugins = {path.split("/")[-1:][0]: path for path in map(expandpath, plugins.split(","))}
-            for filename, path in self.plugins.items():
-                print("Serving " + filename + " from " + path)
-        else:
-            self.plugins = {}
-        self.devpath = devpath
-        self.pluginroot = pluginroot
-        self.strip_assets = strip_assets
-        self.theme = theme
+def createDefaultResponse():
+  headers = net.http.Headers()
+  headers['Cache-Control'] = "private no-cache"
+  headers['Access-Control-Allow-Origin'] = "*"
+  response = http.HTTPResponse(
+    http_version = b"HTTP/2.0",
+    status_code = 200,
+    reason = b'',
+    headers = headers,
+    content = b'',
+    timestamp_start = time.time(),
+    timestamp_end = time.time(),
+  )
+  return response
 
-    def readfile(self, path):
-        with open(path, 'rb') as contentfile:
-            return contentfile.read()
+class ServeLocalFiles:
 
-@concurrent
-def response(flow: http.HTTPFlow) -> None:
-    if server.strip_assets:
-        assets_bundle = 'googlesource.com/polygerrit_assets'
-        assets_pos = flow.response.text.find(assets_bundle)
-        if assets_pos != -1:
-            t = flow.response.text
-            flow.response.text = t[:t.rfind('<', 0, assets_pos)] + t[t.find('>', assets_pos) + 1:]
-            return
+  def load(self, loader):
+    loader.add_option(
+      name = "devpath",
+      typespec = str,
+      default = "~/gerrit/polygerit_ui/app/",
+      help = "Location of Polgerrit dev sources (e.g. ~/gerrit/polygerit_ui/app/)",
+    )
 
-    if server.assets_root:
-        marker = 'webcomponents-lite.js"></script>'
-        pos = flow.response.text.find(marker)
-        if pos != -1:
-            pos += len(marker)
-            flow.response.text = ''.join([
-                flow.response.text[:pos],
-                '<link rel="import" href="/gerrit_assets/123.0/' + server.assets_file + '">',
-                flow.response.text[pos:]
-            ])
+  def readfile(self, path):
+    with open(path, 'rb') as contentfile:
+      self.read = contentfile.read()
+      return self.read
 
-        assets_prefix = "/gerrit_assets/123.0/"
-        if flow.request.path.startswith(assets_prefix):
-            assets_file = flow.request.path[len(assets_prefix):]
-            flow.response.content = server.readfile(server.assets_root + '/' + assets_file)
-            flow.response.status_code = 200
-            if assets_file.endswith('.js'):
-                flow.response.headers['Content-type'] = 'text/javascript'
-            return
-    m = re.match(".+polygerrit_ui/\d+\.\d+/(.+)", flow.request.path)
-    pluginmatch = re.match("^/plugins/(.+)", flow.request.path)
-    localfile = ""
-    if flow.request.path == "/config/server/info":
-        config = json.loads(flow.response.content[5:].decode('utf8'))
-        if server.theme:
-            config['default_theme'] = '/static/gerrit-theme.html'
-        for filename, path in server.plugins.items():
-            pluginname = filename.split(".")[0]
-            payload = config["plugin"]["js_resource_paths" if filename.endswith(".js") else "html_resource_paths"]
-            if list(filter(lambda url: filename in url, payload)):
-                continue
-            payload.append("plugins/" + pluginname + "/static/" + filename)
-        flow.response.content = str.encode(")]}'\n" + json.dumps(config))
-    if m is not None:
-        filepath = m.groups()[0]
-        localfile = server.devpath + filepath
-    elif pluginmatch is not None:
-        pluginfile = flow.request.path_components[-1]
-        if server.plugins and pluginfile in server.plugins:
-            if os.path.isfile(server.plugins[pluginfile]):
-                localfile = server.plugins[pluginfile]
-            else:
-                print("Can't find file " + server.plugins[pluginfile] + " for " + flow.request.path)
-        elif server.pluginroot:
-            pluginurl = pluginmatch.groups()[0]
-            if os.path.isfile(server.pluginroot + pluginfile):
-                localfile = server.pluginroot + pluginfile
-            elif os.path.isfile(server.pluginroot + pluginurl):
-                localfile = server.pluginroot + pluginurl
+  def request(self, flow):
+    path = flow.request.path
+    path = path.strip('/')
+    path = path.replace("?dom=shadow", "")
+    match = re.match("polygerrit_ui/\d+\.\d+/(.+)", path)
+    if not match is None:
+      path = match.groups()[0]
 
-    if server.theme:
-        if flow.request.path.endswith('/gerrit-theme.html'):
-            localfile = server.theme
-        else:
-            match = re.match("^/static(/[\w\.]+)$", flow.request.path)
-            if match is not None:
-                localfile = os.path.dirname(server.theme) + match.group(1)
+    content = self.contentFromBowerZip(path)
+    if (content is None): content = self.contentFromLocalFileSystem(path)
 
-    if localfile and os.path.isfile(localfile):
-        if pluginmatch is not None:
-            print("Serving " + flow.request.path + " from " + localfile)
-        flow.response.content = server.readfile(localfile)
-        flow.response.status_code = 200
-        localtype = mimetypes.guess_type(localfile)
-        if localtype and localtype[0]:
-            flow.response.headers['Content-type'] = localtype[0]
+    if (not content is None):
+      self.serve(flow, path, content)
 
-def expandpath(path):
-    return os.path.realpath(os.path.expanduser(path))
+  def serve(self, flow, path, content):
+    flow.response = createDefaultResponse();
+    flow.response.content = content;
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--app", type=str, default="", help="Path to /polygerrit-ui/app/")
-parser.add_argument("--plugins", type=str, default="", help="Comma-separated list of plugin files to add/replace")
-parser.add_argument("--plugin_root", type=str, default="", help="Path containing individual plugin files to replace")
-parser.add_argument("--assets", type=str, default="", help="Path containing assets file to import.")
-parser.add_argument("--strip_assets", action="store_true", help="Strip plugin bundles from the response.")
-parser.add_argument("--theme", type=str, help="Path to the default site theme to be used.")
-args = parser.parse_args()
-server = Server(expandpath(args.app) + '/',
-                args.plugins,
-                expandpath(args.plugin_root) + '/',
-                args.assets and expandpath(args.assets),
-                args.strip_assets,
-                expandpath(args.theme))
+    local_type = mimetypes.guess_type(path)
+    if local_type and local_type[0]:
+      flow.response.headers['Content-type'] = local_type[0]
+
+  def contentFromBowerZip(self, path):
+    if not path.startswith("bower_components/"):
+      return None
+    with zipfile.ZipFile("/Users/brohlfs/gerrit/bazel-bin/polygerrit-ui/app/test_components.zip") as bower_components_zipfile:
+      return bower_components_zipfile.read(path)
+
+  def contentFromLocalFileSystem(self, path):
+    local_file = ctx.options.devpath + path
+    if (os.path.isfile(local_file)):
+      return self.readfile(local_file)
+    else:
+      return None
+
+  def response(self, flow: http.HTTPFlow):
+    return
+
+addons = [
+  ServeLocalFiles()
+]

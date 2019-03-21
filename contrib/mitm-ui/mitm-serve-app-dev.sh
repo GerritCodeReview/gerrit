@@ -7,6 +7,7 @@ if [[ ! -f ${workspace} ]] || [[ ! $(head -n 1 ${workspace}) == *"gerrit"* ]]; t
 fi
 
 mitm_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+echo $mitm_dir
 
 ${mitm_dir}/dev-chrome.sh &
 

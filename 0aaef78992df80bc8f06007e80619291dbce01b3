@@ -22,6 +22,30 @@
       "revId": "0aaef78992df80bc8f06007e80619291dbce01b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "537fcc9d_e7a16064",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-03-21T23:27:52Z",
+      "side": 1,
+      "message": "I tryed using that but failed.\n\nWe forked https://github.com/GerritCodeReview/plugins_websession-flatfile to apply our customisations. But it\u0027s not allowing me to use CurrentUser in https://github.com/GerritCodeReview/plugins_websession-flatfile/blob/master/src/main/java/com/googlesource/gerrit/plugins/websession/flatfile/FlatFileWebSessionCache.java\n\nAlso sure (i carn\u0027t say to much though)",
+      "parentUuid": "a76f6ee6_1071a280",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "0aaef78992df80bc8f06007e80619291dbce01b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

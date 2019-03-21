@@ -338,6 +338,30 @@
     },
     {
       "key": {
+        "uuid": "5bbf74e8_391655eb",
+        "filename": "java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-03-21T13:35:14Z",
+      "side": 1,
+      "message": "Done, no need to use unchecked exceptions anymore 👍",
+      "parentUuid": "a7bdf4a4_81144d18",
+      "range": {
+        "startLine": 336,
+        "startChar": 26,
+        "endLine": 336,
+        "endChar": 49
+      },
+      "revId": "2b526a366a17c4971ba1d675ea44afad79c61737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ad5d97d_751220b4",
         "filename": "javatests/com/google/gerrit/acceptance/server/notedb/RefUpdateListenerIT.java",
         "patchSetId": 5

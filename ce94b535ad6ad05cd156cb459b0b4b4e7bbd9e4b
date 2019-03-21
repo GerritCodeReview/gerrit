@@ -71,6 +71,30 @@
       "revId": "ce94b535ad6ad05cd156cb459b0b4b4e7bbd9e4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5805bac1_70df3186",
+        "filename": "java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-21T14:29:08Z",
+      "side": 1,
+      "message": "By the way, sorry that @AutoAnnotation isn\u0027t quite ideal for the situation with lots of arguments. The annotated method needs to have types and names exactly matching the fields of the Annotation type, but that is not ideal when there are so many similarly-typed fields.\n\nOne possibility would be to introduce an intermediate @AutoValue type, like:\n\n @AutoValue\n abstract static class OptionSpec {\n   abstract String name();\n   abstract String[] aliases();\n   ...\n }\n\n private static Option newPrefixedOption(String prefix, Option o) {\n  return newOption(\n     OptionSpec.newBuilder().setName(prefix + o.name()).setAliases(aliases)....build());\n }\n\n private static Option newOption(OptionSpec spec) {\n   return newOption(spec.name(), spec.aliases(), ...);\n }\n\n @AutoAnnotation\n private static Option newOption(String name, String[] aliases, ...)\n\nIf we were designing a general-purpose library for programmatically creating Option instances, it might be worth it, but in this case I think it\u0027s probably overkill.",
+      "parentUuid": "c0c88957_77be4fef",
+      "range": {
+        "startLine": 436,
+        "startChar": 8,
+        "endLine": 436,
+        "endChar": 13
+      },
+      "revId": "ce94b535ad6ad05cd156cb459b0b4b4e7bbd9e4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

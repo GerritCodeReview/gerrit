@@ -69,12 +69,6 @@ gazelle_dependencies()
 
 # Dependencies for PolyGerrit local dev server.
 go_repository(
-    name = "com_github_robfig_soy",
-    commit = "82face14ebc0883b4ca9c901b5aaf3738b9f6a24",
-    importpath = "github.com/robfig/soy",
-)
-
-go_repository(
     name = "com_github_howeyc_fsnotify",
     commit = "441bbc86b167f3c1f4786afae9931403b99fdacf",
     importpath = "github.com/howeyc/fsnotify",

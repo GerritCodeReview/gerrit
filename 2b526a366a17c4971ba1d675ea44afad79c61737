@@ -249,6 +249,24 @@
     },
     {
       "key": {
+        "uuid": "4674e22d_f2bf4de3",
+        "filename": "java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-03-21T11:22:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7e19abc4_d6398fb3",
+      "revId": "2b526a366a17c4971ba1d675ea44afad79c61737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eda7fd1b_e82c8936",
         "filename": "java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
         "patchSetId": 5
@@ -284,6 +302,30 @@
       "side": 1,
       "message": "forEach doesn\u0027t allow checked exceptions to be propagated.\nWrapping the checked exception in an unchecked exception allows that to be propagated to the outer context.\nAny suggestion on how to do this differently? Perhaps using an iterator?",
       "parentUuid": "eda7fd1b_e82c8936",
+      "range": {
+        "startLine": 336,
+        "startChar": 26,
+        "endLine": 336,
+        "endChar": 49
+      },
+      "revId": "2b526a366a17c4971ba1d675ea44afad79c61737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7bdf4a4_81144d18",
+        "filename": "java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-03-21T11:22:44Z",
+      "side": 1,
+      "message": "Yes please use an iterator",
+      "parentUuid": "fe6e21b4_7bbe56b4",
       "range": {
         "startLine": 336,
         "startChar": 26,

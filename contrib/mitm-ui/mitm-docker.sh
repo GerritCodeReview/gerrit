@@ -38,5 +38,5 @@ docker run --rm -it \
        -v ${gerrit_dir}:${gerrit_dir} \
        -v ${extra_volume} \
        -p 8888:8888 \
-       mitmproxy/mitmproxy:2.0.2 \
+       mitmproxy/mitmproxy:4.0.4 \
        mitmdump -q -p 8888 -s "${CMD}"

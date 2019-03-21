@@ -16,6 +16,24 @@
       "revId": "f619b01a3d0a0fa963189527e3b8552b745fbd65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caac4c52_08e3dd84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-03-21T07:40:01Z",
+      "side": 1,
+      "message": "I see your point, but note, that 2.14 and 2.15 do not actively use protoc compiler to generate protobuf messages for cache serialization. This feature was only added very recently in 2.16 and newer versions, that why we have discrepancy concerning used protobuf versions in 2.14,2.15 and 2.16 versions:\n\n* 2.14 and 2.15:\n* WORKSPACE:    artifact \u003d \"com.google.protobuf:protobuf-java:3.0.0-beta-2\"\n\n* 2.16\n* WORKSPACE:    artifact \u003d \"com.google.protobuf:protobuf-java:3.6.1\"\n\nI don\u0027t think that we need to harmonize those versions on old stable branches.",
+      "parentUuid": "f453e833_dd148a0e",
+      "revId": "f619b01a3d0a0fa963189527e3b8552b745fbd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

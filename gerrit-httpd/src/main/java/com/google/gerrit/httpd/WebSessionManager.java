@@ -217,7 +217,7 @@ public class WebSessionManager {
       return expiresAt;
     }
 
-    Account.Id getAccountId() {
+    public Account.Id getAccountId() {
       return accountId;
     }
 

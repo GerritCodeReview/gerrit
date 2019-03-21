@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f453e833_dd148a0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-21T07:30:52Z",
+      "side": 1,
+      "message": "Do you intend to also move the protobuf upgrade to stable-2.14?",
+      "revId": "f619b01a3d0a0fa963189527e3b8552b745fbd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "revId": "0aaef78992df80bc8f06007e80619291dbce01b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8af8e15e_09e3f67f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-03-21T23:45:40Z",
+      "side": 1,
+      "message": "Ah that\u0027s right current user will never work seeing as we are creating a ssh command that calls a function that then calls like this:\n\n      if (readFile(path).getAccountId().get() \u003d\u003d key.get()) {\n        deleteFile(path);\n      }",
+      "parentUuid": "2355d3c4_9d6a8866",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "0aaef78992df80bc8f06007e80619291dbce01b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -57,11 +57,8 @@ go_binary(
     data = [
         ":fonts.zip",
         "//polygerrit-ui/app:test_components.zip",
-        "//resources/com/google/gerrit/httpd/raw",
     ],
     deps = [
-        "@com_github_robfig_soy//:go_default_library",
-        "@com_github_robfig_soy//soyhtml:go_default_library",
         "@org_golang_x_tools//godoc/vfs/httpfs:go_default_library",
         "@org_golang_x_tools//godoc/vfs/zipfs:go_default_library",
     ],

@@ -217,7 +217,15 @@ public class WebSessionManager {
       return expiresAt;
     }
 
-    Account.Id getAccountId() {
+    /**
+     * Parse an Account.Id.
+     *
+     * <p>This is public so that plugins that implement a web session, can also implement a way to
+     * clear per user sessions.
+     *
+     * @return account ID.
+     */
+    public Account.Id getAccountId() {
       return accountId;
     }
 

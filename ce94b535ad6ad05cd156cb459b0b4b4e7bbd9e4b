@@ -166,6 +166,30 @@
       "revId": "ce94b535ad6ad05cd156cb459b0b4b4e7bbd9e4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73670821_d4f541cd",
+        "filename": "java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-03-21T14:46:30Z",
+      "side": 1,
+      "message": "No, that\u0027s fine.",
+      "parentUuid": "3920cc94_1ca36eab",
+      "range": {
+        "startLine": 452,
+        "startChar": 22,
+        "endLine": 452,
+        "endChar": 35
+      },
+      "revId": "ce94b535ad6ad05cd156cb459b0b4b4e7bbd9e4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

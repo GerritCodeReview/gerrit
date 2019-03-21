@@ -94,6 +94,30 @@
       "revId": "0aaef78992df80bc8f06007e80619291dbce01b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d8eaafc_a62f1125",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-03-21T23:47:34Z",
+      "side": 1,
+      "message": "\u003e I\u0027ve just re tested locally and using CurrentUser does not work still for me.\n\u003e \n\u003e Where as using the readObject.getAccountId does (because im fetching all ids from a file and then matching it from a value i specified over ssh).\n\nYes, because the current user is coming from the WebSession, so you are in a chicken and egg situation.",
+      "parentUuid": "2355d3c4_9d6a8866",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "0aaef78992df80bc8f06007e80619291dbce01b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

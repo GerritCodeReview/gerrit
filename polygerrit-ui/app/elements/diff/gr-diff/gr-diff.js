@@ -139,7 +139,10 @@
       },
       /** @type {?} */
       patchRange: Object,
-      path: String,
+      path: {
+        type: String,
+        observer: '_pathObserver',
+      },
       prefs: {
         type: Object,
         observer: '_prefsObserver',
@@ -634,6 +637,11 @@
       if (differ) {
         this._prefsChanged(newPrefs);
       }
+    },
+
+    _pathObserver() {
+      // Call _prefsChanged(), because line-limit style value depends on path.
+      this._prefsChanged(this.prefs);
     },
 
     _viewModeObserver() {

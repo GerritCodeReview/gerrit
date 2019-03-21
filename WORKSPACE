@@ -14,9 +14,22 @@ http_archive(
 
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "ddce3b3a3909f99b28b25071c40b7fec7e2e1d1d1a4b2e933f3082aa99517105",
-    strip_prefix = "rules_closure-316e6133888bfc39fb860a4f1a31cfcbae485aef",
-    urls = ["https://github.com/bazelbuild/rules_closure/archive/316e6133888bfc39fb860a4f1a31cfcbae485aef.tar.gz"],
+    sha256 = "c2c737fb53cf72498c230763db2bd3b9e3d44700247587275b2ae68e60fb3320",
+    strip_prefix = "rules_closure-0.22",
+    urls = ["https://github.com/davido/rules_closure/archive/0.22.tar.gz"],
+)
+
+http_archive(
+    name = "net_zlib",
+    build_file = "//:lib/zlib/zlib.BUILD",
+    sha256 = "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
+    strip_prefix = "zlib-1.2.11",
+    urls = ["https://zlib.net/zlib-1.2.11.tar.gz"],
+)
+
+bind(
+    name = "zlib",
+    actual = "@net_zlib//:zlib",
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be

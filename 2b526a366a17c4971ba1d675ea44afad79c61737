@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "19f2117c_511d5ad1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-03-21T09:19:30Z",
+      "side": 1,
+      "message": "@Luca: this is assumed to be a general mechanism for validation of ref updates. The code touched is so far consistent in the two implementation (NoteDB and ReviewDB). If we add the event generation in the NoteDB branch it would be reasonable to add to ReviewDB too (even if it might be discontinued)",
+      "parentUuid": "dbdfbd0e_038cc981",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 53
+      },
+      "revId": "2b526a366a17c4971ba1d675ea44afad79c61737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5de8edfc_24f2196b",
         "filename": "java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
         "patchSetId": 5
@@ -88,6 +112,23 @@
         "endLine": 330,
         "endChar": 74
       },
+      "revId": "2b526a366a17c4971ba1d675ea44afad79c61737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "821faf5c_7843c416",
+        "filename": "java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-03-21T09:19:30Z",
+      "side": 1,
+      "message": "isn\u0027t the for each blocking the inner exception to be sent to the outer context? I might be confused with Scala\u0027s behaviour",
       "revId": "2b526a366a17c4971ba1d675ea44afad79c61737",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

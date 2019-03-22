@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
+import static com.google.gerrit.truth.ListSubject.elements;
 
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
@@ -27,12 +28,15 @@ public class RobotCommentInfoSubject extends Subject<RobotCommentInfoSubject, Ro
 
   public static ListSubject<RobotCommentInfoSubject, RobotCommentInfo> assertThatList(
       List<RobotCommentInfo> robotCommentInfos) {
-    return ListSubject.assertThat(robotCommentInfos, RobotCommentInfoSubject::assertThat)
-        .named("robotCommentInfos");
+    return ListSubject.assertThat(robotCommentInfos, robotComments()).named("robotCommentInfos");
   }
 
   public static RobotCommentInfoSubject assertThat(RobotCommentInfo robotCommentInfo) {
-    return assertAbout(RobotCommentInfoSubject::new).that(robotCommentInfo);
+    return assertAbout(robotComments()).that(robotCommentInfo);
+  }
+
+  private static Factory<RobotCommentInfoSubject, RobotCommentInfo> robotComments() {
+    return RobotCommentInfoSubject::new;
   }
 
   private RobotCommentInfoSubject(
@@ -41,8 +45,9 @@ public class RobotCommentInfoSubject extends Subject<RobotCommentInfoSubject, Ro
   }
 
   public ListSubject<FixSuggestionInfoSubject, FixSuggestionInfo> fixSuggestions() {
-    return ListSubject.assertThat(actual().fixSuggestions, FixSuggestionInfoSubject::assertThat)
-        .named("fixSuggestions");
+    return check("fixSuggestions()")
+        .about(elements())
+        .thatCustom(actual().fixSuggestions, FixSuggestionInfoSubject.fixSuggestions());
   }
 
   public FixSuggestionInfoSubject onlyFixSuggestion() {

@@ -16,7 +16,6 @@ package com.google.gerrit.git.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertAbout;
-import static java.util.stream.Collectors.joining;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
@@ -25,11 +24,10 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.truth.FailureMetadata;
+import com.google.common.truth.StreamSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.Truth;
-import com.google.common.truth.Truth8;
 import com.google.gerrit.common.Nullable;
-import java.util.Arrays;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 
@@ -43,7 +41,8 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
   }
 
   public void hasNoMessages() {
-    Truth.assertWithMessage("expected no messages")
+    check()
+        .withMessage("expected no messages")
         .that(Strings.nullToEmpty(trimMessages()))
         .isEqualTo("");
   }
@@ -51,14 +50,14 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
   public void hasMessages(String... expectedLines) {
     checkArgument(expectedLines.length > 0, "use hasNoMessages()");
     isNotNull();
-    Truth.assertThat(trimMessages()).isEqualTo(Arrays.stream(expectedLines).collect(joining("\n")));
+    check("messages()").that(trimMessages()).isEqualTo(String.join("\n", expectedLines));
   }
 
   public void containsMessages(String... expectedLines) {
     checkArgument(expectedLines.length > 0, "use hasNoMessages()");
     isNotNull();
     Iterable<String> got = Splitter.on("\n").split(trimMessages());
-    Truth.assertThat(got).containsAllIn(expectedLines).inOrder();
+    check("messages()").that(got).containsAllIn(expectedLines).inOrder();
   }
 
   private String trimMessages() {
@@ -90,10 +89,7 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
               messages, Throwables.getStackTraceAsString(e));
       return;
     }
-    Truth.assertThat(actual)
-        .named("processed commands")
-        .containsExactlyEntriesIn(expected)
-        .inOrder();
+    check("processedCommands()").that(actual).containsExactlyEntriesIn(expected).inOrder();
   }
 
   @VisibleForTesting
@@ -129,7 +125,9 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
   }
 
   public RemoteRefUpdateSubject onlyRef(String refName) {
-    Truth8.assertThat(actual().getRemoteUpdates().stream().map(RemoteRefUpdate::getRemoteName))
+    check("setOfRefs()")
+        .about(StreamSubject.streams())
+        .that(actual().getRemoteUpdates().stream().map(RemoteRefUpdate::getRemoteName))
         .named("set of refs")
         .containsExactly(refName);
     return ref(refName);

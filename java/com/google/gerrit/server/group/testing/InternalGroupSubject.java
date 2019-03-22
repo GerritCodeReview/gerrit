@@ -23,7 +23,6 @@ import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IterableSubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
 import java.sql.Timestamp;
@@ -32,7 +31,11 @@ import org.eclipse.jgit.lib.ObjectId;
 public class InternalGroupSubject extends Subject<InternalGroupSubject, InternalGroup> {
 
   public static InternalGroupSubject assertThat(InternalGroup group) {
-    return assertAbout(InternalGroupSubject::new).that(group);
+    return assertAbout(internalGroups()).that(group);
+  }
+
+  public static Subject.Factory<InternalGroupSubject, InternalGroup> internalGroups() {
+    return InternalGroupSubject::new;
   }
 
   private InternalGroupSubject(FailureMetadata metadata, InternalGroup actual) {
@@ -42,66 +45,66 @@ public class InternalGroupSubject extends Subject<InternalGroupSubject, Internal
   public ComparableSubject<?, AccountGroup.UUID> groupUuid() {
     isNotNull();
     InternalGroup group = actual();
-    return Truth.assertThat(group.getGroupUUID()).named("groupUuid");
+    return check("groupUuid()").that(group.getGroupUUID());
   }
 
   public ComparableSubject<?, AccountGroup.NameKey> nameKey() {
     isNotNull();
     InternalGroup group = actual();
-    return Truth.assertThat(group.getNameKey()).named("nameKey");
+    return check("nameKey()").that(group.getNameKey());
   }
 
   public StringSubject name() {
     isNotNull();
     InternalGroup group = actual();
-    return Truth.assertThat(group.getName()).named("name");
+    return check("name()").that(group.getName());
   }
 
-  public DefaultSubject id() {
+  public Subject<DefaultSubject, Object> id() {
     isNotNull();
     InternalGroup group = actual();
-    return Truth.assertThat(group.getId()).named("id");
+    return check("id()").that(group.getId());
   }
 
   public StringSubject description() {
     isNotNull();
     InternalGroup group = actual();
-    return Truth.assertThat(group.getDescription()).named("description");
+    return check("description()").that(group.getDescription());
   }
 
   public ComparableSubject<?, AccountGroup.UUID> ownerGroupUuid() {
     isNotNull();
     InternalGroup group = actual();
-    return Truth.assertThat(group.getOwnerGroupUUID()).named("ownerGroupUuid");
+    return check("ownerGroupUuid()").that(group.getOwnerGroupUUID());
   }
 
   public BooleanSubject visibleToAll() {
     isNotNull();
     InternalGroup group = actual();
-    return Truth.assertThat(group.isVisibleToAll()).named("visibleToAll");
+    return check("visibleToAll()").that(group.isVisibleToAll());
   }
 
   public ComparableSubject<?, Timestamp> createdOn() {
     isNotNull();
     InternalGroup group = actual();
-    return Truth.assertThat(group.getCreatedOn()).named("createdOn");
+    return check("createdOn()").that(group.getCreatedOn());
   }
 
   public IterableSubject members() {
     isNotNull();
     InternalGroup group = actual();
-    return Truth.assertThat(group.getMembers()).named("members");
+    return check("members()").that(group.getMembers());
   }
 
   public IterableSubject subgroups() {
     isNotNull();
     InternalGroup group = actual();
-    return Truth.assertThat(group.getSubgroups()).named("subgroups");
+    return check("subgroups()").that(group.getSubgroups());
   }
 
   public ComparableSubject<?, ObjectId> refState() {
     isNotNull();
     InternalGroup group = actual();
-    return Truth.assertThat(group.getRefState()).named("refState");
+    return check("refState()").that(group.getRefState());
   }
 }

@@ -14,19 +14,22 @@
 
 package com.google.gerrit.extensions.common.testing;
 
-import static com.google.common.truth.Fact.fact;
+import static com.google.common.truth.Fact.simpleFact;
 import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.client.Comment;
 
 public class RangeSubject extends Subject<RangeSubject, Comment.Range> {
 
   public static RangeSubject assertThat(Comment.Range range) {
-    return assertAbout(RangeSubject::new).that(range);
+    return assertAbout(ranges()).that(range);
+  }
+
+  public static Subject.Factory<RangeSubject, Comment.Range> ranges() {
+    return RangeSubject::new;
   }
 
   private RangeSubject(FailureMetadata failureMetadata, Comment.Range range) {
@@ -34,32 +37,32 @@ public class RangeSubject extends Subject<RangeSubject, Comment.Range> {
   }
 
   public IntegerSubject startLine() {
-    return Truth.assertThat(actual().startLine).named("startLine");
+    return check("startLine()").that(actual().startLine);
   }
 
   public IntegerSubject startCharacter() {
-    return Truth.assertThat(actual().startCharacter).named("startCharacter");
+    return check("startCharacter()").that(actual().startCharacter);
   }
 
   public IntegerSubject endLine() {
-    return Truth.assertThat(actual().endLine).named("endLine");
+    return check("endLine()").that(actual().endLine);
   }
 
   public IntegerSubject endCharacter() {
-    return Truth.assertThat(actual().endCharacter).named("endCharacter");
+    return check("endCharacter()").that(actual().endCharacter);
   }
 
   public void isValid() {
     isNotNull();
     if (!actual().isValid()) {
-      failWithoutActual(fact("expected", "valid"));
+      failWithActual(simpleFact("expected to be valid"));
     }
   }
 
   public void isInvalid() {
     isNotNull();
     if (actual().isValid()) {
-      failWithoutActual(fact("expected", "not valid"));
+      failWithActual(simpleFact("expected to be invalid"));
     }
   }
 }

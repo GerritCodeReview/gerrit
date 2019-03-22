@@ -16,7 +16,9 @@ package com.google.gerrit.server.group.db;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.common.data.testing.GroupReferenceSubject.groupReferences;
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.assertThat;
+import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.commits;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_GROUPNAMES;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -584,11 +586,11 @@ public class GroupNameNotesTest extends GerritBaseTests {
 
   private static OptionalSubject<GroupReferenceSubject, GroupReference> assertThatGroup(
       Optional<GroupReference> group) {
-    return assertThat(group, GroupReferenceSubject::assertThat);
+    return assertThat(group, groupReferences());
   }
 
   private static ListSubject<CommitInfoSubject, CommitInfo> assertThatCommits(
       List<CommitInfo> commits) {
-    return ListSubject.assertThat(commits, CommitInfoSubject::assertThat);
+    return ListSubject.assertThat(commits, commits());
   }
 }

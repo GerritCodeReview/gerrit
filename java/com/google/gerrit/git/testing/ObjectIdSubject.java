@@ -18,12 +18,15 @@ import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class ObjectIdSubject extends Subject<ObjectIdSubject, ObjectId> {
   public static ObjectIdSubject assertThat(ObjectId objectId) {
-    return assertAbout(ObjectIdSubject::new).that(objectId);
+    return assertAbout(objectIds()).that(objectId);
+  }
+
+  public static Factory<ObjectIdSubject, ObjectId> objectIds() {
+    return ObjectIdSubject::new;
   }
 
   private ObjectIdSubject(FailureMetadata metadata, ObjectId actual) {
@@ -33,6 +36,6 @@ public class ObjectIdSubject extends Subject<ObjectIdSubject, ObjectId> {
   public void hasName(String expectedName) {
     isNotNull();
     ObjectId objectId = actual();
-    Truth.assertThat(objectId.getName()).named("name").isEqualTo(expectedName);
+    check("name()").that(objectId.getName()).isEqualTo(expectedName);
   }
 }

@@ -15,9 +15,8 @@
 package com.google.gerrit.proto.testing;
 
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
+import static com.google.common.truth.Fact.simpleFact;
 import static com.google.common.truth.Truth.assertAbout;
-import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
@@ -67,21 +66,22 @@ public class SerializedClassSubject extends Subject<SerializedClassSubject, Clas
 
   public void isAbstract() {
     isNotNull();
-    assertWithMessage("expected class %s to be abstract", actual().getName())
-        .that(Modifier.isAbstract(actual().getModifiers()))
-        .isTrue();
+    if (!Modifier.isAbstract(actual().getModifiers())) {
+      failWithActual(simpleFact("expected class to be abstract"));
+    }
   }
 
   public void isConcrete() {
     isNotNull();
-    assertWithMessage("expected class %s to be concrete", actual().getName())
-        .that(!Modifier.isAbstract(actual().getModifiers()))
-        .isTrue();
+    if (Modifier.isAbstract(actual().getModifiers())) {
+      failWithActual(simpleFact("expected class to be concrete"));
+    }
   }
 
   public void hasFields(Map<String, Type> expectedFields) {
     isConcrete();
-    assertThat(
+    check("fields()")
+        .that(
             FieldUtils.getAllFieldsList(actual()).stream()
                 .filter(f -> !Modifier.isStatic(f.getModifiers()))
                 .collect(toImmutableMap(Field::getName, Field::getGenericType)))
@@ -91,20 +91,20 @@ public class SerializedClassSubject extends Subject<SerializedClassSubject, Clas
   public void hasAutoValueMethods(Map<String, Type> expectedMethods) {
     // Would be nice if we could check clazz is an @AutoValue, but the retention is not RUNTIME.
     isAbstract();
-    assertThat(
+    check("noArgumentAbstractMethodsOn(%s)", actual().getName())
+        .that(
             Arrays.stream(actual().getDeclaredMethods())
                 .filter(m -> !Modifier.isStatic(m.getModifiers()))
                 .filter(m -> Modifier.isAbstract(m.getModifiers()))
                 .filter(m -> m.getParameters().length == 0)
                 .collect(toImmutableMap(Method::getName, Method::getGenericReturnType)))
-        .named("no-argument abstract methods on %s", actual().getName())
         .isEqualTo(expectedMethods);
   }
 
   public void extendsClass(Type superclassType) {
     isNotNull();
-    assertThat(actual().getGenericSuperclass())
-        .named("superclass of %s", actual().getName())
+    check("superclass(%s)", actual().getName())
+        .that(actual().getGenericSuperclass())
         .isEqualTo(superclassType);
   }
 }

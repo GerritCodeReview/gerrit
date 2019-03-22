@@ -20,7 +20,6 @@ import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.PrimitiveByteArraySubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.truth.OptionalSubject;
 import java.io.ByteArrayOutputStream;
@@ -30,12 +29,16 @@ import java.util.Optional;
 public class BinaryResultSubject extends Subject<BinaryResultSubject, BinaryResult> {
 
   public static BinaryResultSubject assertThat(BinaryResult binaryResult) {
-    return assertAbout(BinaryResultSubject::new).that(binaryResult);
+    return assertAbout(binaryResults()).that(binaryResult);
+  }
+
+  private static Subject.Factory<BinaryResultSubject, BinaryResult> binaryResults() {
+    return BinaryResultSubject::new;
   }
 
   public static OptionalSubject<BinaryResultSubject, BinaryResult> assertThat(
       Optional<BinaryResult> binaryResultOptional) {
-    return OptionalSubject.assertThat(binaryResultOptional, BinaryResultSubject::assertThat);
+    return OptionalSubject.assertThat(binaryResultOptional, binaryResults());
   }
 
   private BinaryResultSubject(FailureMetadata failureMetadata, BinaryResult binaryResult) {
@@ -48,7 +51,7 @@ public class BinaryResultSubject extends Subject<BinaryResultSubject, BinaryResu
     // be used afterwards. Besides, closing it doesn't have an effect for most
     // implementations of a BinaryResult.
     BinaryResult binaryResult = actual();
-    return Truth.assertThat(binaryResult.asString());
+    return check("asString()").that(binaryResult.asString());
   }
 
   public PrimitiveByteArraySubject bytes() throws IOException {
@@ -60,6 +63,6 @@ public class BinaryResultSubject extends Subject<BinaryResultSubject, BinaryResu
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     binaryResult.writeTo(byteArrayOutputStream);
     byte[] bytes = byteArrayOutputStream.toByteArray();
-    return Truth.assertThat(bytes);
+    return check("bytes()").that(bytes);
   }
 }

@@ -15,6 +15,8 @@
 package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
+import static com.google.gerrit.extensions.common.testing.FixReplacementInfoSubject.fixReplacements;
+import static com.google.gerrit.truth.ListSubject.elements;
 
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
@@ -27,7 +29,11 @@ import com.google.gerrit.truth.ListSubject;
 public class FixSuggestionInfoSubject extends Subject<FixSuggestionInfoSubject, FixSuggestionInfo> {
 
   public static FixSuggestionInfoSubject assertThat(FixSuggestionInfo fixSuggestionInfo) {
-    return assertAbout(FixSuggestionInfoSubject::new).that(fixSuggestionInfo);
+    return assertAbout(fixSuggestions()).that(fixSuggestionInfo);
+  }
+
+  public static Subject.Factory<FixSuggestionInfoSubject, FixSuggestionInfo> fixSuggestions() {
+    return FixSuggestionInfoSubject::new;
   }
 
   private FixSuggestionInfoSubject(
@@ -40,8 +46,10 @@ public class FixSuggestionInfoSubject extends Subject<FixSuggestionInfoSubject, 
   }
 
   public ListSubject<FixReplacementInfoSubject, FixReplacementInfo> replacements() {
-    return ListSubject.assertThat(actual().replacements, FixReplacementInfoSubject::assertThat)
-        .named("replacements");
+    isNotNull();
+    return check("replacements()")
+        .about(elements())
+        .thatCustom(actual().replacements, fixReplacements());
   }
 
   public FixReplacementInfoSubject onlyReplacement() {
@@ -49,6 +57,7 @@ public class FixSuggestionInfoSubject extends Subject<FixSuggestionInfoSubject, 
   }
 
   public StringSubject description() {
-    return Truth.assertThat(actual().description).named("description");
+    isNotNull();
+    return check("description()").that(actual().description);
   }
 }

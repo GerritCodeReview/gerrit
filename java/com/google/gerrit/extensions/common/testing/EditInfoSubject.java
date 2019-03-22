@@ -15,11 +15,11 @@
 package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
+import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.commits;
 
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.truth.OptionalSubject;
 import java.util.Optional;
@@ -27,12 +27,16 @@ import java.util.Optional;
 public class EditInfoSubject extends Subject<EditInfoSubject, EditInfo> {
 
   public static EditInfoSubject assertThat(EditInfo editInfo) {
-    return assertAbout(EditInfoSubject::new).that(editInfo);
+    return assertAbout(edits()).that(editInfo);
+  }
+
+  private static Subject.Factory<EditInfoSubject, EditInfo> edits() {
+    return EditInfoSubject::new;
   }
 
   public static OptionalSubject<EditInfoSubject, EditInfo> assertThat(
       Optional<EditInfo> editInfoOptional) {
-    return OptionalSubject.assertThat(editInfoOptional, EditInfoSubject::assertThat);
+    return OptionalSubject.assertThat(editInfoOptional, edits());
   }
 
   private EditInfoSubject(FailureMetadata failureMetadata, EditInfo editInfo) {
@@ -42,12 +46,12 @@ public class EditInfoSubject extends Subject<EditInfoSubject, EditInfo> {
   public CommitInfoSubject commit() {
     isNotNull();
     EditInfo editInfo = actual();
-    return CommitInfoSubject.assertThat(editInfo.commit).named("commit");
+    return check("commit()").about(commits()).that(editInfo.commit);
   }
 
   public StringSubject baseRevision() {
     isNotNull();
     EditInfo editInfo = actual();
-    return Truth.assertThat(editInfo.baseRevision).named("baseRevision");
+    return check("baseRevision()").that(editInfo.baseRevision);
   }
 }

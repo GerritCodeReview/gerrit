@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common.testing;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.ComparableSubject;
@@ -21,7 +22,6 @@ import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.common.GitPerson;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -30,7 +30,11 @@ import org.eclipse.jgit.lib.PersonIdent;
 public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
 
   public static GitPersonSubject assertThat(GitPerson gitPerson) {
-    return assertAbout(GitPersonSubject::new).that(gitPerson);
+    return assertAbout(gitPersons()).that(gitPerson);
+  }
+
+  public static Factory<GitPersonSubject, GitPerson> gitPersons() {
+    return GitPersonSubject::new;
   }
 
   private GitPersonSubject(FailureMetadata failureMetadata, GitPerson gitPerson) {
@@ -40,30 +44,30 @@ public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
   public StringSubject name() {
     isNotNull();
     GitPerson gitPerson = actual();
-    return Truth.assertThat(gitPerson.name).named("name");
+    return check("name()").that(gitPerson.name);
   }
 
   public StringSubject email() {
     isNotNull();
     GitPerson gitPerson = actual();
-    return Truth.assertThat(gitPerson.email).named("email");
+    return check("email()").that(gitPerson.email);
   }
 
   public ComparableSubject<?, Timestamp> date() {
     isNotNull();
     GitPerson gitPerson = actual();
-    return Truth.assertThat(gitPerson.date).named("date");
+    return check("date()").that(gitPerson.date);
   }
 
   public IntegerSubject tz() {
     isNotNull();
     GitPerson gitPerson = actual();
-    return Truth.assertThat(gitPerson.tz).named("tz");
+    return check("tz()").that(gitPerson.tz);
   }
 
   public void hasSameDateAs(GitPerson other) {
+    checkNotNull(other, "'other' GitPerson must not be null");
     isNotNull();
-    assertThat(other).named("other").isNotNull();
     date().isEqualTo(other.date);
     tz().isEqualTo(other.tz);
   }
@@ -72,9 +76,7 @@ public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
     isNotNull();
     name().isEqualTo(ident.getName());
     email().isEqualTo(ident.getEmailAddress());
-    Truth.assertThat(new Date(actual().date.getTime()))
-        .named("rounded date")
-        .isEqualTo(ident.getWhen());
+    check("roundedDate()").that(new Date(actual().date.getTime())).isEqualTo(ident.getWhen());
     tz().isEqualTo(ident.getTimeZoneOffset());
   }
 }

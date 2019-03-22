@@ -24,12 +24,17 @@ import java.util.List;
 public class TreeModificationSubject extends Subject<TreeModificationSubject, TreeModification> {
 
   public static TreeModificationSubject assertThat(TreeModification treeModification) {
-    return assertAbout(TreeModificationSubject::new).that(treeModification);
+    return assertAbout(treeModifications()).that(treeModification);
+  }
+
+  private static Factory<TreeModificationSubject, TreeModification> treeModifications() {
+    return TreeModificationSubject::new;
   }
 
   public static ListSubject<TreeModificationSubject, TreeModification> assertThatList(
       List<TreeModification> treeModifications) {
-    return ListSubject.assertThat(treeModifications, TreeModificationSubject::assertThat)
+    return assertAbout(ListSubject.elements())
+        .thatCustom(treeModifications, treeModifications())
         .named("treeModifications");
   }
 

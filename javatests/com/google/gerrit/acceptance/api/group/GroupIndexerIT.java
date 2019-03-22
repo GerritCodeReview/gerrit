@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.server.group.testing.InternalGroupSubject.internalGroups;
 import static com.google.gerrit.truth.ListSubject.assertThat;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
@@ -163,11 +164,11 @@ public class GroupIndexerIT {
 
   private static OptionalSubject<InternalGroupSubject, InternalGroup> assertThatGroup(
       Optional<InternalGroup> updatedGroup) {
-    return assertThat(updatedGroup, InternalGroupSubject::assertThat);
+    return assertThat(updatedGroup, internalGroups());
   }
 
   private static ListSubject<InternalGroupSubject, InternalGroup> assertThatGroups(
       List<InternalGroup> parentGroups) {
-    return assertThat(parentGroups, InternalGroupSubject::assertThat);
+    return assertThat(parentGroups, internalGroups());
   }
 }

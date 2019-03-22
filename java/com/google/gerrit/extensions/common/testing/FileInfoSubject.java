@@ -20,7 +20,6 @@ import com.google.common.truth.ComparableSubject;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.common.FileInfo;
 
 public class FileInfoSubject extends Subject<FileInfoSubject, FileInfo> {
@@ -36,18 +35,18 @@ public class FileInfoSubject extends Subject<FileInfoSubject, FileInfo> {
   public IntegerSubject linesInserted() {
     isNotNull();
     FileInfo fileInfo = actual();
-    return Truth.assertThat(fileInfo.linesInserted).named("linesInserted");
+    return check("linesInserted()").that(fileInfo.linesInserted);
   }
 
   public IntegerSubject linesDeleted() {
     isNotNull();
     FileInfo fileInfo = actual();
-    return Truth.assertThat(fileInfo.linesDeleted).named("linesDeleted");
+    return check("linesDeleted()").that(fileInfo.linesDeleted);
   }
 
   public ComparableSubject<?, Character> status() {
     isNotNull();
     FileInfo fileInfo = actual();
-    return Truth.assertThat(fileInfo.status).named("status");
+    return check("status()").that(fileInfo.status);
   }
 }

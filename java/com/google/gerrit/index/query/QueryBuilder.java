@@ -18,6 +18,7 @@ import static com.google.gerrit.index.query.Predicate.and;
 import static com.google.gerrit.index.query.Predicate.not;
 import static com.google.gerrit.index.query.Predicate.or;
 import static com.google.gerrit.index.query.QueryParser.AND;
+import static com.google.gerrit.index.query.QueryParser.COLON;
 import static com.google.gerrit.index.query.QueryParser.DEFAULT_FIELD;
 import static com.google.gerrit.index.query.QueryParser.EXACT_PHRASE;
 import static com.google.gerrit.index.query.QueryParser.FIELD_NAME;
@@ -217,24 +218,41 @@ public abstract class QueryBuilder<T> {
         return defaultField(onlyChildOf(r));
 
       case FIELD_NAME:
-        return operator(r.getText(), onlyChildOf(r));
+        return operator(r.getText(), concatenateChildText(r));
 
       default:
         throw error("Unsupported operator: " + r);
     }
   }
 
-  private Predicate<T> operator(String name, Tree val) throws QueryParseException {
-    switch (val.getType()) {
-      case SINGLE_WORD:
-      case EXACT_PHRASE:
-        if (val.getChildCount() != 0) {
-          throw error("Expected no children under: " + val);
-        }
-        return operator(name, val.getText());
+  private static String concatenateChildText(Tree r) throws QueryParseException {
+    if (r.getChildCount() == 0) {
+      throw error("Expected children under: " + r);
+    }
+    if (r.getChildCount() == 1) {
+      return getFieldValue(r.getChild(0));
+    }
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < r.getChildCount(); i++) {
+      sb.append(getFieldValue(r.getChild(i)));
+    }
+    return sb.toString();
+  }
 
+  private static String getFieldValue(Tree r) throws QueryParseException {
+    if (r.getChildCount() != 0) {
+      throw error("Expected no children under: " + r);
+    }
+    switch (r.getType()) {
+      case SINGLE_WORD:
+      case COLON:
+      case EXACT_PHRASE:
+        return r.getText();
       default:
-        throw error("Unsupported node in operator " + name + ": " + val);
+        throw error(
+            String.format(
+                "Unsupported %s node in operator %s: %s",
+                QueryParser.tokenNames[r.getType()], r.getParent(), r));
     }
   }
 

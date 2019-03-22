@@ -226,23 +226,6 @@ public abstract class QueryBuilder<T> {
 
   private Predicate<T> operator(String name, Tree val) throws QueryParseException {
     switch (val.getType()) {
-        // Expand multiple values, "foo:(a b c)", as though they were written
-        // out with the longer form, "foo:a foo:b foo:c".
-        //
-      case AND:
-      case OR:
-        {
-          List<Predicate<T>> p = new ArrayList<>(val.getChildCount());
-          for (int i = 0; i < val.getChildCount(); i++) {
-            final Tree c = val.getChild(i);
-            if (c.getType() != DEFAULT_FIELD) {
-              throw error("Nested operator not expected: " + c);
-            }
-            p.add(operator(name, onlyChildOf(c)));
-          }
-          return val.getType() == AND ? and(p) : or(p);
-        }
-
       case SINGLE_WORD:
       case EXACT_PHRASE:
         if (val.getChildCount() != 0) {

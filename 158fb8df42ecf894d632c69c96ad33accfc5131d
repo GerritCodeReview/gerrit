@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c3427cf_47792368",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-03-22T15:53:35Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 65,
+        "startChar": 5,
+        "endLine": 65,
+        "endChar": 12
+      },
+      "revId": "158fb8df42ecf894d632c69c96ad33accfc5131d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6009f4bc_a1eaa2a1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-03-22T15:53:35Z",
+      "side": 1,
+      "message": "how are we going to deal with the race condition where a plugin might need to do async work before it is registered as a provider?\n\nShould there be a way to re-trigger getCoverageRanges from the plugin?",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 69
+      },
+      "revId": "158fb8df42ecf894d632c69c96ad33accfc5131d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

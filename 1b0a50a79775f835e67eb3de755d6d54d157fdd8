@@ -22,6 +22,30 @@
       "revId": "1b0a50a79775f835e67eb3de755d6d54d157fdd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ae57cd6_1395caca",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-03-22T17:40:56Z",
+      "side": 1,
+      "message": "\u003e Is there security issues if we did this change?\n\nI don\u0027t believe so, it does not contain any sensitive data and it won\u0027t expose any credentials either.\n\n\u003e Would setting this as a final alleviate that issue?\n\nWhy?\n \n\u003e Since i see no other way at being able to get this without setting it public first.",
+      "parentUuid": "4c849156_35025571",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 5
+      },
+      "revId": "1b0a50a79775f835e67eb3de755d6d54d157fdd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

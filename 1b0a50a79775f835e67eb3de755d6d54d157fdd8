@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "8804ac56_3372200e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-03-22T22:13:38Z",
+      "side": 1,
+      "message": "Just comment out this method (JavaDoc) and specify the way that it could be used.\nOtherwise, it would risk to be put as private again because it won\u0027t be accessible anyway.",
+      "revId": "1b0a50a79775f835e67eb3de755d6d54d157fdd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c849156_35025571",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSessionManager.java",
         "patchSetId": 7
@@ -142,6 +159,30 @@
       "revId": "1b0a50a79775f835e67eb3de755d6d54d157fdd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27d0901f_52a3ceb4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-03-22T22:13:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "248f2c49_d446c34f",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 5
+      },
+      "revId": "1b0a50a79775f835e67eb3de755d6d54d157fdd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

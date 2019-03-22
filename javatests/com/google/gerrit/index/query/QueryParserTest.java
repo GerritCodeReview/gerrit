@@ -14,7 +14,10 @@
 
 package com.google.gerrit.index.query;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.gerrit.index.query.QueryParser.FIELD_NAME;
+import static com.google.gerrit.index.query.QueryParser.SINGLE_WORD;
+import static com.google.gerrit.index.query.QueryParser.parse;
+import static com.google.gerrit.index.query.testing.TreeSubject.assertThat;
 
 import com.google.gerrit.testing.GerritBaseTests;
 import org.antlr.runtime.tree.Tree;
@@ -22,27 +25,13 @@ import org.junit.Test;
 
 public class QueryParserTest extends GerritBaseTests {
   @Test
-  public void projectBare() throws QueryParseException {
-    Tree r;
-
-    r = parse("project:tools/gerrit");
-    assertSingleWord("project", "tools/gerrit", r);
-
-    r = parse("project:tools/*");
-    assertSingleWord("project", "tools/*", r);
-  }
-
-  private static void assertSingleWord(String name, String value, Tree r) {
-    assertEquals(QueryParser.FIELD_NAME, r.getType());
-    assertEquals(name, r.getText());
-    assertEquals(1, r.getChildCount());
-    final Tree c = r.getChild(0);
-    assertEquals(QueryParser.SINGLE_WORD, c.getType());
-    assertEquals(value, c.getText());
-    assertEquals(0, c.getChildCount());
-  }
-
-  private static Tree parse(String str) throws QueryParseException {
-    return QueryParser.parse(str);
+  public void fieldNameAndValue() throws Exception {
+    Tree r = parse("project:tools/gerrit");
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasText("project");
+    assertThat(r).hasChildCount(1);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("tools/gerrit");
+    assertThat(r).child(0).hasNoChildren();
   }
 }

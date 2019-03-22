@@ -294,6 +294,30 @@
       "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3134a69_4f9b85ec",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-03-22T17:15:29Z",
+      "side": 1,
+      "message": "Im getting this:\n\n  ProTip: \"JSC_UNDEFINED_VARIABLE\" or \"checkVars\" or \"missingSourcesWarnings\" or \"undefinedVars\" can be added to the `suppress` attribute of:\n\nwhen building image diff now.",
+      "parentUuid": "066ae8c9_76ce78ba",
+      "range": {
+        "startLine": 468,
+        "startChar": 13,
+        "endLine": 468,
+        "endChar": 35
+      },
+      "revId": "ee3a9a50596f008f208c2ad556379bb7746438e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

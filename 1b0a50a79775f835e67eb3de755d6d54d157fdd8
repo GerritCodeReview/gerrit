@@ -118,6 +118,30 @@
       "revId": "1b0a50a79775f835e67eb3de755d6d54d157fdd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "248f2c49_d446c34f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-03-22T22:02:28Z",
+      "side": 1,
+      "message": "I have this running on https://gerrit.git.wmflabs.org/r/ and to clear a specific user session im doing:\n\nssh -p 29418 Paladox@gerrit.git.wmflabs.org WikimediaWebSessions log-users-out 1.\n\nThe method 100% works.",
+      "parentUuid": "9a8d12df_7277b71a",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 5
+      },
+      "revId": "1b0a50a79775f835e67eb3de755d6d54d157fdd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

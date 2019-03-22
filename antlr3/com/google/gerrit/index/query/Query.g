@@ -125,7 +125,8 @@ conditionBase
   ;
 
 fieldValue
-  : n=FIELD_NAME   -> SINGLE_WORD[n]
+  // Rewrite by invoking SINGLE_WORD fragment lexer rule, passing the field name as an argument.
+  : n=FIELD_NAME -> SINGLE_WORD[n]
   | SINGLE_WORD
   | EXACT_PHRASE
   ;

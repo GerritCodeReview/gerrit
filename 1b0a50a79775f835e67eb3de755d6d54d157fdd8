@@ -94,6 +94,30 @@
       "revId": "1b0a50a79775f835e67eb3de755d6d54d157fdd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a8d12df_7277b71a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-03-22T21:18:16Z",
+      "side": 1,
+      "message": "Here\u0027s the code we are doing:\n\n\n  public void invalidateSpecificUser(Account.Id key) {\n    for (Path path : listFiles()) {\n      if (readFile(path).getAccountId().get() \u003d\u003d key.get()) {\n        deleteFile(path);\n      }\n    }\n  }\n\nwhich calls readFile:\n\n  private Val readFile(Path path) {\n    if (Files.exists(path)) {\n      try (InputStream fileStream \u003d Files.newInputStream(path);\n          ObjectInputStream objStream \u003d new ObjectInputStream(fileStream)) {\n        return (Val) objStream.readObject();\n      } catch (ClassNotFoundException e) {\n        log.warn(\"Entry \" + path + \" in cache \" + dir + \" has an incompatible \"\n            + \"class and can\u0027t be deserialized. Invalidating entry.\");\n        invalidate(path.getFileName().toString());\n      } catch (IOException e) {\n        log.warn(\"Cannot read cache \" + dir, e);\n      }\n    }\n    return null;\n  }\n\nnotice (Val) which gives us access to WebSessionManager.Val.\n\nNote that it reads each session file (we basically forked https://github.com/GerritCodeReview/plugins_websession-flatfile with our custom changes to support this).",
+      "parentUuid": "d25fe0bf_a1690ed7",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 5
+      },
+      "revId": "1b0a50a79775f835e67eb3de755d6d54d157fdd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

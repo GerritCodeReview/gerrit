@@ -80,6 +80,41 @@ public class QueryBuilderTest extends GerritBaseTests {
         .isEqualTo("line 1:2 no viable alternative at input '('");
   }
 
+  @Test
+  public void fieldNameAndValueThatLooksLikeFieldNameColonValue() throws Exception {
+    assertThat(parse("a:foo:bar")).isEqualTo(new TestPredicate("a", "foo:bar"));
+  }
+
+  @Test
+  public void fieldNameAndValueThatLooksLikeWordColonValue() throws Exception {
+    assertThat(parse("a:*:bar")).isEqualTo(new TestPredicate("a", "*:bar"));
+  }
+
+  @Test
+  public void fieldNameAndValueWithMultipleColons() throws Exception {
+    assertThat(parse("a:*:*:*")).isEqualTo(new TestPredicate("a", "*:*:*"));
+  }
+
+  @Test
+  public void exactPhraseWithQuotes() throws Exception {
+    assertThat(parse("a:\"foo bar\"")).isEqualTo(new TestPredicate("a", "foo bar"));
+  }
+
+  @Test
+  public void exactPhraseWithQuotesAndColon() throws Exception {
+    assertThat(parse("a:\"foo:bar\"")).isEqualTo(new TestPredicate("a", "foo:bar"));
+  }
+
+  @Test
+  public void exactPhraseWithBraces() throws Exception {
+    assertThat(parse("a:{foo bar}")).isEqualTo(new TestPredicate("a", "foo bar"));
+  }
+
+  @Test
+  public void exactPhraseWithBracesAndColon() throws Exception {
+    assertThat(parse("a:{foo:bar}")).isEqualTo(new TestPredicate("a", "foo:bar"));
+  }
+
   private static Predicate<Object> parse(String query) throws Exception {
     return new TestQueryBuilder().parse(query);
   }

@@ -70,6 +70,30 @@
       "revId": "1b0a50a79775f835e67eb3de755d6d54d157fdd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d25fe0bf_a1690ed7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-03-22T21:13:39Z",
+      "side": 1,
+      "message": "How do you get this Val out of the session? I can\u0027t see any point where it is exposed through a public method here.",
+      "parentUuid": "83466f8b_20fa482e",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 5
+      },
+      "revId": "1b0a50a79775f835e67eb3de755d6d54d157fdd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

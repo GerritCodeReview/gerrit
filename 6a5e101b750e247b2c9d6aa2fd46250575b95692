@@ -25,6 +25,64 @@
     },
     {
       "key": {
+        "uuid": "c5a18732_cc724dc3",
+        "filename": "contrib/mitm-ui/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-03-22T17:43:30Z",
+      "side": 1,
+      "message": "+1, this is for googlers only.",
+      "parentUuid": "3dca57ff_90f4c266",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 80
+      },
+      "revId": "6a5e101b750e247b2c9d6aa2fd46250575b95692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2763b2e7_96759845",
+        "filename": "contrib/mitm-ui/mitm-docker.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-03-22T17:43:30Z",
+      "side": 1,
+      "message": "If you map bazel-out instead, it will also map all other bazel folders, including bazel-bin, because bazel-out is the parent of all bazel-generated artifacts\n\nhttps://docs.bazel.build/versions/master/output_directories.html",
+      "revId": "6a5e101b750e247b2c9d6aa2fd46250575b95692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eccb7b3a_9528333d",
+        "filename": "contrib/mitm-ui/mitm-serve-app-dev.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-03-22T17:43:30Z",
+      "side": 1,
+      "message": "Maybe add \u0026 in the end, so it will start in parallel with everything?",
+      "revId": "6a5e101b750e247b2c9d6aa2fd46250575b95692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8fdc8e7_9d71b7df",
         "filename": "contrib/mitm-ui/serve-app-dev.py",
         "patchSetId": 3

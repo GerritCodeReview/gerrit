@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dca57ff_90f4c266",
+        "filename": "contrib/mitm-ui/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-22T12:58:47Z",
+      "side": 1,
+      "message": "Not sure this belongs into the upstream documentation as it\u0027s only applicable to Googlers. Can we maybe reword this to be more generic?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 80
+      },
+      "revId": "6a5e101b750e247b2c9d6aa2fd46250575b95692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8fdc8e7_9d71b7df",
+        "filename": "contrib/mitm-ui/serve-app-dev.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-22T12:58:47Z",
+      "side": 1,
+      "message": "This variable is extremely local in scope, I would use something very short to avoid the very long line.",
+      "range": {
+        "startLine": 114,
+        "startChar": 80,
+        "endLine": 114,
+        "endChar": 103
+      },
+      "revId": "6a5e101b750e247b2c9d6aa2fd46250575b95692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

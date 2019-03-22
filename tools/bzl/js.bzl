@@ -463,6 +463,10 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], assets = None, plugin_nam
         srcs = js_srcs,
         convention = "GOOGLE",
         no_closure_library = True,
+        suppress = [
+            # resemblejs in the image-diff plugin has an undefined 'require'
+            "JSC_UNDEFINED_VARIABLE",
+        ],
         deps = [
             "//lib/polymer_externs:polymer_closure",
             "//polygerrit-ui/app/externs:plugin",

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b24b2c28_0b107b26",
+        "filename": "contrib/mitm-ui/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-22T18:22:25Z",
+      "side": 1,
+      "message": "I have phrased it more generically, but I would really like to keep this in here, because it has cost me half an hour to figure out. :-)",
+      "parentUuid": "c5a18732_cc724dc3",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 80
+      },
+      "revId": "6a5e101b750e247b2c9d6aa2fd46250575b95692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2763b2e7_96759845",
         "filename": "contrib/mitm-ui/mitm-docker.sh",
         "patchSetId": 3
@@ -63,6 +87,24 @@
       "revId": "6a5e101b750e247b2c9d6aa2fd46250575b95692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e7af309_3c80edf8",
+        "filename": "contrib/mitm-ui/mitm-docker.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-22T18:22:25Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "2763b2e7_96759845",
+      "revId": "6a5e101b750e247b2c9d6aa2fd46250575b95692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -83,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "b0fe29cc_dbe59370",
+        "filename": "contrib/mitm-ui/mitm-serve-app-dev.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-22T18:22:25Z",
+      "side": 1,
+      "message": "Good suggestion. Done.",
+      "parentUuid": "eccb7b3a_9528333d",
+      "revId": "6a5e101b750e247b2c9d6aa2fd46250575b95692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8fdc8e7_9d71b7df",
         "filename": "contrib/mitm-ui/serve-app-dev.py",
         "patchSetId": 3
@@ -94,6 +154,30 @@
       "writtenOn": "2019-03-22T12:58:47Z",
       "side": 1,
       "message": "This variable is extremely local in scope, I would use something very short to avoid the very long line.",
+      "range": {
+        "startLine": 114,
+        "startChar": 80,
+        "endLine": 114,
+        "endChar": 103
+      },
+      "revId": "6a5e101b750e247b2c9d6aa2fd46250575b95692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b64afc69_866f2c8e",
+        "filename": "contrib/mitm-ui/serve-app-dev.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-22T18:22:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8fdc8e7_9d71b7df",
       "range": {
         "startLine": 114,
         "startChar": 80,

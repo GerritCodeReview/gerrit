@@ -34,10 +34,10 @@ Most of this documentation refers to either type as a plugin.
 == Getting started
 
 To get started with the development of a plugin clone the sample
-plugin:
+plugins:
 
 ----
-$ git clone https://gerrit.googlesource.com/plugins/cookbook-plugin
+$ git clone https://gerrit.googlesource.com/plugins/examples
 ----
 
 This is a project that demonstrates the various features of the

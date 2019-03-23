@@ -30,23 +30,6 @@ of server versions.
 
 Most of this documentation refers to either type as a plugin.
 
-[[getting-started]]
-== Getting started
-
-To get started with the development of a plugin clone the sample
-plugin:
-
-----
-$ git clone https://gerrit.googlesource.com/plugins/cookbook-plugin
-----
-
-This is a project that demonstrates the various features of the
-plugin API. It can be taken as an example to develop an own plugin.
-
-When starting from this example one should take care to adapt the
-`Gerrit-ApiVersion` in the `BUILD` to the version of Gerrit for which
-the plugin is developed.
-
 [[API]]
 == API
 
@@ -1554,7 +1537,7 @@ plugins:
 [source,xml]
 ----
 <manifestEntries>
-  <Gerrit-Module>com.googlesource.gerrit.plugins.cookbook.Module</Gerrit-Module>
+  <Gerrit-Module>com.googlesource.gerrit.plugins.myplugin.Module</Gerrit-Module>
 </manifestEntries>
 ----
 
@@ -1563,7 +1546,7 @@ or in the `BUILD` configuration file for Bazel driven plugins:
 [source,python]
 ----
 manifest_entries = [
-  'Gerrit-Module: com.googlesource.gerrit.plugins.cookbook.Module',
+  'Gerrit-Module: com.googlesource.gerrit.plugins.myplugin.Module',
 ]
 ----
 
@@ -1619,7 +1602,7 @@ driven plugins:
 [source,xml]
 ----
 <manifestEntries>
-  <Gerrit-HttpModule>com.googlesource.gerrit.plugins.cookbook.HttpModule</Gerrit-HttpModule>
+  <Gerrit-HttpModule>com.googlesource.gerrit.plugins.myplugin.HttpModule</Gerrit-HttpModule>
 </manifestEntries>
 ----
 
@@ -1628,7 +1611,7 @@ or in the `BUILD` configuration file for Bazel driven plugins
 [source,python]
 ----
 manifest_entries = [
-  'Gerrit-HttpModule: com.googlesource.gerrit.plugins.cookbook.HttpModule',
+  'Gerrit-HttpModule: com.googlesource.gerrit.plugins.myplugin.HttpModule',
 ]
 ----
 
@@ -1655,7 +1638,7 @@ can be accessed from any REST client, i. e.:
   curl -X POST -H "Content-Type: application/json" \
     -d '{message: "François", french: true}' \
     --user joe:secret \
-    http://host:port/a/changes/1/revisions/1/cookbook~say-hello
+    http://host:port/a/changes/1/revisions/1/myplugin~say-hello
   "Bonjour François from change 1, patch set 1!"
 ----
 
@@ -2491,10 +2474,6 @@ Metric reporting plugin implementations are provided for
 link:https://gerrit.googlesource.com/plugins/metrics-reporter-jmx/[JMX],
 link:https://gerrit.googlesource.com/plugins/metrics-reporter-elasticsearch/[Elastic Search],
 and link:https://gerrit.googlesource.com/plugins/metrics-reporter-graphite/[Graphite].
-
-There is also a working example of reporting metrics to the console in the
-link:https://gerrit.googlesource.com/plugins/cookbook-plugin/+/master/src/main/java/com/googlesource/gerrit/plugins/cookbook/ConsoleMetricReporter.java[
-cookbook plugin].
 
 === Providing own metrics
 

@@ -21,7 +21,7 @@ Example destination file named `destinations/myreviews`:
 #
 refs/heads/master	gerrit
 refs/heads/stable-2.11	gerrit
-refs/heads/master	plugins/cookbook-plugin
+refs/heads/master	myplugin
 ----
 
 GERRIT

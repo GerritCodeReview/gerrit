@@ -416,7 +416,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
     updateAllGroups(newPersonIdent(), g1, g2);
     log = log();
     assertThat(log).hasSize(1);
-    assertThat(log.get(0)).commit().isEqualTo(commit);
+    assertThat(log.get(0)).commit().isEqualTo(commit + "FAIL");
   }
 
   @Test

@@ -23,6 +23,30 @@
       "revId": "0d5613661db794f0e18087a41300ea3bd19fc5d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44a15e89_7b6d8e00",
+        "filename": "java/com/google/gerrit/index/query/testing/TreeSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-25T14:04:40Z",
+      "side": 1,
+      "message": "I think this is correct: it matches the method name on Tree itself. The failure message here is:\n\n value of: tree.getType()\n name    : expected SINGLE_WORD, actual FIELD_NAME\n expected: 12\n but was : 8\n tree was: project\n\nIf it said \"tree.type()\" then that would suggest that the method in Tree is named type(), which it\u0027s not.\n\nI\u0027ll follow up on Alice\u0027s change as well.",
+      "parentUuid": "6ece79e9_26fe0723",
+      "range": {
+        "startLine": 38,
+        "startChar": 11,
+        "endLine": 38,
+        "endChar": 20
+      },
+      "revId": "0d5613661db794f0e18087a41300ea3bd19fc5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

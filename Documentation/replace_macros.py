@@ -87,6 +87,12 @@ SEARCH_BOX = """
   id="searchBox">
   Search
 </button>
+  %s
+</div>
+++++
+"""
+
+BUILTIN_SEARCH = """
 <script type="text/javascript">
 var f = function() {
   window.location = '../#/Documentation/q/' +
@@ -99,10 +105,24 @@ document.getElementById("docSearch").onkeypress = function(e) {
   }
 }
 </script>
-</div>
-++++
-
 """
+
+GOOGLE_SITE_SEARCH = """
+<script type="text/javascript">
+var f = function() {
+  window.location = 'https://www.google.com/search?q=' +
+     encodeURIComponent(document.getElementById("docSearch").value +
+     ' site:@SITE@');
+}
+document.getElementById("searchBox").onclick = f;
+document.getElementById("docSearch").onkeypress = function(e) {
+  if (13 == (e.keyCode ? e.keyCode : e.which)) {
+    f();
+  }
+}
+</script>
+"""
+
 
 LINK_SCRIPT = """
 
@@ -227,7 +247,18 @@ opts.add_option('-b', '--searchbox', action="store_true", default=True,
                 help="generate the search boxes")
 opts.add_option('--no-searchbox', action="store_false", dest='searchbox',
                 help="don't generate the search boxes")
+opts.add_option('--site-search', action="store", metavar="SITE",
+                help=("generate the search box using google. SITE should " +
+                      "point to the domain/path of the site, eg. " +
+                      "gerrit-review.googlesource.com/Documentation"))
 options, _ = opts.parse_args()
+
+if options.site_search:
+  SEARCH_BOX = (SEARCH_BOX %
+                GOOGLE_SITE_SEARCH.replace("@SITE@", options.site_search))
+else:
+  SEARCH_BOX = SEARCH_BOX % BUILTIN_SEARCH
+
 
 try:
     try:

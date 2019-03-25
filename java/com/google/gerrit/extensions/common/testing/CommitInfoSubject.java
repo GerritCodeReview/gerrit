@@ -41,25 +41,25 @@ public class CommitInfoSubject extends Subject<CommitInfoSubject, CommitInfo> {
   public StringSubject commit() {
     isNotNull();
     CommitInfo commitInfo = actual();
-    return check("commit()").that(commitInfo.commit);
+    return check("commit").that(commitInfo.commit);
   }
 
   public ListSubject<CommitInfoSubject, CommitInfo> parents() {
     isNotNull();
     CommitInfo commitInfo = actual();
-    return check("parents()").about(elements()).thatCustom(commitInfo.parents, commits());
+    return check("parents").about(elements()).thatCustom(commitInfo.parents, commits());
   }
 
   public GitPersonSubject committer() {
     isNotNull();
     CommitInfo commitInfo = actual();
-    return check("committer()").about(gitPersons()).that(commitInfo.committer);
+    return check("committer").about(gitPersons()).that(commitInfo.committer);
   }
 
   public GitPersonSubject author() {
     isNotNull();
     CommitInfo commitInfo = actual();
-    return check("author()").about(gitPersons()).that(commitInfo.author);
+    return check("author").about(gitPersons()).that(commitInfo.author);
   }
 
   public StringSubject message() {

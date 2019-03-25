@@ -40,12 +40,12 @@ public class GroupReferenceSubject extends Subject<GroupReferenceSubject, GroupR
   public ComparableSubject<?, AccountGroup.UUID> groupUuid() {
     isNotNull();
     GroupReference group = actual();
-    return check("groupUuid()").that(group.getUUID());
+    return check("getUUID()").that(group.getUUID());
   }
 
   public StringSubject name() {
     isNotNull();
     GroupReference group = actual();
-    return check("name()").that(group.getName());
+    return check("getName()").that(group.getName());
   }
 }

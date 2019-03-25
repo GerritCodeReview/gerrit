@@ -45,7 +45,7 @@ public class RobotCommentInfoSubject extends Subject<RobotCommentInfoSubject, Ro
   }
 
   public ListSubject<FixSuggestionInfoSubject, FixSuggestionInfo> fixSuggestions() {
-    return check("fixSuggestions()")
+    return check("fixSuggestions")
         .about(elements())
         .thatCustom(actual().fixSuggestions, FixSuggestionInfoSubject.fixSuggestions());
   }

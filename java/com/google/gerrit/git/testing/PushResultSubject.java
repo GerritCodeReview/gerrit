@@ -50,14 +50,14 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
   public void hasMessages(String... expectedLines) {
     checkArgument(expectedLines.length > 0, "use hasNoMessages()");
     isNotNull();
-    check("messages()").that(trimMessages()).isEqualTo(String.join("\n", expectedLines));
+    check("trimmedMessages()").that(trimMessages()).isEqualTo(String.join("\n", expectedLines));
   }
 
   public void containsMessages(String... expectedLines) {
     checkArgument(expectedLines.length > 0, "use hasNoMessages()");
     isNotNull();
     Iterable<String> got = Splitter.on("\n").split(trimMessages());
-    check("messages()").that(got).containsAllIn(expectedLines).inOrder();
+    check("trimmedMessages()").that(got).containsAllIn(expectedLines).inOrder();
   }
 
   private String trimMessages() {

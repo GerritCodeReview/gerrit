@@ -21,7 +21,6 @@ import static com.google.gerrit.truth.ListSubject.elements;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.truth.ListSubject;
@@ -42,12 +41,12 @@ public class FixSuggestionInfoSubject extends Subject<FixSuggestionInfoSubject, 
   }
 
   public StringSubject fixId() {
-    return Truth.assertThat(actual().fixId).named("fixId");
+    return check("fixId").that(actual().fixId);
   }
 
   public ListSubject<FixReplacementInfoSubject, FixReplacementInfo> replacements() {
     isNotNull();
-    return check("replacements()")
+    return check("replacements")
         .about(elements())
         .thatCustom(actual().replacements, fixReplacements());
   }
@@ -58,6 +57,6 @@ public class FixSuggestionInfoSubject extends Subject<FixSuggestionInfoSubject, 
 
   public StringSubject description() {
     isNotNull();
-    return check("description()").that(actual().description);
+    return check("description").that(actual().description);
   }
 }

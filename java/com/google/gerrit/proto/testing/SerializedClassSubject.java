@@ -91,7 +91,7 @@ public class SerializedClassSubject extends Subject<SerializedClassSubject, Clas
   public void hasAutoValueMethods(Map<String, Type> expectedMethods) {
     // Would be nice if we could check clazz is an @AutoValue, but the retention is not RUNTIME.
     isAbstract();
-    check("noArgumentAbstractMethodsOn(%s)", actual().getName())
+    check("noArgumentAbstractMethods()")
         .that(
             Arrays.stream(actual().getDeclaredMethods())
                 .filter(m -> !Modifier.isStatic(m.getModifiers()))
@@ -103,8 +103,6 @@ public class SerializedClassSubject extends Subject<SerializedClassSubject, Clas
 
   public void extendsClass(Type superclassType) {
     isNotNull();
-    check("superclass(%s)", actual().getName())
-        .that(actual().getGenericSuperclass())
-        .isEqualTo(superclassType);
+    check("getGenericSuperclass()").that(actual().getGenericSuperclass()).isEqualTo(superclassType);
   }
 }

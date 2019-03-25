@@ -44,25 +44,25 @@ public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
   public StringSubject name() {
     isNotNull();
     GitPerson gitPerson = actual();
-    return check("name()").that(gitPerson.name);
+    return check("name").that(gitPerson.name);
   }
 
   public StringSubject email() {
     isNotNull();
     GitPerson gitPerson = actual();
-    return check("email()").that(gitPerson.email);
+    return check("email").that(gitPerson.email);
   }
 
   public ComparableSubject<?, Timestamp> date() {
     isNotNull();
     GitPerson gitPerson = actual();
-    return check("date()").that(gitPerson.date);
+    return check("date").that(gitPerson.date);
   }
 
   public IntegerSubject tz() {
     isNotNull();
     GitPerson gitPerson = actual();
-    return check("tz()").that(gitPerson.tz);
+    return check("tz").that(gitPerson.tz);
   }
 
   public void hasSameDateAs(GitPerson other) {

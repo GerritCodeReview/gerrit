@@ -35,18 +35,18 @@ public class FileInfoSubject extends Subject<FileInfoSubject, FileInfo> {
   public IntegerSubject linesInserted() {
     isNotNull();
     FileInfo fileInfo = actual();
-    return check("linesInserted()").that(fileInfo.linesInserted);
+    return check("linesInserted").that(fileInfo.linesInserted);
   }
 
   public IntegerSubject linesDeleted() {
     isNotNull();
     FileInfo fileInfo = actual();
-    return check("linesDeleted()").that(fileInfo.linesDeleted);
+    return check("linesDeleted").that(fileInfo.linesDeleted);
   }
 
   public ComparableSubject<?, Character> status() {
     isNotNull();
     FileInfo fileInfo = actual();
-    return check("status()").that(fileInfo.status);
+    return check("status").that(fileInfo.status);
   }
 }

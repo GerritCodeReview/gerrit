@@ -46,6 +46,30 @@
       "revId": "fc9817f3f31c9cf9f9f5473bbca6a74a8b13fcae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba8fb073_f765105f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-03-25T10:46:12Z",
+      "side": 1,
+      "message": "After some recent issues at the WMF, I think we are going to install the plugin. At the time I wrote that comment, the plugin was not working and so I thought using the core functions would work. I then figured out the fixes so the plugin works now.",
+      "parentUuid": "c2e24935_fd1245b4",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 18
+      },
+      "revId": "fc9817f3f31c9cf9f9f5473bbca6a74a8b13fcae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

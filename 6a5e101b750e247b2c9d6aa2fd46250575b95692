@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "6f8539b6_078de9e8",
+        "filename": "contrib/mitm-ui/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-03-25T21:14:52Z",
+      "side": 1,
+      "message": "Here\u0027s a better link. :) https://www.usenix.org/system/files/login/articles/login_fall17_08_escobedo.pdf",
+      "parentUuid": "2d8cfe01_84023a9a",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 80
+      },
+      "revId": "6a5e101b750e247b2c9d6aa2fd46250575b95692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2763b2e7_96759845",
         "filename": "contrib/mitm-ui/mitm-docker.sh",
         "patchSetId": 3

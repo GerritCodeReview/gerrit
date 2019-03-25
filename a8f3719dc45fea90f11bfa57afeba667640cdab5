@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95fd2e4c_378acdb1",
+        "filename": "java/com/google/gerrit/extensions/common/testing/CommitInfoSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-03-25T14:13:58Z",
+      "side": 1,
+      "message": "I think this is supposed to match the actual field or method name that you\u0027re invoking on actual(), i.e. \"commit\" instead of \"commit()\". The failure message looks like:\n\n value of      : commitInfo.commit()\n expected      : a4cb10539885e0842141fad48f7612c2558fac25FAIL\n but was       : a4cb10539885e0842141fad48f7612c2558fac25\n commitInfo was: ...\n\n(https://gerrit-review.googlesource.com/c/gerrit/+/218912)",
+      "revId": "a8f3719dc45fea90f11bfa57afeba667640cdab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

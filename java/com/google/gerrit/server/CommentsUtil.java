@@ -50,13 +50,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
 
 /** Utility functions to manipulate Comments. */
 @Singleton
@@ -291,26 +287,6 @@ public class CommentsUtil {
   public void deleteCommentByRewritingHistory(
       ChangeUpdate update, Comment.Key commentKey, String newMessage) {
     update.deleteCommentByRewritingHistory(commentKey.uuid, newMessage);
-  }
-
-  public void deleteAllDraftsFromAllUsers(Change.Id changeId) throws IOException {
-    try (Repository repo = repoManager.openRepository(allUsers);
-        RevWalk rw = new RevWalk(repo)) {
-      BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
-      for (Ref ref : getDraftRefs(repo, changeId)) {
-        bru.addCommand(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
-      }
-      bru.setRefLogMessage("Delete drafts from NoteDb", false);
-      bru.execute(rw, NullProgressMonitor.INSTANCE);
-      for (ReceiveCommand cmd : bru.getCommands()) {
-        if (cmd.getResult() != ReceiveCommand.Result.OK) {
-          throw new IOException(
-              String.format(
-                  "Failed to delete draft comment ref %s at %s: %s (%s)",
-                  cmd.getRefName(), cmd.getOldId(), cmd.getResult(), cmd.getMessage()));
-        }
-      }
-    }
   }
 
   private static List<Comment> commentsOnFile(Collection<Comment> allComments, String file) {

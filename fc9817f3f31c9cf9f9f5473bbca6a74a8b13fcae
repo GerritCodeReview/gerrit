@@ -22,6 +22,30 @@
       "revId": "fc9817f3f31c9cf9f9f5473bbca6a74a8b13fcae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2e24935_fd1245b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-03-25T07:47:52Z",
+      "side": 1,
+      "message": "Hopefully soon, though not by me.\n\n\nI was hoping that the people who use that plugin can adapt it (we don\u0027t unfortunately). We actually wanted to get this done as a group effort at the last hackathon but then the 2.16 release required more resources.\n\nAre you using the plugin and want to help with the migration?",
+      "parentUuid": "eaae426e_15645531",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 18
+      },
+      "revId": "fc9817f3f31c9cf9f9f5473bbca6a74a8b13fcae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

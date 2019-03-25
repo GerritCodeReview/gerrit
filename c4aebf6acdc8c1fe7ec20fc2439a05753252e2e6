@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f397835a_4055d5a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-25T10:59:38Z",
+      "side": 1,
+      "message": "I\u0027m",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "c4aebf6acdc8c1fe7ec20fc2439a05753252e2e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0cd3f89_c8c3f0e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-25T10:59:38Z",
+      "side": 1,
+      "message": "I would reword this whole paragraph to something like:\n\nAdd JSC_UNDEFINED_VARIABLE to prevent error when building the image-diff plugin.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 0
+      },
+      "revId": "c4aebf6acdc8c1fe7ec20fc2439a05753252e2e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94381186_566a7b42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-25T10:59:38Z",
+      "side": 1,
+      "message": "Can you raise an issue on the issue tracker, with reproduction steps, and reference it here?",
+      "revId": "c4aebf6acdc8c1fe7ec20fc2439a05753252e2e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

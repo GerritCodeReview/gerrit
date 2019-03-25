@@ -36,6 +36,6 @@ public class ObjectIdSubject extends Subject<ObjectIdSubject, ObjectId> {
   public void hasName(String expectedName) {
     isNotNull();
     ObjectId objectId = actual();
-    check("name()").that(objectId.getName()).isEqualTo(expectedName);
+    check("getName()").that(objectId.getName()).isEqualTo(expectedName);
   }
 }

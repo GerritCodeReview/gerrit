@@ -45,16 +45,16 @@ public class ChangeFileContentModificationSubject
 
   public StringSubject filePath() {
     isNotNull();
-    return check("filePath()").that(actual().getFilePath());
+    return check("getFilePath()").that(actual().getFilePath());
   }
 
   public StringSubject newContent() throws IOException {
     isNotNull();
     RawInput newContent = actual().getNewContent();
-    check("newContent()").that(newContent).isNotNull();
+    check("getNewContent()").that(newContent).isNotNull();
     String contentString =
         CharStreams.toString(
             new InputStreamReader(newContent.getInputStream(), StandardCharsets.UTF_8));
-    return check("newContent()").that(contentString);
+    return check("getNewContent()").that(contentString);
   }
 }

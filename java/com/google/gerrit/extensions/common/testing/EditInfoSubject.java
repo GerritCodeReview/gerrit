@@ -46,12 +46,12 @@ public class EditInfoSubject extends Subject<EditInfoSubject, EditInfo> {
   public CommitInfoSubject commit() {
     isNotNull();
     EditInfo editInfo = actual();
-    return check("commit()").about(commits()).that(editInfo.commit);
+    return check("commit").about(commits()).that(editInfo.commit);
   }
 
   public StringSubject baseRevision() {
     isNotNull();
     EditInfo editInfo = actual();
-    return check("baseRevision()").that(editInfo.baseRevision);
+    return check("baseRevision").that(editInfo.baseRevision);
   }
 }

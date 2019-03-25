@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
-import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.extensions.common.testing.FixReplacementInfoSubject.fixReplacements;
 import static com.google.gerrit.truth.ListSubject.elements;
 
@@ -42,12 +41,12 @@ public class FixSuggestionInfoSubject extends Subject<FixSuggestionInfoSubject, 
   }
 
   public StringSubject fixId() {
-    return assertWithMessage("fixId").that(actual().fixId);
+    return check("fixId").that(actual().fixId);
   }
 
   public ListSubject<FixReplacementInfoSubject, FixReplacementInfo> replacements() {
     isNotNull();
-    return check("replacements()")
+    return check("replacements")
         .about(elements())
         .thatCustom(actual().replacements, fixReplacements());
   }
@@ -58,6 +57,6 @@ public class FixSuggestionInfoSubject extends Subject<FixSuggestionInfoSubject, 
 
   public StringSubject description() {
     isNotNull();
-    return check("description()").that(actual().description);
+    return check("description").that(actual().description);
   }
 }

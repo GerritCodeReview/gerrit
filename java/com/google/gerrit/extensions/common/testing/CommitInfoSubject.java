@@ -15,18 +15,23 @@
 package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
+import static com.google.gerrit.extensions.common.testing.GitPersonSubject.gitPersons;
+import static com.google.gerrit.truth.ListSubject.elements;
 
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.truth.ListSubject;
 
 public class CommitInfoSubject extends Subject<CommitInfoSubject, CommitInfo> {
 
   public static CommitInfoSubject assertThat(CommitInfo commitInfo) {
-    return assertAbout(CommitInfoSubject::new).that(commitInfo);
+    return assertAbout(commits()).that(commitInfo);
+  }
+
+  public static Subject.Factory<CommitInfoSubject, CommitInfo> commits() {
+    return CommitInfoSubject::new;
   }
 
   private CommitInfoSubject(FailureMetadata failureMetadata, CommitInfo commitInfo) {
@@ -36,31 +41,30 @@ public class CommitInfoSubject extends Subject<CommitInfoSubject, CommitInfo> {
   public StringSubject commit() {
     isNotNull();
     CommitInfo commitInfo = actual();
-    return Truth.assertThat(commitInfo.commit).named("commit");
+    return check("commit()").that(commitInfo.commit);
   }
 
   public ListSubject<CommitInfoSubject, CommitInfo> parents() {
     isNotNull();
     CommitInfo commitInfo = actual();
-    return ListSubject.assertThat(commitInfo.parents, CommitInfoSubject::assertThat)
-        .named("parents");
+    return check("parents()").about(elements()).thatCustom(commitInfo.parents, commits());
   }
 
   public GitPersonSubject committer() {
     isNotNull();
     CommitInfo commitInfo = actual();
-    return GitPersonSubject.assertThat(commitInfo.committer).named("committer");
+    return check("committer()").about(gitPersons()).that(commitInfo.committer);
   }
 
   public GitPersonSubject author() {
     isNotNull();
     CommitInfo commitInfo = actual();
-    return GitPersonSubject.assertThat(commitInfo.author).named("author");
+    return check("author()").about(gitPersons()).that(commitInfo.author);
   }
 
   public StringSubject message() {
     isNotNull();
     CommitInfo commitInfo = actual();
-    return Truth.assertThat(commitInfo.message).named("message");
+    return check("message").that(commitInfo.message);
   }
 }

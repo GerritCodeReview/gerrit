@@ -20,7 +20,6 @@ import com.google.common.io.CharStreams;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.restapi.RawInput;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -41,16 +40,16 @@ public class ChangeFileContentModificationSubject
 
   public StringSubject filePath() {
     isNotNull();
-    return Truth.assertThat(actual().getFilePath()).named("filePath");
+    return check("filePath()").that(actual().getFilePath());
   }
 
   public StringSubject newContent() throws IOException {
     isNotNull();
     RawInput newContent = actual().getNewContent();
-    Truth.assertThat(newContent).named("newContent").isNotNull();
+    check("newContent()").that(newContent).isNotNull();
     String contentString =
         CharStreams.toString(
             new InputStreamReader(newContent.getInputStream(), StandardCharsets.UTF_8));
-    return Truth.assertThat(contentString).named("newContent");
+    return check("newContent()").that(contentString);
   }
 }

@@ -14,21 +14,27 @@
 
 package com.google.gerrit.extensions.common.testing;
 
+import static com.google.common.truth.Fact.simpleFact;
 import static com.google.common.truth.Truth.assertAbout;
+import static com.google.gerrit.truth.ListSubject.elements;
 
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.IterableSubject;
+import com.google.common.truth.StandardSubjectBuilder;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.common.DiffInfo.ContentEntry;
 import com.google.gerrit.truth.ListSubject;
 
 public class ContentEntrySubject extends Subject<ContentEntrySubject, ContentEntry> {
 
   public static ContentEntrySubject assertThat(ContentEntry contentEntry) {
-    return assertAbout(ContentEntrySubject::new).that(contentEntry);
+    return assertAbout(contentEntries()).that(contentEntry);
+  }
+
+  public static Subject.Factory<ContentEntrySubject, ContentEntry> contentEntries() {
+    return ContentEntrySubject::new;
   }
 
   private ContentEntrySubject(FailureMetadata failureMetadata, ContentEntry contentEntry) {
@@ -38,54 +44,54 @@ public class ContentEntrySubject extends Subject<ContentEntrySubject, ContentEnt
   public void isDueToRebase() {
     isNotNull();
     ContentEntry contentEntry = actual();
-    Truth.assertWithMessage("Entry should be marked 'dueToRebase'")
-        .that(contentEntry.dueToRebase)
-        .named("dueToRebase")
-        .isTrue();
+    if (contentEntry.dueToRebase == null || !contentEntry.dueToRebase) {
+      failWithActual(simpleFact("expected entry to be marked 'dueToRebase'"));
+    }
   }
 
   public void isNotDueToRebase() {
     isNotNull();
     ContentEntry contentEntry = actual();
-    Truth.assertWithMessage("Entry should not be marked 'dueToRebase'")
-        .that(contentEntry.dueToRebase)
-        .named("dueToRebase")
-        .isNull();
+    if (contentEntry.dueToRebase != null && contentEntry.dueToRebase) {
+      failWithActual(simpleFact("expected entry not to be marked 'dueToRebase'"));
+    }
   }
 
   public ListSubject<StringSubject, String> commonLines() {
     isNotNull();
     ContentEntry contentEntry = actual();
-    return ListSubject.assertThat(contentEntry.ab, Truth::assertThat).named("common lines");
+    return check("commonLines()")
+        .about(elements())
+        .that(contentEntry.ab, StandardSubjectBuilder::that);
   }
 
   public ListSubject<StringSubject, String> linesOfA() {
     isNotNull();
     ContentEntry contentEntry = actual();
-    return ListSubject.assertThat(contentEntry.a, Truth::assertThat).named("lines of 'a'");
+    return check("linesOfA()").about(elements()).that(contentEntry.a, StandardSubjectBuilder::that);
   }
 
   public ListSubject<StringSubject, String> linesOfB() {
     isNotNull();
     ContentEntry contentEntry = actual();
-    return ListSubject.assertThat(contentEntry.b, Truth::assertThat).named("lines of 'b'");
+    return check("linesOfB()").about(elements()).that(contentEntry.b, StandardSubjectBuilder::that);
   }
 
   public IterableSubject intralineEditsOfA() {
     isNotNull();
     ContentEntry contentEntry = actual();
-    return Truth.assertThat(contentEntry.editA).named("intraline edits of 'a'");
+    return check("intralineEditsOfA()").that(contentEntry.editA);
   }
 
   public IterableSubject intralineEditsOfB() {
     isNotNull();
     ContentEntry contentEntry = actual();
-    return Truth.assertThat(contentEntry.editB).named("intraline edits of 'b'");
+    return check("intralineEditsOfB()").that(contentEntry.editB);
   }
 
   public IntegerSubject numberOfSkippedLines() {
     isNotNull();
     ContentEntry contentEntry = actual();
-    return Truth.assertThat(contentEntry.skip).named("number of skipped lines");
+    return check("numberOfSkippedLines()").that(contentEntry.skip);
   }
 }

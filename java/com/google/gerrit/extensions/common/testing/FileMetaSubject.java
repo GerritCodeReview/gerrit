@@ -19,13 +19,16 @@ import static com.google.common.truth.Truth.assertAbout;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.common.DiffInfo.FileMeta;
 
 public class FileMetaSubject extends Subject<FileMetaSubject, FileMeta> {
 
   public static FileMetaSubject assertThat(FileMeta fileMeta) {
-    return assertAbout(FileMetaSubject::new).that(fileMeta);
+    return assertAbout(fileMetas()).that(fileMeta);
+  }
+
+  public static Subject.Factory<FileMetaSubject, FileMeta> fileMetas() {
+    return FileMetaSubject::new;
   }
 
   private FileMetaSubject(FailureMetadata failureMetadata, FileMeta fileMeta) {
@@ -35,6 +38,6 @@ public class FileMetaSubject extends Subject<FileMetaSubject, FileMeta> {
   public IntegerSubject totalLineCount() {
     isNotNull();
     FileMeta fileMeta = actual();
-    return Truth.assertThat(fileMeta.lines).named("total line count");
+    return check("totalLineCount()").that(fileMeta.lines);
   }
 }

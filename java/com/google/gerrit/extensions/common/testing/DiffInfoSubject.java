@@ -15,11 +15,12 @@
 package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
+import static com.google.gerrit.extensions.common.testing.FileMetaSubject.fileMetas;
+import static com.google.gerrit.truth.ListSubject.elements;
 
 import com.google.common.truth.ComparableSubject;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.DiffInfo.ContentEntry;
@@ -38,25 +39,26 @@ public class DiffInfoSubject extends Subject<DiffInfoSubject, DiffInfo> {
   public ListSubject<ContentEntrySubject, ContentEntry> content() {
     isNotNull();
     DiffInfo diffInfo = actual();
-    return ListSubject.assertThat(diffInfo.content, ContentEntrySubject::assertThat)
-        .named("content");
+    return check("content()")
+        .about(elements())
+        .thatCustom(diffInfo.content, ContentEntrySubject.contentEntries());
   }
 
   public ComparableSubject<?, ChangeType> changeType() {
     isNotNull();
     DiffInfo diffInfo = actual();
-    return Truth.assertThat(diffInfo.changeType).named("changeType");
+    return check("changeType()").that(diffInfo.changeType);
   }
 
   public FileMetaSubject metaA() {
     isNotNull();
     DiffInfo diffInfo = actual();
-    return FileMetaSubject.assertThat(diffInfo.metaA).named("metaA");
+    return check("metaA()").about(fileMetas()).that(diffInfo.metaA);
   }
 
   public FileMetaSubject metaB() {
     isNotNull();
     DiffInfo diffInfo = actual();
-    return FileMetaSubject.assertThat(diffInfo.metaB).named("metaB");
+    return check("metaB()").about(fileMetas()).that(diffInfo.metaB);
   }
 }

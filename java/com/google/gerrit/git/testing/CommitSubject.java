@@ -19,7 +19,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
 import java.sql.Timestamp;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -69,9 +68,7 @@ public class CommitSubject extends Subject<CommitSubject, RevCommit> {
   public void hasCommitMessage(String expectedCommitMessage) {
     isNotNull();
     RevCommit commit = actual();
-    Truth.assertThat(commit.getFullMessage())
-        .named("commit message")
-        .isEqualTo(expectedCommitMessage);
+    check("commitMessage()").that(commit.getFullMessage()).isEqualTo(expectedCommitMessage);
   }
 
   /**
@@ -84,7 +81,7 @@ public class CommitSubject extends Subject<CommitSubject, RevCommit> {
     RevCommit commit = actual();
     long timestampDiffMs =
         Math.abs(commit.getCommitTime() * 1000L - expectedCommitTimestamp.getTime());
-    Truth.assertThat(timestampDiffMs).named("commit timestamp diff").isAtMost(SECONDS.toMillis(1));
+    check("commitTimestampDiff()").that(timestampDiffMs).isAtMost(SECONDS.toMillis(1));
   }
 
   /**
@@ -95,6 +92,6 @@ public class CommitSubject extends Subject<CommitSubject, RevCommit> {
   public void hasSha1(ObjectId expectedSha1) {
     isNotNull();
     RevCommit commit = actual();
-    Truth.assertThat(commit).named("SHA1").isEqualTo(expectedSha1);
+    check("sha1()").that(commit).isEqualTo(expectedSha1);
   }
 }

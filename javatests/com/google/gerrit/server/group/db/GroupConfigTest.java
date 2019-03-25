@@ -16,6 +16,7 @@ package com.google.gerrit.server.group.db;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.server.group.testing.InternalGroupSubject.internalGroups;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 import static org.hamcrest.CoreMatchers.instanceOf;
 
@@ -1673,6 +1674,6 @@ public class GroupConfigTest extends GerritBaseTests {
 
   private static OptionalSubject<InternalGroupSubject, InternalGroup> assertThatGroup(
       Optional<InternalGroup> loadedGroup) {
-    return assertThat(loadedGroup, InternalGroupSubject::assertThat);
+    return assertThat(loadedGroup, internalGroups());
   }
 }

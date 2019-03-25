@@ -20,14 +20,17 @@ import com.google.common.truth.ComparableSubject;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
 public class GroupReferenceSubject extends Subject<GroupReferenceSubject, GroupReference> {
 
   public static GroupReferenceSubject assertThat(GroupReference group) {
-    return assertAbout(GroupReferenceSubject::new).that(group);
+    return assertAbout(groupReferences()).that(group);
+  }
+
+  public static Subject.Factory<GroupReferenceSubject, GroupReference> groupReferences() {
+    return GroupReferenceSubject::new;
   }
 
   private GroupReferenceSubject(FailureMetadata metadata, GroupReference group) {
@@ -37,12 +40,12 @@ public class GroupReferenceSubject extends Subject<GroupReferenceSubject, GroupR
   public ComparableSubject<?, AccountGroup.UUID> groupUuid() {
     isNotNull();
     GroupReference group = actual();
-    return Truth.assertThat(group.getUUID()).named("groupUuid");
+    return check("groupUuid()").that(group.getUUID());
   }
 
   public StringSubject name() {
     isNotNull();
     GroupReference group = actual();
-    return Truth.assertThat(group.getName()).named("name");
+    return check("name()").that(group.getName());
   }
 }

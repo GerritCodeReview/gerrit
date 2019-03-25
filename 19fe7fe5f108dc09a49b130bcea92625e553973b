@@ -117,6 +117,30 @@
       "revId": "19fe7fe5f108dc09a49b130bcea92625e553973b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37b08c9b_08a5f1a4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-03-25T14:51:30Z",
+      "side": 1,
+      "message": "We don\u0027t have many tests which do this since we didn\u0027t seem to care about the refs so much in the past. At least for the deletion of changes (see I6a5bf0552), I only added functional tests but we actually should have had tests which ensure that the data is really gone.\n\nAnother reason that the search didn\u0027t find so many occurrences is that we sometimes use other mechanisms. For instance, for I40187d964, I used PerProjectOperations#hasHead to ensure that the ref was really gone.\n\nThe reason I suggested adding a new method to PerProjectOperations is that I hoped it would make writing such tests easier in the future and hence we would also write such tests more often. If your preference is to wait for more usages first, that\u0027s also fine by me.",
+      "parentUuid": "83c8a49a_e6876d87",
+      "range": {
+        "startLine": 1239,
+        "startChar": 4,
+        "endLine": 1243,
+        "endChar": 5
+      },
+      "revId": "19fe7fe5f108dc09a49b130bcea92625e553973b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

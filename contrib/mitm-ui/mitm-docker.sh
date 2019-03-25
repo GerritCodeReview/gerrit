@@ -36,6 +36,7 @@ docker run --rm -it \
        -v ~/.mitmproxy:/home/mitmproxy/.mitmproxy \
        -v ${mitm_dir}:${mitm_dir} \
        -v ${gerrit_dir}:${gerrit_dir} \
+       -v ${gerrit_dir}/bazel-out:${gerrit_dir}/bazel-out \
        -v ${extra_volume} \
        -p 8888:8888 \
        mitmproxy/mitmproxy:2.0.2 \

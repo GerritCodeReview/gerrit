@@ -28,16 +28,19 @@
 
 from mitmproxy import http
 from mitmproxy.script import concurrent
-import re
 import argparse
-import os.path
 import json
 import mimetypes
+import os.path
+import re
+import zipfile
 
 class Server:
-    def __init__(self, devpath, plugins, pluginroot, assets, strip_assets, theme):
+    def __init__(self, devpath, components, plugins, pluginroot, assets, strip_assets, theme):
         if devpath:
             print("Serving app from " + devpath)
+        if components:
+            print("Serving components from " + components)
         if pluginroot:
             print("Serving plugins from " + pluginroot)
         if assets:
@@ -52,6 +55,7 @@ class Server:
         else:
             self.plugins = {}
         self.devpath = devpath
+        self.components = components
         self.pluginroot = pluginroot
         self.strip_assets = strip_assets
         self.theme = theme
@@ -92,6 +96,7 @@ def response(flow: http.HTTPFlow) -> None:
     m = re.match(".+polygerrit_ui/\d+\.\d+/(.+)", flow.request.path)
     pluginmatch = re.match("^/plugins/(.+)", flow.request.path)
     localfile = ""
+    content = ""
     if flow.request.path == "/config/server/info":
         config = json.loads(flow.response.content[5:].decode('utf8'))
         if server.theme:
@@ -105,6 +110,9 @@ def response(flow: http.HTTPFlow) -> None:
         flow.response.content = str.encode(")]}'\n" + json.dumps(config))
     if m is not None:
         filepath = m.groups()[0]
+        if (filepath.startswith("bower_components/")):
+            with zipfile.ZipFile(server.components + "test_components.zip") as bower_zip:
+                content = bower_zip.read(filepath)
         localfile = server.devpath + filepath
     elif pluginmatch is not None:
         pluginfile = flow.request.path_components[-1]
@@ -131,7 +139,10 @@ def response(flow: http.HTTPFlow) -> None:
     if localfile and os.path.isfile(localfile):
         if pluginmatch is not None:
             print("Serving " + flow.request.path + " from " + localfile)
-        flow.response.content = server.readfile(localfile)
+        content = server.readfile(localfile)
+
+    if content:
+        flow.response.content = content
         flow.response.status_code = 200
         localtype = mimetypes.guess_type(localfile)
         if localtype and localtype[0]:
@@ -142,13 +153,15 @@ def expandpath(path):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--app", type=str, default="", help="Path to /polygerrit-ui/app/")
+parser.add_argument("--components", type=str, default="", help="Path to test_components.zip")
 parser.add_argument("--plugins", type=str, default="", help="Comma-separated list of plugin files to add/replace")
 parser.add_argument("--plugin_root", type=str, default="", help="Path containing individual plugin files to replace")
 parser.add_argument("--assets", type=str, default="", help="Path containing assets file to import.")
 parser.add_argument("--strip_assets", action="store_true", help="Strip plugin bundles from the response.")
-parser.add_argument("--theme", type=str, help="Path to the default site theme to be used.")
+parser.add_argument("--theme", default="", type=str, help="Path to the default site theme to be used.")
 args = parser.parse_args()
 server = Server(expandpath(args.app) + '/',
+                expandpath(args.components) + '/',
                 args.plugins,
                 expandpath(args.plugin_root) + '/',
                 args.assets and expandpath(args.assets),

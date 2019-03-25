@@ -8,7 +8,10 @@
    cd ~/gerrit
    ~/mitm-gerrit/mitm-serve-app-dev.sh
    ```
-3. Install MITM certificates
+3. Make sure that the browser uses the proxy provided by the command line,
+   e.g. if you are a Googler check that the BeyondCorp extension uses the
+   "System/Alternative" proxy.
+4. Install MITM certificates
    - Open http://mitm.it in the proxied browser window
    - Follow the instructions to install MITM certs
 

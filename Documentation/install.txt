@@ -249,6 +249,11 @@ Place Gerrit plugins in the review_site/plugins directory to have them loaded on
 * http://www.kernel.org/pub/software/scm/git/docs/git-daemon.html[git-daemon]
 
 
+[[backup]]
+== Backup
+
+See the link:backup.html[backup documentation].
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

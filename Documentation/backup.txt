@@ -1,0 +1,106 @@
+= Gerrit Code Review - Backup
+
+A Gerrit Code Review site contains data that needs to be backed up regularly:
+
+== Data which must be backed up
+
+Git repositories::
++
+The bare Git repositories managed by Gerrit are stored in the `${SITE}/git`
+directory. They contain the history of the respective project, and since
+2.15 if you are using noteDB, also change and review meta data, user
+accounts and groups.
++
+
+SQL database::
++
+Gerrit releases in the 2.x series store some data in the database you
+have chosen when installing Gerrit.
++
+If you are using h2 you need to backup the .db files in the folder
+`${SITE}/db`.
++
+For all other database types refer to their backup documentation.
++
+
+== Data optional to be backed up
+
+Search index::
++
+The lucene search index is stored in the `index` folder.
+It can be recomputed from primary data in the git repositories but
+reindexing may take a long time hence backing up the index makes sense
+for productive installations.
++
+If you have chosen to use _Elastic Search_ for indexing,
+refer to its backup documentation (link:TODO).
+
+Caches::
++
+Gerrit uses many caches which populate automatically. Some of the caches
+are persisted in the directory `${SITE}/cache` to retain the cached data
+across restarts. Since repopulating persistent caches takes time and server
+resources it makes sense to include them in backups to avoid unnecessary
+higher load and degraded performance when a Gerrit site has been restored
+from backup and caches need to be repopulated.
+
+Configuration::
++
+Gerrit configuration files are located in the directory `${SITE}/etc
+and should be backed up or versioned in a git repository.
+
+== Consistent backups
+
+Older Gerrit versions store change meta data, review comments, votes, accounts
+and group information in a SQL database. Creating consistent backups where
+git repositories and the data stored in the database are consistent requires
+to either shutdown the server during backup or at least turn it to read-only.
+
+Gerrit 2.15 or higher can use notedb to store most of this data which
+simplifies creating backups since consistency between database and git
+repositories is no longer critical.
+
+There are several ways to ensure consistency when backing up the data stored
+in the git repositories.
+
+=== Take master offline for backup
+
+Shutdown the server before taking a backup. This is simple but means downtime
+for the users.
+
+=== Take master read-only for backup
+
+Make the server read-only before taking the backup. This means read-access
+is still available during backup, only write operations have to be stopped.
+This can be implemented using the _readonly plugin_ (TODO add link).
+
+=== Replicate data for backup
+
+Replicate all git repositories to another file system using the replication
+plugin (link: TODO). Stop replication before taking a backup on the replica.
+
+For Gerrit versions older than 2.15 also setup a database slave for the
+data stored there. In addition you need to ensure that no write operations
+are in flight before you take the replica offline. Otherwise the database
+backup might be inconsistent with the backup of the git repositories.
+
+Do not skip backing up the replica, the replica alone IS NOT a backup.
+Imagine someone deleted a project by mistake and this deletion got replicated.
+
+If you are using Gerrit slaves to offload read traffic you can use one of these
+slaves for creating backups.
+
+== Backup methods
+
+* Create an archive like tar.gz to backup the site
+* Use a file system like LVM, ZFS, BtrFS supporting consistent snapshots.
+Create a snapshot and then back up the snapshot.
+
+== Test backups
+
+Test backups and fire drill restoring backups to ensure the backups aren't
+corrupt or incomplete and you can restore a backup quickly.
+
+== Disaster recovery
+
+To enable disaster recovery replicate backups to another data center.

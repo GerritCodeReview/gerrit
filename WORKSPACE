@@ -257,36 +257,36 @@ maven_jar(
     sha1 = "cd49678784c46aa8789c060538e0154013bb421b",
 )
 
-SLF4J_VERS = "1.7.7"
+SLF4J_VERS = "1.7.26"
 
 maven_jar(
     name = "log-api",
     artifact = "org.slf4j:slf4j-api:" + SLF4J_VERS,
-    sha1 = "2b8019b6249bb05d81d3a3094e468753e2b21311",
+    sha1 = "77100a62c2e6f04b53977b9f541044d7d722693d",
 )
 
 maven_jar(
     name = "log-nop",
     artifact = "org.slf4j:slf4j-nop:" + SLF4J_VERS,
-    sha1 = "6cca9a3b999ff28b7a35ca762b3197cd7e4c2ad1",
+    sha1 = "6e211fdfb9a8723677031b95ac075ac54c879a0e",
 )
 
 maven_jar(
     name = "log-ext",
     artifact = "org.slf4j:slf4j-ext:" + SLF4J_VERS,
-    sha1 = "09a8f58c784c37525d2624062414358acf296717",
+    sha1 = "31cdf122e000322e9efcb38913e9ab07825b17ef",
 )
 
 maven_jar(
     name = "impl-log4j",
     artifact = "org.slf4j:slf4j-log4j12:" + SLF4J_VERS,
-    sha1 = "58f588119ffd1702c77ccab6acb54bfb41bed8bd",
+    sha1 = "12f5c685b71c3027fd28bcf90528ec4ec74bf818",
 )
 
 maven_jar(
     name = "jcl-over-slf4j",
     artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
-    sha1 = "56003dcd0a31deea6391b9e2ef2f2dc90b205a92",
+    sha1 = "33fbc2d93de829fa5e263c5ce97f5eab8f57d53e",
 )
 
 maven_jar(
@@ -920,8 +920,8 @@ maven_jar(
 
 maven_jar(
     name = "testcontainers",
-    artifact = "org.testcontainers:testcontainers:1.10.7",
-    sha1 = "e7575fedfd010ca1ad80c8c9bf971a8057b1ff8a",
+    artifact = "org.testcontainers:testcontainers:1.11.2",
+    sha1 = "eae47ed24bb07270d4b60b5e2c3444c5bf3c8ea9",
 )
 
 maven_jar(
@@ -932,14 +932,14 @@ maven_jar(
 
 maven_jar(
     name = "visible-assertions",
-    artifact = "org.rnorth.visible-assertions:visible-assertions:2.1.0",
-    sha1 = "f2fcff2862860828ac38a5e1f14d941787c06b13",
+    artifact = "org.rnorth.visible-assertions:visible-assertions:2.1.2",
+    sha1 = "20d31a578030ec8e941888537267d3123c2ad1c1",
 )
 
 maven_jar(
     name = "jna",
-    artifact = "net.java.dev.jna:jna:4.5.1",
-    sha1 = "65bd0cacc9c79a21c6ed8e9f588577cd3c2f85b9",
+    artifact = "net.java.dev.jna:jna:5.2.0",
+    sha1 = "ed8b772eb077a9cb50e44e90899c66a9a6c00e67",
 )
 
 load("//tools/bzl:js.bzl", "bower_archive", "npm_binary")

@@ -19,6 +19,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -83,6 +84,8 @@ public class GroupsUpdate {
      */
     GroupsUpdate create(@Nullable IdentifiedUser currentUser);
   }
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -346,6 +349,7 @@ public class GroupsUpdate {
   }
 
   private void updateCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {
+    logger.atFine().log("update caches on group creation");
     // By UUID is used for the index and hence should be evicted before refreshing the index.
     groupCache.evict(createdGroup.getGroupUUID());
     indexer.get().index(createdGroup.getGroupUUID());
@@ -358,6 +362,7 @@ public class GroupsUpdate {
   }
 
   private void updateCachesOnGroupUpdate(UpdateResult result) throws IOException {
+    logger.atFine().log("update caches on group update");
     // By UUID is used for the index and hence should be evicted before refreshing the index.
     groupCache.evict(result.getGroupUuid());
     indexer.get().index(result.getGroupUuid());

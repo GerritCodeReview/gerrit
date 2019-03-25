@@ -115,17 +115,25 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
   private class Worker implements ProjectRunnable {
     final MultiProgressMonitor progress;
+    final String name;
 
     private final Collection<ReceiveCommand> commands;
 
-    private Worker(Collection<ReceiveCommand> commands) {
+    private Worker(Collection<ReceiveCommand> commands, String name) {
       this.commands = commands;
+      this.name = name;
       progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
     }
 
     @Override
     public void run() {
-      receiveCommits.processCommands(commands, progress);
+      String oldName = Thread.currentThread().getName();
+      Thread.currentThread().setName(oldName + "-for-" + name);
+      try {
+        receiveCommits.processCommands(commands, progress);
+      } finally {
+        Thread.currentThread().setName(oldName);
+      }
     }
 
     @Override
@@ -334,7 +342,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     }
 
     long startNanos = System.nanoTime();
-    Worker w = new Worker(commands);
+    Worker w = new Worker(commands, Thread.currentThread().getName());
     try {
       w.progress.waitFor(
           executor.submit(scopePropagator.wrap(w)), timeoutMillis, TimeUnit.MILLISECONDS);

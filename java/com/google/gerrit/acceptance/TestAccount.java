@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.net.InetAddresses;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
@@ -70,5 +71,10 @@ public class TestAccount {
 
   public Account.Id getId() {
     return id;
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("id", id).add("username", username).toString();
   }
 }

@@ -17,10 +17,11 @@ package com.google.gerrit.server.git.meta;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.LockFailureException;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -64,8 +65,6 @@ import org.eclipse.jgit.util.RawParseUtils;
  * read from the repository, or format an update that can later be written back to the repository.
  */
 public abstract class VersionedMetaData {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   /**
    * Path information that does not hold references to any repository data structures, allowing the
    * application to retain this object for long periods of time.
@@ -492,10 +491,11 @@ public abstract class VersionedMetaData {
       return new byte[] {};
     }
 
-    logger.atFine().log(
-        "Read file '%s' from ref '%s' of project '%s' from revision '%s'",
-        fileName, getRefName(), projectName, revision.name());
-    try (TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree())) {
+    try (TraceTimer timer =
+            TraceContext.newTimer(
+                "Read file '%s' from ref '%s' of project '%s' from revision '%s'",
+                fileName, getRefName(), projectName, revision.name());
+        TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree())) {
       if (tw != null) {
         ObjectLoader obj = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
         return obj.getCachedBytes(Integer.MAX_VALUE);
@@ -567,22 +567,24 @@ public abstract class VersionedMetaData {
   }
 
   protected void saveFile(String fileName, byte[] raw) throws IOException {
-    logger.atFine().log(
-        "Save file '%s' in ref '%s' of project '%s'", fileName, getRefName(), projectName);
-    DirCacheEditor editor = newTree.editor();
-    if (raw != null && 0 < raw.length) {
-      final ObjectId blobId = inserter.insert(Constants.OBJ_BLOB, raw);
-      editor.add(
-          new PathEdit(fileName) {
-            @Override
-            public void apply(DirCacheEntry ent) {
-              ent.setFileMode(FileMode.REGULAR_FILE);
-              ent.setObjectId(blobId);
-            }
-          });
-    } else {
-      editor.add(new DeletePath(fileName));
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Save file '%s' in ref '%s' of project '%s'", fileName, getRefName(), projectName)) {
+      DirCacheEditor editor = newTree.editor();
+      if (raw != null && 0 < raw.length) {
+        final ObjectId blobId = inserter.insert(Constants.OBJ_BLOB, raw);
+        editor.add(
+            new PathEdit(fileName) {
+              @Override
+              public void apply(DirCacheEntry ent) {
+                ent.setFileMode(FileMode.REGULAR_FILE);
+                ent.setObjectId(blobId);
+              }
+            });
+      } else {
+        editor.add(new DeletePath(fileName));
+      }
+      editor.finish();
     }
-    editor.finish();
   }
 }

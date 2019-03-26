@@ -14,6 +14,7 @@
 
 package com.google.gerrit.index.query;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.index.query.Predicate.and;
 import static com.google.gerrit.index.query.Predicate.not;
 import static com.google.gerrit.index.query.Predicate.or;
@@ -26,7 +27,10 @@ import static com.google.gerrit.index.query.QueryParser.NOT;
 import static com.google.gerrit.index.query.QueryParser.OR;
 import static com.google.gerrit.index.query.QueryParser.SINGLE_WORD;
 
+import com.google.common.base.Ascii;
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -35,7 +39,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.antlr.runtime.tree.Tree;
@@ -80,34 +83,46 @@ public abstract class QueryBuilder<T> {
   /**
    * Defines the operators known by a QueryBuilder.
    *
-   * <p>This class is thread-safe and may be reused or cached.
+   * <p>Operators are discovered by scanning for methods annotated with {@link Operator}. Operator
+   * methods must be public, non-abstract, return a {@code Predicate}, and take a single string as
+   * an argument.
    *
-   * @param <T> type of object the predicates can evaluate in memory.
+   * <p>This class is deeply immutable.
+   *
+   * @param <T> type of object the predicates can evaluate.
    * @param <Q> type of the query builder subclass.
    */
   public static class Definition<T, Q extends QueryBuilder<T>> {
-    private final Map<String, OperatorFactory<T, Q>> opFactories = new HashMap<>();
+    private final ImmutableMap<String, OperatorFactory<T, Q>> opFactories;
 
     public Definition(Class<Q> clazz) {
-      // Guess at the supported operators by scanning methods.
-      //
+      ImmutableMap.Builder<String, OperatorFactory<T, Q>> b = ImmutableMap.builder();
       Class<?> c = clazz;
       while (c != QueryBuilder.class) {
         for (Method method : c.getDeclaredMethods()) {
-          if (method.getAnnotation(Operator.class) != null
-              && Predicate.class.isAssignableFrom(method.getReturnType())
-              && method.getParameterTypes().length == 1
-              && method.getParameterTypes()[0] == String.class
-              && (method.getModifiers() & Modifier.ABSTRACT) == 0
-              && (method.getModifiers() & Modifier.PUBLIC) == Modifier.PUBLIC) {
-            final String name = method.getName().toLowerCase();
-            if (!opFactories.containsKey(name)) {
-              opFactories.put(name, new ReflectionFactory<>(name, method));
-            }
+          if (method.getAnnotation(Operator.class) == null) {
+            continue;
           }
+          checkArgument(
+              CharMatcher.ascii().matchesAllOf(method.getName()),
+              "method name must be ASCII: %s",
+              method.getName());
+          checkArgument(
+              Predicate.class.isAssignableFrom(method.getReturnType())
+                  && method.getParameterTypes().length == 1
+                  && method.getParameterTypes()[0] == String.class
+                  && Modifier.isPublic(method.getModifiers())
+                  && !Modifier.isAbstract(method.getModifiers()),
+              "method must be of the form \"@%s public Predicate<T> %s(String value)\": %s",
+              Operator.class.getSimpleName(),
+              method.getName(),
+              method);
+          String name = Ascii.toLowerCase(method.getName());
+          b.put(name, new ReflectionFactory<>(name, method));
         }
         c = c.getSuperclass();
       }
+      opFactories = b.build();
     }
   }
 

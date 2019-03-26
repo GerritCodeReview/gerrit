@@ -17,11 +17,13 @@ package com.google.gerrit.server.restapi.account;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.extensions.common.HttpPasswordInput;
-import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -31,6 +33,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -60,23 +63,32 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
   private final PermissionBackend permissionBackend;
   private final ExternalIds externalIds;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
+  private final boolean isHttpAuth;
 
   @Inject
   PutHttpPassword(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       ExternalIds externalIds,
-      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
+      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
+      AuthConfig authConfig) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.externalIds = externalIds;
     this.accountsUpdateProvider = accountsUpdateProvider;
+    GitBasicAuthPolicy authPolicy = authConfig.getGitBasicAuthPolicy();
+    this.isHttpAuth =
+        authPolicy == GitBasicAuthPolicy.HTTP || authPolicy == GitBasicAuthPolicy.HTTP_LDAP;
   }
 
   @Override
   public Response<String> apply(AccountResource rsrc, HttpPasswordInput input)
-      throws AuthException, ResourceNotFoundException, ResourceConflictException, OrmException,
-          IOException, ConfigInvalidException, PermissionBackendException {
+      throws RestApiException, OrmException, IOException, ConfigInvalidException,
+          PermissionBackendException {
+    if (!isHttpAuth) {
+      throw new MethodNotAllowedException(
+          "only allowed with git basic auth policy HTTP or HTTP_LDAP");
+    }
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }

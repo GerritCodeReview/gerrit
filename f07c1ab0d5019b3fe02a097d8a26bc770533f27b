@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a670b236_d25bb4f7",
+        "filename": "java/com/google/gerrit/git/testing/PushResultSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-26T08:29:56Z",
+      "side": 1,
+      "message": "Should this be \"trimMessages()\" to match the name of the method being called?",
+      "range": {
+        "startLine": 53,
+        "startChar": 11,
+        "endLine": 53,
+        "endChar": 26
+      },
+      "revId": "f07c1ab0d5019b3fe02a097d8a26bc770533f27b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "842cf0ea_34643d8b",
+        "filename": "java/com/google/gerrit/git/testing/PushResultSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-26T08:29:56Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 60,
+        "startChar": 11,
+        "endLine": 60,
+        "endChar": 26
+      },
+      "revId": "f07c1ab0d5019b3fe02a097d8a26bc770533f27b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

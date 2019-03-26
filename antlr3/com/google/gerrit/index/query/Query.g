@@ -120,12 +120,24 @@ conditionNot
   ;
 conditionBase
   : '('! conditionOr ')'!
-  | (FIELD_NAME ':') => FIELD_NAME^ ':'! fieldValue
+  | (FIELD_NAME COLON) => FIELD_NAME^ COLON! fieldValue
   | fieldValue -> ^(DEFAULT_FIELD fieldValue)
   ;
 
 fieldValue
-  : n=FIELD_NAME   -> SINGLE_WORD[n]
+  // Rewrite by invoking SINGLE_WORD fragment lexer rule, passing the field name as an argument.
+  : n=FIELD_NAME -> SINGLE_WORD[n]
+
+  // Allow field values to contain a colon. We can't do this at the lexer level, because we need to
+  // emit a separate token for the field name. If we were to allow ':' in SINGLE_WORD, then
+  // everything would just lex as DEFAULT_FIELD.
+  //
+  // Field values with a colon may be lexed either as <field>:<rest> or <word>:<rest>, depending on
+  // whether the part before the colon looks like a field name.
+  // TODO(dborowitz): Field values ending in colon still don't work.
+  | (FIELD_NAME COLON) => n=FIELD_NAME COLON fieldValue -> SINGLE_WORD[n] COLON fieldValue
+  | (SINGLE_WORD COLON) => SINGLE_WORD COLON fieldValue
+
   | SINGLE_WORD
   | EXACT_PHRASE
   ;
@@ -133,6 +145,8 @@ fieldValue
 AND: 'AND' ;
 OR:  'OR'  ;
 NOT: 'NOT' ;
+
+COLON: ':' ;
 
 WS
   :  ( ' ' | '\r' | '\t' | '\n' ) { $channel=HIDDEN; }
@@ -172,7 +186,7 @@ fragment NON_WORD
      // '-'  permit
      // '.'  permit
      // '/'  permit
-     | ':'
+     | COLON
      | ';'
      // '<' permit
      // '=' permit

@@ -20,7 +20,8 @@ java_library(
     name = "query_parser",
     srcs = [":query"],
     visibility = [
-        "//java/com/google/gerrit/index:__pkg__",
+        "//java/com/google/gerrit/index:__subpackages__",
+        "//javatests/com/google/gerrit:__subpackages__",
         "//javatests/com/google/gerrit/index:__pkg__",
         "//plugins:__pkg__",
     ],

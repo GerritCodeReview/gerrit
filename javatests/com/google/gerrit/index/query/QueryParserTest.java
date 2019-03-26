@@ -14,7 +14,13 @@
 
 package com.google.gerrit.index.query;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.index.query.QueryParser.AND;
+import static com.google.gerrit.index.query.QueryParser.COLON;
+import static com.google.gerrit.index.query.QueryParser.FIELD_NAME;
+import static com.google.gerrit.index.query.QueryParser.SINGLE_WORD;
+import static com.google.gerrit.index.query.QueryParser.parse;
+import static com.google.gerrit.index.query.testing.TreeSubject.assertThat;
 
 import com.google.gerrit.testing.GerritBaseTests;
 import org.antlr.runtime.tree.Tree;
@@ -22,27 +28,172 @@ import org.junit.Test;
 
 public class QueryParserTest extends GerritBaseTests {
   @Test
-  public void projectBare() throws QueryParseException {
-    Tree r;
-
-    r = parse("project:tools/gerrit");
-    assertSingleWord("project", "tools/gerrit", r);
-
-    r = parse("project:tools/*");
-    assertSingleWord("project", "tools/*", r);
+  public void fieldNameAndValue() throws Exception {
+    Tree r = parse("project:tools/gerrit");
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasText("project");
+    assertThat(r).hasChildCount(1);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("tools/gerrit");
+    assertThat(r).child(0).hasNoChildren();
   }
 
-  private static void assertSingleWord(String name, String value, Tree r) {
-    assertEquals(QueryParser.FIELD_NAME, r.getType());
-    assertEquals(name, r.getText());
-    assertEquals(1, r.getChildCount());
-    final Tree c = r.getChild(0);
-    assertEquals(QueryParser.SINGLE_WORD, c.getType());
-    assertEquals(value, c.getText());
-    assertEquals(0, c.getChildCount());
+  @Test
+  public void fieldNameAndValueThatLooksLikeFieldNameColon() throws Exception {
+    // This should work, but doesn't due to a known issue.
+    assertParseFails("project:foo:");
   }
 
-  private static Tree parse(String str) throws QueryParseException {
-    return QueryParser.parse(str);
+  @Test
+  public void fieldNameAndValueThatLooksLikeFieldNameColonValue() throws Exception {
+    Tree r = parse("project:foo:bar");
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasText("project");
+    assertThat(r).hasChildCount(3);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("foo");
+    assertThat(r).child(0).hasNoChildren();
+    assertThat(r).child(1).hasType(COLON);
+    assertThat(r).child(1).hasText(":");
+    assertThat(r).child(1).hasNoChildren();
+    assertThat(r).child(2).hasType(SINGLE_WORD);
+    assertThat(r).child(2).hasText("bar");
+    assertThat(r).child(2).hasNoChildren();
+  }
+
+  @Test
+  public void fieldNameAndValueThatLooksLikeWordColonValue() throws Exception {
+    Tree r = parse("project:x*y:a*b");
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasText("project");
+    assertThat(r).hasChildCount(3);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("x*y");
+    assertThat(r).child(0).hasNoChildren();
+    assertThat(r).child(1).hasType(COLON);
+    assertThat(r).child(1).hasText(":");
+    assertThat(r).child(1).hasNoChildren();
+    assertThat(r).child(2).hasType(SINGLE_WORD);
+    assertThat(r).child(2).hasText("a*b");
+    assertThat(r).child(2).hasNoChildren();
+  }
+
+  @Test
+  public void fieldNameAndValueThatLooksLikeWordColon() throws Exception {
+    // This should work, but doesn't due to a known issue.
+    assertParseFails("project:x*y:");
+  }
+
+  @Test
+  public void fieldNameAndValueWithMultipleColons() throws Exception {
+    Tree r = parse("project:*:*:*");
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasText("project");
+    assertThat(r).hasChildCount(5);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("*");
+    assertThat(r).child(0).hasNoChildren();
+    assertThat(r).child(1).hasType(COLON);
+    assertThat(r).child(1).hasText(":");
+    assertThat(r).child(1).hasNoChildren();
+    assertThat(r).child(2).hasType(SINGLE_WORD);
+    assertThat(r).child(2).hasText("*");
+    assertThat(r).child(2).hasNoChildren();
+    assertThat(r).child(3).hasType(COLON);
+    assertThat(r).child(3).hasText(":");
+    assertThat(r).child(3).hasNoChildren();
+    assertThat(r).child(4).hasType(SINGLE_WORD);
+    assertThat(r).child(4).hasText("*");
+    assertThat(r).child(4).hasNoChildren();
+  }
+
+  @Test
+  public void fieldNameAndValueWithColonFollowedByAnotherField() throws Exception {
+    Tree r = parse("project:foo:bar file:baz");
+    assertThat(r).hasType(AND);
+    assertThat(r).hasChildCount(2);
+
+    assertThat(r).child(0).hasType(FIELD_NAME);
+    assertThat(r).child(0).hasText("project");
+    assertThat(r).child(0).hasChildCount(3);
+    assertThat(r).child(0).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).child(0).hasText("foo");
+    assertThat(r).child(0).child(0).hasNoChildren();
+    assertThat(r).child(0).child(1).hasType(COLON);
+    assertThat(r).child(0).child(1).hasText(":");
+    assertThat(r).child(0).child(1).hasNoChildren();
+    assertThat(r).child(0).child(2).hasType(SINGLE_WORD);
+    assertThat(r).child(0).child(2).hasText("bar");
+    assertThat(r).child(0).child(2).hasNoChildren();
+
+    assertThat(r).child(1).hasType(FIELD_NAME);
+    assertThat(r).child(1).hasText("file");
+    assertThat(r).child(1).hasChildCount(1);
+    assertThat(r).child(1).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(1).child(0).hasText("baz");
+    assertThat(r).child(1).child(0).hasNoChildren();
+  }
+
+  @Test
+  public void fieldNameAndValueWithColonFollowedByOpenParen() throws Exception {
+    Tree r = parse("project:foo:bar (file:baz)");
+    assertThat(r).hasType(AND);
+    assertThat(r).hasChildCount(2);
+
+    assertThat(r).child(0).hasType(FIELD_NAME);
+    assertThat(r).child(0).hasText("project");
+    assertThat(r).child(0).hasChildCount(3);
+    assertThat(r).child(0).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).child(0).hasText("foo");
+    assertThat(r).child(0).child(0).hasNoChildren();
+    assertThat(r).child(0).child(1).hasType(COLON);
+    assertThat(r).child(0).child(1).hasText(":");
+    assertThat(r).child(0).child(1).hasNoChildren();
+    assertThat(r).child(0).child(2).hasType(SINGLE_WORD);
+    assertThat(r).child(0).child(2).hasText("bar");
+    assertThat(r).child(0).child(2).hasNoChildren();
+
+    assertThat(r).child(1).hasType(FIELD_NAME);
+    assertThat(r).child(1).hasText("file");
+    assertThat(r).child(1).hasChildCount(1);
+    assertThat(r).child(1).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(1).child(0).hasText("baz");
+    assertThat(r).child(1).child(0).hasNoChildren();
+  }
+
+  @Test
+  public void fieldNameAndValueWithColonFollowedByCloseParen() throws Exception {
+    Tree r = parse("(project:foo:bar) file:baz");
+    assertThat(r).hasType(AND);
+    assertThat(r).hasChildCount(2);
+
+    assertThat(r).child(0).hasType(FIELD_NAME);
+    assertThat(r).child(0).hasText("project");
+    assertThat(r).child(0).hasChildCount(3);
+    assertThat(r).child(0).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).child(0).hasText("foo");
+    assertThat(r).child(0).child(0).hasNoChildren();
+    assertThat(r).child(0).child(1).hasType(COLON);
+    assertThat(r).child(0).child(1).hasText(":");
+    assertThat(r).child(0).child(1).hasNoChildren();
+    assertThat(r).child(0).child(2).hasType(SINGLE_WORD);
+    assertThat(r).child(0).child(2).hasText("bar");
+    assertThat(r).child(0).child(2).hasNoChildren();
+
+    assertThat(r).child(1).hasType(FIELD_NAME);
+    assertThat(r).child(1).hasText("file");
+    assertThat(r).child(1).hasChildCount(1);
+    assertThat(r).child(1).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(1).child(0).hasText("baz");
+    assertThat(r).child(1).child(0).hasNoChildren();
+  }
+
+  private static void assertParseFails(String query) {
+    try {
+      parse(query);
+      assert_().fail("expected parse to fail: %s", query);
+    } catch (QueryParseException e) {
+      // Expected.
+    }
   }
 }

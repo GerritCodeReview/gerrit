@@ -70,9 +70,7 @@ public class QueryBuilderTest extends GerritBaseTests {
 
   @Test
   public void fieldWithParenthesizedValues() throws Exception {
-    assertThatParseException("a:(foo bar)")
-        .hasMessageThat()
-        .isEqualTo("line 1:2 no viable alternative at input '('");
+    assertThatParseException("a:(foo bar)").hasMessageThat().contains("no viable alternative");
   }
 
   @Test

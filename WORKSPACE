@@ -74,24 +74,30 @@ go_repository(
     importpath = "github.com/howeyc/fsnotify",
 )
 
-ANTLR_VERS = "3.5.2"
+ANTLR_VERS = "3.2"
 
 maven_jar(
     name = "java-runtime",
     artifact = "org.antlr:antlr-runtime:" + ANTLR_VERS,
-    sha1 = "cd9cd41361c155f3af0f653009dcecb08d8b4afd",
+    sha1 = "31c746001016c6226bd7356c9f87a6a084ce3715",
 )
 
 maven_jar(
     name = "stringtemplate",
-    artifact = "org.antlr:stringtemplate:4.0.2",
-    sha1 = "e28e09e2d44d60506a7bcb004d6c23ff35c6ac08",
+#    artifact = "org.antlr:stringtemplate:" + "4.0.2", # ANTLR_VERS,
+    artifact = "org.antlr:stringtemplate:3.2.1",
+    # sha1 = "6fe2e3bb57daebd1555494818909f9664376dd6c",
+    sha1 = '59ec8083721eae215c6f3caee944c410d2be34de',
+
+    attach_source = False,
 )
 
 maven_jar(
     name = "org-antlr",
+    #sha1 = "c4a65c950bfc3e7d04309c515b2177c00baf7764",
+    #artifact = "org.antlr:antlr:" + "3.5.2",
     artifact = "org.antlr:antlr:" + ANTLR_VERS,
-    sha1 = "c4a65c950bfc3e7d04309c515b2177c00baf7764",
+       sha1 = "6b0acabea7bb3da058200a77178057e47e25cb69",
 )
 
 maven_jar(

@@ -66,16 +66,21 @@
      * @param {Selection} selection A DOM Selection living in the shadow DOM of
      *     the diff element.
      * @param {boolean} isMouseUp If true, this is called due to a mouseup
-     *     event, in which case we might want to immediately create a comment.
+     *     event, in which case we might want to immediately create a comment,
+     *     because isMouseUp === true combined with an existing selection must
+     *     mean that this is the end of a double-click.
      */
     handleSelectionChange(selection, isMouseUp) {
-      // Can't use up or down events to handle selection started and/or ended in
-      // in comment threads or outside of diff.
-      // Debounce removeActionBox to give it a chance to react to click/tap.
-      this._removeActionBoxDebounced();
+      // Debounce is not just nice for waiting until the selection has settled,
+      // it is also vital for being able to click on the action box before it is
+      // removed.
+      // If you wait longer than 50 ms, then you don't properly catch a very
+      // quick 'c' press after the selection change. If you wait less than 10
+      // ms, then you will have about 50 _handleSelection calls when doing a
+      // simple drag for select.
       this.debounce(
           'selectionChange', () => this._handleSelection(selection, isMouseUp),
-          200);
+          10);
     },
 
     _getThreadEl(e) {
@@ -297,50 +302,67 @@
       actionBox.placeBelow(range);
     },
 
-    _handleSelection(selection, isMouseUp) {
-      const normalizedRange = this._getNormalizedRange(selection);
-      if (!normalizedRange) {
-        return;
+    _isRangeValid(range) {
+      if (!range || !range.start || !range.end) {
+        return false;
       }
-      const domRange = selection.getRangeAt(0);
-      /** @type {?} */
-      const start = normalizedRange.start;
-      if (!start) {
-        return;
-      }
-      const end = normalizedRange.end;
-      if (!end) {
-        return;
-      }
+      const start = range.start;
+      const end = range.end;
       if (start.side !== end.side ||
           end.line < start.line ||
           (start.line === end.line && start.column === end.column)) {
+        return false;
+      }
+      return true;
+    },
+
+    _handleSelection(selection, isMouseUp) {
+      const normalizedRange = this._getNormalizedRange(selection);
+      if (!this._isRangeValid(normalizedRange)) {
+        this._removeActionBox();
         return;
       }
+      const domRange = selection.getRangeAt(0);
+      const start = normalizedRange.start;
+      const end = normalizedRange.end;
 
       // TODO (viktard): Drop empty first and last lines from selection.
 
+      // If the selection is from the end of one line to the start of the next
+      // line, then this must have been a double-click, or you have started
+      // dragging. Showing the action box is bad in the former case and not very
+      // useful in the latter, so never do that.
       // If this was a mouse-up event, we create a comment immediately if
       // the selection is from the end of a line to the start of the next line.
-      // Rather than trying to find the line contents, we just check if the
-      // selection is empty to see that it's at the end of a line.
-      // In this case, we select the entire start line.
-      if (isMouseUp && start.line === end.line - 1 && end.column === 0) {
+      // In a perfect world we would only do this for double-click, but it is
+      // extremely rare that a user would drag from the end of one line to the
+      // start of the next and release the mouse, so we don't bother.
+      // TODO(brohlfs): This does not work, if the double-click is before a new
+      // diff chunk (start will be equal to end), and neither before an "expand
+      // the diff context" block (end line will match the first line of the new
+      // section and thus be greater than start line + 1).
+      if (start.line === end.line - 1 && end.column === 0) {
+        // Rather than trying to find the line contents (for comparing
+        // start.column with the content length), we just check if the selection
+        // is empty to see that it's at the end of a line.
         const content = domRange.cloneContents().querySelector('.contentText');
-        if (this._getLength(content) === 0) {
+        if (isMouseUp && this._getLength(content) === 0) {
           this.fire('create-range-comment', {side: start.side, range: {
             start_line: start.line,
             start_character: 0,
             end_line: start.line,
             end_character: start.column,
           }});
-          return;
         }
+        return;
       }
 
-      const actionBox = document.createElement('gr-selection-action-box');
-      const root = Polymer.dom(this.root);
-      root.insertBefore(actionBox, root.firstElementChild);
+      let actionBox = this.$$('gr-selection-action-box');
+      if (!actionBox) {
+        actionBox = document.createElement('gr-selection-action-box');
+        const root = Polymer.dom(this.root);
+        root.insertBefore(actionBox, root.firstElementChild);
+      }
       actionBox.range = {
         start_line: start.line,
         start_character: start.column,
@@ -366,10 +388,6 @@
 
     _createRangeComment(e) {
       this._removeActionBox();
-    },
-
-    _removeActionBoxDebounced() {
-      this.debounce('removeActionBox', this._removeActionBox, 10);
     },
 
     _removeActionBox() {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfa532ad_28f34344",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-26T16:07:15Z",
+      "side": 1,
+      "message": "Were the changes here accidentally included?",
+      "revId": "f35e3ad5d84858fb3f486b04d2c6e0681978ef3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

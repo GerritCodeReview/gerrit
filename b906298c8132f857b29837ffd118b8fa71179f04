@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd24b2a9_54bc3abb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-03-26T21:29:53Z",
+      "side": 1,
+      "message": "ENOPARSE: after another what?",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "b906298c8132f857b29837ffd118b8fa71179f04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

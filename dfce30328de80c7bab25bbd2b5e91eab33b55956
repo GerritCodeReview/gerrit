@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "730dd93f_4d13a036",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-03-27T06:58:08Z",
+      "side": 1,
+      "message": "Nit: Point in the end of this statement, to be consistent with other lines.",
+      "range": {
+        "startLine": 438,
+        "startChar": 15,
+        "endLine": 438,
+        "endChar": 71
+      },
+      "revId": "dfce30328de80c7bab25bbd2b5e91eab33b55956",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

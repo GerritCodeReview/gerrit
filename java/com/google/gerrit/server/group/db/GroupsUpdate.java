@@ -19,6 +19,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.git.LockFailureException;
@@ -40,6 +41,8 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexer;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -94,6 +97,8 @@ public class GroupsUpdate {
      */
     GroupsUpdate createWithServerIdent();
   }
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -258,10 +263,14 @@ public class GroupsUpdate {
   public InternalGroup createGroup(
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws OrmDuplicateKeyException, IOException, ConfigInvalidException {
-    InternalGroup createdGroup = createGroupInNoteDbWithRetry(groupCreation, groupUpdate);
-    updateCachesOnGroupCreation(createdGroup);
-    dispatchAuditEventsOnGroupCreation(createdGroup);
-    return createdGroup;
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Creating group '%s'", groupUpdate.getName().orElseGet(groupCreation::getNameKey))) {
+      InternalGroup createdGroup = createGroupInNoteDbWithRetry(groupCreation, groupUpdate);
+      evictCachesOnGroupCreation(createdGroup);
+      dispatchAuditEventsOnGroupCreation(createdGroup);
+      return createdGroup;
+    }
   }
 
   /**
@@ -276,16 +285,18 @@ public class GroupsUpdate {
    */
   public void updateGroup(AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws OrmDuplicateKeyException, IOException, NoSuchGroupException, ConfigInvalidException {
-    Optional<Timestamp> updatedOn = groupUpdate.getUpdatedOn();
-    if (!updatedOn.isPresent()) {
-      updatedOn = Optional.of(TimeUtil.nowTs());
-      groupUpdate = groupUpdate.toBuilder().setUpdatedOn(updatedOn.get()).build();
-    }
+    try (TraceTimer timer = TraceContext.newTimer("Updating group %s", groupUuid)) {
+      Optional<Timestamp> updatedOn = groupUpdate.getUpdatedOn();
+      if (!updatedOn.isPresent()) {
+        updatedOn = Optional.of(TimeUtil.nowTs());
+        groupUpdate = groupUpdate.toBuilder().setUpdatedOn(updatedOn.get()).build();
+      }
 
-    UpdateResult result = updateGroupInNoteDbWithRetry(groupUuid, groupUpdate);
-    updateNameInProjectConfigsIfNecessary(result);
-    updateCachesOnGroupUpdate(result);
-    dispatchAuditEventsOnGroupUpdate(result, updatedOn.get());
+      UpdateResult result = updateGroupInNoteDbWithRetry(groupUuid, groupUpdate);
+      updateNameInProjectConfigsIfNecessary(result);
+      evictCachesOnGroupUpdate(result);
+      dispatchAuditEventsOnGroupUpdate(result, updatedOn.get());
+    }
   }
 
   private InternalGroup createGroupInNoteDbWithRetry(
@@ -424,7 +435,8 @@ public class GroupsUpdate {
         allUsersName, batchRefUpdate, currentUser.map(user -> user.state()).orElse(null));
   }
 
-  private void updateCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {
+  private void evictCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {
+    logger.atFine().log("evict caches on creation of group %s", createdGroup.getGroupUUID());
     // By UUID is used for the index and hence should be evicted before refreshing the index.
     groupCache.evict(createdGroup.getGroupUUID());
     indexer.get().index(createdGroup.getGroupUUID());
@@ -436,7 +448,8 @@ public class GroupsUpdate {
     createdGroup.getSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
   }
 
-  private void updateCachesOnGroupUpdate(UpdateResult result) throws IOException {
+  private void evictCachesOnGroupUpdate(UpdateResult result) throws IOException {
+    logger.atFine().log("evict caches on update of group %s", result.getGroupUuid());
     // By UUID is used for the index and hence should be evicted before refreshing the index.
     groupCache.evict(result.getGroupUuid());
     indexer.get().index(result.getGroupUuid());

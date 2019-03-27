@@ -60,7 +60,7 @@ older (imperfect) revision is not lost. It can be found via the `git reflog`.
 At least two well-known open source projects insist on these practices:
 
 * link:http://git-scm.com/[Git]
-* link:http://www.kernel.org/category/about.html/[Linux Kernel]
+* link:http://www.kernel.org/category/about.html[Linux Kernel]
 
 However, contributors to these projects don’t refine and polish their changes
 in private until they’re perfect. Instead, polishing code is part of a review

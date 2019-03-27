@@ -16,6 +16,24 @@
       "revId": "a57c0d6e69dcc4ebe1b8202ce348b7b8c1f73b19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc235220_0df5378b",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/ProtobufSerializerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-03-27T10:28:53Z",
+      "side": 1,
+      "message": "Fixing this would make me happy too.",
+      "parentUuid": "c70f15fe_9cdc8b23",
+      "revId": "a57c0d6e69dcc4ebe1b8202ce348b7b8c1f73b19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

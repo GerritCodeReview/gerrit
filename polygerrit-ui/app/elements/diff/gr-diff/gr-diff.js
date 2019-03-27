@@ -719,6 +719,7 @@
     _renderDiffTable() {
       this._unobserveIncrementalNodes();
       if (!this.prefs) {
+        console.error("ASDF no prefs, early return");
         this.dispatchEvent(new CustomEvent('render', {bubbles: true}));
         return;
       }
@@ -726,6 +727,7 @@
           this._diffLength >= LARGE_DIFF_THRESHOLD_LINES &&
           this._safetyBypass === null) {
         this._showWarning = true;
+        console.error("ASDF no context or something, realy return");
         this.dispatchEvent(new CustomEvent('render', {bubbles: true}));
         return;
       }
@@ -735,6 +737,7 @@
       const keyLocations = this._computeKeyLocations();
       this.$.diffBuilder.render(keyLocations, this._getBypassPrefs())
           .then(() => {
+            console.error("ASDF dispatching render after actually rendering");
             this.dispatchEvent(
                 new CustomEvent('render', {bubbles: true}));
           });

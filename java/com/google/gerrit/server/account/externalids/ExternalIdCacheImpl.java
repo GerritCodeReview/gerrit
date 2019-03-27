@@ -122,6 +122,11 @@ class ExternalIdCacheImpl implements ExternalIdCache {
       ObjectId oldNotesRev,
       ObjectId newNotesRev,
       Consumer<SetMultimap<Account.Id, ExternalId>> update) {
+    if (oldNotesRev.equals(newNotesRev)) {
+      // No need to update external id cache since there is no update to those external ids.
+      return;
+    }
+
     lock.lock();
     try {
       SetMultimap<Account.Id, ExternalId> m;

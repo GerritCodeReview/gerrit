@@ -425,7 +425,7 @@ def bundle_assets(*args, **kwargs):
     """Combine html, js, css files and optionally split into js and html bundles."""
     _bundle_rule(pkg = native.package_name(), *args, **kwargs)
 
-def polygerrit_plugin(name, app, srcs = [], deps = [], assets = None, plugin_name = None, **kwargs):
+def polygerrit_plugin(name, app, srcs = [], deps = [], externs = [], assets = None, plugin_name = None, **kwargs):
     """Bundles plugin dependencies for deployment.
 
     This rule bundles all Polymer elements and JS dependencies into .html and .js files.
@@ -435,6 +435,7 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], assets = None, plugin_nam
     Args:
       name: String, rule name.
       app: String, the main or root source file.
+      externs: Fileset, external definitions that should not be bundled.
       assets: Fileset, additional files to be used by plugin in runtime, exported to "plugins/${name}/static".
       plugin_name: String, plugin name. ${name} is used if not provided.
     """
@@ -460,7 +461,7 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], assets = None, plugin_nam
 
     closure_js_library(
         name = name + "_closure_lib",
-        srcs = js_srcs,
+        srcs = js_srcs + externs,
         convention = "GOOGLE",
         no_closure_library = True,
         deps = [

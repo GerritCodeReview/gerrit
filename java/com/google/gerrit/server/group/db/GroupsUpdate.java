@@ -180,7 +180,7 @@ public class GroupsUpdate {
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws OrmDuplicateKeyException, IOException, ConfigInvalidException {
     InternalGroup createdGroup = createGroupInNoteDbWithRetry(groupCreation, groupUpdate);
-    updateCachesOnGroupCreation(createdGroup);
+    evictCachesOnGroupCreation(createdGroup);
     dispatchAuditEventsOnGroupCreation(createdGroup);
     return createdGroup;
   }
@@ -205,7 +205,7 @@ public class GroupsUpdate {
 
     UpdateResult result = updateGroupInNoteDbWithRetry(groupUuid, groupUpdate);
     updateNameInProjectConfigsIfNecessary(result);
-    updateCachesOnGroupUpdate(result);
+    evictCachesOnGroupUpdate(result);
     dispatchAuditEventsOnGroupUpdate(result, updatedOn.get());
   }
 
@@ -345,7 +345,7 @@ public class GroupsUpdate {
         allUsersName, batchRefUpdate, currentUser != null ? currentUser.state() : null);
   }
 
-  private void updateCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {
+  private void evictCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {
     // By UUID is used for the index and hence should be evicted before refreshing the index.
     groupCache.evict(createdGroup.getGroupUUID());
     indexer.get().index(createdGroup.getGroupUUID());
@@ -357,7 +357,7 @@ public class GroupsUpdate {
     createdGroup.getSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
   }
 
-  private void updateCachesOnGroupUpdate(UpdateResult result) throws IOException {
+  private void evictCachesOnGroupUpdate(UpdateResult result) throws IOException {
     // By UUID is used for the index and hence should be evicted before refreshing the index.
     groupCache.evict(result.getGroupUuid());
     indexer.get().index(result.getGroupUuid());

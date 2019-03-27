@@ -2,6 +2,121 @@
   "comments": [
     {
       "key": {
+        "uuid": "02bedd24_d69b58cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "(nit) back up (separate words, because verb, no?)",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aea4f0bd_d5a68e9f",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "(nit) metadata (single word) seems more common in other docs, also more occasions in this file.",
+      "range": {
+        "startLine": 11,
+        "startChar": 53,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ede694e_576754ec",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "(nit) NoteDb or noteDb (first more common in other docs\n\nalso Line 59.",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c4daaed_0b21d0b9",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "perhaps mention that this is only \"account_patch_reviews.h2.db\" (which files have been marked reviewed) when using 2.16+ with NoteDb.",
+      "range": {
+        "startLine": 17,
+        "startChar": 40,
+        "endLine": 17,
+        "endChar": 49
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b1f6085_1aa898b7",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "(nit) Lucene",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 10
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "45e5734c_86154b7f",
         "filename": "Documentation/backup.txt",
         "patchSetId": 1
@@ -25,6 +140,80 @@
     },
     {
       "key": {
+        "uuid": "8351e285_2652d4dd",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "I think it would be good to mention this directory contains several secrets, depending on the installation:\n\n* secure.config, with stuff like LDAP password and auth.registerEmailPrivateKey.\n* SSH host keys (pub+private)\n\nPure \"configuration\" could be treated differently than private keys, so I think it makes sense to point that out.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 57
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa560980_46e94aa5",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "If you\u0027re going to list all the parts of the site directory, I\u0027m missing:\n\n* data/ (used by plugins like the delete-project and the replication plugin, maybe more?)\n* lib/\n* plugins/\n* static/\n* logs/ (logs may still be written to in read-only mode, no?)\n\n(they may depend on your needs, though)",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76b45b81_493c98ad",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "Reading the three paragraphs following this header quickly could lead to the conclusion that you don\u0027t have to worry about consistency when running a newer Gerrit + NoteDb. I suggest the following to improve it, in this order:\n\n* Start with the modern situation, NoteDb enabled, instead of the SQL database.\n* Mention that consistency of the git repositories themselves must be guaranteed by the way the data is copied to a backup location.\n* If running Gerrit with a SQL database, also consistency between the repositories and the SQL server must be guaranteed, by ... [part that\u0027s in the first paragraph now]",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c1cf513_844db852",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "Perhaps add a section about data in the site directory that can be ignored safely, e.g.:\n\n* bin/* (just reinit the site with the release.war, right? does not hurt to back up, though.)\n* tmp/*",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8673fdd_e8a142c8",
         "filename": "Documentation/backup.txt",
         "patchSetId": 1
@@ -36,6 +225,52 @@
       "writtenOn": "2019-03-27T20:19:53Z",
       "side": 1,
       "message": "I don\u0027t think this or \"read-only\" backups are realistic in production. We certainly can\u0027t afford this. So while I agree that we should document how to make consistent backups, I suspect that the reality is that no-one can actually do this in practice. Should we have a section on what people are actually doing also?",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9ed14aa_847b102e",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "(nit) I\u0027m not sure I would use the word \u0027Take\u0027, perhaps \u0027Run\u0027? But I\u0027m not a native English speaker, so perhaps ignore this.",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 8
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c29b8849_3c1579e7",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "suggestion:\n\n, because only write operations have to be stopped to ensure consistency.",
+      "range": {
+        "startLine": 74,
+        "startChar": 32,
+        "endLine": 74,
+        "endChar": 75
+      },
       "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -59,6 +294,87 @@
     },
     {
       "key": {
+        "uuid": "a6148b1d_9869c93b",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "I wonder about this too. I would consider non-atomicity for the submitWholeTopic feature a minor issue, but ref updates in All-Users happen very frequently (draft comments), so I guess you could run into issues?",
+      "parentUuid": "da9cba84_5725b668",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaa24095_5a13e80b",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "(nit) set up (separately, because verb, no?)",
+      "range": {
+        "startLine": 82,
+        "startChar": 41,
+        "endLine": 82,
+        "endChar": 46
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20fb9698_171e2622",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "(nit) in the SQL database",
+      "range": {
+        "startLine": 83,
+        "startChar": 12,
+        "endLine": 83,
+        "endChar": 17
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d47e22ad_6beaee17",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "But how would you ensure you stop both replication of the git repositories AND the SQL server at the very same time? I think this is impossible to do properly, so we might need as well to only suggest this for NoteDb-only installations.",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83106a71_1e6042ca",
         "filename": "Documentation/backup.txt",
         "patchSetId": 1
@@ -70,6 +386,24 @@
       "writtenOn": "2019-03-27T20:19:53Z",
       "side": 1,
       "message": "I\u0027m not sure this particular scenario makes it any worse, if the project is deleted on the master it will be gone from any backups taken there also. Additionally, I don\u0027t know that replication would ever delete a project?",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2108fd4c_a6065bb5",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "\u003e if the project is deleted on the master it will be gone from any backups taken there also.\n\n? I\u0027m not sure how you take the backups, but I guess it\u0027s not okay. Proper backups allow you to go back in time, also when deletes have happened. Never even start overwriting an existing backup even.",
+      "parentUuid": "83106a71_1e6042ca",
       "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -110,6 +444,29 @@
     },
     {
       "key": {
+        "uuid": "0c2729ba_94b763ce",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "For this option, you would not even need the whole circus around stopping the server or having a replica. It will allow you to take hot backups in certain configurations with just a single master!\n\n* NoteDb-only: just snapshot the whole site directory is the most straight-forward.\n* With an SQL database: similar, but the data of the database should be stored on the very same volume on the same machine, so that the snapshot is taken atomically over the both the git data and the database data.\n\nBecause everything should be ACID, it can safely crash-recover - as if the power has been plugged and the server got booted up again. (Actually more safe than that, because filesystem knows about taking the snapshot, and also about the pending writes it can sync.)\n\n+ in addition to that, perhaps mention that some of those options allow you to...:\n\n* easy \u0026 fast roll back without having to access your remote backup data (e.g. accidental rm -rf git/ back in seconds).\n* incremental transfers of consistent snapshots\n* save a lot of data while still keeping numerous \"known consistent states\".\n\nBut also I would prefer not to elaborate too much about it, since we\u0027re not providing general OPS documentation. :-)",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 48
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "610e8884_911642d2",
         "filename": "Documentation/backup.txt",
         "patchSetId": 1
@@ -121,6 +478,23 @@
       "writtenOn": "2019-03-27T20:19:53Z",
       "side": 1,
       "message": "Seems like we probably should also talk about how to restore from backups? We have been restoring our backups weekly to our CI system and we often struggle with this.",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e46ebaf_474b0ef6",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-03-27T23:50:45Z",
+      "side": 1,
+      "message": "Hmm, I think this \"disaster\" part is very broad and could be worded more specific. Did you mean to refer to the following?\n\nA HA-setup offering a hot standby at a remote off-site location. Ready to take over when a whole server or data center location is destroyed.",
       "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

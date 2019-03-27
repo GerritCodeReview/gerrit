@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45e5734c_86154b7f",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-03-27T20:19:53Z",
+      "side": 1,
+      "message": "production",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8673fdd_e8a142c8",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-03-27T20:19:53Z",
+      "side": 1,
+      "message": "I don\u0027t think this or \"read-only\" backups are realistic in production. We certainly can\u0027t afford this. So while I agree that we should document how to make consistent backups, I suspect that the reality is that no-one can actually do this in practice. Should we have a section on what people are actually doing also?",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da9cba84_5725b668",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-03-27T20:19:53Z",
+      "side": 1,
+      "message": "Does this actual ensure consistency? Could updates to one project/ref be tied to updates from another and thus still be inconsistent with replication halted?",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83106a71_1e6042ca",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-03-27T20:19:53Z",
+      "side": 1,
+      "message": "I\u0027m not sure this particular scenario makes it any worse, if the project is deleted on the master it will be gone from any backups taken there also. Additionally, I don\u0027t know that replication would ever delete a project?",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a89a40df_23c4111f",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-03-27T20:19:53Z",
+      "side": 1,
+      "message": "* Plain old cp?\n* rsync?",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ce6dd9c_91025e6d",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-03-27T20:19:53Z",
+      "side": 1,
+      "message": "(or NFS with snapshots?)",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "610e8884_911642d2",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-03-27T20:19:53Z",
+      "side": 1,
+      "message": "Seems like we probably should also talk about how to restore from backups? We have been restoring our backups weekly to our CI system and we often struggle with this.",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

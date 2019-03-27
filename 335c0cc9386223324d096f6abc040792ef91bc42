@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1495060_0c04126d",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-03-27T10:41:15Z",
+      "side": 1,
+      "message": "would be good to have a test here. If this is the cause of all the problems, we should make sure it doesn\u0027t regress.",
+      "revId": "335c0cc9386223324d096f6abc040792ef91bc42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

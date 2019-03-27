@@ -184,6 +184,13 @@
         type: Number,
         computed: '_computeParentIndex(patchRange.*)',
       },
+
+      /** @type {?Object} */
+      _contentGenerator: Object,
+      /** @type {?Object} */
+      _baseGeneratedContent: Object,
+      /** @type {?Object} */
+      _revisionGeneratedContent: Object,
     },
 
     behaviors: [
@@ -226,7 +233,9 @@
       this._errorMessage = null;
       const whitespaceLevel = this._getIgnoreWhitespace();
 
-      const diffRequest = this._getDiff()
+      const generateRequest = this._maybeGenerateContent();
+
+      const diffRequest = generateRequest.then( () => { return this._getDiff(); })
           .then(diff => {
             this._loadedWhitespaceLevel = whitespaceLevel;
             this._reportDiff(diff);
@@ -354,6 +363,63 @@
           !this.noAutoRender;
     },
 
+    /** @return {!Promise} */
+    _maybeGenerateContent() {
+      const contentGenerators = this.$.jsAPI.getContentGenerators(this.path);
+      if (contentGenerators.length) {
+        this._contentGenerator = contentGenerators[0];
+      } else if (this.$.jsAPI.getNumContentRequiredContentGenerators() === 0) {
+        // If we don't already have a content generator and don't have any
+        // more potential content generators if we fetch file contents, then
+        // we know we don't need to generate any content.
+        return Promise.resolve();
+      }
+
+      // We need to check if the content actually exists for a revision before
+      // attempting to fetch the file contents.
+      const baseContentRequest = this.$.restAPI.getFileContent(
+          this.changeNum, this.path, this.patchRange.basePatchNum).then(res => {
+            if (!res.ok) {
+              return Promise.resolve({});
+            }
+            return this.$.restAPI.getB64FileContents(
+                this.changeNum, this.patchRange.basePatchNum, this.path);
+          });
+      const revisionContentRequest = this.$.restAPI.getFileContent(
+          this.changeNum, this.path, this.patchRange.patchNum).then(res => {
+            if (!res.ok) {
+              return Promise.resolve({});
+            }
+            return this.$.restAPI.getB64FileContents(
+                this.changeNum, this.patchRange.patchNum, this.path);
+          });
+      /*const baseContentRequest = this.$.restAPI.getB64FileContents(
+          this.changeNum, this.patchRange.basePatchNum, this.path);*/
+      /*const revisionContentRequest = this.$.restAPI.getB64FileContents(
+          this.changeNum, this.patchRange.patchNum, this.path);*/
+
+      const contentRequest = Promise.all(
+          [baseContentRequest, revisionContentRequest]);
+      // TODO: Catch rejections
+      // TODO: Handle different generators for base and revision?
+      const contentGenerationPromise = contentRequest.then( (responses) => {
+        const baseResponse = responses[0];
+        const revisionResponse = responses[1];
+        // TODO: Hangle ContentRequiredContentGenerators
+        const baseGeneratedContentPromise = this._contentGenerator.generateContent(
+            this.path, baseResponse.body || null);
+        const revisionGeneratedContentPromise = this._contentGenerator.generateContent(
+            this.path, revisionResponse.body || null);
+        return Promise.all([baseGeneratedContentPromise, revisionGeneratedContentPromise]);
+      });
+
+      return contentGenerationPromise.then( content => {
+        this._baseGeneratedContent = content[0];
+        this._revisionGeneratedContent = content[1];
+        return Promise.resolve();
+      });
+    },
+
     /** @return {!Promise<!Object>} */
     _getDiff() {
       // Wrap the diff request in a new promise so that the error handler
@@ -434,7 +500,13 @@
      * @return {!Promise}
      */
     _loadDiffAssets(diff) {
-      if (isImageDiff(diff)) {
+      if (this._computeIsImageDiff(diff)) {
+        if (this._contentGenerator &&
+            this._contentGenerator.isImageType()) {
+          this._baseImage = this._baseGeneratedContent;
+          this._revisionImage = this._revisionGeneratedContent;
+          return Promise.resolve();
+        }
         return this._getImages(diff).then(images => {
           this._baseImage = images.baseImage;
           this._revisionImage = images.revisionImage;
@@ -451,6 +523,9 @@
      * @return {boolean}
      */
     _computeIsImageDiff(diff) {
+      if (this._contentGenerator) {
+        return this._contentGenerator.isImageType();
+      }
       return isImageDiff(diff);
     },
 

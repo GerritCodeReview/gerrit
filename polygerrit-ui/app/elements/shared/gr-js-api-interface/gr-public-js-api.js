@@ -283,6 +283,10 @@
     return new GrAnnotationActionsInterface(this);
   };
 
+  Plugin.prototype.generatedContentApi = function() {
+    return new GrGeneratedContentInterface(this);
+  };
+
   Plugin.prototype.changeActions = function() {
     return new GrChangeActionsInterface(this,
       Plugin._sharedAPIElement.getElement(

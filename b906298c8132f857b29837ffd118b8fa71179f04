@@ -22,6 +22,69 @@
       "revId": "b906298c8132f857b29837ffd118b8fa71179f04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2b2de0a_9d464f16",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-27T08:01:10Z",
+      "side": 1,
+      "message": "I still do not understand this - why does the selection need 50ms to settle? Have you tried not passing a time? In that case, it will be on the next microtask, which probably means selection has settled at that point...",
+      "range": {
+        "startLine": 82,
+        "startChar": 10,
+        "endLine": 82,
+        "endChar": 12
+      },
+      "revId": "b906298c8132f857b29837ffd118b8fa71179f04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c68dfd2_0effc84c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-27T08:01:10Z",
+      "side": 1,
+      "message": "What\u0027s a diff section?",
+      "revId": "b906298c8132f857b29837ffd118b8fa71179f04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71bd02a4_b6a803b9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-03-27T08:01:10Z",
+      "side": 1,
+      "message": "What\u0027s a diff area? A chunk?",
+      "range": {
+        "startLine": 340,
+        "startChar": 9,
+        "endLine": 340,
+        "endChar": 18
+      },
+      "revId": "b906298c8132f857b29837ffd118b8fa71179f04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

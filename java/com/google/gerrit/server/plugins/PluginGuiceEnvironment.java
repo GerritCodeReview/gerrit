@@ -23,6 +23,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.extensions.annotations.RootRelative;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -226,7 +227,8 @@ public class PluginGuiceEnvironment {
     return httpModule != null;
   }
 
-  Module getHttpModule() {
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public Module getHttpModule() {
     return httpModule;
   }
 

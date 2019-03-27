@@ -2454,7 +2454,7 @@ As response a list of link:#change-message-info[ChangeMessageInfo] entities is r
 Retrieves a change message including link:#detailed-accounts[detailed account information].
 
 --
-'GET /changes/link:#change-id[\{change-id\}]/message/link:#change-message-id[\{change-message-id\}]'
+'GET /changes/link:#change-id[\{change-id\}]/messages/link:#change-message-id[\{change-message-id\}]'
 --
 
 As response a link:#change-message-info[ChangeMessageInfo] entity is returned.
@@ -2483,8 +2483,8 @@ As response a link:#change-message-info[ChangeMessageInfo] entity is returned.
 [[delete-change-message]]
 === Delete Change Message
 --
-'DELETE /changes/link:#change-id[\{change-id\}]/message/link:#change-message-id[\{change-message-id\}]' +
-'POST /changes/link:#change-id[\{change-id\}]//message/link:#change-message-id[\{change-message-id\}]/delete'
+'DELETE /changes/link:#change-id[\{change-id\}]/messages/link:#change-message-id[\{change-message-id\}]' +
+'POST /changes/link:#change-id[\{change-id\}]/messages/link:#change-message-id[\{change-message-id\}]/delete'
 --
 
 Deletes a change message by replacing the change message with a new message,
@@ -2500,14 +2500,14 @@ To delete a change message, send a DELETE request:
 
 .Request
 ----
-  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/message/aaee04dcb46bafc8be24d8aa70b3b1beb7df5780 HTTP/1.0
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/messages/aaee04dcb46bafc8be24d8aa70b3b1beb7df5780 HTTP/1.0
 ----
 
 To provide a reason for the deletion, use a POST request:
 
 .Request
 ----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/message/aaee04dcb46bafc8be24d8aa70b3b1beb7df5780/delete HTTP/1.0
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/messages/aaee04dcb46bafc8be24d8aa70b3b1beb7df5780/delete HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   {

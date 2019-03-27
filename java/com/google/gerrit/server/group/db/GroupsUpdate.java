@@ -40,6 +40,8 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexer;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -182,10 +184,14 @@ public class GroupsUpdate {
   public InternalGroup createGroup(
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws OrmDuplicateKeyException, IOException, ConfigInvalidException {
-    InternalGroup createdGroup = createGroupInNoteDbWithRetry(groupCreation, groupUpdate);
-    evictCachesOnGroupCreation(createdGroup);
-    dispatchAuditEventsOnGroupCreation(createdGroup);
-    return createdGroup;
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Creating group '%s'", groupUpdate.getName().orElseGet(groupCreation::getNameKey))) {
+      InternalGroup createdGroup = createGroupInNoteDbWithRetry(groupCreation, groupUpdate);
+      evictCachesOnGroupCreation(createdGroup);
+      dispatchAuditEventsOnGroupCreation(createdGroup);
+      return createdGroup;
+    }
   }
 
   /**
@@ -200,16 +206,18 @@ public class GroupsUpdate {
    */
   public void updateGroup(AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws OrmDuplicateKeyException, IOException, NoSuchGroupException, ConfigInvalidException {
-    Optional<Timestamp> updatedOn = groupUpdate.getUpdatedOn();
-    if (!updatedOn.isPresent()) {
-      updatedOn = Optional.of(TimeUtil.nowTs());
-      groupUpdate = groupUpdate.toBuilder().setUpdatedOn(updatedOn.get()).build();
-    }
+    try (TraceTimer timer = TraceContext.newTimer("Updating group %s", groupUuid)) {
+      Optional<Timestamp> updatedOn = groupUpdate.getUpdatedOn();
+      if (!updatedOn.isPresent()) {
+        updatedOn = Optional.of(TimeUtil.nowTs());
+        groupUpdate = groupUpdate.toBuilder().setUpdatedOn(updatedOn.get()).build();
+      }
 
-    UpdateResult result = updateGroupInNoteDbWithRetry(groupUuid, groupUpdate);
-    updateNameInProjectConfigsIfNecessary(result);
-    evictCachesOnGroupUpdate(result);
-    dispatchAuditEventsOnGroupUpdate(result, updatedOn.get());
+      UpdateResult result = updateGroupInNoteDbWithRetry(groupUuid, groupUpdate);
+      updateNameInProjectConfigsIfNecessary(result);
+      evictCachesOnGroupUpdate(result);
+      dispatchAuditEventsOnGroupUpdate(result, updatedOn.get());
+    }
   }
 
   private InternalGroup createGroupInNoteDbWithRetry(

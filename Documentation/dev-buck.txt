@@ -3,7 +3,7 @@
 
 == Installation
 
-You need to use Java 7 and Node.js for building gerrit.
+You need to use Java 8 and Node.js for building gerrit.
 
 There is currently no binary distribution of Buck, so it has to be manually
 built and installed.  Apache Ant and gcc are required.  Currently only Linux

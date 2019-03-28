@@ -109,12 +109,12 @@ public class ChangeMessagesUtil {
    * rather than an ID allowed us to delete the message from both NoteDb and ReviewDb.
    *
    * @param update change update.
-   * @param targetMessageIdx the index of the target change message.
+   * @param targetMessageId the id of the target change message.
    * @param newMessage the new message which is going to replace the old.
    */
   // TODO(xchangcheng): Reconsider implementation now that there is only a single ID.
-  public void replaceChangeMessage(ChangeUpdate update, int targetMessageIdx, String newMessage) {
-    update.deleteChangeMessageByRewritingHistory(targetMessageIdx, newMessage);
+  public void replaceChangeMessage(ChangeUpdate update, String targetMessageId, String newMessage) {
+    update.deleteChangeMessageByRewritingHistory(targetMessageId, newMessage);
   }
 
   /**

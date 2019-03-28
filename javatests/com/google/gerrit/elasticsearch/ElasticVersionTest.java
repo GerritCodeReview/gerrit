@@ -40,6 +40,9 @@ public class ElasticVersionTest extends GerritBaseTests {
     assertThat(ElasticVersion.forVersion("6.6.0")).isEqualTo(ElasticVersion.V6_6);
     assertThat(ElasticVersion.forVersion("6.6.1")).isEqualTo(ElasticVersion.V6_6);
 
+    assertThat(ElasticVersion.forVersion("6.7.0")).isEqualTo(ElasticVersion.V6_7);
+    assertThat(ElasticVersion.forVersion("6.7.1")).isEqualTo(ElasticVersion.V6_7);
+
     assertThat(ElasticVersion.forVersion("7.0.0")).isEqualTo(ElasticVersion.V7_0);
     assertThat(ElasticVersion.forVersion("7.0.1")).isEqualTo(ElasticVersion.V7_0);
   }

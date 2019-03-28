@@ -41,7 +41,7 @@ public class ElasticV6QueryGroupsTest extends AbstractQueryGroupsTest {
       return;
     }
 
-    container = ElasticContainer.createAndStart(ElasticVersion.V6_6);
+    container = ElasticContainer.createAndStart(ElasticVersion.V6_7);
     nodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
   }
 

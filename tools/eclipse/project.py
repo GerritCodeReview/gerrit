@@ -254,6 +254,7 @@ def gen_classpath(ext):
 
     for p in sorted(proto):
         s = p.replace('-fastbuild/bin/proto/lib', '-fastbuild/genfiles/proto/')
+        s = p.replace('-fastbuild/bin/proto/testing/lib', '-fastbuild/genfiles/proto/testing/')
         s = s.replace('.jar', '-src.jar')
         classpathentry('lib', p, s)
 

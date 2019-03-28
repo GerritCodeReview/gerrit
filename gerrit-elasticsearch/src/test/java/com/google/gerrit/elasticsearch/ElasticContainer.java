@@ -51,7 +51,7 @@ public class ElasticContainer extends ElasticsearchContainer {
       case V6_7:
         return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.7.0";
       case V7_0:
-        return "docker.elastic.co/elasticsearch/elasticsearch-oss:7.0.0-beta1";
+        return "docker.elastic.co/elasticsearch/elasticsearch-oss:7.0.0-rc1";
     }
     throw new IllegalStateException("No tests for version: " + version.name());
   }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "51e7eee9_ec0dc244",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 1068922
+      },
+      "writtenOn": "2019-03-28T17:50:13Z",
+      "side": 1,
+      "message": "this is a good question. I took it to mean that it looks at all applicable sets of permission/group/ref sets (also a term I can\u0027t seem to find in this file, but I\u0027m sure I\u0027ve seen before in the documentation).\n\nI copied and pasted the verbiage from line 242, but would like to improve it using correct terms if there are better terms to use. Suggestions?",
+      "parentUuid": "80e97bb9_8feaa124",
+      "range": {
+        "startLine": 1092,
+        "startChar": 75,
+        "endLine": 1093,
+        "endChar": 69
+      },
+      "revId": "023ac66955368ce309b0593f13a37b47839172c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec7b4d8d_a46d0ab5",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2019-03-28T17:27:32Z",
       "side": 1,
       "message": "\"access right\" is not an entity in the permission system. Can you rephrase as using the official terminology ?",
+      "range": {
+        "startLine": 1095,
+        "startChar": 7,
+        "endLine": 1095,
+        "endChar": 20
+      },
+      "revId": "023ac66955368ce309b0593f13a37b47839172c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9145b2c_ace60a64",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1068922
+      },
+      "writtenOn": "2019-03-28T17:50:13Z",
+      "side": 1,
+      "message": "Ack. Can you point me to the canonical terminology?\n\n  grep -c \u0027access rights\u0027 Documentation/access-control.txt\n  35",
+      "parentUuid": "ec7b4d8d_a46d0ab5",
       "range": {
         "startLine": 1095,
         "startChar": 7,
@@ -68,6 +116,30 @@
       "revId": "023ac66955368ce309b0593f13a37b47839172c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b43556c_230760e5",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1140,
+      "author": {
+        "id": 1068922
+      },
+      "writtenOn": "2019-03-28T17:50:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a49c4a02_a7b91176",
+      "range": {
+        "startLine": 1140,
+        "startChar": 56,
+        "endLine": 1140,
+        "endChar": 76
+      },
+      "revId": "023ac66955368ce309b0593f13a37b47839172c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

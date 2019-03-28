@@ -1089,21 +1089,43 @@ non-blocked rules as they wish. This gives best of both worlds:
 [[block]]
 === 'BLOCK' access rule
 
-The 'BLOCK' rule blocks a permission globally. An inherited 'BLOCK'
-rule cannot be overridden in the inheriting project. Any 'ALLOW' rule
-from an inheriting project, which conflicts with an inherited 'BLOCK'
-rule will not be honored. Searching for 'BLOCK' rules, in the chain
-of parent projects, ignores the Exclusive flag, unless the rule with
-the Exclusive flag is defined on the same project as the 'BLOCK'
-rule. This means within the same project a 'BLOCK' rule can be
-overruled by 'ALLOW' rules on the same access section and 'ALLOW'
-rules with Exclusive flag on access section for more specific refs.
+The 'BLOCK' rule can be used to take away rights from users. The BLOCK rule
+works across project inheritance, from the top down, so an administrator can
+use 'BLOCK' rules to enforce site-wide restrictions.
+
+For example, if a user in the 'Foo Users' group tries to push to
+'refs/heads/mater' with the permissions below, that user will be blocked
+
+[options="header"]
+|=========================================================================
+|Project      | Inherits From    |Reference Name |Permissions            |
+|All-Projects | -                |refs/*         |push = block Foo Users |
+|Foo          | All-Projects     |refs/heads/*   |push = Foo Users       |
+|=========================================================================
+
+'BLOCK' rules are evaluated starting from the parent project, and after a 'BLOCK'
+rule is found to apply, further rules are ignored. Hence, in this example, the
+permissions on child-project is ignored.
+
+----
+All-Projects: project.config
+  [access "refs/heads/*"]
+    push = block group X
+
+child-project: project.config
+  [access "refs/heads/*"]
+    exclusiveGroupPermissions = push
+    push = group X
+----
+
+In this case push for group 'X' will be blocked, even though the Exclusive
+flag was set for the child-project.
 
 A 'BLOCK' rule that blocks the 'push' permission blocks any type of push,
 force or not. A blocking force push rule blocks only force pushes, but
 allows non-forced pushes if an 'ALLOW' rule would have permitted it.
 
-It is also possible to block label ranges.  To block a group 'X' from voting
+It is also possible to block label ranges. To block a group 'X' from voting
 '-2' and '+2', but keep their existing voting permissions for the '-1..+1'
 range intact we would define:
 
@@ -1129,6 +1151,24 @@ the same permission then this 'ALLOW' rule overrides the 'BLOCK' rule:
 
 In this case a user which is a member of the group 'Y' will still be allowed to
 push to 'refs/heads/*' even if it is a member of the group 'X'.
+
+=== 'BLOCK' and 'ALLOW' rules in the same project with the Exclusive flag
+
+When a project contains a 'BLOCK' and 'ALLOW' that uses the Exclusive flag in a
+more specific reference, the 'ALLOW' rule with the Exclusive flag will override
+the 'BLOCK' rule:
+
+----
+  [access "refs/*"]
+    read = block group X
+
+  [access "refs/heads/*"]
+    exclusiveGroupPermissions = read
+    read = group X
+----
+
+In this case a user which is a member of the group 'X' will still be allowed to
+read 'refs/heads/*'.
 
 [NOTE]
 An 'ALLOW' rule overrides a 'BLOCK' rule only when both of them are

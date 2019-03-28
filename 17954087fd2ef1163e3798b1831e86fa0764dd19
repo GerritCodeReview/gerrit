@@ -22,6 +22,30 @@
       "revId": "17954087fd2ef1163e3798b1831e86fa0764dd19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67ee765d_26238c2d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 1068922
+      },
+      "writtenOn": "2019-03-28T16:56:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99fa123f_5c1c4b98",
+      "range": {
+        "startLine": 1094,
+        "startChar": 0,
+        "endLine": 1094,
+        "endChar": 9
+      },
+      "revId": "17954087fd2ef1163e3798b1831e86fa0764dd19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

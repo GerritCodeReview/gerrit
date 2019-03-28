@@ -20,6 +20,8 @@
 [java]
   jar_spool_mode = direct_to_jar
   src_roots = java, resources, src
+  source_level = 8
+  target_level = 8
 
 [project]
   ignore = .git, eclipse-out, bazel-gerrit, bin

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80e97bb9_8feaa124",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-03-28T17:27:32Z",
+      "side": 1,
+      "message": "what does \"from the full set .. \" mean exactly?",
+      "range": {
+        "startLine": 1092,
+        "startChar": 75,
+        "endLine": 1093,
+        "endChar": 69
+      },
+      "revId": "023ac66955368ce309b0593f13a37b47839172c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec7b4d8d_a46d0ab5",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-03-28T17:27:32Z",
+      "side": 1,
+      "message": "\"access right\" is not an entity in the permission system. Can you rephrase as using the official terminology ?",
+      "range": {
+        "startLine": 1095,
+        "startChar": 7,
+        "endLine": 1095,
+        "endChar": 20
+      },
+      "revId": "023ac66955368ce309b0593f13a37b47839172c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a49c4a02_a7b91176",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1140,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-03-28T17:27:32Z",
+      "side": 1,
+      "message": "? how could things in the same access section be in different projects?",
+      "range": {
+        "startLine": 1140,
+        "startChar": 56,
+        "endLine": 1140,
+        "endChar": 76
+      },
+      "revId": "023ac66955368ce309b0593f13a37b47839172c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

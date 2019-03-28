@@ -131,6 +131,20 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void listChangeMessagesSkippedEmpty() throws Exception {
+    // Change message 1: create a change.
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    // Will be a new commit with empty change message on the meta branch.
+    addOneReviewWithEmptyChangeMessage(changeId);
+    // Change Message 2: post a review with message "message 1".
+    addOneReview(changeId, "message");
+
+    List<ChangeMessageInfo> messages = gApi.changes().id(changeId).messages();
+    assertThat(messages).hasSize(2);
+  }
+
+  @Test
   public void getOneChangeMessage() throws Exception {
     int changeNum = createOneChangeWithMultipleChangeMessagesInHistory();
     List<ChangeMessageInfo> messages = new ArrayList<>(gApi.changes().id(changeNum).get().messages);
@@ -217,21 +231,27 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     // Commit 1: create a change.
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
-    // Commit 2: post a review with message "message 1".
+    // Commit 2: post an empty change message.
     requestScopeOperations.setApiUser(admin.getId());
+    addOneReviewWithEmptyChangeMessage(changeId);
+    // Commit 3: post a review with message "message 1".
     addOneReview(changeId, "message 1");
-    // Commit 3: amend a new patch set.
+    // Commit 4: amend a new patch set.
     requestScopeOperations.setApiUser(user.getId());
     amendChange(changeId);
-    // Commit 4: post a review with message "message 2".
+    // Commit 5: post a review with message "message 2".
     addOneReview(changeId, "message 2");
-    // Commit 5: amend a new patch set.
+    // Commit 6: amend a new patch set.
     amendChange(changeId);
-    // Commit 6: approve the change.
+    // Commit 7: approve the change.
     requestScopeOperations.setApiUser(admin.getId());
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
-    // commit 7: submit the change.
+    // commit 8: submit the change.
     gApi.changes().id(changeId).current().submit();
+
+    // Verifies there is only 7 change messages although there are 8 commits.
+    List<ChangeMessageInfo> messages = gApi.changes().id(changeId).messages();
+    assertThat(messages).hasSize(7);
 
     return result.getChange().getId().get();
   }
@@ -247,6 +267,10 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     reviewInput.message = changeMessage;
 
     gApi.changes().id(changeId).current().review(reviewInput);
+  }
+
+  private void addOneReviewWithEmptyChangeMessage(String changeId) throws Exception {
+    gApi.changes().id(changeId).current().review(new ReviewInput());
   }
 
   private void deleteOneChangeMessage(
@@ -273,8 +297,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     assertThat(changes.stream().map(c -> c._number).collect(toSet())).contains(changeNum);
 
     // Verifies states of commits.
-    assertMetaCommitsAfterDeletion(
-        commitsBefore, changeNum, deletedMessageIndex, deletedBy, reason);
+    assertMetaCommitsAfterDeletion(commitsBefore, changeNum, id, deletedBy, reason);
   }
 
   private void assertMessagesAfterDeletion(
@@ -313,7 +336,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   private void assertMetaCommitsAfterDeletion(
       List<RevCommit> commitsBeforeDeletion,
       int changeNum,
-      int deletedMessageIndex,
+      String deletedMessageId,
       TestAccount deletedBy,
       String deleteReason)
       throws Exception {
@@ -324,7 +347,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     for (int i = 0; i < commitsBeforeDeletion.size(); i++) {
       RevCommit commitBefore = commitsBeforeDeletion.get(i);
       RevCommit commitAfter = commitsAfterDeletion.get(i);
-      if (i == deletedMessageIndex) {
+      if (commitBefore.getId().getName().equals(deletedMessageId)) {
         byte[] rawBefore = commitBefore.getRawBuffer();
         byte[] rawAfter = commitAfter.getRawBuffer();
         Charset encodingBefore = RawParseUtils.parseEncoding(rawBefore);

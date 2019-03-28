@@ -91,7 +91,7 @@ public class DeleteChangeMessage
     String newChangeMessage =
         createNewChangeMessage(user.asIdentifiedUser().getName(), input.reason);
     DeleteChangeMessageOp deleteChangeMessageOp =
-        new DeleteChangeMessageOp(resource.getChangeMessageIndex(), newChangeMessage);
+        new DeleteChangeMessageOp(resource.getChangeMessageId(), newChangeMessage);
     try (BatchUpdate batchUpdate =
         updateFactory.create(resource.getChangeResource().getProject(), user, TimeUtil.nowTs())) {
       batchUpdate.addOp(resource.getChangeId(), deleteChangeMessageOp).execute();
@@ -130,18 +130,18 @@ public class DeleteChangeMessage
   }
 
   private class DeleteChangeMessageOp implements BatchUpdateOp {
-    private final int targetMessageIdx;
+    private final String targetMessageId;
     private final String newMessage;
 
-    DeleteChangeMessageOp(int targetMessageIdx, String newMessage) {
-      this.targetMessageIdx = targetMessageIdx;
+    DeleteChangeMessageOp(String targetMessageIdx, String newMessage) {
+      this.targetMessageId = targetMessageIdx;
       this.newMessage = newMessage;
     }
 
     @Override
     public boolean updateChange(ChangeContext ctx) {
       PatchSet.Id psId = ctx.getChange().currentPatchSetId();
-      changeMessagesUtil.replaceChangeMessage(ctx.getUpdate(psId), targetMessageIdx, newMessage);
+      changeMessagesUtil.replaceChangeMessage(ctx.getUpdate(psId), targetMessageId, newMessage);
       return true;
     }
   }

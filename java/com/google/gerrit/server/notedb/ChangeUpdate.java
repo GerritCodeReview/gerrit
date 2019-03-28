@@ -368,9 +368,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         deleteCommentRewriterFactory.create(getChange().getId(), uuid, newMessage);
   }
 
-  public void deleteChangeMessageByRewritingHistory(int targetMessageIdx, String newMessage) {
+  public void deleteChangeMessageByRewritingHistory(String targetMessageId, String newMessage) {
     deleteChangeMessageRewriter =
-        new DeleteChangeMessageRewriter(getChange().getId(), targetMessageIdx, newMessage);
+        new DeleteChangeMessageRewriter(getChange().getId(), targetMessageId, newMessage);
   }
 
   @VisibleForTesting

@@ -121,6 +121,7 @@
   const MAX_PROJECT_RESULTS = 25;
   const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
   const PARENT_PATCH_NUM = 'PARENT';
+  const AUTOMERGE_PARENT_PATCH_NUM = 'AutoMerge';
   const FAILED_TO_FETCH_ERROR = 'Failed to fetch';
 
   const Requests = {
@@ -1425,10 +1426,12 @@
      */
     getChangeFiles(changeNum, patchRange, opt_parentIndex) {
       let params = undefined;
-      if (this.isMergeParent(patchRange.basePatchNum)) {
-        params = {parent: this.getParentIndex(patchRange.basePatchNum)};
-      } else if (!this.patchNumEquals(patchRange.basePatchNum, 'PARENT')) {
-        params = {base: patchRange.basePatchNum};
+      const basePatchNum = patchRange.basePatchNum;
+      if (this.isMergeParent(basePatchNum)) {
+        params = {parent: this.getParentIndex(basePatchNum)};
+      } else if (!this.patchNumEquals(basePatchNum, PARENT_PATCH_NUM) &&
+          !this.patchNumEquals(basePatchNum, AUTOMERGE_PARENT_PATCH_NUM)) {
+        params = {base: basePatchNum};
       }
       return this._getChangeURLAndFetch({
         changeNum,
@@ -2268,7 +2271,8 @@
       };
       if (this.isMergeParent(basePatchNum)) {
         params.parent = this.getParentIndex(basePatchNum);
-      } else if (!this.patchNumEquals(basePatchNum, PARENT_PATCH_NUM)) {
+      } else if (!this.patchNumEquals(basePatchNum, PARENT_PATCH_NUM) &&
+          !this.patchNumEquals(basePatchNum, AUTOMERGE_PARENT_PATCH_NUM)) {
         params.base = basePatchNum;
       }
       const endpoint = `/files/${encodeURIComponent(path)}/diff`;
@@ -2378,8 +2382,12 @@
       if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
         return fetchComments();
       }
-      function onlyParent(c) { return c.side == PARENT_PATCH_NUM; }
-      function withoutParent(c) { return c.side != PARENT_PATCH_NUM; }
+      function onlyParent(c) {
+        return c.side == PARENT_PATCH_NUM || AUTOMERGE_PARENT_PATCH_NUM;
+      }
+      function withoutParent(c) {
+        return c.side != PARENT_PATCH_NUM || c.side != AUTOMERGE_PARENT_PATCH_NUM;
+      }
       function setPath(c) { c.path = opt_path; }
 
       const promises = [];
@@ -2394,7 +2402,8 @@
         // in a single pass.
         comments = this._setRanges(comments);
 
-        if (opt_basePatchNum == PARENT_PATCH_NUM) {
+        if (opt_basePatchNum == PARENT_PATCH_NUM ||
+            opt_basePatchNum == AUTOMERGE_PARENT_PATCH_NUM) {
           baseComments = comments.filter(onlyParent);
           baseComments.forEach(setPath);
         }
@@ -2404,7 +2413,8 @@
       });
       promises.push(fetchPromise);
 
-      if (opt_basePatchNum != PARENT_PATCH_NUM) {
+      if (opt_basePatchNum != PARENT_PATCH_NUM ||
+          opt_basePatchNum != AUTOMERGE_PARENT_PATCH_NUM) {
         fetchPromise = fetchComments(opt_basePatchNum).then(response => {
           baseComments = (response[opt_path] || [])
               .filter(withoutParent);

@@ -430,12 +430,7 @@ public class LuceneChangeIndex implements ChangeIndex {
             if (maxRemainingHits > 0) {
               TopFieldDocs subIndexHits =
                   searchers[i].searchAfter(
-                      searchAfter,
-                      query,
-                      maxRemainingHits,
-                      sort,
-                      /* doDocScores= */ false,
-                      /* doMaxScore= */ false);
+                      searchAfter, query, maxRemainingHits, sort, /* doDocScores= */ false);
               searchAfterHitsCount += subIndexHits.scoreDocs.length;
               hits.add(subIndexHits);
               searchAfterBySubIndex.put(

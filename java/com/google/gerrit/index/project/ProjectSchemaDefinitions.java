@@ -47,7 +47,10 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
   @Deprecated static final Schema<ProjectData> V4 = schema(V3);
 
   // Upgrade Lucene to 7.x requires reindexing.
-  static final Schema<ProjectData> V5 = schema(V4);
+  @Deprecated static final Schema<ProjectData> V5 = schema(V4);
+
+  // Upgrade Lucene to 8.x requires reindexing.
+  static final Schema<ProjectData> V6 = schema(V5);
 
   /**
    * Name of the project index to be used when contacting index backends or loading configurations.

@@ -40,11 +40,7 @@ interface ExternalIdCache {
 
   Set<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException;
 
-  SetMultimap<Account.Id, ExternalId> allByAccount() throws IOException;
-
   SetMultimap<String, ExternalId> byEmails(String... emails) throws IOException;
-
-  SetMultimap<String, ExternalId> allByEmail() throws IOException;
 
   default Set<ExternalId> byEmail(String email) throws IOException {
     return byEmails(email).get(email);

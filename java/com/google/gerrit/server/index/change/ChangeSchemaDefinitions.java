@@ -94,7 +94,10 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.WIP);
 
   // Upgrade Lucene to 7.x requires reindexing.
-  static final Schema<ChangeData> V60 = schema(V59);
+  @Deprecated static final Schema<ChangeData> V60 = schema(V59);
+
+  // Upgrade Lucene to 8.x requires reindexing.
+  static final Schema<ChangeData> V61 = schema(V60);
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

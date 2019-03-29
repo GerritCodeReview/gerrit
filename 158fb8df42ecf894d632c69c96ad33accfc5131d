@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87beb00b_e8c90563",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-29T11:02:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c3427cf_47792368",
+      "range": {
+        "startLine": 65,
+        "startChar": 5,
+        "endLine": 65,
+        "endChar": 12
+      },
+      "revId": "158fb8df42ecf894d632c69c96ad33accfc5131d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6009f4bc_a1eaa2a1",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "158fb8df42ecf894d632c69c96ad33accfc5131d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c74397a9_84dd6a97",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-29T11:02:11Z",
+      "side": 1,
+      "message": "You are registering the coverage provider globally, not specific to a change, so what async work are you thinking of? Typically I would expect the registration to happen right during plugin loading.\n\nIt might still be nice to have a notifier functionality similar to what we have for layers, but I would regard that as a P3 feature that we can build later when have the need and understand the exact requirements.",
+      "parentUuid": "6009f4bc_a1eaa2a1",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 69
+      },
+      "revId": "158fb8df42ecf894d632c69c96ad33accfc5131d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -123,7 +123,10 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
       new Schema.Builder<ChangeData>().add(V76).add(ChangeField.COMMIT_MESSAGE_EXACT).build();
 
   // Upgrade Lucene to 7.x requires reindexing.
-  static final Schema<ChangeData> V78 = schema(V77);
+  @Deprecated static final Schema<ChangeData> V78 = schema(V77);
+
+  // Upgrade Lucene to 8.x requires reindexing.
+  static final Schema<ChangeData> V79 = schema(V78);
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

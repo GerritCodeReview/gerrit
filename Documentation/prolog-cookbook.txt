@@ -725,6 +725,9 @@ is no non author `Code-Review+2`. The second rule will only be reached
 if the `cut` in the first rule is not reached and it only happens if a
 predicate before the `cut` fails.
 
+This fact can be bypassed by users who have
+link:access-control.html#category_forge_author[Forge Author] permission.
+
 ==== Don't use `gerrit:default_submit`
 Let's implement the same submit rule the other way, without reusing the
 `gerrit:default_submit`:

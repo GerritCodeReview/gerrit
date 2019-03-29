@@ -239,13 +239,17 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .build();
 
   /** Remove assignee field. */
-  @SuppressWarnings("deprecation")
+  @Deprecated
   static final Schema<ChangeData> V82 =
       new Schema.Builder<ChangeData>()
           .add(V81)
           .remove(ChangeField.ASSIGNEE_SPEC)
           .remove(ChangeField.ASSIGNEE_FIELD)
           .build();
+
+  /** Upgrade Lucene to 8.x requires reindexing. */
+  @SuppressWarnings("deprecation")
+  static final Schema<ChangeData> V83 = schema(V82);
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

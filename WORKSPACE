@@ -642,36 +642,36 @@ maven_jar(
 
 declare_nongoogle_deps()
 
-LUCENE_VERS = "7.7.2"
+LUCENE_VERS = "8.3.0"
 
 maven_jar(
     name = "lucene-core",
     artifact = "org.apache.lucene:lucene-core:" + LUCENE_VERS,
-    sha1 = "1febe49946a08a42a1de72e9922346b885c9cdf6",
+    sha1 = "e98c442fa8b041072d5a5fe2d417d78a8ce46eaf",
 )
 
 maven_jar(
     name = "lucene-analyzers-common",
     artifact = "org.apache.lucene:lucene-analyzers-common:" + LUCENE_VERS,
-    sha1 = "b350eef042d3950b3ca6b7532abb7a6606b1aa51",
+    sha1 = "832806ff4af08d32e9974db75b0210c140f375fc",
 )
 
 maven_jar(
     name = "backward-codecs",
     artifact = "org.apache.lucene:lucene-backward-codecs:" + LUCENE_VERS,
-    sha1 = "ad01c9dd522e69c72a49b9c958386e275a7bc974",
+    sha1 = "091f8d4aab0b7a3ffd0846990eb1dd72897452fa",
 )
 
 maven_jar(
     name = "lucene-misc",
     artifact = "org.apache.lucene:lucene-misc:" + LUCENE_VERS,
-    sha1 = "431ba0ece67d1c420ca87dce911fe34f4b65863b",
+    sha1 = "465741f0824e010d69bc9c1fcb549457e0f21000",
 )
 
 maven_jar(
     name = "lucene-queryparser",
     artifact = "org.apache.lucene:lucene-queryparser:" + LUCENE_VERS,
-    sha1 = "69179c579faf7c612764ebf017fe79995e8bc529",
+    sha1 = "b10ceccf3a3ca92bc3a83d5930cac1244286dc60",
 )
 
 maven_jar(

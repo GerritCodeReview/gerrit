@@ -43,7 +43,10 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
           AccountField.WATCHED_PROJECT);
 
   // Upgrade Lucene to 7.x requires reindexing.
-  static final Schema<AccountState> V12 = schema(V11);
+  @Deprecated static final Schema<AccountState> V12 = schema(V11);
+
+  // Upgrade Lucene to 8.x requires reindexing.
+  static final Schema<AccountState> V13 = schema(V12);
 
   public static final String NAME = "accounts";
   public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();

@@ -837,7 +837,24 @@
       const preferFirst = this._prefs &&
           this._prefs.default_base_for_merges === 'FIRST_PARENT';
 
-      return parentCount > 1 && preferFirst ? -1 : 'PARENT';
+      return this._selectParent(parentCount, preferFirst);
+    },
+
+    /**
+     * Select's parent based on preference and how many parent's there are
+     * e.g for example -1 or AutoMerge.
+     * @param {number} parentCount
+     * @param {boolean} preferFirst
+     * @return {number|string}
+     */
+    _selectParent(parentCount, preferFirst) {
+      if (parentCount > 1 && preferFirst) {
+        return -1;
+      } else if (parentCount > 1) {
+        return 'AutoMerge';
+      }
+
+      return 'PARENT';
     },
 
     _computeChangeUrl(change) {

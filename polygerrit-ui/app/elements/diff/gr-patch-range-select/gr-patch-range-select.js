@@ -82,7 +82,7 @@
 
       dropdownContent.push({
         text: isMerge ? 'Auto Merge' : 'Base',
-        value: 'PARENT',
+        value: isMerge ? 'AutoMerge' : 'PARENT',
       });
 
       for (let idx = 0; isMerge && idx < maxParents; idx++) {

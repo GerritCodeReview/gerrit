@@ -109,36 +109,38 @@
     QUERY_LEGACY_SUFFIX: /^\/q\/.+,n,z$/,
 
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
-    CHANGE_LEGACY: /^\/c\/(\d+)\/?(((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
+    // eslint-disable-next-line max-len
+    CHANGE_LEGACY: /^\/c\/(\d+)\/?(((-?\d+|AutoMerge|edit)(\.\.(\d+|edit))?))?\/?$/,
     CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
 
     // Matches
-    // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..][<patchNum|edit>].
+    // /c/<project>/+/<changeNum>/[<basePatchNum|AutoMerge|edit>..][<patchNum|edit>].
     // TODO(kaspern): Migrate completely to project based URLs, with backwards
     // compatibility for change-only.
-    CHANGE: /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
+    // eslint-disable-next-line max-len
+    CHANGE: /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|AutoMerge|edit)(\.\.(\d+|edit))?))?\/?$/,
 
     // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>],edit
     CHANGE_EDIT: /^\/c\/(.+)\/\+\/(\d+)(\/(\d+))?,edit\/?$/,
 
     // Matches
-    // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..]<patchNum|edit>/<path>.
+    // /c/<project>/+/<changeNum>/[<basePatchNum|AutoMerge|edit>..]<patchNum|edit>/<path>.
     // TODO(kaspern): Migrate completely to project based URLs, with backwards
     // compatibility for change-only.
     // eslint-disable-next-line max-len
-    DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/((-?\d+|edit)(\.\.(\d+|edit))?(\/(.+))))\/?$/,
+    DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/((-?\d+|AutoMerge|edit)(\.\.(\d+|edit))?(\/(.+))))\/?$/,
 
     // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>]/<path>,edit
     DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)\/(\d+|edit)\/(.+),edit$/,
 
     // Matches non-project-relative
     // /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
-    DIFF_LEGACY: /^\/c\/(\d+)\/((-?\d+|edit)(\.\.(\d+|edit))?)\/(.+)/,
+    DIFF_LEGACY: /^\/c\/(\d+)\/((-?\d+|AutoMerge|edit)(\.\.(\d+|edit))?)\/(.+)/,
 
     // Matches diff routes using @\d+ to specify a file name (whether or not
     // the project name is included).
     // eslint-disable-next-line max-len
-    DIFF_LEGACY_LINENUM: /^\/c\/((.+)\/\+\/)?(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?\/(.+))?)@[ab]?\d+$/,
+    DIFF_LEGACY_LINENUM: /^\/c\/((.+)\/\+\/)?(\d+)(\/?((-?\d+|AutoMerge|edit)(\.\.(\d+|edit))?\/(.+))?)@[ab]?\d+$/,
 
     SETTINGS: /^\/settings\/?/,
     SETTINGS_LEGACY: /^\/settings\/VE\/(\S+)/,

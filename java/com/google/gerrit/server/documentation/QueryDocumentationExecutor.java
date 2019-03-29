@@ -34,6 +34,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TotalHits;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.IndexOutput;
 import org.apache.lucene.store.RAMDirectory;
@@ -85,10 +86,11 @@ public class QueryDocumentationExecutor {
       // and skipped paging. Maybe add paging later.
       TopDocs results = searcher.search(query, Integer.MAX_VALUE);
       ScoreDoc[] hits = results.scoreDocs;
-      long totalHits = results.totalHits;
+      // TODO(davido): Do wen need to interpret TotalHits.relation?
+      TotalHits totalHits = results.totalHits;
 
       List<DocResult> out = new ArrayList<>();
-      for (int i = 0; i < totalHits; i++) {
+      for (int i = 0; i < totalHits.value; i++) {
         DocResult result = new DocResult();
         Document doc = searcher.doc(hits[i].doc);
         result.url = doc.get(Constants.URL_FIELD);

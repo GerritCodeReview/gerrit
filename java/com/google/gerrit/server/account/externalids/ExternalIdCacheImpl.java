@@ -87,11 +87,6 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public SetMultimap<Account.Id, ExternalId> allByAccount() throws IOException {
-    return get().byAccount();
-  }
-
-  @Override
   public SetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
     AllExternalIds allExternalIds = get();
     ImmutableSetMultimap.Builder<String, ExternalId> byEmails = ImmutableSetMultimap.builder();
@@ -99,11 +94,6 @@ class ExternalIdCacheImpl implements ExternalIdCache {
       byEmails.putAll(email, allExternalIds.byEmail().get(email));
     }
     return byEmails.build();
-  }
-
-  @Override
-  public SetMultimap<String, ExternalId> allByEmail() throws IOException {
-    return get().byEmail();
   }
 
   private AllExternalIds get() throws IOException {

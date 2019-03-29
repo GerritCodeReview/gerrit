@@ -89,11 +89,6 @@ public class ExternalIds {
         .collect(toImmutableSet());
   }
 
-  /** Returns all external IDs by account. */
-  public SetMultimap<Account.Id, ExternalId> allByAccount() throws IOException {
-    return externalIdCache.allByAccount();
-  }
-
   /**
    * Returns the external ID with the given email.
    *
@@ -127,10 +122,5 @@ public class ExternalIds {
    */
   public SetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
     return externalIdCache.byEmails(emails);
-  }
-
-  /** Returns all external IDs by email. */
-  public SetMultimap<String, ExternalId> allByEmail() throws IOException {
-    return externalIdCache.allByEmail();
   }
 }

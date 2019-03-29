@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e09f9cae_8c669690",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-29T20:07:23Z",
+      "side": 1,
+      "message": "Maybe add a few words about this change having potential performance implications, because of calling Gerrit.awaitPluginsLoaded() in getChanges and getChangeDetails.",
+      "revId": "28ef9da12bf6e8443cc45186b0f07e49a0241584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "544a39c2_f2827af7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-29T20:07:23Z",
+      "side": 1,
+      "message": "This maps endpoint names to api instances, not functions.",
+      "range": {
+        "startLine": 23,
+        "startChar": 39,
+        "endLine": 23,
+        "endChar": 48
+      },
+      "revId": "28ef9da12bf6e8443cc45186b0f07e49a0241584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9f92657_79d4f323",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-29T20:07:23Z",
+      "side": 1,
+      "message": "Maybe add a \"Stores a map ...\" comment similar to above.",
+      "revId": "28ef9da12bf6e8443cc45186b0f07e49a0241584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4fece51_81d5b6e7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-rest-api-hooks.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-03-29T20:07:23Z",
+      "side": 1,
+      "message": "You could make this private, because the only call comes from pluginParams() below.",
+      "range": {
+        "startLine": 61,
+        "startChar": 27,
+        "endLine": 61,
+        "endChar": 43
+      },
+      "revId": "28ef9da12bf6e8443cc45186b0f07e49a0241584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

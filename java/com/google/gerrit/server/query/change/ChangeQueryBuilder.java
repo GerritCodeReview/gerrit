@@ -798,10 +798,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     AccountGroup.UUID group = null;
 
     // Parse for:
-    // label:CodeReview=1,user=jsmith or
-    // label:CodeReview=1,jsmith or
-    // label:CodeReview=1,group=android_approvers or
-    // label:CodeReview=1,android_approvers
+    // label:Code-Review=1,user=jsmith or
+    // label:Code-Review=1,jsmith or
+    // label:Code-Review=1,group=android_approvers or
+    // label:Code-Review=1,android_approvers
     // user/groups without a label will first attempt to match user
     // Special case: votes by owners can be tracked with ",owner":
     // label:Code-Review+2,owner

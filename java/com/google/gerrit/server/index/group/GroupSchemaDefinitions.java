@@ -40,7 +40,10 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
           GroupField.UUID);
 
   // Upgrade Lucene to 7.x requires reindexing.
-  static final Schema<InternalGroup> V9 = schema(V8);
+  @Deprecated static final Schema<InternalGroup> V9 = schema(V8);
+
+  // Upgrade Lucene to 8.x requires reindexing.
+  static final Schema<InternalGroup> V10 = schema(V9);
 
   public static final GroupSchemaDefinitions INSTANCE = new GroupSchemaDefinitions();
 

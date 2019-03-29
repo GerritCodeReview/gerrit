@@ -2851,14 +2851,6 @@ Note that the site initialization program only allows to configure a single
 server. To configure multiple servers the `gerrit.config` file must be edited
 manually.
 
-[[elasticsearch.maxRetryTimeout]]elasticsearch.maxRetryTimeout::
-+
-Sets the maximum timeout to honor in case of multiple retries of the same request.
-+
-The value is in the usual time-unit format like `1 m`, `5 m`.
-+
-Defaults to `30000 ms`.
-
 [[elasticsearch.numberOfShards]]elasticsearch.numberOfShards::
 +
 Sets the number of shards to use per index. Refer to the

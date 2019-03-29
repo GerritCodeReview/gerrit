@@ -128,7 +128,6 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
 
   private RestClient build() {
     RestClientBuilder builder = RestClient.builder(cfg.getHosts());
-    builder.setMaxRetryTimeoutMillis(cfg.maxRetryTimeout);
     setConfiguredCredentialsIfAny(builder);
     return builder.build();
   }

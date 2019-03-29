@@ -230,7 +230,7 @@ public abstract class QueryBuilder<T> {
         return not(toPredicate(onlyChildOf(r)));
 
       case DEFAULT_FIELD:
-        return defaultField(onlyChildOf(r));
+        return defaultField(concatenateChildText(r));
 
       case FIELD_NAME:
         return operator(r.getText(), concatenateChildText(r));
@@ -279,20 +279,6 @@ public abstract class QueryBuilder<T> {
       throw error("Unsupported operator " + name + ":" + value);
     }
     return f.create(this, value);
-  }
-
-  private Predicate<T> defaultField(Tree r) throws QueryParseException {
-    switch (r.getType()) {
-      case SINGLE_WORD:
-      case EXACT_PHRASE:
-        if (r.getChildCount() != 0) {
-          throw error("Expected no children under: " + r);
-        }
-        return defaultField(r.getText());
-
-      default:
-        throw error("Unsupported node: " + r);
-    }
   }
 
   /**

@@ -1823,6 +1823,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change[] expected = new Change[] {change6, change5, change4, change3, change2, change1};
     assertQuery("user@example.com", expected);
     assertQuery("repo", expected);
+
+    assertQuery("Code-Review:+1", change4);
   }
 
   @Test

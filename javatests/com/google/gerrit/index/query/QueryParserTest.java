@@ -17,6 +17,7 @@ package com.google.gerrit.index.query;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.index.query.QueryParser.AND;
 import static com.google.gerrit.index.query.QueryParser.COLON;
+import static com.google.gerrit.index.query.QueryParser.DEFAULT_FIELD;
 import static com.google.gerrit.index.query.QueryParser.FIELD_NAME;
 import static com.google.gerrit.index.query.QueryParser.SINGLE_WORD;
 import static com.google.gerrit.index.query.QueryParser.parse;
@@ -186,6 +187,22 @@ public class QueryParserTest extends GerritBaseTests {
     assertThat(r).child(1).child(0).hasType(SINGLE_WORD);
     assertThat(r).child(1).child(0).hasText("baz");
     assertThat(r).child(1).child(0).hasNoChildren();
+  }
+
+  @Test
+  public void defaultFieldWithColon() throws Exception {
+    Tree r = parse("CodeReview:+2");
+    assertThat(r).hasType(DEFAULT_FIELD);
+    assertThat(r).hasChildCount(3);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("CodeReview");
+    assertThat(r).child(0).hasNoChildren();
+    assertThat(r).child(1).hasType(COLON);
+    assertThat(r).child(1).hasText(":");
+    assertThat(r).child(1).hasNoChildren();
+    assertThat(r).child(2).hasType(SINGLE_WORD);
+    assertThat(r).child(2).hasText("+2");
+    assertThat(r).child(2).hasNoChildren();
   }
 
   private static void assertParseFails(String query) {

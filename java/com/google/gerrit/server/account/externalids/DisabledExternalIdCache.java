@@ -52,17 +52,7 @@ public class DisabledExternalIdCache implements ExternalIdCache {
   }
 
   @Override
-  public ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
   public ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public ImmutableSetMultimap<String, ExternalId> allByEmail() throws IOException {
     throw new UnsupportedOperationException();
   }
 }

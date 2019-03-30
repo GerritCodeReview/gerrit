@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84ceb84f_c72208d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-30T10:22:27Z",
+      "side": 1,
+      "message": "Please add more context. Specifically, please mention that the problem occurs during navigation between changes where both changes are a merge commit.\n\nWe should also have an issue report for this.  I\u0027ve submitted issue 10670.",
+      "revId": "22dc63b696b02285809d333967bd1a07ade1cec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12100367_56b10200",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-30T10:22:27Z",
+      "side": 1,
+      "message": "Selects",
+      "range": {
+        "startLine": 844,
+        "startChar": 7,
+        "endLine": 844,
+        "endChar": 15
+      },
+      "revId": "22dc63b696b02285809d333967bd1a07ade1cec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ef0bf31_009c67ca",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-03-30T10:22:27Z",
+      "side": 1,
+      "message": "parents",
+      "range": {
+        "startLine": 844,
+        "startChar": 56,
+        "endLine": 844,
+        "endChar": 64
+      },
+      "revId": "22dc63b696b02285809d333967bd1a07ade1cec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

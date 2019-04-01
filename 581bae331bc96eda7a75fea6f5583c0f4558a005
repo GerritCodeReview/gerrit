@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20cbf469_fd591301",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-04-01T05:23:38Z",
+      "side": 1,
+      "message": "For consistency, should we mention that start_character and end_character are ignored for this type?",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 20
+      },
+      "revId": "581bae331bc96eda7a75fea6f5583c0f4558a005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37c8a2df_01822f41",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-04-01T05:23:38Z",
+      "side": 1,
+      "message": "Missing period at the end.",
+      "range": {
+        "startLine": 84,
+        "startChar": 40,
+        "endLine": 84,
+        "endChar": 41
+      },
+      "revId": "581bae331bc96eda7a75fea6f5583c0f4558a005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d60f9b5_8748512d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-04-01T05:23:38Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t seem very accurate to me. IIUC, this is expected to happen in the following common scenario frequently:\n\nSay for some file that has more than 200 lines, but only line #100-#120 are modified, and the coverage data provider specifies following data:\n  const CR1 \u003d {\n    side: \u0027right\u0027,\n    type: \u0027COVERED\u0027,\n    code_range: {\n      start_line: 1,\n      end_line: 5,\n    },\n  };\n  annotationApi.setCoverageProvider(\n          (changeNum, path, basePatchNum, patchNum) \u003d\u003e\n              [CR1],\n      );\n\nMeaning that line #1-#5 are NOT_COVERED, and all other lines are not specified.\n\nBecause by default, the diff builder only renders the modified lines and a few adjacent lines, when this |annotate| function is first called to render line #100-#120, |this._index| will become 1. However, when the user clicks the \"Show xxx common lines\" to render the first 100 lines, there will be another pass, and |this._index| must be set to 0 in order to annotate correctly.",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 31
+      },
+      "revId": "581bae331bc96eda7a75fea6f5583c0f4558a005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c4dfb15_7843ee29",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-04-01T05:23:38Z",
+      "side": 1,
+      "message": "Should this be code_range?",
+      "range": {
+        "startLine": 47,
+        "startChar": 10,
+        "endLine": 47,
+        "endChar": 19
+      },
+      "revId": "581bae331bc96eda7a75fea6f5583c0f4558a005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

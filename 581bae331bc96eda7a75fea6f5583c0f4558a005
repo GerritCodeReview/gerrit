@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "9cdec500_c4e31447",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-04-01T14:10:25Z",
+      "side": 1,
+      "message": "I am assuming the console.logs will be removed before landing this?",
+      "range": {
+        "startLine": 95,
+        "startChar": 6,
+        "endLine": 95,
+        "endChar": 13
+      },
+      "revId": "581bae331bc96eda7a75fea6f5583c0f4558a005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7d60f9b5_8748512d",
         "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
         "patchSetId": 7

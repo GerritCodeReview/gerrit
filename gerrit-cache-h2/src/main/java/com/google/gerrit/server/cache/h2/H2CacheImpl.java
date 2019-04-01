@@ -166,6 +166,15 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     mem.invalidate(key);
   }
 
+  /**
+   * This method will be used to clear specific user session,
+   * without needing to log everyone out.
+   */
+  public void invalidateSpecificUsers(Account.Id id) {
+    store.invalidateSpecificUsers(id);
+    mem.invalidateSpecificUsers(id);
+  }
+
   @Override
   public void invalidateAll() {
     store.invalidateAll();
@@ -537,6 +546,22 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         c.invalidate.executeUpdate();
       } finally {
         c.invalidate.clearParameters();
+      }
+    }
+
+    void invalidateSpecificUsers(Account.Id id) {
+      SqlHandle c = null;
+      try {
+        c = acquire();
+        try (Statement s = c.conn.createStatement()) {
+          s.executeUpdate("DELETE FROM data where k=" + id.toString());
+        }
+        bloomFilter = newBloomFilter();
+      } catch (SQLException e) {
+        log.warn("Cannot invalidate cache " + url, e);
+        c = close(c);
+      } finally {
+        release(c);
       }
     }
 

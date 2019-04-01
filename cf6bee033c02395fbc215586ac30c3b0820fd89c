@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d184271c_ef2e9832",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-04-01T05:30:47Z",
+      "side": 1,
+      "message": "Why doesn\u0027t this have the double quotes?",
+      "range": {
+        "startLine": 48,
+        "startChar": 23,
+        "endLine": 48,
+        "endChar": 41
+      },
+      "revId": "cf6bee033c02395fbc215586ac30c3b0820fd89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b01c2363_032bee2a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-04-01T05:30:47Z",
+      "side": 1,
+      "message": "Is this if condition/statement necessary? It seems to be that it will never be hit.",
+      "range": {
+        "startLine": 242,
+        "startChar": 12,
+        "endLine": 247,
+        "endChar": 13
+      },
+      "revId": "cf6bee033c02395fbc215586ac30c3b0820fd89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

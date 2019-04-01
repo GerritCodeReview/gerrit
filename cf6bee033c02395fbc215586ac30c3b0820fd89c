@@ -93,6 +93,40 @@
       "revId": "cf6bee033c02395fbc215586ac30c3b0820fd89c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60d17179_a05bcf2e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-04-01T21:40:21Z",
+      "side": 1,
+      "message": "So there could be only one plugin that provides coverage at a time.\nProbably worth updating documentation and have some sort of console.log() here - I wouldn\u0027t expect people writing plugins to read the Gerrit\u0027s source code.",
+      "revId": "cf6bee033c02395fbc215586ac30c3b0820fd89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5521024b_fdbe927b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-04-01T21:40:21Z",
+      "side": 1,
+      "message": "Basically, this API requires a diff to display coverage.\nSo if user has coverage info for BASE and PatchSet 1 diff, and switched to PatchSet 2, everything should be re-fetched.\nDownside is that coverage info for BASE is could be used.",
+      "revId": "cf6bee033c02395fbc215586ac30c3b0820fd89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

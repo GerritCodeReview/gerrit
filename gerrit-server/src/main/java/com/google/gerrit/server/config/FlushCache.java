@@ -22,6 +22,10 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.FlushCache.Input;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -51,9 +55,28 @@ public class FlushCache implements RestModifyView<CacheResource, Input> {
       throws AuthException, PermissionBackendException {
     if (WEB_SESSIONS.equals(rsrc.getName())) {
       permissionBackend.user(self).check(GlobalPermission.MAINTAIN_SERVER);
-    }
+      
+      AccountState account;
+      Set<Account.Id> idList = accountResolver.resolve("admin").asIdSet();
+      if (idList.isEmpty()) {
+        /*throw new UnloggedFailure(
+            1,
+            "No accounts found for your query: \""
+                + name
+                + "\""
+                + " Tip: Try double-escaping spaces, for example: \"log-users-out Last,\\\\ First\"");*/
+      }
+      for (Account.Id id : idList) {
+        account = accountResolver.resolve(id.toString()).asUnique();
+        if (account == null) {
+          //throw new UnloggedFailure("Account " + id.toString() + " does not exist.");
+        }
 
-    rsrc.getCache().invalidateAll();
+        rsrc.getCache().invalidateSpecificUser(id);
+      }
+    } else {
+      rsrc.getCache().invalidateAll();
+    }
     return Response.ok("");
   }
 }

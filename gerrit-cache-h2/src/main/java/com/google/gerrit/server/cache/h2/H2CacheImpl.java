@@ -26,6 +26,7 @@ import com.google.common.hash.Funnel;
 import com.google.common.hash.Funnels;
 import com.google.common.hash.PrimitiveSink;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.cache.PersistentCache;
 import com.google.inject.TypeLiteral;
 import java.io.IOException;
@@ -166,10 +167,19 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     mem.invalidate(key);
   }
 
+  /**
+   * This method will be used to clear specific user session,
+   * without needing to log everyone out.
+   */
+  public void invalidateSpecificUsers(Account.Id id) {
+    store.invalidateSpecificUsers(id);
+    mem.invalidateAll(id);
+  }
+
   @Override
   public void invalidateAll() {
     store.invalidateAll();
-    mem.invalidateAll();
+    //mem.invalidateAll();
   }
 
   @Override
@@ -537,6 +547,22 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         c.invalidate.executeUpdate();
       } finally {
         c.invalidate.clearParameters();
+      }
+    }
+
+    void invalidateSpecificUsers(Account.Id id) {
+      SqlHandle c = null;
+      try {
+        c = acquire();
+        try (Statement s = c.conn.createStatement()) {
+          s.executeUpdate("DELETE FROM data where k=" + id.toString());
+        }
+        bloomFilter = newBloomFilter();
+      } catch (SQLException e) {
+        log.warn("Cannot invalidate cache " + url, e);
+        c = close(c);
+      } finally {
+        release(c);
       }
     }
 

@@ -69,6 +69,30 @@
       "revId": "cf6bee033c02395fbc215586ac30c3b0820fd89c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72a5d495_96dcaca9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-04-01T16:14:46Z",
+      "side": 1,
+      "message": "Got it! Thanks for explaining Sam!",
+      "parentUuid": "12b2569d_6dea1382",
+      "range": {
+        "startLine": 242,
+        "startChar": 12,
+        "endLine": 247,
+        "endChar": 13
+      },
+      "revId": "cf6bee033c02395fbc215586ac30c3b0820fd89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

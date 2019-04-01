@@ -45,6 +45,30 @@
       "revId": "cf6bee033c02395fbc215586ac30c3b0820fd89c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12b2569d_6dea1382",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-04-01T14:12:30Z",
+      "side": 1,
+      "message": "this is an async call so it is possible for a request to be in flight and come back after the user has changed the patch.",
+      "parentUuid": "b01c2363_032bee2a",
+      "range": {
+        "startLine": 242,
+        "startChar": 12,
+        "endLine": 247,
+        "endChar": 13
+      },
+      "revId": "cf6bee033c02395fbc215586ac30c3b0820fd89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

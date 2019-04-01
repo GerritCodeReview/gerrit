@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "fc9a310b_1bf1cd4c",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 1068922
+      },
+      "writtenOn": "2019-04-01T23:27:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "748a85c9_d4e31afd",
+      "range": {
+        "startLine": 1092,
+        "startChar": 75,
+        "endLine": 1093,
+        "endChar": 69
+      },
+      "revId": "023ac66955368ce309b0593f13a37b47839172c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec7b4d8d_a46d0ab5",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 3
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "Aha, sorry for that!\n\nI cleaned up the permission code, and then wrote the reference section below, but not the rest of this doc, hence my tunnel vision here.\n\nIt looks like \"Access right\" is equivalent to permission (eg. \"read\", \"push\" etc.), but it\u0027s unfortunate that the term is not defined anywhere.\n\nThe phrase here is a unfortunate, because it is contradicted in the next paragraph with the explanation of exclusive.\n\n\nSo how about:  \n\n\"The \u0027BLOCK\u0027 rule can be used to take away rights from users. The BLOCK rule works across project inheritance, from the top down, so an administrator can use BLOCK rules to enforce site-wide restrictions.\n\nFor example\n\n[your example]\n\nBLOCK rules are evaluated starting from the parent project, and after a BLOCK rule is found                               to apply, further rules are ignored. Hence, in this example, the permissions on child-project is ignored.\n\n[example]\n\n\"\n\nhow about that?",
       "parentUuid": "b9145b2c_ace60a64",
+      "range": {
+        "startLine": 1095,
+        "startChar": 7,
+        "endLine": 1095,
+        "endChar": 20
+      },
+      "revId": "023ac66955368ce309b0593f13a37b47839172c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e63f379a_d646b352",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1068922
+      },
+      "writtenOn": "2019-04-01T23:27:59Z",
+      "side": 1,
+      "message": "\u003e I cleaned up the permission code, and then wrote the reference section below, but not the rest of this doc, hence my tunnel vision here.\n\nah ha! That section is super useful! Kudos :)\n\n\u003e how about that?\n\nI think I\u0027ve got all that verbiage in the right place.",
+      "parentUuid": "c572adae_962da142",
       "range": {
         "startLine": 1095,
         "startChar": 7,

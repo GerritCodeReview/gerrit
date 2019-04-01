@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "638c0e1b_692f5a10",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-04-01T21:34:43Z",
+      "side": 1,
+      "message": "Please update the year",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "581bae331bc96eda7a75fea6f5583c0f4558a005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "542604a9_7d2f4c06",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-04-01T21:34:43Z",
+      "side": 1,
+      "message": "Please update the year",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "581bae331bc96eda7a75fea6f5583c0f4558a005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "20cbf469_fd591301",
         "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
         "patchSetId": 7
@@ -110,6 +156,29 @@
         "startChar": 10,
         "endLine": 47,
         "endChar": 19
+      },
+      "revId": "581bae331bc96eda7a75fea6f5583c0f4558a005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "819881a7_95d43d82",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-04-01T21:34:43Z",
+      "side": 1,
+      "message": "Would it be possible to use simple opacity? linear-gradient may be resource-intensive, depending on the lines displayed, etc.",
+      "range": {
+        "startLine": 275,
+        "startChar": 20,
+        "endLine": 275,
+        "endChar": 35
       },
       "revId": "581bae331bc96eda7a75fea6f5583c0f4558a005",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

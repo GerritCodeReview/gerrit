@@ -120,6 +120,29 @@
     },
     {
       "key": {
+        "uuid": "5c2cd456_0b530e79",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-04-02T16:04:55Z",
+      "side": 1,
+      "message": "update TODO ?",
+      "range": {
+        "startLine": 115,
+        "startChar": 10,
+        "endLine": 115,
+        "endChar": 21
+      },
+      "revId": "1f17ee12c6023a825f0bc95ee2e25fad578033cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "07eabd83_026d76db",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
         "patchSetId": 1

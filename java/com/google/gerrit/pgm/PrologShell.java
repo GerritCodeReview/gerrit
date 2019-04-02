@@ -30,9 +30,14 @@ public class PrologShell extends AbstractProgram {
   @Option(name = "-s", metaVar = "FILE.pl", usage = "file to load")
   private List<String> fileName = new ArrayList<>();
 
+  @Option(name = "-q", usage = "quiet mode without banner")
+  private boolean quiet = false;
+
   @Override
   public int run() {
-    banner();
+    if (!quiet) {
+      banner();
+    }
 
     BufferingPrologControl pcl = new BufferingPrologControl();
     pcl.setPrologClassLoader(new PrologClassLoader(getClass().getClassLoader()));
@@ -55,7 +60,9 @@ public class PrologShell extends AbstractProgram {
 
     try {
       pcl.execute(Prolog.BUILTIN, "cafeteria");
-      write("% halt\n");
+      if (!quiet) {
+        write("% halt\n");
+      }
       return 0;
     } catch (HaltException halt) {
       write("% halt(" + halt.getStatus() + ")\n");

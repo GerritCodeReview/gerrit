@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d64b8848_0be93f88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-04-02T15:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61c62409_56d720d6",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 49
+      },
+      "revId": "1f17ee12c6023a825f0bc95ee2e25fad578033cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c334a69_5540dff7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e2fed3fa_f41b8f81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-04-02T15:32:34Z",
+      "side": 1,
+      "message": "\u003e Minimum bugfix is to mention that the index is relative to the number of non-empty messages.\nI would not do that. It\u0027s not easy for users to understand what kind of change message is empty.\n\nFor stable branches, we could cherry-pick this fix.",
+      "parentUuid": "8c334a69_5540dff7",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 20
+      },
+      "revId": "1f17ee12c6023a825f0bc95ee2e25fad578033cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07eabd83_026d76db",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "1f17ee12c6023a825f0bc95ee2e25fad578033cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e8e6eab_700eaf78",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-04-02T15:32:34Z",
+      "side": 1,
+      "message": "It\u0027s OK to add another test. But I\u0027m on the fence to add a test which has already been covered in #deleteMultipleChangeMessages.\n\nFWIW, these tests have to be adjusted anyway to use ID instead of index.",
+      "parentUuid": "07eabd83_026d76db",
+      "range": {
+        "startLine": 236,
+        "startChar": 4,
+        "endLine": 236,
+        "endChar": 38
+      },
+      "revId": "1f17ee12c6023a825f0bc95ee2e25fad578033cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -56,9 +56,20 @@ license_map(
     ],
 )
 
+sh_test(
+    name = "check_licenses",
+    srcs = ["check_licenses_test.sh"],
+    data = [
+        "js_licenses.gen.txt",
+        "js_licenses.txt",
+        "licenses.gen.txt",
+        "licenses.txt",
+    ],
+)
+
 DOC_DIR = "Documentation"
 
-SRCS = glob(["*.txt"]) + [":licenses.txt"]
+SRCS = glob(["*.txt"])
 
 genrule(
     name = "index",

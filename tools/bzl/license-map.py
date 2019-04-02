@@ -54,6 +54,8 @@ if args.asciidoctor:
     # We don't want any blank line before "= Gerrit Code Review - Licenses"
     print("""= Gerrit Code Review - Licenses
 
+// DO NOT EDIT - GENERATED AUTOMATICALLY.
+
 Gerrit open source software is licensed under the <<Apache2_0,Apache
 License 2.0>>.  Executable distributions also include other software
 components that are provided under additional licenses.

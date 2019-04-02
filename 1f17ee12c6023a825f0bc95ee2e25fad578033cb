@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "bbad11d1_1e9d0575",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-04-02T16:01:28Z",
+      "side": 1,
+      "message": "doesn\u0027t the latest stable still allow operation with ReviewDB? \n\nMaybe you could disable DeleteChange for ReviewDB ?",
+      "parentUuid": "e2fed3fa_f41b8f81",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 20
+      },
+      "revId": "1f17ee12c6023a825f0bc95ee2e25fad578033cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07eabd83_026d76db",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
         "patchSetId": 1
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "It\u0027s OK to add another test. But I\u0027m on the fence to add a test which has already been covered in #deleteMultipleChangeMessages.\n\nFWIW, these tests have to be adjusted anyway to use ID instead of index.",
       "parentUuid": "07eabd83_026d76db",
+      "range": {
+        "startLine": 236,
+        "startChar": 4,
+        "endLine": 236,
+        "endChar": 38
+      },
+      "revId": "1f17ee12c6023a825f0bc95ee2e25fad578033cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1e4bea7_9460b631",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-04-02T16:01:28Z",
+      "side": 1,
+      "message": "yeah, maybe it is moot in this case, because with ID rather than index based deletion, the ordering is less important.",
+      "parentUuid": "4e8e6eab_700eaf78",
       "range": {
         "startLine": 236,
         "startChar": 4,

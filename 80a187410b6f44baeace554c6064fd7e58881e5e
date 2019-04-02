@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3207961_5f8b32c2",
+        "filename": "java/com/google/gerrit/pgm/PrologShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-02T17:07:56Z",
+      "side": 1,
+      "message": "The default value of primitive boolean is false. Remove \"\u003d false\" part.",
+      "range": {
+        "startLine": 34,
+        "startChar": 18,
+        "endLine": 34,
+        "endChar": 31
+      },
+      "revId": "80a187410b6f44baeace554c6064fd7e58881e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

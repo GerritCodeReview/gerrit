@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "7eacbcbb_af0bd7d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-04-02T16:57:51Z",
+      "side": 1,
+      "message": "\u003e doesn\u0027t the latest stable still allow operation with ReviewDB? \nyes, I think ReviewDb is still there.\n\n\u003e Maybe you could disable DeleteChange for ReviewDB ?\nLimit the feature is an option. I will do in a follow-up change for the stable branch.",
+      "parentUuid": "bbad11d1_1e9d0575",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 20
+      },
+      "revId": "1f17ee12c6023a825f0bc95ee2e25fad578033cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2cd456_0b530e79",
         "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 1
@@ -140,6 +164,30 @@
       "revId": "1f17ee12c6023a825f0bc95ee2e25fad578033cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf247ff6_f110323d",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-04-02T16:57:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2cd456_0b530e79",
+      "range": {
+        "startLine": 115,
+        "startChar": 10,
+        "endLine": 115,
+        "endChar": 21
+      },
+      "revId": "1f17ee12c6023a825f0bc95ee2e25fad578033cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -202,6 +250,30 @@
       "side": 1,
       "message": "yeah, maybe it is moot in this case, because with ID rather than index based deletion, the ordering is less important.",
       "parentUuid": "4e8e6eab_700eaf78",
+      "range": {
+        "startLine": 236,
+        "startChar": 4,
+        "endLine": 236,
+        "endChar": 38
+      },
+      "revId": "1f17ee12c6023a825f0bc95ee2e25fad578033cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffcd57aa_93d9f7f6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-04-02T16:57:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d1e4bea7_9460b631",
       "range": {
         "startLine": 236,
         "startChar": 4,

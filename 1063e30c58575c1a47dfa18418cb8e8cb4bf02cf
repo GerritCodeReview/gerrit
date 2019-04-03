@@ -16,6 +16,24 @@
       "revId": "1063e30c58575c1a47dfa18418cb8e8cb4bf02cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c992958_e48f0d7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-04-03T15:36:18Z",
+      "side": 1,
+      "message": "Sorry for the lack of clarity. That continues to work fine --- the new logic only kicks in when there\u0027s no change-id in the footer.",
+      "parentUuid": "2c348f48_7e23cdfa",
+      "revId": "1063e30c58575c1a47dfa18418cb8e8cb4bf02cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,24 +17,12 @@ package com.google.gerrit.httpd.raw;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.staticTemplateData;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
 import java.util.HashMap;
 import org.junit.Test;
 
 public class IndexHtmlUtilTest {
-  @Test
-  public void polymer2() throws Exception {
-    assertThat(
-            staticTemplateData(
-                "http://example.com/",
-                null,
-                null,
-                ImmutableMap.of("p2", new String[0]),
-                IndexHtmlUtilTest::ordain))
-        .containsExactly("canonicalPath", "", "polymer2", "true", "staticResourcePath", ordain(""));
-  }
 
   @Test
   public void noPathAndNoCDN() throws Exception {

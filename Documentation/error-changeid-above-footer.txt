@@ -1,0 +1,31 @@
+= commit xxxxxxx: Change-Id must be in message footer
+
+With this error message, Gerrit rejects a push of a commit to a project
+if the commit message of the pushed commit contains a Change-Id line that
+is not in the footer (the last paragraph).
+
+To be picked up by Gerrit, a Change-Id must be in the last paragraph
+of a commit message. For details, see link:user-changeid.html[Change-Id Lines].
+
+You can see the commit messages for existing commits in the history
+by doing a link:http://www.kernel.org/pub/software/scm/git/docs/git-log.html[git log].
+
+
+== Change-Id is contained in the commit message but not in the last paragraph
+
+If the Change-Id is contained in the commit message but not in its
+last paragraph, you have to update the commit message and move the
+Change-Id into the last paragraph. How to update the commit message
+is explained link:error-push-fails-due-to-commit-message.html[here].
+
+To avoid confusion due to a Change-Id that was meant to be picked up by
+Gerrit not being picked up, this is an error whether or not the project
+is configured to always require a Change-Id in the commit message.
+
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

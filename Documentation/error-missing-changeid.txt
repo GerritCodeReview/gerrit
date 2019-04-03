@@ -3,13 +3,7 @@
 With this error message Gerrit rejects to push a commit to a project
 which is configured to always require a Change-Id in the commit
 message if the commit message of the pushed commit does not contain
-a Change-Id in the footer (the last paragraph).
-
-This error may happen for different reasons:
-
-. missing Change-Id in the commit message
-. Change-Id is contained in the commit message but not in the last
-  paragraph
+a Change-Id.
 
 You can see the commit messages for existing commits in the history
 by doing a link:http://www.kernel.org/pub/software/scm/git/docs/git-log.html[git log].
@@ -35,17 +29,6 @@ into the commit messages. This is explained link:error-push-fails-due-to-commit-
 If you want to update an existing change in Gerrit by uploading a new
 patch set you should copy its Change-Id from the Gerrit Web UI and
 insert it into the commit message. How to update the commit message
-is explained link:error-push-fails-due-to-commit-message.html[here].
-
-
-== Change-Id is contained in the commit message but not in the last paragraph
-
-To be picked up by Gerrit, a Change-Id must be in the last paragraph
-of a commit message, for details, see link:user-changeid.html[Change-Id Lines].
-
-If the Change-Id is contained in the commit message but not in its
-last paragraph you have to update the commit message and move the
-Change-Id into the last paragraph. How to update the commit message
 is explained link:error-push-fails-due-to-commit-message.html[here].
 
 

@@ -1556,6 +1556,32 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushWithChangeIdAboveFooter() throws Exception {
+    testPushWithChangeIdAboveFooter();
+  }
+
+  @Test
+  public void pushWithChangeIdAboveFooterWithCreateNewChangeForAllNotInTarget() throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+    testPushWithChangeIdAboveFooter();
+  }
+
+  private void testPushWithChangeIdAboveFooter() throws Exception {
+    RevCommit c =
+        createCommit(
+            testRepo,
+            PushOneCommit.SUBJECT
+                + "\n\n"
+                + "Change-Id: Ied70ea827f5bf968f1f6aaee6594e07c846d217a\n\n"
+                + "More text, uh oh.\n");
+    assertThat(GitUtil.getChangeId(testRepo, c)).isEmpty();
+    pushForReviewRejected(testRepo, "Change-Id must be in message footer");
+
+    setRequireChangeId(InheritableBoolean.FALSE);
+    pushForReviewRejected(testRepo, "Change-Id must be in message footer");
+  }
+
+  @Test
   public void errorMessageFormat() throws Exception {
     RevCommit c = createCommit(testRepo, "Message without Change-Id");
     assertThat(GitUtil.getChangeId(testRepo, c)).isEmpty();

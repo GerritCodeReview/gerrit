@@ -18,6 +18,7 @@ occurring and what can be done to solve it.
 * link:error-invalid-changeid-line.html[invalid Change-Id line format in commit message footer]
 * link:error-invalid-committer.html[invalid committer]
 * link:error-missing-changeid.html[missing Change-Id in commit message footer]
+* link:error-changeid-above-footer.html[Change-Id must be in commit message footer]
 * link:error-missing-subject.html[missing subject; Change-Id must be in commit message footer]
 * link:error-multiple-changeid-lines.html[multiple Change-Id lines in commit message footer]
 * link:error-no-common-ancestry.html[no common ancestry]

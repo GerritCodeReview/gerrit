@@ -24,17 +24,6 @@ import java.util.HashMap;
 import org.junit.Test;
 
 public class IndexHtmlUtilTest {
-  @Test
-  public void polymer2() throws Exception {
-    assertThat(
-            staticTemplateData(
-                "http://example.com/",
-                null,
-                null,
-                ImmutableMap.of("p2", new String[0]),
-                IndexHtmlUtilTest::ordain))
-        .containsExactly("canonicalPath", "", "polymer2", "true", "staticResourcePath", ordain(""));
-  }
 
   @Test
   public void noPathAndNoCDN() throws Exception {

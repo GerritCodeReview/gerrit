@@ -15,4 +15,7 @@
  * limitations under the License.
  */
 
-// Intentionally blank - will contain shared Polymer 2 test setup code.
+window.POLYMER2 = true;
+if (window.customElements) window.customElements.forcePolyfill = true;
+ShadyDOM = {force: true};
+ShadyCSS = {shimcssproperties: true};

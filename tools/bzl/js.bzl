@@ -486,8 +486,8 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], externs = [], assets = No
         name = name + "_bin",
         compilation_level = "WHITESPACE_ONLY",
         defs = [
-            "--polymer_version=1",
-            "--language_out=ECMASCRIPT6",
+            "--polymer_version=2",
+            "--language_out=ECMASCRIPT_2017",
             "--rewrite_polyfills=false",
         ],
         deps = [

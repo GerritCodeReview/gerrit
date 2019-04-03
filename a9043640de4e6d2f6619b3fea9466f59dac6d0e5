@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e7ad11c_5078e6f6",
+        "filename": "lib/zlib/zlib.BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-03T00:39:28Z",
+      "side": 1,
+      "message": "Why is this file named \"zlib.BUILD\" rather than only \"BUILD\"?",
+      "revId": "a9043640de4e6d2f6619b3fea9466f59dac6d0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

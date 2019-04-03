@@ -14,11 +14,14 @@
 
 package com.google.gerrit.acceptance.rest.binding;
 
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
+import com.google.gerrit.acceptance.rest.util.RestCall.Method;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -64,7 +67,10 @@ public class PluginProvidedRootRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/plugins/" + PLUGIN_NAME + "/test-collection/"),
           RestCall.get("/plugins/" + PLUGIN_NAME + "/test-collection/1/detail"),
           RestCall.post("/plugins/" + PLUGIN_NAME + "/test-collection/"),
-          RestCall.post("/plugins/" + PLUGIN_NAME + "/test-collection/1/update"));
+          RestCall.post("/plugins/" + PLUGIN_NAME + "/test-collection/1/update"),
+          RestCall.builder(Method.GET, "/plugins/" + PLUGIN_NAME + "/not-found")
+              .expectedResponseCode(SC_NOT_FOUND)
+              .build());
 
   /** Module for all HTTP bindings. */
   static class MyPluginHttpModule extends ServletModule {

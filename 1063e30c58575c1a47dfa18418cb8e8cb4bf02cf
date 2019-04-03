@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c348f48_7e23cdfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-04-03T15:16:51Z",
+      "side": 1,
+      "message": "What behavior does this have when someone mentions a change-id above the footer as a legitimate reference to another change? i.e. a message like:\n\n Fix bug\n\n When trying to add feature xyz in\n Change-Id: I55ca6286e3e4f4fba5d0448333fa99fc5a404a73 we\n introduced new behavior that was buggy. Fix it.\n\n Change-Id: Ia5d43370e075d6fc13cd9b22031436f1138e90c0\n Signed-off-by: Joe Bob \u003cjob@bob.com\u003e",
+      "revId": "1063e30c58575c1a47dfa18418cb8e8cb4bf02cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

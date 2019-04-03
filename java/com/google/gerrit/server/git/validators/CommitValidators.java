@@ -493,7 +493,8 @@ public class CommitValidators {
       List<CommitValidationMessage> messages = new ArrayList<>();
       try {
         commitValidationListeners.runEach(
-            l -> l.onCommitReceived(receiveEvent), CommitValidationException.class);
+            l -> messages.addAll(l.onCommitReceived(receiveEvent)),
+            CommitValidationException.class);
       } catch (CommitValidationException e) {
         messages.addAll(e.getMessages());
         throw new CommitValidationException(e.getMessage(), messages);

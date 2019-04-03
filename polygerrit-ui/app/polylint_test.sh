@@ -17,4 +17,4 @@ fi
 
 unzip -o polygerrit-ui/polygerrit_components.bower_components.zip -d polygerrit-ui/app
 
-npx polylint --root polygerrit-ui/app --input elements/gr-app.html --b 'bower_components' --verbose
+npx polylint --root polygerrit-ui/app --input elements/gr-app-p2.html --b 'bower_components' --verbose

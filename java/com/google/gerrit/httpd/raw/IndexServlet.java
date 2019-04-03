@@ -94,6 +94,7 @@ public class IndexServlet extends HttpServlet {
     return new SoyMapData(
         "canonicalPath", canonicalPath,
         "staticResourcePath", sanitizedStaticPath,
-        "faviconPath", faviconPath);
+        "faviconPath", faviconPath,
+        "polymer2", "true");
   }
 }

@@ -44,23 +44,6 @@
     {if $assetsPath}window.ASSETS_PATH = '{$assetsPath}';{/if}
     {if $polymer2}
       {literal}
-        window.POLYMER2 = true;
-        if (window.customElements) window.customElements.forcePolyfill = true;
-        ShadyDOM = { force: true };
-        ShadyCSS = { shimcssproperties: true};
-      {/literal}
-    {/if}
-    {if $gerritInitialData}
-      // INITIAL_DATA is a string that represents a JSON map. It's inlined here so that we can
-      // spare calls to the API when starting up the app.
-      // The map maps from endpoint to returned value. This matches Gerrit's REST API 1:1, so the
-      // values here can be used as a drop-in replacement for calls to the API.
-      //
-      // Example:
-      // '/config/server/version' => '3.0.0-468-g0757b52a7d'
-      // '/accounts/self/detail' => { 'username' : 'gerrit-user' }
-      window.INITIAL_DATA = JSON.parse({$gerritInitialData});
-    {/if}
   </script>{\n}
 
   {if $faviconPath}

@@ -18,7 +18,7 @@ polygerrit_bundle(
         ],
     ),
     outs = ["polygerrit_ui.zip"],
-    app = "elements/gr-app.html",
+    app = "elements/gr-app-p2.html",
 )
 
 bower_component_bundle(

@@ -16,6 +16,24 @@
       "revId": "a9043640de4e6d2f6619b3fea9466f59dac6d0e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "182989be_a6ec8e6e",
+        "filename": "lib/zlib/zlib.BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-03T20:29:09Z",
+      "side": 1,
+      "message": "Because I shamelessly stolen this file from Protobuf upstream: [1], but I can change it to just BUILD. Done.\n\n* [1] https://github.com/protocolbuffers/protobuf/blob/master/third_party/zlib.BUILD",
+      "parentUuid": "4e7ad11c_5078e6f6",
+      "revId": "a9043640de4e6d2f6619b3fea9466f59dac6d0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

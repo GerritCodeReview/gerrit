@@ -14,11 +14,10 @@ def polygerrit_bundle(name, srcs, outs, app):
         # See: https://github.com/google/closure-compiler/issues/2042
         compilation_level = "WHITESPACE_ONLY",
         defs = [
-            "--polymer_version=1",
+            "--polymer_version=2",
             "--jscomp_off=duplicate",
-            "--force_inject_library=es6_runtime",
         ],
-        language = "ECMASCRIPT5",
+        language = "ECMASCRIPT_2015",
         deps = [name + "_closure_lib"],
     )
 
@@ -26,7 +25,7 @@ def polygerrit_bundle(name, srcs, outs, app):
     # https://github.com/Polymer/polymer-resin/issues/7
     closure_js_library(
         name = name + "_closure_lib",
-        srcs = [appName + ".js"],
+        srcs = [appName + "__patched"],
         convention = "GOOGLE",
         # TODO(davido): Clean up these issues: http://paste.openstack.org/show/608548
         # and remove this supression
@@ -40,6 +39,16 @@ def polygerrit_bundle(name, srcs, outs, app):
             "//lib/polymer_externs:polymer_closure",
             "@io_bazel_rules_closure//closure/library",
         ],
+    )
+
+    # TODO(davido): Remove this hack, when new release is conducted with this CL included
+    # https://github.com/Polymer/polymer/commit/f1d5d0ee9bbed92cfcedea71068a8b598d49e6c0
+    native.genrule(
+        name = appName + "__patched",
+        srcs = [appName + ".js"],
+        cmd = "cat $(location :%s.js)" % appName +
+              "|sed 's/{!HTMLTemplateElement|string}/{HTMLTemplateElement|string}/' > $@",
+        outs = [appName + "__patched.js"],
     )
 
     bundle_assets(

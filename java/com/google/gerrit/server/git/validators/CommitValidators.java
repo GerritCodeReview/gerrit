@@ -21,9 +21,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
@@ -246,6 +244,7 @@ public class CommitValidators {
     private static final String MISSING_CHANGE_ID_MSG = "missing Change-Id in message footer";
     private static final String MISSING_SUBJECT_MSG =
         "missing subject; Change-Id must be in message footer";
+    private static final String CHANGE_ID_ABOVE_FOOTER_MSG = "Change-Id must be in message footer";
     private static final String MULTIPLE_CHANGE_ID_MSG =
         "multiple Change-Id lines in message footer";
     private static final String INVALID_CHANGE_ID_MSG =
@@ -295,8 +294,20 @@ public class CommitValidators {
             && CHANGE_ID.matcher(shortMsg.substring(CHANGE_ID_PREFIX.length()).trim()).matches()) {
           throw new CommitValidationException(MISSING_SUBJECT_MSG);
         }
+        if (commit.getFullMessage().contains("\n" + CHANGE_ID_PREFIX)) {
+          messages.add(
+              new CommitValidationMessage(
+                  CHANGE_ID_ABOVE_FOOTER_MSG
+                      + "\n"
+                      + "\n"
+                      + "Hint: run\n"
+                      + "  git commit --amend\n"
+                      + "and move 'Change-Id: Ixxx..' to the bottom on a separate line\n",
+                  Type.ERROR));
+          throw new CommitValidationException(CHANGE_ID_ABOVE_FOOTER_MSG, messages);
+        }
         if (projectState.is(BooleanProjectConfig.REQUIRE_CHANGE_ID)) {
-          messages.add(getMissingChangeIdErrorMsg(MISSING_CHANGE_ID_MSG, commit));
+          messages.add(getMissingChangeIdErrorMsg(MISSING_CHANGE_ID_MSG));
           throw new CommitValidationException(MISSING_CHANGE_ID_MSG, messages);
         }
       } else if (idList.size() > 1) {
@@ -306,7 +317,7 @@ public class CommitValidators {
         // Reject Change-Ids with wrong format and invalid placeholder ID from
         // Egit (I0000000000000000000000000000000000000000).
         if (!CHANGE_ID.matcher(v).matches() || v.matches("^I00*$")) {
-          messages.add(getMissingChangeIdErrorMsg(INVALID_CHANGE_ID_MSG, receiveEvent.commit));
+          messages.add(getMissingChangeIdErrorMsg(INVALID_CHANGE_ID_MSG));
           throw new CommitValidationException(INVALID_CHANGE_ID_MSG, messages);
         }
         if (change != null && !v.equals(change.getKey().get())) {
@@ -322,32 +333,17 @@ public class CommitValidators {
           || NEW_PATCHSET_PATTERN.matcher(event.command.getRefName()).matches();
     }
 
-    private CommitValidationMessage getMissingChangeIdErrorMsg(String errMsg, RevCommit c) {
-      StringBuilder sb = new StringBuilder();
-      sb.append(errMsg).append("\n");
-
-      boolean hinted = false;
-      if (c.getFullMessage().contains(CHANGE_ID_PREFIX)) {
-        String lastLine = Iterables.getLast(Splitter.on('\n').split(c.getFullMessage()), "");
-        if (!lastLine.contains(CHANGE_ID_PREFIX)) {
-          hinted = true;
-          sb.append("\n")
-              .append("Hint: run\n")
-              .append("  git commit --amend\n")
-              .append("and move 'Change-Id: Ixxx..' to the bottom on a separate line\n");
-        }
-      }
-
-      // Print only one hint to avoid overwhelming the user.
-      if (!hinted) {
-        sb.append("\nHint: to automatically insert a Change-Id, install the hook:\n")
-            .append(getCommitMessageHookInstallationHint())
-            .append("\n")
-            .append("and then amend the commit:\n")
-            .append("  git commit --amend --no-edit\n")
-            .append("Finally, push your changes again\n");
-      }
-      return new CommitValidationMessage(sb.toString(), Type.ERROR);
+    private CommitValidationMessage getMissingChangeIdErrorMsg(String errMsg) {
+      return new CommitValidationMessage(
+          errMsg
+              + "\n"
+              + "\nHint: to automatically insert a Change-Id, install the hook:\n"
+              + getCommitMessageHookInstallationHint()
+              + "\n"
+              + "and then amend the commit:\n"
+              + "  git commit --amend --no-edit\n"
+              + "Finally, push your changes again\n",
+          Type.ERROR);
     }
 
     private String getCommitMessageHookInstallationHint() {

@@ -280,6 +280,30 @@
       "revId": "28ef9da12bf6e8443cc45186b0f07e49a0241584",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef2a3bf1_55918749",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-03T07:30:18Z",
+      "side": 1,
+      "message": "Result seems to be an array, are you sure you can destructure like this? Promise all *might* support passing in an object instead, and maybe that would give you an object back and then this would work. Or maybe you want to destructure with [_, url] or something like that, but as is, I would expect this to not work.",
+      "parentUuid": "a4afbdc5_b1d36533",
+      "range": {
+        "startLine": 1377,
+        "startChar": 14,
+        "endLine": 1377,
+        "endChar": 20
+      },
+      "revId": "28ef9da12bf6e8443cc45186b0f07e49a0241584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

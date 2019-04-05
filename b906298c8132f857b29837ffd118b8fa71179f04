@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "a138f13d_7d631367",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-05T09:19:52Z",
+      "side": 1,
+      "message": "Sounds good.",
+      "parentUuid": "1fd150d8_3c0c715b",
+      "range": {
+        "startLine": 82,
+        "startChar": 10,
+        "endLine": 82,
+        "endChar": 12
+      },
+      "revId": "b906298c8132f857b29837ffd118b8fa71179f04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c68dfd2_0effc84c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 2

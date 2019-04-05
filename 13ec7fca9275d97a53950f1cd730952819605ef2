@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "479684cf_55be2205",
+        "filename": "prologtests/examples/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1069404
+      },
+      "writtenOn": "2019-04-05T00:00:02Z",
+      "side": 1,
+      "message": "t2",
+      "range": {
+        "startLine": 15,
+        "startChar": 39,
+        "endLine": 15,
+        "endChar": 40
+      },
+      "revId": "13ec7fca9275d97a53950f1cd730952819605ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

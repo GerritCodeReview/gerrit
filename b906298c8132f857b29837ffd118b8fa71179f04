@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "719d5d06_13e4a8a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-05T08:16:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd24b2a9_54bc3abb",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "b906298c8132f857b29837ffd118b8fa71179f04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2b2de0a_9d464f16",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "b906298c8132f857b29837ffd118b8fa71179f04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fd150d8_3c0c715b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-05T08:16:05Z",
+      "side": 1,
+      "message": "I have changed to 10 ms, tested it and added more comments.\n\n0 ms also works technically, but creates a huge amount of events when you simply drag select a line. So 10 ms seems like a good compromise. It still generates a fair amount of events, but just 30% or so of what 0 ms does. And it still feels the same as 0 ms for the user.",
+      "parentUuid": "c2b2de0a_9d464f16",
+      "range": {
+        "startLine": 82,
+        "startChar": 10,
+        "endLine": 82,
+        "endChar": 12
+      },
+      "revId": "b906298c8132f857b29837ffd118b8fa71179f04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -85,6 +133,48 @@
       "revId": "b906298c8132f857b29837ffd118b8fa71179f04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "976b14aa_5feddb92",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-05T08:16:05Z",
+      "side": 1,
+      "message": "Changed to \"chunk\".",
+      "parentUuid": "71bd02a4_b6a803b9",
+      "range": {
+        "startLine": 340,
+        "startChar": 9,
+        "endLine": 340,
+        "endChar": 18
+      },
+      "revId": "b906298c8132f857b29837ffd118b8fa71179f04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "931fcf44_81f218d9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-05T08:16:05Z",
+      "side": 1,
+      "message": "Changed to \"expand the diff context\".",
+      "parentUuid": "9c68dfd2_0effc84c",
+      "revId": "b906298c8132f857b29837ffd118b8fa71179f04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -12,6 +12,18 @@ def define_bower_components():
         license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
     )
     bower_component(
+        name = "app-layout",
+        license = "//lib:LICENSE-polymer",
+        deps = [
+            ":iron-flex-layout",
+            ":iron-media-query",
+            ":iron-resizable-behavior",
+            ":iron-scroll-target-behavior",
+            ":polymer",
+        ],
+        seed = True,
+    )
+    bower_component(
         name = "async",
         license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
     )
@@ -72,6 +84,15 @@ def define_bower_components():
         ],
     )
     bower_component(
+        name = "iron-collapse",
+        license = "//lib:LICENSE-polymer",
+        deps = [
+            ":iron-resizable-behavior",
+            ":polymer",
+        ],
+        seed = True,
+    )
+    bower_component(
         name = "iron-dropdown",
         license = "//lib:LICENSE-polymer",
         deps = [
@@ -128,6 +149,11 @@ def define_bower_components():
         seed = True,
     )
     bower_component(
+        name = "iron-media-query",
+        license = "//lib:LICENSE-polymer",
+        deps = [":polymer"],
+    )
+    bower_component(
         name = "iron-menu-behavior",
         license = "//lib:LICENSE-polymer",
         deps = [
@@ -155,6 +181,11 @@ def define_bower_components():
     )
     bower_component(
         name = "iron-resizable-behavior",
+        license = "//lib:LICENSE-polymer",
+        deps = [":polymer"],
+    )
+    bower_component(
+        name = "iron-scroll-target-behavior",
         license = "//lib:LICENSE-polymer",
         deps = [":polymer"],
     )

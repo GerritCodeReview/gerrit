@@ -157,6 +157,10 @@
       this._loadAccount();
     },
 
+    toggleDrawer() {
+      this.$.drawer.toggle();
+    },
+
     _handleLocationChange(e) {
       const baseUrl = this.getBaseUrl();
       if (baseUrl) {
@@ -321,6 +325,84 @@
 
     _generateSettingsLink() {
       return this.getBaseUrl() + '/settings/';
+    },
+
+    /**
+     * Build a URL for the given host and path. If there is a base URL, it will
+     * be included between the host and the path.
+     * @param {!string} host
+     * @param {!string} path
+     * @return {!string} The scheme-relative URL.
+     */
+    _computeURLHelper(host, path) {
+      return '//' + host + this.getBaseUrl() + path;
+    },
+
+    /**
+     * Build a scheme-relative URL for the current host. Will include the base
+     * URL if one is present. Note: the URL will be scheme-relative but absolute
+     * with regard to the host.
+     * @param {!string} path The path for the URL.
+     * @return {!string} The scheme-relative URL.
+     */
+    _computeRelativeURL(path) {
+      const host = window.location.host;
+      return this._computeURLHelper(host, path);
+    },
+
+    /**
+     * Compute the URL for a link object.
+     * @param {!Object} link The object describing the link.
+     * @return {!string} The URL.
+     */
+    _computeLinkURL(link) {
+      if (typeof link.url === 'undefined') {
+        return '';
+      }
+      if (link.target || !link.url.startsWith('/')) {
+        return link.url;
+      }
+      return this._computeRelativeURL(link.url);
+    },
+
+    /**
+     * Compute the value for the rel attribute of an anchor for the given link
+     * object. If the link has a target value, then the rel must be "noopener"
+     * for security reasons.
+     * @param {!Object} link The object describing the link.
+     * @return {?string} The rel value for the link.
+     */
+    _computeLinkRel(link) {
+      // Note: noopener takes precedence over external.
+      if (link.target) { return REL_NOOPENER; }
+      if (link.external) { return REL_EXTERNAL; }
+      return null;
+    },
+
+    /**
+     * Handle a click on an item of the dropdown.
+     * @param {!Event} e
+     */
+    _handleItemTap(e) {
+      const id = e.target.getAttribute('data-id');
+      const item = this.items.find(item => item.id === id);
+      if (id && !this.disabledIds.includes(id)) {
+        if (item) {
+          this.dispatchEvent(new CustomEvent('tap-item', {detail: item}));
+        }
+        this.dispatchEvent(new CustomEvent('tap-item-' + id));
+      }
+    },
+
+    /**
+     * If a dropdown item is shown as a button, get the class for the button.
+     * @param {string} id
+     * @param {!Object} disabledIdsRecord The change record for the disabled IDs
+     *     list.
+     * @return {!string} The class for the item button.
+     */
+    _computeDisabledClass(id, disabledIdsRecord) {
+      return disabledIdsRecord.base.includes(id) ? 'disabled' : '';
     },
   });
 })();

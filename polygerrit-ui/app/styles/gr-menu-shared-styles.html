@@ -1,0 +1,75 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at https://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at https://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at https://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/paper-styles/color.html">
+<link rel="import" href="../bower_components/paper-styles/default-theme.html">
+
+<dom-module id="gr-menu-shared-styles">
+  <template>
+    <style>
+    .selectable-content ::slotted(.gr-menu-item),
+    .gr-menu-item {
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--app-menu-color, var(--primary-text-color));
+      transition: color 0.4s ease-out;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 24px;
+      min-height: 48px;
+      padding: 0 24px;
+    }
+
+    .selectable-content ::slotted(.gr-menu-item.iron-selected),
+    .gr-menu-item.iron-selected {
+      font-weight: 500;
+      background-color: var(--gr-menu-selected-bg-color, var(--primary-background-color));
+      color: var(--primary-color);
+      fill: var(--primary-color);
+      @apply(--app-menu-selected-item);
+    }
+
+    .selectable-content ::slotted(.gr-menu-item:hover),
+    .selectable-content ::slotted(.gr-menu-item:focus) {
+      background-color: var(--gr-menu-selected-bg-color, var(--primary-background-color));
+    }
+
+    .selectable-content ::slotted(.gr-menu-item[disabled]) {
+      color: var(--app-menu-disabled-color, var(--disabled-text-color));
+      pointer-events: none;
+    }
+
+    .selectable-content ::slotted(:focus) {
+      position: relative;
+      outline: 0;
+      @apply(--gr-menu-focused-item);
+    }
+
+    .selectable-content ::slotted(.gr-menu-item:focus:after) {
+      @apply(--layout-fit);
+      opacity: var(--dark-divider-opacity);
+      content: '';
+      pointer-events: none;
+      @apply(--gr-menu-focused-item-after);
+    }
+
+    .selectable-content ::slotted(.gr-menu-item[colored]:focus:after) {
+      opacity: 0.26;
+    }
+    </style>
+  </template>
+</dom-module>

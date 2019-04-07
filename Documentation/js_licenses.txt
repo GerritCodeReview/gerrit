@@ -410,12 +410,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [[polymer]]
 polymer
 
+* js:app-layout
 * js:font-roboto
 * js:iron-a11y-announcer
 * js:iron-a11y-keys-behavior
 * js:iron-autogrow-textarea
 * js:iron-behaviors
 * js:iron-checked-element-behavior
+* js:iron-collapse
 * js:iron-dropdown
 * js:iron-fit-behavior
 * js:iron-flex-layout
@@ -423,10 +425,12 @@ polymer
 * js:iron-icon
 * js:iron-iconset-svg
 * js:iron-input
+* js:iron-media-query
 * js:iron-menu-behavior
 * js:iron-meta
 * js:iron-overlay-behavior
 * js:iron-resizable-behavior
+* js:iron-scroll-target-behavior
 * js:iron-selector
 * js:iron-validatable-behavior
 * js:neon-animation

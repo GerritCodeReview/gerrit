@@ -74,6 +74,12 @@ def load_bower_archives():
         sha1 = "7b5a79e02cc32f0918725dd26925d0df1e03ed12",
     )
     bower_archive(
+        name = "iron-media-query",
+        package = "PolymerElements/iron-media-query",
+        version = "2.1.0",
+        sha1 = "96c5f591f927424bfbc96dd35db5974d9baa2710",
+    )
+    bower_archive(
         name = "iron-menu-behavior",
         package = "PolymerElements/iron-menu-behavior",
         version = "2.1.1",
@@ -90,6 +96,12 @@ def load_bower_archives():
         package = "polymerelements/iron-resizable-behavior",
         version = "1.0.6",
         sha1 = "719c2a8a1a784f8aefcdeef41fcc2e5a03518d9e",
+    )
+    bower_archive(
+        name = "iron-scroll-target-behavior",
+        package = "PolymerElements/iron-scroll-target-behavior",
+        version = "2.1.1",
+        sha1 = "e56b84c88ea1233c262552e5ca6f529f74503f7a",
     )
     bower_archive(
         name = "iron-validatable-behavior",

@@ -1,0 +1,49 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at https://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at https://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at https://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+<link rel="import" href="../../../bower_components/iron-behaviors/iron-control-state.html">
+<link rel="import" href="../../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../../styles/gr-menu-shared-styles.html">
+
+<dom-module id="gr-submenu">
+  <template>
+    <style include="gr-menu-shared-styles"></style>
+    <style>
+      :host {
+        display: block;
+      }
+      #collapse ::slotted(gr-menu) {
+        padding: 0;
+      }
+      .selectable-content ::slotted(.gr-menu-item.iron-selected) {
+        background-color: transparent;
+      }
+      :host(:focus) .selectable-content ::slotted(.gr-menu-item) {
+        background-color: var(--gr-menu-selected-bg-color, var(--primary-background-color));
+      }
+      .selectable-content ::slotted(.gr-menu-item.iron-selected:hover) {
+        background-color: var(--gr-menu-selected-bg-color, var(--primary-background-color));
+      }
+      :host([disabled]) .selectable-content ::slotted(.gr-menu-item) {
+        color: var(--gr-menu-disabled-color, var(--disabled-text-color));
+        pointer-events: none;
+      }
+    </style>
+    <div id="triggerHolder" class="selectable-content" on-tap="_onTap">
+      <slot id="trigger" name="submenu-trigger"></slot>
+    </div>
+    <iron-collapse id="collapse" opened="{{opened}}">
+      <slot id="content" name="submenu-content"></slot>
+    </iron-collapse>
+  </template>
+  <script src="gr-submenu.js"></script>
+</dom-module>

@@ -15,15 +15,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
 
 <link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.html">
+<link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
+<link rel="import" href="../../shared/gr-menu/gr-menu.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-submenu/gr-submenu.html">
 <link rel="import" href="../gr-account-dropdown/gr-account-dropdown.html">
 <link rel="import" href="../gr-smart-search/gr-smart-search.html">
 
@@ -148,6 +154,9 @@ limitations under the License.
         background-color: var(--view-background-color);
         box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
       }
+      app-drawer {
+        z-index: 100;
+      }
       @media screen and (max-width: 50em) {
         .bigTitle {
           font-size: var(--font-size-large);
@@ -168,6 +177,54 @@ limitations under the License.
       }
     </style>
     <nav>
+      <gr-button on-tap="toggleDrawer" link>
+        <iron-icon icon="gr-icons:menu" ></iron-icon>
+      </gr-button>
+      <app-drawer id="drawer" swipe-open>
+        <a href$="[[_computeRelativeURL('/')]]" class="bigTitle">
+          <gr-endpoint-decorator name="header-title">
+            <span class="titleText"></span>
+          </gr-endpoint-decorator>
+        </a>
+        <hr />
+        <gr-menu selected="0">
+          <template is="dom-repeat" items="[[_links]]" as="linkGroup">
+            <gr-submenu>
+              <div class="gr-menu-item" slot="submenu-trigger" id="[[linkGroup.title]]">
+                [[linkGroup.title]]
+              </div>
+              <gr-menu slot="submenu-content">
+                <template
+                    is="dom-repeat"
+                    items="[[linkGroup.links]]"
+                    as="link"
+                    initial-count="75">
+                  <div tabindex="-1">
+                    <gr-tooltip-content
+                        has-tooltip="[[_computeHasTooltip(link.tooltip)]]"
+                        title$="[[link.tooltip]]">
+                      <span
+                          class$="gr-menu-item itemAction [[_computeDisabledClass(link.id, disabledIds.*)]]"
+                          data-id$="[[link.id]]"
+                          on-tap="_handleItemTap"
+                          hidden$="[[link.url]]"
+                          tabindex="-1">[[link.name]]</span>
+                      <a
+                          class="gr-menu-item itemAction"
+                          href$="[[_computeLinkURL(link)]]"
+                          download$="[[_computeIsDownload(link)]]"
+                          rel$="[[_computeLinkRel(link)]]"
+                          target$="[[link.target]]"
+                          hidden$="[[!link.url]]"
+                          tabindex="-1">[[link.name]]</a>
+                    </gr-tooltip-content>
+                  </div>
+                </template>
+              </gr-menu>
+            </gr-submenu>
+          </template>
+        </gr-menu>
+      </app-drawer>
       <a href$="[[_computeRelativeURL('/')]]" class="bigTitle">
         <gr-endpoint-decorator name="header-title">
           <span class="titleText"></span>
@@ -176,15 +233,15 @@ limitations under the License.
       <ul class="links">
         <template is="dom-repeat" items="[[_links]]" as="linkGroup">
           <li class$="[[linkGroup.class]]">
-          <gr-dropdown
-              link
-              down-arrow
-              items = [[linkGroup.links]]
-              horizontal-align="left">
-            <span class="linksTitle" id="[[linkGroup.title]]">
-              [[linkGroup.title]]
-            </span>
-          </gr-dropdown>
+            <gr-dropdown
+                link
+                down-arrow
+                items = [[linkGroup.links]]
+                horizontal-align="left">
+              <span class="linksTitle" id="[[linkGroup.title]]">
+                [[linkGroup.title]]
+              </span>
+            </gr-dropdown>
           </li>
         </template>
       </ul>

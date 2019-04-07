@@ -35,6 +35,7 @@ import bowerutil
 
 # list of licenses for packages that don't specify one in their bower.json file
 package_licenses = {
+    "app-layout": "polymer",
     "codemirror-minified": "codemirror-minified",
     "es6-promise": "es6-promise",
     "fetch": "fetch",
@@ -43,6 +44,7 @@ package_licenses = {
     "iron-a11y-keys-behavior": "polymer",
     "iron-autogrow-textarea": "polymer",
     "iron-behaviors": "polymer",
+    "iron-collapse": "polymer",
     "iron-dropdown": "polymer",
     "iron-fit-behavior": "polymer",
     "iron-flex-layout": "polymer",
@@ -50,10 +52,12 @@ package_licenses = {
     "iron-icon": "polymer",
     "iron-iconset-svg": "polymer",
     "iron-input": "polymer",
+    "iron-media-query": "polymer",
     "iron-menu-behavior": "polymer",
     "iron-meta": "polymer",
     "iron-overlay-behavior": "polymer",
     "iron-resizable-behavior": "polymer",
+    "iron-scroll-target-behavior": "polymer",
     "iron-selector": "polymer",
     "iron-validatable-behavior": "polymer",
     "moment": "moment",

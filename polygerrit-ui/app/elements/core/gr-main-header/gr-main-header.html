@@ -15,11 +15,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
 
 <link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
@@ -168,6 +171,11 @@ limitations under the License.
       }
     </style>
     <nav>
+      <gr-button on-tap="toggleDrawer">
+        <iron-icon icon="gr-icons:menu" ></iron-icon>
+      </gr-button>
+      <!--<paper-icon-button icon="menu" onclick="drawer.toggle()"></paper-icon-button>-->
+      <app-drawer id="drawer" swipe-open></app-drawer>
       <a href$="[[_computeRelativeURL('/')]]" class="bigTitle">
         <gr-endpoint-decorator name="header-title">
           <span class="titleText"></span>

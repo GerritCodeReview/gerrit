@@ -157,6 +157,10 @@
       this._loadAccount();
     },
 
+    toggleDrawer() {
+      this.$.drawer.toggle();
+    },
+
     _handleLocationChange(e) {
       const baseUrl = this.getBaseUrl();
       if (baseUrl) {

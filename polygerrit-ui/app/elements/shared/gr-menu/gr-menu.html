@@ -1,0 +1,36 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at https://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at https://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at https://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-menu-behavior/iron-menu-behavior.html">
+<link rel="import" href="../../../bower_components/paper-styles/default-theme.html">
+<link rel="import" href="../../../styles/gr-menu-shared-styles.html">
+
+<dom-module id="gr-menu">
+  <template>
+    <style include="gr-menu-shared-styles"></style>
+    <style>
+      :host {
+        display: block;
+        padding: 8px 0;
+
+        background: var(--paper-menu-background-color, --primary-background-color);
+        color: var(--paper-menu-color, --primary-text-color);
+
+        @apply(--paper-menu);
+      }
+    </style>
+
+    <div class="selectable-content">
+      <slot></slot>
+    </div>
+  </template>
+  <script src="gr-menu.js"></script>
+</dom-module>

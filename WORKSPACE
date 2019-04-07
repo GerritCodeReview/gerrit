@@ -1150,10 +1150,24 @@ npm_binary(
 
 # bower_archive() seed components.
 bower_archive(
+    name = "app-layout",
+    package = "polymerelements/app-layout",
+    sha1 = "137362749db66d11c79dec7ecfa004d164c2f3c9",
+    version = "2.1.0",
+)
+
+bower_archive(
     name = "iron-autogrow-textarea",
     package = "polymerelements/iron-autogrow-textarea",
     sha1 = "68f0ece9b1e56ac26f8ce31d9938c504f6951bca",
     version = "2.1.0",
+)
+
+bower_archive(
+    name = "iron-collapse",
+    package = "polymerelements/iron-collapse",
+    sha1 = "1973650dc3a310ec6c1c9fbd98018dacf018ef30",
+    version = "2.2.1",
 )
 
 bower_archive(

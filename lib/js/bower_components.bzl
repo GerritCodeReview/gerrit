@@ -36,12 +36,12 @@ def define_bower_components():
     bower_component(
         name = "iron-a11y-announcer",
         license = "//lib:LICENSE-polymer",
-        deps = [":polymer"],
+        deps = [ ":polymer" ],
     )
     bower_component(
         name = "iron-a11y-keys-behavior",
         license = "//lib:LICENSE-polymer",
-        deps = [":polymer"],
+        deps = [ ":polymer" ],
     )
     bower_component(
         name = "iron-autogrow-textarea",
@@ -86,17 +86,17 @@ def define_bower_components():
     bower_component(
         name = "iron-fit-behavior",
         license = "//lib:LICENSE-polymer",
-        deps = [":polymer"],
+        deps = [ ":polymer" ],
     )
     bower_component(
         name = "iron-flex-layout",
         license = "//lib:LICENSE-polymer",
-        deps = [":polymer"],
+        deps = [ ":polymer" ],
     )
     bower_component(
         name = "iron-form-element-behavior",
         license = "//lib:LICENSE-polymer",
-        deps = [":polymer"],
+        deps = [ ":polymer" ],
     )
     bower_component(
         name = "iron-icon",
@@ -140,7 +140,7 @@ def define_bower_components():
     bower_component(
         name = "iron-meta",
         license = "//lib:LICENSE-polymer",
-        deps = [":polymer"],
+        deps = [ ":polymer" ],
     )
     bower_component(
         name = "iron-overlay-behavior",
@@ -156,18 +156,18 @@ def define_bower_components():
     bower_component(
         name = "iron-resizable-behavior",
         license = "//lib:LICENSE-polymer",
-        deps = [":polymer"],
+        deps = [ ":polymer" ],
     )
     bower_component(
         name = "iron-selector",
         license = "//lib:LICENSE-polymer",
-        deps = [":polymer"],
+        deps = [ ":polymer" ],
         seed = True,
     )
     bower_component(
         name = "iron-test-helpers",
         license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
-        deps = [":polymer"],
+        deps = [ ":polymer" ],
         seed = True,
     )
     bower_component(
@@ -331,13 +331,13 @@ def define_bower_components():
     bower_component(
         name = "polymer",
         license = "//lib:LICENSE-polymer",
-        deps = [":webcomponentsjs"],
+        deps = [ ":webcomponentsjs" ],
         seed = True,
     )
     bower_component(
         name = "promise-polyfill",
         license = "//lib:LICENSE-promise-polyfill",
-        deps = [":polymer"],
+        deps = [ ":polymer" ],
         seed = True,
     )
     bower_component(

@@ -204,11 +204,11 @@ def dump_workspace(data, seeds, out):
     for d in data:
         if d["name"] in seeds:
             continue
-        out.write("""  bower_archive(
-    name = "%(name)s",
-    package = "%(normalized-name)s",
-    version = "%(version)s",
-    sha1 = "%(bazel-sha1)s")
+        out.write("""    bower_archive(
+        name = "%(name)s",
+        package = "%(normalized-name)s",
+        version = "%(version)s",
+        sha1 = "%(bazel-sha1)s")
 """ % d)
 
 
@@ -216,21 +216,21 @@ def dump_build(data, seeds, out):
     out.write('load("//tools/bzl:js.bzl", "bower_component")\n\n')
     out.write('def define_bower_components():\n')
     for d in data:
-        out.write("  bower_component(\n")
-        out.write("    name = \"%s\",\n" % d["name"])
-        out.write("    license = \"//lib:LICENSE-%s\",\n" % d["bazel-license"])
+        out.write("    bower_component(\n")
+        out.write("        name = \"%s\",\n" % d["name"])
+        out.write("        license = \"//lib:LICENSE-%s\",\n" % d["bazel-license"])
         deps = sorted(d.get("dependencies", {}).keys())
         if deps:
             if len(deps) == 1:
-                out.write("    deps = [ \":%s\" ],\n" % deps[0])
+                out.write("        deps = [ \":%s\" ],\n" % deps[0])
             else:
-                out.write("    deps = [\n")
+                out.write("        deps = [\n")
                 for dep in deps:
-                    out.write("      \":%s\",\n" % dep)
-                out.write("    ],\n")
+                    out.write("            \":%s\",\n" % dep)
+                out.write("        ],\n")
         if d["name"] in seeds:
-            out.write("    seed = True,\n")
-        out.write("  )\n")
+            out.write("        seed = True,\n")
+        out.write("    )\n")
     # done
 
 

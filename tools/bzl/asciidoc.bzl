@@ -222,7 +222,8 @@ def _asciidoc_html_zip_impl(ctx):
     ]
     args.extend(_generate_asciidoc_args(ctx))
     ctx.actions.run(
-        inputs = ctx.files.srcs + [ctx.executable._exe, ctx.file.version],
+        inputs = ctx.files.srcs + [ctx.file.version],
+        tools = [ctx.executable._exe],
         outputs = [ctx.outputs.out],
         executable = ctx.executable._exe,
         arguments = args,

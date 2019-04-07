@@ -20,9 +20,9 @@ def _npm_binary_impl(ctx):
     dest = ctx.path(base)
     repository = ctx.attr.repository
     if repository == GERRIT:
-        url = "http://gerrit-maven.storage.googleapis.com/npm-packages/%s" % filename
+        url = "https://gerrit-maven.storage.googleapis.com/npm-packages/%s" % filename
     elif repository == NPMJS:
-        url = "http://registry.npmjs.org/%s/-/%s" % (name, filename)
+        url = "https://registry.npmjs.org/%s/-/%s" % (name, filename)
     else:
         fail("repository %s not in {%s,%s}" % (repository, GERRIT, NPMJS))
 

@@ -124,8 +124,8 @@ def load_bower_archives():
     bower_archive(
         name = "paper-icon-button",
         package = "PolymerElements/paper-icon-button",
-        version = "2.2.0",
-        sha1 = "9525e76ef433428bb9d6ec4fa65c4ef83156a803",
+        version = "2.2.1",
+        sha1 = "68f76af3a9379f256a3900a4b68d871898f1fe57",
     )
     bower_archive(
         name = "paper-ripple",

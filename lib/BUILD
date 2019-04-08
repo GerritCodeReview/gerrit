@@ -34,35 +34,10 @@ java_library(
 )
 
 java_library(
-    name = "gwtorm-client",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@gwtorm-client//jar"],
-)
-
-java_library(
-    name = "gwtorm-client_src",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@gwtorm-client//jar:src"],
-)
-
-java_library(
     name = "protobuf",
     data = ["//lib:LICENSE-protobuf"],
     visibility = ["//visibility:public"],
     exports = ["@protobuf//jar"],
-)
-
-java_library(
-    name = "gwtorm",
-    visibility = ["//visibility:public"],
-    exports = [":gwtorm-client"],
-    runtime_deps = [
-        ":protobuf",
-        "//lib/antlr:java-runtime",
-        "//lib/ow2:ow2-asm",
-    ],
 )
 
 java_library(

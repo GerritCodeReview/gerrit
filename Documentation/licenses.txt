@@ -94,7 +94,6 @@ Apache2.0
 * guava
 * guava-failureaccess
 * guava-retrying
-* gwtorm-client
 * html-types
 * j2objc
 * jsr305

@@ -31,6 +31,9 @@ import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.Extension;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -40,7 +43,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import org.antlr.runtime.tree.Tree;
 
 /**
@@ -72,11 +74,14 @@ import org.antlr.runtime.tree.Tree;
  * <p>Subclasses may also declare a handler for values which appear without operator by overriding
  * {@link #defaultField(String)}.
  *
+ * <p>Instances are non-singletons and should only be used once, in order to rescan the {@code
+ * DynamicMap} of plugin-provided operators on each query invocation.
+ *
  * @param <T> type of object the predicates can evaluate in memory.
  */
-public abstract class QueryBuilder<T> {
+public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
   /** Converts a value string passed to an operator into a {@link Predicate}. */
-  public interface OperatorFactory<T, Q extends QueryBuilder<T>> {
+  public interface OperatorFactory<T, Q extends QueryBuilder<T, Q>> {
     Predicate<T> create(Q builder, String value) throws QueryParseException;
   }
 
@@ -92,10 +97,10 @@ public abstract class QueryBuilder<T> {
    * @param <T> type of object the predicates can evaluate.
    * @param <Q> type of the query builder subclass.
    */
-  public static class Definition<T, Q extends QueryBuilder<T>> {
+  public static class Definition<T, Q extends QueryBuilder<T, Q>> {
     private final ImmutableMap<String, OperatorFactory<T, Q>> opFactories;
 
-    public Definition(Class<Q> clazz) {
+    public Definition(Class<? extends Q> clazz) {
       ImmutableMap.Builder<String, OperatorFactory<T, Q>> b = ImmutableMap.builder();
       Class<?> c = clazz;
       while (c != QueryBuilder.class) {
@@ -177,14 +182,26 @@ public abstract class QueryBuilder<T> {
     return null;
   }
 
-  protected final Definition<T, ? extends QueryBuilder<T>> builderDef;
+  protected final Definition<T, Q> builderDef;
+  private final ImmutableMap<String, OperatorFactory<T, Q>> opFactories;
 
-  protected final Map<String, OperatorFactory<?, ?>> opFactories;
-
-  @SuppressWarnings({"unchecked", "rawtypes"})
-  protected QueryBuilder(Definition<T, ? extends QueryBuilder<T>> def) {
+  protected QueryBuilder(
+      Definition<T, Q> def,
+      @Nullable DynamicMap<? extends OperatorFactory<T, Q>> dynamicOpFactories) {
     builderDef = def;
-    opFactories = (Map) def.opFactories;
+
+    if (dynamicOpFactories != null) {
+      ImmutableMap.Builder<String, OperatorFactory<T, Q>> opFactoriesBuilder =
+          ImmutableMap.builder();
+      opFactoriesBuilder.putAll(def.opFactories);
+      for (Extension<? extends OperatorFactory<T, Q>> e : dynamicOpFactories) {
+        String name = e.getExportName() + "_" + e.getPluginName();
+        opFactoriesBuilder.put(name, e.getProvider().get());
+      }
+      opFactories = opFactoriesBuilder.build();
+    } else {
+      opFactories = def.opFactories;
+    }
   }
 
   /**
@@ -324,7 +341,7 @@ public abstract class QueryBuilder<T> {
   @Target(ElementType.METHOD)
   protected @interface Operator {}
 
-  private static class ReflectionFactory<T, Q extends QueryBuilder<T>>
+  private static class ReflectionFactory<T, Q extends QueryBuilder<T, Q>>
       implements OperatorFactory<T, Q> {
     private final String name;
     private final Method method;

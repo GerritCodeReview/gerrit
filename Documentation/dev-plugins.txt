@@ -720,7 +720,7 @@ definition which creates a `MyPredicate`:
 ----
 public class SampleOperator
     implements ChangeQueryBuilder.ChangeOperatorFactory {
-  public static class MyPredicate extends OperatorChangePredicate<ChangeData> {
+  public static class MyPredicate extends PostFilterPredicate<ChangeData> {
     ...
   }
 

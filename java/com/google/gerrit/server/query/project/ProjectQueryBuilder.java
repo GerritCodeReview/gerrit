@@ -28,7 +28,7 @@ import com.google.inject.Inject;
 import java.util.List;
 
 /** Parses a query string meant to be applied to project objects. */
-public class ProjectQueryBuilder extends QueryBuilder<ProjectData> {
+public class ProjectQueryBuilder extends QueryBuilder<ProjectData, ProjectQueryBuilder> {
   public static final String FIELD_LIMIT = "limit";
 
   private static final QueryBuilder.Definition<ProjectData, ProjectQueryBuilder> mydef =
@@ -36,7 +36,7 @@ public class ProjectQueryBuilder extends QueryBuilder<ProjectData> {
 
   @Inject
   ProjectQueryBuilder() {
-    super(mydef);
+    super(mydef, null);
   }
 
   @Operator

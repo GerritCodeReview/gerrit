@@ -3,7 +3,7 @@ NPMJS = "NPMJS"
 GERRIT = "GERRIT:"
 
 NPM_VERSIONS = {
-    "bower": "1.8.2",
+    "bower": "1.8.8",
     "crisper": "2.0.2",
     "vulcanize": "1.14.8",
 }

@@ -578,8 +578,7 @@ public class RevisionIT extends AbstractDaemonTest {
             "Patch Set 1: Cherry Picked from branch master.\n\n"
                 + "The following files contain Git conflicts:\n"
                 + "* "
-                + PushOneCommit.FILE_NAME
-                + "\n");
+                + PushOneCommit.FILE_NAME);
   }
 
   @Test

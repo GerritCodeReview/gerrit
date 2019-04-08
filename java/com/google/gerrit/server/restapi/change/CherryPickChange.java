@@ -388,10 +388,10 @@ public class CherryPickChange {
     stringBuilder.append(".");
 
     if (!cherryPickCommit.getFilesWithGitConflicts().isEmpty()) {
-      stringBuilder.append("\n\nThe following files contain Git conflicts:\n");
+      stringBuilder.append("\n\nThe following files contain Git conflicts:");
       cherryPickCommit.getFilesWithGitConflicts().stream()
           .sorted()
-          .forEach(filePath -> stringBuilder.append("* ").append(filePath).append("\n"));
+          .forEach(filePath -> stringBuilder.append("\n* ").append(filePath));
     }
 
     return stringBuilder.toString();

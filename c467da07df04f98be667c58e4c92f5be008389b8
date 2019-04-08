@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65ef97ca_66d2779b",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-08T06:31:46Z",
+      "side": 1,
+      "message": "I was running bower2bazel myself recently and was wondering where this sha1 comes from. Is the process to update the version, then run the script, then update the sha1 from the output of the script, then run the script again?",
+      "range": {
+        "startLine": 128,
+        "startChar": 16,
+        "endLine": 128,
+        "endChar": 56
+      },
+      "revId": "c467da07df04f98be667c58e4c92f5be008389b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "3be95e28_455a6e0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-08T09:03:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ec72c45_471807e7",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "163aa3630f5a542586c3d8e238b8d8797f09ce45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e610119_6331a033",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-08T09:03:29Z",
+      "side": 1,
+      "message": "The view is restricted, because there is an internal designed referenced, but basically they are asking for \"JavaScript API support for butterbar\", which they would like to use in a Chromium plugin.",
+      "parentUuid": "325e8933_2d360980",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "163aa3630f5a542586c3d8e238b8d8797f09ce45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e01ff87_a7c0782e",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 1
@@ -62,6 +110,24 @@
       "revId": "163aa3630f5a542586c3d8e238b8d8797f09ce45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81ca37b9_d403f5d4",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-08T09:03:29Z",
+      "side": 1,
+      "message": "There are other usages of gr-endpoint-decorator already, and there is an import also.",
+      "parentUuid": "2e01ff87_a7c0782e",
+      "revId": "163aa3630f5a542586c3d8e238b8d8797f09ce45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

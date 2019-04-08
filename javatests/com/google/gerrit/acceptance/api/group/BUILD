@@ -21,7 +21,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
-        "//lib:gwtorm",
+        "//java/com/google/gwtorm",
         "//lib/truth",
     ],
 )

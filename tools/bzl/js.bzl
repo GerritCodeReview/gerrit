@@ -1,3 +1,4 @@
+load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library")
 load("//lib/js:npm.bzl", "NPM_SHA1S", "NPM_VERSIONS")
 
 NPMJS = "NPMJS"
@@ -19,9 +20,9 @@ def _npm_binary_impl(ctx):
     dest = ctx.path(base)
     repository = ctx.attr.repository
     if repository == GERRIT:
-        url = "http://gerrit-maven.storage.googleapis.com/npm-packages/%s" % filename
+        url = "https://gerrit-maven.storage.googleapis.com/npm-packages/%s" % filename
     elif repository == NPMJS:
-        url = "http://registry.npmjs.org/%s/-/%s" % (name, filename)
+        url = "https://registry.npmjs.org/%s/-/%s" % (name, filename)
     else:
         fail("repository %s not in {%s,%s}" % (repository, GERRIT, NPMJS))
 
@@ -146,9 +147,9 @@ def _bower_component_impl(ctx):
     )
 
     return struct(
-        transitive_zipfiles = transitive_zipfiles,
-        transitive_versions = transitive_versions,
         transitive_licenses = transitive_licenses,
+        transitive_versions = transitive_versions,
+        transitive_zipfiles = transitive_zipfiles,
     )
 
 _common_attrs = {
@@ -187,9 +188,9 @@ def _js_component(ctx):
         licenses.append(ctx.file.license)
 
     return struct(
-        transitive_zipfiles = list([ctx.outputs.zip]),
-        transitive_versions = depset(),
         transitive_licenses = depset(licenses),
+        transitive_versions = depset(),
+        transitive_zipfiles = list([ctx.outputs.zip]),
     )
 
 js_component = rule(
@@ -272,9 +273,9 @@ def _bower_component_bundle_impl(ctx):
     )
 
     return struct(
-        transitive_zipfiles = zips,
-        transitive_versions = versions,
         transitive_licenses = licenses,
+        transitive_versions = versions,
+        transitive_zipfiles = zips,
     )
 
 bower_component_bundle = rule(
@@ -285,33 +286,35 @@ bower_component_bundle = rule(
         "zip": "%{name}.zip",
     },
 )
-"""Groups a set of bower components together in a zip file.
 
-Outputs:
-  NAME-versions.json:
-    a JSON file containing a PKG-NAME => PKG-NAME#VERSION mapping for the
-    transitive dependencies.
-  NAME.zip:
-    a zip file containing the transitive dependencies for this bundle.
-"""
+def _bundle_impl(ctx):
+    """Groups a set of .html and .js together in a zip file.
 
-def _vulcanize_impl(ctx):
-    # intermediate artifact.
-    vulcanized = ctx.actions.declare_file(
-        ctx.outputs.html.path + ".vulcanized.html",
-    )
+    Outputs:
+      NAME-versions.json:
+        a JSON file containing a PKG-NAME => PKG-NAME#VERSION mapping for the
+        transitive dependencies.
+    NAME.zip:
+      a zip file containing the transitive dependencies for this bundle.
+    """
+
+    # intermediate artifact if split is wanted.
+    if ctx.attr.split:
+        bundled = ctx.actions.declare_file(ctx.outputs.html.path + ".bundled.html")
+    else:
+        bundled = ctx.outputs.html
     destdir = ctx.outputs.html.path + ".dir"
     zips = [z for d in ctx.attr.deps for z in d.transitive_zipfiles]
 
     hermetic_npm_binary = " ".join([
         "python",
         "$p/" + ctx.file._run_npm.path,
-        "$p/" + ctx.file._vulcanize_archive.path,
+        "$p/" + ctx.file._bundler_archive.path,
         "--inline-scripts",
         "--inline-css",
         "--strip-comments",
-        "--out-html",
-        "$p/" + vulcanized.path,
+        "--out-file",
+        "$p/" + bundled.path,
         ctx.file.app.path,
     ])
 
@@ -336,49 +339,57 @@ def _vulcanize_impl(ctx):
     # from the environment, and it may be under $HOME, so we can't run
     # in the sandbox.
     node_tweaks = dict(
-        use_default_shell_env = True,
         execution_requirements = {"local": "1"},
+        use_default_shell_env = True,
     )
     ctx.actions.run_shell(
-        mnemonic = "Vulcanize",
+        mnemonic = "Bundle",
         inputs = [
             ctx.file._run_npm,
             ctx.file.app,
-            ctx.file._vulcanize_archive,
+            ctx.file._bundler_archive,
         ] + list(zips) + ctx.files.srcs,
-        outputs = [vulcanized],
+        outputs = [bundled],
         command = cmd,
         **node_tweaks
     )
 
-    hermetic_npm_command = "export PATH && " + " ".join([
-        "python",
-        ctx.file._run_npm.path,
-        ctx.file._crisper_archive.path,
-        "--always-write-script",
-        "--source",
-        vulcanized.path,
-        "--html",
-        ctx.outputs.html.path,
-        "--js",
-        ctx.outputs.js.path,
-    ])
+    if ctx.attr.split:
+        hermetic_npm_command = "export PATH && " + " ".join([
+            "python",
+            ctx.file._run_npm.path,
+            ctx.file._crisper_archive.path,
+            "--always-write-script",
+            "--source",
+            bundled.path,
+            "--html",
+            ctx.outputs.html.path,
+            "--js",
+            ctx.outputs.js.path,
+        ])
 
-    ctx.actions.run_shell(
-        mnemonic = "Crisper",
-        inputs = [
-            ctx.file._run_npm,
-            ctx.file.app,
-            ctx.file._crisper_archive,
-            vulcanized,
-        ],
-        outputs = [ctx.outputs.js, ctx.outputs.html],
-        command = hermetic_npm_command,
-        **node_tweaks
-    )
+        ctx.actions.run_shell(
+            mnemonic = "Crisper",
+            inputs = [
+                ctx.file._run_npm,
+                ctx.file.app,
+                ctx.file._crisper_archive,
+                bundled,
+            ],
+            outputs = [ctx.outputs.js, ctx.outputs.html],
+            command = hermetic_npm_command,
+            **node_tweaks
+        )
 
-_vulcanize_rule = rule(
-    _vulcanize_impl,
+def _bundle_output_func(name, split):
+    _ignore = [name]  # unused.
+    out = {"html": "%{name}.html"}
+    if split:
+        out["js"] = "%{name}.js"
+    return out
+
+_bundle_rule = rule(
+    _bundle_impl,
     attrs = {
         "srcs": attr.label_list(allow_files = [
             ".js",
@@ -392,7 +403,12 @@ _vulcanize_rule = rule(
             allow_single_file = True,
         ),
         "pkg": attr.string(mandatory = True),
+        "split": attr.bool(default = True),
         "deps": attr.label_list(providers = ["transitive_zipfiles"]),
+        "_bundler_archive": attr.label(
+            default = Label("@polymer-bundler//:%s" % _npm_tarball("polymer-bundler")),
+            allow_single_file = True,
+        ),
         "_crisper_archive": attr.label(
             default = Label("@crisper//:%s" % _npm_tarball("crisper")),
             allow_single_file = True,
@@ -401,17 +417,113 @@ _vulcanize_rule = rule(
             default = Label("//tools/js:run_npm_binary.py"),
             allow_single_file = True,
         ),
-        "_vulcanize_archive": attr.label(
-            default = Label("@vulcanize//:%s" % _npm_tarball("vulcanize")),
-            allow_single_file = True,
-        ),
     },
-    outputs = {
-        "html": "%{name}.html",
-        "js": "%{name}.js",
-    },
+    outputs = _bundle_output_func,
 )
 
-def vulcanize(*args, **kwargs):
-    """Vulcanize runs vulcanize and crisper on a set of sources."""
-    _vulcanize_rule(pkg = native.package_name(), *args, **kwargs)
+def bundle_assets(*args, **kwargs):
+    """Combine html, js, css files and optionally split into js and html bundles."""
+    _bundle_rule(pkg = native.package_name(), *args, **kwargs)
+
+def polygerrit_plugin(name, app, srcs = [], deps = [], externs = [], assets = None, plugin_name = None, **kwargs):
+    """Bundles plugin dependencies for deployment.
+
+    This rule bundles all Polymer elements and JS dependencies into .html and .js files.
+    Run-time dependencies (e.g. JS libraries loaded after plugin starts) should be provided using "assets" property.
+    Output of this rule is a FileSet with "${name}_fs", with deploy artifacts in "plugins/${name}/static".
+
+    Args:
+      name: String, rule name.
+      app: String, the main or root source file.
+      externs: Fileset, external definitions that should not be bundled.
+      assets: Fileset, additional files to be used by plugin in runtime, exported to "plugins/${name}/static".
+      plugin_name: String, plugin name. ${name} is used if not provided.
+    """
+    if not plugin_name:
+        plugin_name = name
+
+    html_plugin = app.endswith(".html")
+    srcs = srcs if app in srcs else srcs + [app]
+
+    if html_plugin:
+        # Combines all .js and .html files into foo_combined.js and foo_combined.html
+        _bundle_rule(
+            name = name + "_combined",
+            app = app,
+            srcs = srcs,
+            deps = deps,
+            pkg = native.package_name(),
+            **kwargs
+        )
+        js_srcs = [name + "_combined.js"]
+    else:
+        js_srcs = srcs
+
+    closure_js_library(
+        name = name + "_closure_lib",
+        srcs = js_srcs + externs,
+        convention = "GOOGLE",
+        no_closure_library = True,
+        deps = [
+            "//lib/polymer_externs:polymer_closure",
+            "//polygerrit-ui/app/externs:plugin",
+        ],
+    )
+
+    closure_js_binary(
+        name = name + "_bin",
+        compilation_level = "SIMPLE",
+        defs = [
+            "--polymer_version=1",
+            "--language_out=ECMASCRIPT6",
+            "--rewrite_polyfills=false",
+        ],
+        deps = [
+            name + "_closure_lib",
+        ],
+    )
+
+    if html_plugin:
+        native.genrule(
+            name = name + "_rename_html",
+            srcs = [name + "_combined.html"],
+            outs = [plugin_name + ".html"],
+            cmd = "sed 's/<script src=\"" + name + "_combined.js\"/<script src=\"" + plugin_name + ".js\"/g' $(SRCS) > $(OUTS)",
+            output_to_bindir = True,
+        )
+
+    native.genrule(
+        name = name + "_rename_js",
+        srcs = [name + "_bin.js"],
+        outs = [plugin_name + ".js"],
+        cmd = "cp $< $@",
+        output_to_bindir = True,
+    )
+
+    if html_plugin:
+        static_files = [plugin_name + ".js", plugin_name + ".html"]
+    else:
+        static_files = [plugin_name + ".js"]
+
+    if assets:
+        nested, direct = [], []
+        for x in assets:
+            target = nested if "/" in x else direct
+            target.append(x)
+
+        static_files += direct
+
+        if nested:
+            native.genrule(
+                name = name + "_copy_assets",
+                srcs = assets,
+                outs = [f.split("/")[-1] for f in nested],
+                cmd = "cp $(SRCS) $(@D)",
+                output_to_bindir = True,
+            )
+            static_files += [":" + name + "_copy_assets"]
+
+    native.filegroup(
+        name = name,
+        srcs = static_files,
+    )

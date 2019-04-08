@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec5cb38f_0a7175d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-08T13:46:02Z",
+      "side": 1,
+      "message": "It could be confusing, that this change is a follow-up in this series. So that when only this change is merged, but not the follow-up, we would have a discrepancy between protoc (inherited form the rules_closure version used) version used (still 3.6.1) and the protobuf-java version used (already 3.7.1). But when the follow-up change is merged, then the versions will be the same.",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "49fef759525aa57d27a3fd3707dab98aba0968de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -89,9 +89,11 @@ public class Sequences {
     @SuppressWarnings("deprecation")
     RepoSequence.Seed changeSeed = () -> db.get().nextChangeId() + gap;
     int changeBatchSize = cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20);
+    int changeSequenceFloor = cfg.getInt("noteDb", "changes", "sequenceFloor", 0);
+    int changeSequenceMax = cfg.getInt("noteDb", "changes", "sequenceMax", Integer.MAX_VALUE);
     changeSeq =
         new RepoSequence(
-            repoManager, gitRefUpdated, allProjects, NAME_CHANGES, changeSeed, changeBatchSize);
+            repoManager, gitRefUpdated, allProjects, NAME_CHANGES, changeSeed, changeBatchSize, changeSequenceFloor, changeSequenceMax);
 
     RepoSequence.Seed groupSeed = () -> nextGroupId(db.get());
     int groupBatchSize = 1;

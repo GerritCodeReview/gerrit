@@ -597,7 +597,8 @@ public class NoteDbMigrator implements AutoCloseable {
               // would be a problem, but we just discard it, so this is safe.
               () -> nextChangeId + sequenceGap - 1,
               1,
-              nextChangeId);
+              nextChangeId,
+              Integer.MAX_VALUE);
       seq.next();
     }
     return saveState(prev, READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY);

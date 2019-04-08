@@ -47,6 +47,30 @@
       "revId": "e76ab8e9639a984ee6b09aa11c4f17da2068e10f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d424d2_e3a92768",
+        "filename": "java/com/google/gerrit/index/query/QueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-08T15:51:22Z",
+      "side": 1,
+      "message": "Fixed in I06cf253c.",
+      "parentUuid": "d12b0d20_53287a46",
+      "range": {
+        "startLine": 96,
+        "startChar": 18,
+        "endLine": 96,
+        "endChar": 30
+      },
+      "revId": "e76ab8e9639a984ee6b09aa11c4f17da2068e10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

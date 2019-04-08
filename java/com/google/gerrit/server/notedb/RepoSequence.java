@@ -93,6 +93,7 @@ public class RepoSequence {
   private final String refName;
   private final Seed seed;
   private final int floor;
+  private final int max;
   private final int batchSize;
   private final Runnable afterReadRef;
   private final Retryer<RefUpdate.Result> retryer;
@@ -121,7 +122,8 @@ public class RepoSequence {
         batchSize,
         Runnables.doNothing(),
         RETRYER,
-        0);
+        0,
+        Integer.MAX_VALUE);
   }
 
   public RepoSequence(
@@ -131,7 +133,8 @@ public class RepoSequence {
       String name,
       Seed seed,
       int batchSize,
-      int floor) {
+      int floor,
+      int max) {
     this(
         repoManager,
         gitRefUpdated,
@@ -141,7 +144,8 @@ public class RepoSequence {
         batchSize,
         Runnables.doNothing(),
         RETRYER,
-        floor);
+        floor,
+        max);
   }
 
   @VisibleForTesting
@@ -154,7 +158,17 @@ public class RepoSequence {
       int batchSize,
       Runnable afterReadRef,
       Retryer<RefUpdate.Result> retryer) {
-    this(repoManager, gitRefUpdated, projectName, name, seed, batchSize, afterReadRef, retryer, 0);
+    this(
+        repoManager,
+        gitRefUpdated,
+        projectName,
+        name,
+        seed,
+        batchSize,
+        afterReadRef,
+        retryer,
+        0,
+        Integer.MAX_VALUE);
   }
 
   RepoSequence(
@@ -166,7 +180,8 @@ public class RepoSequence {
       int batchSize,
       Runnable afterReadRef,
       Retryer<RefUpdate.Result> retryer,
-      int floor) {
+      int floor,
+      int max) {
     this.repoManager = requireNonNull(repoManager, "repoManager");
     this.gitRefUpdated = requireNonNull(gitRefUpdated, "gitRefUpdated");
     this.projectName = requireNonNull(projectName, "projectName");
@@ -180,10 +195,13 @@ public class RepoSequence {
     this.refName = RefNames.REFS_SEQUENCES + name;
 
     this.seed = requireNonNull(seed, "seed");
-    this.floor = floor;
 
+    checkArgument(
+        floor < max, "expected floor > max, got: %s for floor and $s for max", floor, max);
     checkArgument(batchSize > 0, "expected batchSize > 0, got: %s", batchSize);
     this.batchSize = batchSize;
+    this.floor = floor;
+    this.max = max;
     this.afterReadRef = requireNonNull(afterReadRef, "afterReadRef");
     this.retryer = requireNonNull(retryer, "retryer");
 
@@ -194,6 +212,10 @@ public class RepoSequence {
     counterLock.lock();
     try {
       if (counter >= limit) {
+        if ((counter + batchSize) > this.max) {
+          throw new OrmException(
+              "This gerrit instance has exhausted the allocated change sequences");
+        }
         acquire(batchSize);
       }
       return counter++;

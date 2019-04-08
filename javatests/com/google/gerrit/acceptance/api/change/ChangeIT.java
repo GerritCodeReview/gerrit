@@ -57,6 +57,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.truth.ThrowableSubject;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ChangeIndexedCounter;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -73,6 +74,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
@@ -129,6 +131,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -147,6 +150,7 @@ import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -154,6 +158,8 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -164,6 +170,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -2522,6 +2529,47 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(query("owner:self project:{" + project.get() + "}")).isEmpty();
   }
 
+  private static class OperatorModule extends AbstractModule {
+    @Override
+    public void configure() {
+      bind(ChangeOperatorFactory.class)
+          .annotatedWith(Exports.named("mytopic"))
+          .toInstance((cqb, value) -> new MyTopicPredicate(value));
+    }
+
+    private static class MyTopicPredicate extends PostFilterPredicate<ChangeData> {
+      MyTopicPredicate(String value) {
+        super("mytopic", value);
+      }
+
+      @Override
+      public boolean match(ChangeData cd) throws OrmException {
+        return Objects.equals(cd.change().getTopic(), value);
+      }
+
+      @Override
+      public int getCost() {
+        return 2;
+      }
+    }
+  }
+
+  @Test
+  public void queryChangesPluginOperator() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String query = "mytopic_myplugin:foo";
+    String expectedMessage = "Unsupported operator mytopic_myplugin:foo";
+    assertThatQueryException(query).hasMessageThat().isEqualTo(expectedMessage);
+
+    try (AutoCloseable ignored = installPlugin("myplugin", OperatorModule.class)) {
+      assertThat(query(query)).isEmpty();
+      gApi.changes().id(r.getChangeId()).topic("foo");
+      assertThat(query(query).stream().map(i -> i.changeId)).containsExactly(r.getChangeId());
+    }
+
+    assertThatQueryException(query).hasMessageThat().isEqualTo(expectedMessage);
+  }
+
   @Test
   public void checkReviewedFlagBeforeAndAfterReview() throws Exception {
     PushOneCommit.Result r = createChange();
@@ -4193,5 +4241,14 @@ public class ChangeIT extends AbstractDaemonTest {
 
   private BranchApi createBranch(String branch) throws Exception {
     return createBranch(new Branch.NameKey(project, branch));
+  }
+
+  private ThrowableSubject assertThatQueryException(String query) throws Exception {
+    try {
+      query(query);
+    } catch (BadRequestException e) {
+      return assertThat(e);
+    }
+    throw new AssertionError("expected BadRequestException");
   }
 }

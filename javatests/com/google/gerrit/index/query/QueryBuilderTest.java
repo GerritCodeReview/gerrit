@@ -52,9 +52,9 @@ public class QueryBuilderTest extends GerritBaseTests {
     }
   }
 
-  private static class TestQueryBuilder extends QueryBuilder<Object> {
+  private static class TestQueryBuilder extends QueryBuilder<Object, TestQueryBuilder> {
     TestQueryBuilder() {
-      super(new QueryBuilder.Definition<>(TestQueryBuilder.class));
+      super(new QueryBuilder.Definition<>(TestQueryBuilder.class), null);
     }
 
     @Operator

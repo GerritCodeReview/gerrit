@@ -33,7 +33,6 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaUtil;
@@ -98,7 +97,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 
 /** Parses a query string meant to be applied to change objects. */
-public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
+public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuilder> {
   public interface ChangeOperatorFactory extends OperatorFactory<ChangeData, ChangeQueryBuilder> {}
 
   /**
@@ -408,23 +407,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Inject
   ChangeQueryBuilder(Arguments args) {
-    super(mydef);
-    this.args = args;
-    setupDynamicOperators();
+    this(mydef, args);
   }
 
   @VisibleForTesting
-  protected ChangeQueryBuilder(
-      Definition<ChangeData, ? extends QueryBuilder<ChangeData>> def, Arguments args) {
-    super(def);
+  protected ChangeQueryBuilder(Definition<ChangeData, ChangeQueryBuilder> def, Arguments args) {
+    super(def, args.opFactories);
     this.args = args;
-  }
-
-  private void setupDynamicOperators() {
-    for (Extension<ChangeOperatorFactory> e : args.opFactories) {
-      String name = e.getExportName() + "_" + e.getPluginName();
-      opFactories.put(name, e.getProvider().get());
-    }
   }
 
   public Arguments getArgs() {

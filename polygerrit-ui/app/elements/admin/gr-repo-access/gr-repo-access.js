@@ -21,7 +21,7 @@
 
   const NOTHING_TO_SAVE = 'No changes to save.';
 
-  const MAX_AUTOCOMPLETE_RESULTS = 20;
+  const MAX_AUTOCOMPLETE_RESULTS = 50;
 
   /**
    * Fired when save is a no-op

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15650e65_4d83940f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-08T08:13:54Z",
+      "side": 1,
+      "message": "To sync with protoc version included in protobuf 3.7.1, that was updated in this change: [1], in rules_closure, we have to upgrade to 3.7.1 instead. Moreover we need this change on stable-2.16 as well.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/218738",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "4d069a7f565b5ea349e7a82b01253e8f98cea33c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

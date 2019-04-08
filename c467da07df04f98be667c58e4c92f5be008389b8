@@ -22,6 +22,30 @@
       "revId": "c467da07df04f98be667c58e4c92f5be008389b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf28bd19_a00380cb",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-08T14:39:37Z",
+      "side": 1,
+      "message": "Im not exactly sure where this sha come from, but you can get it by updating the version number, then running bazel build release which will fail as the sha would not match, thus revealing the updated sha.\n\nThough what i did here was run the bower2bazel script which updated this for me automatically.",
+      "parentUuid": "65ef97ca_66d2779b",
+      "range": {
+        "startLine": 128,
+        "startChar": 16,
+        "endLine": 128,
+        "endChar": 56
+      },
+      "revId": "c467da07df04f98be667c58e4c92f5be008389b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

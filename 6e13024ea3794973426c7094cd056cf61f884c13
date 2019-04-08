@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87348af7_0bf9eb46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-08T15:09:16Z",
+      "side": 1,
+      "message": "Usually we prefer To merge to stable-2.14 and merge up to master, instead of merging to master first and then cherry-pick commit down to stable-2.14.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 68
+      },
+      "revId": "6e13024ea3794973426c7094cd056cf61f884c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

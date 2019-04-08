@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1553612723 -0700\nnonce AC6AUtMRAcL3Bwhwycumnx6oviQXWe9wdLTGPmY2Tm7ZmbgESgP6o8S2WidTA33u+mpe/khr0efT\n\n0000000000000000000000000000000000000000 e76ab8e9639a984ee6b09aa11c4f17da2068e10f refs/for/master%r\u003dekempin@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlyaP7MVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMxtoP/3OaiPYKNAjlqDM/RTWwszO6j09i\nhTHu9zeDtnBFQvWsBsBDA9hQ3w1dWPB3rjRBIjpD86K2i9QAX7Xtf/fBQB1BYjbQ\nQvUuuWnBk8FH74j4zPso6xNmPaGHa/UDgRP71JxQxvZB9BLlwAoKeeJukDG0oca8\nddZ1oDcfXZzhUjpe2VAyacYmf1CSVUTkGmJYQOwEUL8JX7/cVJKDIpoyhfm5gtI1\nW0NWtHkMNfJFiVlvzqZpmpFdN+B+rlTxRWG7QjDa0q+UWdKganaAY2ftSTVwzwp3\nj3EHgh6IF77P8Ie3kJF5YISphwKuJ2hLRNH732scxSpBssgqXO3Gjv7qukvdJP2G\nJqU2zZrtjCS3H1ZhIirjbXPXlsDoZCoUD4OZ6+Ay2rSagdZ/qV3OqLeSa+imYIYZ\ne7XVPYYXhtL5mRmCuFjX8NmiLJRYVFjXximg++8/tjQvXZH4mfhYWrYn7+iMd5Ma\nta6bg053X4OdSazlO3MyhNa1bKpGITYirFyEJa+IKmIHLxun+dpqdpA33FjKpHKc\nZ1aMVwsTsEZ3tQhYIvJBZqGO2MgvmX4RqiImfRNquijJrzZXiutNmAJZSxZCD/gk\nB2zuFRyTrH870iJ/pK7TIotlL7MjNE+1uvp6lxQntSZ1cvffOfLMJ3SDW8spTS98\nZM9BQaA/+95jJ8YK\n\u003dnlkD\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fef5a6b2_6019c6d6",
+        "filename": "java/com/google/gerrit/index/query/QueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1081846
+      },
+      "writtenOn": "2019-04-08T10:51:51Z",
+      "side": 1,
+      "message": "This change is breaking the code:\n\nStacktrace:\n\n\nCaused by: java.lang.UnsupportedOperationException\n\n        at com.google.common.collect.ImmutableMap.put(ImmutableMap.java:528)\n\n        at com.google.gerrit.server.query.change.ChangeQueryBuilder.setupDynamicOperators(ChangeQueryBuilder.java:426)\n\n        at com.google.gerrit.server.query.change.ChangeQueryBuilder.\u003cinit\u003e(ChangeQueryBuilder.java:413)\n\n        at com.google.gerrit.server.query.change.ChangeQueryBuilder$$FastClassByGuice$$551a3fed.newInstance(\u003cgenerated\u003e)\n\n        at com.google.inject.internal.DefaultConstructionProxyFactory$FastClassProxy.newInstance(DefaultConstructionProxyFactory.java:89)\n\n        at com.google.inject.internal.ConstructorInjector.provision(ConstructorInjector.java:114)\n\n        at com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:91)\n\n        at com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:306)\n\n        at com.google.inject.internal.SingleParameterInjector.inject(SingleParameterInjector.java:42)\n\n        at com.google.inject.internal.SingleParameterInjector.getAll(SingleParameterInjector.java:65)\n\n        at com.google.inject.internal.ConstructorInjector.provision(ConstructorInjector.java:113)\n\n        at com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:91)\n\n        at com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:306)\n\n        at com.google.inject.internal.SingleFieldInjector.inject(SingleFieldInjector.java:52)\n\n        at com.google.inject.internal.MembersInjectorImpl.injectMembers(MembersInjectorImpl.java:147)\n\n        at com.google.inject.internal.ConstructorInjector.provision(ConstructorInjector.java:124)\n\n        at com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:91)\n\n        at com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:306)\n\n        at com.google.inject.internal.FactoryProxy.get(FactoryProxy.java:62)\n\n        at com.google.inject.internal.InjectorImpl$1.get(InjectorImpl.java:1050)",
+      "range": {
+        "startLine": 96,
+        "startChar": 18,
+        "endLine": 96,
+        "endChar": 30
+      },
+      "revId": "e76ab8e9639a984ee6b09aa11c4f17da2068e10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

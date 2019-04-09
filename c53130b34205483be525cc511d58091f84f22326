@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b9249c12_f2d9c3d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-04-09T15:42:29Z",
+      "side": 1,
+      "message": "Why? Honestly, I do want to have the diff against the first parent always by default and I don\u0027t see a reason why this behavior should be different when I navigate between changes using the relation chain.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "c53130b34205483be525cc511d58091f84f22326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "81ea6fc5_3e09cbd5",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 11

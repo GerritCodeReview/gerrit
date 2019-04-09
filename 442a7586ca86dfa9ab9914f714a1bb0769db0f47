@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b89bd78e_f35b979e",
+        "filename": "java/com/google/gerrit/sshd/SshModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-09T20:44:34Z",
+      "side": 1,
+      "message": "You will need to put this back in order since gerrit-ci runs google-java-format and so this will fail the ci.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 35
+      },
+      "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

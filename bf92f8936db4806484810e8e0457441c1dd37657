@@ -46,6 +46,30 @@
       "revId": "bf92f8936db4806484810e8e0457441c1dd37657",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49deb049_d2c89112",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-09T23:44:47Z",
+      "side": 1,
+      "message": "Proposed a fix in https://gerrit-review.googlesource.com/c/gerrit/+/220218",
+      "parentUuid": "3fe769cf_1f68f928",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 54
+      },
+      "revId": "bf92f8936db4806484810e8e0457441c1dd37657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

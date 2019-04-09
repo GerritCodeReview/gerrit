@@ -319,10 +319,6 @@
     return new GrSettingsApi(this);
   };
 
-  Plugin.prototype.restApiHooks = function() {
-    return new GrRestApiHooks(this);
-  };
-
   /**
    * To make REST requests for plugin-provided endpoints, use
    * @example
@@ -628,12 +624,6 @@
       }
     }
     return _allPluginsPromise;
-  };
-
-  // TODO: Remove this. This is a hack to get the tests to pass.
-  // It would be much better to call GrRestApiHooks.pluginParams directly.
-  Gerrit._pluginParams = function(endpointName, initialParams) {
-    return GrRestApiHooks.pluginParams(endpointName, initialParams);
   };
 
   Gerrit._pluginLoadingTimeout = function() {

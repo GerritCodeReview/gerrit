@@ -415,7 +415,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .content()
         .onlyElement()
         .commonLines()
-        .containsAtLeast("Line 1", "Line 2", "Line 3")
+        .containsExactly("Line 1", "Line 2", "Line 3", "")
         .inOrder();
     assertThat(diffInfo).content().onlyElement().linesOfA().isNull();
     assertThat(diffInfo).content().onlyElement().linesOfB().isNull();

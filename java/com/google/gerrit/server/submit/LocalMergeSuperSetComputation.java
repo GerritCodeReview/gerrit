@@ -249,7 +249,10 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
       throws IOException {
     Set<String> destHashes = new HashSet<>();
     or.rw.reset();
-    markHeadUninteresting(or, b);
+    for (Ref r : or.getRepo().getRefDatabase().getRefsByPrefix("refs/heads/")) {
+      markHeadUninteresting(or, new Branch.NameKey(b.getParentKey(), r.getName()));
+    }
+
     for (RevCommit c : sourceCommits) {
       String name = c.name();
       if (ignoreHashes.contains(name)) {

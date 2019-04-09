@@ -22,6 +22,30 @@
       "revId": "c58702ac796b3efdf0ec21986bf2ffbb7e4fd5af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb65b7c8_b0cc1ef7",
+        "filename": "java/com/google/gwtorm/client/CompoundKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-09T15:01:52Z",
+      "side": 1,
+      "message": "I don\u0027t disagree, and you\u0027re welcome to do it, but I think if I\u0027m going to spend more effort on refactoring, I\u0027d rather spend it on eliminating the usage of *Key entirely.",
+      "parentUuid": "a79ddfcf_6074543c",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "c58702ac796b3efdf0ec21986bf2ffbb7e4fd5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

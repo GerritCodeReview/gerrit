@@ -328,7 +328,7 @@ public class ActionsIT extends AbstractDaemonTest {
     }
 
     Map<String, ActionInfo> origActions = origChange.actions;
-    assertThat(origActions.keySet()).containsAllOf("followup", "abandon");
+    assertThat(origActions.keySet()).containsAtLeast("followup", "abandon");
     assertThat(origActions.get("abandon").label).isEqualTo("Abandon");
 
     Visitor v = new Visitor();
@@ -377,7 +377,7 @@ public class ActionsIT extends AbstractDaemonTest {
     }
 
     Map<String, ActionInfo> origActions = gApi.changes().id(id).current().actions();
-    assertThat(origActions.keySet()).containsAllOf("cherrypick", "rebase");
+    assertThat(origActions.keySet()).containsAtLeast("cherrypick", "rebase");
     assertThat(origActions.get("rebase").label).isEqualTo("Rebase");
 
     Visitor v = new Visitor();

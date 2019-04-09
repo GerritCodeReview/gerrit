@@ -68,7 +68,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   public void nonIndexPredicate() throws Exception {
     Predicate<ChangeData> in = parse("foo:a");
     Predicate<ChangeData> out = rewrite(in);
-    assertThat(AndChangeSource.class).isSameAs(out.getClass());
+    assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
     assertThat(out.getChildren())
         .containsExactly(
             query(Predicate.or(ChangeStatusPredicate.open(), ChangeStatusPredicate.closed())), in)
@@ -85,7 +85,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   public void nonIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("foo:a OR foo:b");
     Predicate<ChangeData> out = rewrite(in);
-    assertThat(AndChangeSource.class).isSameAs(out.getClass());
+    assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
     assertThat(out.getChildren())
         .containsExactly(
             query(Predicate.or(ChangeStatusPredicate.open(), ChangeStatusPredicate.closed())), in)
@@ -96,7 +96,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   public void oneIndexPredicate() throws Exception {
     Predicate<ChangeData> in = parse("foo:a file:b");
     Predicate<ChangeData> out = rewrite(in);
-    assertThat(AndChangeSource.class).isSameAs(out.getClass());
+    assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
     assertThat(out.getChildren()).containsExactly(query(in.getChild(1)), in.getChild(0)).inOrder();
   }
 
@@ -110,7 +110,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   public void threeLevelTreeWithSomeIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("-foo:a (file:b OR file:c)");
     Predicate<ChangeData> out = rewrite(in);
-    assertThat(out.getClass()).isSameAs(AndChangeSource.class);
+    assertThat(out.getClass()).isSameInstanceAs(AndChangeSource.class);
     assertThat(out.getChildren()).containsExactly(query(in.getChild(1)), in.getChild(0)).inOrder();
   }
 
@@ -118,7 +118,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   public void multipleIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("file:a OR foo:b OR file:c OR foo:d");
     Predicate<ChangeData> out = rewrite(in);
-    assertThat(out.getClass()).isSameAs(OrSource.class);
+    assertThat(out.getClass()).isSameInstanceAs(OrSource.class);
     assertThat(out.getChildren())
         .containsExactly(query(or(in.getChild(0), in.getChild(2))), in.getChild(1), in.getChild(3))
         .inOrder();
@@ -128,7 +128,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   public void indexAndNonIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("status:new bar:p file:a");
     Predicate<ChangeData> out = rewrite(in);
-    assertThat(AndChangeSource.class).isSameAs(out.getClass());
+    assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
     assertThat(out.getChildren())
         .containsExactly(query(and(in.getChild(0), in.getChild(2))), in.getChild(1))
         .inOrder();

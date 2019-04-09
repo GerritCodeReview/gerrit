@@ -31,6 +31,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.truth.Correspondence;
+import com.google.common.truth.Correspondence.BinaryPredicate;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -782,7 +783,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void defaultGroupsCreated() throws Exception {
     Iterable<String> names = gApi.groups().list().getAsMap().keySet();
-    assertThat(names).containsAllOf("Administrators", "Non-Interactive Users").inOrder();
+    assertThat(names).containsAtLeast("Administrators", "Non-Interactive Users").inOrder();
   }
 
   @Test
@@ -1393,18 +1394,15 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private static Correspondence<AccountInfo, String> getAccountToUsernameCorrespondence() {
-    return new Correspondence<AccountInfo, String>() {
-      @Override
-      public boolean compare(AccountInfo actualAccount, String expectedName) {
-        String username = actualAccount == null ? null : actualAccount.username;
-        return Objects.equals(username, expectedName);
-      }
-
-      @Override
-      public String toString() {
-        return "has username";
-      }
-    };
+    return Correspondence.from(
+        new BinaryPredicate<AccountInfo, String>() {
+          @Override
+          public boolean apply(AccountInfo actualAccount, String expectedName) {
+            String username = actualAccount == null ? null : actualAccount.username;
+            return Objects.equals(username, expectedName);
+          }
+        },
+        "has username");
   }
 
   private void assertStaleGroupAndReindex(AccountGroup.UUID groupUuid) throws IOException {

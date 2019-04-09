@@ -415,7 +415,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .content()
         .onlyElement()
         .commonLines()
-        .containsAllOf("Line 1", "Line 2", "Line 3")
+        .containsAtLeast("Line 1", "Line 2", "Line 3")
         .inOrder();
     assertThat(diffInfo).content().onlyElement().linesOfA().isNull();
     assertThat(diffInfo).content().onlyElement().linesOfB().isNull();
@@ -2363,7 +2363,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .content()
         .element(0)
         .commonLines()
-        .containsAllOf("Line 1", "Line two", "Line 3", "Line 4", "Line 5")
+        .containsAtLeast("Line 1", "Line two", "Line 3", "Line 4", "Line 5")
         .inOrder();
   }
 
@@ -2389,7 +2389,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .content()
         .element(0)
         .commonLines()
-        .containsAllOf("Line 1", "Line two", "Line 3", "Line 4", "Line 5")
+        .containsAtLeast("Line 1", "Line two", "Line 3", "Line 4", "Line 5")
         .inOrder();
   }
 

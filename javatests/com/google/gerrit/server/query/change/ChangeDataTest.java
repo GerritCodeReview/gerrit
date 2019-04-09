@@ -37,6 +37,6 @@ public class ChangeDataTest extends GerritBaseTests {
     PatchSet ps2 = new PatchSet(new PatchSet.Id(cd.getId(), currId + 2));
     cd.setPatchSets(ImmutableList.of(ps1, ps2));
     PatchSet curr2 = cd.currentPatchSet();
-    assertThat(curr2).isNotSameAs(curr1);
+    assertThat(curr2).isNotSameInstanceAs(curr1);
   }
 }

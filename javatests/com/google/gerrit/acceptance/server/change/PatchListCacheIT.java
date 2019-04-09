@@ -254,7 +254,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     PatchListCacheImpl.LargeObjectTombstone tombstone =
         new PatchListCacheImpl.LargeObjectTombstone();
     abstractPatchListCache.put(key, tombstone);
-    assertThat(abstractPatchListCache.getIfPresent(key)).isSameAs(tombstone);
+    assertThat(abstractPatchListCache.getIfPresent(key)).isSameInstanceAs(tombstone);
   }
 
   private static void assertAdded(String expectedNewName, PatchListEntry e) {

@@ -121,7 +121,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
         Future<RestResponse> r1 = executor.submit(createProjectFoo);
         Future<RestResponse> r2 = executor.submit(createProjectFoo);
         assertThat(ImmutableList.of(r1.get().getStatusCode(), r2.get().getStatusCode()))
-            .containsAllOf(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
+            .containsAtLeast(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
       }
     } finally {
       executor.shutdown();

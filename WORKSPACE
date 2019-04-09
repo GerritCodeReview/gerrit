@@ -581,18 +581,18 @@ maven_jar(
     sha1 = "18d4d07010c24405129a6dbb0e92057f8779fb9d",
 )
 
-AUTO_VALUE_VERSION = "1.6.3"
+AUTO_VALUE_VERSION = "1.6.4"
 
 maven_jar(
     name = "auto-value",
     artifact = "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
-    sha1 = "8edb6675b9c09ffdcc19937428e7ef1e3d066e12",
+    sha1 = "62577ffaf79c9cab81dee08790e6fb75384eb338",
 )
 
 maven_jar(
     name = "auto-value-annotations",
     artifact = "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
-    sha1 = "b88c1bb7f149f6d2cc03898359283e57b08f39cc",
+    sha1 = "db40fd72bd008836ebc75b6a7532335ef2b7e34d",
 )
 
 # Transitive dependency of commons-compress
@@ -846,30 +846,30 @@ maven_jar(
     sha1 = "42a25dc3219429f0e5d060061f71acb49bf010a0",
 )
 
-TRUTH_VERS = "0.43"
+TRUTH_VERS = "0.44"
 
 maven_jar(
     name = "truth",
     artifact = "com.google.truth:truth:" + TRUTH_VERS,
-    sha1 = "0cb9105957368f68d5fd771045bfa27d4a534836",
+    sha1 = "11eff954c0c14da7d43276d7b3bcf71463105368",
 )
 
 maven_jar(
     name = "truth-java8-extension",
     artifact = "com.google.truth.extensions:truth-java8-extension:" + TRUTH_VERS,
-    sha1 = "0707dd0b4eb2101aa85c4bb7caf52d9ae32f0a43",
+    sha1 = "2081a0721d3101e1cf559f013e59c6129b4b10b0",
 )
 
 maven_jar(
     name = "truth-liteproto-extension",
     artifact = "com.google.truth.extensions:truth-liteproto-extension:" + TRUTH_VERS,
-    sha1 = "67d833098345fc744c6fb2c38c739557b2d73742",
+    sha1 = "64f47e4e3f79b0a582573098b9c3c6b73599f7c6",
 )
 
 maven_jar(
     name = "truth-proto-extension",
     artifact = "com.google.truth.extensions:truth-proto-extension:" + TRUTH_VERS,
-    sha1 = "b9641436e7b48b3642ac7aa7b8f3d1b9d04bc44b",
+    sha1 = "c03fbc16087d8cb3bf0f3265a04566d4beb88a6d",
 )
 
 maven_jar(

@@ -17,6 +17,17 @@ package com.google.gerrit.sshd;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 import static com.google.inject.Scopes.SINGLETON;
 
+import java.net.SocketAddress;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+
+import org.apache.sshd.server.auth.gss.GSSAuthenticator;
+import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
+import org.apache.sshd.server.command.CommandFactory;
+import org.eclipse.jgit.lib.Config;
+
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -37,15 +48,6 @@ import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.RequestScoped;
-import java.net.SocketAddress;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import org.apache.sshd.server.auth.gss.GSSAuthenticator;
-import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
-import org.apache.sshd.server.command.CommandFactory;
-import org.eclipse.jgit.lib.Config;
 
 /** Configures standard dependencies for {@link SshDaemon}. */
 public class SshModule extends LifecycleModule {
@@ -101,6 +103,7 @@ public class SshModule extends LifecycleModule {
         .to(SshPluginStarterCallback.class);
 
     DynamicItem.itemOf(binder(), SshCreateCommandInterceptor.class);
+    DynamicSet.setOf(binder(), SshCommandPreExecutionFilter.class);
 
     listener().toInstance(registerInParentInjectors());
     listener().to(SshLog.class);

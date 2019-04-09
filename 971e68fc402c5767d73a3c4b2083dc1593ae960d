@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1553016602 -0700\nnonce AC6AUtO8fmqmBLyk3T+RgQuTWKCFQDqQ6RqHbmb6PgaIGG5g9lkPoQhJ/pOYW+oUS4S1YEsASQM/\n\n0000000000000000000000000000000000000000 97b6331f980a2f8b0ccb385918f00adc5dacc0a2 refs/for/master%topic\u003dauto-annotations,r\u003dekempin@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlyRJxoVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMM0cP/jXqckIz68sxtT9D9gbBQIoikTby\nyUVg/wA/V3YyyelOcevDZmEITPhY93jLCrHij/JEn9TX5VVdlzEcP7MbywC9ePRm\n+cnyxXGyTuo7xnMMTmIMnASutQ+OS9DO9RLlx2DGo8wl9vWGPVCjlDlBLLjRMzIb\ncV3Yyr+vmjmeTDgMK7NAmEFd6Rs3DVknD+xCLndPYdyN58VjMw0dg6sUfaPi+buw\nUtbZvqEStmCZy97vJktiVGlk976bgwRKjM+cMwPQTgbBQ65+cY5hdTi5sFjiH6fn\n3Vzfza2lF5K3L5oTq1iWDo3Sw3oXWjRbhWFajQn9X3YQdzx2U2/NnLE4T+Vhmo6t\n8mC3GhlE67PzsmiXqID9aQazVU5qHl6EaUTR/oP4Quyqru8nk65OkV5RdJBNE30p\niwnhBX9YjYr2O9Ku0dO0LJ8MMvdBPJt4U+RISTuhaBA7YQbDFN8jN3tVEOk3E2CX\n4xjzxFWm5z61/DzLh6EAXLJg2r6u3+uO+S+E2GrOwveWPIjUV/BFatCQPh5E1YQD\nmgJuVBG4zw3FiwR3T0WXGjQOvpQS/KbfvWC+T/oaRN9+cr9n5DGVjXG9a2eGCnfj\n+TAMePM3qIHMu6nE5Dw0fwscs6vA7sZSppcbnxiudx4s41v+YyYNLQJo9nbNxaL5\nCANRWB3tAhyX4Wka\n\u003dRm1v\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "51c25800_9ca16285",
+        "filename": "java/com/google/gerrit/util/cli/OptionUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-09T02:27:49Z",
+      "side": 1,
+      "message": "This suppresses the warning here, but not in the generated class.",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 31
+      },
+      "revId": "971e68fc402c5767d73a3c4b2083dc1593ae960d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

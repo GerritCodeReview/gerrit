@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a79ddfcf_6074543c",
+        "filename": "java/com/google/gwtorm/client/CompoundKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-09T14:29:35Z",
+      "side": 1,
+      "message": "It would be nice to remove client/server packages from here, year after we have removed GWT UI support. Of course this applies as well for com.google.gerrit.reviewdb.client.Change and friends, with the difference, that those classes are already there, and this one was moved from gwtorm with preserving the package names.",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "c58702ac796b3efdf0ec21986bf2ffbb7e4fd5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

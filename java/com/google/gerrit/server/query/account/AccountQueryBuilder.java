@@ -43,7 +43,7 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
 /** Parses a query string meant to be applied to account objects. */
-public class AccountQueryBuilder extends QueryBuilder<AccountState> {
+public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQueryBuilder> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final String FIELD_ACCOUNT = "account";
@@ -108,7 +108,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
 
   @Inject
   AccountQueryBuilder(Arguments args) {
-    super(mydef);
+    super(mydef, null);
     this.args = args;
   }
 

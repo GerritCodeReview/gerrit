@@ -42,7 +42,7 @@ import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** Parses a query string meant to be applied to group objects. */
-public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
+public class GroupQueryBuilder extends QueryBuilder<InternalGroup, GroupQueryBuilder> {
   public static final String FIELD_UUID = "uuid";
   public static final String FIELD_DESCRIPTION = "description";
   public static final String FIELD_INNAME = "inname";
@@ -70,7 +70,7 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
 
   @Inject
   GroupQueryBuilder(Arguments args) {
-    super(mydef);
+    super(mydef, null);
     this.args = args;
   }
 

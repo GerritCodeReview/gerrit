@@ -23,6 +23,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.truth.Correspondence;
+import com.google.common.truth.Correspondence.BinaryPredicate;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -650,17 +651,15 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   private static Correspondence<RelatedChangeAndCommitInfo, String>
       getRelatedChangeToStatusCorrespondence() {
-    return new Correspondence<RelatedChangeAndCommitInfo, String>() {
-      @Override
-      public boolean compare(RelatedChangeAndCommitInfo relatedChangeAndCommitInfo, String status) {
-        return Objects.equals(relatedChangeAndCommitInfo.status, status);
-      }
-
-      @Override
-      public String toString() {
-        return "has status";
-      }
-    };
+    return Correspondence.from(
+        new BinaryPredicate<RelatedChangeAndCommitInfo, String>() {
+          @Override
+          public boolean apply(
+              RelatedChangeAndCommitInfo relatedChangeAndCommitInfo, String status) {
+            return Objects.equals(relatedChangeAndCommitInfo.status, status);
+          }
+        },
+        "has status");
   }
 
   private RevCommit parseBody(RevCommit c) throws Exception {

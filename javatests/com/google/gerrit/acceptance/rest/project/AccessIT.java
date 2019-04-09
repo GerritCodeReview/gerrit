@@ -455,7 +455,7 @@ public class AccessIT extends AbstractDaemonTest {
                 .get(AccessSection.GLOBAL_CAPABILITIES)
                 .permissions
                 .keySet())
-        .containsAllIn(accessSectionInfo.permissions.keySet());
+        .containsAtLeastElementsIn(accessSectionInfo.permissions.keySet());
   }
 
   @Test
@@ -517,7 +517,7 @@ public class AccessIT extends AbstractDaemonTest {
                 .get(AccessSection.GLOBAL_CAPABILITIES)
                 .permissions
                 .keySet())
-        .containsAllIn(accessSectionInfo.permissions.keySet());
+        .containsAtLeastElementsIn(accessSectionInfo.permissions.keySet());
 
     // Remove
     accessInput.add.clear();

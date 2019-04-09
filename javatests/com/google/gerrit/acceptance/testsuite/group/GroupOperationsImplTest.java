@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.truth.Correspondence;
+import com.google.common.truth.Correspondence.BinaryPredicate;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -613,40 +614,34 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   }
 
   private static Correspondence<AccountInfo, Account.Id> getAccountToIdCorrespondence() {
-    return new Correspondence<AccountInfo, Account.Id>() {
-      @Override
-      public boolean compare(AccountInfo actualAccount, Account.Id expectedId) {
-        Account.Id accountId =
-            Optional.ofNullable(actualAccount)
-                .map(account -> account._accountId)
-                .map(Account.Id::new)
-                .orElse(null);
-        return Objects.equals(accountId, expectedId);
-      }
-
-      @Override
-      public String toString() {
-        return "has ID";
-      }
-    };
+    return Correspondence.from(
+        new BinaryPredicate<AccountInfo, Account.Id>() {
+          @Override
+          public boolean apply(AccountInfo actualAccount, Account.Id expectedId) {
+            Account.Id accountId =
+                Optional.ofNullable(actualAccount)
+                    .map(account -> account._accountId)
+                    .map(Account.Id::new)
+                    .orElse(null);
+            return Objects.equals(accountId, expectedId);
+          }
+        },
+        "has ID");
   }
 
   private static Correspondence<GroupInfo, AccountGroup.UUID> getGroupToUuidCorrespondence() {
-    return new Correspondence<GroupInfo, AccountGroup.UUID>() {
-      @Override
-      public boolean compare(GroupInfo actualGroup, AccountGroup.UUID expectedUuid) {
-        AccountGroup.UUID groupUuid =
-            Optional.ofNullable(actualGroup)
-                .map(group -> group.id)
-                .map(AccountGroup.UUID::new)
-                .orElse(null);
-        return Objects.equals(groupUuid, expectedUuid);
-      }
-
-      @Override
-      public String toString() {
-        return "has UUID";
-      }
-    };
+    return Correspondence.from(
+        new BinaryPredicate<GroupInfo, AccountGroup.UUID>() {
+          @Override
+          public boolean apply(GroupInfo actualGroup, AccountGroup.UUID expectedUuid) {
+            AccountGroup.UUID groupUuid =
+                Optional.ofNullable(actualGroup)
+                    .map(group -> group.id)
+                    .map(AccountGroup.UUID::new)
+                    .orElse(null);
+            return Objects.equals(groupUuid, expectedUuid);
+          }
+        },
+        "has UUID");
   }
 }

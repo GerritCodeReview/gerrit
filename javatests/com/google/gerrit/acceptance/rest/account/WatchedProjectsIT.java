@@ -58,7 +58,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
     List<ProjectWatchInfo> persistedWatchedProjects =
         gApi.accounts().self().setWatchedProjects(projectsToWatch);
-    assertThat(persistedWatchedProjects).containsAllIn(projectsToWatch).inOrder();
+    assertThat(persistedWatchedProjects).containsAtLeastElementsIn(projectsToWatch).inOrder();
   }
 
   @Test
@@ -92,7 +92,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     List<ProjectWatchInfo> persistedWatchedProjects = gApi.accounts().self().getWatchedProjects();
 
     assertThat(persistedWatchedProjects).doesNotContain(pwi);
-    assertThat(persistedWatchedProjects).containsAllIn(projectsToWatch);
+    assertThat(persistedWatchedProjects).containsAtLeastElementsIn(projectsToWatch);
   }
 
   @Test
@@ -131,7 +131,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
     gApi.accounts().self().setWatchedProjects(projectsToWatch);
     List<ProjectWatchInfo> persistedWatchedProjects = gApi.accounts().self().getWatchedProjects();
-    assertThat(persistedWatchedProjects).containsAllIn(projectsToWatch);
+    assertThat(persistedWatchedProjects).containsAtLeastElementsIn(projectsToWatch);
   }
 
   @Test
@@ -205,7 +205,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
     List<ProjectWatchInfo> watchedProjects = gApi.accounts().self().getWatchedProjects();
 
-    assertThat(watchedProjects).containsAllIn(projectsToWatch);
+    assertThat(watchedProjects).containsAtLeastElementsIn(projectsToWatch);
   }
 
   @Test
@@ -239,7 +239,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     List<ProjectWatchInfo> persistedWatchedProjects = gApi.accounts().self().getWatchedProjects();
 
     assertThat(persistedWatchedProjects).doesNotContain(pwi);
-    assertThat(persistedWatchedProjects).containsAllIn(projectsToWatch);
+    assertThat(persistedWatchedProjects).containsAtLeastElementsIn(projectsToWatch);
   }
 
   @Test

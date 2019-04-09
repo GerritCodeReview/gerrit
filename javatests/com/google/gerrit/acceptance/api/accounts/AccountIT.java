@@ -47,6 +47,7 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.io.BaseEncoding;
 import com.google.common.truth.Correspondence;
+import com.google.common.truth.Correspondence.BinaryPredicate;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -940,7 +941,7 @@ public class AccountIT extends AbstractDaemonTest {
     }
 
     requestScopeOperations.resetCurrentApiUser();
-    assertThat(getEmails()).containsAllIn(emails);
+    assertThat(getEmails()).containsAtLeastElementsIn(emails);
   }
 
   @Test
@@ -1072,7 +1073,7 @@ public class AccountIT extends AbstractDaemonTest {
     accountIndexedCounter.assertReindexOf(admin);
     assertThat(
             gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
-        .containsAllOf(extId1, extId2);
+        .containsAtLeast(extId1, extId2);
 
     requestScopeOperations.resetCurrentApiUser();
     assertThat(getEmails()).contains(email);
@@ -2738,18 +2739,15 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   private static Correspondence<GroupInfo, String> getGroupToNameCorrespondence() {
-    return new Correspondence<GroupInfo, String>() {
-      @Override
-      public boolean compare(GroupInfo actualGroup, String expectedName) {
-        String groupName = actualGroup == null ? null : actualGroup.name;
-        return Objects.equals(groupName, expectedName);
-      }
-
-      @Override
-      public String toString() {
-        return "has name";
-      }
-    };
+    return Correspondence.from(
+        new BinaryPredicate<GroupInfo, String>() {
+          @Override
+          public boolean apply(GroupInfo actualGroup, String expectedName) {
+            String groupName = actualGroup == null ? null : actualGroup.name;
+            return Objects.equals(groupName, expectedName);
+          }
+        },
+        "has name");
   }
 
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {

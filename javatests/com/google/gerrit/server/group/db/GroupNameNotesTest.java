@@ -253,7 +253,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
     createGroup(anotherGroupUuid, anotherName);
 
     ImmutableList<CommitInfo> commitsAfterFurtherGroup = log();
-    assertThatCommits(commitsAfterFurtherGroup).containsAllIn(commitsAfterCreation);
+    assertThatCommits(commitsAfterFurtherGroup).containsAtLeastElementsIn(commitsAfterCreation);
     assertThatCommits(commitsAfterFurtherGroup).lastElement().isNotIn(commitsAfterCreation);
   }
 
@@ -266,7 +266,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
     renameGroup(groupUuid, groupName, anotherName);
 
     ImmutableList<CommitInfo> commitsAfterRename = log();
-    assertThatCommits(commitsAfterRename).containsAllIn(commitsAfterCreation);
+    assertThatCommits(commitsAfterRename).containsAtLeastElementsIn(commitsAfterCreation);
     assertThatCommits(commitsAfterRename).lastElement().isNotIn(commitsAfterCreation);
   }
 

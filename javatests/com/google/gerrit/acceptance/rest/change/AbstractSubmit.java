@@ -483,7 +483,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(log).hasSize(expectedCommitCount);
 
     assertThat(commitsInRepo)
-        .containsAllOf("Initial empty repository", "Change 1", "Change 2", "Change 3");
+        .containsAtLeast("Initial empty repository", "Change 1", "Change 2", "Change 3");
     if (getSubmitType() == SubmitType.MERGE_ALWAYS) {
       assertThat(commitsInRepo).contains("Merge changes from topic \"" + expectedTopic + "\"");
     }

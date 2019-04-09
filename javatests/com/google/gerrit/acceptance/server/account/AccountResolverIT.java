@@ -66,12 +66,12 @@ public class AccountResolverIT extends AbstractDaemonTest {
     Result result = resolveAsResult("self");
     assertThat(result.asIdSet()).containsExactly(admin.id);
     assertThat(result.isSelf()).isTrue();
-    assertThat(result.asUniqueUser()).isSameAs(self.get());
+    assertThat(result.asUniqueUser()).isSameInstanceAs(self.get());
 
     result = resolveAsResult("me");
     assertThat(result.asIdSet()).containsExactly(admin.id);
     assertThat(result.isSelf()).isTrue();
-    assertThat(result.asUniqueUser()).isSameAs(self.get());
+    assertThat(result.asUniqueUser()).isSameInstanceAs(self.get());
 
     requestScopeOperations.setApiUserAnonymous();
     checkBySelfFails();
@@ -114,7 +114,7 @@ public class AccountResolverIT extends AbstractDaemonTest {
     Result result = resolveAsResult("self");
     assertThat(result.asIdSet()).containsExactly(user.id);
     assertThat(result.isSelf()).isTrue();
-    assertThat(result.asUniqueUser()).isSameAs(self.get());
+    assertThat(result.asUniqueUser()).isSameInstanceAs(self.get());
   }
 
   @Test

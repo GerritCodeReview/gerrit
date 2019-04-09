@@ -99,6 +99,7 @@ public class SshModule extends LifecycleModule {
 
     DynamicMap.mapOf(binder(), DynamicOptions.DynamicBean.class);
     DynamicItem.itemOf(binder(), SshCreateCommandInterceptor.class);
+    DynamicSet.setOf(binder(), SshExecuteCommandInterceptor.class);
 
     listener().toInstance(registerInParentInjectors());
     listener().to(SshLog.class);

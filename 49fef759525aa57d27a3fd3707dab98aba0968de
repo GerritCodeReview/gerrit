@@ -46,6 +46,30 @@
       "revId": "49fef759525aa57d27a3fd3707dab98aba0968de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5348afe4_aa007971",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-09T00:38:08Z",
+      "side": 1,
+      "message": "I would avoid to swap the order here, as it would cause the build fail. Moving this change to older stable branches is not needed, but I would be open to do that. Alternatively, we could keep it as is, or even, optionally, clarify in the commit message what is going on.\n\nThe last option (with own disadvantages) is to squash this protobuf-java upgrade into the merge commit (follow-up change).",
+      "parentUuid": "718a6b7e_22b097f6",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "49fef759525aa57d27a3fd3707dab98aba0968de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

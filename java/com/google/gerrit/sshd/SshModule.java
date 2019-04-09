@@ -101,6 +101,7 @@ public class SshModule extends LifecycleModule {
         .to(SshPluginStarterCallback.class);
 
     DynamicItem.itemOf(binder(), SshCreateCommandInterceptor.class);
+    DynamicSet.setOf(binder(), SshExecuteCommandInterceptor.class);
 
     listener().toInstance(registerInParentInjectors());
     listener().to(SshLog.class);

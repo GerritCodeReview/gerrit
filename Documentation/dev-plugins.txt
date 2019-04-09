@@ -2562,6 +2562,39 @@ class MyCommandInterceptor implements SshCreateCommandInterceptor {
     return pluginName + " mycommand";
 ----
 
+[[ssh-command-pre-execution-filter]]
+== SSH Command Pre Execution Filter
+Gerrit provides an extension point that enables plugins to check and
+prevent an SSH command from being run.
+
+[source, java]
+----
+import com.google.gerrit.sshd.SshExecuteCommandInterceptor;
+
+@Singleton
+public class SshExecuteCommandInterceptorImpl implements SshCommandPreExecutionFilter {
+  private final Provider<SshSession> sessionProvider;
+
+  @Inject
+  SshCommandPreExecutionFilterImpl(Provider<SshSession> sessionProvider) {
+    this.sessionProvider = sessionProvider;
+  }
+
+  @Override
+  public boolean accept(String command, List<String> arguments) {
+    if (command.startsWith("gerrit") && !"10.1.2.3".equals(sessionProvider.get().getRemoteAddressAsString())) {
+      return false;
+    }
+    return true;
+  }
+}
+----
+
+And then declare it in your SSH module:
+[source, java]
+----
+  DynamicSet.bind(binder(), SshCommandPreExecutionFilter.class).to(SshExecuteCommandInterceptorImpl.class);
+----
 
 [[pre-submit-evaluator]]
 == Pre-submit Validation Plugins

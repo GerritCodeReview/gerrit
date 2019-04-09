@@ -70,6 +70,30 @@
       "revId": "49fef759525aa57d27a3fd3707dab98aba0968de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2fff1c2_3eb342df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-09T01:49:30Z",
+      "side": 1,
+      "message": "I\u0027d prefer not to squash the changes.\n\nHow about setting this change and the following merge on the same topic, so that they must be submitted together?\n\nI can also update the commit message to clarify the situation.",
+      "parentUuid": "5348afe4_aa007971",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "49fef759525aa57d27a3fd3707dab98aba0968de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

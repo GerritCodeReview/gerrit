@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.args4j.SubcommandHandler;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -44,6 +45,7 @@ final class DispatchCommand extends BaseCommand {
   private final PermissionBackend permissionBackend;
   private final Map<String, CommandProvider> commands;
   private final AtomicReference<Command> atomicCmd;
+  private final DynamicSet<SshCommandPreExecutionFilter> commandFilters;
 
   @Argument(index = 0, required = false, metaVar = "COMMAND", handler = SubcommandHandler.class)
   private String commandName;
@@ -52,10 +54,14 @@ final class DispatchCommand extends BaseCommand {
   private List<String> args = new ArrayList<>();
 
   @Inject
-  DispatchCommand(PermissionBackend permissionBackend, @Assisted Map<String, CommandProvider> all) {
+  DispatchCommand(
+      PermissionBackend permissionBackend,
+      @Assisted Map<String, CommandProvider> all,
+      DynamicSet<SshCommandPreExecutionFilter> commandFilters) {
     this.permissionBackend = permissionBackend;
     commands = all;
     atomicCmd = Atomics.newReference();
+    this.commandFilters = commandFilters;
   }
 
   Map<String, CommandProvider> getMap() {
@@ -84,17 +90,23 @@ final class DispatchCommand extends BaseCommand {
 
       final Command cmd = p.getProvider().get();
       checkRequiresCapability(cmd);
+      String actualCommandName = commandName;
       if (cmd instanceof BaseCommand) {
         final BaseCommand bc = (BaseCommand) cmd;
-        if (getName().isEmpty()) {
-          bc.setName(commandName);
-        } else {
-          bc.setName(getName() + " " + commandName);
+        if (!getName().isEmpty()) {
+          actualCommandName = getName() + " " + commandName;
         }
+        bc.setName(actualCommandName);
         bc.setArguments(args.toArray(new String[args.size()]));
 
       } else if (!args.isEmpty()) {
         throw die(commandName + " does not take arguments");
+      }
+
+      for (SshCommandPreExecutionFilter filter : commandFilters) {
+        if (!filter.accept(actualCommandName, args)) {
+          throw new UnloggedFailure(126, "blocked by " + filter.name());
+        }
       }
 
       provideStateTo(cmd);

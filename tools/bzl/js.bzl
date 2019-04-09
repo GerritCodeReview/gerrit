@@ -472,7 +472,7 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], externs = [], assets = No
 
     closure_js_binary(
         name = name + "_bin",
-        compilation_level = "SIMPLE",
+        compilation_level = "WHITESPACE_ONLY",
         defs = [
             "--polymer_version=1",
             "--language_out=ECMASCRIPT6",

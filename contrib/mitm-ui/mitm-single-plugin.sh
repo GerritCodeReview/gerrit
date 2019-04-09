@@ -28,4 +28,11 @@ mitm_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 ${mitm_dir}/dev-chrome.sh &
 
-${mitm_dir}/mitm-docker.sh -v ${plugin_root}:${plugin_root} "serve-app-dev.py --plugins ${plugin} --strip_assets --plugin_root ${plugin_root}"
+bazel build //polygerrit-ui/app:test_components &
+
+${mitm_dir}/mitm-docker.sh -v ${plugin_root}:${plugin_root} \
+           "serve-app-dev.py \
+           --plugins ${plugin} \
+           --strip_assets \
+           --plugin_root ${plugin_root}  \
+           --components $(pwd)/bazel-bin/polygerrit-ui/app/"

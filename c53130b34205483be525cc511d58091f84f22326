@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f3ce6b6b_75f08185",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-09T15:54:07Z",
+      "side": 1,
+      "message": "I tried to introduce AutoMerge which is what GWTUI did, but i found it just broke comments.\n\nYou can see here: https://gerrit-review.googlesource.com/c/gerrit/+/219253/5 where i tried to introduce AutoMerge.\n\nNow we can try that again but im not exactly sure how we will get it fixed to work with commenting.",
+      "parentUuid": "b9249c12_f2d9c3d8",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "c53130b34205483be525cc511d58091f84f22326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "81ea6fc5_3e09cbd5",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 11

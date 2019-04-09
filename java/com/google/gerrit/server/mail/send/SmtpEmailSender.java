@@ -170,7 +170,7 @@ public class SmtpEmailSender implements EmailSender {
       throw new EmailException("Sending email is disabled");
     }
 
-    StringBuffer rejected = new StringBuffer();
+    StringBuilder rejected = new StringBuilder();
     try {
       final SMTPClient client = open();
       try {
@@ -207,10 +207,11 @@ public class SmtpEmailSender implements EmailSender {
              */
             throw new EmailException(
                 rejected
-                    + "Server "
-                    + smtpHost
-                    + " rejected DATA command: "
-                    + client.getReplyString());
+                    .append("Server ")
+                    .append(smtpHost)
+                    .append(" rejected DATA command: ")
+                    .append(client.getReplyString())
+                    .toString());
           }
 
           render(messageDataWriter, callerHeaders, textBody, htmlBody);

@@ -7,7 +7,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
-        "//lib:gwtorm",
+        "//java/com/google/gwtorm",
         "//lib/flogger:api",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/prolog:runtime",

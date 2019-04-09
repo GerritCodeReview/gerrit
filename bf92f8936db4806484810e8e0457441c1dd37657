@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7464ef5_6059ef52",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-09T18:09:43Z",
+      "side": 1,
+      "message": "Hm, I\u0027m not sure from this context whether the intent is containsAtLeast or containsExactly. But I suppose that\u0027s the reason it was deprecated in the first place, and this is a no-op, so I can\u0027t object to submitting it.",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 54
+      },
+      "revId": "bf92f8936db4806484810e8e0457441c1dd37657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

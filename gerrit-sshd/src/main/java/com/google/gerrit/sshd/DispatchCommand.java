@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.args4j.SubcommandHandler;
@@ -46,6 +47,7 @@ final class DispatchCommand extends BaseCommand {
   private final PermissionBackend permissionBackend;
   private final Map<String, CommandProvider> commands;
   private final AtomicReference<Command> atomicCmd;
+  private final DynamicSet<SshExecuteCommandInterceptor> commandInterceptors;
 
   @Argument(index = 0, required = false, metaVar = "COMMAND", handler = SubcommandHandler.class)
   private String commandName;
@@ -57,11 +59,13 @@ final class DispatchCommand extends BaseCommand {
   DispatchCommand(
       CurrentUser user,
       PermissionBackend permissionBackend,
+      DynamicSet<SshExecuteCommandInterceptor> commandInterceptors,
       @Assisted Map<String, CommandProvider> all) {
     this.currentUser = user;
     this.permissionBackend = permissionBackend;
     commands = all;
     atomicCmd = Atomics.newReference();
+    this.commandInterceptors = commandInterceptors;
   }
 
   Map<String, CommandProvider> getMap() {
@@ -90,17 +94,27 @@ final class DispatchCommand extends BaseCommand {
 
       final Command cmd = p.getProvider().get();
       checkRequiresCapability(cmd);
+      String actualCommandName = commandName;
       if (cmd instanceof BaseCommand) {
         final BaseCommand bc = (BaseCommand) cmd;
-        if (getName().isEmpty()) {
-          bc.setName(commandName);
-        } else {
-          bc.setName(getName() + " " + commandName);
+        if (!getName().isEmpty()) {
+          actualCommandName = getName() + " " + commandName;
         }
+        bc.setName(actualCommandName);
         bc.setArguments(args.toArray(new String[args.size()]));
 
       } else if (!args.isEmpty()) {
         throw die(commandName + " does not take arguments");
+      }
+
+      for (SshExecuteCommandInterceptor commandInterceptor : commandInterceptors) {
+        if (!commandInterceptor.accept(actualCommandName, args)) {
+          throw new UnloggedFailure(
+              126,
+              String.format(
+                  "blocked by %s, contact gerrit administrators for more details",
+                  commandInterceptor.name()));
+        }
       }
 
       provideStateTo(cmd);

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81ea6fc5_3e09cbd5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-09T15:33:10Z",
+      "side": 1,
+      "message": "Can you add tests for _getBasePatchNum? I think that will make it much easier to reason about this change.",
+      "range": {
+        "startLine": 822,
+        "startChar": 4,
+        "endLine": 822,
+        "endChar": 20
+      },
+      "revId": "c53130b34205483be525cc511d58091f84f22326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "456288ec_b88ded5c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-09T15:33:10Z",
+      "side": 1,
+      "message": "Instead of these five line about *what* one line about *why* would be more helpful.\n\nWhy don\u0027t you choose \u0027PARENT\u0027, if a patchNum is set?\n\nWhat do the values -1, \u0027PARENT\u0027 and \u0027FIRST_PARENT\u0027 stand for? Which one is equivalent to \u0027auto merge\u0027?",
+      "range": {
+        "startLine": 844,
+        "startChar": 7,
+        "endLine": 848,
+        "endChar": 30
+      },
+      "revId": "c53130b34205483be525cc511d58091f84f22326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7f15467_ca8d2612",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-09T15:33:10Z",
+      "side": 1,
+      "message": "I think this does not have to be its own method.",
+      "revId": "c53130b34205483be525cc511d58091f84f22326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

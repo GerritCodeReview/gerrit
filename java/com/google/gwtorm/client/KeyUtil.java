@@ -19,18 +19,6 @@ public class KeyUtil {
   private static Encoder ENCODER_IMPL = new StandardKeyEncoder();
 
   /**
-   * Set the encoder implementation to a valid implementation.
-   *
-   * <p>Server-side code needs to set the encoder to a {@link
-   * com.google.gwtorm.server.StandardKeyEncoder} instance prior to invoking any methods in this
-   * class. Typically this is done by the {@link com.google.gwtorm.server.SchemaFactory}
-   * implementation's static initializer.
-   */
-  public static void setEncoderImpl(final Encoder e) {
-    ENCODER_IMPL = e;
-  }
-
-  /**
    * Determine if two keys are equal, supporting null references.
    *
    * @param <T> type of the key entity.

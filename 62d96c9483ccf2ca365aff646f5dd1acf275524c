@@ -98,6 +98,24 @@
       "revId": "62d96c9483ccf2ca365aff646f5dd1acf275524c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e761fcb_6a51a229",
+        "filename": "java/com/google/gerrit/sshd/SshCommandPreExecutionFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-10T14:27:15Z",
+      "side": 1,
+      "message": "What about allowing plugins to throw the Unlogged error?",
+      "parentUuid": "f8ad782a_91db291a",
+      "revId": "62d96c9483ccf2ca365aff646f5dd1acf275524c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -80,6 +80,24 @@
       "revId": "62d96c9483ccf2ca365aff646f5dd1acf275524c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8ad782a_91db291a",
+        "filename": "java/com/google/gerrit/sshd/SshCommandPreExecutionFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1081900
+      },
+      "writtenOn": "2019-04-10T14:17:05Z",
+      "side": 1,
+      "message": "not sure that it\u0027s clean to have to call message(String command, List\u003cString\u003e args) on the filter itself. It\u0027d mean that the filter would have to recheck its internal predicates and eventually fails if they all pass?\n\nI\u0027d be for returning a \"Status\" kind of object from the accept() method if needed.\n\nBut overall I\u0027d prefer to keep this simple unless someone has strong opinions on this. Overriding name() might already allow to output some message even if it\u0027s not super \"clean\".",
+      "parentUuid": "90bcef8a_5be935bb",
+      "revId": "62d96c9483ccf2ca365aff646f5dd1acf275524c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

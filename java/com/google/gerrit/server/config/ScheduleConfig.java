@@ -216,6 +216,9 @@ public abstract class ScheduleConfig {
       return ConfigUtil.getTimeUnit(
           rc, section, subsection, keyInterval, MISSING_CONFIG, TimeUnit.MILLISECONDS);
     } catch (IllegalArgumentException e) {
+      // We only need to log the exception message; it already includes the
+      // section.subsection.key and bad value.
+      logger.atSevere().log("%s", e.getMessage());
       return INVALID_CONFIG;
     }
   }
@@ -258,6 +261,7 @@ public abstract class ScheduleConfig {
       }
       return delay;
     } catch (DateTimeParseException e) {
+      logger.atSevere().log("Invalid start time: %s", e.getMessage());
       return INVALID_CONFIG;
     }
   }

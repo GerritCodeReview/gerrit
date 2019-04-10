@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bdd72761_1bf64e06",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2566,
+      "author": {
+        "id": 1081900
+      },
+      "writtenOn": "2019-04-10T09:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67cdb78e_3c9628b1",
+      "range": {
+        "startLine": 2566,
+        "startChar": 3,
+        "endLine": 2566,
+        "endChar": 5
+      },
+      "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce78f8da_c16666cb",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "c49c8fcc_7e18d9fd",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2568,
+      "author": {
+        "id": 1081900
+      },
+      "writtenOn": "2019-04-10T09:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce78f8da_c16666cb",
+      "range": {
+        "startLine": 2568,
+        "startChar": 22,
+        "endLine": 2568,
+        "endChar": 31
+      },
+      "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dda0b4f_6ca5b8a3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2568,
+      "author": {
+        "id": 1081900
+      },
+      "writtenOn": "2019-04-10T09:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "739dfb4c_ab6eedc0",
+      "range": {
+        "startLine": 2568,
+        "startChar": 8,
+        "endLine": 2568,
+        "endChar": 9
+      },
+      "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96ca72db_e147dcb7",
         "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a25151f_940ba925",
+        "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1081900
+      },
+      "writtenOn": "2019-04-10T09:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96ca72db_e147dcb7",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 35
+      },
+      "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "d7beb637_43bbe635",
+        "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1081900
+      },
+      "writtenOn": "2019-04-10T09:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "deb6a5e1_6befb688",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 76
+      },
+      "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05a049f3_dd9fbbf4",
         "filename": "java/com/google/gerrit/sshd/SshCommandPreExecutionFilter.java",
         "patchSetId": 1
@@ -131,6 +251,24 @@
       "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a18604a_bd2439ba",
+        "filename": "java/com/google/gerrit/sshd/SshCommandPreExecutionFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1081900
+      },
+      "writtenOn": "2019-04-10T09:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05a049f3_dd9fbbf4",
+      "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "f64b1cce_40c0a1f9",
+        "filename": "java/com/google/gerrit/sshd/SshCommandPreExecutionFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1081900
+      },
+      "writtenOn": "2019-04-10T09:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7467384_653d6016",
+      "range": {
+        "startLine": 17,
+        "startChar": 54,
+        "endLine": 17,
+        "endChar": 76
+      },
+      "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b89bd78e_f35b979e",
         "filename": "java/com/google/gerrit/sshd/SshModule.java",
         "patchSetId": 1
@@ -177,6 +339,30 @@
       "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bff066c_940d2fb6",
+        "filename": "java/com/google/gerrit/sshd/SshModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1081900
+      },
+      "writtenOn": "2019-04-10T09:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b89bd78e_f35b979e",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 35
+      },
+      "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

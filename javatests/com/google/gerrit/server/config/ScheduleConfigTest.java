@@ -202,6 +202,9 @@ public class ScheduleConfigTest {
 
     rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "0100");
     assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
+
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "1:00");
+    assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
   }
 
   @Test

@@ -91,7 +91,7 @@ import org.eclipse.jgit.lib.Config;
  *       executions are {@code Wed 10:30}, {@code Fri 10:30}. etc.
  *   <li>
  *       <pre>
- * foo.startTime = 6:00
+ * foo.startTime = 06:00
  * foo.interval = 1 day
  * </pre>
  *       Assuming that the server is started on {@code Mon 7:00} then this yields the first run on

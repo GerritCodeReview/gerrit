@@ -174,7 +174,18 @@ public abstract class ScheduleConfig {
       return true;
     }
 
-    if (interval <= 0 || initialDelay < 0) {
+    if (interval != INVALID_CONFIG && interval <= 0) {
+      logger.atSevere().log("Invalid interval value \"%d\" for \"%s\": must be > 0", interval, key);
+      interval = INVALID_CONFIG;
+    }
+
+    if (initialDelay != INVALID_CONFIG && initialDelay < 0) {
+      logger.atSevere().log(
+          "Invalid initial delay value \"%d\" for \"%s\": must be >= 0", initialDelay, key);
+      initialDelay = INVALID_CONFIG;
+    }
+
+    if (interval == INVALID_CONFIG || initialDelay == INVALID_CONFIG) {
       logger.atSevere().log("Invalid schedule configuration for \"%s\" is ignored. ", key);
       return true;
     }

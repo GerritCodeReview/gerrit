@@ -55,8 +55,6 @@ limitations under the License.
           return Promise.resolve(testJSON);
         },
       }));
-      sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(
-          Promise.resolve(true));
     });
 
     teardown(() => {
@@ -524,13 +522,11 @@ limitations under the License.
           });
     });
 
-    test('legacy n,z key in change url is replaced', done => {
+    test('legacy n,z key in change url is replaced', () => {
       const stub = sandbox.stub(element, '_fetchJSON')
           .returns(Promise.resolve([]));
-      element.getChanges(1, null, 'n,z').then(() => {
-        assert.equal(stub.lastCall.args[0].params.S, 0);
-        done();
-      }, done);
+      element.getChanges(1, null, 'n,z');
+      assert.equal(stub.lastCall.args[0].params.S, 0);
     });
 
     test('saveDiffPreferences invalidates cache line', () => {

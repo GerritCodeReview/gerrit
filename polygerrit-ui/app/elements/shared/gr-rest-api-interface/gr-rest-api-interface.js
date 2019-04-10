@@ -1246,51 +1246,48 @@
      *     changeInfos.
      */
     getChanges(opt_changesPerPage, opt_query, opt_offset, opt_options) {
-      return Gerrit.awaitPluginsLoaded().then(() => {
-        const options = opt_options || this.listChangesOptionsToHex(
-            this.ListChangesOption.LABELS,
-            this.ListChangesOption.DETAILED_ACCOUNTS
-        );
-        // Issue 4524: respect legacy token with max sortkey.
-        if (opt_offset === 'n,z') {
-          opt_offset = 0;
+      const options = opt_options || this.listChangesOptionsToHex(
+          this.ListChangesOption.LABELS,
+          this.ListChangesOption.DETAILED_ACCOUNTS
+      );
+      // Issue 4524: respect legacy token with max sortkey.
+      if (opt_offset === 'n,z') {
+        opt_offset = 0;
+      }
+      const params = {
+        O: options,
+        S: opt_offset || 0,
+      };
+      if (opt_changesPerPage) { params.n = opt_changesPerPage; }
+      if (opt_query && opt_query.length > 0) {
+        params.q = opt_query;
+      }
+      const iterateOverChanges = arr => {
+        for (const change of (arr || [])) {
+          this._maybeInsertInLookup(change);
         }
-        const params = {
-          O: options,
-          S: opt_offset || 0,
-        };
-        if (opt_changesPerPage) { params.n = opt_changesPerPage; }
-        if (opt_query && opt_query.length > 0) {
-          params.q = opt_query;
+      };
+      const req = {
+        url: '/changes/',
+        params,
+        reportUrlAsIs: true,
+      };
+      return this._fetchJSON(req).then(response => {
+        // Response may be an array of changes OR an array of arrays of
+        // changes.
+        if (opt_query instanceof Array) {
+          // Normalize the response to look like a multi-query response
+          // when there is only one query.
+          if (opt_query.length === 1) {
+            response = [response];
+          }
+          for (const arr of response) {
+            iterateOverChanges(arr);
+          }
+        } else {
+          iterateOverChanges(response);
         }
-        const iterateOverChanges = arr => {
-          for (const change of (arr || [])) {
-            this._maybeInsertInLookup(change);
-          }
-        };
-        Object.assign(params, Gerrit._pluginParams('changes', params));
-        const req = {
-          url: '/changes/',
-          params,
-          reportUrlAsIs: true,
-        };
-        return this._fetchJSON(req).then(response => {
-          // Response may be an array of changes OR an array of arrays of
-          // changes.
-          if (opt_query instanceof Array) {
-            // Normalize the response to look like a multi-query response
-            // when there is only one query.
-            if (opt_query.length === 1) {
-              response = [response];
-            }
-            for (const arr of response) {
-              iterateOverChanges(arr);
-            }
-          } else {
-            iterateOverChanges(response);
-          }
-          return response;
-        });
+        return response;
       });
     },
 
@@ -1371,15 +1368,9 @@
      * @param {function()=} opt_cancelCondition
      */
     _getChangeDetail(changeNum, optionsHex, opt_errFn, opt_cancelCondition) {
-      return Promise.all([
-        Gerrit.awaitPluginsLoaded(),
-        this.getChangeActionURL(changeNum, null, '/detail'),
-      ]).then(([_, url]) => {
+      return this.getChangeActionURL(changeNum, null, '/detail').then(url => {
         const urlWithParams = this._urlWithParams(url, optionsHex);
-
         const params = {O: optionsHex};
-        Object.assign(params, Gerrit._pluginParams('change', params));
-
         const req = {
           url,
           errFn: opt_errFn,

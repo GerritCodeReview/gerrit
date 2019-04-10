@@ -31,7 +31,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.truth.Correspondence;
-import com.google.common.truth.Correspondence.BinaryPredicate;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -1395,12 +1394,9 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private static Correspondence<AccountInfo, String> getAccountToUsernameCorrespondence() {
     return Correspondence.from(
-        new BinaryPredicate<AccountInfo, String>() {
-          @Override
-          public boolean apply(AccountInfo actualAccount, String expectedName) {
-            String username = actualAccount == null ? null : actualAccount.username;
-            return Objects.equals(username, expectedName);
-          }
+        (actualAccount, expectedName) -> {
+          String username = actualAccount == null ? null : actualAccount.username;
+          return Objects.equals(username, expectedName);
         },
         "has username");
   }

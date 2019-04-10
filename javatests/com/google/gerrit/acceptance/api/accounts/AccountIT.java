@@ -47,7 +47,6 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.io.BaseEncoding;
 import com.google.common.truth.Correspondence;
-import com.google.common.truth.Correspondence.BinaryPredicate;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -2743,12 +2742,9 @@ public class AccountIT extends AbstractDaemonTest {
 
   private static Correspondence<GroupInfo, String> getGroupToNameCorrespondence() {
     return Correspondence.from(
-        new BinaryPredicate<GroupInfo, String>() {
-          @Override
-          public boolean apply(GroupInfo actualGroup, String expectedName) {
-            String groupName = actualGroup == null ? null : actualGroup.name;
-            return Objects.equals(groupName, expectedName);
-          }
+        (actualGroup, expectedName) -> {
+          String groupName = actualGroup == null ? null : actualGroup.name;
+          return Objects.equals(groupName, expectedName);
         },
         "has name");
   }

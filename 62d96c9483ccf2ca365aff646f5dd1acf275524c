@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38453982_afdb7559",
+        "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-10T14:01:52Z",
+      "side": 1,
+      "message": "This should allow plugins to tap in to customise this message.",
+      "range": {
+        "startLine": 108,
+        "startChar": 41,
+        "endLine": 108,
+        "endChar": 70
+      },
+      "revId": "62d96c9483ccf2ca365aff646f5dd1acf275524c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af327cc7_4a2e97ac",
+        "filename": "java/com/google/gerrit/sshd/SshCommandPreExecutionFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-10T14:01:52Z",
+      "side": 1,
+      "message": "I wonder if we can allow the output to return some kind of custom message?\n\nIe for the readonly plugin does a custom message like this:\n\n\"Gerrit is down for maintenance\".",
+      "revId": "62d96c9483ccf2ca365aff646f5dd1acf275524c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

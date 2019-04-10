@@ -116,6 +116,24 @@
       "revId": "62d96c9483ccf2ca365aff646f5dd1acf275524c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bebd6f3_411603d0",
+        "filename": "java/com/google/gerrit/sshd/SshCommandPreExecutionFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1081900
+      },
+      "writtenOn": "2019-04-10T14:31:10Z",
+      "side": 1,
+      "message": "we agreed not to do so on PS1, reason is that BasicCommand.UnloggedException sounds a bit too \"internal\" to be exposed through this interface.",
+      "parentUuid": "4e761fcb_6a51a229",
+      "revId": "62d96c9483ccf2ca365aff646f5dd1acf275524c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

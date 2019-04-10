@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "67cdb78e_3c9628b1",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2566,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-10T01:33:16Z",
+      "side": 1,
+      "message": "SSH",
+      "range": {
+        "startLine": 2566,
+        "startChar": 3,
+        "endLine": 2566,
+        "endChar": 5
+      },
+      "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce78f8da_c16666cb",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2568,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-10T01:33:16Z",
+      "side": 1,
+      "message": "\"from being run\"",
+      "range": {
+        "startLine": 2568,
+        "startChar": 22,
+        "endLine": 2568,
+        "endChar": 31
+      },
+      "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "739dfb4c_ab6eedc0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2568,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-10T01:33:16Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 2568,
+        "startChar": 8,
+        "endLine": 2568,
+        "endChar": 9
+      },
+      "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "96ca72db_e147dcb7",
         "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
         "patchSetId": 1
@@ -40,6 +109,46 @@
         "startLine": 60,
         "startChar": 0,
         "endLine": 61,
+        "endChar": 76
+      },
+      "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05a049f3_dd9fbbf4",
+        "filename": "java/com/google/gerrit/sshd/SshCommandPreExecutionFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-10T01:33:16Z",
+      "side": 1,
+      "message": "Missing copyright and license header.",
+      "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7467384_653d6016",
+        "filename": "java/com/google/gerrit/sshd/SshCommandPreExecutionFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-10T01:33:16Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we should throw this exception from an extension interface.\n\nMaybe make the method return boolean and then throw this exception internally?",
+      "range": {
+        "startLine": 17,
+        "startChar": 54,
+        "endLine": 17,
         "endChar": 76
       },
       "revId": "442a7586ca86dfa9ab9914f714a1bb0769db0f47",

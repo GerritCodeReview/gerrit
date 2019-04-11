@@ -88,6 +88,24 @@
       "revId": "de5ef19e56c3d624b836d3d7359a90fc27a93597",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc62acb2_4d89b556",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-04-11T09:14:06Z",
+      "side": 1,
+      "message": "\u003e If this is just about merging RefConfigSection and AccessSection, because AccessSection is the only subclass of RefConfigSection, yes.\n\nYes. For now, I don\u0027t have further plan. Just would like to have this refactoring merged. Happy to improve if you have any  suggestions.",
+      "parentUuid": "e0f8b234_44754807",
+      "revId": "de5ef19e56c3d624b836d3d7359a90fc27a93597",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

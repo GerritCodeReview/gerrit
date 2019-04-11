@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "04f2ff61_f9aff49f",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-11T14:24:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "854650c1_a05aaeef",
+      "range": {
+        "startLine": 41,
+        "startChar": 17,
+        "endLine": 41,
+        "endChar": 21
+      },
+      "revId": "656f36571ac43ed9c0af750b70cc583175142ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f1ac64_e5bb5066",
         "filename": "java/com/google/gerrit/common/data/AccessSection.java",
         "patchSetId": 9

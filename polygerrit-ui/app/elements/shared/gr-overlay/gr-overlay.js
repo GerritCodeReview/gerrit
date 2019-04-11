@@ -23,6 +23,7 @@
 
   Polymer({
     is: 'gr-overlay',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when a fullscreen overlay is closed

@@ -106,6 +106,7 @@
 
   Polymer({
     is: 'gr-diff',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the user selects a line.

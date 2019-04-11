@@ -27,6 +27,7 @@
 
   Polymer({
     is: 'gr-watched-projects-editor',
+    _legacyUndefinedCheck: true,
 
     properties: {
       hasUnsavedChanges: {

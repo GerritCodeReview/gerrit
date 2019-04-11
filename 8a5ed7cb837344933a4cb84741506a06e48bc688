@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7be78642_bba3feb2",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-11T02:09:16Z",
+      "side": 1,
+      "message": "Because of two comments below, custom genrule2 ist not actually needed and can be replaced with vanilla native genrule rule.",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 12
+      },
+      "revId": "8a5ed7cb837344933a4cb84741506a06e48bc688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b35159e5_f1f003cc",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-11T02:09:16Z",
+      "side": 1,
+      "message": "Not used and should be removed.",
+      "range": {
+        "startLine": 50,
+        "startChar": 15,
+        "endLine": 50,
+        "endChar": 24
+      },
+      "revId": "8a5ed7cb837344933a4cb84741506a06e48bc688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5ca814d_6e898ae4",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-11T02:09:16Z",
+      "side": 1,
+      "message": "Not needed, as we don\u0027t change current directory and can just omit it.",
+      "range": {
+        "startLine": 51,
+        "startChar": 17,
+        "endLine": 51,
+        "endChar": 23
+      },
+      "revId": "8a5ed7cb837344933a4cb84741506a06e48bc688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cf50df2_d6a7ac90",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-11T02:09:16Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 52,
+        "startChar": 128,
+        "endLine": 52,
+        "endChar": 135
+      },
+      "revId": "8a5ed7cb837344933a4cb84741506a06e48bc688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

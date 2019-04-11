@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "d67f1c26_67e5aaa2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-11T02:52:10Z",
+      "side": 1,
+      "message": "Is it possible to remove the internal references from the issue and make it public?\n\nOr, create a separate issue that does not have the internal references?",
+      "parentUuid": "4e610119_6331a033",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "163aa3630f5a542586c3d8e238b8d8797f09ce45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e01ff87_a7c0782e",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 1

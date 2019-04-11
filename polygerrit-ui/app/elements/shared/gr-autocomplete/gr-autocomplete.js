@@ -211,7 +211,7 @@
     },
 
     get _inputElement() {
-      return this.$.input;
+      return this.$ && this.$.input;
     },
 
     /**

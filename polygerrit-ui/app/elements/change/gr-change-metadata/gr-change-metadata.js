@@ -228,11 +228,19 @@
     },
 
     _showAddTopic(changeRecord, settingTopic) {
+      // Polymer2: changeRecord.base can be undefined here because of
+      // https://github.com/Polymer/polymer/issues/5428
+      if (!changeRecord.base) { return; }
+
       const hasTopic = !!changeRecord && !!changeRecord.base.topic;
       return !hasTopic && !settingTopic;
     },
 
     _showTopicChip(changeRecord, settingTopic) {
+      // Polymer2: changeRecord.base can be undefined here because of
+      // https://github.com/Polymer/polymer/issues/5428
+      if (!changeRecord.base) { return; }
+
       const hasTopic = !!changeRecord && !!changeRecord.base.topic;
       return hasTopic && !settingTopic;
     },

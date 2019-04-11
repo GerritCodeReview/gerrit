@@ -146,7 +146,7 @@ public class SetAccessUtil {
       boolean isGlobalCapabilities = AccessSection.GLOBAL_CAPABILITIES.equals(name);
 
       if (!isGlobalCapabilities) {
-        if (!AccessSection.isValid(name)) {
+        if (!AccessSection.isValidRefSectionName(name)) {
           throw new BadRequestException("invalid section name");
         }
         RefPattern.validate(name);

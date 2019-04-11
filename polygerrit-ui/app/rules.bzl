@@ -26,7 +26,7 @@ def polygerrit_bundle(name, srcs, outs, app):
     # https://github.com/Polymer/polymer-resin/issues/7
     closure_js_library(
         name = name + "_closure_lib",
-        srcs = [appName + ".js"],
+        srcs = [appName + "__patched"],
         convention = "GOOGLE",
         # TODO(davido): Clean up these issues: http://paste.openstack.org/show/608548
         # and remove this supression
@@ -40,6 +40,17 @@ def polygerrit_bundle(name, srcs, outs, app):
             "//lib/polymer_externs:polymer_closure",
             "@io_bazel_rules_closure//closure/library",
         ],
+    )
+
+    # TODO(davido): Remove that hack, when new release is conducted with this CL included
+    # https://github.com/Polymer/polymer/commit/f1d5d0ee9bbed92cfcedea71068a8b598d49e6c0
+    genrule2(
+        name = appName + "__patched",
+        srcs = [appName + ".js"],
+        cmd = "cd $$TMP;" +
+            "cat $$ROOT/$(location :%s.js)" % appName +
+            "|sed 's%{!HTMLTemplateElement|string} value Template to set%{HTMLTemplateElement|string} value Template to set%' > $$ROOT/$@",
+        outs = [appName + "__patched.js"],
     )
 
     bundle_assets(

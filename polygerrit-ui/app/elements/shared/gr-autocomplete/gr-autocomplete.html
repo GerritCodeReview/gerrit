@@ -29,7 +29,8 @@ limitations under the License.
         display: none;
       }
       .searchIcon.showSearchIcon {
-        display: initial;
+        /* "display: initial" resolves to "display: inline" for some mysterious reason ... */
+        display: inline-block;
       }
       iron-icon {
         margin: 0 .25em;

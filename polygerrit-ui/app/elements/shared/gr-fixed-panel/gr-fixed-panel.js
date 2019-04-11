@@ -86,7 +86,7 @@
     },
 
     _computeHeaderClass(headerFloating, topLast) {
-      const fixedAtTop = this.keepOnScroll && topLast === 0;
+      const fixedAtTop = this.keepOnScroll && topLast && topLast === 0;
       return [
         headerFloating ? 'floating' : '',
         fixedAtTop ? 'fixedAtTop' : '',
@@ -144,7 +144,7 @@
         newTop = elemTop;
       }
       // Initialize top style if it doesn't exist yet.
-      if (!header.style.top && this._topLast === newTop) {
+      if (!header.style.top this._topLast === newTop) {
         header.style.top = newTop;
       }
       if (this._topLast !== newTop) {

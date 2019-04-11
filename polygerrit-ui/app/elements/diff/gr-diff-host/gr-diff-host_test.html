@@ -45,6 +45,11 @@ limitations under the License.
       stub('gr-rest-api-interface', {
         async getLoggedIn() { return getLoggedIn; },
       });
+      stub('gr-reporting', {
+        time: sandbox.stub(),
+        timeEnd: sandbox.stub(),
+      });
+
       element = fixture('basic');
     });
 
@@ -259,6 +264,38 @@ limitations under the License.
           'gr-comment-thread');
       assert.equal(attachedThreads.length, 1);
       assert.equal(attachedThreads[0].rootId, 42);
+    });
+
+    suite('render reporting', () => {
+      test('starts total and content timer on render-start', done => {
+        element.dispatchEvent(
+            new CustomEvent('render-start', {bubbles: true}));
+        assert.isTrue(element.$.reporting.time.calledWithExactly(
+            'Diff Total Render'));
+        assert.isTrue(element.$.reporting.time.calledWithExactly(
+            'Diff Content Render'));
+        done();
+      });
+
+      test('ends content and starts syntax timer on render-content', done => {
+        element.dispatchEvent(
+            new CustomEvent('render-content', {bubbles: true}));
+        assert.isTrue(element.$.reporting.time.calledWithExactly(
+            'Diff Syntax Render'));
+        assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+            'Diff Content Render'));
+        done();
+      });
+
+      test('ends total and syntax timer on render-syntax', done => {
+        element.dispatchEvent(
+            new CustomEvent('render-syntax', {bubbles: true}));
+        assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+            'Diff Total Render'));
+        assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+            'Diff Syntax Render'));
+        done();
+      });
     });
 
     test('reload() cancels before network resolves', () => {

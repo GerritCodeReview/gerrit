@@ -52,6 +52,24 @@
       "revId": "de5ef19e56c3d624b836d3d7359a90fc27a93597",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "696a977d_e81d801c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-04-11T09:05:43Z",
+      "side": 1,
+      "message": "\u003e Or do you want to say that since AccessSection is the only subclass of RefConfigSection, we can just merge these classes?\n\nKind of. Here I\u0027m proposing to use composition in favor of inheritance. And it seems RefConfigSection isn\u0027t necessary to be part of the inheritance chain.",
+      "parentUuid": "8f549b8b_25d937e4",
+      "revId": "de5ef19e56c3d624b836d3d7359a90fc27a93597",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

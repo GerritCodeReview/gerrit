@@ -46,6 +46,30 @@
       "revId": "afeaf5c1c54a8fe7c60c96f285ff471585de3b93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64efd9b4_b389b2e8",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-11T14:33:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c242bcb7_24238249",
+      "range": {
+        "startLine": 40,
+        "startChar": 63,
+        "endLine": 40,
+        "endChar": 77
+      },
+      "revId": "afeaf5c1c54a8fe7c60c96f285ff471585de3b93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

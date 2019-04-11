@@ -69,6 +69,30 @@
       "revId": "c6e66c9d4f83bf24683909190c16432b78446a67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfcc6707_4b63462f",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-11T05:03:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1823589d_c0d0503a",
+      "range": {
+        "startLine": 51,
+        "startChar": 20,
+        "endLine": 51,
+        "endChar": 126
+      },
+      "revId": "c6e66c9d4f83bf24683909190c16432b78446a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

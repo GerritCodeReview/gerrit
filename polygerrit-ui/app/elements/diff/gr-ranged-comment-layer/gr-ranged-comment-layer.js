@@ -22,8 +22,6 @@
   const RANGE_HIGHLIGHT = 'range';
   const HOVER_HIGHLIGHT = 'rangeHighlight';
 
-  const NORMALIZE_RANGE_EVENT = 'normalize-range';
-
   /** @typedef {{side: string, range: Gerrit.Range, hovering: boolean}} */
   Gerrit.HoveredRange;
 
@@ -178,9 +176,10 @@
             // @see Issue 5744
             if (range.start >= range.end && range.start < line.text.length) {
               range.end = line.text.length;
-              this.$.reporting.reportInteraction(NORMALIZE_RANGE_EVENT,
-                  'Modified invalid comment range on l.' + lineNum +
-                  ' of the ' + side + ' side');
+              this.dispatchEvent(new CustomEvent('normalize-range', {
+                bubbles: true,
+                detail: {lineNum, side},
+              }));
             }
 
             return range;

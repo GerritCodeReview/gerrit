@@ -581,6 +581,10 @@
 
     _editStatusChanged(editMode, editPatchsetLoaded,
         editBasedOnCurrentPatchSet, disableEdit) {
+      // Polymer2: this.change can be undefined here because of
+      // https://github.com/Polymer/polymer/issues/5428
+      if (!this.change) { return; }
+
       if (disableEdit) {
         this._deleteAndNotify('publishEdit');
         this._deleteAndNotify('rebaseEdit');
@@ -1365,6 +1369,9 @@
 
     _computeTopLevelActions(actionRecord, hiddenActionsRecord) {
       const hiddenActions = hiddenActionsRecord.base || [];
+      // Polymer2: base can be undefined here because of
+      // https://github.com/Polymer/polymer/issues/5428
+      if (!actionRecord.base) { return; }
       return actionRecord.base.filter(a => {
         const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
         return !(overflow || hiddenActions.includes(a.__key));
@@ -1380,6 +1387,9 @@
 
     _computeMenuActions(actionRecord, hiddenActionsRecord) {
       const hiddenActions = hiddenActionsRecord.base || [];
+      // Polymer2: base can be undefined here because of
+      // https://github.com/Polymer/polymer/issues/5428
+      if (!actionRecord.base) { return; }
       return actionRecord.base.filter(a => {
         const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
         return overflow && !hiddenActions.includes(a.__key);

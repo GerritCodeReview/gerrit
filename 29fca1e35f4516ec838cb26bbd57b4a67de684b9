@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aee4685b_37ee1eb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-11T21:27:14Z",
+      "side": 1,
+      "message": "Add release note or breaking changes(?) information, as upgrading from 6.7.1 to 7.0.0 (major bump).",
+      "revId": "29fca1e35f4516ec838cb26bbd57b4a67de684b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

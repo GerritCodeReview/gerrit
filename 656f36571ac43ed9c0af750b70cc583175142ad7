@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79a32586_c4ab8477",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-11T14:11:13Z",
+      "side": 1,
+      "message": "Incomplete sentence.",
+      "range": {
+        "startLine": 40,
+        "startChar": 34,
+        "endLine": 40,
+        "endChar": 67
+      },
+      "revId": "656f36571ac43ed9c0af750b70cc583175142ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b447acf_2feb0e3a",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-11T14:11:13Z",
+      "side": 1,
+      "message": "Would it be clearer to keep this named \"refPattern\"?",
+      "range": {
+        "startLine": 41,
+        "startChar": 17,
+        "endLine": 41,
+        "endChar": 21
+      },
+      "revId": "656f36571ac43ed9c0af750b70cc583175142ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17f1ac64_e5bb5066",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-11T14:11:13Z",
+      "side": 1,
+      "message": "Why do we need to initialize this field now? Can it just stay null as before?",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 41
+      },
+      "revId": "656f36571ac43ed9c0af750b70cc583175142ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

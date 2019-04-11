@@ -61,7 +61,8 @@
     },
 
     getFocusStops() {
-      const links = this.$$('#archives').querySelectorAll('a');
+      // Polymer2: querySelectorAll returns NodeList instead of Array.
+      const links = Array.from(this.$$('#archives').querySelectorAll('a'));
       return {
         start: this.$.closeButton,
         end: links[links.length - 1],

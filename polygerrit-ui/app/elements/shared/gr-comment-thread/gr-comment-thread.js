@@ -230,6 +230,8 @@
     },
 
     _expandCollapseComments(actionIsCollapse) {
+      // Polymer2: querySelectorAll returns NodeList instead of Array.
+      // Using for ... of ... is fine though.
       const comments =
           Polymer.dom(this.root).querySelectorAll('gr-comment');
       for (const comment of comments) {
@@ -351,6 +353,8 @@
     },
 
     _commentElWithDraftID(id) {
+      // Polymer2: querySelectorAll returns NodeList instead of Array.
+      // Using for ... of ... is fine though.
       const els = Polymer.dom(this.root).querySelectorAll('gr-comment');
       for (const el of els) {
         if (el.comment.id === id || el.comment.__draftID === id) {

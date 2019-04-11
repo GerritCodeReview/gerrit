@@ -328,7 +328,9 @@
      * @return {!Array<!HTMLElement>}
      */
     getThreadEls() {
-      return Polymer.dom(this.$.diff).querySelectorAll('.comment-thread');
+      // Polymer2: querySelectorAll returns NodeList instead of Array.
+      return Array.from(
+          Polymer.dom(this.$.diff).querySelectorAll('.comment-thread'));
     },
 
     /** @param {HTMLElement} el */

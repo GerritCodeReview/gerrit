@@ -260,6 +260,9 @@
 
     _getFiles(changeNum, patchRangeRecord) {
       const patchRange = patchRangeRecord.base;
+      // Polymer2: patchRange can be undefined here because of
+      // https://github.com/Polymer/polymer/issues/5428
+      if (!patchRange) return Promise.resolve([]);
       return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
           changeNum, patchRange).then(files => {
             this._fileList = files;

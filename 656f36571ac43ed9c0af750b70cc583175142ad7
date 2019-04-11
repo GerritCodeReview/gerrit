@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e86ab735_2866761f",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-04-11T14:15:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79a32586_c4ab8477",
+      "range": {
+        "startLine": 40,
+        "startChar": 34,
+        "endLine": 40,
+        "endChar": 67
+      },
+      "revId": "656f36571ac43ed9c0af750b70cc583175142ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b447acf_2feb0e3a",
         "filename": "java/com/google/gerrit/common/data/AccessSection.java",
         "patchSetId": 9
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "854650c1_a05aaeef",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-04-11T14:15:18Z",
+      "side": 1,
+      "message": "no. it isn\u0027t necessarily a ref pattern. It could also be something like \"capability\".",
+      "parentUuid": "9b447acf_2feb0e3a",
+      "range": {
+        "startLine": 41,
+        "startChar": 17,
+        "endLine": 41,
+        "endChar": 21
+      },
+      "revId": "656f36571ac43ed9c0af750b70cc583175142ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f1ac64_e5bb5066",
         "filename": "java/com/google/gerrit/common/data/AccessSection.java",
         "patchSetId": 9
@@ -68,6 +116,30 @@
       "revId": "656f36571ac43ed9c0af750b70cc583175142ad7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d755686_1066b674",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-04-11T14:15:18Z",
+      "side": 1,
+      "message": "yes. Let\u0027s remove it then.",
+      "parentUuid": "17f1ac64_e5bb5066",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 41
+      },
+      "revId": "656f36571ac43ed9c0af750b70cc583175142ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

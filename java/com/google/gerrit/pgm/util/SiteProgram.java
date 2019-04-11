@@ -47,7 +47,7 @@ public abstract class SiteProgram extends AbstractProgram {
       aliases = {"-d"},
       usage = "Local directory containing site data")
   private void setSitePath(String path) {
-    sitePath = Paths.get(path);
+    sitePath = Paths.get(path).normalize();
   }
 
   private Path sitePath = Paths.get(".");
@@ -55,7 +55,7 @@ public abstract class SiteProgram extends AbstractProgram {
   protected SiteProgram() {}
 
   protected SiteProgram(Path sitePath) {
-    this.sitePath = sitePath;
+    this.sitePath = sitePath.normalize();
   }
 
   /** @return the site path specified on the command line. */

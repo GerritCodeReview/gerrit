@@ -41,15 +41,18 @@ public class ScheduleConfigTest extends GerritBaseTests {
   @Test
   public void initialDelay() throws Exception {
     assertThat(initialDelay("11:00", "1h")).isEqualTo(ms(1, HOURS));
+    assertThat(initialDelay("11:00", "1 hour")).isEqualTo(ms(1, HOURS));
     assertThat(initialDelay("05:30", "1h")).isEqualTo(ms(30, MINUTES));
     assertThat(initialDelay("09:30", "1h")).isEqualTo(ms(30, MINUTES));
     assertThat(initialDelay("13:30", "1h")).isEqualTo(ms(30, MINUTES));
     assertThat(initialDelay("13:59", "1h")).isEqualTo(ms(59, MINUTES));
 
     assertThat(initialDelay("11:00", "1d")).isEqualTo(ms(1, HOURS));
+    assertThat(initialDelay("11:00", "1 day")).isEqualTo(ms(1, HOURS));
     assertThat(initialDelay("05:30", "1d")).isEqualTo(ms(19, HOURS) + ms(30, MINUTES));
 
     assertThat(initialDelay("11:00", "1w")).isEqualTo(ms(1, HOURS));
+    assertThat(initialDelay("11:00", "1 week")).isEqualTo(ms(1, HOURS));
     assertThat(initialDelay("05:30", "1w")).isEqualTo(ms(7, DAYS) - ms(4, HOURS) - ms(30, MINUTES));
 
     assertThat(initialDelay("Mon 11:00", "1w")).isEqualTo(ms(3, DAYS) + ms(1, HOURS));
@@ -199,6 +202,9 @@ public class ScheduleConfigTest extends GerritBaseTests {
     assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
 
     rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "0100");
+    assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
+
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "1:00");
     assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
   }
 

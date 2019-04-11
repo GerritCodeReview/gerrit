@@ -91,7 +91,7 @@ import org.eclipse.jgit.lib.Config;
  *       executions are {@code Wed 10:30}, {@code Fri 10:30}. etc.
  *   <li>
  *       <pre>
- * foo.startTime = 6:00
+ * foo.startTime = 06:00
  * foo.interval = 1 day
  * </pre>
  *       Assuming that the server is started on {@code Mon 7:00} then this yields the first run on
@@ -174,7 +174,18 @@ public abstract class ScheduleConfig {
       return true;
     }
 
-    if (interval <= 0 || initialDelay < 0) {
+    if (interval != INVALID_CONFIG && interval <= 0) {
+      logger.atSevere().log("Invalid interval value \"%d\" for \"%s\": must be > 0", interval, key);
+      interval = INVALID_CONFIG;
+    }
+
+    if (initialDelay != INVALID_CONFIG && initialDelay < 0) {
+      logger.atSevere().log(
+          "Invalid initial delay value \"%d\" for \"%s\": must be >= 0", initialDelay, key);
+      initialDelay = INVALID_CONFIG;
+    }
+
+    if (interval == INVALID_CONFIG || initialDelay == INVALID_CONFIG) {
       logger.atSevere().log("Invalid schedule configuration for \"%s\" is ignored. ", key);
       return true;
     }
@@ -216,6 +227,9 @@ public abstract class ScheduleConfig {
       return ConfigUtil.getTimeUnit(
           rc, section, subsection, keyInterval, MISSING_CONFIG, TimeUnit.MILLISECONDS);
     } catch (IllegalArgumentException e) {
+      // We only need to log the exception message; it already includes the
+      // section.subsection.key and bad value.
+      logger.atSevere().log("%s", e.getMessage());
       return INVALID_CONFIG;
     }
   }
@@ -258,6 +272,7 @@ public abstract class ScheduleConfig {
       }
       return delay;
     } catch (DateTimeParseException e) {
+      logger.atSevere().log("Invalid start time: %s", e.getMessage());
       return INVALID_CONFIG;
     }
   }

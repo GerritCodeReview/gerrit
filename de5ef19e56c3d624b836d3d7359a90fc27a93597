@@ -34,6 +34,24 @@
       "revId": "de5ef19e56c3d624b836d3d7359a90fc27a93597",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f549b8b_25d937e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-04-11T08:59:39Z",
+      "side": 1,
+      "message": "\u003e I\u0027m missing the context for this change. Why do we need this?\n\u003e \n\u003e I think this comes from our discussions about allowing permissions on other resources than refs? If yes, that should be mentioned here. But I thought that we actually came to the conclusion that we don\u0027t need this for now, didn\u0027t we?\n\u003e \n\u003e Or is there any other motivation for this change that I\u0027m missing?\n\nYes. You\u0027re correct. We don\u0027t need this for now. But this could still be a useful refactoring to have?",
+      "parentUuid": "39d9ea3b_56b552d2",
+      "revId": "de5ef19e56c3d624b836d3d7359a90fc27a93597",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

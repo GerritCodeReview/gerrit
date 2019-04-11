@@ -86,7 +86,7 @@
     },
 
     _computeHeaderClass(headerFloating, topLast) {
-      const fixedAtTop = this.keepOnScroll && topLast === 0;
+      const fixedAtTop = this.keepOnScroll && topLast && topLast === 0;
       return [
         headerFloating ? 'floating' : '',
         fixedAtTop ? 'fixedAtTop' : '',

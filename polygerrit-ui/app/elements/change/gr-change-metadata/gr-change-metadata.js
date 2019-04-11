@@ -228,12 +228,12 @@
     },
 
     _showAddTopic(changeRecord, settingTopic) {
-      const hasTopic = !!changeRecord && !!changeRecord.base.topic;
+      const hasTopic = !!changeRecord && !!changeRecord.base && !!changeRecord.base.topic;
       return !hasTopic && !settingTopic;
     },
 
     _showTopicChip(changeRecord, settingTopic) {
-      const hasTopic = !!changeRecord && !!changeRecord.base.topic;
+      const hasTopic = !!changeRecord && !!changeRecord.base && !!changeRecord.base.topic;
       return hasTopic && !settingTopic;
     },
 

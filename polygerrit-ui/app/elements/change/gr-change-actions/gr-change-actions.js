@@ -592,7 +592,8 @@
       if (editPatchsetLoaded) {
         // Only show actions that mutate an edit if an actual edit patch set
         // is loaded.
-        if (this.changeIsOpen(this.change.status)) {
+        if (this.change && this.change.status &&
+            this.changeIsOpen(this.change.status)) {
           if (editBasedOnCurrentPatchSet) {
             if (!this.actions.publishEdit) {
               this.set('actions.publishEdit', PUBLISH_EDIT);
@@ -614,7 +615,8 @@
         this._deleteAndNotify('deleteEdit');
       }
 
-      if (this.changeIsOpen(this.change.status)) {
+      if (this.change && this.change.status &&
+          this.changeIsOpen(this.change.status)) {
         // Only show edit button if there is no edit patchset loaded and the
         // file list is not in edit mode.
         if (editPatchsetLoaded || editMode) {
@@ -1363,7 +1365,8 @@
 
     _computeTopLevelActions(actionRecord, hiddenActionsRecord) {
       const hiddenActions = hiddenActionsRecord.base || [];
-      return actionRecord.base.filter(a => {
+      const actions = actionRecord.base || [];
+      return actions.filter(a => {
         const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
         return !(overflow || hiddenActions.includes(a.__key));
       });
@@ -1378,7 +1381,8 @@
 
     _computeMenuActions(actionRecord, hiddenActionsRecord) {
       const hiddenActions = hiddenActionsRecord.base || [];
-      return actionRecord.base.filter(a => {
+      const actions = actionRecord.base || [];
+      return actions.filter(a => {
         const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
         return overflow && !hiddenActions.includes(a.__key);
       }).map(action => {

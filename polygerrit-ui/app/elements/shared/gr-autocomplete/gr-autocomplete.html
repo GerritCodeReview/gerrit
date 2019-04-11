@@ -24,46 +24,48 @@ limitations under the License.
 
 <dom-module id="gr-autocomplete">
   <template>
-    <style include="shared-styles">
-      .searchIcon {
-        display: none;
-      }
-      .searchIcon.showSearchIcon {
-        display: initial;
-      }
-      iron-icon {
-        margin: 0 .25em;
-      }
-      paper-input:not(.borderless) {
-        border: 1px solid var(--border-color);
-      }
-      paper-input {
-        height: 100%;
-        width: 100%;
-        @apply --gr-autocomplete;
-        --paper-input-container: {
-          padding: 0;
-        }
-        --paper-input-container-input: {
-          font-size: var(--font-size-normal);
-        }
-        --paper-input-container-underline: {
+    <custom-style>
+      <style include="shared-styles">
+        .searchIcon {
           display: none;
-        };
-        --paper-input-container-underline-focus: {
-          display: none;
-        };
-        --paper-input-container-underline-disabled: {
-          display: none;
-        };
-      }
-      paper-input.warnUncommitted {
-        --paper-input-container-input: {
-          color: var(--error-text-color);
-          font-size: var(--font-size-normal);
         }
-      }
-    </style>
+        .searchIcon.showSearchIcon {
+          display: initial;
+        }
+        iron-icon {
+          margin: 0 .25em;
+        }
+        paper-input:not(.borderless) {
+          border: 1px solid var(--border-color);
+        }
+        paper-input {
+          height: 100%;
+          width: 100%;
+          @apply --gr-autocomplete;
+          --paper-input-container: {
+            padding: 0;
+          }
+          --paper-input-container-input: {
+            font-size: var(--font-size-normal);
+          }
+          --paper-input-container-underline: {
+            display: none;
+          };
+          --paper-input-container-underline-focus: {
+            display: none;
+          };
+          --paper-input-container-underline-disabled: {
+            display: none;
+          };
+        }
+        paper-input.warnUncommitted {
+          --paper-input-container-input: {
+            color: var(--error-text-color);
+            font-size: var(--font-size-normal);
+          }
+        }
+      </style>
+    </custom-style>
     <paper-input
         no-label-float
         id="input"

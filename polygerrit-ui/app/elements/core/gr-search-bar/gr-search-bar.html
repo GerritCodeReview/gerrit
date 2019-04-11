@@ -23,20 +23,22 @@ limitations under the License.
 
 <dom-module id="gr-search-bar">
   <template>
-    <style include="shared-styles">
-      form {
-        display: flex;
-      }
-      gr-autocomplete {
-        background-color: var(--view-background-color);
-        border: 1px solid var(--border-color);
-        border-radius: 2px;
-        flex: 1;
-        font: inherit;
-        outline: none;
-        padding: .25em;
-      }
-    </style>
+    <custom-style>
+      <style include="shared-styles">
+        form {
+          display: flex;
+        }
+        gr-autocomplete {
+          background-color: var(--view-background-color);
+          border: 1px solid var(--border-color);
+          border-radius: 2px;
+          flex: 1;
+          font: inherit;
+          outline: none;
+          padding: .25em;
+        }
+      </style>
+    </custom-style>
     <form>
       <gr-autocomplete
           show-search-icon

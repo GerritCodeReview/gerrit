@@ -254,9 +254,10 @@
       const range = GrRangeNormalizer.normalize(sel.getRangeAt(0));
       const content = [];
       // Query the diffElement for comments.
-      const messages = this.diffBuilder.diffElement.querySelectorAll(
+      // Polymer2: querySelectorAll returns NodeList instead of Array.
+      const messages = Array.from(this.diffBuilder.diffElement.querySelectorAll(
           `.side-by-side [data-side="${side
-          }"] .message *, .unified .message *`);
+          }"] .message *, .unified .message *`));
 
       for (let i = 0; i < messages.length; i++) {
         const el = messages[i];

@@ -280,7 +280,9 @@
      */
     _resetCursorStops() {
       Polymer.dom.flush();
-      this._listElements = Polymer.dom(this.root).querySelectorAll('li');
+      // Polymer2: querySelectorAll returns NodeList instead of Array.
+      this._listElements = Array.from(
+          Polymer.dom(this.root).querySelectorAll('li'));
     },
 
     _computeHasTooltip(tooltip) {

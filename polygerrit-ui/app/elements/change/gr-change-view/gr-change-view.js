@@ -64,6 +64,7 @@
 
   Polymer({
     is: 'gr-change-view',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the title of the page should change.

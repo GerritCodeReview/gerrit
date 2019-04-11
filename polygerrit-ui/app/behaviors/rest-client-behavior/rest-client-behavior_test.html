@@ -54,6 +54,7 @@ limitations under the License.
       // Define a Polymer element that uses this behavior.
       Polymer({
         is: 'test-element',
+        _legacyUndefinedCheck: true,
         behaviors: [
           Gerrit.BaseUrlBehavior,
           Gerrit.RESTClientBehavior,

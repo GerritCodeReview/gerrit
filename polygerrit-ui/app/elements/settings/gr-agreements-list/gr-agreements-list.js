@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-agreements-list',
+    _legacyUndefinedCheck: true,
 
     properties: {
       _agreements: Array,

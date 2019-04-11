@@ -160,6 +160,8 @@
     },
 
     _highlightEl(el) {
+      // Polymer2: querySelectorAll returns NodeList instead of Array.
+      // Using for ... of ... is fine.
       const highlightedEls =
           Polymer.dom(this.root).querySelectorAll('.highlighted');
       for (const highlighedEl of highlightedEls) {

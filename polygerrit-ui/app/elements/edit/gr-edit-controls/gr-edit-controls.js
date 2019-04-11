@@ -151,6 +151,8 @@
     },
 
     _hideAllDialogs() {
+      // Polymer2: querySelectorAll returns NodeList instead of Array.
+      // Using for ... of ... in fine.
       const dialogs = Polymer.dom(this.root).querySelectorAll('.dialog');
       for (const dialog of dialogs) { this._closeDialog(dialog); }
     },
@@ -166,6 +168,8 @@
         // Dialog may have autocompletes and plain inputs -- as these have
         // different properties representing their bound text, it is easier to
         // just make two separate queries.
+        // Polymer2: querySelectorAll returns NodeList instead of Array.
+        // Using forEach is fine for both.
         dialog.querySelectorAll('gr-autocomplete')
             .forEach(input => { input.text = ''; });
         dialog.querySelectorAll('input')

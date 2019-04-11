@@ -352,7 +352,9 @@
     },
 
     _getListItems() {
-      return Polymer.dom(this.root).querySelectorAll('gr-change-list-item');
+      // Polymer2: querySelectorAll returns NodeList instead of Array.
+      return Array.from(
+          Polymer.dom(this.root).querySelectorAll('gr-change-list-item'));
     },
 
     _sectionsChanged() {

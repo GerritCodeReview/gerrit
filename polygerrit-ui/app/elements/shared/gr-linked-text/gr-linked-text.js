@@ -70,6 +70,8 @@
 
       // Ensure that links originating from HTML commentlink configs open in a
       // new tab. @see Issue 5567
+      // Polymer2: querySelectorAll returns NodeList instead of Array.
+      // Using forEach is fine though.
       output.querySelectorAll('a').forEach(anchor => {
         anchor.setAttribute('target', '_blank');
         anchor.setAttribute('rel', 'noopener');

@@ -14,131 +14,133 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<style is="custom-style">
-:root {
-  /* Following vars have LTS for plugin API. */
-  --primary-text-color: #000;
-  --header-background-color: #eee;
-  --header-title-content: 'Gerrit';
-  --header-icon: none;
-  --header-icon-size: 0em;
-  --header-text-color: #000;
-  --footer-background-color: var(--header-background-color);
-  --border-color: #ddd;
+<custom-style>
+  <style is="custom-style">
+    :root {
+      /* Following vars have LTS for plugin API. */
+      --primary-text-color: #000;
+      --header-background-color: #eee;
+      --header-title-content: 'Gerrit';
+      --header-icon: none;
+      --header-icon-size: 0em;
+      --header-text-color: #000;
+      --footer-background-color: var(--header-background-color);
+      --border-color: #ddd;
 
-  /* Following are not part of plugin API. */
-  --selection-background-color: rgba(161, 194, 250, 0.1);
-  --hover-background-color: rgba(161, 194, 250, 0.2);
-  --expanded-background-color: #eee;
-  --view-background-color: #fff;
-  --default-horizontal-margin: 1rem;
-  --deemphasized-text-color: #757575;
-  --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  --font-weight-bold: 500;
-  --monospace-font-family: 'Roboto Mono', Menlo, 'Lucida Console', Monaco, monospace;
-  --iron-overlay-backdrop: {
-    transition: none;
-  }
-  --table-header-background-color: #fafafa;
-  --table-subheader-background-color: #eaeaea;
+      /* Following are not part of plugin API. */
+      --selection-background-color: rgba(161, 194, 250, 0.1);
+      --hover-background-color: rgba(161, 194, 250, 0.2);
+      --expanded-background-color: #eee;
+      --view-background-color: #fff;
+      --default-horizontal-margin: 1rem;
+      --deemphasized-text-color: #757575;
+      --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+      --font-weight-bold: 500;
+      --monospace-font-family: 'Roboto Mono', Menlo, 'Lucida Console', Monaco, monospace;
+      --iron-overlay-backdrop: {
+        transition: none;
+      }
+      --table-header-background-color: #fafafa;
+      --table-subheader-background-color: #eaeaea;
 
-  --chip-background-color: #eee;
+      --chip-background-color: #eee;
 
-  --dropdown-background-color: #fff;
+      --dropdown-background-color: #fff;
 
-  --select-background-color: rgb(248, 248, 248);
+      --select-background-color: rgb(248, 248, 248);
 
-  --assignee-highlight-color: #fcfad6;
+      --assignee-highlight-color: #fcfad6;
 
-  /* Font sizes */
-  --font-size-normal: 1rem;
-  --font-size-small: .92rem;
-  --font-size-large: 1.154rem;
+      /* Font sizes */
+      --font-size-normal: 1rem;
+      --font-size-small: .92rem;
+      --font-size-large: 1.154rem;
 
-  --link-color: #2a66d9;
-  --primary-button-background-color: var(--link-color);
-  --primary-button-text-color: #fff;
-  --secondary-button-background-color: #fff;
-  --secondary-button-text-color: #212121;
-  --default-button-background-color: #fff;
-  --default-button-text-color: var(--link-color);
-  --dialog-background-color: #fff;
+      --link-color: #2a66d9;
+      --primary-button-background-color: var(--link-color);
+      --primary-button-text-color: #fff;
+      --secondary-button-background-color: #fff;
+      --secondary-button-text-color: #212121;
+      --default-button-background-color: #fff;
+      --default-button-text-color: var(--link-color);
+      --dialog-background-color: #fff;
 
-  /* Used for both the old patchset header and for indicating that a particular
-    change message was selected. */
-  --emphasis-color: #fff9c4;
+      /* Used for both the old patchset header and for indicating that a particular
+        change message was selected. */
+      --emphasis-color: #fff9c4;
 
-  --error-text-color: red;
+      --error-text-color: red;
 
-  --vote-color-approved: #9fcc6b;
-  --vote-color-recommended: #c9dfaf;
-  --vote-color-rejected: #f7a1ad;
-  --vote-color-disliked: #f7c4cb;
-  --vote-color-neutral: #ebf5fb;
+      --vote-color-approved: #9fcc6b;
+      --vote-color-recommended: #c9dfaf;
+      --vote-color-rejected: #f7a1ad;
+      --vote-color-disliked: #f7c4cb;
+      --vote-color-neutral: #ebf5fb;
 
-  --vote-text-color-recommended: #388E3C;
-  --vote-text-color-disliked: #D32F2F;
+      --vote-text-color-recommended: #388E3C;
+      --vote-text-color-disliked: #D32F2F;
 
-  /* Diff colors */
-  --diff-selection-background-color: #c7dbf9;
-  --light-remove-highlight-color: #FFEBEE;
-  --light-add-highlight-color: #D8FED8;
-  --light-remove-add-highlight-color: #FFF8DC;
-  --light-rebased-add-highlight-color: #EEEEFF;
-  --dark-remove-highlight-color: #FFCDD2;
-  --dark-add-highlight-color: #AAF2AA;
-  --dark-rebased-remove-highlight-color: #F7E8B7;
-  --dark-rebased-add-highlight-color: #D7D7F9;
-  --diff-context-control-color: #fff7d4;
-  --diff-context-control-border-color: #f6e6a5;
-  --diff-tab-indicator-color: var(--deemphasized-text-color);
-  --diff-trailing-whitespace-indicator: #ff9ad2;
-  --diff-highlight-range-color: rgba(255, 213, 0, 0.5);
-  --diff-highlight-range-hover-color: rgba(255, 255, 0, 0.5);
+      /* Diff colors */
+      --diff-selection-background-color: #c7dbf9;
+      --light-remove-highlight-color: #FFEBEE;
+      --light-add-highlight-color: #D8FED8;
+      --light-remove-add-highlight-color: #FFF8DC;
+      --light-rebased-add-highlight-color: #EEEEFF;
+      --dark-remove-highlight-color: #FFCDD2;
+      --dark-add-highlight-color: #AAF2AA;
+      --dark-rebased-remove-highlight-color: #F7E8B7;
+      --dark-rebased-add-highlight-color: #D7D7F9;
+      --diff-context-control-color: #fff7d4;
+      --diff-context-control-border-color: #f6e6a5;
+      --diff-tab-indicator-color: var(--deemphasized-text-color);
+      --diff-trailing-whitespace-indicator: #ff9ad2;
+      --diff-highlight-range-color: rgba(255, 213, 0, 0.5);
+      --diff-highlight-range-hover-color: rgba(255, 255, 0, 0.5);
 
-  --shell-command-background-color: #f5f5f5;
-  --shell-command-decoration-background-color: #ebebeb;
+      --shell-command-background-color: #f5f5f5;
+      --shell-command-decoration-background-color: #ebebeb;
 
-  --comment-text-color: #000;
-  --comment-background-color: #fcfad6;
-  --unresolved-comment-background-color: #fcfaa6;
+      --comment-text-color: #000;
+      --comment-background-color: #fcfad6;
+      --unresolved-comment-background-color: #fcfaa6;
 
-  --edit-mode-background-color: #ebf5fb;
+      --edit-mode-background-color: #ebf5fb;
 
-  --tooltip-background-color: #333;
-  --tooltip-text-color: #fff;
+      --tooltip-background-color: #333;
+      --tooltip-text-color: #fff;
 
-  --syntax-default-color: var(--primary-text-color);
-  --syntax-attribute-color: var(--primary-text-color);
-  --syntax-function-color: var(--primary-text-color);
-  --syntax-meta-color: #FF1717;
-  --syntax-keyword-color: #9E0069;
-  --syntax-number-color: #164;
-  --syntax-selector-class-color: #164;
-  --syntax-variable-color: black;
-  --syntax-template-variable-color: #0000C0;
-  --syntax-comment-color: #3F7F5F;
-  --syntax-string-color: #2A00FF;
-  --syntax-selector-id-color: #2A00FF;
-  --syntax-built_in-color: #30a;
-  --syntax-tag-color: #170;
-  --syntax-link-color: #219;
-  --syntax-meta-keyword-color: #219;
-  --syntax-type-color: var(--color-link);
-  --syntax-title-color: #0000C0;
-  --syntax-attr-color: #219;
-  --syntax-literal-color: #219;
-  --syntax-selector-pseudo-color: #FA8602;
-  --syntax-regexp-color: #FA8602;
-  --syntax-selector-attr-color: #FA8602;
-  --syntax-template-tag-color: #FA8602;
-  --syntax-param-color: var(--primary-text-color);
+      --syntax-default-color: var(--primary-text-color);
+      --syntax-attribute-color: var(--primary-text-color);
+      --syntax-function-color: var(--primary-text-color);
+      --syntax-meta-color: #FF1717;
+      --syntax-keyword-color: #9E0069;
+      --syntax-number-color: #164;
+      --syntax-selector-class-color: #164;
+      --syntax-variable-color: black;
+      --syntax-template-variable-color: #0000C0;
+      --syntax-comment-color: #3F7F5F;
+      --syntax-string-color: #2A00FF;
+      --syntax-selector-id-color: #2A00FF;
+      --syntax-built_in-color: #30a;
+      --syntax-tag-color: #170;
+      --syntax-link-color: #219;
+      --syntax-meta-keyword-color: #219;
+      --syntax-type-color: var(--color-link);
+      --syntax-title-color: #0000C0;
+      --syntax-attr-color: #219;
+      --syntax-literal-color: #219;
+      --syntax-selector-pseudo-color: #FA8602;
+      --syntax-regexp-color: #FA8602;
+      --syntax-selector-attr-color: #FA8602;
+      --syntax-template-tag-color: #FA8602;
+      --syntax-param-color: var(--primary-text-color);
 
-  --reply-overlay-z-index: 1000;
-}
-@media screen and (max-width: 50em) {
-  :root {
-    --default-horizontal-margin: .7rem;
-  }
-}
-</style>
+      --reply-overlay-z-index: 1000;
+    }
+    @media screen and (max-width: 50em) {
+      :root {
+        --default-horizontal-margin: .7rem;
+      }
+    }
+  </style>
+</custom-style>

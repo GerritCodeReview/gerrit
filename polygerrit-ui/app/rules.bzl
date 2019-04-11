@@ -14,11 +14,11 @@ def polygerrit_bundle(name, srcs, outs, app):
         # See: https://github.com/google/closure-compiler/issues/2042
         compilation_level = "WHITESPACE_ONLY",
         defs = [
-            "--polymer_version=1",
+            "--polymer_version=2",
             "--jscomp_off=duplicate",
             "--force_inject_library=es6_runtime",
         ],
-        language = "ECMASCRIPT5",
+        language = "ECMASCRIPT_2015",
         deps = [name + "_closure_lib"],
     )
 
@@ -111,6 +111,7 @@ def polygerrit_bundle(name, srcs, outs, app):
             "for f in $(locations " + name + "_theme_sources); do cp $$f $$TMP/polygerrit_ui/styles/themes; done",
             "for f in $(locations //lib/js:highlightjs_files); do cp $$f $$TMP/polygerrit_ui/bower_components/highlightjs/ ; done",
             "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @webcomponentsjs//:zipfile) webcomponentsjs/webcomponents-lite.js",
+            "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @webcomponentsjs//:zipfile) webcomponentsjs/webcomponents-lite.js.map",
             "cd $$TMP",
             "find . -exec touch -t 198001010000 '{}' ';'",
             "zip -qr $$ROOT/$@ *",

@@ -1,7 +1,7 @@
 NPM_VERSIONS = {
     "bower": "1.8.8",
     "crisper": "2.0.2",
-    "polymer-bundler": "4.0.2",
+    "polymer-bundler": "4.0.9",
 }
 
 NPM_SHA1S = {

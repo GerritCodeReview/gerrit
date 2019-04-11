@@ -977,6 +977,8 @@
     },
 
     _hideAllDialogs() {
+      // Polymer2: querySelectorAll returns NodeList instead of Array.
+      // Using for ... of ... is fine.
       const dialogEls =
           Polymer.dom(this.root).querySelectorAll('.confirmDialog');
       for (const dialogEl of dialogEls) { dialogEl.hidden = true; }

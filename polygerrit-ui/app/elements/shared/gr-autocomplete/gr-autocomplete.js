@@ -22,6 +22,7 @@
 
   Polymer({
     is: 'gr-autocomplete',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when a value is chosen.

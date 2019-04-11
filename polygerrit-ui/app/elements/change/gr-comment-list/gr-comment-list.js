@@ -18,6 +18,7 @@
   'use strict';
   Polymer({
     is: 'gr-comment-list',
+    _legacyUndefinedCheck: true,
 
     behaviors: [
       Gerrit.BaseUrlBehavior,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "086243d6_15ed3781",
+        "filename": "resources/com/google/gerrit/server/mime/mime-types.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1069404
+      },
+      "writtenOn": "2019-04-11T17:56:37Z",
+      "side": 1,
+      "message": "Does the .star extension get mapped to the string \"starlark\" here?",
+      "revId": "6159adddeb2037045c9f6338ff3be2018e47dd5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

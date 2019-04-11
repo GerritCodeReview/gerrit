@@ -38,6 +38,7 @@ limitations under the License.
       // Define a Polymer element that uses this behavior.
       Polymer({
         is: 'docs-url-behavior-element',
+        _legacyUndefinedCheck: true,
         behaviors: [Gerrit.DocsUrlBehavior],
       });
     });

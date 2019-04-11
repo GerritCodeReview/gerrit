@@ -25,6 +25,7 @@
 
   Polymer({
     is: 'gr-group-members',
+    _legacyUndefinedCheck: true,
 
     properties: {
       groupId: Number,

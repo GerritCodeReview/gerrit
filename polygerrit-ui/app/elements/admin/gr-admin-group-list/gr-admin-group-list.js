@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-admin-group-list',
+    _legacyUndefinedCheck: true,
 
     properties: {
       /**

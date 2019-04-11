@@ -39,6 +39,7 @@ limitations under the License.
     suiteSetup(() => {
       Polymer({
         is: 'safe-types-element',
+        _legacyUndefinedCheck: true,
         behaviors: [Gerrit.SafeTypes],
       });
     });

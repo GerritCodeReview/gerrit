@@ -16,6 +16,24 @@
       "revId": "6159adddeb2037045c9f6338ff3be2018e47dd5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d5ae3a6_490d212b",
+        "filename": "resources/com/google/gerrit/server/mime/mime-types.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-11T21:40:08Z",
+      "side": 1,
+      "message": "Ah, thanks for catching that! Fixed in https://gerrit-review.googlesource.com/c/gerrit/+/220613/",
+      "parentUuid": "086243d6_15ed3781",
+      "revId": "6159adddeb2037045c9f6338ff3be2018e47dd5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

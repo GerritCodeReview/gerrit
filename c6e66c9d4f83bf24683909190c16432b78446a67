@@ -45,6 +45,30 @@
       "revId": "c6e66c9d4f83bf24683909190c16432b78446a67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1823589d_c0d0503a",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-11T04:47:15Z",
+      "side": 1,
+      "message": "\u003e Do we need to replace the whole line?  Why not only replace the part that needs replacing, i.e. !HTML\n\nBecause this is not unique in this file:\n\n  grep \u0027{!HTMLTemplateElement}\u0027 bazel-out/darwin-fastbuild/bin/polygerrit-ui/app/gr-app.js | wc -l\n  13\n\n\u003e Also why is % used in the sed call instead of /?\n\nDone.",
+      "parentUuid": "5ea9e220_746885bb",
+      "range": {
+        "startLine": 51,
+        "startChar": 20,
+        "endLine": 51,
+        "endChar": 126
+      },
+      "revId": "c6e66c9d4f83bf24683909190c16432b78446a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

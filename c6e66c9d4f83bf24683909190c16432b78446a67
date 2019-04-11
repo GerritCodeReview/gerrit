@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b13ae0c9_5089ba53",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-11T03:39:03Z",
+      "side": 1,
+      "message": "this",
+      "range": {
+        "startLine": 45,
+        "startChar": 27,
+        "endLine": 45,
+        "endChar": 31
+      },
+      "revId": "c6e66c9d4f83bf24683909190c16432b78446a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ea9e220_746885bb",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-11T03:39:03Z",
+      "side": 1,
+      "message": "Do we need to replace the whole line?  Why not only replace the part that needs replacing, i.e. !HTML\n\nAlso why is % used in the sed call instead of /?",
+      "range": {
+        "startLine": 51,
+        "startChar": 20,
+        "endLine": 51,
+        "endChar": 126
+      },
+      "revId": "c6e66c9d4f83bf24683909190c16432b78446a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

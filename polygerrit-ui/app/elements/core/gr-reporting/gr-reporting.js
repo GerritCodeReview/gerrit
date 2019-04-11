@@ -144,6 +144,7 @@
   // eslint-disable-next-line prefer-const
   let GrReporting = Polymer({
     is: 'gr-reporting',
+    _legacyUndefinedCheck: true,
 
     properties: {
       category: String,

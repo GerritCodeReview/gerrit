@@ -28,6 +28,13 @@
     UNIFIED: 'UNIFIED_DIFF',
   };
 
+  /** @enum {string} */
+  const TimingLabel = {
+    TOTAL: 'Diff Total Render',
+    CONTENT: 'Diff Content Render',
+    SYNTAX: 'Diff Syntax Render',
+  };
+
   const WHITESPACE_IGNORE_NONE = 'IGNORE_NONE';
 
   /**
@@ -201,6 +208,12 @@
       'comment-discard': '_handleCommentDiscard',
       'comment-update': '_handleCommentUpdate',
       'comment-save': '_handleCommentSave',
+
+      'render-start': '_handleRenderStart',
+      'render-content': '_handleRenderContent',
+      'render-syntax': '_handleRenderSyntax',
+
+      'normalize-range': '_handleNormalizeRange',
     },
 
     observers: [
@@ -825,5 +838,26 @@
       return this.comments[side].findIndex(
           item => item.__draftID === comment.__draftID);
     },
+
+    _handleRenderStart() {
+      this.$.reporting.time(TimingLabel.TOTAL);
+      this.$.reporting.time(TimingLabel.CONTENT);
+    },
+
+    _handleRenderContent() {
+      this.$.reporting.timeEnd(TimingLabel.CONTENT);
+      this.$.reporting.time(TimingLabel.SYNTAX);
+    },
+
+    _handleRenderSyntax() {
+      this.$.reporting.timeEnd(TimingLabel.SYNTAX);
+      this.$.reporting.timeEnd(TimingLabel.TOTAL);
+    },
+
+    _handleNormalizeRange(event) {
+      this.$.reporting.reportInteraction('normalize-range',
+          `Modified invalid comment range on l. ${event.detail.lineNum}` +
+          ` of the ${event.detail.side} side`);
+    }
   });
 })();

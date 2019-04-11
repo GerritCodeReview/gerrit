@@ -15,7 +15,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../gr-diff-processor/gr-diff-processor.html">
 <link rel="import" href="../gr-ranged-comment-layer/gr-ranged-comment-layer.html">
@@ -35,7 +34,6 @@ limitations under the License.
     <gr-diff-processor
         id="processor"
         groups="{{_groups}}"></gr-diff-processor>
-    <gr-reporting id="reporting"></gr-reporting>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
   </template>
   <script src="../../../scripts/util.js"></script>
@@ -54,12 +52,6 @@ limitations under the License.
       const DiffViewMode = {
         SIDE_BY_SIDE: 'SIDE_BY_SIDE',
         UNIFIED: 'UNIFIED_DIFF',
-      };
-
-      const TimingLabel = {
-        TOTAL: 'Diff Total Render',
-        CONTENT: 'Diff Content Render',
-        SYNTAX: 'Diff Syntax Render',
       };
 
       // If any line of the diff is more than the character limit, then disable
@@ -148,11 +140,8 @@ limitations under the License.
           this._clearDiffContent();
           this._builder.addColumns(this.diffElement, prefs.font_size);
 
-          const reporting = this.$.reporting;
           const isBinary = !!(this.isImageDiff || this.diff.binary);
 
-          reporting.time(TimingLabel.TOTAL);
-          reporting.time(TimingLabel.CONTENT);
           this.dispatchEvent(new CustomEvent('render-start', {bubbles: true}));
           this._cancelableRenderPromise = util.makeCancelable(
               this.$.processor.process(this.diff.content, isBinary)
@@ -167,13 +156,10 @@ limitations under the License.
                       this.$.syntaxLayer.enabled = false;
                     }
 
-                    reporting.timeEnd(TimingLabel.CONTENT);
-                    reporting.time(TimingLabel.SYNTAX);
                     return this.$.syntaxLayer.process();
                   })
                   .then(() => {
-                    reporting.timeEnd(TimingLabel.SYNTAX);
-                    reporting.timeEnd(TimingLabel.TOTAL);
+                    this.dispatchEvent(new CustomEvent('render-syntax', {bubbles: true}));
                   }));
           return this._cancelableRenderPromise
               .finally(() => { this._cancelableRenderPromise = null; })

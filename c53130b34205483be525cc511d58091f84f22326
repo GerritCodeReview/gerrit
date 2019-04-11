@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1723881c_b43f649f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-11T14:38:13Z",
+      "side": 1,
+      "message": "For example (like im doing now) commenting within a file. When i try to comment with in a AutoMerge change e.g AutoMerge..1 (if this change is applied) it fails because it will try to use AutoMerge in the rest api.",
+      "parentUuid": "a55d34c0_1a8b7665",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "c53130b34205483be525cc511d58091f84f22326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "81ea6fc5_3e09cbd5",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 11

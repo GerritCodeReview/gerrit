@@ -24,6 +24,30 @@
       "revId": "0671504696ec2c80ab895efac3b0490ae386f49b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7671e83_c192a40c",
+        "filename": "plugins/singleusergroup",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-11T22:55:25Z",
+      "side": 1,
+      "message": "Sigh, no. I\u0027ll just keep trying until CI passes.",
+      "parentUuid": "d9a94999_175098b1",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "0671504696ec2c80ab895efac3b0490ae386f49b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

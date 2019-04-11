@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a55d34c0_1a8b7665",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-04-11T10:00:32Z",
+      "side": 1,
+      "message": "I don\u0027t understand what you mean with commenting being broken. Can you please elaborate a bit more?",
+      "parentUuid": "f3ce6b6b_75f08185",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "c53130b34205483be525cc511d58091f84f22326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "81ea6fc5_3e09cbd5",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 11

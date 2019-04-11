@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "18da0fac_89312bb9",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-04-11T12:58:25Z",
+      "side": 1,
+      "message": "good finding!\n\ndone.",
+      "parentUuid": "ec5cba59_c41e674e",
+      "revId": "de5ef19e56c3d624b836d3d7359a90fc27a93597",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da847582_10c3aa47",
         "filename": "java/com/google/gerrit/common/data/RefConfigSectionHeader.java",
         "patchSetId": 6
@@ -137,6 +155,24 @@
       "writtenOn": "2019-04-11T09:37:51Z",
       "side": 1,
       "message": "Can this class just be merged into AccessSection?",
+      "revId": "de5ef19e56c3d624b836d3d7359a90fc27a93597",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "245b32a9_9abe5f73",
+        "filename": "java/com/google/gerrit/common/data/RefConfigSectionHeader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-04-11T12:58:25Z",
+      "side": 1,
+      "message": "It should be more clear to have this out (also see dave\u0027s comment before)? Although I\u0027m fine to move it in AccessSection.",
+      "parentUuid": "da847582_10c3aa47",
       "revId": "de5ef19e56c3d624b836d3d7359a90fc27a93597",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

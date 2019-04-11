@@ -176,6 +176,24 @@
       "revId": "de5ef19e56c3d624b836d3d7359a90fc27a93597",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5396a4d8_8913c310",
+        "filename": "java/com/google/gerrit/common/data/RefConfigSectionHeader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-11T13:15:22Z",
+      "side": 1,
+      "message": "For me it makes things less clear. I would prefer merging in into AccessSection.",
+      "parentUuid": "245b32a9_9abe5f73",
+      "revId": "de5ef19e56c3d624b836d3d7359a90fc27a93597",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

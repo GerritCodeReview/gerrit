@@ -22,6 +22,30 @@
       "revId": "afeaf5c1c54a8fe7c60c96f285ff471585de3b93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c242bcb7_24238249",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-04-11T14:27:22Z",
+      "side": 1,
+      "message": "I suppose users can put other things here as well. For example, they can push to project.config directly. But Gerrit will then just ignore things it doesn\u0027t support.",
+      "parentUuid": "128e3d76_81f7818c",
+      "range": {
+        "startLine": 40,
+        "startChar": 63,
+        "endLine": 40,
+        "endChar": 77
+      },
+      "revId": "afeaf5c1c54a8fe7c60c96f285ff471585de3b93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -211,7 +211,8 @@
     },
 
     get _inputElement() {
-      return this.$.input;
+      // Polymer2: this.$ can be undefined when this is first evaluated.
+      return this.$ && this.$.input;
     },
 
     /**

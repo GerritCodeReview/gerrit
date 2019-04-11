@@ -51,6 +51,7 @@ filegroup(
         [
             "bower_components/**/*.html",
             "bower_components/**/*.js",
+            "bower_components/**/*.map",
         ],
     ),
 )

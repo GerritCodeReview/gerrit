@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "05239650_200dfb27",
+        "filename": "WORKSPACE",
+        "patchSetId": 9
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-12T14:27:27Z",
+      "side": 1,
+      "message": "Great news! I didn\u0027t know it either. Then my patch is probably not needed. Cool.",
+      "parentUuid": "712d473e_e71ff7e6",
+      "range": {
+        "startLine": 1282,
+        "startChar": 15,
+        "endLine": 1282,
+        "endChar": 20
+      },
+      "revId": "36daa0a3aea0e0da1a18e1e10b274af4c8157416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fcf62f0d_5000518a",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 9

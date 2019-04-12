@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1554923517 -0700\nnonce AC6AUtMZxPj8w3bb5JNATecOzlst1iWaY4iWUYb+rFYDGL4UAFXhiz0HA6iFNbTQNhgyjsU/PjxI\n\n0000000000000000000000000000000000000000 a9035850c2024e7a80979a15ef4e5bd1776ae73d refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlyuP/0VHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMDzEQAIMNq5+QVVOpuNBuAuJPDOGa+BRK\na736ljErpmsz1xjQ5LOWSCuQNMT1dOdjtqDnoFsuiBn6fYF+GXsY98NlBX0Q0JdA\nudMOmhZ5Qd3tO0DJVEj26GZj031Dx5RhJ6I7Im8mkvE6MsV/xHnl2wQTy+AwkIOK\nT8OQSoRPSFieM8p/FoR8jLYG8ra0fhsaMTS7fB3JDeGUDdMhW+HS9ujLrfuD8/vl\nG/I8XHDhMc+r6VeMcu//+0G45Ya9XGMaBHM3sae8OGtLLDcdLaQQ4Je8ocRYoYrT\n9W/o4mq7l9jDIYkrA9aLL2z8rE+ffUndu5K2Mdjs36TMjq1Bs46ZCwZ8JvbCu53+\niZTK+8dnMM7sOdV6/gaHzZKdIfRKRIpSBeEykQMkWRP8kjrs/O3/ySkCxtSBYZOo\nIs7s38lIZ/kvkwEVTLKnALIe8TXkut6fTlw1323inFJhyzWZM72aeSaUvUFEdaqx\nS8vjgF79fZDrNJ+UXiATGjxFjoRWKQs1EavovBJwf1diIczHDi+2kacuir6CYMbt\n2FuZTyjyYx1Ztap2/dYph40yCnF2Osr7u/iVqfBYZD+0A/J81qD9m5OHCE6qX4yD\nvFX1mkUekDVM83DH2AIv9Kbk71bG8mYHtmayBJZM9GcOD2vml78WF3EJQValNK2P\nFBroipVTA1SMdExZ\n\u003dXzse\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "085a8b06_a20b0c50",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-12T00:46:08Z",
+      "side": 1,
+      "message": "Eclipse doesn\u0027t recognise the suppression here; it results in a warning:\n\n At least one of the problems in category \u0027resource\u0027 is not analysed due to a compiler option being ignored\n\nand the \"should be managed by try-with-resources\" warning is still shown for the buf variable at L356.\n\nMoving the annotation to the method scope fixes it.  I\u0027ve done that in the cherry-pick to stable-2.16: https://gerrit-review.googlesource.com/c/gerrit/+/220554",
+      "range": {
+        "startLine": 352,
+        "startChar": 6,
+        "endLine": 352,
+        "endChar": 36
+      },
+      "revId": "a9035850c2024e7a80979a15ef4e5bd1776ae73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

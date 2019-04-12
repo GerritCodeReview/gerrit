@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aee5d919_6995054e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-12T06:56:08Z",
+      "side": 1,
+      "message": "It would be great, if all events are documented with @event.\n\nDocs: https://polymer-library.polymer-project.org/2.0/docs/tools/documentation#events\nExample: https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js#112",
+      "revId": "9a7c595f39af009de76bb7032ae266680b8ae18f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

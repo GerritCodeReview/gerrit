@@ -37,6 +37,7 @@
 
   <script>
     window.CLOSURE_NO_DEPS = true;
+    window.ShadyDOM = {force: true};
     {if $canonicalPath != ''}window.CANONICAL_PATH = '{$canonicalPath}';{/if}
     {if $deprecateGwtUi}window.DEPRECATE_GWT_UI = true;{/if}
     {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}

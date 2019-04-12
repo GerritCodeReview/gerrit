@@ -416,8 +416,8 @@ public abstract class AbstractDaemonTest {
     user = accountCreator.user();
 
     // Evict and reindex accounts in case tests modify them.
-    evictAndReindexAccount(admin.getId());
-    evictAndReindexAccount(user.getId());
+    evictAndReindexAccount(admin.id());
+    evictAndReindexAccount(user.id());
 
     adminRestSession = new RestSession(server, admin);
     userRestSession = new RestSession(server, user);
@@ -553,7 +553,7 @@ public abstract class AbstractDaemonTest {
   protected String registerRepoConnection(Project.NameKey p, TestAccount testAccount)
       throws Exception {
     InProcessProtocol.Context ctx =
-        new InProcessProtocol.Context(identifiedUserFactory, testAccount.getId(), p);
+        new InProcessProtocol.Context(identifiedUserFactory, testAccount.id(), p);
     Repository repo = repoManager.openRepository(p);
     toClose.add(repo);
     return inProcessProtocol.register(ctx, repo).toString();
@@ -605,7 +605,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected PushOneCommit.Result createChange(String ref) throws Exception {
-    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result result = push.to(ref);
     result.assertOkStatus();
     return result;
@@ -621,7 +621,7 @@ public abstract class AbstractDaemonTest {
     PushOneCommit.Result p1 =
         pushFactory
             .create(
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 "parent 1",
                 ImmutableMap.of(file, "foo-1", "bar", "bar-1"))
@@ -633,7 +633,7 @@ public abstract class AbstractDaemonTest {
     PushOneCommit.Result p2 =
         pushFactory
             .create(
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 "parent 2",
                 ImmutableMap.of(file, "foo-2", "bar", "bar-2"))
@@ -641,7 +641,7 @@ public abstract class AbstractDaemonTest {
 
     PushOneCommit m =
         pushFactory.create(
-            admin.getIdent(), testRepo, "merge", ImmutableMap.of(file, "foo-1", "bar", "bar-2"));
+            admin.newIdent(), testRepo, "merge", ImmutableMap.of(file, "foo-1", "bar", "bar-2"));
     m.setParents(ImmutableList.of(p1.getCommit(), p2.getCommit()));
     PushOneCommit.Result result = m.to(ref);
     result.assertOkStatus();
@@ -656,7 +656,7 @@ public abstract class AbstractDaemonTest {
       String content)
       throws Exception {
     PushOneCommit.Result result =
-        pushFactory.create(admin.getIdent(), repo, commitMsg, fileName, content).to(ref);
+        pushFactory.create(admin.newIdent(), repo, commitMsg, fileName, content).to(ref);
     result.assertOkStatus();
     return result;
   }
@@ -675,7 +675,7 @@ public abstract class AbstractDaemonTest {
 
   protected PushOneCommit.Result createChange(String subject, String fileName, String content)
       throws Exception {
-    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo, subject, fileName, content);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo, subject, fileName, content);
     return push.to("refs/for/master");
   }
 
@@ -687,7 +687,7 @@ public abstract class AbstractDaemonTest {
       String content,
       String topic)
       throws Exception {
-    PushOneCommit push = pushFactory.create(admin.getIdent(), repo, subject, fileName, content);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), repo, subject, fileName, content);
     return push.to("refs/for/" + branch + "%topic=" + name(topic));
   }
 
@@ -741,7 +741,7 @@ public abstract class AbstractDaemonTest {
       String content)
       throws Exception {
     PushOneCommit push =
-        pushFactory.create(testAccount.getIdent(), repo, subject, fileName, content, changeId);
+        pushFactory.create(testAccount.newIdent(), repo, subject, fileName, content, changeId);
     return push.to(ref);
   }
 
@@ -767,7 +767,7 @@ public abstract class AbstractDaemonTest {
   }
 
   private Context newRequestContext(TestAccount account) {
-    requestScopeOperations.setApiUser(account.getId());
+    requestScopeOperations.setApiUser(account.id());
     return atrScope.get();
   }
 
@@ -1061,7 +1061,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected PushOneCommit.Result pushTo(String ref) throws Exception {
-    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     return push.to(ref);
   }
 
@@ -1092,7 +1092,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected IdentifiedUser user(TestAccount testAccount) {
-    return identifiedUserFactory.create(testAccount.getId());
+    return identifiedUserFactory.create(testAccount.id());
   }
 
   protected RevisionResource parseCurrentRevisionResource(String changeId) throws Exception {
@@ -1356,7 +1356,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void assertNotifyTo(TestAccount expected) {
-    assertNotifyTo(expected.email, expected.fullName);
+    assertNotifyTo(expected.email(), expected.fullName());
   }
 
   protected void assertNotifyTo(String expectedEmail, String expectedFullname) {
@@ -1370,7 +1370,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void assertNotifyCc(TestAccount expected) {
-    assertNotifyCc(expected.emailAddress);
+    assertNotifyCc(expected.getEmailAddress());
   }
 
   protected void assertNotifyCc(String expectedEmail, String expectedFullname) {
@@ -1390,7 +1390,7 @@ public abstract class AbstractDaemonTest {
   protected void assertNotifyBcc(TestAccount expected) {
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
-    assertThat(m.rcpt()).containsExactly(expected.emailAddress);
+    assertThat(m.rcpt()).containsExactly(expected.getEmailAddress());
     assertThat(m.headers().get("To").isEmpty()).isTrue();
     assertThat(m.headers().get("Cc").isEmpty()).isTrue();
   }
@@ -1545,7 +1545,7 @@ public abstract class AbstractDaemonTest {
     }
 
     public void save() throws Exception {
-      metaDataUpdate.setAuthor(identifiedUserFactory.create(admin.getId()));
+      metaDataUpdate.setAuthor(identifiedUserFactory.create(admin.id()));
       projectConfig.commit(metaDataUpdate);
       metaDataUpdate.close();
       metaDataUpdate = null;

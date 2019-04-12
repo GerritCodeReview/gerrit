@@ -74,7 +74,7 @@ public class RulesIT extends AbstractDaemonTest {
     modifySubmitRules(
         String.format(
             "gerrit:commit_author(user(%d), '%s', '%s')",
-            user.getId().get(), user.fullName, user.email));
+            user.id().get(), user.fullName(), user.email()));
     assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
   }
 
@@ -87,7 +87,7 @@ public class RulesIT extends AbstractDaemonTest {
   private SubmitRecord.Status statusForRule() throws Exception {
     String oldHead = getRemoteHead().name();
     PushOneCommit.Result result1 =
-        pushFactory.create(user.getIdent(), testRepo).to("refs/for/master");
+        pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
     testRepo.reset(oldHead);
     ChangeData cd = result1.getChange();
 
@@ -112,8 +112,8 @@ public class RulesIT extends AbstractDaemonTest {
       testRepo
           .branch(RefNames.REFS_CONFIG)
           .commit()
-          .author(admin.getIdent())
-          .committer(admin.getIdent())
+          .author(admin.newIdent())
+          .committer(admin.newIdent())
           .add("rules.pl", newContent)
           .message("Modify rules.pl")
           .create();

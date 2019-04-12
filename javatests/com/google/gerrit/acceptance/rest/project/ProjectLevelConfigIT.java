@@ -47,7 +47,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     cfg.setString("s2", "ss", "k2", "v2");
     PushOneCommit push =
         pushFactory.create(
-            admin.getIdent(), testRepo, "Create Project Level Config", configName, cfg.toText());
+            admin.newIdent(), testRepo, "Create Project Level Config", configName, cfg.toText());
     push.to(RefNames.REFS_CONFIG);
 
     ProjectState state = projectCache.get(project);
@@ -72,7 +72,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
 
     pushFactory
         .create(
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             "Create Project Level Config",
             configName,
@@ -91,7 +91,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
 
     pushFactory
         .create(
-            admin.getIdent(),
+            admin.newIdent(),
             childTestRepo,
             "Create Project Level Config",
             configName,
@@ -125,7 +125,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
 
     pushFactory
         .create(
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             "Create Project Level Config",
             configName,
@@ -150,7 +150,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
 
     pushFactory
         .create(
-            admin.getIdent(),
+            admin.newIdent(),
             childTestRepo,
             "Create Project Level Config",
             configName,

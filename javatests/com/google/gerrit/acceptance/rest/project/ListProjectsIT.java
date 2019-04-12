@@ -69,7 +69,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listProjectsFiltersInvisibleProjects() throws Exception {
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertThatNameList(gApi.projects().list().get()).contains(project);
 
     try (ProjectConfigUpdate u = updateProject(project)) {

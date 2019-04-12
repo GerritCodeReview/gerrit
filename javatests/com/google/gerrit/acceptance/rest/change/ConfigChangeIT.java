@@ -56,7 +56,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
       u.save();
     }
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     fetchRefsMetaConfig();
   }
 
@@ -100,13 +100,13 @@ public class ConfigChangeIT extends AbstractDaemonTest {
   @Test
   @TestProjectInput(cloneAs = "user")
   public void onlyAdminMayUpdateProjectParent() throws Exception {
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     ProjectInput parent = new ProjectInput();
     parent.name = name("parent");
     parent.permissionsOnly = true;
     gApi.projects().create(parent);
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     Config cfg = readProjectConfig();
     assertThat(cfg.getString("access", null, "inheritFrom")).isAnyOf(null, allProjects.get());
     cfg.setString("access", null, "inheritFrom", parent.name);
@@ -136,7 +136,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     assertThat(readProjectConfig().getString("access", null, "inheritFrom"))
         .isAnyOf(null, allProjects.get());
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     gApi.changes().id(id).current().submit();
     assertThat(gApi.changes().id(id).info().status).isEqualTo(ChangeStatus.MERGED);
     assertThat(gApi.projects().name(project.get()).get().parent).isEqualTo(parent.name);
@@ -146,7 +146,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
 
   @Test
   public void rejectDoubleInheritance() throws Exception {
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     // Create separate projects to test the config
     Project.NameKey parent = createProjectOverAPI("projectToInheritFrom", null, true, null);
     Project.NameKey child = createProjectOverAPI("projectWithMalformedConfig", null, true, null);
@@ -168,7 +168,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     GitUtil.fetch(childRepo, RefNames.REFS_CONFIG + ":cfg");
     childRepo.reset("cfg");
     PushOneCommit push =
-        pushFactory.create(admin.getIdent(), childRepo, "Subject", "project.config", config);
+        pushFactory.create(admin.newIdent(), childRepo, "Subject", "project.config", config);
     PushOneCommit.Result res = push.to(RefNames.REFS_CONFIG);
     res.assertErrorStatus();
     res.assertMessage("cannot inherit from multiple projects");
@@ -194,7 +194,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         pushFactory
             .create(
-                user.getIdent(), testRepo, "Update project config", "project.config", cfg.toText())
+                user.newIdent(), testRepo, "Update project config", "project.config", cfg.toText())
             .to("refs/for/refs/meta/config");
     r.assertOkStatus();
     return r;

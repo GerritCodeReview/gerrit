@@ -34,11 +34,11 @@ public class NotificationMailFormatIT extends AbstractDaemonTest {
     // Set user preference to receive only plaintext content
     GeneralPreferencesInfo i = new GeneralPreferencesInfo();
     i.emailFormat = EmailFormat.PLAINTEXT;
-    gApi.accounts().id(admin.getId().toString()).setPreferences(i);
+    gApi.accounts().id(admin.id().toString()).setPreferences(i);
 
     // Create change as admin and review as user
     PushOneCommit.Result r = createChange();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.recommend());
 
     // Check that admin has received only plaintext content
@@ -46,20 +46,20 @@ public class NotificationMailFormatIT extends AbstractDaemonTest {
     FakeEmailSender.Message m = sender.getMessages().get(0);
     assertThat(m.body()).isNotNull();
     assertThat(m.htmlBody()).isNull();
-    assertMailReplyTo(m, admin.email);
-    assertMailReplyTo(m, user.email);
+    assertMailReplyTo(m, admin.email());
+    assertMailReplyTo(m, user.email());
 
     // Reset user preference
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     i.emailFormat = EmailFormat.HTML_PLAINTEXT;
-    gApi.accounts().id(admin.getId().toString()).setPreferences(i);
+    gApi.accounts().id(admin.id().toString()).setPreferences(i);
   }
 
   @Test
   public void userReceivesHtmlAndPlaintextEmail() throws Exception {
     // Create change as admin and review as user
     PushOneCommit.Result r = createChange();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.recommend());
 
     // Check that admin has received both HTML and plaintext content
@@ -67,7 +67,7 @@ public class NotificationMailFormatIT extends AbstractDaemonTest {
     FakeEmailSender.Message m = sender.getMessages().get(0);
     assertThat(m.body()).isNotNull();
     assertThat(m.htmlBody()).isNotNull();
-    assertMailReplyTo(m, admin.email);
-    assertMailReplyTo(m, user.email);
+    assertMailReplyTo(m, admin.email());
+    assertMailReplyTo(m, user.email());
   }
 }

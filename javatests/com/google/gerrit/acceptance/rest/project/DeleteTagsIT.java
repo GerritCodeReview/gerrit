@@ -65,14 +65,14 @@ public class DeleteTagsIT extends AbstractDaemonTest {
   public void deleteTagsForbidden() throws Exception {
     DeleteTagsInput input = new DeleteTagsInput();
     input.tags = TAGS;
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     try {
       project().deleteTags(input);
       fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
       assertThat(e).hasMessageThat().isEqualTo(errorMessageForTags(TAGS));
     }
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     assertTags(TAGS);
   }
 

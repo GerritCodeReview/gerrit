@@ -54,7 +54,7 @@ public class DisablePrivateChangesIT extends AbstractDaemonTest {
   @GerritConfig(name = "change.disablePrivateChanges", value = "true")
   public void pushPrivatesWithDisablePrivateChangesTrue() throws Exception {
     PushOneCommit.Result result =
-        pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master%private");
+        pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%private");
     result.assertErrorStatus();
   }
 
@@ -64,11 +64,11 @@ public class DisablePrivateChangesIT extends AbstractDaemonTest {
   public void pushDraftsWithDisablePrivateChangesTrue() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result result =
-        pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master%draft");
+        pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%draft");
     result.assertErrorStatus();
 
     testRepo.reset(initialHead);
-    result = pushFactory.create(admin.getIdent(), testRepo).to("refs/drafts/master");
+    result = pushFactory.create(admin.newIdent(), testRepo).to("refs/drafts/master");
     result.assertErrorStatus();
   }
 
@@ -76,7 +76,7 @@ public class DisablePrivateChangesIT extends AbstractDaemonTest {
   @GerritConfig(name = "change.disablePrivateChanges", value = "true")
   public void pushWithDisablePrivateChangesTrue() throws Exception {
     PushOneCommit.Result result =
-        pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master");
+        pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master");
     result.assertOkStatus();
     assertThat(result.getChange().change().isPrivate()).isFalse();
   }
@@ -85,7 +85,7 @@ public class DisablePrivateChangesIT extends AbstractDaemonTest {
   @GerritConfig(name = "change.allowDrafts", value = "true")
   public void pushPrivatesWithDisablePrivateChangesFalse() throws Exception {
     PushOneCommit.Result result =
-        pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master%private");
+        pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%private");
     assertThat(result.getChange().change().isPrivate()).isTrue();
   }
 
@@ -94,11 +94,11 @@ public class DisablePrivateChangesIT extends AbstractDaemonTest {
   public void pushDraftsWithDisablePrivateChangesFalse() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result result =
-        pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master%draft");
+        pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%draft");
     assertThat(result.getChange().change().isPrivate()).isTrue();
 
     testRepo.reset(initialHead);
-    result = pushFactory.create(admin.getIdent(), testRepo).to("refs/drafts/master");
+    result = pushFactory.create(admin.newIdent(), testRepo).to("refs/drafts/master");
     assertThat(result.getChange().change().isPrivate()).isTrue();
   }
 

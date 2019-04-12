@@ -55,7 +55,7 @@ public class EventRecorder {
     }
 
     public EventRecorder create(TestAccount user) {
-      return new EventRecorder(eventListeners, userFactory.create(user.id));
+      return new EventRecorder(eventListeners, userFactory.create(user.id()));
     }
   }
 

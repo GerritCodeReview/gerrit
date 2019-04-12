@@ -111,11 +111,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    changeId = newChange(admin.getIdent());
+    changeId = newChange(admin.newIdent());
     ps = getCurrentPatchSet(changeId);
     assertThat(ps).isNotNull();
-    amendChange(admin.getIdent(), changeId);
-    changeId2 = newChange2(admin.getIdent());
+    amendChange(admin.newIdent(), changeId);
+    changeId2 = newChange2(admin.newIdent());
   }
 
   @Test
@@ -139,7 +139,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void deleteEditOfOlderPatchSet() throws Exception {
     createArbitraryEditFor(changeId2);
-    amendChange(admin.getIdent(), changeId2);
+    amendChange(admin.newIdent(), changeId2);
 
     gApi.changes().id(changeId2).edit().delete();
     assertThat(getEdit(changeId2)).isAbsent();
@@ -199,7 +199,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void publishEditNotifyRest() throws Exception {
     AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email;
+    in.reviewer = user.email();
     gApi.changes().id(changeId).addReviewer(in);
 
     createArbitraryEditFor(changeId);
@@ -214,7 +214,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void publishEditWithDefaultNotify() throws Exception {
     AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email;
+    in.reviewer = user.email();
     gApi.changes().id(changeId).addReviewer(in);
 
     createArbitraryEditFor(changeId);
@@ -236,7 +236,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     PatchSet previousPatchSet = getCurrentPatchSet(changeId2);
     createEmptyEditFor(changeId2);
     gApi.changes().id(changeId2).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
-    amendChange(admin.getIdent(), changeId2);
+    amendChange(admin.newIdent(), changeId2);
     PatchSet currentPatchSet = getCurrentPatchSet(changeId2);
 
     Optional<EditInfo> originalEdit = getEdit(changeId2);
@@ -255,7 +255,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     PatchSet previousPatchSet = getCurrentPatchSet(changeId2);
     createEmptyEditFor(changeId2);
     gApi.changes().id(changeId2).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
-    amendChange(admin.getIdent(), changeId2);
+    amendChange(admin.newIdent(), changeId2);
     PatchSet currentPatchSet = getCurrentPatchSet(changeId2);
 
     Optional<EditInfo> originalEdit = getEdit(changeId2);
@@ -278,7 +278,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(edit).value().baseRevision().isEqualTo(currentPatchSet.getRevision().get());
     PushOneCommit push =
         pushFactory.create(
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             PushOneCommit.SUBJECT,
             FILE_NAME,
@@ -302,7 +302,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void updateRootCommitMessage() throws Exception {
     // Re-clone empty repo; TestRepository doesn't let us reset to unborn head.
     testRepo = cloneProject(project);
-    changeId = newChange(admin.getIdent());
+    changeId = newChange(admin.newIdent());
 
     createEmptyEditFor(changeId);
     Optional<EditInfo> edit = getEdit(changeId);
@@ -628,11 +628,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
     gApi.changes().id(changeId2).edit().publish(publishInput);
     assertThat(queryEdits()).isEmpty();
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     createEmptyEditFor(changeId);
     assertThat(queryEdits()).hasSize(1);
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     assertThat(queryEdits()).isEmpty();
   }
 
@@ -681,7 +681,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
 
     // Create change as user
-    PushOneCommit push = pushFactory.create(user.getIdent(), userTestRepo);
+    PushOneCommit push = pushFactory.create(user.newIdent(), userTestRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");
     r1.assertOkStatus();
 

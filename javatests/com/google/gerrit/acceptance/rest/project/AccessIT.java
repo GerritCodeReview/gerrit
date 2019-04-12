@@ -171,7 +171,7 @@ public class AccessIT extends AbstractDaemonTest {
   public void createAccessChange() throws Exception {
     allow(newProjectName, RefNames.REFS_CONFIG, Permission.READ, REGISTERED_USERS);
     // User can see the branch
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     pApi().branch("refs/heads/master").get();
 
     ProjectAccessInput accessInput = newProjectAccessInput();
@@ -186,7 +186,7 @@ public class AccessIT extends AbstractDaemonTest {
     accessSection.permissions.put(Permission.READ, read);
     accessInput.add.put(REFS_HEADS, accessSection);
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     ChangeInfo out = pApi().accessChange(accessInput);
 
     assertThat(out.project).isEqualTo(newProjectName.get());
@@ -194,7 +194,7 @@ public class AccessIT extends AbstractDaemonTest {
     assertThat(out.status).isEqualTo(ChangeStatus.NEW);
     assertThat(out.submitted).isNull();
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
 
     ChangeInfo c = gApi.changes().id(out._number).get(MESSAGES);
     assertThat(c.messages.stream().map(m -> m.message)).containsExactly("Uploaded patch set 1");
@@ -205,7 +205,7 @@ public class AccessIT extends AbstractDaemonTest {
     gApi.changes().id(out._number).current().submit();
 
     // check that the change took effect.
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     try {
       BranchInfo info = pApi().branch("refs/heads/master").get();
       fail("wanted failure, got " + newGson().toJson(info));
@@ -216,16 +216,16 @@ public class AccessIT extends AbstractDaemonTest {
     // Restore.
     accessInput.add.clear();
     accessInput.remove.put(REFS_HEADS, accessSection);
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     out = pApi().accessChange(accessInput);
 
     gApi.changes().id(out._number).current().review(reviewIn);
     gApi.changes().id(out._number).current().submit();
 
     // Now it works again.
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     pApi().branch("refs/heads/master").get();
   }
 
@@ -325,7 +325,7 @@ public class AccessIT extends AbstractDaemonTest {
     accessInput.add.put(REFS_ALL, accessSectionInfo);
     pApi().access(accessInput);
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(ResourceNotFoundException.class);
     pApi().access();
   }
@@ -345,7 +345,7 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionInfoToApply = createDefaultAccessSectionInfo();
     accessInfoToApply.add.put(REFS_HEADS, accessSectionInfoToApply);
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(ResourceNotFoundException.class);
     pApi().access();
   }
@@ -408,7 +408,7 @@ public class AccessIT extends AbstractDaemonTest {
     ProjectAccessInput accessInput = newProjectAccessInput();
     accessInput.parent = newParentProjectName;
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     exception.expectMessage("administrate server not permitted");
     pApi().access(accessInput);
@@ -435,7 +435,7 @@ public class AccessIT extends AbstractDaemonTest {
 
     accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     gApi.projects().name(allProjects.get()).access(accessInput);
   }
@@ -491,7 +491,7 @@ public class AccessIT extends AbstractDaemonTest {
 
     accessInput.remove.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     gApi.projects().name(allProjects.get()).access(accessInput);
   }
@@ -561,7 +561,7 @@ public class AccessIT extends AbstractDaemonTest {
     config = cfg.toText();
     PushOneCommit push =
         pushFactory.create(
-            admin.getIdent(), allProjectsRepo, "Subject", ProjectConfig.PROJECT_CONFIG, config);
+            admin.newIdent(), allProjectsRepo, "Subject", ProjectConfig.PROJECT_CONFIG, config);
     push.to(RefNames.REFS_CONFIG).assertOkStatus();
 
     // Verify that unknownPermission is present

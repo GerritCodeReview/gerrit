@@ -147,8 +147,8 @@ public class MoveChangeIT extends AbstractDaemonTest {
         .parent(r1.getCommit())
         .parent(r2.getCommit())
         .message("Move change Merge Commit")
-        .author(admin.getIdent())
-        .committer(new PersonIdent(admin.getIdent(), testRepo.getDate()));
+        .author(admin.newIdent())
+        .committer(new PersonIdent(admin.newIdent(), testRepo.getDate()));
     RevCommit c = commitBuilder.create();
     pushHead(testRepo, "refs/for/master", false, false);
 
@@ -186,7 +186,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
         r.getChange().change().getDest().get(),
         Permission.ABANDON,
         systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     exception.expectMessage("move not permitted");
     move(r.getChangeId(), newBranch.get());
@@ -279,9 +279,9 @@ public class MoveChangeIT extends AbstractDaemonTest {
     input.label(testLabelC, -1);
     gApi.changes().id(changeId).current().review(input);
 
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().keySet())
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().keySet())
         .containsExactly(codeReviewLabel, testLabelA, testLabelB, testLabelC);
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().values())
         .containsExactly((short) -2, (short) -1, (short) -1, (short) -1);
 
     // Move the change to the 'foo' branch.
@@ -290,13 +290,13 @@ public class MoveChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("foo");
 
     // 'Code-Review -2' and 'Label-A -1' will be kept.
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().values())
         .containsExactly((short) -2, (short) -1, (short) 0, (short) 0);
 
     // Move the change back to 'master'.
     move(changeId, "master");
     assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("master");
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().values())
         .containsExactly((short) -2, (short) -1, (short) 0, (short) 0);
   }
 
@@ -319,9 +319,9 @@ public class MoveChangeIT extends AbstractDaemonTest {
     input.label(testLabelA, -1);
     gApi.changes().id(changeId).current().review(input);
 
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().keySet())
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().keySet())
         .containsExactly(testLabelA);
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().values())
         .containsExactly((short) -1);
 
     move(changeId, "foo");
@@ -364,7 +364,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   }
 
   private PushOneCommit.Result createChange(String branch, String changeId) throws Exception {
-    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo, changeId);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo, changeId);
     PushOneCommit.Result result = push.to("refs/for/" + branch);
     result.assertOkStatus();
     return result;

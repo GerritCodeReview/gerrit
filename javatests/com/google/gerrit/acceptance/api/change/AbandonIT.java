@@ -156,7 +156,7 @@ public class AbandonIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     exception.expectMessage("abandon not permitted");
     gApi.changes().id(changeId).abandon();
@@ -168,7 +168,7 @@ public class AbandonIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
     grant(project, "refs/heads/master", Permission.ABANDON, false, REGISTERED_USERS);
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(changeId).abandon();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
     gApi.changes().id(changeId).restore();
@@ -199,7 +199,7 @@ public class AbandonIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
     gApi.changes().id(changeId).abandon();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
     exception.expect(AuthException.class);
     exception.expectMessage("restore not permitted");

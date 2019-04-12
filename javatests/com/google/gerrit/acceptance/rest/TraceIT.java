@@ -171,7 +171,7 @@ public class TraceIT extends AbstractDaemonTest {
 
   @Test
   public void pushWithoutTrace() throws Exception {
-    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/heads/master");
     r.assertOkStatus();
     assertThat(commitValidationListener.traceId).isNull();
@@ -180,7 +180,7 @@ public class TraceIT extends AbstractDaemonTest {
 
   @Test
   public void pushWithTrace() throws Exception {
-    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     push.setPushOptions(ImmutableList.of("trace"));
     PushOneCommit.Result r = push.to("refs/heads/master");
     r.assertOkStatus();
@@ -190,7 +190,7 @@ public class TraceIT extends AbstractDaemonTest {
 
   @Test
   public void pushWithTraceAndProvidedTraceId() throws Exception {
-    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     push.setPushOptions(ImmutableList.of("trace=issue/123"));
     PushOneCommit.Result r = push.to("refs/heads/master");
     r.assertOkStatus();
@@ -200,7 +200,7 @@ public class TraceIT extends AbstractDaemonTest {
 
   @Test
   public void pushForReviewWithoutTrace() throws Exception {
-    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
     assertThat(commitValidationListener.traceId).isNull();
@@ -209,7 +209,7 @@ public class TraceIT extends AbstractDaemonTest {
 
   @Test
   public void pushForReviewWithTrace() throws Exception {
-    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     push.setPushOptions(ImmutableList.of("trace"));
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
@@ -219,7 +219,7 @@ public class TraceIT extends AbstractDaemonTest {
 
   @Test
   public void pushForReviewWithTraceAndProvidedTraceId() throws Exception {
-    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     push.setPushOptions(ImmutableList.of("trace=issue/123"));
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();

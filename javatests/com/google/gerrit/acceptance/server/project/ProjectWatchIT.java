@@ -63,19 +63,19 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.getIdent(), testRepo, "original subject", "a", "a1")
+            .create(admin.newIdent(), testRepo, "original subject", "a", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
     r =
         pushFactory
-            .create(admin.getIdent(), testRepo, "super sekret subject", "a", "a2", r.getChangeId())
+            .create(admin.newIdent(), testRepo, "super sekret subject", "a", "a2", r.getChangeId())
             .to("refs/for/master");
     r.assertOkStatus();
 
     r =
         pushFactory
-            .create(admin.getIdent(), testRepo, "back to original subject", "a", "a3")
+            .create(admin.newIdent(), testRepo, "back to original subject", "a", "a3")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -104,13 +104,13 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     sender.clear();
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.getIdent(), testRepo, "private change", "a", "a1")
+            .create(admin.newIdent(), testRepo, "private change", "a", "a1")
             .to("refs/for/master%private");
     r.assertOkStatus();
 
     assertThat(sender.getMessages()).isEmpty();
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     ReviewInput in = new ReviewInput();
     in.message = "comment";
     gApi.changes().id(r.getChangeId()).current().review(in);
@@ -134,14 +134,14 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     }
 
     PushOneCommit.Result r =
-        pushFactory.create(admin.getIdent(), testRepo, "subject", "a", "a1").to("refs/for/master");
+        pushFactory.create(admin.newIdent(), testRepo, "subject", "a", "a1").to("refs/for/master");
     r.assertOkStatus();
 
     sender.clear();
 
     r =
         pushFactory
-            .create(admin.getIdent(), testRepo, "subject", "a", "a2", r.getChangeId())
+            .create(admin.newIdent(), testRepo, "subject", "a", "a2", r.getChangeId())
             .to("refs/for/master%private");
     r.assertOkStatus();
 
@@ -165,13 +165,13 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     sender.clear();
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.getIdent(), testRepo, "wip change", "a", "a1")
+            .create(admin.newIdent(), testRepo, "wip change", "a", "a1")
             .to("refs/for/master%wip");
     r.assertOkStatus();
 
     assertThat(sender.getMessages()).isEmpty();
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     ReviewInput in = new ReviewInput();
     in.message = "comment";
     gApi.changes().id(r.getChangeId()).current().review(in);
@@ -194,14 +194,14 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     }
 
     PushOneCommit.Result r =
-        pushFactory.create(admin.getIdent(), testRepo, "subject", "a", "a1").to("refs/for/master");
+        pushFactory.create(admin.newIdent(), testRepo, "subject", "a", "a1").to("refs/for/master");
     r.assertOkStatus();
 
     sender.clear();
 
     r =
         pushFactory
-            .create(admin.getIdent(), testRepo, "subject", "a", "a2", r.getChangeId())
+            .create(admin.newIdent(), testRepo, "subject", "a", "a2", r.getChangeId())
             .to("refs/for/master%wip");
     r.assertOkStatus();
 
@@ -212,16 +212,16 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   public void watchProject() throws Exception {
     // watch project
     String watchedProject = projectOperations.newProject().create().get();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     watch(watchedProject);
 
     // push a change to watched project -> should trigger email notification
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.getIdent(), watchedRepo, "TRIGGER", "a", "a1")
+            .create(admin.newIdent(), watchedRepo, "TRIGGER", "a", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -232,7 +232,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         cloneProject(new Project.NameKey(notWatchedProject), admin);
     r =
         pushFactory
-            .create(admin.getIdent(), notWatchedRepo, "DONT_TRIGGER", "a", "a1")
+            .create(admin.newIdent(), notWatchedRepo, "DONT_TRIGGER", "a", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -240,7 +240,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
     assertThat(m.body()).contains("Change subject: TRIGGER\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }
@@ -249,7 +249,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   public void watchFile() throws Exception {
     String watchedProject = projectOperations.newProject().create().get();
     String otherWatchedProject = projectOperations.newProject().create().get();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
 
     // watch file in project as user
     watch(watchedProject, "file:a.txt");
@@ -259,12 +259,12 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // push a change to watched file -> should trigger email notification for
     // user
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.getIdent(), watchedRepo, "TRIGGER", "a.txt", "a1")
+            .create(admin.newIdent(), watchedRepo, "TRIGGER", "a.txt", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -272,21 +272,21 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
     assertThat(m.body()).contains("Change subject: TRIGGER\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
     sender.clear();
 
     // watch project as user2
     TestAccount user2 = accountCreator.create("user2", "user2@test.com", "User2");
-    requestScopeOperations.setApiUser(user2.getId());
+    requestScopeOperations.setApiUser(user2.id());
     watch(watchedProject);
 
     // push a change to non-watched file -> should not trigger email
     // notification for user, only for user2
     r =
         pushFactory
-            .create(admin.getIdent(), watchedRepo, "TRIGGER_USER2", "b.txt", "b1")
+            .create(admin.newIdent(), watchedRepo, "TRIGGER_USER2", "b.txt", "b1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -294,7 +294,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user2.emailAddress);
+    assertThat(m.rcpt()).containsExactly(user2.getEmailAddress());
     assertThat(m.body()).contains("Change subject: TRIGGER_USER2\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }
@@ -302,18 +302,18 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void watchKeyword() throws Exception {
     String watchedProject = projectOperations.newProject().create().get();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
 
     // watch keyword in project as user
     watch(watchedProject, "multimaster");
 
     // push a change with keyword -> should trigger email notification
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.getIdent(), watchedRepo, "Document multimaster setup", "a.txt", "a1")
+            .create(admin.newIdent(), watchedRepo, "Document multimaster setup", "a.txt", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -321,7 +321,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
     assertThat(m.body()).contains("Change subject: Document multimaster setup\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
     sender.clear();
@@ -329,7 +329,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // push a change without keyword -> should not trigger email notification
     r =
         pushFactory
-            .create(admin.getIdent(), watchedRepo, "Cleanup cache implementation", "b.txt", "b1")
+            .create(admin.newIdent(), watchedRepo, "Cleanup cache implementation", "b.txt", "b1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -340,24 +340,24 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void watchAllProjects() throws Exception {
     String anyProject = projectOperations.newProject().create().get();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
 
     // watch the All-Projects project to watch all projects
     watch(allProjects.get());
 
     // push a change to any project -> should trigger email notification
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     TestRepository<InMemoryRepository> anyRepo =
         cloneProject(new Project.NameKey(anyProject), admin);
     PushOneCommit.Result r =
-        pushFactory.create(admin.getIdent(), anyRepo, "TRIGGER", "a", "a1").to("refs/for/master");
+        pushFactory.create(admin.newIdent(), anyRepo, "TRIGGER", "a", "a1").to("refs/for/master");
     r.assertOkStatus();
 
     // assert email notification
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
     assertThat(m.body()).contains("Change subject: TRIGGER\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }
@@ -365,7 +365,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void watchFileAllProjects() throws Exception {
     String anyProject = projectOperations.newProject().create().get();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
 
     // watch file in All-Projects project as user to watch the file in all
     // projects
@@ -373,12 +373,12 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // push a change to watched file in any project -> should trigger email
     // notification for user
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     TestRepository<InMemoryRepository> anyRepo =
         cloneProject(new Project.NameKey(anyProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.getIdent(), anyRepo, "TRIGGER", "a.txt", "a1")
+            .create(admin.newIdent(), anyRepo, "TRIGGER", "a.txt", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -386,21 +386,21 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
     assertThat(m.body()).contains("Change subject: TRIGGER\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
     sender.clear();
 
     // watch project as user2
     TestAccount user2 = accountCreator.create("user2", "user2@test.com", "User2");
-    requestScopeOperations.setApiUser(user2.getId());
+    requestScopeOperations.setApiUser(user2.id());
     watch(anyProject);
 
     // push a change to non-watched file in any project -> should not trigger
     // email notification for user, only for user2
     r =
         pushFactory
-            .create(admin.getIdent(), anyRepo, "TRIGGER_USER2", "b.txt", "b1")
+            .create(admin.newIdent(), anyRepo, "TRIGGER_USER2", "b.txt", "b1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -408,7 +408,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user2.emailAddress);
+    assertThat(m.rcpt()).containsExactly(user2.getEmailAddress());
     assertThat(m.body()).contains("Change subject: TRIGGER_USER2\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }
@@ -416,19 +416,19 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void watchKeywordAllProjects() throws Exception {
     String anyProject = projectOperations.newProject().create().get();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
 
     // watch keyword in project as user
     watch(allProjects.get(), "multimaster");
 
     // push a change with keyword to any project -> should trigger email
     // notification
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     TestRepository<InMemoryRepository> anyRepo =
         cloneProject(new Project.NameKey(anyProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.getIdent(), anyRepo, "Document multimaster setup", "a.txt", "a1")
+            .create(admin.newIdent(), anyRepo, "Document multimaster setup", "a.txt", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -436,7 +436,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
     assertThat(m.body()).contains("Change subject: Document multimaster setup\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
     sender.clear();
@@ -445,7 +445,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // notification
     r =
         pushFactory
-            .create(admin.getIdent(), anyRepo, "Cleanup cache implementation", "b.txt", "b1")
+            .create(admin.newIdent(), anyRepo, "Cleanup cache implementation", "b.txt", "b1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -457,27 +457,27 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   public void watchProjectNoNotificationForIgnoredChange() throws Exception {
     // watch project
     String watchedProject = projectOperations.newProject().create().get();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     watch(watchedProject);
 
     // push a change to watched project
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.getIdent(), watchedRepo, "ignored change", "a", "a1")
+            .create(admin.newIdent(), watchedRepo, "ignored change", "a", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
     // ignore the change
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     gApi.accounts().self().setStars(r.getChangeId(), new StarsInput(ImmutableSet.of(IGNORE_LABEL)));
 
     sender.clear();
 
     // post a comment -> should not trigger email notification since user ignored the change
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     ReviewInput in = new ReviewInput();
     in.message = "comment";
     gApi.changes().id(r.getChangeId()).current().review(in);
@@ -490,16 +490,16 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   public void watchProjectNoNotificationForPrivateChange() throws Exception {
     // watch project
     String watchedProject = projectOperations.newProject().create().get();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     watch(watchedProject);
 
     // push a private change to watched project -> should not trigger email notification
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.getIdent(), watchedRepo, "private change", "a", "a1")
+            .create(admin.newIdent(), watchedRepo, "private change", "a", "a1")
             .to("refs/for/master%private");
     r.assertOkStatus();
 
@@ -522,24 +522,24 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         new AccountGroup.UUID(groupThatCanViewPrivateChanges.id));
 
     // watch project as user that can't view private changes
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     watch(watchedProject);
 
     // watch project as user that can view all private change
     TestAccount userThatCanViewPrivateChanges =
         accountCreator.create(
             "user2", "user2@test.com", "User2", groupThatCanViewPrivateChanges.name);
-    requestScopeOperations.setApiUser(userThatCanViewPrivateChanges.getId());
+    requestScopeOperations.setApiUser(userThatCanViewPrivateChanges.id());
     watch(watchedProject);
 
     // push a private change to watched project -> should trigger email notification for
     // userThatCanViewPrivateChanges, but not for user
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     TestRepository<InMemoryRepository> watchedRepo =
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.getIdent(), watchedRepo, "TRIGGER", "a", "a1")
+            .create(admin.newIdent(), watchedRepo, "TRIGGER", "a", "a1")
             .to("refs/for/master%private");
     r.assertOkStatus();
 
@@ -547,7 +547,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(userThatCanViewPrivateChanges.emailAddress);
+    assertThat(m.rcpt()).containsExactly(userThatCanViewPrivateChanges.getEmailAddress());
     assertThat(m.body()).contains("Change subject: TRIGGER\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }

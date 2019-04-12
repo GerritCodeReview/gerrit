@@ -97,10 +97,10 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
     PushOneCommit.Result change1 =
         pushFactory
-            .create(admin.getIdent(), testRepo, "Change 1", "a", "a")
+            .create(admin.newIdent(), testRepo, "Change 1", "a", "a")
             .to("refs/for/master/" + name("topic"));
 
-    PushOneCommit push2 = pushFactory.create(admin.getIdent(), testRepo, "Change 2", "b", "b");
+    PushOneCommit push2 = pushFactory.create(admin.newIdent(), testRepo, "Change 2", "b", "b");
     push2.noParents();
     PushOneCommit.Result change2 = push2.to("refs/for/master/" + name("topic"));
     change2.assertOkStatus();

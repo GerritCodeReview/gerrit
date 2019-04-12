@@ -36,8 +36,8 @@ public class AbstractMailIT extends AbstractDaemonTest {
   protected MailMessage.Builder messageBuilderWithDefaultFields() {
     MailMessage.Builder b = MailMessage.builder();
     b.id("some id");
-    b.from(user.emailAddress);
-    b.addTo(user.emailAddress); // Not evaluated
+    b.from(user.getEmailAddress());
+    b.addTo(user.getEmailAddress()); // Not evaluated
     b.subject("");
     b.dateReceived(Instant.now());
     return b;
@@ -52,12 +52,12 @@ public class AbstractMailIT extends AbstractDaemonTest {
     String file = "gerrit-server/test.txt";
     String contents = "contents \nlorem \nipsum \nlorem";
     PushOneCommit push =
-        pushFactory.create(admin.getIdent(), testRepo, "first subject", file, contents);
+        pushFactory.create(admin.newIdent(), testRepo, "first subject", file, contents);
     PushOneCommit.Result r = push.to("refs/for/master");
     String changeId = r.getChangeId();
 
     // Review it
-    requestScopeOperations.setApiUser(reviewer.getId());
+    requestScopeOperations.setApiUser(reviewer.id());
     ReviewInput input = new ReviewInput();
     input.message = "I have two comments";
     input.comments = new HashMap<>();

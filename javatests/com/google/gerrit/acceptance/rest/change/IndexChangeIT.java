@@ -58,7 +58,7 @@ public class IndexChangeIT extends AbstractDaemonTest {
     TestAccount user2 = accountCreator.user2();
     AccountGroup.UUID groupId = groupOperations.newGroup().name("test").create();
     String group = groupOperations.group(groupId).get().name();
-    gApi.groups().id(group).addMembers("admin", "user", user2.username);
+    gApi.groups().id(group).addMembers("admin", "user", user2.username());
 
     // Create a project and restrict its visibility to the group
     Project.NameKey p = projectOperations.newProject().create();
@@ -74,39 +74,39 @@ public class IndexChangeIT extends AbstractDaemonTest {
 
     // Clone it and push a change as a regular user
     TestRepository<InMemoryRepository> repo = cloneProject(p, user);
-    PushOneCommit push = pushFactory.create(user.getIdent(), repo);
+    PushOneCommit push = pushFactory.create(user.newIdent(), repo);
     PushOneCommit.Result result = push.to("refs/for/master");
     result.assertOkStatus();
-    assertThat(result.getChange().change().getOwner()).isEqualTo(user.id);
+    assertThat(result.getChange().change().getOwner()).isEqualTo(user.id());
     String changeId = result.getChangeId();
 
     // User can see the change and it is mergeable
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     List<ChangeInfo> changes = gApi.changes().query(changeId).get();
     assertThat(changes).hasSize(1);
     assertThat(changes.get(0).mergeable).isNotNull();
 
     // Other user can see the change and it is mergeable
-    requestScopeOperations.setApiUser(user2.getId());
+    requestScopeOperations.setApiUser(user2.id());
     changes = gApi.changes().query(changeId).get();
     assertThat(changes).hasSize(1);
     assertThat(changes.get(0).mergeable).isTrue();
 
     // Remove the user from the group so they can no longer see the project
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     gApi.groups().id(group).removeMembers("user");
 
     // User can no longer see the change
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     changes = gApi.changes().query(changeId).get();
     assertThat(changes).isEmpty();
 
     // Reindex the change
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     gApi.changes().id(changeId).index();
 
     // Other user can still see the change and it is still mergeable
-    requestScopeOperations.setApiUser(user2.getId());
+    requestScopeOperations.setApiUser(user2.id());
     changes = gApi.changes().query(changeId).get();
     assertThat(changes).hasSize(1);
     assertThat(changes.get(0).mergeable).isTrue();

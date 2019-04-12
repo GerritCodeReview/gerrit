@@ -41,7 +41,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   public void setParentNotAllowed() throws Exception {
     String parent = projectOperations.newProject().create().get();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     gApi.projects().name(project.get()).parent(parent);
   }
@@ -50,7 +50,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @GerritConfig(name = "receive.allowProjectOwnersToChangeParent", value = "true")
   public void setParentNotAllowedForNonOwners() throws Exception {
     String parent = projectOperations.newProject().create().get();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     gApi.projects().name(project.get()).parent(parent);
   }
@@ -74,7 +74,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @GerritConfig(name = "receive.allowProjectOwnersToChangeParent", value = "true")
   public void setParentAllowedForOwners() throws Exception {
     String parent = projectOperations.newProject().create().get();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     grant(project, "refs/*", Permission.OWNER, false, SystemGroupBackend.REGISTERED_USERS);
     gApi.projects().name(project.get()).parent(parent);
     assertThat(gApi.projects().name(project.get()).parent()).isEqualTo(parent);

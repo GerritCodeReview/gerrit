@@ -55,7 +55,7 @@ public class MergeListIT extends AbstractDaemonTest {
     PushOneCommit.Result gp1 =
         pushFactory
             .create(
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 "grand parent 1",
                 ImmutableMap.of("foo", "foo-1.1", "bar", "bar-1.1"))
@@ -65,7 +65,7 @@ public class MergeListIT extends AbstractDaemonTest {
     PushOneCommit.Result p1 =
         pushFactory
             .create(
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 "parent 1",
                 ImmutableMap.of("foo", "foo-1.2", "bar", "bar-1.2"))
@@ -78,7 +78,7 @@ public class MergeListIT extends AbstractDaemonTest {
     PushOneCommit.Result gp2 =
         pushFactory
             .create(
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 "grand parent 2",
                 ImmutableMap.of("foo", "foo-2.1", "bar", "bar-2.1"))
@@ -88,7 +88,7 @@ public class MergeListIT extends AbstractDaemonTest {
     PushOneCommit.Result p2 =
         pushFactory
             .create(
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 "parent 2",
                 ImmutableMap.of("foo", "foo-2.2", "bar", "bar-2.2"))
@@ -97,7 +97,7 @@ public class MergeListIT extends AbstractDaemonTest {
 
     PushOneCommit m =
         pushFactory.create(
-            admin.getIdent(), testRepo, "merge", ImmutableMap.of("foo", "foo-1", "bar", "bar-2"));
+            admin.newIdent(), testRepo, "merge", ImmutableMap.of("foo", "foo-1", "bar", "bar-2"));
     m.setParents(ImmutableList.of(p1.getCommit(), p2.getCommit()));
     PushOneCommit.Result result = m.to("refs/for/master");
     result.assertOkStatus();

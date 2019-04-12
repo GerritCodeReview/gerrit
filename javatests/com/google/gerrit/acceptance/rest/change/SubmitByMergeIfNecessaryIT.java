@@ -71,8 +71,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     assertThat(updatedHead.getId()).isEqualTo(change.getCommit());
     assertThat(updatedHead.getParent(0)).isEqualTo(initialHead);
     assertSubmitter(change.getChangeId(), 1);
-    assertPersonEquals(admin.getIdent(), updatedHead.getAuthorIdent());
-    assertPersonEquals(admin.getIdent(), updatedHead.getCommitterIdent());
+    assertPersonEquals(admin.newIdent(), updatedHead.getAuthorIdent());
+    assertPersonEquals(admin.newIdent(), updatedHead.getCommitterIdent());
 
     assertRefUpdatedEvents(initialHead, updatedHead);
     assertChangeMergedEvents(change.getChangeId(), updatedHead.name());
@@ -100,8 +100,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     assertThat(headAfterFirstSubmit.getShortMessage())
         .isEqualTo(change2.getCommit().getShortMessage());
     assertThat(headAfterFirstSubmit.getParent(0).getId()).isEqualTo(initialHead.getId());
-    assertPersonEquals(admin.getIdent(), headAfterFirstSubmit.getAuthorIdent());
-    assertPersonEquals(admin.getIdent(), headAfterFirstSubmit.getCommitterIdent());
+    assertPersonEquals(admin.newIdent(), headAfterFirstSubmit.getAuthorIdent());
+    assertPersonEquals(admin.newIdent(), headAfterFirstSubmit.getCommitterIdent());
 
     // We need to merge changes 3, 4 and 5.
     approve(change3.getChangeId());
@@ -114,7 +114,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     assertThat(headAfterSecondSubmit.getParent(0).getShortMessage())
         .isEqualTo(change2.getCommit().getShortMessage());
 
-    assertPersonEquals(admin.getIdent(), headAfterSecondSubmit.getAuthorIdent());
+    assertPersonEquals(admin.newIdent(), headAfterSecondSubmit.getAuthorIdent());
     assertPersonEquals(serverIdent.get(), headAfterSecondSubmit.getCommitterIdent());
 
     // First change stays untouched.
@@ -445,7 +445,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     gApi.projects().name(project.get()).branch("stable").create(new BranchInput());
 
     // Push a change to master
-    PushOneCommit push = pushFactory.create(user.getIdent(), testRepo, "small fix", "a.txt", "2");
+    PushOneCommit push = pushFactory.create(user.newIdent(), testRepo, "small fix", "a.txt", "2");
     PushOneCommit.Result change = push.to("refs/for/master");
     submit(change.getChangeId());
     RevCommit headAfterFirstSubmit = getRemoteLog(project, "master").get(0);
@@ -497,7 +497,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     gApi.projects().name(project.get()).branch("stable").create(new BranchInput());
 
     // Propose a change for master, but leave it open for master!
-    PushOneCommit change = pushFactory.create(user.getIdent(), testRepo, "small fix", "a.txt", "2");
+    PushOneCommit change = pushFactory.create(user.newIdent(), testRepo, "small fix", "a.txt", "2");
     PushOneCommit.Result change2result = change.to("refs/for/master");
 
     // Now cherry pick to stable
@@ -534,13 +534,13 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   @Test
   public void dependencyOnOutdatedPatchSetPreventsMerge() throws Exception {
     // Create a change
-    PushOneCommit change = pushFactory.create(user.getIdent(), testRepo, "fix", "a.txt", "foo");
+    PushOneCommit change = pushFactory.create(user.newIdent(), testRepo, "fix", "a.txt", "foo");
     PushOneCommit.Result changeResult = change.to("refs/for/master");
     PatchSet.Id patchSetId = changeResult.getPatchSetId();
 
     // Create a successor change.
     PushOneCommit change2 =
-        pushFactory.create(user.getIdent(), testRepo, "feature", "b.txt", "bar");
+        pushFactory.create(user.newIdent(), testRepo, "feature", "b.txt", "bar");
     PushOneCommit.Result change2Result = change2.to("refs/for/master");
 
     // Create new patch set for first change.
@@ -576,12 +576,12 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   @Test
   public void dependencyOnDeletedChangePreventsMerge() throws Exception {
     // Create a change
-    PushOneCommit change = pushFactory.create(user.getIdent(), testRepo, "fix", "a.txt", "foo");
+    PushOneCommit change = pushFactory.create(user.newIdent(), testRepo, "fix", "a.txt", "foo");
     PushOneCommit.Result changeResult = change.to("refs/for/master");
 
     // Create a successor change.
     PushOneCommit change2 =
-        pushFactory.create(user.getIdent(), testRepo, "feature", "b.txt", "bar");
+        pushFactory.create(user.newIdent(), testRepo, "feature", "b.txt", "bar");
     PushOneCommit.Result change2Result = change2.to("refs/for/master");
 
     // Delete first change.
@@ -600,7 +600,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
             + changeResult.getCommit().name()
             + " which cannot be merged."
             + " Is the change of this commit not visible to '"
-            + admin.username
+            + admin.username()
             + "' or was it deleted?");
 
     assertRefUpdatedEvents();
@@ -613,13 +613,13 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
 
     // Create a change
-    PushOneCommit change = pushFactory.create(admin.getIdent(), testRepo, "fix", "a.txt", "foo");
+    PushOneCommit change = pushFactory.create(admin.newIdent(), testRepo, "fix", "a.txt", "foo");
     PushOneCommit.Result changeResult = change.to("refs/for/master");
     approve(changeResult.getChangeId());
 
     // Create a successor change.
     PushOneCommit change2 =
-        pushFactory.create(admin.getIdent(), testRepo, "feature", "b.txt", "bar");
+        pushFactory.create(admin.newIdent(), testRepo, "feature", "b.txt", "bar");
     PushOneCommit.Result change2Result = change2.to("refs/for/master");
 
     // Move the first change to a destination branch that is non-visible to user so that user cannot
@@ -632,7 +632,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     gApi.changes().id(changeResult.getChangeId()).move(secretBranch.get());
     block(secretBranch.get(), "read", ANONYMOUS_USERS);
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
 
     // Verify that user cannot see the first change.
     try {
@@ -655,7 +655,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
             + changeResult.getCommit().name()
             + " which cannot be merged."
             + " Is the change of this commit not visible to '"
-            + user.username
+            + user.username()
             + "' or was it deleted?");
 
     assertRefUpdatedEvents();
@@ -668,20 +668,20 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
 
     // Create a change
-    PushOneCommit change = pushFactory.create(admin.getIdent(), testRepo, "fix", "a.txt", "foo");
+    PushOneCommit change = pushFactory.create(admin.newIdent(), testRepo, "fix", "a.txt", "foo");
     PushOneCommit.Result changeResult = change.to("refs/for/master");
     approve(changeResult.getChangeId());
 
     // Create a successor change.
     PushOneCommit change2 =
-        pushFactory.create(admin.getIdent(), testRepo, "feature", "b.txt", "bar");
+        pushFactory.create(admin.newIdent(), testRepo, "feature", "b.txt", "bar");
     PushOneCommit.Result change2Result = change2.to("refs/for/master");
     approve(change2Result.getChangeId());
 
     // Mark the first change private so that it's not visible to user.
     gApi.changes().id(changeResult.getChangeId()).setPrivate(true, "nobody should see this");
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
 
     // Verify that user cannot see the first change.
     try {
@@ -730,7 +730,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         createChange(repo1, "master", "A fresh change in repo1", "a.txt", "1", "topic-to-submit");
     approve(change1.getChangeId());
     PushOneCommit push =
-        pushFactory.create(admin.getIdent(), repo2, "An ancestor change in repo2", "a.txt", "2");
+        pushFactory.create(admin.newIdent(), repo2, "An ancestor change in repo2", "a.txt", "2");
     PushOneCommit.Result change2a = push.to("refs/for/master");
     approve(change2a.getChangeId());
     PushOneCommit.Result change2b =
@@ -741,7 +741,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     // Mark change2a private so that it's not visible to user.
     gApi.changes().id(change2a.getChangeId()).setPrivate(true, "nobody should see this");
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
 
     // Verify that user cannot see change2a
     try {

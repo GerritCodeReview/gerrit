@@ -57,7 +57,7 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() {
-    identifiedAdmin = identifiedUserFactory.create(admin.id);
+    identifiedAdmin = identifiedUserFactory.create(admin.id());
     resetToStrict(quotaEnforcer);
   }
 
@@ -73,10 +73,10 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
   @Test
   public void requestTokenForUserAndAccount() {
     QuotaRequestContext ctx =
-        QuotaRequestContext.builder().user(identifiedAdmin).account(user.id).build();
+        QuotaRequestContext.builder().user(identifiedAdmin).account(user.id()).build();
     expect(quotaEnforcer.requestTokens("testGroup", ctx, 1)).andReturn(QuotaResponse.ok());
     replay(quotaEnforcer);
-    assertThat(quotaBackend.user(identifiedAdmin).account(user.id).requestToken("testGroup"))
+    assertThat(quotaBackend.user(identifiedAdmin).account(user.id()).requestToken("testGroup"))
         .isEqualTo(singletonAggregation(QuotaResponse.ok()));
   }
 

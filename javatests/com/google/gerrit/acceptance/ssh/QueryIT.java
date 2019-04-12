@@ -84,7 +84,7 @@ public class QueryIT extends AbstractDaemonTest {
   public void allReviewersOptionJSON() throws Exception {
     String changeId = createChange().getChangeId();
     AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email;
+    in.reviewer = user.email();
     gApi.changes().id(changeId).addReviewer(in);
 
     List<ChangeAttribute> changes = executeSuccessfulQuery(changeId);

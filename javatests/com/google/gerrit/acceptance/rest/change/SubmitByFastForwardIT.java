@@ -70,8 +70,8 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     assertSubmitter(change.getChangeId(), 1);
     assertSubmitter(change2.getChangeId(), 1);
     assertSubmitter(change3.getChangeId(), 1);
-    assertPersonEquals(admin.getIdent(), updatedHead.getAuthorIdent());
-    assertPersonEquals(admin.getIdent(), updatedHead.getCommitterIdent());
+    assertPersonEquals(admin.newIdent(), updatedHead.getAuthorIdent());
+    assertPersonEquals(admin.newIdent(), updatedHead.getCommitterIdent());
     assertSubmittedTogether(id1, id3, id2, id1);
     assertSubmittedTogether(id2, id3, id2, id1);
     assertSubmittedTogether(id3, id3, id2, id1);

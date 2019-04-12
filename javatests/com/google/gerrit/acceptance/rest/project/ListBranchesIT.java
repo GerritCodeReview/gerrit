@@ -42,7 +42,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   @Test
   public void listBranchesOfNonVisibleProject_NotFound() throws Exception {
     blockRead("refs/*");
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(ResourceNotFoundException.class);
     gApi.projects().name(project.get()).branches().get();
   }
@@ -74,7 +74,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     blockRead("refs/heads/dev");
     String master = pushTo("refs/heads/master").getCommit().name();
     pushTo("refs/heads/dev");
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     // refs/meta/config is hidden since user is no project owner
     assertRefs(
         ImmutableList.of(
@@ -87,7 +87,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     blockRead("refs/heads/master");
     pushTo("refs/heads/master");
     String dev = pushTo("refs/heads/dev").getCommit().name();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     // refs/meta/config is hidden since user is no project owner
     assertRefs(ImmutableList.of(branch("refs/heads/dev", dev, false)), list().get());
   }

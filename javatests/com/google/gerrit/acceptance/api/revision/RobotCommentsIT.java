@@ -67,7 +67,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     PushOneCommit push =
         pushFactory.create(
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             "Provide files which can be used for fixes",
             ImmutableMap.of(FILE_NAME, FILE_CONTENT, FILE_NAME2, FILE_CONTENT2));
@@ -105,7 +105,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     RobotCommentInput in = createRobotCommentInput();
     addRobotComment(changeId, in);
 
-    pushFactory.create(admin.getIdent(), testRepo, changeId).to("refs/for/master");
+    pushFactory.create(admin.newIdent(), testRepo, changeId).to("refs/for/master");
 
     RobotCommentInput in2 = createRobotCommentInput();
     addRobotComment(changeId, in2);
@@ -917,7 +917,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 =
         pushFactory
-            .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
             .to("refs/for/master");
 
     addRobotComment(r2.getChangeId(), createRobotCommentInputWithMandatoryFields());
@@ -1006,7 +1006,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     assertThat(c.line).isEqualTo(expected.line);
     assertThat(c.message).isEqualTo(expected.message);
 
-    assertThat(c.author.email).isEqualTo(admin.email);
+    assertThat(c.author.email).isEqualTo(admin.email());
 
     if (expectPath) {
       assertThat(c.path).isEqualTo(expected.path);

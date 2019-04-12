@@ -154,18 +154,18 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void notificationsOnChangeCreation() throws Exception {
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     watch(project.get());
 
     // check that watcher is notified
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
 
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress);
-    assertThat(m.body()).contains(admin.fullName + " has uploaded this change for review.");
+    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.body()).contains(admin.fullName() + " has uploaded this change for review.");
 
     // check that watcher is not notified if notify=NONE
     sender.clear();
@@ -184,7 +184,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
       assertThat(message)
           .contains(
               String.format(
-                  "%sAdministrator <%s>", SIGNED_OFF_BY_TAG, admin.getIdent().getEmailAddress()));
+                  "%sAdministrator <%s>", SIGNED_OFF_BY_TAG, admin.newIdent().getEmailAddress()));
     } finally {
       setSignedOffByFooter(false);
     }
@@ -205,7 +205,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
       assertThat(message)
           .contains(
               String.format(
-                  "%sAdministrator <%s>", SIGNED_OFF_BY_TAG, admin.getIdent().getEmailAddress()));
+                  "%sAdministrator <%s>", SIGNED_OFF_BY_TAG, admin.newIdent().getEmailAddress()));
     } finally {
       setSignedOffByFooter(false);
     }
@@ -279,7 +279,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
       assertThat(commit.getShortMessage()).isEqualTo("Create change");
 
       PersonIdent expectedAuthor =
-          changeNoteUtil.newIdent(getAccount(admin.id), c.created, serverIdent.get());
+          changeNoteUtil.newIdent(getAccount(admin.id()), c.created, serverIdent.get());
       assertThat(commit.getAuthorIdent()).isEqualTo(expectedAuthor);
 
       assertThat(commit.getCommitterIdent())
@@ -451,7 +451,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
   public void createChangeOnExistingBranchNotPermitted() throws Exception {
     createBranch(new Branch.NameKey(project, "foo"));
     blockRead("refs/heads/*");
-    requestScopeOperations.setApiUser(user.id);
+    requestScopeOperations.setApiUser(user.id());
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
     input.branch = "foo";
 
@@ -461,7 +461,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Test
   public void createChangeOnNonExistingBranchNotPermitted() throws Exception {
     blockRead("refs/heads/*");
-    requestScopeOperations.setApiUser(user.id);
+    requestScopeOperations.setApiUser(user.id());
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
     input.branch = "foo";
     // sets this option to be true to make sure permission check happened before this option could
@@ -514,12 +514,12 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   // TODO(davido): Expose setting of account preferences in the API
   private void setSignedOffByFooter(boolean value) throws Exception {
-    RestResponse r = adminRestSession.get("/accounts/" + admin.email + "/preferences");
+    RestResponse r = adminRestSession.get("/accounts/" + admin.email() + "/preferences");
     r.assertOK();
     GeneralPreferencesInfo i = newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
     i.signedOffBy = value;
 
-    r = adminRestSession.put("/accounts/" + admin.email + "/preferences", i);
+    r = adminRestSession.put("/accounts/" + admin.email() + "/preferences", i);
     r.assertOK();
     GeneralPreferencesInfo o = newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
 
@@ -563,7 +563,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     // create a initial commit in master
     Result initialCommit =
         pushFactory
-            .create(user.getIdent(), testRepo, "initial commit", "readme.txt", "initial commit")
+            .create(user.newIdent(), testRepo, "initial commit", "readme.txt", "initial commit")
             .to("refs/heads/master");
     initialCommit.assertOkStatus();
 
@@ -574,13 +574,13 @@ public class CreateChangeIT extends AbstractDaemonTest {
     // create a commit in branchA
     Result changeA =
         pushFactory
-            .create(user.getIdent(), testRepo, "change A", fileA, "A content")
+            .create(user.newIdent(), testRepo, "change A", fileA, "A content")
             .to("refs/heads/" + branchA);
     changeA.assertOkStatus();
 
     // create a commit in branchB
     PushOneCommit commitB =
-        pushFactory.create(user.getIdent(), testRepo, "change B", fileB, "B content");
+        pushFactory.create(user.newIdent(), testRepo, "change B", fileB, "B content");
     commitB.setParent(initialCommit.getCommit());
     Result changeB = commitB.to("refs/heads/" + branchB);
     changeB.assertOkStatus();

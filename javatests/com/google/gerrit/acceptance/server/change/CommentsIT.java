@@ -86,7 +86,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() {
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
   }
 
   @Test
@@ -142,7 +142,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String file = "file";
       String contents = "contents " + line;
       PushOneCommit push =
-          pushFactory.create(admin.getIdent(), testRepo, "first subject", file, contents);
+          pushFactory.create(admin.newIdent(), testRepo, "first subject", file, contents);
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
@@ -166,7 +166,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String file = "file";
       String contents = "contents " + line;
       PushOneCommit push =
-          pushFactory.create(admin.getIdent(), testRepo, "first subject", file, contents);
+          pushFactory.create(admin.newIdent(), testRepo, "first subject", file, contents);
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
@@ -198,7 +198,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String file = "file";
       String contents = "contents " + line;
       PushOneCommit push =
-          pushFactory.create(admin.getIdent(), testRepo, "first subject", file, contents);
+          pushFactory.create(admin.newIdent(), testRepo, "first subject", file, contents);
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
@@ -272,7 +272,7 @@ public class CommentsIT extends AbstractDaemonTest {
   public void listComments() throws Exception {
     String file = "file";
     PushOneCommit push =
-        pushFactory.create(admin.getIdent(), testRepo, "first subject", file, "contents");
+        pushFactory.create(admin.newIdent(), testRepo, "first subject", file, "contents");
     PushOneCommit.Result r = push.to("refs/for/master");
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
@@ -381,7 +381,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String file = "file";
       String contents = "contents " + line;
       PushOneCommit push =
-          pushFactory.create(admin.getIdent(), testRepo, "first subject", file, contents);
+          pushFactory.create(admin.newIdent(), testRepo, "first subject", file, contents);
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
@@ -424,7 +424,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r2 =
         pushFactory
-            .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "content")
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "content")
             .to("refs/for/master");
     changeId = r2.getChangeId();
     revId = r2.getCommit().getName();
@@ -439,10 +439,10 @@ public class CommentsIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r2 =
         pushFactory
-            .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
             .to("refs/for/master");
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     addDraft(
         r1.getChangeId(),
         r1.getCommit().getName(),
@@ -452,13 +452,13 @@ public class CommentsIT extends AbstractDaemonTest {
         r2.getCommit().getName(),
         newDraft(FILE_NAME, Side.REVISION, 1, "typo: content"));
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
         newDraft(FILE_NAME, Side.REVISION, 1, "+1, please fix"));
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     Map<String, List<CommentInfo>> actual = gApi.changes().id(r1.getChangeId()).drafts();
     assertThat(actual.keySet()).containsExactly(FILE_NAME);
     List<CommentInfo> comments = actual.get(FILE_NAME);
@@ -485,7 +485,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r2 =
         pushFactory
-            .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent", r1.getChangeId())
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent", r1.getChangeId())
             .to("refs/for/master");
 
     addComment(r1, "nit: trailing whitespace");
@@ -498,14 +498,14 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(comments).hasSize(2);
 
     CommentInfo c1 = comments.get(0);
-    assertThat(c1.author._accountId).isEqualTo(user.getId().get());
+    assertThat(c1.author._accountId).isEqualTo(user.id().get());
     assertThat(c1.patchSet).isEqualTo(1);
     assertThat(c1.message).isEqualTo("nit: trailing whitespace");
     assertThat(c1.side).isNull();
     assertThat(c1.line).isEqualTo(1);
 
     CommentInfo c2 = comments.get(1);
-    assertThat(c2.author._accountId).isEqualTo(user.getId().get());
+    assertThat(c2.author._accountId).isEqualTo(user.id().get());
     assertThat(c2.patchSet).isEqualTo(2);
     assertThat(c2.message).isEqualTo("typo: content");
     assertThat(c2.side).isNull();
@@ -528,13 +528,13 @@ public class CommentsIT extends AbstractDaemonTest {
   public void publishCommentsAllRevisions() throws Exception {
     PushOneCommit.Result r1 =
         pushFactory
-            .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "old boring content\n")
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "old boring content\n")
             .to("refs/for/master");
 
     PushOneCommit.Result r2 =
         pushFactory
             .create(
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 SUBJECT,
                 FILE_NAME,
@@ -574,11 +574,11 @@ public class CommentsIT extends AbstractDaemonTest {
         other.getCommit().getName(),
         newDraft(FILE_NAME, Side.REVISION, 1, "unrelated comment"));
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     // Drafts by other users aren't returned.
     addDraft(
         r2.getChangeId(), r2.getCommit().getName(), newDraft(FILE_NAME, Side.REVISION, 2, "oops"));
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
 
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
@@ -768,7 +768,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String uuid = commentsMap.get(targetComment.path).get(0).id;
     DeleteCommentInput input = new DeleteCommentInput("contains confidential information");
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     gApi.changes().id(result.getChangeId()).current().comment(uuid).delete(input);
   }
@@ -839,7 +839,7 @@ public class CommentsIT extends AbstractDaemonTest {
     // PS4 has comments [c7, c8].
     assertThat(getRevisionComments(changeId, ps4)).hasSize(2);
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     for (int i = 0; i < commentsBeforeDelete.size(); i++) {
       List<RevCommit> commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(id);
 
@@ -854,7 +854,7 @@ public class CommentsIT extends AbstractDaemonTest {
           gApi.changes().id(changeId).revision(patchSet).comment(uuid).delete(input);
 
       String expectedMsg =
-          String.format("Comment removed by: %s; Reason: %s", admin.fullName, input.reason);
+          String.format("Comment removed by: %s; Reason: %s", admin.fullName(), input.reason);
       assertThat(updatedComment.message).isEqualTo(expectedMsg);
       oldComment.message = expectedMsg;
       assertThat(updatedComment).isEqualTo(oldComment);
@@ -909,7 +909,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     List<RevCommit> commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(id);
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     for (int i = 0; i < 3; i++) {
       DeleteCommentInput input = new DeleteCommentInput("delete comment 2, iteration: " + i);
       gApi.changes().id(changeId).revision(ps1).comment(uuid).delete(input);
@@ -918,7 +918,8 @@ public class CommentsIT extends AbstractDaemonTest {
     CommentInfo updatedComment = gApi.changes().id(changeId).revision(ps1).comment(uuid).get();
     String expectedMsg =
         String.format(
-            "Comment removed by: %s; Reason: %s", admin.fullName, "delete comment 2, iteration: 2");
+            "Comment removed by: %s; Reason: %s",
+            admin.fullName(), "delete comment 2, iteration: 2");
     assertThat(updatedComment.message).isEqualTo(expectedMsg);
     oldComment.message = expectedMsg;
     assertThat(updatedComment).isEqualTo(oldComment);

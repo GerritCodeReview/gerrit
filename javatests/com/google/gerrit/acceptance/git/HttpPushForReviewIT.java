@@ -36,7 +36,7 @@ public class HttpPushForReviewIT extends AbstractPushForReview {
   @Before
   public void selectHttpUrl() throws Exception {
     CredentialsProvider.setDefault(
-        new UsernamePasswordCredentialsProvider(admin.username, admin.httpPassword));
+        new UsernamePasswordCredentialsProvider(admin.username(), admin.httpPassword()));
     selectProtocol(Protocol.HTTP);
     // Don't clear audit events here, since we can't guarantee all test setup has run yet.
   }
@@ -55,13 +55,13 @@ public class HttpPushForReviewIT extends AbstractPushForReview {
     assertThat(auditEvents).hasSize(2);
 
     HttpAuditEvent lsRemote = auditEvents.get(0);
-    assertThat(lsRemote.who.getAccountId()).isEqualTo(admin.id);
+    assertThat(lsRemote.who.getAccountId()).isEqualTo(admin.id());
     assertThat(lsRemote.what).endsWith("/info/refs?service=git-receive-pack");
     assertThat(lsRemote.params).containsExactly("service", "git-receive-pack");
     assertThat(lsRemote.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
 
     HttpAuditEvent receivePack = auditEvents.get(1);
-    assertThat(receivePack.who.getAccountId()).isEqualTo(admin.id);
+    assertThat(receivePack.who.getAccountId()).isEqualTo(admin.id());
     assertThat(receivePack.what).endsWith("/git-receive-pack");
     assertThat(receivePack.params).isEmpty();
     assertThat(receivePack.httpStatus).isEqualTo(HttpServletResponse.SC_OK);

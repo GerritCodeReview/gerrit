@@ -63,7 +63,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
 
   @Test
   public void createBranch_Forbidden() throws Exception {
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertCreateFails(testBranch, AuthException.class, "not permitted: create on refs/heads/test");
   }
 
@@ -81,7 +81,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   @Test
   public void createBranchByProjectOwner() throws Exception {
     grantOwner();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertCreateSucceeds(testBranch);
   }
 
@@ -95,7 +95,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   public void createBranchByProjectOwnerCreateReferenceBlocked_Forbidden() throws Exception {
     grantOwner();
     blockCreateReference();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertCreateFails(testBranch, AuthException.class, "not permitted: create on refs/heads/test");
   }
 
@@ -113,7 +113,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH, REGISTERED_USERS);
     assertCreateFails(
         new Branch.NameKey(allUsers, RefNames.refsUsers(new Account.Id(1))),
-        RefNames.refsUsers(admin.getId()),
+        RefNames.refsUsers(admin.id()),
         ResourceConflictException.class,
         "Not allowed to create user branch.");
   }

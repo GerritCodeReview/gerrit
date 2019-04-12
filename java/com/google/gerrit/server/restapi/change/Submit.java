@@ -209,11 +209,14 @@ public class Submit
 
     try (MergeOp op = mergeOpProvider.get()) {
       op.merge(change, submitter, true, input, false);
-      try {
-        change = changeNotesFactory.createChecked(change.getProject(), change.getId()).getChange();
-      } catch (NoSuchChangeException e) {
-        throw new ResourceConflictException("change is deleted");
-      }
+    }
+
+    // Read the ChangeNotes only after MergeOp is fully done (including MergeOp#close) to be sure
+    // to have the correct state of the repo.
+    try {
+      change = changeNotesFactory.createChecked(change.getProject(), change.getId()).getChange();
+    } catch (NoSuchChangeException e) {
+      throw new ResourceConflictException("change is deleted");
     }
 
     if (change.isMerged()) {
@@ -257,7 +260,8 @@ public class Submit
                 .test(EnumSet.of(ChangePermission.READ, ChangePermission.SUBMIT));
         if (!can.contains(ChangePermission.READ)) {
           logger.atFine().log(
-              "Change %d cannot be submitted by user %s because it depends on change %d which the user cannot read",
+              "Change %d cannot be submitted by user %s because it depends on change %d which the"
+                  + " user cannot read",
               cd.getId().get(), user.getLoggableName(), c.getId().get());
           return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
         }

@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "ae8dbe6c_0f153c81",
+        "filename": "WORKSPACE",
+        "patchSetId": 9
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-12T14:24:43Z",
+      "side": 1,
+      "message": "And using a sha1 for a version works? Cool!",
+      "parentUuid": "5bf24b27_0f07711f",
+      "range": {
+        "startLine": 1282,
+        "startChar": 15,
+        "endLine": 1282,
+        "endChar": 20
+      },
+      "revId": "36daa0a3aea0e0da1a18e1e10b274af4c8157416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fcf62f0d_5000518a",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 9

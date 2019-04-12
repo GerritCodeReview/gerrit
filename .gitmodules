@@ -47,3 +47,57 @@
 	path = plugins/webhooks
 	url = ../plugins/webhooks
 	branch = .
+[submodule "plugins/automerger"]
+	path = plugins/automerger
+	url = ../plugins/automerger
+[submodule "plugins/binary-size"]
+	path = plugins/binary-size
+	url = https://chromium.googlesource.com/infra/gerrit-plugins/binary-size
+[submodule "plugins/buildbucket"]
+	path = plugins/buildbucket
+	url = https://chromium.googlesource.com/infra/gerrit-plugins/buildbucket
+[submodule "plugins/checks"]
+	path = plugins/checks
+	url = ../plugins/checks
+[submodule "plugins/chromium-behavior"]
+	path = plugins/chromium-behavior
+	url = https://chromium.googlesource.com/infra/gerrit-plugins/chromium-behavior
+[submodule "plugins/chromium-coverage"]
+	path = plugins/chromium-coverage
+	url = https://chromium.googlesource.com/infra/gerrit-plugins/code-coverage
+[submodule "plugins/chromium-style"]
+	path = plugins/chromium-style
+	url = https://chromium.googlesource.com/infra/gerrit-plugins/chromium-style
+[submodule "plugins/chumpdetector"]
+	path = plugins/chumpdetector
+	url = https://chromium.googlesource.com/infra/gerrit-plugins/chumpdetector
+[submodule "plugins/find-owners"]
+	path = plugins/find-owners
+	url = ../plugins/find-owners
+[submodule "plugins/git-numberer"]
+	path = plugins/git-numberer
+	url = https://chromium.googlesource.com/infra/gerrit-plugins/git-numberer
+[submodule "plugins/hide-actions"]
+	path = plugins/hide-actions
+	url = ../plugins/hide-actions
+[submodule "plugins/image-diff"]
+	path = plugins/image-diff
+	url = ../plugins/image-diff
+[submodule "plugins/landingwidget"]
+	path = plugins/landingwidget
+	url = https://chromium.googlesource.com/infra/gerrit-plugins/landingwidget
+[submodule "plugins/reviewers"]
+	path = plugins/reviewers
+	url = ../plugins/reviewers
+[submodule "plugins/simple-submit-rules"]
+	path = plugins/simple-submit-rules
+	url = ../plugins/simple-submit-rules
+[submodule "plugins/supermanifest"]
+	path = plugins/supermanifest
+	url = ../plugins/supermanifest
+[submodule "plugins/tricium"]
+	path = plugins/tricium
+	url = https://chromium.googlesource.com/infra/gerrit-plugins/tricium
+[submodule "plugins/uploadvalidator"]
+	path = plugins/uploadvalidator
+	url = ../plugins/uploadvalidator

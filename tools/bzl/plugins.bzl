@@ -12,7 +12,24 @@ CORE_PLUGINS = [
 ]
 
 CUSTOM_PLUGINS = [
-    # Add custom core plugins here
+    "automerger",
+    "binary-size",
+    "buildbucket",
+    "checks",
+    "chromium-behavior",
+    "chromium-coverage",
+    "chromium-style",
+    "chumpdetector",
+    "find-owners",
+    "git-numberer",
+    "hide-actions",
+    "image-diff",
+    "landingwidget",
+    "reviewers",
+    "simple-submit-rules",
+    "supermanifest",
+    "tricium",
+    "uploadvalidator",
 ]
 
 CUSTOM_PLUGINS_TEST_DEPS = [

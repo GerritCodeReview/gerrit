@@ -22,6 +22,30 @@
       "revId": "44a87b414ff1754614d6e015eb613282ea6eec40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea4e2ac2_acd6b321",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-12T12:28:01Z",
+      "side": 1,
+      "message": "I carn\u0027t find exactly where this is used, but it is used. Since when i added this rule, the ui stoped complaning about webcomponents js map file being missing.\n\n(This is in preperation for polymer 2.x, this is not used by polymer 1.x as far as i can tell)",
+      "parentUuid": "78ce74ef_828a2f87",
+      "range": {
+        "startLine": 49,
+        "startChar": 12,
+        "endLine": 49,
+        "endChar": 28
+      },
+      "revId": "44a87b414ff1754614d6e015eb613282ea6eec40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

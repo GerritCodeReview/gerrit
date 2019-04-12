@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0c066d38_b0467252",
+        "filename": "WORKSPACE",
+        "patchSetId": 9
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-12T13:53:02Z",
+      "side": 1,
+      "message": "This sha can be d007f783989870f96faece10ced0422b241f0afd",
+      "parentUuid": "4354ab55_d9528d4f",
+      "range": {
+        "startLine": 1281,
+        "startChar": 12,
+        "endLine": 1281,
+        "endChar": 52
+      },
+      "revId": "36daa0a3aea0e0da1a18e1e10b274af4c8157416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fc52698c_dc2e62eb",
         "filename": "WORKSPACE",
         "patchSetId": 9
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Actually ignore, that\u0027s on the master branch.",
       "parentUuid": "fc52698c_dc2e62eb",
+      "range": {
+        "startLine": 1282,
+        "startChar": 15,
+        "endLine": 1282,
+        "endChar": 20
+      },
+      "revId": "36daa0a3aea0e0da1a18e1e10b274af4c8157416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bf24b27_0f07711f",
+        "filename": "WORKSPACE",
+        "patchSetId": 9
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-12T13:53:02Z",
+      "side": 1,
+      "message": "I found the version for 2.x https://github.com/Polymer/polymer/pull/5523\n\nthis version can be 86bf85b79a199c6bc99559169ad75e01e6d52a25",
+      "parentUuid": "22d83109_ced46eda",
       "range": {
         "startLine": 1282,
         "startChar": 15,

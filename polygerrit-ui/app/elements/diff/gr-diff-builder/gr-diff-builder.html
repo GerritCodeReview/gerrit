@@ -169,10 +169,11 @@ limitations under the License.
 
                     reporting.timeEnd(TimingLabel.CONTENT);
                     reporting.time(TimingLabel.SYNTAX);
-                    return this.$.syntaxLayer.process().then(() => {
-                      reporting.timeEnd(TimingLabel.SYNTAX);
-                      reporting.timeEnd(TimingLabel.TOTAL);
-                    });
+                    return this.$.syntaxLayer.process();
+                  })
+                  .then(() => {
+                    reporting.timeEnd(TimingLabel.SYNTAX);
+                    reporting.timeEnd(TimingLabel.TOTAL);
                   }));
           return this._cancelableRenderPromise
               .finally(() => { this._cancelableRenderPromise = null; })

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78ce74ef_828a2f87",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-12T06:43:12Z",
+      "side": 1,
+      "message": "I have not found any other BUILD rule using or depending on this rule. Can you explain to me which target is affected by this change?",
+      "range": {
+        "startLine": 49,
+        "startChar": 12,
+        "endLine": 49,
+        "endChar": 28
+      },
+      "revId": "44a87b414ff1754614d6e015eb613282ea6eec40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

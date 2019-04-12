@@ -121,7 +121,6 @@
     },
 
     _computePermissions(name, capabilities, labels) {
-      let allPermissions;
       if (name === GLOBAL_NAME) {
         allPermissions = this.toSortedArray(capabilities);
       } else {
@@ -130,7 +129,12 @@
             this.toSortedArray(this.permissionValues));
       }
       return allPermissions.filter(permission => {
-        return !this.section.value.permissions[permission.id];
+        if (this.section && this.section.value &&
+            this.section.value.permissions) {
+          return !this.section.value.permissions[permission.id];
+        }
+
+        return false;
       });
     },
 
@@ -146,21 +150,23 @@
 
     _computeLabelOptions(labels) {
       const labelOptions = [];
-      for (const labelName of Object.keys(labels)) {
-        labelOptions.push({
-          id: 'label-' + labelName,
-          value: {
-            name: `${LABEL} ${labelName}`,
+      if (labels) {
+        for (const labelName of Object.keys(labels)) {
+          labelOptions.push({
             id: 'label-' + labelName,
-          },
-        });
-        labelOptions.push({
-          id: 'labelAs-' + labelName,
-          value: {
-            name: `${LABEL} ${labelName} ${ON_BEHALF_OF}`,
+            value: {
+              name: `${LABEL} ${labelName}`,
+              id: 'label-' + labelName,
+            },
+          });
+          labelOptions.push({
             id: 'labelAs-' + labelName,
-          },
-        });
+            value: {
+              name: `${LABEL} ${labelName} ${ON_BEHALF_OF}`,
+              id: 'labelAs-' + labelName,
+            },
+          });
+        }
       }
       return labelOptions;
     },
@@ -218,7 +224,7 @@
     },
 
     _isEditEnabled(canUpload, ownerOf, sectionId) {
-      return canUpload || ownerOf.indexOf(sectionId) >= 0;
+      return canUpload || ownerOf && ownerOf.indexOf(sectionId) >= 0;
     },
 
     _computeSectionClass(editing, canUpload, ownerOf, editingRef, deleted) {

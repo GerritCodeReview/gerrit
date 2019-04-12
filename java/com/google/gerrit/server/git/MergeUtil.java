@@ -316,6 +316,7 @@ public class MergeUtil {
     return commit;
   }
 
+  @SuppressWarnings("resource") // TemporaryBuffer requires calling close before reading.
   public static ObjectId mergeWithConflicts(
       RevWalk rw,
       ObjectInserter ins,
@@ -349,7 +350,6 @@ public class MergeUtil {
     Map<String, ObjectId> resolved = new HashMap<>();
     for (Map.Entry<String, MergeResult<? extends Sequence>> entry : mergeResults.entrySet()) {
       MergeResult<? extends Sequence> p = entry.getValue();
-      @SuppressWarnings("resource") // TemporaryBuffer requires calling close before reading.
       TemporaryBuffer buf = null;
       try {
         // TODO(dborowitz): Respect inCoreLimit here.

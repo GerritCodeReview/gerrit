@@ -19,8 +19,12 @@ import com.google.inject.ImplementedBy;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.SortedSet;
+import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.Transport;
+import org.eclipse.jgit.transport.URIish;
 
 /**
  * Manages Git repositories for the Gerrit server process.
@@ -40,6 +44,20 @@ public interface GitRepositoryManager {
    * @throws IOException the name cannot be read as a repository.
    */
   Repository openRepository(Project.NameKey name) throws RepositoryNotFoundException, IOException;
+
+  /**
+   * Open a new transport instance to connect two repositories.
+   *
+   * @param git existing local repository.
+   * @param uri location of the remote repository.
+   * @return the new transport instance. Never null.
+   * @throws org.eclipse.jgit.errors.NotSupportedException the protocol specified is not supported.
+   * @throws org.eclipse.jgit.errors.TransportException the transport cannot open this URI.
+   */
+  default Transport openTransport(Repository git, URIish uri)
+      throws TransportException, NotSupportedException {
+    return Transport.open(git, uri);
+  }
 
   /**
    * Create (and open) a repository by name.

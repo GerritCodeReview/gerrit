@@ -209,11 +209,14 @@ public class Submit
 
     try (MergeOp op = mergeOpProvider.get()) {
       op.merge(change, submitter, true, input, false);
-      try {
-        change = changeNotesFactory.createChecked(change.getProject(), change.getId()).getChange();
-      } catch (NoSuchChangeException e) {
-        throw new ResourceConflictException("change is deleted");
-      }
+    }
+
+    // Read the ChangeNotes only after MergeOp is fully done (including MergeOp#close) to be sure
+    // to have the correct state of the repo.
+    try {
+      change = changeNotesFactory.createChecked(change.getProject(), change.getId()).getChange();
+    } catch (NoSuchChangeException e) {
+      throw new ResourceConflictException("change is deleted");
     }
 
     if (change.isMerged()) {

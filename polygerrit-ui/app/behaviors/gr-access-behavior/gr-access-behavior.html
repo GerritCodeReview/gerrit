@@ -142,6 +142,7 @@ limitations under the License.
      *    object.
      */
     toSortedArray(obj) {
+      if (!obj) { return []; }
       return Object.keys(obj).map(key => {
         return {
           id: key,

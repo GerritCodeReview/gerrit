@@ -704,6 +704,18 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   }
 
   @Test
+  public void serializeUpdateCount() throws Exception {
+    assertRoundTrip(
+        newBuilder().updateCount(234).build(),
+        ChangeNotesStateProto.newBuilder()
+            .setMetaId(SHA_BYTES)
+            .setChangeId(ID.get())
+            .setColumns(colsProto)
+            .setUpdateCount(234)
+            .build());
+  }
+
+  @Test
   public void changeNotesStateMethods() throws Exception {
     assertThatSerializedClass(ChangeNotesState.class)
         .hasAutoValueMethods(
@@ -733,6 +745,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
                 .put(
                     "publishedComments",
                     new TypeLiteral<ImmutableListMultimap<RevId, Comment>>() {}.getType())
+                .put("updateCount", int.class)
                 .build());
   }
 

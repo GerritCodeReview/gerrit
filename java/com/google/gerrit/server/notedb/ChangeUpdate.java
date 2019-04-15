@@ -106,14 +106,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     ChangeUpdate create(ChangeNotes notes, CurrentUser user, Date when);
 
-    ChangeUpdate create(
-        Change change,
-        @Assisted("effective") @Nullable Account.Id accountId,
-        @Assisted("real") @Nullable Account.Id realAccountId,
-        PersonIdent authorIdent,
-        Date when,
-        Comparator<String> labelNameComparator);
-
     @VisibleForTesting
     ChangeUpdate create(
         ChangeNotes notes, CurrentUser user, Date when, Comparator<String> labelNameComparator);
@@ -227,28 +219,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.updateManagerFactory = updateManagerFactory;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
-    this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
-    this.approvals = approvals(labelNameComparator);
-  }
-
-  @AssistedInject
-  private ChangeUpdate(
-      @GerritPersonIdent PersonIdent serverIdent,
-      NoteDbUpdateManager.Factory updateManagerFactory,
-      ChangeDraftUpdate.Factory draftUpdateFactory,
-      RobotCommentUpdate.Factory robotCommentUpdateFactory,
-      DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
-      ChangeNoteUtil noteUtil,
-      @Assisted Change change,
-      @Assisted("effective") @Nullable Account.Id accountId,
-      @Assisted("real") @Nullable Account.Id realAccountId,
-      @Assisted PersonIdent authorIdent,
-      @Assisted Date when,
-      @Assisted Comparator<String> labelNameComparator) {
-    super(noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
-    this.draftUpdateFactory = draftUpdateFactory;
-    this.robotCommentUpdateFactory = robotCommentUpdateFactory;
-    this.updateManagerFactory = updateManagerFactory;
     this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
     this.approvals = approvals(labelNameComparator);
   }

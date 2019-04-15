@@ -52,6 +52,7 @@ import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager.TooManyUpdatesException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -178,22 +179,22 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private static void wrapAndThrowException(Exception e) throws UpdateException, RestApiException {
-    Throwables.throwIfUnchecked(e);
-
-    // Propagate REST API exceptions thrown by operations; they commonly throw exceptions like
-    // ResourceConflictException to indicate an atomic update failure.
-    Throwables.throwIfInstanceOf(e, UpdateException.class);
-    Throwables.throwIfInstanceOf(e, RestApiException.class);
-
-    // Convert other common non-REST exception types with user-visible messages to corresponding
-    // REST exception types
-    if (e instanceof InvalidChangeOperationException) {
+    // Convert common non-REST exception types with user-visible messages to corresponding REST
+    // exception types.
+    if (e instanceof InvalidChangeOperationException || e instanceof TooManyUpdatesException) {
       throw new ResourceConflictException(e.getMessage(), e);
     } else if (e instanceof NoSuchChangeException
         || e instanceof NoSuchRefException
         || e instanceof NoSuchProjectException) {
       throw new ResourceNotFoundException(e.getMessage(), e);
     }
+
+    Throwables.throwIfUnchecked(e);
+
+    // Propagate REST API exceptions thrown by operations; they commonly throw exceptions like
+    // ResourceConflictException to indicate an atomic update failure.
+    Throwables.throwIfInstanceOf(e, UpdateException.class);
+    Throwables.throwIfInstanceOf(e, RestApiException.class);
 
     // Otherwise, wrap in a generic UpdateException, which does not include a user-visible message.
     throw new UpdateException(e);

@@ -49,7 +49,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
-import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
@@ -102,6 +102,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 public class ChangeUpdate extends AbstractChangeUpdate {
   public interface Factory {
+    @Deprecated
+    @UsedAt(UsedAt.Project.GOOGLE) // TODO(dborowitz): Remove usage, then delete method.
     ChangeUpdate create(ChangeNotes notes, CurrentUser user);
 
     ChangeUpdate create(ChangeNotes notes, CurrentUser user, Date when);

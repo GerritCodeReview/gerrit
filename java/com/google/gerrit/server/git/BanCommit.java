@@ -74,7 +74,7 @@ public class BanCommit {
   private final GitRepositoryManager repoManager;
   private final TimeZone tz;
   private final PermissionBackend permissionBackend;
-  private NotesBranchUtil.Factory notesBranchUtilFactory;
+  private final NotesBranchUtil.Factory notesBranchUtilFactory;
 
   @Inject
   BanCommit(

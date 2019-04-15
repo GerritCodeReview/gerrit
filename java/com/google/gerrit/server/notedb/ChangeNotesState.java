@@ -121,7 +121,8 @@ public abstract class ChangeNotesState {
       boolean isPrivate,
       boolean workInProgress,
       boolean reviewStarted,
-      @Nullable Change.Id revertOf) {
+      @Nullable Change.Id revertOf,
+      int updateCount) {
     requireNonNull(
         metaId,
         () ->
@@ -165,6 +166,7 @@ public abstract class ChangeNotesState {
         .submitRecords(submitRecords)
         .changeMessages(changeMessages)
         .publishedComments(publishedComments)
+        .updateCount(updateCount)
         .build();
   }
 
@@ -297,6 +299,8 @@ public abstract class ChangeNotesState {
 
   abstract ImmutableListMultimap<RevId, Comment> publishedComments();
 
+  abstract int updateCount();
+
   Change newChange(Project.NameKey project) {
     ChangeColumns c = requireNonNull(columns(), "columns are required");
     Change change =
@@ -363,7 +367,8 @@ public abstract class ChangeNotesState {
           .reviewerUpdates(ImmutableList.of())
           .submitRecords(ImmutableList.of())
           .changeMessages(ImmutableList.of())
-          .publishedComments(ImmutableListMultimap.of());
+          .publishedComments(ImmutableListMultimap.of())
+          .updateCount(0);
     }
 
     abstract Builder metaId(ObjectId metaId);
@@ -397,6 +402,8 @@ public abstract class ChangeNotesState {
     abstract Builder changeMessages(List<ChangeMessage> changeMessages);
 
     abstract Builder publishedComments(ListMultimap<RevId, Comment> publishedComments);
+
+    abstract Builder updateCount(int updateCount);
 
     abstract ChangeNotesState build();
   }
@@ -459,6 +466,7 @@ public abstract class ChangeNotesState {
           .changeMessages()
           .forEach(m -> b.addChangeMessage(toByteString(m, ChangeMessageProtoConverter.INSTANCE)));
       object.publishedComments().values().forEach(c -> b.addPublishedComment(GSON.toJson(c)));
+      b.setUpdateCount(object.updateCount());
 
       return Protos.toByteArray(b.build());
     }
@@ -577,7 +585,8 @@ public abstract class ChangeNotesState {
               .publishedComments(
                   proto.getPublishedCommentList().stream()
                       .map(r -> GSON.fromJson(r, Comment.class))
-                      .collect(toImmutableListMultimap(c -> new RevId(c.revId), c -> c)));
+                      .collect(toImmutableListMultimap(c -> new RevId(c.revId), c -> c)))
+              .updateCount(proto.getUpdateCount());
       return b.build();
     }
 

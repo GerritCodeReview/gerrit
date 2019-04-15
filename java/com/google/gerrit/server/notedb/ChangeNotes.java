@@ -418,6 +418,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return commentKeys;
   }
 
+  public int getUpdateCount() {
+    return state.updateCount();
+  }
+
   public ImmutableListMultimap<RevId, Comment> getDraftComments(Account.Id author) {
     return getDraftComments(author, null);
   }

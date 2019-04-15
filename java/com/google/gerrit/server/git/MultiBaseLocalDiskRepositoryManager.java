@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.ModuleImpl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -29,6 +30,7 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class MultiBaseLocalDiskRepositoryManager extends LocalDiskRepositoryManager {
 
+  @ModuleImpl(name = GitRepositoryManager.MULTI_BASE_LOCAL_REPOSITORY_MODULE)
   public static class Module extends LifecycleModule {
     @Override
     protected void configure() {

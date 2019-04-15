@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.inject.ImplementedBy;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.SortedSet;
@@ -28,8 +27,13 @@ import org.eclipse.jgit.lib.Repository;
  * <p>Implementations of this interface should be a {@link Singleton} and registered in Guice so
  * they are globally available within the server environment.
  */
-@ImplementedBy(value = LocalDiskRepositoryManager.class)
 public interface GitRepositoryManager {
+  /** Module name representing the local repository manager. */
+  String LOCAL_REPOSITORY_MODULE = "local-repository";
+
+  /** Module name representing a multi-base local repository manager. */
+  String MULTI_BASE_LOCAL_REPOSITORY_MODULE = "multi-base-local-repository";
+
   /**
    * Get (or open) a repository by name.
    *

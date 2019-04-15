@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.ModuleImpl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
@@ -52,10 +53,12 @@ import org.eclipse.jgit.util.FS;
 public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  @ModuleImpl(name = GitRepositoryManager.LOCAL_REPOSITORY_MODULE)
   public static class Module extends LifecycleModule {
     @Override
     protected void configure() {
       listener().to(LocalDiskRepositoryManager.Lifecycle.class);
+      bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
     }
   }
 

@@ -4,8 +4,11 @@ junit_tests(
     name = "small_tests",
     size = "small",
     srcs = glob(["*.java"]),
+    runtime_deps = ["//prolog:gerrit-prolog-common"],
     deps = [
+        "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",

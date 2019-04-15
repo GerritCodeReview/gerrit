@@ -1215,6 +1215,18 @@ in change tables and user dashboards.
 +
 By default 500.
 
+[[change.maxUpdates]]change.maxUpdates::
++
+Maximum number of updates to a change. Counts only updates to the main NoteDb
+meta ref; draft comments, robot comments, stars, etc. do not count towards the
+total.
++
+Many NoteDb operations require walking the entire change meta ref and loading
+its contents into memory, so changes with arbitrarily many updates may cause
+high CPU usage, memory pressure, persistent cache bloat, and other problems.
++
+By default 1000.
+
 [[change.replyLabel]]change.replyLabel::
 +
 Label name for the reply button. In the user interface an ellipsis (…)

@@ -136,6 +136,8 @@ limitations under the License.
       .content.remove {
         background-color: var(--light-remove-highlight-color);
       }
+
+      /* dueToRebase */
       .dueToRebase .content.add .intraline,
       .delta.total.dueToRebase .content.add {
         background-color: var(--dark-rebased-add-highlight-color);
@@ -150,6 +152,17 @@ limitations under the License.
       .dueToRebase .content.remove {
         background-color: var(--light-remove-add-highlight-color);
       }
+
+      /* ignoredWhitespaceOnly */
+      .ignoredWhitespaceOnly .content.add .intraline,
+      .delta.total.ignoredWhitespaceOnly .content.add,
+      .ignoredWhitespaceOnly .content.add,
+      .ignoredWhitespaceOnly .content.remove .intraline,
+      .delta.total.ignoredWhitespaceOnly .content.remove,
+      .ignoredWhitespaceOnly .content.remove {
+        background: none;
+      }
+
       .content .contentText:empty:after {
         /* Newline, to ensure empty lines are one line-height tall. */
         content: '\A';

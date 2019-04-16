@@ -250,6 +250,7 @@
             state.lineNums.right,
             highlights);
         deltaGroup.dueToRebase = section.due_to_rebase;
+        deltaGroup.ignoredWhitespaceOnly = section.common;
 
         return {
           lineDelta: {

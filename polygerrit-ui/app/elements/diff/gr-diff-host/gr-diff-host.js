@@ -243,9 +243,6 @@
           .then(diff => {
             this._loadedWhitespaceLevel = whitespaceLevel;
             this._reportDiff(diff);
-            if (this._getIgnoreWhitespace() !== WHITESPACE_IGNORE_NONE) {
-              return this._translateChunksToIgnore(diff);
-            }
             return diff;
           })
           .catch(e => {
@@ -698,49 +695,6 @@
       }
       return threadEls.filter(threadEl =>
           matchers.some(matcher => matcher(threadEl)));
-    },
-
-    /**
-     * Take a diff that was loaded with a ignore-whitespace other than
-     * IGNORE_NONE, and convert delta chunks labeled as common into shared
-     * chunks.
-     * @param {!Object} diff
-     * @returns {!Object}
-     */
-    _translateChunksToIgnore(diff) {
-      const newDiff = Object.assign({}, diff);
-      const mergedContent = [];
-
-      // Was the last chunk visited a shared chunk?
-      let lastWasShared = false;
-
-      for (const chunk of diff.content) {
-        if (lastWasShared && chunk.common && chunk.b) {
-          // The last chunk was shared and this chunk should be ignored, so
-          // add its revision content to the previous chunk.
-          mergedContent[mergedContent.length - 1].ab.push(...chunk.b);
-        } else if (chunk.common && !chunk.b) {
-          // If the chunk should be ignored, but it doesn't have revision
-          // content, then drop it and continue without updating lastWasShared.
-          continue;
-        } else if (lastWasShared && chunk.ab) {
-          // Both the last chunk and the current chunk are shared. Merge this
-          // chunk's shared content into the previous shared content.
-          mergedContent[mergedContent.length - 1].ab.push(...chunk.ab);
-        } else if (!lastWasShared && chunk.common && chunk.b) {
-          // If the previous chunk was not shared, but this one should be
-          // ignored, then add it as a shared chunk.
-          mergedContent.push({ab: chunk.b});
-        } else {
-          // Otherwise add the chunk as is.
-          mergedContent.push(chunk);
-        }
-
-        lastWasShared = !!mergedContent[mergedContent.length - 1].ab;
-      }
-
-      newDiff.content = mergedContent;
-      return newDiff;
     },
 
     _getIgnoreWhitespace() {

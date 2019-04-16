@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f972abb_6b937b35",
+        "filename": "java/com/google/gerrit/extensions/events/LfsObjectUploadListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-04-16T08:45:33Z",
+      "side": 1,
+      "message": "depending on storage location we would need the context (backend vs repository) hence it seems to be more flexible if the following object is passed as a parameter:\ninterface Upload {\n  String context();\n  String path();\n  long size();\n}",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 58
+      },
+      "revId": "30748433beaea528a7857294129c35b1579c7087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

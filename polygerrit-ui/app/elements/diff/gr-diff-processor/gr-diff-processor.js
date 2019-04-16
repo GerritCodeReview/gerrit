@@ -45,6 +45,19 @@
    */
   const MAX_GROUP_SIZE = 120;
 
+  /**
+   * Converts the API's `DiffContent`s  to `GrDiffGroup`s for rendering.
+   *
+   * This includes a number of tasks:
+   *  - adding a group for the "File" pseudo line that file-level comments can
+   *    be attached to
+   *  - replacing unchanged parts of the diff that are outside the user's
+   *    context setting and do not have comments with a group representing the
+   *    "expand context" widget. This may require splitting a `DiffContent` so
+   *    that the part that is within the context or has comments is shown, while
+   *    the rest is not.
+   *  - splitting large `DiffContent`s to allow more granular async rendering
+   */
   Polymer({
     is: 'gr-diff-processor',
 

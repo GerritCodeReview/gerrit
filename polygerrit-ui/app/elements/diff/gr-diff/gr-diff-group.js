@@ -20,11 +20,20 @@
   // Prevent redefinition.
   if (window.GrDiffGroup) { return; }
 
+  /**
+   * A chunk of the diff that should be rendered together.
+   */
   function GrDiffGroup(type, opt_lines) {
     this.type = type;
+
+    /** @type{!Array<!GrDiffLine>} */
     this.lines = [];
+    /** @type{!Array<!GrDiffLine>} */
     this.adds = [];
+    /** @type{!Array<!GrDiffLine>} */
     this.removes = [];
+
+    /** @type{boolean|undefined} */
     this.dueToRebase = undefined;
 
     this.lineRange = {
@@ -40,8 +49,13 @@
   GrDiffGroup.prototype.element = null;
 
   GrDiffGroup.Type = {
+    /** Unchanged context. */
     BOTH: 'both',
+
+    /** A widget used to show more context. */
     CONTEXT_CONTROL: 'contextControl',
+
+    /** Added, removed or modified chunk. */
     DELTA: 'delta',
   };
 

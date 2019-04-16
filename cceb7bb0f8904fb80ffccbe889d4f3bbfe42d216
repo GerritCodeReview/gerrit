@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c47d8b95_f91d7038",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-16T14:13:27Z",
+      "side": 1,
+      "message": "it appears CI fails when this is set to Object.",
+      "parentUuid": "9a3a3987_c3384471",
+      "revId": "cceb7bb0f8904fb80ffccbe889d4f3bbfe42d216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cec37f90_6a785760",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.js",
         "patchSetId": 4

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "015bbf6a_bab32694",
+        "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-16T23:21:23Z",
+      "side": 1,
+      "message": "nit: the @Assisted annotated argument(s) are usually declared last.",
+      "revId": "ba7c57850c2e234893cf64f7d6eecc7d82a8d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f42a1c60_ff84c587",
+        "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-16T23:21:23Z",
+      "side": 1,
+      "message": "Can this throw anything?  If so it might be worth defensively wrapping this block in a try-catch and logging any exception. Maybe it should also return false if it fails?",
+      "range": {
+        "startLine": 107,
+        "startChar": 13,
+        "endLine": 107,
+        "endChar": 63
+      },
+      "revId": "ba7c57850c2e234893cf64f7d6eecc7d82a8d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

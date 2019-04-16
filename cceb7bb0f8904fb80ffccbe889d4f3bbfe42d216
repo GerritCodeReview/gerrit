@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a3a3987_c3384471",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-16T12:57:44Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2802f4b7_2bba852d",
+      "revId": "cceb7bb0f8904fb80ffccbe889d4f3bbfe42d216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cec37f90_6a785760",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.js",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "cceb7bb0f8904fb80ffccbe889d4f3bbfe42d216",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94254df4_5acc4f76",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-16T12:57:44Z",
+      "side": 1,
+      "message": "Thanks, done. (i think i did this correctly)",
+      "parentUuid": "cec37f90_6a785760",
+      "revId": "cceb7bb0f8904fb80ffccbe889d4f3bbfe42d216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "cceb7bb0f8904fb80ffccbe889d4f3bbfe42d216",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e32cfba_15a1418a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-16T12:57:44Z",
+      "side": 1,
+      "message": "Thanks, i\u0027ve put this in a behavior.",
+      "parentUuid": "d49d41ef_2b57c78b",
+      "range": {
+        "startLine": 130,
+        "startChar": 41,
+        "endLine": 130,
+        "endChar": 64
+      },
+      "revId": "cceb7bb0f8904fb80ffccbe889d4f3bbfe42d216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

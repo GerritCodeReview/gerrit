@@ -150,7 +150,8 @@
               sectionIndex: 0,
             };
 
-            content = this._splitCommonGroupsWithComments(content);
+            content = this._splitLargeChunks(content);
+            content = this._splitUnchangedChunksWithComments(content);
 
             let currentBatch = 0;
             const nextStep = () => {
@@ -383,60 +384,63 @@
       return new GrDiffGroup(GrDiffGroup.Type.BOTH, [line]);
     },
 
+
+    _splitLargeChunks(chunks) {
+      const newChunks = [];
+
+      for (const chunk of chunks) {
+        if (!chunk.ab) {
+          for (const group of this._breakdownGroup(chunk)) {
+            newChunks.push(group);
+          }
+          continue;
+        }
+
+        // If the context is set to "whole file", then break down the shared
+        // chunks so they can be rendered incrementally. Note: this is not enabled
+        // for any other context preference because manipulating the chunks in
+        // this way violates assumptions by the context grouper logic.
+        if (this.context === -1 && chunk.ab.length > MAX_GROUP_SIZE * 2) {
+          // Split large shared groups in two, where the first is the maximum
+          // group size.
+          newChunks.push({ab: chunk.ab.slice(0, MAX_GROUP_SIZE)});
+          newChunks.push({ab: chunk.ab.slice(MAX_GROUP_SIZE)});
+        } else {
+          newChunks.push(chunk);
+        }
+      }
+      return newChunks;
+    },
+
     /**
      * In order to show comments out of the bounds of the selected context,
      * treat them as separate chunks within the model so that the content (and
      * context surrounding it) renders correctly.
-     * @param {?} content The diff content object. (has to be iterable)
-     * @return {!Object} A new diff content object with regions split up.
+     * @param {!Array<!Object>} content The diff content object. (has to be iterable)
+     * @return {!Array<!Object>} A new diff content object with regions split up.
      */
-    _splitCommonGroupsWithComments(content) {
+    _splitUnchangedChunksWithComments(content) {
       const result = [];
       let leftLineNum = 0;
       let rightLineNum = 0;
 
-      // If the context is set to "whole file", then break down the shared
-      // chunks so they can be rendered incrementally. Note: this is not enabled
-      // for any other context preference because manipulating the chunks in
-      // this way violates assumptions by the context grouper logic.
-      if (this.context === -1) {
-        const newContent = [];
-        for (const group of content) {
-          if (group.ab && group.ab.length > MAX_GROUP_SIZE * 2) {
-            // Split large shared groups in two, where the first is the maximum
-            // group size.
-            newContent.push({ab: group.ab.slice(0, MAX_GROUP_SIZE)});
-            newContent.push({ab: group.ab.slice(MAX_GROUP_SIZE)});
-          } else {
-            newContent.push(group);
-          }
-        }
-        content = newContent;
-      }
-
-      // For each section in the diff.
-      for (let i = 0; i < content.length; i++) {
+      for (const chunk of content) {
         // If it isn't a common group, append it as-is and update line numbers.
-        if (!content[i].ab) {
-          if (content[i].a) {
-            leftLineNum += content[i].a.length;
+        if (!chunk.ab) {
+          if (chunk.a) {
+            leftLineNum += chunk.a.length;
           }
-          if (content[i].b) {
-            rightLineNum += content[i].b.length;
+          if (chunk.b) {
+            rightLineNum += chunk.b.length;
           }
-
-          for (const group of this._breakdownGroup(content[i])) {
-            result.push(group);
-          }
-
+          result.push(group);
           continue;
         }
 
-        const chunk = content[i].ab;
         let currentChunk = {ab: []};
 
         // For each line in the common group.
-        for (const subChunk of chunk) {
+        for (const line of chunk.ab) {
           leftLineNum++;
           rightLineNum++;
 
@@ -452,10 +456,10 @@
             }
 
             // Add the non-collapse line as its own chunk.
-            result.push({ab: [subChunk]});
+            result.push({ab: [line]});
           } else {
             // Append the current line to the current chunk.
-            currentChunk.ab.push(subChunk);
+            currentChunk.ab.push(line);
           }
         }
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "97112298_0c8193d8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-config-array-editor/gr-plugin-config-array-editor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-16T12:31:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c91932ec_50f67bf3",
+      "revId": "6c05fdb34b5d3f3159e3c119e32867ed9a458fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c88ae5e2_41c02b01",
         "filename": "polygerrit-ui/app/elements/admin/gr-plugin-config-array-editor/gr-plugin-config-array-editor.js",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3abe684d_75565999",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-config-array-editor/gr-plugin-config-array-editor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-16T12:31:11Z",
+      "side": 1,
+      "message": "This is a object basing it on \"pluginOption: Object\" and https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-config and https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-info",
+      "parentUuid": "c88ae5e2_41c02b01",
+      "revId": "6c05fdb34b5d3f3159e3c119e32867ed9a458fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "899b9343_1c2f04a1",
         "filename": "polygerrit-ui/app/elements/admin/gr-plugin-config-array-editor/gr-plugin-config-array-editor.js",
         "patchSetId": 6
@@ -50,6 +86,24 @@
       "revId": "6c05fdb34b5d3f3159e3c119e32867ed9a458fca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8d82c93_7e403e55",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-config-array-editor/gr-plugin-config-array-editor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-16T12:31:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "899b9343_1c2f04a1",
+      "revId": "6c05fdb34b5d3f3159e3c119e32867ed9a458fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

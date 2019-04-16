@@ -1145,41 +1145,22 @@ Default is true.
 [[change]]
 === Section change
 
-[[change.largeChange]]change.largeChange::
-+
-Number of changed lines from which on a change is considered as a large
-change. The number of changed lines of a change is the sum of the lines
-that were inserted and deleted in the change.
-+
-The specified value is used to visualize the change sizes in the Web UI
-in change tables and user dashboards.
-+
-By default 500.
-
-[[change.updateDelay]]change.updateDelay::
-+
-How often in seconds the web interface should poll for updates to the
-currently open change.  The poller relies on the client's browser
-cache to use If-Modified-Since and respect `304 Not Modified` HTTP
-responses.  This allows for fast polls, often under 8 milliseconds.
-+
-With a configured 30 second delay a server with 4900 active users will
-typically need to dedicate 1 CPU to the update check.  4900 users
-divided by an average delay of 30 seconds is 163 requests arriving per
-second.  If requests are served at \~6 ms response time, 1 CPU is
-necessary to keep up with the update request traffic.  On a smaller
-user base of 500 active users, the default 30 second delay is only 17
-requests per second and requires ~10% CPU.
-+
-If 0 the update polling is disabled.
-+
-Default is 5 minutes.
-
 [[change.allowBlame]]change.allowBlame::
 +
 Allow blame on side by side diff. If set to false, blame cannot be used.
 +
 Default is true.
+
+[[change.allowDrafts]]change.allowDrafts::
++
+Legacy support for drafts workflow. If set to true, pushing a new change
+with draft option will create a private change. Pushing with draft option
+to an existing change will create change edit.
++
+Enabling this option allows to push to the `refs/drafts/branch`. When
+disabled any push to `refs/drafts/branch` will be rejected.
++
+Default is false.
 
 [[change.api.allowedIdentifier]]change.api.allowedIdentifier::
 +
@@ -1193,14 +1174,12 @@ explicitly.
 +
 Default is `ALL`.
 
-[[change.allowDrafts]]change.allowDrafts::
+[[change.api.excludeMergeableInChangeInfo]]change.api.excludeMergeableInChangeInfo::
 +
-Legacy support for drafts workflow. If set to true, pushing a new change
-with draft option will create a private change. Pushing with draft option
-to an existing change will create change edit.
-+
-Enabling this option allows to push to the `refs/drafts/branch`. When
-disabled any push to `refs/drafts/branch` will be rejected.
+If true, the mergeability bit in
+link:rest-api-changes.html#change-info[ChangeInfo] will never be set. It can
+be requested separately through the
+link:rest-api-changes.html#get-mergeable[get-mergeable] endpoint.
 +
 Default is false.
 
@@ -1219,19 +1198,60 @@ performance improvements by reducing the number of refs in the repo.
 +
 Default is true.
 
-[[change.api.excludeMergeableInChangeInfo]]change.api.excludeMergeableInChangeInfo::
+[[change.disablePrivateChanges]]change.disablePrivateChanges::
 +
-If true, the mergeability bit in
-link:rest-api-changes.html#change-info[ChangeInfo] will never be set. It can
-be requested separately through the
-link:rest-api-changes.html#get-mergeable[get-mergeable] endpoint.
+If set to true, users are not allowed to create private changes.
 +
-Default is false.
+The default is false.
+
+[[change.largeChange]]change.largeChange::
++
+Number of changed lines from which on a change is considered as a large
+change. The number of changed lines of a change is the sum of the lines
+that were inserted and deleted in the change.
++
+The specified value is used to visualize the change sizes in the Web UI
+in change tables and user dashboards.
++
+By default 500.
+
+[[change.replyLabel]]change.replyLabel::
++
+Label name for the reply button. In the user interface an ellipsis (…)
+is appended.
++
+Default is "Reply". In the user interface it becomes "Reply…".
+
+[[change.replyTooltip]]change.replyTooltip::
++
+Tooltip for the reply button. In the user interface a note about the
+keyboard shortcut is appended.
++
+Default is "Reply and score". In the user interface it becomes "Reply
+and score (Shortcut: a)".
+
+[[change.robotCommentSizeLimit]]change.robotCommentSizeLimit::
++
+Maximum allowed size of a robot comment that will be accepted. Robot comments
+which exceed the indicated size will be rejected on addition. The specified
+value is interpreted as the maximum size in bytes of the JSON representation of
+the robot comment. Common unit suffixes of 'k', 'm', or 'g' are supported.
+Zero or negative values allow robot comments of unlimited size.
++
+The default limit is 1024kB.
 
 [[change.showAssigneeInChangesTable]]change.showAssigneeInChangesTable::
 +
 Show assignee field in changes table. If set to false, assignees will
 not be visible in changes table.
++
+Default is false.
+
+[[change.strictLabels]]change.strictLabels::
++
+Reject invalid label votes: invalid labels or invalid values. This
+configuration option is provided for backwards compaitbility and may
+be removed in future gerrit versions.
 +
 Default is false.
 
@@ -1268,13 +1288,6 @@ submitted.
 Default is "Submit all ${topicSize} changes of the same topic (${submitSize}
 changes including ancestors and other changes related by topic)".
 
-[[change.submitWholeTopic]]change.submitWholeTopic::
-+
-Determines if the submit button submits the whole topic instead of
-just the current change.
-+
-Default is false.
-
 [[change.submitTopicLabel]]change.submitTopicLabel::
 +
 If `change.submitWholeTopic` is set and a change has a topic,
@@ -1295,44 +1308,31 @@ Defaults to "Submit all ${topicSize} changes of the same topic
 (${submitSize} changes including ancestors and other
 changes related by topic)".
 
-[[change.replyLabel]]change.replyLabel::
+[[change.submitWholeTopic]]change.submitWholeTopic::
 +
-Label name for the reply button. In the user interface an ellipsis (…)
-is appended.
-+
-Default is "Reply". In the user interface it becomes "Reply…".
-
-[[change.replyTooltip]]change.replyTooltip::
-+
-Tooltip for the reply button. In the user interface a note about the
-keyboard shortcut is appended.
-+
-Default is "Reply and score". In the user interface it becomes "Reply
-and score (Shortcut: a)".
-
-[[change.robotCommentSizeLimit]]change.robotCommentSizeLimit::
-+
-Maximum allowed size of a robot comment that will be accepted. Robot comments
-which exceed the indicated size will be rejected on addition. The specified
-value is interpreted as the maximum size in bytes of the JSON representation of
-the robot comment. Common unit suffixes of 'k', 'm', or 'g' are supported.
-Zero or negative values allow robot comments of unlimited size.
-+
-The default limit is 1024kB.
-
-[[change.strictLabels]]change.strictLabels::
-+
-Reject invalid label votes: invalid labels or invalid values. This
-configuration option is provided for backwards compaitbility and may
-be removed in future gerrit versions.
+Determines if the submit button submits the whole topic instead of
+just the current change.
 +
 Default is false.
 
-[[change.disablePrivateChanges]]change.disablePrivateChanges::
+[[change.updateDelay]]change.updateDelay::
 +
-If set to true, users are not allowed to create private changes.
+How often in seconds the web interface should poll for updates to the
+currently open change.  The poller relies on the client's browser
+cache to use If-Modified-Since and respect `304 Not Modified` HTTP
+responses.  This allows for fast polls, often under 8 milliseconds.
 +
-The default is false.
+With a configured 30 second delay a server with 4900 active users will
+typically need to dedicate 1 CPU to the update check.  4900 users
+divided by an average delay of 30 seconds is 163 requests arriving per
+second.  If requests are served at \~6 ms response time, 1 CPU is
+necessary to keep up with the update request traffic.  On a smaller
+user base of 500 active users, the default 30 second delay is only 17
+requests per second and requires ~10% CPU.
++
+If 0 the update polling is disabled.
++
+Default is 5 minutes.
 
 [[changeCleanup]]
 === Section changeCleanup

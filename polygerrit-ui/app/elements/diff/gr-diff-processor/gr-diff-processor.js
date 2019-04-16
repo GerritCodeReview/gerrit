@@ -231,6 +231,9 @@
             state.lineNums.left,
             state.lineNums.right,
             sectionEnd);
+        for (const group of groups) {
+          group.ignoredWhitespaceOnly = section.common;
+        }
       } else { // Otherwise it's a delta section.
         const deltaGroup = new GrDiffGroup(GrDiffGroup.Type.DELTA, lines);
         deltaGroup.dueToRebase = section.due_to_rebase;

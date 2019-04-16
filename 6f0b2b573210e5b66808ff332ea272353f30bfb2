@@ -22,6 +22,30 @@
       "revId": "6f0b2b573210e5b66808ff332ea272353f30bfb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea891fd2_e3f885d4",
+        "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1081900
+      },
+      "writtenOn": "2019-04-16T18:00:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eaff1d8_0254640b",
+      "range": {
+        "startLine": 110,
+        "startChar": 14,
+        "endLine": 112,
+        "endChar": 70
+      },
+      "revId": "6f0b2b573210e5b66808ff332ea272353f30bfb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

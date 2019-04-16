@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.update;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
@@ -51,8 +51,8 @@ public class BatchUpdateTest extends GerritBaseTests {
 
   @Test
   public void addRefUpdateFromFastForwardCommit() throws Exception {
-    final RevCommit masterCommit = repo.branch("master").commit().create();
-    final RevCommit branchCommit = repo.branch("branch").commit().parent(masterCommit).create();
+    RevCommit masterCommit = repo.branch("master").commit().create();
+    RevCommit branchCommit = repo.branch("branch").commit().parent(masterCommit).create();
 
     try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
       bu.addRepoOnlyOp(
@@ -65,7 +65,7 @@ public class BatchUpdateTest extends GerritBaseTests {
       bu.execute();
     }
 
-    assertEquals(
-        repo.getRepository().exactRef("refs/heads/master").getObjectId(), branchCommit.getId());
+    assertThat(repo.getRepository().exactRef("refs/heads/master").getObjectId())
+        .isEqualTo(branchCommit.getId());
   }
 }

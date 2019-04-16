@@ -35,6 +35,9 @@
     if (group.dueToRebase) {
       sectionEl.classList.add('dueToRebase');
     }
+    if (group.ignoredWhitespaceOnly) {
+      sectionEl.classList.add('ignoredWhitespaceOnly');
+    }
 
     for (let i = 0; i < group.lines.length; ++i) {
       sectionEl.appendChild(this._createRow(sectionEl, group.lines[i]));

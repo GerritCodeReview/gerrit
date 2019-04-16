@@ -368,6 +368,7 @@
           .map(lines => {
             const group = new GrDiffGroup(type, lines);
             group.dueToRebase = section.due_to_rebase;
+            group.ignoredWhitespaceOnly = section.common;
             return group;
           });
     },

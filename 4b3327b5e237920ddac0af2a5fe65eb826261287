@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a037551_5c1edadf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-16T16:05:54Z",
+      "side": 1,
+      "message": "Inconsistent punctuation. Add point on the previous bullet point statement, or remove it here.",
+      "range": {
+        "startLine": 16,
+        "startChar": 55,
+        "endLine": 16,
+        "endChar": 56
+      },
+      "revId": "4b3327b5e237920ddac0af2a5fe65eb826261287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b0deb67_f64773d4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2549,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-16T16:05:54Z",
+      "side": 1,
+      "message": "SSH Command Creation Interception",
+      "range": {
+        "startLine": 2549,
+        "startChar": 3,
+        "endLine": 2549,
+        "endChar": 27
+      },
+      "revId": "4b3327b5e237920ddac0af2a5fe65eb826261287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b48b2ae1_954daf61",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2565,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-16T16:05:54Z",
+      "side": 1,
+      "message": "May be rename this one and the above on the line 2548, something like:\n\n* ssh-command-creation-interception\n[...]\n* ssh-command-execution-interception",
+      "range": {
+        "startLine": 2565,
+        "startChar": 2,
+        "endLine": 2565,
+        "endChar": 34
+      },
+      "revId": "4b3327b5e237920ddac0af2a5fe65eb826261287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cc233cd_cf8780a8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2566,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-16T16:05:54Z",
+      "side": 1,
+      "message": "SSH Command Execution Interceptor",
+      "range": {
+        "startLine": 2566,
+        "startChar": 3,
+        "endLine": 2566,
+        "endChar": 35
+      },
+      "revId": "4b3327b5e237920ddac0af2a5fe65eb826261287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac0268d6_b46af625",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2575,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-16T16:05:54Z",
+      "side": 1,
+      "message": "Outdated, rename.",
+      "range": {
+        "startLine": 2575,
+        "startChar": 57,
+        "endLine": 2575,
+        "endChar": 85
+      },
+      "revId": "4b3327b5e237920ddac0af2a5fe65eb826261287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f2a2fe5_18285a63",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2596,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-16T16:05:54Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 2596,
+        "startChar": 28,
+        "endLine": 2596,
+        "endChar": 56
+      },
+      "revId": "4b3327b5e237920ddac0af2a5fe65eb826261287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f643bb2e_25713faa",
+        "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-16T16:05:54Z",
+      "side": 1,
+      "message": "Optional: Add \", contact gerrit administrators for more details\". What I would like to avoid, is that gerrit users show up on the mailing list and asking for help, because their command are blocked by some custom SSH command filters.",
+      "range": {
+        "startLine": 108,
+        "startChar": 41,
+        "endLine": 108,
+        "endChar": 70
+      },
+      "revId": "4b3327b5e237920ddac0af2a5fe65eb826261287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85e18e40_52424db8",
+        "filename": "java/com/google/gerrit/sshd/SshExecuteCommandInterceptor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-16T16:05:54Z",
+      "side": 1,
+      "message": "Should this rather be: \"whether or not this command with this arguments can be executed\".",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 54
+      },
+      "revId": "4b3327b5e237920ddac0af2a5fe65eb826261287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

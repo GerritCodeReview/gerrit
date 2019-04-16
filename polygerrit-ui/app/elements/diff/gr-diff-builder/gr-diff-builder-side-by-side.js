@@ -35,6 +35,9 @@
     if (group.dueToRebase) {
       sectionEl.classList.add('dueToRebase');
     }
+    if (group.ignoredWhitespaceOnly) {
+      sectionEl.classList.add('ignoredWhitespaceOnly');
+    }
     const pairs = group.getSideBySidePairs();
     for (let i = 0; i < pairs.length; i++) {
       sectionEl.appendChild(this._createRow(sectionEl, pairs[i].left,

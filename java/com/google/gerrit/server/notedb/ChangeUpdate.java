@@ -49,7 +49,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
-import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
@@ -102,10 +101,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 public class ChangeUpdate extends AbstractChangeUpdate {
   public interface Factory {
-    @Deprecated
-    @UsedAt(UsedAt.Project.GOOGLE) // TODO(dborowitz): Remove usage, then delete method.
-    ChangeUpdate create(ChangeNotes notes, CurrentUser user);
-
     ChangeUpdate create(ChangeNotes notes, CurrentUser user, Date when);
 
     @VisibleForTesting
@@ -150,30 +145,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private RobotCommentUpdate robotCommentUpdate;
   private DeleteCommentRewriter deleteCommentRewriter;
   private DeleteChangeMessageRewriter deleteChangeMessageRewriter;
-
-  @AssistedInject
-  private ChangeUpdate(
-      @GerritPersonIdent PersonIdent serverIdent,
-      NoteDbUpdateManager.Factory updateManagerFactory,
-      ChangeDraftUpdate.Factory draftUpdateFactory,
-      RobotCommentUpdate.Factory robotCommentUpdateFactory,
-      DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
-      ProjectCache projectCache,
-      @Assisted ChangeNotes notes,
-      @Assisted CurrentUser user,
-      ChangeNoteUtil noteUtil) {
-    this(
-        serverIdent,
-        updateManagerFactory,
-        draftUpdateFactory,
-        robotCommentUpdateFactory,
-        deleteCommentRewriterFactory,
-        projectCache,
-        notes,
-        user,
-        serverIdent.getWhen(),
-        noteUtil);
-  }
 
   @AssistedInject
   private ChangeUpdate(

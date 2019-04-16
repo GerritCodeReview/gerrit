@@ -1,7 +1,8 @@
-load("//tools/bzl:genrule2.bzl", "genrule2")
-load("//tools/bzl:pkg_war.bzl", "pkg_war")
+load("//tools/bzl:genrule2.bzl", "genrule3")
+    load("//tools/bzl:pkg_war.bzl", "pkg_war")
 
-package(default_visibility = ["//visibility:public"])
+package(
+    default_visibility = ["//visibility:public"])
 
 config_setting(
     name = "java9",

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5eaff1d8_0254640b",
+        "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-16T17:50:12Z",
+      "side": 1,
+      "message": "Optional: Use String.format(), something like:\n\n  throw new UnloggedFailure(\n  126,\n  String.format(\"blocked by %s, contact gerrit administrators for more details\", commandInterceptor.name()));",
+      "range": {
+        "startLine": 110,
+        "startChar": 14,
+        "endLine": 112,
+        "endChar": 70
+      },
+      "revId": "6f0b2b573210e5b66808ff332ea272353f30bfb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

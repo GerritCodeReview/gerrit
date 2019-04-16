@@ -35,6 +35,12 @@
 
     /** @type{boolean|undefined} */
     this.dueToRebase = undefined;
+    /**
+     * True means all changes in this line are whitespace changes that should
+     * not be highlighted as changed as per the user settings.
+     * @type{boolean|undefined}
+     */
+    this.ignoredWhitespaceOnly = undefined;
 
     this.lineRange = {
       left: {start: null, end: null},

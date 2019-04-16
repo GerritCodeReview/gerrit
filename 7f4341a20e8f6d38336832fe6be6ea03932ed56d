@@ -22,6 +22,30 @@
       "revId": "7f4341a20e8f6d38336832fe6be6ea03932ed56d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b92d4cd5_16d3d7bc",
+        "filename": "java/com/google/gerrit/sshd/SshExecuteCommandInterceptor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1081900
+      },
+      "writtenOn": "2019-04-16T17:37:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec25ba03_f850130a",
+      "range": {
+        "startLine": 28,
+        "startChar": 46,
+        "endLine": 28,
+        "endChar": 50
+      },
+      "revId": "7f4341a20e8f6d38336832fe6be6ea03932ed56d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

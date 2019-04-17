@@ -193,7 +193,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertCommit(project, other);
 
     for (ChangeData c : queryProvider.get().byKey(new Change.Key(r.getChangeId()))) {
-      if (c.change().getDest().get().equals(other)) {
+      if (c.change().getDest().branch().equals(other)) {
         assertThat(c.change().isMerged()).isTrue();
       }
     }

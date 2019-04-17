@@ -228,7 +228,7 @@ public class ReplaceOp implements BatchUpdateOp {
             commitId);
 
     if (checkMergedInto) {
-      String mergedInto = findMergedInto(ctx, dest.get(), commit);
+      String mergedInto = findMergedInto(ctx, dest.branch(), commit);
       if (mergedInto != null) {
         mergedByPushOp =
             mergedByPushOpFactory.create(requestScopePropagator, patchSetId, mergedInto);

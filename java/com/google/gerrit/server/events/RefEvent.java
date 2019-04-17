@@ -22,7 +22,7 @@ public abstract class RefEvent extends ProjectEvent {
   }
 
   public Branch.NameKey getBranchNameKey() {
-    return new Branch.NameKey(getProjectNameKey(), getRefName());
+    return Branch.nameKey(getProjectNameKey(), getRefName());
   }
 
   public abstract String getRefName();

@@ -58,7 +58,7 @@ public class TestChanges {
             new Change.Key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
             changeId,
             userId,
-            new Branch.NameKey(project, "master"),
+            Branch.nameKey(project, "master"),
             TimeUtil.nowTs());
     incrementPatchSet(c);
     return c;
@@ -115,11 +115,11 @@ public class TestChanges {
               .author(ident)
               .committer(ident)
               .message(firstNonNull(c.getSubject(), "Test change"));
-      Ref parent = repo.exactRef(c.getDest().get());
+      Ref parent = repo.exactRef(c.getDest().branch());
       if (parent != null) {
         cb.parent(tr.getRevWalk().parseCommit(parent.getObjectId()));
       }
-      update.setBranch(c.getDest().get());
+      update.setBranch(c.getDest().branch());
       update.setChangeId(c.getKey().get());
       update.setCommit(tr.getRevWalk(), cb.create());
       return update;

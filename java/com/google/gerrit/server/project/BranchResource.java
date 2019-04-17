@@ -34,7 +34,7 @@ public class BranchResource extends RefResource {
   }
 
   public Branch.NameKey getBranchKey() {
-    return new Branch.NameKey(getNameKey(), refName);
+    return Branch.nameKey(getNameKey(), refName);
   }
 
   @Override

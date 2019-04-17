@@ -55,7 +55,7 @@ public class ChangeIncludedInIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(result.getChangeId()).includedIn().tags)
         .containsExactly("test-tag");
 
-    createBranch(new Branch.NameKey(project.get(), "test-branch"));
+    createBranch(Branch.nameKey(project, "test-branch"));
 
     assertThat(gApi.changes().id(result.getChangeId()).includedIn().branches)
         .containsExactly("master", "test-branch");

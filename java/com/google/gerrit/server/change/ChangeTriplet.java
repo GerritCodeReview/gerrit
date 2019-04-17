@@ -28,7 +28,7 @@ public abstract class ChangeTriplet {
   }
 
   private static String format(Branch.NameKey branch, Change.Key change) {
-    return branch.getParentKey().get() + "~" + branch.getShortName() + "~" + change.get();
+    return branch.project().get() + "~" + branch.shortName() + "~" + change.get();
   }
 
   /**
@@ -53,11 +53,11 @@ public abstract class ChangeTriplet {
     String changeId = Url.decode(triplet.substring(z + 1));
     return Optional.of(
         new AutoValue_ChangeTriplet(
-            new Branch.NameKey(new Project.NameKey(project), branch), new Change.Key(changeId)));
+            Branch.nameKey(new Project.NameKey(project), branch), new Change.Key(changeId)));
   }
 
   public final Project.NameKey project() {
-    return branch().getParentKey();
+    return branch().project();
   }
 
   public abstract Branch.NameKey branch();

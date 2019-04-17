@@ -95,7 +95,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     ChangeMessageModifier modifier2 =
         (msg, orig, tip, dest) -> msg + "Previous-step-tip: " + tip.name() + "\n";
     ChangeMessageModifier modifier3 =
-        (msg, orig, tip, dest) -> msg + "Dest: " + dest.getShortName() + "\n";
+        (msg, orig, tip, dest) -> msg + "Dest: " + dest.shortName() + "\n";
 
     try (AutoCloseable ignored = installChangeMessageModifiers(modifier1, modifier2, modifier3)) {
       ImmutableList<PushOneCommit.Result> changes = submitWithRebase(admin);

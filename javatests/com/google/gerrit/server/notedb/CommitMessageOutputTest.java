@@ -311,7 +311,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     c.setCurrentPatchSet(c.currentPatchSetId(), "  " + c.getSubject(), c.getOriginalSubject());
     ChangeUpdate update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
-    update.setBranch(c.getDest().get());
+    update.setBranch(c.getDest().branch());
     update.commit();
 
     assertBodyEquals(
@@ -332,7 +332,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     c.setCurrentPatchSet(c.currentPatchSetId(), "\t\t" + c.getSubject(), c.getOriginalSubject());
     update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
-    update.setBranch(c.getDest().get());
+    update.setBranch(c.getDest().branch());
     update.commit();
 
     assertBodyEquals(

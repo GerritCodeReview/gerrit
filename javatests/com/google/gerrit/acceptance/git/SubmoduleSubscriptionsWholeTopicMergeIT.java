@@ -152,8 +152,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     // As the submodules have changed commits, the superproject tree will be
     // different, so we cannot directly compare the trees here, so make
     // assumptions only about the changed branches:
-    assertThat(preview).containsKey(new Branch.NameKey(superKey, "refs/heads/master"));
-    assertThat(preview).containsKey(new Branch.NameKey(subKey, "refs/heads/master"));
+    assertThat(preview).containsKey(Branch.nameKey(superKey, "refs/heads/master"));
+    assertThat(preview).containsKey(Branch.nameKey(subKey, "refs/heads/master"));
 
     if ((getSubmitType() == SubmitType.CHERRY_PICK)
         || (getSubmitType() == SubmitType.REBASE_ALWAYS)) {

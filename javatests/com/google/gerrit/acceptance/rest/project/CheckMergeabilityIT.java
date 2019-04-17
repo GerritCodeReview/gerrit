@@ -38,11 +38,8 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    branch = new Branch.NameKey(project, "test");
-    gApi.projects()
-        .name(branch.getParentKey().get())
-        .branch(branch.get())
-        .create(new BranchInput());
+    branch = Branch.nameKey(project, "test");
+    gApi.projects().name(branch.project().get()).branch(branch.branch()).create(new BranchInput());
   }
 
   @Test

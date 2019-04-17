@@ -108,7 +108,7 @@ public class CreateBranch
               + "\"");
     }
 
-    final Branch.NameKey name = new Branch.NameKey(rsrc.getNameKey(), ref);
+    final Branch.NameKey name = Branch.nameKey(rsrc.getNameKey(), ref);
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       ObjectId revid = RefUtil.parseBaseRevision(repo, rsrc.getNameKey(), input.revision);
       RevWalk rw = RefUtil.verifyConnected(repo, revid);
@@ -140,7 +140,7 @@ public class CreateBranch
           case NEW:
           case NO_CHANGE:
             referenceUpdated.fire(
-                name.getParentKey(), u, ReceiveCommand.Type.CREATE, identifiedUser.get().state());
+                name.project(), u, ReceiveCommand.Type.CREATE, identifiedUser.get().state());
             break;
           case LOCK_FAILURE:
             if (repo.getRefDatabase().exactRef(ref) != null) {
@@ -178,7 +178,7 @@ public class CreateBranch
         info.ref = ref;
         info.revision = revid.getName();
 
-        if (isConfigRef(name.get())) {
+        if (isConfigRef(name.branch())) {
           // Never allow to delete the meta config branch.
           info.canDelete = null;
         } else {

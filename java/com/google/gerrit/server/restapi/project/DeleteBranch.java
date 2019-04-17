@@ -46,10 +46,10 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
   @Override
   public Response<?> apply(BranchResource rsrc, Input input)
       throws RestApiException, IOException, PermissionBackendException {
-    if (isConfigRef(rsrc.getBranchKey().get())) {
+    if (isConfigRef(rsrc.getBranchKey().branch())) {
       // Never allow to delete the meta config branch.
       throw new MethodNotAllowedException(
-          "not allowed to delete branch " + rsrc.getBranchKey().get());
+          "not allowed to delete branch " + rsrc.getBranchKey().branch());
     }
 
     if (!queryProvider.get().setLimit(1).byBranchOpen(rsrc.getBranchKey()).isEmpty()) {

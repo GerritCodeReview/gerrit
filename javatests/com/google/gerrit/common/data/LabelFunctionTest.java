@@ -31,7 +31,7 @@ import org.junit.Test;
 
 public class LabelFunctionTest extends GerritBaseTests {
   private static final String LABEL_NAME = "Verified";
-  private static final LabelId LABEL_ID = new LabelId(LABEL_NAME);
+  private static final LabelId LABEL_ID = LabelId.create(LABEL_NAME);
   private static final Change.Id CHANGE_ID = new Change.Id(100);
   private static final PatchSet.Id PS_ID = new PatchSet.Id(CHANGE_ID, 1);
   private static final LabelType VERIFIED_LABEL = makeLabel();

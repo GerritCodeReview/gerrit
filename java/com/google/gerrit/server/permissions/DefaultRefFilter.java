@@ -365,7 +365,7 @@ class DefaultRefFilter {
       try {
         // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
         permissionBackendForProject
-            .ref(visibleChanges.get(id).get())
+            .ref(visibleChanges.get(id).branch())
             .check(RefPermission.READ_PRIVATE_CHANGES);
         return true;
       } catch (AuthException e) {

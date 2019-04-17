@@ -29,7 +29,7 @@ public class RefPredicate extends ChangeIndexPredicate {
     if (change == null) {
       return false;
     }
-    return getValue().equals(change.getDest().get());
+    return getValue().equals(change.getDest().branch());
   }
 
   @Override

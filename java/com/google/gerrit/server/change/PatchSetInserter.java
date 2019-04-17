@@ -292,7 +292,7 @@ public class PatchSetInserter implements BatchUpdateOp {
                 commitId,
                 refName.substring(0, refName.lastIndexOf('/') + 1) + "new"),
             projectCache.checkedGet(origNotes.getProjectName()).getProject(),
-            origNotes.getChange().getDest().get(),
+            origNotes.getChange().getDest().branch(),
             ctx.getRevWalk().getObjectReader(),
             commitId,
             ctx.getIdentifiedUser())) {

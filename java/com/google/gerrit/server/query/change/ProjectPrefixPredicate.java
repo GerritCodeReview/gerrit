@@ -26,7 +26,7 @@ public class ProjectPrefixPredicate extends ChangeIndexPredicate {
   @Override
   public boolean match(ChangeData object) throws OrmException {
     Change c = object.change();
-    return c != null && c.getDest().getParentKey().get().startsWith(getValue());
+    return c != null && c.getDest().project().get().startsWith(getValue());
   }
 
   @Override

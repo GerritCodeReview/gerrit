@@ -86,7 +86,7 @@ public class ConflictsPredicate {
 
     List<Predicate<ChangeData>> and = new ArrayList<>(5);
     and.add(new ProjectPredicate(c.getProject().get()));
-    and.add(new RefPredicate(c.getDest().get()));
+    and.add(new RefPredicate(c.getDest().branch()));
     and.add(Predicate.not(new LegacyChangeIdPredicate(c.getId())));
     and.add(Predicate.or(filePredicates));
 

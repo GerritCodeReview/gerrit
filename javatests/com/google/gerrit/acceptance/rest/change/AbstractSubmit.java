@@ -281,7 +281,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     expected.put(project.get(), new HashMap<>());
     expected.get(project.get()).put("refs/heads/master", 3);
 
-    assertThat(actual).containsKey(new Branch.NameKey(project, "refs/heads/master"));
+    assertThat(actual).containsKey(Branch.nameKey(project, "refs/heads/master"));
     if (getSubmitType() == SubmitType.CHERRY_PICK) {
       // CherryPick ignores dependencies, thus only change and destination
       // branch refs are modified.
@@ -546,7 +546,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit.Result visible = createChange("refs/for/master/" + name("topic"));
     Change.Id num = visible.getChange().getId();
 
-    createBranch(new Branch.NameKey(project, "hidden"));
+    createBranch(Branch.nameKey(project, "hidden"));
     PushOneCommit.Result hidden = createChange("refs/for/hidden/" + name("topic"));
     approve(hidden.getChangeId());
     blockRead("refs/heads/hidden");

@@ -183,7 +183,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId());
     ChangeUpdate u = newUpdateForNewChange(c, changeOwner);
     u.setChangeId(c.getKey().get());
-    u.setBranch(c.getDest().get());
+    u.setBranch(c.getDest().branch());
     u.setWorkInProgress(workInProgress);
     u.commit();
     return c;

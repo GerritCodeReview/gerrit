@@ -236,7 +236,7 @@ public class CreateMergePatchSet
       parentCommit = currentPsCommit.getId();
     } else {
       // get the current branch tip of destination branch
-      Ref destRef = git.getRefDatabase().exactRef(dest.get());
+      Ref destRef = git.getRefDatabase().exactRef(dest.branch());
       if (destRef != null) {
         parentCommit = destRef.getObjectId();
       } else {

@@ -676,7 +676,7 @@ class ReceiveCommits {
             Task closeProgress = progress.beginSubTask("closed", UNKNOWN);
             autoCloseChanges(c, closeProgress);
             closeProgress.end();
-            branches.add(new Branch.NameKey(project.getNameKey(), c.getRefName()));
+            branches.add(Branch.nameKey(project.getNameKey(), c.getRefName()));
             break;
 
           case DELETE:
@@ -1226,7 +1226,7 @@ class ReceiveCommits {
       return;
     }
 
-    Branch.NameKey branch = new Branch.NameKey(project.getName(), cmd.getRefName());
+    Branch.NameKey branch = Branch.nameKey(project.getName(), cmd.getRefName());
     try {
       // Must pass explicit user instead of injecting a provider into CreateRefControl, since
       // Provider<CurrentUser> within ReceiveCommits will always return anonymous.
@@ -1240,7 +1240,7 @@ class ReceiveCommits {
     }
 
     if (validRefOperation(cmd)) {
-      validateRegularPushCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
+      validateRegularPushCommits(Branch.nameKey(project.getNameKey(), cmd.getRefName()), cmd);
     }
   }
 
@@ -1253,7 +1253,7 @@ class ReceiveCommits {
         return;
       }
       if (validRefOperation(cmd)) {
-        validateRegularPushCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
+        validateRegularPushCommits(Branch.nameKey(project.getNameKey(), cmd.getRefName()), cmd);
       }
     } else {
       rejectProhibited(cmd, err.get());
@@ -1312,7 +1312,7 @@ class ReceiveCommits {
     logger.atFine().log("Rewinding %s", cmd);
 
     if (newObject != null) {
-      validateRegularPushCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
+      validateRegularPushCommits(Branch.nameKey(project.getNameKey(), cmd.getRefName()), cmd);
       if (cmd.getResult() != NOT_ATTEMPTED) {
         return;
       }
@@ -1705,7 +1705,7 @@ class ReceiveCommits {
       return;
     }
 
-    magicBranch.dest = new Branch.NameKey(project.getNameKey(), ref);
+    magicBranch.dest = Branch.nameKey(project.getNameKey(), ref);
     magicBranch.perm = permissions.ref(ref);
 
     Optional<AuthException> err = checkRefPermission(magicBranch.perm, RefPermission.CREATE_CHANGE);
@@ -1768,7 +1768,7 @@ class ReceiveCommits {
       return;
     }
 
-    String destBranch = magicBranch.dest.get();
+    String destBranch = magicBranch.dest.branch();
     try {
       if (magicBranch.merged) {
         if (magicBranch.base != null) {
@@ -1777,7 +1777,7 @@ class ReceiveCommits {
         }
         RevCommit branchTip = readBranchTip(magicBranch.dest);
         if (branchTip == null) {
-          reject(cmd, magicBranch.dest.get() + " not found");
+          reject(cmd, magicBranch.dest.branch() + " not found");
           return;
         }
         if (!walk.isMergedInto(tip, branchTip)) {
@@ -1827,7 +1827,7 @@ class ReceiveCommits {
           // branch does not exist yet. This allows to push initial code for review to an empty
           // repository and to review an initial project configuration.
           if (!ref.equals(readHEAD(repo)) && !ref.equals(RefNames.REFS_CONFIG)) {
-            reject(cmd, magicBranch.dest.get() + " not found");
+            reject(cmd, magicBranch.dest.branch() + " not found");
             return;
           }
         }
@@ -1859,7 +1859,7 @@ class ReceiveCommits {
   private boolean validateConnected(ReceiveCommand cmd, Branch.NameKey dest, RevCommit tip) {
     RevWalk walk = receivePack.getRevWalk();
     try {
-      Ref targetRef = receivePack.getAdvertisedRefs().get(dest.get());
+      Ref targetRef = receivePack.getAdvertisedRefs().get(dest.branch());
       if (targetRef == null || targetRef.getObjectId() == null) {
         // The destination branch does not yet exist. Assume the
         // history being sent for review will start it and thus
@@ -1906,7 +1906,7 @@ class ReceiveCommits {
   }
 
   private RevCommit readBranchTip(Branch.NameKey branch) throws IOException {
-    Ref r = allRefs().get(branch.get());
+    Ref r = allRefs().get(branch.branch());
     if (r == null) {
       return null;
     }
@@ -2141,7 +2141,7 @@ class ReceiveCommits {
         }
 
         if (idList.isEmpty()) {
-          newChanges.add(new CreateRequest(c, magicBranch.dest.get(), newProgress));
+          newChanges.add(new CreateRequest(c, magicBranch.dest.branch(), newProgress));
           continue;
         }
       }
@@ -2225,7 +2225,7 @@ class ReceiveCommits {
           }
           newChangeIds.add(p.changeKey);
         }
-        newChanges.add(new CreateRequest(p.commit, magicBranch.dest.get(), newProgress));
+        newChanges.add(new CreateRequest(p.commit, magicBranch.dest.branch(), newProgress));
       }
       logger.atFine().log(
           "Finished deferred lookups with %d updates and %d new changes",
@@ -2306,7 +2306,7 @@ class ReceiveCommits {
         rw.markUninteresting(c);
       }
     } else {
-      markHeadsAsUninteresting(rw, magicBranch.dest != null ? magicBranch.dest.get() : null);
+      markHeadsAsUninteresting(rw, magicBranch.dest != null ? magicBranch.dest.branch() : null);
     }
     return start;
   }
@@ -2316,11 +2316,11 @@ class ReceiveCommits {
     for (RevCommit c : magicBranch.baseCommit) {
       receivePack.getRevWalk().markUninteresting(c);
     }
-    Ref targetRef = allRefs().get(magicBranch.dest.get());
+    Ref targetRef = allRefs().get(magicBranch.dest.branch());
     if (targetRef != null) {
       logger.atFine().log(
           "Marking target ref %s (%s) uninteresting",
-          magicBranch.dest.get(), targetRef.getObjectId().name());
+          magicBranch.dest.branch(), targetRef.getObjectId().name());
       receivePack
           .getRevWalk()
           .markUninteresting(receivePack.getRevWalk().parseCommit(targetRef.getObjectId()));
@@ -2329,7 +2329,7 @@ class ReceiveCommits {
 
   private void rejectImplicitMerges(Set<RevCommit> mergedParents) throws IOException {
     if (!mergedParents.isEmpty()) {
-      Ref targetRef = allRefs().get(magicBranch.dest.get());
+      Ref targetRef = allRefs().get(magicBranch.dest.branch());
       if (targetRef != null) {
         RevWalk rw = receivePack.getRevWalk();
         RevCommit tip = rw.parseCommit(targetRef.getObjectId());
@@ -3077,7 +3077,7 @@ class ReceiveCommits {
       }
 
       Optional<AuthException> err =
-          checkRefPermission(permissions.ref(branch.get()), RefPermission.SKIP_VALIDATION);
+          checkRefPermission(permissions.ref(branch.branch()), RefPermission.SKIP_VALIDATION);
       if (err.isPresent()) {
         rejectProhibited(cmd, err.get());
         return;
@@ -3147,7 +3147,7 @@ class ReceiveCommits {
               // TODO(dborowitz): Teach BatchUpdate to ignore missing changes.
 
               RevCommit newTip = rw.parseCommit(cmd.getNewId());
-              Branch.NameKey branch = new Branch.NameKey(project.getNameKey(), refName);
+              Branch.NameKey branch = Branch.nameKey(project.getNameKey(), refName);
 
               rw.reset();
               rw.markStart(newTip);

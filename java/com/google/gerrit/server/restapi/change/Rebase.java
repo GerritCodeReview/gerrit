@@ -147,10 +147,10 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     String str = input.base.trim();
     if (str.equals("")) {
       // Remove existing dependency to other patch set.
-      Ref destRef = repo.exactRef(destRefKey.get());
+      Ref destRef = repo.exactRef(destRefKey.branch());
       if (destRef == null) {
         throw new ResourceConflictException(
-            "can't rebase onto tip of branch " + destRefKey.get() + "; branch doesn't exist");
+            "can't rebase onto tip of branch " + destRefKey.branch() + "; branch doesn't exist");
       }
       return destRef.getObjectId();
     }
@@ -231,7 +231,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     }
 
     boolean enabled = false;
-    try (Repository repo = repoManager.openRepository(change.getDest().getParentKey());
+    try (Repository repo = repoManager.openRepository(change.getDest().project());
         RevWalk rw = new RevWalk(repo)) {
       if (hasOneParent(rw, rsrc.getPatchSet())) {
         enabled = rebaseUtil.canRebase(rsrc.getPatchSet(), change.getDest(), repo, rw);

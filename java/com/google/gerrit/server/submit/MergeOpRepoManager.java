@@ -136,11 +136,11 @@ public class MergeOpRepoManager implements AutoCloseable {
 
     OpenBranch(OpenRepo or, Branch.NameKey name) throws IntegrationException {
       try {
-        update = or.repo.updateRef(name.get());
+        update = or.repo.updateRef(name.branch());
         if (update.getOldObjectId() != null) {
           oldTip = or.rw.parseCommit(update.getOldObjectId());
-        } else if (Objects.equals(or.repo.getFullBranch(), name.get())
-            || Objects.equals(RefNames.REFS_CONFIG, name.get())) {
+        } else if (Objects.equals(or.repo.getFullBranch(), name.branch())
+            || Objects.equals(RefNames.REFS_CONFIG, name.branch())) {
           oldTip = null;
           update.setExpectedOldObjectId(ObjectId.zeroId());
         } else {

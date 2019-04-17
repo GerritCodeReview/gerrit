@@ -45,7 +45,7 @@ public class RegexProjectPredicate extends ChangeRegexPredicate {
       return false;
     }
 
-    Project.NameKey p = change.getDest().getParentKey();
+    Project.NameKey p = change.getDest().project();
     return pattern.run(p.get());
   }
 

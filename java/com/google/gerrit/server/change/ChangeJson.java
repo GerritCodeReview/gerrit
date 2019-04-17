@@ -454,7 +454,7 @@ public class ChangeJson {
     Change c = result.change();
     if (c != null) {
       info.project = c.getProject().get();
-      info.branch = c.getDest().getShortName();
+      info.branch = c.getDest().shortName();
       info.topic = c.getTopic();
       info.changeId = c.getKey().get();
       info.subject = c.getSubject();
@@ -504,7 +504,7 @@ public class ChangeJson {
 
     Change in = cd.change();
     out.project = in.getProject().get();
-    out.branch = in.getDest().getShortName();
+    out.branch = in.getDest().shortName();
     out.topic = in.getTopic();
     out.assignee = in.getAssignee() != null ? accountLoader.get(in.getAssignee()) : null;
     out.hashtags = cd.hashtags();

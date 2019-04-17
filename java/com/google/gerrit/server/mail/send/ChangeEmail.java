@@ -349,7 +349,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       return new Watchers();
     }
 
-    ProjectWatch watch = new ProjectWatch(args, branch.getParentKey(), projectState, changeData);
+    ProjectWatch watch = new ProjectWatch(args, branch.project(), projectState, changeData);
     return watch.getWatchers(type, includeWatchersFromNotifyConfig);
   }
 

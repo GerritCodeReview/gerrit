@@ -263,7 +263,7 @@ public class DeleteRef {
     }
 
     if (!refName.startsWith(R_TAGS)) {
-      Branch.NameKey branchKey = new Branch.NameKey(projectState.getNameKey(), ref.getName());
+      Branch.NameKey branchKey = Branch.nameKey(projectState.getNameKey(), ref.getName());
       if (!queryProvider.get().setLimit(1).byBranchOpen(branchKey).isEmpty()) {
         command.setResult(Result.REJECTED_OTHER_REASON, "it has open changes");
       }

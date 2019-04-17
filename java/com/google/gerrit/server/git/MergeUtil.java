@@ -805,9 +805,9 @@ public class MergeUtil {
     }
 
     StringBuilder msgbuf = new StringBuilder().append(summarize(rw, merged));
-    if (!R_HEADS_MASTER.equals(destBranch.get())) {
+    if (!R_HEADS_MASTER.equals(destBranch.branch())) {
       msgbuf.append(" into ");
-      msgbuf.append(destBranch.getShortName());
+      msgbuf.append(destBranch.shortName());
     }
 
     if (merged.size() > 1) {

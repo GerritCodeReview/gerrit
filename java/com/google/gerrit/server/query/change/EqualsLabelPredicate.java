@@ -61,7 +61,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
       return false;
     }
 
-    ProjectState project = projectCache.get(c.getDest().getParentKey());
+    ProjectState project = projectCache.get(c.getDest().project());
     if (project == null) {
       // The project has disappeared.
       //

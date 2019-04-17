@@ -199,7 +199,7 @@ public class Submit
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     } else if (!ProjectUtil.branchExists(repoManager, change.getDest())) {
       throw new ResourceConflictException(
-          String.format("destination branch \"%s\" not found.", change.getDest().get()));
+          String.format("destination branch \"%s\" not found.", change.getDest().branch()));
     } else if (!rsrc.getPatchSet().getId().equals(change.currentPatchSetId())) {
       // TODO Allow submitting non-current revision by changing the current.
       throw new ResourceConflictException(
@@ -381,7 +381,7 @@ public class Submit
     Map<String, String> params =
         ImmutableMap.of(
             "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
-            "branch", change.getDest().getShortName(),
+            "branch", change.getDest().shortName(),
             "commit", ObjectId.fromString(revId.get()).abbreviate(7).name(),
             "submitSize", String.valueOf(cs.size()));
     ParameterizedString tp = cs.size() > 1 ? titlePatternWithAncestors : titlePattern;
@@ -401,7 +401,7 @@ public class Submit
     ListMultimap<Branch.NameKey, ChangeData> cbb = cs.changesByBranch();
     for (Branch.NameKey branch : cbb.keySet()) {
       Collection<ChangeData> targetBranch = cbb.get(branch);
-      HashMap<Change.Id, RevCommit> commits = findCommits(targetBranch, branch.getParentKey());
+      HashMap<Change.Id, RevCommit> commits = findCommits(targetBranch, branch.project());
 
       Set<ObjectId> allParents = Sets.newHashSetWithExpectedSize(cs.size());
       for (RevCommit commit : commits.values()) {

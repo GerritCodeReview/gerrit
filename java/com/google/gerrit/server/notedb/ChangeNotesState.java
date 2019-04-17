@@ -304,7 +304,7 @@ public abstract class ChangeNotesState {
             c.changeKey(),
             changeId(),
             c.owner(),
-            new Branch.NameKey(project, c.branch()),
+            Branch.nameKey(project, c.branch()),
             c.createdOn());
     copyNonConstructorColumnsTo(change);
     return change;
@@ -318,7 +318,7 @@ public abstract class ChangeNotesState {
         this);
     change.setKey(c.changeKey());
     change.setOwner(c.owner());
-    change.setDest(new Branch.NameKey(change.getProject(), c.branch()));
+    change.setDest(Branch.nameKey(change.getProject(), c.branch()));
     change.setCreatedOn(c.createdOn());
     copyNonConstructorColumnsTo(change);
   }

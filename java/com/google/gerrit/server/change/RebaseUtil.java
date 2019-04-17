@@ -182,10 +182,10 @@ public class RebaseUtil {
     if (baseRev == null) {
       // We are dependent on a merged PatchSet or have no PatchSet
       // dependencies at all.
-      Ref destRef = git.getRefDatabase().exactRef(destBranch.get());
+      Ref destRef = git.getRefDatabase().exactRef(destBranch.branch());
       if (destRef == null) {
         throw new UnprocessableEntityException(
-            "The destination branch does not exist: " + destBranch.get());
+            "The destination branch does not exist: " + destBranch.branch());
       }
       baseRev = destRef.getObjectId().getName();
       if (baseRev.equals(parentRev.get())) {

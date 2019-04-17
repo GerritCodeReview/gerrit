@@ -301,7 +301,7 @@ public class RevisionJson {
         out.commit = getCommitInfo(project, rw, commit, has(WEB_LINKS), fillCommit);
       }
       if (addFooters) {
-        Ref ref = repo.exactRef(cd.change().getDest().get());
+        Ref ref = repo.exactRef(cd.change().getDest().branch());
         RevCommit mergeTip = null;
         if (ref != null) {
           mergeTip = rw.parseCommit(ref.getObjectId());

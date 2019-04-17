@@ -221,7 +221,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
 
       ChangeInserter ins =
           changeInserterFactory
-              .create(changeId, revertCommit, notes.getChange().getDest().get())
+              .create(changeId, revertCommit, notes.getChange().getDest().branch())
               .setTopic(changeToRevert.getTopic());
       ins.setMessage("Uploaded patch set 1.");
 

@@ -50,7 +50,7 @@ public abstract class NotificationEmail extends OutgoingEmail {
     // Set a reasonable list id so that filters can be used to sort messages
     setHeader(
         "List-Id",
-        "<gerrit-" + branch.getParentKey().get().replace('/', '-') + "." + getGerritHost() + ">");
+        "<gerrit-" + branch.project().get().replace('/', '-') + "." + getGerritHost() + ">");
     if (getSettingsUrl() != null) {
       setHeader("List-Unsubscribe", "<" + getSettingsUrl() + ">");
     }
@@ -105,7 +105,7 @@ public abstract class NotificationEmail extends OutgoingEmail {
   protected void setupSoyContext() {
     super.setupSoyContext();
 
-    String projectName = branch.getParentKey().get();
+    String projectName = branch.project().get();
     soyContext.put("projectName", projectName);
     // shortProjectName is the project name with the path abbreviated.
     soyContext.put("shortProjectName", getShortProjectName(projectName));
@@ -119,11 +119,11 @@ public abstract class NotificationEmail extends OutgoingEmail {
     soyContextEmailData.put("sshHost", getSshHost());
 
     Map<String, String> branchData = new HashMap<>();
-    branchData.put("shortName", branch.getShortName());
+    branchData.put("shortName", branch.shortName());
     soyContext.put("branch", branchData);
 
-    footers.add(MailHeader.PROJECT.withDelimiter() + branch.getParentKey().get());
-    footers.add("Gerrit-Branch: " + branch.getShortName());
+    footers.add(MailHeader.PROJECT.withDelimiter() + branch.project().get());
+    footers.add("Gerrit-Branch: " + branch.shortName());
   }
 
   @VisibleForTesting

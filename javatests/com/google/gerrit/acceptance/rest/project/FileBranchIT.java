@@ -33,7 +33,7 @@ public class FileBranchIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    branch = new Branch.NameKey(project, "master");
+    branch = Branch.nameKey(project, "master");
     PushOneCommit.Result change = createChange();
     approve(change.getChangeId());
     revision(change).submit();
@@ -51,6 +51,6 @@ public class FileBranchIT extends AbstractDaemonTest {
   }
 
   private BranchApi branch() throws Exception {
-    return gApi.projects().name(branch.getParentKey().get()).branch(branch.get());
+    return gApi.projects().name(branch.project().get()).branch(branch.branch());
   }
 }

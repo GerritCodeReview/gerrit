@@ -60,7 +60,7 @@ public class GroupConfigTest extends GerritBaseTests {
   private Repository repository;
   private TestRepository<?> testRepository;
   private final AccountGroup.UUID groupUuid = new AccountGroup.UUID("users-XYZ");
-  private final AccountGroup.NameKey groupName = new AccountGroup.NameKey("users");
+  private final AccountGroup.NameKey groupName = AccountGroup.nameKey("users");
   private final AccountGroup.Id groupId = new AccountGroup.Id(123);
   private final AuditLogFormatter auditLogFormatter =
       AuditLogFormatter.createBackedBy(ImmutableSet.of(), ImmutableSet.of(), "server-id");
@@ -95,7 +95,7 @@ public class GroupConfigTest extends GerritBaseTests {
 
   @Test
   public void nameOfGroupUpdateOverridesGroupCreation() throws Exception {
-    AccountGroup.NameKey anotherName = new AccountGroup.NameKey("Another name");
+    AccountGroup.NameKey anotherName = AccountGroup.nameKey("Another name");
 
     InternalGroupCreation groupCreation =
         getPrefilledGroupCreationBuilder().setNameKey(groupName).build();
@@ -109,7 +109,7 @@ public class GroupConfigTest extends GerritBaseTests {
   @Test
   public void nameOfNewGroupMustNotBeEmpty() throws Exception {
     InternalGroupCreation groupCreation =
-        getPrefilledGroupCreationBuilder().setNameKey(new AccountGroup.NameKey("")).build();
+        getPrefilledGroupCreationBuilder().setNameKey(AccountGroup.nameKey("")).build();
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
@@ -122,7 +122,7 @@ public class GroupConfigTest extends GerritBaseTests {
   @Test
   public void nameOfNewGroupMustNotBeNull() throws Exception {
     InternalGroupCreation groupCreation =
-        getPrefilledGroupCreationBuilder().setNameKey(new AccountGroup.NameKey(null)).build();
+        getPrefilledGroupCreationBuilder().setNameKey(AccountGroup.nameKey(null)).build();
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
@@ -526,7 +526,7 @@ public class GroupConfigTest extends GerritBaseTests {
   @Test
   public void nameCanBeUpdated() throws Exception {
     createArbitraryGroup(groupUuid);
-    AccountGroup.NameKey newName = new AccountGroup.NameKey("New name");
+    AccountGroup.NameKey newName = AccountGroup.nameKey("New name");
 
     InternalGroupUpdate groupUpdate = InternalGroupUpdate.builder().setName(newName).build();
     updateGroup(groupUuid, groupUpdate);
@@ -541,7 +541,7 @@ public class GroupConfigTest extends GerritBaseTests {
 
     GroupConfig groupConfig = GroupConfig.loadForGroup(projectName, repository, groupUuid);
     InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setName(new AccountGroup.NameKey(null)).build();
+        InternalGroupUpdate.builder().setName(AccountGroup.nameKey(null)).build();
     groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
@@ -557,7 +557,7 @@ public class GroupConfigTest extends GerritBaseTests {
 
     GroupConfig groupConfig = GroupConfig.loadForGroup(projectName, repository, groupUuid);
     InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setName(new AccountGroup.NameKey("")).build();
+        InternalGroupUpdate.builder().setName(AccountGroup.nameKey("")).build();
     groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
@@ -570,7 +570,7 @@ public class GroupConfigTest extends GerritBaseTests {
   @Test
   public void nameCanBeUpdatedToEmptyStringIfExplicitlySpecified() throws Exception {
     createArbitraryGroup(groupUuid);
-    AccountGroup.NameKey emptyName = new AccountGroup.NameKey("");
+    AccountGroup.NameKey emptyName = AccountGroup.nameKey("");
 
     GroupConfig groupConfig = GroupConfig.loadForGroup(projectName, repository, groupUuid);
     groupConfig.setAllowSaveEmptyName();
@@ -675,7 +675,7 @@ public class GroupConfigTest extends GerritBaseTests {
 
     InternalGroupUpdate laterGroupUpdate =
         InternalGroupUpdate.builder()
-            .setName(new AccountGroup.NameKey("Another name"))
+            .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(updatedOn)
             .build();
     Optional<InternalGroup> group = updateGroup(groupCreation.getGroupUUID(), laterGroupUpdate);
@@ -800,7 +800,7 @@ public class GroupConfigTest extends GerritBaseTests {
             .setDescription("A test group")
             .setOwnerGroupUUID(new AccountGroup.UUID("another owner"))
             .setVisibleToAll(true)
-            .setName(new AccountGroup.NameKey("Another name"))
+            .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(new Timestamp(92900892))
             .setMemberModification(members -> ImmutableSet.of(new Account.Id(1), new Account.Id(2)))
             .setSubgroupModification(
@@ -822,7 +822,7 @@ public class GroupConfigTest extends GerritBaseTests {
             .setDescription("A test group")
             .setOwnerGroupUUID(new AccountGroup.UUID("another owner"))
             .setVisibleToAll(true)
-            .setName(new AccountGroup.NameKey("Another name"))
+            .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(new Timestamp(92900892))
             .setMemberModification(members -> ImmutableSet.of(new Account.Id(1), new Account.Id(2)))
             .setSubgroupModification(
@@ -845,7 +845,7 @@ public class GroupConfigTest extends GerritBaseTests {
             .setDescription("A test group")
             .setOwnerGroupUUID(new AccountGroup.UUID("another owner"))
             .setVisibleToAll(true)
-            .setName(new AccountGroup.NameKey("Another name"))
+            .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(new Timestamp(92900892))
             .setMemberModification(members -> ImmutableSet.of(new Account.Id(1), new Account.Id(2)))
             .setSubgroupModification(
@@ -855,7 +855,7 @@ public class GroupConfigTest extends GerritBaseTests {
 
     // Only update one of the properties.
     InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setName(new AccountGroup.NameKey("Another name")).build();
+        InternalGroupUpdate.builder().setName(AccountGroup.nameKey("Another name")).build();
 
     Optional<InternalGroup> updatedGroup = updateGroup(groupCreation.getGroupUUID(), groupUpdate);
     Optional<InternalGroup> reloadedGroup = loadGroup(groupCreation.getGroupUUID());
@@ -870,7 +870,7 @@ public class GroupConfigTest extends GerritBaseTests {
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
     commit(groupConfig);
 
-    AccountGroup.NameKey name = new AccountGroup.NameKey("Robots");
+    AccountGroup.NameKey name = AccountGroup.nameKey("Robots");
     InternalGroupUpdate groupUpdate1 = InternalGroupUpdate.builder().setName(name).build();
     groupConfig.setGroupUpdate(groupUpdate1, auditLogFormatter);
     commit(groupConfig);
@@ -907,7 +907,7 @@ public class GroupConfigTest extends GerritBaseTests {
     RevCommit commitAfterCreation = getLatestCommitForGroup(groupUuid);
 
     InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setName(new AccountGroup.NameKey("Another name")).build();
+        InternalGroupUpdate.builder().setName(AccountGroup.nameKey("Another name")).build();
     updateGroup(groupUuid, groupUpdate);
 
     RevCommit commitAfterUpdate = getLatestCommitForGroup(groupUuid);
@@ -1045,7 +1045,7 @@ public class GroupConfigTest extends GerritBaseTests {
         getPrefilledGroupCreationBuilder().setGroupUUID(groupUuid).build();
 
     InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setName(new AccountGroup.NameKey("Another name")).build();
+        InternalGroupUpdate.builder().setName(AccountGroup.nameKey("Another name")).build();
 
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
     groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
@@ -1128,7 +1128,7 @@ public class GroupConfigTest extends GerritBaseTests {
             .build();
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
-            .setName(new AccountGroup.NameKey("Another name"))
+            .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(createdOn)
             .build();
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
@@ -1161,7 +1161,7 @@ public class GroupConfigTest extends GerritBaseTests {
             .build();
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
-            .setName(new AccountGroup.NameKey("Another name"))
+            .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(createdOn)
             .build();
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
@@ -1187,7 +1187,7 @@ public class GroupConfigTest extends GerritBaseTests {
 
     createArbitraryGroup(groupUuid);
     InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setName(new AccountGroup.NameKey("Another name")).build();
+        InternalGroupUpdate.builder().setName(AccountGroup.nameKey("Another name")).build();
     updateGroup(groupUuid, groupUpdate);
 
     RevCommit revCommit = getLatestCommitForGroup(groupUuid);
@@ -1202,7 +1202,7 @@ public class GroupConfigTest extends GerritBaseTests {
     createArbitraryGroup(groupUuid);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
-            .setName(new AccountGroup.NameKey("Another name"))
+            .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(new Timestamp(updatedOnAsSecondsSinceEpoch * 1000))
             .build();
     updateGroup(groupUuid, groupUpdate);
@@ -1220,7 +1220,7 @@ public class GroupConfigTest extends GerritBaseTests {
     createArbitraryGroup(groupUuid);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
-            .setName(new AccountGroup.NameKey("Another name"))
+            .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(updatedOn)
             .build();
     GroupConfig groupConfig = GroupConfig.loadForGroup(projectName, repository, groupUuid);
@@ -1248,7 +1248,7 @@ public class GroupConfigTest extends GerritBaseTests {
     createArbitraryGroup(groupUuid);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
-            .setName(new AccountGroup.NameKey("Another name"))
+            .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(updatedOn)
             .build();
     GroupConfig groupConfig = GroupConfig.loadForGroup(projectName, repository, groupUuid);
@@ -1281,14 +1281,14 @@ public class GroupConfigTest extends GerritBaseTests {
   public void groupCanBeLoadedAtASpecificRevision() throws Exception {
     createArbitraryGroup(groupUuid);
 
-    AccountGroup.NameKey firstName = new AccountGroup.NameKey("Bots");
+    AccountGroup.NameKey firstName = AccountGroup.nameKey("Bots");
     InternalGroupUpdate groupUpdate1 = InternalGroupUpdate.builder().setName(firstName).build();
     updateGroup(groupUuid, groupUpdate1);
 
     RevCommit commitAfterUpdate1 = getLatestCommitForGroup(groupUuid);
 
     InternalGroupUpdate groupUpdate2 =
-        InternalGroupUpdate.builder().setName(new AccountGroup.NameKey("Robots")).build();
+        InternalGroupUpdate.builder().setName(AccountGroup.nameKey("Robots")).build();
     updateGroup(groupUuid, groupUpdate2);
 
     GroupConfig groupConfig =
@@ -1315,7 +1315,7 @@ public class GroupConfigTest extends GerritBaseTests {
     InternalGroupCreation groupCreation =
         getPrefilledGroupCreationBuilder().setGroupUUID(groupUuid).build();
     InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setName(new AccountGroup.NameKey("Another name")).build();
+        InternalGroupUpdate.builder().setName(AccountGroup.nameKey("Another name")).build();
     createGroup(groupCreation, groupUpdate);
 
     RevCommit revCommit = getLatestCommitForGroup(groupUuid);
@@ -1478,11 +1478,11 @@ public class GroupConfigTest extends GerritBaseTests {
     createArbitraryGroup(groupUuid);
 
     InternalGroupUpdate groupUpdate1 =
-        InternalGroupUpdate.builder().setName(new AccountGroup.NameKey("Old name")).build();
+        InternalGroupUpdate.builder().setName(AccountGroup.nameKey("Old name")).build();
     updateGroup(groupUuid, groupUpdate1);
 
     InternalGroupUpdate groupUpdate2 =
-        InternalGroupUpdate.builder().setName(new AccountGroup.NameKey("New name")).build();
+        InternalGroupUpdate.builder().setName(AccountGroup.nameKey("New name")).build();
     updateGroup(groupUuid, groupUpdate2);
 
     RevCommit revCommit = getLatestCommitForGroup(groupUuid);
@@ -1506,7 +1506,7 @@ public class GroupConfigTest extends GerritBaseTests {
 
     InternalGroupUpdate groupUpdate1 =
         InternalGroupUpdate.builder()
-            .setName(new AccountGroup.NameKey("Old name"))
+            .setName(AccountGroup.nameKey("Old name"))
             .setMemberModification(members -> ImmutableSet.of(account7.getId()))
             .setSubgroupModification(subgroups -> ImmutableSet.of(group2.getGroupUUID()))
             .build();
@@ -1514,7 +1514,7 @@ public class GroupConfigTest extends GerritBaseTests {
 
     InternalGroupUpdate groupUpdate2 =
         InternalGroupUpdate.builder()
-            .setName(new AccountGroup.NameKey("New name"))
+            .setName(AccountGroup.nameKey("New name"))
             .setMemberModification(members -> ImmutableSet.of(account13.getId()))
             .setSubgroupModification(subgroups -> ImmutableSet.of(group1.getGroupUUID()))
             .build();

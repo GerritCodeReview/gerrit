@@ -99,7 +99,7 @@ public class AccountCreator {
 
     if (groupNames != null) {
       for (String n : groupNames) {
-        AccountGroup.NameKey k = new AccountGroup.NameKey(n);
+        AccountGroup.NameKey k = AccountGroup.nameKey(n);
         Optional<InternalGroup> group = groupCache.get(k);
         if (!group.isPresent()) {
           throw new NoSuchGroupException(n);

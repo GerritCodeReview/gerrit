@@ -74,7 +74,7 @@ public class PutName implements RestModifyView<GroupResource, NameInput> {
           ConfigInvalidException {
     AccountGroup.UUID groupUuid = group.getGroupUUID();
     InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setName(new AccountGroup.NameKey(newName)).build();
+        InternalGroupUpdate.builder().setName(AccountGroup.nameKey(newName)).build();
     try {
       groupsUpdateProvider.get().updateGroup(groupUuid, groupUpdate);
     } catch (NoSuchGroupException e) {

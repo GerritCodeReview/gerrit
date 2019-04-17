@@ -2,8 +2,10 @@ workspace(name = "gerrit")
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_LOCAL", "maven_jar")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
+load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
 
 http_archive(
     name = "bazel_skylib",
@@ -609,12 +611,7 @@ maven_jar(
     sha1 = "c3dad10377f0e2242c9a4b88e9704eaf79103679",
 )
 
-# Transitive dependency of commons-compress
-maven_jar(
-    name = "tukaani-xz",
-    artifact = "org.tukaani:xz:1.6",
-    sha1 = "05b6f921f1810bdf90e25471968f741f87168b64",
-)
+declare_nongoogle_deps()
 
 LUCENE_VERS = "6.6.5"
 

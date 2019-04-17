@@ -88,7 +88,7 @@ public class IgnoreSelfApprovalRuleTest extends GerritBaseTests {
 
   private static PatchSetApproval.Key makeKey(
       PatchSet.Id psId, Account.Id accountId, LabelId labelId) {
-    return new PatchSetApproval.Key(psId, accountId, labelId);
+    return PatchSetApproval.key(psId, accountId, labelId);
   }
 
   private static Account.Id makeAccount(int account) {

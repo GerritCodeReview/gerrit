@@ -21,6 +21,7 @@ import com.google.protobuf.CodedOutputStream;
 import com.google.protobuf.TextFormat;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.function.Function;
 
 public enum IntegerCacheSerializer implements CacheSerializer<Integer> {
   INSTANCE;
@@ -28,6 +29,21 @@ public enum IntegerCacheSerializer implements CacheSerializer<Integer> {
   // Same as com.google.protobuf.WireFormat#MAX_VARINT_SIZE. Note that negative values take up more
   // than MAX_VARINT32_SIZE space.
   private static final int MAX_VARINT_SIZE = 10;
+
+  public static <T> CacheSerializer<T> onResultOf(
+      Function<T, Integer> toInteger, Function<Integer, T> fromInteger) {
+    return new CacheSerializer<T>() {
+      @Override
+      public byte[] serialize(T object) {
+        return IntegerCacheSerializer.INSTANCE.serialize(toInteger.apply(object));
+      }
+
+      @Override
+      public T deserialize(byte[] in) {
+        return fromInteger.apply(IntegerCacheSerializer.INSTANCE.deserialize(in));
+      }
+    };
+  }
 
   @Override
   public byte[] serialize(Integer object) {

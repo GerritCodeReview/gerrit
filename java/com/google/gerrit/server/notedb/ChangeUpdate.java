@@ -250,11 +250,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     checkArgument(!this.submitRecords.isEmpty(), "no submit records specified at submit time");
   }
 
-  @Deprecated // Only until we improve ChangeRebuilder to call merge().
-  public void setSubmissionId(String submissionId) {
-    this.submissionId = submissionId;
-  }
-
   public void setSubjectForCommit(String commitSubject) {
     this.commitSubject = commitSubject;
   }

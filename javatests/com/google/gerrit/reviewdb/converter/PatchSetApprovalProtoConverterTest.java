@@ -40,7 +40,7 @@ public class PatchSetApprovalProtoConverterTest {
   public void allValuesConvertedToProto() {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
-            new PatchSetApproval.Key(
+            PatchSetApproval.key(
                 new PatchSet.Id(new Change.Id(42), 14),
                 new Account.Id(100013),
                 new LabelId("label-8")),
@@ -61,7 +61,7 @@ public class PatchSetApprovalProtoConverterTest {
                             .setChangeId(Entities.Change_Id.newBuilder().setId(42))
                             .setPatchSetId(14))
                     .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
-                    .setCategoryId(Entities.LabelId.newBuilder().setId("label-8")))
+                    .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
             .setValue(456)
             .setGranted(987654L)
             .setTag("tag-21")
@@ -75,7 +75,7 @@ public class PatchSetApprovalProtoConverterTest {
   public void mandatoryValuesConvertedToProto() {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
-            new PatchSetApproval.Key(
+            PatchSetApproval.key(
                 new PatchSet.Id(new Change.Id(42), 14),
                 new Account.Id(100013),
                 new LabelId("label-8")),
@@ -93,7 +93,7 @@ public class PatchSetApprovalProtoConverterTest {
                             .setChangeId(Entities.Change_Id.newBuilder().setId(42))
                             .setPatchSetId(14))
                     .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
-                    .setCategoryId(Entities.LabelId.newBuilder().setId("label-8")))
+                    .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
             .setValue(456)
             .setGranted(987654L)
             // This value can't be unset when our entity class is given.
@@ -106,7 +106,7 @@ public class PatchSetApprovalProtoConverterTest {
   public void allValuesConvertedToProtoAndBackAgain() {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
-            new PatchSetApproval.Key(
+            PatchSetApproval.key(
                 new PatchSet.Id(new Change.Id(42), 14),
                 new Account.Id(100013),
                 new LabelId("label-8")),
@@ -125,7 +125,7 @@ public class PatchSetApprovalProtoConverterTest {
   public void mandatoryValuesConvertedToProtoAndBackAgain() {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
-            new PatchSetApproval.Key(
+            PatchSetApproval.key(
                 new PatchSet.Id(new Change.Id(42), 14),
                 new Account.Id(100013),
                 new LabelId("label-8")),
@@ -150,7 +150,7 @@ public class PatchSetApprovalProtoConverterTest {
                             .setChangeId(Entities.Change_Id.newBuilder().setId(42))
                             .setPatchSetId(14))
                     .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
-                    .setCategoryId(Entities.LabelId.newBuilder().setId("label-8")))
+                    .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
             .build();
     PatchSetApproval patchSetApproval = protoConverter.fromProto(proto);
 
@@ -174,7 +174,7 @@ public class PatchSetApprovalProtoConverterTest {
                             .setChangeId(Entities.Change_Id.newBuilder().setId(42))
                             .setPatchSetId(14))
                     .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
-                    .setCategoryId(Entities.LabelId.newBuilder().setId("label-8")))
+                    .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
             .setValue(456)
             .setGranted(987654L)
             .build();

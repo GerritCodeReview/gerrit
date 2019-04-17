@@ -39,8 +39,8 @@ public class AllExternalIdsTest extends GerritBaseTests {
 
   @Test
   public void serializeMultipleExternalIds() throws Exception {
-    Account.Id accountId1 = new Account.Id(1001);
-    Account.Id accountId2 = new Account.Id(1002);
+    Account.Id accountId1 = Account.id(1001);
+    Account.Id accountId2 = Account.id(1002);
     assertRoundTrip(
         allExternalIds(
             ExternalId.create("scheme1", "id1", accountId1),
@@ -62,7 +62,7 @@ public class AllExternalIdsTest extends GerritBaseTests {
   @Test
   public void serializeExternalIdWithEmail() throws Exception {
     assertRoundTrip(
-        allExternalIds(ExternalId.createEmail(new Account.Id(1001), "foo@example.com")),
+        allExternalIds(ExternalId.createEmail(Account.id(1001), "foo@example.com")),
         AllExternalIdsProto.newBuilder()
             .addExternalId(
                 ExternalIdProto.newBuilder()
@@ -76,7 +76,7 @@ public class AllExternalIdsTest extends GerritBaseTests {
   public void serializeExternalIdWithPassword() throws Exception {
     assertRoundTrip(
         allExternalIds(
-            ExternalId.create("scheme", "id", new Account.Id(1001), null, "hashed password")),
+            ExternalId.create("scheme", "id", Account.id(1001), null, "hashed password")),
         AllExternalIdsProto.newBuilder()
             .addExternalId(
                 ExternalIdProto.newBuilder()
@@ -91,7 +91,7 @@ public class AllExternalIdsTest extends GerritBaseTests {
     assertRoundTrip(
         allExternalIds(
             ExternalId.create(
-                ExternalId.create("scheme", "id", new Account.Id(1001)),
+                ExternalId.create("scheme", "id", Account.id(1001)),
                 ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))),
         AllExternalIdsProto.newBuilder()
             .addExternalId(

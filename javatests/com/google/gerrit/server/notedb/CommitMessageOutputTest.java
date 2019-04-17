@@ -199,7 +199,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
 
   @Test
   public void anonymousUser() throws Exception {
-    Account anon = new Account(new Account.Id(3), TimeUtil.nowTs());
+    Account anon = new Account(Account.id(3), TimeUtil.nowTs());
     accountCache.put(anon);
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, userFactory.create(anon.getId()));

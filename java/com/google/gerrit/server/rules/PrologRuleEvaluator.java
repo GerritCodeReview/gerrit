@@ -540,7 +540,7 @@ public class PrologRuleEvaluator {
     if (status instanceof StructureTerm && status.arity() == 1) {
       Term who = status.arg(0);
       if (isUser(who)) {
-        label.appliedBy = new Account.Id(((IntegerTerm) who.arg(0)).intValue());
+        label.appliedBy = Account.id(((IntegerTerm) who.arg(0)).intValue());
       } else {
         throw new UserTermExpected(label);
       }

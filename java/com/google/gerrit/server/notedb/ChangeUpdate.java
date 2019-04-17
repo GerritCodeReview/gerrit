@@ -39,7 +39,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.NoteDbUtil.sanitizeFooter;
-import static java.util.Comparator.comparing;
+import static java.util.Comparator.naturalOrder;
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -64,7 +64,6 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
-import com.google.gwtorm.client.IntKey;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -173,7 +172,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private static Table<String, Account.Id, Optional<Short>> approvals(
       Comparator<String> nameComparator) {
-    return TreeBasedTable.create(nameComparator, comparing(IntKey::get));
+    return TreeBasedTable.create(nameComparator, naturalOrder());
   }
 
   @AssistedInject

@@ -18,9 +18,9 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_DRAFT_COMMENTS;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_STARRED_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gwtorm.client.IntKey;
 import java.sql.Timestamp;
 import java.util.Optional;
 
@@ -46,31 +46,16 @@ import java.util.Optional;
  * </ul>
  */
 public final class Account {
+  public static Id id(int id) {
+    return new AutoValue_Account_Id(id);
+  }
+
   /** Key local to Gerrit to identify a user. */
-  public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
-    private static final long serialVersionUID = 1L;
-
-    protected int id;
-
-    protected Id() {}
-
-    public Id(int id) {
-      this.id = id;
-    }
-
-    @Override
-    public int get() {
-      return id;
-    }
-
-    @Override
-    protected void set(int newValue) {
-      id = newValue;
-    }
-
+  @AutoValue
+  public abstract static class Id implements Comparable<Id> {
     /** Parse an Account.Id out of a string representation. */
     public static Optional<Id> tryParse(String str) {
-      return Optional.ofNullable(Ints.tryParse(str)).map(Id::new);
+      return Optional.ofNullable(Ints.tryParse(str)).map(Account::id);
     }
 
     public static Id fromRef(String name) {
@@ -95,12 +80,12 @@ public final class Account {
      */
     public static Id fromRefPart(String name) {
       Integer id = RefNames.parseShardedRefPart(name);
-      return id != null ? new Account.Id(id) : null;
+      return id != null ? Account.id(id) : null;
     }
 
     public static Id parseAfterShardedRefPart(String name) {
       Integer id = RefNames.parseAfterShardedRefPart(name);
-      return id != null ? new Account.Id(id) : null;
+      return id != null ? Account.id(id) : null;
     }
 
     /**
@@ -115,7 +100,23 @@ public final class Account {
      */
     public static Id fromRefSuffix(String name) {
       Integer id = RefNames.parseRefSuffix(name);
-      return id != null ? new Account.Id(id) : null;
+      return id != null ? Account.id(id) : null;
+    }
+
+    abstract int id();
+
+    public int get() {
+      return id();
+    }
+
+    @Override
+    public int compareTo(Id o) {
+      return Integer.compare(id(), o.id());
+    }
+
+    @Override
+    public String toString() {
+      return Integer.toString(get());
     }
   }
 

@@ -53,9 +53,9 @@ public class ChangeFieldTest extends GerritBaseTests {
   public void reviewerFieldValues() {
     Table<ReviewerStateInternal, Account.Id, Timestamp> t = HashBasedTable.create();
     Timestamp t1 = TimeUtil.nowTs();
-    t.put(ReviewerStateInternal.REVIEWER, new Account.Id(1), t1);
+    t.put(ReviewerStateInternal.REVIEWER, Account.id(1), t1);
     Timestamp t2 = TimeUtil.nowTs();
-    t.put(ReviewerStateInternal.CC, new Account.Id(2), t2);
+    t.put(ReviewerStateInternal.CC, Account.id(2), t2);
     ReviewerSet reviewers = ReviewerSet.fromTable(t);
 
     List<String> values = ChangeField.getReviewerFieldValues(reviewers);
@@ -75,7 +75,7 @@ public class ChangeFieldTest extends GerritBaseTests {
                         SubmitRecord.Status.OK,
                         label(SubmitRecord.Label.Status.MAY, "Label-1", null),
                         label(SubmitRecord.Label.Status.OK, "Label-2", 1))),
-                new Account.Id(1)))
+                Account.id(1)))
         .containsExactly("OK", "MAY,label-1", "OK,label-2", "OK,label-2,0", "OK,label-2,1");
   }
 
@@ -142,7 +142,7 @@ public class ChangeFieldTest extends GerritBaseTests {
     l.status = status;
     l.label = label;
     if (appliedBy != null) {
-      l.appliedBy = new Account.Id(appliedBy);
+      l.appliedBy = Account.id(appliedBy);
     }
     return l;
   }

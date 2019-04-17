@@ -380,7 +380,7 @@ public class FromAddressGeneratorProviderTest extends GerritBaseTests {
   }
 
   private AccountState makeUser(String name, String email) {
-    final Account.Id userId = new Account.Id(42);
+    final Account.Id userId = Account.id(42);
     final Account account = new Account(userId, TimeUtil.nowTs());
     account.setFullName(name);
     account.setPreferredEmail(email);

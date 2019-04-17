@@ -39,12 +39,12 @@ public class ChangeMessageProtoConverterTest {
     ChangeMessage changeMessage =
         new ChangeMessage(
             new ChangeMessage.Key(new Change.Id(543), "change-message-21"),
-            new Account.Id(63),
+            Account.id(63),
             new Timestamp(9876543),
             new PatchSet.Id(new Change.Id(34), 13));
     changeMessage.setMessage("This is a change message.");
     changeMessage.setTag("An arbitrary tag.");
-    changeMessage.setRealAuthor(new Account.Id(10003));
+    changeMessage.setRealAuthor(Account.id(10003));
 
     Entities.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
 
@@ -72,7 +72,7 @@ public class ChangeMessageProtoConverterTest {
     ChangeMessage changeMessage =
         new ChangeMessage(
             new ChangeMessage.Key(new Change.Id(543), "change-message-21"),
-            new Account.Id(63),
+            Account.id(63),
             new Timestamp(9876543),
             new PatchSet.Id(new Change.Id(34), 13));
 
@@ -100,7 +100,7 @@ public class ChangeMessageProtoConverterTest {
     ChangeMessage changeMessage =
         new ChangeMessage(
             new ChangeMessage.Key(new Change.Id(543), "change-message-21"),
-            new Account.Id(63),
+            Account.id(63),
             null,
             null);
 
@@ -142,12 +142,12 @@ public class ChangeMessageProtoConverterTest {
     ChangeMessage changeMessage =
         new ChangeMessage(
             new ChangeMessage.Key(new Change.Id(543), "change-message-21"),
-            new Account.Id(63),
+            Account.id(63),
             new Timestamp(9876543),
             new PatchSet.Id(new Change.Id(34), 13));
     changeMessage.setMessage("This is a change message.");
     changeMessage.setTag("An arbitrary tag.");
-    changeMessage.setRealAuthor(new Account.Id(10003));
+    changeMessage.setRealAuthor(Account.id(10003));
 
     ChangeMessage convertedChangeMessage =
         changeMessageProtoConverter.fromProto(changeMessageProtoConverter.toProto(changeMessage));
@@ -159,7 +159,7 @@ public class ChangeMessageProtoConverterTest {
     ChangeMessage changeMessage =
         new ChangeMessage(
             new ChangeMessage.Key(new Change.Id(543), "change-message-21"),
-            new Account.Id(63),
+            Account.id(63),
             new Timestamp(9876543),
             new PatchSet.Id(new Change.Id(34), 13));
 

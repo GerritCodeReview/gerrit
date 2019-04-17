@@ -112,7 +112,7 @@ public class UiActionsTest extends GerritBaseTests {
 
         @Override
         public Account.Id getAccountId() {
-          return new Account.Id(1);
+          return Account.id(1);
         }
       };
     }

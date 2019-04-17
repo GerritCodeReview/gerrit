@@ -55,7 +55,7 @@ public class AuthorizedKeysTest extends GerritBaseTests {
           + "zRuEL5e/QOu9yGq9xkWApCmg6edpWAHG+Bx4AldU78MiZvzoB7gMMdxc9RmZ1gYj/DjxV"
           + "w== john.doe@example.com";
 
-  private final Account.Id accountId = new Account.Id(1);
+  private final Account.Id accountId = Account.id(1);
 
   @Test
   public void test() throws Exception {
@@ -151,7 +151,7 @@ public class AuthorizedKeysTest extends GerritBaseTests {
 
   private static void assertParse(
       StringBuilder authorizedKeys, List<Optional<AccountSshKey>> expectedKeys) {
-    Account.Id accountId = new Account.Id(1);
+    Account.Id accountId = Account.id(1);
     List<Optional<AccountSshKey>> parsedKeys =
         AuthorizedKeys.parse(accountId, authorizedKeys.toString());
     assertThat(parsedKeys).containsExactlyElementsIn(expectedKeys);
@@ -171,7 +171,7 @@ public class AuthorizedKeysTest extends GerritBaseTests {
    * @return the expected line for this key in the authorized_keys file
    */
   private static String addKey(List<Optional<AccountSshKey>> keys, String pub) {
-    AccountSshKey key = AccountSshKey.create(new Account.Id(1), keys.size() + 1, pub);
+    AccountSshKey key = AccountSshKey.create(Account.id(1), keys.size() + 1, pub);
     keys.add(Optional.of(key));
     return key.sshPublicKey() + "\n";
   }
@@ -182,7 +182,7 @@ public class AuthorizedKeysTest extends GerritBaseTests {
    * @return the expected line for this key in the authorized_keys file
    */
   private static String addInvalidKey(List<Optional<AccountSshKey>> keys, String pub) {
-    AccountSshKey key = AccountSshKey.createInvalid(new Account.Id(1), keys.size() + 1, pub);
+    AccountSshKey key = AccountSshKey.createInvalid(Account.id(1), keys.size() + 1, pub);
     keys.add(Optional.of(key));
     return AuthorizedKeys.INVALID_KEY_COMMENT_PREFIX + key.sshPublicKey() + "\n";
   }

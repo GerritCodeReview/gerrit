@@ -1232,7 +1232,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     LabelInfo cr = c.labels.get("Code-Review");
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).value).isEqualTo(2);
-    assertThat(new Account.Id(cr.all.get(0)._accountId)).isEqualTo(user.id());
+    assertThat(Account.id(cr.all.get(0)._accountId)).isEqualTo(user.id());
   }
 
   protected void assertMerged(String changeId) throws RestApiException {

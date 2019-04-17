@@ -92,6 +92,6 @@ public class IgnoreSelfApprovalRuleTest extends GerritBaseTests {
   }
 
   private static Account.Id makeAccount(int account) {
-    return new Account.Id(account);
+    return Account.id(account);
   }
 }

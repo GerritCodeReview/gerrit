@@ -41,6 +41,7 @@
 !/plugins/external_plugin_deps.bzl
 !/plugins/gitiles
 !/plugins/hooks
+!/plugins/plugin-manager
 !/plugins/replication
 !/plugins/reviewnotes
 !/plugins/singleusergroup

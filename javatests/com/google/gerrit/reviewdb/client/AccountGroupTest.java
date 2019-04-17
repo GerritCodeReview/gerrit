@@ -87,7 +87,7 @@ public class AccountGroupTest {
 
   @Test
   public void idToString() {
-    assertThat(new AccountGroup.Id(123).toString()).isEqualTo("123");
+    assertThat(AccountGroup.id(123).toString()).isEqualTo("123");
   }
 
   @Test

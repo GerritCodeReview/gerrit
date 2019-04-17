@@ -61,7 +61,7 @@ public class GroupConfigTest extends GerritBaseTests {
   private TestRepository<?> testRepository;
   private final AccountGroup.UUID groupUuid = AccountGroup.uuid("users-XYZ");
   private final AccountGroup.NameKey groupName = AccountGroup.nameKey("users");
-  private final AccountGroup.Id groupId = new AccountGroup.Id(123);
+  private final AccountGroup.Id groupId = AccountGroup.id(123);
   private final AuditLogFormatter auditLogFormatter =
       AuditLogFormatter.createBackedBy(ImmutableSet.of(), ImmutableSet.of(), "server-id");
   private final TimeZone timeZone = TimeZone.getTimeZone("America/Los_Angeles");
@@ -131,7 +131,7 @@ public class GroupConfigTest extends GerritBaseTests {
   @Test
   public void idOfNewGroupMustNotBeNegative() throws Exception {
     InternalGroupCreation groupCreation =
-        getPrefilledGroupCreationBuilder().setId(new AccountGroup.Id(-2)).build();
+        getPrefilledGroupCreationBuilder().setId(AccountGroup.id(-2)).build();
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {

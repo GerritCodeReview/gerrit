@@ -45,7 +45,7 @@ enum GroupConfigEntry {
             String.format(
                 "ID of the group %s must not be negative, found %d", groupUuid.get(), id));
       }
-      group.setId(new AccountGroup.Id(id));
+      group.setId(AccountGroup.id(id));
     }
 
     @Override

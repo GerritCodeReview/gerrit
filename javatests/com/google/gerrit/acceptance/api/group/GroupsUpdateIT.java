@@ -109,7 +109,7 @@ public class GroupsUpdateIT {
     return InternalGroupCreation.builder()
         .setGroupUUID(AccountGroup.uuid(groupUuid))
         .setNameKey(AccountGroup.nameKey(groupName))
-        .setId(new AccountGroup.Id(Math.abs(groupName.hashCode())))
+        .setId(AccountGroup.id(Math.abs(groupName.hashCode())))
         .build();
   }
 

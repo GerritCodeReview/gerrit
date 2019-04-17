@@ -240,7 +240,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
         InternalGroupCreation.builder()
             .setGroupUUID(GroupUUID.make(groupName, serverIdent))
             .setNameKey(AccountGroup.nameKey(groupName))
-            .setId(new AccountGroup.Id(next))
+            .setId(AccountGroup.id(next))
             .build();
     InternalGroupUpdate groupUpdate =
         authorIdent.equals(serverIdent)

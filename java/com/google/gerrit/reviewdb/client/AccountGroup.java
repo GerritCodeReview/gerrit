@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.StringKey;
@@ -33,26 +34,22 @@ public final class AccountGroup {
     return Timestamp.from(AUDIT_CREATION_INSTANT_MS);
   }
 
+  public static NameKey nameKey(String n) {
+    return new AutoValue_AccountGroup_NameKey(n);
+  }
+
   /** Group name key */
-  public static class NameKey extends StringKey<com.google.gwtorm.client.Key<?>> {
-    private static final long serialVersionUID = 1L;
+  @AutoValue
+  public abstract static class NameKey implements Comparable<NameKey> {
+    abstract String name();
 
-    protected String name;
-
-    protected NameKey() {}
-
-    public NameKey(String n) {
-      name = n;
-    }
-
-    @Override
     public String get() {
-      return name;
+      return name();
     }
 
     @Override
-    protected void set(String newValue) {
-      name = newValue;
+    public int compareTo(NameKey o) {
+      return name().compareTo(o.name());
     }
   }
 

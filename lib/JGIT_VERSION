@@ -1,6 +1,6 @@
 include_defs('//lib/maven.defs')
 
-REPO = MAVEN_CENTRAL # Leave here even if set to MAVEN_CENTRAL.
-VERS = '4.5.6.201903121547-r'
+REPO = ECLIPSE # Leave here even if set to MAVEN_CENTRAL.
+VERS = '4.5.7.201904151645-r'
 DOC_VERS = VERS # Set to VERS unless using a snapshot
 JGIT_DOC_URL="http://download.eclipse.org/jgit/site/" + DOC_VERS + "/apidocs"

@@ -118,7 +118,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       source = json.getAsJsonObject().get("fields");
     }
 
-    Account.Id id = new Account.Id(source.getAsJsonObject().get(ID.getName()).getAsInt());
+    Account.Id id = Account.id(source.getAsJsonObject().get(ID.getName()).getAsInt());
     // Use the AccountCache rather than depending on any stored fields in the document (of which
     // there shouldn't be any). The most expensive part to compute anyway is the effective group
     // IDs, and we don't have a good way to reindex when those change.

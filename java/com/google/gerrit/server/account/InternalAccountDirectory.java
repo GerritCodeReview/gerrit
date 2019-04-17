@@ -98,11 +98,10 @@ public class InternalAccountDirectory extends AccountDirectory {
 
     Set<FillOptions> fillOptionsWithoutSecondaryEmails =
         Sets.difference(options, EnumSet.of(FillOptions.SECONDARY_EMAILS));
-    Set<Account.Id> ids =
-        Streams.stream(in).map(a -> new Account.Id(a._accountId)).collect(toSet());
+    Set<Account.Id> ids = Streams.stream(in).map(a -> Account.id(a._accountId)).collect(toSet());
     Map<Account.Id, AccountState> accountStates = accountCache.get(ids);
     for (AccountInfo info : in) {
-      Account.Id id = new Account.Id(info._accountId);
+      Account.Id id = Account.id(info._accountId);
       AccountState state = accountStates.get(id);
       if (state != null) {
         if (!options.contains(FillOptions.SECONDARY_EMAILS)

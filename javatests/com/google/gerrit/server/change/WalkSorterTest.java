@@ -45,7 +45,7 @@ public class WalkSorterTest extends GerritBaseTests {
 
   @Before
   public void setUp() {
-    userId = new Account.Id(1);
+    userId = Account.id(1);
     repoManager = new InMemoryRepositoryManager();
   }
 

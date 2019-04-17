@@ -556,7 +556,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         if (reviewedBy.size() == 1 && id == ChangeField.NOT_REVIEWED) {
           break;
         }
-        accounts.add(new Account.Id(id));
+        accounts.add(Account.id(id));
       }
       cd.setReviewedBy(accounts);
     }

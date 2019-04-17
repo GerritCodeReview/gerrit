@@ -699,7 +699,7 @@ public class ChangeJson {
         continue;
       }
       for (ApprovalInfo ai : label.all) {
-        Account.Id id = new Account.Id(ai._accountId);
+        Account.Id id = Account.id(ai._accountId);
 
         if (canRemoveAnyReviewer
             || removeReviewerControl.testRemoveReviewer(
@@ -719,7 +719,7 @@ public class ChangeJson {
     if (ccs != null) {
       for (AccountInfo ai : ccs) {
         if (ai._accountId != null) {
-          Account.Id id = new Account.Id(ai._accountId);
+          Account.Id id = Account.id(ai._accountId);
           if (canRemoveAnyReviewer
               || removeReviewerControl.testRemoveReviewer(cd, userProvider.get(), id, 0)) {
             removable.add(id);

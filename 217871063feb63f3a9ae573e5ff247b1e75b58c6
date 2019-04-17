@@ -16,6 +16,24 @@
       "revId": "217871063feb63f3a9ae573e5ff247b1e75b58c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c82a2ffd_dddaf0ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-17T13:16:31Z",
+      "side": 1,
+      "message": "Created an issue for tracking and added a reference to it to the description.",
+      "parentUuid": "bddc6aaa_9f8ac3c2",
+      "revId": "217871063feb63f3a9ae573e5ff247b1e75b58c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

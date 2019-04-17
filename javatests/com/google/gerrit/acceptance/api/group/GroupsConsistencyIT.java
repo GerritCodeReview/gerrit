@@ -145,7 +145,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
   public void nameRefDoesNotParse() throws Exception {
     updateGroupFile(
         RefNames.REFS_GROUPNAMES,
-        GroupNameNotes.getNoteKey(new AccountGroup.NameKey(g1.name)).getName(),
+        GroupNameNotes.getNoteKey(AccountGroup.nameKey(g1.name)).getName(),
         "[this is not valid\n");
     assertError("does not parse");
   }
@@ -201,7 +201,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
 
     updateGroupFile(
         RefNames.REFS_GROUPNAMES,
-        GroupNameNotes.getNoteKey(new AccountGroup.NameKey(bogusName)).getName(),
+        GroupNameNotes.getNoteKey(AccountGroup.nameKey(bogusName)).getName(),
         config.toText());
     assertError("entry missing as group ref");
   }

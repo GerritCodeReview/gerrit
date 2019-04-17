@@ -163,7 +163,7 @@ public class GroupsNoteDbConsistencyChecker {
           continue;
         }
 
-        ObjectId nameKey = GroupNameNotes.getNoteKey(new AccountGroup.NameKey(gRef.getName()));
+        ObjectId nameKey = GroupNameNotes.getNoteKey(AccountGroup.nameKey(gRef.getName()));
         if (!Objects.equals(nameKey, note)) {
           result.problems.add(
               error("notename entry %s does not match name %s", note, gRef.getName()));

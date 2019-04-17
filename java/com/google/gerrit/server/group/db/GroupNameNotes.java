@@ -266,7 +266,7 @@ public class GroupNameNotes extends VersionedMetaData {
       RevCommit oldCommit = ref != null ? rw.parseCommit(ref.getObjectId()) : null;
 
       for (Map.Entry<AccountGroup.UUID, String> e : biMap.entrySet()) {
-        AccountGroup.NameKey nameKey = new AccountGroup.NameKey(e.getValue());
+        AccountGroup.NameKey nameKey = AccountGroup.nameKey(e.getValue());
         ObjectId noteKey = getNoteKey(nameKey);
         noteMap.set(noteKey, getAsNoteData(e.getKey(), nameKey), inserter);
       }

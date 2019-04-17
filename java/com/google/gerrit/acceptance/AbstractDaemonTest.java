@@ -1322,13 +1322,13 @@ public abstract class AbstractDaemonTest {
   }
 
   protected InternalGroup group(String groupName) {
-    InternalGroup group = groupCache.get(new AccountGroup.NameKey(groupName)).orElse(null);
+    InternalGroup group = groupCache.get(AccountGroup.nameKey(groupName)).orElse(null);
     assertThat(group).named(groupName).isNotNull();
     return group;
   }
 
   protected GroupReference groupRef(String groupName) {
-    InternalGroup group = groupCache.get(new AccountGroup.NameKey(groupName)).orElse(null);
+    InternalGroup group = groupCache.get(AccountGroup.nameKey(groupName)).orElse(null);
     assertThat(group).isNotNull();
     return new GroupReference(group.getGroupUUID(), group.getName());
   }
@@ -1350,7 +1350,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void assertGroupDoesNotExist(String groupName) {
-    InternalGroup group = groupCache.get(new AccountGroup.NameKey(groupName)).orElse(null);
+    InternalGroup group = groupCache.get(AccountGroup.nameKey(groupName)).orElse(null);
     assertThat(group).named(groupName).isNull();
   }
 

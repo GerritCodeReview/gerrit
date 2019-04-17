@@ -34,7 +34,7 @@ public class CreateGroupArgs {
   }
 
   public void setGroupName(String n) {
-    groupName = n != null ? new AccountGroup.NameKey(n) : null;
+    groupName = n != null ? AccountGroup.nameKey(n) : null;
   }
 
   public void setGroupName(AccountGroup.NameKey n) {

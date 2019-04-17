@@ -166,7 +166,7 @@ public class GroupCacheImpl implements GroupCache {
     @Override
     public Optional<InternalGroup> load(String name) throws Exception {
       try (TraceTimer timer = TraceContext.newTimer("Loading group '%s' by name", name)) {
-        return groupQueryProvider.get().byName(new AccountGroup.NameKey(name));
+        return groupQueryProvider.get().byName(AccountGroup.nameKey(name));
       }
     }
   }

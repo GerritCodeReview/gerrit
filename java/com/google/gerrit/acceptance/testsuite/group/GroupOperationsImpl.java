@@ -81,7 +81,7 @@ public class GroupOperationsImpl implements GroupOperations {
     AccountGroup.Id groupId = new AccountGroup.Id(seq.nextGroupId());
     String groupName = groupCreation.name().orElse("group-with-id-" + groupId.get());
     AccountGroup.UUID groupUuid = GroupUUID.make(groupName, serverIdent);
-    AccountGroup.NameKey nameKey = new AccountGroup.NameKey(groupName);
+    AccountGroup.NameKey nameKey = AccountGroup.nameKey(groupName);
     return InternalGroupCreation.builder()
         .setId(groupId)
         .setGroupUUID(groupUuid)
@@ -153,7 +153,7 @@ public class GroupOperationsImpl implements GroupOperations {
 
     private InternalGroupUpdate toInternalGroupUpdate(TestGroupUpdate groupUpdate) {
       InternalGroupUpdate.Builder builder = InternalGroupUpdate.builder();
-      groupUpdate.name().map(AccountGroup.NameKey::new).ifPresent(builder::setName);
+      groupUpdate.name().map(AccountGroup::nameKey).ifPresent(builder::setName);
       groupUpdate.description().ifPresent(builder::setDescription);
       groupUpdate.ownerGroupUuid().ifPresent(builder::setOwnerGroupUUID);
       groupUpdate.visibleToAll().ifPresent(builder::setVisibleToAll);

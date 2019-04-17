@@ -65,7 +65,7 @@ public class GroupsUpdateIT {
 
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
-            .setName(new AccountGroup.NameKey("contributors"))
+            .setName(AccountGroup.nameKey("contributors"))
             .setMemberModification(
                 new CreateAnotherGroupOnceAsSideEffectOfMemberModification("verifiers"))
             .build();
@@ -108,7 +108,7 @@ public class GroupsUpdateIT {
   private static InternalGroupCreation getGroupCreation(String groupName, String groupUuid) {
     return InternalGroupCreation.builder()
         .setGroupUUID(new AccountGroup.UUID(groupUuid))
-        .setNameKey(new AccountGroup.NameKey(groupName))
+        .setNameKey(AccountGroup.nameKey(groupName))
         .setId(new AccountGroup.Id(Math.abs(groupName.hashCode())))
         .build();
   }

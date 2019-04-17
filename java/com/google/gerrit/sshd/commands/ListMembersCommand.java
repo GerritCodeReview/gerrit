@@ -69,7 +69,7 @@ public class ListMembersCommand extends SshCommand {
     }
 
     void display(PrintWriter writer) throws PermissionBackendException {
-      Optional<InternalGroup> group = groupCache.get(new AccountGroup.NameKey(name));
+      Optional<InternalGroup> group = groupCache.get(AccountGroup.nameKey(name));
       String errorText = "Group not found or not visible\n";
 
       if (!group.isPresent()) {

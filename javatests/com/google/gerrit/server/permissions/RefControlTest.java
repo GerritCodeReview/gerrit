@@ -180,7 +180,7 @@ public class RefControlTest extends GerritBaseTests {
   private final AllProjectsName allProjectsName =
       new AllProjectsName(AllProjectsNameProvider.DEFAULT);
   private final AllUsersName allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);
-  private final AccountGroup.UUID fixers = new AccountGroup.UUID("test.fixers");
+  private final AccountGroup.UUID fixers = AccountGroup.uuid("test.fixers");
   private final Map<Project.NameKey, ProjectState> all = new HashMap<>();
   private Project.NameKey localKey = new Project.NameKey("local");
   private ProjectConfig local;

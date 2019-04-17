@@ -123,7 +123,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.CREATE, REGISTERED_USERS);
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.PUSH, REGISTERED_USERS);
     assertCreateFails(
-        new Branch.NameKey(allUsers, RefNames.refsGroups(new AccountGroup.UUID("foo"))),
+        new Branch.NameKey(allUsers, RefNames.refsGroups(AccountGroup.uuid("foo"))),
         RefNames.refsGroups(adminGroupUuid()),
         ResourceConflictException.class,
         "Not allowed to create group branch.");

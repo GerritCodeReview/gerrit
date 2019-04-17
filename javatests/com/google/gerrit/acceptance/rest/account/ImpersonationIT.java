@@ -570,8 +570,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   private void blockRead(GroupInfo group) throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.block(
-          u.getConfig(), Permission.READ, new AccountGroup.UUID(group.id), "refs/heads/master");
+      Util.block(u.getConfig(), Permission.READ, AccountGroup.uuid(group.id), "refs/heads/master");
       u.save();
     }
   }

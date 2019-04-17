@@ -519,7 +519,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         "refs/*",
         Permission.VIEW_PRIVATE_CHANGES,
         false,
-        new AccountGroup.UUID(groupThatCanViewPrivateChanges.id));
+        AccountGroup.uuid(groupThatCanViewPrivateChanges.id));
 
     // watch project as user that can't view private changes
     requestScopeOperations.setApiUser(user.id());

@@ -56,7 +56,7 @@ public class GroupListTest extends GerritBaseTests {
 
   @Test
   public void byUUID() throws Exception {
-    AccountGroup.UUID uuid = new AccountGroup.UUID("d96b998f8a66ff433af50befb975d0e2bb6e0999");
+    AccountGroup.UUID uuid = AccountGroup.uuid("d96b998f8a66ff433af50befb975d0e2bb6e0999");
 
     GroupReference groupReference = groupList.byUUID(uuid);
 
@@ -66,7 +66,7 @@ public class GroupListTest extends GerritBaseTests {
 
   @Test
   public void put() {
-    AccountGroup.UUID uuid = new AccountGroup.UUID("abc");
+    AccountGroup.UUID uuid = AccountGroup.uuid("abc");
     GroupReference groupReference = new GroupReference(uuid, "Hutzliputz");
 
     groupList.put(uuid, groupReference);
@@ -81,7 +81,7 @@ public class GroupListTest extends GerritBaseTests {
     Collection<GroupReference> result = groupList.references();
 
     assertEquals(2, result.size());
-    AccountGroup.UUID uuid = new AccountGroup.UUID("ebe31c01aec2c9ac3b3c03e87a47450829ff4310");
+    AccountGroup.UUID uuid = AccountGroup.uuid("ebe31c01aec2c9ac3b3c03e87a47450829ff4310");
     GroupReference expected = new GroupReference(uuid, "Administrators");
 
     assertTrue(result.contains(expected));
@@ -92,7 +92,7 @@ public class GroupListTest extends GerritBaseTests {
     Set<AccountGroup.UUID> result = groupList.uuids();
 
     assertEquals(2, result.size());
-    AccountGroup.UUID expected = new AccountGroup.UUID("ebe31c01aec2c9ac3b3c03e87a47450829ff4310");
+    AccountGroup.UUID expected = AccountGroup.uuid("ebe31c01aec2c9ac3b3c03e87a47450829ff4310");
     assertTrue(result.contains(expected));
   }
 
@@ -108,11 +108,11 @@ public class GroupListTest extends GerritBaseTests {
 
   @Test
   public void retainAll() throws Exception {
-    AccountGroup.UUID uuid = new AccountGroup.UUID("d96b998f8a66ff433af50befb975d0e2bb6e0999");
+    AccountGroup.UUID uuid = AccountGroup.uuid("d96b998f8a66ff433af50befb975d0e2bb6e0999");
     groupList.retainUUIDs(Collections.singleton(uuid));
 
     assertNotNull(groupList.byUUID(uuid));
-    assertNull(groupList.byUUID(new AccountGroup.UUID("ebe31c01aec2c9ac3b3c03e87a47450829ff4310")));
+    assertNull(groupList.byUUID(AccountGroup.uuid("ebe31c01aec2c9ac3b3c03e87a47450829ff4310")));
   }
 
   @Test

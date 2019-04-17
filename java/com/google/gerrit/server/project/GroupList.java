@@ -48,7 +48,7 @@ public class GroupList extends TabFile {
         logger.atWarning().log("null field in group list for %s:\n%s", project, text);
         continue;
       }
-      AccountGroup.UUID uuid = new AccountGroup.UUID(row.left);
+      AccountGroup.UUID uuid = AccountGroup.uuid(row.left);
       String name = row.right;
       GroupReference ref = new GroupReference(uuid, name);
 

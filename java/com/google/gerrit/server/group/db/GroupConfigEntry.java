@@ -135,7 +135,7 @@ enum GroupConfigEntry {
         throw new ConfigInvalidException(
             String.format("Owner UUID of the group %s must be defined", groupUuid.get()));
       }
-      group.setOwnerGroupUUID(new AccountGroup.UUID(ownerGroupUuid));
+      group.setOwnerGroupUUID(AccountGroup.uuid(ownerGroupUuid));
     }
 
     @Override

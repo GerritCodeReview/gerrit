@@ -26,7 +26,7 @@ public class GroupUUID {
     md.update(Constants.encode("group " + groupName + "\n"));
     md.update(Constants.encode("creator " + creator.toExternalString() + "\n"));
     md.update(Constants.encode(String.valueOf(Math.random())));
-    return new AccountGroup.UUID(ObjectId.fromRaw(md.digest()).name());
+    return AccountGroup.uuid(ObjectId.fromRaw(md.digest()).name());
   }
 
   private GroupUUID() {}

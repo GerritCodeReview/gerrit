@@ -81,7 +81,7 @@ public class GroupResolver {
    * @return the group, null if no group is found for the given group ID
    */
   public GroupDescription.Basic parseId(String id) {
-    AccountGroup.UUID uuid = new AccountGroup.UUID(id);
+    AccountGroup.UUID uuid = AccountGroup.uuid(id);
     if (groupBackend.handles(uuid)) {
       GroupDescription.Basic d = groupBackend.get(uuid);
       if (d != null) {

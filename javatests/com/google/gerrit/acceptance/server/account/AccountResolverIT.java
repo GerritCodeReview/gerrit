@@ -123,7 +123,7 @@ public class AccountResolverIT extends AbstractDaemonTest {
     Account.Id idWithExistingIdAsFullname =
         accountOperations.newAccount().fullname(existingId.toString()).create();
 
-    Account.Id nonexistentId = new Account.Id(sequences.nextAccountId());
+    Account.Id nonexistentId = Account.id(sequences.nextAccountId());
     accountOperations.newAccount().fullname(nonexistentId.toString()).create();
 
     assertThat(resolve(existingId)).containsExactly(existingId);
@@ -137,7 +137,7 @@ public class AccountResolverIT extends AbstractDaemonTest {
     Account.Id existingId = accountOperations.newAccount().fullname("Test User").create();
     accountOperations.newAccount().fullname(existingId.toString()).create();
 
-    Account.Id nonexistentId = new Account.Id(sequences.nextAccountId());
+    Account.Id nonexistentId = Account.id(sequences.nextAccountId());
     accountOperations.newAccount().fullname("Any Name (" + nonexistentId + ")").create();
     accountOperations.newAccount().fullname(nonexistentId.toString()).create();
 

@@ -218,7 +218,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
   private InternalGroupCreation getGroupCreation(Sequences seqs, GroupReference groupReference) {
     int next = seqs.nextGroupId();
     return InternalGroupCreation.builder()
-        .setNameKey(new AccountGroup.NameKey(groupReference.getName()))
+        .setNameKey(AccountGroup.nameKey(groupReference.getName()))
         .setId(new AccountGroup.Id(next))
         .setGroupUUID(groupReference.getUUID())
         .build();

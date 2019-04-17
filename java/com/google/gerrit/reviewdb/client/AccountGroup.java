@@ -16,7 +16,6 @@ package com.google.gerrit.reviewdb.client;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
-import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.StandardKeyEncoder;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -114,33 +113,27 @@ public final class AccountGroup {
     return uuid.get().matches("^[0-9a-f]{40}$");
   }
 
+  public static Id id(int id) {
+    return new AutoValue_AccountGroup_Id(id);
+  }
+
   /** Synthetic key to link to within the database */
-  public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
-    private static final long serialVersionUID = 1L;
+  @AutoValue
+  public abstract static class Id {
+    abstract int id();
 
-    protected int id;
-
-    protected Id() {}
-
-    public Id(int id) {
-      this.id = id;
-    }
-
-    @Override
     public int get() {
-      return id;
-    }
-
-    @Override
-    protected void set(int newValue) {
-      id = newValue;
+      return id();
     }
 
     /** Parse an AccountGroup.Id out of a string representation. */
     public static Id parse(String str) {
-      final Id r = new Id();
-      r.fromString(str);
-      return r;
+      return AccountGroup.id(Integer.parseInt(str));
+    }
+
+    @Override
+    public String toString() {
+      return Integer.toString(get());
     }
   }
 

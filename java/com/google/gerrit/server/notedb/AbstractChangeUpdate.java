@@ -185,6 +185,14 @@ public abstract class AbstractChangeUpdate {
   protected abstract String getRefName();
 
   /**
+   * Whether to allow bypassing the check that an update does not exceed the max update count on an
+   * object.
+   */
+  protected boolean bypassMaxUpdates() {
+    return false;
+  }
+
+  /**
    * Apply this update to the given inserter.
    *
    * @param rw walk for reading back any objects needed for the update.

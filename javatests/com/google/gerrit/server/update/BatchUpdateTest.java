@@ -19,18 +19,22 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager.TooManyUpdatesException;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritBaseTests;
@@ -107,9 +111,7 @@ public class BatchUpdateTest extends GerritBaseTests {
         bu.execute();
         assert_().fail("expected ResourceConflictException");
       } catch (ResourceConflictException e) {
-        assertThat(e)
-            .hasMessageThat()
-            .isEqualTo("Change " + id + " may not exceed " + MAX_UPDATES + " updates");
+        assertThat(e).hasMessageThat().isEqualTo(TooManyUpdatesException.message(id, MAX_UPDATES));
       }
     }
     assertThat(getUpdateCount(id)).isEqualTo(MAX_UPDATES);
@@ -118,32 +120,17 @@ public class BatchUpdateTest extends GerritBaseTests {
 
   @Test
   public void cannotExceedMaxUpdatesCountingMultipleChangeUpdatesInSingleBatch() throws Exception {
-    Change.Id id = createChangeWithUpdates(MAX_UPDATES - 2);
-    ChangeNotes notes = changeNotesFactory.create(project, id);
-    PatchSet.Id psId1 = notes.getChange().currentPatchSetId();
-    PatchSet.Id psId2 = ChangeUtil.nextPatchSetId(psId1);
+    Change.Id id = createChangeWithTwoPatchSets(MAX_UPDATES - 1);
 
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
-      ObjectId commitId =
-          repo.amend(ObjectId.fromString(notes.getCurrentPatchSet().getRevision().get()))
-              .message("PS2")
-              .create();
-      bu.addOp(id, patchSetInserterFactory.create(notes, psId2, commitId).setMessage("Add PS2"));
-      bu.execute();
-    }
-
-    assertThat(getUpdateCount(id)).isEqualTo(MAX_UPDATES - 1);
     ObjectId oldMetaId = getMetaId(id);
     try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
-      bu.addOp(id, new AddMessageOp("Update on PS1", psId1));
-      bu.addOp(id, new AddMessageOp("Update on PS2", psId2));
+      bu.addOp(id, new AddMessageOp("Update on PS1", new PatchSet.Id(id, 1)));
+      bu.addOp(id, new AddMessageOp("Update on PS2", new PatchSet.Id(id, 2)));
       try {
         bu.execute();
         assert_().fail("expected ResourceConflictException");
       } catch (ResourceConflictException e) {
-        assertThat(e)
-            .hasMessageThat()
-            .isEqualTo("Change " + id + " may not exceed " + MAX_UPDATES + " updates");
+        assertThat(e).hasMessageThat().isEqualTo(TooManyUpdatesException.message(id, MAX_UPDATES));
       }
     }
     assertThat(getUpdateCount(id)).isEqualTo(MAX_UPDATES - 1);
@@ -189,6 +176,55 @@ public class BatchUpdateTest extends GerritBaseTests {
     assertThat(getMetaId(id)).isEqualTo(oldMetaId);
   }
 
+  @Test
+  public void exceedingMaxUpdatesAllowedWithSubmit() throws Exception {
+    Change.Id id = createChangeWithUpdates(MAX_UPDATES);
+    ObjectId oldMetaId = getMetaId(id);
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+      bu.addOp(id, new SubmitOp());
+      bu.execute();
+    }
+    assertThat(getUpdateCount(id)).isEqualTo(MAX_UPDATES + 1);
+    assertThat(getMetaId(id)).isNotEqualTo(oldMetaId);
+  }
+
+  @Test
+  public void exceedingMaxUpdatesAllowedWithSubmitAfterOtherOp() throws Exception {
+    Change.Id id = createChangeWithTwoPatchSets(MAX_UPDATES - 1);
+    ObjectId oldMetaId = getMetaId(id);
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+      bu.addOp(id, new AddMessageOp("Message on PS1", new PatchSet.Id(id, 1)));
+      bu.addOp(id, new SubmitOp());
+      bu.execute();
+    }
+    assertThat(getUpdateCount(id)).isEqualTo(MAX_UPDATES + 1);
+    assertThat(getMetaId(id)).isNotEqualTo(oldMetaId);
+  }
+  // Not possible to write a variant of this test that submits first and adds a message second in
+  // the same batch, since submit always comes last.
+
+  @Test
+  public void exceedingMaxUpdatesAllowedWithAbandon() throws Exception {
+    Change.Id id = createChangeWithUpdates(MAX_UPDATES);
+    ObjectId oldMetaId = getMetaId(id);
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+      bu.addOp(
+          id,
+          new BatchUpdateOp() {
+            @Override
+            public boolean updateChange(ChangeContext ctx) {
+              ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
+              update.setChangeMessage("Abandon");
+              update.setStatus(Change.Status.ABANDONED);
+              return true;
+            }
+          });
+      bu.execute();
+    }
+    assertThat(getUpdateCount(id)).isEqualTo(MAX_UPDATES + 1);
+    assertThat(getMetaId(id)).isNotEqualTo(oldMetaId);
+  }
+
   private Change.Id createChangeWithUpdates(int totalUpdates) throws Exception {
     checkArgument(totalUpdates > 0);
     checkArgument(totalUpdates <= MAX_UPDATES);
@@ -206,6 +242,27 @@ public class BatchUpdateTest extends GerritBaseTests {
         bu.execute();
       }
     }
+    assertThat(getUpdateCount(id)).isEqualTo(totalUpdates);
+    return id;
+  }
+
+  private Change.Id createChangeWithTwoPatchSets(int totalUpdates) throws Exception {
+    Change.Id id = createChangeWithUpdates(totalUpdates - 1);
+    ChangeNotes notes = changeNotesFactory.create(project, id);
+
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+      ObjectId commitId =
+          repo.amend(ObjectId.fromString(notes.getCurrentPatchSet().getRevision().get()))
+              .message("PS2")
+              .create();
+      bu.addOp(
+          id,
+          patchSetInserterFactory
+              .create(notes, new PatchSet.Id(id, 2), commitId)
+              .setMessage("Add PS2"));
+      bu.execute();
+    }
+
     assertThat(getUpdateCount(id)).isEqualTo(totalUpdates);
     return id;
   }
@@ -246,5 +303,22 @@ public class BatchUpdateTest extends GerritBaseTests {
 
   private ObjectId getMetaId(Change.Id changeId) throws Exception {
     return repo.getRepository().exactRef(RefNames.changeMetaRef(changeId)).getObjectId();
+  }
+
+  private static class SubmitOp implements BatchUpdateOp {
+    @Override
+    public boolean updateChange(ChangeContext ctx) throws Exception {
+      SubmitRecord sr = new SubmitRecord();
+      sr.status = SubmitRecord.Status.OK;
+      SubmitRecord.Label cr = new SubmitRecord.Label();
+      cr.status = SubmitRecord.Label.Status.OK;
+      cr.appliedBy = ctx.getAccountId();
+      cr.label = "Code-Review";
+      sr.labels = ImmutableList.of(cr);
+      ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
+      update.merge(new RequestId(), ImmutableList.of(sr));
+      update.setChangeMessage("Submitted");
+      return true;
+    }
   }
 }

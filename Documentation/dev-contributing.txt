@@ -265,8 +265,9 @@ when coding:
     earlier in Gerrit's development.  To stay consistent, new ssh
     commands should follow this older pattern; but eventually these
     should get converted to eliminate this exception.
-  * Don't leave repository objects (git or schema) open.  A .close()
-    after every open should be placed in a finally{} block.
+  * Don't leave repository objects (git or schema) open.  Use a
+    try-with-resources statement to ensure that repository objects get
+    closed after use.
   * Don't leave UI components, which can cause new actions to occur,
     enabled during RPCs which update Git repositories, including NoteDb.
     This is to prevent people from submitting actions more than once

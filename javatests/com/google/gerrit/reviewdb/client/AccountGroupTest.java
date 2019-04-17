@@ -91,9 +91,9 @@ public class AccountGroupTest {
 
   @Test
   public void nameKeyToString() {
-    assertThat(new AccountGroup.NameKey("foo").toString()).isEqualTo("foo");
-    assertThat(new AccountGroup.NameKey("foo bar").toString()).isEqualTo("foo+bar");
-    assertThat(new AccountGroup.NameKey("foo:bar").toString()).isEqualTo("foo%3Abar");
+    assertThat(AccountGroup.nameKey("foo").toString()).isEqualTo("foo");
+    assertThat(AccountGroup.nameKey("foo bar").toString()).isEqualTo("foo+bar");
+    assertThat(AccountGroup.nameKey("foo:bar").toString()).isEqualTo("foo%3Abar");
   }
 
   private AccountGroup.UUID uuid(String uuid) {

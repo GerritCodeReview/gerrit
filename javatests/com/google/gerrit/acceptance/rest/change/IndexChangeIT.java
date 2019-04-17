@@ -66,7 +66,7 @@ public class IndexChangeIT extends AbstractDaemonTest {
       Util.allow(
           u.getConfig(),
           Permission.READ,
-          groupCache.get(new AccountGroup.NameKey(group)).get().getGroupUUID(),
+          groupCache.get(AccountGroup.nameKey(group)).get().getGroupUUID(),
           "refs/*");
       Util.block(u.getConfig(), Permission.READ, REGISTERED_USERS, "refs/*");
       u.save();

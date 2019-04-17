@@ -68,8 +68,7 @@ public abstract class TestGroup {
       TestGroup testGroup = autoBuild();
       AccountGroup.NameKey name = testGroup.getNameKey().orElse(AccountGroup.nameKey("users"));
       AccountGroup.Id id = testGroup.getId().orElse(new AccountGroup.Id(Math.abs(name.hashCode())));
-      AccountGroup.UUID uuid =
-          testGroup.getGroupUuid().orElse(new AccountGroup.UUID(name + "-UUID"));
+      AccountGroup.UUID uuid = testGroup.getGroupUuid().orElse(AccountGroup.uuid(name + "-UUID"));
       Timestamp createdOn = testGroup.getCreatedOn().orElseGet(TimeUtil::nowTs);
       AccountGroup accountGroup = new AccountGroup(name, id, uuid, createdOn);
       testGroup.getOwnerGroupUuid().ifPresent(accountGroup::setOwnerGroupUUID);

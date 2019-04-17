@@ -416,7 +416,7 @@ public class GroupConfig extends VersionedMetaData {
 
   private ImmutableSet<AccountGroup.UUID> readSubgroups()
       throws IOException, ConfigInvalidException {
-    return readFromFile(SUBGROUPS_FILE, AccountGroup.UUID::new);
+    return readFromFile(SUBGROUPS_FILE, AccountGroup::uuid);
   }
 
   private <E> ImmutableSet<E> readFromFile(String filePath, Function<String, E> fromStringFunction)

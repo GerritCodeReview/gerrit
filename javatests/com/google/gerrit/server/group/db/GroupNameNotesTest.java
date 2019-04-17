@@ -74,7 +74,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
   private static final String SERVER_EMAIL = "noreply@gerritcodereview.com";
   private static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
 
-  private final AccountGroup.UUID groupUuid = new AccountGroup.UUID("users-XYZ");
+  private final AccountGroup.UUID groupUuid = AccountGroup.uuid("users-XYZ");
   private final AccountGroup.NameKey groupName = AccountGroup.nameKey("users");
 
   private AtomicInteger idCounter;
@@ -128,7 +128,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
   public void newGroupMustNotReuseNameOfAnotherGroup() throws Exception {
     createGroup(groupUuid, groupName);
 
-    AccountGroup.UUID anotherGroupUuid = new AccountGroup.UUID("AnotherGroup");
+    AccountGroup.UUID anotherGroupUuid = AccountGroup.uuid("AnotherGroup");
     exception.expect(DuplicateKeyException.class);
     exception.expectMessage(groupName.get());
     GroupNameNotes.forNewGroup(allUsersName, repo, anotherGroupUuid, groupName);
@@ -201,7 +201,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
   @Test
   public void groupCannotBeRenamedToNameOfAnotherGroup() throws Exception {
     createGroup(groupUuid, groupName);
-    AccountGroup.UUID anotherGroupUuid = new AccountGroup.UUID("admins-ABC");
+    AccountGroup.UUID anotherGroupUuid = AccountGroup.uuid("admins-ABC");
     AccountGroup.NameKey anotherGroupName = AccountGroup.nameKey("admins");
     createGroup(anotherGroupUuid, anotherGroupName);
 
@@ -223,7 +223,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
   public void groupCannotBeRenamedWhenUuidIsWrong() throws Exception {
     createGroup(groupUuid, groupName);
 
-    AccountGroup.UUID anotherGroupUuid = new AccountGroup.UUID("admins-ABC");
+    AccountGroup.UUID anotherGroupUuid = AccountGroup.uuid("admins-ABC");
     AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
     exception.expect(ConfigInvalidException.class);
     exception.expectMessage(groupUuid.get());
@@ -248,7 +248,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
     createGroup(groupUuid, groupName);
     ImmutableList<CommitInfo> commitsAfterCreation = log();
 
-    AccountGroup.UUID anotherGroupUuid = new AccountGroup.UUID("admins-ABC");
+    AccountGroup.UUID anotherGroupUuid = AccountGroup.uuid("admins-ABC");
     AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
     createGroup(anotherGroupUuid, anotherName);
 
@@ -341,7 +341,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
 
   @Test
   public void nonExistentGroupCannotBeLoaded() throws Exception {
-    createGroup(new AccountGroup.UUID("contributors-MN"), AccountGroup.nameKey("contributors"));
+    createGroup(AccountGroup.uuid("contributors-MN"), AccountGroup.nameKey("contributors"));
     createGroup(groupUuid, groupName);
 
     Optional<GroupReference> group = loadGroup(AccountGroup.nameKey("admins"));
@@ -350,9 +350,9 @@ public class GroupNameNotesTest extends GerritBaseTests {
 
   @Test
   public void specificGroupCanBeLoaded() throws Exception {
-    createGroup(new AccountGroup.UUID("contributors-MN"), AccountGroup.nameKey("contributors"));
+    createGroup(AccountGroup.uuid("contributors-MN"), AccountGroup.nameKey("contributors"));
     createGroup(groupUuid, groupName);
-    createGroup(new AccountGroup.UUID("admins-ABC"), AccountGroup.nameKey("admins"));
+    createGroup(AccountGroup.uuid("admins-ABC"), AccountGroup.nameKey("admins"));
 
     Optional<GroupReference> group = loadGroup(groupName);
     assertThatGroup(group).value().groupUuid().isEqualTo(groupUuid);
@@ -367,10 +367,10 @@ public class GroupNameNotesTest extends GerritBaseTests {
 
   @Test
   public void allGroupsCanBeLoaded() throws Exception {
-    AccountGroup.UUID groupUuid1 = new AccountGroup.UUID("contributors-MN");
+    AccountGroup.UUID groupUuid1 = AccountGroup.uuid("contributors-MN");
     AccountGroup.NameKey groupName1 = AccountGroup.nameKey("contributors");
     createGroup(groupUuid1, groupName1);
-    AccountGroup.UUID groupUuid2 = new AccountGroup.UUID("admins-ABC");
+    AccountGroup.UUID groupUuid2 = AccountGroup.uuid("admins-ABC");
     AccountGroup.NameKey groupName2 = AccountGroup.nameKey("admins");
     createGroup(groupUuid2, groupName2);
 
@@ -480,14 +480,14 @@ public class GroupNameNotesTest extends GerritBaseTests {
   @Test
   public void updateGroupNamesRejectsNonOneToOneGroupReferences() throws Exception {
     assertIllegalArgument(
-        new GroupReference(new AccountGroup.UUID("uuid1"), "name1"),
-        new GroupReference(new AccountGroup.UUID("uuid1"), "name2"));
+        new GroupReference(AccountGroup.uuid("uuid1"), "name1"),
+        new GroupReference(AccountGroup.uuid("uuid1"), "name2"));
     assertIllegalArgument(
-        new GroupReference(new AccountGroup.UUID("uuid1"), "name1"),
-        new GroupReference(new AccountGroup.UUID("uuid2"), "name1"));
+        new GroupReference(AccountGroup.uuid("uuid1"), "name1"),
+        new GroupReference(AccountGroup.uuid("uuid2"), "name1"));
     assertIllegalArgument(
-        new GroupReference(new AccountGroup.UUID("uuid1"), "name1"),
-        new GroupReference(new AccountGroup.UUID("uuid1"), "name1"));
+        new GroupReference(AccountGroup.uuid("uuid1"), "name1"),
+        new GroupReference(AccountGroup.uuid("uuid1"), "name1"));
   }
 
   @Test
@@ -537,7 +537,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
 
   private GroupReference newGroup(String name) {
     int id = idCounter.incrementAndGet();
-    return new GroupReference(new AccountGroup.UUID(name + "-" + id), name);
+    return new GroupReference(AccountGroup.uuid(name + "-" + id), name);
   }
 
   private static PersonIdent newPersonIdent() {

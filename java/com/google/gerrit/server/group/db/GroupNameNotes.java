@@ -442,7 +442,7 @@ public class GroupNameNotes extends VersionedMetaData {
       throw new ConfigInvalidException(String.format("UUID for group '%s' must be defined", name));
     }
 
-    return new GroupReference(new AccountGroup.UUID(uuid), name);
+    return new GroupReference(AccountGroup.uuid(uuid), name);
   }
 
   private String getCommitMessage() {

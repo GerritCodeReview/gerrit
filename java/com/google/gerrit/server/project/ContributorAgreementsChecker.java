@@ -117,7 +117,7 @@ public class ContributorAgreementsChecker {
         if ((rule.getAction() == Action.ALLOW)
             && (rule.getGroup() != null)
             && (rule.getGroup().getUUID() != null)) {
-          groupIds.add(new AccountGroup.UUID(rule.getGroup().getUUID().get()));
+          groupIds.add(AccountGroup.uuid(rule.getGroup().getUUID().get()));
         }
       }
     }

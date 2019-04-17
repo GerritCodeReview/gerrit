@@ -44,7 +44,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class UniversalGroupBackendTest extends GerritBaseTests {
-  private static final AccountGroup.UUID OTHER_UUID = new AccountGroup.UUID("other");
+  private static final AccountGroup.UUID OTHER_UUID = AccountGroup.uuid("other");
 
   private UniversalGroupBackend backend;
   private IdentifiedUser user;
@@ -102,8 +102,8 @@ public class UniversalGroupBackendTest extends GerritBaseTests {
 
   @Test
   public void otherMemberships() {
-    final AccountGroup.UUID handled = new AccountGroup.UUID("handled");
-    final AccountGroup.UUID notHandled = new AccountGroup.UUID("not handled");
+    final AccountGroup.UUID handled = AccountGroup.uuid("handled");
+    final AccountGroup.UUID notHandled = AccountGroup.uuid("not handled");
     final IdentifiedUser member = createNiceMock(IdentifiedUser.class);
     final IdentifiedUser notMember = createNiceMock(IdentifiedUser.class);
 

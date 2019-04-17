@@ -69,7 +69,7 @@ public class GroupsUpdateIT {
             .setMemberModification(
                 new CreateAnotherGroupOnceAsSideEffectOfMemberModification("verifiers"))
             .build();
-    updateGroup(new AccountGroup.UUID("users-UUID"), groupUpdate);
+    updateGroup(AccountGroup.uuid("users-UUID"), groupUpdate);
 
     Stream<String> allGroupNames = getAllGroupNames();
     assertThat(allGroupNames).containsAllOf("contributors", "verifiers");
@@ -81,7 +81,7 @@ public class GroupsUpdateIT {
         InternalGroupUpdate.builder().setDescription("A description for the group").build();
 
     expectedException.expect(NoSuchGroupException.class);
-    updateGroup(new AccountGroup.UUID("nonexistent-group-UUID"), groupUpdate);
+    updateGroup(AccountGroup.uuid("nonexistent-group-UUID"), groupUpdate);
   }
 
   private void createGroup(String groupName, String groupUuid) throws Exception {
@@ -107,7 +107,7 @@ public class GroupsUpdateIT {
 
   private static InternalGroupCreation getGroupCreation(String groupName, String groupUuid) {
     return InternalGroupCreation.builder()
-        .setGroupUUID(new AccountGroup.UUID(groupUuid))
+        .setGroupUUID(AccountGroup.uuid(groupUuid))
         .setNameKey(AccountGroup.nameKey(groupName))
         .setId(new AccountGroup.Id(Math.abs(groupName.hashCode())))
         .build();

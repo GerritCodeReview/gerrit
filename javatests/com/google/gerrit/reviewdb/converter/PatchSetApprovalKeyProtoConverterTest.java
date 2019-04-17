@@ -37,7 +37,7 @@ public class PatchSetApprovalKeyProtoConverterTest {
   @Test
   public void allValuesConvertedToProto() {
     PatchSetApproval.Key key =
-        new PatchSetApproval.Key(
+        PatchSetApproval.key(
             new PatchSet.Id(new Change.Id(42), 14), new Account.Id(100013), new LabelId("label-8"));
 
     Entities.PatchSetApproval_Key proto = protoConverter.toProto(key);
@@ -57,7 +57,7 @@ public class PatchSetApprovalKeyProtoConverterTest {
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
     PatchSetApproval.Key key =
-        new PatchSetApproval.Key(
+        PatchSetApproval.key(
             new PatchSet.Id(new Change.Id(42), 14), new Account.Id(100013), new LabelId("label-8"));
 
     PatchSetApproval.Key convertedKey = protoConverter.fromProto(protoConverter.toProto(key));

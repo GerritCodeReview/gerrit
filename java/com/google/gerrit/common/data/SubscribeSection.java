@@ -62,12 +62,12 @@ public class SubscribeSection {
    */
   public boolean appliesTo(Branch.NameKey branch) {
     for (RefSpec r : matchingRefSpecs) {
-      if (r.matchSource(branch.get())) {
+      if (r.matchSource(branch.branch())) {
         return true;
       }
     }
     for (RefSpec r : multiMatchRefSpecs) {
-      if (r.matchSource(branch.get())) {
+      if (r.matchSource(branch.branch())) {
         return true;
       }
     }

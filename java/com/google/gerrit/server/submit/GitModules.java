@@ -58,13 +58,13 @@ public class GitModules {
       @Assisted Branch.NameKey branch,
       @Assisted MergeOpRepoManager orm)
       throws IOException {
-    Project.NameKey project = branch.getParentKey();
+    Project.NameKey project = branch.project();
     logger.atFine().log("Loading .gitmodules of %s for project %s", branch, project);
     try {
       OpenRepo or = orm.getRepo(project);
-      ObjectId id = or.repo.resolve(branch.get());
+      ObjectId id = or.repo.resolve(branch.branch());
       if (id == null) {
-        throw new IOException("Cannot open branch " + branch.get());
+        throw new IOException("Cannot open branch " + branch.branch());
       }
       RevCommit commit = or.rw.parseCommit(id);
 
@@ -80,7 +80,7 @@ public class GitModules {
         config = new BlobBasedConfig(null, or.repo, commit, GIT_MODULES);
       } catch (ConfigInvalidException e) {
         throw new IOException(
-            "Could not read .gitmodules of super project: " + branch.getParentKey(), e);
+            "Could not read .gitmodules of super project: " + branch.project(), e);
       }
       subscriptions =
           new SubmoduleSectionParser(config, canonicalWebUrl, branch).parseAllSections();

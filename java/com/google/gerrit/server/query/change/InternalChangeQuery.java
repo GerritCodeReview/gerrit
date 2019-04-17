@@ -56,7 +56,7 @@ import org.eclipse.jgit.lib.Repository;
  */
 public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChangeQuery> {
   private static Predicate<ChangeData> ref(Branch.NameKey branch) {
-    return new RefPredicate(branch.get());
+    return new RefPredicate(branch.branch());
   }
 
   private static Predicate<ChangeData> change(Change.Key key) {
@@ -115,16 +115,16 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   public List<ChangeData> byBranchKeyOpen(Project.NameKey project, String branch, Change.Key key) {
-    return query(and(byBranchKeyPred(new Branch.NameKey(project, branch), key), open()));
+    return query(and(byBranchKeyPred(Branch.nameKey(project, branch), key), open()));
   }
 
   public static Predicate<ChangeData> byBranchKeyOpenPred(
       Project.NameKey project, String branch, Change.Key key) {
-    return and(byBranchKeyPred(new Branch.NameKey(project, branch), key), open());
+    return and(byBranchKeyPred(Branch.nameKey(project, branch), key), open());
   }
 
   private static Predicate<ChangeData> byBranchKeyPred(Branch.NameKey branch, Change.Key key) {
-    return and(ref(branch), project(branch.getParentKey()), change(key));
+    return and(ref(branch), project(branch.project()), change(key));
   }
 
   public List<ChangeData> byProject(Project.NameKey project) {
@@ -132,11 +132,11 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   public List<ChangeData> byBranchOpen(Branch.NameKey branch) {
-    return query(and(ref(branch), project(branch.getParentKey()), open()));
+    return query(and(ref(branch), project(branch.project()), open()));
   }
 
   public List<ChangeData> byBranchNew(Branch.NameKey branch) {
-    return query(and(ref(branch), project(branch.getParentKey()), status(Change.Status.NEW)));
+    return query(and(ref(branch), project(branch.project()), status(Change.Status.NEW)));
   }
 
   public Iterable<ChangeData> byCommitsOnBranchNotMerged(
@@ -180,7 +180,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
 
     List<ChangeNotes> notes =
         notesFactory.create(
-            branch.getParentKey(),
+            branch.project(),
             changeIds,
             cn -> {
               Change c = cn.getChange();
@@ -194,7 +194,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return query(
         and(
             ref(branch),
-            project(branch.getParentKey()),
+            project(branch.project()),
             not(status(Change.Status.MERGED)),
             or(commits(hashes))));
   }
@@ -242,7 +242,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   public List<ChangeData> byBranchCommit(Branch.NameKey branch, String hash) {
-    return byBranchCommit(branch.getParentKey().get(), branch.get(), hash);
+    return byBranchCommit(branch.project().get(), branch.branch(), hash);
   }
 
   public List<ChangeData> byBranchCommitOpen(String project, String branch, String hash) {

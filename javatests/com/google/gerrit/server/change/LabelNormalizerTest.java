@@ -188,13 +188,13 @@ public class LabelNormalizerTest extends GerritBaseTests {
 
   private PatchSetApproval psa(Account.Id accountId, String label, int value) {
     return new PatchSetApproval(
-        new PatchSetApproval.Key(change.currentPatchSetId(), accountId, new LabelId(label)),
+        PatchSetApproval.key(change.currentPatchSetId(), accountId, new LabelId(label)),
         (short) value,
         TimeUtil.nowTs());
   }
 
   private PatchSetApproval copy(PatchSetApproval src, int newValue) {
-    PatchSetApproval result = new PatchSetApproval(src.getKey().getParentKey(), src);
+    PatchSetApproval result = new PatchSetApproval(src.getKey().patchSetId(), src);
     result.setValue((short) newValue);
     return result;
   }

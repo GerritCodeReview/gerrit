@@ -14,52 +14,25 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
-import com.google.gwtorm.client.CompoundKey;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 
 /** An approval (or negative approval) on a patch set. */
 public final class PatchSetApproval {
-  public static class Key extends CompoundKey<PatchSet.Id> {
-    private static final long serialVersionUID = 1L;
+  public static Key key(PatchSet.Id patchSetId, Account.Id accountId, LabelId labelId) {
+    return new AutoValue_PatchSetApproval_Key(patchSetId, accountId, labelId);
+  }
 
-    protected PatchSet.Id patchSetId;
+  @AutoValue
+  public abstract static class Key {
+    public abstract PatchSet.Id patchSetId();
 
-    protected Account.Id accountId;
+    public abstract Account.Id accountId();
 
-    protected LabelId categoryId;
-
-    protected Key() {
-      patchSetId = new PatchSet.Id();
-      accountId = new Account.Id();
-      categoryId = new LabelId();
-    }
-
-    public Key(PatchSet.Id ps, Account.Id a, LabelId c) {
-      this.patchSetId = ps;
-      this.accountId = a;
-      this.categoryId = c;
-    }
-
-    @Override
-    public PatchSet.Id getParentKey() {
-      return patchSetId;
-    }
-
-    public Account.Id getAccountId() {
-      return accountId;
-    }
-
-    public LabelId getLabelId() {
-      return categoryId;
-    }
-
-    @Override
-    public com.google.gwtorm.client.Key<?>[] members() {
-      return new com.google.gwtorm.client.Key<?>[] {accountId, categoryId};
-    }
+    public abstract LabelId labelId();
   }
 
   protected Key key;
@@ -103,7 +76,7 @@ public final class PatchSetApproval {
   }
 
   public PatchSetApproval(PatchSet.Id psId, PatchSetApproval src) {
-    key = new PatchSetApproval.Key(psId, src.getAccountId(), src.getLabelId());
+    key = key(psId, src.getAccountId(), src.getLabelId());
     value = src.getValue();
     granted = src.granted;
     realAccountId = src.realAccountId;
@@ -120,11 +93,11 @@ public final class PatchSetApproval {
   }
 
   public PatchSet.Id getPatchSetId() {
-    return key.patchSetId;
+    return key.patchSetId();
   }
 
   public Account.Id getAccountId() {
-    return key.accountId;
+    return key.accountId();
   }
 
   public Account.Id getRealAccountId() {
@@ -137,7 +110,7 @@ public final class PatchSetApproval {
   }
 
   public LabelId getLabelId() {
-    return key.categoryId;
+    return key.labelId();
   }
 
   public short getValue() {

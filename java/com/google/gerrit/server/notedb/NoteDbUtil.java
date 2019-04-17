@@ -15,8 +15,12 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import java.sql.Timestamp;
 import java.util.Optional;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -24,6 +28,14 @@ import org.eclipse.jgit.util.GitDateFormatter;
 import org.eclipse.jgit.util.GitDateFormatter.Format;
 
 public class NoteDbUtil {
+
+  private static final CharMatcher INVALID_FOOTER_CHARS = CharMatcher.anyOf("\r\n\0");
+
+  private static final ImmutableList<String> PACKAGE_PREFIXES =
+      ImmutableList.of("com.google.gerrit.server.", "com.google.gerrit.");
+  private static final ImmutableSet<String> SERVLET_NAMES =
+      ImmutableSet.of(
+          "com.google.gerrit.httpd.restapi.RestApiServlet", RetryingRestModifyView.class.getName());
 
   /**
    * Returns an AccountId for the given email address. Returns empty if the address isn't on this
@@ -44,8 +56,6 @@ public class NoteDbUtil {
     return Optional.empty();
   }
 
-  private NoteDbUtil() {}
-
   public static String formatTime(PersonIdent ident, Timestamp t) {
     GitDateFormatter dateFormatter = new GitDateFormatter(Format.DEFAULT);
     // TODO(dborowitz): Use a ThreadLocal or use Joda.
@@ -53,7 +63,26 @@ public class NoteDbUtil {
     return dateFormatter.formatDate(newIdent);
   }
 
-  private static final CharMatcher INVALID_FOOTER_CHARS = CharMatcher.anyOf("\r\n\0");
+  /** Returns the name of */
+  static String guessRestApiHandler() {
+    StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+    int i = findRestApiServlet(trace);
+    if (i < 0) {
+      return null;
+    }
+    try {
+      for (i--; i >= 0; i--) {
+        String cn = trace[i].getClassName();
+        Class<?> cls = Class.forName(cn);
+        if (RestModifyView.class.isAssignableFrom(cls) && cls != RetryingRestModifyView.class) {
+          return viewName(cn);
+        }
+      }
+      return null;
+    } catch (ClassNotFoundException e) {
+      return null;
+    }
+  }
 
   static String sanitizeFooter(String value) {
     // Remove characters that would confuse JGit's footer parser if they were
@@ -65,4 +94,25 @@ public class NoteDbUtil {
     // empty paragraph for the purposes of footer parsing.
     return INVALID_FOOTER_CHARS.trimAndCollapseFrom(value, ' ');
   }
+
+  private static int findRestApiServlet(StackTraceElement[] trace) {
+    for (int i = 0; i < trace.length; i++) {
+      if (SERVLET_NAMES.contains(trace[i].getClassName())) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  private static String viewName(String cn) {
+    String impl = cn.replace('$', '.');
+    for (String p : PACKAGE_PREFIXES) {
+      if (impl.startsWith(p)) {
+        return impl.substring(p.length());
+      }
+    }
+    return impl;
+  }
+
+  private NoteDbUtil() {}
 }

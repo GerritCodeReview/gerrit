@@ -455,7 +455,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (triplet.isPresent()) {
       return Predicate.and(
           project(triplet.get().project().get()),
-          branch(triplet.get().branch().get()),
+          branch(triplet.get().branch().branch()),
           new ChangeIdPredicate(parseChangeId(triplet.get().id().get())));
     }
     if (PAT_LEGACY_ID.matcher(query).matches()) {

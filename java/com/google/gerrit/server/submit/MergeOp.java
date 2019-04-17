@@ -584,7 +584,7 @@ public class MergeOp implements AutoCloseable {
     Set<Branch.NameKey> branches = cbb.keySet();
 
     for (Branch.NameKey branch : branches) {
-      OpenRepo or = openRepo(branch.getParentKey());
+      OpenRepo or = openRepo(branch.project());
       if (or != null) {
         toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
       }
@@ -648,7 +648,7 @@ public class MergeOp implements AutoCloseable {
     Set<CodeReviewCommit> allCommits =
         toSubmit.values().stream().map(BranchBatch::commits).flatMap(Set::stream).collect(toSet());
     for (Branch.NameKey branch : allBranches) {
-      OpenRepo or = orm.getRepo(branch.getParentKey());
+      OpenRepo or = orm.getRepo(branch.project());
       if (toSubmit.containsKey(branch)) {
         BranchBatch submitting = toSubmit.get(branch);
         logger.atFine().log("adding ops for branch batch %s", submitting);

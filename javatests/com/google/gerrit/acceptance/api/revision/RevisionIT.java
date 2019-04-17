@@ -627,7 +627,7 @@ public class RevisionIT extends AbstractDaemonTest {
         createCherryPickableMerge(parent1FileName, parent2FileName);
 
     String cherryPickBranchName = "branch_for_cherry_pick";
-    createBranch(new Branch.NameKey(project, cherryPickBranchName));
+    createBranch(Branch.nameKey(project, cherryPickBranchName));
 
     CherryPickInput cherryPickInput = new CherryPickInput();
     cherryPickInput.destination = cherryPickBranchName;
@@ -654,7 +654,7 @@ public class RevisionIT extends AbstractDaemonTest {
         createCherryPickableMerge(parent1FileName, parent2FileName);
 
     String cherryPickBranchName = "branch_for_cherry_pick";
-    createBranch(new Branch.NameKey(project, cherryPickBranchName));
+    createBranch(Branch.nameKey(project, cherryPickBranchName));
 
     CherryPickInput cherryPickInput = new CherryPickInput();
     cherryPickInput.destination = cherryPickBranchName;
@@ -682,7 +682,7 @@ public class RevisionIT extends AbstractDaemonTest {
         createCherryPickableMerge(parent1FileName, parent2FileName);
 
     String cherryPickBranchName = "branch_for_cherry_pick";
-    createBranch(new Branch.NameKey(project, cherryPickBranchName));
+    createBranch(Branch.nameKey(project, cherryPickBranchName));
 
     CherryPickInput cherryPickInput = new CherryPickInput();
     cherryPickInput.destination = cherryPickBranchName;
@@ -703,7 +703,7 @@ public class RevisionIT extends AbstractDaemonTest {
         createCherryPickableMerge(parent1FileName, parent2FileName);
 
     String cherryPickBranchName = "branch_for_cherry_pick";
-    createBranch(new Branch.NameKey(project, cherryPickBranchName));
+    createBranch(Branch.nameKey(project, cherryPickBranchName));
 
     CherryPickInput cherryPickInput = new CherryPickInput();
     cherryPickInput.destination = cherryPickBranchName;
@@ -718,9 +718,9 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickNotify() throws Exception {
-    createBranch(new Branch.NameKey(project, "branch-1"));
-    createBranch(new Branch.NameKey(project, "branch-2"));
-    createBranch(new Branch.NameKey(project, "branch-3"));
+    createBranch(Branch.nameKey(project, "branch-1"));
+    createBranch(Branch.nameKey(project, "branch-2"));
+    createBranch(Branch.nameKey(project, "branch-3"));
 
     // Creates a change for 'admin'.
     PushOneCommit.Result result = createChange();
@@ -759,7 +759,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickKeepReviewers() throws Exception {
-    createBranch(new Branch.NameKey(project, "stable"));
+    createBranch(Branch.nameKey(project, "stable"));
 
     // Change is created by 'admin'.
     PushOneCommit.Result r = createChange();
@@ -793,7 +793,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickToMergedChangeRevision() throws Exception {
-    createBranch(new Branch.NameKey(project, "foo"));
+    createBranch(Branch.nameKey(project, "foo"));
 
     PushOneCommit.Result dstChange = createChange(testRepo, "foo", SUBJECT, "b.txt", "b", "t");
     dstChange.assertOkStatus();
@@ -817,7 +817,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickToOpenChangeRevision() throws Exception {
-    createBranch(new Branch.NameKey(project, "foo"));
+    createBranch(Branch.nameKey(project, "foo"));
 
     PushOneCommit.Result dstChange = createChange(testRepo, "foo", SUBJECT, "b.txt", "b", "t");
     dstChange.assertOkStatus();
@@ -835,7 +835,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickToNonVisibleChangeFails() throws Exception {
-    createBranch(new Branch.NameKey(project, "foo"));
+    createBranch(Branch.nameKey(project, "foo"));
 
     PushOneCommit.Result dstChange = createChange(testRepo, "foo", SUBJECT, "b.txt", "b", "t");
     dstChange.assertOkStatus();
@@ -1525,9 +1525,9 @@ public class RevisionIT extends AbstractDaemonTest {
     RevCommit initialCommit = getHead(repo(), "HEAD");
 
     String branchAName = "branchA";
-    createBranch(new Branch.NameKey(project, branchAName));
+    createBranch(Branch.nameKey(project, branchAName));
     String branchBName = "branchB";
-    createBranch(new Branch.NameKey(project, branchBName));
+    createBranch(Branch.nameKey(project, branchBName));
 
     PushOneCommit.Result changeAResult =
         pushFactory

@@ -46,7 +46,7 @@ public class DestinationList extends TabFile {
     }
     List<Row> rows = Lists.newArrayListWithCapacity(dests.size());
     for (Branch.NameKey dest : sort(dests)) {
-      rows.add(new Row(dest.get(), dest.getParentKey().get()));
+      rows.add(new Row(dest.branch(), dest.project().get()));
     }
     return asText("Ref", "Project", rows);
   }
@@ -54,7 +54,7 @@ public class DestinationList extends TabFile {
   private static Set<Branch.NameKey> toSet(List<Row> destRows) {
     Set<Branch.NameKey> dests = Sets.newHashSetWithExpectedSize(destRows.size());
     for (Row row : destRows) {
-      dests.add(new Branch.NameKey(new Project.NameKey(row.right), row.left));
+      dests.add(Branch.nameKey(new Project.NameKey(row.right), row.left));
     }
     return dests;
   }

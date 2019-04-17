@@ -127,7 +127,7 @@ public class EventFactory {
   public ChangeAttribute asChangeAttribute(Change change) {
     ChangeAttribute a = new ChangeAttribute();
     a.project = change.getProject().get();
-    a.branch = change.getDest().getShortName();
+    a.branch = change.getDest().shortName();
     a.topic = change.getTopic();
     a.id = change.getKey().get();
     a.number = change.getId().get();
@@ -178,8 +178,8 @@ public class EventFactory {
     RefUpdateAttribute ru = new RefUpdateAttribute();
     ru.newRev = newId != null ? newId.getName() : ObjectId.zeroId().getName();
     ru.oldRev = oldId != null ? oldId.getName() : ObjectId.zeroId().getName();
-    ru.project = refName.getParentKey().get();
-    ru.refName = refName.get();
+    ru.project = refName.project().get();
+    ru.refName = refName.branch();
     return ru;
   }
 

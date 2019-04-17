@@ -887,7 +887,7 @@ public class ChangeData {
         }
 
         try (Repository repo = repoManager.openRepository(project())) {
-          Ref ref = repo.getRefDatabase().exactRef(c.getDest().get());
+          Ref ref = repo.getRefDatabase().exactRef(c.getDest().branch());
           SubmitTypeRecord str = submitTypeRecord();
           if (!str.isOk()) {
             // If submit type rules are broken, it's definitely not mergeable.

@@ -834,7 +834,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
 
     ChangeNotes notes = newNotes(c);
-    Branch.NameKey expectedBranch = new Branch.NameKey(project, "refs/heads/master");
+    Branch.NameKey expectedBranch = Branch.nameKey(project, "refs/heads/master");
     assertThat(notes.getChange().getDest()).isEqualTo(expectedBranch);
 
     // An update doesn't affect the branch
@@ -848,8 +848,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update = newUpdate(c, changeOwner);
     update.setBranch(otherBranch);
     update.commit();
-    assertThat(newNotes(c).getChange().getDest())
-        .isEqualTo(new Branch.NameKey(project, otherBranch));
+    assertThat(newNotes(c).getChange().getDest()).isEqualTo(Branch.nameKey(project, otherBranch));
   }
 
   @Test
@@ -956,7 +955,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     c.setCurrentPatchSet(c.currentPatchSetId(), "  " + trimmedSubj, c.getOriginalSubject());
     ChangeUpdate update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
-    update.setBranch(c.getDest().get());
+    update.setBranch(c.getDest().branch());
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -968,7 +967,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     c.setCurrentPatchSet(c.currentPatchSetId(), tabSubj, c.getOriginalSubject());
     update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
-    update.setBranch(c.getDest().get());
+    update.setBranch(c.getDest().branch());
     update.commit();
 
     notes = newNotes(c);

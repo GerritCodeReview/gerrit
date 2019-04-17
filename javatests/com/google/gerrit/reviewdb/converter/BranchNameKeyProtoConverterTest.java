@@ -33,21 +33,21 @@ public class BranchNameKeyProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    Branch.NameKey nameKey = new Branch.NameKey(new Project.NameKey("project-13"), "branch-72");
+    Branch.NameKey nameKey = Branch.nameKey(new Project.NameKey("project-13"), "branch-72");
 
     Entities.Branch_NameKey proto = branchNameKeyProtoConverter.toProto(nameKey);
 
     Entities.Branch_NameKey expectedProto =
         Entities.Branch_NameKey.newBuilder()
-            .setProjectName(Entities.Project_NameKey.newBuilder().setName("project-13"))
-            .setBranchName("refs/heads/branch-72")
+            .setProject(Entities.Project_NameKey.newBuilder().setName("project-13"))
+            .setBranch("refs/heads/branch-72")
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    Branch.NameKey nameKey = new Branch.NameKey(new Project.NameKey("project-52"), "branch 14");
+    Branch.NameKey nameKey = Branch.nameKey(new Project.NameKey("project-52"), "branch 14");
 
     Branch.NameKey convertedNameKey =
         branchNameKeyProtoConverter.fromProto(branchNameKeyProtoConverter.toProto(nameKey));
@@ -59,8 +59,8 @@ public class BranchNameKeyProtoConverterTest {
   public void protoCanBeParsedFromBytes() throws Exception {
     Entities.Branch_NameKey proto =
         Entities.Branch_NameKey.newBuilder()
-            .setProjectName(Entities.Project_NameKey.newBuilder().setName("project 1"))
-            .setBranchName("branch 36")
+            .setProject(Entities.Project_NameKey.newBuilder().setName("project 1"))
+            .setBranch("branch 36")
             .build();
     byte[] bytes = proto.toByteArray();
 
@@ -72,12 +72,12 @@ public class BranchNameKeyProtoConverterTest {
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
-  public void fieldsExistAsExpected() {
+  public void methodsExistAsExpected() {
     assertThatSerializedClass(Branch.NameKey.class)
-        .hasFields(
+        .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
-                .put("projectName", Project.NameKey.class)
-                .put("branchName", String.class)
+                .put("project", Project.NameKey.class)
+                .put("branch", String.class)
                 .build());
   }
 }

@@ -36,7 +36,7 @@ public class PRED_change_branch_1 extends Predicate.P1 {
 
     Branch.NameKey name = StoredValues.getChange(engine).getDest();
 
-    if (!a1.unify(SymbolTerm.create(name.get()), engine.trail)) {
+    if (!a1.unify(SymbolTerm.create(name.branch()), engine.trail)) {
       return engine.fail();
     }
     return cont;

@@ -360,7 +360,7 @@ public class StreamEventsApiListener
     if (ev.getUpdater() != null) {
       event.submitter = accountAttributeSupplier(ev.getUpdater());
     }
-    final Branch.NameKey refName = new Branch.NameKey(ev.getProjectName(), ev.getRefName());
+    final Branch.NameKey refName = Branch.nameKey(ev.getProjectName(), ev.getRefName());
     event.refUpdate =
         Suppliers.memoize(
             () ->

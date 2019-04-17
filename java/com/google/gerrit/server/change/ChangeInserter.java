@@ -185,7 +185,7 @@ public class ChangeInserter implements InsertChangeOp {
             getChangeKey(ctx.getRevWalk(), commitId),
             changeId,
             ctx.getAccountId(),
-            new Branch.NameKey(ctx.getProject(), refName),
+            Branch.nameKey(ctx.getProject(), refName),
             ctx.getWhen());
     change.setStatus(MoreObjects.firstNonNull(status, Change.Status.NEW));
     change.setTopic(topic);
@@ -377,7 +377,7 @@ public class ChangeInserter implements InsertChangeOp {
     ChangeUpdate update = ctx.getUpdate(psId);
     update.setChangeId(change.getKey().get());
     update.setSubjectForCommit("Create change");
-    update.setBranch(change.getDest().get());
+    update.setBranch(change.getDest().branch());
     update.setTopic(change.getTopic());
     update.setPsDescription(patchSetDescription);
     update.setPrivate(isPrivate);
@@ -518,14 +518,14 @@ public class ChangeInserter implements InsertChangeOp {
           new CommitReceivedEvent(
               cmd,
               projectState.getProject(),
-              change.getDest().get(),
+              change.getDest().branch(),
               ctx.getRevWalk().getObjectReader(),
               commitId,
               ctx.getIdentifiedUser())) {
         commitValidatorsFactory
             .forGerritCommits(
                 permissionBackend.user(ctx.getUser()).project(ctx.getProject()),
-                new Branch.NameKey(ctx.getProject(), refName),
+                Branch.nameKey(ctx.getProject(), refName),
                 ctx.getIdentifiedUser(),
                 new NoSshInfo(),
                 ctx.getRevWalk(),

@@ -134,8 +134,8 @@ public class CommitValidators {
         RevWalk rw,
         @Nullable Change change)
         throws IOException {
-      PermissionBackend.ForRef perm = forProject.ref(branch.get());
-      ProjectState projectState = projectCache.checkedGet(branch.getParentKey());
+      PermissionBackend.ForRef perm = forProject.ref(branch.branch());
+      ProjectState projectState = projectCache.checkedGet(branch.project());
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
@@ -167,15 +167,15 @@ public class CommitValidators {
         RevWalk rw,
         @Nullable Change change)
         throws IOException {
-      PermissionBackend.ForRef perm = forProject.ref(branch.get());
-      ProjectState projectState = projectCache.checkedGet(branch.getParentKey());
+      PermissionBackend.ForRef perm = forProject.ref(branch.branch());
+      ProjectState projectState = projectCache.checkedGet(branch.project());
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
               new ProjectStateValidationListener(projectState),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
               new AuthorUploaderValidator(user, perm, urlFormatter.get()),
-              new SignedOffByValidator(user, perm, projectCache.checkedGet(branch.getParentKey())),
+              new SignedOffByValidator(user, perm, projectCache.checkedGet(branch.project())),
               new ChangeIdValidator(
                   projectState,
                   user,
@@ -206,11 +206,11 @@ public class CommitValidators {
       //    discuss what to do about it.
       //  - Plugin validators may do things like require certain commit message
       //    formats, so we play it safe and exclude them.
-      PermissionBackend.ForRef perm = forProject.ref(branch.get());
+      PermissionBackend.ForRef perm = forProject.ref(branch.branch());
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
-              new ProjectStateValidationListener(projectCache.checkedGet(branch.getParentKey())),
+              new ProjectStateValidationListener(projectCache.checkedGet(branch.project())),
               new AuthorUploaderValidator(user, perm, urlFormatter.get()),
               new CommitterUploaderValidator(user, perm, urlFormatter.get())));
     }
@@ -413,7 +413,7 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      if (REFS_CONFIG.equals(branch.get())) {
+      if (REFS_CONFIG.equals(branch.branch())) {
         List<CommitValidationMessage> messages = new ArrayList<>();
 
         try {

@@ -54,7 +54,7 @@ public class CommitIncludedInIT extends AbstractDaemonTest {
 
     assertThat(getIncludedIn(result.getCommit().getId()).tags).containsExactly("test-tag");
 
-    createBranch(new Branch.NameKey(project.get(), "test-branch"));
+    createBranch(Branch.nameKey(project, "test-branch"));
 
     assertThat(getIncludedIn(result.getCommit().getId()).branches)
         .containsExactly("master", "test-branch");

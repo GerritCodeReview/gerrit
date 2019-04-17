@@ -46,9 +46,9 @@ public class ReviewerSet {
         checkArgument(
             first
                 .getKey()
+                .patchSetId()
                 .getParentKey()
-                .getParentKey()
-                .equals(psa.getKey().getParentKey().getParentKey()),
+                .equals(psa.getKey().patchSetId().getParentKey()),
             "multiple change IDs: %s, %s",
             first.getKey(),
             psa.getKey());

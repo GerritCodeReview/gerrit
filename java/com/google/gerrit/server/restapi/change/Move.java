@@ -276,7 +276,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
         update.removeApprovalFor(psa.getAccountId(), psa.getLabel());
         approvals.add(
             new PatchSetApproval(
-                PatchSetApproval.key(psId, psa.getAccountId(), new LabelId(psa.getLabel())),
+                PatchSetApproval.key(psId, psa.getAccountId(), LabelId.create(psa.getLabel())),
                 (short) 0,
                 ctx.getWhen()));
       }

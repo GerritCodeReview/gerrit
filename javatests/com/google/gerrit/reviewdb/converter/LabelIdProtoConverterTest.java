@@ -30,7 +30,7 @@ public class LabelIdProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    LabelId labelId = new LabelId("Label ID 42");
+    LabelId labelId = LabelId.create("Label ID 42");
 
     Entities.LabelId proto = labelIdProtoConverter.toProto(labelId);
 
@@ -40,7 +40,7 @@ public class LabelIdProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    LabelId labelId = new LabelId("label-5");
+    LabelId labelId = LabelId.create("label-5");
 
     LabelId convertedLabelId =
         labelIdProtoConverter.fromProto(labelIdProtoConverter.toProto(labelId));

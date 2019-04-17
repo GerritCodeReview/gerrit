@@ -16,6 +16,24 @@
       "revId": "c76ba5550dbb627882888c7d8d15d8ce2723201f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47391132_a6316a06",
+        "filename": "lib/JGIT_VERSION",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-17T23:59:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "215647b9_1dee941d",
+      "revId": "c76ba5550dbb627882888c7d8d15d8ce2723201f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

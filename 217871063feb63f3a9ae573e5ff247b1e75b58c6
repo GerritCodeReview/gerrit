@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bddc6aaa_9f8ac3c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-17T12:35:10Z",
+      "side": 1,
+      "message": "I guess this is a temporary workaround to unblock us, and eventually we want to actually fix the usages? Do we have a bug for that? Should we mention that in the CL description? Or maybe even add a TODO to every instance?",
+      "revId": "217871063feb63f3a9ae573e5ff247b1e75b58c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

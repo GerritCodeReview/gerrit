@@ -56,7 +56,7 @@ public class GroupReference implements Comparable<GroupReference> {
 
   @Nullable
   public AccountGroup.UUID getUUID() {
-    return uuid != null ? new AccountGroup.UUID(uuid) : null;
+    return uuid != null ? AccountGroup.uuid(uuid) : null;
   }
 
   public void setUUID(@Nullable AccountGroup.UUID newUUID) {

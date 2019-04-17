@@ -441,7 +441,7 @@ public class GroupsIT extends AbstractDaemonTest {
     GroupInfo group = gApi.groups().create(groupInput).get();
 
     Collection<AccountGroup.UUID> groups = groupIncludeCache.getGroupsWithMember(accountId);
-    assertThat(groups).containsExactly(new AccountGroup.UUID(group.id));
+    assertThat(groups).containsExactly(AccountGroup.uuid(group.id));
   }
 
   @Test
@@ -806,13 +806,13 @@ public class GroupsIT extends AbstractDaemonTest {
 
     // By UUID
     List<GroupInfo> owned = gApi.groups().list().withOwnedBy(parent.get()).get();
-    assertThat(owned.stream().map(g -> new AccountGroup.UUID(g.id)).collect(toList()))
+    assertThat(owned.stream().map(g -> AccountGroup.uuid(g.id)).collect(toList()))
         .containsExactlyElementsIn(children);
 
     // By name
     String parentName = groupOperations.group(parent).get().name();
     owned = gApi.groups().list().withOwnedBy(parentName).get();
-    assertThat(owned.stream().map(g -> new AccountGroup.UUID(g.id)).collect(toList()))
+    assertThat(owned.stream().map(g -> AccountGroup.uuid(g.id)).collect(toList()))
         .containsExactlyElementsIn(children);
 
     // By group that does not own any others
@@ -984,7 +984,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void deleteGroupRef(String groupId) throws Exception {
-    AccountGroup.UUID uuid = new AccountGroup.UUID(groupId);
+    AccountGroup.UUID uuid = AccountGroup.uuid(groupId);
     try (Repository repo = repoManager.openRepository(allUsers)) {
       RefUpdate ru = repo.updateRef(RefNames.refsGroups(uuid));
       ru.setForceUpdate(true);
@@ -1037,8 +1037,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void pushToDeletedGroupBranchIsRejectedForAllUsersRepo() throws Exception {
     String groupRef =
-        RefNames.refsDeletedGroups(
-            new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
+        RefNames.refsDeletedGroups(AccountGroup.uuid(gApi.groups().create(name("foo")).get().id));
     createBranch(allUsers, groupRef);
     assertPushToGroupBranch(allUsers, groupRef, "group update not allowed");
   }
@@ -1054,7 +1053,7 @@ public class GroupsIT extends AbstractDaemonTest {
   public void pushToGroupsBranchForNonAllUsersRepo() throws Exception {
     assertCreateGroupBranch(project);
     String groupRef =
-        RefNames.refsGroups(new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
+        RefNames.refsGroups(AccountGroup.uuid(gApi.groups().create(name("foo")).get().id));
     createBranch(project, groupRef);
     assertPushToGroupBranch(project, groupRef, null);
   }
@@ -1063,8 +1062,7 @@ public class GroupsIT extends AbstractDaemonTest {
   public void pushToDeletedGroupsBranchForNonAllUsersRepo() throws Exception {
     assertCreateGroupBranch(project);
     String groupRef =
-        RefNames.refsDeletedGroups(
-            new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
+        RefNames.refsDeletedGroups(AccountGroup.uuid(gApi.groups().create(name("foo")).get().id));
     createBranch(project, groupRef);
     assertPushToGroupBranch(project, groupRef, null);
   }
@@ -1160,14 +1158,14 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void cannotCreateGroupBranch() throws Exception {
     testCannotCreateGroupBranch(
-        RefNames.REFS_GROUPS + "*", RefNames.refsGroups(new AccountGroup.UUID(name("foo"))));
+        RefNames.REFS_GROUPS + "*", RefNames.refsGroups(AccountGroup.uuid(name("foo"))));
   }
 
   @Test
   public void cannotCreateDeletedGroupBranch() throws Exception {
     testCannotCreateGroupBranch(
         RefNames.REFS_DELETED_GROUPS + "*",
-        RefNames.refsDeletedGroups(new AccountGroup.UUID(name("foo"))));
+        RefNames.refsDeletedGroups(AccountGroup.uuid(name("foo"))));
   }
 
   @Test
@@ -1217,7 +1215,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void cannotDeleteDeletedGroupBranch() throws Exception {
-    String groupRef = RefNames.refsDeletedGroups(new AccountGroup.UUID(name("foo")));
+    String groupRef = RefNames.refsDeletedGroups(AccountGroup.uuid(name("foo")));
     createBranch(allUsers, groupRef);
     testCannotDeleteGroupBranch(RefNames.REFS_DELETED_GROUPS + "*", groupRef);
   }
@@ -1255,7 +1253,7 @@ public class GroupsIT extends AbstractDaemonTest {
   public void stalenessChecker() throws Exception {
     // Newly created group is not stale
     GroupInfo groupInfo = gApi.groups().create(name("foo")).get();
-    AccountGroup.UUID groupUuid = new AccountGroup.UUID(groupInfo.id);
+    AccountGroup.UUID groupUuid = AccountGroup.uuid(groupInfo.id);
     assertThat(stalenessChecker.isStale(groupUuid)).isFalse();
 
     // Manual update makes index document stale
@@ -1336,7 +1334,7 @@ public class GroupsIT extends AbstractDaemonTest {
       // Create a group without updating the cache or index,
       // then run the reindexer -> only the new group is reindexed.
       String groupName = "foo";
-      AccountGroup.UUID groupUuid = new AccountGroup.UUID(groupName + "-UUID");
+      AccountGroup.UUID groupUuid = AccountGroup.uuid(groupName + "-UUID");
       groupsUpdate.createGroupInNoteDb(
           InternalGroupCreation.builder()
               .setGroupUUID(groupUuid)

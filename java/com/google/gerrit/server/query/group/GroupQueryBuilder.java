@@ -76,7 +76,7 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup, GroupQueryBui
 
   @Operator
   public Predicate<InternalGroup> uuid(String uuid) {
-    return GroupPredicates.uuid(new AccountGroup.UUID(uuid));
+    return GroupPredicates.uuid(AccountGroup.uuid(uuid));
   }
 
   @Operator
@@ -170,7 +170,7 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup, GroupQueryBui
   }
 
   private AccountGroup.UUID parseGroup(String groupNameOrUuid) throws QueryParseException {
-    Optional<InternalGroup> group = args.groupCache.get(new AccountGroup.UUID(groupNameOrUuid));
+    Optional<InternalGroup> group = args.groupCache.get(AccountGroup.uuid(groupNameOrUuid));
     if (group.isPresent()) {
       return group.get().getGroupUUID();
     }

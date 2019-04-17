@@ -792,7 +792,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     groupInput.ownerId = ownerGroup != null ? ownerGroup.get() : null;
     groupInput.members =
         Arrays.stream(members).map(m -> String.valueOf(m.id().get())).collect(toList());
-    return new AccountGroup.UUID(gApi.groups().create(groupInput).get().id);
+    return AccountGroup.uuid(gApi.groups().create(groupInput).get().id);
   }
 
   private static Map<String, Ref> getAllRefs(Repository repo) throws IOException {

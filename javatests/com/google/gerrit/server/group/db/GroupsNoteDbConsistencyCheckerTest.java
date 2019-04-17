@@ -30,7 +30,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
   public void groupNamesRefIsMissing() throws Exception {
     List<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
-            allUsersRepo, AccountGroup.nameKey("g-1"), new AccountGroup.UUID("uuid-1"));
+            allUsersRepo, AccountGroup.nameKey("g-1"), AccountGroup.uuid("uuid-1"));
     assertThat(problems)
         .containsExactly(warning("Group with name 'g-1' doesn't exist in the list of all names"));
   }
@@ -40,7 +40,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
     updateGroupNamesRef("g-2", "[group]\n\tuuid = uuid-2\n\tname = g-2\n");
     List<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
-            allUsersRepo, AccountGroup.nameKey("g-1"), new AccountGroup.UUID("uuid-1"));
+            allUsersRepo, AccountGroup.nameKey("g-1"), AccountGroup.uuid("uuid-1"));
     assertThat(problems)
         .containsExactly(warning("Group with name 'g-1' doesn't exist in the list of all names"));
   }
@@ -50,7 +50,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
     updateGroupNamesRef("g-1", "[group]\n\tuuid = uuid-1\n\tname = g-1\n");
     List<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
-            allUsersRepo, AccountGroup.nameKey("g-1"), new AccountGroup.UUID("uuid-1"));
+            allUsersRepo, AccountGroup.nameKey("g-1"), AccountGroup.uuid("uuid-1"));
     assertThat(problems).isEmpty();
   }
 
@@ -59,7 +59,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
     updateGroupNamesRef("g-1", "[group]\n\tuuid = uuid-2\n\tname = g-1\n");
     List<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
-            allUsersRepo, AccountGroup.nameKey("g-1"), new AccountGroup.UUID("uuid-1"));
+            allUsersRepo, AccountGroup.nameKey("g-1"), AccountGroup.uuid("uuid-1"));
     assertThat(problems)
         .containsExactly(
             warning(
@@ -72,7 +72,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
     updateGroupNamesRef("g-1", "[group]\n\tuuid = uuid-1\n\tname = g-2\n");
     List<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
-            allUsersRepo, AccountGroup.nameKey("g-1"), new AccountGroup.UUID("uuid-1"));
+            allUsersRepo, AccountGroup.nameKey("g-1"), AccountGroup.uuid("uuid-1"));
     assertThat(problems)
         .containsExactly(warning("group note of name 'g-1' claims to represent name of 'g-2'"));
   }
@@ -82,7 +82,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
     updateGroupNamesRef("g-1", "[group]\n\tuuid = uuid-2\n\tname = g-2\n");
     List<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
-            allUsersRepo, AccountGroup.nameKey("g-1"), new AccountGroup.UUID("uuid-1"));
+            allUsersRepo, AccountGroup.nameKey("g-1"), AccountGroup.uuid("uuid-1"));
     assertThat(problems)
         .containsExactly(
             warning(
@@ -97,7 +97,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
     updateGroupNamesRef("g-1", "[invalid");
     List<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
-            allUsersRepo, AccountGroup.nameKey("g-1"), new AccountGroup.UUID("uuid-1"));
+            allUsersRepo, AccountGroup.nameKey("g-1"), AccountGroup.uuid("uuid-1"));
     assertThat(problems)
         .containsExactly(
             warning(

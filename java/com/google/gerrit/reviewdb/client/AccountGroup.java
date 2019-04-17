@@ -17,7 +17,6 @@ package com.google.gerrit.reviewdb.client;
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gwtorm.client.IntKey;
-import com.google.gwtorm.client.StringKey;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Objects;
@@ -53,33 +52,17 @@ public final class AccountGroup {
     }
   }
 
+  public static UUID uuid(String n) {
+    return new AutoValue_AccountGroup_UUID(n);
+  }
+
   /** Globally unique identifier. */
-  public static class UUID extends StringKey<com.google.gwtorm.client.Key<?>> {
-    private static final long serialVersionUID = 1L;
+  @AutoValue
+  public abstract static class UUID {
+    abstract String uuid();
 
-    protected String uuid;
-
-    protected UUID() {}
-
-    public UUID(String n) {
-      uuid = n;
-    }
-
-    @Override
     public String get() {
-      return uuid;
-    }
-
-    @Override
-    protected void set(String newValue) {
-      uuid = newValue;
-    }
-
-    /** Parse an {@link AccountGroup.UUID} out of a string representation. */
-    public static UUID parse(String str) {
-      final UUID r = new UUID();
-      r.fromString(str);
-      return r;
+      return uuid();
     }
 
     /** Parse an {@link AccountGroup.UUID} out of a ref-name. */
@@ -101,7 +84,7 @@ public final class AccountGroup {
      */
     public static UUID fromRefPart(String refPart) {
       String uuid = RefNames.parseShardedUuidFromRefPart(refPart);
-      return uuid != null ? new AccountGroup.UUID(uuid) : null;
+      return uuid != null ? AccountGroup.uuid(uuid) : null;
     }
   }
 

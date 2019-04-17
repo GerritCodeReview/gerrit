@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a85259f1_716b6f0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-17T14:10:53Z",
+      "side": 1,
+      "message": "I\u0027d like to hold off on submitting until I at least attempt this.",
+      "range": {
+        "startLine": 24,
+        "startChar": 21,
+        "endLine": 25,
+        "endChar": 72
+      },
+      "revId": "10f22df176ee7a3818eb1a3e9634a4754b426917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "373c58a5_5e16fe50",
         "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 1

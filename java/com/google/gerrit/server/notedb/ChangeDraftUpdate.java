@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -79,6 +79,12 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     abstract Comment.Key key();
   }
 
+  private enum DeleteReason {
+    DELETED,
+    PUBLISHED,
+    FIXED
+  }
+
   private static Key key(Comment c) {
     return new AutoValue_ChangeDraftUpdate_Key(c.revId, c.key);
   }
@@ -86,7 +92,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   private final AllUsersName draftsProject;
 
   private List<Comment> put = new ArrayList<>();
-  private Set<Key> delete = new HashSet<>();
+  private Map<Key, DeleteReason> delete = new HashMap<>();
 
   @AssistedInject
   private ChangeDraftUpdate(
@@ -121,13 +127,33 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     put.add(c);
   }
 
-  public void deleteComment(Comment c) {
+  /**
+   * Marks a comment for deletion. Called when the comment is deleted because the user published it.
+   */
+  public void deletePublishedComment(Comment c) {
     verifyComment(c);
-    delete.add(key(c));
+    delete.put(key(c), DeleteReason.PUBLISHED);
   }
 
+  /**
+   * Marks a comment for deletion. Called when the comment is deleted because the user removed it.
+   */
+  public void deleteComment(Comment c) {
+    verifyComment(c);
+    delete.put(key(c), DeleteReason.DELETED);
+  }
+
+  /**
+   * Marks a comment for deletion. Called when the comment should have been deleted previously, but
+   * wasn't, so we're fixing it up.
+   */
   public void deleteComment(String revId, Comment.Key key) {
-    delete.add(new AutoValue_ChangeDraftUpdate_Key(revId, key));
+    delete.put(new AutoValue_ChangeDraftUpdate_Key(revId, key), DeleteReason.FIXED);
+  }
+
+  /** Returns true if all we do in this operations is deletes caused by publishing comments. */
+  public boolean isPublishOnly() {
+    return put.isEmpty() && delete.values().stream().allMatch(r -> r == DeleteReason.PUBLISHED);
   }
 
   private CommitBuilder storeCommentsInNotes(
@@ -138,11 +164,11 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
 
     for (Comment c : put) {
-      if (!delete.contains(key(c))) {
+      if (!delete.keySet().contains(key(c))) {
         cache.get(new RevId(c.revId)).putComment(c);
       }
     }
-    for (Key k : delete) {
+    for (Key k : delete.keySet()) {
       cache.get(new RevId(k.revId())).deleteComment(k.key());
     }
 

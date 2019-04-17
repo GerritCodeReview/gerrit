@@ -18,14 +18,11 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
-import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Change;
@@ -34,10 +31,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.InMemoryInserter;
-import com.google.gerrit.server.git.InsertedObject;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -52,7 +46,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -70,78 +63,10 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * {@link #stage()}.
  */
 public class NoteDbUpdateManager implements AutoCloseable {
-  private static final ImmutableList<String> PACKAGE_PREFIXES =
-      ImmutableList.of("com.google.gerrit.server.", "com.google.gerrit.");
-  private static final ImmutableSet<String> SERVLET_NAMES =
-      ImmutableSet.of(
-          "com.google.gerrit.httpd.restapi.RestApiServlet", RetryingRestModifyView.class.getName());
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     NoteDbUpdateManager create(Project.NameKey projectName);
-  }
-
-  public static class OpenRepo implements AutoCloseable {
-    public final Repository repo;
-    public final RevWalk rw;
-    public final ChainedReceiveCommands cmds;
-
-    private final InMemoryInserter inMemIns;
-    private final ObjectInserter tempIns;
-    @Nullable private final ObjectInserter finalIns;
-
-    private final boolean close;
-
-    private OpenRepo(
-        Repository repo,
-        RevWalk rw,
-        @Nullable ObjectInserter ins,
-        ChainedReceiveCommands cmds,
-        boolean close) {
-      ObjectReader reader = rw.getObjectReader();
-      checkArgument(
-          ins == null || reader.getCreatedFromInserter() == ins,
-          "expected reader to be created from %s, but was %s",
-          ins,
-          reader.getCreatedFromInserter());
-      this.repo = requireNonNull(repo);
-
-      this.inMemIns = new InMemoryInserter(rw.getObjectReader());
-      this.tempIns = inMemIns;
-
-      this.rw = new RevWalk(tempIns.newReader());
-      this.finalIns = ins;
-      this.cmds = requireNonNull(cmds);
-      this.close = close;
-    }
-
-    public Optional<ObjectId> getObjectId(String refName) throws IOException {
-      return cmds.get(refName);
-    }
-
-    void flush() throws IOException {
-      flushToFinalInserter();
-      finalIns.flush();
-    }
-
-    void flushToFinalInserter() throws IOException {
-      checkState(finalIns != null);
-      for (InsertedObject obj : inMemIns.getInsertedObjects()) {
-        finalIns.insert(obj.type(), obj.data().toByteArray());
-      }
-      inMemIns.clear();
-    }
-
-    @Override
-    public void close() {
-      rw.getObjectReader().close();
-      rw.close();
-      if (close) {
-        if (finalIns != null) {
-          finalIns.close();
-        }
-        repo.close();
-      }
-    }
   }
 
   private final Provider<PersonIdent> serverIdent;
@@ -157,6 +82,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
+  private AllUsersAsyncUpdate updateAllUsersAsync;
   private boolean executed;
   private String refLogMessage;
   private PersonIdent refLogIdent;
@@ -168,11 +94,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
       NoteDbMetrics metrics,
+      AllUsersAsyncUpdate updateAllUsersAsync,
       @Assisted Project.NameKey projectName) {
     this.serverIdent = serverIdent;
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.metrics = metrics;
+    this.updateAllUsersAsync = updateAllUsersAsync;
     this.projectName = projectName;
     changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -183,18 +111,28 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   @Override
   public void close() {
+    if (allUsersRepo != null) {
+      OpenRepo r = allUsersRepo;
+      allUsersRepo = null;
+      closeChecked(r);
+    }
+    if (changeRepo != null) {
+      OpenRepo r = changeRepo;
+      changeRepo = null;
+      closeChecked(r);
+    }
+    if (updateAllUsersAsync != null) {
+      AllUsersAsyncUpdate r = updateAllUsersAsync;
+      updateAllUsersAsync = null;
+      r.maybeClose();
+    }
+  }
+
+  private void closeChecked(OpenRepo repo) {
     try {
-      if (allUsersRepo != null) {
-        OpenRepo r = allUsersRepo;
-        allUsersRepo = null;
-        r.close();
-      }
-    } finally {
-      if (changeRepo != null) {
-        OpenRepo r = changeRepo;
-        changeRepo = null;
-        r.close();
-      }
+      repo.close();
+    } catch (RuntimeException e) {
+      logger.atSevere().withCause(e).log("Unable to close repo");
     }
   }
 
@@ -236,28 +174,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   private void initChangeRepo() throws IOException {
     if (changeRepo == null) {
-      changeRepo = openRepo(projectName);
+      changeRepo = OpenRepo.open(repoManager, projectName);
     }
   }
 
   private void initAllUsersRepo() throws IOException {
     if (allUsersRepo == null) {
-      allUsersRepo = openRepo(allUsersName);
-    }
-  }
-
-  private OpenRepo openRepo(Project.NameKey p) throws IOException {
-    Repository repo = repoManager.openRepository(p); // Closed by OpenRepo#close.
-    ObjectInserter ins = repo.newObjectInserter(); // Closed by OpenRepo#close.
-    ObjectReader reader = ins.newReader(); // Not closed by OpenRepo#close.
-    try (RevWalk rw = new RevWalk(reader)) { // Doesn't escape OpenRepo constructor.
-      return new OpenRepo(repo, rw, ins, new ChainedReceiveCommands(repo), true) {
-        @Override
-        public void close() {
-          reader.close();
-          super.close();
-        }
-      };
+      allUsersRepo = OpenRepo.open(repoManager, allUsersName);
     }
   }
 
@@ -268,7 +191,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
         && rewriters.isEmpty()
         && toDelete.isEmpty()
         && !hasCommands(changeRepo)
-        && !hasCommands(allUsersRepo);
+        && !hasCommands(allUsersRepo)
+        && updateAllUsersAsync.isEmpty();
   }
 
   private static boolean hasCommands(@Nullable OpenRepo or) {
@@ -399,6 +323,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
       // comments can only go from DRAFT to PUBLISHED, not vice versa.
       BatchRefUpdate result = execute(changeRepo, dryrun, pushCert);
       execute(allUsersRepo, dryrun, null);
+      if (!dryrun) {
+        // dryrun is only used for the main repo
+        updateAllUsersAsync.execute(refLogIdent, refLogMessage, pushCert);
+      }
       executed = true;
       return result;
     } finally {
@@ -424,7 +352,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
     if (refLogMessage != null) {
       bru.setRefLogMessage(refLogMessage, false);
     } else {
-      bru.setRefLogMessage(firstNonNull(guessRestApiHandler(), "Update NoteDb refs"), false);
+      bru.setRefLogMessage(
+          firstNonNull(NoteDbUtil.guessRestApiHandler(), "Update NoteDb refs"), false);
     }
     bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent.get());
     bru.setAtomic(true);
@@ -437,45 +366,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     return bru;
   }
 
-  private static String guessRestApiHandler() {
-    StackTraceElement[] trace = Thread.currentThread().getStackTrace();
-    int i = findRestApiServlet(trace);
-    if (i < 0) {
-      return null;
-    }
-    try {
-      for (i--; i >= 0; i--) {
-        String cn = trace[i].getClassName();
-        Class<?> cls = Class.forName(cn);
-        if (RestModifyView.class.isAssignableFrom(cls) && cls != RetryingRestModifyView.class) {
-          return viewName(cn);
-        }
-      }
-      return null;
-    } catch (ClassNotFoundException e) {
-      return null;
-    }
-  }
-
-  private static String viewName(String cn) {
-    String impl = cn.replace('$', '.');
-    for (String p : PACKAGE_PREFIXES) {
-      if (impl.startsWith(p)) {
-        return impl.substring(p.length());
-      }
-    }
-    return impl;
-  }
-
-  private static int findRestApiServlet(StackTraceElement[] trace) {
-    for (int i = 0; i < trace.length; i++) {
-      if (SERVLET_NAMES.contains(trace[i].getClassName())) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
   private void addCommands() throws OrmException, IOException {
     if (isEmpty()) {
       return;
@@ -484,12 +374,18 @@ public class NoteDbUpdateManager implements AutoCloseable {
     if (!draftUpdates.isEmpty()) {
       checkState(allUsersRepo != null, "must set all users repo");
     }
-    addUpdates(changeUpdates, changeRepo);
+    changeRepo.addUpdates(changeUpdates);
     if (!draftUpdates.isEmpty()) {
-      addUpdates(draftUpdates, allUsersRepo);
+      boolean publishOnly =
+          draftUpdates.values().stream().anyMatch(ChangeDraftUpdate::isPublishOnly);
+      if (publishOnly) {
+        updateAllUsersAsync.repo().addUpdates(draftUpdates);
+      } else {
+        allUsersRepo.addUpdates(draftUpdates);
+      }
     }
     if (!robotCommentUpdates.isEmpty()) {
-      addUpdates(robotCommentUpdates, changeRepo);
+      changeRepo.addUpdates(robotCommentUpdates);
     }
     if (!rewriters.isEmpty()) {
       addRewrites(rewriters, changeRepo);
@@ -521,36 +417,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     checkState(!executed, "update has already been executed");
   }
 
-  private static <U extends AbstractChangeUpdate> void addUpdates(
-      ListMultimap<String, U> all, OpenRepo or) throws OrmException, IOException {
-    for (Map.Entry<String, Collection<U>> e : all.asMap().entrySet()) {
-      String refName = e.getKey();
-      Collection<U> updates = e.getValue();
-      ObjectId old = or.cmds.get(refName).orElse(ObjectId.zeroId());
-      // Only actually write to the ref if one of the updates explicitly allows
-      // us to do so, i.e. it is known to represent a new change. This avoids
-      // writing partial change meta if the change hasn't been backfilled yet.
-      if (!allowWrite(updates, old)) {
-        continue;
-      }
-
-      ObjectId curr = old;
-      for (U u : updates) {
-        if (u.isRootOnly() && !old.equals(ObjectId.zeroId())) {
-          throw new OrmException("Given ChangeUpdate is only allowed on initial commit");
-        }
-        ObjectId next = u.apply(or.rw, or.tempIns, curr);
-        if (next == null) {
-          continue;
-        }
-        curr = next;
-      }
-      if (!old.equals(curr)) {
-        or.cmds.add(new ReceiveCommand(old, curr, refName));
-      }
-    }
-  }
-
   private static void addRewrites(ListMultimap<String, NoteDbRewriter> rewriters, OpenRepo openRepo)
       throws OrmException, IOException {
     for (Map.Entry<String, Collection<NoteDbRewriter>> entry : rewriters.asMap().entrySet()) {
@@ -578,13 +444,5 @@ public class NoteDbUpdateManager implements AutoCloseable {
         openRepo.cmds.add(new ReceiveCommand(oldTip, currTip, refName));
       }
     }
-  }
-
-  private static <U extends AbstractChangeUpdate> boolean allowWrite(
-      Collection<U> updates, ObjectId old) {
-    if (!old.equals(ObjectId.zeroId())) {
-      return true;
-    }
-    return updates.iterator().next().allowWriteToNewRef();
   }
 }

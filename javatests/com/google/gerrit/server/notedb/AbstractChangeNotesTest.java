@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -29,6 +30,7 @@ import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
@@ -64,6 +66,7 @@ import com.google.inject.Injector;
 import com.google.inject.util.Providers;
 import java.sql.Timestamp;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -157,6 +160,9 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                     .toInstance(serverIdent);
                 bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
                 bind(MetricMaker.class).to(DisabledMetricMaker.class);
+                bind(ExecutorService.class)
+                    .annotatedWith(FanOutExecutor.class)
+                    .toInstance(MoreExecutors.newDirectExecutorService());
               }
             });
 

@@ -14,62 +14,24 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
-import com.google.gwtorm.client.CompoundKey;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 /** Membership of an {@link Account} in an {@link AccountGroup}. */
 public final class AccountGroupMemberAudit {
-  public static class Key extends CompoundKey<Account.Id> {
-    private static final long serialVersionUID = 1L;
+  public static Key key(Account.Id accountId, AccountGroup.Id groupId, Timestamp addedOn) {
+    return new AutoValue_AccountGroupMemberAudit_Key(accountId, groupId, addedOn);
+  }
 
-    protected Account.Id accountId;
+  @AutoValue
+  public abstract static class Key {
+    public abstract Account.Id accountId();
 
-    protected AccountGroup.Id groupId;
+    public abstract AccountGroup.Id groupId();
 
-    protected Timestamp addedOn;
-
-    protected Key() {
-      accountId = new Account.Id();
-      groupId = new AccountGroup.Id();
-    }
-
-    public Key(Account.Id a, AccountGroup.Id g, Timestamp t) {
-      accountId = a;
-      groupId = g;
-      addedOn = t;
-    }
-
-    @Override
-    public Account.Id getParentKey() {
-      return accountId;
-    }
-
-    public AccountGroup.Id getGroupId() {
-      return groupId;
-    }
-
-    public Timestamp getAddedOn() {
-      return addedOn;
-    }
-
-    @Override
-    public com.google.gwtorm.client.Key<?>[] members() {
-      return new com.google.gwtorm.client.Key<?>[] {groupId};
-    }
-
-    @Override
-    public String toString() {
-      return "Key{"
-          + "groupId="
-          + groupId
-          + ", accountId="
-          + accountId
-          + ", addedOn="
-          + addedOn
-          + '}';
-    }
+    public abstract Timestamp addedOn();
   }
 
   protected Key key;
@@ -85,7 +47,7 @@ public final class AccountGroupMemberAudit {
   public AccountGroupMemberAudit(final AccountGroupMember m, Account.Id adder, Timestamp addedOn) {
     final Account.Id who = m.getAccountId();
     final AccountGroup.Id group = m.getAccountGroupId();
-    key = new AccountGroupMemberAudit.Key(who, group, addedOn);
+    key = key(who, group, addedOn);
     addedBy = adder;
   }
 
@@ -99,11 +61,11 @@ public final class AccountGroupMemberAudit {
   }
 
   public AccountGroup.Id getGroupId() {
-    return key.getGroupId();
+    return key.groupId();
   }
 
   public Account.Id getMemberId() {
-    return key.getParentKey();
+    return key.accountId();
   }
 
   public boolean isActive() {
@@ -117,7 +79,7 @@ public final class AccountGroupMemberAudit {
 
   public void removedLegacy() {
     removedBy = addedBy;
-    removedOn = key.addedOn;
+    removedOn = key.addedOn();
   }
 
   public Account.Id getAddedBy() {
@@ -125,7 +87,7 @@ public final class AccountGroupMemberAudit {
   }
 
   public Timestamp getAddedOn() {
-    return key.getAddedOn();
+    return key.addedOn();
   }
 
   public Account.Id getRemovedBy() {

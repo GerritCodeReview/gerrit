@@ -342,7 +342,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(accountInfo.email).isEqualTo(input.email);
     assertThat(accountInfo.status).isNull();
 
-    Account.Id accountId = new Account.Id(accountInfo._accountId);
+    Account.Id accountId = Account.id(accountInfo._accountId);
     accountIndexedCounter.assertReindexOf(accountId, 1);
     assertThat(externalIds.byAccount(accountId))
         .containsExactly(
@@ -374,7 +374,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void commitMessageOnAccountUpdates() throws Exception {
     AccountsUpdate au = accountsUpdateProvider.get();
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     au.insert("Create Test Account", accountId, u -> {});
     assertLastCommitMessageOfUserBranch(accountId, "Create Test Account");
 
@@ -396,7 +396,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void createAtomically() throws Exception {
     TestTimeUtil.resetWithClockStep(1, SECONDS);
     try {
-      Account.Id accountId = new Account.Id(seq.nextAccountId());
+      Account.Id accountId = Account.id(seq.nextAccountId());
       String fullName = "Foo";
       ExternalId extId = ExternalId.createEmail(accountId, "foo@example.com");
       AccountState accountState =
@@ -425,7 +425,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void updateNonExistingAccount() throws Exception {
-    Account.Id nonExistingAccountId = new Account.Id(999999);
+    Account.Id nonExistingAccountId = Account.id(999999);
     AtomicBoolean consumerCalled = new AtomicBoolean();
     Optional<AccountState> accountState =
         accountsUpdateProvider
@@ -1776,7 +1776,7 @@ public class AccountIT extends AbstractDaemonTest {
     grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
     grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
 
-    String userRef = RefNames.refsUsers(new Account.Id(seq.nextAccountId()));
+    String userRef = RefNames.refsUsers(Account.id(seq.nextAccountId()));
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     PushOneCommit.Result r = pushFactory.create(admin.newIdent(), allUsersRepo).to(userRef);
     r.assertErrorStatus();
@@ -1793,7 +1793,7 @@ public class AccountIT extends AbstractDaemonTest {
     grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
     grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
 
-    String userRef = RefNames.refsUsers(new Account.Id(seq.nextAccountId()));
+    String userRef = RefNames.refsUsers(Account.id(seq.nextAccountId()));
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     pushFactory.create(admin.newIdent(), allUsersRepo).to(userRef).assertOkStatus();
 
@@ -2151,7 +2151,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     // metaId is set when account is created
     AccountsUpdate au = accountsUpdateProvider.get();
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     AccountState accountState = au.insert("Create Test Account", accountId, u -> {});
     assertThat(accountState.getAccount().getMetaId()).isEqualTo(getMetaId(accountId));
 
@@ -2436,7 +2436,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void atomicReadMofifyWriteExternalIds() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
 
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId extIdA1 = ExternalId.create("foo", "A-1", accountId);
     accountsUpdateProvider
         .get()
@@ -2515,7 +2515,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void stalenessChecker() throws Exception {
     // Newly created account is not stale.
     AccountInfo accountInfo = gApi.accounts().create(name("foo")).get();
-    Account.Id accountId = new Account.Id(accountInfo._accountId);
+    Account.Id accountId = Account.id(accountInfo._accountId);
     assertThat(stalenessChecker.isStale(accountId)).isFalse();
 
     // Manually updating the user ref makes the index document stale.
@@ -2931,7 +2931,7 @@ public class AccountIT extends AbstractDaemonTest {
     }
 
     void assertReindexOf(AccountInfo accountInfo) {
-      assertReindexOf(new Account.Id(accountInfo._accountId), 1);
+      assertReindexOf(Account.id(accountInfo._accountId), 1);
     }
 
     void assertReindexOf(TestAccount testAccount, int expectedCount) {

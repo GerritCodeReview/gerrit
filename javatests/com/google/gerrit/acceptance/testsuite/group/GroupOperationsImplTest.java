@@ -330,9 +330,9 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void membersOfExistingGroupCanBeRetrieved() throws Exception {
-    Account.Id memberId1 = new Account.Id(1000);
-    Account.Id memberId2 = new Account.Id(2000);
-    Account.Id memberId3 = new Account.Id(3000);
+    Account.Id memberId1 = Account.id(1000);
+    Account.Id memberId2 = Account.id(2000);
+    Account.Id memberId3 = Account.id(3000);
     AccountGroup.UUID groupUuid =
         groupOperations.newGroup().members(memberId1, memberId2, memberId3).create();
 
@@ -454,8 +454,8 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   public void membersCanBeAdded() throws Exception {
     AccountGroup.UUID groupUuid = groupOperations.newGroup().clearMembers().create();
 
-    Account.Id memberId1 = new Account.Id(1000);
-    Account.Id memberId2 = new Account.Id(2000);
+    Account.Id memberId1 = Account.id(1000);
+    Account.Id memberId2 = Account.id(2000);
     groupOperations.group(groupUuid).forUpdate().addMember(memberId1).addMember(memberId2).update();
 
     ImmutableSet<Account.Id> members = groupOperations.group(groupUuid).get().members();
@@ -464,8 +464,8 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void membersCanBeRemoved() throws Exception {
-    Account.Id memberId1 = new Account.Id(1000);
-    Account.Id memberId2 = new Account.Id(2000);
+    Account.Id memberId1 = Account.id(1000);
+    Account.Id memberId2 = Account.id(2000);
     AccountGroup.UUID groupUuid = groupOperations.newGroup().members(memberId1, memberId2).create();
 
     groupOperations.group(groupUuid).forUpdate().removeMember(memberId2).update();
@@ -476,11 +476,11 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void memberAdditionAndRemovalCanBeMixed() throws Exception {
-    Account.Id memberId1 = new Account.Id(1000);
-    Account.Id memberId2 = new Account.Id(2000);
+    Account.Id memberId1 = Account.id(1000);
+    Account.Id memberId2 = Account.id(2000);
     AccountGroup.UUID groupUuid = groupOperations.newGroup().members(memberId1, memberId2).create();
 
-    Account.Id memberId3 = new Account.Id(3000);
+    Account.Id memberId3 = Account.id(3000);
     groupOperations
         .group(groupUuid)
         .forUpdate()
@@ -494,8 +494,8 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void membersCanBeCleared() throws Exception {
-    Account.Id memberId1 = new Account.Id(1000);
-    Account.Id memberId2 = new Account.Id(2000);
+    Account.Id memberId1 = Account.id(1000);
+    Account.Id memberId2 = Account.id(2000);
     AccountGroup.UUID groupUuid = groupOperations.newGroup().members(memberId1, memberId2).create();
 
     groupOperations.group(groupUuid).forUpdate().clearMembers().update();
@@ -506,11 +506,11 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void furtherMembersCanBeAddedAfterClearingAll() throws Exception {
-    Account.Id memberId1 = new Account.Id(1000);
-    Account.Id memberId2 = new Account.Id(2000);
+    Account.Id memberId1 = Account.id(1000);
+    Account.Id memberId2 = Account.id(2000);
     AccountGroup.UUID groupUuid = groupOperations.newGroup().members(memberId1, memberId2).create();
 
-    Account.Id memberId3 = new Account.Id(3000);
+    Account.Id memberId3 = Account.id(3000);
     groupOperations.group(groupUuid).forUpdate().clearMembers().addMember(memberId3).update();
 
     ImmutableSet<Account.Id> members = groupOperations.group(groupUuid).get().members();
@@ -621,7 +621,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
             Account.Id accountId =
                 Optional.ofNullable(actualAccount)
                     .map(account -> account._accountId)
-                    .map(Account.Id::new)
+                    .map(Account::id)
                     .orElse(null);
             return Objects.equals(accountId, expectedId);
           }

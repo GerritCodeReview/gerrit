@@ -153,7 +153,7 @@ public class CommentTimestampAdapterTest extends GerritBaseTests {
     Comment c =
         new Comment(
             new Comment.Key("uuid", "filename", 1),
-            new Account.Id(100),
+            Account.id(100),
             NON_DST_TS,
             (short) 0,
             "message",

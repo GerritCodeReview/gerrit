@@ -223,6 +223,9 @@ def gen_classpath(ext):
         p = path.join(s, 'java')
         if path.exists(p):
             classpathentry('src', p, out=out)
+            p = path.join(s, 'javatests')
+            if path.exists(p):
+                classpathentry('src', p, out=out + '/test')
             continue
 
         for env in ['main', 'test']:

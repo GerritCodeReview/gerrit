@@ -80,7 +80,7 @@ public class GroupOperationsImpl implements GroupOperations {
 
   private InternalGroupCreation toInternalGroupCreation(TestGroupCreation groupCreation)
       throws OrmException {
-    AccountGroup.Id groupId = new AccountGroup.Id(seq.nextGroupId());
+    AccountGroup.Id groupId = AccountGroup.id(seq.nextGroupId());
     String groupName = groupCreation.name().orElse("group-with-id-" + groupId.get());
     AccountGroup.UUID groupUuid = GroupUUID.make(groupName, serverIdent);
     AccountGroup.NameKey nameKey = AccountGroup.nameKey(groupName);

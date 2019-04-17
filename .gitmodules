@@ -28,6 +28,11 @@
 	url = ../plugins/hooks
 	branch = .
 
+[submodule "plugins/plugin-manager"]
+	path = plugins/plugin-manager
+	url = ../plugins/plugin-manager
+	branch = .
+
 [submodule "plugins/replication"]
 	path = plugins/replication
 	url = ../plugins/replication

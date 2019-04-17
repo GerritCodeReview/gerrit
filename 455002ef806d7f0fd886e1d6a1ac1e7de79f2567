@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8d9cde1_5603ef8c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-17T11:58:03Z",
+      "side": 1,
+      "message": "This construct is a bit odd - maybe it would be worth just turning the classes around so it\u0027s visible by default, and has a class when it should be hidden?",
+      "range": {
+        "startLine": 31,
+        "startChar": 17,
+        "endLine": 31,
+        "endChar": 32
+      },
+      "revId": "455002ef806d7f0fd886e1d6a1ac1e7de79f2567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d19cf360_09cfd2d2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-17T11:58:03Z",
+      "side": 1,
+      "message": "I wonder if this comment will make sense to someone not seeing the diff here. I would rather explain why we want it to be inline-block - otherwise it\u0027s unclear why you talk about initial here.",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 93
+      },
+      "revId": "455002ef806d7f0fd886e1d6a1ac1e7de79f2567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -93,7 +93,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
   }
 
   private boolean isPatchSetMerged(ChangeContext ctx, PatchSet patchSet) throws IOException {
-    Optional<ObjectId> destId = ctx.getRepoView().getRef(ctx.getChange().getDest().get());
+    Optional<ObjectId> destId = ctx.getRepoView().getRef(ctx.getChange().getDest().branch());
     if (!destId.isPresent()) {
       return false;
     }

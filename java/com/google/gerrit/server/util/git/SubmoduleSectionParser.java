@@ -81,13 +81,13 @@ public class SubmoduleSectionParser {
         String project;
 
         if (branch.equals(".")) {
-          branch = superProjectBranch.get();
+          branch = superProjectBranch.branch();
         }
 
         // relative URL
         if (url.startsWith("../")) {
           // prefix with a slash for easier relative path walks
-          project = '/' + superProjectBranch.getParentKey().get();
+          project = '/' + superProjectBranch.project().get();
           String hostPart = url;
           while (hostPart.startsWith("../")) {
             int lastSlash = project.lastIndexOf('/');
@@ -135,7 +135,7 @@ public class SubmoduleSectionParser {
         }
         Project.NameKey projectKey = new Project.NameKey(project);
         return new SubmoduleSubscription(
-            superProjectBranch, new Branch.NameKey(projectKey, branch), path);
+            superProjectBranch, Branch.nameKey(projectKey, branch), path);
       }
     } catch (URISyntaxException e) {
       // Error in url syntax (in fact it is uri syntax)

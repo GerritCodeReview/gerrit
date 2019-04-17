@@ -45,7 +45,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     project = projectOperations.newProject().create();
-    testBranch = new Branch.NameKey(project, "test");
+    testBranch = Branch.nameKey(project, "test");
     branch(testBranch).create(new BranchInput());
   }
 
@@ -98,7 +98,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   @Test
   public void deleteBranchByRestWithoutRefsHeadsPrefix() throws Exception {
     grantDelete();
-    String ref = testBranch.getShortName();
+    String ref = testBranch.shortName();
     assertThat(ref).doesNotMatch(R_HEADS);
     assertDeleteByRestSucceeds(testBranch, ref);
   }
@@ -106,14 +106,14 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   @Test
   public void deleteBranchByRestWithFullName() throws Exception {
     grantDelete();
-    assertDeleteByRestSucceeds(testBranch, testBranch.get());
+    assertDeleteByRestSucceeds(testBranch, testBranch.branch());
   }
 
   @Test
   public void deleteBranchByRestFailsWithUnencodedFullName() throws Exception {
     grantDelete();
     RestResponse r =
-        userRestSession.delete("/projects/" + project.get() + "/branches/" + testBranch.get());
+        userRestSession.delete("/projects/" + project.get() + "/branches/" + testBranch.branch());
     r.assertNotFound();
     branch(testBranch).get();
   }
@@ -124,7 +124,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     allow(metaRef, Permission.CREATE, REGISTERED_USERS);
     allow(metaRef, Permission.PUSH, REGISTERED_USERS);
 
-    Branch.NameKey metaBranch = new Branch.NameKey(project, metaRef);
+    Branch.NameKey metaBranch = Branch.nameKey(project, metaRef);
     branch(metaBranch).create(new BranchInput());
 
     grantDelete();
@@ -138,7 +138,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Not allowed to delete user branch.");
-    branch(new Branch.NameKey(allUsers, RefNames.refsUsers(admin.id()))).delete();
+    branch(Branch.nameKey(allUsers, RefNames.refsUsers(admin.id()))).delete();
   }
 
   @Test
@@ -148,7 +148,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Not allowed to delete group branch.");
-    branch(new Branch.NameKey(allUsers, RefNames.refsGroups(adminGroupUuid()))).delete();
+    branch(Branch.nameKey(allUsers, RefNames.refsGroups(adminGroupUuid()))).delete();
   }
 
   private void blockForcePush() throws Exception {
@@ -168,7 +168,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   private BranchApi branch(Branch.NameKey branch) throws Exception {
-    return gApi.projects().name(branch.getParentKey().get()).branch(branch.get());
+    return gApi.projects().name(branch.project().get()).branch(branch.branch());
   }
 
   private void assertDeleteByRestSucceeds(Branch.NameKey branch, String ref) throws Exception {
@@ -188,7 +188,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     String branchRev = branch(branch).get().revision;
     branch(branch).delete();
     eventRecorder.assertRefUpdatedEvents(
-        project.get(), branch.get(), null, branchRev, branchRev, null);
+        project.get(), branch.branch(), null, branchRev, branchRev, null);
     exception.expect(ResourceNotFoundException.class);
     branch(branch).get();
   }

@@ -169,10 +169,10 @@ public class CherryPickChange {
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
         CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(reader)) {
-      Ref destRef = git.getRefDatabase().exactRef(dest.get());
+      Ref destRef = git.getRefDatabase().exactRef(dest.branch());
       if (destRef == null) {
         throw new InvalidChangeOperationException(
-            String.format("Branch %s does not exist.", dest.get()));
+            String.format("Branch %s does not exist.", dest.branch()));
       }
 
       RevCommit baseCommit = getBaseCommit(destRef, project.get(), revWalk, input.base);
@@ -200,9 +200,9 @@ public class CherryPickChange {
       String commitMessage = ChangeIdUtil.insertId(input.message, computedChangeId).trim() + '\n';
 
       CodeReviewCommit cherryPickCommit;
-      ProjectState projectState = projectCache.checkedGet(dest.getParentKey());
+      ProjectState projectState = projectCache.checkedGet(dest.project());
       if (projectState == null) {
-        throw new NoSuchProjectException(dest.getParentKey());
+        throw new NoSuchProjectException(dest.project());
       }
       try {
         MergeUtil mergeUtil;
@@ -235,7 +235,7 @@ public class CherryPickChange {
           changeKey = new Change.Key("I" + computedChangeId.name());
         }
 
-        Branch.NameKey newDest = new Branch.NameKey(project, destRef.getName());
+        Branch.NameKey newDest = Branch.nameKey(project, destRef.getName());
         List<ChangeData> destChanges =
             queryProvider.get().setLimit(2).byBranchKey(newDest, changeKey);
         if (destChanges.size() > 1) {
@@ -258,11 +258,17 @@ public class CherryPickChange {
             // change.
             String newTopic = null;
             if (sourceChange != null && !Strings.isNullOrEmpty(sourceChange.getTopic())) {
-              newTopic = sourceChange.getTopic() + "-" + newDest.getShortName();
+              newTopic = sourceChange.getTopic() + "-" + newDest.shortName();
             }
             changeId =
                 createNewChange(
-                    bu, cherryPickCommit, dest.get(), newTopic, sourceChange, sourceCommit, input);
+                    bu,
+                    cherryPickCommit,
+                    dest.branch(),
+                    newTopic,
+                    sourceChange,
+                    sourceCommit,
+                    input);
           }
           bu.execute();
           return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
@@ -374,7 +380,7 @@ public class CherryPickChange {
       CodeReviewCommit cherryPickCommit) {
     StringBuilder stringBuilder = new StringBuilder("Patch Set ").append(patchSetId.get());
     if (sourceBranch != null) {
-      stringBuilder.append(": Cherry Picked from branch ").append(sourceBranch.getShortName());
+      stringBuilder.append(": Cherry Picked from branch ").append(sourceBranch.shortName());
     } else {
       stringBuilder.append(": Cherry Picked from commit ").append(sourceCommit.getName());
     }

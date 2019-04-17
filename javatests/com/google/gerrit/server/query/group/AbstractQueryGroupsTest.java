@@ -340,7 +340,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
     // update group in the database so that group index is stale
     String newDescription = "barY";
-    AccountGroup.UUID groupUuid = new AccountGroup.UUID(group1.id);
+    AccountGroup.UUID groupUuid = AccountGroup.uuid(group1.id);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder().setDescription(newDescription).build();
     groupsUpdateProvider.get().updateGroupInNoteDb(groupUuid, groupUpdate);
@@ -356,7 +356,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   @Test
   public void rawDocument() throws Exception {
     GroupInfo group1 = createGroup(name("group1"));
-    AccountGroup.UUID uuid = new AccountGroup.UUID(group1.id);
+    AccountGroup.UUID uuid = AccountGroup.uuid(group1.id);
 
     Optional<FieldBundle> rawFields =
         indexes
@@ -376,7 +376,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   @Test
   public void byDeletedGroup() throws Exception {
     GroupInfo group = createGroup(name("group"));
-    AccountGroup.UUID uuid = new AccountGroup.UUID(group.id);
+    AccountGroup.UUID uuid = AccountGroup.uuid(group.id);
     String query = "uuid:" + uuid;
     assertQuery(query, group);
 

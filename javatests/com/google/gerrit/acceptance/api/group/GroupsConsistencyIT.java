@@ -94,7 +94,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
   public void missingGroupRef() throws Exception {
 
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      RefUpdate ru = repo.updateRef(RefNames.refsGroups(new AccountGroup.UUID(g1.id)));
+      RefUpdate ru = repo.updateRef(RefNames.refsGroups(AccountGroup.uuid(g1.id)));
       ru.setForceUpdate(true);
       RefUpdate.Result result = ru.delete();
       assertThat(result).isEqualTo(Result.FORCED);
@@ -109,7 +109,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       RefRename ru =
           repo.renameRef(
-              RefNames.refsGroups(new AccountGroup.UUID(g1.id)), RefNames.REFS_GROUPS + BOGUS_UUID);
+              RefNames.refsGroups(AccountGroup.uuid(g1.id)), RefNames.REFS_GROUPS + BOGUS_UUID);
       RefUpdate.Result result = ru.rename();
       assertThat(result).isEqualTo(Result.RENAMED);
     }
@@ -123,8 +123,8 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       RefRename ru =
           repo.renameRef(
-              RefNames.refsGroups(new AccountGroup.UUID(g1.id)),
-              RefNames.refsGroups(new AccountGroup.UUID(BOGUS_UUID)));
+              RefNames.refsGroups(AccountGroup.uuid(g1.id)),
+              RefNames.refsGroups(AccountGroup.uuid(BOGUS_UUID)));
       RefUpdate.Result result = ru.rename();
       assertThat(result).isEqualTo(Result.RENAMED);
     }
@@ -135,7 +135,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
   @Test
   public void groupRefDoesNotParse() throws Exception {
     updateGroupFile(
-        RefNames.refsGroups(new AccountGroup.UUID(g1.id)),
+        RefNames.refsGroups(AccountGroup.uuid(g1.id)),
         GroupConfig.GROUP_CONFIG_FILE,
         "[this is not valid\n");
     assertError("does not parse");
@@ -158,9 +158,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     cfg.setString("group", null, "ownerGroupUuid", gAdmin.id);
 
     updateGroupFile(
-        RefNames.refsGroups(new AccountGroup.UUID(g1.id)),
-        GroupConfig.GROUP_CONFIG_FILE,
-        cfg.toText());
+        RefNames.refsGroups(AccountGroup.uuid(g1.id)), GroupConfig.GROUP_CONFIG_FILE, cfg.toText());
     assertError("inconsistent name");
   }
 
@@ -172,9 +170,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     cfg.setString("group", null, "ownerGroupUuid", gAdmin.id);
 
     updateGroupFile(
-        RefNames.refsGroups(new AccountGroup.UUID(g1.id)),
-        GroupConfig.GROUP_CONFIG_FILE,
-        cfg.toText());
+        RefNames.refsGroups(AccountGroup.uuid(g1.id)), GroupConfig.GROUP_CONFIG_FILE, cfg.toText());
     assertError("shared group id");
   }
 
@@ -186,9 +182,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     cfg.setString("group", null, "ownerGroupUuid", BOGUS_UUID);
 
     updateGroupFile(
-        RefNames.refsGroups(new AccountGroup.UUID(g1.id)),
-        GroupConfig.GROUP_CONFIG_FILE,
-        cfg.toText());
+        RefNames.refsGroups(AccountGroup.uuid(g1.id)), GroupConfig.GROUP_CONFIG_FILE, cfg.toText());
     assertError("nonexistent owner group");
   }
 
@@ -208,20 +202,19 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
 
   @Test
   public void nonexistentMember() throws Exception {
-    updateGroupFile(RefNames.refsGroups(new AccountGroup.UUID(g1.id)), "members", "314159265\n");
+    updateGroupFile(RefNames.refsGroups(AccountGroup.uuid(g1.id)), "members", "314159265\n");
     assertError("nonexistent member 314159265");
   }
 
   @Test
   public void nonexistentSubgroup() throws Exception {
-    updateGroupFile(
-        RefNames.refsGroups(new AccountGroup.UUID(g1.id)), "subgroups", BOGUS_UUID + "\n");
+    updateGroupFile(RefNames.refsGroups(AccountGroup.uuid(g1.id)), "subgroups", BOGUS_UUID + "\n");
     assertError("has nonexistent subgroup");
   }
 
   @Test
   public void cyclicSubgroup() throws Exception {
-    updateGroupFile(RefNames.refsGroups(new AccountGroup.UUID(g1.id)), "subgroups", g1.id + "\n");
+    updateGroupFile(RefNames.refsGroups(AccountGroup.uuid(g1.id)), "subgroups", g1.id + "\n");
     assertWarning("cycle");
   }
 

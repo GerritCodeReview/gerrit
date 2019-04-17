@@ -155,14 +155,14 @@ public class PermissionTest extends GerritBaseTests {
   @Test
   public void setAndGetRules() {
     PermissionRule permissionRule1 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-1"), "group1"));
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-1"), "group1"));
     PermissionRule permissionRule2 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-2"), "group2"));
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-2"), "group2"));
     permission.setRules(ImmutableList.of(permissionRule1, permissionRule2));
     assertThat(permission.getRules()).containsExactly(permissionRule1, permissionRule2).inOrder();
 
     PermissionRule permissionRule3 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-3"), "group3"));
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-3"), "group3"));
     permission.setRules(ImmutableList.of(permissionRule3));
     assertThat(permission.getRules()).containsExactly(permissionRule3);
   }
@@ -170,10 +170,10 @@ public class PermissionTest extends GerritBaseTests {
   @Test
   public void cannotAddPermissionByModifyingListThatWasProvidedToAccessSection() {
     PermissionRule permissionRule1 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-1"), "group1"));
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-1"), "group1"));
     PermissionRule permissionRule2 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-2"), "group2"));
-    GroupReference groupReference3 = new GroupReference(new AccountGroup.UUID("uuid-3"), "group3");
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-2"), "group2"));
+    GroupReference groupReference3 = new GroupReference(AccountGroup.uuid("uuid-3"), "group3");
 
     List<PermissionRule> rules = new ArrayList<>();
     rules.add(permissionRule1);
@@ -188,14 +188,14 @@ public class PermissionTest extends GerritBaseTests {
 
   @Test
   public void getNonExistingRule() {
-    GroupReference groupReference = new GroupReference(new AccountGroup.UUID("uuid-1"), "group1");
+    GroupReference groupReference = new GroupReference(AccountGroup.uuid("uuid-1"), "group1");
     assertThat(permission.getRule(groupReference)).isNull();
     assertThat(permission.getRule(groupReference, false)).isNull();
   }
 
   @Test
   public void getRule() {
-    GroupReference groupReference = new GroupReference(new AccountGroup.UUID("uuid-1"), "group1");
+    GroupReference groupReference = new GroupReference(AccountGroup.uuid("uuid-1"), "group1");
     PermissionRule permissionRule = new PermissionRule(groupReference);
     permission.setRules(ImmutableList.of(permissionRule));
     assertThat(permission.getRule(groupReference)).isEqualTo(permissionRule);
@@ -203,7 +203,7 @@ public class PermissionTest extends GerritBaseTests {
 
   @Test
   public void createMissingRuleOnGet() {
-    GroupReference groupReference = new GroupReference(new AccountGroup.UUID("uuid-1"), "group1");
+    GroupReference groupReference = new GroupReference(AccountGroup.uuid("uuid-1"), "group1");
     assertThat(permission.getRule(groupReference)).isNull();
 
     assertThat(permission.getRule(groupReference, true))
@@ -213,11 +213,11 @@ public class PermissionTest extends GerritBaseTests {
   @Test
   public void addRule() {
     PermissionRule permissionRule1 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-1"), "group1"));
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-1"), "group1"));
     PermissionRule permissionRule2 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-2"), "group2"));
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-2"), "group2"));
     permission.setRules(ImmutableList.of(permissionRule1, permissionRule2));
-    GroupReference groupReference3 = new GroupReference(new AccountGroup.UUID("uuid-3"), "group3");
+    GroupReference groupReference3 = new GroupReference(AccountGroup.uuid("uuid-3"), "group3");
     assertThat(permission.getRule(groupReference3)).isNull();
 
     PermissionRule permissionRule3 = new PermissionRule(groupReference3);
@@ -231,10 +231,10 @@ public class PermissionTest extends GerritBaseTests {
   @Test
   public void removeRule() {
     PermissionRule permissionRule1 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-1"), "group1"));
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-1"), "group1"));
     PermissionRule permissionRule2 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-2"), "group2"));
-    GroupReference groupReference3 = new GroupReference(new AccountGroup.UUID("uuid-3"), "group3");
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-2"), "group2"));
+    GroupReference groupReference3 = new GroupReference(AccountGroup.uuid("uuid-3"), "group3");
     PermissionRule permissionRule3 = new PermissionRule(groupReference3);
 
     permission.setRules(ImmutableList.of(permissionRule1, permissionRule2, permissionRule3));
@@ -248,10 +248,10 @@ public class PermissionTest extends GerritBaseTests {
   @Test
   public void removeRuleByGroupReference() {
     PermissionRule permissionRule1 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-1"), "group1"));
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-1"), "group1"));
     PermissionRule permissionRule2 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-2"), "group2"));
-    GroupReference groupReference3 = new GroupReference(new AccountGroup.UUID("uuid-3"), "group3");
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-2"), "group2"));
+    GroupReference groupReference3 = new GroupReference(AccountGroup.uuid("uuid-3"), "group3");
     PermissionRule permissionRule3 = new PermissionRule(groupReference3);
 
     permission.setRules(ImmutableList.of(permissionRule1, permissionRule2, permissionRule3));
@@ -265,9 +265,9 @@ public class PermissionTest extends GerritBaseTests {
   @Test
   public void clearRules() {
     PermissionRule permissionRule1 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-1"), "group1"));
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-1"), "group1"));
     PermissionRule permissionRule2 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-2"), "group2"));
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-2"), "group2"));
 
     permission.setRules(ImmutableList.of(permissionRule1, permissionRule2));
     assertThat(permission.getRules()).isNotEmpty();
@@ -279,11 +279,11 @@ public class PermissionTest extends GerritBaseTests {
   @Test
   public void mergePermissions() {
     PermissionRule permissionRule1 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-1"), "group1"));
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-1"), "group1"));
     PermissionRule permissionRule2 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-2"), "group2"));
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-2"), "group2"));
     PermissionRule permissionRule3 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-3"), "group3"));
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-3"), "group3"));
 
     Permission permission1 = new Permission("foo");
     permission1.setRules(ImmutableList.of(permissionRule1, permissionRule2));
@@ -300,9 +300,9 @@ public class PermissionTest extends GerritBaseTests {
   @Test
   public void testEquals() {
     PermissionRule permissionRule1 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-1"), "group1"));
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-1"), "group1"));
     PermissionRule permissionRule2 =
-        new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-2"), "group2"));
+        new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-2"), "group2"));
 
     permission.setRules(ImmutableList.of(permissionRule1, permissionRule2));
 

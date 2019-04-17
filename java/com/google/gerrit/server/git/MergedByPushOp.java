@@ -106,7 +106,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   @Override
   public boolean updateChange(ChangeContext ctx) throws IOException {
     change = ctx.getChange();
-    correctBranch = refName.equals(change.getDest().get());
+    correctBranch = refName.equals(change.getDest().branch());
     if (!correctBranch) {
       return false;
     }
@@ -135,7 +135,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     update.setCurrentPatchSet();
     StringBuilder msgBuf = new StringBuilder();
     msgBuf.append("Change has been successfully pushed");
-    if (!refName.equals(change.getDest().get())) {
+    if (!refName.equals(change.getDest().branch())) {
       msgBuf.append(" into ");
       if (refName.startsWith(Constants.R_HEADS)) {
         msgBuf.append("branch ");

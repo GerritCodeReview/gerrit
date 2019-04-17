@@ -287,7 +287,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     PushOneCommit.Result change2 = createChange();
     approve(change2.getChangeId());
     Project.NameKey project = change2.getChange().change().getProject();
-    Branch.NameKey branch = new Branch.NameKey(project, "branch");
+    Branch.NameKey branch = Branch.nameKey(project, "branch");
     createBranchWithRevision(branch, change2.getCommit().getName());
     gApi.changes().id(change2.getChangeId()).current().submit();
     assertMerged(change2.getChangeId());

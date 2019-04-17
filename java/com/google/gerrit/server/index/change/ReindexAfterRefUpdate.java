@@ -153,7 +153,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
       if (ref.equals(RefNames.REFS_CONFIG)) {
         return asChanges(queryProvider.get().byProjectOpen(project));
       }
-      return asChanges(queryProvider.get().byBranchNew(new Branch.NameKey(project, ref)));
+      return asChanges(queryProvider.get().byBranchNew(Branch.nameKey(project, ref)));
     }
 
     @Override

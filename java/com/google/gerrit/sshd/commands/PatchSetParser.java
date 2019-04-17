@@ -147,7 +147,7 @@ public class PatchSetParser {
       // No --branch option, so they want every branch.
       return true;
     }
-    return change.getDest().get().equals(branch);
+    return change.getDest().branch().equals(branch);
   }
 
   public static UnloggedFailure error(String msg) {

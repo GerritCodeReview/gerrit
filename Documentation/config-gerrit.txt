@@ -1225,6 +1225,13 @@ Many NoteDb operations require walking the entire change meta ref and loading
 its contents into memory, so changes with arbitrarily many updates may cause
 high CPU usage, memory pressure, persistent cache bloat, and other problems.
 +
+The following operations are allowed even when a change is at the limit:
+* Abandon
+* Submit
+* Submit by push with `%submit`
+* Auto-close by pushing directly to the branch
+* Fix with link:rest-api-changes.html#fix-input[`expect_merged_as`]
++
 By default 1000.
 
 [[change.replyLabel]]change.replyLabel::

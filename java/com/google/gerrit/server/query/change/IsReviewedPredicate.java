@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 public class IsReviewedPredicate extends ChangeIndexPredicate {
-  protected static final Account.Id NOT_REVIEWED = new Account.Id(ChangeField.NOT_REVIEWED);
+  protected static final Account.Id NOT_REVIEWED = Account.id(ChangeField.NOT_REVIEWED);
 
   public static Predicate<ChangeData> create() {
     return Predicate.not(new IsReviewedPredicate(NOT_REVIEWED));

@@ -136,7 +136,7 @@ public class AccountIndexerIT {
 
   private Account.Id createAccount(String name) throws RestApiException {
     AccountInfo account = gApi.accounts().create(name).get();
-    return new Account.Id(account._accountId);
+    return Account.id(account._accountId);
   }
 
   private void reloadAccountToCache(Account.Id accountId) {

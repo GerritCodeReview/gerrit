@@ -253,7 +253,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     addEmails(user1, secondaryEmail);
 
     AccountInfo user2 = newAccount("user");
-    requestContext.setContext(newRequestContext(new Account.Id(user2._accountId)));
+    requestContext.setContext(newRequestContext(Account.id(user2._accountId)));
 
     if (getSchemaVersion() < 5) {
       assertMissingField(AccountField.PREFERRED_EMAIL);
@@ -340,7 +340,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     AccountInfo user2 = newAccountWithFullName("jroe", "Jane Roe");
 
     AccountInfo user3 = newAccount("user");
-    requestContext.setContext(newRequestContext(new Account.Id(user3._accountId)));
+    requestContext.setContext(newRequestContext(Account.id(user3._accountId)));
 
     assertQuery("notexisting");
     assertQuery("Not Existing");
@@ -575,7 +575,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     String[] secondaryEmails = new String[] {"dfg@example.com", "hij@example.com"};
     addEmails(otherUser, secondaryEmails);
 
-    requestContext.setContext(newRequestContext(new Account.Id(user._accountId)));
+    requestContext.setContext(newRequestContext(Account.id(user._accountId)));
 
     List<AccountInfo> result = newQuery(otherUser.username).withSuggest(true).get();
     assertThat(result.get(0).secondaryEmails).isNull();
@@ -600,7 +600,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     AccountInfo user1 = newAccountWithFullName("tester", "Test Usre");
 
     // update account without reindex so that account index is stale
-    Account.Id accountId = new Account.Id(user1._accountId);
+    Account.Id accountId = Account.id(user1._accountId);
     String newName = "Test User";
     try (Repository repo = repoManager.openRepository(allUsers)) {
       MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsers, repo);
@@ -629,7 +629,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
         indexes
             .getSearchIndex()
             .getRaw(
-                new Account.Id(userInfo._accountId),
+                Account.id(userInfo._accountId),
                 QueryOptions.create(
                     IndexConfig.createDefault(),
                     0,
@@ -777,7 +777,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   private void addEmails(AccountInfo account, String... emails) throws Exception {
-    Account.Id id = new Account.Id(account._accountId);
+    Account.Id id = Account.id(account._accountId);
     for (String email : emails) {
       accountManager.link(id, AuthRequest.forEmail(email));
     }

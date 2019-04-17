@@ -68,7 +68,7 @@ public class RequestScopeOperationsImplTest extends AbstractDaemonTest {
   public void setApiUserToNonExistingUser() throws Exception {
     fastCheckCurrentUser(admin.id());
     try {
-      requestScopeOperations.setApiUser(new Account.Id(sequences.nextAccountId()));
+      requestScopeOperations.setApiUser(Account.id(sequences.nextAccountId()));
       assert_().fail("expected RuntimeException");
     } catch (RuntimeException e) {
       // Expected.

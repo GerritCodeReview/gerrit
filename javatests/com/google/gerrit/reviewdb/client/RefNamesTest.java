@@ -32,7 +32,7 @@ public class RefNamesTest {
 
   @Rule public ExpectedException expectedException = ExpectedException.none();
 
-  private final Account.Id accountId = new Account.Id(1011123);
+  private final Account.Id accountId = Account.id(1011123);
   private final Change.Id changeId = new Change.Id(67473);
   private final PatchSet.Id psId = new PatchSet.Id(changeId, 42);
 

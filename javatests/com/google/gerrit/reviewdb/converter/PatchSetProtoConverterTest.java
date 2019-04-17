@@ -38,7 +38,7 @@ public class PatchSetProtoConverterTest {
   public void allValuesConvertedToProto() {
     PatchSet patchSet = new PatchSet(new PatchSet.Id(new Change.Id(103), 73));
     patchSet.setRevision(new RevId("aabbccddeeff"));
-    patchSet.setUploader(new Account.Id(452));
+    patchSet.setUploader(Account.id(452));
     patchSet.setCreatedOn(new Timestamp(930349320L));
     patchSet.setGroups(ImmutableList.of("group1, group2"));
     patchSet.setPushCertificate("my push certificate");
@@ -82,7 +82,7 @@ public class PatchSetProtoConverterTest {
   public void allValuesConvertedToProtoAndBackAgain() {
     PatchSet patchSet = new PatchSet(new PatchSet.Id(new Change.Id(103), 73));
     patchSet.setRevision(new RevId("aabbccddeeff"));
-    patchSet.setUploader(new Account.Id(452));
+    patchSet.setUploader(Account.id(452));
     patchSet.setCreatedOn(new Timestamp(930349320L));
     patchSet.setGroups(ImmutableList.of("group1, group2"));
     patchSet.setPushCertificate("my push certificate");

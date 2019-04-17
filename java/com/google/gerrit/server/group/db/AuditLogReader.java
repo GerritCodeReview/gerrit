@@ -114,7 +114,7 @@ public class AuditLogReader {
         SubgroupKey key = SubgroupKey.create(groupId, uuid);
         AccountGroupByIdAud audit =
             new AccountGroupByIdAud(
-                new AccountGroupByIdAud.Key(groupId, uuid, pc.when()), pc.authorId());
+                AccountGroupByIdAud.key(groupId, uuid, pc.when()), pc.authorId());
         audits.put(key, audit);
         result.add(audit);
       }

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.StringKey;
+import java.util.Objects;
 
 /**
  * Defining a project/branch subscription to a project/branch project.
@@ -25,64 +25,28 @@ import com.google.gwtorm.client.StringKey;
  * <p>A subscriber operates a submodule in defined path.
  */
 public final class SubmoduleSubscription {
-  /** Subscription key */
-  public static class Key extends StringKey<Branch.NameKey> {
-    private static final long serialVersionUID = 1L;
+  protected Branch.NameKey superProject;
 
-    /**
-     * Indicates the super project, aka subscriber: the project owner of the gitlinks to the
-     * submodules.
-     */
-    protected Branch.NameKey superProject;
-
-    protected String submodulePath;
-
-    protected Key() {
-      superProject = new Branch.NameKey();
-    }
-
-    protected Key(Branch.NameKey superProject, String path) {
-      this.superProject = superProject;
-      this.submodulePath = path;
-    }
-
-    @Override
-    public Branch.NameKey getParentKey() {
-      return superProject;
-    }
-
-    @Override
-    public String get() {
-      return submodulePath;
-    }
-
-    @Override
-    protected void set(String newValue) {
-      this.submodulePath = newValue;
-    }
-  }
-
-  protected Key key;
+  protected String submodulePath;
 
   protected Branch.NameKey submodule;
 
-  protected SubmoduleSubscription() {}
-
   public SubmoduleSubscription(Branch.NameKey superProject, Branch.NameKey submodule, String path) {
-    this.key = new Key(superProject, path);
+    this.superProject = superProject;
     this.submodule = submodule;
+    this.submodulePath = path;
   }
 
-  public Key getKey() {
-    return key;
-  }
-
+  /**
+   * Indicates the super project, aka subscriber: the project owner of the gitlinks to the
+   * submodules.
+   */
   public Branch.NameKey getSuperProject() {
-    return key.superProject;
+    return superProject;
   }
 
   public String getPath() {
-    return key.get();
+    return submodulePath;
   }
 
   public Branch.NameKey getSubmodule() {
@@ -92,15 +56,17 @@ public final class SubmoduleSubscription {
   @Override
   public boolean equals(Object o) {
     if (o instanceof SubmoduleSubscription) {
-      return key.equals(((SubmoduleSubscription) o).key)
-          && submodule.equals(((SubmoduleSubscription) o).submodule);
+      SubmoduleSubscription s = (SubmoduleSubscription) o;
+      return superProject.equals(s.superProject)
+          && submodulePath.equals(s.submodulePath)
+          && submodule.equals(s.submodule);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return key.hashCode();
+    return Objects.hash(superProject, submodulePath, submodule);
   }
 
   @Override

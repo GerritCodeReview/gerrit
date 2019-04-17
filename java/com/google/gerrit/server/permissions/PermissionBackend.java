@@ -158,7 +158,7 @@ public abstract class PermissionBackend {
 
     /** Returns an instance scoped for the {@code ref}, and its parent project. */
     public ForRef ref(Branch.NameKey ref) {
-      return project(ref.getParentKey()).ref(ref.get());
+      return project(ref.project()).ref(ref.branch());
     }
 
     /** Returns an instance scoped for the change, and its destination ref and project. */
@@ -280,7 +280,7 @@ public abstract class PermissionBackend {
     /** Returns an instance scoped for the change, and its destination ref and project. */
     public ForChange change(ChangeData cd) {
       try {
-        return ref(cd.change().getDest().get()).change(cd);
+        return ref(cd.change().getDest().branch()).change(cd);
       } catch (StorageException e) {
         return FailedPermissionBackend.change("unavailable", e);
       }
@@ -288,7 +288,7 @@ public abstract class PermissionBackend {
 
     /** Returns an instance scoped for the change, and its destination ref and project. */
     public ForChange change(ChangeNotes notes) {
-      return ref(notes.getChange().getDest().get()).change(notes);
+      return ref(notes.getChange().getDest().branch()).change(notes);
     }
 
     /**
@@ -297,7 +297,7 @@ public abstract class PermissionBackend {
      * stale data from the index is acceptable.
      */
     public ForChange indexedChange(ChangeData cd, ChangeNotes notes) {
-      return ref(notes.getChange().getDest().get()).indexedChange(cd, notes);
+      return ref(notes.getChange().getDest().branch()).indexedChange(cd, notes);
     }
 
     /** Verify scoped user can {@code perm}, throwing if denied. */

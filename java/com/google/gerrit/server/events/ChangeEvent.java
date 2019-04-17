@@ -29,7 +29,7 @@ public abstract class ChangeEvent extends RefEvent {
   protected ChangeEvent(String type, Change change) {
     super(type);
     this.project = change.getProject();
-    this.refName = RefNames.fullName(change.getDest().get());
+    this.refName = RefNames.fullName(change.getDest().branch());
     this.changeKey = change.getKey();
   }
 

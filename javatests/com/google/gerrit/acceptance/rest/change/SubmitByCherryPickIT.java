@@ -91,7 +91,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         changeMessageModifiers.add(
             "gerrit",
             (newCommitMessage, original, mergeTip, destination) ->
-                newCommitMessage + "Custom: " + destination.get());
+                newCommitMessage + "Custom: " + destination.branch());
     try {
       submit(change.getChangeId());
     } finally {

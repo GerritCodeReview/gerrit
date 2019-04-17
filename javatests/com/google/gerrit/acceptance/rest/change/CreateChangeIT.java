@@ -449,7 +449,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createChangeOnExistingBranchNotPermitted() throws Exception {
-    createBranch(new Branch.NameKey(project, "foo"));
+    createBranch(Branch.nameKey(project, "foo"));
     blockRead("refs/heads/*");
     requestScopeOperations.setApiUser(user.id());
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
@@ -568,8 +568,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
     initialCommit.assertOkStatus();
 
     // create two new branches
-    createBranch(new Branch.NameKey(project, branchA));
-    createBranch(new Branch.NameKey(project, branchB));
+    createBranch(Branch.nameKey(project, branchA));
+    createBranch(Branch.nameKey(project, branchB));
 
     // create a commit in branchA
     Result changeA =

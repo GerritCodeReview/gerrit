@@ -1296,7 +1296,7 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r = push.to(MagicBranch.NEW_CHANGE + userRefName);
     r.assertOkStatus();
     accountIndexedCounter.assertNoReindex();
-    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRefName);
+    assertThat(r.getChange().change().getDest().branch()).isEqualTo(userRefName);
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).current().submit();
     accountIndexedCounter.assertReindexOf(admin);
@@ -1305,7 +1305,7 @@ public class AccountIT extends AbstractDaemonTest {
     r = push.to(MagicBranch.NEW_CHANGE + RefNames.REFS_USERS_SELF);
     r.assertOkStatus();
     accountIndexedCounter.assertNoReindex();
-    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRefName);
+    assertThat(r.getChange().change().getDest().branch()).isEqualTo(userRefName);
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).current().submit();
     accountIndexedCounter.assertReindexOf(admin);
@@ -1332,7 +1332,7 @@ public class AccountIT extends AbstractDaemonTest {
             .to(MagicBranch.NEW_CHANGE + userRef);
     r.assertOkStatus();
     accountIndexedCounter.assertNoReindex();
-    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRef);
+    assertThat(r.getChange().change().getDest().branch()).isEqualTo(userRef);
 
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).current().submit();
@@ -1370,7 +1370,7 @@ public class AccountIT extends AbstractDaemonTest {
             .to(MagicBranch.NEW_CHANGE + userRef);
     r.assertOkStatus();
     accountIndexedCounter.assertNoReindex();
-    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRef);
+    assertThat(r.getChange().change().getDest().branch()).isEqualTo(userRef);
 
     requestScopeOperations.setApiUser(foo.id());
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
@@ -1402,7 +1402,7 @@ public class AccountIT extends AbstractDaemonTest {
             .to(MagicBranch.NEW_CHANGE + userRef);
     r.assertOkStatus();
     accountIndexedCounter.assertNoReindex();
-    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRef);
+    assertThat(r.getChange().change().getDest().branch()).isEqualTo(userRef);
 
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
     exception.expect(ResourceConflictException.class);
@@ -1441,7 +1441,7 @@ public class AccountIT extends AbstractDaemonTest {
             .to(MagicBranch.NEW_CHANGE + userRef);
     r.assertOkStatus();
     accountIndexedCounter.assertNoReindex();
-    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRef);
+    assertThat(r.getChange().change().getDest().branch()).isEqualTo(userRef);
 
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
     exception.expect(ResourceConflictException.class);
@@ -1474,7 +1474,7 @@ public class AccountIT extends AbstractDaemonTest {
             .to(MagicBranch.NEW_CHANGE + userRef);
     r.assertOkStatus();
     accountIndexedCounter.assertNoReindex();
-    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRef);
+    assertThat(r.getChange().change().getDest().branch()).isEqualTo(userRef);
 
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
     exception.expect(ResourceConflictException.class);
@@ -1513,7 +1513,7 @@ public class AccountIT extends AbstractDaemonTest {
             .to(MagicBranch.NEW_CHANGE + userRef);
     r.assertOkStatus();
     accountIndexedCounter.assertNoReindex();
-    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRef);
+    assertThat(r.getChange().change().getDest().branch()).isEqualTo(userRef);
 
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).current().submit();
@@ -2693,7 +2693,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void deleteDraftCommentsSkipsInvisibleChanges() throws Exception {
     try {
-      createBranch(new Branch.NameKey(project, "secret"));
+      createBranch(Branch.nameKey(project, "secret"));
       PushOneCommit.Result r1 = createChange();
       PushOneCommit.Result r2 = createChange("refs/for/secret");
 

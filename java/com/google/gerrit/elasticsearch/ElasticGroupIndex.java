@@ -117,8 +117,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
     }
 
     AccountGroup.UUID uuid =
-        new AccountGroup.UUID(
-            source.getAsJsonObject().get(GroupField.UUID.getName()).getAsString());
+        AccountGroup.uuid(source.getAsJsonObject().get(GroupField.UUID.getName()).getAsString());
     // Use the GroupCache rather than depending on any stored fields in the
     // document (of which there shouldn't be any).
     return groupCache.get().get(uuid).orElse(null);

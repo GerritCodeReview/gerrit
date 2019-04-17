@@ -22,6 +22,30 @@
       "revId": "6e3e12620b5a45bcfda1cc00d4de06e694706c12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3c3ae2f_83ed6c0f",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-17T19:21:45Z",
+      "side": 1,
+      "message": "Added an explanation to the commit message. But I am not yet sure whether we will need/want this for the public webserver. Google internally we will want to run and serve Polymer 1 and 2 in parallel (switching back and forth with a URL parameter). That is the best way to test everything thoroughly in production including all the plugins.",
+      "parentUuid": "71781e48_604c4763",
+      "range": {
+        "startLine": 46,
+        "startChar": 9,
+        "endLine": 46,
+        "endChar": 17
+      },
+      "revId": "6e3e12620b5a45bcfda1cc00d4de06e694706c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

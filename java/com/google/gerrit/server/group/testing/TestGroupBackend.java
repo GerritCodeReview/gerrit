@@ -43,7 +43,7 @@ public class TestGroupBackend implements GroupBackend {
    */
   public GroupDescription.Basic create(String name) {
     requireNonNull(name);
-    return create(new AccountGroup.UUID(name.startsWith(PREFIX) ? name : PREFIX + name));
+    return create(AccountGroup.uuid(name.startsWith(PREFIX) ? name : PREFIX + name));
   }
 
   /**

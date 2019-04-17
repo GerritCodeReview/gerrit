@@ -30,7 +30,7 @@ public class TestGroupBackendTest extends AbstractDaemonTest {
   @Inject private UniversalGroupBackend universalGroupBackend;
 
   private final TestGroupBackend testGroupBackend = new TestGroupBackend();
-  private final AccountGroup.UUID testUUID = new AccountGroup.UUID("testbackend:test");
+  private final AccountGroup.UUID testUUID = AccountGroup.uuid("testbackend:test");
 
   @Test
   public void handlesTestGroup() throws Exception {
@@ -49,7 +49,7 @@ public class TestGroupBackendTest extends AbstractDaemonTest {
 
   @Test
   public void doesNotHandleLDAP() throws Exception {
-    assertThat(testGroupBackend.handles(new AccountGroup.UUID("ldap:1234"))).isFalse();
+    assertThat(testGroupBackend.handles(AccountGroup.uuid("ldap:1234"))).isFalse();
   }
 
   @Test

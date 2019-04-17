@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17c2a0f1_8465ff09",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-17T16:03:05Z",
+      "side": 1,
+      "message": "Something went here wrong, this is already included on the previous line.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 81
+      },
+      "revId": "71166fdedefc3bfb628e4d2cbff39bafbe17f9b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b204b40e_cbb0f9b4",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-17T16:03:05Z",
+      "side": 1,
+      "message": "Run buildifier 0.20 or 0.22.",
+      "revId": "71166fdedefc3bfb628e4d2cbff39bafbe17f9b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f0ccb56_7d52b240",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-17T16:03:05Z",
+      "side": 1,
+      "message": "We could avoid company name in bazel rule files, if we call it library_compliance_exception or similar.",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "71166fdedefc3bfb628e4d2cbff39bafbe17f9b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

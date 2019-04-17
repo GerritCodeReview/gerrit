@@ -215,7 +215,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void cachedGroupByNameIsUpdatedOnCreation() throws Exception {
     String newGroupName = name("newGroup");
-    AccountGroup.NameKey nameKey = new AccountGroup.NameKey(newGroupName);
+    AccountGroup.NameKey nameKey = AccountGroup.nameKey(newGroupName);
     assertThat(groupCache.get(nameKey)).isEmpty();
     gApi.groups().create(newGroupName);
     assertThat(groupCache.get(nameKey)).isPresent();
@@ -1340,7 +1340,7 @@ public class GroupsIT extends AbstractDaemonTest {
       groupsUpdate.createGroupInNoteDb(
           InternalGroupCreation.builder()
               .setGroupUUID(groupUuid)
-              .setNameKey(new AccountGroup.NameKey(groupName))
+              .setNameKey(AccountGroup.nameKey(groupName))
               .setId(new AccountGroup.Id(seq.nextGroupId()))
               .build(),
           InternalGroupUpdate.builder().build());

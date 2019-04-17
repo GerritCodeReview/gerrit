@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.cache.serialize;
 
+import com.google.common.base.Converter;
+
 /**
  * Interface for serializing/deserializing a type to/from a persistent cache.
  *
@@ -21,6 +23,27 @@ package com.google.gerrit.server.cache.serialize;
  * null values, unless otherwise specified.
  */
 public interface CacheSerializer<T> {
+  /**
+   * Convert a serializer of one type to another type using a {@link Converter}.
+   *
+   * @param delegate underlying serializer.
+   * @param converter converter between an arbitrary type {@code T} and {@code delegate}'s type.
+   * @return serializer of type {@code T}.
+   */
+  static <T, D> CacheSerializer<T> convert(CacheSerializer<D> delegate, Converter<T, D> converter) {
+    return new CacheSerializer<T>() {
+      @Override
+      public byte[] serialize(T object) {
+        return delegate.serialize(converter.convert(object));
+      }
+
+      @Override
+      public T deserialize(byte[] in) {
+        return converter.reverse().convert(delegate.deserialize(in));
+      }
+    };
+  }
+
   /**
    * Serializes the object to a new byte array.
    *

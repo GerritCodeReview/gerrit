@@ -16,7 +16,6 @@ package com.google.gerrit.reviewdb.client;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.Comment.Range;
-import com.google.gwtorm.client.StringKey;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -28,48 +27,6 @@ import java.util.Objects;
  * @see Comment
  */
 public final class PatchLineComment {
-  public static class Key extends StringKey<Patch.Key> {
-    private static final long serialVersionUID = 1L;
-
-    public static Key from(Change.Id changeId, Comment.Key key) {
-      return new Key(
-          new Patch.Key(new PatchSet.Id(changeId, key.patchSetId), key.filename), key.uuid);
-    }
-
-    protected Patch.Key patchKey;
-
-    protected String uuid;
-
-    protected Key() {
-      patchKey = new Patch.Key();
-    }
-
-    public Key(Patch.Key p, String uuid) {
-      this.patchKey = p;
-      this.uuid = uuid;
-    }
-
-    @Override
-    public Patch.Key getParentKey() {
-      return patchKey;
-    }
-
-    @Override
-    public String get() {
-      return uuid;
-    }
-
-    @Override
-    public void set(String newValue) {
-      uuid = newValue;
-    }
-
-    public Comment.Key asCommentKey() {
-      return new Comment.Key(
-          get(), getParentKey().getFileName(), getParentKey().getParentKey().get());
-    }
-  }
-
   public static final char STATUS_DRAFT = 'd';
   public static final char STATUS_PUBLISHED = 'P';
 
@@ -100,12 +57,10 @@ public final class PatchLineComment {
 
   public static PatchLineComment from(
       Change.Id changeId, PatchLineComment.Status status, Comment c) {
-    PatchLineComment.Key key =
-        new PatchLineComment.Key(
-            new Patch.Key(new PatchSet.Id(changeId, c.key.patchSetId), c.key.filename), c.key.uuid);
-
+    Patch.Key patchKey = new Patch.Key(new PatchSet.Id(changeId, c.key.patchSetId), c.key.filename);
     PatchLineComment plc =
-        new PatchLineComment(key, c.lineNbr, c.author.getId(), c.parentUuid, c.writtenOn);
+        new PatchLineComment(
+            patchKey, c.key.uuid, c.lineNbr, c.author.getId(), c.parentUuid, c.writtenOn);
     plc.setSide(c.side);
     plc.setMessage(c.message);
     if (c.range != null) {
@@ -120,7 +75,9 @@ public final class PatchLineComment {
     return plc;
   }
 
-  protected Key key;
+  protected Patch.Key patchKey;
+
+  protected String uuid;
 
   /** Line number this comment applies to; it should display after the line. */
   protected int lineNbr;
@@ -159,8 +116,9 @@ public final class PatchLineComment {
   protected PatchLineComment() {}
 
   public PatchLineComment(
-      PatchLineComment.Key id, int line, Account.Id a, String parentUuid, Timestamp when) {
-    key = id;
+      Patch.Key patchKey, String uuid, int line, Account.Id a, String parentUuid, Timestamp when) {
+    this.patchKey = patchKey;
+    this.uuid = uuid;
     lineNbr = line;
     author = a;
     setParentUuid(parentUuid);
@@ -169,7 +127,8 @@ public final class PatchLineComment {
   }
 
   public PatchLineComment(PatchLineComment o) {
-    key = o.key;
+    patchKey = o.patchKey;
+    uuid = o.uuid;
     lineNbr = o.lineNbr;
     author = o.author;
     realAuthor = o.realAuthor;
@@ -189,12 +148,8 @@ public final class PatchLineComment {
     }
   }
 
-  public PatchLineComment.Key getKey() {
-    return key;
-  }
-
   public PatchSet.Id getPatchSetId() {
-    return key.getParentKey().getParentKey();
+    return patchKey.getParentKey();
   }
 
   public int getLine() {
@@ -303,7 +258,14 @@ public final class PatchLineComment {
 
   public Comment asComment(String serverId) {
     Comment c =
-        new Comment(key.asCommentKey(), author, writtenOn, side, message, serverId, unresolved);
+        new Comment(
+            new Comment.Key(uuid, patchKey.getFileName(), patchKey.getParentKey().get()),
+            author,
+            writtenOn,
+            side,
+            message,
+            serverId,
+            unresolved);
     c.setRevId(revId);
     c.setRange(range);
     c.lineNbr = lineNbr;
@@ -317,7 +279,8 @@ public final class PatchLineComment {
   public boolean equals(Object o) {
     if (o instanceof PatchLineComment) {
       PatchLineComment c = (PatchLineComment) o;
-      return Objects.equals(key, c.getKey())
+      return Objects.equals(patchKey, c.patchKey)
+          && Objects.equals(uuid, c.uuid)
           && Objects.equals(lineNbr, c.getLine())
           && Objects.equals(author, c.getAuthor())
           && Objects.equals(writtenOn, c.getWrittenOn())
@@ -335,14 +298,15 @@ public final class PatchLineComment {
 
   @Override
   public int hashCode() {
-    return key.hashCode();
+    return Objects.hash(patchKey, uuid);
   }
 
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append("PatchLineComment{");
-    builder.append("key=").append(key).append(',');
+    builder.append("patchKey=").append(patchKey).append(',');
+    builder.append("uuid=").append(uuid).append(',');
     builder.append("lineNbr=").append(lineNbr).append(',');
     builder.append("author=").append(author.get()).append(',');
     builder.append("realAuthor=").append(realAuthor != null ? realAuthor.get() : "").append(',');

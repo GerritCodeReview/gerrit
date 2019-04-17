@@ -52,7 +52,7 @@ import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
-import com.google.gerrit.server.notedb.NoteDbUpdateManager.TooManyUpdatesException;
+import com.google.gerrit.server.notedb.TooManyUpdatesException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;

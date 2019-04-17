@@ -110,7 +110,7 @@ public class PatchSetUtil {
   }
 
   private static void ensurePatchSetMatches(PatchSet.Id psId, ChangeUpdate update) {
-    Change.Id changeId = update.getChange().getId();
+    Change.Id changeId = update.getId();
     checkArgument(
         psId.changeId().equals(changeId),
         "cannot modify patch set %s on update for change %s",

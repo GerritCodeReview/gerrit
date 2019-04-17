@@ -281,11 +281,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       draftUpdate.putComment(c);
     } else {
       comments.add(c);
-      // Always delete the corresponding comment from drafts. Published comments
-      // are immutable, meaning in normal operation we only hit this path when
-      // publishing a comment. It's exactly in that case that we have to delete
-      // the draft.
-      draftUpdate.deleteComment(c);
+      draftUpdate.deletePublishedComment(c);
     }
   }
 
@@ -415,7 +411,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void setRevertOf(int revertOf) {
-    int ownId = getChange().getId().get();
+    int ownId = getId().get();
     checkArgument(ownId != revertOf, "A change cannot revert itself");
     this.revertOf = revertOf;
     rootOnly = true;

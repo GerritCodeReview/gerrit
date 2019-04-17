@@ -120,7 +120,7 @@ message LabelId {
 message PatchSetApproval_Key {
   required PatchSet_Id patch_set_id = 1;
   required Account_Id account_id = 2;
-  required LabelId category_id = 3;
+  required LabelId label_id = 3;
 }
 
 // Serialized form of com.google.gerrit.reviewdb.client.PatchSetApproval.

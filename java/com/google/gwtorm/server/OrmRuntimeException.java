@@ -18,15 +18,15 @@ package com.google.gwtorm.server;
 public class OrmRuntimeException extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
-  public OrmRuntimeException(final String message) {
+  public OrmRuntimeException(String message) {
     super(message);
   }
 
-  public OrmRuntimeException(final String message, final Throwable why) {
+  public OrmRuntimeException(String message, Throwable why) {
     super(message, why);
   }
 
-  public OrmRuntimeException(final Throwable why) {
+  public OrmRuntimeException(Throwable why) {
     super(why);
   }
 }

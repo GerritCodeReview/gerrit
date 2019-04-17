@@ -18,11 +18,11 @@ package com.google.gwtorm.server;
 public class OrmDuplicateKeyException extends OrmException {
   private static final long serialVersionUID = 1L;
 
-  public OrmDuplicateKeyException(final String msg) {
+  public OrmDuplicateKeyException(String msg) {
     super(msg);
   }
 
-  public OrmDuplicateKeyException(final String msg, final Throwable why) {
+  public OrmDuplicateKeyException(String msg, Throwable why) {
     super(msg, why);
   }
 }

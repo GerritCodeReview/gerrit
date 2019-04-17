@@ -14,62 +14,24 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
-import com.google.gwtorm.client.CompoundKey;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 /** Inclusion of an {@link AccountGroup} in another {@link AccountGroup}. */
 public final class AccountGroupByIdAud {
-  public static class Key extends CompoundKey<AccountGroup.Id> {
-    private static final long serialVersionUID = 1L;
+  public static Key key(AccountGroup.Id groupId, AccountGroup.UUID includeUuid, Timestamp addedOn) {
+    return new AutoValue_AccountGroupByIdAud_Key(groupId, includeUuid, addedOn);
+  }
 
-    protected AccountGroup.Id groupId;
+  @AutoValue
+  public abstract static class Key {
+    public abstract AccountGroup.Id groupId();
 
-    protected AccountGroup.UUID includeUUID;
+    public abstract AccountGroup.UUID includeUuid();
 
-    protected Timestamp addedOn;
-
-    protected Key() {
-      groupId = new AccountGroup.Id();
-      includeUUID = new AccountGroup.UUID();
-    }
-
-    public Key(AccountGroup.Id g, AccountGroup.UUID u, Timestamp t) {
-      groupId = g;
-      includeUUID = u;
-      addedOn = t;
-    }
-
-    @Override
-    public AccountGroup.Id getParentKey() {
-      return groupId;
-    }
-
-    public AccountGroup.UUID getIncludeUUID() {
-      return includeUUID;
-    }
-
-    public Timestamp getAddedOn() {
-      return addedOn;
-    }
-
-    @Override
-    public com.google.gwtorm.client.Key<?>[] members() {
-      return new com.google.gwtorm.client.Key<?>[] {includeUUID};
-    }
-
-    @Override
-    public String toString() {
-      return "Key{"
-          + "groupId="
-          + groupId
-          + ", includeUUID="
-          + includeUUID
-          + ", addedOn="
-          + addedOn
-          + '}';
-    }
+    public abstract Timestamp addedOn();
   }
 
   protected Key key;
@@ -85,7 +47,7 @@ public final class AccountGroupByIdAud {
   public AccountGroupByIdAud(final AccountGroupById m, Account.Id adder, Timestamp when) {
     final AccountGroup.Id group = m.getGroupId();
     final AccountGroup.UUID include = m.getIncludeUUID();
-    key = new AccountGroupByIdAud.Key(group, include, when);
+    key = key(group, include, when);
     addedBy = adder;
   }
 
@@ -99,11 +61,11 @@ public final class AccountGroupByIdAud {
   }
 
   public AccountGroup.Id getGroupId() {
-    return key.getParentKey();
+    return key.groupId();
   }
 
   public AccountGroup.UUID getIncludeUUID() {
-    return key.getIncludeUUID();
+    return key.includeUuid();
   }
 
   public boolean isActive() {
@@ -120,7 +82,7 @@ public final class AccountGroupByIdAud {
   }
 
   public Timestamp getAddedOn() {
-    return key.getAddedOn();
+    return key.addedOn();
   }
 
   public Account.Id getRemovedBy() {

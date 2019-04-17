@@ -121,9 +121,7 @@ public class GetAuditLog implements RestReadView<GroupResource> {
 
         auditEvents.add(
             GroupAuditEventInfo.createAddGroupEvent(
-                accountLoader.get(auditEvent.getAddedBy()),
-                auditEvent.getKey().getAddedOn(),
-                member));
+                accountLoader.get(auditEvent.getAddedBy()), auditEvent.getKey().addedOn(), member));
 
         if (!auditEvent.isActive()) {
           auditEvents.add(

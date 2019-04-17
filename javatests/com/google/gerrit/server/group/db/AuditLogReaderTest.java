@@ -308,6 +308,6 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
   private static AccountGroupByIdAud createExpGroupAudit(
       AccountGroup.Id groupId, AccountGroup.UUID uuid, Account.Id addedBy, Timestamp addedOn) {
-    return new AccountGroupByIdAud(new AccountGroupByIdAud.Key(groupId, uuid, addedOn), addedBy);
+    return new AccountGroupByIdAud(AccountGroupByIdAud.key(groupId, uuid, addedOn), addedBy);
   }
 }

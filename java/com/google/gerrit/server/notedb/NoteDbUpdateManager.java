@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
@@ -84,10 +85,19 @@ public class NoteDbUpdateManager implements AutoCloseable {
   }
 
   public static class TooManyUpdatesException extends StorageException {
+    @VisibleForTesting
+    public static String message(Change.Id id, int maxUpdates) {
+      return "Change "
+          + id
+          + " may not exceed "
+          + maxUpdates
+          + " updates. It may still be abandoned or submitted.";
+    }
+
     private static final long serialVersionUID = 1L;
 
     private TooManyUpdatesException(Change.Id id, int maxUpdates) {
-      super("Change " + id + " may not exceed " + maxUpdates + " updates");
+      super(message(id, maxUpdates));
     }
   }
 
@@ -567,7 +577,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
         }
         if (maxUpdates.isPresent()
             && !Objects.equals(next, curr)
-            && ++updateCount > maxUpdates.get()) {
+            && ++updateCount > maxUpdates.get()
+            && !u.bypassMaxUpdates()) {
           throw new TooManyUpdatesException(u.getId(), maxUpdates.get());
         }
         curr = next;

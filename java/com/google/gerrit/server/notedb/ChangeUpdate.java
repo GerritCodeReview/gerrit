@@ -524,6 +524,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   @Override
+  protected boolean bypassMaxUpdates() {
+    // Allow abandoning or submitting a change even if it would exceed the max update count.
+    return status != null && status.isClosed();
+  }
+
+  @Override
   protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
       throws IOException {
     checkState(

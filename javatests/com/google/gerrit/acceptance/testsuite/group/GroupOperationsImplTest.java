@@ -270,7 +270,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
     AccountGroup.NameKey groupName = groupOperations.group(groupUuid).get().nameKey();
 
-    assertThat(groupName).isEqualTo(new AccountGroup.NameKey("ABC-789-this-name-must-be-unique"));
+    assertThat(groupName).isEqualTo(AccountGroup.nameKey("ABC-789-this-name-must-be-unique"));
   }
 
   @Test

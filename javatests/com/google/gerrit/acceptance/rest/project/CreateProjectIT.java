@@ -265,7 +265,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.owners.add(
         Integer.toString(
             groupCache
-                .get(new AccountGroup.NameKey("Administrators"))
+                .get(AccountGroup.nameKey("Administrators"))
                 .orElse(null)
                 .getId()
                 .get())); // by ID

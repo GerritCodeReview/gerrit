@@ -182,7 +182,7 @@ public class AuditLogReader {
       logInvalid(uuid, c, line);
       return Optional.empty();
     }
-    return Optional.of(new AccountGroup.UUID(ident.getEmailAddress()));
+    return Optional.of(AccountGroup.uuid(ident.getEmailAddress()));
   }
 
   private static void logInvalid(AccountGroup.UUID uuid, RevCommit c, FooterLine line) {

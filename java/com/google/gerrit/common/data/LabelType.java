@@ -295,7 +295,7 @@ public class LabelType {
   }
 
   public LabelId getLabelId() {
-    return new LabelId(name);
+    return LabelId.create(name);
   }
 
   @Override

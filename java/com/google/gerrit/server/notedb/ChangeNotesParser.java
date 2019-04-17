@@ -792,7 +792,9 @@ class ChangeNotesParser {
 
     PatchSetApproval psa =
         new PatchSetApproval(
-            PatchSetApproval.key(psId, effectiveAccountId, new LabelId(l.label())), l.value(), ts);
+            PatchSetApproval.key(psId, effectiveAccountId, LabelId.create(l.label())),
+            l.value(),
+            ts);
     psa.setTag(tag);
     if (!Objects.equals(realAccountId, committerId)) {
       psa.setRealAccountId(realAccountId);
@@ -833,7 +835,7 @@ class ChangeNotesParser {
     // needs an actual approval in order to block copying an earlier approval over a later delete.
     PatchSetApproval remove =
         new PatchSetApproval(
-            PatchSetApproval.key(psId, effectiveAccountId, new LabelId(label)), (short) 0, ts);
+            PatchSetApproval.key(psId, effectiveAccountId, LabelId.create(label)), (short) 0, ts);
     if (!Objects.equals(realAccountId, committerId)) {
       remove.setRealAccountId(realAccountId);
     }

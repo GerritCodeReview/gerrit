@@ -88,8 +88,8 @@ public class ProjectConfigTest extends GerritBaseTests {
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   private final GroupReference developers =
-      new GroupReference(new AccountGroup.UUID("X"), "Developers");
-  private final GroupReference staff = new GroupReference(new AccountGroup.UUID("Y"), "Staff");
+      new GroupReference(AccountGroup.uuid("X"), "Developers");
+  private final GroupReference staff = new GroupReference(AccountGroup.uuid("Y"), "Staff");
 
   private SitePaths sitePaths;
   private ProjectConfig.Factory factory;

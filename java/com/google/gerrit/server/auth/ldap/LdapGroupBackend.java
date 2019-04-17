@@ -92,7 +92,7 @@ public class LdapGroupBackend implements GroupBackend {
   private static GroupReference groupReference(ParameterizedString p, LdapQuery.Result res)
       throws NamingException {
     return new GroupReference(
-        new AccountGroup.UUID(LDAP_UUID + res.getDN()), LDAP_NAME + LdapRealm.apply(p, res));
+        AccountGroup.uuid(LDAP_UUID + res.getDN()), LDAP_NAME + LdapRealm.apply(p, res));
   }
 
   private static String cnFor(String dn) {
@@ -164,7 +164,7 @@ public class LdapGroupBackend implements GroupBackend {
 
   @Override
   public Collection<GroupReference> suggest(String name, ProjectState project) {
-    AccountGroup.UUID uuid = new AccountGroup.UUID(name);
+    AccountGroup.UUID uuid = AccountGroup.uuid(name);
     if (isLdapUUID(uuid)) {
       GroupDescription.Basic g = get(uuid);
       if (g == null) {

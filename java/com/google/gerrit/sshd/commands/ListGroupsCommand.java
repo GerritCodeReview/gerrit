@@ -62,7 +62,7 @@ public class ListGroupsCommand extends SshCommand {
       if (verboseOutput) {
         Optional<InternalGroup> group =
             info.ownerId != null
-                ? groupCache.get(new AccountGroup.UUID(Url.decode(info.ownerId)))
+                ? groupCache.get(AccountGroup.uuid(Url.decode(info.ownerId)))
                 : Optional.empty();
 
         formatter.addColumn(Url.decode(info.id));

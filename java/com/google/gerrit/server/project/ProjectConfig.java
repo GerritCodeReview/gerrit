@@ -709,7 +709,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         if (groupName != null) {
           GroupReference ref = groupsByName.get(groupName);
           if (ref == null) {
-            ref = new GroupReference(null, groupName);
+            ref = new GroupReference(groupName);
             groupsByName.put(ref.getName(), ref);
           }
           if (ref.getUUID() != null) {

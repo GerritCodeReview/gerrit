@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0365d3fc_430c55ef",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-17T13:03:22Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "783698d5_a78b25a9",
+      "revId": "797a1ca8b179a038ab494e8008cda99e84c5bcfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec78838d_ed278d8a",
         "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
         "patchSetId": 5
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "88c606d4_0569b333",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-17T13:03:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec78838d_ed278d8a",
+      "range": {
+        "startLine": 64,
+        "startChar": 19,
+        "endLine": 64,
+        "endChar": 30
+      },
+      "revId": "797a1ca8b179a038ab494e8008cda99e84c5bcfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f58c6d13_52bf84fa",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 5
@@ -62,6 +104,30 @@
       "revId": "797a1ca8b179a038ab494e8008cda99e84c5bcfb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "320fef83_3a7c3b9e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-17T13:03:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f58c6d13_52bf84fa",
+      "range": {
+        "startLine": 258,
+        "startChar": 23,
+        "endLine": 258,
+        "endChar": 33
+      },
+      "revId": "797a1ca8b179a038ab494e8008cda99e84c5bcfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

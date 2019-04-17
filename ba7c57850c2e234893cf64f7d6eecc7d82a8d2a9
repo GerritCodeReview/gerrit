@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "771ce6a2_a2b8dc81",
+        "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1081900
+      },
+      "writtenOn": "2019-04-17T08:24:25Z",
+      "side": 1,
+      "message": "sure, I\u0027ll ship another patch once we decide what to do for the other comment below.",
+      "parentUuid": "015bbf6a_bab32694",
+      "revId": "ba7c57850c2e234893cf64f7d6eecc7d82a8d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f42a1c60_ff84c587",
         "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
         "patchSetId": 9
@@ -30,6 +48,30 @@
       "writtenOn": "2019-04-16T23:21:23Z",
       "side": 1,
       "message": "Can this throw anything?  If so it might be worth defensively wrapping this block in a try-catch and logging any exception. Maybe it should also return false if it fails?",
+      "range": {
+        "startLine": 107,
+        "startChar": 13,
+        "endLine": 107,
+        "endChar": 63
+      },
+      "revId": "ba7c57850c2e234893cf64f7d6eecc7d82a8d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f890a166_a0aa796a",
+        "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1081900
+      },
+      "writtenOn": "2019-04-17T08:24:25Z",
+      "side": 1,
+      "message": "What I have in mind is that it cannot fail, it\u0027s up to the implementation to decide what to do in case of a failure in its process and return true or false accordingly. Logging can be done by the implementation directly I think. If something is thrown here it either means it\u0027s a bug or an unrecoverable system error (OOM or similar).\nWhether we decide to catch something or not the possible outcomes would be relatively similar: block the command or accept the command, only the output presented to the user could potentially change.\n\nIf we want to be defensive I\u0027m not sure which exception I should catch and a bit worry to catch too much (e.g. OOM that would be better handled upper in stack imo).\nDo you have in mind a particular exception to catch? Perhaps you meant I should introduce a new checked exception type so that implementations have the choice to return true, false or throw?\nI\u0027m not knowledgeable enough of the gerrit code base to decide what would be best so I\u0027m fine changing the patch with whatever makes the most sense for this code base.",
+      "parentUuid": "f42a1c60_ff84c587",
       "range": {
         "startLine": 107,
         "startChar": 13,

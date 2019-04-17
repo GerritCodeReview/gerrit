@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "55616730_6cbed741",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-17T13:06:22Z",
+      "side": 1,
+      "message": "I don\u0027t want to go there at the moment, because I fear to get lost into details.",
+      "parentUuid": "a8d9cde1_5603ef8c",
+      "range": {
+        "startLine": 31,
+        "startChar": 17,
+        "endLine": 31,
+        "endChar": 32
+      },
+      "revId": "455002ef806d7f0fd886e1d6a1ac1e7de79f2567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d19cf360_09cfd2d2",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "455002ef806d7f0fd886e1d6a1ac1e7de79f2567",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "381c5d63_ad45ea18",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-17T13:06:22Z",
+      "side": 1,
+      "message": "Removed the comment.",
+      "parentUuid": "d19cf360_09cfd2d2",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 93
+      },
+      "revId": "455002ef806d7f0fd886e1d6a1ac1e7de79f2567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -75,7 +75,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
   private static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
 
   private final AccountGroup.UUID groupUuid = new AccountGroup.UUID("users-XYZ");
-  private final AccountGroup.NameKey groupName = new AccountGroup.NameKey("users");
+  private final AccountGroup.NameKey groupName = AccountGroup.nameKey("users");
 
   private AtomicInteger idCounter;
   private AllUsersName allUsersName;
@@ -117,7 +117,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
 
   @Test
   public void nameOfNewGroupMayBeEmpty() throws Exception {
-    AccountGroup.NameKey emptyName = new AccountGroup.NameKey("");
+    AccountGroup.NameKey emptyName = AccountGroup.nameKey("");
     createGroup(groupUuid, emptyName);
 
     Optional<GroupReference> groupReference = loadGroup(emptyName);
@@ -138,7 +138,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
   public void newGroupMayReuseUuidOfAnotherGroup() throws Exception {
     createGroup(groupUuid, groupName);
 
-    AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
+    AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
     createGroup(groupUuid, anotherName);
 
     Optional<GroupReference> group1 = loadGroup(groupName);
@@ -151,7 +151,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
   public void groupCanBeRenamed() throws Exception {
     createGroup(groupUuid, groupName);
 
-    AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
+    AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
     renameGroup(groupUuid, groupName, anotherName);
 
     Optional<GroupReference> groupReference = loadGroup(anotherName);
@@ -163,7 +163,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
   public void previousNameOfGroupCannotBeUsedAfterRename() throws Exception {
     createGroup(groupUuid, groupName);
 
-    AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
+    AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
     renameGroup(groupUuid, groupName, anotherName);
 
     Optional<GroupReference> group = loadGroup(groupName);
@@ -182,7 +182,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
   public void oldNameOfGroupMustBeSpecifiedForRename() throws Exception {
     createGroup(groupUuid, groupName);
 
-    AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
+    AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
     exception.expect(NullPointerException.class);
     GroupNameNotes.forRename(allUsersName, repo, groupUuid, null, anotherName);
   }
@@ -191,8 +191,8 @@ public class GroupNameNotesTest extends GerritBaseTests {
   public void groupCannotBeRenamedWhenOldNameIsWrong() throws Exception {
     createGroup(groupUuid, groupName);
 
-    AccountGroup.NameKey anotherOldName = new AccountGroup.NameKey("contributors");
-    AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
+    AccountGroup.NameKey anotherOldName = AccountGroup.nameKey("contributors");
+    AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
     exception.expect(ConfigInvalidException.class);
     exception.expectMessage(anotherOldName.get());
     GroupNameNotes.forRename(allUsersName, repo, groupUuid, anotherOldName, anotherName);
@@ -202,7 +202,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
   public void groupCannotBeRenamedToNameOfAnotherGroup() throws Exception {
     createGroup(groupUuid, groupName);
     AccountGroup.UUID anotherGroupUuid = new AccountGroup.UUID("admins-ABC");
-    AccountGroup.NameKey anotherGroupName = new AccountGroup.NameKey("admins");
+    AccountGroup.NameKey anotherGroupName = AccountGroup.nameKey("admins");
     createGroup(anotherGroupUuid, anotherGroupName);
 
     exception.expect(DuplicateKeyException.class);
@@ -214,7 +214,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
   public void groupCannotBeRenamedWithoutSpecifiedUuid() throws Exception {
     createGroup(groupUuid, groupName);
 
-    AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
+    AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
     exception.expect(NullPointerException.class);
     GroupNameNotes.forRename(allUsersName, repo, null, groupName, anotherName);
   }
@@ -224,7 +224,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
     createGroup(groupUuid, groupName);
 
     AccountGroup.UUID anotherGroupUuid = new AccountGroup.UUID("admins-ABC");
-    AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
+    AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
     exception.expect(ConfigInvalidException.class);
     exception.expectMessage(groupUuid.get());
     GroupNameNotes.forRename(allUsersName, repo, anotherGroupUuid, groupName, anotherName);
@@ -249,7 +249,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
     ImmutableList<CommitInfo> commitsAfterCreation = log();
 
     AccountGroup.UUID anotherGroupUuid = new AccountGroup.UUID("admins-ABC");
-    AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
+    AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
     createGroup(anotherGroupUuid, anotherName);
 
     ImmutableList<CommitInfo> commitsAfterFurtherGroup = log();
@@ -262,7 +262,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
     createGroup(groupUuid, groupName);
     ImmutableList<CommitInfo> commitsAfterCreation = log();
 
-    AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
+    AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
     renameGroup(groupUuid, groupName, anotherName);
 
     ImmutableList<CommitInfo> commitsAfterRename = log();
@@ -298,7 +298,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
   public void newCommitIsNotCreatedWhenCommittingGroupRenamingTwice() throws Exception {
     createGroup(groupUuid, groupName);
 
-    AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
+    AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
     GroupNameNotes groupNameNotes =
         GroupNameNotes.forRename(allUsersName, repo, groupUuid, groupName, anotherName);
 
@@ -323,7 +323,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
   public void commitMessageMentionsGroupRenaming() throws Exception {
     createGroup(groupUuid, groupName);
 
-    AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
+    AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
     renameGroup(groupUuid, groupName, anotherName);
 
     ImmutableList<CommitInfo> commits = log();
@@ -341,18 +341,18 @@ public class GroupNameNotesTest extends GerritBaseTests {
 
   @Test
   public void nonExistentGroupCannotBeLoaded() throws Exception {
-    createGroup(new AccountGroup.UUID("contributors-MN"), new AccountGroup.NameKey("contributors"));
+    createGroup(new AccountGroup.UUID("contributors-MN"), AccountGroup.nameKey("contributors"));
     createGroup(groupUuid, groupName);
 
-    Optional<GroupReference> group = loadGroup(new AccountGroup.NameKey("admins"));
+    Optional<GroupReference> group = loadGroup(AccountGroup.nameKey("admins"));
     assertThatGroup(group).isAbsent();
   }
 
   @Test
   public void specificGroupCanBeLoaded() throws Exception {
-    createGroup(new AccountGroup.UUID("contributors-MN"), new AccountGroup.NameKey("contributors"));
+    createGroup(new AccountGroup.UUID("contributors-MN"), AccountGroup.nameKey("contributors"));
     createGroup(groupUuid, groupName);
-    createGroup(new AccountGroup.UUID("admins-ABC"), new AccountGroup.NameKey("admins"));
+    createGroup(new AccountGroup.UUID("admins-ABC"), AccountGroup.nameKey("admins"));
 
     Optional<GroupReference> group = loadGroup(groupName);
     assertThatGroup(group).value().groupUuid().isEqualTo(groupUuid);
@@ -368,10 +368,10 @@ public class GroupNameNotesTest extends GerritBaseTests {
   @Test
   public void allGroupsCanBeLoaded() throws Exception {
     AccountGroup.UUID groupUuid1 = new AccountGroup.UUID("contributors-MN");
-    AccountGroup.NameKey groupName1 = new AccountGroup.NameKey("contributors");
+    AccountGroup.NameKey groupName1 = AccountGroup.nameKey("contributors");
     createGroup(groupUuid1, groupName1);
     AccountGroup.UUID groupUuid2 = new AccountGroup.UUID("admins-ABC");
-    AccountGroup.NameKey groupName2 = new AccountGroup.NameKey("admins");
+    AccountGroup.NameKey groupName2 = AccountGroup.nameKey("admins");
     createGroup(groupUuid2, groupName2);
 
     ImmutableList<GroupReference> allGroups = GroupNameNotes.loadAllGroups(repo);
@@ -384,7 +384,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
   @Test
   public void loadedGroupsContainGroupsWithDuplicateGroupUuids() throws Exception {
     createGroup(groupUuid, groupName);
-    AccountGroup.NameKey anotherGroupName = new AccountGroup.NameKey("admins");
+    AccountGroup.NameKey anotherGroupName = AccountGroup.nameKey("admins");
     createGroup(groupUuid, anotherGroupName);
 
     ImmutableList<GroupReference> allGroups = GroupNameNotes.loadAllGroups(repo);
@@ -427,7 +427,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
     TestRepository<?> tr = new TestRepository<>(repo);
     ObjectId k1 = getNoteKey(g1);
     ObjectId k2 = getNoteKey(g2);
-    ObjectId k3 = GroupNameNotes.getNoteKey(new AccountGroup.NameKey("c"));
+    ObjectId k3 = GroupNameNotes.getNoteKey(AccountGroup.nameKey("c"));
     PersonIdent ident = newPersonIdent();
     ObjectId origCommitId =
         tr.branch(REFS_GROUPNAMES)
@@ -545,7 +545,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
   }
 
   private static ObjectId getNoteKey(GroupReference g) {
-    return GroupNameNotes.getNoteKey(new AccountGroup.NameKey(g.getName()));
+    return GroupNameNotes.getNoteKey(AccountGroup.nameKey(g.getName()));
   }
 
   private void updateAllGroups(PersonIdent ident, GroupReference... groupRefs) throws Exception {

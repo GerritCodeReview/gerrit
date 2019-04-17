@@ -122,7 +122,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   @Test
   public void authenticateWithEmail() throws Exception {
     String email = "foo@example.com";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key mailtoExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_MAILTO, email);
     accountsUpdate.insert(
         "Create Test Account",
@@ -137,7 +137,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   @Test
   public void authenticateWithUsername() throws Exception {
     String username = "foo";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
@@ -152,7 +152,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   @Test
   public void authenticateWithExternalUser() throws Exception {
     String username = "foo";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
     accountsUpdate.insert(
         "Create Test Account",
@@ -168,7 +168,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   public void authenticateWithUsernameAndUpdateEmail() throws Exception {
     String username = "foo";
     String email = "foo@example.com";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
@@ -196,7 +196,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   public void authenticateWithUsernameAndUpdateDisplayName() throws Exception {
     String username = "foo";
     String email = "foo@example.com";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
@@ -224,7 +224,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
     assertNoSuchExternalIds(gerritExtIdKey);
 
     // Create orphaned SCHEME_GERRIT external ID.
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId gerritExtId = ExternalId.create(gerritExtIdKey, accountId);
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
         MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
@@ -242,7 +242,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   @Test
   public void cannotAuthenticateWithInactiveAccount() throws Exception {
     String username = "foo";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
@@ -259,7 +259,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   public void cannotActivateAccountOnAuthenticationWhenAutoUpdateAccountActiveStatusIsDisabled()
       throws Exception {
     String username = "foo";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
@@ -279,7 +279,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   public void activateAccountOnAuthenticationWhenAutoUpdateAccountActiveStatusIsEnabled()
       throws Exception {
     String username = "foo";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
@@ -300,7 +300,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   public void cannotDeactivateAccountOnAuthenticationWhenAutoUpdateAccountActiveStatusIsDisabled()
       throws Exception {
     String username = "foo";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
@@ -322,7 +322,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   public void deactivateAccountOnAuthenticationWhenAutoUpdateAccountActiveStatusIsEnabled()
       throws Exception {
     String username = "foo";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
@@ -350,7 +350,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     // Create an account with an SCHEME_EXTERNAL external ID that occupies the email.
     String username = "foo";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
     accountsUpdate.insert(
         "Create Test Account",
@@ -371,7 +371,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     // Create an account with an SCHEME_EXTERNAL external ID that occupies the email.
     String username = "foo";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
     accountsUpdate.insert(
         "Create Test Account",
@@ -394,7 +394,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     // Create an account with a SCHEME_GERRIT external ID and an email.
     String username = "foo";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
@@ -404,7 +404,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
                 .addExternalId(ExternalId.createWithEmail(gerritExtIdKey, accountId, email)));
 
     // Create another account with an SCHEME_EXTERNAL external ID that occupies the new email.
-    Account.Id accountId2 = new Account.Id(seq.nextAccountId());
+    Account.Id accountId2 = Account.id(seq.nextAccountId());
     ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, "bar");
     accountsUpdate.insert(
         "Create Test Account",
@@ -437,7 +437,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   public void linkNewExternalId() throws Exception {
     // Create an account with a SCHEME_GERRIT external ID and no email
     String username = "foo";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
@@ -461,7 +461,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   public void updateExternalIdOnLink() throws Exception {
     // Create an account with a SCHEME_GERRIT external ID and no email
     String username = "foo";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
     accountsUpdate.insert(
         "Create Test Account",
@@ -484,7 +484,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   public void cannotLinkExternalIdThatIsAlreadyUsed() throws Exception {
     // Create an account with a SCHEME_EXTERNAL external ID
     String username1 = "foo";
-    Account.Id accountId1 = new Account.Id(seq.nextAccountId());
+    Account.Id accountId1 = Account.id(seq.nextAccountId());
     ExternalId.Key externalExtIdKey1 = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username1);
     accountsUpdate.insert(
         "Create Test Account",
@@ -493,7 +493,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     // Create another account with a SCHEME_EXTERNAL external ID
     String username2 = "bar";
-    Account.Id accountId2 = new Account.Id(seq.nextAccountId());
+    Account.Id accountId2 = Account.id(seq.nextAccountId());
     ExternalId.Key externalExtIdKey2 = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username2);
     accountsUpdate.insert(
         "Create Test Account",
@@ -514,7 +514,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     // Create an account with an SCHEME_EXTERNAL external ID that occupies the email.
     String username = "foo";
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
     accountsUpdate.insert(
         "Create Test Account",
@@ -523,7 +523,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     // Create another account with a SCHEME_GERRIT external ID and no email
     String username2 = "foo";
-    Account.Id accountId2 = new Account.Id(seq.nextAccountId());
+    Account.Id accountId2 = Account.id(seq.nextAccountId());
     ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username2);
     accountsUpdate.insert(
         "Create Test Account",

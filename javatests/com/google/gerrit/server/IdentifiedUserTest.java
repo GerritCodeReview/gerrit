@@ -99,7 +99,7 @@ public class IdentifiedUserTest extends GerritBaseTests {
     Injector injector = Guice.createInjector(mod);
     injector.injectMembers(this);
 
-    Account account = new Account(new Account.Id(1), TimeUtil.nowTs());
+    Account account = new Account(Account.id(1), TimeUtil.nowTs());
     Account.Id ownerId = account.getId();
 
     identifiedUser = identifiedUserFactory.create(ownerId);

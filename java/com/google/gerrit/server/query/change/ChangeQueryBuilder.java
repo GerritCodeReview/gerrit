@@ -188,7 +188,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String ARG_ID_USER = "user";
   public static final String ARG_ID_GROUP = "group";
   public static final String ARG_ID_OWNER = "owner";
-  public static final Account.Id OWNER_ACCOUNT_ID = new Account.Id(0);
+  public static final Account.Id OWNER_ACCOUNT_ID = Account.id(0);
 
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ChangeQueryBuilder.class);
@@ -569,11 +569,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("assigned".equalsIgnoreCase(value)) {
-      return Predicate.not(new AssigneePredicate(new Account.Id(ChangeField.NO_ASSIGNEE)));
+      return Predicate.not(new AssigneePredicate(Account.id(ChangeField.NO_ASSIGNEE)));
     }
 
     if ("unassigned".equalsIgnoreCase(value)) {
-      return new AssigneePredicate(new Account.Id(ChangeField.NO_ASSIGNEE));
+      return new AssigneePredicate(Account.id(ChangeField.NO_ASSIGNEE));
     }
 
     if ("submittable".equalsIgnoreCase(value)) {

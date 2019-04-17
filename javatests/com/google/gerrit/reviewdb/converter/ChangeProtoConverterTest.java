@@ -40,7 +40,7 @@ public class ChangeProtoConverterTest {
         new Change(
             new Change.Key("change 1"),
             new Change.Id(14),
-            new Account.Id(35),
+            Account.id(35),
             new Branch.NameKey(new Project.NameKey("project 67"), "branch 74"),
             new Timestamp(987654L));
     change.setLastUpdatedOn(new Timestamp(1234567L));
@@ -49,7 +49,7 @@ public class ChangeProtoConverterTest {
         new PatchSet.Id(new Change.Id(14), 23), "subject XYZ", "original subject ABC");
     change.setTopic("my topic");
     change.setSubmissionId("submission ID 234");
-    change.setAssignee(new Account.Id(100001));
+    change.setAssignee(Account.id(100001));
     change.setPrivate(true);
     change.setWorkInProgress(true);
     change.setReviewStarted(true);
@@ -90,7 +90,7 @@ public class ChangeProtoConverterTest {
         new Change(
             new Change.Key("change 1"),
             new Change.Id(14),
-            new Account.Id(35),
+            Account.id(35),
             new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
 
@@ -126,7 +126,7 @@ public class ChangeProtoConverterTest {
         new Change(
             new Change.Key("change 1"),
             new Change.Id(14),
-            new Account.Id(35),
+            Account.id(35),
             new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
     // O as ID actually means that no current patch set is present.
@@ -164,7 +164,7 @@ public class ChangeProtoConverterTest {
         new Change(
             new Change.Key("change 1"),
             new Change.Id(14),
-            new Account.Id(35),
+            Account.id(35),
             new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
     change.setCurrentPatchSet(new PatchSet.Id(new Change.Id(14), 23), "subject ABC", null);
@@ -201,7 +201,7 @@ public class ChangeProtoConverterTest {
         new Change(
             new Change.Key("change 1"),
             new Change.Id(14),
-            new Account.Id(35),
+            Account.id(35),
             new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
     change.setLastUpdatedOn(new Timestamp(1234567L));
@@ -210,7 +210,7 @@ public class ChangeProtoConverterTest {
         new PatchSet.Id(new Change.Id(14), 23), "subject XYZ", "original subject ABC");
     change.setTopic("my topic");
     change.setSubmissionId("submission ID 234");
-    change.setAssignee(new Account.Id(100001));
+    change.setAssignee(Account.id(100001));
     change.setPrivate(true);
     change.setWorkInProgress(true);
     change.setReviewStarted(true);
@@ -226,7 +226,7 @@ public class ChangeProtoConverterTest {
         new Change(
             new Change.Key("change 1"),
             new Change.Id(14),
-            new Account.Id(35),
+            Account.id(35),
             new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
 

@@ -28,7 +28,7 @@ public enum AccountIdProtoConverter implements ProtoConverter<Entities.Account_I
 
   @Override
   public Account.Id fromProto(Entities.Account_Id proto) {
-    return new Account.Id(proto.getId());
+    return Account.id(proto.getId());
   }
 
   @Override

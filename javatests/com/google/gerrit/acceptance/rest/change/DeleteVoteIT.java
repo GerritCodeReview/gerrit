@@ -104,6 +104,6 @@ public class DeleteVoteIT extends AbstractDaemonTest {
   }
 
   private Iterable<Account.Id> getReviewers(Collection<AccountInfo> r) {
-    return Iterables.transform(r, a -> new Account.Id(a._accountId));
+    return Iterables.transform(r, a -> Account.id(a._accountId));
   }
 }

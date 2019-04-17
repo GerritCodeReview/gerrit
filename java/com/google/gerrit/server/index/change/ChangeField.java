@@ -776,7 +776,7 @@ public class ChangeField {
           SubmitRecord.Label srl = new SubmitRecord.Label();
           srl.label = label.label;
           srl.status = label.status;
-          srl.appliedBy = label.appliedBy != null ? new Account.Id(label.appliedBy) : null;
+          srl.appliedBy = label.appliedBy != null ? Account.id(label.appliedBy) : null;
           rec.labels.add(srl);
         }
       }

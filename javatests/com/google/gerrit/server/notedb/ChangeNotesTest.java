@@ -516,8 +516,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         .isEqualTo(
             ReviewerSet.fromTable(
                 ImmutableTable.<ReviewerStateInternal, Account.Id, Timestamp>builder()
-                    .put(REVIEWER, new Account.Id(1), ts)
-                    .put(REVIEWER, new Account.Id(2), ts)
+                    .put(REVIEWER, Account.id(1), ts)
+                    .put(REVIEWER, Account.id(2), ts)
                     .build()));
   }
 
@@ -535,8 +535,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         .isEqualTo(
             ReviewerSet.fromTable(
                 ImmutableTable.<ReviewerStateInternal, Account.Id, Timestamp>builder()
-                    .put(REVIEWER, new Account.Id(1), ts)
-                    .put(CC, new Account.Id(2), ts)
+                    .put(REVIEWER, Account.id(1), ts)
+                    .put(CC, Account.id(2), ts)
                     .build()));
   }
 
@@ -550,7 +550,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     Timestamp ts = new Timestamp(update.getWhen().getTime());
     assertThat(notes.getReviewers())
-        .isEqualTo(ReviewerSet.fromTable(ImmutableTable.of(REVIEWER, new Account.Id(2), ts)));
+        .isEqualTo(ReviewerSet.fromTable(ImmutableTable.of(REVIEWER, Account.id(2), ts)));
 
     update = newUpdate(c, otherUser);
     update.putReviewer(otherUser.getAccount().getId(), CC);
@@ -559,7 +559,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     notes = newNotes(c);
     ts = new Timestamp(update.getWhen().getTime());
     assertThat(notes.getReviewers())
-        .isEqualTo(ReviewerSet.fromTable(ImmutableTable.of(CC, new Account.Id(2), ts)));
+        .isEqualTo(ReviewerSet.fromTable(ImmutableTable.of(CC, Account.id(2), ts)));
   }
 
   @Test
@@ -1673,7 +1673,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Test
   public void patchLineCommentNotesFormatWeirdUser() throws Exception {
-    Account account = new Account(new Account.Id(3), TimeUtil.nowTs());
+    Account account = new Account(Account.id(3), TimeUtil.nowTs());
     account.setFullName("Weird\n\u0002<User>\n");
     account.setPreferredEmail(" we\r\nird@ex>ample<.com");
     accountCache.put(account);

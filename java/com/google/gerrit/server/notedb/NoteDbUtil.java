@@ -37,7 +37,7 @@ public class NoteDbUtil {
       if (host.equals(serverId)) {
         Integer id = Ints.tryParse(email.substring(0, at));
         if (id != null) {
-          return Optional.of(new Account.Id(id));
+          return Optional.of(Account.id(id));
         }
       }
     }

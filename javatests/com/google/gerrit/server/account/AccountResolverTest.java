@@ -333,17 +333,17 @@ public class AccountResolverTest extends GerritBaseTests {
 
   private AccountState newAccount(int id) {
     return AccountState.forAccount(
-        new AllUsersName("All-Users"), new Account(new Account.Id(id), TimeUtil.nowTs()));
+        new AllUsersName("All-Users"), new Account(Account.id(id), TimeUtil.nowTs()));
   }
 
   private AccountState newInactiveAccount(int id) {
-    Account a = new Account(new Account.Id(id), TimeUtil.nowTs());
+    Account a = new Account(Account.id(id), TimeUtil.nowTs());
     a.setActive(false);
     return AccountState.forAccount(new AllUsersName("All-Users"), a);
   }
 
   private static ImmutableSet<Account.Id> ids(int... ids) {
-    return Arrays.stream(ids).mapToObj(Account.Id::new).collect(toImmutableSet());
+    return Arrays.stream(ids).mapToObj(Account::id).collect(toImmutableSet());
   }
 
   private static Supplier<Predicate<AccountState>> allVisible() {
@@ -352,7 +352,7 @@ public class AccountResolverTest extends GerritBaseTests {
 
   private static Supplier<Predicate<AccountState>> only(int... ids) {
     ImmutableSet<Account.Id> idSet =
-        Arrays.stream(ids).mapToObj(Account.Id::new).collect(toImmutableSet());
+        Arrays.stream(ids).mapToObj(Account::id).collect(toImmutableSet());
     return () -> a -> idSet.contains(a.getAccount().getId());
   }
 

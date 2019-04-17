@@ -1339,7 +1339,7 @@ public class GroupsIT extends AbstractDaemonTest {
           InternalGroupCreation.builder()
               .setGroupUUID(groupUuid)
               .setNameKey(AccountGroup.nameKey(groupName))
-              .setId(new AccountGroup.Id(seq.nextGroupId()))
+              .setId(AccountGroup.id(seq.nextGroupId()))
               .build(),
           InternalGroupUpdate.builder().build());
       slaveGroupIndexer.run();

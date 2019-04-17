@@ -600,7 +600,7 @@ public final class Change {
   }
 
   public Project.NameKey getProject() {
-    return dest.getParentKey();
+    return dest.project();
   }
 
   public String getSubject() {

@@ -33,7 +33,7 @@ public class BranchNameKeyProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    Branch.NameKey nameKey = new Branch.NameKey(new Project.NameKey("project-13"), "branch-72");
+    Branch.NameKey nameKey = Branch.nameKey(new Project.NameKey("project-13"), "branch-72");
 
     Entities.Branch_NameKey proto = branchNameKeyProtoConverter.toProto(nameKey);
 
@@ -47,7 +47,7 @@ public class BranchNameKeyProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    Branch.NameKey nameKey = new Branch.NameKey(new Project.NameKey("project-52"), "branch 14");
+    Branch.NameKey nameKey = Branch.nameKey(new Project.NameKey("project-52"), "branch 14");
 
     Branch.NameKey convertedNameKey =
         branchNameKeyProtoConverter.fromProto(branchNameKeyProtoConverter.toProto(nameKey));

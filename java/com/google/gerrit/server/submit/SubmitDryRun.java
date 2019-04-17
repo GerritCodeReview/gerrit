@@ -156,9 +156,9 @@ public class SubmitDryRun {
   }
 
   private ProjectState getProject(Branch.NameKey branch) throws NoSuchProjectException {
-    ProjectState p = projectCache.get(branch.getParentKey());
+    ProjectState p = projectCache.get(branch.project());
     if (p == null) {
-      throw new NoSuchProjectException(branch.getParentKey());
+      throw new NoSuchProjectException(branch.project());
     }
     return p;
   }

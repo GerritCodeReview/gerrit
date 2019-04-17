@@ -34,7 +34,7 @@ public class ProjectPredicate extends ChangeIndexPredicate {
       return false;
     }
 
-    Project.NameKey p = change.getDest().getParentKey();
+    Project.NameKey p = change.getDest().project();
     return p.equals(getValueKey());
   }
 

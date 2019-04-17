@@ -29,14 +29,14 @@ public enum BranchNameKeyProtoConverter
   @Override
   public Entities.Branch_NameKey toProto(Branch.NameKey nameKey) {
     return Entities.Branch_NameKey.newBuilder()
-        .setProjectName(projectNameConverter.toProto(nameKey.getParentKey()))
-        .setBranchName(nameKey.get())
+        .setProjectName(projectNameConverter.toProto(nameKey.project()))
+        .setBranchName(nameKey.branch())
         .build();
   }
 
   @Override
   public Branch.NameKey fromProto(Entities.Branch_NameKey proto) {
-    return new Branch.NameKey(
+    return Branch.nameKey(
         projectNameConverter.fromProto(proto.getProjectName()), proto.getBranchName());
   }
 

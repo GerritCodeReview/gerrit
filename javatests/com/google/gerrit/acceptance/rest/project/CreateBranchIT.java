@@ -45,7 +45,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    testBranch = new Branch.NameKey(project, "test");
+    testBranch = Branch.nameKey(project, "test");
   }
 
   @Test
@@ -104,7 +104,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
     String metaRef = RefNames.REFS_META + "foo";
     allow(metaRef, Permission.CREATE, REGISTERED_USERS);
     allow(metaRef, Permission.PUSH, REGISTERED_USERS);
-    assertCreateSucceeds(new Branch.NameKey(project, metaRef));
+    assertCreateSucceeds(Branch.nameKey(project, metaRef));
   }
 
   @Test
@@ -112,7 +112,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE, REGISTERED_USERS);
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH, REGISTERED_USERS);
     assertCreateFails(
-        new Branch.NameKey(allUsers, RefNames.refsUsers(Account.id(1))),
+        Branch.nameKey(allUsers, RefNames.refsUsers(Account.id(1))),
         RefNames.refsUsers(admin.id()),
         ResourceConflictException.class,
         "Not allowed to create user branch.");
@@ -123,7 +123,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.CREATE, REGISTERED_USERS);
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.PUSH, REGISTERED_USERS);
     assertCreateFails(
-        new Branch.NameKey(allUsers, RefNames.refsGroups(AccountGroup.uuid("foo"))),
+        Branch.nameKey(allUsers, RefNames.refsGroups(AccountGroup.uuid("foo"))),
         RefNames.refsGroups(adminGroupUuid()),
         ResourceConflictException.class,
         "Not allowed to create group branch.");
@@ -138,12 +138,12 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   private BranchApi branch(Branch.NameKey branch) throws Exception {
-    return gApi.projects().name(branch.getParentKey().get()).branch(branch.get());
+    return gApi.projects().name(branch.project().get()).branch(branch.branch());
   }
 
   private void assertCreateSucceeds(Branch.NameKey branch) throws Exception {
     BranchInfo created = branch(branch).create(new BranchInput()).get();
-    assertThat(created.ref).isEqualTo(branch.get());
+    assertThat(created.ref).isEqualTo(branch.branch());
   }
 
   private void assertCreateFails(

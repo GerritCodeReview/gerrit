@@ -41,7 +41,7 @@ public class ChangeProtoConverterTest {
             new Change.Key("change 1"),
             new Change.Id(14),
             Account.id(35),
-            new Branch.NameKey(new Project.NameKey("project 67"), "branch 74"),
+            Branch.nameKey(new Project.NameKey("project 67"), "branch 74"),
             new Timestamp(987654L));
     change.setLastUpdatedOn(new Timestamp(1234567L));
     change.setStatus(Change.Status.MERGED);
@@ -91,7 +91,7 @@ public class ChangeProtoConverterTest {
             new Change.Key("change 1"),
             new Change.Id(14),
             Account.id(35),
-            new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
+            Branch.nameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
 
     Entities.Change proto = changeProtoConverter.toProto(change);
@@ -127,7 +127,7 @@ public class ChangeProtoConverterTest {
             new Change.Key("change 1"),
             new Change.Id(14),
             Account.id(35),
-            new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
+            Branch.nameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
     // O as ID actually means that no current patch set is present.
     change.setCurrentPatchSet(new PatchSet.Id(new Change.Id(14), 0), null, null);
@@ -165,7 +165,7 @@ public class ChangeProtoConverterTest {
             new Change.Key("change 1"),
             new Change.Id(14),
             Account.id(35),
-            new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
+            Branch.nameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
     change.setCurrentPatchSet(new PatchSet.Id(new Change.Id(14), 23), "subject ABC", null);
 
@@ -202,7 +202,7 @@ public class ChangeProtoConverterTest {
             new Change.Key("change 1"),
             new Change.Id(14),
             Account.id(35),
-            new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
+            Branch.nameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
     change.setLastUpdatedOn(new Timestamp(1234567L));
     change.setStatus(Change.Status.MERGED);
@@ -227,7 +227,7 @@ public class ChangeProtoConverterTest {
             new Change.Key("change 1"),
             new Change.Id(14),
             Account.id(35),
-            new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
+            Branch.nameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
 
     Change convertedChange = changeProtoConverter.fromProto(changeProtoConverter.toProto(change));

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "783698d5_a78b25a9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-17T11:52:14Z",
+      "side": 1,
+      "message": "What\u0027s the plan here - I am suspecting you will delete these comments as Polymer 2 lands? I wonder how useful they are, since we cannot prevent people reintroducing new usages of querySelectorAll without making sure their usages work for NodeLists anyways, so maybe leaving a comment when there is nothing to be done at the moment is not that useful?",
+      "revId": "797a1ca8b179a038ab494e8008cda99e84c5bcfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec78838d_ed278d8a",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-17T11:52:14Z",
+      "side": 1,
+      "message": "I think you do not need this, because NodeLists do support array index, no? \n\nhttps://developer.mozilla.org/en-US/docs/Web/API/NodeList#Example",
+      "range": {
+        "startLine": 64,
+        "startChar": 19,
+        "endLine": 64,
+        "endChar": 30
+      },
+      "revId": "797a1ca8b179a038ab494e8008cda99e84c5bcfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f58c6d13_52bf84fa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-17T11:52:14Z",
+      "side": 1,
+      "message": "I think this is also not strictly necessary as you only use element access and index operator, both of which NodeLists support.",
+      "range": {
+        "startLine": 258,
+        "startChar": 23,
+        "endLine": 258,
+        "endChar": 33
+      },
+      "revId": "797a1ca8b179a038ab494e8008cda99e84c5bcfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

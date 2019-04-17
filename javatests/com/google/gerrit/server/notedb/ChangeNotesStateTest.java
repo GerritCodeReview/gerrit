@@ -369,7 +369,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
     PatchSetApproval a1 =
         new PatchSetApproval(
             PatchSetApproval.key(
-                new PatchSet.Id(ID, 1), new Account.Id(2001), new LabelId("Code-Review")),
+                new PatchSet.Id(ID, 1), new Account.Id(2001), LabelId.create("Code-Review")),
             (short) 1,
             new Timestamp(1212L));
     ByteString a1Bytes = toByteString(a1, PatchSetApprovalProtoConverter.INSTANCE);
@@ -378,7 +378,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
     PatchSetApproval a2 =
         new PatchSetApproval(
             PatchSetApproval.key(
-                new PatchSet.Id(ID, 1), new Account.Id(2002), new LabelId("Verified")),
+                new PatchSet.Id(ID, 1), new Account.Id(2002), LabelId.create("Verified")),
             (short) -1,
             new Timestamp(3434L));
     ByteString a2Bytes = toByteString(a2, PatchSetApprovalProtoConverter.INSTANCE);

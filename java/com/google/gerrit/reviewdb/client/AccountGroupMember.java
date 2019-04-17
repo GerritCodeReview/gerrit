@@ -14,41 +14,20 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.CompoundKey;
+import com.google.auto.value.AutoValue;
 import java.util.Objects;
 
 /** Membership of an {@link Account} in an {@link AccountGroup}. */
 public final class AccountGroupMember {
-  public static class Key extends CompoundKey<Account.Id> {
-    private static final long serialVersionUID = 1L;
+  public static Key key(Account.Id accountId, AccountGroup.Id groupId) {
+    return new AutoValue_AccountGroupMember_Key(accountId, groupId);
+  }
 
-    protected Account.Id accountId;
+  @AutoValue
+  public abstract static class Key {
+    public abstract Account.Id accountId();
 
-    protected AccountGroup.Id groupId;
-
-    protected Key() {
-      accountId = new Account.Id();
-      groupId = new AccountGroup.Id();
-    }
-
-    public Key(Account.Id a, AccountGroup.Id g) {
-      accountId = a;
-      groupId = g;
-    }
-
-    @Override
-    public Account.Id getParentKey() {
-      return accountId;
-    }
-
-    public AccountGroup.Id getAccountGroupId() {
-      return groupId;
-    }
-
-    @Override
-    public com.google.gwtorm.client.Key<?>[] members() {
-      return new com.google.gwtorm.client.Key<?>[] {groupId};
-    }
+    public abstract AccountGroup.Id groupId();
   }
 
   protected Key key;
@@ -64,11 +43,11 @@ public final class AccountGroupMember {
   }
 
   public Account.Id getAccountId() {
-    return key.accountId;
+    return key.accountId();
   }
 
   public AccountGroup.Id getAccountGroupId() {
-    return key.groupId;
+    return key.groupId();
   }
 
   @Override

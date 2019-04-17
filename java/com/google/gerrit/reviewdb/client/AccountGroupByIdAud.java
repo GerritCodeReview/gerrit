@@ -46,7 +46,7 @@ public final class AccountGroupByIdAud {
 
   public AccountGroupByIdAud(final AccountGroupById m, Account.Id adder, Timestamp when) {
     final AccountGroup.Id group = m.getGroupId();
-    final AccountGroup.UUID include = m.getIncludeUUID();
+    final AccountGroup.UUID include = m.getIncludeUuid();
     key = key(group, include, when);
     addedBy = adder;
   }

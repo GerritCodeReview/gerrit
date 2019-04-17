@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.auto.value.AutoValue;
@@ -34,7 +35,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -78,6 +79,12 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     abstract Comment.Key key();
   }
 
+  enum DeleteReason {
+    DELETED,
+    PUBLISHED,
+    FIXED
+  }
+
   private static Key key(Comment c) {
     return new AutoValue_ChangeDraftUpdate_Key(c.getCommitId(), c.key);
   }
@@ -85,7 +92,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   private final AllUsersName draftsProject;
 
   private List<Comment> put = new ArrayList<>();
-  private Set<Key> delete = new HashSet<>();
+  private Map<Key, DeleteReason> delete = new HashMap<>();
 
   @AssistedInject
   private ChangeDraftUpdate(
@@ -116,17 +123,69 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   }
 
   public void putComment(Comment c) {
+    checkState(!put.contains(c), "comment already added");
     verifyComment(c);
     put.add(c);
   }
 
-  public void deleteComment(Comment c) {
+  /**
+   * Marks a comment for deletion. Called when the comment is deleted because the user published it.
+   */
+  public void markCommentPublished(Comment c) {
+    checkState(!delete.containsKey(key(c)), "comment already marked for deletion");
     verifyComment(c);
-    delete.add(key(c));
+    delete.put(key(c), DeleteReason.PUBLISHED);
   }
 
+  /**
+   * Marks a comment for deletion. Called when the comment is deleted because the user removed it.
+   */
+  public void deleteComment(Comment c) {
+    checkState(!delete.containsKey(key(c)), "comment already marked for deletion");
+    verifyComment(c);
+    delete.put(key(c), DeleteReason.DELETED);
+  }
+
+  /**
+   * Marks a comment for deletion. Called when the comment should have been deleted previously, but
+   * wasn't, so we're fixing it up.
+   */
   public void deleteComment(ObjectId commitId, Comment.Key key) {
-    delete.add(new AutoValue_ChangeDraftUpdate_Key(commitId, key));
+    Key commentKey = new AutoValue_ChangeDraftUpdate_Key(commitId, key);
+    checkState(!delete.containsKey(commentKey), "comment already marked for deletion");
+    delete.put(commentKey, DeleteReason.FIXED);
+  }
+
+  /**
+   * Returns true if all we do in this operations is deletes caused by publishing or fixing up
+   * comments.
+   */
+  public boolean canRunAsync() {
+    return put.isEmpty()
+        && delete.values().stream()
+            .allMatch(r -> r == DeleteReason.PUBLISHED || r == DeleteReason.FIXED);
+  }
+
+  /**
+   * Returns a copy of the current {@link ChangeDraftUpdate} that contains references to all
+   * deletions. Copying of {@link ChangeDraftUpdate} is only allowed if it contains no new comments.
+   */
+  ChangeDraftUpdate copy() {
+    checkState(
+        put.isEmpty(),
+        "copying ChangeDraftUpdate is allowed only if it doesn't contain new comments");
+    ChangeDraftUpdate clonedUpdate =
+        new ChangeDraftUpdate(
+            authorIdent,
+            draftsProject,
+            noteUtil,
+            new Change(getChange()),
+            accountId,
+            realAccountId,
+            authorIdent,
+            when);
+    clonedUpdate.delete.putAll(delete);
+    return clonedUpdate;
   }
 
   private CommitBuilder storeCommentsInNotes(
@@ -137,11 +196,11 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
 
     for (Comment c : put) {
-      if (!delete.contains(key(c))) {
+      if (!delete.keySet().contains(key(c))) {
         cache.get(c.getCommitId()).putComment(c);
       }
     }
-    for (Key k : delete) {
+    for (Key k : delete.keySet()) {
       cache.get(k.commitId()).deleteComment(k.key());
     }
 

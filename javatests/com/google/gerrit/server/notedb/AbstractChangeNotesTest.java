@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
@@ -51,6 +52,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gerrit.testing.AssertableExecutorService;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeAccountCache;
 import com.google.gerrit.testing.GerritBaseTests;
@@ -63,6 +65,7 @@ import com.google.inject.Injector;
 import com.google.inject.util.Providers;
 import java.sql.Timestamp;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -92,6 +95,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   protected Project.NameKey project;
   protected RevWalk rw;
   protected TestRepository<InMemoryRepository> tr;
+  protected AssertableExecutorService assertableFanOutExecutor;
 
   @Inject protected IdentifiedUser.GenericFactory userFactory;
 
@@ -125,6 +129,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     ou.setFullName("Other Account");
     ou.setPreferredEmail("other@account.com");
     accountCache.put(ou);
+    assertableFanOutExecutor = new AssertableExecutorService();
 
     injector =
         Guice.createInjector(
@@ -157,6 +162,9 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                     .toInstance(serverIdent);
                 bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
                 bind(MetricMaker.class).to(DisabledMetricMaker.class);
+                bind(ExecutorService.class)
+                    .annotatedWith(FanOutExecutor.class)
+                    .toInstance(assertableFanOutExecutor);
               }
             });
 

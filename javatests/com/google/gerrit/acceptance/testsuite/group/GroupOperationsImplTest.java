@@ -637,7 +637,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
             AccountGroup.UUID groupUuid =
                 Optional.ofNullable(actualGroup)
                     .map(group -> group.id)
-                    .map(AccountGroup.UUID::new)
+                    .map(AccountGroup::uuid)
                     .orElse(null);
             return Objects.equals(groupUuid, expectedUuid);
           }

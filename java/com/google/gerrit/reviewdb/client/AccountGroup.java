@@ -58,7 +58,7 @@ public final class AccountGroup {
 
   /** Globally unique identifier. */
   @AutoValue
-  public abstract static class UUID {
+  public abstract static class UUID implements Comparable<UUID> {
     abstract String uuid();
 
     public String get() {
@@ -85,6 +85,11 @@ public final class AccountGroup {
     public static UUID fromRefPart(String refPart) {
       String uuid = RefNames.parseShardedUuidFromRefPart(refPart);
       return uuid != null ? AccountGroup.uuid(uuid) : null;
+    }
+
+    @Override
+    public int compareTo(UUID o) {
+      return uuid().compareTo(o.uuid());
     }
   }
 

@@ -30,7 +30,7 @@ public class LabelIdProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    LabelId labelId = new LabelId("Label ID 42");
+    LabelId labelId = LabelId.create("Label ID 42");
 
     Entities.LabelId proto = labelIdProtoConverter.toProto(labelId);
 
@@ -40,7 +40,7 @@ public class LabelIdProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    LabelId labelId = new LabelId("label-5");
+    LabelId labelId = LabelId.create("label-5");
 
     LabelId convertedLabelId =
         labelIdProtoConverter.fromProto(labelIdProtoConverter.toProto(labelId));
@@ -61,7 +61,8 @@ public class LabelIdProtoConverterTest {
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
-  public void fieldsExistAsExpected() {
-    assertThatSerializedClass(LabelId.class).hasFields(ImmutableMap.of("id", String.class));
+  public void methodsExistAsExpected() {
+    assertThatSerializedClass(LabelId.class)
+        .hasAutoValueMethods(ImmutableMap.of("id", String.class));
   }
 }

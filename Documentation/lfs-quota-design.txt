@@ -1,0 +1,161 @@
+# Proposed improvements to the LFS and Quota plugins to improve quota management
+
+## Intro
+
+The [LFS plugin](https://gerrit.googlesource.com/plugins/lfs) allows to store
+large files on a separate remote server using the [Git Large File Storage](https://git-lfs.github.com/)
+protocol. It supports two different storage backends; a local file system (FS)
+on the Gerrit server, or Amazon S3. The improvements proposed here are only
+intended to be applicable to the FS backend.
+
+The [Quota plugin](https://gerrit.googlesource.com/plugins/quota) allows to
+enforce various quotas aginst users, configurable per project.
+
+## Problems to be solved
+
+### Insufficient quota management for LFS objects
+
+The LFS plugin allows to configure a maximum object size, which will cause
+an upload/push to be rejected when an individual object exceeds the limit.
+However, there is no way to enforce a quota on the total size of uploaded
+objects.
+
+### Cannot easily remove unused LFS objects when a project is removed
+
+When using the FS backend, the LFS plugin stores the large objects in sharded
+subdirectories. For example, assuming the default storage location is used, an
+object with id `1da6476d4ae90449072a36bbfa0ff2fa12af7c131e1cfb53742554bb27a6685e`
+would be stored in `$site_path/data/lfs/1d/a6/`.
+
+The same location is used to store objects for all projects. This results in
+efficiency in terms of storage space used, since the same objects are used
+when multiple projects add the same large file.
+
+The problem arises when a project is deleted. It is not easy to figure out
+which objects are only used by that project and may also be deleted. To do
+so would require examining every commit in every other project.
+
+This problem can be mitigated somewhat by configuring a different FS backend
+per project, each with its own storage location configured. However this is
+only feasible on a small scale, not for a site with 100s if not 1000s of
+projects.
+
+## Proposed solutions
+
+### Allow to store LFS objects per repository, by global config
+
+Introduce a new configuration on the FS backend to allow objects to be
+stored in a separate directory structure per project. For example, an
+object uploaded for Project-A would be stored in a directory like
+`$site_path/data/lfs/repositories/Repository-A/1d/a6/`.
+
+As opposed to manually configuring separate backend per project with a
+different storage location, this would make the FS backend automatically
+store objects separately per project.
+
+This may result in duplication of objects if the same large file is uploaded
+to multiple projects, but if any project is deleted it is possible to also delete
+all of its LFS objects, without affecting any other project, simply by removing
+the corresponding directory under `$site_path/data/lfs/repositories/`. This
+would need to be done as a manual step unless there are also modification to
+the delete-project plugin; this is not proposed here.
+
+### Allow to store LFS objects in the repostory's `.git` folder
+
+Instead of storing the objects under `$site_path/data/lfs/` or whatever
+base path is defined, this option would allow objects to be stored in the
+`.git` folder of the corresponding repository, for example
+`$site_path/git/Repository-A/.git/lfs-objects/1d/a6/`.
+
+This would offer similar benefit in terms of easy data removal, with the
+addition that the LFS data can also be removed by the `delete-project`
+plugin rather than as a separate manual step. Also, since the objects are
+stored in the `.git` folder, their size contributes to the total size
+detected by the quota plugin.
+
+### Allow the quota plugin to validate incoming LFS objects
+
+The quota plugin needs to be able to validate incoming LFS objects and
+reject them if they would cause quota to be exceeded.
+
+As mentioned previously, the LFS plugin can already be configured to
+limit per object size. However since there is no framework for
+inter-plugin dependencies we cannot hook the quota plugin into that
+validation.
+
+To solve this, the following solution is proposed:
+
+* Add a new "object upload listener" interface in core Gerrit
+
+  This interface would have two methods:
+
+  * pre-validate incoming object
+
+    Validate that an incoming object's size would not cause quota
+    to be exceeded.
+
+  * post upload update
+
+    Update the project's quota usage with the size of the uploaded
+    object.
+
+  The interface needs to be added in core Gerrit because, due to lack
+  of inter-plugin dependencies, we can't define it in the LFS plugin
+  and have the quota plugin implement it.
+
+  In core Gerrit the dynamic set of interface listeners would be
+  declared, but not actually used by any core code.
+
+  The quota plugin will implement the interface in the same way as
+  any other extension API interface.
+
+  The LFS plugin will get the interface listeners injected, and invoke
+  them on object upload. This is the part that would normally be in
+  core.
+
+* Add a callback on the object upload listener in JGit LFS
+
+  To get the notification on completion of an object upload, we need to
+  add a callback on `ObjectUploadListener`. This will allow the LFS
+  plugin to get the size and invoke the "post upload update" mentioned
+  above.
+
+## Alternative solutions considered
+
+### Build upon the "QuotaBackend" and "QuotaEnforcer" interfaces
+
+The intial work to add
+[new quota interfaces](https://gerrit-review.googlesource.com/c/gerrit/+/203675)
+was submitted on the master branch earlier this year.
+
+In the long term, the ideal solution would be to build upon this,
+however since we want to target this work to the 2.16 series we
+have proposed the above solution with minimal disruptive changes in
+core.
+
+### Fork the LFS and quota plugins as library modules
+
+Instead of contributing this feature upstream, do it on a private
+fork. Modify both plugins to be consumed as library modules, and
+implement the needed functionality in a private plugin.
+
+_We have already done this internally at CollabNet_, but we would
+prefer to upstream the work rather than maintaining a fork.
+
+### Implement a third LFS backend type that stores objects in git
+
+Yes, we know that the whole point of LFS is to _not_ store large
+objects in git, but...
+
+The idea is to have an LFS backend that stores the objects in
+separate repositories under a protected namespace. This would avoid
+that the objects are stored in the actual repositories, hence not
+losing the benefit for users of using LFS, i.e. the large objects
+will not be included in fetches/clones of the project.
+
+The benefits of this approach are that the replication plugin can
+be used to sync the objects between mirrors, and the size of the
+repositories can be monitored by the quota plugin without any of
+the modifications mentioned in the other solutions.
+
+We have not started any work on this solution.

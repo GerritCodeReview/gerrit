@@ -14,32 +14,23 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.StringKey;
+import com.google.auto.value.AutoValue;
 
-public class LabelId extends StringKey<com.google.gwtorm.client.Key<?>> {
-  private static final long serialVersionUID = 1L;
-
+@AutoValue
+public abstract class LabelId {
   static final String LEGACY_SUBMIT_NAME = "SUBM";
 
+  public static LabelId create(String n) {
+    return new AutoValue_LabelId(n);
+  }
+
   public static LabelId legacySubmit() {
-    return new LabelId(LEGACY_SUBMIT_NAME);
+    return create(LEGACY_SUBMIT_NAME);
   }
 
-  public String id;
+  abstract String id();
 
-  public LabelId() {}
-
-  public LabelId(String n) {
-    id = n;
-  }
-
-  @Override
   public String get() {
-    return id;
-  }
-
-  @Override
-  protected void set(String newValue) {
-    id = newValue;
+    return id();
   }
 }

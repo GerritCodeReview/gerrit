@@ -28,7 +28,7 @@ public enum LabelIdProtoConverter implements ProtoConverter<Entities.LabelId, La
 
   @Override
   public LabelId fromProto(Entities.LabelId proto) {
-    return new LabelId(proto.getId());
+    return LabelId.create(proto.getId());
   }
 
   @Override

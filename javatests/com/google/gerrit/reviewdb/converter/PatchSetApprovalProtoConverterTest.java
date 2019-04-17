@@ -43,7 +43,7 @@ public class PatchSetApprovalProtoConverterTest {
             PatchSetApproval.key(
                 new PatchSet.Id(new Change.Id(42), 14),
                 new Account.Id(100013),
-                new LabelId("label-8")),
+                LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
     patchSetApproval.setTag("tag-21");
@@ -78,7 +78,7 @@ public class PatchSetApprovalProtoConverterTest {
             PatchSetApproval.key(
                 new PatchSet.Id(new Change.Id(42), 14),
                 new Account.Id(100013),
-                new LabelId("label-8")),
+                LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
 
@@ -109,7 +109,7 @@ public class PatchSetApprovalProtoConverterTest {
             PatchSetApproval.key(
                 new PatchSet.Id(new Change.Id(42), 14),
                 new Account.Id(100013),
-                new LabelId("label-8")),
+                LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
     patchSetApproval.setTag("tag-21");
@@ -128,7 +128,7 @@ public class PatchSetApprovalProtoConverterTest {
             PatchSetApproval.key(
                 new PatchSet.Id(new Change.Id(42), 14),
                 new Account.Id(100013),
-                new LabelId("label-8")),
+                LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
 
@@ -156,7 +156,7 @@ public class PatchSetApprovalProtoConverterTest {
 
     assertThat(patchSetApproval.getPatchSetId()).isEqualTo(new PatchSet.Id(new Change.Id(42), 14));
     assertThat(patchSetApproval.getAccountId()).isEqualTo(new Account.Id(100013));
-    assertThat(patchSetApproval.getLabelId()).isEqualTo(new LabelId("label-8"));
+    assertThat(patchSetApproval.getLabelId()).isEqualTo(LabelId.create("label-8"));
     // Default values for unset protobuf fields which can't be unset in the entity object.
     assertThat(patchSetApproval.getValue()).isEqualTo(0);
     assertThat(patchSetApproval.getGranted()).isEqualTo(new Timestamp(0));

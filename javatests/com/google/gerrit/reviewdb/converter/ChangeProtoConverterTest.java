@@ -41,7 +41,7 @@ public class ChangeProtoConverterTest {
             new Change.Key("change 1"),
             new Change.Id(14),
             Account.id(35),
-            new Branch.NameKey(new Project.NameKey("project 67"), "branch 74"),
+            Branch.nameKey(new Project.NameKey("project 67"), "branch 74"),
             new Timestamp(987654L));
     change.setLastUpdatedOn(new Timestamp(1234567L));
     change.setStatus(Change.Status.MERGED);
@@ -67,8 +67,8 @@ public class ChangeProtoConverterTest {
             .setOwnerAccountId(Entities.Account_Id.newBuilder().setId(35))
             .setDest(
                 Entities.Branch_NameKey.newBuilder()
-                    .setProjectName(Entities.Project_NameKey.newBuilder().setName("project 67"))
-                    .setBranchName("refs/heads/branch 74"))
+                    .setProject(Entities.Project_NameKey.newBuilder().setName("project 67"))
+                    .setBranch("refs/heads/branch 74"))
             .setStatus(Change.STATUS_MERGED)
             .setCurrentPatchSetId(23)
             .setSubject("subject XYZ")
@@ -91,7 +91,7 @@ public class ChangeProtoConverterTest {
             new Change.Key("change 1"),
             new Change.Id(14),
             Account.id(35),
-            new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
+            Branch.nameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
 
     Entities.Change proto = changeProtoConverter.toProto(change);
@@ -106,8 +106,8 @@ public class ChangeProtoConverterTest {
             .setOwnerAccountId(Entities.Account_Id.newBuilder().setId(35))
             .setDest(
                 Entities.Branch_NameKey.newBuilder()
-                    .setProjectName(Entities.Project_NameKey.newBuilder().setName("project 67"))
-                    .setBranchName("refs/heads/branch-74"))
+                    .setProject(Entities.Project_NameKey.newBuilder().setName("project 67"))
+                    .setBranch("refs/heads/branch-74"))
             // Default values which can't be unset.
             .setCurrentPatchSetId(0)
             .setRowVersion(0)
@@ -127,7 +127,7 @@ public class ChangeProtoConverterTest {
             new Change.Key("change 1"),
             new Change.Id(14),
             Account.id(35),
-            new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
+            Branch.nameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
     // O as ID actually means that no current patch set is present.
     change.setCurrentPatchSet(new PatchSet.Id(new Change.Id(14), 0), null, null);
@@ -144,8 +144,8 @@ public class ChangeProtoConverterTest {
             .setOwnerAccountId(Entities.Account_Id.newBuilder().setId(35))
             .setDest(
                 Entities.Branch_NameKey.newBuilder()
-                    .setProjectName(Entities.Project_NameKey.newBuilder().setName("project 67"))
-                    .setBranchName("refs/heads/branch-74"))
+                    .setProject(Entities.Project_NameKey.newBuilder().setName("project 67"))
+                    .setBranch("refs/heads/branch-74"))
             .setCurrentPatchSetId(0)
             // Default values which can't be unset.
             .setRowVersion(0)
@@ -165,7 +165,7 @@ public class ChangeProtoConverterTest {
             new Change.Key("change 1"),
             new Change.Id(14),
             Account.id(35),
-            new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
+            Branch.nameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
     change.setCurrentPatchSet(new PatchSet.Id(new Change.Id(14), 23), "subject ABC", null);
 
@@ -181,8 +181,8 @@ public class ChangeProtoConverterTest {
             .setOwnerAccountId(Entities.Account_Id.newBuilder().setId(35))
             .setDest(
                 Entities.Branch_NameKey.newBuilder()
-                    .setProjectName(Entities.Project_NameKey.newBuilder().setName("project 67"))
-                    .setBranchName("refs/heads/branch-74"))
+                    .setProject(Entities.Project_NameKey.newBuilder().setName("project 67"))
+                    .setBranch("refs/heads/branch-74"))
             .setCurrentPatchSetId(23)
             .setSubject("subject ABC")
             // Default values which can't be unset.
@@ -202,7 +202,7 @@ public class ChangeProtoConverterTest {
             new Change.Key("change 1"),
             new Change.Id(14),
             Account.id(35),
-            new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
+            Branch.nameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
     change.setLastUpdatedOn(new Timestamp(1234567L));
     change.setStatus(Change.Status.MERGED);
@@ -227,7 +227,7 @@ public class ChangeProtoConverterTest {
             new Change.Key("change 1"),
             new Change.Id(14),
             Account.id(35),
-            new Branch.NameKey(new Project.NameKey("project 67"), "branch-74"),
+            Branch.nameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
 
     Change convertedChange = changeProtoConverter.fromProto(changeProtoConverter.toProto(change));
@@ -269,8 +269,8 @@ public class ChangeProtoConverterTest {
             .setOwnerAccountId(Entities.Account_Id.newBuilder().setId(35))
             .setDest(
                 Entities.Branch_NameKey.newBuilder()
-                    .setProjectName(Entities.Project_NameKey.newBuilder().setName("project 67"))
-                    .setBranchName("branch 74"))
+                    .setProject(Entities.Project_NameKey.newBuilder().setName("project 67"))
+                    .setBranch("branch 74"))
             .build();
     Change change = changeProtoConverter.fromProto(proto);
 
@@ -289,8 +289,8 @@ public class ChangeProtoConverterTest {
             .setOwnerAccountId(Entities.Account_Id.newBuilder().setId(35))
             .setDest(
                 Entities.Branch_NameKey.newBuilder()
-                    .setProjectName(Entities.Project_NameKey.newBuilder().setName("project 67"))
-                    .setBranchName("branch 74"))
+                    .setProject(Entities.Project_NameKey.newBuilder().setName("project 67"))
+                    .setBranch("branch 74"))
             .setStatus(Change.STATUS_MERGED)
             .setCurrentPatchSetId(23)
             .setSubject("subject XYZ")

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d4d7560_b3f73bfe",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-04-17T08:34:15Z",
+      "side": 1,
+      "message": "nit: would consider restructuring so that the complete solution is written at the beginning IOW storing per repository under \u0027.git\u0027 (which gives all the benefits of maintainability and quotability) as we are going to implement it this way but I won\u0027t insist on that ;)",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 29
+      },
+      "revId": "2e81488edc377615f210ca3403398c1a4064d726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

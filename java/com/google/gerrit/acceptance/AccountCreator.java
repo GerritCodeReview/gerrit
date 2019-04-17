@@ -77,7 +77,7 @@ public class AccountCreator {
     if (account != null) {
       return account;
     }
-    Account.Id id = new Account.Id(sequences.nextAccountId());
+    Account.Id id = Account.id(sequences.nextAccountId());
 
     List<ExternalId> extIds = new ArrayList<>(2);
     String httpPass = null;

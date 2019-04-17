@@ -32,7 +32,7 @@ public class AccountAssert {
 
   public static void assertAccountInfos(List<TestAccount> expected, List<AccountInfo> actual) {
     Iterable<Account.Id> expectedIds = TestAccount.ids(expected);
-    Iterable<Account.Id> actualIds = Iterables.transform(actual, a -> new Account.Id(a._accountId));
+    Iterable<Account.Id> actualIds = Iterables.transform(actual, a -> Account.id(a._accountId));
     assertThat(actualIds).containsExactlyElementsIn(expectedIds).inOrder();
     for (int i = 0; i < expected.size(); i++) {
       AccountAssert.assertAccountInfo(expected.get(i), actual.get(i));

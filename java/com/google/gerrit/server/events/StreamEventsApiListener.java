@@ -162,7 +162,7 @@ public class StreamEventsApiListener
     return Suppliers.memoize(
         () ->
             account != null
-                ? eventFactory.asAccountAttribute(new Account.Id(account._accountId))
+                ? eventFactory.asAccountAttribute(Account.id(account._accountId))
                 : null);
   }
 

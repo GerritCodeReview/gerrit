@@ -26,7 +26,7 @@ import org.junit.Test;
 public class ChangeEditTest extends GerritBaseTests {
   @Test
   public void changeEditRef() throws Exception {
-    Account.Id accountId = new Account.Id(1000042);
+    Account.Id accountId = Account.id(1000042);
     Change.Id changeId = new Change.Id(56414);
     PatchSet.Id psId = new PatchSet.Id(changeId, 50);
     String refName = RefNames.refsEdit(accountId, changeId, psId);

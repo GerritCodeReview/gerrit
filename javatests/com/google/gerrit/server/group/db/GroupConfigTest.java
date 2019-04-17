@@ -303,8 +303,8 @@ public class GroupConfigTest extends GerritBaseTests {
 
   @Test
   public void specifiedMembersAreRespectedForNewGroup() throws Exception {
-    Account.Id member1 = new Account.Id(1);
-    Account.Id member2 = new Account.Id(2);
+    Account.Id member1 = Account.id(1);
+    Account.Id member2 = Account.id(2);
 
     InternalGroupCreation groupCreation = getPrefilledGroupCreationBuilder().build();
     InternalGroupUpdate groupUpdate =
@@ -430,12 +430,12 @@ public class GroupConfigTest extends GerritBaseTests {
         .value()
         .members()
         .containsExactly(
-            new Account.Id(1),
-            new Account.Id(2),
-            new Account.Id(3),
-            new Account.Id(4),
-            new Account.Id(5),
-            new Account.Id(6));
+            Account.id(1),
+            Account.id(2),
+            Account.id(3),
+            Account.id(4),
+            Account.id(5),
+            Account.id(6));
   }
 
   @Test
@@ -688,8 +688,8 @@ public class GroupConfigTest extends GerritBaseTests {
   @Test
   public void membersCanBeAdded() throws Exception {
     createArbitraryGroup(groupUuid);
-    Account.Id member1 = new Account.Id(1);
-    Account.Id member2 = new Account.Id(2);
+    Account.Id member1 = Account.id(1);
+    Account.Id member2 = Account.id(2);
 
     InternalGroupUpdate groupUpdate1 =
         InternalGroupUpdate.builder()
@@ -710,8 +710,8 @@ public class GroupConfigTest extends GerritBaseTests {
   @Test
   public void membersCanBeDeleted() throws Exception {
     createArbitraryGroup(groupUuid);
-    Account.Id member1 = new Account.Id(1);
-    Account.Id member2 = new Account.Id(2);
+    Account.Id member1 = Account.id(1);
+    Account.Id member2 = Account.id(2);
 
     InternalGroupUpdate groupUpdate1 =
         InternalGroupUpdate.builder()
@@ -802,7 +802,7 @@ public class GroupConfigTest extends GerritBaseTests {
             .setVisibleToAll(true)
             .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(new Timestamp(92900892))
-            .setMemberModification(members -> ImmutableSet.of(new Account.Id(1), new Account.Id(2)))
+            .setMemberModification(members -> ImmutableSet.of(Account.id(1), Account.id(2)))
             .setSubgroupModification(subgroups -> ImmutableSet.of(AccountGroup.uuid("subgroup")))
             .build();
 
@@ -823,7 +823,7 @@ public class GroupConfigTest extends GerritBaseTests {
             .setVisibleToAll(true)
             .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(new Timestamp(92900892))
-            .setMemberModification(members -> ImmutableSet.of(new Account.Id(1), new Account.Id(2)))
+            .setMemberModification(members -> ImmutableSet.of(Account.id(1), Account.id(2)))
             .setSubgroupModification(subgroups -> ImmutableSet.of(AccountGroup.uuid("subgroup")))
             .build();
 
@@ -845,7 +845,7 @@ public class GroupConfigTest extends GerritBaseTests {
             .setVisibleToAll(true)
             .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(new Timestamp(92900892))
-            .setMemberModification(members -> ImmutableSet.of(new Account.Id(1), new Account.Id(2)))
+            .setMemberModification(members -> ImmutableSet.of(Account.id(1), Account.id(2)))
             .setSubgroupModification(subgroups -> ImmutableSet.of(AccountGroup.uuid("subgroup")))
             .build();
     createGroup(groupCreation, initialGroupUpdate);
@@ -1003,8 +1003,7 @@ public class GroupConfigTest extends GerritBaseTests {
 
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
-            .setMemberModification(
-                members -> Sets.union(members, ImmutableSet.of(new Account.Id(10))))
+            .setMemberModification(members -> Sets.union(members, ImmutableSet.of(Account.id(10))))
             .build();
     updateGroup(groupUuid, groupUpdate);
 
@@ -1318,8 +1317,8 @@ public class GroupConfigTest extends GerritBaseTests {
 
   @Test
   public void commitMessageOfNewGroupWithMembersContainsFooters() throws Exception {
-    Account account13 = createAccount(new Account.Id(13), "John");
-    Account account7 = createAccount(new Account.Id(7), "Jane");
+    Account account13 = createAccount(Account.id(13), "John");
+    Account account7 = createAccount(Account.id(7), "Jane");
     ImmutableSet<Account> accounts = ImmutableSet.of(account13, account7);
 
     AuditLogFormatter auditLogFormatter =
@@ -1368,8 +1367,8 @@ public class GroupConfigTest extends GerritBaseTests {
 
   @Test
   public void commitMessageOfMemberAdditionContainsFooters() throws Exception {
-    Account account13 = createAccount(new Account.Id(13), "John");
-    Account account7 = createAccount(new Account.Id(7), "Jane");
+    Account account13 = createAccount(Account.id(13), "John");
+    Account account7 = createAccount(Account.id(7), "Jane");
     ImmutableSet<Account> accounts = ImmutableSet.of(account13, account7);
 
     createArbitraryGroup(groupUuid);
@@ -1390,8 +1389,8 @@ public class GroupConfigTest extends GerritBaseTests {
 
   @Test
   public void commitMessageOfMemberRemovalContainsFooters() throws Exception {
-    Account account13 = createAccount(new Account.Id(13), "John");
-    Account account7 = createAccount(new Account.Id(7), "Jane");
+    Account account13 = createAccount(Account.id(13), "John");
+    Account account7 = createAccount(Account.id(7), "Jane");
     ImmutableSet<Account> accounts = ImmutableSet.of(account13, account7);
 
     createArbitraryGroup(groupUuid);
@@ -1486,8 +1485,8 @@ public class GroupConfigTest extends GerritBaseTests {
 
   @Test
   public void commitMessageFootersCanBeMixed() throws Exception {
-    Account account13 = createAccount(new Account.Id(13), "John");
-    Account account7 = createAccount(new Account.Id(7), "Jane");
+    Account account13 = createAccount(Account.id(13), "John");
+    Account account7 = createAccount(Account.id(7), "Jane");
     ImmutableSet<Account> accounts = ImmutableSet.of(account13, account7);
     GroupDescription.Basic group1 = createGroup(AccountGroup.uuid("129403"), "Bots");
     GroupDescription.Basic group2 = createGroup(AccountGroup.uuid("8903493"), "Verifiers");

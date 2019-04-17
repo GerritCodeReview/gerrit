@@ -78,7 +78,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
             .changeKey(new Change.Key(CHANGE_KEY))
             .createdOn(new Timestamp(123456L))
             .lastUpdatedOn(new Timestamp(234567L))
-            .owner(new Account.Id(1000))
+            .owner(Account.id(1000))
             .branch("refs/heads/master")
             .subject("Test change")
             .isPrivate(false)
@@ -134,7 +134,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   @Test
   public void serializeOwner() throws Exception {
     assertRoundTrip(
-        newBuilder().columns(cols.toBuilder().owner(new Account.Id(7777)).build()).build(),
+        newBuilder().columns(cols.toBuilder().owner(Account.id(7777)).build()).build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
@@ -243,7 +243,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   @Test
   public void serializeAssignee() throws Exception {
     assertRoundTrip(
-        newBuilder().columns(cols.toBuilder().assignee(new Account.Id(2000)).build()).build(),
+        newBuilder().columns(cols.toBuilder().assignee(Account.id(2000)).build()).build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
@@ -309,9 +309,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   @Test
   public void serializePastAssignees() throws Exception {
     assertRoundTrip(
-        newBuilder()
-            .pastAssignees(ImmutableSet.of(new Account.Id(2002), new Account.Id(2001)))
-            .build(),
+        newBuilder().pastAssignees(ImmutableSet.of(Account.id(2002), Account.id(2001))).build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
@@ -337,14 +335,14 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   @Test
   public void serializePatchSets() throws Exception {
     PatchSet ps1 = new PatchSet(new PatchSet.Id(ID, 1));
-    ps1.setUploader(new Account.Id(2000));
+    ps1.setUploader(Account.id(2000));
     ps1.setRevision(new RevId("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
     ps1.setCreatedOn(cols.createdOn());
     ByteString ps1Bytes = toByteString(ps1, PatchSetProtoConverter.INSTANCE);
     assertThat(ps1Bytes.size()).isEqualTo(66);
 
     PatchSet ps2 = new PatchSet(new PatchSet.Id(ID, 2));
-    ps2.setUploader(new Account.Id(3000));
+    ps2.setUploader(Account.id(3000));
     ps2.setRevision(new RevId("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
     ps2.setCreatedOn(cols.lastUpdatedOn());
     ByteString ps2Bytes = toByteString(ps2, PatchSetProtoConverter.INSTANCE);
@@ -369,7 +367,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
     PatchSetApproval a1 =
         new PatchSetApproval(
             PatchSetApproval.key(
-                new PatchSet.Id(ID, 1), new Account.Id(2001), LabelId.create("Code-Review")),
+                new PatchSet.Id(ID, 1), Account.id(2001), LabelId.create("Code-Review")),
             (short) 1,
             new Timestamp(1212L));
     ByteString a1Bytes = toByteString(a1, PatchSetApprovalProtoConverter.INSTANCE);
@@ -378,7 +376,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
     PatchSetApproval a2 =
         new PatchSetApproval(
             PatchSetApproval.key(
-                new PatchSet.Id(ID, 1), new Account.Id(2002), LabelId.create("Verified")),
+                new PatchSet.Id(ID, 1), Account.id(2002), LabelId.create("Verified")),
             (short) -1,
             new Timestamp(3434L));
     ByteString a2Bytes = toByteString(a2, PatchSetApprovalProtoConverter.INSTANCE);
@@ -406,11 +404,8 @@ public class ChangeNotesStateTest extends GerritBaseTests {
             .reviewers(
                 ReviewerSet.fromTable(
                     ImmutableTable.<ReviewerStateInternal, Account.Id, Timestamp>builder()
-                        .put(ReviewerStateInternal.CC, new Account.Id(2001), new Timestamp(1212L))
-                        .put(
-                            ReviewerStateInternal.REVIEWER,
-                            new Account.Id(2002),
-                            new Timestamp(3434L))
+                        .put(ReviewerStateInternal.CC, Account.id(2001), new Timestamp(1212L))
+                        .put(ReviewerStateInternal.REVIEWER, Account.id(2002), new Timestamp(3434L))
                         .build()))
             .build(),
         ChangeNotesStateProto.newBuilder()
@@ -503,11 +498,8 @@ public class ChangeNotesStateTest extends GerritBaseTests {
             .pendingReviewers(
                 ReviewerSet.fromTable(
                     ImmutableTable.<ReviewerStateInternal, Account.Id, Timestamp>builder()
-                        .put(ReviewerStateInternal.CC, new Account.Id(2001), new Timestamp(1212L))
-                        .put(
-                            ReviewerStateInternal.REVIEWER,
-                            new Account.Id(2002),
-                            new Timestamp(3434L))
+                        .put(ReviewerStateInternal.CC, Account.id(2001), new Timestamp(1212L))
+                        .put(ReviewerStateInternal.REVIEWER, Account.id(2002), new Timestamp(3434L))
                         .build()))
             .build(),
         ChangeNotesStateProto.newBuilder()
@@ -564,9 +556,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   @Test
   public void serializeAllPastReviewers() throws Exception {
     assertRoundTrip(
-        newBuilder()
-            .allPastReviewers(ImmutableList.of(new Account.Id(2002), new Account.Id(2001)))
-            .build(),
+        newBuilder().allPastReviewers(ImmutableList.of(Account.id(2002), Account.id(2001))).build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
@@ -584,13 +574,13 @@ public class ChangeNotesStateTest extends GerritBaseTests {
                 ImmutableList.of(
                     ReviewerStatusUpdate.create(
                         new Timestamp(1212L),
-                        new Account.Id(1000),
-                        new Account.Id(2002),
+                        Account.id(1000),
+                        Account.id(2002),
                         ReviewerStateInternal.CC),
                     ReviewerStatusUpdate.create(
                         new Timestamp(3434L),
-                        new Account.Id(1000),
-                        new Account.Id(2001),
+                        Account.id(1000),
+                        Account.id(2001),
                         ReviewerStateInternal.REVIEWER)))
             .build(),
         ChangeNotesStateProto.newBuilder()
@@ -636,7 +626,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
     ChangeMessage m1 =
         new ChangeMessage(
             new ChangeMessage.Key(ID, "uuid1"),
-            new Account.Id(1000),
+            Account.id(1000),
             new Timestamp(1212L),
             new PatchSet.Id(ID, 1));
     ByteString m1Bytes = toByteString(m1, ChangeMessageProtoConverter.INSTANCE);
@@ -645,7 +635,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
     ChangeMessage m2 =
         new ChangeMessage(
             new ChangeMessage.Key(ID, "uuid2"),
-            new Account.Id(2000),
+            Account.id(2000),
             new Timestamp(3434L),
             new PatchSet.Id(ID, 2));
     ByteString m2Bytes = toByteString(m2, ChangeMessageProtoConverter.INSTANCE);
@@ -668,7 +658,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
     Comment c1 =
         new Comment(
             new Comment.Key("uuid1", "file1", 1),
-            new Account.Id(1001),
+            Account.id(1001),
             new Timestamp(1212L),
             (short) 1,
             "message 1",
@@ -680,7 +670,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
     Comment c2 =
         new Comment(
             new Comment.Key("uuid2", "file2", 2),
-            new Account.Id(1002),
+            Account.id(1002),
             new Timestamp(3434L),
             (short) 2,
             "message 2",

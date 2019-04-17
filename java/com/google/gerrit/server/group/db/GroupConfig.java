@@ -412,7 +412,7 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   private ImmutableSet<Account.Id> readMembers() throws IOException, ConfigInvalidException {
-    return readFromFile(MEMBERS_FILE, entry -> new Account.Id(Integer.parseInt(entry)));
+    return readFromFile(MEMBERS_FILE, entry -> Account.id(Integer.parseInt(entry)));
   }
 
   private ImmutableSet<AccountGroup.UUID> readSubgroups()

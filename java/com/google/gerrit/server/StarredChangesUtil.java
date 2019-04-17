@@ -88,7 +88,7 @@ public class StarredChangesUtil {
         if (id == null) {
           return null;
         }
-        Account.Id accountId = new Account.Id(id);
+        Account.Id accountId = Account.id(id);
         String label = s.substring(p + 1);
         return create(accountId, label);
       }
@@ -269,7 +269,7 @@ public class StarredChangesUtil {
         if (id == null) {
           continue;
         }
-        Account.Id accountId = new Account.Id(id);
+        Account.Id accountId = Account.id(id);
         builder.put(accountId, readLabels(repo, RefNames.refsStarredChanges(changeId, accountId)));
       }
       return builder.build();

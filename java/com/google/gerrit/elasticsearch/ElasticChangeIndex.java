@@ -283,7 +283,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
           if (reviewedBy.size() == 1 && aId == ChangeField.NOT_REVIEWED) {
             break;
           }
-          accounts.add(new Account.Id(aId));
+          accounts.add(Account.id(aId));
         }
         cd.setReviewedBy(accounts);
       }

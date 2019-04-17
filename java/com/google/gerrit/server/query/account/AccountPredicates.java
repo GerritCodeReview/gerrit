@@ -45,7 +45,7 @@ public class AccountPredicates {
     List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(3);
     Integer id = Ints.tryParse(query);
     if (id != null) {
-      preds.add(id(new Account.Id(id)));
+      preds.add(id(Account.id(id)));
     }
     if (canSeeSecondaryEmails) {
       preds.add(equalsNameIncludingSecondaryEmails(query));

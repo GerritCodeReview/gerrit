@@ -272,7 +272,7 @@ public class AccountManager {
 
   private AuthResult create(AuthRequest who)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
-    Account.Id newId = new Account.Id(sequences.nextAccountId());
+    Account.Id newId = Account.id(sequences.nextAccountId());
     logger.atFine().log("Assigning new Id %s to account", newId);
 
     ExternalId extId =

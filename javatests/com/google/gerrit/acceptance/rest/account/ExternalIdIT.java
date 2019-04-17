@@ -687,7 +687,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   private ExternalId createExternalIdForNonExistingAccount(String externalId) {
-    return ExternalId.create(ExternalId.Key.parse(externalId), new Account.Id(1));
+    return ExternalId.create(ExternalId.Key.parse(externalId), Account.id(1));
   }
 
   private ExternalId createExternalIdWithInvalidEmail(String externalId) {
@@ -714,7 +714,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void readExternalIdWithAccountIdThatCanBeExpressedInKiB() throws Exception {
     ExternalId.Key extIdKey = ExternalId.Key.parse("foo:bar");
-    Account.Id accountId = new Account.Id(1024 * 100);
+    Account.Id accountId = Account.id(1024 * 100);
     accountsUpdateProvider
         .get()
         .insert(

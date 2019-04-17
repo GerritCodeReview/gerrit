@@ -65,9 +65,9 @@ public class AbstractGroupTest extends GerritBaseTests {
     allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);
     repoManager = new InMemoryRepositoryManager();
     allUsersRepo = repoManager.createRepository(allUsersName);
-    serverAccountId = new Account.Id(SERVER_ACCOUNT_NUMBER);
+    serverAccountId = Account.id(SERVER_ACCOUNT_NUMBER);
     serverIdent = new PersonIdent(SERVER_NAME, SERVER_EMAIL, TimeUtil.nowTs(), TZ);
-    userId = new Account.Id(USER_ACCOUNT_NUMBER);
+    userId = Account.id(USER_ACCOUNT_NUMBER);
     userIdent = newPersonIdent(userId, serverIdent);
   }
 

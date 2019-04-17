@@ -286,7 +286,7 @@ public class WebSessionManager {
           case 0:
             break PARSE;
           case 1:
-            accountId = new Account.Id(readVarInt32(in));
+            accountId = Account.id(readVarInt32(in));
             continue;
           case 2:
             refreshCookieAt = readFixInt64(in);

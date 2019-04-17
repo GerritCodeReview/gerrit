@@ -3887,7 +3887,7 @@ public class ChangeIT extends AbstractDaemonTest {
     if (r == null) {
       return ImmutableList.of();
     }
-    return Iterables.transform(r, a -> new Account.Id(a._accountId));
+    return Iterables.transform(r, a -> Account.id(a._accountId));
   }
 
   private ChangeResource parseResource(PushOneCommit.Result r) throws Exception {

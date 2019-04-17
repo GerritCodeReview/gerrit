@@ -69,7 +69,7 @@ public class AccountOperationsImpl implements AccountOperations {
 
   private AccountState createAccount(AccountsUpdate.AccountUpdater accountUpdater)
       throws OrmException, IOException, ConfigInvalidException {
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     return accountsUpdate.insert("Create Test Account", accountId, accountUpdater);
   }
 

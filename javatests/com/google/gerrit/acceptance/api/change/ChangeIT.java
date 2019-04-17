@@ -2749,7 +2749,7 @@ public class ChangeIT extends AbstractDaemonTest {
             "gerrit",
             (newCommitMessage, original, mergeTip, destination) -> {
               assertThat(original.getName()).isNotEqualTo(mergeTip.getName());
-              return newCommitMessage + "Custom: " + destination.get();
+              return newCommitMessage + "Custom: " + destination.branch();
             });
     ChangeInfo actual;
     try {
@@ -4243,7 +4243,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   private BranchApi createBranch(String branch) throws Exception {
-    return createBranch(new Branch.NameKey(project, branch));
+    return createBranch(Branch.nameKey(project, branch));
   }
 
   private ThrowableSubject assertThatQueryException(String query) throws Exception {

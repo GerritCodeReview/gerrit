@@ -118,7 +118,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     ImmutableListMultimap<Branch.NameKey, ChangeData> bc =
         byBranch(Iterables.concat(changeSet.changes(), changeSet.nonVisibleChanges()));
     for (Branch.NameKey b : bc.keySet()) {
-      OpenRepo or = getRepo(orm, b.getParentKey());
+      OpenRepo or = getRepo(orm, b.project());
       List<RevCommit> visibleCommits = new ArrayList<>();
       List<RevCommit> nonVisibleCommits = new ArrayList<>();
       for (ChangeData cd : bc.get(b)) {
@@ -272,7 +272,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   private void markHeadUninteresting(OpenRepo or, Branch.NameKey b) throws IOException {
     Optional<RevCommit> head = heads.get(b);
     if (head == null) {
-      Ref ref = or.repo.getRefDatabase().exactRef(b.get());
+      Ref ref = or.repo.getRefDatabase().exactRef(b.branch());
       head = ref != null ? Optional.of(or.rw.parseCommit(ref.getObjectId())) : Optional.empty();
       heads.put(b, head);
     }

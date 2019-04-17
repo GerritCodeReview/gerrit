@@ -1428,7 +1428,7 @@ public class GroupsIT extends AbstractDaemonTest {
             .create(admin.newIdent(), repo, "Update group config", "group.config", "some content")
             .to(MagicBranch.NEW_CHANGE + groupRef);
     r.assertOkStatus();
-    assertThat(r.getChange().change().getDest().get()).isEqualTo(groupRef);
+    assertThat(r.getChange().change().getDest().branch()).isEqualTo(groupRef);
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
 
     if (expectedError != null) {

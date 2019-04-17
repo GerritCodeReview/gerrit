@@ -176,7 +176,7 @@ public class EventBroker implements EventDispatcher {
 
   protected boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user)
       throws PermissionBackendException {
-    ProjectState pe = projectCache.get(branchName.getParentKey());
+    ProjectState pe = projectCache.get(branchName.project());
     if (pe == null || !pe.statePermitsRead()) {
       return false;
     }

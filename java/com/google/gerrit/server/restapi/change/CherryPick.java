@@ -103,7 +103,7 @@ public class CherryPick
               rsrc.getChange(),
               rsrc.getPatchSet(),
               input,
-              new Branch.NameKey(rsrc.getProject(), refName));
+              Branch.nameKey(rsrc.getProject(), refName));
       CherryPickChangeInfo changeInfo =
           json.noOptions()
               .format(rsrc.getProject(), cherryPickResult.changeId(), CherryPickChangeInfo::new);

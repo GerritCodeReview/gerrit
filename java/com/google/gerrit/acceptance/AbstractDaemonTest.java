@@ -692,8 +692,8 @@ public abstract class AbstractDaemonTest {
 
   protected BranchApi createBranch(Branch.NameKey branch) throws Exception {
     return gApi.projects()
-        .name(branch.getParentKey().get())
-        .branch(branch.get())
+        .name(branch.project().get())
+        .branch(branch.branch())
         .create(new BranchInput());
   }
 
@@ -701,7 +701,7 @@ public abstract class AbstractDaemonTest {
       throws Exception {
     BranchInput in = new BranchInput();
     in.revision = revision;
-    return gApi.projects().name(branch.getParentKey().get()).branch(branch.get()).create(in);
+    return gApi.projects().name(branch.project().get()).branch(branch.branch()).create(in);
   }
 
   private static final List<Character> RANDOM =
@@ -1187,7 +1187,7 @@ public abstract class AbstractDaemonTest {
               continue;
             }
             RevCommit c = localRepo.getRevWalk().parseCommit(r.getObjectId());
-            ret.put(new Branch.NameKey(proj, refName), c.getTree().copy());
+            ret.put(Branch.nameKey(proj, refName), c.getTree().copy());
           }
         }
       }
@@ -1204,11 +1204,11 @@ public abstract class AbstractDaemonTest {
     Map<Branch.NameKey, RevTree> refValues = new HashMap<>();
 
     for (Branch.NameKey b : trees.keySet()) {
-      if (!b.getParentKey().equals(proj)) {
+      if (!b.project().equals(proj)) {
         continue;
       }
 
-      Ref r = localRepo.getRepository().exactRef(b.get());
+      Ref r = localRepo.getRepository().exactRef(b.branch());
       assertThat(r).isNotNull();
       RevWalk rw = localRepo.getRevWalk();
       RevCommit c = rw.parseCommit(r.getObjectId());

@@ -14,48 +14,40 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.StringKey;
+import com.google.auto.value.AutoValue;
+import com.google.gwtorm.client.StandardKeyEncoder;
 
 /** Line of development within a {@link Project}. */
 public final class Branch {
+  public static NameKey nameKey(Project.NameKey projectName, String branchName) {
+    return new AutoValue_Branch_NameKey(projectName, RefNames.fullName(branchName));
+  }
+
+  public static NameKey nameKey(String projectName, String branchName) {
+    return nameKey(new Project.NameKey(projectName), branchName);
+  }
+
   /** Branch name key */
-  public static class NameKey extends StringKey<Project.NameKey> {
-    private static final long serialVersionUID = 1L;
+  @AutoValue
+  public abstract static class NameKey implements Comparable<NameKey> {
+    public abstract Project.NameKey project();
 
-    protected Project.NameKey projectName;
+    public abstract String branch();
 
-    protected String branchName;
-
-    protected NameKey() {
-      projectName = new Project.NameKey();
-    }
-
-    public NameKey(Project.NameKey proj, String branchName) {
-      projectName = proj;
-      set(branchName);
-    }
-
-    public NameKey(String proj, String branchName) {
-      this(new Project.NameKey(proj), branchName);
+    public String shortName() {
+      return RefNames.shortName(branch());
     }
 
     @Override
-    public String get() {
-      return branchName;
+    public int compareTo(NameKey o) {
+      // TODO(dborowitz): Only compares branch name in order to match old StringKey behavior.
+      // Consider comparing project name first.
+      return branch().compareTo(o.branch());
     }
 
     @Override
-    protected void set(String newValue) {
-      branchName = RefNames.fullName(newValue);
-    }
-
-    @Override
-    public Project.NameKey getParentKey() {
-      return projectName;
-    }
-
-    public String getShortName() {
-      return RefNames.shortName(get());
+    public String toString() {
+      return project() + "," + new StandardKeyEncoder().encode(branch());
     }
   }
 
@@ -74,11 +66,11 @@ public final class Branch {
   }
 
   public String getName() {
-    return name.get();
+    return name.branch();
   }
 
   public String getShortName() {
-    return name.getShortName();
+    return name.shortName();
   }
 
   public RevId getRevision() {

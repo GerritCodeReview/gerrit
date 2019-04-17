@@ -135,7 +135,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       throw new ResourceConflictException("Change is " + ChangeUtil.status(change));
     }
 
-    Branch.NameKey newDest = new Branch.NameKey(project, input.destinationBranch);
+    Branch.NameKey newDest = Branch.nameKey(project, input.destinationBranch);
     if (change.getDest().equals(newDest)) {
       throw new ResourceConflictException("Change is already destined for the specified branch");
     }
@@ -183,7 +183,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       }
 
       Project.NameKey projectKey = change.getProject();
-      newDestKey = new Branch.NameKey(projectKey, input.destinationBranch);
+      newDestKey = Branch.nameKey(projectKey, input.destinationBranch);
       Branch.NameKey changePrevDest = change.getDest();
       if (changePrevDest.equals(newDestKey)) {
         throw new ResourceConflictException("Change is already destined for the specified branch");
@@ -216,7 +216,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       if (!asChanges(queryProvider.get().byBranchKey(newDestKey, changeKey)).isEmpty()) {
         throw new ResourceConflictException(
             "Destination "
-                + newDestKey.getShortName()
+                + newDestKey.shortName()
                 + " has a different change with same change key "
                 + changeKey);
       }
@@ -227,16 +227,16 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
 
       PatchSet.Id psId = change.currentPatchSetId();
       ChangeUpdate update = ctx.getUpdate(psId);
-      update.setBranch(newDestKey.get());
+      update.setBranch(newDestKey.branch());
       change.setDest(newDestKey);
 
       updateApprovals(ctx, update, psId, projectKey);
 
       StringBuilder msgBuf = new StringBuilder();
       msgBuf.append("Change destination moved from ");
-      msgBuf.append(changePrevDest.getShortName());
+      msgBuf.append(changePrevDest.shortName());
       msgBuf.append(" to ");
-      msgBuf.append(newDestKey.getShortName());
+      msgBuf.append(newDestKey.shortName());
       if (!Strings.isNullOrEmpty(input.message)) {
         msgBuf.append("\n\n");
         msgBuf.append(input.message);

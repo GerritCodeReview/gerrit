@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'comment-api-mock',
+    _legacyUndefinedCheck: true,
 
     properties: {
       _changeComments: Object,

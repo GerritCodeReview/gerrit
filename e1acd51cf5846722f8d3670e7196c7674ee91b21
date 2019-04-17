@@ -22,6 +22,30 @@
       "revId": "e1acd51cf5846722f8d3670e7196c7674ee91b21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dbd0490_4af35c83",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-17T02:29:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2a85521_1a0f061d",
+      "range": {
+        "startLine": 225,
+        "startChar": 37,
+        "endLine": 225,
+        "endChar": 44
+      },
+      "revId": "e1acd51cf5846722f8d3670e7196c7674ee91b21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -59,7 +59,7 @@ public class GroupConfigTest extends GerritBaseTests {
   private Project.NameKey projectName;
   private Repository repository;
   private TestRepository<?> testRepository;
-  private final AccountGroup.UUID groupUuid = new AccountGroup.UUID("users-XYZ");
+  private final AccountGroup.UUID groupUuid = AccountGroup.uuid("users-XYZ");
   private final AccountGroup.NameKey groupName = AccountGroup.nameKey("users");
   private final AccountGroup.Id groupId = new AccountGroup.Id(123);
   private final AuditLogFormatter auditLogFormatter =
@@ -194,7 +194,7 @@ public class GroupConfigTest extends GerritBaseTests {
 
   @Test
   public void specifiedOwnerGroupUuidIsRespectedForNewGroup() throws Exception {
-    AccountGroup.UUID ownerGroupUuid = new AccountGroup.UUID("anotherOwnerUuid");
+    AccountGroup.UUID ownerGroupUuid = AccountGroup.uuid("anotherOwnerUuid");
 
     InternalGroupCreation groupCreation = getPrefilledGroupCreationBuilder().build();
     InternalGroupUpdate groupUpdate =
@@ -206,25 +206,10 @@ public class GroupConfigTest extends GerritBaseTests {
   }
 
   @Test
-  public void ownerGroupUuidOfNewGroupMustNotBeNull() throws Exception {
-    InternalGroupCreation groupCreation = getPrefilledGroupCreationBuilder().build();
-    InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setOwnerGroupUUID(new AccountGroup.UUID(null)).build();
-    GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
-    groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
-
-    try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
-      exception.expectCause(instanceOf(ConfigInvalidException.class));
-      exception.expectMessage("Owner UUID of the group " + groupUuid);
-      groupConfig.commit(metaDataUpdate);
-    }
-  }
-
-  @Test
   public void ownerGroupUuidOfNewGroupMustNotBeEmpty() throws Exception {
     InternalGroupCreation groupCreation = getPrefilledGroupCreationBuilder().build();
     InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setOwnerGroupUUID(new AccountGroup.UUID("")).build();
+        InternalGroupUpdate.builder().setOwnerGroupUUID(AccountGroup.uuid("")).build();
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
     groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
@@ -306,8 +291,8 @@ public class GroupConfigTest extends GerritBaseTests {
 
   @Test
   public void specifiedSubgroupsAreRespectedForNewGroup() throws Exception {
-    AccountGroup.UUID subgroup1 = new AccountGroup.UUID("subgroup1");
-    AccountGroup.UUID subgroup2 = new AccountGroup.UUID("subgroup2");
+    AccountGroup.UUID subgroup1 = AccountGroup.uuid("subgroup1");
+    AccountGroup.UUID subgroup2 = AccountGroup.uuid("subgroup2");
 
     InternalGroupCreation groupCreation = getPrefilledGroupCreationBuilder().build();
     InternalGroupUpdate groupUpdate =
@@ -481,12 +466,12 @@ public class GroupConfigTest extends GerritBaseTests {
         .value()
         .subgroups()
         .containsExactly(
-            new AccountGroup.UUID("1"),
-            new AccountGroup.UUID("2"),
-            new AccountGroup.UUID("3"),
-            new AccountGroup.UUID("4"),
-            new AccountGroup.UUID("5"),
-            new AccountGroup.UUID("6"));
+            AccountGroup.uuid("1"),
+            AccountGroup.uuid("2"),
+            AccountGroup.uuid("3"),
+            AccountGroup.uuid("4"),
+            AccountGroup.uuid("5"),
+            AccountGroup.uuid("6"));
   }
 
   @Test
@@ -495,7 +480,7 @@ public class GroupConfigTest extends GerritBaseTests {
     populateSubgroupsFile(groupUuid, "1\t2 3");
 
     Optional<InternalGroup> group = loadGroup(groupUuid);
-    assertThatGroup(group).value().subgroups().containsExactly(new AccountGroup.UUID("1\t2 3"));
+    assertThatGroup(group).value().subgroups().containsExactly(AccountGroup.uuid("1\t2 3"));
   }
 
   @Test
@@ -507,7 +492,7 @@ public class GroupConfigTest extends GerritBaseTests {
     assertThatGroup(group)
         .value()
         .subgroups()
-        .containsExactly(new AccountGroup.UUID("1\t2"), new AccountGroup.UUID("3"));
+        .containsExactly(AccountGroup.uuid("1\t2"), AccountGroup.uuid("3"));
   }
 
   @Test
@@ -579,7 +564,7 @@ public class GroupConfigTest extends GerritBaseTests {
   @Test
   public void ownerGroupUuidCanBeUpdated() throws Exception {
     createArbitraryGroup(groupUuid);
-    AccountGroup.UUID newOwnerGroupUuid = new AccountGroup.UUID("New owner");
+    AccountGroup.UUID newOwnerGroupUuid = AccountGroup.uuid("New owner");
 
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder().setOwnerGroupUUID(newOwnerGroupUuid).build();
@@ -590,28 +575,12 @@ public class GroupConfigTest extends GerritBaseTests {
   }
 
   @Test
-  public void ownerGroupUuidCannotBeUpdatedToNull() throws Exception {
-    createArbitraryGroup(groupUuid);
-
-    GroupConfig groupConfig = GroupConfig.loadForGroup(projectName, repository, groupUuid);
-    InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setOwnerGroupUUID(new AccountGroup.UUID(null)).build();
-    groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
-
-    try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
-      exception.expectCause(instanceOf(ConfigInvalidException.class));
-      exception.expectMessage("Owner UUID of the group " + groupUuid);
-      groupConfig.commit(metaDataUpdate);
-    }
-  }
-
-  @Test
   public void ownerGroupUuidCannotBeUpdatedToEmptyString() throws Exception {
     createArbitraryGroup(groupUuid);
 
     GroupConfig groupConfig = GroupConfig.loadForGroup(projectName, repository, groupUuid);
     InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setOwnerGroupUUID(new AccountGroup.UUID("")).build();
+        InternalGroupUpdate.builder().setOwnerGroupUUID(AccountGroup.uuid("")).build();
     groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
@@ -703,8 +672,8 @@ public class GroupConfigTest extends GerritBaseTests {
   @Test
   public void subgroupsCanBeAdded() throws Exception {
     createArbitraryGroup(groupUuid);
-    AccountGroup.UUID subgroup1 = new AccountGroup.UUID("subgroups1");
-    AccountGroup.UUID subgroup2 = new AccountGroup.UUID("subgroups2");
+    AccountGroup.UUID subgroup1 = AccountGroup.uuid("subgroups1");
+    AccountGroup.UUID subgroup2 = AccountGroup.uuid("subgroups2");
 
     InternalGroupUpdate groupUpdate1 =
         InternalGroupUpdate.builder()
@@ -725,8 +694,8 @@ public class GroupConfigTest extends GerritBaseTests {
   @Test
   public void subgroupsCanBeDeleted() throws Exception {
     createArbitraryGroup(groupUuid);
-    AccountGroup.UUID subgroup1 = new AccountGroup.UUID("subgroups1");
-    AccountGroup.UUID subgroup2 = new AccountGroup.UUID("subgroups2");
+    AccountGroup.UUID subgroup1 = AccountGroup.uuid("subgroups1");
+    AccountGroup.UUID subgroup2 = AccountGroup.uuid("subgroups2");
 
     InternalGroupUpdate groupUpdate1 =
         InternalGroupUpdate.builder()
@@ -769,13 +738,12 @@ public class GroupConfigTest extends GerritBaseTests {
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
             .setDescription("A test group")
-            .setOwnerGroupUUID(new AccountGroup.UUID("another owner"))
+            .setOwnerGroupUUID(AccountGroup.uuid("another owner"))
             .setVisibleToAll(true)
             .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(new Timestamp(92900892))
             .setMemberModification(members -> ImmutableSet.of(new Account.Id(1), new Account.Id(2)))
-            .setSubgroupModification(
-                subgroups -> ImmutableSet.of(new AccountGroup.UUID("subgroup")))
+            .setSubgroupModification(subgroups -> ImmutableSet.of(AccountGroup.uuid("subgroup")))
             .build();
 
     Optional<InternalGroup> createdGroup = createGroup(groupCreation, groupUpdate);
@@ -791,13 +759,12 @@ public class GroupConfigTest extends GerritBaseTests {
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
             .setDescription("A test group")
-            .setOwnerGroupUUID(new AccountGroup.UUID("another owner"))
+            .setOwnerGroupUUID(AccountGroup.uuid("another owner"))
             .setVisibleToAll(true)
             .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(new Timestamp(92900892))
             .setMemberModification(members -> ImmutableSet.of(new Account.Id(1), new Account.Id(2)))
-            .setSubgroupModification(
-                subgroups -> ImmutableSet.of(new AccountGroup.UUID("subgroup")))
+            .setSubgroupModification(subgroups -> ImmutableSet.of(AccountGroup.uuid("subgroup")))
             .build();
 
     Optional<InternalGroup> updatedGroup = updateGroup(groupUuid, groupUpdate);
@@ -814,13 +781,12 @@ public class GroupConfigTest extends GerritBaseTests {
     InternalGroupUpdate initialGroupUpdate =
         InternalGroupUpdate.builder()
             .setDescription("A test group")
-            .setOwnerGroupUUID(new AccountGroup.UUID("another owner"))
+            .setOwnerGroupUUID(AccountGroup.uuid("another owner"))
             .setVisibleToAll(true)
             .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(new Timestamp(92900892))
             .setMemberModification(members -> ImmutableSet.of(new Account.Id(1), new Account.Id(2)))
-            .setSubgroupModification(
-                subgroups -> ImmutableSet.of(new AccountGroup.UUID("subgroup")))
+            .setSubgroupModification(subgroups -> ImmutableSet.of(AccountGroup.uuid("subgroup")))
             .build();
     createGroup(groupCreation, initialGroupUpdate);
 
@@ -961,9 +927,7 @@ public class GroupConfigTest extends GerritBaseTests {
     createArbitraryGroup(groupUuid);
 
     InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder()
-            .setOwnerGroupUUID(new AccountGroup.UUID("Another owner"))
-            .build();
+        InternalGroupUpdate.builder().setOwnerGroupUUID(AccountGroup.uuid("Another owner")).build();
     updateGroup(groupUuid, groupUpdate);
 
     RevCommit commitBeforeUpdate = getLatestCommitForGroup(groupUuid);
@@ -998,8 +962,7 @@ public class GroupConfigTest extends GerritBaseTests {
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
             .setSubgroupModification(
-                subgroups ->
-                    Sets.union(subgroups, ImmutableSet.of(new AccountGroup.UUID("subgroup"))))
+                subgroups -> Sets.union(subgroups, ImmutableSet.of(AccountGroup.uuid("subgroup"))))
             .build();
     updateGroup(groupUuid, groupUpdate);
 
@@ -1320,8 +1283,8 @@ public class GroupConfigTest extends GerritBaseTests {
 
   @Test
   public void commitMessageOfNewGroupWithSubgroupsContainsFooters() throws Exception {
-    GroupDescription.Basic group1 = createGroup(new AccountGroup.UUID("129403"), "Bots");
-    GroupDescription.Basic group2 = createGroup(new AccountGroup.UUID("8903493"), "Verifiers");
+    GroupDescription.Basic group1 = createGroup(AccountGroup.uuid("129403"), "Bots");
+    GroupDescription.Basic group2 = createGroup(AccountGroup.uuid("8903493"), "Verifiers");
     ImmutableSet<GroupDescription.Basic> groups = ImmutableSet.of(group1, group2);
 
     AuditLogFormatter auditLogFormatter =
@@ -1394,8 +1357,8 @@ public class GroupConfigTest extends GerritBaseTests {
 
   @Test
   public void commitMessageOfSubgroupAdditionContainsFooters() throws Exception {
-    GroupDescription.Basic group1 = createGroup(new AccountGroup.UUID("129403"), "Bots");
-    GroupDescription.Basic group2 = createGroup(new AccountGroup.UUID("8903493"), "Verifiers");
+    GroupDescription.Basic group1 = createGroup(AccountGroup.uuid("129403"), "Bots");
+    GroupDescription.Basic group2 = createGroup(AccountGroup.uuid("8903493"), "Verifiers");
     ImmutableSet<GroupDescription.Basic> groups = ImmutableSet.of(group1, group2);
 
     createArbitraryGroup(groupUuid);
@@ -1417,8 +1380,8 @@ public class GroupConfigTest extends GerritBaseTests {
 
   @Test
   public void commitMessageOfSubgroupRemovalContainsFooters() throws Exception {
-    GroupDescription.Basic group1 = createGroup(new AccountGroup.UUID("129403"), "Bots");
-    GroupDescription.Basic group2 = createGroup(new AccountGroup.UUID("8903493"), "Verifiers");
+    GroupDescription.Basic group1 = createGroup(AccountGroup.uuid("129403"), "Bots");
+    GroupDescription.Basic group2 = createGroup(AccountGroup.uuid("8903493"), "Verifiers");
     ImmutableSet<GroupDescription.Basic> groups = ImmutableSet.of(group1, group2);
 
     createArbitraryGroup(groupUuid);
@@ -1466,8 +1429,8 @@ public class GroupConfigTest extends GerritBaseTests {
     Account account13 = createAccount(new Account.Id(13), "John");
     Account account7 = createAccount(new Account.Id(7), "Jane");
     ImmutableSet<Account> accounts = ImmutableSet.of(account13, account7);
-    GroupDescription.Basic group1 = createGroup(new AccountGroup.UUID("129403"), "Bots");
-    GroupDescription.Basic group2 = createGroup(new AccountGroup.UUID("8903493"), "Verifiers");
+    GroupDescription.Basic group1 = createGroup(AccountGroup.uuid("129403"), "Bots");
+    GroupDescription.Basic group2 = createGroup(AccountGroup.uuid("8903493"), "Verifiers");
     ImmutableSet<GroupDescription.Basic> groups = ImmutableSet.of(group1, group2);
 
     createArbitraryGroup(groupUuid);

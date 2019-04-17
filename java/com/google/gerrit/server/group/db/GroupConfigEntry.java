@@ -77,7 +77,7 @@ enum GroupConfigEntry {
       // the NoteDb migration converted such groups faithfully, so we need to be able to read them
       // back here.
       name = Strings.nullToEmpty(name);
-      group.setNameKey(new AccountGroup.NameKey(name));
+      group.setNameKey(AccountGroup.nameKey(name));
     }
 
     @Override

@@ -82,7 +82,7 @@ public class ApprovalsUtil {
       PatchSet.Id psId, CurrentUser user, LabelId labelId, int value, Date when) {
     PatchSetApproval psa =
         new PatchSetApproval(
-            new PatchSetApproval.Key(psId, user.getAccountId(), labelId),
+            PatchSetApproval.key(psId, user.getAccountId(), labelId),
             Shorts.checkedCast(value),
             when);
     user.updateRealAccountId(psa::setRealAccountId);
@@ -210,7 +210,7 @@ public class ApprovalsUtil {
     for (Account.Id account : need) {
       cells.add(
           new PatchSetApproval(
-              new PatchSetApproval.Key(psId, account, labelId), (short) 0, update.getWhen()));
+              PatchSetApproval.key(psId, account, labelId), (short) 0, update.getWhen()));
       update.putReviewer(account, REVIEWER);
     }
     return Collections.unmodifiableList(cells);

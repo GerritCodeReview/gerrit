@@ -368,7 +368,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   public void serializeApprovals() throws Exception {
     PatchSetApproval a1 =
         new PatchSetApproval(
-            new PatchSetApproval.Key(
+            PatchSetApproval.key(
                 new PatchSet.Id(ID, 1), new Account.Id(2001), new LabelId("Code-Review")),
             (short) 1,
             new Timestamp(1212L));
@@ -377,7 +377,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
 
     PatchSetApproval a2 =
         new PatchSetApproval(
-            new PatchSetApproval.Key(
+            PatchSetApproval.key(
                 new PatchSet.Id(ID, 1), new Account.Id(2002), new LabelId("Verified")),
             (short) -1,
             new Timestamp(3434L));
@@ -792,11 +792,11 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   @Test
   public void patchSetApprovalFields() throws Exception {
     assertThatSerializedClass(PatchSetApproval.Key.class)
-        .hasFields(
+        .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
                 .put("patchSetId", PatchSet.Id.class)
                 .put("accountId", Account.Id.class)
-                .put("categoryId", LabelId.class)
+                .put("labelId", LabelId.class)
                 .build());
     assertThatSerializedClass(PatchSetApproval.class)
         .hasFields(

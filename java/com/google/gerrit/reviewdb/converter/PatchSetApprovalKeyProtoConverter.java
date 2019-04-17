@@ -35,15 +35,15 @@ public enum PatchSetApprovalKeyProtoConverter
   @Override
   public Entities.PatchSetApproval_Key toProto(PatchSetApproval.Key key) {
     return Entities.PatchSetApproval_Key.newBuilder()
-        .setPatchSetId(patchSetIdConverter.toProto(key.getParentKey()))
-        .setAccountId(accountIdConverter.toProto(key.getAccountId()))
-        .setCategoryId(labelIdConverter.toProto(key.getLabelId()))
+        .setPatchSetId(patchSetIdConverter.toProto(key.patchSetId()))
+        .setAccountId(accountIdConverter.toProto(key.accountId()))
+        .setCategoryId(labelIdConverter.toProto(key.labelId()))
         .build();
   }
 
   @Override
   public PatchSetApproval.Key fromProto(Entities.PatchSetApproval_Key proto) {
-    return new PatchSetApproval.Key(
+    return PatchSetApproval.key(
         patchSetIdConverter.fromProto(proto.getPatchSetId()),
         accountIdConverter.fromProto(proto.getAccountId()),
         labelIdConverter.fromProto(proto.getCategoryId()));

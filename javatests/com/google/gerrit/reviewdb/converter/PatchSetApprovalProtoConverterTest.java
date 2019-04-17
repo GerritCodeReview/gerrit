@@ -40,7 +40,7 @@ public class PatchSetApprovalProtoConverterTest {
   public void allValuesConvertedToProto() {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
-            new PatchSetApproval.Key(
+            PatchSetApproval.key(
                 new PatchSet.Id(new Change.Id(42), 14),
                 new Account.Id(100013),
                 new LabelId("label-8")),
@@ -75,7 +75,7 @@ public class PatchSetApprovalProtoConverterTest {
   public void mandatoryValuesConvertedToProto() {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
-            new PatchSetApproval.Key(
+            PatchSetApproval.key(
                 new PatchSet.Id(new Change.Id(42), 14),
                 new Account.Id(100013),
                 new LabelId("label-8")),
@@ -106,7 +106,7 @@ public class PatchSetApprovalProtoConverterTest {
   public void allValuesConvertedToProtoAndBackAgain() {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
-            new PatchSetApproval.Key(
+            PatchSetApproval.key(
                 new PatchSet.Id(new Change.Id(42), 14),
                 new Account.Id(100013),
                 new LabelId("label-8")),
@@ -125,7 +125,7 @@ public class PatchSetApprovalProtoConverterTest {
   public void mandatoryValuesConvertedToProtoAndBackAgain() {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
-            new PatchSetApproval.Key(
+            PatchSetApproval.key(
                 new PatchSet.Id(new Change.Id(42), 14),
                 new Account.Id(100013),
                 new LabelId("label-8")),

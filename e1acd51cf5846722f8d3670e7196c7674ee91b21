@@ -46,6 +46,30 @@
       "revId": "e1acd51cf5846722f8d3670e7196c7674ee91b21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6e1f64d_c2b12fd6",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-17T03:37:20Z",
+      "side": 1,
+      "message": "Thanks for the fix.",
+      "parentUuid": "7dbd0490_4af35c83",
+      "range": {
+        "startLine": 225,
+        "startChar": 37,
+        "endLine": 225,
+        "endChar": 44
+      },
+      "revId": "e1acd51cf5846722f8d3670e7196c7674ee91b21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

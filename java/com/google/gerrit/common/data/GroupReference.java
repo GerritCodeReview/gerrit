@@ -14,6 +14,8 @@
 
 package com.google.gerrit.common.data;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
@@ -46,17 +48,27 @@ public class GroupReference implements Comparable<GroupReference> {
   /**
    * Create a group reference.
    *
-   * @param uuid UUID of the group, may be {@code null} if the group name couldn't be resolved
+   * @param uuid UUID of the group, must not be {@code null}
    * @param name the group name, must not be {@code null}
    */
-  public GroupReference(@Nullable AccountGroup.UUID uuid, String name) {
-    setUUID(uuid);
+  public GroupReference(AccountGroup.UUID uuid, String name) {
+    setUUID(requireNonNull(uuid));
+    setName(name);
+  }
+
+  /**
+   * Create a group reference where the group's name couldn't be resolved.
+   *
+   * @param name the group name, must not be {@code null}
+   */
+  public GroupReference(String name) {
+    setUUID(null);
     setName(name);
   }
 
   @Nullable
   public AccountGroup.UUID getUUID() {
-    return uuid != null ? new AccountGroup.UUID(uuid) : null;
+    return uuid != null ? AccountGroup.uuid(uuid) : null;
   }
 
   public void setUUID(@Nullable AccountGroup.UUID newUUID) {

@@ -28,8 +28,8 @@ import com.google.gerrit.server.project.ProjectConfig;
 import java.util.Arrays;
 
 public class Util {
-  public static final AccountGroup.UUID ADMIN = new AccountGroup.UUID("test.admin");
-  public static final AccountGroup.UUID DEVS = new AccountGroup.UUID("test.devs");
+  public static final AccountGroup.UUID ADMIN = AccountGroup.uuid("test.admin");
+  public static final AccountGroup.UUID DEVS = AccountGroup.uuid("test.devs");
 
   public static final LabelType codeReview() {
     return category(

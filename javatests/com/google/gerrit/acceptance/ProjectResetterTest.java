@@ -412,9 +412,9 @@ public class ProjectResetterTest extends GerritBaseTests {
 
   @Test
   public void groupEviction() throws Exception {
-    AccountGroup.UUID uuid1 = new AccountGroup.UUID("abcd1");
-    AccountGroup.UUID uuid2 = new AccountGroup.UUID("abcd2");
-    AccountGroup.UUID uuid3 = new AccountGroup.UUID("abcd3");
+    AccountGroup.UUID uuid1 = AccountGroup.uuid("abcd1");
+    AccountGroup.UUID uuid2 = AccountGroup.uuid("abcd2");
+    AccountGroup.UUID uuid3 = AccountGroup.uuid("abcd3");
     Project.NameKey allUsers = new Project.NameKey(AllUsersNameProvider.DEFAULT);
     Repository allUsersRepo = repoManager.createRepository(allUsers);
 

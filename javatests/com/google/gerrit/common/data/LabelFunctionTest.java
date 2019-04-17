@@ -97,7 +97,7 @@ public class LabelFunctionTest extends GerritBaseTests {
   }
 
   private static PatchSetApproval makeApproval(int value) {
-    Account.Id accountId = new Account.Id(10000 + value);
+    Account.Id accountId = Account.id(10000 + value);
     PatchSetApproval.Key key = makeKey(PS_ID, accountId, LABEL_ID);
     return new PatchSetApproval(key, (short) value, Date.from(Instant.now()));
   }

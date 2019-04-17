@@ -56,7 +56,7 @@ public class AbstractParserTest extends GerritBaseTests {
     Comment c =
         new Comment(
             new Comment.Key(uuid, file, 1),
-            new Account.Id(0),
+            Account.id(0),
             new Timestamp(0L),
             (short) 0,
             message,
@@ -70,7 +70,7 @@ public class AbstractParserTest extends GerritBaseTests {
     Comment c =
         new Comment(
             new Comment.Key(uuid, file, 1),
-            new Account.Id(0),
+            Account.id(0),
             new Timestamp(0L),
             (short) 0,
             message,

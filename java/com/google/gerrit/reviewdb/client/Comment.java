@@ -104,7 +104,7 @@ public class Comment {
     }
 
     public Account.Id getId() {
-      return new Account.Id(id);
+      return Account.id(id);
     }
 
     @Override

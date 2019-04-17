@@ -234,7 +234,18 @@ public class StarredChangesUtil {
     }
   }
 
-  public void unstarAll(Project.NameKey project, Change.Id changeId) throws OrmException {
+  /**
+   * Unstar the given change for all users.
+   *
+   * <p>Intended for use only when we're about to delete a change. For that reason, the change is
+   * not reindexed.
+   *
+   * @param project project containing the change.
+   * @param changeId change ID.
+   * @throws OrmException if an error occurs.
+   */
+  public void unstarAllForChangeDeletion(Project.NameKey project, Change.Id changeId)
+      throws OrmException {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       BatchRefUpdate batchUpdate = repo.getRefDatabase().newBatchUpdate();

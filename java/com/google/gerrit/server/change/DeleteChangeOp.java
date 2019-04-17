@@ -23,7 +23,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.extensions.events.ChangeDeleted;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
@@ -107,14 +106,13 @@ public class DeleteChangeOp implements BatchUpdateOp {
   }
 
   private void cleanUpReferences(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)
-      throws OrmException, NoSuchChangeException {
+      throws OrmException {
     for (PatchSet ps : patchSets) {
       accountPatchReviewStore.run(s -> s.clearReviewed(ps.getId()), OrmException.class);
     }
 
-    // Non-atomic operation on Accounts table; not much we can do to make it
-    // atomic.
-    starredChangesUtil.unstarAll(ctx.getChange().getProject(), id);
+    // Non-atomic operation on All-Users refs; not much we can do to make it atomic.
+    starredChangesUtil.unstarAllForChangeDeletion(ctx.getChange().getProject(), id);
   }
 
   @Override

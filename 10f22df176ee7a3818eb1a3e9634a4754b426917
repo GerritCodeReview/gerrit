@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1555447775 -0700\nnonce AC6AUtMK+bIDqqhGzeA0sy4HlGGXcMsm0V3s8Pchjw+hA//nM7ab92HC9WlHvDHrPoEN835mMECU\n\n0000000000000000000000000000000000000000 10f22df176ee7a3818eb1a3e9634a4754b426917 refs/for/master%r\u003dhiesel@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAly2P98VHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMh38P/0xD5ZEKRAP5EeL+jSh0bXe1Y1+K\nBZB86wm6o2uL1R7oov+uuFUXjyZUPn5EiGEOwvAUYnOr7tQwlJEaDGJo1k6yJKn/\n74DwzSvGWearzXMfK0fJsCEB3D32tFvi9l8uCQDCEBwVmp1JPWnR5rRdrWdbFycf\nmCzTlQEM3+BO4+PF0WS75Nz21ARG8QT9DuZ630xH5KV5GNRSLIg88gpE4mQt0D/A\nwK+6VENPiA6u6VvSxktb3OCxf6K82BJOtEGUT2ObZfcyzqdGkf5KWglQGL9JReH7\n8ufDCLAEI5GHbvfqixAk4LblzTkOH7BJs3XUUj7NbPXMWhi7wEJA7d/RTvZhSN5J\nriTeqRRgCZLuwwF8y+068yk4swNkDdsrSyHHiaDTZplxgngfwqtrWCMjt8FU4CKI\n3hCU3PseWnsTCQGG9Q16UeFGTQQrvMnWkLdJ09y6X+drWWs93CoqCv/fJIu1m/vq\nCCPCxJdndeNQ2TF3v/tI+cQOzuA/a++V3kUKkn3PJVXOY49P0Lsd5V2SIAQefjcC\nlfv6j15TVE0zJ2egnfunyPXRPS7/2IF/5eGkKhq1/kyraKF7Enkb0gh5nehaLSYc\njZ+P9FZgiDSI91Q6rZl9oPuvdzPkaWHE2q69+kIY4YJGJ3k6aT1lBLsy8zlgtrPr\n4cg39yytQDcJho1I\n\u003dpSyW\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "373c58a5_5e16fe50",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-04-17T07:22:53Z",
+      "side": 1,
+      "message": "nit: An Optional\u003cInteger\u003e could make this more readable: If it\u0027s present, we enforce it, if it\u0027s absent we don\u0027t.\n\nIt\u0027s a pity that TooManyUpdatesException isn\u0027t a RuntimeException, so you can\u0027t use Optional#ifpresent further down. So the gain isn\u0027t all that high.",
+      "range": {
+        "startLine": 539,
+        "startChar": 48,
+        "endLine": 539,
+        "endChar": 51
+      },
+      "revId": "10f22df176ee7a3818eb1a3e9634a4754b426917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39f44ff7_be1d96bc",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-04-17T07:22:53Z",
+      "side": 1,
+      "message": "nit:\n\nupdateCount \u003d 0;\n\n(lets you remove the else)",
+      "range": {
+        "startLine": 551,
+        "startChar": 21,
+        "endLine": 551,
+        "endChar": 22
+      },
+      "revId": "10f22df176ee7a3818eb1a3e9634a4754b426917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

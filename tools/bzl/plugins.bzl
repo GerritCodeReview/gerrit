@@ -5,6 +5,7 @@ CORE_PLUGINS = [
     "download-commands",
     "gitiles",
     "hooks",
+    "plugin-manager",
     "replication",
     "reviewnotes",
     "singleusergroup",

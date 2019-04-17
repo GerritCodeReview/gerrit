@@ -17,42 +17,31 @@ package com.google.gerrit.server.cache.serialize;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.base.Converter;
 import com.google.gerrit.testing.GerritBaseTests;
-import com.google.gwtorm.client.IntKey;
-import com.google.gwtorm.client.Key;
 import org.junit.Test;
 
-public class IntKeyCacheSerializerTest extends GerritBaseTests {
-
-  private static class MyIntKey extends IntKey<Key<?>> {
-    private static final long serialVersionUID = 1L;
-
-    private int val;
-
-    MyIntKey(int val) {
-      this.val = val;
+public class CacheSerializerTest extends GerritBaseTests {
+  @AutoValue
+  abstract static class MyAutoValue {
+    static MyAutoValue create(int val) {
+      return new AutoValue_CacheSerializerTest_MyAutoValue(val);
     }
 
-    @Override
-    public int get() {
-      return val;
-    }
-
-    @Override
-    protected void set(int newValue) {
-      this.val = newValue;
-    }
+    abstract int val();
   }
 
-  private static final IntKeyCacheSerializer<MyIntKey> SERIALIZER =
-      new IntKeyCacheSerializer<>(MyIntKey::new);
+  private static final CacheSerializer<MyAutoValue> SERIALIZER =
+      CacheSerializer.convert(
+          IntegerCacheSerializer.INSTANCE, Converter.from(MyAutoValue::val, MyAutoValue::create));
 
   @Test
   public void serialize() throws Exception {
-    MyIntKey k = new MyIntKey(1234);
-    byte[] serialized = SERIALIZER.serialize(k);
+    MyAutoValue v = MyAutoValue.create(1234);
+    byte[] serialized = SERIALIZER.serialize(v);
     assertThat(serialized).isEqualTo(new byte[] {-46, 9});
-    assertThat(SERIALIZER.deserialize(serialized).get()).isEqualTo(1234);
+    assertThat(SERIALIZER.deserialize(serialized).val()).isEqualTo(1234);
   }
 
   @Test

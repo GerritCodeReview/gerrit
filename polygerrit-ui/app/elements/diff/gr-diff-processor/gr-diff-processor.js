@@ -442,7 +442,7 @@
 
       for (const chunk of chunks) {
         // If it isn't a common chunk, append it as-is and update line numbers.
-        if (!chunk.ab) {
+        if (!chunk.ab && !chunk.common) {
           if (chunk.a) {
             leftLineNum += chunk.a.length;
           }
@@ -453,13 +453,25 @@
           continue;
         }
 
-        const numLines = chunk.ab.length;
+        if (chunk.common && chunk.a.length != chunk.b.length) {
+          throw new Error(
+            'DiffContent with common=true must always have equal length');
+        }
+        const numLines = chunk.ab ? chunk.ab.length : chunk.a.length;
         const chunkEnds = this._findChunkEndsAtKeyLocations(
             numLines, leftLineNum, rightLineNum);
         leftLineNum += numLines;
         rightLineNum += numLines;
-        result.push(...this._splitAtChunkEnds(chunk.ab, chunkEnds)
-            .map(lines => Object.assign({}, chunk, {ab: lines})));
+
+        if (chunk.ab) {
+          result.push(...this._splitAtChunkEnds(chunk.ab, chunkEnds)
+              .map(lines => Object.assign({}, chunk, {ab: lines})));
+        } else if (chunk.common) {
+          const aChunks = this._splitAtChunkEnds(chunk.a, chunkEnds);
+          const bChunks = this._splitAtChunkEnds(chunk.b, chunkEnds);
+          result.push(...aChunks.map((lines, i) =>
+              Object.assign({}, chunk, {a: lines, b: bChunks[i]})));
+        }
       }
 
       return result;

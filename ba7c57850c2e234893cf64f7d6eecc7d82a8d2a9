@@ -81,6 +81,30 @@
       "revId": "ba7c57850c2e234893cf64f7d6eecc7d82a8d2a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d0138ce_fa583da9",
+        "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-18T14:19:45Z",
+      "side": 1,
+      "message": "Ack. Let\u0027s leave this as it is for now.",
+      "parentUuid": "f890a166_a0aa796a",
+      "range": {
+        "startLine": 107,
+        "startChar": 13,
+        "endLine": 107,
+        "endChar": 63
+      },
+      "revId": "ba7c57850c2e234893cf64f7d6eecc7d82a8d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

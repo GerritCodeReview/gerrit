@@ -180,7 +180,12 @@ limitations under the License.
         /* >> character */
         content: '\00BB';
       }
-      .trailing-whitespace {
+      /* Is defined after other background-colors, such that this
+         rule wins in case of same specificity. */
+      .trailing-whitespace,
+      .content .trailing-whitespace,
+      .trailing-whitespace .intraline,
+      .content .trailing-whitespace .intraline {
         border-radius: .4em;
         background-color: var(--diff-trailing-whitespace-indicator);
       }

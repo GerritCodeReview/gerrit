@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b0eac8bc_1c080dad",
+        "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1081900
+      },
+      "writtenOn": "2019-04-18T14:31:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "771ce6a2_a2b8dc81",
+      "revId": "ba7c57850c2e234893cf64f7d6eecc7d82a8d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f42a1c60_ff84c587",
         "filename": "java/com/google/gerrit/sshd/DispatchCommand.java",
         "patchSetId": 9

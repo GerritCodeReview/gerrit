@@ -280,7 +280,6 @@ limitations under the License.
           left: {1: true},
           right: {10: true},
         };
-        const lineNums = {left: 0, right: 0};
 
         const content = [
           {
@@ -304,7 +303,7 @@ limitations under the License.
           },
         ];
         const result =
-            element._splitCommonGroupsWithComments(content, lineNums);
+            element._splitUnchangedChunksWithComments(content);
         assert.deepEqual(result, [
           {
             ab: ['Copyright (C) 2015 The Android Open Source Project'],
@@ -337,28 +336,25 @@ limitations under the License.
         ]);
       });
 
-      test('breaks-down shared chunks w/ whole-file', () => {
+      test('breaks down shared chunks w/ whole-file', () => {
         const size = 120 * 2 + 5;
-        const lineNums = {left: 0, right: 0};
         const content = [{
           ab: _.times(size, () => { return `${Math.random()}`; }),
         }];
         element.context = -1;
-        const result =
-            element._splitCommonGroupsWithComments(content, lineNums);
+        const result = element._splitLargeChunks(content);
         assert.equal(result.length, 2);
         assert.deepEqual(result[0].ab, content[0].ab.slice(0, 120));
         assert.deepEqual(result[1].ab, content[0].ab.slice(120));
       });
 
       test('does not break-down shared chunks w/ context', () => {
-        const lineNums = {left: 0, right: 0};
         const content = [{
           ab: _.times(75, () => { return `${Math.random()}`; }),
         }];
         element.context = 4;
         const result =
-            element._splitCommonGroupsWithComments(content, lineNums);
+            element._splitUnchangedChunksWithComments(content);
         assert.deepEqual(result, content);
       });
 

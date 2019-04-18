@@ -15,16 +15,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <script>
-  // This must be set prior to loading Polymer for the first time.
-  if (localStorage.getItem('USE_SHADOW_DOM') === 'true') {
-    window.Polymer = {
-      dom: 'shadow',
-      passiveTouchGestures: true,
-    };
-  } else if (!window.Polymer) {
-    window.Polymer = {
-      passiveTouchGestures: true,
-    };
+  if (!window.POLYMER2) {
+    // This must be set prior to loading Polymer for the first time.
+    if (localStorage.getItem('USE_SHADOW_DOM') === 'true') {
+      window.Polymer = {
+        dom: 'shadow',
+        passiveTouchGestures: true,
+      };
+    } else if (!window.Polymer) {
+      window.Polymer = {
+        passiveTouchGestures: true,
+      };
+    }
   }
   // Needed for JSCompiler to understand it's global.
   // eslint-disable-next-line no-unused-vars, prefer-const

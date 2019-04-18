@@ -20,9 +20,10 @@
   // Eagerly render Polymer components when backgrounded. (Skips
   // requestAnimationFrame.)
   // @see https://github.com/Polymer/polymer/issues/3851
-  // TODO: Reassess after Polymer 2.0 upgrade.
   // @see Issue 4699
-  Polymer.RenderStatus._makeReady();
+  if (!window.POLYMER2) {
+    Polymer.RenderStatus._makeReady();
+  }
 
   Polymer({
     is: 'gr-app',

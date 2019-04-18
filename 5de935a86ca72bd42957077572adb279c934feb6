@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01bfd928_4efc5ba2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-18T16:17:15Z",
+      "side": 1,
+      "message": "27, if to align with latest plugins\u0027 version that is currently in use.",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "5de935a86ca72bd42957077572adb279c934feb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a347b24_9a988e9f",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-18T16:17:15Z",
+      "side": 1,
+      "message": "27, as per related comment if applied.",
+      "range": {
+        "startLine": 1113,
+        "startChar": 43,
+        "endLine": 1113,
+        "endChar": 45
+      },
+      "revId": "5de935a86ca72bd42957077572adb279c934feb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

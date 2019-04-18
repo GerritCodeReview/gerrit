@@ -22,6 +22,30 @@
       "revId": "13ec7fca9275d97a53950f1cd730952819605ef2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa3d8ae7_5f977e58",
+        "filename": "prologtests/examples/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1032487
+      },
+      "writtenOn": "2019-04-18T21:20:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "479684cf_55be2205",
+      "range": {
+        "startLine": 15,
+        "startChar": 39,
+        "endLine": 15,
+        "endChar": 40
+      },
+      "revId": "13ec7fca9275d97a53950f1cd730952819605ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

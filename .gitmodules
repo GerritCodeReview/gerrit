@@ -33,6 +33,11 @@
 	url = ../plugins/replication
 	branch = .
 
+[submodule "plugins/reviewers"]
+        path = plugins/reviewers
+        url = ../plugins/reviewers
+        branch = .
+
 [submodule "plugins/reviewnotes"]
 	path = plugins/reviewnotes
 	url = ../plugins/reviewnotes

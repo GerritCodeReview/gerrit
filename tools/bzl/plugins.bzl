@@ -6,6 +6,7 @@ CORE_PLUGINS = [
     "gitiles",
     "hooks",
     "replication",
+    "reviewers",
     "reviewnotes",
     "singleusergroup",
     "webhooks",

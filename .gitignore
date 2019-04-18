@@ -42,6 +42,7 @@
 !/plugins/gitiles
 !/plugins/hooks
 !/plugins/replication
+!/plugins/reviewers
 !/plugins/reviewnotes
 !/plugins/singleusergroup
 !/plugins/webhooks

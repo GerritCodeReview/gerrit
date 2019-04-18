@@ -125,6 +125,18 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/replication/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[reviewers]]
+=== reviewers
+
+A plugin that allows adding default reviewers to a change.
+
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/reviewers[
+Project] |
+link:https://gerrit.googlesource.com/plugins/reviewers/+doc/master/src/main/resources/Documentation/about.md[
+Documentation] |
+link:https://gerrit.googlesource.com/plugins/reviewers/+doc/master/src/main/resources/Documentation/config.md[
+Configuration]
+
 [[reviewnotes]]
 === reviewnotes
 
@@ -641,18 +653,6 @@ link:https://gerrit-review.googlesource.com/admin/repos/plugins/review-strategy[
 Project] |
 link:https://gerrit.googlesource.com/plugins/review-strategy/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
-
-[[reviewers]]
-=== reviewers
-
-A plugin that allows adding default reviewers to a change.
-
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/reviewers[
-Project] |
-link:https://gerrit.googlesource.com/plugins/reviewers/+doc/master/src/main/resources/Documentation/about.md[
-Documentation] |
-link:https://gerrit.googlesource.com/plugins/reviewers/+doc/master/src/main/resources/Documentation/config.md[
-Configuration]
 
 [[reviewers-by-blame]]
 === reviewers-by-blame

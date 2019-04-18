@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55a4f3f3_ec4eb0ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-18T05:46:33Z",
+      "side": 1,
+      "message": "Wrong link: it probably should have been https://git.eclipse.org/r/#/c/134179/",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 44
+      },
+      "revId": "fd0c39542a72d56c01601d697a05d474a712e774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

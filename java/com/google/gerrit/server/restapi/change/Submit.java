@@ -331,7 +331,7 @@ public class Submit
     String topic = change.getTopic();
     int topicSize = 0;
     if (!Strings.isNullOrEmpty(topic)) {
-      topicSize = queryProvider.get().byTopicOpen(topic).size();
+      topicSize = queryProvider.get().noFields().byTopicOpen(topic).size();
     }
     boolean treatWithTopic = submitWholeTopic && !Strings.isNullOrEmpty(topic) && topicSize > 1;
 

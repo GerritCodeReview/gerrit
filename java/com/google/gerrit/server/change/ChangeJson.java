@@ -380,7 +380,7 @@ public class ChangeJson {
         | PermissionBackendException
         | RuntimeException e) {
       if (!has(CHECK)) {
-        Throwables.throwIfInstanceOf(e, StorageException.class);
+        Throwables.throwIfUnchecked(e);
         throw new StorageException(e);
       }
       return checkOnly(cd, changeInfoSupplier);

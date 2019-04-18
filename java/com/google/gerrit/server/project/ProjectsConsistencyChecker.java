@@ -313,7 +313,6 @@ public class ProjectsConsistencyChecker {
       return autoCloseableChangesByBranch;
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
-      Throwables.throwIfInstanceOf(e, StorageException.class);
       throw new StorageException(e);
     }
   }

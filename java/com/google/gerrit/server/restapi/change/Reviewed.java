@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -43,8 +42,7 @@ public class Reviewed {
                   s.markReviewed(
                       resource.getPatchKey().getParentKey(),
                       resource.getAccountId(),
-                      resource.getPatchKey().getFileName()),
-              StorageException.class);
+                      resource.getPatchKey().getFileName()));
       return reviewFlagUpdated ? Response.created("") : Response.ok("");
     }
   }
@@ -65,8 +63,7 @@ public class Reviewed {
               s.clearReviewed(
                   resource.getPatchKey().getParentKey(),
                   resource.getAccountId(),
-                  resource.getPatchKey().getFileName()),
-          StorageException.class);
+                  resource.getPatchKey().getFileName()));
       return Response.none();
     }
   }

@@ -674,7 +674,7 @@ public class ConsistencyChecker {
     @Override
     public boolean updateChange(ChangeContext ctx) throws PatchSetInfoNotAvailableException {
       // Delete dangling key references.
-      accountPatchReviewStore.run(s -> s.clearReviewed(psId), StorageException.class);
+      accountPatchReviewStore.run(s -> s.clearReviewed(psId));
 
       // For NoteDb setting the state to deleted is sufficient to filter everything out.
       ctx.getUpdate(psId).setPatchSetState(PatchSetState.DELETED);

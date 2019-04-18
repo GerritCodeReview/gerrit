@@ -1842,7 +1842,7 @@ class ReceiveCommits {
     if (magicBranch.deprecatedTopicSeen) {
       messages.add(
           new ValidationMessage(
-              "WARNING: deprecated topic syntax. Use %topic=TOPIC instead", false));
+              "WARNING: deprecated topic syntax. Use -o topic=TOPIC instead", false));
       logger.atInfo().log("deprecated topic push seen for project %s", project.getName());
     }
 

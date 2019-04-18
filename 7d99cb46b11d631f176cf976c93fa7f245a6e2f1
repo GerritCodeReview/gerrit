@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "6cf22738_5fa5fc76",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-18T14:58:07Z",
+      "side": 1,
+      "message": "My latest reply/comment above might have went unnoticed. -Reviving it now, just in case it did.",
+      "parentUuid": "4bbf685d_e86b11d5",
+      "range": {
+        "startLine": 360,
+        "startChar": 20,
+        "endLine": 360,
+        "endChar": 41
+      },
+      "revId": "7d99cb46b11d631f176cf976c93fa7f245a6e2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8746bac_12180f21",
         "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 1
@@ -227,6 +251,30 @@
       "side": 1,
       "message": "Yes, that\u0027s what I meant. I think you have a typo right above, though. The first \"PREFIX\" occurrence should read \"EXACT\" instead.\n\nHowever, I checked the callers of this very method here, and I found none that are clearly passing non-EXACT or PREFIX as field type, AFAIK. You can double-check that assumption though, before deciding on applying my original comment or not.",
       "parentUuid": "6b75bb7d_0975ea98",
+      "range": {
+        "startLine": 438,
+        "startChar": 16,
+        "endLine": 438,
+        "endChar": 31
+      },
+      "revId": "7d99cb46b11d631f176cf976c93fa7f245a6e2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90cd130d_8636a514",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-18T14:58:07Z",
+      "side": 1,
+      "message": "(Same for this other one.)",
+      "parentUuid": "28c99b15_bdde06f1",
       "range": {
         "startLine": 438,
         "startChar": 16,

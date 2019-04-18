@@ -829,15 +829,15 @@ maven_jar(
 # elasticsearch-rest-client explicitly depends on this version
 maven_jar(
     name = "httpasyncclient",
-    artifact = "org.apache.httpcomponents:httpasyncclient:4.1.2",
-    sha1 = "95aa3e6fb520191a0970a73cf09f62948ee614be",
+    artifact = "org.apache.httpcomponents:httpasyncclient:4.1.4",
+    sha1 = "f3a3240681faae3fa46b573a4c7e50cec9db0d86",
 )
 
 # elasticsearch-rest-client explicitly depends on this version
 maven_jar(
     name = "httpcore-nio",
-    artifact = "org.apache.httpcomponents:httpcore-nio:4.4.5",
-    sha1 = "f4be009e7505f6ceddf21e7960c759f413f15056",
+    artifact = "org.apache.httpcomponents:httpcore-nio:4.4.11",
+    sha1 = "7d0a97d01d39cff9aa3e6db81f21fddb2435f4e6",
 )
 
 # Test-only dependencies below.
@@ -1059,8 +1059,8 @@ maven_jar(
 # and httpasyncclient as necessary.
 maven_jar(
     name = "elasticsearch-rest-client",
-    artifact = "org.elasticsearch.client:elasticsearch-rest-client:6.7.1",
-    sha1 = "a00aa6cc593a464e4a890d1a226ded5c625659ab",
+    artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.0.0",
+    sha1 = "121d12f1c71f318be1a654e8a956e38d5b68e98a",
 )
 
 JACKSON_VERSION = "2.9.8"

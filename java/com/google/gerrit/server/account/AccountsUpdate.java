@@ -427,7 +427,6 @@ public class AccountsUpdate {
       Throwables.throwIfUnchecked(e);
       Throwables.throwIfInstanceOf(e, IOException.class);
       Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
-      Throwables.throwIfInstanceOf(e, StorageException.class);
       throw new StorageException(e);
     }
   }

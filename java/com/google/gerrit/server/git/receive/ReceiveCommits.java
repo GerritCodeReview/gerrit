@@ -3252,7 +3252,6 @@ class ReceiveCommits {
           ActionType.INDEX_QUERY, action, StorageException.class::isInstance);
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
-      Throwables.throwIfInstanceOf(e, StorageException.class);
       throw new StorageException(e);
     }
   }

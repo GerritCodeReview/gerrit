@@ -19,7 +19,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -232,9 +231,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       Account.Id userId = user.getAccountId();
       PatchSet patchSetId = resource.getPatchSet();
       Optional<PatchSetWithReviewedFiles> o;
-      o =
-          accountPatchReviewStore.call(
-              s -> s.findReviewed(patchSetId.getId(), userId), StorageException.class);
+      o = accountPatchReviewStore.call(s -> s.findReviewed(patchSetId.getId(), userId));
 
       if (o.isPresent()) {
         PatchSetWithReviewedFiles res = o.get();
@@ -317,8 +314,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         }
 
         accountPatchReviewStore.run(
-            s -> s.markReviewed(resource.getPatchSet().getId(), userId, pathList),
-            StorageException.class);
+            s -> s.markReviewed(resource.getPatchSet().getId(), userId, pathList));
         return pathList;
       }
     }

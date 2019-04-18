@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -108,7 +107,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
   private void cleanUpReferences(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)
       throws NoSuchChangeException {
     for (PatchSet ps : patchSets) {
-      accountPatchReviewStore.run(s -> s.clearReviewed(ps.getId()), StorageException.class);
+      accountPatchReviewStore.run(s -> s.clearReviewed(ps.getId()));
     }
 
     // Non-atomic operation on Accounts table; not much we can do to make it

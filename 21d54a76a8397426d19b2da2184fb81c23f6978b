@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a63103c_e50f57ae",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-18T11:33:51Z",
+      "side": 1,
+      "message": "Does this mean that commons-compress is also not used at Google?\n\nOtherwise, how does it work that its transitive dependency is not used?",
+      "revId": "21d54a76a8397426d19b2da2184fb81c23f6978b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

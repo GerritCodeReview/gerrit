@@ -437,8 +437,8 @@
      */
     _splitUnchangedChunksWithComments(chunks) {
       const result = [];
-      let leftLineNum = 0;
-      let rightLineNum = 0;
+      let leftLineNum = 1;
+      let rightLineNum = 1;
 
       for (const chunk of chunks) {
         // If it isn't a common chunk, append it as-is and update line numbers.
@@ -453,37 +453,52 @@
           continue;
         }
 
-        let currentChunk = {ab: []};
+        const numLines = chunk.ab.length;
+        const chunkEnds = this._findChunkEndsAtKeyLocations(
+            numLines, leftLineNum, rightLineNum);
+        leftLineNum += numLines;
+        rightLineNum += numLines;
+        result.push(...this._splitAtChunkEnds(chunk.ab, chunkEnds)
+            .map(lines => Object.assign({}, chunk, {ab: lines})));
+      }
 
-        // For each line in the common group.
-        for (const line of chunk.ab) {
-          leftLineNum++;
-          rightLineNum++;
+      return result;
+    },
 
-          // If this line should not be collapsed.
-          if (this.keyLocations[DiffSide.LEFT][leftLineNum] ||
-              this.keyLocations[DiffSide.RIGHT][rightLineNum]) {
-            // If any lines have been accumulated into the chunk leading up to
-            // this non-collapse line, then add them as a chunk and start a new
-            // one.
-            if (currentChunk.ab && currentChunk.ab.length > 0) {
-              result.push(currentChunk);
-              currentChunk = {ab: []};
-            }
-
-            // Add the non-collapse line as its own chunk.
-            result.push({ab: [line]});
-          } else {
-            // Append the current line to the current chunk.
-            currentChunk.ab.push(line);
+    _findChunkEndsAtKeyLocations(numLines, leftOffset, rightOffset) {
+      const result = [];
+      let lastChunkEnd = 0;
+      for (let i=0; i<numLines; i++) {
+        // If this line should not be collapsed.
+        if (this.keyLocations[DiffSide.LEFT][leftOffset + i] ||
+            this.keyLocations[DiffSide.RIGHT][rightOffset + i]) {
+          // If any lines have been accumulated into the chunk leading up to
+          // this non-collapse line, then add them as a chunk and start a new
+          // one.
+          if (i > lastChunkEnd) {
+            result.push(i);
+            lastChunkEnd = i;
           }
-        }
 
-        if (currentChunk.ab && currentChunk.ab.length > 0) {
-          result.push(currentChunk);
+          // Add the non-collapse line as its own chunk.
+          result.push(i + 1);
         }
       }
 
+      if (numLines > lastChunkEnd) {
+        result.push(numLines);
+      }
+
+      return result;
+    },
+
+    _splitAtChunkEnds(lines, chunkEnds) {
+      const result = [];
+      let lastChunkEnd = 0;
+      for (const chunkEnd of chunkEnds) {
+        result.push(lines.slice(lastChunkEnd, chunkEnd));
+        lastChunkEnd = chunkEnd;
+      }
       return result;
     },
 

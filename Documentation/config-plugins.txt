@@ -143,6 +143,18 @@ This plugin provides a group per user. This is useful to assign access
 rights directly to a single user, since in Gerrit access rights can
 only be assigned to groups.
 
+[[webhooks]]
+=== webhooks
+
+This plugin allows to propagate Gerrit events to remote http endpoints.
+
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/webhooks[
+Project] |
+link:https://gerrit.googlesource.com/plugins/webhooks/+doc/master/src/main/resources/Documentation/about.md[
+Documentation] |
+link:https://gerrit.googlesource.com/plugins/webhooks/+doc/master/src/main/resources/Documentation/config.md[
+Configuration]
+
 [[other-plugins]]
 == Other Plugins
 

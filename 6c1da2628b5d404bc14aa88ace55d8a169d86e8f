@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f6e35217_937e8984",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-18T10:17:12Z",
+      "side": 1,
+      "message": "This will conflict with the exceptions series of changes.",
+      "revId": "6c1da2628b5d404bc14aa88ace55d8a169d86e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "64d20937_7ac73616",
         "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 1

@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import java.sql.Timestamp;
 
 public class AgePredicate extends TimestampRangeChangePredicate {
@@ -46,7 +45,7 @@ public class AgePredicate extends TimestampRangeChangePredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) {
     Change change = object.change();
     return change != null && change.getLastUpdatedOn().getTime() <= cut;
   }

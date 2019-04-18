@@ -16,6 +16,7 @@ package com.google.gerrit.server.edit;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -38,7 +39,6 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -146,7 +146,6 @@ public class ChangeEditUtil {
    * @param notify Notify handling that defines to whom email notifications should be sent after the
    *     change edit is published.
    * @throws IOException
-   * @throws OrmException
    * @throws UpdateException
    * @throws RestApiException
    */
@@ -156,7 +155,7 @@ public class ChangeEditUtil {
       CurrentUser user,
       ChangeEdit edit,
       NotifyResolver.Result notify)
-      throws IOException, OrmException, RestApiException, UpdateException {
+      throws IOException, RestApiException, UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
         ObjectInserter oi = repo.newObjectInserter();
@@ -210,9 +209,8 @@ public class ChangeEditUtil {
    *
    * @param edit change edit to delete
    * @throws IOException
-   * @throws OrmException
    */
-  public void delete(ChangeEdit edit) throws IOException, OrmException {
+  public void delete(ChangeEdit edit) throws IOException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject())) {
       deleteRef(repo, edit);
@@ -226,7 +224,7 @@ public class ChangeEditUtil {
       checkArgument(pos > 0, "invalid edit ref: %s", ref.getName());
       String psId = ref.getName().substring(pos + 1);
       return psUtil.get(notes, new PatchSet.Id(notes.getChange().getId(), Integer.parseInt(psId)));
-    } catch (OrmException | NumberFormatException e) {
+    } catch (StorageException | NumberFormatException e) {
       throw new IOException(e);
     }
   }

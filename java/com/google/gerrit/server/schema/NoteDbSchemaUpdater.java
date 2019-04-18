@@ -20,12 +20,12 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.Sequences;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.stream.IntStream;
@@ -77,7 +77,7 @@ public class NoteDbSchemaUpdater {
     this.schemaVersions = schemaVersions;
   }
 
-  public void update(UpdateUI ui) throws OrmException {
+  public void update(UpdateUI ui) {
     ensureSchemaCreated();
 
     int currentVersion = versionManager.read();
@@ -94,17 +94,17 @@ public class NoteDbSchemaUpdater {
         NoteDbSchemaVersions.get(schemaVersions, nextVersion).upgrade(args, ui);
         versionManager.increment(nextVersion - 1);
       } catch (Exception e) {
-        throw new OrmException(
+        throw new StorageException(
             String.format("Failed to upgrade to schema version %d", nextVersion), e);
       }
     }
   }
 
-  private void ensureSchemaCreated() throws OrmException {
+  private void ensureSchemaCreated() {
     try {
       schemaCreator.ensureCreated();
     } catch (IOException | ConfigInvalidException e) {
-      throw new OrmException("Cannot initialize Gerrit site");
+      throw new StorageException("Cannot initialize Gerrit site");
     }
   }
 
@@ -114,7 +114,7 @@ public class NoteDbSchemaUpdater {
     NOTE_DB
   }
 
-  private void checkNoteDbConfigFor216() throws OrmException {
+  private void checkNoteDbConfigFor216() {
     // Check that the NoteDb migration config matches what we expect from a site that both:
     // * Completed the change migration to NoteDB.
     // * Ran schema upgrades from a 2.16 final release.
@@ -125,7 +125,7 @@ public class NoteDbSchemaUpdater {
                 "noteDb", "changes", "primaryStorage", PrimaryStorageFor216Compatibility.REVIEW_DB)
             != PrimaryStorageFor216Compatibility.NOTE_DB
         || !cfg.getBoolean("noteDb", "changes", "disableReviewDb", false)) {
-      throw new OrmException(
+      throw new StorageException(
           "You appear to be upgrading from a 2.x site, but the NoteDb change migration was"
               + " not completed. See documentation:\n"
               + "https://gerrit-review.googlesource.com/Documentation/note-db.html#migration");
@@ -149,24 +149,24 @@ public class NoteDbSchemaUpdater {
     //    this and get 2.16 running rather than abandoning 2.16 and jumping to 3.0 at this point.
     try (Repository allUsers = repoManager.openRepository(allUsersName)) {
       if (allUsers.exactRef(RefNames.REFS_SEQUENCES + Sequences.NAME_GROUPS) == null) {
-        throw new OrmException(
+        throw new StorageException(
             "You appear to be upgrading to 3.x from a version prior to 2.16; you must upgrade to"
                 + " 2.16.x first");
       }
     } catch (IOException e) {
-      throw new OrmException("Failed to check NoteDb migration state", e);
+      throw new StorageException("Failed to check NoteDb migration state", e);
     }
   }
 
   @VisibleForTesting
   static ImmutableList<Integer> requiredUpgrades(
-      int currentVersion, ImmutableSortedSet<Integer> allVersions) throws OrmException {
+      int currentVersion, ImmutableSortedSet<Integer> allVersions) {
     int firstVersion = allVersions.first();
     int latestVersion = allVersions.last();
     if (currentVersion == latestVersion) {
       return ImmutableList.of();
     } else if (currentVersion > latestVersion) {
-      throw new OrmException(
+      throw new StorageException(
           String.format(
               "Cannot downgrade NoteDb schema from version %d to %d",
               currentVersion, latestVersion));
@@ -178,7 +178,7 @@ public class NoteDbSchemaUpdater {
       firstUpgradeVersion = firstVersion;
     } else {
       if (currentVersion < firstVersion - 1) {
-        throw new OrmException(
+        throw new StorageException(
             String.format(
                 "Cannot skip NoteDb schema from version %d to %d", currentVersion, firstVersion));
       }

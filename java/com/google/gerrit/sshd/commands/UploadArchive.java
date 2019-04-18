@@ -29,7 +29,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.change.AllowedFormats;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.sshd.AbstractGitCommand;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -165,7 +164,7 @@ public class UploadArchive extends AbstractGitCommand {
   }
 
   @Override
-  protected void runImpl() throws IOException, OrmException, PermissionBackendException, Failure {
+  protected void runImpl() throws IOException, PermissionBackendException, Failure {
     PacketLineOut packetOut = new PacketLineOut(out);
     packetOut.setFlushOnEnd(true);
     packetOut.writeString("ACK");
@@ -245,8 +244,7 @@ public class UploadArchive extends AbstractGitCommand {
     return Collections.emptyMap();
   }
 
-  private boolean canRead(ObjectId revId)
-      throws IOException, OrmException, PermissionBackendException {
+  private boolean canRead(ObjectId revId) throws IOException, PermissionBackendException {
     ProjectState projectState = projectCache.get(projectName);
     requireNonNull(projectState, () -> String.format("Failed to load project %s", projectName));
 

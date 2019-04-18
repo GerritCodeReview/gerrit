@@ -19,6 +19,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.client.ListGroupsOption;
@@ -54,8 +55,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -125,8 +124,8 @@ public class CreateGroup
   @Override
   public GroupInfo apply(TopLevelResource resource, IdString id, GroupInput input)
       throws AuthException, BadRequestException, UnprocessableEntityException,
-          ResourceConflictException, OrmException, IOException, ConfigInvalidException,
-          ResourceNotFoundException, PermissionBackendException {
+          ResourceConflictException, IOException, ConfigInvalidException, ResourceNotFoundException,
+          PermissionBackendException {
     String name = id.get();
     if (input == null) {
       input = new GroupInput();
@@ -178,7 +177,7 @@ public class CreateGroup
   }
 
   private InternalGroup createGroup(CreateGroupArgs createGroupArgs)
-      throws OrmException, ResourceConflictException, IOException, ConfigInvalidException {
+      throws ResourceConflictException, IOException, ConfigInvalidException {
 
     String nameLower = createGroupArgs.getGroupName().toLowerCase(Locale.US);
 
@@ -218,7 +217,7 @@ public class CreateGroup
         members -> ImmutableSet.copyOf(createGroupArgs.initialMembers));
     try {
       return groupsUpdateProvider.get().createGroup(groupCreation, groupUpdateBuilder.build());
-    } catch (OrmDuplicateKeyException e) {
+    } catch (DuplicateKeyException e) {
       throw new ResourceConflictException(
           "group '" + createGroupArgs.getGroupName() + "' already exists");
     }

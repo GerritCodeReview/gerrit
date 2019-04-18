@@ -29,7 +29,6 @@ import com.google.gerrit.server.restapi.change.Submit;
 import com.google.gerrit.server.submit.ChangeSet;
 import com.google.gerrit.server.submit.MergeSuperSet;
 import com.google.gerrit.testing.ConfigSuite;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -305,7 +304,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
   }
 
   private void assertChangeSetMergeable(ChangeData change, boolean expected)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException, OrmException,
+      throws MissingObjectException, IncorrectObjectTypeException, IOException,
           PermissionBackendException {
     ChangeSet cs = mergeSuperSet.get().completeChangeSet(change.change(), user(admin));
     assertThat(submit.unmergeableChanges(cs).isEmpty()).isEqualTo(expected);

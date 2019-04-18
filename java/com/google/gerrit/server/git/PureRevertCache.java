@@ -30,7 +30,6 @@ import com.google.gerrit.server.cache.serialize.ProtobufSerializer;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -87,11 +86,9 @@ public class PureRevertCache {
    *
    * @return {@code true} if {@code claimedRevert} is a pure (clean) revert.
    * @throws IOException if there was a problem with the storage layer
-   * @throws OrmException if there was a problem with the storage layer
    * @throws BadRequestException if there is a problem with the provided {@link ChangeNotes}
    */
-  public boolean isPureRevert(ChangeNotes claimedRevert)
-      throws OrmException, IOException, BadRequestException {
+  public boolean isPureRevert(ChangeNotes claimedRevert) throws IOException, BadRequestException {
     if (claimedRevert.getChange().getRevertOf() == null) {
       throw new BadRequestException("revertOf not set");
     }

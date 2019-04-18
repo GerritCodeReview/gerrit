@@ -4,10 +4,10 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
-        "//java/com/google/gwtorm",
         "//lib:guava",
         "//lib/bouncycastle:bcpg-neverlink",
         "//lib/bouncycastle:bcprov-neverlink",

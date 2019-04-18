@@ -56,7 +56,6 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -110,7 +109,7 @@ public class DeleteDraftComments
   @Override
   public ImmutableList<DeletedDraftCommentInfo> apply(
       AccountResource rsrc, DeleteDraftCommentsInput input)
-      throws RestApiException, OrmException, UpdateException {
+      throws RestApiException, UpdateException {
     CurrentUser user = userProvider.get();
     if (!user.isIdentifiedUser()) {
       throw new AuthException("Authentication required");
@@ -176,7 +175,7 @@ public class DeleteDraftComments
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, PatchListNotAvailableException, PermissionBackendException {
+        throws PatchListNotAvailableException, PermissionBackendException {
       ImmutableList.Builder<CommentInfo> comments = ImmutableList.builder();
       boolean dirty = false;
       for (Comment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), accountId)) {

@@ -16,7 +16,6 @@ package com.google.gerrit.index.query;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -82,7 +81,7 @@ public class AndPredicate<T> extends Predicate<T> implements Matchable<T> {
   }
 
   @Override
-  public boolean match(T object) throws OrmException {
+  public boolean match(T object) {
     for (Predicate<T> c : children) {
       checkState(
           c.isMatchable(),

@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import java.util.List;
 import java.util.Optional;
@@ -93,8 +92,7 @@ public enum CommitMergeStatus {
       @Nullable CurrentUser caller,
       Provider<InternalChangeQuery> queryProvider,
       String commit,
-      String otherCommit)
-      throws OrmException {
+      String otherCommit) {
     List<ChangeData> changes = queryProvider.get().enforceVisibility(true).byCommit(otherCommit);
 
     if (changes.isEmpty()) {

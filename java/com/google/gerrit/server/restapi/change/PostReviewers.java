@@ -32,7 +32,6 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestCollectionModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -62,8 +61,8 @@ public class PostReviewers
   @Override
   protected AddReviewerResult applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, AddReviewerInput input)
-      throws IOException, OrmException, RestApiException, UpdateException,
-          PermissionBackendException, ConfigInvalidException {
+      throws IOException, RestApiException, UpdateException, PermissionBackendException,
+          ConfigInvalidException {
     if (input.reviewer == null) {
       throw new BadRequestException("missing reviewer field");
     }
@@ -86,7 +85,7 @@ public class PostReviewers
   }
 
   private NotifyResolver.Result resolveNotify(ChangeResource rsrc, AddReviewerInput input)
-      throws BadRequestException, OrmException, ConfigInvalidException, IOException {
+      throws BadRequestException, ConfigInvalidException, IOException {
     NotifyHandling notifyHandling = input.notify;
     if (notifyHandling == null) {
       notifyHandling =

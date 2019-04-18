@@ -25,7 +25,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
@@ -100,25 +99,25 @@ public class Sequences {
             Field.ofBoolean("multiple"));
   }
 
-  public int nextAccountId() throws OrmException {
+  public int nextAccountId() {
     try (Timer2.Context timer = nextIdLatency.start(SequenceType.ACCOUNTS, false)) {
       return accountSeq.next();
     }
   }
 
-  public int nextChangeId() throws OrmException {
+  public int nextChangeId() {
     try (Timer2.Context timer = nextIdLatency.start(SequenceType.CHANGES, false)) {
       return changeSeq.next();
     }
   }
 
-  public ImmutableList<Integer> nextChangeIds(int count) throws OrmException {
+  public ImmutableList<Integer> nextChangeIds(int count) {
     try (Timer2.Context timer = nextIdLatency.start(SequenceType.CHANGES, count > 1)) {
       return changeSeq.next(count);
     }
   }
 
-  public int nextGroupId() throws OrmException {
+  public int nextGroupId() {
     try (Timer2.Context timer = nextIdLatency.start(SequenceType.GROUPS, false)) {
       return groupSeq.next();
     }

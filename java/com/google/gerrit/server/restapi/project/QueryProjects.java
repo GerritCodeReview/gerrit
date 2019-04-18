@@ -29,7 +29,6 @@ import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.query.project.ProjectQueryBuilder;
 import com.google.gerrit.server.query.project.ProjectQueryProcessor;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,12 +87,11 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
 
   @Override
   public List<ProjectInfo> apply(TopLevelResource resource)
-      throws BadRequestException, MethodNotAllowedException, OrmException {
+      throws BadRequestException, MethodNotAllowedException {
     return apply();
   }
 
-  public List<ProjectInfo> apply()
-      throws BadRequestException, MethodNotAllowedException, OrmException {
+  public List<ProjectInfo> apply() throws BadRequestException, MethodNotAllowedException {
     if (Strings.isNullOrEmpty(query)) {
       throw new BadRequestException("missing query field");
     }

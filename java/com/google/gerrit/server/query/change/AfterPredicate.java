@@ -16,7 +16,6 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 import java.util.Date;
 
 public class AfterPredicate extends TimestampRangeChangePredicate {
@@ -38,7 +37,7 @@ public class AfterPredicate extends TimestampRangeChangePredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) {
     return cd.change().getLastUpdatedOn().getTime() >= cut.getTime();
   }
 }

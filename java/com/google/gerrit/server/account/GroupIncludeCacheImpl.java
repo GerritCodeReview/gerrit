@@ -30,7 +30,6 @@ import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -152,7 +151,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
 
     @Override
-    public ImmutableSet<AccountGroup.UUID> load(Account.Id memberId) throws OrmException {
+    public ImmutableSet<AccountGroup.UUID> load(Account.Id memberId) {
       try (TraceTimer timer = TraceContext.newTimer("Loading groups with member %s", memberId)) {
         return groupQueryProvider.get().byMember(memberId).stream()
             .map(InternalGroup::getGroupUUID)
@@ -171,7 +170,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
 
     @Override
-    public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) throws OrmException {
+    public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) {
       try (TraceTimer timer = TraceContext.newTimer("Loading parent groups of %s", key)) {
         return groupQueryProvider.get().bySubgroup(key).stream()
             .map(InternalGroup::getGroupUUID)

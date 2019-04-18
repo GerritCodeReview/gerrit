@@ -35,7 +35,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -72,7 +71,7 @@ class RelatedChangesSorter {
   }
 
   public List<PatchSetData> sort(List<ChangeData> in, PatchSet startPs)
-      throws OrmException, IOException, PermissionBackendException {
+      throws IOException, PermissionBackendException {
     checkArgument(!in.isEmpty(), "Input may not be empty");
     // Map of all patch sets, keyed by commit SHA-1.
     Map<String, PatchSetData> byId = collectById(in);
@@ -113,8 +112,7 @@ class RelatedChangesSorter {
     return result;
   }
 
-  private Map<String, PatchSetData> collectById(List<ChangeData> in)
-      throws OrmException, IOException {
+  private Map<String, PatchSetData> collectById(List<ChangeData> in) throws IOException {
     Project.NameKey project = in.get(0).change().getProject();
     Map<String, PatchSetData> result = Maps.newHashMapWithExpectedSize(in.size() * 3);
     try (Repository repo = repoManager.openRepository(project);

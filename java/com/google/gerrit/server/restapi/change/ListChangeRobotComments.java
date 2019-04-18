@@ -21,7 +21,6 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
@@ -44,7 +43,7 @@ public class ListChangeRobotComments implements RestReadView<ChangeResource> {
 
   @Override
   public Map<String, List<RobotCommentInfo>> apply(ChangeResource rsrc)
-      throws AuthException, OrmException, PermissionBackendException {
+      throws AuthException, PermissionBackendException {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     return commentJson
         .get()

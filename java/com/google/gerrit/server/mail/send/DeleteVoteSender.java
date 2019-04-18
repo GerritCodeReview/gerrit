@@ -14,11 +14,10 @@
 
 package com.google.gerrit.server.mail.send;
 
-import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -31,8 +30,7 @@ public class DeleteVoteSender extends ReplyToChangeSender {
 
   @Inject
   protected DeleteVoteSender(
-      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
-      throws OrmException {
+      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id) {
     super(ea, "deleteVote", newChangeData(ea, project, id));
   }
 

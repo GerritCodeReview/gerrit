@@ -33,7 +33,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -93,7 +92,7 @@ public class MergeSuperSet {
   }
 
   public ChangeSet completeChangeSet(Change change, CurrentUser user)
-      throws IOException, OrmException, PermissionBackendException {
+      throws IOException, PermissionBackendException {
     try {
       if (orm == null) {
         orm = repoManagerProvider.get();
@@ -146,7 +145,7 @@ public class MergeSuperSet {
    */
   private ChangeSet topicClosure(
       ChangeSet changeSet, CurrentUser user, Set<String> topicsSeen, Set<String> visibleTopicsSeen)
-      throws OrmException, PermissionBackendException, IOException {
+      throws PermissionBackendException, IOException {
     List<ChangeData> visibleChanges = new ArrayList<>();
     List<ChangeData> nonVisibleChanges = new ArrayList<>();
 
@@ -181,7 +180,7 @@ public class MergeSuperSet {
   }
 
   private ChangeSet completeChangeSetIncludingTopics(ChangeSet changeSet, CurrentUser user)
-      throws IOException, OrmException, PermissionBackendException {
+      throws IOException, PermissionBackendException {
     Set<String> topicsSeen = new HashSet<>();
     Set<String> visibleTopicsSeen = new HashSet<>();
     int oldSeen;
@@ -201,7 +200,7 @@ public class MergeSuperSet {
     return changeSet;
   }
 
-  private List<ChangeData> byTopicOpen(String topic) throws OrmException {
+  private List<ChangeData> byTopicOpen(String topic) {
     return queryProvider.get().byTopicOpen(topic);
   }
 

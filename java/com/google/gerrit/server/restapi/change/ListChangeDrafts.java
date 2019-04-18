@@ -22,7 +22,6 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -47,7 +46,7 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
 
   @Override
   public Map<String, List<CommentInfo>> apply(ChangeResource rsrc)
-      throws AuthException, OrmException, PermissionBackendException {
+      throws AuthException, PermissionBackendException {
     if (!rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

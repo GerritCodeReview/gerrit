@@ -30,7 +30,6 @@ import com.google.gerrit.server.patch.ComparisonType;
 import com.google.gerrit.server.patch.Text;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -63,7 +62,7 @@ public class GetContent implements RestReadView<FileResource> {
 
   @Override
   public BinaryResult apply(FileResource rsrc)
-      throws ResourceNotFoundException, IOException, BadRequestException, OrmException {
+      throws ResourceNotFoundException, IOException, BadRequestException {
     String path = rsrc.getPatchKey().get();
     if (Patch.COMMIT_MSG.equals(path)) {
       String msg = getMessage(rsrc.getRevision().getChangeResource().getNotes());
@@ -83,7 +82,7 @@ public class GetContent implements RestReadView<FileResource> {
         parent);
   }
 
-  private String getMessage(ChangeNotes notes) throws OrmException, IOException {
+  private String getMessage(ChangeNotes notes) throws IOException {
     Change.Id changeId = notes.getChangeId();
     PatchSet ps = psUtil.current(notes);
     if (ps == null) {
@@ -99,7 +98,7 @@ public class GetContent implements RestReadView<FileResource> {
     }
   }
 
-  private byte[] getMergeList(ChangeNotes notes) throws OrmException, IOException {
+  private byte[] getMergeList(ChangeNotes notes) throws IOException {
     Change.Id changeId = notes.getChangeId();
     PatchSet ps = psUtil.current(notes);
     if (ps == null) {

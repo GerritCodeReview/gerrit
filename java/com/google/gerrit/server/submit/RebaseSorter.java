@@ -15,13 +15,13 @@
 package com.google.gerrit.server.submit;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,8 +62,7 @@ public class RebaseSorter {
     this.incoming = incoming;
   }
 
-  public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort)
-      throws IOException, OrmException {
+  public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort) throws IOException {
     final List<CodeReviewCommit> sorted = new ArrayList<>();
     final Set<CodeReviewCommit> sort = new HashSet<>(toSort);
     while (!sort.isEmpty()) {
@@ -132,7 +131,7 @@ public class RebaseSorter {
         }
       }
       return false;
-    } catch (OrmException e) {
+    } catch (StorageException e) {
       throw new IOException(e);
     }
   }

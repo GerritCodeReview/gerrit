@@ -32,7 +32,6 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -60,8 +59,8 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
 
   @Override
   public Response<String> apply(AccountResource rsrc, NameInput input)
-      throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
-          IOException, PermissionBackendException, ConfigInvalidException {
+      throws AuthException, MethodNotAllowedException, ResourceNotFoundException, IOException,
+          PermissionBackendException, ConfigInvalidException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
@@ -70,7 +69,7 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
 
   public Response<String> apply(IdentifiedUser user, NameInput input)
       throws MethodNotAllowedException, ResourceNotFoundException, IOException,
-          ConfigInvalidException, OrmException {
+          ConfigInvalidException {
     if (input == null) {
       input = new NameInput();
     }

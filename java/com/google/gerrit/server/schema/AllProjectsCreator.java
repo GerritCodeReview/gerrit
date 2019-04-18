@@ -41,7 +41,6 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -86,8 +85,7 @@ public class AllProjectsCreator {
     this.owners = systemGroupBackend.getGroup(PROJECT_OWNERS);
   }
 
-  public void create(AllProjectsInput input)
-      throws IOException, ConfigInvalidException, OrmException {
+  public void create(AllProjectsInput input) throws IOException, ConfigInvalidException {
     try (Repository git = repositoryManager.openRepository(allProjectsName)) {
       initAllProjects(git, input);
     } catch (RepositoryNotFoundException notFound) {
@@ -105,7 +103,7 @@ public class AllProjectsCreator {
   }
 
   private void initAllProjects(Repository git, AllProjectsInput input)
-      throws IOException, ConfigInvalidException, OrmException {
+      throws ConfigInvalidException, IOException {
     BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
     try (MetaDataUpdate md =
         new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git, bru)) {

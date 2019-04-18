@@ -24,7 +24,6 @@ import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
-import com.google.gwtorm.server.OrmException;
 import org.junit.Ignore;
 
 @Ignore
@@ -52,12 +51,12 @@ public class FakeChangeIndex implements ChangeIndex {
     }
 
     @Override
-    public ResultSet<ChangeData> read() throws OrmException {
+    public ResultSet<ChangeData> read() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResultSet<FieldBundle> readRaw() throws OrmException {
+    public ResultSet<FieldBundle> readRaw() {
       throw new UnsupportedOperationException("not implemented");
     }
 

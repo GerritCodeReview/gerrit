@@ -18,7 +18,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -43,7 +43,6 @@ import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -108,8 +107,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws AuthException, ResourceNotFoundException, OrmException, PermissionBackendException,
-          IOException {
+      throws AuthException, ResourceNotFoundException, PermissionBackendException, IOException {
     Account.Id reviewerId = reviewer.getAccount().getId();
     // Check of removing this reviewer (even if there is no vote processed by the loop below) is OK
     removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), reviewerId);
@@ -194,8 +192,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
         ctx.getWhen());
   }
 
-  private Iterable<PatchSetApproval> approvals(ChangeContext ctx, Account.Id accountId)
-      throws OrmException {
+  private Iterable<PatchSetApproval> approvals(ChangeContext ctx, Account.Id accountId) {
     Iterable<PatchSetApproval> approvals;
     approvals = approvalsUtil.byChange(ctx.getNotes()).values();
     return Iterables.filter(approvals, psa -> accountId.equals(psa.getAccountId()));

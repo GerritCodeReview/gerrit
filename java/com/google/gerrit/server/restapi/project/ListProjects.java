@@ -27,7 +27,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -57,7 +58,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.BufferedWriter;
@@ -358,7 +358,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           .collect(
               ImmutableSortedMap.toImmutableSortedMap(
                   natural(), p -> p.name, p -> showDescription ? p : nullifyDescription(p)));
-    } catch (OrmException | MethodNotAllowedException e) {
+    } catch (StorageException | MethodNotAllowedException e) {
       logger.atWarning().withCause(e).log(
           "Internal error while processing the query '%s' request", query);
       throw new BadRequestException("Internal error while processing the query request");
@@ -378,7 +378,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         newProjectsNamesStream(query).forEach(out::println);
       }
       out.flush();
-    } catch (OrmException | MethodNotAllowedException e) {
+    } catch (StorageException | MethodNotAllowedException e) {
       logger.atWarning().withCause(e).log(
           "Internal error while processing the query '%s' request", query);
       throw new BadRequestException("Internal error while processing the query request");
@@ -386,7 +386,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   private Stream<String> newProjectsNamesStream(String query)
-      throws OrmException, MethodNotAllowedException, BadRequestException {
+      throws MethodNotAllowedException, BadRequestException {
     Stream<String> projects =
         queryProjectsProvider.get().withQuery(query).apply().stream().map(p -> p.name).skip(start);
     if (limit > 0) {

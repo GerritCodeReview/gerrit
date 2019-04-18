@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -77,7 +76,7 @@ public class ChangeSet {
     return changeData;
   }
 
-  public ListMultimap<Branch.NameKey, ChangeData> changesByBranch() throws OrmException {
+  public ListMultimap<Branch.NameKey, ChangeData> changesByBranch() {
     ListMultimap<Branch.NameKey, ChangeData> ret =
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeData cd : changeData.values()) {

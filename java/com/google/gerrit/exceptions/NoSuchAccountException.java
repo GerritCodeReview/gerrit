@@ -1,4 +1,4 @@
-// Copyright 2009 Google Inc.
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gwtorm.server;
+package com.google.gerrit.exceptions;
 
-/** Indicates one or more entities were concurrently inserted with the same key. */
-public class OrmDuplicateKeyException extends OrmException {
+/** Error indicating the account requested doesn't exist. */
+public class NoSuchAccountException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public OrmDuplicateKeyException(String msg) {
-    super(msg);
-  }
+  public static final String MESSAGE = "Not Found: ";
 
-  public OrmDuplicateKeyException(String msg, Throwable why) {
-    super(msg, why);
+  public NoSuchAccountException(String who) {
+    super(MESSAGE + who);
   }
 }

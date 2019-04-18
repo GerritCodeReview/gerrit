@@ -29,7 +29,6 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -60,7 +59,7 @@ public class GetExternalIds implements RestReadView<AccountResource> {
 
   @Override
   public List<AccountExternalIdInfo> apply(AccountResource resource)
-      throws RestApiException, IOException, OrmException, PermissionBackendException {
+      throws RestApiException, IOException, PermissionBackendException {
     if (!self.get().hasSameAccountId(resource.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ACCESS_DATABASE);
     }

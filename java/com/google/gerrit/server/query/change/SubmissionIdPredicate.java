@@ -16,7 +16,6 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 
 public class SubmissionIdPredicate extends ChangeIndexPredicate {
   public SubmissionIdPredicate(String changeSet) {
@@ -24,7 +23,7 @@ public class SubmissionIdPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) {
     Change change = object.change();
     if (change == null) {
       return false;

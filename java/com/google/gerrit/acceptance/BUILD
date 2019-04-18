@@ -34,7 +34,6 @@ java_library(
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/sshd",
         "//java/com/google/gerrit/testing:gerrit-test-util",
-        "//java/com/google/gwtorm",
         "//lib:args4j",
         "//lib:gson",
         "//lib:guava-retrying",
@@ -69,6 +68,7 @@ java_library2(
     testonly = True,
     srcs = glob(["**/*.java"]),
     exported_deps = [
+        "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/gpg",
         "//java/com/google/gerrit/httpd/auth/openid",
         "//java/com/google/gerrit/index:query_exception",
@@ -116,7 +116,6 @@ java_library2(
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/sshd",
-        "//java/com/google/gwtorm",
         "//lib:args4j",
         "//lib:gson",
         "//lib:guava-retrying",

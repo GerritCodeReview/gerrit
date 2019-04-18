@@ -27,7 +27,6 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.restapi.account.AccountsCollection;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -68,8 +67,7 @@ public class Reviewers implements ChildCollection<ChangeResource, ReviewerResour
 
   @Override
   public ReviewerResource parse(ChangeResource rsrc, IdString id)
-      throws OrmException, ResourceNotFoundException, AuthException, IOException,
-          ConfigInvalidException {
+      throws ResourceNotFoundException, AuthException, IOException, ConfigInvalidException {
     Address address = Address.tryParse(id.get());
 
     Account.Id accountId = null;
@@ -93,7 +91,7 @@ public class Reviewers implements ChildCollection<ChangeResource, ReviewerResour
     throw new ResourceNotFoundException(id);
   }
 
-  private Collection<Account.Id> fetchAccountIds(ChangeResource rsrc) throws OrmException {
+  private Collection<Account.Id> fetchAccountIds(ChangeResource rsrc) {
     return approvalsUtil.getReviewers(rsrc.getNotes()).all();
   }
 }

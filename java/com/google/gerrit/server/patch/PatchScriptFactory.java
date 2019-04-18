@@ -43,7 +43,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -187,8 +186,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   @Override
   public PatchScript call()
-      throws OrmException, LargeObjectException, AuthException, InvalidChangeOperationException,
-          IOException, PermissionBackendException {
+      throws LargeObjectException, AuthException, InvalidChangeOperationException, IOException,
+          PermissionBackendException {
     if (parentNum < 0) {
       validatePatchSetId(psa);
     }
@@ -259,7 +258,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     return b;
   }
 
-  private ObjectId toObjectId(PatchSet ps) throws AuthException, IOException, OrmException {
+  private ObjectId toObjectId(PatchSet ps) throws AuthException, IOException {
     if (ps.getId().get() == 0) {
       return getEditRev();
     }
@@ -275,7 +274,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
   }
 
-  private ObjectId getEditRev() throws AuthException, IOException, OrmException {
+  private ObjectId getEditRev() throws AuthException, IOException {
     edit = editReader.byChange(notes);
     if (edit.isPresent()) {
       return edit.get().getEditCommit();
@@ -291,8 +290,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
   }
 
-  private void loadCommentsAndHistory(ChangeType changeType, String oldName, String newName)
-      throws OrmException {
+  private void loadCommentsAndHistory(ChangeType changeType, String oldName, String newName) {
     Map<Patch.Key, Patch> byKey = new HashMap<>();
 
     if (loadHistory) {
@@ -384,7 +382,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
   }
 
-  private void loadPublished(Map<Patch.Key, Patch> byKey, String file) throws OrmException {
+  private void loadPublished(Map<Patch.Key, Patch> byKey, String file) {
     for (Comment c : commentsUtil.publishedByChangeFile(notes, file)) {
       comments.include(notes.getChangeId(), c);
       PatchSet.Id psId = new PatchSet.Id(notes.getChangeId(), c.key.patchSetId);
@@ -396,8 +394,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
   }
 
-  private void loadDrafts(Map<Patch.Key, Patch> byKey, Account.Id me, String file)
-      throws OrmException {
+  private void loadDrafts(Map<Patch.Key, Patch> byKey, Account.Id me, String file) {
     for (Comment c : commentsUtil.draftByChangeFileAuthor(notes, file, me)) {
       comments.include(notes.getChangeId(), c);
       PatchSet.Id psId = new PatchSet.Id(notes.getChangeId(), c.key.patchSetId);

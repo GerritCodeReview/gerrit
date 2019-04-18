@@ -36,7 +36,6 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -74,8 +73,8 @@ public class DeleteComment
   @Override
   public CommentInfo applyImpl(
       BatchUpdate.Factory batchUpdateFactory, CommentResource rsrc, DeleteCommentInput input)
-      throws RestApiException, IOException, ConfigInvalidException, OrmException,
-          PermissionBackendException, UpdateException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException,
+          UpdateException {
     CurrentUser user = userProvider.get();
     permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
 

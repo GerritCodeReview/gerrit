@@ -38,7 +38,6 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -180,15 +179,13 @@ public class DeleteRef {
    * @param projectState the {@code ProjectState} of the project whose refs are to be deleted.
    * @param refsToDelete the refs to be deleted.
    * @param prefix the prefix of the refs.
-   * @throws OrmException
    * @throws IOException
    * @throws ResourceConflictException
    * @throws PermissionBackendException
    */
   public void deleteMultipleRefs(
       ProjectState projectState, ImmutableSet<String> refsToDelete, String prefix)
-      throws OrmException, IOException, ResourceConflictException, PermissionBackendException,
-          AuthException {
+      throws IOException, ResourceConflictException, PermissionBackendException, AuthException {
     if (refsToDelete.isEmpty()) {
       return;
     }
@@ -229,7 +226,7 @@ public class DeleteRef {
 
   private ReceiveCommand createDeleteCommand(
       ProjectState projectState, Repository r, String refName)
-      throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
+      throws IOException, ResourceConflictException, PermissionBackendException {
     Ref ref = r.getRefDatabase().getRef(refName);
     ReceiveCommand command;
     if (ref == null) {

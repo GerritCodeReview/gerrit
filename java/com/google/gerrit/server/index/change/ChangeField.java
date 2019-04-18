@@ -72,8 +72,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gson.Gson;
-import com.google.gwtorm.server.OrmException;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -154,13 +152,8 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_FILE)
           .buildRepeatable(cd -> firstNonNull(cd.currentFilePaths(), ImmutableList.of()));
 
-  public static Set<String> getFileParts(ChangeData cd) throws OrmException {
-    List<String> paths;
-    try {
-      paths = cd.currentFilePaths();
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
+  public static Set<String> getFileParts(ChangeData cd) {
+    List<String> paths = cd.currentFilePaths();
 
     Splitter s = Splitter.on('/').omitEmptyStrings();
     Set<String> r = new HashSet<>();
@@ -191,7 +184,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> EXTENSION =
       exact(ChangeQueryBuilder.FIELD_EXTENSION).buildRepeatable(ChangeField::getExtensions);
 
-  public static Set<String> getExtensions(ChangeData cd) throws OrmException {
+  public static Set<String> getExtensions(ChangeData cd) {
     return extensions(cd).collect(toSet());
   }
 
@@ -202,7 +195,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, String> ONLY_EXTENSIONS =
       exact(ChangeQueryBuilder.FIELD_ONLY_EXTENSIONS).build(ChangeField::getAllExtensionsAsList);
 
-  public static String getAllExtensionsAsList(ChangeData cd) throws OrmException {
+  public static String getAllExtensionsAsList(ChangeData cd) {
     return extensions(cd).distinct().sorted().collect(joining(","));
   }
 
@@ -214,44 +207,31 @@ public class ChangeField {
    * <p>If the change contains multiple files with the same extension the extension is returned
    * multiple times in the stream (once per file).
    */
-  private static Stream<String> extensions(ChangeData cd) throws OrmException {
-    try {
-      return cd.currentFilePaths().stream()
-          // Use case-insensitive file extensions even though other file fields are case-sensitive.
-          // If we want to find "all Java files", we want to match both .java and .JAVA, even if we
-          // normally care about case sensitivity. (Whether we should change the existing file/path
-          // predicates to be case insensitive is a separate question.)
-          .map(f -> Files.getFileExtension(f).toLowerCase(Locale.US));
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
+  private static Stream<String> extensions(ChangeData cd) {
+    return cd.currentFilePaths().stream()
+        // Use case-insensitive file extensions even though other file fields are case-sensitive.
+        // If we want to find "all Java files", we want to match both .java and .JAVA, even if we
+        // normally care about case sensitivity. (Whether we should change the existing file/path
+        // predicates to be case insensitive is a separate question.)
+        .map(f -> Files.getFileExtension(f).toLowerCase(Locale.US));
   }
 
   /** Footers from the commit message of the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> FOOTER =
       exact(ChangeQueryBuilder.FIELD_FOOTER).buildRepeatable(ChangeField::getFooters);
 
-  public static Set<String> getFooters(ChangeData cd) throws OrmException {
-    try {
-      return cd.commitFooters().stream()
-          .map(f -> f.toString().toLowerCase(Locale.US))
-          .collect(toSet());
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
+  public static Set<String> getFooters(ChangeData cd) {
+    return cd.commitFooters().stream()
+        .map(f -> f.toString().toLowerCase(Locale.US))
+        .collect(toSet());
   }
 
   /** Folders that are touched by the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> DIRECTORY =
       exact(ChangeQueryBuilder.FIELD_DIRECTORY).buildRepeatable(ChangeField::getDirectories);
 
-  public static Set<String> getDirectories(ChangeData cd) throws OrmException {
-    List<String> paths;
-    try {
-      paths = cd.currentFilePaths();
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
+  public static Set<String> getDirectories(ChangeData cd) {
+    List<String> paths = cd.currentFilePaths();
 
     Splitter s = Splitter.on('/').omitEmptyStrings();
     Set<String> r = new HashSet<>();
@@ -470,7 +450,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMIT =
       exact(ChangeQueryBuilder.FIELD_EXACTCOMMIT).buildRepeatable(ChangeField::getRevisions);
 
-  private static Set<String> getRevisions(ChangeData cd) throws OrmException {
+  private static Set<String> getRevisions(ChangeData cd) {
     Set<String> revisions = new HashSet<>();
     for (PatchSet ps : cd.patchSets()) {
       if (ps.getRevision() != null) {
@@ -489,7 +469,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> LABEL =
       exact("label2").buildRepeatable(cd -> getLabels(cd, true));
 
-  private static Iterable<String> getLabels(ChangeData cd, boolean owners) throws OrmException {
+  private static Iterable<String> getLabels(ChangeData cd, boolean owners) {
     Set<String> allApprovals = new HashSet<>();
     Set<String> distinctApprovals = new HashSet<>();
     for (PatchSetApproval a : cd.currentApprovals()) {
@@ -506,20 +486,19 @@ public class ChangeField {
     return allApprovals;
   }
 
-  public static Set<String> getAuthorParts(ChangeData cd) throws OrmException, IOException {
+  public static Set<String> getAuthorParts(ChangeData cd) {
     return SchemaUtil.getPersonParts(cd.getAuthor());
   }
 
-  public static Set<String> getAuthorNameAndEmail(ChangeData cd) throws OrmException, IOException {
+  public static Set<String> getAuthorNameAndEmail(ChangeData cd) {
     return getNameAndEmail(cd.getAuthor());
   }
 
-  public static Set<String> getCommitterParts(ChangeData cd) throws OrmException, IOException {
+  public static Set<String> getCommitterParts(ChangeData cd) {
     return SchemaUtil.getPersonParts(cd.getCommitter());
   }
 
-  public static Set<String> getCommitterNameAndEmail(ChangeData cd)
-      throws OrmException, IOException {
+  public static Set<String> getCommitterNameAndEmail(ChangeData cd) {
     return getNameAndEmail(cd.getCommitter());
   }
 
@@ -855,7 +834,7 @@ public class ChangeField {
     return storedSubmitRecords(cd.submitRecords(opts));
   }
 
-  public static List<String> formatSubmitRecordValues(ChangeData cd) throws OrmException {
+  public static List<String> formatSubmitRecordValues(ChangeData cd) {
     return formatSubmitRecordValues(
         cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT), cd.change().getOwner());
   }
@@ -943,7 +922,7 @@ public class ChangeField {
                 return result;
               });
 
-  private static String getTopic(ChangeData cd) throws OrmException {
+  private static String getTopic(ChangeData cd) {
     Change c = cd.change();
     if (c == null) {
       return null;

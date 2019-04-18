@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2008 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.errors;
+package com.google.gerrit.exceptions;
 
-/** Error indicating the entity name is invalid as supplied. */
-public class InvalidNameException extends Exception {
+/** Error indicating entity name is already taken by another entity. */
+public class NameAlreadyUsedException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public static final String MESSAGE = "Invalid Name";
+  public static final String MESSAGE = "Name Already Used: ";
 
-  public InvalidNameException() {
-    super(MESSAGE);
-  }
-
-  public InvalidNameException(String invalidName) {
-    super(MESSAGE + ": " + invalidName);
+  public NameAlreadyUsedException(String name) {
+    super(MESSAGE + name);
   }
 }

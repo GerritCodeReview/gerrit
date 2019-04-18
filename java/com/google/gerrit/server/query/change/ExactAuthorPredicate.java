@@ -18,8 +18,6 @@ import static com.google.gerrit.server.index.change.ChangeField.EXACT_AUTHOR;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_EXACTAUTHOR;
 
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
-import java.io.IOException;
 import java.util.Locale;
 
 public class ExactAuthorPredicate extends ChangeIndexPredicate {
@@ -28,12 +26,8 @@ public class ExactAuthorPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
-    try {
-      return ChangeField.getAuthorNameAndEmail(object).contains(getValue());
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
+  public boolean match(ChangeData object) {
+    return ChangeField.getAuthorNameAndEmail(object).contains(getValue());
   }
 
   @Override

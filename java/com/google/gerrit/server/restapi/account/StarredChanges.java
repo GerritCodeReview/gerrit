@@ -15,6 +15,8 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.DuplicateKeyException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -40,8 +42,6 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.server.restapi.change.QueryChanges;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -68,7 +68,7 @@ public class StarredChanges
 
   @Override
   public AccountResource.StarredChange parse(AccountResource parent, IdString id)
-      throws RestApiException, OrmException, PermissionBackendException, IOException {
+      throws RestApiException, PermissionBackendException, IOException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     if (starredChangesUtil
@@ -114,7 +114,7 @@ public class StarredChanges
 
     @Override
     public Response<?> apply(AccountResource rsrc, IdString id, EmptyInput in)
-        throws RestApiException, OrmException, IOException {
+        throws RestApiException, IOException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to add starred change");
       }
@@ -124,7 +124,7 @@ public class StarredChanges
         change = changes.parse(TopLevelResource.INSTANCE, id);
       } catch (ResourceNotFoundException e) {
         throw new UnprocessableEntityException(String.format("change %s not found", id.get()));
-      } catch (OrmException | PermissionBackendException | IOException e) {
+      } catch (StorageException | PermissionBackendException | IOException e) {
         logger.atSevere().withCause(e).log("cannot resolve change");
         throw new UnprocessableEntityException("internal server error");
       }
@@ -140,7 +140,7 @@ public class StarredChanges
         throw new ResourceConflictException(e.getMessage());
       } catch (IllegalLabelException e) {
         throw new BadRequestException(e.getMessage());
-      } catch (OrmDuplicateKeyException e) {
+      } catch (DuplicateKeyException e) {
         return Response.none();
       }
       return Response.none();
@@ -179,7 +179,7 @@ public class StarredChanges
 
     @Override
     public Response<?> apply(AccountResource.StarredChange rsrc, EmptyInput in)
-        throws AuthException, OrmException, IOException, IllegalLabelException {
+        throws AuthException, IOException, IllegalLabelException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed remove starred change");
       }

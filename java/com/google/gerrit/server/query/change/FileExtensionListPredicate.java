@@ -18,7 +18,6 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.Splitter;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 
 public class FileExtensionListPredicate extends ChangeIndexPredicate {
   private static String clean(String extList) {
@@ -34,7 +33,7 @@ public class FileExtensionListPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) {
     return ChangeField.getAllExtensionsAsList(cd).equals(value);
   }
 

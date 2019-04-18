@@ -35,7 +35,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
@@ -65,7 +64,7 @@ public class ReviewerJson {
   }
 
   public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs)
-      throws OrmException, PermissionBackendException {
+      throws PermissionBackendException {
     List<ReviewerInfo> infos = Lists.newArrayListWithCapacity(rsrcs.size());
     AccountLoader loader = accountLoaderFactory.create(true);
     ChangeData cd = null;
@@ -88,13 +87,12 @@ public class ReviewerJson {
     return infos;
   }
 
-  public List<ReviewerInfo> format(ReviewerResource rsrc)
-      throws OrmException, PermissionBackendException {
+  public List<ReviewerInfo> format(ReviewerResource rsrc) throws PermissionBackendException {
     return format(ImmutableList.of(rsrc));
   }
 
   public ReviewerInfo format(ReviewerInfo out, Account.Id reviewerAccountId, ChangeData cd)
-      throws OrmException, PermissionBackendException {
+      throws PermissionBackendException {
     PatchSet.Id psId = cd.change().currentPatchSetId();
     return format(
         out,
@@ -108,7 +106,7 @@ public class ReviewerJson {
       Account.Id reviewerAccountId,
       ChangeData cd,
       Iterable<PatchSetApproval> approvals)
-      throws OrmException, PermissionBackendException {
+      throws PermissionBackendException {
     LabelTypes labelTypes = cd.getLabelTypes();
 
     out.approvals = new TreeMap<>(labelTypes.nameComparator());

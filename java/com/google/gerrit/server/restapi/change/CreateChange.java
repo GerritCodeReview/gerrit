@@ -71,7 +71,6 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestCollectionModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -159,8 +158,8 @@ public class CreateChange
   @Override
   protected Response<ChangeInfo> applyImpl(
       BatchUpdate.Factory updateFactory, TopLevelResource parent, ChangeInput input)
-      throws OrmException, IOException, InvalidChangeOperationException, RestApiException,
-          UpdateException, PermissionBackendException, ConfigInvalidException {
+      throws IOException, InvalidChangeOperationException, RestApiException, UpdateException,
+          PermissionBackendException, ConfigInvalidException {
     IdentifiedUser me = user.get().asIdentifiedUser();
     checkAndSanitizeChangeInput(input, me);
 
@@ -267,8 +266,8 @@ public class CreateChange
       IdentifiedUser me,
       ProjectState projectState,
       BatchUpdate.Factory updateFactory)
-      throws RestApiException, OrmException, PermissionBackendException, IOException,
-          ConfigInvalidException, UpdateException {
+      throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException,
+          UpdateException {
     try (Repository git = gitManager.openRepository(projectState.getNameKey());
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
@@ -320,7 +319,7 @@ public class CreateChange
   }
 
   private ChangeNotes getBaseChange(String baseChange)
-      throws OrmException, UnprocessableEntityException, PermissionBackendException {
+      throws UnprocessableEntityException, PermissionBackendException {
     List<ChangeNotes> notes = changeFinder.find(baseChange);
     if (notes.size() != 1) {
       throw new UnprocessableEntityException("Base change not found: " + baseChange);
@@ -442,7 +441,7 @@ public class CreateChange
       MergeInput merge,
       PersonIdent authorIdent,
       String commitMessage)
-      throws RestApiException, IOException, OrmException {
+      throws RestApiException, IOException {
     if (Strings.isNullOrEmpty(merge.source)) {
       throw new BadRequestException("merge.source must be non-empty");
     }

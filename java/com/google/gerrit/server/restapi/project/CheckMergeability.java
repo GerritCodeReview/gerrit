@@ -24,7 +24,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.project.BranchResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.lib.Config;
@@ -77,7 +76,7 @@ public class CheckMergeability implements RestReadView<BranchResource> {
 
   @Override
   public MergeableInfo apply(BranchResource resource)
-      throws IOException, OrmException, BadRequestException, ResourceNotFoundException {
+      throws IOException, BadRequestException, ResourceNotFoundException {
     if (!(submitType.equals(SubmitType.MERGE_ALWAYS)
         || submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
       throw new BadRequestException("Submit type: " + submitType + " is not supported");

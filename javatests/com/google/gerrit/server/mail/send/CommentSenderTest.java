@@ -17,13 +17,12 @@ package com.google.gerrit.server.mail.send;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.testing.GerritBaseTests;
-import com.google.gwtorm.server.OrmException;
 import java.util.Collections;
 import org.junit.Test;
 
 public class CommentSenderTest extends GerritBaseTests {
   private static class TestSender extends CommentSender {
-    TestSender() throws OrmException {
+    TestSender() {
       super(null, null, null, null, null);
     }
   }

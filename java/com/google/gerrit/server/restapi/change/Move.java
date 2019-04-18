@@ -23,6 +23,7 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -61,7 +62,6 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -116,8 +116,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, MoveInput input)
-      throws RestApiException, OrmException, UpdateException, PermissionBackendException,
-          IOException {
+      throws RestApiException, UpdateException, PermissionBackendException, IOException {
     if (!moveEnabled) {
       // This will be removed with the above config once we reach consensus for the move change
       // behavior. See: https://bugs.chromium.org/p/gerrit/issues/detail?id=9877
@@ -177,8 +176,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws OrmException, ResourceConflictException, IOException {
+    public boolean updateChange(ChangeContext ctx) throws ResourceConflictException, IOException {
       change = ctx.getChange();
       if (!change.isNew()) {
         throw new ResourceConflictException("Change is " + ChangeUtil.status(change));
@@ -258,7 +256,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
      */
     private void updateApprovals(
         ChangeContext ctx, ChangeUpdate update, PatchSet.Id psId, Project.NameKey project)
-        throws IOException, OrmException {
+        throws IOException {
       List<PatchSetApproval> approvals = new ArrayList<>();
       for (PatchSetApproval psa :
           approvalsUtil.byPatchSet(
@@ -310,7 +308,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       if (psUtil.isPatchSetLocked(rsrc.getNotes())) {
         return description;
       }
-    } catch (OrmException | IOException e) {
+    } catch (StorageException | IOException e) {
       logger.atSevere().withCause(e).log(
           "Failed to check if the current patch set of change %s is locked", change.getId());
       return description;

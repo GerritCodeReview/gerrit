@@ -15,10 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
-import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
 
 public class EqualsPathPredicate extends ChangeIndexPredicate {
   public EqualsPathPredicate(String fieldName, String value) {
@@ -26,14 +23,8 @@ public class EqualsPathPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
-    List<String> files;
-    try {
-      files = object.currentFilePaths();
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
-    return Collections.binarySearch(files, value) >= 0;
+  public boolean match(ChangeData object) {
+    return Collections.binarySearch(object.currentFilePaths(), value) >= 0;
   }
 
   @Override

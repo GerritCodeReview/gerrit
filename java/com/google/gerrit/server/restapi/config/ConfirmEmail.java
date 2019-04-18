@@ -26,7 +26,6 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
 import com.google.gerrit.server.restapi.config.ConfirmEmail.Input;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -55,8 +54,7 @@ public class ConfirmEmail implements RestModifyView<ConfigResource, Input> {
 
   @Override
   public Response<?> apply(ConfigResource rsrc, Input input)
-      throws AuthException, UnprocessableEntityException, OrmException, IOException,
-          ConfigInvalidException {
+      throws AuthException, UnprocessableEntityException, IOException, ConfigInvalidException {
     CurrentUser user = self.get();
     if (!user.isIdentifiedUser()) {
       throw new AuthException("Authentication required");

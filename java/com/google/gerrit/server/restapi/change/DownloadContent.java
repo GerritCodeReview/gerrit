@@ -22,7 +22,6 @@ import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -43,7 +42,7 @@ public class DownloadContent implements RestReadView<FileResource> {
 
   @Override
   public BinaryResult apply(FileResource rsrc)
-      throws ResourceNotFoundException, IOException, NoSuchChangeException, OrmException {
+      throws ResourceNotFoundException, IOException, NoSuchChangeException {
     String path = rsrc.getPatchKey().get();
     RevisionResource rev = rsrc.getRevision();
     ObjectId revstr = ObjectId.fromString(rev.getPatchSet().getRevision().get());

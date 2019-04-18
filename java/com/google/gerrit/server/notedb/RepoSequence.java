@@ -30,12 +30,12 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.Runnables;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +65,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 public class RepoSequence {
   @FunctionalInterface
   public interface Seed {
-    int get() throws OrmException;
+    int get();
   }
 
   @VisibleForTesting
@@ -184,7 +184,7 @@ public class RepoSequence {
     counterLock = new ReentrantLock(true);
   }
 
-  public int next() throws OrmException {
+  public int next() {
     counterLock.lock();
     try {
       if (counter >= limit) {
@@ -196,7 +196,7 @@ public class RepoSequence {
     }
   }
 
-  public ImmutableList<Integer> next(int count) throws OrmException {
+  public ImmutableList<Integer> next(int count) {
     if (count == 0) {
       return ImmutableList.of();
     }
@@ -221,7 +221,7 @@ public class RepoSequence {
   }
 
   @VisibleForTesting
-  public void set(int val) throws OrmException {
+  public void set(int val) {
     // Don't bother spinning. This is only for tests, and a test that calls set
     // concurrently with other writes is doing it wrong.
     counterLock.lock();
@@ -231,14 +231,14 @@ public class RepoSequence {
         IntBlob.store(repo, rw, projectName, refName, null, val, gitRefUpdated);
         counter = limit;
       } catch (IOException e) {
-        throw new OrmException(e);
+        throw new StorageException(e);
       }
     } finally {
       counterLock.unlock();
     }
   }
 
-  public void increaseTo(int val) throws OrmException {
+  public void increaseTo(int val) {
     counterLock.lock();
     try {
       try (Repository repo = repoManager.openRepository(projectName);
@@ -252,18 +252,18 @@ public class RepoSequence {
         counter = limit;
       } catch (ExecutionException | RetryException e) {
         if (e.getCause() != null) {
-          Throwables.throwIfInstanceOf(e.getCause(), OrmException.class);
+          Throwables.throwIfInstanceOf(e.getCause(), StorageException.class);
         }
-        throw new OrmException(e);
+        throw new StorageException(e);
       } catch (IOException e) {
-        throw new OrmException(e);
+        throw new StorageException(e);
       }
     } finally {
       counterLock.unlock();
     }
   }
 
-  private void acquire(int count) throws OrmException {
+  private void acquire(int count) {
     try (Repository repo = repoManager.openRepository(projectName);
         RevWalk rw = new RevWalk(repo)) {
       TryAcquire attempt = new TryAcquire(repo, rw, count);
@@ -273,11 +273,11 @@ public class RepoSequence {
       acquireCount++;
     } catch (ExecutionException | RetryException e) {
       if (e.getCause() != null) {
-        Throwables.throwIfInstanceOf(e.getCause(), OrmException.class);
+        Throwables.throwIfInstanceOf(e.getCause(), StorageException.class);
       }
-      throw new OrmException(e);
+      throw new StorageException(e);
     } catch (IOException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
   }
 

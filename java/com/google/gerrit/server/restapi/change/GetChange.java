@@ -31,7 +31,6 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PluginDefinedAttributesFactories;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -74,11 +73,11 @@ public class GetChange
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
+  public Response<ChangeInfo> apply(ChangeResource rsrc) {
     return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 
-  Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException {
+  Response<ChangeInfo> apply(RevisionResource rsrc) {
     return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 

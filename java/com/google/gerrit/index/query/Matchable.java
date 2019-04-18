@@ -14,15 +14,9 @@
 
 package com.google.gerrit.index.query;
 
-import com.google.gwtorm.server.OrmException;
-
 public interface Matchable<T> {
-  /**
-   * Does this predicate match this object?
-   *
-   * @throws OrmException
-   */
-  boolean match(T object) throws OrmException;
+  /** Does this predicate match this object? */
+  boolean match(T object);
 
   /** @return a cost estimate to run this predicate, higher figures cost more. */
   int getCost();

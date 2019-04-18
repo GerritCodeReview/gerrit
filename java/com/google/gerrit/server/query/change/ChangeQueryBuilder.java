@@ -31,7 +31,8 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.common.errors.NotSignedInException;
+import com.google.gerrit.exceptions.NotSignedInException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
@@ -75,7 +76,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.submit.SubmitDryRun;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -608,7 +608,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
-  public Predicate<ChangeData> conflicts(String value) throws OrmException, QueryParseException {
+  public Predicate<ChangeData> conflicts(String value) throws QueryParseException {
     List<Change> changes = parseChange(value);
     List<Predicate<ChangeData>> or = new ArrayList<>(changes.size());
     for (Change c : changes) {
@@ -782,7 +782,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> label(String name)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     Set<Account.Id> accounts = null;
     AccountGroup.UUID group = null;
 
@@ -882,7 +882,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> starredby(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     return starredby(parseAccount(who));
   }
 
@@ -900,7 +900,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> watchedby(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     Set<Account.Id> m = parseAccount(who);
     List<IsWatchedByPredicate> p = Lists.newArrayListWithCapacity(m.size());
 
@@ -925,7 +925,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> draftby(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     Set<Account.Id> m = parseAccount(who);
     List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
@@ -940,7 +940,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> visibleto(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     if (isSelf(who)) {
       return is_visible();
     }
@@ -983,13 +983,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> o(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     return owner(who);
   }
 
   @Operator
   public Predicate<ChangeData> owner(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     return owner(parseAccount(who));
   }
 
@@ -1002,7 +1002,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Predicate<ChangeData> ownerDefaultField(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     Set<Account.Id> accounts = parseAccount(who);
     if (accounts.size() > MAX_ACCOUNTS_PER_DEFAULT_FIELD) {
       return Predicate.any();
@@ -1012,7 +1012,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> assignee(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     return assignee(parseAccount(who));
   }
 
@@ -1047,23 +1047,23 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> r(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     return reviewer(who);
   }
 
   @Operator
   public Predicate<ChangeData> reviewer(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     return reviewer(who, false);
   }
 
   private Predicate<ChangeData> reviewerDefaultField(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     return reviewer(who, true);
   }
 
   private Predicate<ChangeData> reviewer(String who, boolean forDefaultField)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     Predicate<ChangeData> byState =
         reviewerByState(who, ReviewerStateInternal.REVIEWER, forDefaultField);
     if (Objects.equals(byState, Predicate.<ChangeData>any())) {
@@ -1077,7 +1077,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> cc(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     return reviewerByState(who, ReviewerStateInternal.CC, false);
   }
 
@@ -1131,7 +1131,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> commentby(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     return commentby(parseAccount(who));
   }
 
@@ -1145,7 +1145,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> from(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     Set<Account.Id> ownerIds = parseAccount(who);
     return Predicate.or(owner(ownerIds), commentby(ownerIds));
   }
@@ -1170,7 +1170,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> reviewedby(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     return IsReviewedPredicate.create(parseAccount(who));
   }
 
@@ -1260,7 +1260,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       if (!Objects.equals(p, Predicate.<ChangeData>any())) {
         predicates.add(p);
       }
-    } catch (OrmException | IOException | ConfigInvalidException | QueryParseException e) {
+    } catch (StorageException | IOException | ConfigInvalidException | QueryParseException e) {
       // Skip.
     }
     try {
@@ -1268,13 +1268,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       if (!Objects.equals(p, Predicate.<ChangeData>any())) {
         predicates.add(p);
       }
-    } catch (OrmException | IOException | ConfigInvalidException | QueryParseException e) {
+    } catch (StorageException | IOException | ConfigInvalidException | QueryParseException e) {
       // Skip.
     }
     predicates.add(file(query));
     try {
       predicates.add(label(query));
-    } catch (OrmException | IOException | ConfigInvalidException | QueryParseException e) {
+    } catch (StorageException | IOException | ConfigInvalidException | QueryParseException e) {
       // Skip.
     }
     predicates.add(commit(query));
@@ -1328,7 +1328,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Set<Account.Id> parseAccount(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     try {
       return args.accountResolver.resolve(who).asNonEmptyIdSet();
     } catch (UnresolvableAccountException e) {
@@ -1347,7 +1347,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     return g;
   }
 
-  private List<Change> parseChange(String value) throws OrmException, QueryParseException {
+  private List<Change> parseChange(String value) throws QueryParseException {
     if (PAT_LEGACY_ID.matcher(value).matches()) {
       return asChanges(args.queryProvider.get().byLegacyChangeId(Change.Id.parse(value)));
     } else if (PAT_CHANGE_ID.matcher(value).matches()) {
@@ -1374,7 +1374,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   public Predicate<ChangeData> reviewerByState(
       String who, ReviewerStateInternal state, boolean forDefaultField)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+      throws QueryParseException, IOException, ConfigInvalidException {
     Predicate<ChangeData> reviewerByEmailPredicate = null;
     if (args.index.getSchema().hasField(ChangeField.REVIEWER_BY_EMAIL)) {
       Address address = Address.tryParse(who);

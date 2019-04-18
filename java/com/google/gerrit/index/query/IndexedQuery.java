@@ -16,9 +16,9 @@ package com.google.gerrit.index.query;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.QueryOptions;
-import com.google.gwtorm.server.OrmException;
 import java.util.Collection;
 import java.util.List;
 
@@ -77,17 +77,17 @@ public class IndexedQuery<I, T> extends Predicate<T> implements DataSource<T>, P
   }
 
   @Override
-  public ResultSet<T> read() throws OrmException {
+  public ResultSet<T> read() {
     return source.read();
   }
 
   @Override
-  public ResultSet<FieldBundle> readRaw() throws OrmException {
+  public ResultSet<FieldBundle> readRaw() {
     return source.readRaw();
   }
 
   @Override
-  public ResultSet<T> restart(int start) throws OrmException {
+  public ResultSet<T> restart(int start) {
     opts = opts.withStart(start);
     try {
       source = index.getSource(pred, opts);
@@ -95,7 +95,7 @@ public class IndexedQuery<I, T> extends Predicate<T> implements DataSource<T>, P
       // Don't need to show this exception to the user; the only thing that
       // changed about pred was its start, and any other QPEs that might happen
       // should have already thrown from the constructor.
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
     // Don't convert start to a limit, since the caller of this method (see
     // AndSource) has calculated the actual number to skip.

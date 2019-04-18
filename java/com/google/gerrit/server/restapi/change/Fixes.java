@@ -25,7 +25,6 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.FixResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.List;
@@ -50,7 +49,7 @@ public class Fixes implements ChildCollection<RevisionResource, FixResource> {
 
   @Override
   public FixResource parse(RevisionResource revisionResource, IdString id)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException {
     String fixId = id.get();
     ChangeNotes changeNotes = revisionResource.getNotes();
 

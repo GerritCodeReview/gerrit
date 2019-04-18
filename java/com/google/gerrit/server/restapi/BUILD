@@ -8,6 +8,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
@@ -22,7 +23,6 @@ java_library(
         "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/util/cli",
-        "//java/com/google/gwtorm",
         "//java/org/eclipse/jgit:server",
         "//lib:args4j",
         "//lib:blame-cache",

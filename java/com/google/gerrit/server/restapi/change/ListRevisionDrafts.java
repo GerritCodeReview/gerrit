@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -39,7 +38,7 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
     this.commentsUtil = commentsUtil;
   }
 
-  protected Iterable<Comment> listComments(RevisionResource rsrc) throws OrmException {
+  protected Iterable<Comment> listComments(RevisionResource rsrc) {
     return commentsUtil.draftByPatchSetAuthor(
         rsrc.getPatchSet().getId(), rsrc.getAccountId(), rsrc.getNotes());
   }
@@ -50,7 +49,7 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
 
   @Override
   public Map<String, List<CommentInfo>> apply(RevisionResource rsrc)
-      throws OrmException, PermissionBackendException {
+      throws PermissionBackendException {
     return commentJson
         .get()
         .setFillAccounts(includeAuthorInfo())
@@ -59,7 +58,7 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
   }
 
   public ImmutableList<CommentInfo> getComments(RevisionResource rsrc)
-      throws OrmException, PermissionBackendException {
+      throws PermissionBackendException {
     return commentJson
         .get()
         .setFillAccounts(includeAuthorInfo())

@@ -35,7 +35,6 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.util.RequestScopePropagator;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -105,7 +104,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws OrmException, IOException {
+  public boolean updateChange(ChangeContext ctx) throws IOException {
     change = ctx.getChange();
     correctBranch = refName.equals(change.getDest().get());
     if (!correctBranch) {
@@ -193,7 +192,7 @@ public class MergedByPushOp implements BatchUpdateOp {
         change, patchSet, ctx.getAccount(), patchSet.getRevision().get(), ctx.getWhen());
   }
 
-  private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException, OrmException {
+  private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {
     RevWalk rw = ctx.getRevWalk();
     RevCommit commit =
         rw.parseCommit(ObjectId.fromString(requireNonNull(patchSet).getRevision().get()));

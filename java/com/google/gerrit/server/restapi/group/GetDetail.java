@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -33,7 +32,7 @@ public class GetDetail implements RestReadView<GroupResource> {
   }
 
   @Override
-  public GroupInfo apply(GroupResource rsrc) throws OrmException, PermissionBackendException {
+  public GroupInfo apply(GroupResource rsrc) throws PermissionBackendException {
     return json.format(rsrc);
   }
 }

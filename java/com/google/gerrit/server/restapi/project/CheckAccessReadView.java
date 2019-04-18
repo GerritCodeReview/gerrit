@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -50,8 +49,7 @@ public class CheckAccessReadView implements RestReadView<ProjectResource> {
 
   @Override
   public AccessCheckInfo apply(ProjectResource rsrc)
-      throws OrmException, PermissionBackendException, RestApiException, IOException,
-          ConfigInvalidException {
+      throws PermissionBackendException, RestApiException, IOException, ConfigInvalidException {
 
     AccessCheckInput input = new AccessCheckInput();
     input.ref = refName;

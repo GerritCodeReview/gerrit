@@ -53,7 +53,6 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -694,7 +693,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
           psId.getParentKey(),
           new BatchUpdateOp() {
             @Override
-            public boolean updateChange(ChangeContext ctx) throws OrmException {
+            public boolean updateChange(ChangeContext ctx) {
               PatchSet ps = psUtil.get(ctx.getNotes(), psId);
               psUtil.setGroups(ctx.getUpdate(psId), ps, ImmutableList.of());
               return true;

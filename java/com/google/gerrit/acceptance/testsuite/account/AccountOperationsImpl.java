@@ -24,7 +24,6 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.notedb.Sequences;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;
@@ -68,7 +67,7 @@ public class AccountOperationsImpl implements AccountOperations {
   }
 
   private AccountState createAccount(AccountsUpdate.AccountUpdater accountUpdater)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     Account.Id accountId = new Account.Id(seq.nextAccountId());
     return accountsUpdate.insert("Create Test Account", accountId, accountUpdater);
   }
@@ -146,7 +145,7 @@ public class AccountOperationsImpl implements AccountOperations {
     }
 
     private void updateAccount(TestAccountUpdate accountUpdate)
-        throws OrmException, IOException, ConfigInvalidException {
+        throws IOException, ConfigInvalidException {
       AccountsUpdate.AccountUpdater accountUpdater =
           (account, updateBuilder) -> fillBuilder(updateBuilder, accountUpdate, accountId);
       Optional<AccountState> updatedAccount = updateAccount(accountUpdater);
@@ -154,7 +153,7 @@ public class AccountOperationsImpl implements AccountOperations {
     }
 
     private Optional<AccountState> updateAccount(AccountsUpdate.AccountUpdater accountUpdater)
-        throws OrmException, IOException, ConfigInvalidException {
+        throws IOException, ConfigInvalidException {
       return accountsUpdate.update("Update Test Account", accountId, accountUpdater);
     }
 

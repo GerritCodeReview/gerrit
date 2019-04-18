@@ -57,7 +57,6 @@ import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestChanges;
 import com.google.gerrit.testing.TestTimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -213,7 +212,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     return update;
   }
 
-  protected ChangeNotes newNotes(Change c) throws OrmException {
+  protected ChangeNotes newNotes(Change c) {
     return new ChangeNotes(args, c, true, null).load();
   }
 

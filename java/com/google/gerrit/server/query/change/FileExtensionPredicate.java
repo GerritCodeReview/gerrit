@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 import java.util.Locale;
 
 public class FileExtensionPredicate extends ChangeIndexPredicate {
@@ -31,7 +30,7 @@ public class FileExtensionPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) {
     return ChangeField.getExtensions(object).contains(value);
   }
 

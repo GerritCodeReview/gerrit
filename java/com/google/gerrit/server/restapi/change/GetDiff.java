@@ -56,7 +56,6 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
@@ -126,7 +125,7 @@ public class GetDiff implements RestReadView<FileResource> {
 
   @Override
   public Response<DiffInfo> apply(FileResource resource)
-      throws ResourceConflictException, ResourceNotFoundException, OrmException, AuthException,
+      throws ResourceConflictException, ResourceNotFoundException, AuthException,
           InvalidChangeOperationException, IOException, PermissionBackendException {
     DiffPreferencesInfo prefs = new DiffPreferencesInfo();
     if (whitespace != null) {

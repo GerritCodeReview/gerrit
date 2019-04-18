@@ -41,7 +41,6 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -78,8 +77,8 @@ public class CherryPick
   @Override
   public CherryPickChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource rsrc, CherryPickInput input)
-      throws OrmException, IOException, UpdateException, RestApiException,
-          PermissionBackendException, ConfigInvalidException, NoSuchProjectException {
+      throws IOException, UpdateException, RestApiException, PermissionBackendException,
+          ConfigInvalidException, NoSuchProjectException {
     input.parent = input.parent == null ? 1 : input.parent;
     if (input.message == null || input.message.trim().isEmpty()) {
       throw new BadRequestException("message must be non-empty");

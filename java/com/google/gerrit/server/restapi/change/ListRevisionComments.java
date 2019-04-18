@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -36,7 +35,7 @@ public class ListRevisionComments extends ListRevisionDrafts {
   }
 
   @Override
-  protected Iterable<Comment> listComments(RevisionResource rsrc) throws OrmException {
+  protected Iterable<Comment> listComments(RevisionResource rsrc) {
     ChangeNotes notes = rsrc.getNotes();
     return commentsUtil.publishedByPatchSet(notes, rsrc.getPatchSet().getId());
   }

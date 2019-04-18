@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.metrics.Timer1;
@@ -38,7 +39,6 @@ import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.InsertedObject;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gerrit.server.update.RetryingRestModifyView;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -348,10 +348,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
   /**
    * Stage updates in the manager's internal list of commands.
    *
-   * @throws OrmException if a database layer error occurs.
    * @throws IOException if a storage layer error occurs.
    */
-  private void stage() throws OrmException, IOException {
+  private void stage() throws IOException {
     try (Timer1.Context timer = metrics.stageUpdateLatency.start(CHANGES)) {
       if (isEmpty()) {
         return;
@@ -376,12 +375,12 @@ public class NoteDbUpdateManager implements AutoCloseable {
   }
 
   @Nullable
-  public BatchRefUpdate execute() throws OrmException, IOException {
+  public BatchRefUpdate execute() throws IOException {
     return execute(false);
   }
 
   @Nullable
-  public BatchRefUpdate execute(boolean dryrun) throws OrmException, IOException {
+  public BatchRefUpdate execute(boolean dryrun) throws IOException {
     checkNotExecuted();
     if (isEmpty()) {
       executed = true;
@@ -476,7 +475,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     return -1;
   }
 
-  private void addCommands() throws OrmException, IOException {
+  private void addCommands() throws IOException {
     if (isEmpty()) {
       return;
     }
@@ -522,7 +521,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   }
 
   private static <U extends AbstractChangeUpdate> void addUpdates(
-      ListMultimap<String, U> all, OpenRepo or) throws OrmException, IOException {
+      ListMultimap<String, U> all, OpenRepo or) throws IOException {
     for (Map.Entry<String, Collection<U>> e : all.asMap().entrySet()) {
       String refName = e.getKey();
       Collection<U> updates = e.getValue();
@@ -537,7 +536,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
       ObjectId curr = old;
       for (U u : updates) {
         if (u.isRootOnly() && !old.equals(ObjectId.zeroId())) {
-          throw new OrmException("Given ChangeUpdate is only allowed on initial commit");
+          throw new StorageException("Given ChangeUpdate is only allowed on initial commit");
         }
         ObjectId next = u.apply(or.rw, or.tempIns, curr);
         if (next == null) {
@@ -552,13 +551,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
   }
 
   private static void addRewrites(ListMultimap<String, NoteDbRewriter> rewriters, OpenRepo openRepo)
-      throws OrmException, IOException {
+      throws IOException {
     for (Map.Entry<String, Collection<NoteDbRewriter>> entry : rewriters.asMap().entrySet()) {
       String refName = entry.getKey();
       ObjectId oldTip = openRepo.cmds.get(refName).orElse(ObjectId.zeroId());
 
       if (oldTip.equals(ObjectId.zeroId())) {
-        throw new OrmException(String.format("Ref %s is empty", refName));
+        throw new StorageException(String.format("Ref %s is empty", refName));
       }
 
       ObjectId currTip = oldTip;
@@ -571,7 +570,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
           }
         }
       } catch (ConfigInvalidException e) {
-        throw new OrmException("Cannot rewrite commit history", e);
+        throw new StorageException("Cannot rewrite commit history", e);
       }
 
       if (!oldTip.equals(currTip)) {

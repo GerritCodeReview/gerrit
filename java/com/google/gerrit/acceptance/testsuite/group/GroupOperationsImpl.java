@@ -16,7 +16,8 @@ package com.google.gerrit.acceptance.testsuite.group;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.DuplicateKeyException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.ServerInitiated;
@@ -27,8 +28,6 @@ import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.notedb.Sequences;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;
@@ -70,7 +69,7 @@ public class GroupOperationsImpl implements GroupOperations {
   }
 
   private AccountGroup.UUID createNewGroup(TestGroupCreation groupCreation)
-      throws ConfigInvalidException, IOException, OrmException {
+      throws ConfigInvalidException, IOException {
     InternalGroupCreation internalGroupCreation = toInternalGroupCreation(groupCreation);
     InternalGroupUpdate internalGroupUpdate = toInternalGroupUpdate(groupCreation);
     InternalGroup internalGroup =
@@ -78,8 +77,7 @@ public class GroupOperationsImpl implements GroupOperations {
     return internalGroup.getGroupUUID();
   }
 
-  private InternalGroupCreation toInternalGroupCreation(TestGroupCreation groupCreation)
-      throws OrmException {
+  private InternalGroupCreation toInternalGroupCreation(TestGroupCreation groupCreation) {
     AccountGroup.Id groupId = new AccountGroup.Id(seq.nextGroupId());
     String groupName = groupCreation.name().orElse("group-with-id-" + groupId.get());
     AccountGroup.UUID groupUuid = GroupUUID.make(groupName, serverIdent);
@@ -148,7 +146,7 @@ public class GroupOperationsImpl implements GroupOperations {
     }
 
     private void updateGroup(TestGroupUpdate groupUpdate)
-        throws OrmDuplicateKeyException, NoSuchGroupException, ConfigInvalidException, IOException {
+        throws DuplicateKeyException, NoSuchGroupException, ConfigInvalidException, IOException {
       InternalGroupUpdate internalGroupUpdate = toInternalGroupUpdate(groupUpdate);
       groupsUpdate.updateGroup(groupUuid, internalGroupUpdate);
     }

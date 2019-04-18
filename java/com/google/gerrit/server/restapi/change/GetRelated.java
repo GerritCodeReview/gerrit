@@ -36,7 +36,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -70,7 +69,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   @Override
   public RelatedChangesInfo apply(RevisionResource rsrc)
-      throws RepositoryNotFoundException, IOException, OrmException, NoSuchProjectException,
+      throws RepositoryNotFoundException, IOException, NoSuchProjectException,
           PermissionBackendException {
     RelatedChangesInfo relatedChangesInfo = new RelatedChangesInfo();
     relatedChangesInfo.changes = getRelated(rsrc);
@@ -78,7 +77,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
   }
 
   private List<RelatedChangeAndCommitInfo> getRelated(RevisionResource rsrc)
-      throws OrmException, IOException, PermissionBackendException {
+      throws IOException, PermissionBackendException {
     Set<String> groups = getAllGroups(rsrc.getNotes(), psUtil);
     if (groups.isEmpty()) {
       return Collections.emptyList();
@@ -123,12 +122,11 @@ public class GetRelated implements RestReadView<RevisionResource> {
   }
 
   @VisibleForTesting
-  public static Set<String> getAllGroups(ChangeNotes notes, PatchSetUtil psUtil)
-      throws OrmException {
+  public static Set<String> getAllGroups(ChangeNotes notes, PatchSetUtil psUtil) {
     return psUtil.byChange(notes).stream().flatMap(ps -> ps.getGroups().stream()).collect(toSet());
   }
 
-  private void reloadChangeIfStale(List<ChangeData> cds, PatchSet wantedPs) throws OrmException {
+  private void reloadChangeIfStale(List<ChangeData> cds, PatchSet wantedPs) {
     for (ChangeData cd : cds) {
       if (cd.getId().equals(wantedPs.getId().getParentKey())) {
         if (cd.patchSet(wantedPs.getId()) == null) {

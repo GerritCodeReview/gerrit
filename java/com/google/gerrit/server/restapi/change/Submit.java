@@ -23,6 +23,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -59,8 +60,6 @@ import com.google.gerrit.server.submit.ChangeSet;
 import com.google.gerrit.server.submit.MergeOp;
 import com.google.gerrit.server.submit.MergeSuperSet;
 import com.google.gerrit.server.update.UpdateException;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -69,7 +68,6 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -176,8 +174,8 @@ public class Submit
 
   @Override
   public Output apply(RevisionResource rsrc, SubmitInput input)
-      throws RestApiException, RepositoryNotFoundException, IOException, OrmException,
-          PermissionBackendException, UpdateException, ConfigInvalidException {
+      throws RestApiException, RepositoryNotFoundException, IOException, PermissionBackendException,
+          UpdateException, ConfigInvalidException {
     input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
     IdentifiedUser submitter;
     if (input.onBehalfOf != null) {
@@ -192,7 +190,7 @@ public class Submit
   }
 
   public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
-      throws OrmException, RestApiException, IOException, UpdateException, ConfigInvalidException,
+      throws RestApiException, IOException, UpdateException, ConfigInvalidException,
           PermissionBackendException {
     Change change = rsrc.getChange();
     if (!change.isNew()) {
@@ -290,9 +288,9 @@ public class Submit
         return "Problems with change(s): "
             + unmergeable.stream().map(c -> c.getId().toString()).collect(joining(", "));
       }
-    } catch (PermissionBackendException | OrmException | IOException e) {
+    } catch (PermissionBackendException | IOException e) {
       logger.atSevere().withCause(e).log("Error checking if change is submittable");
-      throw new OrmRuntimeException("Could not determine problems for the change", e);
+      throw new StorageException("Could not determine problems for the change", e);
     }
     return null;
   }
@@ -313,7 +311,7 @@ public class Submit
       }
     } catch (IOException e) {
       logger.atSevere().withCause(e).log("Error checking if change is submittable");
-      throw new OrmRuntimeException("Could not determine problems for the change", e);
+      throw new StorageException("Could not determine problems for the change", e);
     }
 
     ChangeData cd = changeDataFactory.create(resource.getNotes());
@@ -321,42 +319,31 @@ public class Submit
       MergeOp.checkSubmitRule(cd, false);
     } catch (ResourceConflictException e) {
       return null; // submit not visible
-    } catch (OrmException e) {
-      logger.atSevere().withCause(e).log("Error checking if change is submittable");
-      throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
 
     ChangeSet cs;
     try {
       cs = mergeSuperSet.get().completeChangeSet(cd.change(), resource.getUser());
-    } catch (OrmException | IOException | PermissionBackendException e) {
-      throw new OrmRuntimeException(
-          "Could not determine complete set of changes to be submitted", e);
+    } catch (IOException | PermissionBackendException e) {
+      throw new StorageException("Could not determine complete set of changes to be submitted", e);
     }
 
     String topic = change.getTopic();
     int topicSize = 0;
     if (!Strings.isNullOrEmpty(topic)) {
-      topicSize = getChangesByTopic(topic).size();
+      topicSize = queryProvider.get().noFields().byTopicOpen(topic).size();
     }
     boolean treatWithTopic = submitWholeTopic && !Strings.isNullOrEmpty(topic) && topicSize > 1;
 
     String submitProblems = problemsForSubmittingChangeset(cd, cs, resource.getUser());
 
-    Boolean enabled;
-    try {
-      // Recheck mergeability rather than using value stored in the index,
-      // which may be stale.
-      // TODO(dborowitz): This is ugly; consider providing a way to not read
-      // stored fields from the index in the first place.
-      // cd.setMergeable(null);
-      // That was done in unmergeableChanges which was called by
-      // problemsForSubmittingChangeset, so now it is safe to read from
-      // the cache, as it yields the same result.
-      enabled = cd.isMergeable();
-    } catch (OrmException e) {
-      throw new OrmRuntimeException("Could not determine mergeability", e);
-    }
+    // Recheck mergeability rather than using value stored in the index, which may be stale.
+    // TODO(dborowitz): This is ugly; consider providing a way to not read stored fields from the
+    // index in the first place.
+    // cd.setMergeable(null);
+    // That was done in unmergeableChanges which was called by problemsForSubmittingChangeset, so
+    // now it is safe to read from the cache, as it yields the same result.
+    Boolean enabled = cd.isMergeable();
 
     if (submitProblems != null) {
       return new UiAction.Description()
@@ -392,7 +379,7 @@ public class Submit
         .setEnabled(Boolean.TRUE.equals(enabled));
   }
 
-  public Collection<ChangeData> unmergeableChanges(ChangeSet cs) throws OrmException, IOException {
+  public Collection<ChangeData> unmergeableChanges(ChangeSet cs) throws IOException {
     Set<ChangeData> mergeabilityMap = new HashSet<>();
     for (ChangeData change : cs.changes()) {
       mergeabilityMap.add(change);
@@ -441,7 +428,7 @@ public class Submit
   }
 
   private HashMap<Change.Id, RevCommit> findCommits(
-      Collection<ChangeData> changes, Project.NameKey project) throws IOException, OrmException {
+      Collection<ChangeData> changes, Project.NameKey project) throws IOException {
     HashMap<Change.Id, RevCommit> commits = new HashMap<>();
     try (Repository repo = repoManager.openRepository(project);
         RevWalk walk = new RevWalk(repo)) {
@@ -456,8 +443,8 @@ public class Submit
   }
 
   private IdentifiedUser onBehalfOf(RevisionResource rsrc, SubmitInput in)
-      throws AuthException, UnprocessableEntityException, OrmException, PermissionBackendException,
-          IOException, ConfigInvalidException {
+      throws AuthException, UnprocessableEntityException, PermissionBackendException, IOException,
+          ConfigInvalidException {
     PermissionBackend.ForChange perm = rsrc.permissions();
     perm.check(ChangePermission.SUBMIT);
     perm.check(ChangePermission.SUBMIT_AS);
@@ -474,14 +461,6 @@ public class Submit
     return submitter;
   }
 
-  private List<ChangeData> getChangesByTopic(String topic) {
-    try {
-      return queryProvider.get().byTopicOpen(topic);
-    } catch (OrmException e) {
-      throw new OrmRuntimeException(e);
-    }
-  }
-
   public static class CurrentRevision implements RestModifyView<ChangeResource, SubmitInput> {
     private final Submit submit;
     private final ChangeJson.Factory json;
@@ -496,7 +475,7 @@ public class Submit
 
     @Override
     public ChangeInfo apply(ChangeResource rsrc, SubmitInput input)
-        throws RestApiException, RepositoryNotFoundException, IOException, OrmException,
+        throws RestApiException, RepositoryNotFoundException, IOException,
             PermissionBackendException, UpdateException, ConfigInvalidException {
       PatchSet ps = psUtil.current(rsrc.getNotes());
       if (ps == null) {

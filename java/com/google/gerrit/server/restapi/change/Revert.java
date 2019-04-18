@@ -64,7 +64,6 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -142,7 +141,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   @Override
   public ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, RevertInput input)
-      throws IOException, OrmException, RestApiException, UpdateException, NoSuchChangeException,
+      throws IOException, RestApiException, UpdateException, NoSuchChangeException,
           PermissionBackendException, NoSuchProjectException, ConfigInvalidException {
     Change change = rsrc.getChange();
     if (!change.isMerged()) {
@@ -159,7 +158,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
 
   private Change.Id revert(
       BatchUpdate.Factory updateFactory, ChangeNotes notes, CurrentUser user, RevertInput input)
-      throws OrmException, IOException, RestApiException, UpdateException, ConfigInvalidException {
+      throws IOException, RestApiException, UpdateException, ConfigInvalidException {
     String message = Strings.emptyToNull(input.message);
     Change.Id changeIdToRevert = notes.getChangeId();
     PatchSet.Id patchSetId = notes.getChange().currentPatchSetId();

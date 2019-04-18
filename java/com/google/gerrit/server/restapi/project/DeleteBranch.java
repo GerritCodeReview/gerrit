@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -46,7 +45,7 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
 
   @Override
   public Response<?> apply(BranchResource rsrc, Input input)
-      throws RestApiException, OrmException, IOException, PermissionBackendException {
+      throws RestApiException, IOException, PermissionBackendException {
     if (isConfigRef(rsrc.getBranchKey().get())) {
       // Never allow to delete the meta config branch.
       throw new MethodNotAllowedException(

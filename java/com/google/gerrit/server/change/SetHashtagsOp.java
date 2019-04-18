@@ -38,7 +38,6 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.validators.HashtagValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -82,8 +81,7 @@ public class SetHashtagsOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws AuthException, BadRequestException, MethodNotAllowedException, OrmException,
-          IOException {
+      throws AuthException, BadRequestException, MethodNotAllowedException, IOException {
     if (input == null || (input.add == null && input.remove == null)) {
       updatedHashtags = ImmutableSortedSet.of();
       return false;
@@ -146,7 +144,7 @@ public class SetHashtagsOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws OrmException {
+  public void postUpdate(Context ctx) {
     if (updated() && fireEvent) {
       hashtagsEdited.fire(
           change, ctx.getAccount(), updatedHashtags, toAdd, toRemove, ctx.getWhen());

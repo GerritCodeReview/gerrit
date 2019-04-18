@@ -34,7 +34,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -216,14 +215,14 @@ public class AccountResolver {
       return false;
     }
 
-    Optional<I> tryParse(String input) throws IOException, OrmException;
+    Optional<I> tryParse(String input) throws IOException;
 
-    Stream<AccountState> search(I input) throws OrmException, IOException, ConfigInvalidException;
+    Stream<AccountState> search(I input) throws IOException, ConfigInvalidException;
 
     boolean shortCircuitIfNoResults();
 
     default Optional<Stream<AccountState>> trySearch(String input)
-        throws OrmException, IOException, ConfigInvalidException {
+        throws IOException, ConfigInvalidException {
       Optional<I> parsed = tryParse(input);
       return parsed.isPresent() ? Optional.of(search(parsed.get())) : Optional.empty();
     }
@@ -335,7 +334,7 @@ public class AccountResolver {
     }
 
     @Override
-    public Stream<AccountState> search(String nameOrEmail) throws OrmException, IOException {
+    public Stream<AccountState> search(String nameOrEmail) throws IOException {
       // TODO(dborowitz): This would probably work as a Searcher<Address>
       int lt = nameOrEmail.indexOf('<');
       int gt = nameOrEmail.indexOf('>');
@@ -368,7 +367,7 @@ public class AccountResolver {
     }
 
     @Override
-    public Stream<AccountState> search(String input) throws OrmException, IOException {
+    public Stream<AccountState> search(String input) throws IOException {
       return toAccountStates(emails.getAccountFor(input));
     }
 
@@ -397,7 +396,7 @@ public class AccountResolver {
     }
 
     @Override
-    public Optional<AccountState> tryParse(String input) throws OrmException {
+    public Optional<AccountState> tryParse(String input) {
       List<AccountState> results =
           accountQueryProvider.get().enforceVisibility(true).byFullName(input);
       return results.size() == 1 ? Optional.of(results.get(0)) : Optional.empty();
@@ -426,7 +425,7 @@ public class AccountResolver {
     }
 
     @Override
-    public Stream<AccountState> search(String input) throws OrmException {
+    public Stream<AccountState> search(String input) {
       // At this point we have no clue. Just perform a whole bunch of suggestions and pray we come
       // up with a reasonable result list.
       // TODO(dborowitz): This doesn't match the documentation; consider whether it's possible to be
@@ -513,11 +512,10 @@ public class AccountResolver {
    *
    * @param input input string.
    * @return a result describing matching accounts. Never null even if the result set is empty.
-   * @throws OrmException if an error occurs.
    * @throws ConfigInvalidException if an error occurs.
    * @throws IOException if an error occurs.
    */
-  public Result resolve(String input) throws OrmException, ConfigInvalidException, IOException {
+  public Result resolve(String input) throws ConfigInvalidException, IOException {
     return searchImpl(input, searchers, visibilitySupplier());
   }
 
@@ -539,15 +537,13 @@ public class AccountResolver {
    *
    * @param input input string.
    * @return a result describing matching accounts. Never null even if the result set is empty.
-   * @throws OrmException if an error occurs.
    * @throws ConfigInvalidException if an error occurs.
    * @throws IOException if an error occurs.
    * @deprecated for use only by MailUtil for parsing commit footers; that class needs to be
    *     reevaluated.
    */
   @Deprecated
-  public Result resolveByNameOrEmail(String input)
-      throws OrmException, ConfigInvalidException, IOException {
+  public Result resolveByNameOrEmail(String input) throws ConfigInvalidException, IOException {
     return searchImpl(input, nameOrEmailSearchers, visibilitySupplier());
   }
 
@@ -560,7 +556,7 @@ public class AccountResolver {
       String input,
       ImmutableList<Searcher<?>> searchers,
       Supplier<Predicate<AccountState>> visibilitySupplier)
-      throws OrmException, ConfigInvalidException, IOException {
+      throws ConfigInvalidException, IOException {
     visibilitySupplier = Suppliers.memoize(visibilitySupplier::get);
     List<AccountState> inactive = new ArrayList<>();
 

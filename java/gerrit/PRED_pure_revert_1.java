@@ -15,8 +15,6 @@
 package gerrit;
 
 import com.google.gerrit.server.rules.StoredValues;
-import com.google.gwtorm.server.OrmException;
-import com.googlecode.prolog_cafe.exceptions.JavaException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.Operation;
@@ -36,12 +34,7 @@ public class PRED_pure_revert_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    Boolean isPureRevert;
-    try {
-      isPureRevert = StoredValues.CHANGE_DATA.get(engine).isPureRevert();
-    } catch (OrmException e) {
-      throw new JavaException(this, 1, e);
-    }
+    Boolean isPureRevert = StoredValues.CHANGE_DATA.get(engine).isPureRevert();
     if (!a1.unify(new IntegerTerm(Boolean.TRUE.equals(isPureRevert) ? 1 : 0), engine.trail)) {
       return engine.fail();
     }

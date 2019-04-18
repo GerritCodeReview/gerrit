@@ -43,7 +43,6 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -83,8 +82,7 @@ public class DeleteChangeMessage
       BatchUpdate.Factory updateFactory,
       ChangeMessageResource resource,
       DeleteChangeMessageInput input)
-      throws RestApiException, PermissionBackendException, OrmException, UpdateException,
-          IOException {
+      throws RestApiException, PermissionBackendException, UpdateException, IOException {
     CurrentUser user = userProvider.get();
     permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
 
@@ -103,7 +101,7 @@ public class DeleteChangeMessage
   }
 
   private ChangeMessageInfo createUpdatedChangeMessageInfo(Change.Id id, int targetIdx)
-      throws OrmException, PermissionBackendException {
+      throws PermissionBackendException {
     List<ChangeMessage> messages = changeMessagesUtil.byChange(notesFactory.createChecked(id));
     ChangeMessage updatedChangeMessage = messages.get(targetIdx);
     AccountLoader accountLoader = accountLoaderFactory.create(true);

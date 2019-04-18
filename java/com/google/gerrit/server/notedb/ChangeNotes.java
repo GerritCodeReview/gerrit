@@ -36,6 +36,7 @@ import com.google.common.collect.Sets.SetView;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -55,7 +56,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -103,17 +103,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.projectCache = projectCache;
     }
 
-    public ChangeNotes createChecked(Change c) throws OrmException {
+    public ChangeNotes createChecked(Change c) {
       return createChecked(c.getProject(), c.getId());
     }
 
-    public ChangeNotes createChecked(Project.NameKey project, Change.Id changeId)
-        throws OrmException {
+    public ChangeNotes createChecked(Project.NameKey project, Change.Id changeId) {
       Change change = newChange(project, changeId);
       return new ChangeNotes(args, change, true, null).load();
     }
 
-    public ChangeNotes createChecked(Change.Id changeId) throws OrmException {
+    public ChangeNotes createChecked(Change.Id changeId) {
       InternalChangeQuery query = queryProvider.get().noFields();
       List<ChangeData> changes = query.byLegacyChangeId(changeId);
       if (changes.isEmpty()) {
@@ -131,7 +130,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           null, changeId, null, new Branch.NameKey(project, "INVALID_NOTE_DB_ONLY"), null);
     }
 
-    public ChangeNotes create(Project.NameKey project, Change.Id changeId) throws OrmException {
+    public ChangeNotes create(Project.NameKey project, Change.Id changeId) {
       checkArgument(project != null, "project is required");
       return new ChangeNotes(args, newChange(project, changeId), true, null).load();
     }
@@ -147,16 +146,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return new ChangeNotes(args, change, true, null);
     }
 
-    public ChangeNotes createForBatchUpdate(Change change, boolean shouldExist)
-        throws OrmException {
+    public ChangeNotes createForBatchUpdate(Change change, boolean shouldExist) {
       return new ChangeNotes(args, change, shouldExist, null).load();
     }
 
-    public ChangeNotes create(Change change, RefCache refs) throws OrmException {
+    public ChangeNotes create(Change change, RefCache refs) {
       return new ChangeNotes(args, change, true, refs).load();
     }
 
-    public List<ChangeNotes> create(Collection<Change.Id> changeIds) throws OrmException {
+    public List<ChangeNotes> create(Collection<Change.Id> changeIds) {
       List<ChangeNotes> notes = new ArrayList<>();
       for (Change.Id changeId : changeIds) {
         try {
@@ -169,8 +167,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     public List<ChangeNotes> create(
-        Project.NameKey project, Collection<Change.Id> changeIds, Predicate<ChangeNotes> predicate)
-        throws OrmException {
+        Project.NameKey project,
+        Collection<Change.Id> changeIds,
+        Predicate<ChangeNotes> predicate) {
       List<ChangeNotes> notes = new ArrayList<>();
       for (Change.Id cid : changeIds) {
         try {
@@ -229,7 +228,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       ChangeNotes n = new ChangeNotes(args, rawChangeFromNoteDb, true, null);
       try {
         n.load();
-      } catch (OrmException e) {
+      } catch (StorageException e) {
         return ChangeNotesResult.error(n.getChangeId(), e);
       }
       return ChangeNotesResult.notes(n);
@@ -238,7 +237,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     /** Result of {@link #scan(Repository,Project.NameKey)}. */
     @AutoValue
     public abstract static class ChangeNotesResult {
-      static ChangeNotesResult error(Change.Id id, OrmException e) {
+      static ChangeNotesResult error(Change.Id id, StorageException e) {
         return new AutoValue_ChangeNotes_Factory_ChangeNotesResult(id, Optional.of(e), null);
       }
 
@@ -251,7 +250,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       public abstract Change.Id id();
 
       /** Error encountered while loading this change, if any. */
-      public abstract Optional<OrmException> error();
+      public abstract Optional<StorageException> error();
 
       /**
        * Notes loaded for this change.
@@ -419,13 +418,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return commentKeys;
   }
 
-  public ImmutableListMultimap<RevId, Comment> getDraftComments(Account.Id author)
-      throws OrmException {
+  public ImmutableListMultimap<RevId, Comment> getDraftComments(Account.Id author) {
     return getDraftComments(author, null);
   }
 
   public ImmutableListMultimap<RevId, Comment> getDraftComments(
-      Account.Id author, @Nullable Ref ref) throws OrmException {
+      Account.Id author, @Nullable Ref ref) {
     loadDraftComments(author, ref);
     // Filter out any zombie draft comments. These are drafts that are also in
     // the published map, and arise when the update to All-Users to delete them
@@ -435,7 +433,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
             draftCommentNotes.getComments(), e -> !getCommentKeys().contains(e.getValue().key)));
   }
 
-  public ImmutableListMultimap<RevId, RobotComment> getRobotComments() throws OrmException {
+  public ImmutableListMultimap<RevId, RobotComment> getRobotComments() {
     loadRobotComments();
     return robotCommentNotes.getComments();
   }
@@ -445,14 +443,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
    * However, this method will load the comments if no draft comments have been loaded or if the
    * caller would like the drafts for another author.
    */
-  private void loadDraftComments(Account.Id author, @Nullable Ref ref) throws OrmException {
+  private void loadDraftComments(Account.Id author, @Nullable Ref ref) {
     if (draftCommentNotes == null || !author.equals(draftCommentNotes.getAuthor()) || ref != null) {
       draftCommentNotes = new DraftCommentNotes(args, getChangeId(), author, ref);
       draftCommentNotes.load();
     }
   }
 
-  private void loadRobotComments() throws OrmException {
+  private void loadRobotComments() {
     if (robotCommentNotes == null) {
       robotCommentNotes = new RobotCommentNotes(args, change);
       robotCommentNotes.load();
@@ -468,7 +466,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return robotCommentNotes;
   }
 
-  public boolean containsComment(Comment c) throws OrmException {
+  public boolean containsComment(Comment c) {
     if (containsCommentPublished(c)) {
       return true;
     }

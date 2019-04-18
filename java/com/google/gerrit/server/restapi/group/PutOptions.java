@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.group;
 
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -26,7 +26,6 @@ import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -45,7 +44,7 @@ public class PutOptions implements RestModifyView<GroupResource, GroupOptionsInf
   @Override
   public GroupOptionsInfo apply(GroupResource resource, GroupOptionsInfo input)
       throws NotInternalGroupException, AuthException, BadRequestException,
-          ResourceNotFoundException, OrmException, IOException, ConfigInvalidException {
+          ResourceNotFoundException, IOException, ConfigInvalidException {
     GroupDescription.Internal internalGroup =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     if (!resource.getControl().isOwner()) {

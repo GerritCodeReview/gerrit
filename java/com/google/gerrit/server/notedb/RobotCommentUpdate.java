@@ -19,13 +19,13 @@ import static com.google.gerrit.reviewdb.client.RefNames.robotCommentsRef;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.collect.Sets;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -101,7 +101,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
 
   private CommitBuilder storeCommentsInNotes(
       RevWalk rw, ObjectInserter ins, ObjectId curr, CommitBuilder cb)
-      throws ConfigInvalidException, OrmException, IOException {
+      throws ConfigInvalidException, IOException {
     RevisionNoteMap<RobotCommentsRevisionNote> rnm = getRevisionNoteMap(rw, curr);
     Set<RevId> updatedRevs = Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
@@ -148,7 +148,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
   }
 
   private RevisionNoteMap<RobotCommentsRevisionNote> getRevisionNoteMap(RevWalk rw, ObjectId curr)
-      throws ConfigInvalidException, OrmException, IOException {
+      throws ConfigInvalidException, IOException {
     if (curr.equals(ObjectId.zeroId())) {
       return RevisionNoteMap.emptyMap();
     }
@@ -179,13 +179,13 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
 
   @Override
   protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
-      throws OrmException, IOException {
+      throws IOException {
     CommitBuilder cb = new CommitBuilder();
     cb.setMessage("Update robot comments");
     try {
       return storeCommentsInNotes(rw, ins, curr, cb);
     } catch (ConfigInvalidException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
   }
 

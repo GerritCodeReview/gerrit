@@ -33,7 +33,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -77,8 +76,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
 
   @Override
   public RevisionResource parse(ChangeResource change, IdString id)
-      throws ResourceNotFoundException, AuthException, OrmException, IOException,
-          PermissionBackendException {
+      throws ResourceNotFoundException, AuthException, IOException, PermissionBackendException {
     if (id.get().equals("current")) {
       PatchSet ps = psUtil.current(change.getNotes());
       if (ps != null && visible(change)) {
@@ -117,7 +115,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   }
 
   private List<RevisionResource> find(ChangeResource change, String id)
-      throws OrmException, IOException, AuthException {
+      throws IOException, AuthException {
     if (id.equals("0") || id.equals("edit")) {
       return loadEdit(change, null);
     } else if (id.length() < 6 && id.matches("^[1-9][0-9]{0,4}$")) {
@@ -142,8 +140,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     }
   }
 
-  private List<RevisionResource> byLegacyPatchSetId(ChangeResource change, String id)
-      throws OrmException {
+  private List<RevisionResource> byLegacyPatchSetId(ChangeResource change, String id) {
     PatchSet ps =
         psUtil.get(change.getNotes(), new PatchSet.Id(change.getId(), Integer.parseInt(id)));
     if (ps != null) {

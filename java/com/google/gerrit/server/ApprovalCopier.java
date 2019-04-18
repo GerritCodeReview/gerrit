@@ -22,6 +22,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -32,7 +33,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -73,8 +73,7 @@ public class ApprovalCopier {
   }
 
   Iterable<PatchSetApproval> getForPatchSet(
-      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig)
-      throws OrmException {
+      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
     return getForPatchSet(notes, psId, rw, repoConfig, Collections.emptyList());
   }
 
@@ -83,8 +82,7 @@ public class ApprovalCopier {
       PatchSet.Id psId,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig,
-      Iterable<PatchSetApproval> dontCopy)
-      throws OrmException {
+      Iterable<PatchSetApproval> dontCopy) {
     PatchSet ps = psUtil.get(notes, psId);
     if (ps == null) {
       return Collections.emptyList();
@@ -97,8 +95,7 @@ public class ApprovalCopier {
       PatchSet ps,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig,
-      Iterable<PatchSetApproval> dontCopy)
-      throws OrmException {
+      Iterable<PatchSetApproval> dontCopy) {
     requireNonNull(ps, "ps should not be null");
     ChangeData cd = changeDataFactory.create(notes);
     try {
@@ -153,11 +150,11 @@ public class ApprovalCopier {
       }
       return labelNormalizer.normalize(notes, byUser.values()).getNormalized();
     } catch (IOException e) {
-      throw new OrmException(e);
+      throw new StorageException(e);
     }
   }
 
-  private static TreeMap<Integer, PatchSet> getPatchSets(ChangeData cd) throws OrmException {
+  private static TreeMap<Integer, PatchSet> getPatchSets(ChangeData cd) {
     Collection<PatchSet> patchSets = cd.patchSets();
     TreeMap<Integer, PatchSet> result = new TreeMap<>();
     for (PatchSet ps : patchSets) {

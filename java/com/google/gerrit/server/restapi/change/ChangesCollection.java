@@ -34,7 +34,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -81,7 +80,7 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
 
   @Override
   public ChangeResource parse(TopLevelResource root, IdString id)
-      throws RestApiException, OrmException, PermissionBackendException, IOException {
+      throws RestApiException, PermissionBackendException, IOException {
     List<ChangeNotes> notes = changeFinder.find(id.encoded(), true);
     if (notes.isEmpty()) {
       throw new ResourceNotFoundException(id);
@@ -98,8 +97,8 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
   }
 
   public ChangeResource parse(Change.Id id)
-      throws ResourceConflictException, ResourceNotFoundException, OrmException,
-          PermissionBackendException, IOException {
+      throws ResourceConflictException, ResourceNotFoundException, PermissionBackendException,
+          IOException {
     List<ChangeNotes> notes = changeFinder.find(id);
     if (notes.isEmpty()) {
       throw new ResourceNotFoundException(toIdString(id));

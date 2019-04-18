@@ -23,7 +23,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -54,8 +53,7 @@ public class GetHead implements RestReadView<ProjectResource> {
 
   @Override
   public String apply(ProjectResource rsrc)
-      throws AuthException, ResourceNotFoundException, IOException, OrmException,
-          PermissionBackendException {
+      throws AuthException, ResourceNotFoundException, IOException, PermissionBackendException {
     rsrc.getProjectState().statePermitsRead();
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       Ref head = repo.getRefDatabase().exactRef(Constants.HEAD);

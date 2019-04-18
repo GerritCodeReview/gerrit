@@ -17,7 +17,8 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
-import com.google.gerrit.common.errors.NotSignedInException;
+import com.google.gerrit.exceptions.NotSignedInException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.Schema;
@@ -37,7 +38,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -114,7 +114,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
 
   @Operator
   public Predicate<AccountState> cansee(String change)
-      throws QueryParseException, OrmException, PermissionBackendException {
+      throws QueryParseException, PermissionBackendException {
     ChangeNotes changeNotes = args.changeFinder.findOne(change);
     if (changeNotes == null) {
       throw error(String.format("change %s not found", change));
@@ -195,7 +195,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
     if (query.startsWith("cansee:")) {
       try {
         return cansee(query.substring(7));
-      } catch (OrmException | QueryParseException | PermissionBackendException e) {
+      } catch (StorageException | QueryParseException | PermissionBackendException e) {
         // Ignore, fall back to default query
       }
     }

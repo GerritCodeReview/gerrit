@@ -27,7 +27,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ChildProjects;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
@@ -67,7 +66,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
 
   @Override
   public List<ProjectInfo> apply(ProjectResource rsrc)
-      throws PermissionBackendException, OrmException, RestApiException {
+      throws PermissionBackendException, RestApiException {
     if (limit < 0) {
       throw new BadRequestException("limit must be a positive number");
     }
@@ -82,8 +81,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     return directChildProjects(rsrc.getNameKey());
   }
 
-  private List<ProjectInfo> directChildProjects(Project.NameKey parent)
-      throws OrmException, RestApiException {
+  private List<ProjectInfo> directChildProjects(Project.NameKey parent) throws RestApiException {
     PermissionBackend.WithUser currentUser = permissionBackend.currentUser();
     return queryProvider.get().withQuery("parent:" + parent.get()).withLimit(limit).apply().stream()
         .filter(

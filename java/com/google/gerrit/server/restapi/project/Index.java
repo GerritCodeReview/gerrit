@@ -30,7 +30,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -58,7 +57,7 @@ public class Index implements RestModifyView<ProjectResource, IndexProjectInput>
 
   @Override
   public Response.Accepted apply(ProjectResource rsrc, IndexProjectInput input)
-      throws IOException, OrmException, PermissionBackendException, RestApiException {
+      throws IOException, PermissionBackendException, RestApiException {
     String response = "Project " + rsrc.getName() + " submitted for reindexing";
 
     reindex(rsrc.getNameKey(), input.async);
@@ -72,18 +71,10 @@ public class Index implements RestModifyView<ProjectResource, IndexProjectInput>
     return Response.accepted(response);
   }
 
-  private void reindex(Project.NameKey project, Boolean async) throws IOException {
+  private void reindex(Project.NameKey project, Boolean async) {
     if (Boolean.TRUE.equals(async)) {
       @SuppressWarnings("unused")
-      Future<?> possiblyIgnoredError =
-          executor.submit(
-              () -> {
-                try {
-                  indexer.index(project);
-                } catch (IOException e) {
-                  logger.atWarning().withCause(e).log("reindexing project %s failed", project);
-                }
-              });
+      Future<?> possiblyIgnoredError = executor.submit(() -> indexer.index(project));
     } else {
       indexer.index(project);
     }

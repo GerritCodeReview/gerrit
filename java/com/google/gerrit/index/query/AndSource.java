@@ -17,12 +17,10 @@ package com.google.gerrit.index.query;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.OrmRuntimeException;
+import com.google.gerrit.exceptions.StorageException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -76,26 +74,9 @@ public class AndSource<T> extends AndPredicate<T>
   }
 
   @Override
-  public ResultSet<T> read() throws OrmException {
-    try {
-      return readImpl();
-    } catch (OrmRuntimeException err) {
-      if (err.getCause() != null) {
-        Throwables.throwIfInstanceOf(err.getCause(), OrmException.class);
-      }
-      throw new OrmException(err);
-    }
-  }
-
-  @Override
-  public ResultSet<FieldBundle> readRaw() throws OrmException {
-    // TOOD(hiesel): Implement
-    throw new UnsupportedOperationException("not implemented");
-  }
-
-  private ResultSet<T> readImpl() throws OrmException {
+  public ResultSet<T> read() {
     if (source == null) {
-      throw new OrmException("No DataSource: " + this);
+      throw new StorageException("No DataSource: " + this);
     }
     List<T> r = new ArrayList<>();
     T last = null;
@@ -142,12 +123,18 @@ public class AndSource<T> extends AndPredicate<T>
   }
 
   @Override
+  public ResultSet<FieldBundle> readRaw() {
+    // TOOD(hiesel): Implement
+    throw new UnsupportedOperationException("not implemented");
+  }
+
+  @Override
   public boolean isMatchable() {
     return isVisibleToPredicate != null || super.isMatchable();
   }
 
   @Override
-  public boolean match(T object) throws OrmException {
+  public boolean match(T object) {
     if (isVisibleToPredicate != null && !isVisibleToPredicate.match(object)) {
       return false;
     }
@@ -164,7 +151,7 @@ public class AndSource<T> extends AndPredicate<T>
         .transformAndConcat(this::transformBuffer);
   }
 
-  protected List<T> transformBuffer(List<T> buffer) throws OrmRuntimeException {
+  protected List<T> transformBuffer(List<T> buffer) {
     return buffer;
   }
 

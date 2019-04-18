@@ -32,7 +32,6 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -70,7 +69,7 @@ public class ActionJson {
     this.userProvider = userProvider;
   }
 
-  public Map<String, ActionInfo> format(RevisionResource rsrc) throws OrmException {
+  public Map<String, ActionInfo> format(RevisionResource rsrc) {
     ChangeInfo changeInfo = null;
     RevisionInfo revisionInfo = null;
     List<ActionVisitor> visitors = visitors();
@@ -97,7 +96,7 @@ public class ActionJson {
   }
 
   public RevisionInfo addRevisionActions(
-      @Nullable ChangeInfo changeInfo, RevisionInfo to, RevisionResource rsrc) throws OrmException {
+      @Nullable ChangeInfo changeInfo, RevisionInfo to, RevisionResource rsrc) {
     List<ActionVisitor> visitors = visitors();
     if (!visitors.isEmpty()) {
       if (changeInfo != null) {

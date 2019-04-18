@@ -22,10 +22,10 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -41,20 +41,19 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 @AutoValue
 public abstract class IntBlob {
-  public static Optional<IntBlob> parse(Repository repo, String refName)
-      throws IOException, OrmException {
+  public static Optional<IntBlob> parse(Repository repo, String refName) throws IOException {
     try (ObjectReader or = repo.newObjectReader()) {
       return parse(repo, refName, or);
     }
   }
 
   public static Optional<IntBlob> parse(Repository repo, String refName, RevWalk rw)
-      throws IOException, OrmException {
+      throws IOException {
     return parse(repo, refName, rw.getObjectReader());
   }
 
   private static Optional<IntBlob> parse(Repository repo, String refName, ObjectReader or)
-      throws IOException, OrmException {
+      throws IOException {
     Ref ref = repo.exactRef(refName);
     if (ref == null) {
       return Optional.empty();
@@ -69,7 +68,7 @@ public abstract class IntBlob {
     String str = CharMatcher.whitespace().trimFrom(new String(ol.getCachedBytes(), UTF_8));
     Integer value = Ints.tryParse(str);
     if (value == null) {
-      throw new OrmException("invalid value in " + refName + " blob at " + id.name());
+      throw new StorageException("invalid value in " + refName + " blob at " + id.name());
     }
     return Optional.of(IntBlob.create(id, value));
   }

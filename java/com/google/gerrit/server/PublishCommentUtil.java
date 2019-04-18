@@ -19,13 +19,13 @@ import static com.google.gerrit.reviewdb.client.PatchLineComment.Status.PUBLISHE
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
@@ -46,8 +46,7 @@ public class PublishCommentUtil {
   }
 
   public void publish(
-      ChangeContext ctx, PatchSet.Id psId, Collection<Comment> drafts, @Nullable String tag)
-      throws OrmException {
+      ChangeContext ctx, PatchSet.Id psId, Collection<Comment> drafts, @Nullable String tag) {
     ChangeNotes notes = ctx.getNotes();
     checkArgument(notes != null);
     if (drafts.isEmpty()) {
@@ -59,7 +58,7 @@ public class PublishCommentUtil {
     for (Comment d : drafts) {
       PatchSet ps = patchSets.get(psId(notes, d));
       if (ps == null) {
-        throw new OrmException("patch set " + ps + " not found");
+        throw new StorageException("patch set " + ps + " not found");
       }
       d.writtenOn = ctx.getWhen();
       d.tag = tag;
@@ -69,7 +68,7 @@ public class PublishCommentUtil {
       try {
         CommentsUtil.setCommentRevId(d, patchListCache, notes.getChange(), ps);
       } catch (PatchListNotAvailableException e) {
-        throw new OrmException(e);
+        throw new StorageException(e);
       }
     }
     commentsUtil.putComments(ctx.getUpdate(psId), PUBLISHED, drafts);

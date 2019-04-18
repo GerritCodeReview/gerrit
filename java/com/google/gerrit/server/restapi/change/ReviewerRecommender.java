@@ -39,7 +39,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -101,7 +100,7 @@ public class ReviewerRecommender {
       SuggestReviewers suggestReviewers,
       ProjectState projectState,
       List<Account.Id> candidateList)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     logger.atFine().log("Candidates %s", candidateList);
 
     String query = suggestReviewers.getQuery();
@@ -198,7 +197,7 @@ public class ReviewerRecommender {
   }
 
   private Map<Account.Id, MutableDouble> baseRankingForEmptyQuery(double baseWeight)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     // Get the user's last 25 changes, check approvals
     try {
       List<ChangeData> result =
@@ -228,7 +227,7 @@ public class ReviewerRecommender {
 
   private Map<Account.Id, MutableDouble> baseRankingForCandidateList(
       List<Account.Id> candidates, ProjectState projectState, double baseWeight)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     // Get each reviewer's activity based on number of applied labels
     // (weighted 10d), number of comments (weighted 0.5d) and number of owned
     // changes (weighted 1d).

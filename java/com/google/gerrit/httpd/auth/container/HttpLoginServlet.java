@@ -31,7 +31,6 @@ import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.util.http.CacheHeaders;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -128,7 +127,7 @@ class HttpLoginServlet extends HttpServlet {
         logger.atFine().log(
             "Associating external identity \"%s\" to user \"%s\"", remoteExternalId, user);
         updateRemoteExternalId(arsp, remoteExternalId);
-      } catch (AccountException | OrmException | ConfigInvalidException e) {
+      } catch (AccountException | ConfigInvalidException e) {
         logger.atSevere().withCause(e).log(
             "Unable to associate external identity \"%s\" to user \"%s\"", remoteExternalId, user);
         rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
@@ -152,7 +151,7 @@ class HttpLoginServlet extends HttpServlet {
   }
 
   private void updateRemoteExternalId(AuthResult arsp, String remoteAuthToken)
-      throws AccountException, OrmException, IOException, ConfigInvalidException {
+      throws AccountException, IOException, ConfigInvalidException {
     accountManager.updateLink(
         arsp.getAccountId(),
         new AuthRequest(ExternalId.Key.create(SCHEME_EXTERNAL, remoteAuthToken)));

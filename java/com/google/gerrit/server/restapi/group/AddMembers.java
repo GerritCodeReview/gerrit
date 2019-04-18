@@ -18,7 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -49,7 +49,6 @@ import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.group.AddMembers.Input;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -113,9 +112,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
   @Override
   public List<AccountInfo> apply(GroupResource resource, Input input)
-      throws AuthException, NotInternalGroupException, UnprocessableEntityException, OrmException,
-          IOException, ConfigInvalidException, ResourceNotFoundException,
-          PermissionBackendException {
+      throws AuthException, NotInternalGroupException, UnprocessableEntityException, IOException,
+          ConfigInvalidException, ResourceNotFoundException, PermissionBackendException {
     GroupDescription.Internal internalGroup =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     input = Input.init(input);
@@ -145,7 +143,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   Account findAccount(String nameOrEmailOrId)
-      throws UnprocessableEntityException, OrmException, IOException, ConfigInvalidException {
+      throws UnprocessableEntityException, IOException, ConfigInvalidException {
     AccountResolver.Result result = accountResolver.resolve(nameOrEmailOrId);
     try {
       return result.asUnique().getAccount();
@@ -177,7 +175,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   public void addMembers(AccountGroup.UUID groupUuid, Set<Account.Id> newMemberIds)
-      throws OrmException, IOException, NoSuchGroupException, ConfigInvalidException {
+      throws IOException, NoSuchGroupException, ConfigInvalidException {
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
             .setMemberModification(memberIds -> Sets.union(memberIds, newMemberIds))
@@ -224,8 +222,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
     @Override
     public AccountInfo apply(GroupResource resource, IdString id, Input input)
-        throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
-            IOException, ConfigInvalidException, PermissionBackendException {
+        throws AuthException, MethodNotAllowedException, ResourceNotFoundException, IOException,
+            ConfigInvalidException, PermissionBackendException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = id.get();
       try {
@@ -251,7 +249,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
     @Override
     public AccountInfo apply(MemberResource resource, Input input)
-        throws OrmException, PermissionBackendException {
+        throws PermissionBackendException {
       // Do nothing, the user is already a member.
       return get.apply(resource);
     }

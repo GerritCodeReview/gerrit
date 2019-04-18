@@ -24,7 +24,6 @@ import com.google.gerrit.server.change.ReviewerJson;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.LinkedHashMap;
@@ -47,7 +46,7 @@ class ListRevisionReviewers implements RestReadView<RevisionResource> {
 
   @Override
   public List<ReviewerInfo> apply(RevisionResource rsrc)
-      throws OrmException, MethodNotAllowedException, PermissionBackendException {
+      throws MethodNotAllowedException, PermissionBackendException {
     if (!rsrc.isCurrent()) {
       throw new MethodNotAllowedException("Cannot list reviewers on non-current patch set");
     }

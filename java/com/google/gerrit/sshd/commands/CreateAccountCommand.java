@@ -28,7 +28,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.account.CreateAccount;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -72,8 +71,7 @@ final class CreateAccountCommand extends SshCommand {
 
   @Override
   protected void run()
-      throws OrmException, IOException, ConfigInvalidException, UnloggedFailure,
-          PermissionBackendException {
+      throws IOException, ConfigInvalidException, UnloggedFailure, PermissionBackendException {
     AccountInput input = new AccountInput();
     input.username = username;
     input.email = email;

@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.RobotCommentResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -34,8 +33,7 @@ public class GetRobotComment implements RestReadView<RobotCommentResource> {
   }
 
   @Override
-  public RobotCommentInfo apply(RobotCommentResource rsrc)
-      throws OrmException, PermissionBackendException {
+  public RobotCommentInfo apply(RobotCommentResource rsrc) throws PermissionBackendException {
     return commentJson.get().newRobotCommentFormatter().format(rsrc.getComment());
   }
 }

@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collections;
@@ -40,8 +39,7 @@ public class GetPastAssignees implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Response<List<AccountInfo>> apply(ChangeResource rsrc)
-      throws OrmException, PermissionBackendException {
+  public Response<List<AccountInfo>> apply(ChangeResource rsrc) throws PermissionBackendException {
 
     Set<Account.Id> pastAssignees = rsrc.getNotes().load().getPastAssignees();
     if (pastAssignees == null) {

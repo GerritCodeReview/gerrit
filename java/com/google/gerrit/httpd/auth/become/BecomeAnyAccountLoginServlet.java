@@ -34,7 +34,6 @@ import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.util.http.CacheHeaders;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -188,33 +187,20 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   }
 
   private AuthResult byUserName(String userName) {
-    try {
-      List<AccountState> accountStates =
-          queryProvider.get().byExternalId(SCHEME_USERNAME, userName);
-      if (accountStates.isEmpty()) {
-        getServletContext().log("No accounts with username " + userName + " found");
-        return null;
-      }
-      if (accountStates.size() > 1) {
-        getServletContext().log("Multiple accounts with username " + userName + " found");
-        return null;
-      }
-      return auth(accountStates.get(0).getAccount().getId());
-    } catch (OrmException e) {
-      getServletContext().log("cannot query account index", e);
+    List<AccountState> accountStates = queryProvider.get().byExternalId(SCHEME_USERNAME, userName);
+    if (accountStates.isEmpty()) {
+      getServletContext().log("No accounts with username " + userName + " found");
       return null;
     }
+    if (accountStates.size() > 1) {
+      getServletContext().log("Multiple accounts with username " + userName + " found");
+      return null;
+    }
+    return auth(accountStates.get(0).getAccount().getId());
   }
 
   private Optional<AuthResult> byPreferredEmail(String email) {
-    try {
-      Optional<AccountState> match =
-          queryProvider.get().byPreferredEmail(email).stream().findFirst();
-      return auth(match);
-    } catch (OrmException e) {
-      getServletContext().log("cannot query database", e);
-      return Optional.empty();
-    }
+    return auth(queryProvider.get().byPreferredEmail(email).stream().findFirst());
   }
 
   private Optional<AuthResult> byAccountId(String idStr) {

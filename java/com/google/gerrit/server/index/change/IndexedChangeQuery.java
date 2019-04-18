@@ -34,7 +34,6 @@ import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
-import com.google.gwtorm.server.OrmException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -81,7 +80,7 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
   }
 
   @Override
-  public ResultSet<ChangeData> read() throws OrmException {
+  public ResultSet<ChangeData> read() {
     final DataSource<ChangeData> currSource = source;
     final ResultSet<ChangeData> rs = currSource.read();
 
@@ -114,7 +113,7 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
   }
 
   @Override
-  public boolean match(ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) {
     if (source != null && fromSource.get(cd) == source) {
       return true;
     }

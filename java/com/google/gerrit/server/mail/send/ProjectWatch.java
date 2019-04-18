@@ -35,7 +35,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.SingleGroupUser;
-import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -62,8 +61,7 @@ public class ProjectWatch {
   }
 
   /** Returns all watchers that are relevant */
-  public final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig)
-      throws OrmException {
+  public final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig) {
     Watchers matching = new Watchers();
     Set<Account.Id> projectWatchers = new HashSet<>();
 
@@ -148,7 +146,7 @@ public class ProjectWatch {
     }
   }
 
-  private void add(Watchers matching, NotifyConfig nc) throws OrmException, QueryParseException {
+  private void add(Watchers matching, NotifyConfig nc) throws QueryParseException {
     for (GroupReference ref : nc.getGroups()) {
       CurrentUser user = new SingleGroupUser(ref.getUUID());
       if (filterMatch(user, nc.getFilter())) {
@@ -202,8 +200,7 @@ public class ProjectWatch {
       Account.Id accountId,
       ProjectWatchKey key,
       Set<NotifyType> watchedTypes,
-      NotifyType type)
-      throws OrmException {
+      NotifyType type) {
     IdentifiedUser user = args.identifiedUserFactory.create(accountId);
 
     try {
@@ -221,8 +218,7 @@ public class ProjectWatch {
     return false;
   }
 
-  private boolean filterMatch(CurrentUser user, String filter)
-      throws OrmException, QueryParseException {
+  private boolean filterMatch(CurrentUser user, String filter) throws QueryParseException {
     ChangeQueryBuilder qb;
     Predicate<ChangeData> p = null;
 

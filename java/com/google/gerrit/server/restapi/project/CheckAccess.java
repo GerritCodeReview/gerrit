@@ -34,7 +34,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -61,8 +60,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
 
   @Override
   public AccessCheckInfo apply(ProjectResource rsrc, AccessCheckInput input)
-      throws OrmException, PermissionBackendException, RestApiException, IOException,
-          ConfigInvalidException {
+      throws PermissionBackendException, RestApiException, IOException, ConfigInvalidException {
     permissionBackend.user(rsrc.getUser()).check(GlobalPermission.VIEW_ACCESS);
 
     rsrc.getProjectState().checkStatePermitsRead();

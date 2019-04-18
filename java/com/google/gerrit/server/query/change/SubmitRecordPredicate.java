@@ -20,7 +20,6 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 import java.util.Set;
 
 public class SubmitRecordPredicate extends ChangeIndexPredicate {
@@ -41,7 +40,7 @@ public class SubmitRecordPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData in) throws OrmException {
+  public boolean match(ChangeData in) {
     return ChangeField.formatSubmitRecordValues(in).contains(getValue());
   }
 

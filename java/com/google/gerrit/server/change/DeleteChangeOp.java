@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -66,8 +66,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
   // executed in a single atomic BatchRefUpdate. Actually deleting the change refs first would not
   // fail gracefully if the second delete fails, but fortunately that's not what happens.
   @Override
-  public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, OrmException, IOException {
+  public boolean updateChange(ChangeContext ctx) throws RestApiException, IOException {
     Collection<PatchSet> patchSets = psUtil.byChange(ctx.getNotes());
 
     ensureDeletable(ctx, id, patchSets);
@@ -107,9 +106,9 @@ public class DeleteChangeOp implements BatchUpdateOp {
   }
 
   private void cleanUpReferences(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)
-      throws OrmException, NoSuchChangeException {
+      throws NoSuchChangeException {
     for (PatchSet ps : patchSets) {
-      accountPatchReviewStore.run(s -> s.clearReviewed(ps.getId()), OrmException.class);
+      accountPatchReviewStore.run(s -> s.clearReviewed(ps.getId()), StorageException.class);
     }
 
     // Non-atomic operation on Accounts table; not much we can do to make it

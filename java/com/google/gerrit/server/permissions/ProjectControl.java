@@ -21,6 +21,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.access.CoreOrPluginProjectPermission;
 import com.google.gerrit.extensions.api.access.PluginProjectPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
@@ -43,7 +44,6 @@ import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionMatcher;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collection;
@@ -99,7 +99,7 @@ class ProjectControl {
     return new ForProjectImpl();
   }
 
-  ChangeControl controlFor(Change change) throws OrmException {
+  ChangeControl controlFor(Change change) {
     return changeControlFactory.create(
         controlForRef(change.getDest()), change.getProject(), change.getId());
   }
@@ -353,7 +353,7 @@ class ProjectControl {
       try {
         checkProject(cd.change());
         return super.change(cd);
-      } catch (OrmException e) {
+      } catch (StorageException e) {
         return FailedPermissionBackend.change("unavailable", e);
       }
     }

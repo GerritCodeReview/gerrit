@@ -29,7 +29,6 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
@@ -110,7 +109,7 @@ class RunAsFilter implements Filter {
       } catch (UnprocessableEntityException e) {
         replyError(req, res, SC_FORBIDDEN, "no account matches " + RUN_AS, null);
         return;
-      } catch (OrmException | IOException | ConfigInvalidException e) {
+      } catch (IOException | ConfigInvalidException | RuntimeException e) {
         logger.atWarning().withCause(e).log("cannot resolve account for %s", RUN_AS);
         replyError(req, res, SC_INTERNAL_SERVER_ERROR, "cannot resolve " + RUN_AS, e);
         return;

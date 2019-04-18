@@ -15,8 +15,6 @@
 package gerrit;
 
 import com.google.gerrit.server.rules.StoredValues;
-import com.google.gwtorm.server.OrmException;
-import com.googlecode.prolog_cafe.exceptions.JavaException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.Operation;
@@ -35,13 +33,9 @@ public class PRED_unresolved_comments_count_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    try {
-      Integer count = StoredValues.CHANGE_DATA.get(engine).unresolvedCommentCount();
-      if (!a1.unify(new IntegerTerm(count != null ? count : 0), engine.trail)) {
-        return engine.fail();
-      }
-    } catch (OrmException err) {
-      throw new JavaException(this, 1, err);
+    Integer count = StoredValues.CHANGE_DATA.get(engine).unresolvedCommentCount();
+    if (!a1.unify(new IntegerTerm(count != null ? count : 0), engine.trail)) {
+      return engine.fail();
     }
     return cont;
   }

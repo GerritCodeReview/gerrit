@@ -57,7 +57,6 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -156,7 +155,7 @@ public class ReviewersUtil {
   }
 
   public interface VisibilityControl {
-    boolean isVisibleTo(Account.Id account) throws OrmException;
+    boolean isVisibleTo(Account.Id account);
   }
 
   public List<SuggestedReviewerInfo> suggestReviewers(
@@ -165,7 +164,7 @@ public class ReviewersUtil {
       ProjectState projectState,
       VisibilityControl visibilityControl,
       boolean excludeGroups)
-      throws IOException, OrmException, ConfigInvalidException, PermissionBackendException {
+      throws IOException, ConfigInvalidException, PermissionBackendException {
     CurrentUser currentUser = self.get();
     if (changeNotes != null) {
       logger.atFine().log(
@@ -224,7 +223,7 @@ public class ReviewersUtil {
     return suggestedReviewers;
   }
 
-  private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers) throws OrmException {
+  private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers) {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
       try {
         // For performance reasons we don't use AccountQueryProvider as it would always load the
@@ -264,7 +263,7 @@ public class ReviewersUtil {
       VisibilityControl visibilityControl,
       boolean excludeGroups,
       List<Account.Id> filteredRecommendations)
-      throws OrmException, PermissionBackendException, IOException {
+      throws PermissionBackendException, IOException {
     List<SuggestedReviewerInfo> suggestedReviewers = loadAccounts(filteredRecommendations);
 
     int limit = suggestReviewers.getLimit();
@@ -293,7 +292,7 @@ public class ReviewersUtil {
       SuggestReviewers suggestReviewers,
       ProjectState projectState,
       List<Account.Id> candidateList)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     try (Timer0.Context ctx = metrics.recommendAccountsLatency.start()) {
       return reviewerRecommender.suggestReviewers(
           changeNotes, suggestReviewers, projectState, candidateList);
@@ -329,7 +328,7 @@ public class ReviewersUtil {
       ProjectState projectState,
       VisibilityControl visibilityControl,
       int limit)
-      throws OrmException, IOException {
+      throws IOException {
     try (Timer0.Context ctx = metrics.queryGroupsLatency.start()) {
       List<SuggestedReviewerInfo> groups = new ArrayList<>();
       for (GroupReference g : suggestAccountGroups(suggestReviewers, projectState)) {
@@ -375,7 +374,7 @@ public class ReviewersUtil {
       Project project,
       GroupReference group,
       VisibilityControl visibilityControl)
-      throws OrmException, IOException {
+      throws IOException {
     GroupAsReviewer result = new GroupAsReviewer();
     int maxAllowed = suggestReviewers.getMaxAllowed();
     int maxAllowedWithoutConfirmation = suggestReviewers.getMaxAllowedWithoutConfirmation();

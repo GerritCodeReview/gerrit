@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Optional;
@@ -46,24 +45,24 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup, InternalGro
     super(queryProcessor, indexes, indexConfig);
   }
 
-  public Optional<InternalGroup> byName(AccountGroup.NameKey groupName) throws OrmException {
+  public Optional<InternalGroup> byName(AccountGroup.NameKey groupName) {
     return getOnlyGroup(GroupPredicates.name(groupName.get()), "group name '" + groupName + "'");
   }
 
-  public Optional<InternalGroup> byId(AccountGroup.Id groupId) throws OrmException {
+  public Optional<InternalGroup> byId(AccountGroup.Id groupId) {
     return getOnlyGroup(GroupPredicates.id(groupId), "group id '" + groupId + "'");
   }
 
-  public List<InternalGroup> byMember(Account.Id memberId) throws OrmException {
+  public List<InternalGroup> byMember(Account.Id memberId) {
     return query(GroupPredicates.member(memberId));
   }
 
-  public List<InternalGroup> bySubgroup(AccountGroup.UUID subgroupId) throws OrmException {
+  public List<InternalGroup> bySubgroup(AccountGroup.UUID subgroupId) {
     return query(GroupPredicates.subgroup(subgroupId));
   }
 
   private Optional<InternalGroup> getOnlyGroup(
-      Predicate<InternalGroup> predicate, String groupDescription) throws OrmException {
+      Predicate<InternalGroup> predicate, String groupDescription) {
     List<InternalGroup> groups = query(predicate);
     if (groups.isEmpty()) {
       return Optional.empty();

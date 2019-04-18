@@ -44,7 +44,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -157,8 +156,7 @@ public class AddReviewersOp implements BatchUpdateOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, OrmException, IOException {
+  public boolean updateChange(ChangeContext ctx) throws RestApiException, IOException {
     change = ctx.getChange();
     if (!accountIds.isEmpty()) {
       if (state == CC) {

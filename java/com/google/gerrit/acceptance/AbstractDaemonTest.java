@@ -132,7 +132,6 @@ import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.SshMode;
 import com.google.gson.Gson;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -1087,7 +1086,7 @@ public abstract class AbstractDaemonTest {
         .inOrder();
   }
 
-  protected PatchSet getPatchSet(PatchSet.Id psId) throws OrmException {
+  protected PatchSet getPatchSet(PatchSet.Id psId) {
     return changeDataFactory.create(project, psId.getParentKey()).patchSet(psId);
   }
 
@@ -1416,7 +1415,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void watch(PushOneCommit.Result r, ProjectWatchInfoConfiguration config)
-      throws OrmException, RestApiException {
+      throws RestApiException {
     watch(r.getChange().project().get(), config);
   }
 

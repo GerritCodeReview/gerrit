@@ -26,7 +26,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.MemberResource;
 import com.google.gerrit.server.restapi.account.AccountsCollection;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -56,8 +55,8 @@ public class MembersCollection implements ChildCollection<GroupResource, MemberR
 
   @Override
   public MemberResource parse(GroupResource parent, IdString id)
-      throws NotInternalGroupException, AuthException, ResourceNotFoundException, OrmException,
-          IOException, ConfigInvalidException {
+      throws NotInternalGroupException, AuthException, ResourceNotFoundException, IOException,
+          ConfigInvalidException {
     GroupDescription.Internal group =
         parent.asInternalGroup().orElseThrow(NotInternalGroupException::new);
 

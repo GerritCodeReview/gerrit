@@ -32,7 +32,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.Reachable;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -75,7 +74,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
 
   @Override
   public CommitResource parse(ProjectResource parent, IdString id)
-      throws RestApiException, IOException, OrmException {
+      throws RestApiException, IOException {
     parent.getProjectState().checkStatePermitsRead();
     ObjectId objectId;
     try {
@@ -106,8 +105,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
   }
 
   /** @return true if {@code commit} is visible to the caller. */
-  public boolean canRead(ProjectState state, Repository repo, RevCommit commit)
-      throws OrmException, IOException {
+  public boolean canRead(ProjectState state, Repository repo, RevCommit commit) throws IOException {
     Project.NameKey project = state.getNameKey();
     if (indexes.getSearchIndex() == null) {
       // No index in slaves, fall back to scanning refs.

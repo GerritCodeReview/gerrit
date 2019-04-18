@@ -34,7 +34,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -67,8 +66,8 @@ public class ApplyFix implements RestModifyView<FixResource, Void> {
 
   @Override
   public Response<EditInfo> apply(FixResource fixResource, Void nothing)
-      throws AuthException, OrmException, ResourceConflictException, IOException,
-          ResourceNotFoundException, PermissionBackendException {
+      throws AuthException, ResourceConflictException, IOException, ResourceNotFoundException,
+          PermissionBackendException {
     RevisionResource revisionResource = fixResource.getRevisionResource();
     Project.NameKey project = revisionResource.getProject();
     ProjectState projectState = projectCache.checkedGet(project);

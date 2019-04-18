@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Optional;
@@ -36,8 +35,7 @@ public class GetAssignee implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Response<AccountInfo> apply(ChangeResource rsrc)
-      throws OrmException, PermissionBackendException {
+  public Response<AccountInfo> apply(ChangeResource rsrc) throws PermissionBackendException {
     Optional<Account.Id> assignee = Optional.ofNullable(rsrc.getChange().getAssignee());
     if (assignee.isPresent()) {
       return Response.ok(accountLoaderFactory.create(true).fillOne(assignee.get()));

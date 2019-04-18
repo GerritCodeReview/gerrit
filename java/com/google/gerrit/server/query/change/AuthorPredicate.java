@@ -18,8 +18,6 @@ import static com.google.gerrit.server.index.change.ChangeField.AUTHOR;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_AUTHOR;
 
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
-import java.io.IOException;
 
 public class AuthorPredicate extends ChangeIndexPredicate {
   public AuthorPredicate(String value) {
@@ -27,12 +25,8 @@ public class AuthorPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
-    try {
-      return ChangeField.getAuthorParts(object).contains(getValue().toLowerCase());
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
+  public boolean match(ChangeData object) {
+    return ChangeField.getAuthorParts(object).contains(getValue().toLowerCase());
   }
 
   @Override

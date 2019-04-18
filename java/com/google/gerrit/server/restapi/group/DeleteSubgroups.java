@@ -17,7 +17,7 @@ package com.google.gerrit.server.restapi.group;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -33,7 +33,6 @@ import com.google.gerrit.server.group.SubgroupResource;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.restapi.group.AddSubgroups.Input;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -56,7 +55,7 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
 
   @Override
   public Response<?> apply(GroupResource resource, Input input)
-      throws AuthException, NotInternalGroupException, UnprocessableEntityException, OrmException,
+      throws AuthException, NotInternalGroupException, UnprocessableEntityException,
           ResourceNotFoundException, IOException, ConfigInvalidException {
     GroupDescription.Internal internalGroup =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
@@ -86,7 +85,7 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
 
   private void removeSubgroups(
       AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> removedSubgroupUuids)
-      throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
+      throws NoSuchGroupException, IOException, ConfigInvalidException {
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
             .setSubgroupModification(
@@ -107,7 +106,7 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
 
     @Override
     public Response<?> apply(SubgroupResource resource, Input input)
-        throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
+        throws AuthException, MethodNotAllowedException, UnprocessableEntityException,
             ResourceNotFoundException, IOException, ConfigInvalidException {
       AddSubgroups.Input in = new AddSubgroups.Input();
       in.groups = ImmutableList.of(resource.getMember().get());

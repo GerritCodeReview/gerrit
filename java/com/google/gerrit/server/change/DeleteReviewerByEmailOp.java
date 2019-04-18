@@ -24,7 +24,6 @@ import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collections;
@@ -50,7 +49,7 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws OrmException {
+  public boolean updateChange(ChangeContext ctx) {
     change = ctx.getChange();
     PatchSet.Id psId = ctx.getChange().currentPatchSetId();
     String msg = "Removed reviewer " + reviewer;

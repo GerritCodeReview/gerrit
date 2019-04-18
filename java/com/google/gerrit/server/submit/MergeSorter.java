@@ -19,7 +19,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.Collection;
@@ -54,7 +53,7 @@ public class MergeSorter {
   }
 
   public Collection<CodeReviewCommit> sort(Collection<CodeReviewCommit> toMerge)
-      throws IOException, OrmException {
+      throws IOException {
     final Set<CodeReviewCommit> heads = new HashSet<>();
     final Set<CodeReviewCommit> sort = new HashSet<>(toMerge);
     while (!sort.isEmpty()) {

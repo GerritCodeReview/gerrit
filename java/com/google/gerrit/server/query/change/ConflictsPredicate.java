@@ -20,6 +20,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -35,7 +36,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.submit.SubmitDryRun;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -61,7 +61,7 @@ public class ConflictsPredicate {
     try {
       cd = args.changeDataFactory.create(c);
       files = cd.currentFilePaths();
-    } catch (IOException | OrmException e) {
+    } catch (StorageException e) {
       warnWithOccasionalStackTrace(
           e,
           "Error constructing conflicts predicates for change %s in %s",
@@ -158,7 +158,7 @@ public class ConflictsPredicate {
           args.conflictsCache.put(conflictsKey, conflicts);
           return conflicts;
         }
-      } catch (IntegrationException | NoSuchProjectException | OrmException | IOException e) {
+      } catch (IntegrationException | NoSuchProjectException | StorageException | IOException e) {
         ObjectId finalOther = other;
         warnWithOccasionalStackTrace(
             e,
@@ -186,7 +186,7 @@ public class ConflictsPredicate {
           accepted.add(rw.parseCommit(tip));
         }
         return accepted;
-      } catch (OrmException | IOException e) {
+      } catch (StorageException | IOException e) {
         throw new IntegrationException("Failed to determine already accepted commits.", e);
       }
     }
@@ -205,7 +205,7 @@ public class ConflictsPredicate {
       this.projectCache = projectCache;
     }
 
-    ObjectId getTestAgainst() throws OrmException {
+    ObjectId getTestAgainst() {
       if (testAgainst == null) {
         testAgainst = ObjectId.fromString(cd.currentPatchSet().getRevision().get());
       }

@@ -35,7 +35,6 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.auth.oauth.OAuthTokenCache;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.servlet.SessionScoped;
@@ -188,7 +187,7 @@ class OAuthSession {
       logger.atInfo().log("OAuth2: linking claimed identity to %s", claimedId.get().toString());
       try {
         accountManager.link(claimedId.get(), req);
-      } catch (OrmException | ConfigInvalidException e) {
+      } catch (ConfigInvalidException e) {
         logger.atSevere().log(
             "Cannot link: %s to user identity:\n  Claimed ID: %s is %s",
             user.getExternalId(), claimedId.get(), claimedIdentifier);
@@ -203,7 +202,7 @@ class OAuthSession {
       throws AccountException, IOException {
     try {
       accountManager.link(identifiedUser.get().getAccountId(), areq);
-    } catch (OrmException | ConfigInvalidException e) {
+    } catch (ConfigInvalidException e) {
       logger.atSevere().log(
           "Cannot link: %s to user identity: %s",
           user.getExternalId(), identifiedUser.get().getAccountId());

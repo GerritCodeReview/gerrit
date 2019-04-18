@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -24,7 +24,6 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.group.GroupJson;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
@@ -43,8 +42,7 @@ public class GetGroups implements RestReadView<AccountResource> {
   }
 
   @Override
-  public List<GroupInfo> apply(AccountResource resource)
-      throws OrmException, PermissionBackendException {
+  public List<GroupInfo> apply(AccountResource resource) throws PermissionBackendException {
     IdentifiedUser user = resource.getUser();
     Account.Id userId = user.getAccountId();
     Set<AccountGroup.UUID> knownGroups = user.getEffectiveGroups().getKnownGroups();

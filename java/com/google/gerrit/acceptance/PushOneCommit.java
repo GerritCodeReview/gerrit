@@ -32,7 +32,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -334,15 +333,15 @@ public class PushOneCommit {
       this.resSubj = subject;
     }
 
-    public ChangeData getChange() throws OrmException {
+    public ChangeData getChange() {
       return Iterables.getOnlyElement(queryProvider.get().byKeyPrefix(changeId));
     }
 
-    public PatchSet getPatchSet() throws OrmException {
+    public PatchSet getPatchSet() {
       return getChange().currentPatchSet();
     }
 
-    public PatchSet.Id getPatchSetId() throws OrmException {
+    public PatchSet.Id getPatchSetId() {
       return getChange().change().currentPatchSetId();
     }
 
@@ -359,8 +358,7 @@ public class PushOneCommit {
     }
 
     public void assertChange(
-        Change.Status expectedStatus, String expectedTopic, TestAccount... expectedReviewers)
-        throws OrmException {
+        Change.Status expectedStatus, String expectedTopic, TestAccount... expectedReviewers) {
       assertChange(
           expectedStatus, expectedTopic, Arrays.asList(expectedReviewers), ImmutableList.of());
     }
@@ -369,8 +367,7 @@ public class PushOneCommit {
         Change.Status expectedStatus,
         String expectedTopic,
         List<TestAccount> expectedReviewers,
-        List<TestAccount> expectedCcs)
-        throws OrmException {
+        List<TestAccount> expectedCcs) {
       Change c = getChange().change();
       assertThat(c.getSubject()).isEqualTo(resSubj);
       assertThat(c.getStatus()).isEqualTo(expectedStatus);
@@ -380,8 +377,7 @@ public class PushOneCommit {
     }
 
     private void assertReviewers(
-        Change c, ReviewerStateInternal state, List<TestAccount> expectedReviewers)
-        throws OrmException {
+        Change c, ReviewerStateInternal state, List<TestAccount> expectedReviewers) {
       Iterable<Account.Id> actualIds =
           approvalsUtil.getReviewers(notesFactory.createChecked(c)).byState(state);
       assertThat(actualIds)

@@ -30,7 +30,6 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -75,7 +74,7 @@ public class SetPrivateOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws ResourceConflictException, OrmException, BadRequestException {
+      throws ResourceConflictException, BadRequestException {
     change = ctx.getChange();
     if (ctx.getChange().isPrivate() == isPrivate) {
       // No-op

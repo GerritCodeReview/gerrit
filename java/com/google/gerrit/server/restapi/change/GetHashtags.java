@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collections;
@@ -30,7 +29,7 @@ import java.util.Set;
 public class GetHashtags implements RestReadView<ChangeResource> {
   @Override
   public Response<Set<String>> apply(ChangeResource req)
-      throws AuthException, OrmException, IOException, BadRequestException {
+      throws AuthException, IOException, BadRequestException {
     ChangeNotes notes = req.getNotes().load();
     Set<String> hashtags = notes.getHashtags();
     if (hashtags == null) {

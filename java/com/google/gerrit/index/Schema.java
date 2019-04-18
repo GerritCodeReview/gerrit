@@ -22,7 +22,6 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
-import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -179,7 +178,7 @@ public class Schema<T> {
               Object v;
               try {
                 v = f.get(obj);
-              } catch (OrmException e) {
+              } catch (RuntimeException e) {
                 logger.atSevere().withCause(e).log(
                     "error getting field %s of %s", f.getName(), obj);
                 return null;

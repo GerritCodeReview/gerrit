@@ -33,7 +33,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -63,24 +62,24 @@ public class PatchSetUtil {
     this.repoManager = repoManager;
   }
 
-  public PatchSet current(ChangeNotes notes) throws OrmException {
+  public PatchSet current(ChangeNotes notes) {
     return get(notes, notes.getChange().currentPatchSetId());
   }
 
-  public PatchSet get(ChangeNotes notes, PatchSet.Id psId) throws OrmException {
+  public PatchSet get(ChangeNotes notes, PatchSet.Id psId) {
     return notes.load().getPatchSets().get(psId);
   }
 
-  public ImmutableCollection<PatchSet> byChange(ChangeNotes notes) throws OrmException {
+  public ImmutableCollection<PatchSet> byChange(ChangeNotes notes) {
     return notes.load().getPatchSets().values();
   }
 
-  public ImmutableMap<PatchSet.Id, PatchSet> byChangeAsMap(ChangeNotes notes) throws OrmException {
+  public ImmutableMap<PatchSet.Id, PatchSet> byChangeAsMap(ChangeNotes notes) {
     return notes.load().getPatchSets();
   }
 
   public ImmutableMap<PatchSet.Id, PatchSet> getAsMap(
-      ChangeNotes notes, Set<PatchSet.Id> patchSetIds) throws OrmException {
+      ChangeNotes notes, Set<PatchSet.Id> patchSetIds) {
     return ImmutableMap.copyOf(Maps.filterKeys(notes.load().getPatchSets(), patchSetIds::contains));
   }
 
@@ -135,7 +134,7 @@ public class PatchSetUtil {
 
   /** Check if the current patch set of the change is locked. */
   public void checkPatchSetNotLocked(ChangeNotes notes)
-      throws OrmException, IOException, ResourceConflictException {
+      throws IOException, ResourceConflictException {
     if (isPatchSetLocked(notes)) {
       throw new ResourceConflictException(
           String.format("The current patch set of change %s is locked", notes.getChangeId()));
@@ -143,7 +142,7 @@ public class PatchSetUtil {
   }
 
   /** Is the current patch set locked against state changes? */
-  public boolean isPatchSetLocked(ChangeNotes notes) throws OrmException, IOException {
+  public boolean isPatchSetLocked(ChangeNotes notes) throws IOException {
     Change change = notes.getChange();
     if (change.isMerged()) {
       return false;

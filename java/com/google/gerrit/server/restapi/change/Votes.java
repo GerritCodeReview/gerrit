@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.VoteResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Map;
@@ -55,7 +54,7 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
 
   @Override
   public VoteResource parse(ReviewerResource reviewer, IdString id)
-      throws ResourceNotFoundException, OrmException, AuthException, MethodNotAllowedException {
+      throws ResourceNotFoundException, AuthException, MethodNotAllowedException {
     if (reviewer.getRevisionResource() != null && !reviewer.getRevisionResource().isCurrent()) {
       throw new MethodNotAllowedException("Cannot access on non-current patch set");
     }
@@ -72,8 +71,7 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
     }
 
     @Override
-    public Map<String, Short> apply(ReviewerResource rsrc)
-        throws OrmException, MethodNotAllowedException {
+    public Map<String, Short> apply(ReviewerResource rsrc) throws MethodNotAllowedException {
       if (rsrc.getRevisionResource() != null && !rsrc.getRevisionResource().isCurrent()) {
         throw new MethodNotAllowedException("Cannot list votes on non-current patch set");
       }

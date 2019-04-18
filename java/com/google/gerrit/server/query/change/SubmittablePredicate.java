@@ -16,7 +16,6 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 
 public class SubmittablePredicate extends ChangeIndexPredicate {
   protected final SubmitRecord.Status status;
@@ -27,7 +26,7 @@ public class SubmittablePredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) {
     return cd.submitRecords(ChangeField.SUBMIT_RULE_OPTIONS_STRICT).stream()
         .anyMatch(r -> r.status == status);
   }

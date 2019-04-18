@@ -18,8 +18,6 @@ import static com.google.gerrit.server.index.change.ChangeField.EXACT_COMMITTER;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_EXACTCOMMITTER;
 
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
-import java.io.IOException;
 import java.util.Locale;
 
 public class ExactCommitterPredicate extends ChangeIndexPredicate {
@@ -28,12 +26,8 @@ public class ExactCommitterPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
-    try {
-      return ChangeField.getCommitterNameAndEmail(object).contains(getValue());
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
+  public boolean match(ChangeData object) {
+    return ChangeField.getCommitterNameAndEmail(object).contains(getValue());
   }
 
   @Override

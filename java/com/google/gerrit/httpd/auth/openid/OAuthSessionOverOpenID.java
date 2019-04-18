@@ -33,7 +33,6 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.servlet.SessionScoped;
@@ -164,7 +163,7 @@ class OAuthSessionOverOpenID {
           logger.atFine().log("Claimed account already exists: link to it.");
           try {
             accountManager.link(claimedId.get(), areq);
-          } catch (OrmException | ConfigInvalidException e) {
+          } catch (ConfigInvalidException e) {
             logger.atSevere().log(
                 "Cannot link: %s to user identity:\n  Claimed ID: %s is %s",
                 user.getExternalId(), claimedId.get(), claimedIdentifier);
@@ -178,7 +177,7 @@ class OAuthSessionOverOpenID {
         try {
           logger.atFine().log("Linking \"%s\" to \"%s\"", user.getExternalId(), accountId);
           accountManager.link(accountId, areq);
-        } catch (OrmException | ConfigInvalidException e) {
+        } catch (ConfigInvalidException e) {
           logger.atSevere().log(
               "Cannot link: %s to user identity: %s", user.getExternalId(), accountId);
           rsp.sendError(HttpServletResponse.SC_FORBIDDEN);

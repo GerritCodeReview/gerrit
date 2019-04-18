@@ -51,7 +51,6 @@ import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.sql.Timestamp;
@@ -100,7 +99,7 @@ public class LabelsJson {
    */
   Map<String, LabelInfo> labelsFor(
       AccountLoader accountLoader, ChangeData cd, boolean standard, boolean detailed)
-      throws OrmException, PermissionBackendException {
+      throws PermissionBackendException {
     if (!standard && !detailed) {
       return null;
     }
@@ -115,7 +114,7 @@ public class LabelsJson {
 
   /** Returns all labels that the provided user has permission to vote on. */
   Map<String, Collection<String>> permittedLabels(Account.Id filterApprovalsBy, ChangeData cd)
-      throws OrmException, PermissionBackendException {
+      throws PermissionBackendException {
     boolean isMerged = cd.change().isMerged();
     LabelTypes labelTypes = cd.getLabelTypes();
     Map<String, LabelType> toCheck = new HashMap<>();
@@ -194,7 +193,7 @@ public class LabelsJson {
       LabelTypes labelTypes,
       boolean standard,
       boolean detailed)
-      throws OrmException, PermissionBackendException {
+      throws PermissionBackendException {
     Map<String, LabelWithStatus> labels = initLabels(accountLoader, cd, labelTypes, standard);
     if (detailed) {
       setAllApprovals(accountLoader, cd, labels);
@@ -252,8 +251,7 @@ public class LabelsJson {
     }
   }
 
-  private Map<String, Short> currentLabels(Account.Id accountId, ChangeData cd)
-      throws OrmException {
+  private Map<String, Short> currentLabels(Account.Id accountId, ChangeData cd) {
     Map<String, Short> result = new HashMap<>();
     for (PatchSetApproval psa :
         approvalsUtil.byPatchSetUser(
@@ -273,7 +271,7 @@ public class LabelsJson {
       LabelTypes labelTypes,
       boolean standard,
       boolean detailed)
-      throws OrmException, PermissionBackendException {
+      throws PermissionBackendException {
     Set<Account.Id> allUsers = new HashSet<>();
     if (detailed) {
       // Users expect to see all reviewers on closed changes, even if they
@@ -431,7 +429,7 @@ public class LabelsJson {
 
   private void setAllApprovals(
       AccountLoader accountLoader, ChangeData cd, Map<String, LabelWithStatus> labels)
-      throws OrmException, PermissionBackendException {
+      throws PermissionBackendException {
     checkState(
         !cd.change().isMerged(),
         "should not call setAllApprovals on %s change",
@@ -499,8 +497,7 @@ public class LabelsJson {
    *     from either an index-backed or a database-backed {@link ChangeData} depending on {@code
    *     lazyload}.
    */
-  private PermissionBackend.ForChange permissionBackendForChange(Account.Id user, ChangeData cd)
-      throws OrmException {
+  private PermissionBackend.ForChange permissionBackendForChange(Account.Id user, ChangeData cd) {
     PermissionBackend.WithUser withUser = permissionBackend.absentUser(user);
     return lazyLoad
         ? withUser.change(cd)

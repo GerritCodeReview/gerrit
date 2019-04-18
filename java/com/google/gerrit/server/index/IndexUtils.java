@@ -18,10 +18,10 @@ import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.project.ProjectField;
 import com.google.gerrit.server.CurrentUser;
@@ -31,41 +31,28 @@ import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.query.change.SingleGroupUser;
 import java.io.IOException;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public final class IndexUtils {
   public static final ImmutableMap<String, String> CUSTOM_CHAR_MAPPING =
       ImmutableMap.of("_", " ", ".", " ");
 
-  public static final Function<Exception, IOException> MAPPER =
-      in -> {
-        if (in instanceof IOException) {
-          return (IOException) in;
-        } else if (in instanceof ExecutionException && in.getCause() instanceof IOException) {
-          return (IOException) in.getCause();
-        } else {
-          return new IOException(in);
-        }
-      };
-
-  public static void setReady(SitePaths sitePaths, String name, int version, boolean ready)
-      throws IOException {
+  public static void setReady(SitePaths sitePaths, String name, int version, boolean ready) {
     try {
       GerritIndexStatus cfg = new GerritIndexStatus(sitePaths);
       cfg.setReady(name, version, ready);
       cfg.save();
-    } catch (ConfigInvalidException e) {
-      throw new IOException(e);
+    } catch (ConfigInvalidException | IOException e) {
+      throw new StorageException(e);
     }
   }
 
-  public static boolean getReady(SitePaths sitePaths, String name, int version) throws IOException {
+  public static boolean getReady(SitePaths sitePaths, String name, int version) {
     try {
       GerritIndexStatus cfg = new GerritIndexStatus(sitePaths);
       return cfg.getReady(name, version);
-    } catch (ConfigInvalidException e) {
-      throw new IOException(e);
+    } catch (ConfigInvalidException | IOException e) {
+      throw new StorageException(e);
     }
   }
 

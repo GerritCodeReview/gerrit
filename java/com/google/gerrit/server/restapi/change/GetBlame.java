@@ -32,7 +32,6 @@ import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gitiles.blame.cache.BlameCache;
 import com.google.gitiles.blame.cache.Region;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -79,7 +78,7 @@ public class GetBlame implements RestReadView<FileResource> {
 
   @Override
   public Response<List<BlameInfo>> apply(FileResource resource)
-      throws RestApiException, OrmException, IOException, InvalidChangeOperationException {
+      throws RestApiException, IOException, InvalidChangeOperationException {
     Project.NameKey project = resource.getRevision().getChange().getProject();
     try (Repository repository = repoManager.openRepository(project);
         ObjectInserter ins = repository.newObjectInserter();

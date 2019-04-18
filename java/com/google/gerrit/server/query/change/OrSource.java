@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.ListResultSet;
 import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -35,7 +35,7 @@ public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSourc
   }
 
   @Override
-  public ResultSet<ChangeData> read() throws OrmException {
+  public ResultSet<ChangeData> read() {
     // TODO(spearce) This probably should be more lazy.
     //
     List<ChangeData> r = new ArrayList<>();
@@ -48,14 +48,14 @@ public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSourc
           }
         }
       } else {
-        throw new OrmException("No ChangeDataSource: " + p);
+        throw new StorageException("No ChangeDataSource: " + p);
       }
     }
     return new ListResultSet<>(r);
   }
 
   @Override
-  public ResultSet<FieldBundle> readRaw() throws OrmException {
+  public ResultSet<FieldBundle> readRaw() {
     throw new UnsupportedOperationException("not implemented");
   }
 

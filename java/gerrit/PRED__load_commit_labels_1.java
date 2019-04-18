@@ -7,8 +7,6 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.StoredValues;
-import com.google.gwtorm.server.OrmException;
-import com.googlecode.prolog_cafe.exceptions.JavaException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.ListTerm;
@@ -36,27 +34,22 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
     Term a1 = arg1.dereference();
 
     Term listHead = Prolog.Nil;
-    try {
-      ChangeData cd = StoredValues.CHANGE_DATA.get(engine);
-      LabelTypes types = cd.getLabelTypes();
+    ChangeData cd = StoredValues.CHANGE_DATA.get(engine);
+    LabelTypes types = cd.getLabelTypes();
 
-      for (PatchSetApproval a : cd.currentApprovals()) {
-        LabelType t = types.byLabel(a.getLabelId());
-        if (t == null) {
-          continue;
-        }
-
-        StructureTerm labelTerm =
-            new StructureTerm(
-                sym_label, SymbolTerm.intern(t.getName()), new IntegerTerm(a.getValue()));
-
-        StructureTerm userTerm =
-            new StructureTerm(sym_user, new IntegerTerm(a.getAccountId().get()));
-
-        listHead = new ListTerm(new StructureTerm(sym_commit_label, labelTerm, userTerm), listHead);
+    for (PatchSetApproval a : cd.currentApprovals()) {
+      LabelType t = types.byLabel(a.getLabelId());
+      if (t == null) {
+        continue;
       }
-    } catch (OrmException err) {
-      throw new JavaException(this, 1, err);
+
+      StructureTerm labelTerm =
+          new StructureTerm(
+              sym_label, SymbolTerm.intern(t.getName()), new IntegerTerm(a.getValue()));
+
+      StructureTerm userTerm = new StructureTerm(sym_user, new IntegerTerm(a.getAccountId().get()));
+
+      listHead = new ListTerm(new StructureTerm(sym_commit_label, labelTerm, userTerm), listHead);
     }
 
     if (!a1.unify(listHead, engine.trail)) {

@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -35,7 +34,7 @@ public class GetReview implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException {
+  public Response<ChangeInfo> apply(RevisionResource rsrc) {
     return delegate.apply(rsrc);
   }
 }

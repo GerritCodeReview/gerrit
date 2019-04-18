@@ -15,14 +15,13 @@
 package com.google.gerrit.server.restapi.group;
 
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -40,8 +39,7 @@ public class GetOwner implements RestReadView<GroupResource> {
 
   @Override
   public GroupInfo apply(GroupResource resource)
-      throws NotInternalGroupException, ResourceNotFoundException, OrmException,
-          PermissionBackendException {
+      throws NotInternalGroupException, ResourceNotFoundException, PermissionBackendException {
     GroupDescription.Internal group =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     try {

@@ -26,7 +26,6 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
 import java.util.List;
@@ -87,7 +86,7 @@ public class ChangeMessagesUtil {
     return workInProgress ? TAG_UPLOADED_WIP_PATCH_SET : TAG_UPLOADED_PATCH_SET;
   }
 
-  public List<ChangeMessage> byChange(ChangeNotes notes) throws OrmException {
+  public List<ChangeMessage> byChange(ChangeNotes notes) {
     return notes.load().getChangeMessages();
   }
 

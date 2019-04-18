@@ -19,14 +19,13 @@ import static java.util.Comparator.comparing;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ public class ListSubgroups implements RestReadView<GroupResource> {
 
   @Override
   public List<GroupInfo> apply(GroupResource rsrc)
-      throws NotInternalGroupException, OrmException, PermissionBackendException {
+      throws NotInternalGroupException, PermissionBackendException {
     GroupDescription.Internal group =
         rsrc.asInternalGroup().orElseThrow(NotInternalGroupException::new);
 
@@ -56,7 +55,7 @@ public class ListSubgroups implements RestReadView<GroupResource> {
 
   public List<GroupInfo> getDirectSubgroups(
       GroupDescription.Internal group, GroupControl groupControl)
-      throws OrmException, PermissionBackendException {
+      throws PermissionBackendException {
     boolean ownerOfParent = groupControl.isOwner();
     List<GroupInfo> included = new ArrayList<>();
     for (AccountGroup.UUID subgroupUuid : group.getSubgroups()) {

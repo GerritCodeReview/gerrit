@@ -22,7 +22,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -119,7 +118,7 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) {
     Change change = object.change();
     return change != null && Objects.equals(status, change.getStatus());
   }

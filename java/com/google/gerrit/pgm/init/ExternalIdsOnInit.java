@@ -23,7 +23,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;
@@ -49,7 +48,7 @@ public class ExternalIdsOnInit {
   }
 
   public synchronized void insert(String commitMessage, Collection<ExternalId> extIds)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     File path = getPath();
     if (path != null) {
       try (Repository allUsersRepo = new FileRepository(path)) {

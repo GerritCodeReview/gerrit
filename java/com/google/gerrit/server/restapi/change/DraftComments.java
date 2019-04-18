@@ -25,7 +25,6 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -62,7 +61,7 @@ public class DraftComments implements ChildCollection<RevisionResource, DraftCom
 
   @Override
   public DraftCommentResource parse(RevisionResource rev, IdString id)
-      throws ResourceNotFoundException, OrmException, AuthException {
+      throws ResourceNotFoundException, AuthException {
     checkIdentifiedUser();
     String uuid = id.get();
     for (Comment c :

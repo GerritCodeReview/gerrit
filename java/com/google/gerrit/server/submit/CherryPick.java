@@ -30,7 +30,6 @@ import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -91,7 +90,7 @@ public class CherryPick extends SubmitStrategy {
 
     @Override
     protected void updateRepoImpl(RepoContext ctx)
-        throws IntegrationException, IOException, OrmException, MethodNotAllowedException {
+        throws IntegrationException, IOException, MethodNotAllowedException {
       // If there is only one parent, a cherry-pick can be done by taking the
       // delta relative to that one parent and redoing that on the current merge
       // tip.
@@ -146,8 +145,7 @@ public class CherryPick extends SubmitStrategy {
     }
 
     @Override
-    public PatchSet updateChangeImpl(ChangeContext ctx)
-        throws OrmException, NoSuchChangeException, IOException {
+    public PatchSet updateChangeImpl(ChangeContext ctx) throws NoSuchChangeException, IOException {
       if (newCommit == null && toMerge.getStatusCode() == SKIPPED_IDENTICAL_TREE) {
         return null;
       }

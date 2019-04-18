@@ -33,7 +33,6 @@ import com.google.gerrit.server.restapi.group.CreateGroup;
 import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.HashSet;
@@ -102,8 +101,7 @@ final class CreateGroupCommand extends SshCommand {
 
   @Override
   protected void run()
-      throws Failure, OrmException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws Failure, IOException, ConfigInvalidException, PermissionBackendException {
     try {
       GroupResource rsrc = createGroup();
 
@@ -120,8 +118,7 @@ final class CreateGroupCommand extends SshCommand {
   }
 
   private GroupResource createGroup()
-      throws RestApiException, OrmException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     GroupInput input = new GroupInput();
     input.description = groupDescription;
     input.visibleToAll = visibleToAll;
@@ -136,8 +133,7 @@ final class CreateGroupCommand extends SshCommand {
   }
 
   private void addMembers(GroupResource rsrc)
-      throws RestApiException, OrmException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     AddMembers.Input input =
         AddMembers.Input.fromMembers(
             initialMembers.stream().map(Object::toString).collect(toList()));
@@ -145,8 +141,7 @@ final class CreateGroupCommand extends SshCommand {
   }
 
   private void addSubgroups(GroupResource rsrc)
-      throws RestApiException, OrmException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     AddSubgroups.Input input =
         AddSubgroups.Input.fromGroups(
             initialGroups.stream().map(AccountGroup.UUID::get).collect(toList()));

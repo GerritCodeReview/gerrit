@@ -74,7 +74,6 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.util.Providers;
@@ -242,8 +241,7 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, OrmException, IOException, PermissionBackendException,
-          ConfigInvalidException {
+      throws RestApiException, IOException, PermissionBackendException, ConfigInvalidException {
     notes = ctx.getNotes();
     Change change = notes.getChange();
     if (change == null || change.isClosed()) {
@@ -387,7 +385,7 @@ public class ReplaceOp implements BatchUpdateOp {
   }
 
   private ChangeMessage createChangeMessage(ChangeContext ctx, String reviewMessage)
-      throws OrmException, IOException {
+      throws IOException {
     String approvalMessage =
         ApprovalsUtil.renderMessageWithApprovals(
             patchSetId.get(), approvals, scanLabels(ctx, approvals));
@@ -441,7 +439,7 @@ public class ReplaceOp implements BatchUpdateOp {
   }
 
   private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx, Map<String, Short> approvals)
-      throws OrmException, IOException {
+      throws IOException {
     Map<String, PatchSetApproval> current = new HashMap<>();
     // We optimize here and only retrieve current when approvals provided
     if (!approvals.isEmpty()) {
@@ -485,8 +483,7 @@ public class ReplaceOp implements BatchUpdateOp {
     }
   }
 
-  private List<Comment> publishComments(ChangeContext ctx, boolean workInProgress)
-      throws OrmException {
+  private List<Comment> publishComments(ChangeContext ctx, boolean workInProgress) {
     List<Comment> comments =
         commentsUtil.draftByChangeAuthor(ctx.getNotes(), ctx.getUser().getAccountId());
     publishCommentUtil.publish(

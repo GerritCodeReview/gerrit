@@ -69,7 +69,6 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -337,7 +336,7 @@ public class Submit
     String topic = change.getTopic();
     int topicSize = 0;
     if (!Strings.isNullOrEmpty(topic)) {
-      topicSize = getChangesByTopic(topic).size();
+      topicSize = getTopicSize(topic);
     }
     boolean treatWithTopic = submitWholeTopic && !Strings.isNullOrEmpty(topic) && topicSize > 1;
 
@@ -474,9 +473,9 @@ public class Submit
     return submitter;
   }
 
-  private List<ChangeData> getChangesByTopic(String topic) {
+  private int getTopicSize(String topic) {
     try {
-      return queryProvider.get().byTopicOpen(topic);
+      return queryProvider.get().noFields().byTopicOpen(topic).size();
     } catch (OrmException e) {
       throw new OrmRuntimeException(e);
     }

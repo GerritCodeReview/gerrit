@@ -36,7 +36,7 @@
   {if $email.changeUrl}
     <div itemscope itemtype="http://schema.org/EmailMessage">
       <div itemscope itemprop="action" itemtype="http://schema.org/ViewAction">
-        <link itemprop="url" href="{$email.changeUrl |blessStringAsTrustedResourceUrlForLegacy}"/>
+        <link itemprop="url" href="{$email.changeUrl}"/>
         <meta itemprop="name" content="View Change"/>
       </div>
     </div>

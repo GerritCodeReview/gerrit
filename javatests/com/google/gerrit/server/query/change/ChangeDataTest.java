@@ -28,7 +28,7 @@ import org.junit.Test;
 public class ChangeDataTest extends GerritBaseTests {
   @Test
   public void setPatchSetsClearsCurrentPatchSet() throws Exception {
-    Project.NameKey project = new Project.NameKey("project");
+    Project.NameKey project = Project.nameKey("project");
     ChangeData cd = ChangeData.createForTest(project, new Change.Id(1), 1);
     cd.setChange(TestChanges.newChange(project, Account.id(1000)));
     PatchSet curr1 = cd.currentPatchSet();

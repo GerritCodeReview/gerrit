@@ -254,7 +254,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       int newLen = projectName.length() - Constants.DOT_GIT_EXT.length();
       projectName = projectName.substring(0, newLen);
     }
-    return new Project.NameKey(projectName);
+    return Project.nameKey(projectName);
   }
 
   protected class ProjectVisitor extends SimpleFileVisitor<Path> {

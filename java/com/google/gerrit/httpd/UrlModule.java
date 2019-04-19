@@ -147,7 +147,7 @@ class UrlModule extends ServletModule {
             while (name.endsWith("/")) {
               name = name.substring(0, name.length() - 1);
             }
-            Project.NameKey project = new Project.NameKey(name);
+            Project.NameKey project = Project.nameKey(name);
             toGerrit(
                 PageLinks.toChangeQuery(PageLinks.projectQuery(project, Change.Status.NEW)),
                 req,

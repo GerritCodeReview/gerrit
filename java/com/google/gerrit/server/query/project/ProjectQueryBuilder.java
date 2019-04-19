@@ -41,12 +41,12 @@ public class ProjectQueryBuilder extends QueryBuilder<ProjectData, ProjectQueryB
 
   @Operator
   public Predicate<ProjectData> name(String name) {
-    return ProjectPredicates.name(new Project.NameKey(name));
+    return ProjectPredicates.name(Project.nameKey(name));
   }
 
   @Operator
   public Predicate<ProjectData> parent(String parentName) {
-    return ProjectPredicates.parent(new Project.NameKey(parentName));
+    return ProjectPredicates.parent(Project.nameKey(parentName));
   }
 
   @Operator

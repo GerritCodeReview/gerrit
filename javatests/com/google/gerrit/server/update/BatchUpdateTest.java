@@ -75,7 +75,7 @@ public class BatchUpdateTest extends GerritBaseTests {
 
   @Before
   public void setUp() throws Exception {
-    project = new Project.NameKey("test");
+    project = Project.nameKey("test");
 
     Repository inMemoryRepo = repoManager.createRepository(project);
     repo = new TestRepository<>(inMemoryRepo);

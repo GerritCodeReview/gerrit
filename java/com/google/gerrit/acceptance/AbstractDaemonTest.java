@@ -433,7 +433,7 @@ public abstract class AbstractDaemonTest {
     atrScope.set(ctx);
     ProjectInput in = projectInput(description);
     gApi.projects().create(in);
-    project = new Project.NameKey(in.name);
+    project = Project.nameKey(in.name);
     if (!classDesc.skipProjectClone()) {
       testRepo = cloneProject(project, getCloneAsAccount(description));
     }
@@ -532,7 +532,7 @@ public abstract class AbstractDaemonTest {
     in.submitType = submitType;
     in.createEmptyCommit = createEmptyCommit;
     gApi.projects().create(in);
-    return new Project.NameKey(in.name);
+    return Project.nameKey(in.name);
   }
 
   protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p) throws Exception {
@@ -1170,7 +1170,7 @@ public abstract class AbstractDaemonTest {
         int len = bundleName.length();
         assertThat(bundleName).endsWith(".git");
         String repoName = bundleName.substring(0, len - 4);
-        Project.NameKey proj = new Project.NameKey(repoName);
+        Project.NameKey proj = Project.nameKey(repoName);
         TestRepository<?> localRepo = cloneProject(proj);
 
         try (InputStream bundleStream = Files.newInputStream(p);

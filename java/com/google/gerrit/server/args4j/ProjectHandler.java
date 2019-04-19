@@ -72,7 +72,7 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
     }
 
     String nameWithoutSuffix = ProjectUtil.stripGitSuffix(projectName);
-    Project.NameKey nameKey = new Project.NameKey(nameWithoutSuffix);
+    Project.NameKey nameKey = Project.nameKey(nameWithoutSuffix);
 
     ProjectState state;
     try {

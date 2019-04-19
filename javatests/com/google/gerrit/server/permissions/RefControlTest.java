@@ -182,9 +182,9 @@ public class RefControlTest extends GerritBaseTests {
   private final AllUsersName allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);
   private final AccountGroup.UUID fixers = AccountGroup.uuid("test.fixers");
   private final Map<Project.NameKey, ProjectState> all = new HashMap<>();
-  private Project.NameKey localKey = new Project.NameKey("local");
+  private Project.NameKey localKey = Project.nameKey("local");
   private ProjectConfig local;
-  private Project.NameKey parentKey = new Project.NameKey("parent");
+  private Project.NameKey parentKey = Project.nameKey("parent");
   private ProjectConfig parent;
   private InMemoryRepositoryManager repoManager;
   private ProjectCache projectCache;
@@ -269,7 +269,7 @@ public class RefControlTest extends GerritBaseTests {
     try {
       Repository repo = repoManager.createRepository(allProjectsName);
       ProjectConfig allProjects =
-          projectConfigFactory.create(new Project.NameKey(allProjectsName.get()));
+          projectConfigFactory.create(Project.nameKey(allProjectsName.get()));
       allProjects.load(repo);
       LabelType cr = Util.codeReview();
       allProjects.getLabelSections().put(cr.getName(), cr);

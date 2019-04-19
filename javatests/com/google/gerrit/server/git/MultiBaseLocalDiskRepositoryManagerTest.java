@@ -64,7 +64,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
   @Test
   public void defaultRepositoryLocation()
       throws RepositoryCaseMismatchException, RepositoryNotFoundException, IOException {
-    Project.NameKey someProjectKey = new Project.NameKey("someProject");
+    Project.NameKey someProjectKey = Project.nameKey("someProject");
     Repository repo = repoManager.createRepository(someProjectKey);
     assertThat(repo.getDirectory()).isNotNull();
     assertThat(repo.getDirectory().exists()).isTrue();
@@ -89,7 +89,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
   @Test
   public void alternateRepositoryLocation() throws IOException {
     Path alternateBasePath = temporaryFolder.newFolder().toPath();
-    Project.NameKey someProjectKey = new Project.NameKey("someProject");
+    Project.NameKey someProjectKey = Project.nameKey("someProject");
     reset(configMock);
     expect(configMock.getBasePath(someProjectKey)).andReturn(alternateBasePath).anyTimes();
     expect(configMock.getAllBasePaths()).andReturn(ImmutableList.of(alternateBasePath)).anyTimes();
@@ -116,10 +116,10 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
 
   @Test
   public void listReturnRepoFromProperLocation() throws IOException {
-    Project.NameKey basePathProject = new Project.NameKey("basePathProject");
-    Project.NameKey altPathProject = new Project.NameKey("altPathProject");
-    Project.NameKey misplacedProject1 = new Project.NameKey("misplacedProject1");
-    Project.NameKey misplacedProject2 = new Project.NameKey("misplacedProject2");
+    Project.NameKey basePathProject = Project.nameKey("basePathProject");
+    Project.NameKey altPathProject = Project.nameKey("altPathProject");
+    Project.NameKey misplacedProject1 = Project.nameKey("misplacedProject1");
+    Project.NameKey misplacedProject2 = Project.nameKey("misplacedProject2");
 
     Path alternateBasePath = temporaryFolder.newFolder().toPath();
 

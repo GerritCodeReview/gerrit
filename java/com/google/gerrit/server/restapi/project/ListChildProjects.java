@@ -85,10 +85,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     PermissionBackend.WithUser currentUser = permissionBackend.currentUser();
     return queryProvider.get().withQuery("parent:" + parent.get()).withLimit(limit).apply().stream()
         .filter(
-            p ->
-                currentUser
-                    .project(new Project.NameKey(p.name))
-                    .testOrFalse(ProjectPermission.ACCESS))
+            p -> currentUser.project(Project.nameKey(p.name)).testOrFalse(ProjectPermission.ACCESS))
         .collect(toList());
   }
 }

@@ -42,7 +42,7 @@ public class RepoViewTest extends GerritBaseTests {
   @Before
   public void setUp() throws Exception {
     InMemoryRepositoryManager repoManager = new InMemoryRepositoryManager();
-    Project.NameKey project = new Project.NameKey("project");
+    Project.NameKey project = Project.nameKey("project");
     repo = repoManager.createRepository(project);
     tr = new TestRepository<>(repo);
     tr.branch(MASTER).commit().create();

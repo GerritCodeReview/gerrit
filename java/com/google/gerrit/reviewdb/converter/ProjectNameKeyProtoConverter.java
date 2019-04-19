@@ -29,7 +29,7 @@ public enum ProjectNameKeyProtoConverter
 
   @Override
   public Project.NameKey fromProto(Entities.Project_NameKey proto) {
-    return new Project.NameKey(proto.getName());
+    return Project.nameKey(proto.getName());
   }
 
   @Override

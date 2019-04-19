@@ -110,7 +110,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     setTimeForTesting();
 
     serverIdent = new PersonIdent("Gerrit Server", "noreply@gerrit.com", TimeUtil.nowTs(), TZ);
-    project = new Project.NameKey("test-project");
+    project = Project.nameKey("test-project");
     repoManager = new InMemoryRepositoryManager();
     repo = repoManager.createRepository(project);
     tr = new TestRepository<>(repo);

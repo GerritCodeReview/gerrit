@@ -139,7 +139,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
 
   @Override
   protected ProjectData fromDocument(Document doc) {
-    Project.NameKey nameKey = new Project.NameKey(doc.getField(NAME.getName()).stringValue());
+    Project.NameKey nameKey = Project.nameKey(doc.getField(NAME.getName()).stringValue());
     ProjectState projectState = projectCache.get().get(nameKey);
     return projectState == null ? null : projectState.toProjectData();
   }

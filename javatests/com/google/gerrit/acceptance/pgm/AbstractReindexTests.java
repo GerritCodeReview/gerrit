@@ -223,7 +223,7 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
   }
 
   private void setUpChange() throws Exception {
-    project = new Project.NameKey("reindex-project-test");
+    project = Project.nameKey("reindex-project-test");
     try (ServerContext ctx = startServer()) {
       configureIndex(ctx.getInjector());
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);

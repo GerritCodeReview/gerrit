@@ -133,7 +133,7 @@ public class SubmoduleSectionParser {
                   0, //
                   project.length() - Constants.DOT_GIT_EXT.length());
         }
-        Project.NameKey projectKey = new Project.NameKey(project);
+        Project.NameKey projectKey = Project.nameKey(project);
         return new SubmoduleSubscription(
             superProjectBranch, Branch.nameKey(projectKey, branch), path);
       }

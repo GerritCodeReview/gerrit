@@ -453,7 +453,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       Change.Id id = new Change.Id(f.numericValue().intValue());
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
       IndexableField project = doc.get(PROJECT.getName()).iterator().next();
-      cd = changeDataFactory.create(new Project.NameKey(project.stringValue()), id);
+      cd = changeDataFactory.create(Project.nameKey(project.stringValue()), id);
     }
 
     // Any decoding that is done here must also be done in {@link ElasticChangeIndex}.

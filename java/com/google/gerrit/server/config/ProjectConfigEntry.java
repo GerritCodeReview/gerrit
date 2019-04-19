@@ -316,7 +316,7 @@ public class ProjectConfigEntry {
 
     @Override
     public void onGitReferenceUpdated(Event event) {
-      Project.NameKey p = new Project.NameKey(event.getProjectName());
+      Project.NameKey p = Project.nameKey(event.getProjectName());
       if (!event.getRefName().equals(RefNames.REFS_CONFIG)) {
         return;
       }

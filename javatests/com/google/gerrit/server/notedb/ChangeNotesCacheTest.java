@@ -31,7 +31,7 @@ public final class ChangeNotesCacheTest {
   public void keySerializer() throws Exception {
     ChangeNotesCache.Key key =
         ChangeNotesCache.Key.create(
-            new Project.NameKey("project"),
+            Project.nameKey("project"),
             new Change.Id(1234),
             ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
     byte[] serialized = ChangeNotesCache.Key.Serializer.INSTANCE.serialize(key);

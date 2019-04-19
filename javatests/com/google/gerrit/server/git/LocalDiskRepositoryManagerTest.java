@@ -59,7 +59,7 @@ public class LocalDiskRepositoryManagerTest extends GerritBaseTests {
 
   @Test
   public void projectCreation() throws Exception {
-    Project.NameKey projectA = new Project.NameKey("projectA");
+    Project.NameKey projectA = Project.nameKey("projectA");
     try (Repository repo = repoManager.createRepository(projectA)) {
       assertThat(repo).isNotNull();
     }
@@ -71,110 +71,110 @@ public class LocalDiskRepositoryManagerTest extends GerritBaseTests {
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationWithEmptyName() throws Exception {
-    repoManager.createRepository(new Project.NameKey(""));
+    repoManager.createRepository(Project.nameKey(""));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationWithTrailingSlash() throws Exception {
-    repoManager.createRepository(new Project.NameKey("projectA/"));
+    repoManager.createRepository(Project.nameKey("projectA/"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationWithBackSlash() throws Exception {
-    repoManager.createRepository(new Project.NameKey("a\\projectA"));
+    repoManager.createRepository(Project.nameKey("a\\projectA"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationAbsolutePath() throws Exception {
-    repoManager.createRepository(new Project.NameKey("/projectA"));
+    repoManager.createRepository(Project.nameKey("/projectA"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationStartingWithDotDot() throws Exception {
-    repoManager.createRepository(new Project.NameKey("../projectA"));
+    repoManager.createRepository(Project.nameKey("../projectA"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationContainsDotDot() throws Exception {
-    repoManager.createRepository(new Project.NameKey("a/../projectA"));
+    repoManager.createRepository(Project.nameKey("a/../projectA"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationDotPathSegment() throws Exception {
-    repoManager.createRepository(new Project.NameKey("a/./projectA"));
+    repoManager.createRepository(Project.nameKey("a/./projectA"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationWithTwoSlashes() throws Exception {
-    repoManager.createRepository(new Project.NameKey("a//projectA"));
+    repoManager.createRepository(Project.nameKey("a//projectA"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationWithPathSegmentEndingByDotGit() throws Exception {
-    repoManager.createRepository(new Project.NameKey("a/b.git/projectA"));
+    repoManager.createRepository(Project.nameKey("a/b.git/projectA"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationWithQuestionMark() throws Exception {
-    repoManager.createRepository(new Project.NameKey("project?A"));
+    repoManager.createRepository(Project.nameKey("project?A"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationWithPercentageSign() throws Exception {
-    repoManager.createRepository(new Project.NameKey("project%A"));
+    repoManager.createRepository(Project.nameKey("project%A"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationWithWidlcard() throws Exception {
-    repoManager.createRepository(new Project.NameKey("project*A"));
+    repoManager.createRepository(Project.nameKey("project*A"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationWithColon() throws Exception {
-    repoManager.createRepository(new Project.NameKey("project:A"));
+    repoManager.createRepository(Project.nameKey("project:A"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationWithLessThatSign() throws Exception {
-    repoManager.createRepository(new Project.NameKey("project<A"));
+    repoManager.createRepository(Project.nameKey("project<A"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationWithGreaterThatSign() throws Exception {
-    repoManager.createRepository(new Project.NameKey("project>A"));
+    repoManager.createRepository(Project.nameKey("project>A"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationWithPipe() throws Exception {
-    repoManager.createRepository(new Project.NameKey("project|A"));
+    repoManager.createRepository(Project.nameKey("project|A"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationWithDollarSign() throws Exception {
-    repoManager.createRepository(new Project.NameKey("project$A"));
+    repoManager.createRepository(Project.nameKey("project$A"));
   }
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testProjectCreationWithCarriageReturn() throws Exception {
-    repoManager.createRepository(new Project.NameKey("project\\rA"));
+    repoManager.createRepository(Project.nameKey("project\\rA"));
   }
 
   @Test(expected = IllegalStateException.class)
   public void testProjectRecreation() throws Exception {
-    repoManager.createRepository(new Project.NameKey("a"));
-    repoManager.createRepository(new Project.NameKey("a"));
+    repoManager.createRepository(Project.nameKey("a"));
+    repoManager.createRepository(Project.nameKey("a"));
   }
 
   @Test(expected = IllegalStateException.class)
   public void testProjectRecreationAfterRestart() throws Exception {
-    repoManager.createRepository(new Project.NameKey("a"));
+    repoManager.createRepository(Project.nameKey("a"));
     LocalDiskRepositoryManager newRepoManager = new LocalDiskRepositoryManager(site, cfg);
-    newRepoManager.createRepository(new Project.NameKey("a"));
+    newRepoManager.createRepository(Project.nameKey("a"));
   }
 
   @Test
   public void openRepositoryCreatedDirectlyOnDisk() throws Exception {
-    Project.NameKey projectA = new Project.NameKey("projectA");
+    Project.NameKey projectA = Project.nameKey("projectA");
     createRepository(repoManager.getBasePath(projectA), projectA.get());
     try (Repository repo = repoManager.openRepository(projectA)) {
       assertThat(repo).isNotNull();
@@ -185,27 +185,27 @@ public class LocalDiskRepositoryManagerTest extends GerritBaseTests {
   @Test(expected = RepositoryCaseMismatchException.class)
   public void testNameCaseMismatch() throws Exception {
     assume().that(HostPlatform.isWin32() || HostPlatform.isMac()).isTrue();
-    repoManager.createRepository(new Project.NameKey("a"));
-    repoManager.createRepository(new Project.NameKey("A"));
+    repoManager.createRepository(Project.nameKey("a"));
+    repoManager.createRepository(Project.nameKey("A"));
   }
 
   @Test(expected = RepositoryCaseMismatchException.class)
   public void testNameCaseMismatchWithSymlink() throws Exception {
     assume().that(HostPlatform.isWin32() || HostPlatform.isMac()).isTrue();
-    Project.NameKey name = new Project.NameKey("a");
+    Project.NameKey name = Project.nameKey("a");
     repoManager.createRepository(name);
     createSymLink(name, "b.git");
-    repoManager.createRepository(new Project.NameKey("B"));
+    repoManager.createRepository(Project.nameKey("B"));
   }
 
   @Test(expected = RepositoryCaseMismatchException.class)
   public void testNameCaseMismatchAfterRestart() throws Exception {
     assume().that(HostPlatform.isWin32() || HostPlatform.isMac()).isTrue();
-    Project.NameKey name = new Project.NameKey("a");
+    Project.NameKey name = Project.nameKey("a");
     repoManager.createRepository(name);
 
     LocalDiskRepositoryManager newRepoManager = new LocalDiskRepositoryManager(site, cfg);
-    newRepoManager.createRepository(new Project.NameKey("A"));
+    newRepoManager.createRepository(Project.nameKey("A"));
   }
 
   private void createSymLink(Project.NameKey project, String link) throws IOException {
@@ -217,18 +217,18 @@ public class LocalDiskRepositoryManagerTest extends GerritBaseTests {
 
   @Test(expected = RepositoryNotFoundException.class)
   public void testOpenRepositoryInvalidName() throws Exception {
-    repoManager.openRepository(new Project.NameKey("project%?|<>A"));
+    repoManager.openRepository(Project.nameKey("project%?|<>A"));
   }
 
   @Test
   public void list() throws Exception {
-    Project.NameKey projectA = new Project.NameKey("projectA");
+    Project.NameKey projectA = Project.nameKey("projectA");
     createRepository(repoManager.getBasePath(projectA), projectA.get());
 
-    Project.NameKey projectB = new Project.NameKey("path/projectB");
+    Project.NameKey projectB = Project.nameKey("path/projectB");
     createRepository(repoManager.getBasePath(projectB), projectB.get());
 
-    Project.NameKey projectC = new Project.NameKey("anotherPath/path/projectC");
+    Project.NameKey projectC = Project.nameKey("anotherPath/path/projectC");
     createRepository(repoManager.getBasePath(projectC), projectC.get());
     // create an invalid git repo named only .git
     repoManager.getBasePath(null).resolve(".git").toFile().mkdir();

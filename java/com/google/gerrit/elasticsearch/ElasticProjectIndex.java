@@ -117,8 +117,7 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
     }
 
     Project.NameKey nameKey =
-        new Project.NameKey(
-            source.getAsJsonObject().get(ProjectField.NAME.getName()).getAsString());
+        Project.nameKey(source.getAsJsonObject().get(ProjectField.NAME.getName()).getAsString());
     return projectCache.get().get(nameKey).toProjectData();
   }
 }

@@ -43,7 +43,7 @@ public class RefValidationHelper {
       throws ResourceConflictException {
     RefOperationValidators refValidators =
         refValidatorsFactory.create(
-            new Project(new Project.NameKey(projectName)),
+            new Project(Project.nameKey(projectName)),
             user,
             RefOperationValidators.getCommand(update, operationType));
     try {

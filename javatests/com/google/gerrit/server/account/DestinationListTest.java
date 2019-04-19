@@ -68,7 +68,7 @@ public class DestinationListTest extends GerritBaseTests {
   }
 
   private static Branch.NameKey dest(String project, String ref) {
-    return Branch.nameKey(new Project.NameKey(project), ref);
+    return Branch.nameKey(Project.nameKey(project), ref);
   }
 
   @Test

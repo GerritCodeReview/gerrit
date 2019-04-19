@@ -27,7 +27,7 @@ import org.junit.Test;
 public class TagSetHolderTest extends GerritBaseTests {
   @Test
   public void serializerWithTagSet() throws Exception {
-    TagSetHolder holder = new TagSetHolder(new Project.NameKey("project"));
+    TagSetHolder holder = new TagSetHolder(Project.nameKey("project"));
     holder.setTagSet(new TagSet(holder.getProjectName()));
 
     byte[] serialized = TagSetHolder.Serializer.INSTANCE.serialize(holder);
@@ -46,7 +46,7 @@ public class TagSetHolderTest extends GerritBaseTests {
 
   @Test
   public void serializerWithoutTagSet() throws Exception {
-    TagSetHolder holder = new TagSetHolder(new Project.NameKey("project"));
+    TagSetHolder holder = new TagSetHolder(Project.nameKey("project"));
 
     byte[] serialized = TagSetHolder.Serializer.INSTANCE.serialize(holder);
     assertThat(TagSetHolderProto.parseFrom(serialized))

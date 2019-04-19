@@ -353,7 +353,7 @@ public class WalkSorterTest extends GerritBaseTests {
   }
 
   private TestRepository<Repo> newRepo(String name) throws Exception {
-    return new TestRepository<>(repoManager.createRepository(new Project.NameKey(name)));
+    return new TestRepository<>(repoManager.createRepository(Project.nameKey(name)));
   }
 
   private static PatchSetData patchSetData(ChangeData cd, RevCommit commit) throws Exception {

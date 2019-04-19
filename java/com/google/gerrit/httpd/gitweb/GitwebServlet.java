@@ -414,7 +414,7 @@ class GitwebServlet extends HttpServlet {
       name = name.substring(0, name.length() - 4);
     }
 
-    Project.NameKey nameKey = new Project.NameKey(name);
+    Project.NameKey nameKey = Project.nameKey(name);
     ProjectState projectState;
     try {
       projectState = projectCache.checkedGet(nameKey);

@@ -40,7 +40,7 @@ public class ParentProjectPredicate extends OrPredicate<ChangeData> {
 
   protected static List<Predicate<ChangeData>> predicates(
       ProjectCache projectCache, ChildProjects childProjects, String value) {
-    ProjectState projectState = projectCache.get(new Project.NameKey(value));
+    ProjectState projectState = projectCache.get(Project.nameKey(value));
     if (projectState == null) {
       return Collections.emptyList();
     }

@@ -1035,7 +1035,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.createEmptyCommit = true;
     ProjectApi api = gApi.projects().create(in);
 
-    Project.NameKey nameKey = new Project.NameKey(api.get().name);
+    Project.NameKey nameKey = Project.nameKey(api.get().name);
 
     try (ProjectConfigUpdate u = updateProject(nameKey)) {
       Util.allow(u.getConfig(), Permission.DELETE_CHANGES, PROJECT_OWNERS, "refs/*");

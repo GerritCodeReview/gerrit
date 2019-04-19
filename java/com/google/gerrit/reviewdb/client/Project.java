@@ -14,10 +14,12 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gwtorm.client.StringKey;
+import com.google.gwtorm.client.StandardKeyEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,32 +32,39 @@ public final class Project {
   /** Default submit type for root project (All-Projects). */
   public static final SubmitType DEFAULT_ALL_PROJECTS_SUBMIT_TYPE = SubmitType.MERGE_IF_NECESSARY;
 
+  public static NameKey nameKey(String name) {
+    return new NameKey(name);
+  }
+
   /**
    * Project name key.
    *
    * <p>This class has subclasses such as {@code AllProjectsName}, which make Guice injection more
    * convenient. Subclasses must compare equal if they have the same name, regardless of the
    * specific class. This implies that subclasses may not add additional fields.
+   *
+   * <p>Because of this unusual subclassing behavior, this class is not an {@code @AutoValue},
+   * unlike other key types in this package. However, this is strictly an implementation detail; its
+   * interface and semantics are otherwise analogous to the {@code @AutoValue} types.
    */
-  public static class NameKey extends StringKey<com.google.gwtorm.client.Key<?>> {
-    private static final long serialVersionUID = 1L;
-
-    protected String name;
-
-    protected NameKey() {}
-
-    public NameKey(String n) {
-      name = n;
+  public static class NameKey implements Comparable<NameKey> {
+    /** Parse a Project.NameKey out of a string representation. */
+    public static NameKey parse(String str) {
+      return nameKey(new StandardKeyEncoder().decode(str));
     }
 
-    @Override
+    public static String asStringOrNull(NameKey key) {
+      return key == null ? null : key.get();
+    }
+
+    private final String name;
+
+    protected NameKey(String name) {
+      this.name = requireNonNull(name);
+    }
+
     public String get() {
       return name;
-    }
-
-    @Override
-    protected void set(String newValue) {
-      name = newValue;
     }
 
     @Override
@@ -71,15 +80,14 @@ public final class Project {
       return false;
     }
 
-    /** Parse a Project.NameKey out of a string representation. */
-    public static NameKey parse(String str) {
-      final NameKey r = new NameKey();
-      r.fromString(str);
-      return r;
+    @Override
+    public final int compareTo(NameKey o) {
+      return get().compareTo(o.get());
     }
 
-    public static String asStringOrNull(NameKey key) {
-      return key == null ? null : key.get();
+    @Override
+    public final String toString() {
+      return new StandardKeyEncoder().encode(get());
     }
   }
 
@@ -221,7 +229,7 @@ public final class Project {
   }
 
   public void setParentName(String n) {
-    parent = n != null ? new NameKey(n) : null;
+    parent = n != null ? nameKey(n) : null;
   }
 
   public void setParentName(NameKey n) {

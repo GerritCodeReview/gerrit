@@ -31,7 +31,7 @@ public class ProjectNameKeyProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    Project.NameKey nameKey = new Project.NameKey("project-72");
+    Project.NameKey nameKey = Project.nameKey("project-72");
 
     Entities.Project_NameKey proto = projectNameKeyProtoConverter.toProto(nameKey);
 
@@ -42,7 +42,7 @@ public class ProjectNameKeyProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    Project.NameKey nameKey = new Project.NameKey("project-52");
+    Project.NameKey nameKey = Project.nameKey("project-52");
 
     Project.NameKey convertedNameKey =
         projectNameKeyProtoConverter.fromProto(projectNameKeyProtoConverter.toProto(nameKey));

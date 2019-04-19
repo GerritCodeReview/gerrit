@@ -70,7 +70,7 @@ public class CommitsCollectionTest extends GerritBaseTests {
     Account.Id user = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     testEnvironment.setApiUser(user);
 
-    Project.NameKey name = new Project.NameKey("project");
+    Project.NameKey name = Project.nameKey("project");
     InMemoryRepository inMemoryRepo = repoManager.createRepository(name);
     project = projectConfigFactory.create(name);
     project.load(inMemoryRepo);

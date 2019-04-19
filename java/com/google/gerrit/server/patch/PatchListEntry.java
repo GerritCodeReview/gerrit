@@ -229,7 +229,7 @@ public class PatchListEntry {
   }
 
   Patch toPatch(PatchSet.Id setId) {
-    final Patch p = new Patch(new Patch.Key(setId, getNewName()));
+    final Patch p = new Patch(Patch.key(setId, getNewName()));
     p.setChangeType(getChangeType());
     p.setPatchType(getPatchType());
     p.setSourceFileName(getOldName());

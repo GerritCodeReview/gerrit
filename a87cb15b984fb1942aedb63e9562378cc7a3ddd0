@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cff1ea6b_8ef5ac8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-19T01:53:25Z",
+      "side": 1,
+      "message": "I do no understand the problem and the solution. Can you elaborate, may be add some screenshots? How to reproduce the problem? Also consider to file an issue, with detailed information. It is alway good idea when changeing very stable branches. No, that stable-3.0 was cut, 2.15 is considered to be very stable branch.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "a87cb15b984fb1942aedb63e9562378cc7a3ddd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

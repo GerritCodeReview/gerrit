@@ -204,7 +204,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
     return metaDataUpdate;
   }
 
-  private void index(InternalGroup group) throws IOException {
+  private void index(InternalGroup group) {
     for (GroupIndex groupIndex : indexCollection.getWriteIndexes()) {
       groupIndex.replace(group);
     }

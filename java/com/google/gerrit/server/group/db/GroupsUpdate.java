@@ -435,7 +435,7 @@ public class GroupsUpdate {
         allUsersName, batchRefUpdate, currentUser.map(user -> user.state()).orElse(null));
   }
 
-  private void evictCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {
+  private void evictCachesOnGroupCreation(InternalGroup createdGroup) {
     logger.atFine().log("evict caches on creation of group %s", createdGroup.getGroupUUID());
     // By UUID is used for the index and hence should be evicted before refreshing the index.
     groupCache.evict(createdGroup.getGroupUUID());
@@ -448,7 +448,7 @@ public class GroupsUpdate {
     createdGroup.getSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
   }
 
-  private void evictCachesOnGroupUpdate(UpdateResult result) throws IOException {
+  private void evictCachesOnGroupUpdate(UpdateResult result) {
     logger.atFine().log("evict caches on update of group %s", result.getGroupUuid());
     // By UUID is used for the index and hence should be evicted before refreshing the index.
     groupCache.evict(result.getGroupUuid());

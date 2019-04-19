@@ -43,7 +43,6 @@ import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -335,7 +334,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       return description.getClassName();
     }
 
-    private TestAccount evictAndCopy(TestAccount account) throws IOException {
+    private TestAccount evictAndCopy(TestAccount account) {
       evictAndReindexAccount(account.id());
       return account;
     }

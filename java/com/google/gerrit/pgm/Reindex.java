@@ -38,7 +38,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -114,7 +113,7 @@ public class Reindex extends SiteProgram {
     return true;
   }
 
-  private boolean reindex() throws IOException {
+  private boolean reindex() {
     boolean ok = true;
     for (IndexDefinition<?, ?, ?> def : indexDefs) {
       if (indices.isEmpty() || indices.contains(def.getName())) {
@@ -186,8 +185,7 @@ public class Reindex extends SiteProgram {
     globalConfig.setBoolean("index", null, "autoReindexIfStale", false);
   }
 
-  private <K, V, I extends Index<K, V>> boolean reindex(IndexDefinition<K, V, I> def)
-      throws IOException {
+  private <K, V, I extends Index<K, V>> boolean reindex(IndexDefinition<K, V, I> def) {
     I index = def.getIndexCollection().getSearchIndex();
     requireNonNull(
         index, () -> String.format("no active search index configured for %s", def.getName()));

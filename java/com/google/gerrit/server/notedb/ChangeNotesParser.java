@@ -237,7 +237,7 @@ class ChangeNotesParser {
     return ChangeNotesState.create(
         tip.copy(),
         id,
-        new Change.Key(changeId),
+        Change.key(changeId),
         createdOn,
         lastUpdatedOn,
         ownerId,

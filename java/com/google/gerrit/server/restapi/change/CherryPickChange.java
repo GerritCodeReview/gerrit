@@ -230,9 +230,9 @@ public class CherryPickChange {
         final List<String> idList = cherryPickCommit.getFooterLines(FooterConstants.CHANGE_ID);
         if (!idList.isEmpty()) {
           final String idStr = idList.get(idList.size() - 1).trim();
-          changeKey = new Change.Key(idStr);
+          changeKey = Change.key(idStr);
         } else {
-          changeKey = new Change.Key("I" + computedChangeId.name());
+          changeKey = Change.key("I" + computedChangeId.name());
         }
 
         Branch.NameKey newDest = Branch.nameKey(project, destRef.getName());

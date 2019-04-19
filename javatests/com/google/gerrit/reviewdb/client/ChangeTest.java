@@ -157,7 +157,7 @@ public class ChangeTest {
   public void keyToString() {
     String key = "Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     assertThat(ObjectId.isId(key.substring(1))).isTrue();
-    assertThat(new Change.Key(key).toString()).isEqualTo(key);
+    assertThat(Change.key(key).toString()).isEqualTo(key);
   }
 
   private static void assertRef(int changeId, String refName) {

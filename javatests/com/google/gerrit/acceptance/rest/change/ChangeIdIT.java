@@ -98,14 +98,14 @@ public class ChangeIdIT extends AbstractDaemonTest {
     // This test tests a redirect that is primarily intended for the UI (though the backend doesn't
     // really care who the caller is). The redirect rewrites a shorthand change number URL (/123) to
     // it's canonical long form (/c/project/+/123).
-    int changeId = createChange().getChange().getId().id;
+    int changeId = createChange().getChange().getId().get();
     RestResponse res = anonymousRestSession.get("/" + changeId);
     res.assertTemporaryRedirect("/c/" + project.get() + "/+/" + changeId + "/");
   }
 
   @Test
   public void changeNumberRedirectsWithTrailingSlash() throws Exception {
-    int changeId = createChange().getChange().getId().id;
+    int changeId = createChange().getChange().getId().get();
     RestResponse res = anonymousRestSession.get("/" + changeId + "/");
     res.assertTemporaryRedirect("/c/" + project.get() + "/+/" + changeId + "/");
   }
@@ -125,8 +125,8 @@ public class ChangeIdIT extends AbstractDaemonTest {
   @Test
   public void hiddenChangeNotFound() throws Exception {
     Change.Id changeId = createChange().getChange().getId();
-    gApi.changes().id(changeId.id).setPrivate(true, null);
-    RestResponse res = anonymousRestSession.get("/" + changeId.id);
+    gApi.changes().id(changeId.get()).setPrivate(true, null);
+    RestResponse res = anonymousRestSession.get("/" + changeId.get());
     res.assertNotFound();
   }
 

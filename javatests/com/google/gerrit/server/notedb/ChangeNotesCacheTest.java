@@ -32,7 +32,7 @@ public final class ChangeNotesCacheTest {
     ChangeNotesCache.Key key =
         ChangeNotesCache.Key.create(
             Project.nameKey("project"),
-            new Change.Id(1234),
+            Change.id(1234),
             ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
     byte[] serialized = ChangeNotesCache.Key.Serializer.INSTANCE.serialize(key);
     assertThat(ChangeNotesKeyProto.parseFrom(serialized))

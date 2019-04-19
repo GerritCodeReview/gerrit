@@ -1,4 +1,4 @@
-// Copyright 2008 Google Inc.
+// Copyright (C) 2019 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gwtorm.client;
+package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.KeyUtil.Encoder;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
-public class StandardKeyEncoder extends Encoder {
+public class KeyUtil {
   private static final char[] hexc = {
     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
   };
@@ -49,8 +48,7 @@ public class StandardKeyEncoder extends Encoder {
     for (char i = 'a'; i <= 'f'; i++) hexb[i] = (byte) ((i - 'a') + 10);
   }
 
-  @Override
-  public String encode(final String e) {
+  public static String encode(final String e) {
     final byte[] b;
     try {
       b = e.getBytes("UTF-8");
@@ -73,8 +71,7 @@ public class StandardKeyEncoder extends Encoder {
     return r.toString();
   }
 
-  @Override
-  public String decode(final String e) {
+  public static String decode(final String e) {
     if (e.indexOf('%') < 0) {
       return e.replace('+', ' ');
     }

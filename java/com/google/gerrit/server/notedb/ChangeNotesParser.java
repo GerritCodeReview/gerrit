@@ -633,7 +633,7 @@ class ChangeNotesParser {
     if (psId == null) {
       throw invalidFooter(FOOTER_PATCH_SET, psIdStr);
     }
-    return new PatchSet.Id(id, psId);
+    return PatchSet.id(id, psId);
   }
 
   private PatchSetState parsePatchSetState(ChangeNotesCommit commit) throws ConfigInvalidException {
@@ -689,8 +689,7 @@ class ChangeNotesParser {
     }
 
     ChangeMessage changeMessage =
-        new ChangeMessage(
-            ChangeMessage.key(psId.getParentKey(), commit.name()), accountId, ts, psId);
+        new ChangeMessage(ChangeMessage.key(psId.changeId(), commit.name()), accountId, ts, psId);
     changeMessage.setMessage(changeMsgString.get());
     changeMessage.setTag(tag);
     changeMessage.setRealAuthor(realAccountId);
@@ -1031,7 +1030,7 @@ class ChangeNotesParser {
         pruneEntitiesForMissingPatchSets(allChangeMessages, ChangeMessage::getPatchSetId, missing);
     pruned +=
         pruneEntitiesForMissingPatchSets(
-            comments.values(), c -> new PatchSet.Id(id, c.key.patchSetId), missing);
+            comments.values(), c -> PatchSet.id(id, c.key.patchSetId), missing);
     pruned +=
         pruneEntitiesForMissingPatchSets(
             approvals.values(), PatchSetApproval::getPatchSetId, missing);

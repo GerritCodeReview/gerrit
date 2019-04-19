@@ -517,7 +517,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         change3.getChangeId(),
         "Failed to submit 1 change due to the following problems:\n"
             + "Change "
-            + change3.getPatchSetId().getParentKey().get()
+            + change3.getPatchSetId().changeId().get()
             + ": Depends on change that was not submitted."
             + " Commit "
             + change3.getCommit().name()

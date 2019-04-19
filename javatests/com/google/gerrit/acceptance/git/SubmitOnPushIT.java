@@ -254,13 +254,13 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     r = amendChange(changeId);
     ChangeData cd = r.getChange();
     PatchSet.Id psId2 = cd.change().currentPatchSetId();
-    assertThat(psId2.getParentKey()).isEqualTo(psId1.getParentKey());
+    assertThat(psId2.changeId()).isEqualTo(psId1.changeId());
     assertThat(psId2.get()).isEqualTo(2);
 
     testRepo.reset(c1);
     assertPushOk(pushHead(testRepo, "refs/heads/master", false), "refs/heads/master");
 
-    cd = changeDataFactory.create(project, psId1.getParentKey());
+    cd = changeDataFactory.create(project, psId1.changeId());
     Change c = cd.change();
     assertThat(c.isMerged()).isTrue();
     assertThat(c.currentPatchSetId()).isEqualTo(psId1);
@@ -316,7 +316,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId) throws Exception {
-    ChangeNotes notes = notesFactory.createChecked(project, patchSetId.getParentKey()).load();
+    ChangeNotes notes = notesFactory.createChecked(project, patchSetId.changeId()).load();
     return approvalsUtil.getSubmitter(notes, patchSetId);
   }
 

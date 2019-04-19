@@ -481,7 +481,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
             "Inserted as patch set 2"));
 
     notes = reload(notes);
-    PatchSet.Id psId2 = new PatchSet.Id(notes.getChangeId(), 2);
+    PatchSet.Id psId2 = PatchSet.id(notes.getChangeId(), 2);
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(psId2);
     assertThat(psUtil.get(notes, psId2).getRevision().get()).isEqualTo(mergedAs.name());
 
@@ -529,7 +529,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
             "Inserted as patch set 2"));
 
     notes = reload(notes);
-    PatchSet.Id psId2 = new PatchSet.Id(notes.getChangeId(), 2);
+    PatchSet.Id psId2 = PatchSet.id(notes.getChangeId(), 2);
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(psId2);
     assertThat(psUtil.get(notes, psId2).getRevision().get()).isEqualTo(mergedAs.name());
 
@@ -569,7 +569,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
             "Inserted as patch set 3"));
 
     notes = reload(notes);
-    PatchSet.Id psId3 = new PatchSet.Id(notes.getChangeId(), 3);
+    PatchSet.Id psId3 = PatchSet.id(notes.getChangeId(), 3);
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(psId3);
     assertThat(notes.getChange().isMerged()).isTrue();
     assertThat(psUtil.byChangeAsMap(notes).keySet()).containsExactly(ps2.getId(), psId3);
@@ -582,7 +582,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     PatchSet ps1 = psUtil.current(notes);
 
     // Create dangling ref so next ID in the database becomes 3.
-    PatchSet.Id psId2 = new PatchSet.Id(notes.getChangeId(), 2);
+    PatchSet.Id psId2 = PatchSet.id(notes.getChangeId(), 2);
     RevCommit commit2 = patchSetCommit(psId2);
     String rev2 = commit2.name();
     serverSideTestRepo.branch(psId2.toRefName()).update(commit2);
@@ -617,7 +617,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
             "Inserted as patch set 4"));
 
     notes = reload(notes);
-    PatchSet.Id psId4 = new PatchSet.Id(notes.getChangeId(), 4);
+    PatchSet.Id psId4 = PatchSet.id(notes.getChangeId(), 4);
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(psId4);
     assertThat(notes.getChange().isMerged()).isTrue();
     assertThat(psUtil.byChangeAsMap(notes).keySet())
@@ -631,7 +631,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     PatchSet ps1 = psUtil.current(notes);
 
     // Create dangling ref with no patch set.
-    PatchSet.Id psId2 = new PatchSet.Id(notes.getChangeId(), 2);
+    PatchSet.Id psId2 = PatchSet.id(notes.getChangeId(), 2);
     RevCommit commit2 = patchSetCommit(psId2);
     String rev2 = commit2.name();
     serverSideTestRepo.branch(psId2.toRefName()).update(commit2);
@@ -747,7 +747,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     Change.Id id = new Change.Id(sequences.nextChangeId());
     ChangeInserter ins;
     try (BatchUpdate bu = newUpdate(owner.id())) {
-      RevCommit commit = patchSetCommit(new PatchSet.Id(id, 1));
+      RevCommit commit = patchSetCommit(PatchSet.id(id, 1));
       bu.setNotify(NotifyResolver.Result.none());
       ins =
           changeInserterFactory

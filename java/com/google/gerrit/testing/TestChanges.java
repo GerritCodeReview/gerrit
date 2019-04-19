@@ -129,7 +129,7 @@ public class TestChanges {
   public static void incrementPatchSet(Change change) {
     PatchSet.Id curr = change.currentPatchSetId();
     PatchSetInfo ps =
-        new PatchSetInfo(new PatchSet.Id(change.getId(), curr != null ? curr.get() + 1 : 1));
+        new PatchSetInfo(PatchSet.id(change.getId(), curr != null ? curr.get() + 1 : 1));
     ps.setSubject("Change subject");
     change.setCurrentPatchSet(ps);
   }

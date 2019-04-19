@@ -71,8 +71,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * for each reviewer, even if the reviewer hasn't actually given a score to the change. To mark the
  * "no score" case, a dummy approval, which may live in any of the available categories, with a
  * score of 0 is used.
- *
- * <p>The methods in this class only modify the gwtorm database.
  */
 @Singleton
 public class ApprovalsUtil {

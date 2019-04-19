@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
@@ -34,6 +35,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.InsertedObject;
@@ -46,10 +48,12 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -78,6 +82,23 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   public interface Factory {
     NoteDbUpdateManager create(Project.NameKey projectName);
+  }
+
+  public static class TooManyUpdatesException extends StorageException {
+    @VisibleForTesting
+    public static String message(Change.Id id, int maxUpdates) {
+      return "Change "
+          + id
+          + " may not exceed "
+          + maxUpdates
+          + " updates. It may still be abandoned or submitted.";
+    }
+
+    private static final long serialVersionUID = 1L;
+
+    private TooManyUpdatesException(Change.Id id, int maxUpdates) {
+      super(message(id, maxUpdates));
+    }
   }
 
   public static class OpenRepo implements AutoCloseable {
@@ -149,6 +170,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final AllUsersName allUsersName;
   private final NoteDbMetrics metrics;
   private final Project.NameKey projectName;
+  private final int maxUpdates;
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
   private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
@@ -164,6 +186,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   @Inject
   NoteDbUpdateManager(
+      @GerritServerConfig Config cfg,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
@@ -174,6 +197,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     this.allUsersName = allUsersName;
     this.metrics = metrics;
     this.projectName = projectName;
+    maxUpdates = cfg.getInt("change", null, "maxUpdates", 1000);
     changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -483,12 +507,12 @@ public class NoteDbUpdateManager implements AutoCloseable {
     if (!draftUpdates.isEmpty()) {
       checkState(allUsersRepo != null, "must set all users repo");
     }
-    addUpdates(changeUpdates, changeRepo);
+    addUpdates(changeUpdates, changeRepo, Optional.of(maxUpdates));
     if (!draftUpdates.isEmpty()) {
-      addUpdates(draftUpdates, allUsersRepo);
+      addUpdates(draftUpdates, allUsersRepo, Optional.empty());
     }
     if (!robotCommentUpdates.isEmpty()) {
-      addUpdates(robotCommentUpdates, changeRepo);
+      addUpdates(robotCommentUpdates, changeRepo, Optional.empty());
     }
     if (!rewriters.isEmpty()) {
       addRewrites(rewriters, changeRepo);
@@ -521,7 +545,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   }
 
   private static <U extends AbstractChangeUpdate> void addUpdates(
-      ListMultimap<String, U> all, OpenRepo or) throws IOException {
+      ListMultimap<String, U> all, OpenRepo or, Optional<Integer> maxUpdates) throws IOException {
     for (Map.Entry<String, Collection<U>> e : all.asMap().entrySet()) {
       String refName = e.getKey();
       Collection<U> updates = e.getValue();
@@ -533,6 +557,15 @@ public class NoteDbUpdateManager implements AutoCloseable {
         continue;
       }
 
+      int updateCount;
+      U first = updates.iterator().next();
+      if (maxUpdates.isPresent()) {
+        checkState(first.getNotes() != null, "expected ChangeNotes on %s", first);
+        updateCount = first.getNotes().getUpdateCount();
+      } else {
+        updateCount = 0;
+      }
+
       ObjectId curr = old;
       for (U u : updates) {
         if (u.isRootOnly() && !old.equals(ObjectId.zeroId())) {
@@ -541,6 +574,12 @@ public class NoteDbUpdateManager implements AutoCloseable {
         ObjectId next = u.apply(or.rw, or.tempIns, curr);
         if (next == null) {
           continue;
+        }
+        if (maxUpdates.isPresent()
+            && !Objects.equals(next, curr)
+            && ++updateCount > maxUpdates.get()
+            && !u.bypassMaxUpdates()) {
+          throw new TooManyUpdatesException(u.getId(), maxUpdates.get());
         }
         curr = next;
       }

@@ -112,8 +112,11 @@ public class ChangeNotesCache {
     // Single pointer overhead.
     private static final int P = 8;
 
+    // Single int overhead.
+    private static final int I = 4;
+
     // Single IntKey overhead.
-    private static final int K = O + 4;
+    private static final int K = O + I;
 
     // Single Timestamp overhead.
     private static final int T = O + 8;
@@ -173,7 +176,8 @@ public class ChangeNotesCache {
           + map(state.publishedComments().asMap(), comment())
           + 1 // isPrivate
           + 1 // workInProgress
-          + 1; // reviewStarted
+          + 1 // reviewStarted
+          + I; // updateCount
     }
 
     private static int ptr(Object o, int size) {

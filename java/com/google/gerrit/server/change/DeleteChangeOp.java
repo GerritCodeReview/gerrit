@@ -23,7 +23,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.extensions.events.ChangeDeleted;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
@@ -71,7 +70,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
     ensureDeletable(ctx, id, patchSets);
     // Cleaning up is only possible as long as the change and its elements are
     // still part of the database.
-    cleanUpReferences(ctx, id, patchSets);
+    cleanUpReferences(id, patchSets);
 
     ctx.deleteChange();
     changeDeleted.fire(ctx.getChange(), ctx.getAccount(), ctx.getWhen());
@@ -104,15 +103,13 @@ public class DeleteChangeOp implements BatchUpdateOp {
     return revWalk.isMergedInto(revWalk.parseCommit(objectId), revWalk.parseCommit(destId.get()));
   }
 
-  private void cleanUpReferences(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)
-      throws NoSuchChangeException {
+  private void cleanUpReferences(Change.Id id, Collection<PatchSet> patchSets) throws IOException {
     for (PatchSet ps : patchSets) {
       accountPatchReviewStore.run(s -> s.clearReviewed(ps.getId()));
     }
 
-    // Non-atomic operation on Accounts table; not much we can do to make it
-    // atomic.
-    starredChangesUtil.unstarAll(ctx.getChange().getProject(), id);
+    // Non-atomic operation on All-Users refs; not much we can do to make it atomic.
+    starredChangesUtil.unstarAllForChangeDeletion(id);
   }
 
   @Override

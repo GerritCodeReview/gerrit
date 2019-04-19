@@ -233,7 +233,16 @@ public class StarredChangesUtil {
     }
   }
 
-  public void unstarAll(Project.NameKey project, Change.Id changeId) {
+  /**
+   * Unstar the given change for all users.
+   *
+   * <p>Intended for use only when we're about to delete a change. For that reason, the change is
+   * not reindexed.
+   *
+   * @param changeId change ID.
+   * @throws IOException if an error occurred.
+   */
+  public void unstarAllForChangeDeletion(Change.Id changeId) throws IOException {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       BatchRefUpdate batchUpdate = repo.getRefDatabase().newBatchUpdate();
@@ -254,9 +263,6 @@ public class StarredChangesUtil {
                   changeId.get(), command.getRefName(), command.getResult()));
         }
       }
-      indexer.index(project, changeId);
-    } catch (IOException e) {
-      throw new StorageException(String.format("Unstar change %d failed", changeId.get()), e);
     }
   }
 

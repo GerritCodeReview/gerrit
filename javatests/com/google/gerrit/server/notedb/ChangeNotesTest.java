@@ -3021,6 +3021,22 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
   }
 
+  @Test
+  public void updateCount() throws Exception {
+    Change c = newChange();
+    assertThat(newNotes(c).getUpdateCount()).isEqualTo(1);
+
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval("Code-Review", (short) -1);
+    update.commit();
+    assertThat(newNotes(c).getUpdateCount()).isEqualTo(2);
+
+    update = newUpdate(c, changeOwner);
+    update.putApproval("Code-Review", (short) 1);
+    update.commit();
+    assertThat(newNotes(c).getUpdateCount()).isEqualTo(3);
+  }
+
   private String readNote(ChangeNotes notes, ObjectId noteId) throws Exception {
     ObjectId dataId = notes.revisionNoteMap.noteMap.getNote(noteId).getData();
     return new String(rw.getObjectReader().open(dataId, OBJ_BLOB).getCachedBytes(), UTF_8);

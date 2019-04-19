@@ -166,6 +166,7 @@ class ChangeNotesParser {
   private ReviewerSet pendingReviewers;
   private ReviewerByEmailSet pendingReviewersByEmail;
   private Change.Id revertOf;
+  private int updateCount;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -264,7 +265,8 @@ class ChangeNotesParser {
         firstNonNull(isPrivate, false),
         firstNonNull(workInProgress, false),
         firstNonNull(hasReviewStarted, true),
-        revertOf);
+        revertOf,
+        updateCount);
   }
 
   private PatchSet.Id buildCurrentPatchSetId() {
@@ -311,6 +313,7 @@ class ChangeNotesParser {
   }
 
   private void parse(ChangeNotesCommit commit) throws ConfigInvalidException {
+    updateCount++;
     Timestamp ts = new Timestamp(commit.getCommitterIdent().getWhen().getTime());
 
     createdOn = ts;

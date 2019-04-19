@@ -39,21 +39,21 @@ public class ChangeProtoConverterTest {
     Change change =
         new Change(
             Change.key("change 1"),
-            new Change.Id(14),
+            Change.id(14),
             Account.id(35),
             Branch.nameKey(Project.nameKey("project 67"), "branch 74"),
             new Timestamp(987654L));
     change.setLastUpdatedOn(new Timestamp(1234567L));
     change.setStatus(Change.Status.MERGED);
     change.setCurrentPatchSet(
-        PatchSet.id(new Change.Id(14), 23), "subject XYZ", "original subject ABC");
+        PatchSet.id(Change.id(14), 23), "subject XYZ", "original subject ABC");
     change.setTopic("my topic");
     change.setSubmissionId("submission ID 234");
     change.setAssignee(Account.id(100001));
     change.setPrivate(true);
     change.setWorkInProgress(true);
     change.setReviewStarted(true);
-    change.setRevertOf(new Change.Id(180));
+    change.setRevertOf(Change.id(180));
 
     Entities.Change proto = changeProtoConverter.toProto(change);
 
@@ -89,7 +89,7 @@ public class ChangeProtoConverterTest {
     Change change =
         new Change(
             Change.key("change 1"),
-            new Change.Id(14),
+            Change.id(14),
             Account.id(35),
             Branch.nameKey(Project.nameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
@@ -125,12 +125,12 @@ public class ChangeProtoConverterTest {
     Change change =
         new Change(
             Change.key("change 1"),
-            new Change.Id(14),
+            Change.id(14),
             Account.id(35),
             Branch.nameKey(Project.nameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
     // O as ID actually means that no current patch set is present.
-    change.setCurrentPatchSet(PatchSet.id(new Change.Id(14), 0), null, null);
+    change.setCurrentPatchSet(PatchSet.id(Change.id(14), 0), null, null);
 
     Entities.Change proto = changeProtoConverter.toProto(change);
 
@@ -163,11 +163,11 @@ public class ChangeProtoConverterTest {
     Change change =
         new Change(
             Change.key("change 1"),
-            new Change.Id(14),
+            Change.id(14),
             Account.id(35),
             Branch.nameKey(Project.nameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
-    change.setCurrentPatchSet(PatchSet.id(new Change.Id(14), 23), "subject ABC", null);
+    change.setCurrentPatchSet(PatchSet.id(Change.id(14), 23), "subject ABC", null);
 
     Entities.Change proto = changeProtoConverter.toProto(change);
 
@@ -200,21 +200,21 @@ public class ChangeProtoConverterTest {
     Change change =
         new Change(
             Change.key("change 1"),
-            new Change.Id(14),
+            Change.id(14),
             Account.id(35),
             Branch.nameKey(Project.nameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
     change.setLastUpdatedOn(new Timestamp(1234567L));
     change.setStatus(Change.Status.MERGED);
     change.setCurrentPatchSet(
-        PatchSet.id(new Change.Id(14), 23), "subject XYZ", "original subject ABC");
+        PatchSet.id(Change.id(14), 23), "subject XYZ", "original subject ABC");
     change.setTopic("my topic");
     change.setSubmissionId("submission ID 234");
     change.setAssignee(Account.id(100001));
     change.setPrivate(true);
     change.setWorkInProgress(true);
     change.setReviewStarted(true);
-    change.setRevertOf(new Change.Id(180));
+    change.setRevertOf(Change.id(180));
 
     Change convertedChange = changeProtoConverter.fromProto(changeProtoConverter.toProto(change));
     assertEqualChange(convertedChange, change);
@@ -225,7 +225,7 @@ public class ChangeProtoConverterTest {
     Change change =
         new Change(
             Change.key("change 1"),
-            new Change.Id(14),
+            Change.id(14),
             Account.id(35),
             Branch.nameKey(Project.nameKey("project 67"), "branch-74"),
             new Timestamp(987654L));

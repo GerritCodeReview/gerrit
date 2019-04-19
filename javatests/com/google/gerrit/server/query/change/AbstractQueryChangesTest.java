@@ -2435,7 +2435,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byCommitsOnBranchNotMergedSkipsMissingChanges() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ObjectId missing =
-        repo.branch(PatchSet.id(new Change.Id(987654), 1).toRefName())
+        repo.branch(PatchSet.id(Change.id(987654), 1).toRefName())
             .commit()
             .message("No change for this commit")
             .insertChangeId()
@@ -2591,8 +2591,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(changeToRevert.id).current().submit();
 
     ChangeInfo changeThatReverts = gApi.changes().id(changeToRevert.id).revert().get();
-    assertQueryByIds(
-        "revertof:" + changeToRevert._number, new Change.Id(changeThatReverts._number));
+    assertQueryByIds("revertof:" + changeToRevert._number, Change.id(changeThatReverts._number));
   }
 
   /** Change builder for helping in tests for dashboard sections. */
@@ -3208,7 +3207,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       branch = "refs/heads/" + branch;
     }
 
-    Change.Id id = new Change.Id(seq.nextChangeId());
+    Change.Id id = Change.id(seq.nextChangeId());
     ChangeInserter ins =
         changeFactory
             .create(id, commit, branch)
@@ -3392,7 +3391,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected static Iterable<Change.Id> ids(Iterable<ChangeInfo> changes) {
-    return Streams.stream(changes).map(c -> new Change.Id(c._number)).collect(toList());
+    return Streams.stream(changes).map(c -> Change.id(c._number)).collect(toList());
   }
 
   protected static long lastUpdatedMs(Change c) {

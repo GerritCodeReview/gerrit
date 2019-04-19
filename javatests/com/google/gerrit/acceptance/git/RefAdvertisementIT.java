@@ -384,7 +384,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void uploadPackAllRefsAreVisibleOrphanedTag() throws Exception {
     allow("refs/*", Permission.READ, REGISTERED_USERS);
     // Delete the pending change on 'branch' and 'branch' itself so that the tag gets orphaned
-    gApi.changes().id(cd4.getId().id).delete();
+    gApi.changes().id(cd4.getId().get()).delete();
     gApi.projects().name(project.get()).branch("refs/heads/branch").delete();
 
     requestScopeOperations.setApiUser(user.id());

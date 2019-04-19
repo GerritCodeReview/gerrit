@@ -660,7 +660,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(change.stars).contains(DEFAULT_LABEL);
     refUpdateCounter.assertRefUpdateFor(
         RefUpdateCounter.projectRef(
-            allUsers, RefNames.refsStarredChanges(new Change.Id(change._number), admin.id())));
+            allUsers, RefNames.refsStarredChanges(Change.id(change._number), admin.id())));
 
     gApi.accounts().self().unstarChange(triplet);
     change = info(triplet);
@@ -668,7 +668,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(change.stars).isNull();
     refUpdateCounter.assertRefUpdateFor(
         RefUpdateCounter.projectRef(
-            allUsers, RefNames.refsStarredChanges(new Change.Id(change._number), admin.id())));
+            allUsers, RefNames.refsStarredChanges(Change.id(change._number), admin.id())));
 
     accountIndexedCounter.assertNoReindex();
   }
@@ -699,7 +699,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(starredChange.stars).containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
     refUpdateCounter.assertRefUpdateFor(
         RefUpdateCounter.projectRef(
-            allUsers, RefNames.refsStarredChanges(new Change.Id(change._number), admin.id())));
+            allUsers, RefNames.refsStarredChanges(Change.id(change._number), admin.id())));
 
     gApi.accounts()
         .self()
@@ -718,7 +718,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(starredChange.stars).containsExactly("red", "yellow").inOrder();
     refUpdateCounter.assertRefUpdateFor(
         RefUpdateCounter.projectRef(
-            allUsers, RefNames.refsStarredChanges(new Change.Id(change._number), admin.id())));
+            allUsers, RefNames.refsStarredChanges(Change.id(change._number), admin.id())));
 
     accountIndexedCounter.assertNoReindex();
 

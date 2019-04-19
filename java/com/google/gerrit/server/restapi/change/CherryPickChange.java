@@ -342,7 +342,7 @@ public class CherryPickChange {
       ObjectId sourceCommit,
       CherryPickInput input)
       throws IOException {
-    Change.Id changeId = new Change.Id(seq.nextChangeId());
+    Change.Id changeId = Change.id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
     Branch.NameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
     ins.setMessage(

@@ -36,7 +36,7 @@ public class PatchSetProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    PatchSet patchSet = new PatchSet(PatchSet.id(new Change.Id(103), 73));
+    PatchSet patchSet = new PatchSet(PatchSet.id(Change.id(103), 73));
     patchSet.setRevision(new RevId("aabbccddeeff"));
     patchSet.setUploader(Account.id(452));
     patchSet.setCreatedOn(new Timestamp(930349320L));
@@ -64,7 +64,7 @@ public class PatchSetProtoConverterTest {
 
   @Test
   public void mandatoryValuesConvertedToProto() {
-    PatchSet patchSet = new PatchSet(PatchSet.id(new Change.Id(103), 73));
+    PatchSet patchSet = new PatchSet(PatchSet.id(Change.id(103), 73));
 
     Entities.PatchSet proto = patchSetProtoConverter.toProto(patchSet);
 
@@ -80,7 +80,7 @@ public class PatchSetProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    PatchSet patchSet = new PatchSet(PatchSet.id(new Change.Id(103), 73));
+    PatchSet patchSet = new PatchSet(PatchSet.id(Change.id(103), 73));
     patchSet.setRevision(new RevId("aabbccddeeff"));
     patchSet.setUploader(Account.id(452));
     patchSet.setCreatedOn(new Timestamp(930349320L));
@@ -95,7 +95,7 @@ public class PatchSetProtoConverterTest {
 
   @Test
   public void mandatoryValuesConvertedToProtoAndBackAgain() {
-    PatchSet patchSet = new PatchSet(PatchSet.id(new Change.Id(103), 73));
+    PatchSet patchSet = new PatchSet(PatchSet.id(Change.id(103), 73));
 
     PatchSet convertedPatchSet =
         patchSetProtoConverter.fromProto(patchSetProtoConverter.toProto(patchSet));

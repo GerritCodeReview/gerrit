@@ -543,7 +543,7 @@ public abstract class ChangeNotesState {
     @Override
     public ChangeNotesState deserialize(byte[] in) {
       ChangeNotesStateProto proto = Protos.parseUnchecked(ChangeNotesStateProto.parser(), in);
-      Change.Id changeId = new Change.Id(proto.getChangeId());
+      Change.Id changeId = Change.id(proto.getChangeId());
 
       ChangeNotesState.Builder b =
           builder()
@@ -623,7 +623,7 @@ public abstract class ChangeNotesState {
           .workInProgress(proto.getWorkInProgress())
           .reviewStarted(proto.getReviewStarted());
       if (proto.getHasRevertOf()) {
-        b.revertOf(new Change.Id(proto.getRevertOf()));
+        b.revertOf(Change.id(proto.getRevertOf()));
       }
       return b.build();
     }

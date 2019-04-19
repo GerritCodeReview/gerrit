@@ -210,7 +210,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
               message);
       revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, computedChangeId, true));
 
-      Change.Id changeId = new Change.Id(seq.nextChangeId());
+      Change.Id changeId = Change.id(seq.nextChangeId());
       ObjectId id = oi.insert(revertCommitBuilder);
       RevCommit revertCommit = revWalk.parseCommit(id);
 

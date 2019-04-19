@@ -1087,7 +1087,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
       assertThat(query(changeId)).isEmpty();
 
-      String ref = new Change.Id(id).toRefPrefix() + "1";
+      String ref = Change.id(id).toRefPrefix() + "1";
       eventRecorder.assertRefUpdatedEvents(projectName.get(), ref, null, commit, commit, null);
       eventRecorder.assertChangeDeletedEvents(changeId, deleteAs.email());
     } finally {
@@ -2882,7 +2882,7 @@ public class ChangeIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commitPatchSetCreation =
-          rw.parseCommit(repo.exactRef(changeMetaRef(new Change.Id(c._number))).getObjectId());
+          rw.parseCommit(repo.exactRef(changeMetaRef(Change.id(c._number))).getObjectId());
 
       assertThat(commitPatchSetCreation.getShortMessage()).isEqualTo("Create patch set 2");
       PersonIdent expectedAuthor =
@@ -2952,7 +2952,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Amend change as user
     PushOneCommit.Result r2 = amendChange(r1.getChangeId(), "refs/for/master", user, userTestRepo);
-    r2.assertErrorStatus("cannot add patch set to " + r1.getChange().getId().id + ".");
+    r2.assertErrorStatus("cannot add patch set to " + r1.getChange().getId().get() + ".");
   }
 
   @Test

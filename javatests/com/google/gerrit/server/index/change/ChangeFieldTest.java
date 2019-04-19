@@ -63,7 +63,7 @@ public class ChangeFieldTest extends GerritBaseTests {
         .containsExactly(
             "REVIEWER,1", "REVIEWER,1," + t1.getTime(), "CC,2", "CC,2," + t2.getTime());
 
-    assertThat(ChangeField.parseReviewerFieldValues(new Change.Id(1), values)).isEqualTo(reviewers);
+    assertThat(ChangeField.parseReviewerFieldValues(Change.id(1), values)).isEqualTo(reviewers);
   }
 
   @Test

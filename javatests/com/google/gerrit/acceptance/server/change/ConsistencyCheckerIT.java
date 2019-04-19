@@ -744,7 +744,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   }
 
   private ChangeNotes insertChange(TestAccount owner, String dest) throws Exception {
-    Change.Id id = new Change.Id(sequences.nextChangeId());
+    Change.Id id = Change.id(sequences.nextChangeId());
     ChangeInserter ins;
     try (BatchUpdate bu = newUpdate(owner.id())) {
       RevCommit commit = patchSetCommit(PatchSet.id(id, 1));

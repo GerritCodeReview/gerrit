@@ -695,7 +695,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     in.name = name;
     in.createEmptyCommit = true;
     gApi.projects().create(in);
-    return new Project.NameKey(name);
+    return Project.nameKey(name);
   }
 
   protected void blockRead(Project.NameKey project, GroupInfo group) throws RestApiException {

@@ -208,7 +208,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       int id = source.get(ChangeField.LEGACY_ID.getName()).getAsInt();
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
       String projectName = requireNonNull(source.get(ChangeField.PROJECT.getName()).getAsString());
-      return changeDataFactory.create(new Project.NameKey(projectName), new Change.Id(id));
+      return changeDataFactory.create(Project.nameKey(projectName), new Change.Id(id));
     }
 
     ChangeData cd =

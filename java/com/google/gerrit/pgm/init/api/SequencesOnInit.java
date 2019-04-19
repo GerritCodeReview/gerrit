@@ -38,7 +38,7 @@ public class SequencesOnInit {
         new RepoSequence(
             repoManager,
             GitReferenceUpdated.DISABLED,
-            new Project.NameKey(allUsersName.get()),
+            Project.nameKey(allUsersName.get()),
             Sequences.NAME_ACCOUNTS,
             () -> Sequences.FIRST_ACCOUNT_ID,
             1);

@@ -24,7 +24,7 @@ public class ProjectPredicate extends ChangeIndexPredicate {
   }
 
   protected Project.NameKey getValueKey() {
-    return new Project.NameKey(getValue());
+    return Project.nameKey(getValue());
   }
 
   @Override

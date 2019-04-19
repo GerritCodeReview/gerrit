@@ -60,7 +60,7 @@ public class TagSetTest extends GerritBaseTests {
     tags.add(
         new Tag(
             ObjectId.fromString("dddddddddddddddddddddddddddddddddddddddd"), newBitSet(2, 4, 6)));
-    TagSet tagSet = new TagSet(new Project.NameKey("project"), refs, tags);
+    TagSet tagSet = new TagSet(Project.nameKey("project"), refs, tags);
 
     TagSetProto proto = tagSet.toProto();
     assertThat(proto)

@@ -54,7 +54,7 @@ public class RepoSequenceTest extends GerritBaseTests {
   @Before
   public void setUp() throws Exception {
     repoManager = new InMemoryRepositoryManager();
-    project = new Project.NameKey("project");
+    project = Project.nameKey("project");
     repoManager.createRepository(project);
   }
 

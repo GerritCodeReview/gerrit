@@ -54,7 +54,7 @@ public class DestinationList extends TabFile {
   private static Set<Branch.NameKey> toSet(List<Row> destRows) {
     Set<Branch.NameKey> dests = Sets.newHashSetWithExpectedSize(destRows.size());
     for (Row row : destRows) {
-      dests.add(Branch.nameKey(new Project.NameKey(row.right), row.left));
+      dests.add(Branch.nameKey(Project.nameKey(row.right), row.left));
     }
     return dests;
   }

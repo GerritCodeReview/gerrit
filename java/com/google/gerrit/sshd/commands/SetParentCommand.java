@@ -160,7 +160,7 @@ final class SetParentCommand extends SshCommand {
       automaticallyExcluded.addAll(getAllParents(newParentKey));
     }
     for (ProjectInfo child : listChildProjects.apply(new ProjectResource(parent, user))) {
-      final Project.NameKey childName = new Project.NameKey(child.name);
+      final Project.NameKey childName = Project.nameKey(child.name);
       if (!excluded.contains(childName)) {
         if (!automaticallyExcluded.contains(childName)) {
           childProjects.add(childName);

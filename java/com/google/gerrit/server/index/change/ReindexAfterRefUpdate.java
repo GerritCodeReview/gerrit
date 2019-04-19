@@ -149,7 +149,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     @Override
     protected List<Change> impl(RequestContext ctx) {
       String ref = event.getRefName();
-      Project.NameKey project = new Project.NameKey(event.getProjectName());
+      Project.NameKey project = Project.nameKey(event.getProjectName());
       if (ref.equals(RefNames.REFS_CONFIG)) {
         return asChanges(queryProvider.get().byProjectOpen(project));
       }
@@ -178,7 +178,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
       // Reload change, as some time may have passed since GetChanges.
       try {
         Change c =
-            notesFactory.createChecked(new Project.NameKey(event.getProjectName()), id).getChange();
+            notesFactory.createChecked(Project.nameKey(event.getProjectName()), id).getChange();
         indexerFactory.create(executor, indexes).index(c);
       } catch (NoSuchChangeException e) {
         indexerFactory.create(executor, indexes).delete(id);

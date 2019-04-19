@@ -117,7 +117,7 @@ public class TagSetHolder {
     @Override
     public TagSetHolder deserialize(byte[] in) {
       TagSetHolderProto proto = Protos.parseUnchecked(TagSetHolderProto.parser(), in);
-      TagSetHolder holder = new TagSetHolder(new Project.NameKey(proto.getProjectName()));
+      TagSetHolder holder = new TagSetHolder(Project.nameKey(proto.getProjectName()));
       if (proto.hasTags()) {
         holder.tags = TagSet.fromProto(proto.getTags());
       }

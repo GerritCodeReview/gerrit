@@ -86,7 +86,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     // for more extensive coverage of the LabelTypeInfo.
     assertThat(p.labels).hasSize(1);
 
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isNotNull();
     assertProjectInfo(projectState.getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
@@ -162,7 +162,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     String newProjectName = name("newProject");
     ProjectInfo p = gApi.projects().create(newProjectName).get();
     assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isNotNull();
     assertProjectInfo(projectState.getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
@@ -175,7 +175,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     String newProjectName = name("newProject");
     ProjectInfo p = gApi.projects().create(newProjectName + ".git").get();
     assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isNotNull();
     assertProjectInfo(projectState.getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
@@ -186,7 +186,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     String newProjectName = name("newProject");
     ProjectInfo p = gApi.projects().create(newProjectName + "/").get();
     assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isNotNull();
     assertProjectInfo(projectState.getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
@@ -197,7 +197,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     String newProjectName = name("newProject/newProject");
     ProjectInfo p = gApi.projects().create(newProjectName).get();
     assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isNotNull();
     assertProjectInfo(projectState.getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
@@ -216,7 +216,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.requireChangeId = InheritableBoolean.TRUE;
     ProjectInfo p = gApi.projects().create(in).get();
     assertThat(p.name).isEqualTo(newProjectName);
-    Project project = projectCache.get(new Project.NameKey(newProjectName)).getProject();
+    Project project = projectCache.get(Project.nameKey(newProjectName)).getProject();
     assertProjectInfo(project, p);
     assertThat(project.getDescription()).isEqualTo(in.description);
     assertThat(project.getConfiguredSubmitType()).isEqualTo(in.submitType);
@@ -242,7 +242,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.name = childName;
     in.parent = parentName;
     gApi.projects().create(in);
-    Project project = projectCache.get(new Project.NameKey(childName)).getProject();
+    Project project = projectCache.get(Project.nameKey(childName)).getProject();
     assertThat(project.getParentName()).isEqualTo(in.parent);
   }
 
@@ -270,7 +270,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
                 .getId()
                 .get())); // by ID
     gApi.projects().create(in);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
     Set<AccountGroup.UUID> expectedOwnerIds = Sets.newHashSetWithExpectedSize(3);
     expectedOwnerIds.add(SystemGroupBackend.ANONYMOUS_USERS);
     expectedOwnerIds.add(SystemGroupBackend.REGISTERED_USERS);
@@ -447,13 +447,13 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   private void assertHead(String projectName, String expectedRef) throws Exception {
-    try (Repository repo = repoManager.openRepository(new Project.NameKey(projectName))) {
+    try (Repository repo = repoManager.openRepository(Project.nameKey(projectName))) {
       assertThat(repo.exactRef(Constants.HEAD).getTarget().getName()).isEqualTo(expectedRef);
     }
   }
 
   private void assertEmptyCommit(String projectName, String... refs) throws Exception {
-    Project.NameKey projectKey = new Project.NameKey(projectName);
+    Project.NameKey projectKey = Project.nameKey(projectName);
     try (Repository repo = repoManager.openRepository(projectKey);
         RevWalk rw = new RevWalk(repo);
         TreeWalk tw = new TreeWalk(rw.getObjectReader())) {
@@ -474,7 +474,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   private Optional<String> readProjectConfig(String projectName) throws Exception {
-    try (Repository repo = repoManager.openRepository(new Project.NameKey(projectName))) {
+    try (Repository repo = repoManager.openRepository(Project.nameKey(projectName))) {
       TestRepository<?> tr = new TestRepository<>(repo);
       RevWalk rw = tr.getRevWalk();
       Ref ref = repo.exactRef(RefNames.REFS_CONFIG);

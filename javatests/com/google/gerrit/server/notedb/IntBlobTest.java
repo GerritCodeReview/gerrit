@@ -44,7 +44,7 @@ public class IntBlobTest {
 
   @Before
   public void setUp() throws Exception {
-    projectName = new Project.NameKey("repo");
+    projectName = Project.nameKey("repo");
     repo = new InMemoryRepository(new DfsRepositoryDescription(projectName.get()));
     tr = new TestRepository<>(repo);
     rw = tr.getRevWalk();

@@ -112,7 +112,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
     List<AccessSection> additions = setAccess.getAccessSections(input.add);
 
     Project.NameKey newParentProjectName =
-        input.parent == null ? null : new Project.NameKey(input.parent);
+        input.parent == null ? null : Project.nameKey(input.parent);
 
     try (MetaDataUpdate md = metaDataUpdateUser.create(rsrc.getNameKey())) {
       ProjectConfig config = projectConfigFactory.read(md);

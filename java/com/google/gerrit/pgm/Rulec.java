@@ -73,7 +73,7 @@ public class Rulec extends SiteProgram {
 
     LinkedHashSet<Project.NameKey> names = new LinkedHashSet<>();
     for (String name : projectNames) {
-      names.add(new Project.NameKey(name));
+      names.add(Project.nameKey(name));
     }
     if (all) {
       names.addAll(gitManager.list());

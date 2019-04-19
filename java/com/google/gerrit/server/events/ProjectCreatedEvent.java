@@ -27,7 +27,7 @@ public class ProjectCreatedEvent extends ProjectEvent {
 
   @Override
   public Project.NameKey getProjectNameKey() {
-    return new Project.NameKey(projectName);
+    return Project.nameKey(projectName);
   }
 
   public String getHeadName() {

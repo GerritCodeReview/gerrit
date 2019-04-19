@@ -33,7 +33,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     adminSshSession.exec(
         "gerrit create-project --branch master --owner " + newGroupName + " " + newProjectName);
     adminSshSession.assertSuccess();
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isNotNull();
   }
 
@@ -46,7 +46,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     adminSshSession.exec(
         "gerrit create-project --branch master --owner " + wrongGroupName + " " + newProjectName);
     adminSshSession.assertFailure();
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isNull();
   }
 
@@ -62,7 +62,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
             + newProjectName
             + ".git");
     adminSshSession.assertSuccess();
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isNotNull();
     assertThat(projectState.getName()).isEqualTo(newProjectName);
   }
@@ -79,7 +79,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
             + newProjectName
             + "/");
     adminSshSession.assertSuccess();
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    ProjectState projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isNotNull();
     assertThat(projectState.getName()).isEqualTo(newProjectName);
   }

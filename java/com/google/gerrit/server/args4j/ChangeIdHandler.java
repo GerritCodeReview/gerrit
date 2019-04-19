@@ -59,7 +59,7 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
 
     try {
       final Change.Key key = Change.Key.parse(tokens.get(2));
-      final Project.NameKey project = new Project.NameKey(tokens.get(0));
+      final Project.NameKey project = Project.nameKey(tokens.get(0));
       final Branch.NameKey branch = Branch.nameKey(project, tokens.get(1));
       for (ChangeData cd : queryProvider.get().byBranchKey(branch, key)) {
         setter.addValue(cd.getId());

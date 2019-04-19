@@ -24,7 +24,7 @@ public final class Branch {
   }
 
   public static NameKey nameKey(String projectName, String branchName) {
-    return nameKey(new Project.NameKey(projectName), branchName);
+    return nameKey(Project.nameKey(projectName), branchName);
   }
 
   /** Branch name key */

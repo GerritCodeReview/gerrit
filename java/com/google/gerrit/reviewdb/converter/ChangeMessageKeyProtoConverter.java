@@ -29,14 +29,14 @@ public enum ChangeMessageKeyProtoConverter
   @Override
   public Entities.ChangeMessage_Key toProto(ChangeMessage.Key messageKey) {
     return Entities.ChangeMessage_Key.newBuilder()
-        .setChangeId(changeIdConverter.toProto(messageKey.getParentKey()))
-        .setUuid(messageKey.get())
+        .setChangeId(changeIdConverter.toProto(messageKey.changeId()))
+        .setUuid(messageKey.uuid())
         .build();
   }
 
   @Override
   public ChangeMessage.Key fromProto(Entities.ChangeMessage_Key proto) {
-    return new ChangeMessage.Key(changeIdConverter.fromProto(proto.getChangeId()), proto.getUuid());
+    return ChangeMessage.key(changeIdConverter.fromProto(proto.getChangeId()), proto.getUuid());
   }
 
   @Override

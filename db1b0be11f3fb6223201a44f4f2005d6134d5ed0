@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be075312_e9eaad14",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-04-19T06:09:33Z",
+      "side": 1,
+      "message": "This patchset \"works\", as in, it is possible to extract ChangeNotes even when they are coming from a different server to the one where the extraction is happening.\n\nHowever, returning a negative account when not present is a bit hacky :P\n\nProbably the proper solution would be to transform Account in an interface. One of the implementations could be VisitorAccount (or something with a better name), which will be returned from parseIdent in case the Change is coming from a different server. This will involve quite a big refactoring I believe.\n\n@luca, @dave, @david: Any better idea on how we could tackle this?",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 9
+      },
+      "revId": "db1b0be11f3fb6223201a44f4f2005d6134d5ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

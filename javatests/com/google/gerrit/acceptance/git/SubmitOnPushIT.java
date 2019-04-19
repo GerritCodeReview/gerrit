@@ -156,7 +156,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertCommit(project, "refs/heads/master");
 
     ChangeData cd =
-        Iterables.getOnlyElement(queryProvider.get().byKey(new Change.Key(r.getChangeId())));
+        Iterables.getOnlyElement(queryProvider.get().byKey(Change.key(r.getChangeId())));
     RevCommit c = r.getCommit();
     PatchSet.Id psId = cd.currentPatchSet().getId();
     assertThat(psId.get()).isEqualTo(1);
@@ -183,7 +183,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     pushCommitTo(commit, master);
     assertCommit(project, master);
     ChangeData cd =
-        Iterables.getOnlyElement(queryProvider.get().byKey(new Change.Key(r.getChangeId())));
+        Iterables.getOnlyElement(queryProvider.get().byKey(Change.key(r.getChangeId())));
     assertThat(cd.change().isMerged()).isTrue();
 
     RemoteRefUpdate.Status status = pushCommitTo(commit, "refs/for/other");
@@ -192,7 +192,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     pushCommitTo(commit, other);
     assertCommit(project, other);
 
-    for (ChangeData c : queryProvider.get().byKey(new Change.Key(r.getChangeId()))) {
+    for (ChangeData c : queryProvider.get().byKey(Change.key(r.getChangeId()))) {
       if (c.change().getDest().branch().equals(other)) {
         assertThat(c.change().isMerged()).isTrue();
       }

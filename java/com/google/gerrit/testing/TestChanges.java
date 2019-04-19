@@ -55,7 +55,7 @@ public class TestChanges {
     Change.Id changeId = new Change.Id(id);
     Change c =
         new Change(
-            new Change.Key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
+            Change.key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
             changeId,
             userId,
             Branch.nameKey(project, "master"),

@@ -595,7 +595,7 @@ public abstract class ChangeNotesState {
     private static ChangeColumns toChangeColumns(Change.Id changeId, ChangeColumnsProto proto) {
       ChangeColumns.Builder b =
           ChangeColumns.builder()
-              .changeKey(new Change.Key(proto.getChangeKey()))
+              .changeKey(Change.key(proto.getChangeKey()))
               .createdOn(new Timestamp(proto.getCreatedOn()))
               .lastUpdatedOn(new Timestamp(proto.getLastUpdatedOn()))
               .owner(Account.id(proto.getOwner()))

@@ -201,7 +201,7 @@ public class ChangeInserter implements InsertChangeOp {
     rw.parseBody(commit);
     List<String> idList = commit.getFooterLines(FooterConstants.CHANGE_ID);
     if (!idList.isEmpty()) {
-      return new Change.Key(idList.get(idList.size() - 1).trim());
+      return Change.key(idList.get(idList.size() - 1).trim());
     }
     ObjectId changeId =
         ChangeIdUtil.computeChangeId(
@@ -212,7 +212,7 @@ public class ChangeInserter implements InsertChangeOp {
             commit.getShortMessage());
     StringBuilder changeIdStr = new StringBuilder();
     changeIdStr.append("I").append(ObjectId.toString(changeId));
-    return new Change.Key(changeIdStr.toString());
+    return Change.key(changeIdStr.toString());
   }
 
   public PatchSet.Id getPatchSetId() {

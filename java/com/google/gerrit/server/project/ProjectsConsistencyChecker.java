@@ -225,7 +225,7 @@ public class ProjectsConsistencyChecker {
               // important thing for callers is that auto-closable changes are closed. Which of the
               // commits is used to auto-close a change if there are several candidates is of minor
               // importance and hence can be non-deterministic.
-              Change.Key changeKey = new Change.Key(changeId);
+              Change.Key changeKey = Change.key(changeId);
               if (!changeIdToMergedSha1.containsKey(changeKey)) {
                 changeIdToMergedSha1.put(changeKey, commitId);
               }

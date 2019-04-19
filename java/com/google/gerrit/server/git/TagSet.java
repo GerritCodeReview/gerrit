@@ -232,7 +232,7 @@ class TagSet {
                     new Tag(
                         idConverter.fromByteString(t.getId()),
                         BitSet.valueOf(t.getFlags().asReadOnlyByteBuffer()))));
-    return new TagSet(new Project.NameKey(proto.getProjectName()), refs, tags);
+    return new TagSet(Project.nameKey(proto.getProjectName()), refs, tags);
   }
 
   TagSetProto toProto() {

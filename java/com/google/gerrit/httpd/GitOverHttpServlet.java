@@ -279,7 +279,7 @@ public class GitOverHttpServlet extends GitServlet {
       user.setAccessPath(AccessPath.GIT);
 
       try {
-        Project.NameKey nameKey = new Project.NameKey(projectName);
+        Project.NameKey nameKey = Project.nameKey(projectName);
         ProjectState state = projectCache.checkedGet(nameKey);
         if (state == null || !state.statePermitsRead()) {
           throw new RepositoryNotFoundException(nameKey.get());

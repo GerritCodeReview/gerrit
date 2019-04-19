@@ -41,7 +41,7 @@ public class PatchSetApprovalProtoConverterTest {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
             PatchSetApproval.key(
-                PatchSet.id(new Change.Id(42), 14), Account.id(100013), LabelId.create("label-8")),
+                PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
     patchSetApproval.setTag("tag-21");
@@ -74,7 +74,7 @@ public class PatchSetApprovalProtoConverterTest {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
             PatchSetApproval.key(
-                PatchSet.id(new Change.Id(42), 14), Account.id(100013), LabelId.create("label-8")),
+                PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
 
@@ -103,7 +103,7 @@ public class PatchSetApprovalProtoConverterTest {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
             PatchSetApproval.key(
-                PatchSet.id(new Change.Id(42), 14), Account.id(100013), LabelId.create("label-8")),
+                PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
     patchSetApproval.setTag("tag-21");
@@ -120,7 +120,7 @@ public class PatchSetApprovalProtoConverterTest {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
             PatchSetApproval.key(
-                PatchSet.id(new Change.Id(42), 14), Account.id(100013), LabelId.create("label-8")),
+                PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
 
@@ -146,7 +146,7 @@ public class PatchSetApprovalProtoConverterTest {
             .build();
     PatchSetApproval patchSetApproval = protoConverter.fromProto(proto);
 
-    assertThat(patchSetApproval.getPatchSetId()).isEqualTo(PatchSet.id(new Change.Id(42), 14));
+    assertThat(patchSetApproval.getPatchSetId()).isEqualTo(PatchSet.id(Change.id(42), 14));
     assertThat(patchSetApproval.getAccountId()).isEqualTo(Account.id(100013));
     assertThat(patchSetApproval.getLabelId()).isEqualTo(LabelId.create("label-8"));
     // Default values for unset protobuf fields which can't be unset in the entity object.

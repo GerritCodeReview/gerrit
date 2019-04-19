@@ -273,7 +273,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
     ci.project = project.get();
     ci.branch = "master";
     ci.subject = "A change";
-    Change.Id id = new Change.Id(gApi.changes().create(ci).get()._number);
+    Change.Id id = Change.id(gApi.changes().create(ci).get()._number);
 
     requestScopeOperations.setApiUser(admin.id());
     ObjectId ps1Id = forceFetch(PatchSet.id(id, 1).toRefName());

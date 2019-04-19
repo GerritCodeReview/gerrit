@@ -228,7 +228,7 @@ public class BatchUpdateTest extends GerritBaseTests {
   private Change.Id createChangeWithUpdates(int totalUpdates) throws Exception {
     checkArgument(totalUpdates > 0);
     checkArgument(totalUpdates <= MAX_UPDATES);
-    Change.Id id = new Change.Id(sequences.nextChangeId());
+    Change.Id id = Change.id(sequences.nextChangeId());
     try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
       bu.insertChange(
           changeInserterFactory.create(

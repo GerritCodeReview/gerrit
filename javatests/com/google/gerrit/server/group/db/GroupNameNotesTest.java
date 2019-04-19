@@ -528,8 +528,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
     PersonIdent serverIdent = newPersonIdent();
 
     MetaDataUpdate metaDataUpdate =
-        new MetaDataUpdate(
-            GitReferenceUpdated.DISABLED, new Project.NameKey("Test Repository"), repo);
+        new MetaDataUpdate(GitReferenceUpdated.DISABLED, Project.nameKey("Test Repository"), repo);
     metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);
     metaDataUpdate.getCommitBuilder().setAuthor(serverIdent);
     return metaDataUpdate;

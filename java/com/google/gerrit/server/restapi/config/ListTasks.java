@@ -83,7 +83,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
       if (task.projectName != null) {
         Boolean visible = visibilityCache.get(task.projectName);
         if (visible == null) {
-          Project.NameKey nameKey = new Project.NameKey(task.projectName);
+          Project.NameKey nameKey = Project.nameKey(task.projectName);
           ProjectState state = projectCache.get(nameKey);
           if (state == null || !state.statePermitsRead()) {
             visible = false;

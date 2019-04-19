@@ -898,6 +898,6 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
   }
 
   private Project.NameKey nameKey(String s) {
-    return new Project.NameKey(name(s));
+    return Project.nameKey(name(s));
   }
 }

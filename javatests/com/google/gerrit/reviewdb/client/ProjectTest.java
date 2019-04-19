@@ -31,10 +31,10 @@ public class ProjectTest extends GerritBaseTests {
 
   @Test
   public void idToString() {
-    assertThat(new Project.NameKey("foo").toString()).isEqualTo("foo");
-    assertThat(new Project.NameKey("foo bar").toString()).isEqualTo("foo+bar");
-    assertThat(new Project.NameKey("foo/bar").toString()).isEqualTo("foo/bar");
-    assertThat(new Project.NameKey("foo^bar").toString()).isEqualTo("foo%5Ebar");
-    assertThat(new Project.NameKey("foo%bar").toString()).isEqualTo("foo%25bar");
+    assertThat(Project.nameKey("foo").toString()).isEqualTo("foo");
+    assertThat(Project.nameKey("foo bar").toString()).isEqualTo("foo+bar");
+    assertThat(Project.nameKey("foo/bar").toString()).isEqualTo("foo/bar");
+    assertThat(Project.nameKey("foo^bar").toString()).isEqualTo("foo%5Ebar");
+    assertThat(Project.nameKey("foo%bar").toString()).isEqualTo("foo%25bar");
   }
 }

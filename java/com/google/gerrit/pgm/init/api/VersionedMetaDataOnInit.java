@@ -58,7 +58,7 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
     File path = getPath();
     if (path != null) {
       try (Repository repo = new FileRepository(path)) {
-        load(new Project.NameKey(project), repo);
+        load(Project.nameKey(project), repo);
       }
     }
     return this;

@@ -721,7 +721,7 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Nullable
   protected RevCommit getRemoteHead(String project, String branch) throws Exception {
-    return getRemoteHead(new Project.NameKey(project), branch);
+    return getRemoteHead(Project.nameKey(project), branch);
   }
 
   boolean hasHead(Project.NameKey k, String b) {

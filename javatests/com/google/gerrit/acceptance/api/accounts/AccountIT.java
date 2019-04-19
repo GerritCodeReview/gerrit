@@ -897,7 +897,7 @@ public class AccountIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
     String secondaryEmail = "secondary@example.com";
     EmailInput input = newEmailInput(secondaryEmail);
-    gApi.accounts().id(foo.id().hashCode()).addEmail(input);
+    gApi.accounts().id(foo.id().get()).addEmail(input);
 
     requestScopeOperations.setApiUser(foo.id());
     assertThat(getEmails()).containsExactly(email, secondaryEmail);
@@ -920,7 +920,7 @@ public class AccountIT extends AbstractDaemonTest {
     String secondaryEmail = "secondary3@example.com";
     TestAccount foo = accountCreator.create(name("foo"), email, "Foo");
     EmailInput input = newEmailInput(secondaryEmail);
-    gApi.accounts().id(foo.id().hashCode()).addEmail(input);
+    gApi.accounts().id(foo.id().get()).addEmail(input);
 
     assertThat(
             gApi.accounts().id(foo.id().get()).getEmails().stream()

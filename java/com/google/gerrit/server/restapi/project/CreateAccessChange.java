@@ -137,8 +137,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
       Change.Id changeId = new Change.Id(seq.nextChangeId());
 
       RevCommit commit =
-          config.commitToNewRef(
-              md, new PatchSet.Id(changeId, Change.INITIAL_PATCH_SET_ID).toRefName());
+          config.commitToNewRef(md, PatchSet.id(changeId, Change.INITIAL_PATCH_SET_ID).toRefName());
 
       if (commit.name().equals(oldCommitSha1)) {
         throw new BadRequestException("no change");

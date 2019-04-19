@@ -34,7 +34,7 @@ public class RefNamesTest {
 
   private final Account.Id accountId = Account.id(1011123);
   private final Change.Id changeId = new Change.Id(67473);
-  private final PatchSet.Id psId = new PatchSet.Id(changeId, 42);
+  private final PatchSet.Id psId = PatchSet.id(changeId, 42);
 
   @Test
   public void fullName() throws Exception {

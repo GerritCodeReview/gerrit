@@ -168,7 +168,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   public void serializeCurrentPatchSetId() throws Exception {
     assertRoundTrip(
         newBuilder()
-            .columns(cols.toBuilder().currentPatchSetId(new PatchSet.Id(ID, 2)).build())
+            .columns(cols.toBuilder().currentPatchSetId(PatchSet.id(ID, 2)).build())
             .build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
@@ -334,14 +334,14 @@ public class ChangeNotesStateTest extends GerritBaseTests {
 
   @Test
   public void serializePatchSets() throws Exception {
-    PatchSet ps1 = new PatchSet(new PatchSet.Id(ID, 1));
+    PatchSet ps1 = new PatchSet(PatchSet.id(ID, 1));
     ps1.setUploader(Account.id(2000));
     ps1.setRevision(new RevId("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
     ps1.setCreatedOn(cols.createdOn());
     ByteString ps1Bytes = toByteString(ps1, PatchSetProtoConverter.INSTANCE);
     assertThat(ps1Bytes.size()).isEqualTo(66);
 
-    PatchSet ps2 = new PatchSet(new PatchSet.Id(ID, 2));
+    PatchSet ps2 = new PatchSet(PatchSet.id(ID, 2));
     ps2.setUploader(Account.id(3000));
     ps2.setRevision(new RevId("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
     ps2.setCreatedOn(cols.lastUpdatedOn());
@@ -367,7 +367,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
     PatchSetApproval a1 =
         new PatchSetApproval(
             PatchSetApproval.key(
-                new PatchSet.Id(ID, 1), Account.id(2001), LabelId.create("Code-Review")),
+                PatchSet.id(ID, 1), Account.id(2001), LabelId.create("Code-Review")),
             (short) 1,
             new Timestamp(1212L));
     ByteString a1Bytes = toByteString(a1, PatchSetApprovalProtoConverter.INSTANCE);
@@ -375,8 +375,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
 
     PatchSetApproval a2 =
         new PatchSetApproval(
-            PatchSetApproval.key(
-                new PatchSet.Id(ID, 1), Account.id(2002), LabelId.create("Verified")),
+            PatchSetApproval.key(PatchSet.id(ID, 1), Account.id(2002), LabelId.create("Verified")),
             (short) -1,
             new Timestamp(3434L));
     ByteString a2Bytes = toByteString(a2, PatchSetApprovalProtoConverter.INSTANCE);
@@ -628,7 +627,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
             ChangeMessage.key(ID, "uuid1"),
             Account.id(1000),
             new Timestamp(1212L),
-            new PatchSet.Id(ID, 1));
+            PatchSet.id(ID, 1));
     ByteString m1Bytes = toByteString(m1, ChangeMessageProtoConverter.INSTANCE);
     assertThat(m1Bytes.size()).isEqualTo(35);
 
@@ -637,7 +636,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
             ChangeMessage.key(ID, "uuid2"),
             Account.id(2000),
             new Timestamp(3434L),
-            new PatchSet.Id(ID, 2));
+            PatchSet.id(ID, 2));
     ByteString m2Bytes = toByteString(m2, ChangeMessageProtoConverter.INSTANCE);
     assertThat(m2Bytes.size()).isEqualTo(35);
     assertThat(m2Bytes).isNotEqualTo(m1Bytes);

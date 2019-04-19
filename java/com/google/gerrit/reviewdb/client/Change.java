@@ -618,7 +618,7 @@ public final class Change {
   /** Get the id of the most current {@link PatchSet} in this change. */
   public PatchSet.Id currentPatchSetId() {
     if (currentPatchSetId > 0) {
-      return new PatchSet.Id(changeId, currentPatchSetId);
+      return PatchSet.id(changeId, currentPatchSetId);
     }
     return null;
   }
@@ -641,7 +641,7 @@ public final class Change {
   }
 
   public void setCurrentPatchSet(PatchSet.Id psId, String subject, String originalSubject) {
-    if (!psId.getParentKey().equals(changeId)) {
+    if (!psId.changeId().equals(changeId)) {
       throw new IllegalArgumentException("patch set ID " + psId + " is not for change " + changeId);
     }
     currentPatchSetId = psId.get();

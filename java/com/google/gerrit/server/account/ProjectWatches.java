@@ -168,7 +168,7 @@ public class ProjectWatches {
         }
 
         ProjectWatchKey key =
-            ProjectWatchKey.create(new Project.NameKey(projectName), notifyValue.filter());
+            ProjectWatchKey.create(Project.nameKey(projectName), notifyValue.filter());
         if (!projectWatches.containsKey(key)) {
           projectWatches.put(key, EnumSet.noneOf(NotifyType.class));
         }

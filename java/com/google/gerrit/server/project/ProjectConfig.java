@@ -1034,7 +1034,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     subscribeSections = new HashMap<>();
     try {
       for (String projectName : subsections) {
-        Project.NameKey p = new Project.NameKey(projectName);
+        Project.NameKey p = Project.nameKey(projectName);
         SubscribeSection ss = new SubscribeSection(p);
         for (String s :
             rc.getStringList(SUBSCRIBE_SECTION, projectName, SUBSCRIBE_MULTI_MATCH_REFS)) {

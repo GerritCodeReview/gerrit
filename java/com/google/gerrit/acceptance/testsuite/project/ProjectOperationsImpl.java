@@ -58,7 +58,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
     args.ownerIds = new ArrayList<>();
     projectCreation.submitType().ifPresent(st -> args.submitType = st);
     projectCreator.createProject(args);
-    return new Project.NameKey(name);
+    return Project.nameKey(name);
   }
 
   @Override

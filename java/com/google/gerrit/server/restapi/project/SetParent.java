@@ -154,7 +154,7 @@ public class SetParent
 
     newParent = Strings.emptyToNull(newParent);
     if (newParent != null) {
-      ProjectState parent = cache.get(new Project.NameKey(newParent));
+      ProjectState parent = cache.get(Project.nameKey(newParent));
       if (parent == null) {
         throw new UnprocessableEntityException("parent project " + newParent + " not found");
       }

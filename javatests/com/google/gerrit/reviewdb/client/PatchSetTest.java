@@ -83,15 +83,14 @@ public class PatchSetTest {
 
   @Test
   public void toRefName() {
-    assertThat(new PatchSet.Id(new Change.Id(1), 23).toRefName()).isEqualTo("refs/changes/01/1/23");
-    assertThat(new PatchSet.Id(new Change.Id(1234), 5).toRefName())
-        .isEqualTo("refs/changes/34/1234/5");
+    assertThat(PatchSet.id(new Change.Id(1), 23).toRefName()).isEqualTo("refs/changes/01/1/23");
+    assertThat(PatchSet.id(new Change.Id(1234), 5).toRefName()).isEqualTo("refs/changes/34/1234/5");
   }
 
   @Test
   public void parseId() {
-    assertThat(PatchSet.Id.parse("1,2")).isEqualTo(new PatchSet.Id(new Change.Id(1), 2));
-    assertThat(PatchSet.Id.parse("01,02")).isEqualTo(new PatchSet.Id(new Change.Id(1), 2));
+    assertThat(PatchSet.Id.parse("1,2")).isEqualTo(PatchSet.id(new Change.Id(1), 2));
+    assertThat(PatchSet.Id.parse("01,02")).isEqualTo(PatchSet.id(new Change.Id(1), 2));
     assertInvalidId(null);
     assertInvalidId("");
     assertInvalidId("1");
@@ -104,13 +103,12 @@ public class PatchSetTest {
 
   @Test
   public void idToString() {
-    assertThat(new PatchSet.Id(new Change.Id(2), 3).toString()).isEqualTo("2,3");
+    assertThat(PatchSet.id(new Change.Id(2), 3).toString()).isEqualTo("2,3");
   }
 
   private static void assertRef(int changeId, int psId, String refName) {
     assertThat(PatchSet.isChangeRef(refName)).isTrue();
-    assertThat(PatchSet.Id.fromRef(refName))
-        .isEqualTo(new PatchSet.Id(new Change.Id(changeId), psId));
+    assertThat(PatchSet.Id.fromRef(refName)).isEqualTo(PatchSet.id(new Change.Id(changeId), psId));
   }
 
   private static void assertNotRef(String refName) {

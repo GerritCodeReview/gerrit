@@ -33,21 +33,21 @@ public class PatchSetIdProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    PatchSet.Id patchSetId = new PatchSet.Id(new Change.Id(103), 73);
+    PatchSet.Id patchSetId = PatchSet.id(new Change.Id(103), 73);
 
     Entities.PatchSet_Id proto = patchSetIdProtoConverter.toProto(patchSetId);
 
     Entities.PatchSet_Id expectedProto =
         Entities.PatchSet_Id.newBuilder()
             .setChangeId(Entities.Change_Id.newBuilder().setId(103))
-            .setPatchSetId(73)
+            .setId(73)
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    PatchSet.Id patchSetId = new PatchSet.Id(new Change.Id(20), 13);
+    PatchSet.Id patchSetId = PatchSet.id(new Change.Id(20), 13);
 
     PatchSet.Id convertedPatchSetId =
         patchSetIdProtoConverter.fromProto(patchSetIdProtoConverter.toProto(patchSetId));
@@ -60,7 +60,7 @@ public class PatchSetIdProtoConverterTest {
     Entities.PatchSet_Id proto =
         Entities.PatchSet_Id.newBuilder()
             .setChangeId(Entities.Change_Id.newBuilder().setId(103))
-            .setPatchSetId(73)
+            .setId(73)
             .build();
     byte[] bytes = proto.toByteArray();
 
@@ -72,12 +72,12 @@ public class PatchSetIdProtoConverterTest {
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
-  public void fieldsExistAsExpected() {
+  public void methodsExistAsExpected() {
     assertThatSerializedClass(PatchSet.Id.class)
-        .hasFields(
+        .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
                 .put("changeId", Change.Id.class)
-                .put("patchSetId", int.class)
+                .put("id", int.class)
                 .build());
   }
 }

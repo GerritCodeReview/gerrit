@@ -42,7 +42,7 @@ public class CommentDetail {
   protected CommentDetail() {}
 
   public void include(Change.Id changeId, Comment p) {
-    PatchSet.Id psId = new PatchSet.Id(changeId, p.key.patchSetId);
+    PatchSet.Id psId = PatchSet.id(changeId, p.key.patchSetId);
     if (p.side == 0) {
       if (idA == null && idB.equals(psId)) {
         a.add(p);

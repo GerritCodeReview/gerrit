@@ -15,7 +15,6 @@
 package com.google.gerrit.reviewdb.client;
 
 import com.google.auto.value.AutoValue;
-import com.google.gwtorm.client.StandardKeyEncoder;
 
 /** Line of development within a {@link Project}. */
 public final class Branch {
@@ -47,7 +46,7 @@ public final class Branch {
 
     @Override
     public String toString() {
-      return project() + "," + new StandardKeyEncoder().encode(branch());
+      return project() + "," + KeyUtil.encode(branch());
     }
   }
 

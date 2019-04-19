@@ -7,7 +7,6 @@ junit_tests(
         "//java/com/google/gerrit/server/cache/serialize",
         "//java/com/google/gerrit/server/cache/testing",
         "//java/com/google/gerrit/testing:gerrit-test-util",
-        "//java/com/google/gwtorm",
         "//lib:guava",
         "//lib:junit",
         "//lib:protobuf",

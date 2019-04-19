@@ -503,7 +503,6 @@ public class BatchUpdate implements AutoCloseable {
       BatchUpdate.this.batchRefUpdate = manager.execute(dryrun);
     }
 
-    @SuppressWarnings("deprecation")
     List<ListenableFuture<?>> startIndexFutures() {
       if (dryrun) {
         return ImmutableList.of();

@@ -62,7 +62,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeNotesStateTest extends GerritBaseTests {
-  private static final Change.Id ID = new Change.Id(123);
+  private static final Change.Id ID = Change.id(123);
   private static final ObjectId SHA =
       ObjectId.fromString("1234567812345678123456781234567812345678");
   private static final ByteString SHA_BYTES = ObjectIdConverter.create().toByteString(SHA);
@@ -298,7 +298,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   @Test
   public void serializeRevertOf() throws Exception {
     assertRoundTrip(
-        newBuilder().columns(cols.toBuilder().revertOf(new Change.Id(999)).build()).build(),
+        newBuilder().columns(cols.toBuilder().revertOf(Change.id(999)).build()).build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())

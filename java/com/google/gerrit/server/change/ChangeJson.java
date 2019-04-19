@@ -297,7 +297,7 @@ public class ChangeJson {
       Map<Change.Id, ChangeInfo> cache = Maps.newHashMapWithExpectedSize(in.size());
       for (QueryResult<ChangeData> r : in) {
         List<ChangeInfo> infos = toChangeInfos(r.entities(), cache);
-        infos.forEach(c -> cache.put(new Change.Id(c._number), c));
+        infos.forEach(c -> cache.put(Change.id(c._number), c));
         if (!infos.isEmpty() && r.more()) {
           infos.get(infos.size() - 1)._moreChanges = true;
         }

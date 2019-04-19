@@ -319,12 +319,12 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           }
         }
 
-        Patch p = new Patch(new Patch.Key(ps.getId(), name));
+        Patch p = new Patch(Patch.key(ps.getId(), name));
         history.add(p);
         byKey.put(p.getKey(), p);
       }
       if (edit != null && edit.isPresent()) {
-        Patch p = new Patch(new Patch.Key(new PatchSet.Id(psb.getParentKey(), 0), fileName));
+        Patch p = new Patch(Patch.key(new PatchSet.Id(psb.getParentKey(), 0), fileName));
         history.add(p);
         byKey.put(p.getKey(), p);
       }
@@ -386,7 +386,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     for (Comment c : commentsUtil.publishedByChangeFile(notes, file)) {
       comments.include(notes.getChangeId(), c);
       PatchSet.Id psId = new PatchSet.Id(notes.getChangeId(), c.key.patchSetId);
-      Patch.Key pKey = new Patch.Key(psId, c.key.filename);
+      Patch.Key pKey = Patch.key(psId, c.key.filename);
       Patch p = byKey.get(pKey);
       if (p != null) {
         p.setCommentCount(p.getCommentCount() + 1);
@@ -398,7 +398,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     for (Comment c : commentsUtil.draftByChangeFileAuthor(notes, file, me)) {
       comments.include(notes.getChangeId(), c);
       PatchSet.Id psId = new PatchSet.Id(notes.getChangeId(), c.key.patchSetId);
-      Patch.Key pKey = new Patch.Key(psId, c.key.filename);
+      Patch.Key pKey = Patch.key(psId, c.key.filename);
       Patch p = byKey.get(pKey);
       if (p != null) {
         p.setDraftCount(p.getDraftCount() + 1);

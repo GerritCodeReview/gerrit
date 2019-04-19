@@ -974,7 +974,7 @@ public class MergeUtil {
         if (c.getPatchsetId() == null) {
           continue;
         }
-        Change.Id id = c.getPatchsetId().getParentKey();
+        Change.Id id = c.getPatchsetId().changeId();
         if (!expected.contains(id)) {
           continue;
         }

@@ -1014,14 +1014,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps1.getId());
     assertThat(notes.getChange().getSubject()).isEqualTo("Change subject");
     assertThat(notes.getChange().getOriginalSubject()).isEqualTo("Change subject");
-    assertThat(ps1.getId()).isEqualTo(new PatchSet.Id(c.getId(), 1));
+    assertThat(ps1.getId()).isEqualTo(PatchSet.id(c.getId(), 1));
     assertThat(ps1.getUploader()).isEqualTo(changeOwner.getAccountId());
 
     // ps2 by other user
     RevCommit commit = incrementPatchSet(c, otherUser);
     notes = newNotes(c);
     PatchSet ps2 = notes.getCurrentPatchSet();
-    assertThat(ps2.getId()).isEqualTo(new PatchSet.Id(c.getId(), 2));
+    assertThat(ps2.getId()).isEqualTo(PatchSet.id(c.getId(), 2));
     assertThat(notes.getChange().getSubject()).isEqualTo("PS2");
     assertThat(notes.getChange().getOriginalSubject()).isEqualTo("Change subject");
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps2.getId());
@@ -2696,7 +2696,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     int numComments = notes.getComments().size();
 
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setPatchSetId(new PatchSet.Id(c.getId(), c.currentPatchSetId().get() + 1));
+    update.setPatchSetId(PatchSet.id(c.getId(), c.currentPatchSetId().get() + 1));
     update.setChangeMessage("Should be ignored");
     update.putApproval("Code-Review", (short) 2);
     CommentRange range = new CommentRange(1, 1, 2, 1);
@@ -2733,7 +2733,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(2);
 
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setPatchSetId(new PatchSet.Id(c.getId(), 1));
+    update.setPatchSetId(PatchSet.id(c.getId(), 1));
     update.setCurrentPatchSet();
     update.commit();
     assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(1);
@@ -2750,7 +2750,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // Delete PS1, PS2 becomes current.
     update = newUpdate(c, changeOwner);
-    update.setPatchSetId(new PatchSet.Id(c.getId(), 1));
+    update.setPatchSetId(PatchSet.id(c.getId(), 1));
     update.setPatchSetState(PatchSetState.DELETED);
     update.commit();
     assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(2);

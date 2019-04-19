@@ -442,7 +442,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       TestRepository<?> tr = new TestRepository<>(repo);
       String subject = "Subject for missing commit";
       Change c = new Change(cd3.change());
-      PatchSet.Id psId = new PatchSet.Id(cd3.getId(), 2);
+      PatchSet.Id psId = PatchSet.id(cd3.getId(), 2);
       c.setCurrentPatchSet(psId, subject, c.getOriginalSubject());
 
       PersonIdent committer = serverIdent.get();
@@ -773,7 +773,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   private static ObjectId obj(ChangeData cd, int psNum) throws Exception {
-    PatchSet.Id psId = new PatchSet.Id(cd.getId(), psNum);
+    PatchSet.Id psId = PatchSet.id(cd.getId(), psNum);
     PatchSet ps = cd.patchSet(psId);
     assertWithMessage("%s not found in %s", psId, cd.patchSets()).that(ps).isNotNull();
     return ObjectId.fromString(ps.getRevision().get());

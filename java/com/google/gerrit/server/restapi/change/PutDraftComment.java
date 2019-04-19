@@ -124,7 +124,7 @@ public class PutDraftComment
       // user.
       ctx.getUser().updateRealAccountId(comment::setRealAuthor);
 
-      PatchSet.Id psId = new PatchSet.Id(ctx.getChange().getId(), origComment.key.patchSetId);
+      PatchSet.Id psId = PatchSet.id(ctx.getChange().getId(), origComment.key.patchSetId);
       ChangeUpdate update = ctx.getUpdate(psId);
 
       PatchSet ps = psUtil.get(ctx.getNotes(), psId);

@@ -84,7 +84,7 @@ message ChangeMessage {
 // Next ID: 3
 message PatchSet_Id {
   required Change_Id change_id = 1;
-  required int32 patch_set_id = 2;
+  required int32 id = 2;
 }
 
 // Serialized form of com.google.gerrit.reviewdb.client.PatchSet.

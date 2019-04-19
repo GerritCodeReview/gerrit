@@ -14,7 +14,12 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.StringKey;
+import static com.google.common.base.Preconditions.checkArgument;
+
+import com.google.auto.value.AutoValue;
+import com.google.common.base.Splitter;
+import com.google.common.primitives.Ints;
+import java.util.List;
 
 /** A single modified file in a {@link PatchSet}. */
 public final class Patch {
@@ -35,46 +40,33 @@ public final class Patch {
     return COMMIT_MSG.equals(path) || MERGE_LIST.equals(path);
   }
 
-  public static class Key extends StringKey<PatchSet.Id> {
-    private static final long serialVersionUID = 1L;
+  public static Key key(PatchSet.Id patchSetId, String fileName) {
+    return new AutoValue_Patch_Key(patchSetId, fileName);
+  }
 
-    protected PatchSet.Id patchSetId;
-
-    protected String fileName;
-
-    protected Key() {
-      patchSetId = new PatchSet.Id();
-    }
-
-    public Key(PatchSet.Id ps, String name) {
-      this.patchSetId = ps;
-      this.fileName = name;
-    }
-
-    @Override
-    public PatchSet.Id getParentKey() {
-      return patchSetId;
-    }
-
-    @Override
-    public String get() {
-      return fileName;
-    }
-
-    @Override
-    protected void set(String newValue) {
-      fileName = newValue;
-    }
-
-    /** Parse a Patch.Id out of a string representation. */
+  @AutoValue
+  public abstract static class Key {
+    /** Parse a Patch.Key out of a string representation. */
     public static Key parse(String str) {
-      final Key r = new Key();
-      r.fromString(str);
-      return r;
+      List<String> parts = Splitter.on(',').limit(3).splitToList(str);
+      checkKeyFormat(parts.size() == 3, str);
+      Integer changeId = Ints.tryParse(parts.get(0));
+      checkKeyFormat(changeId != null, str);
+      Integer patchSetNum = Ints.tryParse(parts.get(1));
+      checkKeyFormat(patchSetNum != null, str);
+      return key(new PatchSet.Id(new Change.Id(changeId), patchSetNum), parts.get(2));
     }
 
-    public String getFileName() {
-      return get();
+    private static void checkKeyFormat(boolean test, String input) {
+      checkArgument(test, "invalid patch key: %s", input);
+    }
+
+    public abstract PatchSet.Id patchSetId();
+
+    public abstract String fileName();
+
+    public PatchSet.Id getParentKey() {
+      return patchSetId();
     }
   }
 
@@ -259,7 +251,7 @@ public final class Patch {
   }
 
   public String getFileName() {
-    return key.fileName;
+    return key.fileName();
   }
 
   public String getSourceFileName() {

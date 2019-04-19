@@ -2087,8 +2087,7 @@ class ReceiveCommits {
 
         List<String> idList = c.getFooterLines(CHANGE_ID);
         if (!idList.isEmpty()) {
-          pending.put(
-              c, lookupByChangeKey(c, new Change.Key(idList.get(idList.size() - 1).trim())));
+          pending.put(c, lookupByChangeKey(c, Change.key(idList.get(idList.size() - 1).trim())));
         } else {
           pending.put(c, lookupByCommit(c));
         }
@@ -3180,7 +3179,7 @@ class ReceiveCommits {
                     byKey = executeIndexQuery(() -> openChangesByKeyByBranch(branch));
                   }
 
-                  ChangeNotes onto = byKey.get(new Change.Key(changeId.trim()));
+                  ChangeNotes onto = byKey.get(Change.key(changeId.trim()));
                   if (onto != null) {
                     newPatchSets++;
                     // Hold onto this until we're done with the walk, as the call to

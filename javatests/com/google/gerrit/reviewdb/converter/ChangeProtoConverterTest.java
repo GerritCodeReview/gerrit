@@ -38,7 +38,7 @@ public class ChangeProtoConverterTest {
   public void allValuesConvertedToProto() {
     Change change =
         new Change(
-            new Change.Key("change 1"),
+            Change.key("change 1"),
             new Change.Id(14),
             Account.id(35),
             Branch.nameKey(Project.nameKey("project 67"), "branch 74"),
@@ -88,7 +88,7 @@ public class ChangeProtoConverterTest {
   public void mandatoryValuesConvertedToProto() {
     Change change =
         new Change(
-            new Change.Key("change 1"),
+            Change.key("change 1"),
             new Change.Id(14),
             Account.id(35),
             Branch.nameKey(Project.nameKey("project 67"), "branch-74"),
@@ -124,7 +124,7 @@ public class ChangeProtoConverterTest {
   public void currentPatchSetIsAlwaysSetWhenConvertedToProto() {
     Change change =
         new Change(
-            new Change.Key("change 1"),
+            Change.key("change 1"),
             new Change.Id(14),
             Account.id(35),
             Branch.nameKey(Project.nameKey("project 67"), "branch-74"),
@@ -162,7 +162,7 @@ public class ChangeProtoConverterTest {
   public void originalSubjectIsNotAutomaticallySetToSubjectWhenConvertedToProto() {
     Change change =
         new Change(
-            new Change.Key("change 1"),
+            Change.key("change 1"),
             new Change.Id(14),
             Account.id(35),
             Branch.nameKey(Project.nameKey("project 67"), "branch-74"),
@@ -199,7 +199,7 @@ public class ChangeProtoConverterTest {
   public void allValuesConvertedToProtoAndBackAgain() {
     Change change =
         new Change(
-            new Change.Key("change 1"),
+            Change.key("change 1"),
             new Change.Id(14),
             Account.id(35),
             Branch.nameKey(Project.nameKey("project 67"), "branch-74"),
@@ -224,7 +224,7 @@ public class ChangeProtoConverterTest {
   public void mandatoryValuesConvertedToProtoAndBackAgain() {
     Change change =
         new Change(
-            new Change.Key("change 1"),
+            Change.key("change 1"),
             new Change.Id(14),
             Account.id(35),
             Branch.nameKey(Project.nameKey("project 67"), "branch-74"),

@@ -98,7 +98,7 @@ public class RebaseUtil {
     // Try parsing base as a change number (assume current patch set).
     Integer baseChangeId = Ints.tryParse(base);
     if (baseChangeId != null) {
-      ChangeNotes baseNotes = notesFor(rsrc, new Change.Id(baseChangeId));
+      ChangeNotes baseNotes = notesFor(rsrc, Change.id(baseChangeId));
       if (baseNotes != null) {
         return Base.create(baseNotes, psUtil.current(baseNotes));
       }

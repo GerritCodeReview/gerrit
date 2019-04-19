@@ -14,12 +14,13 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeStatus;
-import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.StandardKeyEncoder;
 import java.sql.Timestamp;
 import java.util.Arrays;
@@ -94,45 +95,17 @@ import java.util.Arrays;
  * notice of a replacement patch set is sent, or when notice of the change submission occurs.
  */
 public final class Change {
-  public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
-    private static final long serialVersionUID = 1L;
+  public static Id id(int id) {
+    return new AutoValue_Change_Id(id);
+  }
 
-    public int id;
-
-    protected Id() {}
-
-    public Id(int id) {
-      this.id = id;
-    }
-
-    @Override
-    public int get() {
-      return id;
-    }
-
-    @Override
-    protected void set(int newValue) {
-      id = newValue;
-    }
-
-    public String toRefPrefix() {
-      return refPrefixBuilder().toString();
-    }
-
-    StringBuilder refPrefixBuilder() {
-      StringBuilder r = new StringBuilder(32).append(REFS_CHANGES);
-      int m = id % 100;
-      if (m < 10) {
-        r.append('0');
-      }
-      return r.append(m).append('/').append(id).append('/');
-    }
-
+  @AutoValue
+  public abstract static class Id {
     /** Parse a Change.Id out of a string representation. */
     public static Id parse(String str) {
-      final Id r = new Id();
-      r.fromString(str);
-      return r;
+      Integer id = Ints.tryParse(str);
+      checkArgument(id != null, "invalid change ID: %s", str);
+      return Change.id(id);
     }
 
     public static Id fromRef(String ref) {
@@ -147,7 +120,7 @@ public final class Change {
       if (ref.substring(ce).equals(RefNames.META_SUFFIX)
           || ref.substring(ce).equals(RefNames.ROBOT_COMMENTS_SUFFIX)
           || PatchSet.Id.fromRef(ref, ce) >= 0) {
-        return new Change.Id(Integer.parseInt(ref.substring(cs, ce)));
+        return Change.id(Integer.parseInt(ref.substring(cs, ce)));
       }
       return null;
     }
@@ -170,7 +143,7 @@ public final class Change {
       }
       int ce = nextNonDigit(ref, cs);
       if (ce < ref.length() && ref.charAt(ce) == '/' && isNumeric(ref, ce + 1)) {
-        return new Change.Id(Integer.parseInt(ref.substring(cs, ce)));
+        return Change.id(Integer.parseInt(ref.substring(cs, ce)));
       }
       return null;
     }
@@ -192,14 +165,14 @@ public final class Change {
       int endChangeId = nextNonDigit(ref, startChangeId);
       String id = ref.substring(startChangeId, endChangeId);
       if (id != null && !id.isEmpty()) {
-        return new Change.Id(Integer.parseInt(id));
+        return Change.id(Integer.parseInt(id));
       }
       return null;
     }
 
     public static Id fromRefPart(String ref) {
       Integer id = RefNames.parseShardedRefPart(ref);
-      return id != null ? new Change.Id(id) : null;
+      return id != null ? Change.id(id) : null;
     }
 
     static int startIndex(String ref) {
@@ -250,6 +223,30 @@ public final class Change {
       }
       return i;
     }
+
+    abstract int id();
+
+    public int get() {
+      return id();
+    }
+
+    public String toRefPrefix() {
+      return refPrefixBuilder().toString();
+    }
+
+    StringBuilder refPrefixBuilder() {
+      StringBuilder r = new StringBuilder(32).append(REFS_CHANGES);
+      int m = get() % 100;
+      if (m < 10) {
+        r.append('0');
+      }
+      return r.append(m).append('/').append(get()).append('/');
+    }
+
+    @Override
+    public String toString() {
+      return Integer.toString(get());
+    }
   }
 
   public static Key key(String key) {
@@ -286,6 +283,11 @@ public final class Change {
     public String abbreviate() {
       final String s = get();
       return s.substring(0, Math.min(s.length(), 9));
+    }
+
+    @Override
+    public String toString() {
+      return get();
     }
   }
 

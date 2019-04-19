@@ -450,7 +450,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       cd = changeDataFactory.create(parseProtoFrom(proto, ChangeProtoConverter.INSTANCE));
     } else {
       IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
-      Change.Id id = new Change.Id(f.numericValue().intValue());
+      Change.Id id = Change.id(f.numericValue().intValue());
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
       IndexableField project = doc.get(PROJECT.getName()).iterator().next();
       cd = changeDataFactory.create(Project.nameKey(project.stringValue()), id);

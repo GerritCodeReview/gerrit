@@ -91,7 +91,7 @@ Jar.
 
 * `gerrit-maven`:
 +
-Bucket to store Gerrit Subproject Artifacts (e.g. `gwtorm` etc.).
+Bucket to store Gerrit Subproject Artifacts (e.g. Prolog Cafe).
 
 To upload artifacts to a bucket the user must authenticate with a
 username and password. The username and password need to be retrieved

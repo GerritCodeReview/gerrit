@@ -122,16 +122,16 @@ List visible projects:
 $ ssh -p 29418 review.example.com gerrit ls-projects
 platform/manifest
 tools/gerrit
-tools/gwtorm
+tools/gitiles
 
 $ curl http://review.example.com/projects/
 platform/manifest
 tools/gerrit
-tools/gwtorm
+tools/gitiles
 
 $ curl http://review.example.com/projects/tools/
 tools/gerrit
-tools/gwtorm
+tools/gitiles
 ----
 
 Clone any project visible to the user:

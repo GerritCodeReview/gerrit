@@ -374,16 +374,16 @@ repository has precedence.
 
 == Building against unpublished Maven JARs
 
-To build against unpublished Maven JARs, like gwtorm or PrologCafe, the custom
-JARs must be installed in the local Maven repository (`mvn clean install`) and
+To build against unpublished Maven JARs, like PrologCafe, the custom JARs must
+be installed in the local Maven repository (`mvn clean install`) and
 `maven_jar()` must be updated to point to the `MAVEN_LOCAL` Maven repository for
 that artifact:
 
 [source,python]
 ----
  maven_jar(
-   name = 'gwtorm',
-   artifact = 'gwtorm:gwtorm:42',
+   name = 'prolog-runtime',
+   artifact = 'com.googlecode.prolog-cafe:prolog-runtime:42',
    repository = MAVEN_LOCAL,
  )
 ----

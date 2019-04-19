@@ -72,7 +72,7 @@ public class ChangeMessagesUtil {
     Account.Id accountId = user.isInternalUser() ? null : user.getAccountId();
     ChangeMessage m =
         new ChangeMessage(
-            new ChangeMessage.Key(psId.getParentKey(), ChangeUtil.messageUuid()),
+            ChangeMessage.key(psId.getParentKey(), ChangeUtil.messageUuid()),
             accountId,
             when,
             psId);
@@ -127,7 +127,7 @@ public class ChangeMessagesUtil {
       ChangeMessage message, AccountLoader accountLoader) {
     PatchSet.Id patchNum = message.getPatchSetId();
     ChangeMessageInfo cmi = new ChangeMessageInfo();
-    cmi.id = message.getKey().get();
+    cmi.id = message.getKey().uuid();
     cmi.author = accountLoader.get(message.getAuthor());
     cmi.date = message.getWrittenOn();
     cmi.message = message.getMessage();

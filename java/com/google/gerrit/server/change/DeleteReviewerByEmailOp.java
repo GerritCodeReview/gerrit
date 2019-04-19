@@ -55,7 +55,7 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
     String msg = "Removed reviewer " + reviewer;
     changeMessage =
         new ChangeMessage(
-            new ChangeMessage.Key(change.getId(), ChangeUtil.messageUuid()),
+            ChangeMessage.key(change.getId(), ChangeUtil.messageUuid()),
             ctx.getAccountId(),
             ctx.getWhen(),
             psId);

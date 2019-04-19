@@ -625,7 +625,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   public void serializeChangeMessages() throws Exception {
     ChangeMessage m1 =
         new ChangeMessage(
-            new ChangeMessage.Key(ID, "uuid1"),
+            ChangeMessage.key(ID, "uuid1"),
             Account.id(1000),
             new Timestamp(1212L),
             new PatchSet.Id(ID, 1));
@@ -634,7 +634,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
 
     ChangeMessage m2 =
         new ChangeMessage(
-            new ChangeMessage.Key(ID, "uuid2"),
+            ChangeMessage.key(ID, "uuid2"),
             Account.id(2000),
             new Timestamp(3434L),
             new PatchSet.Id(ID, 2));
@@ -864,7 +864,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   @Test
   public void changeMessageFields() throws Exception {
     assertThatSerializedClass(ChangeMessage.Key.class)
-        .hasFields(ImmutableMap.of("changeId", Change.Id.class, "uuid", String.class));
+        .hasAutoValueMethods(ImmutableMap.of("changeId", Change.Id.class, "uuid", String.class));
     assertThatSerializedClass(ChangeMessage.class)
         .hasFields(
             ImmutableMap.<String, Type>builder()

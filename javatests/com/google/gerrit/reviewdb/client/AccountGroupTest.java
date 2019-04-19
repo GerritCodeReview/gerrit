@@ -70,6 +70,32 @@ public class AccountGroupTest {
     assertThat(fromRefPart("ab/" + TEST_UUID)).isNull();
   }
 
+  @Test
+  public void uuidToString() {
+    assertThat(uuid("foo").toString()).isEqualTo("foo");
+    assertThat(uuid("foo bar").toString()).isEqualTo("foo+bar");
+    assertThat(uuid("foo:bar").toString()).isEqualTo("foo%3Abar");
+  }
+
+  @Test
+  public void parseUuid() {
+    assertThat(AccountGroup.UUID.parse("foo")).isEqualTo(new AccountGroup.UUID("foo"));
+    assertThat(AccountGroup.UUID.parse("foo+bar")).isEqualTo(new AccountGroup.UUID("foo bar"));
+    assertThat(AccountGroup.UUID.parse("foo%3Abar")).isEqualTo(new AccountGroup.UUID("foo:bar"));
+  }
+
+  @Test
+  public void idToString() {
+    assertThat(new AccountGroup.Id(123).toString()).isEqualTo("123");
+  }
+
+  @Test
+  public void nameKeyToString() {
+    assertThat(new AccountGroup.NameKey("foo").toString()).isEqualTo("foo");
+    assertThat(new AccountGroup.NameKey("foo bar").toString()).isEqualTo("foo+bar");
+    assertThat(new AccountGroup.NameKey("foo:bar").toString()).isEqualTo("foo%3Abar");
+  }
+
   private AccountGroup.UUID uuid(String uuid) {
     return new AccountGroup.UUID(uuid);
   }

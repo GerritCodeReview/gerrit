@@ -123,8 +123,8 @@ public class ChangeTest {
 
   @Test
   public void toRefPrefix() {
-    assertThat(new Change.Id(1).toRefPrefix()).isEqualTo("refs/changes/01/1/");
-    assertThat(new Change.Id(1234).toRefPrefix()).isEqualTo("refs/changes/34/1234/");
+    assertThat(Change.id(1).toRefPrefix()).isEqualTo("refs/changes/01/1/");
+    assertThat(Change.id(1234).toRefPrefix()).isEqualTo("refs/changes/34/1234/");
   }
 
   @Test
@@ -150,7 +150,7 @@ public class ChangeTest {
 
   @Test
   public void idToString() {
-    assertThat(new Change.Id(3).toString()).isEqualTo("3");
+    assertThat(Change.id(3).toString()).isEqualTo("3");
   }
 
   @Test
@@ -161,7 +161,7 @@ public class ChangeTest {
   }
 
   private static void assertRef(int changeId, String refName) {
-    assertThat(Change.Id.fromRef(refName)).isEqualTo(new Change.Id(changeId));
+    assertThat(Change.Id.fromRef(refName)).isEqualTo(Change.id(changeId));
   }
 
   private static void assertNotRef(String refName) {
@@ -169,7 +169,7 @@ public class ChangeTest {
   }
 
   private static void assertAllUsersRef(int changeId, String refName) {
-    assertThat(Change.Id.fromAllUsersRef(refName)).isEqualTo(new Change.Id(changeId));
+    assertThat(Change.Id.fromAllUsersRef(refName)).isEqualTo(Change.id(changeId));
   }
 
   private static void assertNotAllUsersRef(String refName) {
@@ -177,7 +177,7 @@ public class ChangeTest {
   }
 
   private static void assertRefPart(int changeId, String refName) {
-    assertEquals(new Change.Id(changeId), Change.Id.fromRefPart(refName));
+    assertEquals(Change.id(changeId), Change.Id.fromRefPart(refName));
   }
 
   private static void assertNotRefPart(String refName) {

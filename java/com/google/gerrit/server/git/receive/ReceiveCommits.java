@@ -2424,7 +2424,7 @@ class ReceiveCommits {
     private void setChangeId(int id) {
       possiblyOverrideWorkInProgress();
 
-      changeId = new Change.Id(id);
+      changeId = Change.id(id);
       ins =
           changeInserterFactory
               .create(changeId, commit, refName)

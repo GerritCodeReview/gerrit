@@ -601,7 +601,7 @@ public abstract class ChangeNotesState {
               .owner(Account.id(proto.getOwner()))
               .branch(proto.getBranch());
       if (proto.getHasCurrentPatchSetId()) {
-        b.currentPatchSetId(new PatchSet.Id(changeId, proto.getCurrentPatchSetId()));
+        b.currentPatchSetId(PatchSet.id(changeId, proto.getCurrentPatchSetId()));
       }
       b.subject(proto.getSubject());
       if (proto.getHasTopic()) {

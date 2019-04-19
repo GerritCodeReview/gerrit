@@ -218,7 +218,7 @@ public abstract class JdbcAccountPatchReviewStore
                     + "(account_id, change_id, patch_set_id, file_name) VALUES "
                     + "(?, ?, ?, ?)")) {
       stmt.setInt(1, accountId.get());
-      stmt.setInt(2, psId.getParentKey().get());
+      stmt.setInt(2, psId.changeId().get());
       stmt.setInt(3, psId.get());
       stmt.setString(4, path);
       stmt.executeUpdate();
@@ -246,7 +246,7 @@ public abstract class JdbcAccountPatchReviewStore
                     + "(?, ?, ?, ?)")) {
       for (String path : paths) {
         stmt.setInt(1, accountId.get());
-        stmt.setInt(2, psId.getParentKey().get());
+        stmt.setInt(2, psId.changeId().get());
         stmt.setInt(3, psId.get());
         stmt.setString(4, path);
         stmt.addBatch();
@@ -270,7 +270,7 @@ public abstract class JdbcAccountPatchReviewStore
                     + "WHERE account_id = ? AND change_id = ? AND "
                     + "patch_set_id = ? AND file_name = ?")) {
       stmt.setInt(1, accountId.get());
-      stmt.setInt(2, psId.getParentKey().get());
+      stmt.setInt(2, psId.changeId().get());
       stmt.setInt(3, psId.get());
       stmt.setString(4, path);
       stmt.executeUpdate();
@@ -286,7 +286,7 @@ public abstract class JdbcAccountPatchReviewStore
             con.prepareStatement(
                 "DELETE FROM account_patch_reviews "
                     + "WHERE change_id = ? AND patch_set_id = ?")) {
-      stmt.setInt(1, psId.getParentKey().get());
+      stmt.setInt(1, psId.changeId().get());
       stmt.setInt(2, psId.get());
       stmt.executeUpdate();
     } catch (SQLException e) {
@@ -306,11 +306,11 @@ public abstract class JdbcAccountPatchReviewStore
                     + "AND APR1.change_id = APR2.change_id "
                     + "AND patch_set_id <= ?)")) {
       stmt.setInt(1, accountId.get());
-      stmt.setInt(2, psId.getParentKey().get());
+      stmt.setInt(2, psId.changeId().get());
       stmt.setInt(3, psId.get());
       try (ResultSet rs = stmt.executeQuery()) {
         if (rs.next()) {
-          PatchSet.Id id = new PatchSet.Id(psId.getParentKey(), rs.getInt("patch_set_id"));
+          PatchSet.Id id = PatchSet.id(psId.changeId(), rs.getInt("patch_set_id"));
           ImmutableSet.Builder<String> builder = ImmutableSet.builder();
           do {
             builder.add(rs.getString("file_name"));

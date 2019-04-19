@@ -1212,7 +1212,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(c.currentRevision).isEqualTo(expectedId.name());
     assertThat(c.revisions.get(expectedId.name())._number).isEqualTo(expectedNum);
     try (Repository repo = repoManager.openRepository(new Project.NameKey(c.project))) {
-      String refName = new PatchSet.Id(new Change.Id(c._number), expectedNum).toRefName();
+      String refName = PatchSet.id(new Change.Id(c._number), expectedNum).toRefName();
       Ref ref = repo.exactRef(refName);
       assertThat(ref).named(refName).isNotNull();
       assertThat(ref.getObjectId()).isEqualTo(expectedId);
@@ -1260,7 +1260,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Change c = getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
     ChangeNotes cn = notesFactory.createChecked(c);
     PatchSetApproval submitter =
-        approvalsUtil.getSubmitter(cn, new PatchSet.Id(cn.getChangeId(), psId));
+        approvalsUtil.getSubmitter(cn, PatchSet.id(cn.getChangeId(), psId));
     assertThat(submitter).isNotNull();
     assertThat(submitter.isLegacySubmit()).isTrue();
     assertThat(submitter.getAccountId()).isEqualTo(user.id());
@@ -1270,7 +1270,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Change c = getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
     ChangeNotes cn = notesFactory.createChecked(c);
     PatchSetApproval submitter =
-        approvalsUtil.getSubmitter(cn, new PatchSet.Id(cn.getChangeId(), psId));
+        approvalsUtil.getSubmitter(cn, PatchSet.id(cn.getChangeId(), psId));
     assertThat(submitter).isNull();
   }
 

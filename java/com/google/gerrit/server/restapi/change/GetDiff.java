@@ -141,7 +141,7 @@ public class GetDiff implements RestReadView<FileResource> {
     PatchScriptFactory psf;
     PatchSet basePatchSet = null;
     PatchSet.Id pId = resource.getPatchKey().getParentKey();
-    String fileName = resource.getPatchKey().getFileName();
+    String fileName = resource.getPatchKey().fileName();
     ChangeNotes notes = resource.getRevision().getNotes();
     if (base != null) {
       RevisionResource baseResource =

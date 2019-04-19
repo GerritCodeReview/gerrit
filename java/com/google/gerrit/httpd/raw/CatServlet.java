@@ -150,7 +150,7 @@ public class CatServlet extends HttpServlet {
       return;
     }
 
-    String path = patchKey.getFileName();
+    String path = patchKey.fileName();
     String restUrl =
         String.format(
             "%s/changes/%d/revisions/%s/files/%s/download?parent=%d",

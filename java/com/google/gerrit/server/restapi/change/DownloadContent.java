@@ -43,7 +43,7 @@ public class DownloadContent implements RestReadView<FileResource> {
   @Override
   public BinaryResult apply(FileResource rsrc)
       throws ResourceNotFoundException, IOException, NoSuchChangeException {
-    String path = rsrc.getPatchKey().get();
+    String path = rsrc.getPatchKey().fileName();
     RevisionResource rev = rsrc.getRevision();
     ObjectId revstr = ObjectId.fromString(rev.getPatchSet().getRevision().get());
     return fileContentUtil.downloadContent(

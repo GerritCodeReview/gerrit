@@ -38,7 +38,7 @@ public class ChangeMessageProtoConverterTest {
   public void allValuesConvertedToProto() {
     ChangeMessage changeMessage =
         new ChangeMessage(
-            new ChangeMessage.Key(new Change.Id(543), "change-message-21"),
+            ChangeMessage.key(new Change.Id(543), "change-message-21"),
             Account.id(63),
             new Timestamp(9876543),
             new PatchSet.Id(new Change.Id(34), 13));
@@ -71,7 +71,7 @@ public class ChangeMessageProtoConverterTest {
   public void mainValuesConvertedToProto() {
     ChangeMessage changeMessage =
         new ChangeMessage(
-            new ChangeMessage.Key(new Change.Id(543), "change-message-21"),
+            ChangeMessage.key(new Change.Id(543), "change-message-21"),
             Account.id(63),
             new Timestamp(9876543),
             new PatchSet.Id(new Change.Id(34), 13));
@@ -99,10 +99,7 @@ public class ChangeMessageProtoConverterTest {
   public void realAuthorIsNotAutomaticallySetToAuthorWhenConvertedToProto() {
     ChangeMessage changeMessage =
         new ChangeMessage(
-            new ChangeMessage.Key(new Change.Id(543), "change-message-21"),
-            Account.id(63),
-            null,
-            null);
+            ChangeMessage.key(new Change.Id(543), "change-message-21"), Account.id(63), null, null);
 
     Entities.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
 
@@ -123,7 +120,7 @@ public class ChangeMessageProtoConverterTest {
     // protobuf definition. -> assume as optional and hence test null
     ChangeMessage changeMessage =
         new ChangeMessage(
-            new ChangeMessage.Key(new Change.Id(543), "change-message-21"), null, null, null);
+            ChangeMessage.key(new Change.Id(543), "change-message-21"), null, null, null);
 
     Entities.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
 
@@ -141,7 +138,7 @@ public class ChangeMessageProtoConverterTest {
   public void allValuesConvertedToProtoAndBackAgain() {
     ChangeMessage changeMessage =
         new ChangeMessage(
-            new ChangeMessage.Key(new Change.Id(543), "change-message-21"),
+            ChangeMessage.key(new Change.Id(543), "change-message-21"),
             Account.id(63),
             new Timestamp(9876543),
             new PatchSet.Id(new Change.Id(34), 13));
@@ -158,7 +155,7 @@ public class ChangeMessageProtoConverterTest {
   public void mainValuesConvertedToProtoAndBackAgain() {
     ChangeMessage changeMessage =
         new ChangeMessage(
-            new ChangeMessage.Key(new Change.Id(543), "change-message-21"),
+            ChangeMessage.key(new Change.Id(543), "change-message-21"),
             Account.id(63),
             new Timestamp(9876543),
             new PatchSet.Id(new Change.Id(34), 13));
@@ -172,7 +169,7 @@ public class ChangeMessageProtoConverterTest {
   public void mandatoryValuesConvertedToProtoAndBackAgain() {
     ChangeMessage changeMessage =
         new ChangeMessage(
-            new ChangeMessage.Key(new Change.Id(543), "change-message-21"), null, null, null);
+            ChangeMessage.key(new Change.Id(543), "change-message-21"), null, null, null);
 
     ChangeMessage convertedChangeMessage =
         changeMessageProtoConverter.fromProto(changeMessageProtoConverter.toProto(changeMessage));

@@ -63,7 +63,7 @@ public class GetContent implements RestReadView<FileResource> {
   @Override
   public BinaryResult apply(FileResource rsrc)
       throws ResourceNotFoundException, IOException, BadRequestException {
-    String path = rsrc.getPatchKey().get();
+    String path = rsrc.getPatchKey().fileName();
     if (Patch.COMMIT_MSG.equals(path)) {
       String msg = getMessage(rsrc.getRevision().getChangeResource().getNotes());
       return BinaryResult.create(msg)

@@ -97,7 +97,7 @@ public class GetBlame implements RestReadView<FileResource> {
       RevCommit revCommit = revWalk.parseCommit(objectId);
       RevCommit[] parents = revCommit.getParents();
 
-      String path = resource.getPatchKey().getFileName();
+      String path = resource.getPatchKey().fileName();
 
       List<BlameInfo> result;
       if (!base) {

@@ -42,7 +42,7 @@ public class Reviewed {
                   s.markReviewed(
                       resource.getPatchKey().getParentKey(),
                       resource.getAccountId(),
-                      resource.getPatchKey().getFileName()));
+                      resource.getPatchKey().fileName()));
       return reviewFlagUpdated ? Response.created("") : Response.ok("");
     }
   }
@@ -63,7 +63,7 @@ public class Reviewed {
               s.clearReviewed(
                   resource.getPatchKey().getParentKey(),
                   resource.getAccountId(),
-                  resource.getPatchKey().getFileName()));
+                  resource.getPatchKey().fileName()));
       return Response.none();
     }
   }

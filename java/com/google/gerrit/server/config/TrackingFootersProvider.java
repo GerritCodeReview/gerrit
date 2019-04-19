@@ -15,7 +15,6 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -32,6 +31,8 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class TrackingFootersProvider implements Provider<TrackingFooters> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final int MAX_LENGTH = 10;
 
   private static String TRACKING_ID_TAG = "trackingid";
   private static String FOOTER_TAG = "footer";
@@ -59,11 +60,11 @@ public class TrackingFootersProvider implements Provider<TrackingFooters> {
         configValid = false;
         logger.atSevere().log(
             "Missing %s.%s.%s in gerrit.config", TRACKING_ID_TAG, name, SYSTEM_TAG);
-      } else if (system.length() > TrackingId.TRACKING_SYSTEM_MAX_CHAR) {
+      } else if (system.length() > MAX_LENGTH) {
         configValid = false;
         logger.atSevere().log(
             "String too long \"%s\" in gerrit.config %s.%s.%s (max %d char)",
-            system, TRACKING_ID_TAG, name, SYSTEM_TAG, TrackingId.TRACKING_SYSTEM_MAX_CHAR);
+            system, TRACKING_ID_TAG, name, SYSTEM_TAG, MAX_LENGTH);
       }
 
       String match = cfg.getString(TRACKING_ID_TAG, name, REGEX_TAG);

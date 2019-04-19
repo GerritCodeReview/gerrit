@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b08a349e_231d4528",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-19T14:10:23Z",
+      "side": 1,
+      "message": "I believe the technical term I used is \"zombie\" :)",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 8
+      },
+      "revId": "ae687224119ad75825e4720453667e830d1c339f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a7fa6_5819ad49",
+        "filename": "java/com/google/gerrit/server/notedb/AllUsersAsyncUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-19T14:10:23Z",
+      "side": 1,
+      "message": "DfsRepository is not threadsafe. This *might* be ok if we can guarantee the repo is no longer used from the request thread at the point when we kick off the background update, since writes that happen-before the executor.submit call should be visible. But that seems difficult to reason about, and brittle if we later introduce writes to allUsersRepo in the request thread.\n\nCan you just collect ChangeDraftUpdates in the AllUsersAsyncUpdate, instead of holding on to an OpenRepo? Then reopen the repo and delete the comments.",
+      "revId": "ae687224119ad75825e4720453667e830d1c339f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

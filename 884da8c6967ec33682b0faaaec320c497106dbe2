@@ -210,6 +210,30 @@
       "revId": "884da8c6967ec33682b0faaaec320c497106dbe2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86c64c54_b2a7b0c8",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-19T14:14:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "744252fc_1dd5d22d",
+      "range": {
+        "startLine": 431,
+        "startChar": 0,
+        "endLine": 438,
+        "endChar": 7
+      },
+      "revId": "884da8c6967ec33682b0faaaec320c497106dbe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

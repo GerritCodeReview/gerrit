@@ -147,6 +147,11 @@ public class ChangeTest {
     assertNotRefPart("1/1");
   }
 
+  @Test
+  public void idToString() {
+    assertThat(new Change.Id(3).toString()).isEqualTo("3");
+  }
+
   private static void assertRef(int changeId, String refName) {
     assertThat(Change.Id.fromRef(refName)).isEqualTo(new Change.Id(changeId));
   }

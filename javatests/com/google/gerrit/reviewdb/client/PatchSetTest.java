@@ -102,6 +102,11 @@ public class PatchSetTest {
     assertInvalidId("1" + hexComma + "2");
   }
 
+  @Test
+  public void idToString() {
+    assertThat(new PatchSet.Id(new Change.Id(2), 3).toString()).isEqualTo("2,3");
+  }
+
   private static void assertRef(int changeId, int psId, String refName) {
     assertThat(PatchSet.isChangeRef(refName)).isTrue();
     assertThat(PatchSet.Id.fromRef(refName))

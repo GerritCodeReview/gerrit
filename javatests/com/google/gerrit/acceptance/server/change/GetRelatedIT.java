@@ -129,14 +129,14 @@ public class GetRelatedIT extends AbstractDaemonTest {
     testRepo.reset(c1_1);
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps1_1 = getPatchSetId(c1_1);
-    String oldETag = changes.parse(ps1_1.getParentKey()).getETag();
+    String oldETag = changes.parse(ps1_1.changeId()).getETag();
 
     testRepo.reset(c2_1);
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps2_1 = getPatchSetId(c2_1);
 
     // Push of change 2 should not affect groups (or anything else) of change 1.
-    assertThat(changes.parse(ps1_1.getParentKey()).getETag()).isEqualTo(oldETag);
+    assertThat(changes.parse(ps1_1.changeId()).getETag()).isEqualTo(oldETag);
 
     for (PatchSet.Id ps : ImmutableList.of(ps2_1, ps1_1)) {
       assertRelated(ps, changeAndCommit(ps2_1, c2_1, 1), changeAndCommit(ps1_1, c1_1, 1));
@@ -498,7 +498,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     PatchSet.Id ps1_1 = getPatchSetId(c1_1);
     PatchSet.Id ps2_1 = getPatchSetId(c2_1);
-    PatchSet.Id ps2_edit = new PatchSet.Id(ch2.getId(), 0);
+    PatchSet.Id ps2_edit = PatchSet.id(ch2.getId(), 0);
     PatchSet.Id ps3_1 = getPatchSetId(c3_1);
 
     for (PatchSet.Id ps : ImmutableList.of(ps1_1, ps2_1, ps3_1)) {
@@ -512,7 +512,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     assertRelated(
         ps2_edit,
         changeAndCommit(ps3_1, c3_1, 1),
-        changeAndCommit(new PatchSet.Id(ch2.getId(), 0), editRev, 1),
+        changeAndCommit(PatchSet.id(ch2.getId(), 0), editRev, 1),
         changeAndCommit(ps1_1, c1_1, 1));
   }
 
@@ -533,7 +533,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     // Pretend PS1,1 was pushed before the groups field was added.
     clearGroups(psId1_1);
-    indexer.index(changeDataFactory.create(project, psId1_1.getParentKey()));
+    indexer.index(changeDataFactory.create(project, psId1_1.changeId()));
 
     // PS1,1 has no groups, so disappeared from related changes.
     assertRelated(psId2_1);
@@ -568,7 +568,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     PatchSet.Id psId1_1 = getPatchSetId(c1_1);
     PatchSet.Id psId2_1 = getPatchSetId(c2_1);
-    PatchSet.Id psId2_2 = new PatchSet.Id(psId2_1.changeId, psId2_1.get() + 1);
+    PatchSet.Id psId2_2 = PatchSet.id(psId2_1.changeId(), psId2_1.get() + 1);
 
     assertRelated(psId2_2, changeAndCommit(psId2_2, c2_2, 2), changeAndCommit(psId1_1, c1_1, 1));
   }
@@ -678,7 +678,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
       PatchSet.Id psId, ObjectId commitId, int currentRevisionNum) {
     RelatedChangeAndCommitInfo result = new RelatedChangeAndCommitInfo();
     result.project = project.get();
-    result._changeNumber = psId.getParentKey().get();
+    result._changeNumber = psId.changeId().get();
     result.commit = new CommitInfo();
     result.commit.commit = commitId.name();
     result._revisionNumber = psId.get();
@@ -690,7 +690,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
   private void clearGroups(PatchSet.Id psId) throws Exception {
     try (BatchUpdate bu = batchUpdateFactory.create(project, user(user), TimeUtil.nowTs())) {
       bu.addOp(
-          psId.getParentKey(),
+          psId.changeId(),
           new BatchUpdateOp() {
             @Override
             public boolean updateChange(ChangeContext ctx) {
@@ -711,7 +711,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
   private void assertRelated(PatchSet.Id psId, List<RelatedChangeAndCommitInfo> expected)
       throws Exception {
     List<RelatedChangeAndCommitInfo> actual =
-        gApi.changes().id(psId.getParentKey().get()).revision(psId.get()).related().changes;
+        gApi.changes().id(psId.changeId().get()).revision(psId.get()).related().changes;
     assertThat(actual).named("related to " + psId).hasSize(expected.size());
     for (int i = 0; i < actual.size(); i++) {
       String name = "index " + i + " related to " + psId;

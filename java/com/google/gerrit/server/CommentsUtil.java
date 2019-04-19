@@ -92,7 +92,7 @@ public class CommentsUtil {
       };
 
   public static PatchSet.Id getCommentPsId(Change.Id changeId, Comment comment) {
-    return new PatchSet.Id(changeId, comment.key.patchSetId);
+    return PatchSet.id(changeId, comment.key.patchSetId);
   }
 
   public static String extractMessageId(@Nullable String tag) {
@@ -131,7 +131,7 @@ public class CommentsUtil {
         unresolved = false;
       } else {
         // Inherit unresolved value from inReplyTo comment if not specified.
-        Comment.Key key = new Comment.Key(parentUuid, path, psId.patchSetId);
+        Comment.Key key = new Comment.Key(parentUuid, path, psId.get());
         Optional<Comment> parent = getPublished(ctx.getNotes(), key);
         if (!parent.isPresent()) {
           throw new UnprocessableEntityException("Invalid parentUuid supplied for comment");

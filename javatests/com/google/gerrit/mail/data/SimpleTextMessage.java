@@ -39,7 +39,7 @@ public class SimpleTextMessage extends RawMailMessage {
           + "when I try to load this change:\n"
           + "\n"
           + "  Error in GET /changes/90018/detail?O=10004\n"
-          + "  com.google.gwtorm.OrmException: java.lang.NullPointerException\n"
+          + "  com.google.gerrit.exceptions.StorageException: java.lang.NullPointerException\n"
           + "\tat com.google.gerrit.change.ChangeJson.format(ChangeJson.java:303)\n"
           + "\tat com.google.gerrit.change.ChangeJson.format(ChangeJson.java:285)\n"
           + "\tat com.google.gerrit.change.ChangeJson.format(ChangeJson.java:263)\n"

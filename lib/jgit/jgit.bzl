@@ -4,7 +4,7 @@ _JGIT_VERS = "4.7.9.201904161809-r"
 
 _DOC_VERS = _JGIT_VERS  # Set to _JGIT_VERS unless using a snapshot
 
-JGIT_DOC_URL = "http://download.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
+JGIT_DOC_URL = "https://download.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
 
 _JGIT_REPO = MAVEN_CENTRAL  # Leave here even if set to MAVEN_CENTRAL.
 

@@ -16,10 +16,11 @@ package com.google.gerrit.reviewdb.client;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gwtorm.client.IntKey;
-import com.google.gwtorm.client.StringKey;
+import com.google.gwtorm.client.StandardKeyEncoder;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
@@ -251,29 +252,26 @@ public final class Change {
     }
   }
 
+  public static Key key(String key) {
+    return new AutoValue_Change_Key(key);
+  }
+
   /**
    * Globally unique identification of this change. This generally takes the form of a string
    * "Ixxxxxx...", and is stored in the Change-Id footer of a commit.
    */
-  public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
-    private static final long serialVersionUID = 1L;
-
-    protected String id;
-
-    protected Key() {}
-
-    public Key(String id) {
-      this.id = id;
+  @AutoValue
+  public abstract static class Key {
+    // TODO(dborowitz): This hardly seems worth it: why would someone pass a URL-encoded change key?
+    // Ideally the standard key() factory method would enforce the format and throw IAE.
+    public static Key parse(String str) {
+      return Change.key(new StandardKeyEncoder().decode(str));
     }
 
-    @Override
+    abstract String key();
+
     public String get() {
-      return id;
-    }
-
-    @Override
-    protected void set(String newValue) {
-      id = newValue;
+      return key();
     }
 
     /** Construct a key that is after all keys prefixed by this key. */
@@ -281,20 +279,13 @@ public final class Change {
       final StringBuilder revEnd = new StringBuilder(get().length() + 1);
       revEnd.append(get());
       revEnd.append('\u9fa5');
-      return new Key(revEnd.toString());
+      return Change.key(revEnd.toString());
     }
 
     /** Obtain a shorter version of this key string, using a leading prefix. */
     public String abbreviate() {
       final String s = get();
       return s.substring(0, Math.min(s.length(), 9));
-    }
-
-    /** Parse a Change.Key out of a string representation. */
-    public static Key parse(String str) {
-      final Key r = new Key();
-      r.fromString(str);
-      return r;
     }
   }
 

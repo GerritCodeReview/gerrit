@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 public class ChangeTest {
@@ -145,6 +146,18 @@ public class ChangeTest {
 
     // Shard too short.
     assertNotRefPart("1/1");
+  }
+
+  @Test
+  public void idToString() {
+    assertThat(new Change.Id(3).toString()).isEqualTo("3");
+  }
+
+  @Test
+  public void keyToString() {
+    String key = "Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+    assertThat(ObjectId.isId(key.substring(1))).isTrue();
+    assertThat(new Change.Key(key).toString()).isEqualTo(key);
   }
 
   private static void assertRef(int changeId, String refName) {

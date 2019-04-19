@@ -22,7 +22,6 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/prettify:server",
         "//java/com/google/gerrit/reviewdb:server",
-        "//java/com/google/gwtorm",
         "//java/org/eclipse/jgit:server",
         "//lib:guava",
         "//lib:servlet-api-3_1",

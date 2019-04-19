@@ -19,7 +19,6 @@ import static java.util.Objects.requireNonNull;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gwtorm.client.StandardKeyEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +49,7 @@ public final class Project {
   public static class NameKey implements Comparable<NameKey> {
     /** Parse a Project.NameKey out of a string representation. */
     public static NameKey parse(String str) {
-      return nameKey(new StandardKeyEncoder().decode(str));
+      return nameKey(KeyUtil.decode(str));
     }
 
     public static String asStringOrNull(NameKey key) {
@@ -87,7 +86,7 @@ public final class Project {
 
     @Override
     public final String toString() {
-      return new StandardKeyEncoder().encode(get());
+      return KeyUtil.encode(get());
     }
   }
 

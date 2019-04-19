@@ -16,7 +16,6 @@ package com.google.gerrit.reviewdb.client;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
-import com.google.gwtorm.client.StandardKeyEncoder;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Objects;
@@ -53,7 +52,7 @@ public final class AccountGroup {
 
     @Override
     public String toString() {
-      return new StandardKeyEncoder().encode(get());
+      return KeyUtil.encode(get());
     }
   }
 
@@ -72,7 +71,7 @@ public final class AccountGroup {
 
     /** Parse an {@link AccountGroup.UUID} out of a string representation. */
     public static UUID parse(String str) {
-      return AccountGroup.uuid(new StandardKeyEncoder().decode(str));
+      return AccountGroup.uuid(KeyUtil.decode(str));
     }
 
     /** Parse an {@link AccountGroup.UUID} out of a ref-name. */
@@ -104,7 +103,7 @@ public final class AccountGroup {
 
     @Override
     public String toString() {
-      return new StandardKeyEncoder().encode(get());
+      return KeyUtil.encode(get());
     }
   }
 

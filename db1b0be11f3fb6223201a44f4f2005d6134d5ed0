@@ -22,6 +22,30 @@
       "revId": "db1b0be11f3fb6223201a44f4f2005d6134d5ed0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b508972_ceed0115",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-19T22:32:28Z",
+      "side": 1,
+      "message": "I believe, in addition to the Account.Id it should return the Server id also.\nSo, in a nutshell, changing the signature of the method and returning from which server is coming from.\n\n@Dave what do you think?",
+      "parentUuid": "be075312_e9eaad14",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 9
+      },
+      "revId": "db1b0be11f3fb6223201a44f4f2005d6134d5ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

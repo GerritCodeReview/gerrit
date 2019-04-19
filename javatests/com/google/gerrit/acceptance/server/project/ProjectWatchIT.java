@@ -218,7 +218,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // push a change to watched project -> should trigger email notification
     requestScopeOperations.setApiUser(admin.id());
     TestRepository<InMemoryRepository> watchedRepo =
-        cloneProject(new Project.NameKey(watchedProject), admin);
+        cloneProject(Project.nameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
             .create(admin.newIdent(), watchedRepo, "TRIGGER", "a", "a1")
@@ -229,7 +229,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // notification
     String notWatchedProject = projectOperations.newProject().create().get();
     TestRepository<InMemoryRepository> notWatchedRepo =
-        cloneProject(new Project.NameKey(notWatchedProject), admin);
+        cloneProject(Project.nameKey(notWatchedProject), admin);
     r =
         pushFactory
             .create(admin.newIdent(), notWatchedRepo, "DONT_TRIGGER", "a", "a1")
@@ -261,7 +261,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // user
     requestScopeOperations.setApiUser(admin.id());
     TestRepository<InMemoryRepository> watchedRepo =
-        cloneProject(new Project.NameKey(watchedProject), admin);
+        cloneProject(Project.nameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
             .create(admin.newIdent(), watchedRepo, "TRIGGER", "a.txt", "a1")
@@ -310,7 +310,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // push a change with keyword -> should trigger email notification
     requestScopeOperations.setApiUser(admin.id());
     TestRepository<InMemoryRepository> watchedRepo =
-        cloneProject(new Project.NameKey(watchedProject), admin);
+        cloneProject(Project.nameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
             .create(admin.newIdent(), watchedRepo, "Document multimaster setup", "a.txt", "a1")
@@ -347,8 +347,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // push a change to any project -> should trigger email notification
     requestScopeOperations.setApiUser(admin.id());
-    TestRepository<InMemoryRepository> anyRepo =
-        cloneProject(new Project.NameKey(anyProject), admin);
+    TestRepository<InMemoryRepository> anyRepo = cloneProject(Project.nameKey(anyProject), admin);
     PushOneCommit.Result r =
         pushFactory.create(admin.newIdent(), anyRepo, "TRIGGER", "a", "a1").to("refs/for/master");
     r.assertOkStatus();
@@ -374,8 +373,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // push a change to watched file in any project -> should trigger email
     // notification for user
     requestScopeOperations.setApiUser(admin.id());
-    TestRepository<InMemoryRepository> anyRepo =
-        cloneProject(new Project.NameKey(anyProject), admin);
+    TestRepository<InMemoryRepository> anyRepo = cloneProject(Project.nameKey(anyProject), admin);
     PushOneCommit.Result r =
         pushFactory
             .create(admin.newIdent(), anyRepo, "TRIGGER", "a.txt", "a1")
@@ -424,8 +422,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // push a change with keyword to any project -> should trigger email
     // notification
     requestScopeOperations.setApiUser(admin.id());
-    TestRepository<InMemoryRepository> anyRepo =
-        cloneProject(new Project.NameKey(anyProject), admin);
+    TestRepository<InMemoryRepository> anyRepo = cloneProject(Project.nameKey(anyProject), admin);
     PushOneCommit.Result r =
         pushFactory
             .create(admin.newIdent(), anyRepo, "Document multimaster setup", "a.txt", "a1")
@@ -463,7 +460,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // push a change to watched project
     requestScopeOperations.setApiUser(admin.id());
     TestRepository<InMemoryRepository> watchedRepo =
-        cloneProject(new Project.NameKey(watchedProject), admin);
+        cloneProject(Project.nameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
             .create(admin.newIdent(), watchedRepo, "ignored change", "a", "a1")
@@ -496,7 +493,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // push a private change to watched project -> should not trigger email notification
     requestScopeOperations.setApiUser(admin.id());
     TestRepository<InMemoryRepository> watchedRepo =
-        cloneProject(new Project.NameKey(watchedProject), admin);
+        cloneProject(Project.nameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
             .create(admin.newIdent(), watchedRepo, "private change", "a", "a1")
@@ -515,7 +512,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     GroupInfo groupThatCanViewPrivateChanges =
         gApi.groups().create("groupThatCanViewPrivateChanges").get();
     grant(
-        new Project.NameKey(watchedProject),
+        Project.nameKey(watchedProject),
         "refs/*",
         Permission.VIEW_PRIVATE_CHANGES,
         false,
@@ -536,7 +533,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // userThatCanViewPrivateChanges, but not for user
     requestScopeOperations.setApiUser(admin.id());
     TestRepository<InMemoryRepository> watchedRepo =
-        cloneProject(new Project.NameKey(watchedProject), admin);
+        cloneProject(Project.nameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
             .create(admin.newIdent(), watchedRepo, "TRIGGER", "a", "a1")

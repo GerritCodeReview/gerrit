@@ -262,8 +262,8 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public ImmutableSortedSet<Project.NameKey> byName(String pfx) {
-    Project.NameKey start = new Project.NameKey(pfx);
-    Project.NameKey end = new Project.NameKey(pfx + Character.MAX_VALUE);
+    Project.NameKey start = Project.nameKey(pfx);
+    Project.NameKey end = Project.nameKey(pfx + Character.MAX_VALUE);
     try {
       // Right endpoint is exclusive, but U+FFFF is a non-character so no project ends with it.
       return list.get(ListKey.ALL).subSet(start, end);
@@ -295,7 +295,7 @@ public class ProjectCacheImpl implements ProjectCache {
     public ProjectState load(String projectName) throws Exception {
       try (TraceTimer timer = TraceContext.newTimer("Loading project %s", projectName)) {
         long now = clock.read();
-        Project.NameKey key = new Project.NameKey(projectName);
+        Project.NameKey key = Project.nameKey(projectName);
         try (Repository git = mgr.openRepository(key)) {
           ProjectConfig cfg = projectConfigFactory.create(key);
           cfg.load(key, git);

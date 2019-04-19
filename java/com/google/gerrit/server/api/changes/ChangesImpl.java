@@ -92,7 +92,7 @@ class ChangesImpl implements Changes {
   public ChangeApi create(ChangeInput in) throws RestApiException {
     try {
       ChangeInfo out = createChange.apply(TopLevelResource.INSTANCE, in).value();
-      return api.create(changes.parse(new Change.Id(out._number)));
+      return api.create(changes.parse(Change.id(out._number)));
     } catch (Exception e) {
       throw asRestApiException("Cannot create change", e);
     }

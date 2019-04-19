@@ -72,10 +72,7 @@ public class ChangeMessagesUtil {
     Account.Id accountId = user.isInternalUser() ? null : user.getAccountId();
     ChangeMessage m =
         new ChangeMessage(
-            ChangeMessage.key(psId.getParentKey(), ChangeUtil.messageUuid()),
-            accountId,
-            when,
-            psId);
+            ChangeMessage.key(psId.changeId(), ChangeUtil.messageUuid()), accountId, when, psId);
     m.setMessage(body);
     m.setTag(tag);
     user.updateRealAccountId(m::setRealAuthor);

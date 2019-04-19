@@ -107,7 +107,7 @@ public class GroupCollector {
         transformRefs(changeRefsById),
         psId -> {
           // TODO(dborowitz): Reuse open repository from caller.
-          ChangeNotes notes = notesFactory.createChecked(project, psId.getParentKey());
+          ChangeNotes notes = notesFactory.createChecked(project, psId.changeId());
           PatchSet ps = psUtil.get(notes, psId);
           return ps != null ? ps.getGroups() : null;
         });

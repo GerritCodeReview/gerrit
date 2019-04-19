@@ -21,6 +21,7 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -194,7 +195,7 @@ public class EventBroker implements EventDispatcher {
       RefEvent refEvent = (RefEvent) event;
       String ref = refEvent.getRefName();
       if (PatchSet.isChangeRef(ref)) {
-        Change.Id cid = PatchSet.Id.fromRef(ref).getParentKey();
+        Change.Id cid = Id.fromRef(ref).changeId();
         try {
           Change change = notesFactory.createChecked(refEvent.getProjectNameKey(), cid).getChange();
           return isVisibleTo(change, user);

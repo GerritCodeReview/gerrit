@@ -2435,7 +2435,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byCommitsOnBranchNotMergedSkipsMissingChanges() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ObjectId missing =
-        repo.branch(new PatchSet.Id(new Change.Id(987654), 1).toRefName())
+        repo.branch(PatchSet.id(new Change.Id(987654), 1).toRefName())
             .commit()
             .message("No change for this commit")
             .insertChangeId()
@@ -3254,7 +3254,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     PatchSetInserter inserter =
         patchSetFactory
-            .create(changeNotesFactory.createChecked(c), new PatchSet.Id(c.getId(), n), commit)
+            .create(changeNotesFactory.createChecked(c), PatchSet.id(c.getId(), n), commit)
             .setFireRevisionCreated(false)
             .setValidate(false);
     try (BatchUpdate bu = updateFactory.create(c.getProject(), user, TimeUtil.nowTs());

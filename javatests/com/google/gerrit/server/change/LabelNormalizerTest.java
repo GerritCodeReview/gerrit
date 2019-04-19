@@ -115,7 +115,7 @@ public class LabelNormalizerTest extends GerritBaseTests {
     input.newBranch = true;
     input.subject = "Test change";
     ChangeInfo info = gApi.changes().create(input).get();
-    notes = changeNotesFactory.createChecked(allProjects, new Change.Id(info._number));
+    notes = changeNotesFactory.createChecked(allProjects, Change.id(info._number));
     change = notes.getChange();
   }
 

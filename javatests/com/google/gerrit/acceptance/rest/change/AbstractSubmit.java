@@ -1212,7 +1212,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(c.currentRevision).isEqualTo(expectedId.name());
     assertThat(c.revisions.get(expectedId.name())._number).isEqualTo(expectedNum);
     try (Repository repo = repoManager.openRepository(Project.nameKey(c.project))) {
-      String refName = PatchSet.id(new Change.Id(c._number), expectedNum).toRefName();
+      String refName = PatchSet.id(Change.id(c._number), expectedNum).toRefName();
       Ref ref = repo.exactRef(refName);
       assertThat(ref).named(refName).isNotNull();
       assertThat(ref.getObjectId()).isEqualTo(expectedId);

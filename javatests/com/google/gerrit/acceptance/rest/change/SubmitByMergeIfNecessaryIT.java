@@ -699,7 +699,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
       assertThat(e.getMessage())
           .isEqualTo(
               "A change to be submitted with "
-                  + change2Result.getChange().getId().id
+                  + change2Result.getChange().getId().get()
                   + " is not visible");
     }
     assertRefUpdatedEvents();
@@ -759,7 +759,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
       assertThat(e.getMessage())
           .isEqualTo(
               "A change to be submitted with "
-                  + change1.getChange().getId().id
+                  + change1.getChange().getId().get()
                   + " is not visible");
     }
     assertRefUpdatedEvents();

@@ -137,7 +137,7 @@ public class StreamEventsApiListener
 
   private ChangeNotes getNotes(ChangeInfo info) {
     try {
-      return changeNotesFactory.createChecked(new Change.Id(info._number));
+      return changeNotesFactory.createChecked(Change.id(info._number));
     } catch (NoSuchChangeException e) {
       throw new StorageException(e);
     }

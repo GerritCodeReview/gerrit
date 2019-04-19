@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
-import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -39,8 +38,6 @@ import java.util.concurrent.Future;
 @RequiresCapability(GlobalCapability.MAINTAIN_SERVER)
 @Singleton
 public class Index implements RestModifyView<ProjectResource, IndexProjectInput> {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final ProjectIndexer indexer;
   private final ListeningExecutorService executor;
   private final Provider<ListChildProjects> listChildProjectsProvider;

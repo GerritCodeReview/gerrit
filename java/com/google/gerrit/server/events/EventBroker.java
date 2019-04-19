@@ -201,7 +201,7 @@ public class EventBroker implements EventDispatcher {
           return isVisibleTo(change, user);
         } catch (NoSuchChangeException e) {
           logger.atFine().log(
-              "Change %s cannot be found, falling back on ref visibility check", cid.id);
+              "Change %s cannot be found, falling back on ref visibility check", cid.get());
         }
       }
       return isVisibleTo(refEvent.getBranchNameKey(), user);

@@ -99,7 +99,7 @@ public class ChangeNotesCache {
         ChangeNotesKeyProto proto = Protos.parseUnchecked(ChangeNotesKeyProto.parser(), in);
         return Key.create(
             Project.nameKey(proto.getProject()),
-            new Change.Id(proto.getChangeId()),
+            Change.id(proto.getChangeId()),
             ObjectIdConverter.create().fromByteString(proto.getId()));
       }
     }

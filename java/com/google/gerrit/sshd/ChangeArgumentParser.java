@@ -121,7 +121,7 @@ public class ChangeArgumentParser {
 
   private List<Change.Id> parseId(String id) throws UnloggedFailure {
     try {
-      return Arrays.asList(new Change.Id(Integer.parseInt(id)));
+      return Arrays.asList(Change.id(Integer.parseInt(id)));
     } catch (NumberFormatException e) {
       throw new UnloggedFailure(2, "Invalid change ID " + id, e);
     }

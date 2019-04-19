@@ -976,7 +976,7 @@ class ChangeNotesParser {
     if (revertOf == null) {
       throw invalidFooter(FOOTER_REVERT_OF, footer);
     }
-    return new Change.Id(revertOf);
+    return Change.id(revertOf);
   }
 
   private void pruneReviewers() {

@@ -274,7 +274,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commit =
-          rw.parseCommit(repo.exactRef(changeMetaRef(new Change.Id(c._number))).getObjectId());
+          rw.parseCommit(repo.exactRef(changeMetaRef(Change.id(c._number))).getObjectId());
 
       assertThat(commit.getShortMessage()).isEqualTo("Create change");
 

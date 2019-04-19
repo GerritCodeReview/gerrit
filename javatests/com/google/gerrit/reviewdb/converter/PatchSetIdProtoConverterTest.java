@@ -33,7 +33,7 @@ public class PatchSetIdProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    PatchSet.Id patchSetId = PatchSet.id(new Change.Id(103), 73);
+    PatchSet.Id patchSetId = PatchSet.id(Change.id(103), 73);
 
     Entities.PatchSet_Id proto = patchSetIdProtoConverter.toProto(patchSetId);
 
@@ -47,7 +47,7 @@ public class PatchSetIdProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    PatchSet.Id patchSetId = PatchSet.id(new Change.Id(20), 13);
+    PatchSet.Id patchSetId = PatchSet.id(Change.id(20), 13);
 
     PatchSet.Id convertedPatchSetId =
         patchSetIdProtoConverter.fromProto(patchSetIdProtoConverter.toProto(patchSetId));

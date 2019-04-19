@@ -1330,7 +1330,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     exception.expect(BadRequestException.class);
     exception.expectMessage(
-        String.format("not found in revision %d,1", r.getChange().change().getId().id));
+        String.format("not found in revision %d,1", r.getChange().change().getId().get()));
     gApi.changes().id(r.getChangeId()).revision(1).review(reviewInput);
   }
 

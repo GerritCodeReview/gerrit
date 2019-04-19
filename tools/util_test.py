@@ -23,21 +23,21 @@ class TestResolveUrl(unittest.TestCase):
 
   def testKnown(self):
     url = resolve_url('GERRIT:foo.jar', {})
-    self.assertEqual(url, 'http://gerrit-maven.storage.googleapis.com/foo.jar')
+    self.assertEqual(url, 'https://gerrit-maven.storage.googleapis.com/foo.jar')
 
   def testKnownRedirect(self):
     url = resolve_url('MAVEN_CENTRAL:foo.jar',
-                      {'MAVEN_CENTRAL': 'http://my.company.mirror/maven2'})
-    self.assertEqual(url, 'http://my.company.mirror/maven2/foo.jar')
+                      {'MAVEN_CENTRAL': 'https://my.company.mirror/maven2'})
+    self.assertEqual(url, 'https://my.company.mirror/maven2/foo.jar')
 
   def testCustom(self):
-    url = resolve_url('http://maven.example.com/release/foo.jar', {})
-    self.assertEqual(url, 'http://maven.example.com/release/foo.jar')
+    url = resolve_url('https://maven.example.com/release/foo.jar', {})
+    self.assertEqual(url, 'https://maven.example.com/release/foo.jar')
 
   def testCustomRedirect(self):
     url = resolve_url('MAVEN_EXAMPLE:foo.jar',
-                      {'MAVEN_EXAMPLE': 'http://maven.example.com/release'})
-    self.assertEqual(url, 'http://maven.example.com/release/foo.jar')
+                      {'MAVEN_EXAMPLE': 'https://maven.example.com/release'})
+    self.assertEqual(url, 'https://maven.example.com/release/foo.jar')
 
 if __name__ == '__main__':
   unittest.main()

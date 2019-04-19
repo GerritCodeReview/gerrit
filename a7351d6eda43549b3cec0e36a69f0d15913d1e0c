@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fcb6c13_cae85769",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersion.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-19T14:16:47Z",
+      "side": 1,
+      "message": "Nit: allUsers for consistency with allProjects",
+      "range": {
+        "startLine": 33,
+        "startChar": 26,
+        "endLine": 34,
+        "endChar": 36
+      },
+      "revId": "a7351d6eda43549b3cec0e36a69f0d15913d1e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -15,9 +15,7 @@ _ssh_ -p <port> <host> _gerrit review_
   [--abandon | --restore]
   [--rebase]
   [--move <BRANCH>]
-  [--publish]
   [--json | -j]
-  [--delete]
   [--verified <N>] [--code-review <N>]
   [--label Label-Name=<N>]
   [--tag TAG]
@@ -66,7 +64,7 @@ branch.
 	Read review input json from stdin. See
 	link:rest-api-changes.html#review-input[ReviewInput] entity for the
 	format.
-	(option is mutually exclusive with --submit, --restore, --publish, --delete,
+	(option is mutually exclusive with --submit, --restore,
 	--abandon, --message, --rebase and --move)
 
 --notify::
@@ -88,7 +86,7 @@ branch.
 
 --abandon::
 	Abandon the specified change(s).
-	(option is mutually exclusive with --submit, --restore, --publish, --delete,
+	(option is mutually exclusive with --submit, --restore,
 	--rebase, --move and --json)
 
 --restore::
@@ -97,7 +95,7 @@ branch.
 
 --rebase::
 	Rebase the specified change(s).
-	(option is mutually exclusive with --abandon, --submit, --delete and --json)
+	(option is mutually exclusive with --abandon, --submit and --json)
 
 --move::
 	Move the specified change(s).
@@ -106,7 +104,7 @@ branch.
 --submit::
 -s::
 	Submit the specified patch set(s) for merging.
-	(option is mutually exclusive with --abandon, --publish --delete, --rebase
+	(option is mutually exclusive with --abandon, --rebase
 	and --json)
 
 --code-review::

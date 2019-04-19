@@ -75,7 +75,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   public void setUp() throws Exception {
     cols =
         ChangeColumns.builder()
-            .changeKey(new Change.Key(CHANGE_KEY))
+            .changeKey(Change.key(CHANGE_KEY))
             .createdOn(new Timestamp(123456L))
             .lastUpdatedOn(new Timestamp(234567L))
             .owner(Account.id(1000))
@@ -98,7 +98,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
         newBuilder()
             .columns(
                 cols.toBuilder()
-                    .changeKey(new Change.Key("Ieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"))
+                    .changeKey(Change.key("Ieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"))
                     .build())
             .build(),
         ChangeNotesStateProto.newBuilder()

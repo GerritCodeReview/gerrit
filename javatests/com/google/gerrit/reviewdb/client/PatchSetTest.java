@@ -15,6 +15,7 @@
 package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.reviewdb.client.PatchSet.joinGroups;
 import static com.google.gerrit.reviewdb.client.PatchSet.splitGroups;
 
@@ -87,6 +88,20 @@ public class PatchSetTest {
         .isEqualTo("refs/changes/34/1234/5");
   }
 
+  @Test
+  public void parseId() {
+    assertThat(PatchSet.Id.parse("1,2")).isEqualTo(new PatchSet.Id(new Change.Id(1), 2));
+    assertThat(PatchSet.Id.parse("01,02")).isEqualTo(new PatchSet.Id(new Change.Id(1), 2));
+    assertInvalidId(null);
+    assertInvalidId("");
+    assertInvalidId("1");
+    assertInvalidId("1,foo.txt");
+    assertInvalidId("foo.txt,1");
+
+    String hexComma = "%" + String.format("%02x", (int) ',');
+    assertInvalidId("1" + hexComma + "2");
+  }
+
   private static void assertRef(int changeId, int psId, String refName) {
     assertThat(PatchSet.isChangeRef(refName)).isTrue();
     assertThat(PatchSet.Id.fromRef(refName))
@@ -96,5 +111,14 @@ public class PatchSetTest {
   private static void assertNotRef(String refName) {
     assertThat(PatchSet.isChangeRef(refName)).isFalse();
     assertThat(PatchSet.Id.fromRef(refName)).isNull();
+  }
+
+  private static void assertInvalidId(String str) {
+    try {
+      PatchSet.Id.parse(str);
+      assert_().fail("expected RuntimeException");
+    } catch (RuntimeException e) {
+      // Expected.
+    }
   }
 }

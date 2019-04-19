@@ -186,8 +186,8 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
     String project2Name = name("Project2");
     gApi.projects().create(project1Name);
     gApi.projects().create(project2Name);
-    TestRepository<InMemoryRepository> project1 = cloneProject(new Project.NameKey(project1Name));
-    TestRepository<InMemoryRepository> project2 = cloneProject(new Project.NameKey(project2Name));
+    TestRepository<InMemoryRepository> project1 = cloneProject(Project.nameKey(project1Name));
+    TestRepository<InMemoryRepository> project2 = cloneProject(Project.nameKey(project2Name));
 
     PushOneCommit.Result a = createChange(project1, "A");
     PushOneCommit.Result b =

@@ -24,7 +24,7 @@ public class AllUsersNameTest {
   public void equalToProjectNameKey() {
     String name = "a-project";
     AllUsersName allUsersName = new AllUsersName(name);
-    Project.NameKey projectName = new Project.NameKey(name);
+    Project.NameKey projectName = Project.nameKey(name);
     assertThat(allUsersName.get()).isEqualTo(projectName.get());
     assertThat(allUsersName).isEqualTo(projectName);
   }

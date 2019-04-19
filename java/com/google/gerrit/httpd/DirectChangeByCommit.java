@@ -47,7 +47,7 @@ class DirectChangeByCommit extends HttpServlet {
       // If exactly one change matches, link to that change.
       // TODO Link to a specific patch set, if one matched.
       ChangeInfo ci = results.iterator().next();
-      token = PageLinks.toChange(new Project.NameKey(ci.project), new Change.Id(ci._number));
+      token = PageLinks.toChange(Project.nameKey(ci.project), new Change.Id(ci._number));
     } else {
       // Otherwise, link to the query page.
       token = PageLinks.toChangeQuery(query);

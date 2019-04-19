@@ -103,7 +103,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   public synchronized SortedSet<Project.NameKey> list() {
     SortedSet<Project.NameKey> names = Sets.newTreeSet();
     for (DfsRepository repo : repos.values()) {
-      names.add(new Project.NameKey(repo.getDescription().getRepositoryName()));
+      names.add(Project.nameKey(repo.getDescription().getRepositoryName()));
     }
     return ImmutableSortedSet.copyOf(names);
   }

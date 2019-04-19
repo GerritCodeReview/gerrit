@@ -38,7 +38,7 @@ public class ProjectAssert {
           .that(Url.decode(info.id))
           .isEqualTo(info.name);
     }
-    return assertThat(Iterables.transform(actual, p -> new Project.NameKey(p.name)));
+    return assertThat(Iterables.transform(actual, p -> Project.nameKey(p.name)));
   }
 
   public static void assertProjectInfo(Project project, ProjectInfo info) {
@@ -47,7 +47,7 @@ public class ProjectAssert {
       assertThat(info.name).isEqualTo(project.getName());
     }
     assertThat(Url.decode(info.id)).isEqualTo(project.getName());
-    Project.NameKey parentName = project.getParent(new Project.NameKey("All-Projects"));
+    Project.NameKey parentName = project.getParent(Project.nameKey("All-Projects"));
     if (parentName != null) {
       assertThat(info.parent).isEqualTo(parentName.get());
     } else {

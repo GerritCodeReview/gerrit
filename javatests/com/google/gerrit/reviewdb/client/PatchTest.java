@@ -34,9 +34,9 @@ public class PatchTest extends GerritBaseTests {
   @Test
   public void parseKey() {
     assertThat(Patch.Key.parse("1,2,foo.txt"))
-        .isEqualTo(Patch.key(PatchSet.id(new Change.Id(1), 2), "foo.txt"));
+        .isEqualTo(Patch.key(PatchSet.id(Change.id(1), 2), "foo.txt"));
     assertThat(Patch.Key.parse("01,02,foo.txt"))
-        .isEqualTo(Patch.key(PatchSet.id(new Change.Id(1), 2), "foo.txt"));
+        .isEqualTo(Patch.key(PatchSet.id(Change.id(1), 2), "foo.txt"));
     assertInvalidKey(null);
     assertInvalidKey("");
     assertInvalidKey("1,2");

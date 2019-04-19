@@ -92,7 +92,7 @@ public final class PatchSet {
       checkIdFormat(changeId != null, str);
       Integer id = Ints.tryParse(parts.get(1));
       checkIdFormat(id != null, str);
-      return PatchSet.id(new Change.Id(changeId), id);
+      return PatchSet.id(Change.id(changeId), id);
     }
 
     private static void checkIdFormat(boolean test, String input) {
@@ -111,7 +111,7 @@ public final class PatchSet {
         return null;
       }
       int changeId = Integer.parseInt(ref.substring(cs, ce));
-      return PatchSet.id(new Change.Id(changeId), patchSetId);
+      return PatchSet.id(Change.id(changeId), patchSetId);
     }
 
     static int fromRef(String ref, int changeIdEnd) {

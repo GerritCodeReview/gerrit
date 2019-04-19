@@ -211,7 +211,7 @@ public class MailProcessor {
       throws UpdateException, RestApiException {
     try (ManualRequestContext ctx = oneOffRequestContext.openAs(sender)) {
       List<ChangeData> changeDataList =
-          queryProvider.get().byLegacyChangeId(new Change.Id(metadata.changeNumber));
+          queryProvider.get().byLegacyChangeId(Change.id(metadata.changeNumber));
       if (changeDataList.size() != 1) {
         logger.atSevere().log(
             "Message %s references unique change %s,"

@@ -33,7 +33,7 @@ public class ChangeMessageKeyProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    ChangeMessage.Key messageKey = ChangeMessage.key(new Change.Id(704), "aabbcc");
+    ChangeMessage.Key messageKey = ChangeMessage.key(Change.id(704), "aabbcc");
 
     Entities.ChangeMessage_Key proto = messageKeyProtoConverter.toProto(messageKey);
 
@@ -47,7 +47,7 @@ public class ChangeMessageKeyProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    ChangeMessage.Key messageKey = ChangeMessage.key(new Change.Id(704), "aabbcc");
+    ChangeMessage.Key messageKey = ChangeMessage.key(Change.id(704), "aabbcc");
 
     ChangeMessage.Key convertedMessageKey =
         messageKeyProtoConverter.fromProto(messageKeyProtoConverter.toProto(messageKey));

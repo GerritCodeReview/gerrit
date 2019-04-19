@@ -87,11 +87,11 @@ public class RebaseUtil {
     // Try parsing the base as a ref string.
     PatchSet.Id basePatchSetId = PatchSet.Id.fromRef(base);
     if (basePatchSetId != null) {
-      Change.Id baseChangeId = basePatchSetId.getParentKey();
+      Change.Id baseChangeId = basePatchSetId.changeId();
       ChangeNotes baseNotes = notesFor(rsrc, baseChangeId);
       if (baseNotes != null) {
         return Base.create(
-            notesFor(rsrc, basePatchSetId.getParentKey()), psUtil.get(baseNotes, basePatchSetId));
+            notesFor(rsrc, basePatchSetId.changeId()), psUtil.get(baseNotes, basePatchSetId));
       }
     }
 

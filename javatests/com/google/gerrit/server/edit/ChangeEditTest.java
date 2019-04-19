@@ -28,7 +28,7 @@ public class ChangeEditTest extends GerritBaseTests {
   public void changeEditRef() throws Exception {
     Account.Id accountId = Account.id(1000042);
     Change.Id changeId = new Change.Id(56414);
-    PatchSet.Id psId = new PatchSet.Id(changeId, 50);
+    PatchSet.Id psId = PatchSet.id(changeId, 50);
     String refName = RefNames.refsEdit(accountId, changeId, psId);
     assertEquals("refs/users/42/1000042/edit-56414/50", refName);
   }

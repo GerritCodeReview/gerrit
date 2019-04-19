@@ -88,7 +88,7 @@ public class DeleteDraftComment
       if (!maybeComment.isPresent()) {
         return false; // Nothing to do.
       }
-      PatchSet.Id psId = new PatchSet.Id(ctx.getChange().getId(), key.patchSetId);
+      PatchSet.Id psId = PatchSet.id(ctx.getChange().getId(), key.patchSetId);
       PatchSet ps = psUtil.get(ctx.getNotes(), psId);
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);

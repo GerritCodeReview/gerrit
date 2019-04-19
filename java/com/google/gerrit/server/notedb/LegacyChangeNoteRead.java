@@ -124,7 +124,7 @@ public class LegacyChangeNoteRead {
       boolean isForBase,
       Integer parentNumber)
       throws ConfigInvalidException {
-    Change.Id changeId = psId.getParentKey();
+    Change.Id changeId = psId.changeId();
 
     // Check if there is a new file.
     boolean newFile =
@@ -285,7 +285,7 @@ public class LegacyChangeNoteRead {
     }
     checkResult(patchSetId, "patchset id", changeId);
     curr.value = endOfLine;
-    return new PatchSet.Id(changeId, patchSetId);
+    return PatchSet.id(changeId, patchSetId);
   }
 
   private static Integer parseParentNumber(byte[] note, MutableInteger curr, Change.Id changeId)

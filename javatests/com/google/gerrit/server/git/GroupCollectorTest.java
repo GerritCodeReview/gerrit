@@ -285,7 +285,7 @@ public class GroupCollectorTest extends GerritBaseTests {
   // TODO(dborowitz): Tests for octopus merges.
 
   private static PatchSet.Id psId(int c, int p) {
-    return new PatchSet.Id(new Change.Id(c), p);
+    return PatchSet.id(new Change.Id(c), p);
   }
 
   private RevWalk newWalk(ObjectId start, ObjectId branchTip) throws Exception {

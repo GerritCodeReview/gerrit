@@ -420,8 +420,7 @@ public class ConsistencyChecker {
           continue;
         }
         try {
-          Change c =
-              notesFactory.createChecked(change().getProject(), psId.getParentKey()).getChange();
+          Change c = notesFactory.createChecked(change().getProject(), psId.changeId()).getChange();
           if (!c.getDest().equals(change().getDest())) {
             continue;
           }
@@ -640,7 +639,7 @@ public class ConsistencyChecker {
     try (BatchUpdate bu = newBatchUpdate()) {
       bu.setRepository(repo, rw, oi);
       for (DeletePatchSetFromDbOp op : ops) {
-        checkArgument(op.psId.getParentKey().equals(notes.getChangeId()));
+        checkArgument(op.psId.changeId().equals(notes.getChangeId()));
         bu.addOp(notes.getChangeId(), op);
       }
       bu.addOp(notes.getChangeId(), new UpdateCurrentPatchSetOp(ops));
@@ -652,7 +651,7 @@ public class ConsistencyChecker {
       }
     } catch (UpdateException | RestApiException e) {
       String msg = "Error deleting patch set";
-      logger.atWarning().withCause(e).log("%s of change %s", msg, ops.get(0).psId.getParentKey());
+      logger.atWarning().withCause(e).log("%s of change %s", msg, ops.get(0).psId.changeId());
       for (DeletePatchSetFromDbOp op : ops) {
         // Overwrite existing statuses that were set before the transaction was
         // rolled back.

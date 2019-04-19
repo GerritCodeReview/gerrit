@@ -28,14 +28,14 @@ public enum PatchSetIdProtoConverter implements ProtoConverter<Entities.PatchSet
   @Override
   public Entities.PatchSet_Id toProto(PatchSet.Id patchSetId) {
     return Entities.PatchSet_Id.newBuilder()
-        .setChangeId(changeIdConverter.toProto(patchSetId.getParentKey()))
-        .setPatchSetId(patchSetId.get())
+        .setChangeId(changeIdConverter.toProto(patchSetId.changeId()))
+        .setId(patchSetId.get())
         .build();
   }
 
   @Override
   public PatchSet.Id fromProto(Entities.PatchSet_Id proto) {
-    return new PatchSet.Id(changeIdConverter.fromProto(proto.getChangeId()), proto.getPatchSetId());
+    return PatchSet.id(changeIdConverter.fromProto(proto.getChangeId()), proto.getId());
   }
 
   @Override

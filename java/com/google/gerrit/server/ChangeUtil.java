@@ -83,7 +83,7 @@ public class ChangeUtil {
     Set<PatchSet.Id> existing =
         changeRefNames
             .map(PatchSet.Id::fromRef)
-            .filter(psId -> psId != null && psId.getParentKey().equals(id.getParentKey()))
+            .filter(psId -> psId != null && psId.changeId().equals(id.changeId()))
             .collect(toSet());
     PatchSet.Id next = nextPatchSetId(id);
     while (existing.contains(next)) {
@@ -103,7 +103,7 @@ public class ChangeUtil {
    * @return next patch set ID for the same change, incrementing by 1.
    */
   public static PatchSet.Id nextPatchSetId(PatchSet.Id id) {
-    return new PatchSet.Id(id.getParentKey(), id.get() + 1);
+    return PatchSet.id(id.changeId(), id.get() + 1);
   }
 
   /**
@@ -116,7 +116,7 @@ public class ChangeUtil {
    */
   public static PatchSet.Id nextPatchSetId(Repository git, PatchSet.Id id) throws IOException {
     return nextPatchSetIdFromChangeRefs(
-        git.getRefDatabase().getRefsByPrefix(id.getParentKey().toRefPrefix()).stream()
+        git.getRefDatabase().getRefsByPrefix(id.changeId().toRefPrefix()).stream()
             .map(Ref::getName),
         id);
   }

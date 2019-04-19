@@ -259,7 +259,7 @@ public class MailProcessor {
         return;
       }
 
-      Op o = new Op(new PatchSet.Id(cd.getId(), metadata.patchSet), parsedComments, message.id());
+      Op o = new Op(PatchSet.id(cd.getId(), metadata.patchSet), parsedComments, message.id());
       BatchUpdate batchUpdate = buf.create(project, ctx.getUser(), TimeUtil.nowTs());
       batchUpdate.addOp(cd.getId(), o);
       batchUpdate.execute();
@@ -362,7 +362,7 @@ public class MailProcessor {
       if (mailComment.getInReplyTo() != null) {
         return psUtil.get(
             ctx.getNotes(),
-            new PatchSet.Id(ctx.getChange().getId(), mailComment.getInReplyTo().key.patchSetId));
+            PatchSet.id(ctx.getChange().getId(), mailComment.getInReplyTo().key.patchSetId));
       }
       return current;
     }

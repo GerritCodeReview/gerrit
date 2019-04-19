@@ -172,7 +172,7 @@ public class MergedByPushOp implements BatchUpdateOp {
                   public void run() {
                     try {
                       MergedSender cm =
-                          mergedSenderFactory.create(ctx.getProject(), psId.getParentKey());
+                          mergedSenderFactory.create(ctx.getProject(), psId.changeId());
                       cm.setFrom(ctx.getAccountId());
                       cm.setPatchSet(patchSet, info);
                       cm.send();

@@ -34,7 +34,7 @@ import org.junit.Test;
 
 public class IgnoreSelfApprovalRuleTest extends GerritBaseTests {
   private static final Change.Id CHANGE_ID = new Change.Id(100);
-  private static final PatchSet.Id PS_ID = new PatchSet.Id(CHANGE_ID, 1);
+  private static final PatchSet.Id PS_ID = PatchSet.id(CHANGE_ID, 1);
   private static final LabelType VERIFIED = makeLabel("Verified");
   private static final Account.Id USER1 = makeAccount(100001);
 

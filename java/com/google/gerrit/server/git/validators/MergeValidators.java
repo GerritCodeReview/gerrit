@@ -295,8 +295,7 @@ public class MergeValidators {
       }
 
       ChangeData cd =
-          changeDataFactory.create(
-              destProject.getProject().getNameKey(), patchSetId.getParentKey());
+          changeDataFactory.create(destProject.getProject().getNameKey(), patchSetId.changeId());
       try {
         if (!cd.currentFilePaths().contains(AccountProperties.ACCOUNT_CONFIG)) {
           return;

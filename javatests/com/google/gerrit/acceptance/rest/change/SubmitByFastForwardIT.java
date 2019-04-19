@@ -87,7 +87,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     PushOneCommit.Result change1 = createChange();
     PushOneCommit.Result change2 = createChange();
 
-    Change.Id id1 = change1.getPatchSetId().getParentKey();
+    Change.Id id1 = change1.getPatchSetId().changeId();
     submitWithConflict(
         change2.getChangeId(),
         "Failed to submit 2 changes due to the following problems:\n"

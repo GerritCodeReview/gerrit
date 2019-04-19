@@ -57,7 +57,7 @@ public final class PatchLineComment {
 
   public static PatchLineComment from(
       Change.Id changeId, PatchLineComment.Status status, Comment c) {
-    Patch.Key patchKey = Patch.key(new PatchSet.Id(changeId, c.key.patchSetId), c.key.filename);
+    Patch.Key patchKey = Patch.key(PatchSet.id(changeId, c.key.patchSetId), c.key.filename);
     PatchLineComment plc =
         new PatchLineComment(
             patchKey, c.key.uuid, c.lineNbr, c.author.getId(), c.parentUuid, c.writtenOn);

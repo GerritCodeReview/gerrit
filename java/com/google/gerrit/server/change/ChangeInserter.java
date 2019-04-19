@@ -168,7 +168,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.reviewerAdder = reviewerAdder;
 
     this.changeId = changeId;
-    this.psId = new PatchSet.Id(changeId, INITIAL_PATCH_SET_ID);
+    this.psId = PatchSet.id(changeId, INITIAL_PATCH_SET_ID);
     this.commitId = commitId.copy();
     this.refName = refName;
     this.reviewerInputs = ImmutableList.of();

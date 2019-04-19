@@ -256,7 +256,7 @@ class RelatedChangesSorter {
     }
 
     Change.Id id() {
-      return psId().getParentKey();
+      return psId().changeId();
     }
 
     @Override

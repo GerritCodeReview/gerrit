@@ -204,7 +204,7 @@ public class GetDiff implements RestReadView<FileResource> {
       List<DiffWebLinkInfo> links =
           webLinks.getDiffLinks(
               state.getName(),
-              resource.getPatchKey().getParentKey().getParentKey().get(),
+              resource.getPatchKey().getParentKey().changeId().get(),
               basePatchSet != null ? basePatchSet.getId().get() : null,
               revA,
               MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName()),

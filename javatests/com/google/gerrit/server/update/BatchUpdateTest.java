@@ -124,8 +124,8 @@ public class BatchUpdateTest extends GerritBaseTests {
 
     ObjectId oldMetaId = getMetaId(id);
     try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
-      bu.addOp(id, new AddMessageOp("Update on PS1", new PatchSet.Id(id, 1)));
-      bu.addOp(id, new AddMessageOp("Update on PS2", new PatchSet.Id(id, 2)));
+      bu.addOp(id, new AddMessageOp("Update on PS1", PatchSet.id(id, 1)));
+      bu.addOp(id, new AddMessageOp("Update on PS2", PatchSet.id(id, 2)));
       try {
         bu.execute();
         assert_().fail("expected ResourceConflictException");
@@ -193,7 +193,7 @@ public class BatchUpdateTest extends GerritBaseTests {
     Change.Id id = createChangeWithTwoPatchSets(MAX_UPDATES - 1);
     ObjectId oldMetaId = getMetaId(id);
     try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
-      bu.addOp(id, new AddMessageOp("Message on PS1", new PatchSet.Id(id, 1)));
+      bu.addOp(id, new AddMessageOp("Message on PS1", PatchSet.id(id, 1)));
       bu.addOp(id, new SubmitOp());
       bu.execute();
     }
@@ -258,7 +258,7 @@ public class BatchUpdateTest extends GerritBaseTests {
       bu.addOp(
           id,
           patchSetInserterFactory
-              .create(notes, new PatchSet.Id(id, 2), commitId)
+              .create(notes, PatchSet.id(id, 2), commitId)
               .setMessage("Add PS2"));
       bu.execute();
     }

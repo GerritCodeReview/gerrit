@@ -227,7 +227,7 @@ public class ChangeData {
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
             null, project, id, null, null);
-    cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
+    cd.currentPatchSet = new PatchSet(PatchSet.id(id, currentPatchSetId));
     return cd;
   }
 

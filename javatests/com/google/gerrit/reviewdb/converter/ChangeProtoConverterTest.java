@@ -46,7 +46,7 @@ public class ChangeProtoConverterTest {
     change.setLastUpdatedOn(new Timestamp(1234567L));
     change.setStatus(Change.Status.MERGED);
     change.setCurrentPatchSet(
-        new PatchSet.Id(new Change.Id(14), 23), "subject XYZ", "original subject ABC");
+        PatchSet.id(new Change.Id(14), 23), "subject XYZ", "original subject ABC");
     change.setTopic("my topic");
     change.setSubmissionId("submission ID 234");
     change.setAssignee(Account.id(100001));
@@ -130,7 +130,7 @@ public class ChangeProtoConverterTest {
             Branch.nameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
     // O as ID actually means that no current patch set is present.
-    change.setCurrentPatchSet(new PatchSet.Id(new Change.Id(14), 0), null, null);
+    change.setCurrentPatchSet(PatchSet.id(new Change.Id(14), 0), null, null);
 
     Entities.Change proto = changeProtoConverter.toProto(change);
 
@@ -167,7 +167,7 @@ public class ChangeProtoConverterTest {
             Account.id(35),
             Branch.nameKey(new Project.NameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
-    change.setCurrentPatchSet(new PatchSet.Id(new Change.Id(14), 23), "subject ABC", null);
+    change.setCurrentPatchSet(PatchSet.id(new Change.Id(14), 23), "subject ABC", null);
 
     Entities.Change proto = changeProtoConverter.toProto(change);
 
@@ -207,7 +207,7 @@ public class ChangeProtoConverterTest {
     change.setLastUpdatedOn(new Timestamp(1234567L));
     change.setStatus(Change.Status.MERGED);
     change.setCurrentPatchSet(
-        new PatchSet.Id(new Change.Id(14), 23), "subject XYZ", "original subject ABC");
+        PatchSet.id(new Change.Id(14), 23), "subject XYZ", "original subject ABC");
     change.setTopic("my topic");
     change.setSubmissionId("submission ID 234");
     change.setAssignee(Account.id(100001));

@@ -14,8 +14,12 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
+import com.google.auto.value.AutoValue;
+import com.google.common.base.Splitter;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
-import com.google.gwtorm.client.IntKey;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,46 +78,25 @@ public final class PatchSet {
     return groups;
   }
 
-  public static class Id extends IntKey<Change.Id> {
-    private static final long serialVersionUID = 1L;
+  public static Id id(Change.Id changeId, int id) {
+    return new AutoValue_PatchSet_Id(changeId, id);
+  }
 
-    public Change.Id changeId;
-
-    public int patchSetId;
-
-    public Id() {
-      changeId = new Change.Id();
-    }
-
-    public Id(Change.Id change, int id) {
-      this.changeId = change;
-      this.patchSetId = id;
-    }
-
-    @Override
-    public Change.Id getParentKey() {
-      return changeId;
-    }
-
-    @Override
-    public int get() {
-      return patchSetId;
-    }
-
-    @Override
-    protected void set(int newValue) {
-      patchSetId = newValue;
-    }
-
-    public String toRefName() {
-      return changeId.refPrefixBuilder().append(patchSetId).toString();
-    }
-
+  @AutoValue
+  public abstract static class Id {
     /** Parse a PatchSet.Id out of a string representation. */
     public static Id parse(String str) {
-      final Id r = new Id();
-      r.fromString(str);
-      return r;
+      List<String> parts = Splitter.on(',').splitToList(str);
+      checkIdFormat(parts.size() == 2, str);
+      Integer changeId = Ints.tryParse(parts.get(0));
+      checkIdFormat(changeId != null, str);
+      Integer id = Ints.tryParse(parts.get(1));
+      checkIdFormat(id != null, str);
+      return PatchSet.id(new Change.Id(changeId), id);
+    }
+
+    private static void checkIdFormat(boolean test, String input) {
+      checkArgument(test, "invalid patch set ID: %s", input);
     }
 
     /** Parse a PatchSet.Id from a {@link PatchSet#getRefName()} result. */
@@ -128,7 +111,7 @@ public final class PatchSet {
         return null;
       }
       int changeId = Integer.parseInt(ref.substring(cs, ce));
-      return new PatchSet.Id(new Change.Id(changeId), patchSetId);
+      return PatchSet.id(new Change.Id(changeId), patchSetId);
     }
 
     static int fromRef(String ref, int changeIdEnd) {
@@ -145,12 +128,29 @@ public final class PatchSet {
       return Integer.parseInt(ref.substring(ps));
     }
 
-    public String getId() {
-      return toId(patchSetId);
-    }
-
     public static String toId(int number) {
       return number == 0 ? "edit" : String.valueOf(number);
+    }
+
+    public String getId() {
+      return toId(id());
+    }
+
+    public abstract Change.Id changeId();
+
+    abstract int id();
+
+    public int get() {
+      return id();
+    }
+
+    public String toRefName() {
+      return changeId().refPrefixBuilder().append(id()).toString();
+    }
+
+    @Override
+    public String toString() {
+      return changeId().toString() + ',' + id();
     }
   }
 

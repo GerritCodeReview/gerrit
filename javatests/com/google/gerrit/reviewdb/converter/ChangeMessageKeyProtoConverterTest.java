@@ -33,7 +33,7 @@ public class ChangeMessageKeyProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    ChangeMessage.Key messageKey = new ChangeMessage.Key(new Change.Id(704), "aabbcc");
+    ChangeMessage.Key messageKey = ChangeMessage.key(new Change.Id(704), "aabbcc");
 
     Entities.ChangeMessage_Key proto = messageKeyProtoConverter.toProto(messageKey);
 
@@ -47,7 +47,7 @@ public class ChangeMessageKeyProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    ChangeMessage.Key messageKey = new ChangeMessage.Key(new Change.Id(704), "aabbcc");
+    ChangeMessage.Key messageKey = ChangeMessage.key(new Change.Id(704), "aabbcc");
 
     ChangeMessage.Key convertedMessageKey =
         messageKeyProtoConverter.fromProto(messageKeyProtoConverter.toProto(messageKey));
@@ -72,9 +72,9 @@ public class ChangeMessageKeyProtoConverterTest {
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
-  public void fieldsExistAsExpected() {
+  public void methodsExistAsExpected() {
     assertThatSerializedClass(ChangeMessage.Key.class)
-        .hasFields(
+        .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
                 .put("changeId", Change.Id.class)
                 .put("uuid", String.class)

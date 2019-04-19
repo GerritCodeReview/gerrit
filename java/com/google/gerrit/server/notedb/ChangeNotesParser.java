@@ -690,7 +690,7 @@ class ChangeNotesParser {
 
     ChangeMessage changeMessage =
         new ChangeMessage(
-            new ChangeMessage.Key(psId.getParentKey(), commit.name()), accountId, ts, psId);
+            ChangeMessage.key(psId.getParentKey(), commit.name()), accountId, ts, psId);
     changeMessage.setMessage(changeMsgString.get());
     changeMessage.setTag(tag);
     changeMessage.setRealAuthor(realAccountId);

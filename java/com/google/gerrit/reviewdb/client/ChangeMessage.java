@@ -14,43 +14,22 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
-import com.google.gwtorm.client.StringKey;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 /** A message attached to a {@link Change}. */
 public final class ChangeMessage {
-  public static class Key extends StringKey<Change.Id> {
-    private static final long serialVersionUID = 1L;
+  public static Key key(Change.Id changeId, String uuid) {
+    return new AutoValue_ChangeMessage_Key(changeId, uuid);
+  }
 
-    protected Change.Id changeId;
+  @AutoValue
+  public abstract static class Key {
+    public abstract Change.Id changeId();
 
-    protected String uuid;
-
-    protected Key() {
-      changeId = new Change.Id();
-    }
-
-    public Key(Change.Id change, String uuid) {
-      this.changeId = change;
-      this.uuid = uuid;
-    }
-
-    @Override
-    public Change.Id getParentKey() {
-      return changeId;
-    }
-
-    @Override
-    public String get() {
-      return uuid;
-    }
-
-    @Override
-    public void set(String newValue) {
-      uuid = newValue;
-    }
+    public abstract String uuid();
   }
 
   protected Key key;

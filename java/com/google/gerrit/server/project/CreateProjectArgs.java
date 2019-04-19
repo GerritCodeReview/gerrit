@@ -61,7 +61,7 @@ public class CreateProjectArgs {
   }
 
   public void setProjectName(String n) {
-    projectName = n != null ? new Project.NameKey(n) : null;
+    projectName = n != null ? Project.nameKey(n) : null;
   }
 
   public void setProjectName(Project.NameKey n) {

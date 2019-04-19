@@ -58,8 +58,8 @@ public class WatchConfigTest implements ValidationError.Sink {
 
     assertThat(validationErrors).isEmpty();
 
-    Project.NameKey myProject = new Project.NameKey("myProject");
-    Project.NameKey otherProject = new Project.NameKey("otherProject");
+    Project.NameKey myProject = Project.nameKey("myProject");
+    Project.NameKey otherProject = Project.nameKey("otherProject");
     Map<ProjectWatchKey, Set<NotifyType>> expectedProjectWatches = new HashMap<>();
     expectedProjectWatches.put(
         ProjectWatchKey.create(myProject, null),

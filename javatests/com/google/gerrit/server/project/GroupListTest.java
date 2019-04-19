@@ -38,7 +38,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GroupListTest extends GerritBaseTests {
-  private static final Project.NameKey PROJECT = new Project.NameKey("project");
+  private static final Project.NameKey PROJECT = Project.nameKey("project");
   private static final String TEXT =
       "# UUID                                  \tGroup Name\n"
           + "#\n"

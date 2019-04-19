@@ -131,8 +131,7 @@ public class StalenessChecker {
       String s = new String(b, UTF_8);
       List<String> parts = Splitter.on(':').splitToList(s);
       RefStatePattern.check(parts.size() == 2, s);
-      result.put(
-          new Project.NameKey(Url.decode(parts.get(0))), RefStatePattern.create(parts.get(1)));
+      result.put(Project.nameKey(Url.decode(parts.get(0))), RefStatePattern.create(parts.get(1)));
     }
     return result;
   }

@@ -42,7 +42,7 @@ public abstract class RefState {
       String s = new String(b, UTF_8);
       List<String> parts = Splitter.on(':').splitToList(s);
       RefState.check(parts.size() == 3 && !parts.get(0).isEmpty() && !parts.get(1).isEmpty(), s);
-      result.put(new Project.NameKey(parts.get(0)), RefState.create(parts.get(1), parts.get(2)));
+      result.put(Project.nameKey(parts.get(0)), RefState.create(parts.get(1), parts.get(2)));
     }
     return result;
   }

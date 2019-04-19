@@ -117,7 +117,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
           identifiedUser.get(),
           config,
           rsrc.getNameKey(),
-          input.parent == null ? null : new Project.NameKey(input.parent),
+          input.parent == null ? null : Project.nameKey(input.parent),
           !checkedAdmin);
 
       if (!Strings.isNullOrEmpty(input.message)) {

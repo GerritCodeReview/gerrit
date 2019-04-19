@@ -83,7 +83,7 @@ public class RegexPathPredicateTest extends GerritBaseTests {
 
   private static ChangeData change(String... files) {
     Arrays.sort(files);
-    ChangeData cd = ChangeData.createForTest(new Project.NameKey("project"), new Change.Id(1), 1);
+    ChangeData cd = ChangeData.createForTest(Project.nameKey("project"), new Change.Id(1), 1);
     cd.setCurrentFilePaths(Arrays.asList(files));
     return cd;
   }

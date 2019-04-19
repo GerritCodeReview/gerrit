@@ -68,7 +68,7 @@ public class GroupConfigTest extends GerritBaseTests {
 
   @Before
   public void setUp() throws Exception {
-    projectName = new Project.NameKey("Test Repository");
+    projectName = Project.nameKey("Test Repository");
     repository = new InMemoryRepository(new DfsRepositoryDescription("Test Repository"));
     testRepository = new TestRepository<>(repository);
   }
@@ -1556,7 +1556,7 @@ public class GroupConfigTest extends GerritBaseTests {
 
     MetaDataUpdate metaDataUpdate =
         new MetaDataUpdate(
-            GitReferenceUpdated.DISABLED, new Project.NameKey("Test Repository"), repository);
+            GitReferenceUpdated.DISABLED, Project.nameKey("Test Repository"), repository);
     metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);
     metaDataUpdate.getCommitBuilder().setAuthor(serverIdent);
     return metaDataUpdate;

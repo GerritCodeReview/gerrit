@@ -21,7 +21,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeStatus;
-import com.google.gwtorm.client.StandardKeyEncoder;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
@@ -262,7 +261,7 @@ public final class Change {
     // TODO(dborowitz): This hardly seems worth it: why would someone pass a URL-encoded change key?
     // Ideally the standard key() factory method would enforce the format and throw IAE.
     public static Key parse(String str) {
-      return Change.key(new StandardKeyEncoder().decode(str));
+      return Change.key(KeyUtil.decode(str));
     }
 
     abstract String key();

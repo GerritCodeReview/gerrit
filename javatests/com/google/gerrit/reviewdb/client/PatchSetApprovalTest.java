@@ -26,13 +26,13 @@ public class PatchSetApprovalTest extends GerritBaseTests {
   public void keyEquality() {
     PatchSetApproval.Key k1 =
         PatchSetApproval.key(
-            PatchSet.id(new Change.Id(1), 2), Account.id(3), LabelId.create("My-Label"));
+            PatchSet.id(Change.id(1), 2), Account.id(3), LabelId.create("My-Label"));
     PatchSetApproval.Key k2 =
         PatchSetApproval.key(
-            PatchSet.id(new Change.Id(1), 2), Account.id(3), LabelId.create("My-Label"));
+            PatchSet.id(Change.id(1), 2), Account.id(3), LabelId.create("My-Label"));
     PatchSetApproval.Key k3 =
         PatchSetApproval.key(
-            PatchSet.id(new Change.Id(1), 2), Account.id(3), LabelId.create("Other-Label"));
+            PatchSet.id(Change.id(1), 2), Account.id(3), LabelId.create("Other-Label"));
 
     assertThat(k2).isEqualTo(k1);
     assertThat(k3).isNotEqualTo(k1);

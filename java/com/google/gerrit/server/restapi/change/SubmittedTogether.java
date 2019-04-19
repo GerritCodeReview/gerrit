@@ -57,7 +57,8 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.SUBMITTABLE);
 
   private static final Comparator<ChangeData> COMPARATOR =
-      Comparator.comparing(ChangeData::project).thenComparing(cd -> cd.getId().id, reverseOrder());
+      Comparator.comparing(ChangeData::project)
+          .thenComparing(cd -> cd.getId().get(), reverseOrder());
 
   private final ChangeJson.Factory json;
   private final Provider<InternalChangeQuery> queryProvider;

@@ -54,7 +54,7 @@ public final class Patch {
       checkKeyFormat(changeId != null, str);
       Integer patchSetNum = Ints.tryParse(parts.get(1));
       checkKeyFormat(patchSetNum != null, str);
-      return key(PatchSet.id(new Change.Id(changeId), patchSetNum), parts.get(2));
+      return key(PatchSet.id(Change.id(changeId), patchSetNum), parts.get(2));
     }
 
     private static void checkKeyFormat(boolean test, String input) {

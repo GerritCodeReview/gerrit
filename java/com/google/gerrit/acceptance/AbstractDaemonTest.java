@@ -1087,7 +1087,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected PatchSet getPatchSet(PatchSet.Id psId) {
-    return changeDataFactory.create(project, psId.getParentKey()).patchSet(psId);
+    return changeDataFactory.create(project, psId.changeId()).patchSet(psId);
   }
 
   protected IdentifiedUser user(TestAccount testAccount) {
@@ -1107,7 +1107,7 @@ public abstract class AbstractDaemonTest {
 
   protected RevisionResource parseRevisionResource(PushOneCommit.Result r) throws Exception {
     PatchSet.Id psId = r.getPatchSetId();
-    return parseRevisionResource(psId.getParentKey().toString(), psId.get());
+    return parseRevisionResource(psId.changeId().toString(), psId.get());
   }
 
   protected ChangeResource parseChangeResource(String changeId) throws Exception {

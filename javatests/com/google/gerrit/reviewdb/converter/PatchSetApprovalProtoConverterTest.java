@@ -41,9 +41,7 @@ public class PatchSetApprovalProtoConverterTest {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
             PatchSetApproval.key(
-                new PatchSet.Id(new Change.Id(42), 14),
-                Account.id(100013),
-                LabelId.create("label-8")),
+                PatchSet.id(new Change.Id(42), 14), Account.id(100013), LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
     patchSetApproval.setTag("tag-21");
@@ -59,7 +57,7 @@ public class PatchSetApprovalProtoConverterTest {
                     .setPatchSetId(
                         Entities.PatchSet_Id.newBuilder()
                             .setChangeId(Entities.Change_Id.newBuilder().setId(42))
-                            .setPatchSetId(14))
+                            .setId(14))
                     .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
                     .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
             .setValue(456)
@@ -76,9 +74,7 @@ public class PatchSetApprovalProtoConverterTest {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
             PatchSetApproval.key(
-                new PatchSet.Id(new Change.Id(42), 14),
-                Account.id(100013),
-                LabelId.create("label-8")),
+                PatchSet.id(new Change.Id(42), 14), Account.id(100013), LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
 
@@ -91,7 +87,7 @@ public class PatchSetApprovalProtoConverterTest {
                     .setPatchSetId(
                         Entities.PatchSet_Id.newBuilder()
                             .setChangeId(Entities.Change_Id.newBuilder().setId(42))
-                            .setPatchSetId(14))
+                            .setId(14))
                     .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
                     .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
             .setValue(456)
@@ -107,9 +103,7 @@ public class PatchSetApprovalProtoConverterTest {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
             PatchSetApproval.key(
-                new PatchSet.Id(new Change.Id(42), 14),
-                Account.id(100013),
-                LabelId.create("label-8")),
+                PatchSet.id(new Change.Id(42), 14), Account.id(100013), LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
     patchSetApproval.setTag("tag-21");
@@ -126,9 +120,7 @@ public class PatchSetApprovalProtoConverterTest {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
             PatchSetApproval.key(
-                new PatchSet.Id(new Change.Id(42), 14),
-                Account.id(100013),
-                LabelId.create("label-8")),
+                PatchSet.id(new Change.Id(42), 14), Account.id(100013), LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
 
@@ -148,13 +140,13 @@ public class PatchSetApprovalProtoConverterTest {
                     .setPatchSetId(
                         Entities.PatchSet_Id.newBuilder()
                             .setChangeId(Entities.Change_Id.newBuilder().setId(42))
-                            .setPatchSetId(14))
+                            .setId(14))
                     .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
                     .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
             .build();
     PatchSetApproval patchSetApproval = protoConverter.fromProto(proto);
 
-    assertThat(patchSetApproval.getPatchSetId()).isEqualTo(new PatchSet.Id(new Change.Id(42), 14));
+    assertThat(patchSetApproval.getPatchSetId()).isEqualTo(PatchSet.id(new Change.Id(42), 14));
     assertThat(patchSetApproval.getAccountId()).isEqualTo(Account.id(100013));
     assertThat(patchSetApproval.getLabelId()).isEqualTo(LabelId.create("label-8"));
     // Default values for unset protobuf fields which can't be unset in the entity object.
@@ -172,7 +164,7 @@ public class PatchSetApprovalProtoConverterTest {
                     .setPatchSetId(
                         Entities.PatchSet_Id.newBuilder()
                             .setChangeId(Entities.Change_Id.newBuilder().setId(42))
-                            .setPatchSetId(14))
+                            .setId(14))
                     .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
                     .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
             .setValue(456)

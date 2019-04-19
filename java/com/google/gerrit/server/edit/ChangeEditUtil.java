@@ -122,7 +122,7 @@ public class ChangeEditUtil {
       String[] refNames = new String[n];
       for (int i = n; i > 0; i--) {
         refNames[i - 1] =
-            RefNames.refsEdit(u.getAccountId(), change.getId(), new PatchSet.Id(change.getId(), i));
+            RefNames.refsEdit(u.getAccountId(), change.getId(), PatchSet.id(change.getId(), i));
       }
       Ref ref = repo.getRefDatabase().firstExactRef(refNames);
       if (ref == null) {
@@ -223,7 +223,7 @@ public class ChangeEditUtil {
       int pos = ref.getName().lastIndexOf('/');
       checkArgument(pos > 0, "invalid edit ref: %s", ref.getName());
       String psId = ref.getName().substring(pos + 1);
-      return psUtil.get(notes, new PatchSet.Id(notes.getChange().getId(), Integer.parseInt(psId)));
+      return psUtil.get(notes, PatchSet.id(notes.getChange().getId(), Integer.parseInt(psId)));
     } catch (StorageException | NumberFormatException e) {
       throw new IOException(e);
     }

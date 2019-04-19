@@ -160,7 +160,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
           "base revision is missing from the destination branch: " + str);
     }
     PatchSet.Id baseId = base.patchSet().getId();
-    if (change.getId().equals(baseId.getParentKey())) {
+    if (change.getId().equals(baseId.changeId())) {
       throw new ResourceConflictException("cannot rebase change onto itself");
     }
 

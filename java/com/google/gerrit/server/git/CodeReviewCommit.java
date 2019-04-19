@@ -48,7 +48,7 @@ public class CodeReviewCommit extends RevCommit {
       Ordering.natural()
           .onResultOf(
               (CodeReviewCommit c) ->
-                  c.getPatchsetId() != null ? c.getPatchsetId().getParentKey().get() : null)
+                  c.getPatchsetId() != null ? c.getPatchsetId().changeId().get() : null)
           .nullsFirst();
 
   public static CodeReviewRevWalk newRevWalk(Repository repo) {

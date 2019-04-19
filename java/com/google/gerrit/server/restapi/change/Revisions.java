@@ -141,8 +141,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   }
 
   private List<RevisionResource> byLegacyPatchSetId(ChangeResource change, String id) {
-    PatchSet ps =
-        psUtil.get(change.getNotes(), new PatchSet.Id(change.getId(), Integer.parseInt(id)));
+    PatchSet ps = psUtil.get(change.getNotes(), PatchSet.id(change.getId(), Integer.parseInt(id)));
     if (ps != null) {
       return Collections.singletonList(new RevisionResource(change, ps));
     }
@@ -153,7 +152,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       throws AuthException, IOException {
     Optional<ChangeEdit> edit = editUtil.byChange(change.getNotes(), change.getUser());
     if (edit.isPresent()) {
-      PatchSet ps = new PatchSet(new PatchSet.Id(change.getId(), 0));
+      PatchSet ps = new PatchSet(PatchSet.id(change.getId(), 0));
       RevId editRevId = new RevId(ObjectId.toString(edit.get().getEditCommit()));
       ps.setRevision(editRevId);
       if (revid == null || editRevId.equals(revid)) {

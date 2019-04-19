@@ -276,7 +276,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
     Change.Id id = new Change.Id(gApi.changes().create(ci).get()._number);
 
     requestScopeOperations.setApiUser(admin.id());
-    ObjectId ps1Id = forceFetch(new PatchSet.Id(id, 1).toRefName());
+    ObjectId ps1Id = forceFetch(PatchSet.id(id, 1).toRefName());
     ObjectId ps2Id = testRepo.amend(ps1Id).add("file", "content").create();
     PushResult r = push(ps2Id.name() + ":refs/for/master");
     assertThat(r)

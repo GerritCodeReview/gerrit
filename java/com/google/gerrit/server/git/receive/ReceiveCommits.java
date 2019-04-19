@@ -2903,7 +2903,7 @@ class ReceiveCommits {
 
     private void addOps(BatchUpdate bu) {
       bu.addOp(
-          psId.getParentKey(),
+          psId.changeId(),
           new BatchUpdateOp() {
             @Override
             public boolean updateChange(ChangeContext ctx) {
@@ -2998,7 +2998,7 @@ class ReceiveCommits {
           PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
           if (psId != null) {
             refsById.put(obj, ref);
-            refsByChange.put(psId.getParentKey(), ref);
+            refsByChange.put(psId.changeId(), ref);
           }
         }
       }
@@ -3164,12 +3164,12 @@ class ReceiveCommits {
 
                 for (Ref ref : byCommit.get(c.copy())) {
                   PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
-                  Optional<ChangeNotes> notes = getChangeNotes(psId.getParentKey());
+                  Optional<ChangeNotes> notes = getChangeNotes(psId.changeId());
                   if (notes.isPresent() && notes.get().getChange().getDest().equals(branch)) {
                     existingPatchSets++;
                     bu.addOp(notes.get().getChangeId(), setPrivateOpFactory.create(false, null));
                     bu.addOp(
-                        psId.getParentKey(),
+                        psId.changeId(),
                         mergedByPushOpFactory.create(requestScopePropagator, psId, refName));
                     continue COMMIT;
                   }

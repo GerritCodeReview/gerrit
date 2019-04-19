@@ -88,7 +88,7 @@ public class LabelNormalizer {
     List<PatchSetApproval> deleted = Lists.newArrayListWithCapacity(approvals.size());
     LabelTypes labelTypes = projectCache.checkedGet(notes.getProjectName()).getLabelTypes(notes);
     for (PatchSetApproval psa : approvals) {
-      Change.Id changeId = psa.getKey().patchSetId().getParentKey();
+      Change.Id changeId = psa.getKey().patchSetId().changeId();
       checkArgument(
           changeId.equals(notes.getChangeId()),
           "Approval %s does not match change %s",

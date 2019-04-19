@@ -118,7 +118,7 @@ public class CatServlet extends HttpServlet {
       }
     }
 
-    final Change.Id changeId = patchKey.getParentKey().getParentKey();
+    final Change.Id changeId = patchKey.getParentKey().changeId();
     String revision;
     try {
       ChangeNotes notes = changeNotesFactory.createChecked(changeId);

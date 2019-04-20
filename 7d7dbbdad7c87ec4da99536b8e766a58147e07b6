@@ -17,6 +17,24 @@
       "revId": "7d7dbbdad7c87ec4da99536b8e766a58147e07b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9ce2911_f2e41249",
+        "filename": "javatests/com/google/gerrit/mail/data/SimpleTextMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-20T18:03:32Z",
+      "side": 1,
+      "message": "I know it\u0027s not strictly necessary, but I just prefer not having the string \"gwtorm\" anywhere in the tree :)",
+      "parentUuid": "e8bcfd19_c45d31c8",
+      "revId": "7d7dbbdad7c87ec4da99536b8e766a58147e07b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

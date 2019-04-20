@@ -68,7 +68,7 @@ public class StalenessChecker {
     this.indexConfig = indexConfig;
   }
 
-  public boolean isStale(Change.Id id) throws IOException {
+  public boolean isStale(Change.Id id) {
     ChangeIndex i = indexes.getSearchIndex();
     if (i == null) {
       return false; // No index; caller couldn't do anything if it is stale.

@@ -616,7 +616,7 @@ public class ChangeEditModifier {
     return user.newRefLogIdent(timestamp, tz);
   }
 
-  private void reindex(Change change) throws IOException {
+  private void reindex(Change change) {
     indexer.index(change);
   }
 }

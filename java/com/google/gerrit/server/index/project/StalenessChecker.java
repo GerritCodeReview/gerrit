@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
-import java.io.IOException;
 import java.util.Optional;
 
 public class StalenessChecker {
@@ -48,7 +47,7 @@ public class StalenessChecker {
     this.indexConfig = indexConfig;
   }
 
-  public boolean isStale(Project.NameKey project) throws IOException {
+  public boolean isStale(Project.NameKey project) {
     ProjectData projectData = projectCache.get(project).toProjectData();
     ProjectIndex i = indexes.getSearchIndex();
     if (i == null) {

@@ -353,7 +353,7 @@ public class ProjectResetter implements AutoCloseable {
   }
 
   /** Evict groups that were modified. */
-  private void evictAndReindexGroups() throws IOException {
+  private void evictAndReindexGroups() {
     if (groupCache != null || groupIndexer != null) {
       Set<AccountGroup.UUID> modifiedGroups =
           new HashSet<>(groupUUIDs(restoredRefsByProject.get(allUsersName)));
@@ -367,7 +367,7 @@ public class ProjectResetter implements AutoCloseable {
     }
   }
 
-  private void evictAndReindexAccount(Account.Id accountId) throws IOException {
+  private void evictAndReindexAccount(Account.Id accountId) {
     if (accountCache != null) {
       accountCache.evict(accountId);
     }
@@ -379,7 +379,7 @@ public class ProjectResetter implements AutoCloseable {
     }
   }
 
-  private void evictAndReindexGroup(AccountGroup.UUID uuid) throws IOException {
+  private void evictAndReindexGroup(AccountGroup.UUID uuid) {
     if (groupCache != null) {
       groupCache.evict(uuid);
     }

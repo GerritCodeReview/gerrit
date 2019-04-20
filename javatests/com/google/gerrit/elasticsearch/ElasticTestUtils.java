@@ -19,7 +19,6 @@ import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.UUID;
 import org.eclipse.jgit.lib.Config;
@@ -48,7 +47,7 @@ public final class ElasticTestUtils {
     configure(config, port, prefix, null);
   }
 
-  public static void createAllIndexes(Injector injector) throws IOException {
+  public static void createAllIndexes(Injector injector) {
     Collection<IndexDefinition<?, ?, ?>> indexDefs =
         injector.getInstance(Key.get(new TypeLiteral<Collection<IndexDefinition<?, ?, ?>>>() {}));
     for (IndexDefinition<?, ?, ?> indexDef : indexDefs) {

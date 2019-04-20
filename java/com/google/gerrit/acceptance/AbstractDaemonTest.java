@@ -363,7 +363,7 @@ public abstract class AbstractDaemonTest {
     initSsh();
   }
 
-  protected void evictAndReindexAccount(Account.Id accountId) throws IOException {
+  protected void evictAndReindexAccount(Account.Id accountId) {
     accountCache.evict(accountId);
     accountIndexer.index(accountId);
   }

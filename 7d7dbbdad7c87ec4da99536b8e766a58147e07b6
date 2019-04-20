@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1555724181 -0700\nnonce AC6AUtNjZ+KIAFKRpk+FsBUZRwIUQGnF/TOW+wtMaJDeFz67qpbPC2/Bvr+/+4OpPyJqhJ9+EnIl\n\n0000000000000000000000000000000000000000 7d7dbbdad7c87ec4da99536b8e766a58147e07b6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAly6d5UVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMM4IP/i4u6y+TxiwtMyHp3GjtijCY9IE8\nvg/bUnkTvDSuePY+QRB6yA1FpYP2pFt0dSNjIux3xCIbyQx+3JjFtgHTdo5Vp7Ob\nxLovNlJCzGvq5J+Rv914Jh/FCEBMI64YGVLt3/gATf3O4QkpaQ7xlunUKxy6c3fJ\nLgFwalBTJpFxmCPFNpRwoWAH9Sw4DbjfoH4qNq0k+BkKD0pTOScc4NQxEcjfveZa\nhms28jC9/6wcYpE06T4MAqmWirL6tWb9CAvzoXxH8L2ag8Dba0iUhISYAhb16c8e\nW1wNx7kJr3/EaI5fzPVpOeIZFJbMM7QWVy4Kelwoq+mDg3Jq6WkDuXJ56YzNSbZb\nt7+V+py2eqgoD7CJyT7pkRTFLTF2VPzQYYRb+rUtyZoEJjPv8P8+wgswJXz40aCD\nuZMZzN4OkE2IROU8h8AE3Xz9nKdaMNOKfi/3z/jFnw8r4MxG6OBYJlwLdROzNjcU\nX91Z4V+GnMbdTxLMBuT4GW3LbMPtBVPEjE6EN6LYXSxikp/0gxHnzVinLXa9jrXb\nyLPy0JsBLHHgVCXyrjjro9+qLmG+YTBRXI+Ndbtgk+sfpAxpLRVCZMT1ZID3GEft\ny2MpJQ5BSB6o27GAyTZzalJzCgNv2LAxi9DYsYbmdKYfApIda6xM0iqo9wcEm7y5\n9O5ayTBsTfdaCL8A\n\u003diU7j\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8bcfd19_c45d31c8",
+        "filename": "javatests/com/google/gerrit/mail/data/SimpleTextMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-20T04:47:29Z",
+      "side": 1,
+      "message": "I ran into this one when I was rebasing and fixing up the previous series changes where OrmException is replaced by StorageException.  I didn\u0027t replace it because the text content here is the content of an actual comment historically posted on a gerrit review.",
+      "revId": "7d7dbbdad7c87ec4da99536b8e766a58147e07b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -284,7 +284,7 @@ public class PublicKeyStore implements AutoCloseable {
               new PGPPublicKeyRingCollection(readKeysFromNote(note, null))) {
             long masterKeyId = keyRing.getPublicKey().getKeyID();
             ObjectId masterKeyObjectId = keyObjectId(masterKeyId);
-            saveSubkeyMaping(ins, keyRing, masterKeyId, masterKeyObjectId);
+            saveSubkeyMapping(ins, keyRing, masterKeyId, masterKeyObjectId);
           }
         }
       }
@@ -425,10 +425,10 @@ public class PublicKeyStore implements AutoCloseable {
     ObjectId masterKeyObjectId = keyObjectId(masterKeyId);
     notes.set(masterKeyObjectId, ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
 
-    saveSubkeyMaping(ins, keyRing, masterKeyId, masterKeyObjectId);
+    saveSubkeyMapping(ins, keyRing, masterKeyId, masterKeyObjectId);
   }
 
-  private void saveSubkeyMaping(
+  private void saveSubkeyMapping(
       ObjectInserter ins, PGPPublicKeyRing keyRing, long masterKeyId, ObjectId masterKeyObjectId)
       throws IOException {
     // Subkey handling

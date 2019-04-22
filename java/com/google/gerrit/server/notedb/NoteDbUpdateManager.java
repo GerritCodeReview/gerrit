@@ -91,7 +91,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
           + id
           + " may not exceed "
           + maxUpdates
-          + " updates. It may still be abandoned or submitted.";
+          + " updates. It may still be abandoned or submitted. To continue working on this "
+          + "change, recreate it with a new Change-Id, then abandon this one.";
     }
 
     private static final long serialVersionUID = 1L;

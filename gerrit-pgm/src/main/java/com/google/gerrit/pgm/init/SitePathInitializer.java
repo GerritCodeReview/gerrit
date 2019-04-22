@@ -114,6 +114,8 @@ public class SitePathInitializer {
     extractMailExample("CommentHtml.soy");
     extractMailExample("CommentFooter.soy");
     extractMailExample("CommentFooterHtml.soy");
+    extractMailExample("DeleteKey.soy");
+    extractMailExample("DeleteKeyHtml.soy");
     extractMailExample("DeleteReviewer.soy");
     extractMailExample("DeleteReviewerHtml.soy");
     extractMailExample("DeleteVote.soy");

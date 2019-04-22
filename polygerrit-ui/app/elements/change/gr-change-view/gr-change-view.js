@@ -865,6 +865,12 @@
       // displayed on an earlier change.
       this._showRelatedToggle = false;
 
+      // After setting _showRelatedToggle to false, we must
+      // clear and reload related changes to make sure "Show More"
+      // reappears when needed.
+      this.$.relatedChanges.clear();
+      this.$.relatedChanges.reload();
+
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});
     },

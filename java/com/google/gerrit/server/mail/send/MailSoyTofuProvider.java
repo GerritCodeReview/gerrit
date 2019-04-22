@@ -53,6 +53,8 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
     "DeleteReviewerHtml.soy",
     "DeleteVote.soy",
     "DeleteVoteHtml.soy",
+    "HttpPassword.soy",
+    "HttpPasswordHtml.soy",
     "InboundEmailRejection.soy",
     "InboundEmailRejectionHtml.soy",
     "Footer.soy",

@@ -143,6 +143,7 @@ import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.AddKeySender;
 import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
+import com.google.gerrit.server.mail.send.DeleteKeySender;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.mail.send.FromAddressGenerator;
 import com.google.gerrit.server.mail.send.FromAddressGeneratorProvider;
@@ -258,6 +259,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(AddReviewerSender.Factory.class);
     factory(DeleteReviewerSender.Factory.class);
     factory(AddKeySender.Factory.class);
+    factory(DeleteKeySender.Factory.class);
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);
     factory(ChangeJson.AssistedFactory.class);

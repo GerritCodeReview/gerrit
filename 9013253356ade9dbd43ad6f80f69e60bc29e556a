@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95c17b56_16474c24",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-22T02:23:07Z",
+      "side": 1,
+      "message": "against",
+      "range": {
+        "startLine": 12,
+        "startChar": 23,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "9013253356ade9dbd43ad6f80f69e60bc29e556a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c053313_1a593f36",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-22T02:23:07Z",
+      "side": 1,
+      "message": "If plugin could use the secondary index, the search of LFS object foo users across different projects could be easily implemented using the secondary index.",
+      "range": {
+        "startLine": 35,
+        "startChar": 69,
+        "endLine": 36,
+        "endChar": 63
+      },
+      "revId": "9013253356ade9dbd43ad6f80f69e60bc29e556a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37037b68_2a692363",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-22T02:23:07Z",
+      "side": 1,
+      "message": "Inter Plugin dependencies would be helpful. Delete-project plugin could declare an extension point, like: deleteStorageForProject(project) and lfs plugin could react on this event by removing the LFS data storage directory for this project.",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 18
+      },
+      "revId": "9013253356ade9dbd43ad6f80f69e60bc29e556a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c7dbb94_f7d0d916",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-22T02:23:07Z",
+      "side": 1,
+      "message": "Interesting idea. Everything under .git is something that should take care of JGit? I also wonder why distributed on prem LFS stores like Artifactory are not mentioned in this proposal?",
+      "range": {
+        "startLine": 63,
+        "startChar": 51,
+        "endLine": 63,
+        "endChar": 55
+      },
+      "revId": "9013253356ade9dbd43ad6f80f69e60bc29e556a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f1b614f_989f5355",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-22T02:23:07Z",
+      "side": 1,
+      "message": "It would be great, if this limitation could be lifted.",
+      "range": {
+        "startLine": 82,
+        "startChar": 23,
+        "endLine": 84,
+        "endChar": 11
+      },
+      "revId": "9013253356ade9dbd43ad6f80f69e60bc29e556a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "036423b5_0cbeee05",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-22T02:23:07Z",
+      "side": 1,
+      "message": "Have you considered the work of Google on native LFS support in Git? That was presented in the Talk on Git merge this year in Brussels: [1].\n\n* [1] https://git-merge.com/2019/#native-git-support-for-large-objects",
+      "revId": "9013253356ade9dbd43ad6f80f69e60bc29e556a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

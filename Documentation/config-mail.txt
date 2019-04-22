@@ -65,6 +65,12 @@ The CommentFooter templates will determine the contents of the footer text that
 will be appended to emails related to a user submitting comments on changes.
 See `ChangeSubject.soy`, Comment and ChangeFooter.
 
+=== DeleteKey.soy and DeleteKeyHtml.soy
+
+DeleteKey templates will determine the contents of the email related to SSH and GPG
+keys being deleted from a user account. This notification is not sent when the key
+is administratively added to another user account.
+
 === DeleteVote.soy and DeleteVoteHtml.soy
 
 The DeleteVote templates will determine the contents of the email related to

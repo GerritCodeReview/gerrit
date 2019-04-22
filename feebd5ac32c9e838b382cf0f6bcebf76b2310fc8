@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6288bb06_ca2fa180",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-22T16:15:21Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "367d8df2_0b1ae784",
+      "revId": "feebd5ac32c9e838b382cf0f6bcebf76b2310fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dbcf1b1_35ecf9c0",
         "filename": "java/com/google/gerrit/pgm/init/SitePathInitializer.java",
         "patchSetId": 6

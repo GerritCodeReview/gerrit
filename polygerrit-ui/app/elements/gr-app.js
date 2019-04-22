@@ -92,6 +92,10 @@
         value: 'https://bugs.chromium.org/p/gerrit/issues/entry' +
           '?template=PolyGerrit%20Issue',
       },
+      mobileSearch: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     listeners: {
@@ -448,6 +452,14 @@
     _handleRpcLog(e) {
       this.$.reporting.reportRpcTiming(e.detail.anonymizedUrl,
           e.detail.elapsed);
+    },
+
+    _mobileSearch(e) {
+      if (this.mobileSearch) {
+        this.mobileSearch = false;
+      } else if (!this.mobileSearch) {
+        this.mobileSearch = true;
+      }
     },
   });
 })();

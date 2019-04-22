@@ -155,10 +155,16 @@ limitations under the License.
       <gr-main-header
           id="mainHeader"
           search-query="{{params.query}}"
-          class$="[[_computeShadowClass(_isShadowDom)]]">
+          class$="[[_computeShadowClass(_isShadowDom)]]"
+          on-mobile-search="_mobileSearch">
       </gr-main-header>
     </gr-fixed-panel>
     <main>
+      <gr-smart-search
+          id="search"
+          search-query="{{searchQuery}}"
+          hidden="[[!mobileSearch]]">
+      </gr-smart-search>
       <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
         <gr-change-list-view
             params="[[params]]"

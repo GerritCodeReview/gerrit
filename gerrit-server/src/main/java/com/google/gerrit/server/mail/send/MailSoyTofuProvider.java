@@ -47,6 +47,8 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
     "CommentHtml.soy",
     "CommentFooter.soy",
     "CommentFooterHtml.soy",
+    "DeleteKey.soy",
+    "DeleteKeyHtml.soy",
     "DeleteReviewer.soy",
     "DeleteReviewerHtml.soy",
     "DeleteVote.soy",

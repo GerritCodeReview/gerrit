@@ -17,7 +17,9 @@ package com.google.gerrit.server.restapi.account;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.common.HttpPasswordInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -31,6 +33,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.mail.send.HttpPasswordSender;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -44,6 +47,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class PutHttpPassword implements RestModifyView<AccountResource, HttpPasswordInput> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final int LEN = 31;
   private static final SecureRandom rng;
 
@@ -59,17 +64,20 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
   private final PermissionBackend permissionBackend;
   private final ExternalIds externalIds;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
+  private final HttpPasswordSender.Factory httpPasswordSenderFactory;
 
   @Inject
   PutHttpPassword(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       ExternalIds externalIds,
-      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
+      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
+      HttpPasswordSender.Factory httpPasswordSenderFactory) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.externalIds = externalIds;
     this.accountsUpdateProvider = accountsUpdateProvider;
+    this.httpPasswordSenderFactory = httpPasswordSenderFactory;
   }
 
   @Override
@@ -115,6 +123,15 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
                 u.updateExternalId(
                     ExternalId.createWithPassword(
                         extId.key(), extId.accountId(), extId.email(), newPassword)));
+
+    try {
+      httpPasswordSenderFactory.create(user).send();
+    } catch (EmailException e) {
+      logger.atSevere().withCause(e).log(
+          "Cannot send HttpPassword added, changed or deleted message to %s",
+          user.getAccount().getPreferredEmail());
+    }
+
 
     return Strings.isNullOrEmpty(newPassword) ? Response.none() : Response.ok(newPassword);
   }

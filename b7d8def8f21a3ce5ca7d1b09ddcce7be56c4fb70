@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a4cb32b_5da9cfb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteSshKey.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-22T20:28:15Z",
+      "side": 1,
+      "message": "This is undefined here. You probably want define it like this:\n\n  IdentifiedUser user \u003d rsrc.getUser();\n\non line 71 and then use it on lines: 72, 78 and 81.",
+      "range": {
+        "startLine": 78,
+        "startChar": 57,
+        "endLine": 78,
+        "endChar": 61
+      },
+      "revId": "b7d8def8f21a3ce5ca7d1b09ddcce7be56c4fb70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1234,24 +1234,6 @@ limitations under the License.
         updateHeightSpy = sandbox.spy(element, '_updateRelatedChangeMaxHeight');
       });
 
-      test('_showRelatedToggle is reset when a new change is loaded', () => {
-        element._patchRange = {};
-        assert.isFalse(element._showRelatedToggle);
-        element._showRelatedToggle = true;
-        element._change = {
-          change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-          _number: 42,
-          revisions: {
-            rev1: {_number: 1, commit: {parents: []}},
-          },
-          current_revision: 'rev1',
-          status: 'NEW',
-          labels: {},
-          actions: {},
-        };
-        assert.isFalse(element._showRelatedToggle);
-      });
-
       test('relatedChangesToggle shown height greater than changeInfo height',
           () => {
             assert.isFalse(element.$.relatedChangesToggle.classList

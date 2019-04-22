@@ -323,5 +323,10 @@
     _generateSettingsLink() {
       return this.getBaseUrl() + '/settings/';
     },
+
+    _onMobileSearchTap(e) {
+      e.preventDefault();
+      this.fire('mobile-search', null, {bubbles: false});
+    },
   });
 })();

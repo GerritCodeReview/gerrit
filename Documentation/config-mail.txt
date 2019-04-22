@@ -89,6 +89,12 @@ a user removing a reviewer (with a vote) from a change.  It is a
 The Footer templates will determine the contents of the footer text appended to
 the end of all outgoing emails after the ChangeFooter and CommentFooter.
 
+=== HttpPassword.soy and HttpPasswordHtml.soy
+
+HttpPassword templates will determine the contents of the email related to adding or
+changing a HttpPassword from a user account. This notification is not sent
+when the key is administratively added to another user account.
+
 === Merged.soy and MergedHtml.soy
 
 The Merged templates will determine the contents of the email related to a

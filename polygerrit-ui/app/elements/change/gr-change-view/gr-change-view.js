@@ -863,7 +863,7 @@
 
       // Reset the related changes toggle in the event it was previously
       // displayed on an earlier change.
-      this._showRelatedToggle = false;
+      this._showRelatedToggle = true;
 
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});

@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0989217_c64b2b93",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-22T21:47:28Z",
+      "side": 1,
+      "message": "How do you ensure this manual step happens ? Can users delete projects on their own ?",
+      "range": {
+        "startLine": 60,
+        "startChar": 27,
+        "endLine": 60,
+        "endChar": 38
+      },
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92fb1186_2d332a48",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-22T21:47:28Z",
+      "side": 1,
+      "message": "This way you can impose a limit on the total size of the sum of git and lfs data.\nThough you will no longer be able to limit the maximum total size\nof git objects per repository. We limit maxRepositorySize globally in order to avoid\ntypical problems caused by huge git repositories (also Github limits git repositories\nto 1GB for the same reason). Though projects using lfs may store a lot more in lfs\nobjects.",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1017c709_10a52dc7",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-22T21:47:28Z",
+      "side": 1,
+      "message": "I think there should be 2 quotas, storing 10GB in lfs probably won\u0027t cause issues, though storing\n10GB in git objects is typically not a good idea. So why don\u0027t you implement the lfs quota in the lfs plugin ?\nI guess you could still reuse parts of the implementation.",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b12a89d9_eb4bf5e3",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-22T21:47:28Z",
+      "side": 1,
+      "message": "again I think there should be different quotas for git and lfs objects",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c84c1d53_1b578b52",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-22T21:47:28Z",
+      "side": 1,
+      "message": "Did you consider to extract the common reusable code into a public library module\nand to refactor both the quota and lfs plugins to use this common code in order to\nimplement quotas for git objects (in quota plugin) and lfs objects (in the lfs plugin)?",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "641e4997_3fe5355a",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-22T21:47:28Z",
+      "side": 1,
+      "message": "I think this could be upstreamed if you do it in the way I described above.",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19be27e7_fca87e94",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-22T21:47:28Z",
+      "side": 1,
+      "message": "But this means you need to implement the lfs transport protocol on top of git.\nWhere would you store the sha256 hashes of the large files stored in separate git repositories ?\nWhen would you create a commit in these separate git repositories ?\nGit versioning for these objects would be redundant, right ?",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

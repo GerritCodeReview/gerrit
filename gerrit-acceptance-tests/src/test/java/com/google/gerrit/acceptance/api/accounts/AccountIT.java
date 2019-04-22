@@ -1602,9 +1602,12 @@ public class AccountIT extends AbstractDaemonTest {
     addGpgKey(key.getPublicKeyArmored());
     assertKeys(key);
 
+    sender.clear();
     gApi.accounts().self().gpgKey(id).delete();
     accountIndexedCounter.assertReindexOf(admin);
     assertKeys();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("GPG keys have been deleted");
 
     exception.expect(ResourceNotFoundException.class);
     exception.expectMessage(id);
@@ -1707,12 +1710,15 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(sender.getMessages().get(0).body()).contains("new SSH keys have been added");
 
     // Delete second key
+    sender.clear();
     gApi.accounts().self().deleteSshKey(2);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
     assertThat(info.get(0).seq).isEqualTo(1);
     assertThat(info.get(1).seq).isEqualTo(3);
     accountIndexedCounter.assertReindexOf(admin);
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("SSH keys have been deleted");
   }
 
   // reindex is tested by {@link AbstractQueryAccountsTest#reindex}

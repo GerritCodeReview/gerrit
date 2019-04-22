@@ -62,6 +62,7 @@ limitations under the License.
 <link rel="import" href="./core/gr-navigation/gr-navigation.html">
 <link rel="import" href="./core/gr-reporting/gr-reporting.html">
 <link rel="import" href="./core/gr-router/gr-router.html">
+<link rel="import" href="./core/gr-smart-search/gr-smart-search.html">
 <link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
 <link rel="import" href="./edit/gr-editor-view/gr-editor-view.html">
 <link rel="import" href="./plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
@@ -155,10 +156,16 @@ limitations under the License.
       <gr-main-header
           id="mainHeader"
           search-query="{{params.query}}"
-          class$="[[_computeShadowClass(_isShadowDom)]]">
+          class$="[[_computeShadowClass(_isShadowDom)]]"
+          on-mobile-search="_mobileSearchToggle">
       </gr-main-header>
     </gr-fixed-panel>
     <main>
+      <gr-smart-search
+          id="search"
+          search-query="{{params.query}}"
+          hidden="[[!mobileSearch]]">
+      </gr-smart-search>
       <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
         <gr-change-list-view
             params="[[params]]"

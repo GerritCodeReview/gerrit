@@ -1,0 +1,52 @@
+/**
+ * Copyright (C) 2019 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+{namespace com.google.gerrit.server.mail.template}
+
+/**
+ * @param email
+ */
+{template .DeleteKeyHtml autoescape="strict" kind="html"}
+  <p>
+    One or more {$email.keyType} keys have been deleted on Gerrit Code Review
+    at {$email.gerritHost}:
+  </p>
+
+  <p>
+    If this is not expected, please contact your Gerrit Administrators
+    immediately.
+  </p>
+
+  <p>
+    You can also manage your {$email.keyType} keys by following{sp}
+    {if $email.keyType == "SSH"}
+      <a href="{$email.gerritUrl}#/settings/ssh-keys">this link</a>
+    {elseif $email.keyType == "GPG"}
+      <a href="{$email.gerritUrl}#/settings/gpg-keys">this link</a>
+    {/if}
+    {sp}
+    {if $email.userNameEmail}
+      (while signed in as {$email.userNameEmail})
+    {else}
+      (while signed in as {$email.email})
+    {/if}.
+  </p>
+
+  <p>
+    This is a send-only email address.  Replies to this message will not be read
+    or answered.
+  </p>
+{/template}

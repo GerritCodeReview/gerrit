@@ -1,0 +1,62 @@
+/**
+ * Copyright (C) 2019 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+{namespace com.google.gerrit.server.mail.template}
+
+/**
+ * The .DeleteKey template will determine the contents of the email related to
+ * deleting a SSH or GPG key.
+ * @param email
+ */
+{template .DeleteKey autoescape="strict" kind="text"}
+  One or more {$email.keyType} keys have been deleted on Gerrit Code Review at
+  {sp}{$email.gerritHost}:
+
+  {\n}
+  {\n}
+
+  If this is not expected, please contact your Gerrit Administrators
+  immediately.
+
+  {\n}
+  {\n}
+
+  You can also manage your {$email.keyType} keys by visiting
+  {\n}
+  {if $email.keyType == "SSH"}
+    {$email.gerritUrl}#/settings/ssh-keys
+  {elseif $email.keyType == "GPG"}
+    {$email.gerritUrl}#/settings/gpg-keys
+  {/if}
+  {\n}
+  {if $email.userNameEmail}
+    (while signed in as {$email.userNameEmail})
+  {else}
+    (while signed in as {$email.email})
+  {/if}
+
+  {\n}
+  {\n}
+
+  If clicking the link above does not work, copy and paste the URL in a new
+  browser window instead.
+
+  {\n}
+  {\n}
+
+  This is a send-only email address.  Replies to this message will not be read
+  or answered.
+{/template}

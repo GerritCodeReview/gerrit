@@ -8,6 +8,10 @@ MAVEN_LOCAL = "MAVEN_LOCAL:"
 
 ECLIPSE = "ECLIPSE:"
 
+MAVEN_SNAPSHOT = "https://oss.sonatype.org/content/repositories/snapshots"
+
+SNAPSHOT = "-SNAPSHOT-"
+
 def _maven_release(ctx, parts):
     """induce jar and url name from maven coordinates."""
     if len(parts) not in [3, 4]:
@@ -20,9 +24,25 @@ def _maven_release(ctx, parts):
         group, artifact, version = parts
         file_version = version
 
+    repository = ctx.attr.repository
+
+    if "-SNAPSHOT-" in version:
+        start = version.index(SNAPSHOT)
+        end = start + len(SNAPSHOT) - 1
+
+        # file version without snapshot constant, but with post snapshot suffix
+        file_version = version[:start] + version[end:]
+
+        # version without post snapshot suffix
+        version = version[:end]
+
+        # overwrite the repository with Maven snapshot repository
+        repository = MAVEN_SNAPSHOT
+
     jar = artifact.lower() + "-" + file_version
+
     url = "/".join([
-        ctx.attr.repository,
+        repository,
         group.replace(".", "/"),
         artifact,
         version,

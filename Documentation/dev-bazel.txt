@@ -430,6 +430,19 @@ And corresponding WORKSPACE excerpt:
  )
 ----
 
+== Building against SNAPSHOT Maven JARs
+
+To build against SNAPSHOT Maven JARs, the complete SNAPSHOT version must be used:
+
+[source,python]
+----
+ maven_jar(
+   name = "pac4j-core",
+   artifact = "org.pac4j:pac4j-core:3.5.0-SNAPSHOT-20190112.120241-16",
+   sha1 = "da2b1cb68a8f87bfd40813179abd368de9f3a746",
+ )
+----
+
 [[consume-jgit-from-development-tree]]
 
 To consume the JGit dependency from the development tree, edit

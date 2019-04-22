@@ -1904,15 +1904,21 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void userCanGenerateNewHttpPassword() throws Exception {
+    sender.clear();
     String newPassword = gApi.accounts().self().generateHttpPassword();
     assertThat(newPassword).isNotNull();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("HTTP password was added or updated");
   }
 
   @Test
   public void adminCanGenerateNewHttpPasswordForUser() throws Exception {
     setApiUser(admin);
+    sender.clear();
     String newPassword = gApi.accounts().id(user.username).generateHttpPassword();
     assertThat(newPassword).isNotNull();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("HTTP password was added or updated");
   }
 
   @Test
@@ -1939,7 +1945,10 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void userCanRemoveHttpPassword() throws Exception {
     setApiUser(user);
+    sender.clear();
     assertThat(gApi.accounts().self().setHttpPassword(null)).isNull();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("HTTP password was deleted");
   }
 
   @Test
@@ -1953,14 +1962,20 @@ public class AccountIT extends AbstractDaemonTest {
   public void adminCanExplicitlySetHttpPasswordForUser() throws Exception {
     setApiUser(admin);
     String httpPassword = "new-password-for-user";
+    sender.clear();
     assertThat(gApi.accounts().id(user.username).setHttpPassword(httpPassword))
         .isEqualTo(httpPassword);
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("HTTP password was added or updated");
   }
 
   @Test
   public void adminCanRemoveHttpPasswordForUser() throws Exception {
     setApiUser(admin);
+    sender.clear();
     assertThat(gApi.accounts().id(user.username).setHttpPassword(null)).isNull();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("HTTP password was deleted");
   }
 
   private void assertGroups(String user, List<String> expected) throws Exception {

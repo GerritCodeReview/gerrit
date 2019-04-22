@@ -23,6 +23,7 @@ import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.mail.send.DeleteKeySender;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
+import com.google.gerrit.server.mail.send.HttpPasswordUpdateSender;
 import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
@@ -41,6 +42,7 @@ public class EmailModule extends FactoryModule {
     factory(DeleteKeySender.Factory.class);
     factory(DeleteReviewerSender.Factory.class);
     factory(DeleteVoteSender.Factory.class);
+    factory(HttpPasswordUpdateSender.Factory.class);
     factory(MergedSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);

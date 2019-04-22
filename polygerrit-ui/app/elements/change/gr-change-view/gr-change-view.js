@@ -803,10 +803,6 @@
       this.set('_patchRange.patchNum', this._patchRange.patchNum ||
               this.computeLatestPatchNum(this._allPatchSets));
 
-      // Reset the related changes toggle in the event it was previously
-      // displayed on an earlier change.
-      this._showRelatedToggle = false;
-
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});
     },

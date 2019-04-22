@@ -107,6 +107,7 @@ public class SitePathInitializer {
     extractMailExample("Abandoned.soy");
     extractMailExample("AbandonedHtml.soy");
     extractMailExample("AddKey.soy");
+    extractMailExample("AddKeyHtml.soy");
     extractMailExample("ChangeFooter.soy");
     extractMailExample("ChangeFooterHtml.soy");
     extractMailExample("ChangeSubject.soy");

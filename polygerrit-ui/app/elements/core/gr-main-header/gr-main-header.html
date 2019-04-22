@@ -148,6 +148,9 @@ limitations under the License.
         background-color: var(--view-background-color);
         box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
       }
+      #mobileSearch {
+        display: none;
+      }
       @media screen and (max-width: 50em) {
         .bigTitle {
           font-size: var(--font-size-large);
@@ -158,6 +161,9 @@ limitations under the License.
         .rightItems .hideOnMobile,
         .links > li.hideOnMobile {
           display: none;
+        }
+        #mobileSearch {
+          display: block;
         }
         .accountContainer {
           margin-left: .5em !important;
@@ -196,6 +202,7 @@ limitations under the License.
             class="hideOnMobile"
             name="header-browse-source"></gr-endpoint-decorator>
         <div class="accountContainer" id="accountContainer">
+          <iron-icon id="mobileSearch" icon="gr-icons:search" on-tap='_onMobileSearchTap'></iron-icon>
           <div class$="[[_computeIsInvisible(_registerURL)]]">
             <a
                 class="registerButton"

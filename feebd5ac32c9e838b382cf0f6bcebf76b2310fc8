@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "367d8df2_0b1ae784",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-22T16:06:01Z",
+      "side": 1,
+      "message": "Can you expand the commit message why this would be needed, or link a feature request for that and provide more details there?",
+      "revId": "feebd5ac32c9e838b382cf0f6bcebf76b2310fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dbcf1b1_35ecf9c0",
+        "filename": "java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-22T16:06:01Z",
+      "side": 1,
+      "message": "It seems that AddKeyHtml.soy is missing here.",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 37
+      },
+      "revId": "feebd5ac32c9e838b382cf0f6bcebf76b2310fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "613219f9_37578722",
+        "filename": "java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-22T16:06:01Z",
+      "side": 1,
+      "message": "removed? Is this logic really works as is for deleting use case?",
+      "range": {
+        "startLine": 67,
+        "startChar": 37,
+        "endLine": 67,
+        "endChar": 42
+      },
+      "revId": "feebd5ac32c9e838b382cf0f6bcebf76b2310fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e0a8bde_fd6e1cb2",
+        "filename": "java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-22T16:06:01Z",
+      "side": 1,
+      "message": "self-removed?",
+      "range": {
+        "startLine": 72,
+        "startChar": 32,
+        "endLine": 72,
+        "endChar": 42
+      },
+      "revId": "feebd5ac32c9e838b382cf0f6bcebf76b2310fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99e72393_025a74ff",
+        "filename": "java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-22T16:06:01Z",
+      "side": 1,
+      "message": "removed?",
+      "range": {
+        "startLine": 78,
+        "startChar": 41,
+        "endLine": 78,
+        "endChar": 46
+      },
+      "revId": "feebd5ac32c9e838b382cf0f6bcebf76b2310fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

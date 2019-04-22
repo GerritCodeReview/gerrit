@@ -49,6 +49,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.mail.send.AddKeySender;
+import com.google.gerrit.server.mail.send.DeleteKeySender;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -87,7 +88,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   private final Provider<CurrentUser> self;
   private final Provider<PublicKeyStore> storeProvider;
   private final GerritPublicKeyChecker.Factory checkerFactory;
-  private final AddKeySender.Factory addKeyFactory;
+  private final AddKeySender.Factory addKeySenderFactory;
+  private final DeleteKeySender.Factory deleteKeySenderFactory;
   private final Provider<InternalAccountQuery> accountQueryProvider;
   private final ExternalIds externalIds;
   private final ExternalIdsUpdate.User externalIdsUpdateFactory;
@@ -98,7 +100,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
       GerritPublicKeyChecker.Factory checkerFactory,
-      AddKeySender.Factory addKeyFactory,
+      AddKeySender.Factory addKeySenderFactory,
+      DeleteKeySender.Factory deleteKeySenderFactory,
       Provider<InternalAccountQuery> accountQueryProvider,
       ExternalIds externalIds,
       ExternalIdsUpdate.User externalIdsUpdateFactory) {
@@ -106,7 +109,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
     this.self = self;
     this.storeProvider = storeProvider;
     this.checkerFactory = checkerFactory;
-    this.addKeyFactory = addKeyFactory;
+    this.addKeySenderFactory = addKeySenderFactory;
+    this.deleteKeySenderFactory = deleteKeySenderFactory;
     this.accountQueryProvider = accountQueryProvider;
     this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
@@ -225,10 +229,21 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
         case FORCED:
           if (!addedKeys.isEmpty()) {
             try {
-              addKeyFactory.create(user, addedKeys).send();
+              addKeySenderFactory.create(user, addedKeys).send();
             } catch (EmailException e) {
               log.error(
                   "Cannot send GPG key added message to " + user.getAccount().getPreferredEmail(),
+                  e);
+            }
+          }
+          if (!toRemove.isEmpty()) {
+            try {
+              deleteKeySenderFactory
+                  .create(user, toRemove.stream().map(Fingerprint::toString).collect(toList()))
+                  .send();
+            } catch (EmailException e) {
+              log.error(
+                  "Cannot send GPG key deleted message to " + user.getAccount().getPreferredEmail(),
                   e);
             }
           }

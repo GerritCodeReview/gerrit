@@ -14,17 +14,21 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.List;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 
 /** Additional data about a {@link PatchSet} not normally loaded. */
 public final class PatchSetInfo {
   public static class ParentInfo {
-    public RevId id;
+    public ObjectId commitId;
     public String shortMessage;
 
-    public ParentInfo(RevId id, String shortMessage) {
-      this.id = id;
-      this.shortMessage = shortMessage;
+    public ParentInfo(AnyObjectId commitId, String shortMessage) {
+      this.commitId = commitId.copy();
+      this.shortMessage = requireNonNull(shortMessage);
     }
 
     protected ParentInfo() {}
@@ -47,8 +51,8 @@ public final class PatchSetInfo {
   /** List of parents of the patch set. */
   protected List<ParentInfo> parents;
 
-  /** SHA-1 of commit */
-  protected String revId;
+  /** ID of commit. */
+  protected ObjectId commitId;
 
   /** Optional user-supplied description for the patch set. */
   protected String description;
@@ -107,12 +111,12 @@ public final class PatchSetInfo {
     return parents;
   }
 
-  public void setRevId(String s) {
-    revId = s;
+  public void setCommitId(AnyObjectId commitId) {
+    this.commitId = commitId.copy();
   }
 
-  public String getRevId() {
-    return revId;
+  public ObjectId getCommitId() {
+    return commitId;
   }
 
   public void setDescription(String description) {

@@ -16,9 +16,11 @@ package com.google.gerrit.reviewdb.client;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
+import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.Objects;
+import org.eclipse.jgit.lib.AnyObjectId;
 
 /**
  * This class represents inline comments in NoteDb. This means it determines the JSON format for
@@ -192,7 +194,9 @@ public class Comment {
   public Range range;
   public String tag;
 
-  // Hex commit SHA1 of the commit of the patchset to which this comment applies.
+  // Hex commit SHA1 of the commit of the patchset to which this comment applies. Other classes call
+  // this "commitId", but this class uses the old ReviewDb term "revId", and this field name is
+  // serialized into JSON in NoteDb, so it can't easily be changed.
   public String revId;
   public String serverId;
   public boolean unresolved;
@@ -250,8 +254,8 @@ public class Comment {
     this.range = range != null ? range.asCommentRange() : null;
   }
 
-  public void setRevId(RevId revId) {
-    this.revId = revId != null ? revId.get() : null;
+  public void setRevId(@Nullable AnyObjectId revId) {
+    this.revId = revId != null ? revId.name() : null;
   }
 
   public void setRealAuthor(Account.Id id) {

@@ -302,98 +302,13 @@ especially if changing one without the other will break something!
     and it also makes `git revert` more useful.
   * Use topics to link your separate changes together.
 
-[[process]]
-== Process
-
-[[dev-in-stable-branches]]
-=== Development in stable branches
-
-As their name suggests stable branches are intended to be stable. This means that generally
-only bug-fixes should be done on stable branches, however this is not strictly enforced and
-exceptions may apply:
-
-  * When a stable branch is initially created to prepare a new release the Gerrit community
-    discusses on the mailing list if there are pending features which should still make it into the
-    release. Those features are blocking the release and should be implemented on the stable
-    branch before the first release candidate is created.
-  * To stabilize the code before doing a major release several release candidates are created. Once
-    the first release candidate was done no more features should be accepted on the stable branch.
-    If more features are found to be required they should be discussed with the Gerrit maintainers
-    and should only be allowed if the risk of breaking things is considered to be low.
-  * Once a major release is done only bug-fixes and documentation updates should be done on the
-    stable branch. These updates will be included in the next minor release.
-  * For minor releases new features are only acceptable if they are important to the Gerrit
-    community, if they are backwards compatible and the risk of breaking things is low and if there
-    are no objections from the Gerrit community.
-  * In cases of doubt it's the responsibility of the release maintainer to evaluate the risk of new
-    features and make a decision based on these rules and opinions from the Gerrit community.
-  * The older a stable branch is the more stable it should be. This means old stable branches
-    should only receive bug-fixes that are either important or low risk. Security fixes, including
-    security updates for third party dependencies, are always considered as important and hence can
-    always be done on stable branches.
-
-=== Backporting to stable branches
-
-From time to time bug fix releases are made for existing stable branches.
-
-Developers concerned with stable branches are encouraged to backport or push fixes to these
-branches, even if no new release is planned. Backporting features is only possible in compliance
-with the rules link:#dev-in-stable-branches[above].
-
-Fixes that are known to be needed for a particular release should be pushed for review on that
-release's stable branch. They will then be included into the master branch when the stable branch
-is merged back.
-
-=== Finding starter projects to work on
+== Finding starter projects to work on
 
 We have created a
 link:https://bugs.chromium.org/p/gerrit/issues/list?can=2&q=label%3AStarterProject[StarterProject]
 category in the issue tracker and try to assign easy hack projects to it. If in
 doubt, do not hesitate to ask on the developer
 link:https://groups.google.com/forum/#!forum/repo-discuss[mailing list].
-
-=== Upgrading Libraries
-
-Gerrit's library dependencies should only be upgraded if the new version contains
-something we need in Gerrit. This includes new features, API changes as well as bug
-or security fixes.
-An exception to this rule is that right after a new Gerrit release was branched
-off, all libraries should be upgraded to the latest version to prevent Gerrit
-from falling behind. Doing those upgrades should conclude at the latest two
-months after the branch was cut. This should happen on the master branch to ensure
-that they are vetted long enough before they go into a release and we can be sure
-that the update doesn't introduce a regression.
-
-[[deprecating-features]]
-=== Deprecating features
-
-Gerrit should be as stable as possible and we aim to add only features that last.
-However, sometimes we are required to deprecate and remove features to be able
-to move forward with the project and keep the code-base clean. The following process
-should serve as a guideline on how to deprecate functionality in Gerrit. Its purpose
-is that we have a structured process for deprecation that users, administrators and
-developers can agree and rely on.
-
-General process:
-
-  * Make sure that the feature (e.g. a field on the API) is not needed anymore or blocks
-    further development or improvement. If in doubt, consult the mailing list.
-  * If you can provide a schema migration that moves users to a comparable feature, do
-    so and stop here.
-  * Mark the feature as deprecated in the documentation and release notes.
-  * If possible, mark the feature deprecated in any user-visible interface. For example,
-    if you are deprecating a Git push option, add a message to the Git response if
-    the user provided the option informing them about deprecation.
-  * Annotate the code with `@Deprecated` and `@RemoveAfter(x.xx)` if applicable.
-    Alternatively, use `// DEPRECATED, remove after x.xx` (where x.xx is the version
-    number that has to be branched off before removing the feature)
-  * Gate the feature behind a config that is off by default (forcing admins to turn
-    the deprecated feature on explicitly).
-  * After the next release was branched off, remove any code that backed the feature.
-
-You can optionally consult the mailing list to ask if there are users of the feature you
-wish to deprecate. If there are no major users, you can remove the feature without
-following this process and without the grace period of one release.
 
 GERRIT
 ------

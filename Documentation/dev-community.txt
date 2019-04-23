@@ -11,6 +11,12 @@ Gerrit is developed as a self-hosting open source project:
 * link:https://bugs.chromium.org/p/gerrit/issues/list[Issue Tracking]
 * link:https://gerrit-review.googlesource.com/q/status:open+project:gerrit[Change Review]
 * link:dev-design.html[System Design]
+* Processes
+** link:dev-contributing.html[Contribution Process]
+** link:dev-processes.html#dev-in-stable-branches[Development in stable branches]
+** link:dev-processes.html#backporting[Backporting to stable branches]
+** link:dev-processes.html#upgrading-libraries[Upgrading Libraries]
+** link:dev-processes.html#deprecating-features[Deprecating features]
 
 [[how-to-contribute]]
 == How to contribute?

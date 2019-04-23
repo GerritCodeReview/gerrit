@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a96b07dc_907c4d2b",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPasswordUpdate.soy",
+        "patchSetId": 39
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T11:14:00Z",
+      "side": 1,
+      "message": "HttpPasswordUpdate",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 20
+      },
+      "revId": "f888dcba6c80551b7eb7a521861fe451ef2de9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3490db16_6a3079e9",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPasswordUpdate.soy",
+        "patchSetId": 39
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T11:14:00Z",
+      "side": 1,
+      "message": "the HTTP",
+      "range": {
+        "startLine": 21,
+        "startChar": 32,
+        "endLine": 21,
+        "endChar": 38
+      },
+      "revId": "f888dcba6c80551b7eb7a521861fe451ef2de9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cf91392_11bd2d61",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPasswordUpdate.soy",
+        "patchSetId": 39
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T11:14:00Z",
+      "side": 1,
+      "message": "The",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "f888dcba6c80551b7eb7a521861fe451ef2de9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96849ff4_9212e54e",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPasswordUpdate.soy",
+        "patchSetId": 39
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T11:14:00Z",
+      "side": 1,
+      "message": "HTTP",
+      "range": {
+        "startLine": 34,
+        "startChar": 27,
+        "endLine": 34,
+        "endChar": 31
+      },
+      "revId": "f888dcba6c80551b7eb7a521861fe451ef2de9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09f634c9_cdfe4c7d",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPasswordUpdateHtml.soy",
+        "patchSetId": 39
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T11:14:00Z",
+      "side": 1,
+      "message": "The HTTP password",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 30
+      },
+      "revId": "f888dcba6c80551b7eb7a521861fe451ef2de9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd8afdd0_1c73dc75",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPasswordUpdateHtml.soy",
+        "patchSetId": 39
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T11:14:00Z",
+      "side": 1,
+      "message": "HTTP",
+      "range": {
+        "startLine": 34,
+        "startChar": 29,
+        "endLine": 34,
+        "endChar": 33
+      },
+      "revId": "f888dcba6c80551b7eb7a521861fe451ef2de9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fa1e9f7_9f48d27f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/HttpPasswordSender.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T11:14:00Z",
+      "side": 1,
+      "message": "HttpPasswordUpdateSender to match the template name.",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 31
+      },
+      "revId": "f888dcba6c80551b7eb7a521861fe451ef2de9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9fec720_207c5ed7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/HttpPasswordSender.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T11:14:00Z",
+      "side": 1,
+      "message": "HTTP",
+      "range": {
+        "startLine": 47,
+        "startChar": 41,
+        "endLine": 47,
+        "endChar": 45
+      },
+      "revId": "f888dcba6c80551b7eb7a521861fe451ef2de9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a25fbc5e_78259462",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/HttpPasswordSender.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T11:14:00Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 53,
+        "startChar": 19,
+        "endLine": 53,
+        "endChar": 20
+      },
+      "revId": "f888dcba6c80551b7eb7a521861fe451ef2de9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61b2c4a5_6127f563",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/HttpPasswordSender.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T11:14:00Z",
+      "side": 1,
+      "message": "this can be unwrapped to the previous line",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 36
+      },
+      "revId": "f888dcba6c80551b7eb7a521861fe451ef2de9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

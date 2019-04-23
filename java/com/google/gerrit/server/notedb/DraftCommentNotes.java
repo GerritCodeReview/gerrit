@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -52,7 +51,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private final Account.Id author;
   private final Ref ref;
 
-  private ImmutableListMultimap<RevId, Comment> comments;
+  private ImmutableListMultimap<ObjectId, Comment> comments;
   private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
 
   @AssistedInject
@@ -82,7 +81,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     return author;
   }
 
-  public ImmutableListMultimap<RevId, Comment> getComments() {
+  public ImmutableListMultimap<ObjectId, Comment> getComments() {
     return comments;
   }
 
@@ -128,10 +127,10 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
             reader,
             NoteMap.read(reader, tipCommit),
             PatchLineComment.Status.DRAFT);
-    ListMultimap<RevId, Comment> cs = MultimapBuilder.hashKeys().arrayListValues().build();
+    ListMultimap<ObjectId, Comment> cs = MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
       for (Comment c : rn.getEntities()) {
-        cs.put(new RevId(c.revId), c);
+        cs.put(c.getCommitId(), c);
       }
     }
     comments = ImmutableListMultimap.copyOf(cs);

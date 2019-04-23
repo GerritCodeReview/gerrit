@@ -66,6 +66,7 @@ import java.util.TimeZone;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
@@ -247,7 +248,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
       Timestamp t,
       String message,
       short side,
-      String commitSHA1,
+      ObjectId commitId,
       boolean unresolved) {
     Comment c =
         new Comment(
@@ -260,7 +261,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
             unresolved);
     c.lineNbr = line;
     c.parentUuid = parentUUID;
-    c.revId = commitSHA1;
+    c.setCommitId(commitId);
     c.setRange(range);
     return c;
   }

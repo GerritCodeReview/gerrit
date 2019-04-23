@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.inject.assistedinject.Assisted;
@@ -74,13 +73,13 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   @AutoValue
   abstract static class Key {
-    abstract String revId();
+    abstract ObjectId commitId();
 
     abstract Comment.Key key();
   }
 
   private static Key key(Comment c) {
-    return new AutoValue_ChangeDraftUpdate_Key(c.revId, c.key);
+    return new AutoValue_ChangeDraftUpdate_Key(c.getCommitId(), c.key);
   }
 
   private final AllUsersName draftsProject;
@@ -126,32 +125,32 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     delete.add(key(c));
   }
 
-  public void deleteComment(String revId, Comment.Key key) {
-    delete.add(new AutoValue_ChangeDraftUpdate_Key(revId, key));
+  public void deleteComment(ObjectId commitId, Comment.Key key) {
+    delete.add(new AutoValue_ChangeDraftUpdate_Key(commitId, key));
   }
 
   private CommitBuilder storeCommentsInNotes(
       RevWalk rw, ObjectInserter ins, ObjectId curr, CommitBuilder cb)
       throws ConfigInvalidException, IOException {
     RevisionNoteMap<ChangeRevisionNote> rnm = getRevisionNoteMap(rw, curr);
-    Set<RevId> updatedRevs = Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
+    Set<ObjectId> updatedCommits = Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
 
     for (Comment c : put) {
       if (!delete.contains(key(c))) {
-        cache.get(new RevId(c.revId)).putComment(c);
+        cache.get(c.getCommitId()).putComment(c);
       }
     }
     for (Key k : delete) {
-      cache.get(new RevId(k.revId())).deleteComment(k.key());
+      cache.get(k.commitId()).deleteComment(k.key());
     }
 
-    Map<RevId, RevisionNoteBuilder> builders = cache.getBuilders();
+    Map<ObjectId, RevisionNoteBuilder> builders = cache.getBuilders();
     boolean touchedAnyRevs = false;
     boolean hasComments = false;
-    for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
-      updatedRevs.add(e.getKey());
-      ObjectId id = ObjectId.fromString(e.getKey().get());
+    for (Map.Entry<ObjectId, RevisionNoteBuilder> e : builders.entrySet()) {
+      updatedCommits.add(e.getKey());
+      ObjectId id = e.getKey();
       byte[] data = e.getValue().build(noteUtil.getChangeNoteJson());
       if (!Arrays.equals(data, e.getValue().baseRaw)) {
         touchedAnyRevs = true;
@@ -174,7 +173,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
     // If we touched every revision and there are no comments left, tell the
     // caller to delete the entire ref.
-    boolean touchedAllRevs = updatedRevs.equals(rnm.revisionNotes.keySet());
+    boolean touchedAllRevs = updatedCommits.equals(rnm.revisionNotes.keySet());
     if (touchedAllRevs && !hasComments) {
       return null;
     }

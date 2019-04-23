@@ -23,7 +23,6 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.inject.assistedinject.Assisted;
@@ -103,19 +102,19 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
       RevWalk rw, ObjectInserter ins, ObjectId curr, CommitBuilder cb)
       throws ConfigInvalidException, IOException {
     RevisionNoteMap<RobotCommentsRevisionNote> rnm = getRevisionNoteMap(rw, curr);
-    Set<RevId> updatedRevs = Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
+    Set<ObjectId> updatedRevs = Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
 
     for (RobotComment c : put) {
-      cache.get(new RevId(c.revId)).putComment(c);
+      cache.get(c.getCommitId()).putComment(c);
     }
 
-    Map<RevId, RevisionNoteBuilder> builders = cache.getBuilders();
+    Map<ObjectId, RevisionNoteBuilder> builders = cache.getBuilders();
     boolean touchedAnyRevs = false;
     boolean hasComments = false;
-    for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
-      updatedRevs.add(e.getKey());
-      ObjectId id = ObjectId.fromString(e.getKey().get());
+    for (Map.Entry<ObjectId, RevisionNoteBuilder> e : builders.entrySet()) {
+      ObjectId id = e.getKey();
+      updatedRevs.add(id);
       byte[] data = e.getValue().build(noteUtil);
       if (!Arrays.equals(data, e.getValue().baseRaw)) {
         touchedAnyRevs = true;

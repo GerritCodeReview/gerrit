@@ -46,7 +46,6 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.converter.ChangeMessageProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
@@ -117,7 +116,7 @@ public abstract class ChangeNotesState {
       List<ReviewerStatusUpdate> reviewerUpdates,
       List<SubmitRecord> submitRecords,
       List<ChangeMessage> changeMessages,
-      ListMultimap<RevId, Comment> publishedComments,
+      ListMultimap<ObjectId, Comment> publishedComments,
       boolean isPrivate,
       boolean workInProgress,
       boolean reviewStarted,
@@ -297,7 +296,7 @@ public abstract class ChangeNotesState {
 
   abstract ImmutableList<ChangeMessage> changeMessages();
 
-  abstract ImmutableListMultimap<RevId, Comment> publishedComments();
+  abstract ImmutableListMultimap<ObjectId, Comment> publishedComments();
 
   abstract int updateCount();
 
@@ -401,7 +400,7 @@ public abstract class ChangeNotesState {
 
     abstract Builder changeMessages(List<ChangeMessage> changeMessages);
 
-    abstract Builder publishedComments(ListMultimap<RevId, Comment> publishedComments);
+    abstract Builder publishedComments(ListMultimap<ObjectId, Comment> publishedComments);
 
     abstract Builder updateCount(int updateCount);
 
@@ -581,7 +580,7 @@ public abstract class ChangeNotesState {
               .publishedComments(
                   proto.getPublishedCommentList().stream()
                       .map(r -> GSON.fromJson(r, Comment.class))
-                      .collect(toImmutableListMultimap(c -> new RevId(c.revId), c -> c)))
+                      .collect(toImmutableListMultimap(Comment::getCommitId, c -> c)))
               .updateCount(proto.getUpdateCount());
       return b.build();
     }

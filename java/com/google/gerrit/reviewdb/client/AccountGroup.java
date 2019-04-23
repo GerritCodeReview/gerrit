@@ -33,6 +33,10 @@ public final class AccountGroup {
     return Timestamp.from(AUDIT_CREATION_INSTANT_MS);
   }
 
+  public static NameKey nameKey(String n) {
+    return new NameKey(n);
+  }
+
   /** Group name key */
   public static class NameKey extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
@@ -54,6 +58,10 @@ public final class AccountGroup {
     protected void set(String newValue) {
       name = newValue;
     }
+  }
+
+  public static UUID uuid(String n) {
+    return new UUID(n);
   }
 
   /** Globally unique identifier. */
@@ -111,6 +119,10 @@ public final class AccountGroup {
   /** @return true if the UUID is for a group managed within Gerrit. */
   public static boolean isInternalGroup(AccountGroup.UUID uuid) {
     return uuid.get().matches("^[0-9a-f]{40}$");
+  }
+
+  public static Id id(int id) {
+    return new Id(id);
   }
 
   /** Synthetic key to link to within the database */

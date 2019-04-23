@@ -46,6 +46,10 @@ import java.util.Optional;
  * </ul>
  */
 public final class Account {
+  public static Id id(int id) {
+    return new Id(id);
+  }
+
   /** Key local to Gerrit to identify a user. */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;

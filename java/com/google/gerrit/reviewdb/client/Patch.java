@@ -35,6 +35,10 @@ public final class Patch {
     return COMMIT_MSG.equals(path) || MERGE_LIST.equals(path);
   }
 
+  public static Key key(PatchSet.Id patchSetId, String fileName) {
+    return new Key(patchSetId, fileName);
+  }
+
   public static class Key extends StringKey<PatchSet.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -56,9 +60,17 @@ public final class Patch {
       return patchSetId;
     }
 
+    public PatchSet.Id patchSetId() {
+      return getParentKey();
+    }
+
     @Override
     public String get() {
       return fileName;
+    }
+
+    public String fileName() {
+      return get();
     }
 
     @Override

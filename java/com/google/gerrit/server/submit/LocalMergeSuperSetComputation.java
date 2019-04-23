@@ -27,7 +27,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -75,12 +75,12 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
 
   @AutoValue
   abstract static class QueryKey {
-    private static QueryKey create(Branch.NameKey branch, Iterable<String> hashes) {
+    private static QueryKey create(BranchNameKey branch, Iterable<String> hashes) {
       return new AutoValue_LocalMergeSuperSetComputation_QueryKey(
           branch, ImmutableSet.copyOf(hashes));
     }
 
-    abstract Branch.NameKey branch();
+    abstract BranchNameKey branch();
 
     abstract ImmutableSet<String> hashes();
   }
@@ -88,7 +88,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   private final PermissionBackend permissionBackend;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Map<QueryKey, ImmutableList<ChangeData>> queryCache;
-  private final Map<Branch.NameKey, Optional<RevCommit>> heads;
+  private final Map<BranchNameKey, Optional<RevCommit>> heads;
   private final ProjectCache projectCache;
   private final ChangeIsVisibleToPredicate changeIsVisibleToPredicate;
 
@@ -115,9 +115,9 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
 
     // For each target branch we run a separate rev walk to find open changes
     // reachable from changes already in the merge super set.
-    ImmutableListMultimap<Branch.NameKey, ChangeData> bc =
+    ImmutableListMultimap<BranchNameKey, ChangeData> bc =
         byBranch(Iterables.concat(changeSet.changes(), changeSet.nonVisibleChanges()));
-    for (Branch.NameKey b : bc.keySet()) {
+    for (BranchNameKey b : bc.keySet()) {
       OpenRepo or = getRepo(orm, b.project());
       List<RevCommit> visibleCommits = new ArrayList<>();
       List<RevCommit> nonVisibleCommits = new ArrayList<>();
@@ -160,9 +160,9 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     return new ChangeSet(visibleChanges, nonVisibleChanges);
   }
 
-  private static ImmutableListMultimap<Branch.NameKey, ChangeData> byBranch(
+  private static ImmutableListMultimap<BranchNameKey, ChangeData> byBranch(
       Iterable<ChangeData> changes) {
-    ImmutableListMultimap.Builder<Branch.NameKey, ChangeData> builder =
+    ImmutableListMultimap.Builder<BranchNameKey, ChangeData> builder =
         ImmutableListMultimap.builder();
     for (ChangeData cd : changes) {
       builder.put(cd.change().getDest(), cd);
@@ -211,7 +211,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private ChangeSet byCommitsOnBranchNotMerged(
-      OpenRepo or, Branch.NameKey branch, Set<String> visibleHashes, Set<String> nonVisibleHashes)
+      OpenRepo or, BranchNameKey branch, Set<String> visibleHashes, Set<String> nonVisibleHashes)
       throws IOException {
     List<ChangeData> potentiallyVisibleChanges =
         byCommitsOnBranchNotMerged(or, branch, visibleHashes);
@@ -229,7 +229,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private ImmutableList<ChangeData> byCommitsOnBranchNotMerged(
-      OpenRepo or, Branch.NameKey branch, Set<String> hashes) throws IOException {
+      OpenRepo or, BranchNameKey branch, Set<String> hashes) throws IOException {
     if (hashes.isEmpty()) {
       return ImmutableList.of();
     }
@@ -245,7 +245,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private Set<String> walkChangesByHashes(
-      Collection<RevCommit> sourceCommits, Set<String> ignoreHashes, OpenRepo or, Branch.NameKey b)
+      Collection<RevCommit> sourceCommits, Set<String> ignoreHashes, OpenRepo or, BranchNameKey b)
       throws IOException {
     Set<String> destHashes = new HashSet<>();
     or.rw.reset();
@@ -269,7 +269,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     return destHashes;
   }
 
-  private void markHeadUninteresting(OpenRepo or, Branch.NameKey b) throws IOException {
+  private void markHeadUninteresting(OpenRepo or, BranchNameKey b) throws IOException {
     Optional<RevCommit> head = heads.get(b);
     if (head == null) {
       Ref ref = or.repo.getRefDatabase().exactRef(b.branch());

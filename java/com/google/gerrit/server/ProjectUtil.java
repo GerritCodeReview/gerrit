@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import java.io.IOException;
@@ -33,7 +33,7 @@ public class ProjectUtil {
    * @throws RepositoryNotFoundException the repository of the branch's project does not exist.
    * @throws IOException error while retrieving the branch from the repository.
    */
-  public static boolean branchExists(final GitRepositoryManager repoManager, Branch.NameKey branch)
+  public static boolean branchExists(final GitRepositoryManager repoManager, BranchNameKey branch)
       throws RepositoryNotFoundException, IOException {
     try (Repository repo = repoManager.openRepository(branch.project())) {
       boolean exists = repo.getRefDatabase().exactRef(branch.branch()) != null;

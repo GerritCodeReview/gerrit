@@ -25,13 +25,13 @@ import java.util.Objects;
  * <p>A subscriber operates a submodule in defined path.
  */
 public final class SubmoduleSubscription {
-  protected Branch.NameKey superProject;
+  protected BranchNameKey superProject;
 
   protected String submodulePath;
 
-  protected Branch.NameKey submodule;
+  protected BranchNameKey submodule;
 
-  public SubmoduleSubscription(Branch.NameKey superProject, Branch.NameKey submodule, String path) {
+  public SubmoduleSubscription(BranchNameKey superProject, BranchNameKey submodule, String path) {
     this.superProject = superProject;
     this.submodule = submodule;
     this.submodulePath = path;
@@ -41,7 +41,7 @@ public final class SubmoduleSubscription {
    * Indicates the super project, aka subscriber: the project owner of the gitlinks to the
    * submodules.
    */
-  public Branch.NameKey getSuperProject() {
+  public BranchNameKey getSuperProject() {
     return superProject;
   }
 
@@ -49,7 +49,7 @@ public final class SubmoduleSubscription {
     return submodulePath;
   }
 
-  public Branch.NameKey getSubmodule() {
+  public BranchNameKey getSubmodule() {
     return submodule;
   }
 

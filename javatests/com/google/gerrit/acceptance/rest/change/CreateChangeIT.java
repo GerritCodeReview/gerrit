@@ -46,7 +46,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
@@ -449,7 +449,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createChangeOnExistingBranchNotPermitted() throws Exception {
-    createBranch(Branch.nameKey(project, "foo"));
+    createBranch(BranchNameKey.create(project, "foo"));
     blockRead("refs/heads/*");
     requestScopeOperations.setApiUser(user.id());
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
@@ -568,8 +568,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
     initialCommit.assertOkStatus();
 
     // create two new branches
-    createBranch(Branch.nameKey(project, branchA));
-    createBranch(Branch.nameKey(project, branchB));
+    createBranch(BranchNameKey.create(project, branchA));
+    createBranch(BranchNameKey.create(project, branchB));
 
     // create a commit in branchA
     Result changeA =

@@ -18,7 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.TabFile;
@@ -28,10 +28,10 @@ import java.util.Set;
 
 public class DestinationList extends TabFile {
   public static final String DIR_NAME = "destinations";
-  private SetMultimap<String, Branch.NameKey> destinations =
+  private SetMultimap<String, BranchNameKey> destinations =
       MultimapBuilder.hashKeys().hashSetValues().build();
 
-  public Set<Branch.NameKey> getDestinations(String label) {
+  public Set<BranchNameKey> getDestinations(String label) {
     return destinations.get(label);
   }
 
@@ -40,21 +40,21 @@ public class DestinationList extends TabFile {
   }
 
   String asText(String label) {
-    Set<Branch.NameKey> dests = destinations.get(label);
+    Set<BranchNameKey> dests = destinations.get(label);
     if (dests == null) {
       return null;
     }
     List<Row> rows = Lists.newArrayListWithCapacity(dests.size());
-    for (Branch.NameKey dest : sort(dests)) {
+    for (BranchNameKey dest : sort(dests)) {
       rows.add(new Row(dest.branch(), dest.project().get()));
     }
     return asText("Ref", "Project", rows);
   }
 
-  private static Set<Branch.NameKey> toSet(List<Row> destRows) {
-    Set<Branch.NameKey> dests = Sets.newHashSetWithExpectedSize(destRows.size());
+  private static Set<BranchNameKey> toSet(List<Row> destRows) {
+    Set<BranchNameKey> dests = Sets.newHashSetWithExpectedSize(destRows.size());
     for (Row row : destRows) {
-      dests.add(Branch.nameKey(Project.nameKey(row.right), row.left));
+      dests.add(BranchNameKey.create(Project.nameKey(row.right), row.left));
     }
     return dests;
   }

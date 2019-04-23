@@ -45,7 +45,7 @@ import com.google.gerrit.index.query.QueryRequiresAuthException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.AnonymousUser;
@@ -1179,7 +1179,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
       VersionedAccountDestinations d = VersionedAccountDestinations.forUser(self());
       d.load(args.allUsersName, git);
-      Set<Branch.NameKey> destinations = d.getDestinationList().getDestinations(name);
+      Set<BranchNameKey> destinations = d.getDestinationList().getDestinations(name);
       if (destinations != null && !destinations.isEmpty()) {
         return new DestinationPredicate(destinations, name);
       }

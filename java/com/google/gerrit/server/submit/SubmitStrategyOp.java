@@ -25,7 +25,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.LabelId;
@@ -89,7 +89,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     return toMerge;
   }
 
-  protected final Branch.NameKey getDest() {
+  protected final BranchNameKey getDest() {
     return toMerge.change().getDest();
   }
 

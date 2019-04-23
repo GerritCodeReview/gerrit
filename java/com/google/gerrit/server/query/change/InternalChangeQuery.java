@@ -28,7 +28,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -55,7 +55,7 @@ import org.eclipse.jgit.lib.Repository;
  * holding on to a single instance.
  */
 public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChangeQuery> {
-  private static Predicate<ChangeData> ref(Branch.NameKey branch) {
+  private static Predicate<ChangeData> ref(BranchNameKey branch) {
     return new RefPredicate(branch.branch());
   }
 
@@ -110,20 +110,20 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return query(or(preds));
   }
 
-  public List<ChangeData> byBranchKey(Branch.NameKey branch, Change.Key key) {
+  public List<ChangeData> byBranchKey(BranchNameKey branch, Change.Key key) {
     return query(byBranchKeyPred(branch, key));
   }
 
   public List<ChangeData> byBranchKeyOpen(Project.NameKey project, String branch, Change.Key key) {
-    return query(and(byBranchKeyPred(Branch.nameKey(project, branch), key), open()));
+    return query(and(byBranchKeyPred(BranchNameKey.create(project, branch), key), open()));
   }
 
   public static Predicate<ChangeData> byBranchKeyOpenPred(
       Project.NameKey project, String branch, Change.Key key) {
-    return and(byBranchKeyPred(Branch.nameKey(project, branch), key), open());
+    return and(byBranchKeyPred(BranchNameKey.create(project, branch), key), open());
   }
 
-  private static Predicate<ChangeData> byBranchKeyPred(Branch.NameKey branch, Change.Key key) {
+  private static Predicate<ChangeData> byBranchKeyPred(BranchNameKey branch, Change.Key key) {
     return and(ref(branch), project(branch.project()), change(key));
   }
 
@@ -131,16 +131,16 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return query(project(project));
   }
 
-  public List<ChangeData> byBranchOpen(Branch.NameKey branch) {
+  public List<ChangeData> byBranchOpen(BranchNameKey branch) {
     return query(and(ref(branch), project(branch.project()), open()));
   }
 
-  public List<ChangeData> byBranchNew(Branch.NameKey branch) {
+  public List<ChangeData> byBranchNew(BranchNameKey branch) {
     return query(and(ref(branch), project(branch.project()), status(Change.Status.NEW)));
   }
 
   public Iterable<ChangeData> byCommitsOnBranchNotMerged(
-      Repository repo, Branch.NameKey branch, Collection<String> hashes) throws IOException {
+      Repository repo, BranchNameKey branch, Collection<String> hashes) throws IOException {
     return byCommitsOnBranchNotMerged(
         repo,
         branch,
@@ -151,7 +151,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
 
   @VisibleForTesting
   Iterable<ChangeData> byCommitsOnBranchNotMerged(
-      Repository repo, Branch.NameKey branch, Collection<String> hashes, int indexLimit)
+      Repository repo, BranchNameKey branch, Collection<String> hashes, int indexLimit)
       throws IOException {
     if (hashes.size() > indexLimit) {
       return byCommitsOnBranchNotMergedFromDatabase(repo, branch, hashes);
@@ -160,7 +160,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromDatabase(
-      Repository repo, Branch.NameKey branch, Collection<String> hashes) throws IOException {
+      Repository repo, BranchNameKey branch, Collection<String> hashes) throws IOException {
     Set<Change.Id> changeIds = Sets.newHashSetWithExpectedSize(hashes.size());
     String lastPrefix = null;
     for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {
@@ -190,7 +190,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromIndex(
-      Branch.NameKey branch, Collection<String> hashes) {
+      BranchNameKey branch, Collection<String> hashes) {
     return query(
         and(
             ref(branch),
@@ -241,7 +241,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return query(byBranchCommitPred(project, branch, hash));
   }
 
-  public List<ChangeData> byBranchCommit(Branch.NameKey branch, String hash) {
+  public List<ChangeData> byBranchCommit(BranchNameKey branch, String hash) {
     return byBranchCommit(branch.project().get(), branch.branch(), hash);
   }
 

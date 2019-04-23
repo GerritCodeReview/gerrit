@@ -23,7 +23,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -153,7 +153,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
       if (ref.equals(RefNames.REFS_CONFIG)) {
         return asChanges(queryProvider.get().byProjectOpen(project));
       }
-      return asChanges(queryProvider.get().byBranchNew(Branch.nameKey(project, ref)));
+      return asChanges(queryProvider.get().byBranchNew(BranchNameKey.create(project, ref)));
     }
 
     @Override

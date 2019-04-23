@@ -135,7 +135,7 @@ import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -4243,7 +4243,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   private BranchApi createBranch(String branch) throws Exception {
-    return createBranch(Branch.nameKey(project, branch));
+    return createBranch(BranchNameKey.create(project, branch));
   }
 
   private ThrowableSubject assertThatQueryException(String query) throws Exception {

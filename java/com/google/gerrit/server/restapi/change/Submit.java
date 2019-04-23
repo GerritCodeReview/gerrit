@@ -32,7 +32,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -385,8 +385,8 @@ public class Submit
       mergeabilityMap.add(change);
     }
 
-    ListMultimap<Branch.NameKey, ChangeData> cbb = cs.changesByBranch();
-    for (Branch.NameKey branch : cbb.keySet()) {
+    ListMultimap<BranchNameKey, ChangeData> cbb = cs.changesByBranch();
+    for (BranchNameKey branch : cbb.keySet()) {
       Collection<ChangeData> targetBranch = cbb.get(branch);
       HashMap<Change.Id, RevCommit> commits = findCommits(targetBranch, branch.project());
 

@@ -38,7 +38,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -834,7 +834,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
 
     ChangeNotes notes = newNotes(c);
-    Branch.NameKey expectedBranch = Branch.nameKey(project, "refs/heads/master");
+    BranchNameKey expectedBranch = BranchNameKey.create(project, "refs/heads/master");
     assertThat(notes.getChange().getDest()).isEqualTo(expectedBranch);
 
     // An update doesn't affect the branch
@@ -848,7 +848,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update = newUpdate(c, changeOwner);
     update.setBranch(otherBranch);
     update.commit();
-    assertThat(newNotes(c).getChange().getDest()).isEqualTo(Branch.nameKey(project, otherBranch));
+    assertThat(newNotes(c).getChange().getDest())
+        .isEqualTo(BranchNameKey.create(project, otherBranch));
   }
 
   @Test

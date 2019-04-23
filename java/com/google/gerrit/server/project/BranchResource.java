@@ -15,7 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.TypeLiteral;
 import org.eclipse.jgit.lib.Ref;
@@ -33,8 +33,8 @@ public class BranchResource extends RefResource {
     this.revision = ref.getObjectId() != null ? ref.getObjectId().name() : null;
   }
 
-  public Branch.NameKey getBranchKey() {
-    return Branch.nameKey(getNameKey(), refName);
+  public BranchNameKey getBranchKey() {
+    return BranchNameKey.create(getNameKey(), refName);
   }
 
   @Override

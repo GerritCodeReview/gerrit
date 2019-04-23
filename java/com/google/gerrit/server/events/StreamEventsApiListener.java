@@ -43,7 +43,7 @@ import com.google.gerrit.extensions.events.VoteDeletedListener;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.PatchSetUtil;
@@ -360,7 +360,7 @@ public class StreamEventsApiListener
     if (ev.getUpdater() != null) {
       event.submitter = accountAttributeSupplier(ev.getUpdater());
     }
-    final Branch.NameKey refName = Branch.nameKey(ev.getProjectName(), ev.getRefName());
+    final BranchNameKey refName = BranchNameKey.create(ev.getProjectName(), ev.getRefName());
     event.refUpdate =
         Suppliers.memoize(
             () ->

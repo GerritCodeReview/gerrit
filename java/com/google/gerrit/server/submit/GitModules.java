@@ -16,7 +16,7 @@ package com.google.gerrit.server.submit;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -45,7 +45,7 @@ public class GitModules {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
-    GitModules create(Branch.NameKey project, MergeOpRepoManager m);
+    GitModules create(BranchNameKey project, MergeOpRepoManager m);
   }
 
   private static final String GIT_MODULES = ".gitmodules";
@@ -55,7 +55,7 @@ public class GitModules {
   @Inject
   GitModules(
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
-      @Assisted Branch.NameKey branch,
+      @Assisted BranchNameKey branch,
       @Assisted MergeOpRepoManager orm)
       throws IOException {
     Project.NameKey project = branch.project();
@@ -89,7 +89,7 @@ public class GitModules {
     }
   }
 
-  Collection<SubmoduleSubscription> subscribedTo(Branch.NameKey src) {
+  Collection<SubmoduleSubscription> subscribedTo(BranchNameKey src) {
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     for (SubmoduleSubscription s : subscriptions) {
       if (s.getSubmodule().equals(src)) {

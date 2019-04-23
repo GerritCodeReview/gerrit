@@ -23,7 +23,7 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import java.util.HashMap;
@@ -33,9 +33,9 @@ import java.util.Map;
 public abstract class NotificationEmail extends OutgoingEmail {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  protected Branch.NameKey branch;
+  protected BranchNameKey branch;
 
-  protected NotificationEmail(EmailArguments ea, String mc, Branch.NameKey branch) {
+  protected NotificationEmail(EmailArguments ea, String mc, BranchNameKey branch) {
     super(ea, mc);
     this.branch = branch;
   }

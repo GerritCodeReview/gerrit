@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
@@ -47,5 +47,5 @@ public interface ChangeMessageModifier {
    * @return a new not null commit message.
    */
   String onSubmit(
-      String newCommitMessage, RevCommit original, RevCommit mergeTip, Branch.NameKey destination);
+      String newCommitMessage, RevCommit original, RevCommit mergeTip, BranchNameKey destination);
 }

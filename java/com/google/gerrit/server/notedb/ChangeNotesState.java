@@ -39,7 +39,7 @@ import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -308,7 +308,7 @@ public abstract class ChangeNotesState {
             c.changeKey(),
             changeId(),
             c.owner(),
-            Branch.nameKey(project, c.branch()),
+            BranchNameKey.create(project, c.branch()),
             c.createdOn());
     copyNonConstructorColumnsTo(change);
     return change;
@@ -322,7 +322,7 @@ public abstract class ChangeNotesState {
         this);
     change.setKey(c.changeKey());
     change.setOwner(c.owner());
-    change.setDest(Branch.nameKey(change.getProject(), c.branch()));
+    change.setDest(BranchNameKey.create(change.getProject(), c.branch()));
     change.setCreatedOn(c.createdOn());
     copyNonConstructorColumnsTo(change);
   }

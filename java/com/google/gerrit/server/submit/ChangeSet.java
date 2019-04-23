@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -76,8 +76,8 @@ public class ChangeSet {
     return changeData;
   }
 
-  public ListMultimap<Branch.NameKey, ChangeData> changesByBranch() {
-    ListMultimap<Branch.NameKey, ChangeData> ret =
+  public ListMultimap<BranchNameKey, ChangeData> changesByBranch() {
+    ListMultimap<BranchNameKey, ChangeData> ret =
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeData cd : changeData.values()) {
       ret.put(cd.change().getDest(), cd);

@@ -40,7 +40,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -126,7 +126,7 @@ public class MergeUtil {
     }
 
     public String generate(
-        RevCommit original, RevCommit mergeTip, Branch.NameKey dest, String originalMessage) {
+        RevCommit original, RevCommit mergeTip, BranchNameKey dest, String originalMessage) {
       requireNonNull(original.getRawBuffer());
       if (mergeTip != null) {
         requireNonNull(mergeTip.getRawBuffer());
@@ -733,7 +733,7 @@ public class MergeUtil {
       CodeReviewRevWalk rw,
       ObjectInserter inserter,
       Config repoConfig,
-      Branch.NameKey destBranch,
+      BranchNameKey destBranch,
       CodeReviewCommit mergeTip,
       CodeReviewCommit n)
       throws IntegrationException {
@@ -788,7 +788,7 @@ public class MergeUtil {
       PersonIdent committer,
       CodeReviewRevWalk rw,
       ObjectInserter inserter,
-      Branch.NameKey destBranch,
+      BranchNameKey destBranch,
       CodeReviewCommit mergeTip,
       ObjectId treeId,
       CodeReviewCommit n)

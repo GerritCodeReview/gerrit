@@ -39,7 +39,7 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.CapabilityCollection;
@@ -463,7 +463,7 @@ public class ProjectState {
   }
 
   /** All available label types for this branch. */
-  public LabelTypes getLabelTypes(Branch.NameKey destination) {
+  public LabelTypes getLabelTypes(BranchNameKey destination) {
     List<LabelType> all = getLabelTypes().getLabelTypes();
 
     List<LabelType> r = Lists.newArrayListWithCapacity(all.size());
@@ -524,7 +524,7 @@ public class ProjectState {
     return null;
   }
 
-  public Collection<SubscribeSection> getSubscribeSections(Branch.NameKey branch) {
+  public Collection<SubscribeSection> getSubscribeSections(BranchNameKey branch) {
     Collection<SubscribeSection> ret = new ArrayList<>();
     for (ProjectState s : tree()) {
       ret.addAll(s.getConfig().getSubscribeSections(branch));
@@ -591,7 +591,7 @@ public class ProjectState {
     return new LabelTypes(Collections.unmodifiableList(all));
   }
 
-  private boolean match(Branch.NameKey destination, String refPattern) {
+  private boolean match(BranchNameKey destination, String refPattern) {
     return RefPatternMatcher.getMatcher(refPattern).match(destination.branch(), null);
   }
 }

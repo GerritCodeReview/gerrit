@@ -19,7 +19,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -58,7 +58,7 @@ public class TestChanges {
             Change.key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
             changeId,
             userId,
-            Branch.nameKey(project, "master"),
+            BranchNameKey.create(project, "master"),
             TimeUtil.nowTs());
     incrementPatchSet(c);
     return c;

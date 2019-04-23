@@ -22,18 +22,18 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 public class FileBranchIT extends AbstractDaemonTest {
 
-  private Branch.NameKey branch;
+  private BranchNameKey branch;
 
   @Before
   public void setUp() throws Exception {
-    branch = Branch.nameKey(project, "master");
+    branch = BranchNameKey.create(project, "master");
     PushOneCommit.Result change = createChange();
     approve(change.getChangeId());
     revision(change).submit();

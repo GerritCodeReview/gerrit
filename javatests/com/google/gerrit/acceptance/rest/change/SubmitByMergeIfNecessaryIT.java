@@ -33,7 +33,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
@@ -180,7 +180,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     approve(change3.getChangeId());
 
     // get a preview before submitting:
-    Map<Branch.NameKey, ObjectId> preview = fetchFromSubmitPreview(change1b.getChangeId());
+    Map<BranchNameKey, ObjectId> preview = fetchFromSubmitPreview(change1b.getChangeId());
     submit(change1b.getChangeId());
 
     RevCommit tip1 = getRemoteLog(p1, "master").get(0);
@@ -196,19 +196,19 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
       // check that the preview matched what happened:
       assertThat(preview).hasSize(3);
 
-      assertThat(preview).containsKey(Branch.nameKey(p1, "refs/heads/master"));
+      assertThat(preview).containsKey(BranchNameKey.create(p1, "refs/heads/master"));
       assertTrees(p1, preview);
 
-      assertThat(preview).containsKey(Branch.nameKey(p2, "refs/heads/master"));
+      assertThat(preview).containsKey(BranchNameKey.create(p2, "refs/heads/master"));
       assertTrees(p2, preview);
 
-      assertThat(preview).containsKey(Branch.nameKey(p3, "refs/heads/master"));
+      assertThat(preview).containsKey(BranchNameKey.create(p3, "refs/heads/master"));
       assertTrees(p3, preview);
     } else {
       assertThat(tip2.getShortMessage()).isEqualTo(initialHead2.getShortMessage());
       assertThat(tip3.getShortMessage()).isEqualTo(initialHead3.getShortMessage());
       assertThat(preview).hasSize(1);
-      assertThat(preview.get(Branch.nameKey(p1, "refs/heads/master"))).isNotNull();
+      assertThat(preview.get(BranchNameKey.create(p1, "refs/heads/master"))).isNotNull();
     }
   }
 
@@ -624,7 +624,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     // Move the first change to a destination branch that is non-visible to user so that user cannot
     // this change anymore.
-    Branch.NameKey secretBranch = Branch.nameKey(project, "secretBranch");
+    BranchNameKey secretBranch = BranchNameKey.create(project, "secretBranch");
     gApi.projects()
         .name(secretBranch.project().get())
         .branch(secretBranch.branch())

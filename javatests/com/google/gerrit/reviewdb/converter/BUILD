@@ -8,6 +8,7 @@ junit_tests(
         "//java/com/google/gerrit/reviewdb:server",
         "//lib:guava",
         "//lib:protobuf",
+        "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/truth",
         "//lib/truth:truth-proto-extension",
         "//proto:entities_java_proto",

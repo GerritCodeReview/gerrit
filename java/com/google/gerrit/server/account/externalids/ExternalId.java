@@ -27,6 +27,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.HashedPassword;
 import java.io.Serializable;
@@ -38,7 +39,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
@@ -428,10 +428,10 @@ public abstract class ExternalId implements Serializable {
 
   public byte[] toByteArray() {
     checkState(blobId() != null, "Missing blobId in external ID %s", key().get());
-    byte[] b = new byte[2 * Constants.OBJECT_ID_STRING_LENGTH + 1];
+    byte[] b = new byte[2 * ObjectIds.STR_LEN + 1];
     key().sha1().copyTo(b, 0);
-    b[Constants.OBJECT_ID_STRING_LENGTH] = ':';
-    blobId().copyTo(b, Constants.OBJECT_ID_STRING_LENGTH + 1);
+    b[ObjectIds.STR_LEN] = ':';
+    blobId().copyTo(b, ObjectIds.STR_LEN + 1);
     return b;
   }
 

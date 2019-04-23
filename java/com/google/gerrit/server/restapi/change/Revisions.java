@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.PatchSetUtil;
@@ -121,7 +122,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     } else if (id.length() < 6 && id.matches("^[1-9][0-9]{0,4}$")) {
       // Legacy patch set number syntax.
       return byLegacyPatchSetId(change, id);
-    } else if (id.length() < 4 || id.length() > RevId.LEN) {
+    } else if (id.length() < 4 || id.length() > ObjectIds.STR_LEN) {
       // Require a minimum of 4 digits.
       // Impossibly long identifier will never match.
       return Collections.emptyList();
@@ -133,7 +134,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
         }
       }
       // Not an existing patch set on a change, but might be an edit.
-      if (out.isEmpty() && id.length() == RevId.LEN) {
+      if (out.isEmpty() && id.length() == ObjectIds.STR_LEN) {
         return loadEdit(change, new RevId(id));
       }
       return out;

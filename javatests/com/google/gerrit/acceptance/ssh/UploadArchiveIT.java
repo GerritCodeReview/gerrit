@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 
 import com.google.common.base.Splitter;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -55,7 +56,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
   @Test
   public void zipFormat() throws Exception {
     PushOneCommit.Result r = createChange();
-    String abbreviated = r.getCommit().abbreviate(8).name();
+    String abbreviated = abbreviateName(r.getCommit(), 8);
     String c = command(r, "zip", abbreviated);
 
     InputStream out =
@@ -92,7 +93,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
   @Test
   public void txzFormat() throws Exception {
     PushOneCommit.Result r = createChange();
-    String abbreviated = r.getCommit().abbreviate(8).name();
+    String abbreviated = abbreviateName(r.getCommit(), 8);
     String c = command(r, "tar.xz", abbreviated);
 
     try (InputStream out =
@@ -130,7 +131,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
 
   private void assertArchiveNotPermitted() throws Exception {
     PushOneCommit.Result r = createChange();
-    String abbreviated = r.getCommit().abbreviate(8).name();
+    String abbreviated = abbreviateName(r.getCommit(), 8);
     String c = command(r, "zip", abbreviated);
 
     InputStream out =

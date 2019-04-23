@@ -16,14 +16,14 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.index.change.ChangeField.COMMIT;
 import static com.google.gerrit.server.index.change.ChangeField.EXACT_COMMIT;
-import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.reviewdb.client.PatchSet;
 
 public class CommitPredicate extends ChangeIndexPredicate {
   static FieldDef<ChangeData, ?> commitField(String id) {
-    if (id.length() == OBJECT_ID_STRING_LENGTH) {
+    if (id.length() == ObjectIds.STR_LEN) {
       return EXACT_COMMIT;
     }
     return COMMIT;

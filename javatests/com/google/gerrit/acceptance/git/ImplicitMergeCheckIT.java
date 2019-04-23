@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -77,7 +78,7 @@ public class ImplicitMergeCheckIT extends AbstractDaemonTest {
   }
 
   private static String implicitMergeOf(ObjectId commit) {
-    return "implicit merge of " + commit.abbreviate(7).name();
+    return "implicit merge of " + abbreviateName(commit);
   }
 
   private void setRejectImplicitMerges() throws Exception {

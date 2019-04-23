@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "e2dd4a91_11a4303f",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-23T07:56:44Z",
+      "side": 1,
+      "message": "+1 to Matthias proposal: the LFS plugin should take care of his quota and should be sparate from Git’s one",
+      "parentUuid": "7063328d_1e205025",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1017c709_10a52dc7",
         "filename": "Documentation/lfs-quota-design.txt",
         "patchSetId": 3
@@ -182,6 +200,23 @@
       "writtenOn": "2019-04-22T21:47:28Z",
       "side": 1,
       "message": "I think this could be upstreamed if you do it in the way I described above.",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bae06815_d738a11e",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-23T07:56:44Z",
+      "side": 1,
+      "message": "This should be managed at the client Git side, as it is already possible today. Having the large files into the repo in a custom and non interoperable way with cgit isn’t a promising path IMHO",
       "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

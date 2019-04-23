@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
@@ -153,8 +154,8 @@ public class ChangeFieldTest extends GerritBaseTests {
         ChangeField.storedSubmitRecords(recordList).stream()
             .map(s -> new String(s, UTF_8))
             .collect(toList());
-    assertThat(ChangeField.parseSubmitRecords(stored))
-        .named("JSON %s" + stored)
+    assertWithMessage("JSON %s" + stored)
+        .that(ChangeField.parseSubmitRecords(stored))
         .isEqualTo(recordList);
   }
 }

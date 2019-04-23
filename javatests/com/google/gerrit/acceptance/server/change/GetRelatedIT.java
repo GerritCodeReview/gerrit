@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
@@ -706,18 +707,18 @@ public class GetRelatedIT extends AbstractDaemonTest {
       throws Exception {
     List<RelatedChangeAndCommitInfo> actual =
         gApi.changes().id(psId.changeId().get()).revision(psId.get()).related().changes;
-    assertThat(actual).named("related to " + psId).hasSize(expected.size());
+    assertWithMessage("related to " + psId).that(actual).hasSize(expected.size());
     for (int i = 0; i < actual.size(); i++) {
       String name = "index " + i + " related to " + psId;
       RelatedChangeAndCommitInfo a = actual.get(i);
       RelatedChangeAndCommitInfo e = expected.get(i);
-      assertThat(a.project).named("project of " + name).isEqualTo(e.project);
-      assertThat(a._changeNumber).named("change ID of " + name).isEqualTo(e._changeNumber);
+      assertWithMessage("project of " + name).that(a.project).isEqualTo(e.project);
+      assertWithMessage("change ID of " + name).that(a._changeNumber).isEqualTo(e._changeNumber);
       // Don't bother checking changeId; assume _changeNumber is sufficient.
-      assertThat(a._revisionNumber).named("revision of " + name).isEqualTo(e._revisionNumber);
-      assertThat(a.commit.commit).named("commit of " + name).isEqualTo(e.commit.commit);
-      assertThat(a._currentRevisionNumber)
-          .named("current revision of " + name)
+      assertWithMessage("revision of " + name).that(a._revisionNumber).isEqualTo(e._revisionNumber);
+      assertWithMessage("commit of " + name).that(a.commit.commit).isEqualTo(e.commit.commit);
+      assertWithMessage("current revision of " + name)
+          .that(a._currentRevisionNumber)
           .isEqualTo(e._currentRevisionNumber);
       assertThat(a.status).isEqualTo(e.status);
     }

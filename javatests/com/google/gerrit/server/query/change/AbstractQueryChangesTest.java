@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
@@ -1196,9 +1197,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       }
       String q = "status:new limit:" + i;
       List<ChangeInfo> results = newQuery(q).get();
-      assertThat(results).named(q).hasSize(expectedSize);
-      assertThat(results.get(results.size() - 1)._moreChanges)
-          .named(q)
+      assertWithMessage(q).that(results).hasSize(expectedSize);
+      assertWithMessage(q)
+          .that(results.get(results.size() - 1)._moreChanges)
           .isEqualTo(expectedMoreChanges);
       assertThat(results.get(0)._number).isEqualTo(last.getId().get());
     }
@@ -2466,8 +2467,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
           queryProvider.get().byCommitsOnBranchNotMerged(repo.getRepository(), dest, shas, i);
       Iterable<Integer> ids = FluentIterable.from(cds).transform(in -> in.getId().get());
       String name = "limit " + i;
-      assertThat(ids).named(name).hasSize(n);
-      assertThat(ids).named(name).containsExactlyElementsIn(expectedIds);
+      assertWithMessage(name).that(ids).hasSize(n);
+      assertWithMessage(name).that(ids).containsExactlyElementsIn(expectedIds);
     }
   }
 
@@ -3325,8 +3326,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       throws Exception {
     List<ChangeInfo> result = query.get();
     Iterable<Change.Id> ids = ids(result);
-    assertThat(ids)
-        .named(format(query.getQuery(), ids, changes))
+    assertWithMessage(format(query.getQuery(), ids, changes))
+        .that(ids)
         .containsExactlyElementsIn(Arrays.asList(changes))
         .inOrder();
     return result;
@@ -3338,8 +3339,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .map(ChangeData::getId)
             .collect(toImmutableList());
     Change.Id[] expectedIds = Arrays.stream(changes).map(Change::getId).toArray(Change.Id[]::new);
-    assertThat(actualIds)
-        .named(format(predicate.toString(), actualIds, expectedIds))
+    assertWithMessage(format(predicate.toString(), actualIds, expectedIds))
+        .that(actualIds)
         .containsExactlyElementsIn(expectedIds)
         .inOrder();
   }
@@ -3428,8 +3429,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected void assertMissingField(FieldDef<ChangeData, ?> field) {
-    assertThat(getSchema().hasField(field))
-        .named("schema %s has field %s", getSchemaVersion(), field.getName())
+    assertWithMessage("schema %s has field %s", getSchemaVersion(), field.getName())
+        .that(getSchema().hasField(field))
         .isFalse();
   }
 

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.testsuite.request;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 
@@ -98,24 +99,26 @@ public class RequestScopeOperationsImplTest extends AbstractDaemonTest {
 
   private void fastCheckCurrentUser(Account.Id expected) {
     // Check current user quickly, since the full check requires creating changes and is quite slow.
-    assertThat(userProvider.get().isIdentifiedUser())
-        .named("user from provider is an IdentifiedUser")
+    assertWithMessage("user from provider is an IdentifiedUser")
+        .that(userProvider.get().isIdentifiedUser())
         .isTrue();
-    assertThat(userProvider.get().getAccountId()).named("user from provider").isEqualTo(expected);
+    assertWithMessage("user from provider")
+        .that(userProvider.get().getAccountId())
+        .isEqualTo(expected);
   }
 
   private void checkCurrentUser(Account.Id expected) throws Exception {
     // Test all supported ways that an acceptance test might query the active user.
     fastCheckCurrentUser(expected);
-    assertThat(gApi.accounts().self().get()._accountId)
-        .named("user from GerritApi")
+    assertWithMessage("user from GerritApi")
+        .that(gApi.accounts().self().get()._accountId)
         .isEqualTo(expected.get());
     AcceptanceTestRequestScope.Context ctx = atrScope.get();
-    assertThat(ctx.getUser().isIdentifiedUser())
-        .named("user from AcceptanceTestRequestScope.Context is an IdentifiedUser")
+    assertWithMessage("user from AcceptanceTestRequestScope.Context is an IdentifiedUser")
+        .that(ctx.getUser().isIdentifiedUser())
         .isTrue();
-    assertThat(ctx.getUser().getAccountId())
-        .named("user from AcceptanceTestRequestScope.Context")
+    assertWithMessage("user from AcceptanceTestRequestScope.Context")
+        .that(ctx.getUser().getAccountId())
         .isEqualTo(expected);
     checkSshUser(expected);
   }
@@ -131,8 +134,8 @@ public class RequestScopeOperationsImplTest extends AbstractDaemonTest {
     assertThat(gApi.changes().id(changeId).get().owner._accountId).isEqualTo(expected.get());
     String queryResults =
         atrScope.get().getSession().exec("gerrit query owner:self change:" + changeId);
-    assertThat(findDistinct(queryResults, "I[0-9a-f]{40}"))
-        .named("Change-Ids in query results:\n%s", queryResults)
+    assertWithMessage("Change-Ids in query results:\n%s", queryResults)
+        .that(findDistinct(queryResults, "I[0-9a-f]{40}"))
         .containsExactly(changeId);
   }
 

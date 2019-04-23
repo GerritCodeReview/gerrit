@@ -15,6 +15,7 @@
 package com.google.gerrit.server.cache.h2;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -66,22 +67,22 @@ public class H2CacheTest {
                   return "bar";
                 }))
         .isEqualTo("bar");
-    assertThat(called.get()).named("Callable was called").isTrue();
-    assertThat(impl.getIfPresent("foo")).named("in-memory value").isEqualTo("bar");
+    assertWithMessage("Callable was called").that(called.get()).isTrue();
+    assertWithMessage("in-memory value").that(impl.getIfPresent("foo")).isEqualTo("bar");
     mem.invalidate("foo");
-    assertThat(impl.getIfPresent("foo")).named("persistent value").isEqualTo("bar");
+    assertWithMessage("persistent value").that(impl.getIfPresent("foo")).isEqualTo("bar");
 
     called.set(false);
-    assertThat(
+    assertWithMessage("cached value")
+        .that(
             impl.get(
                 "foo",
                 () -> {
                   called.set(true);
                   return "baz";
                 }))
-        .named("cached value")
         .isEqualTo("bar");
-    assertThat(called.get()).named("Callable was called").isFalse();
+    assertWithMessage("Callable was called").that(called.get()).isFalse();
   }
 
   @Test

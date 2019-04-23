@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -55,7 +56,7 @@ public class ReflogIT extends AbstractDaemonTest {
 
       gApi.changes().id(id.get()).topic("foo");
       ReflogEntry last = repo.getReflogReader(changeMetaRef(id)).getLastEntry();
-      assertThat(last).named("last RefLogEntry").isNotNull();
+      assertWithMessage("last RefLogEntry").that(last).isNotNull();
       assertThat(last.getComment()).isEqualTo("restapi.change.PutTopic");
     }
   }

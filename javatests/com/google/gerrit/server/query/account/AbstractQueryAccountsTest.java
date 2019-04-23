@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
@@ -802,8 +803,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       throws Exception {
     List<AccountInfo> result = query.get();
     Iterable<Integer> ids = ids(result);
-    assertThat(ids)
-        .named(format(query, result, accounts))
+    assertWithMessage(format(query, result, accounts))
+        .that(ids)
         .containsExactlyElementsIn(ids(accounts))
         .inOrder();
     return result;
@@ -860,8 +861,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   protected void assertMissingField(FieldDef<AccountState, ?> field) {
-    assertThat(getSchema().hasField(field))
-        .named("schema %s has field %s", getSchemaVersion(), field.getName())
+    assertWithMessage("schema %s has field %s", getSchemaVersion(), field.getName())
+        .that(getSchema().hasField(field))
         .isFalse();
   }
 

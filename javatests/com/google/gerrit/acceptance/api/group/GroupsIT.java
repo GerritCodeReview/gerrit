@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
@@ -1547,7 +1548,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
     void assertReindexOf(List<AccountGroup.UUID> groupUuids) {
       for (AccountGroup.UUID groupUuid : groupUuids) {
-        assertThat(getCount(groupUuid)).named(groupUuid.get()).isEqualTo(1);
+        assertWithMessage(groupUuid.get()).that(getCount(groupUuid)).isEqualTo(1);
       }
       assertThat(countsByGroup).hasSize(groupUuids.size());
       clear();

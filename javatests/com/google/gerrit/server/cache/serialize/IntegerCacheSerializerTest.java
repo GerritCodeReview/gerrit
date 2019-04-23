@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.cache.serialize;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.collect.ImmutableList;
@@ -49,8 +49,8 @@ public class IntegerCacheSerializerTest extends GerritBaseTests {
   private static void assertRoundTrip(int i) throws Exception {
     byte[] serialized = IntegerCacheSerializer.INSTANCE.serialize(i);
     int result = IntegerCacheSerializer.INSTANCE.deserialize(serialized);
-    assertThat(result)
-        .named("round-trip of %s via \"%s\"", i, TextFormat.escapeBytes(serialized))
+    assertWithMessage("round-trip of %s via \"%s\"", i, TextFormat.escapeBytes(serialized))
+        .that(result)
         .isEqualTo(i);
   }
 

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.testsuite.group;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableSet;
@@ -313,8 +314,10 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
     TestGroup visibleGroup = groupOperations.group(visibleGroupUuid).get();
     TestGroup invisibleGroup = groupOperations.group(invisibleGroupUuid).get();
 
-    assertThat(visibleGroup.visibleToAll()).named("visibility of visible group").isTrue();
-    assertThat(invisibleGroup.visibleToAll()).named("visibility of invisible group").isFalse();
+    assertWithMessage("visibility of visible group").that(visibleGroup.visibleToAll()).isTrue();
+    assertWithMessage("visibility of invisible group")
+        .that(invisibleGroup.visibleToAll())
+        .isFalse();
   }
 
   @Test

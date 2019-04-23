@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 
@@ -259,14 +260,14 @@ public class AccountResolverIT extends AbstractDaemonTest {
 
     assertThat(resolve(account.accountId())).containsExactly(id);
     for (String input : inputs) {
-      assertThat(resolve(input)).named("results for %s (active)", input).containsExactly(id);
+      assertWithMessage("results for %s (active)", input).that(resolve(input)).containsExactly(id);
     }
 
     gApi.accounts().id(id.get()).setActive(false);
     assertThat(resolve(account.accountId())).containsExactly(id);
     for (String input : inputs) {
       Result result = accountResolver.resolve(input);
-      assertThat(result.asIdSet()).named("results for %s (inactive)", input).isEmpty();
+      assertWithMessage("results for %s (inactive)", input).that(result.asIdSet()).isEmpty();
       try {
         result.asUnique();
         assert_().fail("expected UnresolvableAccountException");
@@ -282,8 +283,8 @@ public class AccountResolverIT extends AbstractDaemonTest {
                     + ": "
                     + nameEmail);
       }
-      assertThat(resolveByNameOrEmail(input))
-          .named("results by name or email for %s (inactive)", input)
+      assertWithMessage("results by name or email for %s (inactive)", input)
+          .that(resolveByNameOrEmail(input))
           .isEmpty();
     }
   }

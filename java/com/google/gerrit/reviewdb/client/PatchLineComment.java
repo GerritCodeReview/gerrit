@@ -149,7 +149,7 @@ public final class PatchLineComment {
   }
 
   public PatchSet.Id getPatchSetId() {
-    return patchKey.getParentKey();
+    return patchKey.patchSetId();
   }
 
   public int getLine() {
@@ -259,7 +259,7 @@ public final class PatchLineComment {
   public Comment asComment(String serverId) {
     Comment c =
         new Comment(
-            new Comment.Key(uuid, patchKey.fileName(), patchKey.getParentKey().get()),
+            new Comment.Key(uuid, patchKey.fileName(), patchKey.patchSetId().get()),
             author,
             writtenOn,
             side,

@@ -40,7 +40,7 @@ public class Reviewed {
           accountPatchReviewStore.call(
               s ->
                   s.markReviewed(
-                      resource.getPatchKey().getParentKey(),
+                      resource.getPatchKey().patchSetId(),
                       resource.getAccountId(),
                       resource.getPatchKey().fileName()));
       return reviewFlagUpdated ? Response.created("") : Response.ok("");
@@ -61,7 +61,7 @@ public class Reviewed {
       accountPatchReviewStore.run(
           s ->
               s.clearReviewed(
-                  resource.getPatchKey().getParentKey(),
+                  resource.getPatchKey().patchSetId(),
                   resource.getAccountId(),
                   resource.getPatchKey().fileName()));
       return Response.none();

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cb10fdc1_6a725220",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T20:58:45Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "05ee6a3d_6bf7a6a0",
+      "range": {
+        "startLine": 72,
+        "startChar": 17,
+        "endLine": 72,
+        "endChar": 25
+      },
+      "revId": "a368bb998aa79d2b6896ea5cc08e6e75a58f2601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ba96a73_a525e692",
         "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/DeleteKey.soy",
         "patchSetId": 23
@@ -45,6 +69,30 @@
       "revId": "a368bb998aa79d2b6896ea5cc08e6e75a58f2601",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b3c263b_5c6502ef",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/DeleteKey.soy",
+        "patchSetId": 23
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T20:58:45Z",
+      "side": 1,
+      "message": "This is now implemented.",
+      "parentUuid": "3ba96a73_a525e692",
+      "range": {
+        "startLine": 21,
+        "startChar": 18,
+        "endLine": 21,
+        "endChar": 25
+      },
+      "revId": "a368bb998aa79d2b6896ea5cc08e6e75a58f2601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

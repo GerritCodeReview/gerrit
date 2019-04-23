@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc4e95ab_9526525b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T14:10:32Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this information be better located on the project homepage?",
+      "revId": "0c4e7340e296ec740ad97782aa3f37254092d277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

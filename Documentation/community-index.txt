@@ -1,5 +1,15 @@
 = Gerrit Community
 
+== Project Information
+
+Gerrit is developed as a self-hosting open source project:
+
+* link:https://www.gerritcodereview.com/[Project Homepage]
+* link:https://www.gerritcodereview.com/releases-readme.html[Release Versions]
+* link:https://gerrit.googlesource.com/gerrit[Source]
+* link:https://bugs.chromium.org/p/gerrit/issues/list[Issue Tracking]
+* link:https://gerrit-review.googlesource.com/q/status:open+project:gerrit[Change Review]
+
 == Developer
 . Getting Started
 .. link:dev-readme.html[Developer Setup]

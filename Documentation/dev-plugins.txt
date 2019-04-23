@@ -2702,6 +2702,40 @@ public class MyPluginModule extends AbstractModule {
 }
 ----
 
+[[ssh-command-execution-interception]]
+== SSH Command Execution Interception
+Gerrit provides an extension point that enables plugins to check and
+prevent an SSH command from being run.
+
+[source, java]
+----
+import com.google.gerrit.sshd.SshExecuteCommandInterceptor;
+
+@Singleton
+public class SshExecuteCommandInterceptorImpl implements SshExecuteCommandInterceptor {
+  private final Provider<SshSession> sessionProvider;
+
+  @Inject
+  SshExecuteCommandInterceptorImpl(Provider<SshSession> sessionProvider) {
+    this.sessionProvider = sessionProvider;
+  }
+
+  @Override
+  public boolean accept(String command, List<String> arguments) {
+    if (command.startsWith("gerrit") && !"10.1.2.3".equals(sessionProvider.get().getRemoteAddressAsString())) {
+      return false;
+    }
+    return true;
+  }
+}
+----
+
+And then declare it in your SSH module:
+[source, java]
+----
+  DynamicSet.bind(binder(), SshExecuteCommandInterceptor.class).to(SshExecuteCommandInterceptorImpl.class);
+----
+
 Plugin authors should also consider binding their SubmitRule using a `Gerrit-BatchModule`.
 See link:dev-plugins.html[Batch runtime] for more informations.
 

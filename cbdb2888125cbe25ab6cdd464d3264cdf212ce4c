@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "6109771b_eedbf81c",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-04-23T13:55:26Z",
+      "side": 1,
+      "message": "\u003e good point; I don\u0027t think we considered this drawback.\n\nWe did consider this drawback ;) First of all, it is not a drawback if/when one doesn\u0027t want to store files under .git repository or don\u0027t care about single repo quota but cares about quota for repos in a namespace (our case).\nSecondly, it can be still circumvented by setting \u0027plugin.quota.useGitObjectCount \u003d true\u0027 in gerrit.config. The later will only work when LFS quota gets calculated independently (currently not possible hence this drawback was internally accepted)...\n\nIn general, I don\u0027t see having independent Git, LFS quotas or single unified quota contradict each other. We need to have the possibility to specify X as a total amount of space that user can consume and this is in user\u0027s discretion how it should be divided (that was the main driver of starting this proposal). I don\u0027t care if it gets automatically added behind the scenes as long as I don\u0027t have to specify an artificial size for Git and LFS parts correspondingly. Having said that I understand that one would like to keep them counted separately (callback interface [1] could be used to deliver that) and see it part of the configuration.\n\n[1] https://git.eclipse.org/r/#/c/140646/",
+      "parentUuid": "e2dd4a91_11a4303f",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1017c709_10a52dc7",
         "filename": "Documentation/lfs-quota-design.txt",
         "patchSetId": 3
@@ -155,6 +173,24 @@
     },
     {
       "key": {
+        "uuid": "355de316_6190e54d",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-04-23T13:55:26Z",
+      "side": 1,
+      "message": "When git object size is limited (https://gerrit-documentation.storage.googleapis.com/Documentation/2.16.7/config-project-config.html#receive.maxObjectSizeLimit) the only place that user can actually store bigger file is LFS... again can\u0027t see these 2 requirements as contradicting but rather a matter of choice how to perform/enforce it.\n\nAFAICT in the case when one doesn\u0027t want to store LFS files under `.git` repository but still want them removed when repository gets removed `ProjectDeletion` AuditEvent could be used (that is a fresh idea that I haven\u0027t POC\u0027ed yet)... otherwise inter-plugin dependencies would have to be introduced...",
+      "parentUuid": "fde8236e_cf43428d",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "df21830a_bf73646e",
         "filename": "Documentation/lfs-quota-design.txt",
         "patchSetId": 3
@@ -172,6 +208,24 @@
     },
     {
       "key": {
+        "uuid": "645f2a17_5d78320f",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-04-23T13:55:26Z",
+      "side": 1,
+      "message": "they are not available for 2.16...",
+      "parentUuid": "df21830a_bf73646e",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b12a89d9_eb4bf5e3",
         "filename": "Documentation/lfs-quota-design.txt",
         "patchSetId": 3
@@ -183,6 +237,24 @@
       "writtenOn": "2019-04-22T21:47:28Z",
       "side": 1,
       "message": "again I think there should be different quotas for git and lfs objects",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bf926fb_dabb721f",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-04-23T13:55:26Z",
+      "side": 1,
+      "message": "again I would say they could be different quotas ;)",
+      "parentUuid": "b12a89d9_eb4bf5e3",
       "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

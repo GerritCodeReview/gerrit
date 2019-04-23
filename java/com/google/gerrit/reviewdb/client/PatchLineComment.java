@@ -70,7 +70,7 @@ public final class PatchLineComment {
       plc.setRange(new CommentRange(r.startLine, r.startChar, r.endLine, r.endChar));
     }
     plc.setTag(c.tag);
-    plc.setCommitId(ObjectId.fromString(c.revId));
+    plc.setCommitId(c.getCommitId());
     plc.setStatus(status);
     plc.setRealAuthor(c.getRealAuthor().getId());
     plc.setUnresolved(c.unresolved);
@@ -268,7 +268,7 @@ public final class PatchLineComment {
             message,
             serverId,
             unresolved);
-    c.setRevId(commitId);
+    c.setCommitId(commitId);
     c.setRange(range);
     c.lineNbr = lineNbr;
     c.parentUuid = parentUuid;

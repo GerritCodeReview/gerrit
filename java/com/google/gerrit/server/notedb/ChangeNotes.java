@@ -46,7 +46,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -403,7 +402,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   /** @return inline comments on each revision. */
-  public ImmutableListMultimap<RevId, Comment> getComments() {
+  public ImmutableListMultimap<ObjectId, Comment> getComments() {
     return state.publishedComments();
   }
 
@@ -422,11 +421,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.updateCount();
   }
 
-  public ImmutableListMultimap<RevId, Comment> getDraftComments(Account.Id author) {
+  public ImmutableListMultimap<ObjectId, Comment> getDraftComments(Account.Id author) {
     return getDraftComments(author, null);
   }
 
-  public ImmutableListMultimap<RevId, Comment> getDraftComments(
+  public ImmutableListMultimap<ObjectId, Comment> getDraftComments(
       Account.Id author, @Nullable Ref ref) {
     loadDraftComments(author, ref);
     // Filter out any zombie draft comments. These are drafts that are also in
@@ -437,7 +436,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
             draftCommentNotes.getComments(), e -> !getCommentKeys().contains(e.getValue().key)));
   }
 
-  public ImmutableListMultimap<RevId, RobotComment> getRobotComments() {
+  public ImmutableListMultimap<ObjectId, RobotComment> getRobotComments() {
     loadRobotComments();
     return robotCommentNotes.getComments();
   }

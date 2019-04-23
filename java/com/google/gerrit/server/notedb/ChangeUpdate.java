@@ -57,7 +57,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -432,18 +431,18 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
     for (Comment c : comments) {
       c.tag = tag;
-      cache.get(new RevId(c.revId)).putComment(c);
+      cache.get(c.getCommitId()).putComment(c);
     }
     if (pushCert != null) {
       checkState(commit != null);
-      cache.get(new RevId(commit)).setPushCertificate(pushCert);
+      cache.get(ObjectId.fromString(commit)).setPushCertificate(pushCert);
     }
-    Map<RevId, RevisionNoteBuilder> builders = cache.getBuilders();
+    Map<ObjectId, RevisionNoteBuilder> builders = cache.getBuilders();
     checkComments(rnm.revisionNotes, builders);
 
-    for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
+    for (Map.Entry<ObjectId, RevisionNoteBuilder> e : builders.entrySet()) {
       ObjectId data = inserter.insert(OBJ_BLOB, e.getValue().build(noteUtil.getChangeNoteJson()));
-      rnm.noteMap.set(ObjectId.fromString(e.getKey().get()), data);
+      rnm.noteMap.set(e.getKey(), data);
     }
 
     return rnm.noteMap.writeTree(inserter);
@@ -476,7 +475,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private void checkComments(
-      Map<RevId, ChangeRevisionNote> existingNotes, Map<RevId, RevisionNoteBuilder> toUpdate) {
+      Map<ObjectId, ChangeRevisionNote> existingNotes,
+      Map<ObjectId, RevisionNoteBuilder> toUpdate) {
     // Prohibit various kinds of illegal operations on comments.
     Set<Comment.Key> existing = new HashSet<>();
     for (ChangeRevisionNote rn : existingNotes.values()) {
@@ -498,7 +498,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
           // separate commit. But note that we don't care much about the commit
           // graph of the draft ref, particularly because the ref is completely
           // deleted when all drafts are gone.
-          draftUpdate.deleteComment(c.revId, c.key);
+          draftUpdate.deleteComment(c.getCommitId(), c.key);
         }
       }
     }

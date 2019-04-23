@@ -140,7 +140,7 @@ public class GetDiff implements RestReadView<FileResource> {
 
     PatchScriptFactory psf;
     PatchSet basePatchSet = null;
-    PatchSet.Id pId = resource.getPatchKey().getParentKey();
+    PatchSet.Id pId = resource.getPatchKey().patchSetId();
     String fileName = resource.getPatchKey().fileName();
     ChangeNotes notes = resource.getRevision().getNotes();
     if (base != null) {
@@ -204,11 +204,11 @@ public class GetDiff implements RestReadView<FileResource> {
       List<DiffWebLinkInfo> links =
           webLinks.getDiffLinks(
               state.getName(),
-              resource.getPatchKey().getParentKey().changeId().get(),
+              resource.getPatchKey().patchSetId().changeId().get(),
               basePatchSet != null ? basePatchSet.getId().get() : null,
               revA,
               MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName()),
-              resource.getPatchKey().getParentKey().get(),
+              resource.getPatchKey().patchSetId().get(),
               revB,
               ps.getNewName());
       result.webLinks = links.isEmpty() ? null : links;

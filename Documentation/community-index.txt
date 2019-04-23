@@ -9,6 +9,7 @@ Gerrit is developed as a self-hosting open source project:
 * link:https://gerrit.googlesource.com/gerrit[Source]
 * link:https://bugs.chromium.org/p/gerrit/issues/list[Issue Tracking]
 * link:https://gerrit-review.googlesource.com/q/status:open+project:gerrit[Change Review]
+* link:dev-design.html[System Design]
 
 == Developer
 . Getting Started
@@ -21,7 +22,6 @@ Gerrit is developed as a self-hosting open source project:
 .. link:config-validation.html[Validation Interfaces]
 .. link:dev-stars.html[Starring Changes]
 .. link:quota.html[Quota Enforcement]
-. link:dev-design.html[System Design]
 
 == Maintainer
 . link:dev-release.html[Making a Gerrit Release]

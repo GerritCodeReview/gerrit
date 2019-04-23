@@ -30,6 +30,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACC
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_SKIP_VALIDATION;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -86,7 +87,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.git.receive.NoteDbPushOption;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
@@ -1591,8 +1591,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     RemoteRefUpdate refUpdate = r.getRemoteUpdate(ref);
     assertThat(refUpdate.getStatus()).isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
     String reason =
-        String.format(
-            "commit %s: missing Change-Id in message footer", c.toObjectId().abbreviate(7).name());
+        String.format("commit %s: missing Change-Id in message footer", abbreviateName(c, 7));
     assertThat(refUpdate.getMessage()).isEqualTo(reason);
 
     assertThat(r.getMessages()).contains("\nERROR: " + reason);
@@ -1617,8 +1616,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertErrorStatus(
         String.format(
             "commit %s: %s",
-            r.getCommit().abbreviate(RevId.ABBREV_LEN).name(),
-            ChangeIdValidator.CHANGE_ID_MISMATCH_MSG));
+            abbreviateName(r.getCommit()), ChangeIdValidator.CHANGE_ID_MISMATCH_MSG));
   }
 
   @Test
@@ -2351,9 +2349,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(pr.getMessages())
         .contains(
             "warning: no changes between prior commit "
-                + c.abbreviate(7).name()
+                + abbreviateName(c, 7)
                 + " and new commit "
-                + amended.abbreviate(7).name());
+                + abbreviateName(amended, 7));
   }
 
   @Test
@@ -2379,8 +2377,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pr = pushHead(testRepo, r, false);
     assertPushOk(pr, r);
     assertThat(pr.getMessages())
-        .contains(
-            "warning: " + amended.abbreviate(7).name() + ": no files changed, message updated");
+        .contains("warning: " + abbreviateName(amended, 7) + ": no files changed, message updated");
   }
 
   @Test
@@ -2404,8 +2401,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pr = pushHead(testRepo, r, false);
     assertPushOk(pr, r);
     assertThat(pr.getMessages())
-        .contains(
-            "warning: " + amended.abbreviate(7).name() + ": no files changed, author changed");
+        .contains("warning: " + abbreviateName(amended, 7) + ": no files changed, author changed");
   }
 
   @Test
@@ -2432,7 +2428,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pr = pushHead(testRepo, r, false);
     assertPushOk(pr, r);
     assertThat(pr.getMessages())
-        .contains("warning: " + amended.abbreviate(7).name() + ": no files changed, was rebased");
+        .contains("warning: " + abbreviateName(amended, 7) + ": no files changed, was rebased");
   }
 
   @Test

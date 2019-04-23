@@ -18,6 +18,7 @@ import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.git.ObjectIds;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
@@ -62,7 +63,7 @@ public class Text extends RawText {
             RevCommit p = c.getParent(0);
             rw.parseBody(p);
             b.append("Parent:     ");
-            b.append(reader.abbreviate(p, 8).name());
+            b.append(abbreviateName(p, reader));
             b.append(" (");
             b.append(p.getShortMessage());
             b.append(")\n");
@@ -73,7 +74,7 @@ public class Text extends RawText {
             RevCommit p = c.getParent(i);
             rw.parseBody(p);
             b.append(i == 0 ? "Merge Of:   " : "            ");
-            b.append(reader.abbreviate(p, 8).name());
+            b.append(abbreviateName(p, reader));
             b.append(" (");
             b.append(p.getShortMessage());
             b.append(")\n");
@@ -106,7 +107,7 @@ public class Text extends RawText {
           b.append("Merge List:\n\n");
           for (RevCommit commit : MergeListBuilder.build(rw, c, uniterestingParent)) {
             b.append("* ");
-            b.append(reader.abbreviate(commit, 8).name());
+            b.append(abbreviateName(commit, reader));
             b.append(" ");
             b.append(commit.getShortMessage());
             b.append("\n");
@@ -114,6 +115,10 @@ public class Text extends RawText {
       }
       return new Text(b.toString().getBytes(UTF_8));
     }
+  }
+
+  private static String abbreviateName(RevCommit p, ObjectReader reader) throws IOException {
+    return ObjectIds.abbreviateName(p, 8, reader);
   }
 
   private static void appendPersonIdent(StringBuilder b, String field, PersonIdent person) {

@@ -25,6 +25,7 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.DeprecatedIdentifierException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
@@ -32,7 +33,6 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -171,7 +171,12 @@ public class ChangeFinder {
     InternalChangeQuery query = queryProvider.get().noFields();
 
     // Try commit hash
-    if (id.matches("^([0-9a-fA-F]{" + RevId.ABBREV_LEN + "," + OBJECT_ID_STRING_LENGTH + "})$")) {
+    if (id.matches(
+        "^([0-9a-fA-F]{"
+            + ObjectIds.ABBREVIATED_STRING_LENGTH
+            + ","
+            + OBJECT_ID_STRING_LENGTH
+            + "})$")) {
       checkIdType(ChangeIdType.COMMIT_HASH, enforceDeprecation, id);
       return asChangeNotes(query.byCommit(id));
     }

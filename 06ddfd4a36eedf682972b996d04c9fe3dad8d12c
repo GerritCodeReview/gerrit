@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7a2c53a_6dd8b099",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T00:33:26Z",
+      "side": 1,
+      "message": "key",
+      "range": {
+        "startLine": 68,
+        "startChar": 51,
+        "endLine": 68,
+        "endChar": 59
+      },
+      "revId": "06ddfd4a36eedf682972b996d04c9fe3dad8d12c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

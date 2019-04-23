@@ -14,6 +14,7 @@ Gerrit is developed as a self-hosting open source project:
 
 [[how-to-contribute]]
 == How to contribute?
+* link:dev-cla.html[Contributor License Agreement]
 * link:dev-contributing.html[Contributing to Gerrit]
 * link:dev-readme.html[Developer Setup]
 

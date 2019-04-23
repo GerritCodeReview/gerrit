@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05ee6a3d_6bf7a6a0",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T11:10:00Z",
+      "side": 1,
+      "message": "deleted from",
+      "range": {
+        "startLine": 72,
+        "startChar": 17,
+        "endLine": 72,
+        "endChar": 25
+      },
+      "revId": "a368bb998aa79d2b6896ea5cc08e6e75a58f2601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ba96a73_a525e692",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/DeleteKey.soy",
+        "patchSetId": 23
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T11:10:00Z",
+      "side": 1,
+      "message": "it\u0027s not (currently) sent for deleting a GPG key",
+      "range": {
+        "startLine": 21,
+        "startChar": 18,
+        "endLine": 21,
+        "endChar": 25
+      },
+      "revId": "a368bb998aa79d2b6896ea5cc08e6e75a58f2601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

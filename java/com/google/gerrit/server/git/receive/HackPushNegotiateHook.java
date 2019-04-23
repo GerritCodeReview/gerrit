@@ -18,12 +18,12 @@ import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.git.ObjectIds;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -49,7 +49,7 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Size of an additional ".have" line. */
-  private static final int HAVE_LINE_LEN = 4 + Constants.OBJECT_ID_STRING_LENGTH + 1 + 5 + 1;
+  private static final int HAVE_LINE_LEN = 4 + ObjectIds.STR_LEN + 1 + 5 + 1;
 
   /**
    * Maximum number of bytes to "waste" in the advertisement with a peek at this repository's

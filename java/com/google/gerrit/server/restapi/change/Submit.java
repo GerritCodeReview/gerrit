@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.MoreObjects;
@@ -369,7 +370,7 @@ public class Submit
         ImmutableMap.of(
             "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
             "branch", change.getDest().shortName(),
-            "commit", ObjectId.fromString(revId.get()).abbreviate(7).name(),
+            "commit", abbreviateName(ObjectId.fromString(revId.get())),
             "submitSize", String.valueOf(cs.size()));
     ParameterizedString tp = cs.size() > 1 ? titlePatternWithAncestors : titlePattern;
     return new UiAction.Description()

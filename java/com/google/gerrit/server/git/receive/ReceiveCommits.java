@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
 import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
@@ -2349,7 +2350,7 @@ class ReceiveCommits {
             rw.parseBody(c);
             messages.add(
                 new CommitValidationMessage(
-                    "Implicit Merge of " + c.abbreviate(7).name() + " " + c.getShortMessage(),
+                    "Implicit Merge of " + abbreviateName(c) + " " + c.getShortMessage(),
                     ValidationMessage.Type.ERROR));
           }
           reject(magicBranch.cmd, "implicit merges detected");
@@ -2778,10 +2779,10 @@ class ReceiveCommits {
           addMessage(
               String.format(
                   "warning: no changes between prior commit %s and new commit %s",
-                  reader.abbreviate(priorCommit).name(), reader.abbreviate(newCommit).name()));
+                  abbreviateName(priorCommit, reader), abbreviateName(newCommit, reader)));
         } else {
           StringBuilder msg = new StringBuilder();
-          msg.append("warning: ").append(reader.abbreviate(newCommit).name());
+          msg.append("warning: ").append(abbreviateName(newCommit, reader));
           msg.append(":");
           msg.append(" no files changed");
           if (!authorEq) {

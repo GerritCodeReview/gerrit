@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -104,6 +106,6 @@ public class GetArchive implements RestReadView<RevisionResource> {
   private static String name(ArchiveFormat format, RevWalk rw, RevCommit commit)
       throws IOException {
     return String.format(
-        "%s%s", rw.getObjectReader().abbreviate(commit, 7).name(), format.getDefaultSuffix());
+        "%s%s", abbreviateName(commit, rw.getObjectReader()), format.getDefaultSuffix());
   }
 }

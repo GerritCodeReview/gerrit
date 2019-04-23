@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
@@ -337,13 +338,13 @@ public class MergeUtil {
         String.format(
             "%0$-" + nameLength + "s (%s %s)",
             oursName,
-            ours.abbreviate(6).name(),
+            abbreviateName(ours, 6),
             oursMsg.substring(0, Math.min(oursMsg.length(), 60)));
     String theirsNameFormatted =
         String.format(
             "%0$-" + nameLength + "s (%s %s)",
             theirsName,
-            theirs.abbreviate(6).name(),
+            abbreviateName(theirs, 6),
             theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
 
     MergeFormatter fmt = new MergeFormatter();

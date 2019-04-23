@@ -223,6 +223,24 @@
     },
     {
       "key": {
+        "uuid": "c62b211b_d8d86046",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T08:04:23Z",
+      "side": 1,
+      "message": "Yes, it\u0027s already possible anyway, but with LFS you don\u0027t get *any* of the objects if you clone a project, even with all refs.  The idea is to mimic that behavior, i.e. if the objects are in a separate git repo, they don\u0027t get included.\n\nThe main benefit behind this approach is being able to use replication to distribute the objects.\n\nAlso note, this is in the \"ideas considered\" section and the implicit \"...and rejected\" is omitted in the title :)",
+      "parentUuid": "bae06815_d738a11e",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "19be27e7_fca87e94",
         "filename": "Documentation/lfs-quota-design.txt",
         "patchSetId": 3

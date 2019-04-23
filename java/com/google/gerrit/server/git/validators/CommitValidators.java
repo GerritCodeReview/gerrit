@@ -30,7 +30,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -127,7 +127,7 @@ public class CommitValidators {
 
     public CommitValidators forReceiveCommits(
         PermissionBackend.ForProject forProject,
-        Branch.NameKey branch,
+        BranchNameKey branch,
         IdentifiedUser user,
         SshInfo sshInfo,
         NoteMap rejectCommits,
@@ -161,7 +161,7 @@ public class CommitValidators {
 
     public CommitValidators forGerritCommits(
         PermissionBackend.ForProject forProject,
-        Branch.NameKey branch,
+        BranchNameKey branch,
         IdentifiedUser user,
         SshInfo sshInfo,
         RevWalk rw,
@@ -191,7 +191,7 @@ public class CommitValidators {
     }
 
     public CommitValidators forMergedCommits(
-        PermissionBackend.ForProject forProject, Branch.NameKey branch, IdentifiedUser user)
+        PermissionBackend.ForProject forProject, BranchNameKey branch, IdentifiedUser user)
         throws IOException {
       // Generally only include validators that are based on permissions of the
       // user creating a change for a merged commit; generally exclude
@@ -389,7 +389,7 @@ public class CommitValidators {
   /** If this is the special project configuration branch, validate the config. */
   public static class ConfigValidator implements CommitValidationListener {
     private final ProjectConfig.Factory projectConfigFactory;
-    private final Branch.NameKey branch;
+    private final BranchNameKey branch;
     private final IdentifiedUser user;
     private final RevWalk rw;
     private final AllUsersName allUsers;
@@ -397,7 +397,7 @@ public class CommitValidators {
 
     public ConfigValidator(
         ProjectConfig.Factory projectConfigFactory,
-        Branch.NameKey branch,
+        BranchNameKey branch,
         IdentifiedUser user,
         RevWalk rw,
         AllUsersName allUsers,

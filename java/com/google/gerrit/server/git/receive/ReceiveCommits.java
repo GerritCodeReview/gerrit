@@ -81,7 +81,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -660,7 +660,7 @@ class ReceiveCommits {
       logger.atFine().withCause(e).log("update failed:");
     }
 
-    Set<Branch.NameKey> branches = new HashSet<>();
+    Set<BranchNameKey> branches = new HashSet<>();
     for (ReceiveCommand c : cmds) {
       // Most post-update steps should happen in UpdateOneRefOp#postUpdate. The only steps that
       // should happen in this loop are things that can't happen within one BatchUpdate because
@@ -676,7 +676,7 @@ class ReceiveCommits {
             Task closeProgress = progress.beginSubTask("closed", UNKNOWN);
             autoCloseChanges(c, closeProgress);
             closeProgress.end();
-            branches.add(Branch.nameKey(project.getNameKey(), c.getRefName()));
+            branches.add(BranchNameKey.create(project.getNameKey(), c.getRefName()));
             break;
 
           case DELETE:
@@ -1226,7 +1226,7 @@ class ReceiveCommits {
       return;
     }
 
-    Branch.NameKey branch = Branch.nameKey(project.getName(), cmd.getRefName());
+    BranchNameKey branch = BranchNameKey.create(project.getName(), cmd.getRefName());
     try {
       // Must pass explicit user instead of injecting a provider into CreateRefControl, since
       // Provider<CurrentUser> within ReceiveCommits will always return anonymous.
@@ -1240,7 +1240,7 @@ class ReceiveCommits {
     }
 
     if (validRefOperation(cmd)) {
-      validateRegularPushCommits(Branch.nameKey(project.getNameKey(), cmd.getRefName()), cmd);
+      validateRegularPushCommits(BranchNameKey.create(project.getNameKey(), cmd.getRefName()), cmd);
     }
   }
 
@@ -1253,7 +1253,8 @@ class ReceiveCommits {
         return;
       }
       if (validRefOperation(cmd)) {
-        validateRegularPushCommits(Branch.nameKey(project.getNameKey(), cmd.getRefName()), cmd);
+        validateRegularPushCommits(
+            BranchNameKey.create(project.getNameKey(), cmd.getRefName()), cmd);
       }
     } else {
       rejectProhibited(cmd, err.get());
@@ -1312,7 +1313,7 @@ class ReceiveCommits {
     logger.atFine().log("Rewinding %s", cmd);
 
     if (newObject != null) {
-      validateRegularPushCommits(Branch.nameKey(project.getNameKey(), cmd.getRefName()), cmd);
+      validateRegularPushCommits(BranchNameKey.create(project.getNameKey(), cmd.getRefName()), cmd);
       if (cmd.getResult() != NOT_ATTEMPTED) {
         return;
       }
@@ -1367,7 +1368,7 @@ class ReceiveCommits {
     final ReceiveCommand cmd;
     final LabelTypes labelTypes;
     private final boolean defaultPublishComments;
-    Branch.NameKey dest;
+    BranchNameKey dest;
     PermissionBackend.ForRef perm;
     Set<String> reviewer = Sets.newLinkedHashSet();
     Set<String> cc = Sets.newLinkedHashSet();
@@ -1705,7 +1706,7 @@ class ReceiveCommits {
       return;
     }
 
-    magicBranch.dest = Branch.nameKey(project.getNameKey(), ref);
+    magicBranch.dest = BranchNameKey.create(project.getNameKey(), ref);
     magicBranch.perm = permissions.ref(ref);
 
     Optional<AuthException> err = checkRefPermission(magicBranch.perm, RefPermission.CREATE_CHANGE);
@@ -1856,7 +1857,7 @@ class ReceiveCommits {
   // branch.  If they aren't, we want to abort. We do this check by
   // looking to see if we can compute a merge base between the new
   // commits and the target branch head.
-  private boolean validateConnected(ReceiveCommand cmd, Branch.NameKey dest, RevCommit tip) {
+  private boolean validateConnected(ReceiveCommand cmd, BranchNameKey dest, RevCommit tip) {
     RevWalk walk = receivePack.getRevWalk();
     try {
       Ref targetRef = receivePack.getAdvertisedRefs().get(dest.branch());
@@ -1905,7 +1906,7 @@ class ReceiveCommits {
     }
   }
 
-  private RevCommit readBranchTip(Branch.NameKey branch) throws IOException {
+  private RevCommit readBranchTip(BranchNameKey branch) throws IOException {
     Ref r = allRefs().get(branch.branch());
     if (r == null) {
       return null;
@@ -3061,7 +3062,7 @@ class ReceiveCommits {
    *
    * <p>On validation failure, the command is rejected.
    */
-  private void validateRegularPushCommits(Branch.NameKey branch, ReceiveCommand cmd)
+  private void validateRegularPushCommits(BranchNameKey branch, ReceiveCommand cmd)
       throws PermissionBackendException {
     if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
@@ -3143,7 +3144,7 @@ class ReceiveCommits {
               // TODO(dborowitz): Teach BatchUpdate to ignore missing changes.
 
               RevCommit newTip = rw.parseCommit(cmd.getNewId());
-              Branch.NameKey branch = Branch.nameKey(project.getNameKey(), refName);
+              BranchNameKey branch = BranchNameKey.create(project.getNameKey(), refName);
 
               rw.reset();
               rw.markStart(newTip);
@@ -3255,7 +3256,7 @@ class ReceiveCommits {
     }
   }
 
-  private Map<Change.Key, ChangeNotes> openChangesByKeyByBranch(Branch.NameKey branch) {
+  private Map<Change.Key, ChangeNotes> openChangesByKeyByBranch(BranchNameKey branch) {
     Map<Change.Key, ChangeNotes> r = new HashMap<>();
     for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
       try {

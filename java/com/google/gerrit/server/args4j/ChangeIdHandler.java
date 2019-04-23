@@ -18,7 +18,7 @@ import static com.google.gerrit.util.cli.Localizable.localizable;
 
 import com.google.common.base.Splitter;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -60,7 +60,7 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
     try {
       final Change.Key key = Change.Key.parse(tokens.get(2));
       final Project.NameKey project = Project.nameKey(tokens.get(0));
-      final Branch.NameKey branch = Branch.nameKey(project, tokens.get(1));
+      final BranchNameKey branch = BranchNameKey.create(project, tokens.get(1));
       for (ChangeData cd : queryProvider.get().byBranchKey(branch, key)) {
         setter.addValue(cd.getId());
         return 1;

@@ -38,7 +38,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -127,7 +127,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public static Change newChange(Project.NameKey project, Change.Id changeId) {
       return new Change(
-          null, changeId, null, Branch.nameKey(project, "INVALID_NOTE_DB_ONLY"), null);
+          null, changeId, null, BranchNameKey.create(project, "INVALID_NOTE_DB_ONLY"), null);
     }
 
     public ChangeNotes create(Project.NameKey project, Change.Id changeId) {

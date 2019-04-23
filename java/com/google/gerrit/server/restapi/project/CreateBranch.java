@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -108,7 +108,7 @@ public class CreateBranch
               + "\"");
     }
 
-    final Branch.NameKey name = Branch.nameKey(rsrc.getNameKey(), ref);
+    final BranchNameKey name = BranchNameKey.create(rsrc.getNameKey(), ref);
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       ObjectId revid = RefUtil.parseBaseRevision(repo, rsrc.getNameKey(), input.revision);
       RevWalk rw = RefUtil.verifyConnected(repo, revid);

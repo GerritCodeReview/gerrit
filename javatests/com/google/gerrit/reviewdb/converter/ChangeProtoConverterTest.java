@@ -22,7 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -41,7 +41,7 @@ public class ChangeProtoConverterTest {
             Change.key("change 1"),
             Change.id(14),
             Account.id(35),
-            Branch.nameKey(Project.nameKey("project 67"), "branch 74"),
+            BranchNameKey.create(Project.nameKey("project 67"), "branch 74"),
             new Timestamp(987654L));
     change.setLastUpdatedOn(new Timestamp(1234567L));
     change.setStatus(Change.Status.MERGED);
@@ -91,7 +91,7 @@ public class ChangeProtoConverterTest {
             Change.key("change 1"),
             Change.id(14),
             Account.id(35),
-            Branch.nameKey(Project.nameKey("project 67"), "branch-74"),
+            BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
 
     Entities.Change proto = changeProtoConverter.toProto(change);
@@ -127,7 +127,7 @@ public class ChangeProtoConverterTest {
             Change.key("change 1"),
             Change.id(14),
             Account.id(35),
-            Branch.nameKey(Project.nameKey("project 67"), "branch-74"),
+            BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
     // O as ID actually means that no current patch set is present.
     change.setCurrentPatchSet(PatchSet.id(Change.id(14), 0), null, null);
@@ -165,7 +165,7 @@ public class ChangeProtoConverterTest {
             Change.key("change 1"),
             Change.id(14),
             Account.id(35),
-            Branch.nameKey(Project.nameKey("project 67"), "branch-74"),
+            BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
     change.setCurrentPatchSet(PatchSet.id(Change.id(14), 23), "subject ABC", null);
 
@@ -202,7 +202,7 @@ public class ChangeProtoConverterTest {
             Change.key("change 1"),
             Change.id(14),
             Account.id(35),
-            Branch.nameKey(Project.nameKey("project 67"), "branch-74"),
+            BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
     change.setLastUpdatedOn(new Timestamp(1234567L));
     change.setStatus(Change.Status.MERGED);
@@ -227,7 +227,7 @@ public class ChangeProtoConverterTest {
             Change.key("change 1"),
             Change.id(14),
             Account.id(35),
-            Branch.nameKey(Project.nameKey("project 67"), "branch-74"),
+            BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
 
     Change convertedChange = changeProtoConverter.fromProto(changeProtoConverter.toProto(change));
@@ -323,7 +323,7 @@ public class ChangeProtoConverterTest {
                 .put("createdOn", Timestamp.class)
                 .put("lastUpdatedOn", Timestamp.class)
                 .put("owner", Account.Id.class)
-                .put("dest", Branch.NameKey.class)
+                .put("dest", BranchNameKey.class)
                 .put("status", char.class)
                 .put("currentPatchSetId", int.class)
                 .put("subject", String.class)

@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotEquals;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -122,7 +122,7 @@ public class PermissionBackendConditionIT extends AbstractDaemonTest {
 
   @Test
   public void refPermissions_sameResourceAndUserEquals() throws Exception {
-    Branch.NameKey branch = Branch.nameKey(project, "branch");
+    BranchNameKey branch = BranchNameKey.create(project, "branch");
     BooleanCondition cond1 = pb.user(user()).ref(branch).testCond(RefPermission.READ);
     BooleanCondition cond2 = pb.user(user()).ref(branch).testCond(RefPermission.READ);
 
@@ -132,7 +132,7 @@ public class PermissionBackendConditionIT extends AbstractDaemonTest {
 
   @Test
   public void refPermissions_sameResourceAndDifferentUserDoesNotEqual() throws Exception {
-    Branch.NameKey branch = Branch.nameKey(project, "branch");
+    BranchNameKey branch = BranchNameKey.create(project, "branch");
     BooleanCondition cond1 = pb.user(user()).ref(branch).testCond(RefPermission.READ);
     BooleanCondition cond2 = pb.user(admin()).ref(branch).testCond(RefPermission.READ);
 
@@ -142,8 +142,8 @@ public class PermissionBackendConditionIT extends AbstractDaemonTest {
 
   @Test
   public void refPermissions_differentResourceAndSameUserDoesNotEqual() throws Exception {
-    Branch.NameKey branch1 = Branch.nameKey(project, "branch");
-    Branch.NameKey branch2 = Branch.nameKey(project, "branch2");
+    BranchNameKey branch1 = BranchNameKey.create(project, "branch");
+    BranchNameKey branch2 = BranchNameKey.create(project, "branch2");
     BooleanCondition cond1 = pb.user(user()).ref(branch1).testCond(RefPermission.READ);
     BooleanCondition cond2 = pb.user(user()).ref(branch2).testCond(RefPermission.READ);
 
@@ -153,8 +153,8 @@ public class PermissionBackendConditionIT extends AbstractDaemonTest {
 
   @Test
   public void refPermissions_differentResourceAndSameUserDoesNotEqual2() throws Exception {
-    Branch.NameKey branch1 = Branch.nameKey(project, "branch");
-    Branch.NameKey branch2 = Branch.nameKey(projectOperations.newProject().create(), "branch");
+    BranchNameKey branch1 = BranchNameKey.create(project, "branch");
+    BranchNameKey branch2 = BranchNameKey.create(projectOperations.newProject().create(), "branch");
     BooleanCondition cond1 = pb.user(user()).ref(branch1).testCond(RefPermission.READ);
     BooleanCondition cond2 = pb.user(user()).ref(branch2).testCond(RefPermission.READ);
 

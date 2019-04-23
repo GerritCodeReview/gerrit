@@ -24,7 +24,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.testing.ConfigSuite;
@@ -136,7 +136,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     gApi.changes().id(id2).current().review(ReviewInput.approve());
     gApi.changes().id(id3).current().review(ReviewInput.approve());
 
-    Map<Branch.NameKey, ObjectId> preview = fetchFromSubmitPreview(id1);
+    Map<BranchNameKey, ObjectId> preview = fetchFromSubmitPreview(id1);
     gApi.changes().id(id1).current().submit();
     ObjectId subRepoId =
         subRepo
@@ -152,8 +152,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     // As the submodules have changed commits, the superproject tree will be
     // different, so we cannot directly compare the trees here, so make
     // assumptions only about the changed branches:
-    assertThat(preview).containsKey(Branch.nameKey(superKey, "refs/heads/master"));
-    assertThat(preview).containsKey(Branch.nameKey(subKey, "refs/heads/master"));
+    assertThat(preview).containsKey(BranchNameKey.create(superKey, "refs/heads/master"));
+    assertThat(preview).containsKey(BranchNameKey.create(subKey, "refs/heads/master"));
 
     if ((getSubmitType() == SubmitType.CHERRY_PICK)
         || (getSubmitType() == SubmitType.REBASE_ALWAYS)) {

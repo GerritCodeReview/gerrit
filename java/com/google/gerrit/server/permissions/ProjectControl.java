@@ -27,7 +27,7 @@ import com.google.gerrit.extensions.api.access.PluginProjectPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -108,7 +108,7 @@ class ProjectControl {
     return changeControlFactory.create(controlForRef(notes.getChange().getDest()), notes);
   }
 
-  RefControl controlForRef(Branch.NameKey ref) {
+  RefControl controlForRef(BranchNameKey ref) {
     return controlForRef(ref.branch());
   }
 

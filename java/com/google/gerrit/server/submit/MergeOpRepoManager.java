@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.Maps;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
@@ -67,7 +67,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     BatchUpdate update;
 
     private final ObjectReader reader;
-    private final Map<Branch.NameKey, OpenBranch> branches;
+    private final Map<BranchNameKey, OpenBranch> branches;
 
     private OpenRepo(Repository repo, ProjectState project) {
       this.repo = repo;
@@ -84,7 +84,7 @@ public class MergeOpRepoManager implements AutoCloseable {
       branches = Maps.newHashMapWithExpectedSize(1);
     }
 
-    OpenBranch getBranch(Branch.NameKey branch) throws IntegrationException {
+    OpenBranch getBranch(BranchNameKey branch) throws IntegrationException {
       OpenBranch ob = branches.get(branch);
       if (ob == null) {
         ob = new OpenBranch(this, branch);
@@ -134,7 +134,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     final CodeReviewCommit oldTip;
     MergeTip mergeTip;
 
-    OpenBranch(OpenRepo or, Branch.NameKey name) throws IntegrationException {
+    OpenBranch(OpenRepo or, BranchNameKey name) throws IntegrationException {
       try {
         update = or.repo.updateRef(name.branch());
         if (update.getOldObjectId() != null) {

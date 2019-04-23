@@ -440,7 +440,7 @@ public final class Change {
   protected Account.Id owner;
 
   /** The branch (and project) this change merges into. */
-  protected Branch.NameKey dest;
+  protected BranchNameKey dest;
 
   // DELETED: id = 9 (open)
 
@@ -496,7 +496,7 @@ public final class Change {
       Change.Key newKey,
       Change.Id newId,
       Account.Id ownedBy,
-      Branch.NameKey forBranch,
+      BranchNameKey forBranch,
       Timestamp ts) {
     changeKey = newKey;
     changeId = newId;
@@ -583,11 +583,11 @@ public final class Change {
     this.owner = owner;
   }
 
-  public Branch.NameKey getDest() {
+  public BranchNameKey getDest() {
     return dest;
   }
 
-  public void setDest(Branch.NameKey dest) {
+  public void setDest(BranchNameKey dest) {
     this.dest = dest;
   }
 

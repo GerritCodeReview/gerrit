@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.DefaultPermissionMappings;
@@ -106,7 +106,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
       try {
         permissionBackend
             .absentUser(match)
-            .ref(Branch.nameKey(rsrc.getNameKey(), input.ref))
+            .ref(BranchNameKey.create(rsrc.getNameKey(), input.ref))
             .check(refPerm);
       } catch (AuthException e) {
         info.status = HttpServletResponse.SC_FORBIDDEN;

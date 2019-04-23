@@ -48,7 +48,7 @@ import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupBackend;
@@ -341,7 +341,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return subscribeSections;
   }
 
-  public Collection<SubscribeSection> getSubscribeSections(Branch.NameKey branch) {
+  public Collection<SubscribeSection> getSubscribeSections(BranchNameKey branch) {
     Collection<SubscribeSection> ret = new ArrayList<>();
     for (SubscribeSection s : subscribeSections.values()) {
       if (s.appliesTo(branch)) {

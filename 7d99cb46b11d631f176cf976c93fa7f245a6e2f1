@@ -284,6 +284,30 @@
       "revId": "7d99cb46b11d631f176cf976c93fa7f245a6e2f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96ee1b96_d8c715b1",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-23T20:36:09Z",
+      "side": 1,
+      "message": "I just rebasing this series. Will look later in your comments.",
+      "parentUuid": "90cd130d_8636a514",
+      "range": {
+        "startLine": 438,
+        "startChar": 16,
+        "endLine": 438,
+        "endChar": 31
+      },
+      "revId": "7d99cb46b11d631f176cf976c93fa7f245a6e2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

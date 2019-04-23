@@ -15,45 +15,47 @@
 package com.google.gerrit.reviewdb.converter;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.protobuf.Parser;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-public class RevIdProtoConverterTest {
-  private final RevIdProtoConverter revIdProtoConverter = RevIdProtoConverter.INSTANCE;
+public class ObjectIdProtoConverterTest {
+  private final ObjectIdProtoConverter objectIdProtoConverter = ObjectIdProtoConverter.INSTANCE;
 
   @Test
   public void allValuesConvertedToProto() {
-    RevId revId = new RevId("9903402f303249e");
+    ObjectId objectId = ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
 
-    Entities.RevId proto = revIdProtoConverter.toProto(revId);
+    Entities.ObjectId proto = objectIdProtoConverter.toProto(objectId);
 
-    Entities.RevId expectedProto = Entities.RevId.newBuilder().setId("9903402f303249e").build();
+    Entities.ObjectId expectedProto =
+        Entities.ObjectId.newBuilder().setName("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef").build();
     assertThat(proto).isEqualTo(expectedProto);
   }
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    RevId revId = new RevId("ff3934a320bb");
+    ObjectId objectId = ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
 
-    RevId convertedRevId = revIdProtoConverter.fromProto(revIdProtoConverter.toProto(revId));
+    ObjectId convertedObjectId =
+        objectIdProtoConverter.fromProto(objectIdProtoConverter.toProto(objectId));
 
-    assertThat(convertedRevId).isEqualTo(revId);
+    assertThat(convertedObjectId).isEqualTo(objectId);
   }
 
   @Test
   public void protoCanBeParsedFromBytes() throws Exception {
-    Entities.RevId proto = Entities.RevId.newBuilder().setId("9903402f303249e").build();
+    Entities.ObjectId proto =
+        Entities.ObjectId.newBuilder().setName("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef").build();
     byte[] bytes = proto.toByteArray();
 
-    Parser<Entities.RevId> parser = revIdProtoConverter.getParser();
-    Entities.RevId parsedProto = parser.parseFrom(bytes);
+    Parser<Entities.ObjectId> parser = objectIdProtoConverter.getParser();
+    Entities.ObjectId parsedProto = parser.parseFrom(bytes);
 
     assertThat(parsedProto).isEqualTo(proto);
   }
@@ -61,6 +63,13 @@ public class RevIdProtoConverterTest {
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
   public void fieldsExistAsExpected() {
-    assertThatSerializedClass(RevId.class).hasFields(ImmutableMap.of("id", String.class));
+    assertThatSerializedClass(ObjectId.class)
+        .hasFields(
+            ImmutableMap.of(
+                "w1", int.class,
+                "w2", int.class,
+                "w3", int.class,
+                "w4", int.class,
+                "w5", int.class));
   }
 }

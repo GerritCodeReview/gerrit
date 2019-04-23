@@ -91,7 +91,7 @@ message PatchSet_Id {
 // Next ID: 10
 message PatchSet {
   required PatchSet_Id id = 1;
-  optional RevId revision = 2;
+  optional ObjectId commitId = 2;
   optional Account_Id uploader_account_id = 3;
   optional fixed64 created_on = 4;
   optional string groups = 6;
@@ -151,8 +151,9 @@ message Branch_NameKey {
   optional string branch = 2;
 }
 
-// Serialized form of com.google.gerrit.reviewdb.client.RevId.
+// Serialized form of org.eclipse.jgit.lib.ObjectId.
 // Next ID: 2
-message RevId {
-  optional string id = 1;
+message ObjectId {
+  // Hex string representation of the ID.
+  optional string name = 1;
 }

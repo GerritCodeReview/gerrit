@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9dbfeb7d_5c6ca8cc",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T00:24:50Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9c817141_4f0a1e59",
+      "range": {
+        "startLine": 70,
+        "startChar": 76,
+        "endLine": 70,
+        "endChar": 83
+      },
+      "revId": "1091f179f4b9d719be1f6a196ef34145ab9836b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "511b6a06_51a11139",
         "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/DeleteKey.soy",
         "patchSetId": 19
@@ -36,6 +60,30 @@
       "writtenOn": "2019-04-22T23:54:32Z",
       "side": 1,
       "message": "This bit should be removed.  It looks like it was copied from AddKey.soy which includes a section listing the keys after the newlines.\n\nOr, should this email notification also include the information about which keys were removed?",
+      "range": {
+        "startLine": 26,
+        "startChar": 25,
+        "endLine": 29,
+        "endChar": 6
+      },
+      "revId": "1091f179f4b9d719be1f6a196ef34145ab9836b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1894e8c9_368bb3bc",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/DeleteKey.soy",
+        "patchSetId": 19
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T00:24:50Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nFor including information on which key was deleted, i was thinking of doing that but coulden\u0027t figure out how to do it, so i went with a way that suggests a key is deleted but dosen\u0027t tell you which one was deleted.",
+      "parentUuid": "511b6a06_51a11139",
       "range": {
         "startLine": 26,
         "startChar": 25,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d4e6aaf8_3056f320",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/DeleteKeyHtml.soy",
+        "patchSetId": 19
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T00:24:50Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "934414e2_8d29c4ba",
+      "range": {
+        "startLine": 25,
+        "startChar": 26,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "1091f179f4b9d719be1f6a196ef34145ab9836b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "636abe4d_6be58c27",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteSshKey.java",
         "patchSetId": 19
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "11b5f1d0_50382974",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteSshKey.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T00:24:50Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "636abe4d_6be58c27",
+      "range": {
+        "startLine": 77,
+        "startChar": 30,
+        "endLine": 77,
+        "endChar": 44
+      },
+      "revId": "1091f179f4b9d719be1f6a196ef34145ab9836b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86981d9e_7896402d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteSshKey.java",
         "patchSetId": 19
@@ -114,6 +210,30 @@
       "revId": "1091f179f4b9d719be1f6a196ef34145ab9836b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65e5a2e9_9757367f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteSshKey.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T00:24:50Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "86981d9e_7896402d",
+      "range": {
+        "startLine": 80,
+        "startChar": 51,
+        "endLine": 80,
+        "endChar": 56
+      },
+      "revId": "1091f179f4b9d719be1f6a196ef34145ab9836b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -27,6 +27,7 @@ import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
@@ -74,7 +75,10 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
               () -> {
                 try {
                   projectCache.evict(name);
-                  index.replace(projectCache.get(name).toProjectData());
+                  ProjectState projectState = projectCache.get(name);
+                  if (projectState != null) {
+                    index.replace(projectState.toProjectData());
+                  }
                   verboseWriter.println("Reindexed " + desc);
                   done.incrementAndGet();
                 } catch (Exception e) {

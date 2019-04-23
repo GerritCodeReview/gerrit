@@ -32,26 +32,6 @@ public final class RevId {
     return id;
   }
 
-  /** @return true if this revision id has all required digits. */
-  public boolean isComplete() {
-    return get().length() == LEN;
-  }
-
-  /**
-   * @return if {@link #isComplete()}, {@code this}; otherwise a new RevId with 'z' appended on the
-   *     end.
-   */
-  public RevId max() {
-    if (isComplete()) {
-      return this;
-    }
-
-    final StringBuilder revEnd = new StringBuilder(get().length() + 1);
-    revEnd.append(get());
-    revEnd.append('z');
-    return new RevId(revEnd.toString());
-  }
-
   @Override
   public int hashCode() {
     return id.hashCode();

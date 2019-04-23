@@ -93,6 +93,10 @@ import java.util.Arrays;
  * notice of a replacement patch set is sent, or when notice of the change submission occurs.
  */
 public final class Change {
+  public static Id id(int id) {
+    return new Id(id);
+  }
+
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
@@ -249,6 +253,10 @@ public final class Change {
       }
       return i;
     }
+  }
+
+  public static Key key(String key) {
+    return new Key(key);
   }
 
   /**

@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.FileInfoSubject.assertThat;
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
@@ -2481,7 +2482,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
       RevCommit parentCommit = c.getParents()[0];
       String parentCommitId =
-          testRepo.getRevWalk().getObjectReader().abbreviate(parentCommit.getId(), 8).name();
+          abbreviateName(parentCommit, 8, testRepo.getRevWalk().getObjectReader());
       headers.add("Parent:     " + parentCommitId + " (" + parentCommit.getShortMessage() + ")");
 
       SimpleDateFormat dtfmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.US);

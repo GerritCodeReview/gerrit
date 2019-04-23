@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.receive;
 
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
 import com.google.common.flogger.FluentLogger;
@@ -21,7 +22,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
@@ -127,6 +127,6 @@ public class BranchCommitValidator {
   }
 
   private String messageForCommit(RevCommit c, String msg) {
-    return String.format("commit %s: %s", c.abbreviate(RevId.ABBREV_LEN).name(), msg);
+    return String.format("commit %s: %s", abbreviateName(c), msg);
   }
 }

@@ -3,9 +3,6 @@
 == Developer
 . Getting Started
 .. link:dev-readme.html[Developer Setup]
-.. link:dev-bazel.html[Building with Bazel]
-.. link:dev-eclipse.html[Eclipse Setup]
-.. link:dev-intellij.html[IntelliJ Setup]
 .. link:dev-contributing.html[Contributing to Gerrit]
 . Plugin Development
 .. link:dev-plugins.html[Developing Plugins]

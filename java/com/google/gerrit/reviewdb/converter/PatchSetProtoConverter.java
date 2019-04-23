@@ -21,13 +21,15 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.protobuf.Parser;
 import java.sql.Timestamp;
 import java.util.List;
+import org.eclipse.jgit.lib.ObjectId;
 
 public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, PatchSet> {
   INSTANCE;
 
   private final ProtoConverter<Entities.PatchSet_Id, PatchSet.Id> patchSetIdConverter =
       PatchSetIdProtoConverter.INSTANCE;
-  private final ProtoConverter<Entities.RevId, RevId> revIdConverter = RevIdProtoConverter.INSTANCE;
+  private final ProtoConverter<Entities.ObjectId, ObjectId> objectIdConverter =
+      ObjectIdProtoConverter.INSTANCE;
   private final ProtoConverter<Entities.Account_Id, Account.Id> accountIdConverter =
       AccountIdProtoConverter.INSTANCE;
 
@@ -37,7 +39,7 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
         Entities.PatchSet.newBuilder().setId(patchSetIdConverter.toProto(patchSet.getId()));
     RevId revision = patchSet.getRevision();
     if (revision != null) {
-      builder.setRevision(revIdConverter.toProto(revision));
+      builder.setCommitId(objectIdConverter.toProto(ObjectId.fromString(revision.get())));
     }
     Account.Id uploader = patchSet.getUploader();
     if (uploader != null) {
@@ -65,8 +67,8 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
   @Override
   public PatchSet fromProto(Entities.PatchSet proto) {
     PatchSet patchSet = new PatchSet(patchSetIdConverter.fromProto(proto.getId()));
-    if (proto.hasRevision()) {
-      patchSet.setRevision(revIdConverter.fromProto(proto.getRevision()));
+    if (proto.hasCommitId()) {
+      patchSet.setRevision(new RevId(objectIdConverter.fromProto(proto.getCommitId()).name()));
     }
     if (proto.hasUploaderAccountId()) {
       patchSet.setUploader(accountIdConverter.fromProto(proto.getUploaderAccountId()));

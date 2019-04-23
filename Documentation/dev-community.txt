@@ -11,22 +11,22 @@ Gerrit is developed as a self-hosting open source project:
 * link:https://gerrit-review.googlesource.com/q/status:open+project:gerrit[Change Review]
 * link:dev-design.html[System Design]
 
-== Developer
-. Getting Started
-.. link:dev-readme.html[Developer Setup]
-.. link:dev-contributing.html[Contributing to Gerrit]
-. Plugin Development
-.. link:dev-plugins.html[Developing Plugins]
-.. link:dev-build-plugins.html[Building Gerrit plugins]
-.. link:js-api.html[JavaScript Plugin API]
-.. link:config-validation.html[Validation Interfaces]
-.. link:dev-stars.html[Starring Changes]
-.. link:quota.html[Quota Enforcement]
+== How to contribute?
+* link:dev-contributing.html[Contributing to Gerrit]
+* link:dev-readme.html[Developer Setup]
+
+== Plugin Development
+* link:dev-plugins.html[Developing Plugins]
+* link:dev-build-plugins.html[Building Gerrit plugins]
+* link:js-api.html[JavaScript Plugin API]
+* link:config-validation.html[Validation Interfaces]
+* link:dev-stars.html[Starring Changes]
+* link:quota.html[Quota Enforcement]
 
 == Maintainer
-. link:dev-release.html[Making a Gerrit Release]
-. link:dev-release-subproject.html[Making a Release of a Gerrit Subproject]
-. link:dev-release-jgit.html[Making a Release of JGit]
+* link:dev-release.html[Making a Gerrit Release]
+* link:dev-release-subproject.html[Making a Release of a Gerrit Subproject]
+* link:dev-release-jgit.html[Making a Release of JGit]
 
 GERRIT
 ------

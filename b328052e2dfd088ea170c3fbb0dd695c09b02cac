@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "75b79b11_f5fb42f2",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T00:24:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b4f7e926_fecb19d9",
+      "range": {
+        "startLine": 94,
+        "startChar": 24,
+        "endLine": 94,
+        "endChar": 28
+      },
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4221063f_2284c026",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T00:24:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "bee17b63_b3b58158",
+      "range": {
+        "startLine": 94,
+        "startChar": 9,
+        "endLine": 94,
+        "endChar": 23
+      },
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "444eff62_fb4d7baf",
         "filename": "Documentation/config-mail.txt",
         "patchSetId": 29
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "1a381887_522ccd9f",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T00:24:39Z",
+      "side": 1,
+      "message": "Right, correct. Will removed this.",
+      "parentUuid": "444eff62_fb4d7baf",
+      "range": {
+        "startLine": 94,
+        "startChar": 45,
+        "endLine": 95,
+        "endChar": 62
+      },
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7f2bbc2_1cb6b23d",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T00:24:39Z",
+      "side": 1,
+      "message": "Per ^^",
+      "parentUuid": "20e55447_0368d1d3",
+      "range": {
+        "startLine": 95,
+        "startChar": 9,
+        "endLine": 95,
+        "endChar": 12
+      },
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "037a2d1b_2d80229c",
         "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPassword.soy",
         "patchSetId": 29
@@ -108,6 +204,24 @@
       "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a51056fe_310b958a",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPassword.soy",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T00:24:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "037a2d1b_2d80229c",
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "303f7f8d_ad59756b",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPassword.soy",
+        "patchSetId": 29
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T00:24:39Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nRE if we want to distinguish it, i doin\u0027t think so, since if the password is changed without the user doing it even if they never added one, it would make the user suspicious.",
+      "parentUuid": "315e92ee_0f6da2c5",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 56
+      },
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eeae22af_bbf31920",
         "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPassword.soy",
         "patchSetId": 29
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "6f36c275_cc72065d",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPassword.soy",
+        "patchSetId": 29
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T00:24:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "eeae22af_bbf31920",
+      "range": {
+        "startLine": 26,
+        "startChar": 25,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9c4d49f_a3cf31a0",
         "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPasswordHtml.soy",
         "patchSetId": 29
@@ -171,6 +333,24 @@
       "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "594ed4ad_f2238df1",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPasswordHtml.soy",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T00:24:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e9c4d49f_a3cf31a0",
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -194,6 +374,30 @@
       "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebed7c52_eeddc833",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-23T00:24:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "94a11250_8e6549ec",
+      "range": {
+        "startLine": 132,
+        "startChar": 14,
+        "endLine": 132,
+        "endChar": 16
+      },
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

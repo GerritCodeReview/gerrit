@@ -21,6 +21,10 @@ import java.util.Objects;
 
 /** A message attached to a {@link Change}. */
 public final class ChangeMessage {
+  public static Key key(Change.Id changeId, String uuid) {
+    return new Key(changeId, uuid);
+  }
+
   public static class Key extends StringKey<Change.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -42,9 +46,17 @@ public final class ChangeMessage {
       return changeId;
     }
 
+    public Change.Id changeId() {
+      return getParentKey();
+    }
+
     @Override
     public String get() {
       return uuid;
+    }
+
+    public String uuid() {
+      return uuid();
     }
 
     @Override

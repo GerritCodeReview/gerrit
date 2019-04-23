@@ -22,6 +22,10 @@ import java.util.Objects;
 
 /** An approval (or negative approval) on a patch set. */
 public final class PatchSetApproval {
+  public static Key key(PatchSet.Id patchSetId, Account.Id accountId, LabelId labelId) {
+    return new Key(patchSetId, accountId, labelId);
+  }
+
   public static class Key extends CompoundKey<PatchSet.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -48,12 +52,24 @@ public final class PatchSetApproval {
       return patchSetId;
     }
 
+    public PatchSet.Id patchSetId() {
+      return getParentKey();
+    }
+
     public Account.Id getAccountId() {
       return accountId;
     }
 
+    public Account.Id accountId() {
+      return getAccountId();
+    }
+
     public LabelId getLabelId() {
       return categoryId;
+    }
+
+    public LabelId labelId() {
+      return getLabelId();
     }
 
     @Override

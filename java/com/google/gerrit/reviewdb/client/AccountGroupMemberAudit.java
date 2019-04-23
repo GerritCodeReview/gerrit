@@ -21,6 +21,10 @@ import java.util.Objects;
 
 /** Membership of an {@link Account} in an {@link AccountGroup}. */
 public final class AccountGroupMemberAudit {
+  public static Key key(Account.Id accountId, AccountGroup.Id groupId, Timestamp addedOn) {
+    return new Key(accountId, groupId, addedOn);
+  }
+
   public static class Key extends CompoundKey<Account.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -46,12 +50,24 @@ public final class AccountGroupMemberAudit {
       return accountId;
     }
 
+    public Account.Id accountId() {
+      return getParentKey();
+    }
+
     public AccountGroup.Id getGroupId() {
       return groupId;
     }
 
+    public AccountGroup.Id groupId() {
+      return getGroupId();
+    }
+
     public Timestamp getAddedOn() {
       return addedOn;
+    }
+
+    public Timestamp addedOn() {
+      return getAddedOn();
     }
 
     @Override

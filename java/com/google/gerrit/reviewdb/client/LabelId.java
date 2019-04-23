@@ -21,6 +21,10 @@ public class LabelId extends StringKey<com.google.gwtorm.client.Key<?>> {
 
   static final String LEGACY_SUBMIT_NAME = "SUBM";
 
+  public static LabelId create(String n) {
+    return new LabelId(n);
+  }
+
   public static LabelId legacySubmit() {
     return new LabelId(LEGACY_SUBMIT_NAME);
   }

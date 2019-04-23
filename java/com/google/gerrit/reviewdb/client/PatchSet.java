@@ -74,6 +74,10 @@ public final class PatchSet {
     return groups;
   }
 
+  public static Id id(Change.Id changeId, int id) {
+    return new Id(changeId, id);
+  }
+
   public static class Id extends IntKey<Change.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -93,6 +97,10 @@ public final class PatchSet {
     @Override
     public Change.Id getParentKey() {
       return changeId;
+    }
+
+    public Change.Id changeId() {
+      return getParentKey();
     }
 
     @Override

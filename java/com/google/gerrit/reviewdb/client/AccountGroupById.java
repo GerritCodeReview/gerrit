@@ -19,6 +19,10 @@ import java.util.Objects;
 
 /** Membership of an {@link AccountGroup} in an {@link AccountGroup}. */
 public final class AccountGroupById {
+  public static Key key(AccountGroup.Id groupId, AccountGroup.UUID includeUuid) {
+    return new Key(groupId, includeUuid);
+  }
+
   public static class Key extends CompoundKey<AccountGroup.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -45,8 +49,16 @@ public final class AccountGroupById {
       return groupId;
     }
 
+    public AccountGroup.Id groupId() {
+      return getParentKey();
+    }
+
     public AccountGroup.UUID getIncludeUUID() {
       return includeUUID;
+    }
+
+    public AccountGroup.UUID includeUuid() {
+      return getIncludeUUID();
     }
 
     @Override

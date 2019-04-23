@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
@@ -66,13 +67,13 @@ public class RepoSequenceTest extends GerritBaseTests {
       RepoSequence s = newSequence(name, 1, batchSize);
       for (int i = 1; i <= max; i++) {
         try {
-          assertThat(s.next()).named("i=" + i + " for " + name).isEqualTo(i);
+          assertWithMessage("i=" + i + " for " + name).that(s.next()).isEqualTo(i);
         } catch (StorageException e) {
           throw new AssertionError("failed batchSize=" + batchSize + ", i=" + i, e);
         }
       }
-      assertThat(s.acquireCount)
-          .named("acquireCount for " + name)
+      assertWithMessage("acquireCount for " + name)
+          .that(s.acquireCount)
           .isEqualTo(divCeil(max, batchSize));
     }
   }

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.api.config;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -36,7 +36,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     GeneralPreferencesInfo update = new GeneralPreferencesInfo();
     update.signedOffBy = newSignedOffBy;
     GeneralPreferencesInfo result = gApi.config().server().setDefaultPreferences(update);
-    assertThat(result.signedOffBy).named("signedOffBy").isEqualTo(newSignedOffBy);
+    assertWithMessage("signedOffBy").that(result.signedOffBy).isEqualTo(newSignedOffBy);
 
     result = gApi.config().server().getDefaultPreferences();
     GeneralPreferencesInfo expected = GeneralPreferencesInfo.defaults();

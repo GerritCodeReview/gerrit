@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
@@ -3057,11 +3058,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         break;
       }
     }
-    assertThat(cause)
-        .named(
+    assertWithMessage(
             expectedClass.getSimpleName()
                 + " in causal chain of:\n"
                 + Throwables.getStackTraceAsString(e))
+        .that(cause)
         .isNotNull();
     assertThat(cause.getMessage()).isEqualTo(expectedMsg);
   }

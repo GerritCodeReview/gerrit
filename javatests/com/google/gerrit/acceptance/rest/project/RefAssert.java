@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.api.projects.RefInfo;
@@ -38,10 +39,12 @@ public class RefAssert {
   public static void assertRefInfo(RefInfo expected, RefInfo actual) {
     assertThat(actual.ref).isEqualTo(expected.ref);
     if (expected.revision != null) {
-      assertThat(actual.revision).named("revision of " + actual.ref).isEqualTo(expected.revision);
+      assertWithMessage("revision of " + actual.ref)
+          .that(actual.revision)
+          .isEqualTo(expected.revision);
     }
-    assertThat(toBoolean(actual.canDelete))
-        .named("can delete " + actual.ref)
+    assertWithMessage("can delete " + actual.ref)
+        .that(toBoolean(actual.canDelete))
         .isEqualTo(toBoolean(expected.canDelete));
   }
 

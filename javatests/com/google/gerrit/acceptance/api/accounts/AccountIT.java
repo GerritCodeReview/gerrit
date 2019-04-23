@@ -2793,8 +2793,8 @@ public class AccountIT extends AbstractDaemonTest {
     // Check via API.
     FluentIterable<TestKey> expected = FluentIterable.from(expectedKeys);
     Map<String, GpgKeyInfo> keyMap = gApi.accounts().self().listGpgKeys();
-    assertThat(keyMap.keySet())
-        .named("keys returned by listGpgKeys()")
+    assertWithMessage("keys returned by listGpgKeys()")
+        .that(keyMap.keySet())
         .containsExactlyElementsIn(expected.transform(TestKey::getKeyIdString));
 
     for (TestKey key : expected) {
@@ -2816,7 +2816,9 @@ public class AccountIT extends AbstractDaemonTest {
         externalIds.byAccount(currAccountId, SCHEME_GPGKEY).stream()
             .map(e -> e.key().id())
             .collect(toSet());
-    assertThat(actualFps).named("external IDs in database").containsExactlyElementsIn(expectedFps);
+    assertWithMessage("external IDs in database")
+        .that(actualFps)
+        .containsExactlyElementsIn(expectedFps);
 
     // Check raw stored keys.
     for (TestKey key : expected) {
@@ -2826,15 +2828,15 @@ public class AccountIT extends AbstractDaemonTest {
 
   private static void assertKeyEquals(TestKey expected, GpgKeyInfo actual) {
     String id = expected.getKeyIdString();
-    assertThat(actual.id).named(id).isEqualTo(id);
-    assertThat(actual.fingerprint)
-        .named(id)
+    assertWithMessage(id).that(actual.id).isEqualTo(id);
+    assertWithMessage(id)
+        .that(actual.fingerprint)
         .isEqualTo(Fingerprint.toString(expected.getPublicKey().getFingerprint()));
     List<String> userIds = ImmutableList.copyOf(expected.getPublicKey().getUserIDs());
-    assertThat(actual.userIds).named(id).containsExactlyElementsIn(userIds);
+    assertWithMessage(id).that(actual.userIds).containsExactlyElementsIn(userIds);
     String key = actual.key;
-    assertThat(key).named(id).startsWith("-----BEGIN PGP PUBLIC KEY BLOCK-----\n");
-    assertThat(key).named(id).endsWith("-----END PGP PUBLIC KEY BLOCK-----\n");
+    assertWithMessage(id).that(key).startsWith("-----BEGIN PGP PUBLIC KEY BLOCK-----\n");
+    assertWithMessage(id).that(key).endsWith("-----END PGP PUBLIC KEY BLOCK-----\n");
     assertThat(actual.status).isEqualTo(GpgKeyInfo.Status.TRUSTED);
     assertThat(actual.problems).isEmpty();
   }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.common.data.Permission.EDIT_TOPIC_NAME;
 import static com.google.gerrit.common.data.Permission.LABEL;
 import static com.google.gerrit.common.data.Permission.OWNER;
@@ -89,92 +90,92 @@ public class RefControlTest extends GerritBaseTests {
     ProjectControl uBlah = user(local, DEVS);
     ProjectControl uAdmin = user(local, DEVS, ADMIN);
 
-    assertThat(uBlah.isOwner()).named("not owner").isFalse();
-    assertThat(uAdmin.isOwner()).named("is owner").isTrue();
+    assertWithMessage("not owner").that(uBlah.isOwner()).isFalse();
+    assertWithMessage("is owner").that(uAdmin.isOwner()).isTrue();
   }
 
   private void assertOwner(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isOwner()).named("OWN " + ref).isTrue();
+    assertWithMessage("OWN " + ref).that(u.controlForRef(ref).isOwner()).isTrue();
   }
 
   private void assertNotOwner(ProjectControl u) {
-    assertThat(u.isOwner()).named("not owner").isFalse();
+    assertWithMessage("not owner").that(u.isOwner()).isFalse();
   }
 
   private void assertNotOwner(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isOwner()).named("NOT OWN " + ref).isFalse();
+    assertWithMessage("NOT OWN " + ref).that(u.controlForRef(ref).isOwner()).isFalse();
   }
 
   private void assertCanAccess(ProjectControl u) {
     boolean access = u.asForProject().testOrFalse(ProjectPermission.ACCESS);
-    assertThat(access).named("can access").isTrue();
+    assertWithMessage("can access").that(access).isTrue();
   }
 
   private void assertAccessDenied(ProjectControl u) {
     boolean access = u.asForProject().testOrFalse(ProjectPermission.ACCESS);
-    assertThat(access).named("cannot access").isFalse();
+    assertWithMessage("cannot access").that(access).isFalse();
   }
 
   private void assertCanRead(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isVisible()).named("can read " + ref).isTrue();
+    assertWithMessage("can read " + ref).that(u.controlForRef(ref).isVisible()).isTrue();
   }
 
   private void assertCannotRead(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isVisible()).named("cannot read " + ref).isFalse();
+    assertWithMessage("cannot read " + ref).that(u.controlForRef(ref).isVisible()).isFalse();
   }
 
   private void assertCanSubmit(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canSubmit(false)).named("can submit " + ref).isTrue();
+    assertWithMessage("can submit " + ref).that(u.controlForRef(ref).canSubmit(false)).isTrue();
   }
 
   private void assertCannotSubmit(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canSubmit(false)).named("can submit " + ref).isFalse();
+    assertWithMessage("can submit " + ref).that(u.controlForRef(ref).canSubmit(false)).isFalse();
   }
 
   private void assertCanUpload(ProjectControl u) {
-    assertThat(u.canPushToAtLeastOneRef()).named("can upload").isTrue();
+    assertWithMessage("can upload").that(u.canPushToAtLeastOneRef()).isTrue();
   }
 
   private void assertCreateChange(String ref, ProjectControl u) {
     boolean create = u.asForProject().ref(ref).testOrFalse(RefPermission.CREATE_CHANGE);
-    assertThat(create).named("can create change " + ref).isTrue();
+    assertWithMessage("can create change " + ref).that(create).isTrue();
   }
 
   private void assertCannotUpload(ProjectControl u) {
-    assertThat(u.canPushToAtLeastOneRef()).named("cannot upload").isFalse();
+    assertWithMessage("cannot upload").that(u.canPushToAtLeastOneRef()).isFalse();
   }
 
   private void assertCannotCreateChange(String ref, ProjectControl u) {
     boolean create = u.asForProject().ref(ref).testOrFalse(RefPermission.CREATE_CHANGE);
-    assertThat(create).named("cannot create change " + ref).isFalse();
+    assertWithMessage("cannot create change " + ref).that(create).isFalse();
   }
 
   private void assertCanUpdate(String ref, ProjectControl u) {
     boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.UPDATE);
-    assertThat(update).named("can update " + ref).isTrue();
+    assertWithMessage("can update " + ref).that(update).isTrue();
   }
 
   private void assertCannotUpdate(String ref, ProjectControl u) {
     boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.UPDATE);
-    assertThat(update).named("cannot update " + ref).isFalse();
+    assertWithMessage("cannot update " + ref).that(update).isFalse();
   }
 
   private void assertCanForceUpdate(String ref, ProjectControl u) {
     boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.FORCE_UPDATE);
-    assertThat(update).named("can force push " + ref).isTrue();
+    assertWithMessage("can force push " + ref).that(update).isTrue();
   }
 
   private void assertCannotForceUpdate(String ref, ProjectControl u) {
     boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.FORCE_UPDATE);
-    assertThat(update).named("cannot force push " + ref).isFalse();
+    assertWithMessage("cannot force push " + ref).that(update).isFalse();
   }
 
   private void assertCanVote(int score, PermissionRange range) {
-    assertThat(range.contains(score)).named("can vote " + score).isTrue();
+    assertWithMessage("can vote " + score).that(range.contains(score)).isTrue();
   }
 
   private void assertCannotVote(int score, PermissionRange range) {
-    assertThat(range.contains(score)).named("cannot vote " + score).isFalse();
+    assertWithMessage("cannot vote " + score).that(range.contains(score)).isFalse();
   }
 
   private final AllProjectsName allProjectsName =
@@ -408,11 +409,11 @@ public class RefControlTest extends GerritBaseTests {
     ProjectControl u = user(local);
     ProjectControl a = user(local, "a", ADMIN);
 
-    assertThat(a.controlForRef("refs/drafts/master").canPerform(PUSH))
-        .named("push is allowed")
+    assertWithMessage("push is allowed")
+        .that(a.controlForRef("refs/drafts/master").canPerform(PUSH))
         .isTrue();
-    assertThat(u.controlForRef("refs/drafts/master").canPerform(PUSH))
-        .named("push is not allowed")
+    assertWithMessage("push is not allowed")
+        .that(u.controlForRef("refs/drafts/master").canPerform(PUSH))
         .isFalse();
   }
 
@@ -599,8 +600,8 @@ public class RefControlTest extends GerritBaseTests {
     allow(local, SUBMIT, REGISTERED_USERS, "refs/heads/*");
 
     ProjectControl u = user(local);
-    assertThat(u.controlForRef("refs/heads/master").canPerform(SUBMIT))
-        .named("submit is allowed")
+    assertWithMessage("submit is allowed")
+        .that(u.controlForRef("refs/heads/master").canPerform(SUBMIT))
         .isTrue();
   }
 
@@ -763,8 +764,8 @@ public class RefControlTest extends GerritBaseTests {
     allow(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
 
     ProjectControl u = user(local, DEVS);
-    assertThat(u.controlForRef("refs/heads/master").canForceEditTopicName())
-        .named("u can edit topic name")
+    assertWithMessage("u can edit topic name")
+        .that(u.controlForRef("refs/heads/master").canForceEditTopicName())
         .isTrue();
   }
 
@@ -774,8 +775,8 @@ public class RefControlTest extends GerritBaseTests {
     allow(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
 
     ProjectControl u = user(local, REGISTERED_USERS);
-    assertThat(u.controlForRef("refs/heads/master").canForceEditTopicName())
-        .named("u can't edit topic name")
+    assertWithMessage("u can't edit topic name")
+        .that(u.controlForRef("refs/heads/master").canForceEditTopicName())
         .isFalse();
   }
 

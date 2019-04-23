@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
@@ -3901,7 +3902,7 @@ public class ChangeIT extends AbstractDaemonTest {
             .filter(e -> e.getValue().stream().anyMatch(a -> a._accountId == accountId.get()))
             .map(Map.Entry::getKey)
             .collect(toSet());
-    assertThat(states.size()).named(states.toString()).isAtMost(1);
+    assertWithMessage(states.toString()).that(states.size()).isAtMost(1);
     return states.stream().findFirst();
   }
 

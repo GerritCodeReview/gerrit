@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
@@ -472,7 +473,7 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
         ObjectInserter ins = serverRepo.newObjectInserter();
         RevWalk rw = new RevWalk(serverRepo)) {
       Ref ref = serverRepo.exactRef(refName);
-      assertThat(ref).named(refName).isNotNull();
+      assertWithMessage(refName).that(ref).isNotNull();
       ObjectId oldCommitId = ref.getObjectId();
 
       DirCache dc = DirCache.newInCore();

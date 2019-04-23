@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.extensions.client.ChangeKind.MERGE_FIRST_PARENT_UPDATE;
 import static com.google.gerrit.extensions.client.ChangeKind.NO_CHANGE;
 import static com.google.gerrit.extensions.client.ChangeKind.NO_CODE_CHANGE;
@@ -599,6 +600,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     if (changeKind != null) {
       name += "; changeKind = " + changeKind.name();
     }
-    assertThat(vote).named(name).isEqualTo(expectedVote);
+    assertWithMessage(name).that(vote).isEqualTo(expectedVote);
   }
 }

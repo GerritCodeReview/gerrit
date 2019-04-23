@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
@@ -1191,11 +1192,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void assertSubmittable(String changeId) throws Exception {
-    assertThat(get(changeId, SUBMITTABLE).submittable).named("submit bit on ChangeInfo").isTrue();
+    assertWithMessage("submit bit on ChangeInfo")
+        .that(get(changeId, SUBMITTABLE).submittable)
+        .isTrue();
     RevisionResource rsrc = parseCurrentRevisionResource(changeId);
     UiAction.Description desc = submitHandler.getDescription(rsrc);
-    assertThat(desc.isVisible()).named("visible bit on submit action").isTrue();
-    assertThat(desc.isEnabled()).named("enabled bit on submit action").isTrue();
+    assertWithMessage("visible bit on submit action").that(desc.isVisible()).isTrue();
+    assertWithMessage("enabled bit on submit action").that(desc.isEnabled()).isTrue();
   }
 
   protected void assertChangeMergedEvents(String... expected) throws Exception {
@@ -1214,7 +1217,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(Project.nameKey(c.project))) {
       String refName = PatchSet.id(Change.id(c._number), expectedNum).toRefName();
       Ref ref = repo.exactRef(refName);
-      assertThat(ref).named(refName).isNotNull();
+      assertWithMessage(refName).that(ref).isNotNull();
       assertThat(ref.getObjectId()).isEqualTo(expectedId);
     }
   }

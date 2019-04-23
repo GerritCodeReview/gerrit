@@ -14,6 +14,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -306,8 +307,8 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
       int deletedMessageIndex,
       TestAccount deletedBy,
       String deleteReason) {
-    assertThat(messagesAfterDeletion)
-        .named("after: %s; before: %s", messagesAfterDeletion, messagesBeforeDeletion)
+    assertWithMessage("after: %s; before: %s", messagesAfterDeletion, messagesBeforeDeletion)
+        .that(messagesAfterDeletion)
         .hasSize(messagesBeforeDeletion.size());
 
     for (int i = 0; i < messagesAfterDeletion.size(); ++i) {

@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.assertPushRejected;
@@ -1513,8 +1514,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     // Check that a change was created for each.
     for (RevCommit c : commits) {
-      assertThat(byCommit(c).change().getSubject())
-          .named("change for " + c.name())
+      assertWithMessage("change for " + c.name())
+          .that(byCommit(c).change().getSubject())
           .isEqualTo(c.getShortMessage());
     }
 
@@ -1526,9 +1527,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       RevCommit c2 = commits2.get(i);
       String name = "change for " + c2.name();
       ChangeData cd = byCommit(c);
-      assertThat(cd.change().getSubject()).named(name).isEqualTo(c2.getShortMessage());
-      assertThat(getPatchSetRevisions(cd))
-          .named(name)
+      assertWithMessage(name).that(cd.change().getSubject()).isEqualTo(c2.getShortMessage());
+      assertWithMessage(name)
+          .that(getPatchSetRevisions(cd))
           .containsExactlyEntriesIn(ImmutableMap.of(1, c.name(), 2, c2.name()));
     }
 
@@ -2547,11 +2548,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       ChangeData cd = byCommit(c);
       String name = "reviewers for " + (i + 1);
       if (expectedReviewer != null) {
-        assertThat(cd.reviewers().all()).named(name).containsExactly(expectedReviewer.id());
+        assertWithMessage(name).that(cd.reviewers().all()).containsExactly(expectedReviewer.id());
         // Remove reviewer from PS1 so we can test adding this same reviewer on PS2 below.
         gApi.changes().id(cd.getId().get()).reviewer(expectedReviewer.id().toString()).remove();
       }
-      assertThat(byCommit(c).reviewers().all()).named(name).isEmpty();
+      assertWithMessage(name).that(byCommit(c).reviewers().all()).isEmpty();
     }
 
     List<RevCommit> commits2 = amendChanges(initialHead, commits, r);
@@ -2560,9 +2561,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       ChangeData cd = byCommit(c);
       String name = "reviewers for " + (i + 1);
       if (expectedReviewer != null) {
-        assertThat(cd.reviewers().all()).named(name).containsExactly(expectedReviewer.id());
+        assertWithMessage(name).that(cd.reviewers().all()).containsExactly(expectedReviewer.id());
       } else {
-        assertThat(byCommit(c).reviewers().all()).named(name).isEmpty();
+        assertWithMessage(name).that(byCommit(c).reviewers().all()).isEmpty();
       }
     }
   }
@@ -2636,13 +2637,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   private ChangeData byCommit(ObjectId id) throws Exception {
     List<ChangeData> cds = queryProvider.get().byCommit(id);
-    assertThat(cds).named("change for " + id.name()).hasSize(1);
+    assertWithMessage("change for " + id.name()).that(cds).hasSize(1);
     return cds.get(0);
   }
 
   private ChangeData byChangeId(Change.Id id) throws Exception {
     List<ChangeData> cds = queryProvider.get().byLegacyChangeId(id);
-    assertThat(cds).named("change " + id).hasSize(1);
+    assertWithMessage("change " + id).that(cds).hasSize(1);
     return cds.get(0);
   }
 

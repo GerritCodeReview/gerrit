@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.createAnnotatedTag;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
@@ -217,7 +217,7 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
             ? pushHead(testRepo, tagRef, false, force)
             : GitUtil.pushTag(testRepo, tagName, !createTag);
     RemoteRefUpdate refUpdate = r.getRemoteUpdate(tagRef);
-    assertThat(refUpdate.getStatus()).named(tagType.name()).isEqualTo(expectedStatus);
+    assertWithMessage(tagType.name()).that(refUpdate.getStatus()).isEqualTo(expectedStatus);
     return tagName;
   }
 
@@ -225,7 +225,7 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     String tagRef = tagRef(tagName);
     PushResult r = deleteRef(testRepo, tagRef);
     RemoteRefUpdate refUpdate = r.getRemoteUpdate(tagRef);
-    assertThat(refUpdate.getStatus()).named(tagType.name()).isEqualTo(expectedStatus);
+    assertWithMessage(tagType.name()).that(refUpdate.getStatus()).isEqualTo(expectedStatus);
   }
 
   private void allowTagCreation() throws Exception {

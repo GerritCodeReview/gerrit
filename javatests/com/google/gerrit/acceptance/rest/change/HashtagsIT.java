@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -304,7 +305,7 @@ public class HashtagsIT extends AbstractDaemonTest {
   private ChangeMessageInfo getLastMessage(PushOneCommit.Result r) throws Exception {
     ChangeMessageInfo lastMessage =
         Iterables.getLast(gApi.changes().id(r.getChange().getId().get()).get().messages, null);
-    assertThat(lastMessage).named(lastMessage.message).isNotNull();
+    assertWithMessage(lastMessage.message).that(lastMessage).isNotNull();
     return lastMessage;
   }
 }

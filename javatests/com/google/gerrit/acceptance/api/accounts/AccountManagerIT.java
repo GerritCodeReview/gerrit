@@ -14,7 +14,9 @@
 
 package com.google.gerrit.acceptance.api.accounts;
 
+import static com.google.common.truth.OptionalSubject.optionals;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -540,7 +542,10 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
   private void assertNoSuchExternalIds(ExternalId.Key... extIdKeys) throws Exception {
     for (ExternalId.Key extIdKey : extIdKeys) {
-      assertThat(externalIds.get(extIdKey)).named(extIdKey.get()).isEmpty();
+      assertWithMessage(extIdKey.get())
+          .about(optionals())
+          .that(externalIds.get(extIdKey))
+          .isEmpty();
     }
   }
 
@@ -561,13 +566,15 @@ public class AccountManagerIT extends AbstractDaemonTest {
       @Nullable String expectedEmail)
       throws Exception {
     Optional<ExternalId> extId = externalIds.get(extIdKey);
-    assertThat(extId).named(extIdKey.get()).isPresent();
+    assertWithMessage(extIdKey.get()).about(optionals()).that(extId).isPresent();
     if (expectedAccountId != null) {
-      assertThat(extId.get().accountId())
-          .named("account ID of " + extIdKey.get())
+      assertWithMessage("account ID of " + extIdKey.get())
+          .that(extId.get().accountId())
           .isEqualTo(expectedAccountId);
     }
-    assertThat(extId.get().email()).named("email of " + extIdKey.get()).isEqualTo(expectedEmail);
+    assertWithMessage("email of " + extIdKey.get())
+        .that(extId.get().email())
+        .isEqualTo(expectedEmail);
   }
 
   private void assertAuthResultForNewAccount(

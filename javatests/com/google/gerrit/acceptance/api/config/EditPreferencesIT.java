@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.api.config;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -37,7 +37,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     EditPreferencesInfo update = new EditPreferencesInfo();
     update.lineLength = newLineLength;
     EditPreferencesInfo result = gApi.config().server().setDefaultEditPreferences(update);
-    assertThat(result.lineLength).named("lineLength").isEqualTo(newLineLength);
+    assertWithMessage("lineLength").that(result.lineLength).isEqualTo(newLineLength);
 
     result = gApi.config().server().getDefaultEditPreferences();
     EditPreferencesInfo expected = EditPreferencesInfo.defaults();

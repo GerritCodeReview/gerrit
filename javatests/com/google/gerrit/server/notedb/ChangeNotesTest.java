@@ -46,7 +46,6 @@ import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
@@ -131,14 +130,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             TimeUtil.nowTs(),
             "Comment",
             (short) 1,
-            commit.name(),
+            commit,
             false));
     update.setTag(tag);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
 
-    ImmutableListMultimap<RevId, Comment> comments = notes.getComments();
+    ImmutableListMultimap<ObjectId, Comment> comments = notes.getComments();
     assertThat(comments).hasSize(1);
     assertThat(comments.entries().asList().get(0).getValue().tag).isEqualTo(tag);
   }
@@ -193,7 +192,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             TimeUtil.nowTs(),
             "Comment",
             (short) 1,
-            commit.name(),
+            commit,
             false));
     update.setChangeMessage("coverage verification");
     update.setTag(coverageTag);
@@ -212,7 +211,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(approval.getTag()).isEqualTo(integrationTag);
     assertThat(approval.getValue()).isEqualTo(-1);
 
-    ImmutableListMultimap<RevId, Comment> comments = notes.getComments();
+    ImmutableListMultimap<ObjectId, Comment> comments = notes.getComments();
     assertThat(comments).hasSize(1);
     assertThat(comments.entries().asList().get(0).getValue().tag).isEqualTo(coverageTag);
 
@@ -1065,7 +1064,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             TimeUtil.nowTs(),
             "Comment",
             (short) 1,
-            commit.name(),
+            commit,
             false));
     update.commit();
 
@@ -1165,7 +1164,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             ts,
             "Comment",
             (short) 1,
-            commit.name(),
+            commit,
             false));
     update.commit();
 
@@ -1235,7 +1234,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
               time1,
               message1,
               (short) 0,
-              "abcd1234abcd1234abcd1234abcd1234abcd1234",
+              ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234"),
               false);
       update1.setPatchSetId(psId);
       update1.putComment(Status.PUBLISHED, comment1);
@@ -1445,7 +1444,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, otherUser);
     PatchSet.Id psId = c.currentPatchSetId();
-    RevId revId = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 
     Comment comment =
         newComment(
@@ -1459,14 +1458,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             TimeUtil.nowTs(),
             "message",
             (short) 1,
-            revId.get(),
+            commitId,
             false);
     update.setPatchSetId(psId);
     update.putComment(Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getComments()).isEqualTo(ImmutableListMultimap.of(revId, comment));
+    assertThat(notes.getComments()).isEqualTo(ImmutableListMultimap.of(commitId, comment));
   }
 
   @Test
@@ -1474,7 +1473,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, otherUser);
     PatchSet.Id psId = c.currentPatchSetId();
-    RevId revId = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
     CommentRange range = new CommentRange(1, 0, 2, 0);
 
     Comment comment =
@@ -1489,14 +1488,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             TimeUtil.nowTs(),
             "message",
             (short) 1,
-            revId.get(),
+            commitId,
             false);
     update.setPatchSetId(psId);
     update.putComment(Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getComments()).isEqualTo(ImmutableListMultimap.of(revId, comment));
+    assertThat(notes.getComments()).isEqualTo(ImmutableListMultimap.of(commitId, comment));
   }
 
   @Test
@@ -1504,7 +1503,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, otherUser);
     PatchSet.Id psId = c.currentPatchSetId();
-    RevId revId = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
     CommentRange range = new CommentRange(0, 0, 0, 0);
 
     Comment comment =
@@ -1519,14 +1518,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             TimeUtil.nowTs(),
             "message",
             (short) 1,
-            revId.get(),
+            commitId,
             false);
     update.setPatchSetId(psId);
     update.putComment(Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getComments()).isEqualTo(ImmutableListMultimap.of(revId, comment));
+    assertThat(notes.getComments()).isEqualTo(ImmutableListMultimap.of(commitId, comment));
   }
 
   @Test
@@ -1534,7 +1533,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, otherUser);
     PatchSet.Id psId = c.currentPatchSetId();
-    RevId revId = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
     CommentRange range = new CommentRange(1, 2, 3, 4);
 
     Comment comment =
@@ -1549,14 +1548,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             TimeUtil.nowTs(),
             "message",
             (short) 1,
-            revId.get(),
+            commitId,
             false);
     update.setPatchSetId(psId);
     update.putComment(Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getComments()).isEqualTo(ImmutableListMultimap.of(revId, comment));
+    assertThat(notes.getComments()).isEqualTo(ImmutableListMultimap.of(commitId, comment));
   }
 
   @Test
@@ -1574,7 +1573,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     CommentRange range1 = new CommentRange(1, 1, 2, 1);
     CommentRange range2 = new CommentRange(2, 1, 3, 1);
     Timestamp time = TimeUtil.nowTs();
-    RevId revId = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 
     Comment comment1 =
         newComment(
@@ -1588,7 +1587,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             time,
             message1,
             (short) 0,
-            revId.get(),
+            commitId,
             false);
     Comment comment2 =
         newComment(
@@ -1602,7 +1601,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             time,
             message2,
             (short) 0,
-            revId.get(),
+            commitId,
             false);
     Comment comment3 =
         newComment(
@@ -1616,7 +1615,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             time,
             message3,
             (short) 0,
-            revId.get(),
+            commitId,
             false);
 
     ChangeUpdate update = newUpdate(c, otherUser);
@@ -1630,9 +1629,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getComments())
         .isEqualTo(
             ImmutableListMultimap.of(
-                revId, comment1,
-                revId, comment2,
-                revId, comment3));
+                commitId, comment1,
+                commitId, comment2,
+                commitId, comment3));
   }
 
   @Test
@@ -1645,7 +1644,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     CommentRange range = new CommentRange(1, 1, 2, 1);
     Timestamp time = TimeUtil.nowTs();
     PatchSet.Id psId = c.currentPatchSetId();
-    RevId revId = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 
     Comment comment =
         newComment(
@@ -1659,7 +1658,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             time,
             message,
             (short) 1,
-            revId.get(),
+            commitId,
             false);
     comment.setRealAuthor(changeOwner.getAccountId());
     update.setPatchSetId(psId);
@@ -1668,7 +1667,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
 
-    assertThat(notes.getComments()).isEqualTo(ImmutableListMultimap.of(revId, comment));
+    assertThat(notes.getComments()).isEqualTo(ImmutableListMultimap.of(commitId, comment));
   }
 
   @Test
@@ -1698,7 +1697,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             time,
             "comment",
             (short) 1,
-            "abcd1234abcd1234abcd1234abcd1234abcd1234",
+            ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234"),
             false);
     update.setPatchSetId(psId);
     update.putComment(Status.PUBLISHED, comment);
@@ -1707,7 +1706,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
 
     assertThat(notes.getComments())
-        .isEqualTo(ImmutableListMultimap.of(new RevId(comment.revId), comment));
+        .isEqualTo(ImmutableListMultimap.of(comment.getCommitId(), comment));
   }
 
   @Test
@@ -1716,8 +1715,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, otherUser);
     String uuid1 = "uuid1";
     String uuid2 = "uuid2";
-    String rev1 = "abcd1234abcd1234abcd1234abcd1234abcd1234";
-    String rev2 = "abcd4567abcd4567abcd4567abcd4567abcd4567";
+    ObjectId commitId1 = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    ObjectId commitId2 = ObjectId.fromString("abcd4567abcd4567abcd4567abcd4567abcd4567");
     String messageForBase = "comment for base";
     String messageForPS = "comment for ps";
     CommentRange range = new CommentRange(1, 1, 2, 1);
@@ -1736,7 +1735,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             messageForBase,
             (short) 0,
-            rev1,
+            commitId1,
             false);
     update.setPatchSetId(psId);
     update.putComment(Status.PUBLISHED, commentForBase);
@@ -1755,7 +1754,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             messageForPS,
             (short) 1,
-            rev2,
+            commitId2,
             false);
     update.setPatchSetId(psId);
     update.putComment(Status.PUBLISHED, commentForPS);
@@ -1764,8 +1763,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(newNotes(c).getComments())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
-                new RevId(rev1), commentForBase,
-                new RevId(rev2), commentForPS));
+                commitId1, commentForBase,
+                commitId2, commentForPS));
   }
 
   @Test
@@ -1773,7 +1772,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     String uuid1 = "uuid1";
     String uuid2 = "uuid2";
-    String rev = "abcd1234abcd1234abcd1234abcd1234abcd1234";
+    ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
     CommentRange range = new CommentRange(1, 1, 2, 1);
     PatchSet.Id psId = c.currentPatchSetId();
     String filename = "filename";
@@ -1794,7 +1793,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             timeForComment1,
             "comment 1",
             side,
-            rev,
+            commitId,
             false);
     update.setPatchSetId(psId);
     update.putComment(Status.PUBLISHED, comment1);
@@ -1813,7 +1812,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             timeForComment2,
             "comment 2",
             side,
-            rev,
+            commitId,
             false);
     update.setPatchSetId(psId);
     update.putComment(Status.PUBLISHED, comment2);
@@ -1822,8 +1821,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(newNotes(c).getComments())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
-                new RevId(rev), comment1,
-                new RevId(rev), comment2))
+                commitId, comment1,
+                commitId, comment2))
         .inOrder();
   }
 
@@ -1831,7 +1830,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void patchLineCommentMultipleOnePatchsetMultipleFiles() throws Exception {
     Change c = newChange();
     String uuid = "uuid";
-    String rev = "abcd1234abcd1234abcd1234abcd1234abcd1234";
+    ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
     CommentRange range = new CommentRange(1, 1, 2, 1);
     PatchSet.Id psId = c.currentPatchSetId();
     String filename1 = "filename1";
@@ -1852,7 +1851,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment 1",
             side,
-            rev,
+            commitId,
             false);
     update.setPatchSetId(psId);
     update.putComment(Status.PUBLISHED, comment1);
@@ -1871,7 +1870,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment 2",
             side,
-            rev,
+            commitId,
             false);
     update.setPatchSetId(psId);
     update.putComment(Status.PUBLISHED, comment2);
@@ -1880,8 +1879,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(newNotes(c).getComments())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
-                new RevId(rev), comment1,
-                new RevId(rev), comment2))
+                commitId, comment1,
+                commitId, comment2))
         .inOrder();
   }
 
@@ -1889,8 +1888,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void patchLineCommentMultiplePatchsets() throws Exception {
     Change c = newChange();
     String uuid = "uuid";
-    String rev1 = "abcd1234abcd1234abcd1234abcd1234abcd1234";
-    String rev2 = "abcd4567abcd4567abcd4567abcd4567abcd4567";
+    ObjectId commitId1 = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    ObjectId commitId2 = ObjectId.fromString("abcd4567abcd4567abcd4567abcd4567abcd4567");
     CommentRange range = new CommentRange(1, 1, 2, 1);
     PatchSet.Id ps1 = c.currentPatchSetId();
     String filename = "filename1";
@@ -1910,7 +1909,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment on ps1",
             side,
-            rev1,
+            commitId1,
             false);
     update.setPatchSetId(ps1);
     update.putComment(Status.PUBLISHED, comment1);
@@ -1933,7 +1932,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment on ps2",
             side,
-            rev2,
+            commitId2,
             false);
     update.setPatchSetId(ps2);
     update.putComment(Status.PUBLISHED, comment2);
@@ -1942,15 +1941,15 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(newNotes(c).getComments())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
-                new RevId(rev1), comment1,
-                new RevId(rev2), comment2));
+                commitId1, comment1,
+                commitId2, comment2));
   }
 
   @Test
   public void patchLineCommentSingleDraftToPublished() throws Exception {
     Change c = newChange();
     String uuid = "uuid";
-    String rev = "abcd4567abcd4567abcd4567abcd4567abcd4567";
+    ObjectId commitId = ObjectId.fromString("abcd4567abcd4567abcd4567abcd4567abcd4567");
     CommentRange range = new CommentRange(1, 1, 2, 1);
     PatchSet.Id ps1 = c.currentPatchSetId();
     String filename = "filename1";
@@ -1970,7 +1969,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment on ps1",
             side,
-            rev,
+            commitId,
             false);
     update.setPatchSetId(ps1);
     update.putComment(Status.DRAFT, comment1);
@@ -1978,7 +1977,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId))
-        .containsExactlyEntriesIn(ImmutableListMultimap.of(new RevId(rev), comment1));
+        .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment1));
     assertThat(notes.getComments()).isEmpty();
 
     update = newUpdate(c, otherUser);
@@ -1989,7 +1988,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId)).isEmpty();
     assertThat(notes.getComments())
-        .containsExactlyEntriesIn(ImmutableListMultimap.of(new RevId(rev), comment1));
+        .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment1));
   }
 
   @Test
@@ -1997,7 +1996,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     String uuid1 = "uuid1";
     String uuid2 = "uuid2";
-    String rev = "abcd4567abcd4567abcd4567abcd4567abcd4567";
+    ObjectId commitId = ObjectId.fromString("abcd4567abcd4567abcd4567abcd4567abcd4567");
     CommentRange range1 = new CommentRange(1, 1, 2, 2);
     CommentRange range2 = new CommentRange(2, 2, 3, 3);
     String filename = "filename1";
@@ -2020,7 +2019,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment on ps1",
             side,
-            rev,
+            commitId,
             false);
     Comment comment2 =
         newComment(
@@ -2034,7 +2033,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "other on ps1",
             side,
-            rev,
+            commitId,
             false);
     update.putComment(Status.DRAFT, comment1);
     update.putComment(Status.DRAFT, comment2);
@@ -2044,8 +2043,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getDraftComments(otherUserId))
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
-                new RevId(rev), comment1,
-                new RevId(rev), comment2))
+                commitId, comment1,
+                commitId, comment2))
         .inOrder();
     assertThat(notes.getComments()).isEmpty();
 
@@ -2057,9 +2056,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId))
-        .containsExactlyEntriesIn(ImmutableListMultimap.of(new RevId(rev), comment2));
+        .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment2));
     assertThat(notes.getComments())
-        .containsExactlyEntriesIn(ImmutableListMultimap.of(new RevId(rev), comment1));
+        .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment1));
   }
 
   @Test
@@ -2067,8 +2066,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     String uuid1 = "uuid1";
     String uuid2 = "uuid2";
-    String rev1 = "abcd1234abcd1234abcd1234abcd1234abcd1234";
-    String rev2 = "abcd4567abcd4567abcd4567abcd4567abcd4567";
+    ObjectId commitId1 = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    ObjectId commitId2 = ObjectId.fromString("abcd4567abcd4567abcd4567abcd4567abcd4567");
     CommentRange range1 = new CommentRange(1, 1, 2, 2);
     CommentRange range2 = new CommentRange(2, 2, 3, 3);
     String filename = "filename1";
@@ -2090,7 +2089,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment on base",
             (short) 0,
-            rev1,
+            commitId1,
             false);
     Comment psComment =
         newComment(
@@ -2104,7 +2103,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment on ps",
             (short) 1,
-            rev2,
+            commitId2,
             false);
 
     update.putComment(Status.DRAFT, baseComment);
@@ -2115,8 +2114,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getDraftComments(otherUserId))
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
-                new RevId(rev1), baseComment,
-                new RevId(rev2), psComment));
+                commitId1, baseComment,
+                commitId2, psComment));
     assertThat(notes.getComments()).isEmpty();
 
     // Publish both comments.
@@ -2132,16 +2131,15 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getComments())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
-                new RevId(rev1), baseComment,
-                new RevId(rev2), psComment));
+                commitId1, baseComment,
+                commitId2, psComment));
   }
 
   @Test
   public void patchLineCommentsDeleteAllDrafts() throws Exception {
     Change c = newChange();
     String uuid = "uuid";
-    String rev = "abcd1234abcd1234abcd1234abcd1234abcd1234";
-    ObjectId objId = ObjectId.fromString(rev);
+    ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
     CommentRange range = new CommentRange(1, 1, 2, 1);
     PatchSet.Id psId = c.currentPatchSetId();
     String filename = "filename";
@@ -2161,7 +2159,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment on ps1",
             side,
-            rev,
+            commitId,
             false);
     update.setPatchSetId(psId);
     update.putComment(Status.DRAFT, comment);
@@ -2169,7 +2167,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId)).hasSize(1);
-    assertThat(notes.getDraftCommentNotes().getNoteMap().contains(objId)).isTrue();
+    assertThat(notes.getDraftCommentNotes().getNoteMap().contains(commitId)).isTrue();
 
     update = newUpdate(c, otherUser);
     update.setPatchSetId(psId);
@@ -2185,10 +2183,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void patchLineCommentsDeleteAllDraftsForOneRevision() throws Exception {
     Change c = newChange();
     String uuid = "uuid";
-    String rev1 = "abcd1234abcd1234abcd1234abcd1234abcd1234";
-    String rev2 = "abcd4567abcd4567abcd4567abcd4567abcd4567";
-    ObjectId objId1 = ObjectId.fromString(rev1);
-    ObjectId objId2 = ObjectId.fromString(rev2);
+    ObjectId commitId1 = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    ObjectId commitId2 = ObjectId.fromString("abcd4567abcd4567abcd4567abcd4567abcd4567");
     CommentRange range = new CommentRange(1, 1, 2, 1);
     PatchSet.Id ps1 = c.currentPatchSetId();
     String filename = "filename1";
@@ -2208,7 +2204,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment on ps1",
             side,
-            rev1,
+            commitId1,
             false);
     update.setPatchSetId(ps1);
     update.putComment(Status.DRAFT, comment1);
@@ -2231,7 +2227,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment on ps2",
             side,
-            rev2,
+            commitId2,
             false);
     update.setPatchSetId(ps2);
     update.putComment(Status.DRAFT, comment2);
@@ -2248,15 +2244,15 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId)).hasSize(1);
     NoteMap noteMap = notes.getDraftCommentNotes().getNoteMap();
-    assertThat(noteMap.contains(objId1)).isTrue();
-    assertThat(noteMap.contains(objId2)).isFalse();
+    assertThat(noteMap.contains(commitId1)).isTrue();
+    assertThat(noteMap.contains(commitId2)).isFalse();
   }
 
   @Test
   public void addingPublishedCommentDoesNotCreateNoOpCommitOnEmptyDraftRef() throws Exception {
     Change c = newChange();
     String uuid = "uuid";
-    String rev = "abcd4567abcd4567abcd4567abcd4567abcd4567";
+    ObjectId commitId = ObjectId.fromString("abcd4567abcd4567abcd4567abcd4567abcd4567");
     CommentRange range = new CommentRange(1, 1, 2, 1);
     PatchSet.Id ps1 = c.currentPatchSetId();
     String filename = "filename1";
@@ -2276,7 +2272,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment on ps1",
             side,
-            rev,
+            commitId,
             false);
     update.putComment(Status.PUBLISHED, comment);
     update.commit();
@@ -2289,7 +2285,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void addingPublishedCommentDoesNotCreateNoOpCommitOnNonEmptyDraftRef() throws Exception {
     Change c = newChange();
-    String rev = "abcd4567abcd4567abcd4567abcd4567abcd4567";
+    ObjectId commitId = ObjectId.fromString("abcd4567abcd4567abcd4567abcd4567abcd4567");
     CommentRange range = new CommentRange(1, 1, 2, 1);
     PatchSet.Id ps1 = c.currentPatchSetId();
     String filename = "filename1";
@@ -2309,7 +2305,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "draft comment on ps1",
             side,
-            rev,
+            commitId,
             false);
     update.putComment(Status.DRAFT, draft);
     update.commit();
@@ -2331,7 +2327,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment on ps1",
             side,
-            rev,
+            commitId,
             false);
     update.putComment(Status.PUBLISHED, pub);
     update.commit();
@@ -2344,7 +2340,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, otherUser);
     String uuid = "uuid";
-    String rev = "abcd1234abcd1234abcd1234abcd1234abcd1234";
+    ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
     String messageForBase = "comment for base";
     Timestamp now = TimeUtil.nowTs();
     PatchSet.Id psId = c.currentPatchSetId();
@@ -2361,14 +2357,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             messageForBase,
             (short) 0,
-            rev,
+            commitId,
             false);
     update.setPatchSetId(psId);
     update.putComment(Status.PUBLISHED, comment);
     update.commit();
 
     assertThat(newNotes(c).getComments())
-        .containsExactlyEntriesIn(ImmutableListMultimap.of(new RevId(rev), comment));
+        .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment));
   }
 
   @Test
@@ -2376,7 +2372,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, otherUser);
     String uuid = "uuid";
-    String rev = "abcd1234abcd1234abcd1234abcd1234abcd1234";
+    ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
     String messageForBase = "comment for base";
     Timestamp now = TimeUtil.nowTs();
     PatchSet.Id psId = c.currentPatchSetId();
@@ -2393,22 +2389,22 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             messageForBase,
             (short) 0,
-            rev,
+            commitId,
             false);
     update.setPatchSetId(psId);
     update.putComment(Status.PUBLISHED, comment);
     update.commit();
 
     assertThat(newNotes(c).getComments())
-        .containsExactlyEntriesIn(ImmutableListMultimap.of(new RevId(rev), comment));
+        .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment));
   }
 
   @Test
   public void putCommentsForMultipleRevisions() throws Exception {
     Change c = newChange();
     String uuid = "uuid";
-    String rev1 = "abcd1234abcd1234abcd1234abcd1234abcd1234";
-    String rev2 = "abcd4567abcd4567abcd4567abcd4567abcd4567";
+    ObjectId commitId1 = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    ObjectId commitId2 = ObjectId.fromString("abcd4567abcd4567abcd4567abcd4567abcd4567");
     CommentRange range = new CommentRange(1, 1, 2, 1);
     PatchSet.Id ps1 = c.currentPatchSetId();
     String filename = "filename1";
@@ -2432,7 +2428,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment on ps1",
             side,
-            rev1,
+            commitId1,
             false);
     Comment comment2 =
         newComment(
@@ -2446,7 +2442,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment on ps2",
             side,
-            rev2,
+            commitId2,
             false);
     update.putComment(Status.DRAFT, comment1);
     update.putComment(Status.DRAFT, comment2);
@@ -2470,7 +2466,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void publishSubsetOfCommentsOnRevision() throws Exception {
     Change c = newChange();
-    RevId rev1 = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    ObjectId commitId1 = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
     CommentRange range = new CommentRange(1, 1, 2, 1);
     PatchSet.Id ps1 = c.currentPatchSetId();
     short side = (short) 1;
@@ -2490,7 +2486,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment1",
             side,
-            rev1.get(),
+            commitId1,
             false);
     Comment comment2 =
         newComment(
@@ -2504,14 +2500,15 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment2",
             side,
-            rev1.get(),
+            commitId1,
             false);
     update.putComment(Status.DRAFT, comment1);
     update.putComment(Status.DRAFT, comment2);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId).get(rev1)).containsExactly(comment1, comment2);
+    assertThat(notes.getDraftComments(otherUserId).get(commitId1))
+        .containsExactly(comment1, comment2);
     assertThat(notes.getComments()).isEmpty();
 
     update = newUpdate(c, otherUser);
@@ -2520,8 +2517,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId).get(rev1)).containsExactly(comment1);
-    assertThat(notes.getComments().get(rev1)).containsExactly(comment2);
+    assertThat(notes.getDraftComments(otherUserId).get(commitId1)).containsExactly(comment1);
+    assertThat(notes.getComments().get(commitId1)).containsExactly(comment2);
   }
 
   @Test
@@ -2543,7 +2540,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void filterOutAndFixUpZombieDraftComments() throws Exception {
     Change c = newChange();
-    RevId rev1 = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    ObjectId commitId1 = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
     CommentRange range = new CommentRange(1, 1, 2, 1);
     PatchSet.Id ps1 = c.currentPatchSetId();
     short side = (short) 1;
@@ -2562,7 +2559,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "comment on ps1",
             side,
-            rev1.get(),
+            commitId1,
             false);
     Comment comment2 =
         newComment(
@@ -2576,7 +2573,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             now,
             "another comment",
             side,
-            rev1.get(),
+            commitId1,
             false);
     update.putComment(Status.DRAFT, comment1);
     update.putComment(Status.DRAFT, comment2);
@@ -2604,12 +2601,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // Looking at drafts directly shows the zombie comment.
     DraftCommentNotes draftNotes = draftNotesFactory.create(c.getId(), otherUserId);
-    assertThat(draftNotes.load().getComments().get(rev1)).containsExactly(comment1, comment2);
+    assertThat(draftNotes.load().getComments().get(commitId1)).containsExactly(comment1, comment2);
 
     // Zombie comment is filtered out of drafts via ChangeNotes.
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId).get(rev1)).containsExactly(comment1);
-    assertThat(notes.getComments().get(rev1)).containsExactly(comment2);
+    assertThat(notes.getDraftComments(otherUserId).get(commitId1)).containsExactly(comment1);
+    assertThat(notes.getComments().get(commitId1)).containsExactly(comment2);
 
     update = newUpdate(c, otherUser);
     update.setPatchSetId(ps1);
@@ -2624,7 +2621,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void updateCommentsInSequentialUpdates() throws Exception {
     Change c = newChange();
     CommentRange range = new CommentRange(1, 1, 2, 1);
-    String rev = "abcd1234abcd1234abcd1234abcd1234abcd1234";
+    ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 
     ChangeUpdate update1 = newUpdate(c, otherUser);
     Comment comment1 =
@@ -2639,7 +2636,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             new Timestamp(update1.getWhen().getTime()),
             "comment 1",
             (short) 1,
-            rev,
+            commitId,
             false);
     update1.putComment(Status.PUBLISHED, comment1);
 
@@ -2656,7 +2653,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             new Timestamp(update2.getWhen().getTime()),
             "comment 2",
             (short) 1,
-            rev,
+            commitId,
             false);
     update2.putComment(Status.PUBLISHED, comment2);
 
@@ -2667,7 +2664,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     }
 
     ChangeNotes notes = newNotes(c);
-    List<Comment> comments = notes.getComments().get(new RevId(rev));
+    List<Comment> comments = notes.getComments().get(commitId);
     assertThat(comments).hasSize(2);
     assertThat(comments.get(0).message).isEqualTo("comment 1");
     assertThat(comments.get(1).message).isEqualTo("comment 2");
@@ -2713,7 +2710,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             new Timestamp(update.getWhen().getTime()),
             "comment",
             (short) 1,
-            "abcd1234abcd1234abcd1234abcd1234abcd1234",
+            ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234"),
             false);
     update.putComment(Status.PUBLISHED, comment);
     update.commit();

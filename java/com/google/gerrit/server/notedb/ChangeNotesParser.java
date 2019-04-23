@@ -134,7 +134,7 @@ class ChangeNotesParser {
   private final List<Account.Id> allPastReviewers;
   private final List<ReviewerStatusUpdate> reviewerUpdates;
   private final List<SubmitRecord> submitRecords;
-  private final ListMultimap<RevId, Comment> comments;
+  private final ListMultimap<ObjectId, Comment> comments;
   private final Map<PatchSet.Id, PatchSet> patchSets;
   private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
@@ -721,16 +721,16 @@ class ChangeNotesParser {
             reader,
             NoteMap.read(reader, tipCommit),
             PatchLineComment.Status.PUBLISHED);
-    Map<RevId, ChangeRevisionNote> rns = revisionNoteMap.revisionNotes;
+    Map<ObjectId, ChangeRevisionNote> rns = revisionNoteMap.revisionNotes;
 
-    for (Map.Entry<RevId, ChangeRevisionNote> e : rns.entrySet()) {
+    for (Map.Entry<ObjectId, ChangeRevisionNote> e : rns.entrySet()) {
       for (Comment c : e.getValue().getEntities()) {
         comments.put(e.getKey(), c);
       }
     }
 
     for (PatchSet ps : patchSets.values()) {
-      ChangeRevisionNote rn = rns.get(ps.getRevision());
+      ChangeRevisionNote rn = rns.get(ObjectId.fromString(ps.getRevision().get()));
       if (rn != null && rn.getPushCert() != null) {
         ps.setPushCertificate(rn.getPushCert());
       }

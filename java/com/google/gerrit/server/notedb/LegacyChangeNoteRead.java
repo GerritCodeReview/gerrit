@@ -190,7 +190,7 @@ public class LegacyChangeNoteRead {
     c.lineNbr = range.getEndLine();
     c.parentUuid = parentUUID;
     c.tag = tag;
-    c.setRevId(commitId);
+    c.setCommitId(commitId);
     if (raId != null) {
       c.setRealAuthor(raId);
     }

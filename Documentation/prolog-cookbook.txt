@@ -74,6 +74,9 @@ For interactive testing and playing with Prolog, Gerrit provides the
 link:pgm-prolog-shell.html[prolog-shell] program which opens an interactive
 Prolog interpreter shell.
 
+For batch or unit tests, see the examples in Gerrit source directory
+link:https://gerrit.googlesource.com/gerrit/+/refs/heads/master/prologtests/examples/[prologtests/examples].
+
 [NOTE]
 The interactive shell is just a prolog shell, it does not load
 a gerrit server environment and thus is not intended for

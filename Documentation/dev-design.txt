@@ -178,17 +178,6 @@ has been migrated out of the database and into the git
 repositories for each project.
 
 
-== Project Information
-
-Gerrit is developed as a self-hosting open source project:
-
-* link:https://www.gerritcodereview.com/[Project Homepage]
-* link:https://www.gerritcodereview.com/releases-readme.html[Release Versions]
-* link:https://gerrit.googlesource.com/gerrit[Source]
-* link:https://bugs.chromium.org/p/gerrit/issues/list[Issue Tracking]
-* link:https://gerrit-review.googlesource.com/q/status:open+project:gerrit[Change Review]
-
-
 == Internationalization and Localization
 
 As a source code review system for open source projects, where the

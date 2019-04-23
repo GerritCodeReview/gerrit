@@ -64,10 +64,6 @@ public final class Patch {
     public abstract PatchSet.Id patchSetId();
 
     public abstract String fileName();
-
-    public PatchSet.Id getParentKey() {
-      return patchSetId();
-    }
   }
 
   /** Type of modification made to the file path. */

@@ -29,7 +29,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
@@ -287,7 +287,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     PushOneCommit.Result change2 = createChange();
     approve(change2.getChangeId());
     Project.NameKey project = change2.getChange().change().getProject();
-    Branch.NameKey branch = Branch.nameKey(project, "branch");
+    BranchNameKey branch = BranchNameKey.create(project, "branch");
     createBranchWithRevision(branch, change2.getCommit().getName());
     gApi.changes().id(change2.getChangeId()).current().submit();
     assertMerged(change2.getChangeId());

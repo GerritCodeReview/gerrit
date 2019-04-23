@@ -74,7 +74,7 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -2451,7 +2451,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     List<String> shas = new ArrayList<>(n + extra.size());
     extra.forEach(i -> shas.add(i.name()));
     List<Integer> expectedIds = new ArrayList<>(n);
-    Branch.NameKey dest = null;
+    BranchNameKey dest = null;
     for (int i = 0; i < n; i++) {
       ChangeInserter ins = newChange(repo);
       insert(repo, ins);
@@ -3371,7 +3371,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
           .append(c.changeId)
           .append("), ")
           .append("dest=")
-          .append(Branch.nameKey(Project.nameKey(c.project), c.branch))
+          .append(BranchNameKey.create(Project.nameKey(c.project), c.branch))
           .append(", ")
           .append("status=")
           .append(c.status)

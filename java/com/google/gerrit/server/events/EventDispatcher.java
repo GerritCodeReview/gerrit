@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.events;
 
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -37,7 +37,7 @@ public interface EventDispatcher {
    * @param event The event to post
    * @throws PermissionBackendException on failure of permission checks
    */
-  void postEvent(Branch.NameKey branchName, RefEvent event) throws PermissionBackendException;
+  void postEvent(BranchNameKey branchName, RefEvent event) throws PermissionBackendException;
 
   /**
    * Post a stream event that is related to a project.

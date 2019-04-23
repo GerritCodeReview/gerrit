@@ -27,7 +27,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -260,7 +260,7 @@ public class DeleteRef {
     }
 
     if (!refName.startsWith(R_TAGS)) {
-      Branch.NameKey branchKey = Branch.nameKey(projectState.getNameKey(), ref.getName());
+      BranchNameKey branchKey = BranchNameKey.create(projectState.getNameKey(), ref.getName());
       if (!queryProvider.get().setLimit(1).byBranchOpen(branchKey).isEmpty()) {
         command.setResult(Result.REJECTED_OTHER_REASON, "it has open changes");
       }

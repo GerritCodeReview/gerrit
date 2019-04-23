@@ -15,14 +15,14 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.index.query.PostFilterPredicate;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import java.util.Set;
 
 public class DestinationPredicate extends PostFilterPredicate<ChangeData> {
-  protected Set<Branch.NameKey> destinations;
+  protected Set<BranchNameKey> destinations;
 
-  public DestinationPredicate(Set<Branch.NameKey> destinations, String value) {
+  public DestinationPredicate(Set<BranchNameKey> destinations, String value) {
     super(ChangeQueryBuilder.FIELD_DESTINATION, value);
     this.destinations = destinations;
   }

@@ -15,7 +15,9 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.truth.OptionalSubject.optionals;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
@@ -776,7 +778,10 @@ public abstract class AbstractDaemonTest {
 
   protected AccountState getAccountState(Account.Id accountId) {
     Optional<AccountState> accountState = accountCache.get(accountId);
-    assertThat(accountState).named("account %s", accountId.get()).isPresent();
+    assertWithMessage("account %s", accountId.get())
+        .about(optionals())
+        .that(accountState)
+        .isPresent();
     return accountState.get();
   }
 
@@ -1312,7 +1317,7 @@ public abstract class AbstractDaemonTest {
 
   protected InternalGroup group(AccountGroup.UUID groupUuid) {
     InternalGroup group = groupCache.get(groupUuid).orElse(null);
-    assertThat(group).named(groupUuid.get()).isNotNull();
+    assertWithMessage(groupUuid.get()).that(group).isNotNull();
     return group;
   }
 
@@ -1323,7 +1328,7 @@ public abstract class AbstractDaemonTest {
 
   protected InternalGroup group(String groupName) {
     InternalGroup group = groupCache.get(AccountGroup.nameKey(groupName)).orElse(null);
-    assertThat(group).named(groupName).isNotNull();
+    assertWithMessage(groupName).that(group).isNotNull();
     return group;
   }
 
@@ -1351,7 +1356,7 @@ public abstract class AbstractDaemonTest {
 
   protected void assertGroupDoesNotExist(String groupName) {
     InternalGroup group = groupCache.get(AccountGroup.nameKey(groupName)).orElse(null);
-    assertThat(group).named(groupName).isNull();
+    assertWithMessage(groupName).that(group).isNull();
   }
 
   protected void assertNotifyTo(TestAccount expected) {

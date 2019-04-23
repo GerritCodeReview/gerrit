@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -209,13 +210,13 @@ public class GitUtil {
 
   public static void assertPushOk(PushResult result, String ref) {
     RemoteRefUpdate rru = result.getRemoteUpdate(ref);
-    assertThat(rru.getStatus()).named(rru.toString()).isEqualTo(RemoteRefUpdate.Status.OK);
+    assertWithMessage(rru.toString()).that(rru.getStatus()).isEqualTo(RemoteRefUpdate.Status.OK);
   }
 
   public static void assertPushRejected(PushResult result, String ref, String expectedMessage) {
     RemoteRefUpdate rru = result.getRemoteUpdate(ref);
-    assertThat(rru.getStatus())
-        .named(rru.toString())
+    assertWithMessage(rru.toString())
+        .that(rru.getStatus())
         .isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
     assertThat(rru.getMessage()).isEqualTo(expectedMessage);
   }

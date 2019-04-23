@@ -663,7 +663,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
             "message 1",
             "serverId",
             false);
-    c1.setRevId(new RevId("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+    c1.setRevId(ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
     String c1Json = Serializer.GSON.toJson(c1);
 
     Comment c2 =
@@ -675,7 +675,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
             "message 2",
             "serverId",
             true);
-    c2.setRevId(new RevId("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
+    c2.setRevId(ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
     String c2Json = Serializer.GSON.toJson(c2);
 
     assertRoundTrip(

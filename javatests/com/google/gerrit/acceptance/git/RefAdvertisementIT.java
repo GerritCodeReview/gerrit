@@ -384,7 +384,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void uploadPackAllRefsAreVisibleOrphanedTag() throws Exception {
     allow("refs/*", Permission.READ, REGISTERED_USERS);
     // Delete the pending change on 'branch' and 'branch' itself so that the tag gets orphaned
-    gApi.changes().id(cd4.getId().id).delete();
+    gApi.changes().id(cd4.getId().get()).delete();
     gApi.projects().name(project.get()).branch("refs/heads/branch").delete();
 
     requestScopeOperations.setApiUser(user.id());
@@ -442,7 +442,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       TestRepository<?> tr = new TestRepository<>(repo);
       String subject = "Subject for missing commit";
       Change c = new Change(cd3.change());
-      PatchSet.Id psId = new PatchSet.Id(cd3.getId(), 2);
+      PatchSet.Id psId = PatchSet.id(cd3.getId(), 2);
       c.setCurrentPatchSet(psId, subject, c.getOriginalSubject());
 
       PersonIdent committer = serverIdent.get();
@@ -773,7 +773,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   private static ObjectId obj(ChangeData cd, int psNum) throws Exception {
-    PatchSet.Id psId = new PatchSet.Id(cd.getId(), psNum);
+    PatchSet.Id psId = PatchSet.id(cd.getId(), psNum);
     PatchSet ps = cd.patchSet(psId);
     assertWithMessage("%s not found in %s", psId, cd.patchSets()).that(ps).isNotNull();
     return ObjectId.fromString(ps.getRevision().get());
@@ -792,7 +792,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     groupInput.ownerId = ownerGroup != null ? ownerGroup.get() : null;
     groupInput.members =
         Arrays.stream(members).map(m -> String.valueOf(m.id().get())).collect(toList());
-    return new AccountGroup.UUID(gApi.groups().create(groupInput).get().id);
+    return AccountGroup.uuid(gApi.groups().create(groupInput).get().id);
   }
 
   private static Map<String, Ref> getAllRefs(Repository repo) throws IOException {

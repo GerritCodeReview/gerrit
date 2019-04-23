@@ -227,7 +227,7 @@ public class ReviewCommand extends SshCommand {
         writeError("error", e.getMessage() + "\n");
       } catch (NoSuchChangeException e) {
         ok = false;
-        writeError("error", "no such change " + patchSet.getId().getParentKey().get());
+        writeError("error", "no such change " + patchSet.getId().changeId().get());
       } catch (Exception e) {
         ok = false;
         writeError("fatal", "internal server error while reviewing " + patchSet.getId() + "\n");
@@ -242,7 +242,7 @@ public class ReviewCommand extends SshCommand {
 
   private void applyReview(PatchSet patchSet, ReviewInput review) throws RestApiException {
     gApi.changes()
-        .id(patchSet.getId().getParentKey().get())
+        .id(patchSet.getId().changeId().get())
         .revision(patchSet.getRevision().get())
         .review(review);
   }
@@ -310,7 +310,7 @@ public class ReviewCommand extends SshCommand {
   }
 
   private ChangeApi changeApi(PatchSet patchSet) throws RestApiException {
-    return gApi.changes().id(patchSet.getId().getParentKey().get());
+    return gApi.changes().id(patchSet.getId().changeId().get());
   }
 
   private RevisionApi revisionApi(PatchSet patchSet) throws RestApiException {

@@ -87,18 +87,18 @@ public class RebaseUtil {
     // Try parsing the base as a ref string.
     PatchSet.Id basePatchSetId = PatchSet.Id.fromRef(base);
     if (basePatchSetId != null) {
-      Change.Id baseChangeId = basePatchSetId.getParentKey();
+      Change.Id baseChangeId = basePatchSetId.changeId();
       ChangeNotes baseNotes = notesFor(rsrc, baseChangeId);
       if (baseNotes != null) {
         return Base.create(
-            notesFor(rsrc, basePatchSetId.getParentKey()), psUtil.get(baseNotes, basePatchSetId));
+            notesFor(rsrc, basePatchSetId.changeId()), psUtil.get(baseNotes, basePatchSetId));
       }
     }
 
     // Try parsing base as a change number (assume current patch set).
     Integer baseChangeId = Ints.tryParse(base);
     if (baseChangeId != null) {
-      ChangeNotes baseNotes = notesFor(rsrc, new Change.Id(baseChangeId));
+      ChangeNotes baseNotes = notesFor(rsrc, Change.id(baseChangeId));
       if (baseNotes != null) {
         return Base.create(baseNotes, psUtil.current(baseNotes));
       }
@@ -181,10 +181,10 @@ public class RebaseUtil {
     if (baseRev == null) {
       // We are dependent on a merged PatchSet or have no PatchSet
       // dependencies at all.
-      Ref destRef = git.getRefDatabase().exactRef(destBranch.get());
+      Ref destRef = git.getRefDatabase().exactRef(destBranch.branch());
       if (destRef == null) {
         throw new UnprocessableEntityException(
-            "The destination branch does not exist: " + destBranch.get());
+            "The destination branch does not exist: " + destBranch.branch());
       }
       baseRev = destRef.getObjectId().getName();
       if (baseRev.equals(parentRev.get())) {

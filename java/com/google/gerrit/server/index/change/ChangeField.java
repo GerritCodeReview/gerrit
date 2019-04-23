@@ -128,7 +128,7 @@ public class ChangeField {
 
   /** Reference (aka branch) the change will submit onto. */
   public static final FieldDef<ChangeData, String> REF =
-      exact(ChangeQueryBuilder.FIELD_REF).build(changeGetter(c -> c.getDest().get()));
+      exact(ChangeQueryBuilder.FIELD_REF).build(changeGetter(c -> c.getDest().branch()));
 
   /** Topic, a short annotation on the branch. */
   public static final FieldDef<ChangeData, String> EXACT_TOPIC =
@@ -776,7 +776,7 @@ public class ChangeField {
           SubmitRecord.Label srl = new SubmitRecord.Label();
           srl.label = label.label;
           srl.status = label.status;
-          srl.appliedBy = label.appliedBy != null ? new Account.Id(label.appliedBy) : null;
+          srl.appliedBy = label.appliedBy != null ? Account.id(label.appliedBy) : null;
           rec.labels.add(srl);
         }
       }

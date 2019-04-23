@@ -195,7 +195,7 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
       // Updating and searching old schema version works.
       Provider<InternalChangeQuery> queryProvider =
           ctx.getInjector().getProvider(InternalChangeQuery.class);
-      assertThat(queryProvider.get().byKey(new Change.Key(changeId))).hasSize(1);
+      assertThat(queryProvider.get().byKey(Change.key(changeId))).hasSize(1);
       assertThat(queryProvider.get().byTopicOpen("topic1")).isEmpty();
 
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
@@ -223,7 +223,7 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
   }
 
   private void setUpChange() throws Exception {
-    project = new Project.NameKey("reindex-project-test");
+    project = Project.nameKey("reindex-project-test");
     try (ServerContext ctx = startServer()) {
       configureIndex(ctx.getInjector());
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);

@@ -160,7 +160,7 @@ public class ChangeFinder {
       Integer n = Ints.tryParse(id);
       if (n != null) {
         checkIdType(ChangeIdType.NUMERIC_ID, enforceDeprecation, n.toString());
-        return find(new Change.Id(n));
+        return find(Change.id(n));
       }
     }
 
@@ -193,7 +193,7 @@ public class ChangeFinder {
   }
 
   private List<ChangeNotes> fromProjectNumber(String project, int changeNumber) {
-    Change.Id cId = new Change.Id(changeNumber);
+    Change.Id cId = Change.id(changeNumber);
     try {
       return ImmutableList.of(
           changeNotesFactory.createChecked(Project.NameKey.parse(project), cId));

@@ -280,7 +280,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     expected.put(project.get(), new HashMap<>());
     expected.get(project.get()).put("refs/heads/master", 3);
 
-    assertThat(actual).containsKey(new Branch.NameKey(project, "refs/heads/master"));
+    assertThat(actual).containsKey(Branch.nameKey(project, "refs/heads/master"));
     if (getSubmitType() == SubmitType.CHERRY_PICK) {
       // CherryPick ignores dependencies, thus only change and destination
       // branch refs are modified.
@@ -545,7 +545,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit.Result visible = createChange("refs/for/master/" + name("topic"));
     Change.Id num = visible.getChange().getId();
 
-    createBranch(new Branch.NameKey(project, "hidden"));
+    createBranch(Branch.nameKey(project, "hidden"));
     PushOneCommit.Result hidden = createChange("refs/for/hidden/" + name("topic"));
     approve(hidden.getChangeId());
     blockRead("refs/heads/hidden");
@@ -1211,8 +1211,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     ChangeInfo c = get(changeId, CURRENT_REVISION);
     assertThat(c.currentRevision).isEqualTo(expectedId.name());
     assertThat(c.revisions.get(expectedId.name())._number).isEqualTo(expectedNum);
-    try (Repository repo = repoManager.openRepository(new Project.NameKey(c.project))) {
-      String refName = new PatchSet.Id(new Change.Id(c._number), expectedNum).toRefName();
+    try (Repository repo = repoManager.openRepository(Project.nameKey(c.project))) {
+      String refName = PatchSet.id(Change.id(c._number), expectedNum).toRefName();
       Ref ref = repo.exactRef(refName);
       assertThat(ref).named(refName).isNotNull();
       assertThat(ref.getObjectId()).isEqualTo(expectedId);
@@ -1232,7 +1232,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     LabelInfo cr = c.labels.get("Code-Review");
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).value).isEqualTo(2);
-    assertThat(new Account.Id(cr.all.get(0)._accountId)).isEqualTo(user.id());
+    assertThat(Account.id(cr.all.get(0)._accountId)).isEqualTo(user.id());
   }
 
   protected void assertMerged(String changeId) throws RestApiException {
@@ -1260,7 +1260,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Change c = getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
     ChangeNotes cn = notesFactory.createChecked(c);
     PatchSetApproval submitter =
-        approvalsUtil.getSubmitter(cn, new PatchSet.Id(cn.getChangeId(), psId));
+        approvalsUtil.getSubmitter(cn, PatchSet.id(cn.getChangeId(), psId));
     assertThat(submitter).isNotNull();
     assertThat(submitter.isLegacySubmit()).isTrue();
     assertThat(submitter.getAccountId()).isEqualTo(user.id());
@@ -1270,7 +1270,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Change c = getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
     ChangeNotes cn = notesFactory.createChecked(c);
     PatchSetApproval submitter =
-        approvalsUtil.getSubmitter(cn, new PatchSet.Id(cn.getChangeId(), psId));
+        approvalsUtil.getSubmitter(cn, PatchSet.id(cn.getChangeId(), psId));
     assertThat(submitter).isNull();
   }
 

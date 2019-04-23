@@ -227,7 +227,7 @@ public class ChangeData {
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
             null, project, id, null, null);
-    cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
+    cd.currentPatchSet = new PatchSet(PatchSet.id(id, currentPatchSetId));
     return cd;
   }
 
@@ -887,7 +887,7 @@ public class ChangeData {
         }
 
         try (Repository repo = repoManager.openRepository(project())) {
-          Ref ref = repo.getRefDatabase().exactRef(c.getDest().get());
+          Ref ref = repo.getRefDatabase().exactRef(c.getDest().branch());
           SubmitTypeRecord str = submitTypeRecord();
           if (!str.isOk()) {
             // If submit type rules are broken, it's definitely not mergeable.

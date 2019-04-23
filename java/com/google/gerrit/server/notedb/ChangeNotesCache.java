@@ -98,8 +98,8 @@ public class ChangeNotesCache {
       public Key deserialize(byte[] in) {
         ChangeNotesKeyProto proto = Protos.parseUnchecked(ChangeNotesKeyProto.parser(), in);
         return Key.create(
-            new Project.NameKey(proto.getProject()),
-            new Change.Id(proto.getChangeId()),
+            Project.nameKey(proto.getProject()),
+            Change.id(proto.getChangeId()),
             ObjectIdConverter.create().fromByteString(proto.getId()));
       }
     }

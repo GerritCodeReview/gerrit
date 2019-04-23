@@ -160,7 +160,7 @@ public class MergeValidators {
         final PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {
-      if (RefNames.REFS_CONFIG.equals(destBranch.get())) {
+      if (RefNames.REFS_CONFIG.equals(destBranch.branch())) {
         final Project.NameKey newParent;
         try {
           ProjectConfig cfg = projectConfigFactory.create(destProject.getNameKey());
@@ -289,14 +289,13 @@ public class MergeValidators {
         PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {
-      Account.Id accountId = Account.Id.fromRef(destBranch.get());
+      Account.Id accountId = Account.Id.fromRef(destBranch.branch());
       if (!allUsersName.equals(destProject.getNameKey()) || accountId == null) {
         return;
       }
 
       ChangeData cd =
-          changeDataFactory.create(
-              destProject.getProject().getNameKey(), patchSetId.getParentKey());
+          changeDataFactory.create(destProject.getProject().getNameKey(), patchSetId.changeId());
       try {
         if (!cd.currentFilePaths().contains(AccountProperties.ACCOUNT_CONFIG)) {
           return;
@@ -342,7 +341,7 @@ public class MergeValidators {
         throws MergeValidationException {
       // Groups are stored inside the 'All-Users' repository.
       if (!allUsersName.equals(destProject.getNameKey())
-          || !RefNames.isGroupRef(destBranch.get())) {
+          || !RefNames.isGroupRef(destBranch.branch())) {
         return;
       }
 

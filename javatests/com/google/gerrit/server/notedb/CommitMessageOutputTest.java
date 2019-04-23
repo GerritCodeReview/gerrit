@@ -199,7 +199,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
 
   @Test
   public void anonymousUser() throws Exception {
-    Account anon = new Account(new Account.Id(3), TimeUtil.nowTs());
+    Account anon = new Account(Account.id(3), TimeUtil.nowTs());
     accountCache.put(anon);
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, userFactory.create(anon.getId()));
@@ -311,7 +311,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     c.setCurrentPatchSet(c.currentPatchSetId(), "  " + c.getSubject(), c.getOriginalSubject());
     ChangeUpdate update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
-    update.setBranch(c.getDest().get());
+    update.setBranch(c.getDest().branch());
     update.commit();
 
     assertBodyEquals(
@@ -332,7 +332,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     c.setCurrentPatchSet(c.currentPatchSetId(), "\t\t" + c.getSubject(), c.getOriginalSubject());
     update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
-    update.setBranch(c.getDest().get());
+    update.setBranch(c.getDest().branch());
     update.commit();
 
     assertBodyEquals(

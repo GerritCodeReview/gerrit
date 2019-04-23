@@ -50,7 +50,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
   @Test
   public void noProblem() throws Exception {
     PushOneCommit.Result r = createChange("refs/for/master");
-    String branch = r.getChange().change().getDest().get();
+    String branch = r.getChange().change().getDest().branch();
 
     ChangeInfo info = gApi.changes().id(r.getChange().getId().get()).info();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
@@ -115,7 +115,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
   @Test
   public void detectAutoCloseableChangeByChangeId() throws Exception {
     PushOneCommit.Result r = createChange("refs/for/master");
-    String branch = r.getChange().change().getDest().get();
+    String branch = r.getChange().change().getDest().branch();
 
     RevCommit amendedCommit = serverSideTestRepo.amend(r.getCommit()).create();
     serverSideTestRepo.branch(branch).update(amendedCommit);
@@ -138,7 +138,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
   @Test
   public void fixAutoCloseableChangeByChangeId() throws Exception {
     PushOneCommit.Result r = createChange("refs/for/master");
-    String branch = r.getChange().change().getDest().get();
+    String branch = r.getChange().change().getDest().branch();
 
     RevCommit amendedCommit = serverSideTestRepo.amend(r.getCommit()).create();
     serverSideTestRepo.branch(branch).update(amendedCommit);
@@ -162,7 +162,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
   @Test
   public void maxCommits() throws Exception {
     PushOneCommit.Result r = createChange("refs/for/master");
-    String branch = r.getChange().change().getDest().get();
+    String branch = r.getChange().change().getDest().branch();
 
     RevCommit amendedCommit = serverSideTestRepo.amend(r.getCommit()).create();
     serverSideTestRepo.branch(branch).update(amendedCommit);
@@ -196,7 +196,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
   @Test
   public void skipCommits() throws Exception {
     PushOneCommit.Result r = createChange("refs/for/master");
-    String branch = r.getChange().change().getDest().get();
+    String branch = r.getChange().change().getDest().branch();
 
     RevCommit amendedCommit = serverSideTestRepo.amend(r.getCommit()).create();
     serverSideTestRepo.branch(branch).update(amendedCommit);

@@ -137,7 +137,7 @@ public class StreamEventsApiListener
 
   private ChangeNotes getNotes(ChangeInfo info) {
     try {
-      return changeNotesFactory.createChecked(new Change.Id(info._number));
+      return changeNotesFactory.createChecked(Change.id(info._number));
     } catch (NoSuchChangeException e) {
       throw new StorageException(e);
     }
@@ -162,7 +162,7 @@ public class StreamEventsApiListener
     return Suppliers.memoize(
         () ->
             account != null
-                ? eventFactory.asAccountAttribute(new Account.Id(account._accountId))
+                ? eventFactory.asAccountAttribute(Account.id(account._accountId))
                 : null);
   }
 
@@ -360,7 +360,7 @@ public class StreamEventsApiListener
     if (ev.getUpdater() != null) {
       event.submitter = accountAttributeSupplier(ev.getUpdater());
     }
-    final Branch.NameKey refName = new Branch.NameKey(ev.getProjectName(), ev.getRefName());
+    final Branch.NameKey refName = Branch.nameKey(ev.getProjectName(), ev.getRefName());
     event.refUpdate =
         Suppliers.memoize(
             () ->

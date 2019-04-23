@@ -110,17 +110,17 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     setTimeForTesting();
 
     serverIdent = new PersonIdent("Gerrit Server", "noreply@gerrit.com", TimeUtil.nowTs(), TZ);
-    project = new Project.NameKey("test-project");
+    project = Project.nameKey("test-project");
     repoManager = new InMemoryRepositoryManager();
     repo = repoManager.createRepository(project);
     tr = new TestRepository<>(repo);
     rw = tr.getRevWalk();
     accountCache = new FakeAccountCache();
-    Account co = new Account(new Account.Id(1), TimeUtil.nowTs());
+    Account co = new Account(Account.id(1), TimeUtil.nowTs());
     co.setFullName("Change Owner");
     co.setPreferredEmail("change@owner.com");
     accountCache.put(co);
-    Account ou = new Account(new Account.Id(2), TimeUtil.nowTs());
+    Account ou = new Account(Account.id(2), TimeUtil.nowTs());
     ou.setFullName("Other Account");
     ou.setPreferredEmail("other@account.com");
     accountCache.put(ou);
@@ -182,7 +182,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId());
     ChangeUpdate u = newUpdateForNewChange(c, changeOwner);
     u.setChangeId(c.getKey().get());
-    u.setBranch(c.getDest().get());
+    u.setBranch(c.getDest().branch());
     u.setWorkInProgress(workInProgress);
     u.commit();
     return c;

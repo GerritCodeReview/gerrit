@@ -57,7 +57,7 @@ public class GroupIndexerIT {
   @Test
   public void indexingUpdatesTheIndex() throws Exception {
     AccountGroup.UUID groupUuid = createGroup("users");
-    AccountGroup.UUID subgroupUuid = new AccountGroup.UUID("contributors");
+    AccountGroup.UUID subgroupUuid = AccountGroup.uuid("contributors");
     updateGroupWithoutCacheOrIndex(
         groupUuid,
         newGroupUpdate()
@@ -74,7 +74,7 @@ public class GroupIndexerIT {
   public void indexCannotBeCorruptedByStaleCache() throws Exception {
     AccountGroup.UUID groupUuid = createGroup("verifiers");
     loadGroupToCache(groupUuid);
-    AccountGroup.UUID subgroupUuid = new AccountGroup.UUID("contributors");
+    AccountGroup.UUID subgroupUuid = AccountGroup.uuid("contributors");
     updateGroupWithoutCacheOrIndex(
         groupUuid,
         newGroupUpdate()
@@ -102,7 +102,7 @@ public class GroupIndexerIT {
   @Test
   public void reindexingStaleGroupUpdatesTheIndex() throws Exception {
     AccountGroup.UUID groupUuid = createGroup("users");
-    AccountGroup.UUID subgroupUuid = new AccountGroup.UUID("contributors");
+    AccountGroup.UUID subgroupUuid = AccountGroup.uuid("contributors");
     updateGroupWithoutCacheOrIndex(
         groupUuid,
         newGroupUpdate()
@@ -139,7 +139,7 @@ public class GroupIndexerIT {
 
   private AccountGroup.UUID createGroup(String name) throws RestApiException {
     GroupInfo group = gApi.groups().create(name).get();
-    return new AccountGroup.UUID(group.id);
+    return AccountGroup.uuid(group.id);
   }
 
   private void reloadGroupToCache(AccountGroup.UUID groupUuid) {

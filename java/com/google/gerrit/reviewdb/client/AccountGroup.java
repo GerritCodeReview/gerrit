@@ -14,9 +14,8 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
-import com.google.gwtorm.client.IntKey;
-import com.google.gwtorm.client.StringKey;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Objects;
@@ -33,56 +32,46 @@ public final class AccountGroup {
     return Timestamp.from(AUDIT_CREATION_INSTANT_MS);
   }
 
+  public static NameKey nameKey(String n) {
+    return new AutoValue_AccountGroup_NameKey(n);
+  }
+
   /** Group name key */
-  public static class NameKey extends StringKey<com.google.gwtorm.client.Key<?>> {
-    private static final long serialVersionUID = 1L;
+  @AutoValue
+  public abstract static class NameKey implements Comparable<NameKey> {
+    abstract String name();
 
-    protected String name;
-
-    protected NameKey() {}
-
-    public NameKey(String n) {
-      name = n;
-    }
-
-    @Override
     public String get() {
-      return name;
+      return name();
     }
 
     @Override
-    protected void set(String newValue) {
-      name = newValue;
+    public int compareTo(NameKey o) {
+      return name().compareTo(o.name());
+    }
+
+    @Override
+    public String toString() {
+      return KeyUtil.encode(get());
     }
   }
 
+  public static UUID uuid(String n) {
+    return new AutoValue_AccountGroup_UUID(n);
+  }
+
   /** Globally unique identifier. */
-  public static class UUID extends StringKey<com.google.gwtorm.client.Key<?>> {
-    private static final long serialVersionUID = 1L;
+  @AutoValue
+  public abstract static class UUID implements Comparable<UUID> {
+    abstract String uuid();
 
-    protected String uuid;
-
-    protected UUID() {}
-
-    public UUID(String n) {
-      uuid = n;
-    }
-
-    @Override
     public String get() {
-      return uuid;
-    }
-
-    @Override
-    protected void set(String newValue) {
-      uuid = newValue;
+      return uuid();
     }
 
     /** Parse an {@link AccountGroup.UUID} out of a string representation. */
     public static UUID parse(String str) {
-      final UUID r = new UUID();
-      r.fromString(str);
-      return r;
+      return AccountGroup.uuid(KeyUtil.decode(str));
     }
 
     /** Parse an {@link AccountGroup.UUID} out of a ref-name. */
@@ -104,7 +93,17 @@ public final class AccountGroup {
      */
     public static UUID fromRefPart(String refPart) {
       String uuid = RefNames.parseShardedUuidFromRefPart(refPart);
-      return uuid != null ? new AccountGroup.UUID(uuid) : null;
+      return uuid != null ? AccountGroup.uuid(uuid) : null;
+    }
+
+    @Override
+    public int compareTo(UUID o) {
+      return uuid().compareTo(o.uuid());
+    }
+
+    @Override
+    public String toString() {
+      return KeyUtil.encode(get());
     }
   }
 
@@ -113,33 +112,27 @@ public final class AccountGroup {
     return uuid.get().matches("^[0-9a-f]{40}$");
   }
 
+  public static Id id(int id) {
+    return new AutoValue_AccountGroup_Id(id);
+  }
+
   /** Synthetic key to link to within the database */
-  public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
-    private static final long serialVersionUID = 1L;
+  @AutoValue
+  public abstract static class Id {
+    abstract int id();
 
-    protected int id;
-
-    protected Id() {}
-
-    public Id(int id) {
-      this.id = id;
-    }
-
-    @Override
     public int get() {
-      return id;
-    }
-
-    @Override
-    protected void set(int newValue) {
-      id = newValue;
+      return id();
     }
 
     /** Parse an AccountGroup.Id out of a string representation. */
     public static Id parse(String str) {
-      final Id r = new Id();
-      r.fromString(str);
-      return r;
+      return AccountGroup.id(Integer.parseInt(str));
+    }
+
+    @Override
+    public String toString() {
+      return Integer.toString(get());
     }
   }
 

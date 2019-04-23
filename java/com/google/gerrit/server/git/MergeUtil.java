@@ -805,9 +805,9 @@ public class MergeUtil {
     }
 
     StringBuilder msgbuf = new StringBuilder().append(summarize(rw, merged));
-    if (!R_HEADS_MASTER.equals(destBranch.get())) {
+    if (!R_HEADS_MASTER.equals(destBranch.branch())) {
       msgbuf.append(" into ");
-      msgbuf.append(destBranch.getShortName());
+      msgbuf.append(destBranch.shortName());
     }
 
     if (merged.size() > 1) {
@@ -974,7 +974,7 @@ public class MergeUtil {
         if (c.getPatchsetId() == null) {
           continue;
         }
-        Change.Id id = c.getPatchsetId().getParentKey();
+        Change.Id id = c.getPatchsetId().changeId();
         if (!expected.contains(id)) {
           continue;
         }

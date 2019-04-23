@@ -95,8 +95,7 @@ public class ReflogIT extends AbstractDaemonTest {
     groupApi.addMembers("user");
 
     try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.allow(
-          u.getConfig(), Permission.OWNER, new AccountGroup.UUID(groupApi.get().id), "refs/*");
+      Util.allow(u.getConfig(), Permission.OWNER, AccountGroup.uuid(groupApi.get().id), "refs/*");
       u.save();
     }
 

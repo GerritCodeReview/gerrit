@@ -516,8 +516,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         .isEqualTo(
             ReviewerSet.fromTable(
                 ImmutableTable.<ReviewerStateInternal, Account.Id, Timestamp>builder()
-                    .put(REVIEWER, new Account.Id(1), ts)
-                    .put(REVIEWER, new Account.Id(2), ts)
+                    .put(REVIEWER, Account.id(1), ts)
+                    .put(REVIEWER, Account.id(2), ts)
                     .build()));
   }
 
@@ -535,8 +535,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         .isEqualTo(
             ReviewerSet.fromTable(
                 ImmutableTable.<ReviewerStateInternal, Account.Id, Timestamp>builder()
-                    .put(REVIEWER, new Account.Id(1), ts)
-                    .put(CC, new Account.Id(2), ts)
+                    .put(REVIEWER, Account.id(1), ts)
+                    .put(CC, Account.id(2), ts)
                     .build()));
   }
 
@@ -550,7 +550,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     Timestamp ts = new Timestamp(update.getWhen().getTime());
     assertThat(notes.getReviewers())
-        .isEqualTo(ReviewerSet.fromTable(ImmutableTable.of(REVIEWER, new Account.Id(2), ts)));
+        .isEqualTo(ReviewerSet.fromTable(ImmutableTable.of(REVIEWER, Account.id(2), ts)));
 
     update = newUpdate(c, otherUser);
     update.putReviewer(otherUser.getAccount().getId(), CC);
@@ -559,7 +559,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     notes = newNotes(c);
     ts = new Timestamp(update.getWhen().getTime());
     assertThat(notes.getReviewers())
-        .isEqualTo(ReviewerSet.fromTable(ImmutableTable.of(CC, new Account.Id(2), ts)));
+        .isEqualTo(ReviewerSet.fromTable(ImmutableTable.of(CC, Account.id(2), ts)));
   }
 
   @Test
@@ -834,7 +834,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
 
     ChangeNotes notes = newNotes(c);
-    Branch.NameKey expectedBranch = new Branch.NameKey(project, "refs/heads/master");
+    Branch.NameKey expectedBranch = Branch.nameKey(project, "refs/heads/master");
     assertThat(notes.getChange().getDest()).isEqualTo(expectedBranch);
 
     // An update doesn't affect the branch
@@ -848,8 +848,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update = newUpdate(c, changeOwner);
     update.setBranch(otherBranch);
     update.commit();
-    assertThat(newNotes(c).getChange().getDest())
-        .isEqualTo(new Branch.NameKey(project, otherBranch));
+    assertThat(newNotes(c).getChange().getDest()).isEqualTo(Branch.nameKey(project, otherBranch));
   }
 
   @Test
@@ -956,7 +955,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     c.setCurrentPatchSet(c.currentPatchSetId(), "  " + trimmedSubj, c.getOriginalSubject());
     ChangeUpdate update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
-    update.setBranch(c.getDest().get());
+    update.setBranch(c.getDest().branch());
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -968,7 +967,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     c.setCurrentPatchSet(c.currentPatchSetId(), tabSubj, c.getOriginalSubject());
     update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
-    update.setBranch(c.getDest().get());
+    update.setBranch(c.getDest().branch());
     update.commit();
 
     notes = newNotes(c);
@@ -1015,14 +1014,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps1.getId());
     assertThat(notes.getChange().getSubject()).isEqualTo("Change subject");
     assertThat(notes.getChange().getOriginalSubject()).isEqualTo("Change subject");
-    assertThat(ps1.getId()).isEqualTo(new PatchSet.Id(c.getId(), 1));
+    assertThat(ps1.getId()).isEqualTo(PatchSet.id(c.getId(), 1));
     assertThat(ps1.getUploader()).isEqualTo(changeOwner.getAccountId());
 
     // ps2 by other user
     RevCommit commit = incrementPatchSet(c, otherUser);
     notes = newNotes(c);
     PatchSet ps2 = notes.getCurrentPatchSet();
-    assertThat(ps2.getId()).isEqualTo(new PatchSet.Id(c.getId(), 2));
+    assertThat(ps2.getId()).isEqualTo(PatchSet.id(c.getId(), 2));
     assertThat(notes.getChange().getSubject()).isEqualTo("PS2");
     assertThat(notes.getChange().getOriginalSubject()).isEqualTo("Change subject");
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps2.getId());
@@ -1673,7 +1672,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Test
   public void patchLineCommentNotesFormatWeirdUser() throws Exception {
-    Account account = new Account(new Account.Id(3), TimeUtil.nowTs());
+    Account account = new Account(Account.id(3), TimeUtil.nowTs());
     account.setFullName("Weird\n\u0002<User>\n");
     account.setPreferredEmail(" we\r\nird@ex>ample<.com");
     accountCache.put(account);
@@ -2697,7 +2696,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     int numComments = notes.getComments().size();
 
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setPatchSetId(new PatchSet.Id(c.getId(), c.currentPatchSetId().get() + 1));
+    update.setPatchSetId(PatchSet.id(c.getId(), c.currentPatchSetId().get() + 1));
     update.setChangeMessage("Should be ignored");
     update.putApproval("Code-Review", (short) 2);
     CommentRange range = new CommentRange(1, 1, 2, 1);
@@ -2734,7 +2733,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(2);
 
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setPatchSetId(new PatchSet.Id(c.getId(), 1));
+    update.setPatchSetId(PatchSet.id(c.getId(), 1));
     update.setCurrentPatchSet();
     update.commit();
     assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(1);
@@ -2751,7 +2750,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // Delete PS1, PS2 becomes current.
     update = newUpdate(c, changeOwner);
-    update.setPatchSetId(new PatchSet.Id(c.getId(), 1));
+    update.setPatchSetId(PatchSet.id(c.getId(), 1));
     update.setPatchSetState(PatchSetState.DELETED);
     update.commit();
     assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(2);

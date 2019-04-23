@@ -94,7 +94,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   protected final Project.NameKey getProject() {
-    return getDest().getParentKey();
+    return getDest().project();
   }
 
   @Override
@@ -132,14 +132,15 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // Needed by postUpdate, at which point mergeTip will have advanced further,
     // so it's easier to just snapshot the command.
     command =
-        new ReceiveCommand(firstNonNull(tipBefore, ObjectId.zeroId()), tipAfter, getDest().get());
+        new ReceiveCommand(
+            firstNonNull(tipBefore, ObjectId.zeroId()), tipAfter, getDest().branch());
     ctx.addRefUpdate(command);
     args.submoduleOp.addBranchTip(getDest(), tipAfter);
   }
 
   private void checkProjectConfig(RepoContext ctx, CodeReviewCommit commit)
       throws IntegrationException {
-    String refName = getDest().get();
+    String refName = getDest().branch();
     if (RefNames.REFS_CONFIG.equals(refName)) {
       logger.atFine().log("Loading new configuration from %s", RefNames.REFS_CONFIG);
       try {
@@ -483,7 +484,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
           getProject(), command.getRefName(), command.getOldId(), command.getNewId());
       // TODO(dborowitz): Move to BatchUpdate? Would also allow us to run once
       // per project even if multiple changes to refs/meta/config are submitted.
-      if (RefNames.REFS_CONFIG.equals(getDest().get())) {
+      if (RefNames.REFS_CONFIG.equals(getDest().branch())) {
         args.projectCache.evict(getProject());
         ProjectState p = args.projectCache.get(getProject());
         try (Repository git = args.repoManager.openRepository(getProject())) {

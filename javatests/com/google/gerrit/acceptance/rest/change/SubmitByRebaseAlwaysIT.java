@@ -95,7 +95,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     ChangeMessageModifier modifier2 =
         (msg, orig, tip, dest) -> msg + "Previous-step-tip: " + tip.name() + "\n";
     ChangeMessageModifier modifier3 =
-        (msg, orig, tip, dest) -> msg + "Dest: " + dest.getShortName() + "\n";
+        (msg, orig, tip, dest) -> msg + "Dest: " + dest.shortName() + "\n";
 
     try (AutoCloseable ignored = installChangeMessageModifiers(modifier1, modifier2, modifier3)) {
       ImmutableList<PushOneCommit.Result> changes = submitWithRebase(admin);
@@ -103,7 +103,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
       ChangeData cd2 = changes.get(1).getChange();
       assertThat(cd2.patchSets()).hasSize(2);
       String change1CurrentCommit = cd1.currentPatchSet().getRevision().get();
-      String change2Ps1Commit = cd2.patchSet(new PatchSet.Id(cd2.getId(), 1)).getRevision().get();
+      String change2Ps1Commit = cd2.patchSet(PatchSet.id(cd2.getId(), 1)).getRevision().get();
 
       assertThat(gApi.changes().id(cd2.getId().get()).revision(2).commit(false).message)
           .isEqualTo(

@@ -77,7 +77,7 @@ public class AuditLogReader {
         MemberKey key = MemberKey.create(groupId, id);
         AccountGroupMemberAudit audit =
             new AccountGroupMemberAudit(
-                new AccountGroupMemberAudit.Key(id, groupId, pc.when()), pc.authorId());
+                AccountGroupMemberAudit.key(id, groupId, pc.when()), pc.authorId());
         audits.put(key, audit);
         result.add(audit);
       }
@@ -90,7 +90,7 @@ public class AuditLogReader {
           // Match old behavior of DbGroupAuditListener and add a "legacy" add/remove pair.
           AccountGroupMemberAudit audit =
               new AccountGroupMemberAudit(
-                  new AccountGroupMemberAudit.Key(id, groupId, pc.when()), pc.authorId());
+                  AccountGroupMemberAudit.key(id, groupId, pc.when()), pc.authorId());
           audit.removedLegacy();
           result.add(audit);
         }
@@ -114,7 +114,7 @@ public class AuditLogReader {
         SubgroupKey key = SubgroupKey.create(groupId, uuid);
         AccountGroupByIdAud audit =
             new AccountGroupByIdAud(
-                new AccountGroupByIdAud.Key(groupId, uuid, pc.when()), pc.authorId());
+                AccountGroupByIdAud.key(groupId, uuid, pc.when()), pc.authorId());
         audits.put(key, audit);
         result.add(audit);
       }
@@ -182,7 +182,7 @@ public class AuditLogReader {
       logInvalid(uuid, c, line);
       return Optional.empty();
     }
-    return Optional.of(new AccountGroup.UUID(ident.getEmailAddress()));
+    return Optional.of(AccountGroup.uuid(ident.getEmailAddress()));
   }
 
   private static void logInvalid(AccountGroup.UUID uuid, RevCommit c, FooterLine line) {

@@ -48,8 +48,7 @@ public class OAuthTokenCache {
             .version(1)
             .keySerializer(
                 CacheSerializer.convert(
-                    IntegerCacheSerializer.INSTANCE,
-                    Converter.from(Account.Id::get, Account.Id::new)))
+                    IntegerCacheSerializer.INSTANCE, Converter.from(Account.Id::get, Account::id)))
             .valueSerializer(new Serializer());
       }
     };

@@ -38,13 +38,13 @@ public class ChangeMessageProtoConverterTest {
   public void allValuesConvertedToProto() {
     ChangeMessage changeMessage =
         new ChangeMessage(
-            new ChangeMessage.Key(new Change.Id(543), "change-message-21"),
-            new Account.Id(63),
+            ChangeMessage.key(Change.id(543), "change-message-21"),
+            Account.id(63),
             new Timestamp(9876543),
-            new PatchSet.Id(new Change.Id(34), 13));
+            PatchSet.id(Change.id(34), 13));
     changeMessage.setMessage("This is a change message.");
     changeMessage.setTag("An arbitrary tag.");
-    changeMessage.setRealAuthor(new Account.Id(10003));
+    changeMessage.setRealAuthor(Account.id(10003));
 
     Entities.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
 
@@ -60,7 +60,7 @@ public class ChangeMessageProtoConverterTest {
             .setPatchset(
                 Entities.PatchSet_Id.newBuilder()
                     .setChangeId(Entities.Change_Id.newBuilder().setId(34))
-                    .setPatchSetId(13))
+                    .setId(13))
             .setTag("An arbitrary tag.")
             .setRealAuthor(Entities.Account_Id.newBuilder().setId(10003))
             .build();
@@ -71,10 +71,10 @@ public class ChangeMessageProtoConverterTest {
   public void mainValuesConvertedToProto() {
     ChangeMessage changeMessage =
         new ChangeMessage(
-            new ChangeMessage.Key(new Change.Id(543), "change-message-21"),
-            new Account.Id(63),
+            ChangeMessage.key(Change.id(543), "change-message-21"),
+            Account.id(63),
             new Timestamp(9876543),
-            new PatchSet.Id(new Change.Id(34), 13));
+            PatchSet.id(Change.id(34), 13));
 
     Entities.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
 
@@ -89,7 +89,7 @@ public class ChangeMessageProtoConverterTest {
             .setPatchset(
                 Entities.PatchSet_Id.newBuilder()
                     .setChangeId(Entities.Change_Id.newBuilder().setId(34))
-                    .setPatchSetId(13))
+                    .setId(13))
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -99,10 +99,7 @@ public class ChangeMessageProtoConverterTest {
   public void realAuthorIsNotAutomaticallySetToAuthorWhenConvertedToProto() {
     ChangeMessage changeMessage =
         new ChangeMessage(
-            new ChangeMessage.Key(new Change.Id(543), "change-message-21"),
-            new Account.Id(63),
-            null,
-            null);
+            ChangeMessage.key(Change.id(543), "change-message-21"), Account.id(63), null, null);
 
     Entities.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
 
@@ -122,8 +119,7 @@ public class ChangeMessageProtoConverterTest {
     // writtenOn may not be null according to the column definition but it's optional for the
     // protobuf definition. -> assume as optional and hence test null
     ChangeMessage changeMessage =
-        new ChangeMessage(
-            new ChangeMessage.Key(new Change.Id(543), "change-message-21"), null, null, null);
+        new ChangeMessage(ChangeMessage.key(Change.id(543), "change-message-21"), null, null, null);
 
     Entities.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
 
@@ -141,13 +137,13 @@ public class ChangeMessageProtoConverterTest {
   public void allValuesConvertedToProtoAndBackAgain() {
     ChangeMessage changeMessage =
         new ChangeMessage(
-            new ChangeMessage.Key(new Change.Id(543), "change-message-21"),
-            new Account.Id(63),
+            ChangeMessage.key(Change.id(543), "change-message-21"),
+            Account.id(63),
             new Timestamp(9876543),
-            new PatchSet.Id(new Change.Id(34), 13));
+            PatchSet.id(Change.id(34), 13));
     changeMessage.setMessage("This is a change message.");
     changeMessage.setTag("An arbitrary tag.");
-    changeMessage.setRealAuthor(new Account.Id(10003));
+    changeMessage.setRealAuthor(Account.id(10003));
 
     ChangeMessage convertedChangeMessage =
         changeMessageProtoConverter.fromProto(changeMessageProtoConverter.toProto(changeMessage));
@@ -158,10 +154,10 @@ public class ChangeMessageProtoConverterTest {
   public void mainValuesConvertedToProtoAndBackAgain() {
     ChangeMessage changeMessage =
         new ChangeMessage(
-            new ChangeMessage.Key(new Change.Id(543), "change-message-21"),
-            new Account.Id(63),
+            ChangeMessage.key(Change.id(543), "change-message-21"),
+            Account.id(63),
             new Timestamp(9876543),
-            new PatchSet.Id(new Change.Id(34), 13));
+            PatchSet.id(Change.id(34), 13));
 
     ChangeMessage convertedChangeMessage =
         changeMessageProtoConverter.fromProto(changeMessageProtoConverter.toProto(changeMessage));
@@ -171,8 +167,7 @@ public class ChangeMessageProtoConverterTest {
   @Test
   public void mandatoryValuesConvertedToProtoAndBackAgain() {
     ChangeMessage changeMessage =
-        new ChangeMessage(
-            new ChangeMessage.Key(new Change.Id(543), "change-message-21"), null, null, null);
+        new ChangeMessage(ChangeMessage.key(Change.id(543), "change-message-21"), null, null, null);
 
     ChangeMessage convertedChangeMessage =
         changeMessageProtoConverter.fromProto(changeMessageProtoConverter.toProto(changeMessage));

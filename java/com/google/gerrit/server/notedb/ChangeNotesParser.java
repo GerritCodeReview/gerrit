@@ -237,7 +237,7 @@ class ChangeNotesParser {
     return ChangeNotesState.create(
         tip.copy(),
         id,
-        new Change.Key(changeId),
+        Change.key(changeId),
         createdOn,
         lastUpdatedOn,
         ownerId,
@@ -633,7 +633,7 @@ class ChangeNotesParser {
     if (psId == null) {
       throw invalidFooter(FOOTER_PATCH_SET, psIdStr);
     }
-    return new PatchSet.Id(id, psId);
+    return PatchSet.id(id, psId);
   }
 
   private PatchSetState parsePatchSetState(ChangeNotesCommit commit) throws ConfigInvalidException {
@@ -689,8 +689,7 @@ class ChangeNotesParser {
     }
 
     ChangeMessage changeMessage =
-        new ChangeMessage(
-            new ChangeMessage.Key(psId.getParentKey(), commit.name()), accountId, ts, psId);
+        new ChangeMessage(ChangeMessage.key(psId.changeId(), commit.name()), accountId, ts, psId);
     changeMessage.setMessage(changeMsgString.get());
     changeMessage.setTag(tag);
     changeMessage.setRealAuthor(realAccountId);
@@ -792,7 +791,7 @@ class ChangeNotesParser {
 
     PatchSetApproval psa =
         new PatchSetApproval(
-            new PatchSetApproval.Key(psId, effectiveAccountId, new LabelId(l.label())),
+            PatchSetApproval.key(psId, effectiveAccountId, LabelId.create(l.label())),
             l.value(),
             ts);
     psa.setTag(tag);
@@ -835,7 +834,7 @@ class ChangeNotesParser {
     // needs an actual approval in order to block copying an earlier approval over a later delete.
     PatchSetApproval remove =
         new PatchSetApproval(
-            new PatchSetApproval.Key(psId, effectiveAccountId, new LabelId(label)), (short) 0, ts);
+            PatchSetApproval.key(psId, effectiveAccountId, LabelId.create(label)), (short) 0, ts);
     if (!Objects.equals(realAccountId, committerId)) {
       remove.setRealAccountId(realAccountId);
     }
@@ -977,7 +976,7 @@ class ChangeNotesParser {
     if (revertOf == null) {
       throw invalidFooter(FOOTER_REVERT_OF, footer);
     }
-    return new Change.Id(revertOf);
+    return Change.id(revertOf);
   }
 
   private void pruneReviewers() {
@@ -1031,7 +1030,7 @@ class ChangeNotesParser {
         pruneEntitiesForMissingPatchSets(allChangeMessages, ChangeMessage::getPatchSetId, missing);
     pruned +=
         pruneEntitiesForMissingPatchSets(
-            comments.values(), c -> new PatchSet.Id(id, c.key.patchSetId), missing);
+            comments.values(), c -> PatchSet.id(id, c.key.patchSetId), missing);
     pruned +=
         pruneEntitiesForMissingPatchSets(
             approvals.values(), PatchSetApproval::getPatchSetId, missing);

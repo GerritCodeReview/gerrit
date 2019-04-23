@@ -100,7 +100,7 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
     String subject = proto.hasSubject() ? proto.getSubject() : null;
     String originalSubject = proto.hasOriginalSubject() ? proto.getOriginalSubject() : null;
     change.setCurrentPatchSet(
-        new PatchSet.Id(changeId, proto.getCurrentPatchSetId()), subject, originalSubject);
+        PatchSet.id(changeId, proto.getCurrentPatchSetId()), subject, originalSubject);
     if (proto.hasTopic()) {
       change.setTopic(proto.getTopic());
     }

@@ -30,7 +30,7 @@ public class RefUpdatedEvent extends RefEvent {
 
   @Override
   public Project.NameKey getProjectNameKey() {
-    return new Project.NameKey(refUpdate.get().project);
+    return Project.nameKey(refUpdate.get().project);
   }
 
   @Override

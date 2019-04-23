@@ -308,7 +308,7 @@ public abstract class ChangeNotesState {
             c.changeKey(),
             changeId(),
             c.owner(),
-            new Branch.NameKey(project, c.branch()),
+            Branch.nameKey(project, c.branch()),
             c.createdOn());
     copyNonConstructorColumnsTo(change);
     return change;
@@ -322,7 +322,7 @@ public abstract class ChangeNotesState {
         this);
     change.setKey(c.changeKey());
     change.setOwner(c.owner());
-    change.setDest(new Branch.NameKey(change.getProject(), c.branch()));
+    change.setDest(Branch.nameKey(change.getProject(), c.branch()));
     change.setCreatedOn(c.createdOn());
     copyNonConstructorColumnsTo(change);
   }
@@ -543,7 +543,7 @@ public abstract class ChangeNotesState {
     @Override
     public ChangeNotesState deserialize(byte[] in) {
       ChangeNotesStateProto proto = Protos.parseUnchecked(ChangeNotesStateProto.parser(), in);
-      Change.Id changeId = new Change.Id(proto.getChangeId());
+      Change.Id changeId = Change.id(proto.getChangeId());
 
       ChangeNotesState.Builder b =
           builder()
@@ -551,9 +551,7 @@ public abstract class ChangeNotesState {
               .changeId(changeId)
               .columns(toChangeColumns(changeId, proto.getColumns()))
               .pastAssignees(
-                  proto.getPastAssigneeList().stream()
-                      .map(Account.Id::new)
-                      .collect(toImmutableSet()))
+                  proto.getPastAssigneeList().stream().map(Account::id).collect(toImmutableSet()))
               .hashtags(proto.getHashtagList())
               .patchSets(
                   proto.getPatchSetList().stream()
@@ -570,9 +568,7 @@ public abstract class ChangeNotesState {
               .pendingReviewers(toReviewerSet(proto.getPendingReviewerList()))
               .pendingReviewersByEmail(toReviewerByEmailSet(proto.getPendingReviewerByEmailList()))
               .allPastReviewers(
-                  proto.getPastReviewerList().stream()
-                      .map(Account.Id::new)
-                      .collect(toImmutableList()))
+                  proto.getPastReviewerList().stream().map(Account::id).collect(toImmutableList()))
               .reviewerUpdates(toReviewerStatusUpdateList(proto.getReviewerUpdateList()))
               .submitRecords(
                   proto.getSubmitRecordList().stream()
@@ -599,13 +595,13 @@ public abstract class ChangeNotesState {
     private static ChangeColumns toChangeColumns(Change.Id changeId, ChangeColumnsProto proto) {
       ChangeColumns.Builder b =
           ChangeColumns.builder()
-              .changeKey(new Change.Key(proto.getChangeKey()))
+              .changeKey(Change.key(proto.getChangeKey()))
               .createdOn(new Timestamp(proto.getCreatedOn()))
               .lastUpdatedOn(new Timestamp(proto.getLastUpdatedOn()))
-              .owner(new Account.Id(proto.getOwner()))
+              .owner(Account.id(proto.getOwner()))
               .branch(proto.getBranch());
       if (proto.getHasCurrentPatchSetId()) {
-        b.currentPatchSetId(new PatchSet.Id(changeId, proto.getCurrentPatchSetId()));
+        b.currentPatchSetId(PatchSet.id(changeId, proto.getCurrentPatchSetId()));
       }
       b.subject(proto.getSubject());
       if (proto.getHasTopic()) {
@@ -618,7 +614,7 @@ public abstract class ChangeNotesState {
         b.submissionId(proto.getSubmissionId());
       }
       if (proto.getHasAssignee()) {
-        b.assignee(new Account.Id(proto.getAssignee()));
+        b.assignee(Account.id(proto.getAssignee()));
       }
       if (proto.getHasStatus()) {
         b.status(STATUS_CONVERTER.convert(proto.getStatus()));
@@ -627,7 +623,7 @@ public abstract class ChangeNotesState {
           .workInProgress(proto.getWorkInProgress())
           .reviewStarted(proto.getReviewStarted());
       if (proto.getHasRevertOf()) {
-        b.revertOf(new Change.Id(proto.getRevertOf()));
+        b.revertOf(Change.id(proto.getRevertOf()));
       }
       return b.build();
     }
@@ -638,7 +634,7 @@ public abstract class ChangeNotesState {
       for (ReviewerSetEntryProto e : protos) {
         b.put(
             REVIEWER_STATE_CONVERTER.convert(e.getState()),
-            new Account.Id(e.getAccountId()),
+            Account.id(e.getAccountId()),
             new Timestamp(e.getTimestamp()));
       }
       return ReviewerSet.fromTable(b.build());
@@ -664,8 +660,8 @@ public abstract class ChangeNotesState {
         b.add(
             ReviewerStatusUpdate.create(
                 new Timestamp(proto.getDate()),
-                new Account.Id(proto.getUpdatedBy()),
-                new Account.Id(proto.getReviewer()),
+                Account.id(proto.getUpdatedBy()),
+                Account.id(proto.getReviewer()),
                 REVIEWER_STATE_CONVERTER.convert(proto.getState())));
       }
       return b.build();

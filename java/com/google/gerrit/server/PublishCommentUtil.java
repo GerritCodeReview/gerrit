@@ -75,6 +75,6 @@ public class PublishCommentUtil {
   }
 
   private static PatchSet.Id psId(ChangeNotes notes, Comment c) {
-    return new PatchSet.Id(notes.getChangeId(), c.key.patchSetId);
+    return PatchSet.id(notes.getChangeId(), c.key.patchSetId);
   }
 }

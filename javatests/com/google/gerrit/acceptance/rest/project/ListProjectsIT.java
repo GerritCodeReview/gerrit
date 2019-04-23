@@ -240,7 +240,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
     int n = 5;
     assertThat(all).hasSize(n);
     assertThatNameList(gApi.projects().list().withPrefix(pre).withStart(n - 1).get())
-        .containsExactly(new Project.NameKey(Iterables.getLast(all).name));
+        .containsExactly(Project.nameKey(Iterables.getLast(all).name));
   }
 
   @Test

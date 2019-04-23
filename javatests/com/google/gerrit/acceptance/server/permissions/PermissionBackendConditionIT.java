@@ -122,7 +122,7 @@ public class PermissionBackendConditionIT extends AbstractDaemonTest {
 
   @Test
   public void refPermissions_sameResourceAndUserEquals() throws Exception {
-    Branch.NameKey branch = new Branch.NameKey(project, "branch");
+    Branch.NameKey branch = Branch.nameKey(project, "branch");
     BooleanCondition cond1 = pb.user(user()).ref(branch).testCond(RefPermission.READ);
     BooleanCondition cond2 = pb.user(user()).ref(branch).testCond(RefPermission.READ);
 
@@ -132,7 +132,7 @@ public class PermissionBackendConditionIT extends AbstractDaemonTest {
 
   @Test
   public void refPermissions_sameResourceAndDifferentUserDoesNotEqual() throws Exception {
-    Branch.NameKey branch = new Branch.NameKey(project, "branch");
+    Branch.NameKey branch = Branch.nameKey(project, "branch");
     BooleanCondition cond1 = pb.user(user()).ref(branch).testCond(RefPermission.READ);
     BooleanCondition cond2 = pb.user(admin()).ref(branch).testCond(RefPermission.READ);
 
@@ -142,8 +142,8 @@ public class PermissionBackendConditionIT extends AbstractDaemonTest {
 
   @Test
   public void refPermissions_differentResourceAndSameUserDoesNotEqual() throws Exception {
-    Branch.NameKey branch1 = new Branch.NameKey(project, "branch");
-    Branch.NameKey branch2 = new Branch.NameKey(project, "branch2");
+    Branch.NameKey branch1 = Branch.nameKey(project, "branch");
+    Branch.NameKey branch2 = Branch.nameKey(project, "branch2");
     BooleanCondition cond1 = pb.user(user()).ref(branch1).testCond(RefPermission.READ);
     BooleanCondition cond2 = pb.user(user()).ref(branch2).testCond(RefPermission.READ);
 
@@ -153,8 +153,8 @@ public class PermissionBackendConditionIT extends AbstractDaemonTest {
 
   @Test
   public void refPermissions_differentResourceAndSameUserDoesNotEqual2() throws Exception {
-    Branch.NameKey branch1 = new Branch.NameKey(project, "branch");
-    Branch.NameKey branch2 = new Branch.NameKey(projectOperations.newProject().create(), "branch");
+    Branch.NameKey branch1 = Branch.nameKey(project, "branch");
+    Branch.NameKey branch2 = Branch.nameKey(projectOperations.newProject().create(), "branch");
     BooleanCondition cond1 = pb.user(user()).ref(branch1).testCond(RefPermission.READ);
     BooleanCondition cond2 = pb.user(user()).ref(branch2).testCond(RefPermission.READ);
 

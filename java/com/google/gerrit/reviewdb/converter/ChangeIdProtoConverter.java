@@ -28,7 +28,7 @@ public enum ChangeIdProtoConverter implements ProtoConverter<Entities.Change_Id,
 
   @Override
   public Change.Id fromProto(Entities.Change_Id proto) {
-    return new Change.Id(proto.getId());
+    return Change.id(proto.getId());
   }
 
   @Override

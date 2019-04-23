@@ -45,7 +45,7 @@ public class WalkSorterTest extends GerritBaseTests {
 
   @Before
   public void setUp() {
-    userId = new Account.Id(1);
+    userId = Account.id(1);
     repoManager = new InMemoryRepositoryManager();
   }
 
@@ -280,7 +280,7 @@ public class WalkSorterTest extends GerritBaseTests {
 
     // If we restrict to PS1 of each change, the sorter uses that commit.
     sorter.includePatchSets(
-        ImmutableSet.of(new PatchSet.Id(cd1.getId(), 1), new PatchSet.Id(cd2.getId(), 1)));
+        ImmutableSet.of(PatchSet.id(cd1.getId(), 1), PatchSet.id(cd2.getId(), 1)));
     assertSorted(
         sorter, changes, ImmutableList.of(patchSetData(cd2, 1, c2_1), patchSetData(cd1, 1, c1_1)));
   }
@@ -353,7 +353,7 @@ public class WalkSorterTest extends GerritBaseTests {
   }
 
   private TestRepository<Repo> newRepo(String name) throws Exception {
-    return new TestRepository<>(repoManager.createRepository(new Project.NameKey(name)));
+    return new TestRepository<>(repoManager.createRepository(Project.nameKey(name)));
   }
 
   private static PatchSetData patchSetData(ChangeData cd, RevCommit commit) throws Exception {
@@ -362,7 +362,7 @@ public class WalkSorterTest extends GerritBaseTests {
 
   private static PatchSetData patchSetData(ChangeData cd, int psId, RevCommit commit)
       throws Exception {
-    return PatchSetData.create(cd, cd.patchSet(new PatchSet.Id(cd.getId(), psId)), commit);
+    return PatchSetData.create(cd, cd.patchSet(PatchSet.id(cd.getId(), psId)), commit);
   }
 
   private static void assertSorted(

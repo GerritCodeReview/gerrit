@@ -33,8 +33,8 @@ import java.util.List;
 import org.junit.Test;
 
 public class IgnoreSelfApprovalRuleTest extends GerritBaseTests {
-  private static final Change.Id CHANGE_ID = new Change.Id(100);
-  private static final PatchSet.Id PS_ID = new PatchSet.Id(CHANGE_ID, 1);
+  private static final Change.Id CHANGE_ID = Change.id(100);
+  private static final PatchSet.Id PS_ID = PatchSet.id(CHANGE_ID, 1);
   private static final LabelType VERIFIED = makeLabel("Verified");
   private static final Account.Id USER1 = makeAccount(100001);
 
@@ -88,10 +88,10 @@ public class IgnoreSelfApprovalRuleTest extends GerritBaseTests {
 
   private static PatchSetApproval.Key makeKey(
       PatchSet.Id psId, Account.Id accountId, LabelId labelId) {
-    return new PatchSetApproval.Key(psId, accountId, labelId);
+    return PatchSetApproval.key(psId, accountId, labelId);
   }
 
   private static Account.Id makeAccount(int account) {
-    return new Account.Id(account);
+    return Account.id(account);
   }
 }

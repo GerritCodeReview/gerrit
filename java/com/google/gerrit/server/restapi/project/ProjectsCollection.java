@@ -138,7 +138,7 @@ public class ProjectsCollection
       throws IOException, PermissionBackendException, ResourceConflictException {
     id = ProjectUtil.sanitizeProjectName(id);
 
-    Project.NameKey nameKey = new Project.NameKey(id);
+    Project.NameKey nameKey = Project.nameKey(id);
     ProjectState state = projectCache.checkedGet(nameKey);
     if (state == null) {
       return null;

@@ -61,7 +61,7 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     } catch (PermissionBackendException | RuntimeException e) {
-      throw new IOException("Unable to lookup change " + id.id, e);
+      throw new IOException("Unable to lookup change " + id.get(), e);
     }
     String path =
         PageLinks.toChange(changeResource.getProject(), changeResource.getChange().getId());

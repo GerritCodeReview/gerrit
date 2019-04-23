@@ -153,8 +153,8 @@ public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
       RestApiCallHelper.execute(
           adminRestSession,
           TEST_CALLS.asList(),
-          String.valueOf(patchSetId.changeId.id),
-          String.valueOf(patchSetId.patchSetId));
+          String.valueOf(patchSetId.changeId().get()),
+          String.valueOf(patchSetId.get()));
     }
   }
 }

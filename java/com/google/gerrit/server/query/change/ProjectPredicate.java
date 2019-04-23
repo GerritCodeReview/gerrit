@@ -24,7 +24,7 @@ public class ProjectPredicate extends ChangeIndexPredicate {
   }
 
   protected Project.NameKey getValueKey() {
-    return new Project.NameKey(getValue());
+    return Project.nameKey(getValue());
   }
 
   @Override
@@ -34,7 +34,7 @@ public class ProjectPredicate extends ChangeIndexPredicate {
       return false;
     }
 
-    Project.NameKey p = change.getDest().getParentKey();
+    Project.NameKey p = change.getDest().project();
     return p.equals(getValueKey());
   }
 

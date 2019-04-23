@@ -52,7 +52,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
           PermissionBackendException {
     Map<String, ProjectAccessInfo> access = new TreeMap<>();
     for (String p : projects) {
-      access.put(p, getAccess.apply(new Project.NameKey(p)));
+      access.put(p, getAccess.apply(Project.nameKey(p)));
     }
     return access;
   }

@@ -361,7 +361,7 @@ public abstract class ExternalId implements Serializable {
 
     return create(
         externalIdKey,
-        new Account.Id(accountId),
+        Account.id(accountId),
         Strings.emptyToNull(email),
         Strings.emptyToNull(password),
         blobId);

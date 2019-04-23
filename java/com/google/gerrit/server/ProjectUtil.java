@@ -35,11 +35,12 @@ public class ProjectUtil {
    */
   public static boolean branchExists(final GitRepositoryManager repoManager, Branch.NameKey branch)
       throws RepositoryNotFoundException, IOException {
-    try (Repository repo = repoManager.openRepository(branch.getParentKey())) {
-      boolean exists = repo.getRefDatabase().exactRef(branch.get()) != null;
+    try (Repository repo = repoManager.openRepository(branch.project())) {
+      boolean exists = repo.getRefDatabase().exactRef(branch.branch()) != null;
       if (!exists) {
         exists =
-            repo.getFullBranch().equals(branch.get()) || RefNames.REFS_CONFIG.equals(branch.get());
+            repo.getFullBranch().equals(branch.branch())
+                || RefNames.REFS_CONFIG.equals(branch.branch());
       }
       return exists;
     }

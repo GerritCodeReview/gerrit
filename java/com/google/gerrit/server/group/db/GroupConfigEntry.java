@@ -45,7 +45,7 @@ enum GroupConfigEntry {
             String.format(
                 "ID of the group %s must not be negative, found %d", groupUuid.get(), id));
       }
-      group.setId(new AccountGroup.Id(id));
+      group.setId(AccountGroup.id(id));
     }
 
     @Override
@@ -77,7 +77,7 @@ enum GroupConfigEntry {
       // the NoteDb migration converted such groups faithfully, so we need to be able to read them
       // back here.
       name = Strings.nullToEmpty(name);
-      group.setNameKey(new AccountGroup.NameKey(name));
+      group.setNameKey(AccountGroup.nameKey(name));
     }
 
     @Override
@@ -135,7 +135,7 @@ enum GroupConfigEntry {
         throw new ConfigInvalidException(
             String.format("Owner UUID of the group %s must be defined", groupUuid.get()));
       }
-      group.setOwnerGroupUUID(new AccountGroup.UUID(ownerGroupUuid));
+      group.setOwnerGroupUUID(AccountGroup.uuid(ownerGroupUuid));
     }
 
     @Override

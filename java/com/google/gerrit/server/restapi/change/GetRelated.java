@@ -128,7 +128,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   private void reloadChangeIfStale(List<ChangeData> cds, PatchSet wantedPs) {
     for (ChangeData cd : cds) {
-      if (cd.getId().equals(wantedPs.getId().getParentKey())) {
+      if (cd.getId().equals(wantedPs.getId().changeId())) {
         if (cd.patchSet(wantedPs.getId()) == null) {
           cd.reloadChange();
         }

@@ -238,7 +238,7 @@ public class ConsistencyChecker {
   }
 
   private boolean openRepo() {
-    Project.NameKey project = change().getDest().getParentKey();
+    Project.NameKey project = change().getDest().project();
     try {
       repo = repoManager.openRepository(project);
       oi = repo.newObjectInserter();
@@ -327,7 +327,7 @@ public class ConsistencyChecker {
   }
 
   private void checkMerged() {
-    String refName = change().getDest().get();
+    String refName = change().getDest().branch();
     Ref dest;
     try {
       dest = repo.getRefDatabase().exactRef(refName);
@@ -359,7 +359,7 @@ public class ConsistencyChecker {
   }
 
   private ProblemInfo wrongChangeStatus(PatchSet.Id psId, RevCommit commit) {
-    String refName = change().getDest().get();
+    String refName = change().getDest().branch();
     return problem(
         formatProblemMessage(
             "Patch set %d (%s) is merged into destination ref %s (%s), but change"
@@ -368,7 +368,7 @@ public class ConsistencyChecker {
   }
 
   private void checkMergedBitMatchesStatus(PatchSet.Id psId, RevCommit commit, boolean merged) {
-    String refName = change().getDest().get();
+    String refName = change().getDest().branch();
     if (merged && !change().isMerged()) {
       ProblemInfo p = wrongChangeStatus(psId, commit);
       if (fix != null) {
@@ -406,7 +406,7 @@ public class ConsistencyChecker {
         problem(
             String.format(
                 "Expected merged commit %s is not merged into destination ref %s (%s)",
-                commit.name(), change().getDest().get(), tip.name()));
+                commit.name(), change().getDest().branch(), tip.name()));
         return;
       }
 
@@ -420,8 +420,7 @@ public class ConsistencyChecker {
           continue;
         }
         try {
-          Change c =
-              notesFactory.createChecked(change().getProject(), psId.getParentKey()).getChange();
+          Change c = notesFactory.createChecked(change().getProject(), psId.changeId()).getChange();
           if (!c.getDest().equals(change().getDest())) {
             continue;
           }
@@ -640,7 +639,7 @@ public class ConsistencyChecker {
     try (BatchUpdate bu = newBatchUpdate()) {
       bu.setRepository(repo, rw, oi);
       for (DeletePatchSetFromDbOp op : ops) {
-        checkArgument(op.psId.getParentKey().equals(notes.getChangeId()));
+        checkArgument(op.psId.changeId().equals(notes.getChangeId()));
         bu.addOp(notes.getChangeId(), op);
       }
       bu.addOp(notes.getChangeId(), new UpdateCurrentPatchSetOp(ops));
@@ -652,7 +651,7 @@ public class ConsistencyChecker {
       }
     } catch (UpdateException | RestApiException e) {
       String msg = "Error deleting patch set";
-      logger.atWarning().withCause(e).log("%s of change %s", msg, ops.get(0).psId.getParentKey());
+      logger.atWarning().withCause(e).log("%s of change %s", msg, ops.get(0).psId.changeId());
       for (DeletePatchSetFromDbOp op : ops) {
         // Overwrite existing statuses that were set before the transaction was
         // rolled back.

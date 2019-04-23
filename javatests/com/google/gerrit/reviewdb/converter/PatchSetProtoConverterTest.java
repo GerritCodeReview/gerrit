@@ -36,9 +36,9 @@ public class PatchSetProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    PatchSet patchSet = new PatchSet(new PatchSet.Id(new Change.Id(103), 73));
+    PatchSet patchSet = new PatchSet(PatchSet.id(Change.id(103), 73));
     patchSet.setRevision(new RevId("aabbccddeeff"));
-    patchSet.setUploader(new Account.Id(452));
+    patchSet.setUploader(Account.id(452));
     patchSet.setCreatedOn(new Timestamp(930349320L));
     patchSet.setGroups(ImmutableList.of("group1, group2"));
     patchSet.setPushCertificate("my push certificate");
@@ -51,7 +51,7 @@ public class PatchSetProtoConverterTest {
             .setId(
                 Entities.PatchSet_Id.newBuilder()
                     .setChangeId(Entities.Change_Id.newBuilder().setId(103))
-                    .setPatchSetId(73))
+                    .setId(73))
             .setRevision(Entities.RevId.newBuilder().setId("aabbccddeeff"))
             .setUploaderAccountId(Entities.Account_Id.newBuilder().setId(452))
             .setCreatedOn(930349320L)
@@ -64,7 +64,7 @@ public class PatchSetProtoConverterTest {
 
   @Test
   public void mandatoryValuesConvertedToProto() {
-    PatchSet patchSet = new PatchSet(new PatchSet.Id(new Change.Id(103), 73));
+    PatchSet patchSet = new PatchSet(PatchSet.id(Change.id(103), 73));
 
     Entities.PatchSet proto = patchSetProtoConverter.toProto(patchSet);
 
@@ -73,16 +73,16 @@ public class PatchSetProtoConverterTest {
             .setId(
                 Entities.PatchSet_Id.newBuilder()
                     .setChangeId(Entities.Change_Id.newBuilder().setId(103))
-                    .setPatchSetId(73))
+                    .setId(73))
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    PatchSet patchSet = new PatchSet(new PatchSet.Id(new Change.Id(103), 73));
+    PatchSet patchSet = new PatchSet(PatchSet.id(Change.id(103), 73));
     patchSet.setRevision(new RevId("aabbccddeeff"));
-    patchSet.setUploader(new Account.Id(452));
+    patchSet.setUploader(Account.id(452));
     patchSet.setCreatedOn(new Timestamp(930349320L));
     patchSet.setGroups(ImmutableList.of("group1, group2"));
     patchSet.setPushCertificate("my push certificate");
@@ -95,7 +95,7 @@ public class PatchSetProtoConverterTest {
 
   @Test
   public void mandatoryValuesConvertedToProtoAndBackAgain() {
-    PatchSet patchSet = new PatchSet(new PatchSet.Id(new Change.Id(103), 73));
+    PatchSet patchSet = new PatchSet(PatchSet.id(Change.id(103), 73));
 
     PatchSet convertedPatchSet =
         patchSetProtoConverter.fromProto(patchSetProtoConverter.toProto(patchSet));
@@ -109,7 +109,7 @@ public class PatchSetProtoConverterTest {
             .setId(
                 Entities.PatchSet_Id.newBuilder()
                     .setChangeId(Entities.Change_Id.newBuilder().setId(103))
-                    .setPatchSetId(73))
+                    .setId(73))
             .build();
     byte[] bytes = proto.toByteArray();
 

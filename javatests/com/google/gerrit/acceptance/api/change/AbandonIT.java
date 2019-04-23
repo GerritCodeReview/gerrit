@@ -89,8 +89,8 @@ public class AbandonIT extends AbstractDaemonTest {
     String project2Name = name("Project2");
     gApi.projects().create(project1Name);
     gApi.projects().create(project2Name);
-    TestRepository<InMemoryRepository> project1 = cloneProject(new Project.NameKey(project1Name));
-    TestRepository<InMemoryRepository> project2 = cloneProject(new Project.NameKey(project2Name));
+    TestRepository<InMemoryRepository> project1 = cloneProject(Project.nameKey(project1Name));
+    TestRepository<InMemoryRepository> project2 = cloneProject(Project.nameKey(project2Name));
 
     CurrentUser user = atrScope.get().getUser();
     PushOneCommit.Result a = createChange(project1, "master", "x", "x", "x", "");
@@ -99,7 +99,7 @@ public class AbandonIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage(
         String.format("Project name \"%s\" doesn't match \"%s\"", project2Name, project1Name));
-    batchAbandon.batchAbandon(batchUpdateFactory, new Project.NameKey(project1Name), user, list);
+    batchAbandon.batchAbandon(batchUpdateFactory, Project.nameKey(project1Name), user, list);
   }
 
   @Test

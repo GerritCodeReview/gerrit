@@ -17,6 +17,7 @@ package com.google.gerrit.reviewdb.client;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.reviewdb.client.AccountGroup.UUID.fromRef;
 import static com.google.gerrit.reviewdb.client.AccountGroup.UUID.fromRefPart;
+import static com.google.gerrit.reviewdb.client.AccountGroup.uuid;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -79,24 +80,20 @@ public class AccountGroupTest {
 
   @Test
   public void parseUuid() {
-    assertThat(AccountGroup.UUID.parse("foo")).isEqualTo(new AccountGroup.UUID("foo"));
-    assertThat(AccountGroup.UUID.parse("foo+bar")).isEqualTo(new AccountGroup.UUID("foo bar"));
-    assertThat(AccountGroup.UUID.parse("foo%3Abar")).isEqualTo(new AccountGroup.UUID("foo:bar"));
+    assertThat(AccountGroup.UUID.parse("foo")).isEqualTo(uuid("foo"));
+    assertThat(AccountGroup.UUID.parse("foo+bar")).isEqualTo(uuid("foo bar"));
+    assertThat(AccountGroup.UUID.parse("foo%3Abar")).isEqualTo(uuid("foo:bar"));
   }
 
   @Test
   public void idToString() {
-    assertThat(new AccountGroup.Id(123).toString()).isEqualTo("123");
+    assertThat(AccountGroup.id(123).toString()).isEqualTo("123");
   }
 
   @Test
   public void nameKeyToString() {
-    assertThat(new AccountGroup.NameKey("foo").toString()).isEqualTo("foo");
-    assertThat(new AccountGroup.NameKey("foo bar").toString()).isEqualTo("foo+bar");
-    assertThat(new AccountGroup.NameKey("foo:bar").toString()).isEqualTo("foo%3Abar");
-  }
-
-  private AccountGroup.UUID uuid(String uuid) {
-    return new AccountGroup.UUID(uuid);
+    assertThat(AccountGroup.nameKey("foo").toString()).isEqualTo("foo");
+    assertThat(AccountGroup.nameKey("foo bar").toString()).isEqualTo("foo+bar");
+    assertThat(AccountGroup.nameKey("foo:bar").toString()).isEqualTo("foo%3Abar");
   }
 }

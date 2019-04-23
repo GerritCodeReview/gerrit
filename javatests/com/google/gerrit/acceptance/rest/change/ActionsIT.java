@@ -351,7 +351,7 @@ public class ActionsIT extends AbstractDaemonTest {
     String id = createChange().getChangeId();
     amendChange(id);
     ChangeInfo origChange = gApi.changes().id(id).get(CHANGE_ACTIONS);
-    Change.Id changeId = new Change.Id(origChange._number);
+    Change.Id changeId = Change.id(origChange._number);
 
     class Visitor implements ActionVisitor {
       @Override
@@ -395,7 +395,7 @@ public class ActionsIT extends AbstractDaemonTest {
 
     // ...via ChangeJson directly.
     ChangeData cd = changeDataFactory.create(project, changeId);
-    revisionJsonFactory.create(opts).getRevisionInfo(cd, cd.patchSet(new PatchSet.Id(changeId, 1)));
+    revisionJsonFactory.create(opts).getRevisionInfo(cd, cd.patchSet(PatchSet.id(changeId, 1)));
   }
 
   private void visitedCurrentRevisionActionsAssertions(

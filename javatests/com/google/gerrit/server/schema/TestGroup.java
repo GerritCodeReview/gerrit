@@ -47,7 +47,7 @@ public abstract class TestGroup {
     public abstract Builder setNameKey(AccountGroup.NameKey nameKey);
 
     public Builder setName(String name) {
-      return setNameKey(new AccountGroup.NameKey(name));
+      return setNameKey(AccountGroup.nameKey(name));
     }
 
     public abstract Builder setGroupUuid(AccountGroup.UUID uuid);
@@ -66,10 +66,9 @@ public abstract class TestGroup {
 
     public AccountGroup build() {
       TestGroup testGroup = autoBuild();
-      AccountGroup.NameKey name = testGroup.getNameKey().orElse(new AccountGroup.NameKey("users"));
-      AccountGroup.Id id = testGroup.getId().orElse(new AccountGroup.Id(Math.abs(name.hashCode())));
-      AccountGroup.UUID uuid =
-          testGroup.getGroupUuid().orElse(new AccountGroup.UUID(name + "-UUID"));
+      AccountGroup.NameKey name = testGroup.getNameKey().orElse(AccountGroup.nameKey("users"));
+      AccountGroup.Id id = testGroup.getId().orElse(AccountGroup.id(Math.abs(name.hashCode())));
+      AccountGroup.UUID uuid = testGroup.getGroupUuid().orElse(AccountGroup.uuid(name + "-UUID"));
       Timestamp createdOn = testGroup.getCreatedOn().orElseGet(TimeUtil::nowTs);
       AccountGroup accountGroup = new AccountGroup(name, id, uuid, createdOn);
       testGroup.getOwnerGroupUuid().ifPresent(accountGroup::setOwnerGroupUUID);

@@ -196,19 +196,19 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
       // check that the preview matched what happened:
       assertThat(preview).hasSize(3);
 
-      assertThat(preview).containsKey(new Branch.NameKey(p1, "refs/heads/master"));
+      assertThat(preview).containsKey(Branch.nameKey(p1, "refs/heads/master"));
       assertTrees(p1, preview);
 
-      assertThat(preview).containsKey(new Branch.NameKey(p2, "refs/heads/master"));
+      assertThat(preview).containsKey(Branch.nameKey(p2, "refs/heads/master"));
       assertTrees(p2, preview);
 
-      assertThat(preview).containsKey(new Branch.NameKey(p3, "refs/heads/master"));
+      assertThat(preview).containsKey(Branch.nameKey(p3, "refs/heads/master"));
       assertTrees(p3, preview);
     } else {
       assertThat(tip2.getShortMessage()).isEqualTo(initialHead2.getShortMessage());
       assertThat(tip3.getShortMessage()).isEqualTo(initialHead3.getShortMessage());
       assertThat(preview).hasSize(1);
-      assertThat(preview.get(new Branch.NameKey(p1, "refs/heads/master"))).isNotNull();
+      assertThat(preview.get(Branch.nameKey(p1, "refs/heads/master"))).isNotNull();
     }
   }
 
@@ -517,7 +517,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         change3.getChangeId(),
         "Failed to submit 1 change due to the following problems:\n"
             + "Change "
-            + change3.getPatchSetId().getParentKey().get()
+            + change3.getPatchSetId().changeId().get()
             + ": Depends on change that was not submitted."
             + " Commit "
             + change3.getCommit().name()
@@ -624,13 +624,13 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     // Move the first change to a destination branch that is non-visible to user so that user cannot
     // this change anymore.
-    Branch.NameKey secretBranch = new Branch.NameKey(project, "secretBranch");
+    Branch.NameKey secretBranch = Branch.nameKey(project, "secretBranch");
     gApi.projects()
-        .name(secretBranch.getParentKey().get())
-        .branch(secretBranch.get())
+        .name(secretBranch.project().get())
+        .branch(secretBranch.branch())
         .create(new BranchInput());
-    gApi.changes().id(changeResult.getChangeId()).move(secretBranch.get());
-    block(secretBranch.get(), "read", ANONYMOUS_USERS);
+    gApi.changes().id(changeResult.getChangeId()).move(secretBranch.branch());
+    block(secretBranch.branch(), "read", ANONYMOUS_USERS);
 
     requestScopeOperations.setApiUser(user.id());
 
@@ -699,7 +699,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
       assertThat(e.getMessage())
           .isEqualTo(
               "A change to be submitted with "
-                  + change2Result.getChange().getId().id
+                  + change2Result.getChange().getId().get()
                   + " is not visible");
     }
     assertRefUpdatedEvents();
@@ -759,7 +759,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
       assertThat(e.getMessage())
           .isEqualTo(
               "A change to be submitted with "
-                  + change1.getChange().getId().id
+                  + change1.getChange().getId().get()
                   + " is not visible");
     }
     assertRefUpdatedEvents();

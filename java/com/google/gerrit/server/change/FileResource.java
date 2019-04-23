@@ -29,7 +29,7 @@ public class FileResource implements RestResource {
 
   public FileResource(RevisionResource rev, String name) {
     this.rev = rev;
-    this.key = new Patch.Key(rev.getPatchSet().getId(), name);
+    this.key = Patch.key(rev.getPatchSet().getId(), name);
   }
 
   public Patch.Key getPatchKey() {

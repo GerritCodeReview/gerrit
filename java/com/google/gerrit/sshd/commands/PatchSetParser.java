@@ -101,7 +101,7 @@ public class PatchSetParser {
       } catch (IllegalArgumentException e) {
         throw error("\"" + token + "\" is not a valid patch set");
       }
-      ChangeNotes notes = getNotes(projectState, patchSetId.getParentKey());
+      ChangeNotes notes = getNotes(projectState, patchSetId.changeId());
       PatchSet patchSet = psUtil.get(notes, patchSetId);
       if (patchSet == null) {
         throw error("\"" + token + "\" no such patch set");
@@ -147,7 +147,7 @@ public class PatchSetParser {
       // No --branch option, so they want every branch.
       return true;
     }
-    return change.getDest().get().equals(branch);
+    return change.getDest().branch().equals(branch);
   }
 
   public static UnloggedFailure error(String msg) {

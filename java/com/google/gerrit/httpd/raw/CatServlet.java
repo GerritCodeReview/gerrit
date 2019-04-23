@@ -118,7 +118,7 @@ public class CatServlet extends HttpServlet {
       }
     }
 
-    final Change.Id changeId = patchKey.getParentKey().getParentKey();
+    final Change.Id changeId = patchKey.getParentKey().changeId();
     String revision;
     try {
       ChangeNotes notes = changeNotesFactory.createChecked(changeId);
@@ -150,7 +150,7 @@ public class CatServlet extends HttpServlet {
       return;
     }
 
-    String path = patchKey.getFileName();
+    String path = patchKey.fileName();
     String restUrl =
         String.format(
             "%s/changes/%d/revisions/%s/files/%s/download?parent=%d",

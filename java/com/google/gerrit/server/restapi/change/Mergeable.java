@@ -107,7 +107,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
     try (Repository git = gitManager.openRepository(change.getProject())) {
       ObjectId commit = toId(ps);
-      Ref ref = git.getRefDatabase().exactRef(change.getDest().get());
+      Ref ref = git.getRefDatabase().exactRef(change.getDest().branch());
       ProjectState projectState = projectCache.get(change.getProject());
       String strategy = mergeUtilFactory.create(projectState).mergeStrategyName();
       result.strategy = strategy;

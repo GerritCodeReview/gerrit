@@ -66,7 +66,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid)).containsExactly(expAudit1);
 
     // User adds account 100002 to the group.
-    Account.Id id = new Account.Id(100002);
+    Account.Id id = Account.id(100002);
     addMembers(uuid, ImmutableSet.of(id));
 
     AccountGroupMemberAudit expAudit2 =
@@ -94,8 +94,8 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
         createExpMemberAudit(groupId, userId, userId, getTipTimestamp(uuid));
     assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid)).containsExactly(expAudit1);
 
-    Account.Id id1 = new Account.Id(100002);
-    Account.Id id2 = new Account.Id(100003);
+    Account.Id id1 = Account.id(100002);
+    Account.Id id2 = Account.id(100003);
     addMembers(uuid, ImmutableSet.of(id1, id2));
 
     AccountGroupMemberAudit expAudit2 =
@@ -158,9 +158,9 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
         createExpMemberAudit(groupId, userId, userId, getTipTimestamp(uuid));
     assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid)).containsExactly(expMemberAudit);
 
-    Account.Id id1 = new Account.Id(100002);
-    Account.Id id2 = new Account.Id(100003);
-    Account.Id id3 = new Account.Id(100004);
+    Account.Id id1 = Account.id(100002);
+    Account.Id id2 = Account.id(100003);
+    Account.Id id3 = Account.id(100004);
     InternalGroup subgroup1 = createGroupAsUser(2, "test-group-2");
     InternalGroup subgroup2 = createGroupAsUser(3, "test-group-3");
     InternalGroup subgroup3 = createGroupAsUser(4, "test-group-4");
@@ -239,8 +239,8 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     InternalGroupCreation groupCreation =
         InternalGroupCreation.builder()
             .setGroupUUID(GroupUUID.make(groupName, serverIdent))
-            .setNameKey(new AccountGroup.NameKey(groupName))
-            .setId(new AccountGroup.Id(next))
+            .setNameKey(AccountGroup.nameKey(groupName))
+            .setId(AccountGroup.id(next))
             .build();
     InternalGroupUpdate groupUpdate =
         authorIdent.equals(serverIdent)
@@ -303,12 +303,11 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
   private static AccountGroupMemberAudit createExpMemberAudit(
       AccountGroup.Id groupId, Account.Id id, Account.Id addedBy, Timestamp addedOn) {
-    return new AccountGroupMemberAudit(
-        new AccountGroupMemberAudit.Key(id, groupId, addedOn), addedBy);
+    return new AccountGroupMemberAudit(AccountGroupMemberAudit.key(id, groupId, addedOn), addedBy);
   }
 
   private static AccountGroupByIdAud createExpGroupAudit(
       AccountGroup.Id groupId, AccountGroup.UUID uuid, Account.Id addedBy, Timestamp addedOn) {
-    return new AccountGroupByIdAud(new AccountGroupByIdAud.Key(groupId, uuid, addedOn), addedBy);
+    return new AccountGroupByIdAud(AccountGroupByIdAud.key(groupId, uuid, addedOn), addedBy);
   }
 }

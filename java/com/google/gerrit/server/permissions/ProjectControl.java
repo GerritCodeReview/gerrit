@@ -109,7 +109,7 @@ class ProjectControl {
   }
 
   RefControl controlForRef(Branch.NameKey ref) {
-    return controlForRef(ref.get());
+    return controlForRef(ref.branch());
   }
 
   public RefControl controlForRef(String refName) {

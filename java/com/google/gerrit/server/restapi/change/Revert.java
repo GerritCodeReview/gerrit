@@ -210,7 +210,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
               message);
       revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, computedChangeId, true));
 
-      Change.Id changeId = new Change.Id(seq.nextChangeId());
+      Change.Id changeId = Change.id(seq.nextChangeId());
       ObjectId id = oi.insert(revertCommitBuilder);
       RevCommit revertCommit = revWalk.parseCommit(id);
 
@@ -220,7 +220,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
 
       ChangeInserter ins =
           changeInserterFactory
-              .create(changeId, revertCommit, notes.getChange().getDest().get())
+              .create(changeId, revertCommit, notes.getChange().getDest().branch())
               .setTopic(changeToRevert.getTopic());
       ins.setMessage("Uploaded patch set 1.");
 

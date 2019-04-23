@@ -119,7 +119,7 @@ public class CreateAccount
 
     Set<AccountGroup.UUID> groups = parseGroups(input.groups);
 
-    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = Account.id(seq.nextAccountId());
     List<ExternalId> extIds = new ArrayList<>();
 
     if (input.email != null) {

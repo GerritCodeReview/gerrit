@@ -37,8 +37,8 @@ public class PatchSetApprovalKeyProtoConverterTest {
   @Test
   public void allValuesConvertedToProto() {
     PatchSetApproval.Key key =
-        new PatchSetApproval.Key(
-            new PatchSet.Id(new Change.Id(42), 14), new Account.Id(100013), new LabelId("label-8"));
+        PatchSetApproval.key(
+            PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8"));
 
     Entities.PatchSetApproval_Key proto = protoConverter.toProto(key);
 
@@ -47,9 +47,9 @@ public class PatchSetApprovalKeyProtoConverterTest {
             .setPatchSetId(
                 Entities.PatchSet_Id.newBuilder()
                     .setChangeId(Entities.Change_Id.newBuilder().setId(42))
-                    .setPatchSetId(14))
+                    .setId(14))
             .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
-            .setCategoryId(Entities.LabelId.newBuilder().setId("label-8"))
+            .setLabelId(Entities.LabelId.newBuilder().setId("label-8"))
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -57,8 +57,8 @@ public class PatchSetApprovalKeyProtoConverterTest {
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
     PatchSetApproval.Key key =
-        new PatchSetApproval.Key(
-            new PatchSet.Id(new Change.Id(42), 14), new Account.Id(100013), new LabelId("label-8"));
+        PatchSetApproval.key(
+            PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8"));
 
     PatchSetApproval.Key convertedKey = protoConverter.fromProto(protoConverter.toProto(key));
 
@@ -72,9 +72,9 @@ public class PatchSetApprovalKeyProtoConverterTest {
             .setPatchSetId(
                 Entities.PatchSet_Id.newBuilder()
                     .setChangeId(Entities.Change_Id.newBuilder().setId(42))
-                    .setPatchSetId(14))
+                    .setId(14))
             .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
-            .setCategoryId(Entities.LabelId.newBuilder().setId("label-8"))
+            .setLabelId(Entities.LabelId.newBuilder().setId("label-8"))
             .build();
     byte[] bytes = proto.toByteArray();
 
@@ -86,13 +86,13 @@ public class PatchSetApprovalKeyProtoConverterTest {
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
-  public void fieldsExistAsExpected() {
+  public void methodsExistAsExpected() {
     assertThatSerializedClass(PatchSetApproval.Key.class)
-        .hasFields(
+        .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
                 .put("patchSetId", PatchSet.Id.class)
                 .put("accountId", Account.Id.class)
-                .put("categoryId", LabelId.class)
+                .put("labelId", LabelId.class)
                 .build());
   }
 }

@@ -99,7 +99,7 @@ public class ApprovalCopier {
     requireNonNull(ps, "ps should not be null");
     ChangeData cd = changeDataFactory.create(notes);
     try {
-      ProjectState project = projectCache.checkedGet(cd.change().getDest().getParentKey());
+      ProjectState project = projectCache.checkedGet(cd.change().getDest().project());
       ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvals();
       requireNonNull(all, "all should not be null");
 
@@ -165,7 +165,7 @@ public class ApprovalCopier {
 
   private static boolean canCopy(
       ProjectState project, PatchSetApproval psa, PatchSet.Id psId, ChangeKind kind) {
-    int n = psa.getKey().getParentKey().get();
+    int n = psa.getKey().patchSetId().get();
     checkArgument(n != psId.get());
     LabelType type = project.getLabelTypes().byLabel(psa.getLabelId());
     if (type == null) {
@@ -193,7 +193,7 @@ public class ApprovalCopier {
   }
 
   private static PatchSetApproval copy(PatchSetApproval src, PatchSet.Id psId) {
-    if (src.getKey().getParentKey().equals(psId)) {
+    if (src.getKey().patchSetId().equals(psId)) {
       return src;
     }
     return new PatchSetApproval(psId, src);

@@ -115,7 +115,7 @@ public class LabelNormalizerTest extends GerritBaseTests {
     input.newBranch = true;
     input.subject = "Test change";
     ChangeInfo info = gApi.changes().create(input).get();
-    notes = changeNotesFactory.createChecked(allProjects, new Change.Id(info._number));
+    notes = changeNotesFactory.createChecked(allProjects, Change.id(info._number));
     change = notes.getChange();
   }
 
@@ -188,13 +188,13 @@ public class LabelNormalizerTest extends GerritBaseTests {
 
   private PatchSetApproval psa(Account.Id accountId, String label, int value) {
     return new PatchSetApproval(
-        new PatchSetApproval.Key(change.currentPatchSetId(), accountId, new LabelId(label)),
+        PatchSetApproval.key(change.currentPatchSetId(), accountId, LabelId.create(label)),
         (short) value,
         TimeUtil.nowTs());
   }
 
   private PatchSetApproval copy(PatchSetApproval src, int newValue) {
-    PatchSetApproval result = new PatchSetApproval(src.getKey().getParentKey(), src);
+    PatchSetApproval result = new PatchSetApproval(src.getKey().patchSetId(), src);
     result.setValue((short) newValue);
     return result;
   }

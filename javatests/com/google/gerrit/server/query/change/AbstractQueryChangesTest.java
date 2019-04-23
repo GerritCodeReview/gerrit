@@ -544,7 +544,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void restorePendingReviewers() throws Exception {
     assume().that(getSchemaVersion()).isAtLeast(44);
 
-    Project.NameKey project = new Project.NameKey("repo");
+    Project.NameKey project = Project.nameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
@@ -1046,7 +1046,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byLabelMulti() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Project.NameKey project =
-        new Project.NameKey(repo.getRepository().getDescription().getRepositoryName());
+        Project.nameKey(repo.getRepository().getDescription().getRepositoryName());
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
 
     LabelType verified =
@@ -1935,7 +1935,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byDraftByExcludesZombieDrafts() throws Exception {
-    Project.NameKey project = new Project.NameKey("repo");
+    Project.NameKey project = Project.nameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     Change change = insert(repo, newChange(repo));
     Change.Id id = change.getId();
@@ -2254,7 +2254,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void reviewerAndCcByEmail() throws Exception {
-    Project.NameKey project = new Project.NameKey("repo");
+    Project.NameKey project = Project.nameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
@@ -2300,7 +2300,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void reviewerAndCcByEmailWithQueryForDifferentUser() throws Exception {
-    Project.NameKey project = new Project.NameKey("repo");
+    Project.NameKey project = Project.nameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
@@ -2435,7 +2435,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byCommitsOnBranchNotMergedSkipsMissingChanges() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ObjectId missing =
-        repo.branch(new PatchSet.Id(new Change.Id(987654), 1).toRefName())
+        repo.branch(PatchSet.id(Change.id(987654), 1).toRefName())
             .commit()
             .message("No change for this commit")
             .insertChangeId()
@@ -2474,7 +2474,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void reindexIfStale() throws Exception {
     Account.Id user = createAccount("user");
-    Project.NameKey project = new Project.NameKey("repo");
+    Project.NameKey project = Project.nameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     Change change = insert(repo, newChange(repo));
     String changeId = change.getKey().get();
@@ -2591,8 +2591,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(changeToRevert.id).current().submit();
 
     ChangeInfo changeThatReverts = gApi.changes().id(changeToRevert.id).revert().get();
-    assertQueryByIds(
-        "revertof:" + changeToRevert._number, new Change.Id(changeThatReverts._number));
+    assertQueryByIds("revertof:" + changeToRevert._number, Change.id(changeThatReverts._number));
   }
 
   /** Change builder for helping in tests for dashboard sections. */
@@ -3208,7 +3207,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       branch = "refs/heads/" + branch;
     }
 
-    Change.Id id = new Change.Id(seq.nextChangeId());
+    Change.Id id = Change.id(seq.nextChangeId());
     ChangeInserter ins =
         changeFactory
             .create(id, commit, branch)
@@ -3235,7 +3234,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       Timestamp createdOn)
       throws Exception {
     Project.NameKey project =
-        new Project.NameKey(repo.getRepository().getDescription().getRepositoryName());
+        Project.nameKey(repo.getRepository().getDescription().getRepositoryName());
     Account.Id ownerId = owner != null ? owner : userId;
     IdentifiedUser user = userFactory.create(ownerId);
     try (BatchUpdate bu = updateFactory.create(project, user, createdOn)) {
@@ -3254,7 +3253,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     PatchSetInserter inserter =
         patchSetFactory
-            .create(changeNotesFactory.createChecked(c), new PatchSet.Id(c.getId(), n), commit)
+            .create(changeNotesFactory.createChecked(c), PatchSet.id(c.getId(), n), commit)
             .setFireRevisionCreated(false)
             .setValidate(false);
     try (BatchUpdate bu = updateFactory.create(c.getProject(), user, TimeUtil.nowTs());
@@ -3294,7 +3293,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected TestRepository<Repo> createProject(String name) throws Exception {
     gApi.projects().create(name).get();
-    return new TestRepository<>(repoManager.openRepository(new Project.NameKey(name)));
+    return new TestRepository<>(repoManager.openRepository(Project.nameKey(name)));
   }
 
   protected TestRepository<Repo> createProject(String name, String parent) throws Exception {
@@ -3302,7 +3301,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     input.name = name;
     input.parent = parent;
     gApi.projects().create(input).get();
-    return new TestRepository<>(repoManager.openRepository(new Project.NameKey(name)));
+    return new TestRepository<>(repoManager.openRepository(Project.nameKey(name)));
   }
 
   protected QueryRequest newQuery(Object query) {
@@ -3371,7 +3370,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
           .append(c.changeId)
           .append("), ")
           .append("dest=")
-          .append(new Branch.NameKey(new Project.NameKey(c.project), c.branch))
+          .append(Branch.nameKey(Project.nameKey(c.project), c.branch))
           .append(", ")
           .append("status=")
           .append(c.status)
@@ -3392,7 +3391,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected static Iterable<Change.Id> ids(Iterable<ChangeInfo> changes) {
-    return Streams.stream(changes).map(c -> new Change.Id(c._number)).collect(toList());
+    return Streams.stream(changes).map(c -> Change.id(c._number)).collect(toList());
   }
 
   protected static long lastUpdatedMs(Change c) {

@@ -58,7 +58,7 @@ public class ProjectResetterTest extends GerritBaseTests {
   @Before
   public void setUp() throws Exception {
     repoManager = new InMemoryRepositoryManager();
-    project = new Project.NameKey("foo");
+    project = Project.nameKey("foo");
     repo = repoManager.createRepository(project);
   }
 
@@ -135,7 +135,7 @@ public class ProjectResetterTest extends GerritBaseTests {
 
   @Test
   public void onlyResetMatchingRefsMultipleProjects() throws Exception {
-    Project.NameKey project2 = new Project.NameKey("bar");
+    Project.NameKey project2 = Project.nameKey("bar");
     Repository repo2 = repoManager.createRepository(project2);
 
     Ref matchingRefProject1 = createRef("refs/foo/test");
@@ -170,7 +170,7 @@ public class ProjectResetterTest extends GerritBaseTests {
 
   @Test
   public void onlyDeleteNewlyCreatedMatchingRefsMultipleProjects() throws Exception {
-    Project.NameKey project2 = new Project.NameKey("bar");
+    Project.NameKey project2 = Project.nameKey("bar");
     Repository repo2 = repoManager.createRepository(project2);
 
     Ref matchingRefProject1;
@@ -216,7 +216,7 @@ public class ProjectResetterTest extends GerritBaseTests {
 
   @Test
   public void projectEvictionIfRefsMetaConfigIsReset() throws Exception {
-    Project.NameKey project2 = new Project.NameKey("bar");
+    Project.NameKey project2 = Project.nameKey("bar");
     Repository repo2 = repoManager.createRepository(project2);
     Ref metaConfig = createRef(repo2, RefNames.REFS_CONFIG);
 
@@ -239,7 +239,7 @@ public class ProjectResetterTest extends GerritBaseTests {
 
   @Test
   public void projectEvictionIfRefsMetaConfigIsDeleted() throws Exception {
-    Project.NameKey project2 = new Project.NameKey("bar");
+    Project.NameKey project2 = Project.nameKey("bar");
     Repository repo2 = repoManager.createRepository(project2);
 
     ProjectCache projectCache = EasyMock.createNiceMock(ProjectCache.class);
@@ -259,8 +259,8 @@ public class ProjectResetterTest extends GerritBaseTests {
 
   @Test
   public void accountEvictionIfUserBranchIsReset() throws Exception {
-    Account.Id accountId = new Account.Id(1);
-    Project.NameKey allUsers = new Project.NameKey(AllUsersNameProvider.DEFAULT);
+    Account.Id accountId = Account.id(1);
+    Project.NameKey allUsers = Project.nameKey(AllUsersNameProvider.DEFAULT);
     Repository allUsersRepo = repoManager.createRepository(allUsers);
     Ref userBranch = createRef(allUsersRepo, RefNames.refsUsers(accountId));
 
@@ -275,7 +275,7 @@ public class ProjectResetterTest extends GerritBaseTests {
     EasyMock.replay(accountIndexer);
 
     // Non-user branch because it's not in All-Users.
-    Ref nonUserBranch = createRef(RefNames.refsUsers(new Account.Id(2)));
+    Ref nonUserBranch = createRef(RefNames.refsUsers(Account.id(2)));
 
     try (ProjectResetter resetProject =
         builder(null, accountCache, accountIndexer, null, null, null, null)
@@ -289,8 +289,8 @@ public class ProjectResetterTest extends GerritBaseTests {
 
   @Test
   public void accountEvictionIfUserBranchIsDeleted() throws Exception {
-    Account.Id accountId = new Account.Id(1);
-    Project.NameKey allUsers = new Project.NameKey(AllUsersNameProvider.DEFAULT);
+    Account.Id accountId = Account.id(1);
+    Project.NameKey allUsers = Project.nameKey(AllUsersNameProvider.DEFAULT);
     Repository allUsersRepo = repoManager.createRepository(allUsers);
 
     AccountCache accountCache = EasyMock.createNiceMock(AccountCache.class);
@@ -307,7 +307,7 @@ public class ProjectResetterTest extends GerritBaseTests {
         builder(null, accountCache, accountIndexer, null, null, null, null)
             .build(new ProjectResetter.Config().reset(project).reset(allUsers))) {
       // Non-user branch because it's not in All-Users.
-      createRef(RefNames.refsUsers(new Account.Id(2)));
+      createRef(RefNames.refsUsers(Account.id(2)));
 
       createRef(allUsersRepo, RefNames.refsUsers(accountId));
     }
@@ -317,13 +317,13 @@ public class ProjectResetterTest extends GerritBaseTests {
 
   @Test
   public void accountEvictionIfExternalIdsBranchIsReset() throws Exception {
-    Account.Id accountId = new Account.Id(1);
-    Project.NameKey allUsers = new Project.NameKey(AllUsersNameProvider.DEFAULT);
+    Account.Id accountId = Account.id(1);
+    Project.NameKey allUsers = Project.nameKey(AllUsersNameProvider.DEFAULT);
     Repository allUsersRepo = repoManager.createRepository(allUsers);
     Ref externalIds = createRef(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
     createRef(allUsersRepo, RefNames.refsUsers(accountId));
 
-    Account.Id accountId2 = new Account.Id(2);
+    Account.Id accountId2 = Account.id(2);
 
     AccountCache accountCache = EasyMock.createNiceMock(AccountCache.class);
     accountCache.evict(accountId);
@@ -340,7 +340,7 @@ public class ProjectResetterTest extends GerritBaseTests {
     EasyMock.replay(accountIndexer);
 
     // Non-user branch because it's not in All-Users.
-    Ref nonUserBranch = createRef(RefNames.refsUsers(new Account.Id(3)));
+    Ref nonUserBranch = createRef(RefNames.refsUsers(Account.id(3)));
 
     try (ProjectResetter resetProject =
         builder(null, accountCache, accountIndexer, null, null, null, null)
@@ -355,12 +355,12 @@ public class ProjectResetterTest extends GerritBaseTests {
 
   @Test
   public void accountEvictionIfExternalIdsBranchIsDeleted() throws Exception {
-    Account.Id accountId = new Account.Id(1);
-    Project.NameKey allUsers = new Project.NameKey(AllUsersNameProvider.DEFAULT);
+    Account.Id accountId = Account.id(1);
+    Project.NameKey allUsers = Project.nameKey(AllUsersNameProvider.DEFAULT);
     Repository allUsersRepo = repoManager.createRepository(allUsers);
     createRef(allUsersRepo, RefNames.refsUsers(accountId));
 
-    Account.Id accountId2 = new Account.Id(2);
+    Account.Id accountId2 = Account.id(2);
 
     AccountCache accountCache = EasyMock.createNiceMock(AccountCache.class);
     accountCache.evict(accountId);
@@ -377,7 +377,7 @@ public class ProjectResetterTest extends GerritBaseTests {
     EasyMock.replay(accountIndexer);
 
     // Non-user branch because it's not in All-Users.
-    Ref nonUserBranch = createRef(RefNames.refsUsers(new Account.Id(3)));
+    Ref nonUserBranch = createRef(RefNames.refsUsers(Account.id(3)));
 
     try (ProjectResetter resetProject =
         builder(null, accountCache, accountIndexer, null, null, null, null)
@@ -392,8 +392,8 @@ public class ProjectResetterTest extends GerritBaseTests {
 
   @Test
   public void accountEvictionFromAccountCreatorIfUserBranchIsDeleted() throws Exception {
-    Account.Id accountId = new Account.Id(1);
-    Project.NameKey allUsers = new Project.NameKey(AllUsersNameProvider.DEFAULT);
+    Account.Id accountId = Account.id(1);
+    Project.NameKey allUsers = Project.nameKey(AllUsersNameProvider.DEFAULT);
     Repository allUsersRepo = repoManager.createRepository(allUsers);
 
     AccountCreator accountCreator = EasyMock.createNiceMock(AccountCreator.class);
@@ -412,10 +412,10 @@ public class ProjectResetterTest extends GerritBaseTests {
 
   @Test
   public void groupEviction() throws Exception {
-    AccountGroup.UUID uuid1 = new AccountGroup.UUID("abcd1");
-    AccountGroup.UUID uuid2 = new AccountGroup.UUID("abcd2");
-    AccountGroup.UUID uuid3 = new AccountGroup.UUID("abcd3");
-    Project.NameKey allUsers = new Project.NameKey(AllUsersNameProvider.DEFAULT);
+    AccountGroup.UUID uuid1 = AccountGroup.uuid("abcd1");
+    AccountGroup.UUID uuid2 = AccountGroup.uuid("abcd2");
+    AccountGroup.UUID uuid3 = AccountGroup.uuid("abcd3");
+    Project.NameKey allUsers = Project.nameKey(AllUsersNameProvider.DEFAULT);
     Repository allUsersRepo = repoManager.createRepository(allUsers);
 
     GroupCache cache = EasyMock.createNiceMock(GroupCache.class);

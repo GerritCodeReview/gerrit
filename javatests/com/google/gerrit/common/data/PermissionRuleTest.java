@@ -28,7 +28,7 @@ public class PermissionRuleTest extends GerritBaseTests {
 
   @Before
   public void setup() {
-    this.groupReference = new GroupReference(new AccountGroup.UUID("uuid"), "group");
+    this.groupReference = new GroupReference(AccountGroup.uuid("uuid"), "group");
     this.permissionRule = new PermissionRule(groupReference);
   }
 
@@ -131,7 +131,7 @@ public class PermissionRuleTest extends GerritBaseTests {
 
   @Test
   public void setGroup() {
-    GroupReference groupReference2 = new GroupReference(new AccountGroup.UUID("uuid2"), "group2");
+    GroupReference groupReference2 = new GroupReference(AccountGroup.uuid("uuid2"), "group2");
     assertThat(groupReference2).isNotEqualTo(groupReference);
 
     assertThat(permissionRule.getGroup()).isEqualTo(groupReference);
@@ -142,10 +142,10 @@ public class PermissionRuleTest extends GerritBaseTests {
 
   @Test
   public void mergeFromAnyBlock() {
-    GroupReference groupReference1 = new GroupReference(new AccountGroup.UUID("uuid1"), "group1");
+    GroupReference groupReference1 = new GroupReference(AccountGroup.uuid("uuid1"), "group1");
     PermissionRule permissionRule1 = new PermissionRule(groupReference1);
 
-    GroupReference groupReference2 = new GroupReference(new AccountGroup.UUID("uuid2"), "group2");
+    GroupReference groupReference2 = new GroupReference(AccountGroup.uuid("uuid2"), "group2");
     PermissionRule permissionRule2 = new PermissionRule(groupReference2);
 
     permissionRule1.mergeFrom(permissionRule2);
@@ -170,10 +170,10 @@ public class PermissionRuleTest extends GerritBaseTests {
 
   @Test
   public void mergeFromAnyDeny() {
-    GroupReference groupReference1 = new GroupReference(new AccountGroup.UUID("uuid1"), "group1");
+    GroupReference groupReference1 = new GroupReference(AccountGroup.uuid("uuid1"), "group1");
     PermissionRule permissionRule1 = new PermissionRule(groupReference1);
 
-    GroupReference groupReference2 = new GroupReference(new AccountGroup.UUID("uuid2"), "group2");
+    GroupReference groupReference2 = new GroupReference(AccountGroup.uuid("uuid2"), "group2");
     PermissionRule permissionRule2 = new PermissionRule(groupReference2);
 
     permissionRule1.mergeFrom(permissionRule2);
@@ -193,10 +193,10 @@ public class PermissionRuleTest extends GerritBaseTests {
 
   @Test
   public void mergeFromAnyBatch() {
-    GroupReference groupReference1 = new GroupReference(new AccountGroup.UUID("uuid1"), "group1");
+    GroupReference groupReference1 = new GroupReference(AccountGroup.uuid("uuid1"), "group1");
     PermissionRule permissionRule1 = new PermissionRule(groupReference1);
 
-    GroupReference groupReference2 = new GroupReference(new AccountGroup.UUID("uuid2"), "group2");
+    GroupReference groupReference2 = new GroupReference(AccountGroup.uuid("uuid2"), "group2");
     PermissionRule permissionRule2 = new PermissionRule(groupReference2);
 
     permissionRule1.mergeFrom(permissionRule2);
@@ -216,10 +216,10 @@ public class PermissionRuleTest extends GerritBaseTests {
 
   @Test
   public void mergeFromAnyForce() {
-    GroupReference groupReference1 = new GroupReference(new AccountGroup.UUID("uuid1"), "group1");
+    GroupReference groupReference1 = new GroupReference(AccountGroup.uuid("uuid1"), "group1");
     PermissionRule permissionRule1 = new PermissionRule(groupReference1);
 
-    GroupReference groupReference2 = new GroupReference(new AccountGroup.UUID("uuid2"), "group2");
+    GroupReference groupReference2 = new GroupReference(AccountGroup.uuid("uuid2"), "group2");
     PermissionRule permissionRule2 = new PermissionRule(groupReference2);
 
     permissionRule1.mergeFrom(permissionRule2);
@@ -239,11 +239,11 @@ public class PermissionRuleTest extends GerritBaseTests {
 
   @Test
   public void mergeFromMergeRange() {
-    GroupReference groupReference1 = new GroupReference(new AccountGroup.UUID("uuid1"), "group1");
+    GroupReference groupReference1 = new GroupReference(AccountGroup.uuid("uuid1"), "group1");
     PermissionRule permissionRule1 = new PermissionRule(groupReference1);
     permissionRule1.setRange(-1, 2);
 
-    GroupReference groupReference2 = new GroupReference(new AccountGroup.UUID("uuid2"), "group2");
+    GroupReference groupReference2 = new GroupReference(AccountGroup.uuid("uuid2"), "group2");
     PermissionRule permissionRule2 = new PermissionRule(groupReference2);
     permissionRule2.setRange(-2, 1);
 
@@ -256,10 +256,10 @@ public class PermissionRuleTest extends GerritBaseTests {
 
   @Test
   public void mergeFromGroupNotChanged() {
-    GroupReference groupReference1 = new GroupReference(new AccountGroup.UUID("uuid1"), "group1");
+    GroupReference groupReference1 = new GroupReference(AccountGroup.uuid("uuid1"), "group1");
     PermissionRule permissionRule1 = new PermissionRule(groupReference1);
 
-    GroupReference groupReference2 = new GroupReference(new AccountGroup.UUID("uuid2"), "group2");
+    GroupReference groupReference2 = new GroupReference(AccountGroup.uuid("uuid2"), "group2");
     PermissionRule permissionRule2 = new PermissionRule(groupReference2);
 
     permissionRule1.mergeFrom(permissionRule2);
@@ -348,7 +348,7 @@ public class PermissionRuleTest extends GerritBaseTests {
 
   @Test
   public void testEquals() {
-    GroupReference groupReference2 = new GroupReference(new AccountGroup.UUID("uuid2"), "group2");
+    GroupReference groupReference2 = new GroupReference(AccountGroup.uuid("uuid2"), "group2");
     PermissionRule permissionRuleOther = new PermissionRule(groupReference2);
     assertThat(permissionRule.equals(permissionRuleOther)).isFalse();
 

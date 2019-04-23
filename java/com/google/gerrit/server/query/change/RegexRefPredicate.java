@@ -42,7 +42,7 @@ public class RegexRefPredicate extends ChangeRegexPredicate {
     if (change == null) {
       return false;
     }
-    return pattern.run(change.getDest().get());
+    return pattern.run(change.getDest().branch());
   }
 
   @Override

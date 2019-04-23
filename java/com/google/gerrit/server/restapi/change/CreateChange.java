@@ -297,7 +297,7 @@ public class CreateChange
         c = newCommit(oi, rw, author, mergeTip, commitMessage);
       }
 
-      Change.Id changeId = new Change.Id(seq.nextChangeId());
+      Change.Id changeId = Change.id(seq.nextChangeId());
       ChangeInserter ins = changeInserterFactory.create(changeId, c, input.branch);
       ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));
       ins.setTopic(input.topic);

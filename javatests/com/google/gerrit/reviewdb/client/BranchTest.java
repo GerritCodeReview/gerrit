@@ -21,19 +21,19 @@ import org.junit.Test;
 public class BranchTest {
   @Test
   public void canonicalizeNameDuringConstruction() {
-    assertThat(new Branch.NameKey(new Project.NameKey("foo"), "bar").get())
+    assertThat(Branch.nameKey(new Project.NameKey("foo"), "bar").branch())
         .isEqualTo("refs/heads/bar");
-    assertThat(new Branch.NameKey(new Project.NameKey("foo"), "refs/heads/bar").get())
+    assertThat(Branch.nameKey(new Project.NameKey("foo"), "refs/heads/bar").branch())
         .isEqualTo("refs/heads/bar");
   }
 
   @Test
   public void idToString() {
-    assertThat(new Branch.NameKey(new Project.NameKey("foo"), "bar").toString())
+    assertThat(Branch.nameKey(new Project.NameKey("foo"), "bar").toString())
         .isEqualTo("foo,refs/heads/bar");
-    assertThat(new Branch.NameKey(new Project.NameKey("foo bar"), "bar baz").toString())
+    assertThat(Branch.nameKey(new Project.NameKey("foo bar"), "bar baz").toString())
         .isEqualTo("foo+bar,refs/heads/bar+baz");
-    assertThat(new Branch.NameKey(new Project.NameKey("foo^bar"), "bar^baz").toString())
+    assertThat(Branch.nameKey(new Project.NameKey("foo^bar"), "bar^baz").toString())
         .isEqualTo("foo%5Ebar,refs/heads/bar%5Ebaz");
   }
 }

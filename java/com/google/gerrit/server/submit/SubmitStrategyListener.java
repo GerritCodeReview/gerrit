@@ -129,7 +129,7 @@ public class SubmitStrategyListener implements BatchUpdateListener {
 
         case ALREADY_MERGED:
           // Already an ancestor of tip.
-          alreadyMerged.add(commit.getPatchsetId().getParentKey());
+          alreadyMerged.add(commit.getPatchsetId().changeId());
           break;
 
         case PATH_CONFLICT:

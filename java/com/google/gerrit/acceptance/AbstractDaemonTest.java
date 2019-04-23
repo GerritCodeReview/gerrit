@@ -433,7 +433,7 @@ public abstract class AbstractDaemonTest {
     atrScope.set(ctx);
     ProjectInput in = projectInput(description);
     gApi.projects().create(in);
-    project = new Project.NameKey(in.name);
+    project = Project.nameKey(in.name);
     if (!classDesc.skipProjectClone()) {
       testRepo = cloneProject(project, getCloneAsAccount(description));
     }
@@ -532,7 +532,7 @@ public abstract class AbstractDaemonTest {
     in.submitType = submitType;
     in.createEmptyCommit = createEmptyCommit;
     gApi.projects().create(in);
-    return new Project.NameKey(in.name);
+    return Project.nameKey(in.name);
   }
 
   protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p) throws Exception {
@@ -692,8 +692,8 @@ public abstract class AbstractDaemonTest {
 
   protected BranchApi createBranch(Branch.NameKey branch) throws Exception {
     return gApi.projects()
-        .name(branch.getParentKey().get())
-        .branch(branch.get())
+        .name(branch.project().get())
+        .branch(branch.branch())
         .create(new BranchInput());
   }
 
@@ -701,7 +701,7 @@ public abstract class AbstractDaemonTest {
       throws Exception {
     BranchInput in = new BranchInput();
     in.revision = revision;
-    return gApi.projects().name(branch.getParentKey().get()).branch(branch.get()).create(in);
+    return gApi.projects().name(branch.project().get()).branch(branch.branch()).create(in);
   }
 
   private static final List<Character> RANDOM =
@@ -1087,7 +1087,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected PatchSet getPatchSet(PatchSet.Id psId) {
-    return changeDataFactory.create(project, psId.getParentKey()).patchSet(psId);
+    return changeDataFactory.create(project, psId.changeId()).patchSet(psId);
   }
 
   protected IdentifiedUser user(TestAccount testAccount) {
@@ -1107,7 +1107,7 @@ public abstract class AbstractDaemonTest {
 
   protected RevisionResource parseRevisionResource(PushOneCommit.Result r) throws Exception {
     PatchSet.Id psId = r.getPatchSetId();
-    return parseRevisionResource(psId.getParentKey().toString(), psId.get());
+    return parseRevisionResource(psId.changeId().toString(), psId.get());
   }
 
   protected ChangeResource parseChangeResource(String changeId) throws Exception {
@@ -1170,7 +1170,7 @@ public abstract class AbstractDaemonTest {
         int len = bundleName.length();
         assertThat(bundleName).endsWith(".git");
         String repoName = bundleName.substring(0, len - 4);
-        Project.NameKey proj = new Project.NameKey(repoName);
+        Project.NameKey proj = Project.nameKey(repoName);
         TestRepository<?> localRepo = cloneProject(proj);
 
         try (InputStream bundleStream = Files.newInputStream(p);
@@ -1187,7 +1187,7 @@ public abstract class AbstractDaemonTest {
               continue;
             }
             RevCommit c = localRepo.getRevWalk().parseCommit(r.getObjectId());
-            ret.put(new Branch.NameKey(proj, refName), c.getTree().copy());
+            ret.put(Branch.nameKey(proj, refName), c.getTree().copy());
           }
         }
       }
@@ -1204,11 +1204,11 @@ public abstract class AbstractDaemonTest {
     Map<Branch.NameKey, RevTree> refValues = new HashMap<>();
 
     for (Branch.NameKey b : trees.keySet()) {
-      if (!b.getParentKey().equals(proj)) {
+      if (!b.project().equals(proj)) {
         continue;
       }
 
-      Ref r = localRepo.getRepository().exactRef(b.get());
+      Ref r = localRepo.getRepository().exactRef(b.branch());
       assertThat(r).isNotNull();
       RevWalk rw = localRepo.getRevWalk();
       RevCommit c = rw.parseCommit(r.getObjectId());
@@ -1322,13 +1322,13 @@ public abstract class AbstractDaemonTest {
   }
 
   protected InternalGroup group(String groupName) {
-    InternalGroup group = groupCache.get(new AccountGroup.NameKey(groupName)).orElse(null);
+    InternalGroup group = groupCache.get(AccountGroup.nameKey(groupName)).orElse(null);
     assertThat(group).named(groupName).isNotNull();
     return group;
   }
 
   protected GroupReference groupRef(String groupName) {
-    InternalGroup group = groupCache.get(new AccountGroup.NameKey(groupName)).orElse(null);
+    InternalGroup group = groupCache.get(AccountGroup.nameKey(groupName)).orElse(null);
     assertThat(group).isNotNull();
     return new GroupReference(group.getGroupUUID(), group.getName());
   }
@@ -1350,7 +1350,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void assertGroupDoesNotExist(String groupName) {
-    InternalGroup group = groupCache.get(new AccountGroup.NameKey(groupName)).orElse(null);
+    InternalGroup group = groupCache.get(AccountGroup.nameKey(groupName)).orElse(null);
     assertThat(group).named(groupName).isNull();
   }
 

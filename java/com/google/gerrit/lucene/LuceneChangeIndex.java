@@ -450,10 +450,10 @@ public class LuceneChangeIndex implements ChangeIndex {
       cd = changeDataFactory.create(parseProtoFrom(proto, ChangeProtoConverter.INSTANCE));
     } else {
       IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
-      Change.Id id = new Change.Id(f.numericValue().intValue());
+      Change.Id id = Change.id(f.numericValue().intValue());
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
       IndexableField project = doc.get(PROJECT.getName()).iterator().next();
-      cd = changeDataFactory.create(new Project.NameKey(project.stringValue()), id);
+      cd = changeDataFactory.create(Project.nameKey(project.stringValue()), id);
     }
 
     // Any decoding that is done here must also be done in {@link ElasticChangeIndex}.
@@ -556,7 +556,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         if (reviewedBy.size() == 1 && id == ChangeField.NOT_REVIEWED) {
           break;
         }
-        accounts.add(new Account.Id(id));
+        accounts.add(Account.id(id));
       }
       cd.setReviewedBy(accounts);
     }

@@ -71,8 +71,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * for each reviewer, even if the reviewer hasn't actually given a score to the change. To mark the
  * "no score" case, a dummy approval, which may live in any of the available categories, with a
  * score of 0 is used.
- *
- * <p>The methods in this class only modify the gwtorm database.
  */
 @Singleton
 public class ApprovalsUtil {
@@ -82,7 +80,7 @@ public class ApprovalsUtil {
       PatchSet.Id psId, CurrentUser user, LabelId labelId, int value, Date when) {
     PatchSetApproval psa =
         new PatchSetApproval(
-            new PatchSetApproval.Key(psId, user.getAccountId(), labelId),
+            PatchSetApproval.key(psId, user.getAccountId(), labelId),
             Shorts.checkedCast(value),
             when);
     user.updateRealAccountId(psa::setRealAccountId);
@@ -210,7 +208,7 @@ public class ApprovalsUtil {
     for (Account.Id account : need) {
       cells.add(
           new PatchSetApproval(
-              new PatchSetApproval.Key(psId, account, labelId), (short) 0, update.getWhen()));
+              PatchSetApproval.key(psId, account, labelId), (short) 0, update.getWhen()));
       update.putReviewer(account, REVIEWER);
     }
     return Collections.unmodifiableList(cells);

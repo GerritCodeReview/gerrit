@@ -208,7 +208,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       int id = source.get(ChangeField.LEGACY_ID.getName()).getAsInt();
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
       String projectName = requireNonNull(source.get(ChangeField.PROJECT.getName()).getAsString());
-      return changeDataFactory.create(new Project.NameKey(projectName), new Change.Id(id));
+      return changeDataFactory.create(Project.nameKey(projectName), Change.id(id));
     }
 
     ChangeData cd =
@@ -278,7 +278,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
           if (reviewedBy.size() == 1 && aId == ChangeField.NOT_REVIEWED) {
             break;
           }
-          accounts.add(new Account.Id(aId));
+          accounts.add(Account.id(aId));
         }
         cd.setReviewedBy(accounts);
       }

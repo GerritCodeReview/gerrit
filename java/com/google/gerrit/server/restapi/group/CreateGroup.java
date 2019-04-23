@@ -193,7 +193,7 @@ public class CreateGroup
       }
     }
 
-    AccountGroup.Id groupId = new AccountGroup.Id(sequences.nextGroupId());
+    AccountGroup.Id groupId = AccountGroup.id(sequences.nextGroupId());
     AccountGroup.UUID uuid =
         GroupUUID.make(
             createGroupArgs.getGroupName(),

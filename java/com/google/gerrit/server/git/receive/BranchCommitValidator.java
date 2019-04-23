@@ -91,7 +91,7 @@ public class BranchCommitValidator {
       @Nullable Change change)
       throws IOException {
     try (CommitReceivedEvent receiveEvent =
-        new CommitReceivedEvent(cmd, project, branch.get(), objectReader, commit, user)) {
+        new CommitReceivedEvent(cmd, project, branch.branch(), objectReader, commit, user)) {
       CommitValidators validators;
       if (isMerged) {
         validators =

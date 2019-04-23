@@ -14,12 +14,13 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeStatus;
-import com.google.gwtorm.client.IntKey;
-import com.google.gwtorm.client.StringKey;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
@@ -93,45 +94,17 @@ import java.util.Arrays;
  * notice of a replacement patch set is sent, or when notice of the change submission occurs.
  */
 public final class Change {
-  public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
-    private static final long serialVersionUID = 1L;
+  public static Id id(int id) {
+    return new AutoValue_Change_Id(id);
+  }
 
-    public int id;
-
-    protected Id() {}
-
-    public Id(int id) {
-      this.id = id;
-    }
-
-    @Override
-    public int get() {
-      return id;
-    }
-
-    @Override
-    protected void set(int newValue) {
-      id = newValue;
-    }
-
-    public String toRefPrefix() {
-      return refPrefixBuilder().toString();
-    }
-
-    StringBuilder refPrefixBuilder() {
-      StringBuilder r = new StringBuilder(32).append(REFS_CHANGES);
-      int m = id % 100;
-      if (m < 10) {
-        r.append('0');
-      }
-      return r.append(m).append('/').append(id).append('/');
-    }
-
+  @AutoValue
+  public abstract static class Id {
     /** Parse a Change.Id out of a string representation. */
     public static Id parse(String str) {
-      final Id r = new Id();
-      r.fromString(str);
-      return r;
+      Integer id = Ints.tryParse(str);
+      checkArgument(id != null, "invalid change ID: %s", str);
+      return Change.id(id);
     }
 
     public static Id fromRef(String ref) {
@@ -146,7 +119,7 @@ public final class Change {
       if (ref.substring(ce).equals(RefNames.META_SUFFIX)
           || ref.substring(ce).equals(RefNames.ROBOT_COMMENTS_SUFFIX)
           || PatchSet.Id.fromRef(ref, ce) >= 0) {
-        return new Change.Id(Integer.parseInt(ref.substring(cs, ce)));
+        return Change.id(Integer.parseInt(ref.substring(cs, ce)));
       }
       return null;
     }
@@ -169,7 +142,7 @@ public final class Change {
       }
       int ce = nextNonDigit(ref, cs);
       if (ce < ref.length() && ref.charAt(ce) == '/' && isNumeric(ref, ce + 1)) {
-        return new Change.Id(Integer.parseInt(ref.substring(cs, ce)));
+        return Change.id(Integer.parseInt(ref.substring(cs, ce)));
       }
       return null;
     }
@@ -191,14 +164,14 @@ public final class Change {
       int endChangeId = nextNonDigit(ref, startChangeId);
       String id = ref.substring(startChangeId, endChangeId);
       if (id != null && !id.isEmpty()) {
-        return new Change.Id(Integer.parseInt(id));
+        return Change.id(Integer.parseInt(id));
       }
       return null;
     }
 
     public static Id fromRefPart(String ref) {
       Integer id = RefNames.parseShardedRefPart(ref);
-      return id != null ? new Change.Id(id) : null;
+      return id != null ? Change.id(id) : null;
     }
 
     static int startIndex(String ref) {
@@ -249,31 +222,52 @@ public final class Change {
       }
       return i;
     }
+
+    abstract int id();
+
+    public int get() {
+      return id();
+    }
+
+    public String toRefPrefix() {
+      return refPrefixBuilder().toString();
+    }
+
+    StringBuilder refPrefixBuilder() {
+      StringBuilder r = new StringBuilder(32).append(REFS_CHANGES);
+      int m = get() % 100;
+      if (m < 10) {
+        r.append('0');
+      }
+      return r.append(m).append('/').append(get()).append('/');
+    }
+
+    @Override
+    public String toString() {
+      return Integer.toString(get());
+    }
+  }
+
+  public static Key key(String key) {
+    return new AutoValue_Change_Key(key);
   }
 
   /**
    * Globally unique identification of this change. This generally takes the form of a string
    * "Ixxxxxx...", and is stored in the Change-Id footer of a commit.
    */
-  public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
-    private static final long serialVersionUID = 1L;
-
-    protected String id;
-
-    protected Key() {}
-
-    public Key(String id) {
-      this.id = id;
+  @AutoValue
+  public abstract static class Key {
+    // TODO(dborowitz): This hardly seems worth it: why would someone pass a URL-encoded change key?
+    // Ideally the standard key() factory method would enforce the format and throw IAE.
+    public static Key parse(String str) {
+      return Change.key(KeyUtil.decode(str));
     }
 
-    @Override
+    abstract String key();
+
     public String get() {
-      return id;
-    }
-
-    @Override
-    protected void set(String newValue) {
-      id = newValue;
+      return key();
     }
 
     /** Construct a key that is after all keys prefixed by this key. */
@@ -281,7 +275,7 @@ public final class Change {
       final StringBuilder revEnd = new StringBuilder(get().length() + 1);
       revEnd.append(get());
       revEnd.append('\u9fa5');
-      return new Key(revEnd.toString());
+      return Change.key(revEnd.toString());
     }
 
     /** Obtain a shorter version of this key string, using a leading prefix. */
@@ -290,11 +284,9 @@ public final class Change {
       return s.substring(0, Math.min(s.length(), 9));
     }
 
-    /** Parse a Change.Key out of a string representation. */
-    public static Key parse(String str) {
-      final Key r = new Key();
-      r.fromString(str);
-      return r;
+    @Override
+    public String toString() {
+      return get();
     }
   }
 
@@ -600,7 +592,7 @@ public final class Change {
   }
 
   public Project.NameKey getProject() {
-    return dest.getParentKey();
+    return dest.project();
   }
 
   public String getSubject() {
@@ -618,7 +610,7 @@ public final class Change {
   /** Get the id of the most current {@link PatchSet} in this change. */
   public PatchSet.Id currentPatchSetId() {
     if (currentPatchSetId > 0) {
-      return new PatchSet.Id(changeId, currentPatchSetId);
+      return PatchSet.id(changeId, currentPatchSetId);
     }
     return null;
   }
@@ -641,7 +633,7 @@ public final class Change {
   }
 
   public void setCurrentPatchSet(PatchSet.Id psId, String subject, String originalSubject) {
-    if (!psId.getParentKey().equals(changeId)) {
+    if (!psId.changeId().equals(changeId)) {
       throw new IllegalArgumentException("patch set ID " + psId + " is not for change " + changeId);
     }
     currentPatchSetId = psId.get();

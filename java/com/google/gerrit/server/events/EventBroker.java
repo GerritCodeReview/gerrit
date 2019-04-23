@@ -21,6 +21,7 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -176,7 +177,7 @@ public class EventBroker implements EventDispatcher {
 
   protected boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user)
       throws PermissionBackendException {
-    ProjectState pe = projectCache.get(branchName.getParentKey());
+    ProjectState pe = projectCache.get(branchName.project());
     if (pe == null || !pe.statePermitsRead()) {
       return false;
     }
@@ -194,13 +195,13 @@ public class EventBroker implements EventDispatcher {
       RefEvent refEvent = (RefEvent) event;
       String ref = refEvent.getRefName();
       if (PatchSet.isChangeRef(ref)) {
-        Change.Id cid = PatchSet.Id.fromRef(ref).getParentKey();
+        Change.Id cid = Id.fromRef(ref).changeId();
         try {
           Change change = notesFactory.createChecked(refEvent.getProjectNameKey(), cid).getChange();
           return isVisibleTo(change, user);
         } catch (NoSuchChangeException e) {
           logger.atFine().log(
-              "Change %s cannot be found, falling back on ref visibility check", cid.id);
+              "Change %s cannot be found, falling back on ref visibility check", cid.get());
         }
       }
       return isVisibleTo(refEvent.getBranchNameKey(), user);

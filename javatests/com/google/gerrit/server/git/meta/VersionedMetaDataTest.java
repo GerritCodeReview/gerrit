@@ -65,7 +65,7 @@ public class VersionedMetaDataTest extends GerritBaseTests {
   @Before
   public void setUp() {
     TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
-    project = new Project.NameKey("repo");
+    project = Project.nameKey("repo");
     repo = new InMemoryRepository(new DfsRepositoryDescription(project.get()));
   }
 

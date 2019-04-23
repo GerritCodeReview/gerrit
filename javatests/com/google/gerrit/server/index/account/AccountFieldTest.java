@@ -37,7 +37,7 @@ public class AccountFieldTest extends GerritBaseTests {
   @Test
   public void refStateFieldValues() throws Exception {
     AllUsersName allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);
-    Account account = new Account(new Account.Id(1), TimeUtil.nowTs());
+    Account account = new Account(Account.id(1), TimeUtil.nowTs());
     String metaId = "0e39795bb25dc914118224995c53c5c36923a461";
     account.setMetaId(metaId);
     List<String> values =
@@ -50,7 +50,7 @@ public class AccountFieldTest extends GerritBaseTests {
 
   @Test
   public void externalIdStateFieldValues() throws Exception {
-    Account.Id id = new Account.Id(1);
+    Account.Id id = Account.id(1);
     Account account = new Account(id, TimeUtil.nowTs());
     ExternalId extId1 =
         ExternalId.create(

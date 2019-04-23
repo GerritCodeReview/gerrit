@@ -32,9 +32,9 @@ public class RefNamesTest {
 
   @Rule public ExpectedException expectedException = ExpectedException.none();
 
-  private final Account.Id accountId = new Account.Id(1011123);
-  private final Change.Id changeId = new Change.Id(67473);
-  private final PatchSet.Id psId = new PatchSet.Id(changeId, 42);
+  private final Account.Id accountId = Account.id(1011123);
+  private final Change.Id changeId = Change.id(67473);
+  private final PatchSet.Id psId = PatchSet.id(changeId, 42);
 
   @Test
   public void fullName() throws Exception {
@@ -58,28 +58,28 @@ public class RefNamesTest {
 
   @Test
   public void refForGroupIsSharded() throws Exception {
-    AccountGroup.UUID groupUuid = new AccountGroup.UUID("ABCDEFG");
+    AccountGroup.UUID groupUuid = AccountGroup.uuid("ABCDEFG");
     String groupRef = RefNames.refsGroups(groupUuid);
     assertThat(groupRef).isEqualTo("refs/groups/AB/ABCDEFG");
   }
 
   @Test
   public void refForGroupWithUuidLessThanTwoCharsIsRejected() throws Exception {
-    AccountGroup.UUID groupUuid = new AccountGroup.UUID("A");
+    AccountGroup.UUID groupUuid = AccountGroup.uuid("A");
     expectedException.expect(IllegalArgumentException.class);
     RefNames.refsGroups(groupUuid);
   }
 
   @Test
   public void refForDeletedGroupIsSharded() throws Exception {
-    AccountGroup.UUID groupUuid = new AccountGroup.UUID("ABCDEFG");
+    AccountGroup.UUID groupUuid = AccountGroup.uuid("ABCDEFG");
     String groupRef = RefNames.refsDeletedGroups(groupUuid);
     assertThat(groupRef).isEqualTo("refs/deleted-groups/AB/ABCDEFG");
   }
 
   @Test
   public void refForDeletedGroupWithUuidLessThanTwoCharsIsRejected() throws Exception {
-    AccountGroup.UUID groupUuid = new AccountGroup.UUID("A");
+    AccountGroup.UUID groupUuid = AccountGroup.uuid("A");
     expectedException.expect(IllegalArgumentException.class);
     RefNames.refsDeletedGroups(groupUuid);
   }

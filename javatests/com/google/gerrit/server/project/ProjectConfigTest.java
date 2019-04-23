@@ -88,8 +88,8 @@ public class ProjectConfigTest extends GerritBaseTests {
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   private final GroupReference developers =
-      new GroupReference(new AccountGroup.UUID("X"), "Developers");
-  private final GroupReference staff = new GroupReference(new AccountGroup.UUID("Y"), "Staff");
+      new GroupReference(AccountGroup.uuid("X"), "Developers");
+  private final GroupReference staff = new GroupReference(AccountGroup.uuid("Y"), "Staff");
 
   private SitePaths sitePaths;
   private ProjectConfig.Factory factory;
@@ -422,7 +422,7 @@ public class ProjectConfigTest extends GerritBaseTests {
 
   @Test
   public void readUnexistingPluginConfig() throws Exception {
-    ProjectConfig cfg = factory.create(new Project.NameKey("test"));
+    ProjectConfig cfg = factory.create(Project.nameKey("test"));
     cfg.load(db);
     PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
     assertThat(pluginCfg.getNames()).isEmpty();
@@ -625,7 +625,7 @@ public class ProjectConfigTest extends GerritBaseTests {
 
   @Test
   public void readOtherProjectIgnoresAllProjectsBaseConfig() throws Exception {
-    ProjectConfig cfg = factory.create(new Project.NameKey("test"));
+    ProjectConfig cfg = factory.create(Project.nameKey("test"));
     cfg.load(db);
     assertThat(cfg.getProject().getBooleanConfig(REQUIRE_CHANGE_ID))
         .isEqualTo(InheritableBoolean.INHERIT);
@@ -648,7 +648,7 @@ public class ProjectConfigTest extends GerritBaseTests {
   }
 
   private ProjectConfig read(RevCommit rev) throws IOException, ConfigInvalidException {
-    ProjectConfig cfg = factory.create(new Project.NameKey("test"));
+    ProjectConfig cfg = factory.create(Project.nameKey("test"));
     cfg.load(db, rev);
     return cfg;
   }

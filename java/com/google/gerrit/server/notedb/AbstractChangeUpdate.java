@@ -147,7 +147,7 @@ public abstract class AbstractChangeUpdate {
   }
 
   public void setPatchSetId(PatchSet.Id psId) {
-    checkArgument(psId == null || psId.getParentKey().equals(getId()));
+    checkArgument(psId == null || psId.changeId().equals(getId()));
     this.psId = psId;
   }
 

@@ -106,7 +106,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
       try {
         permissionBackend
             .absentUser(match)
-            .ref(new Branch.NameKey(rsrc.getNameKey(), input.ref))
+            .ref(Branch.nameKey(rsrc.getNameKey(), input.ref))
             .check(refPerm);
       } catch (AuthException e) {
         info.status = HttpServletResponse.SC_FORBIDDEN;

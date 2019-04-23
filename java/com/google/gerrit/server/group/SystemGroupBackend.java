@@ -56,19 +56,19 @@ public class SystemGroupBackend extends AbstractGroupBackend {
 
   /** Common UUID assigned to the "Anonymous Users" group. */
   public static final AccountGroup.UUID ANONYMOUS_USERS =
-      new AccountGroup.UUID(SYSTEM_GROUP_SCHEME + "Anonymous-Users");
+      AccountGroup.uuid(SYSTEM_GROUP_SCHEME + "Anonymous-Users");
 
   /** Common UUID assigned to the "Registered Users" group. */
   public static final AccountGroup.UUID REGISTERED_USERS =
-      new AccountGroup.UUID(SYSTEM_GROUP_SCHEME + "Registered-Users");
+      AccountGroup.uuid(SYSTEM_GROUP_SCHEME + "Registered-Users");
 
   /** Common UUID assigned to the "Project Owners" placeholder group. */
   public static final AccountGroup.UUID PROJECT_OWNERS =
-      new AccountGroup.UUID(SYSTEM_GROUP_SCHEME + "Project-Owners");
+      AccountGroup.uuid(SYSTEM_GROUP_SCHEME + "Project-Owners");
 
   /** Common UUID assigned to the "Change Owner" placeholder group. */
   public static final AccountGroup.UUID CHANGE_OWNER =
-      new AccountGroup.UUID(SYSTEM_GROUP_SCHEME + "Change-Owner");
+      AccountGroup.uuid(SYSTEM_GROUP_SCHEME + "Change-Owner");
 
   private static final AccountGroup.UUID[] all = {
     ANONYMOUS_USERS, REGISTERED_USERS, PROJECT_OWNERS, CHANGE_OWNER,

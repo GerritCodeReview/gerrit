@@ -108,7 +108,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void subscriptionWildcardACLForMissingProject() throws Exception {
 
     allowMatchingSubmoduleSubscription(
-        subKey, "refs/heads/*", new Project.NameKey("not-existing-super-project"), "refs/heads/*");
+        subKey, "refs/heads/*", Project.nameKey("not-existing-super-project"), "refs/heads/*");
     pushChangeTo(subRepo, "master");
   }
 
@@ -379,10 +379,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   @Test
   public void subscriptionFailOnWrongProjectACL() throws Exception {
     allowMatchingSubmoduleSubscription(
-        subKey,
-        "refs/heads/master",
-        new Project.NameKey("wrong-super-project"),
-        "refs/heads/master");
+        subKey, "refs/heads/master", Project.nameKey("wrong-super-project"), "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
     createSubmoduleSubscription(superRepo, "master", subKey, "master");

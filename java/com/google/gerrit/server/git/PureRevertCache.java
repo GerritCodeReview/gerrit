@@ -154,7 +154,7 @@ public class PureRevertCache {
           TraceContext.newTimer("Loading pure revert for %s", key)) {
         ObjectId original = ObjectIdConverter.create().fromByteString(key.getClaimedOriginal());
         ObjectId revert = ObjectIdConverter.create().fromByteString(key.getClaimedRevert());
-        Project.NameKey project = new Project.NameKey(key.getProject());
+        Project.NameKey project = Project.nameKey(key.getProject());
 
         try (Repository repo = repoManager.openRepository(project);
             ObjectInserter oi = repo.newObjectInserter();

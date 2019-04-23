@@ -301,7 +301,7 @@ class Helper {
 
     final Set<AccountGroup.UUID> actual = new HashSet<>();
     for (String dn : groupDNs) {
-      actual.add(new AccountGroup.UUID(LDAP_UUID + dn));
+      actual.add(AccountGroup.uuid(LDAP_UUID + dn));
     }
 
     if (actual.isEmpty()) {

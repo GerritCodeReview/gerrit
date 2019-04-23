@@ -14,45 +14,20 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.CompoundKey;
+import com.google.auto.value.AutoValue;
 import java.util.Objects;
 
 /** Membership of an {@link AccountGroup} in an {@link AccountGroup}. */
 public final class AccountGroupById {
-  public static class Key extends CompoundKey<AccountGroup.Id> {
-    private static final long serialVersionUID = 1L;
+  public static Key key(AccountGroup.Id groupId, AccountGroup.UUID includeUuid) {
+    return new AutoValue_AccountGroupById_Key(groupId, includeUuid);
+  }
 
-    protected AccountGroup.Id groupId;
+  @AutoValue
+  public abstract static class Key {
+    public abstract AccountGroup.Id groupId();
 
-    protected AccountGroup.UUID includeUUID;
-
-    protected Key() {
-      groupId = new AccountGroup.Id();
-      includeUUID = new AccountGroup.UUID();
-    }
-
-    public Key(AccountGroup.Id g, AccountGroup.UUID u) {
-      groupId = g;
-      includeUUID = u;
-    }
-
-    @Override
-    public AccountGroup.Id getParentKey() {
-      return groupId;
-    }
-
-    public AccountGroup.Id getGroupId() {
-      return groupId;
-    }
-
-    public AccountGroup.UUID getIncludeUUID() {
-      return includeUUID;
-    }
-
-    @Override
-    public com.google.gwtorm.client.Key<?>[] members() {
-      return new com.google.gwtorm.client.Key<?>[] {includeUUID};
-    }
+    public abstract AccountGroup.UUID includeUuid();
   }
 
   protected Key key;
@@ -68,11 +43,11 @@ public final class AccountGroupById {
   }
 
   public AccountGroup.Id getGroupId() {
-    return key.groupId;
+    return key.groupId();
   }
 
-  public AccountGroup.UUID getIncludeUUID() {
-    return key.includeUUID;
+  public AccountGroup.UUID getIncludeUuid() {
+    return key.includeUuid();
   }
 
   @Override

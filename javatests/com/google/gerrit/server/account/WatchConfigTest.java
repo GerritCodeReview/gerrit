@@ -54,12 +54,12 @@ public class WatchConfigTest implements ValidationError.Sink {
             + "  notify = [NEW_PATCHSETS]\n"
             + "  notify = * [NEW_PATCHSETS, ALL_COMMENTS]\n");
     Map<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches =
-        ProjectWatches.parse(new Account.Id(1000000), cfg, this);
+        ProjectWatches.parse(Account.id(1000000), cfg, this);
 
     assertThat(validationErrors).isEmpty();
 
-    Project.NameKey myProject = new Project.NameKey("myProject");
-    Project.NameKey otherProject = new Project.NameKey("otherProject");
+    Project.NameKey myProject = Project.nameKey("myProject");
+    Project.NameKey otherProject = Project.nameKey("otherProject");
     Map<ProjectWatchKey, Set<NotifyType>> expectedProjectWatches = new HashMap<>();
     expectedProjectWatches.put(
         ProjectWatchKey.create(myProject, null),
@@ -87,7 +87,7 @@ public class WatchConfigTest implements ValidationError.Sink {
             + "[project \"otherProject\"]\n"
             + "  notify = [NEW_PATCHSETS]\n");
 
-    ProjectWatches.parse(new Account.Id(1000000), cfg, this);
+    ProjectWatches.parse(Account.id(1000000), cfg, this);
     assertThat(validationErrors).hasSize(1);
     assertThat(validationErrors.get(0).getMessage())
         .isEqualTo(
@@ -177,7 +177,7 @@ public class WatchConfigTest implements ValidationError.Sink {
   }
 
   private NotifyValue parseNotifyValue(String notifyValue) {
-    return NotifyValue.parse(new Account.Id(1000000), "project", notifyValue, this);
+    return NotifyValue.parse(Account.id(1000000), "project", notifyValue, this);
   }
 
   @Override

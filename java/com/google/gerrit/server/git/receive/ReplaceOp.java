@@ -228,7 +228,7 @@ public class ReplaceOp implements BatchUpdateOp {
             commitId);
 
     if (checkMergedInto) {
-      String mergedInto = findMergedInto(ctx, dest.get(), commit);
+      String mergedInto = findMergedInto(ctx, dest.branch(), commit);
       if (mergedInto != null) {
         mergedByPushOp =
             mergedByPushOpFactory.create(requestScopePropagator, patchSetId, mergedInto);
@@ -477,9 +477,9 @@ public class ReplaceOp implements BatchUpdateOp {
 
     List<String> idList = commit.getFooterLines(CHANGE_ID);
     if (idList.isEmpty()) {
-      change.setKey(new Change.Key("I" + commitId.name()));
+      change.setKey(Change.key("I" + commitId.name()));
     } else {
-      change.setKey(new Change.Key(idList.get(idList.size() - 1).trim()));
+      change.setKey(Change.key(idList.get(idList.size() - 1).trim()));
     }
   }
 

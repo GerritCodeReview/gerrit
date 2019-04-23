@@ -17,9 +17,9 @@ package com.google.gerrit.common;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
+import com.google.gerrit.reviewdb.client.KeyUtil;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gwtorm.client.KeyUtil;
 
 public class PageLinks {
   public static final String PROJECT_CHANGE_DELIMITER = "/+/";
@@ -83,7 +83,7 @@ public class PageLinks {
   }
 
   public static String toChange(@Nullable Project.NameKey project, PatchSet.Id ps) {
-    return toChange(project, ps.getParentKey()) + ps.getId();
+    return toChange(project, ps.changeId()) + ps.getId();
   }
 
   public static String toProject(Project.NameKey p) {

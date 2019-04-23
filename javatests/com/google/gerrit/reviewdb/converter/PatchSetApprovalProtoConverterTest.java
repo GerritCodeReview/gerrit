@@ -40,14 +40,12 @@ public class PatchSetApprovalProtoConverterTest {
   public void allValuesConvertedToProto() {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
-            new PatchSetApproval.Key(
-                new PatchSet.Id(new Change.Id(42), 14),
-                new Account.Id(100013),
-                new LabelId("label-8")),
+            PatchSetApproval.key(
+                PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
     patchSetApproval.setTag("tag-21");
-    patchSetApproval.setRealAccountId(new Account.Id(612));
+    patchSetApproval.setRealAccountId(Account.id(612));
     patchSetApproval.setPostSubmit(true);
 
     Entities.PatchSetApproval proto = protoConverter.toProto(patchSetApproval);
@@ -59,9 +57,9 @@ public class PatchSetApprovalProtoConverterTest {
                     .setPatchSetId(
                         Entities.PatchSet_Id.newBuilder()
                             .setChangeId(Entities.Change_Id.newBuilder().setId(42))
-                            .setPatchSetId(14))
+                            .setId(14))
                     .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
-                    .setCategoryId(Entities.LabelId.newBuilder().setId("label-8")))
+                    .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
             .setValue(456)
             .setGranted(987654L)
             .setTag("tag-21")
@@ -75,10 +73,8 @@ public class PatchSetApprovalProtoConverterTest {
   public void mandatoryValuesConvertedToProto() {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
-            new PatchSetApproval.Key(
-                new PatchSet.Id(new Change.Id(42), 14),
-                new Account.Id(100013),
-                new LabelId("label-8")),
+            PatchSetApproval.key(
+                PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
 
@@ -91,9 +87,9 @@ public class PatchSetApprovalProtoConverterTest {
                     .setPatchSetId(
                         Entities.PatchSet_Id.newBuilder()
                             .setChangeId(Entities.Change_Id.newBuilder().setId(42))
-                            .setPatchSetId(14))
+                            .setId(14))
                     .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
-                    .setCategoryId(Entities.LabelId.newBuilder().setId("label-8")))
+                    .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
             .setValue(456)
             .setGranted(987654L)
             // This value can't be unset when our entity class is given.
@@ -106,14 +102,12 @@ public class PatchSetApprovalProtoConverterTest {
   public void allValuesConvertedToProtoAndBackAgain() {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
-            new PatchSetApproval.Key(
-                new PatchSet.Id(new Change.Id(42), 14),
-                new Account.Id(100013),
-                new LabelId("label-8")),
+            PatchSetApproval.key(
+                PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
     patchSetApproval.setTag("tag-21");
-    patchSetApproval.setRealAccountId(new Account.Id(612));
+    patchSetApproval.setRealAccountId(Account.id(612));
     patchSetApproval.setPostSubmit(true);
 
     PatchSetApproval convertedPatchSetApproval =
@@ -125,10 +119,8 @@ public class PatchSetApprovalProtoConverterTest {
   public void mandatoryValuesConvertedToProtoAndBackAgain() {
     PatchSetApproval patchSetApproval =
         new PatchSetApproval(
-            new PatchSetApproval.Key(
-                new PatchSet.Id(new Change.Id(42), 14),
-                new Account.Id(100013),
-                new LabelId("label-8")),
+            PatchSetApproval.key(
+                PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")),
             (short) 456,
             new Date(987654L));
 
@@ -148,15 +140,15 @@ public class PatchSetApprovalProtoConverterTest {
                     .setPatchSetId(
                         Entities.PatchSet_Id.newBuilder()
                             .setChangeId(Entities.Change_Id.newBuilder().setId(42))
-                            .setPatchSetId(14))
+                            .setId(14))
                     .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
-                    .setCategoryId(Entities.LabelId.newBuilder().setId("label-8")))
+                    .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
             .build();
     PatchSetApproval patchSetApproval = protoConverter.fromProto(proto);
 
-    assertThat(patchSetApproval.getPatchSetId()).isEqualTo(new PatchSet.Id(new Change.Id(42), 14));
-    assertThat(patchSetApproval.getAccountId()).isEqualTo(new Account.Id(100013));
-    assertThat(patchSetApproval.getLabelId()).isEqualTo(new LabelId("label-8"));
+    assertThat(patchSetApproval.getPatchSetId()).isEqualTo(PatchSet.id(Change.id(42), 14));
+    assertThat(patchSetApproval.getAccountId()).isEqualTo(Account.id(100013));
+    assertThat(patchSetApproval.getLabelId()).isEqualTo(LabelId.create("label-8"));
     // Default values for unset protobuf fields which can't be unset in the entity object.
     assertThat(patchSetApproval.getValue()).isEqualTo(0);
     assertThat(patchSetApproval.getGranted()).isEqualTo(new Timestamp(0));
@@ -172,9 +164,9 @@ public class PatchSetApprovalProtoConverterTest {
                     .setPatchSetId(
                         Entities.PatchSet_Id.newBuilder()
                             .setChangeId(Entities.Change_Id.newBuilder().setId(42))
-                            .setPatchSetId(14))
+                            .setId(14))
                     .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
-                    .setCategoryId(Entities.LabelId.newBuilder().setId("label-8")))
+                    .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
             .setValue(456)
             .setGranted(987654L)
             .build();

@@ -70,9 +70,9 @@ public class CreateRefControl {
       RevObject object)
       throws AuthException, PermissionBackendException, NoSuchProjectException, IOException,
           ResourceConflictException {
-    ProjectState ps = projectCache.checkedGet(branch.getParentKey());
+    ProjectState ps = projectCache.checkedGet(branch.project());
     if (ps == null) {
-      throw new NoSuchProjectException(branch.getParentKey());
+      throw new NoSuchProjectException(branch.project());
     }
     ps.checkStatePermitsWrite();
 
@@ -85,8 +85,7 @@ public class CreateRefControl {
       try (RevWalk rw = new RevWalk(repo)) {
         rw.parseBody(tag);
       } catch (IOException e) {
-        logger.atSevere().withCause(e).log(
-            "RevWalk(%s) parsing %s:", branch.getParentKey(), tag.name());
+        logger.atSevere().withCause(e).log("RevWalk(%s) parsing %s:", branch.project(), tag.name());
         throw e;
       }
 

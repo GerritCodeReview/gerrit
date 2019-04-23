@@ -76,7 +76,7 @@ public class AccountCreator {
     if (account != null) {
       return account;
     }
-    Account.Id id = new Account.Id(sequences.nextAccountId());
+    Account.Id id = Account.id(sequences.nextAccountId());
 
     List<ExternalId> extIds = new ArrayList<>(2);
     String httpPass = null;
@@ -98,7 +98,7 @@ public class AccountCreator {
 
     if (groupNames != null) {
       for (String n : groupNames) {
-        AccountGroup.NameKey k = new AccountGroup.NameKey(n);
+        AccountGroup.NameKey k = AccountGroup.nameKey(n);
         Optional<InternalGroup> group = groupCache.get(k);
         if (!group.isPresent()) {
           throw new NoSuchGroupException(n);

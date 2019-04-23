@@ -41,10 +41,10 @@ public class StalenessCheckerTest extends GerritBaseTests {
   private static final String SHA1 = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
   private static final String SHA2 = "badc0feebadc0feebadc0feebadc0feebadc0fee";
 
-  private static final Project.NameKey P1 = new Project.NameKey("project1");
-  private static final Project.NameKey P2 = new Project.NameKey("project2");
+  private static final Project.NameKey P1 = Project.nameKey("project1");
+  private static final Project.NameKey P2 = Project.nameKey("project2");
 
-  private static final Change.Id C = new Change.Id(1234);
+  private static final Change.Id C = Change.id(1234);
 
   private GitRepositoryManager repoManager;
   private Repository r1;

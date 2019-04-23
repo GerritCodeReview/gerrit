@@ -36,8 +36,7 @@ public class PureRevertCacheKeyTest {
             0xaa, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb,
             0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb);
 
-    Cache.PureRevertKeyProto key =
-        PureRevertCache.key(new Project.NameKey("test"), revert, original);
+    Cache.PureRevertKeyProto key = PureRevertCache.key(Project.nameKey("test"), revert, original);
     assertThat(key)
         .isEqualTo(
             Cache.PureRevertKeyProto.newBuilder()

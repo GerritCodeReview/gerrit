@@ -43,7 +43,7 @@ public class AllProjectsConfig extends VersionedMetaDataOnInit {
     super(flags, site, allProjects.get(), RefNames.REFS_CONFIG);
     this.baseConfig =
         ProjectConfig.Factory.getBaseConfig(
-            site, new AllProjectsName(allProjects.get()), new Project.NameKey(allProjects.get()));
+            site, new AllProjectsName(allProjects.get()), Project.nameKey(allProjects.get()));
   }
 
   public Config getConfig() {
@@ -71,7 +71,7 @@ public class AllProjectsConfig extends VersionedMetaDataOnInit {
 
   private GroupList readGroupList() throws IOException {
     return GroupList.parse(
-        new Project.NameKey(project),
+        Project.nameKey(project),
         readUTF8(GroupList.FILE_NAME),
         error ->
             logger.atSevere().log(

@@ -297,7 +297,7 @@ public class ChangeJson {
       Map<Change.Id, ChangeInfo> cache = Maps.newHashMapWithExpectedSize(in.size());
       for (QueryResult<ChangeData> r : in) {
         List<ChangeInfo> infos = toChangeInfos(r.entities(), cache);
-        infos.forEach(c -> cache.put(new Change.Id(c._number), c));
+        infos.forEach(c -> cache.put(Change.id(c._number), c));
         if (!infos.isEmpty() && r.more()) {
           infos.get(infos.size() - 1)._moreChanges = true;
         }
@@ -451,7 +451,7 @@ public class ChangeJson {
     Change c = result.change();
     if (c != null) {
       info.project = c.getProject().get();
-      info.branch = c.getDest().getShortName();
+      info.branch = c.getDest().shortName();
       info.topic = c.getTopic();
       info.changeId = c.getKey().get();
       info.subject = c.getSubject();
@@ -499,7 +499,7 @@ public class ChangeJson {
 
     Change in = cd.change();
     out.project = in.getProject().get();
-    out.branch = in.getDest().getShortName();
+    out.branch = in.getDest().shortName();
     out.topic = in.getTopic();
     out.assignee = in.getAssignee() != null ? accountLoader.get(in.getAssignee()) : null;
     out.hashtags = cd.hashtags();
@@ -699,7 +699,7 @@ public class ChangeJson {
         continue;
       }
       for (ApprovalInfo ai : label.all) {
-        Account.Id id = new Account.Id(ai._accountId);
+        Account.Id id = Account.id(ai._accountId);
 
         if (canRemoveAnyReviewer
             || removeReviewerControl.testRemoveReviewer(
@@ -719,7 +719,7 @@ public class ChangeJson {
     if (ccs != null) {
       for (AccountInfo ai : ccs) {
         if (ai._accountId != null) {
-          Account.Id id = new Account.Id(ai._accountId);
+          Account.Id id = Account.id(ai._accountId);
           if (canRemoveAnyReviewer
               || removeReviewerControl.testRemoveReviewer(cd, userProvider.get(), id, 0)) {
             removable.add(id);

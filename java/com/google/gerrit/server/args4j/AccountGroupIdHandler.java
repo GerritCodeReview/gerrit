@@ -45,7 +45,7 @@ public class AccountGroupIdHandler extends OptionHandler<AccountGroup.Id> {
   @Override
   public final int parseArguments(Parameters params) throws CmdLineException {
     final String n = params.getParameter(0);
-    Optional<InternalGroup> group = groupCache.get(new AccountGroup.NameKey(n));
+    Optional<InternalGroup> group = groupCache.get(AccountGroup.nameKey(n));
     if (!group.isPresent()) {
       throw new CmdLineException(owner, localizable("Group \"%s\" does not exist"), n);
     }

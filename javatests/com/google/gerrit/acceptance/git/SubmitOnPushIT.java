@@ -156,7 +156,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertCommit(project, "refs/heads/master");
 
     ChangeData cd =
-        Iterables.getOnlyElement(queryProvider.get().byKey(new Change.Key(r.getChangeId())));
+        Iterables.getOnlyElement(queryProvider.get().byKey(Change.key(r.getChangeId())));
     RevCommit c = r.getCommit();
     PatchSet.Id psId = cd.currentPatchSet().getId();
     assertThat(psId.get()).isEqualTo(1);
@@ -183,7 +183,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     pushCommitTo(commit, master);
     assertCommit(project, master);
     ChangeData cd =
-        Iterables.getOnlyElement(queryProvider.get().byKey(new Change.Key(r.getChangeId())));
+        Iterables.getOnlyElement(queryProvider.get().byKey(Change.key(r.getChangeId())));
     assertThat(cd.change().isMerged()).isTrue();
 
     RemoteRefUpdate.Status status = pushCommitTo(commit, "refs/for/other");
@@ -192,8 +192,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     pushCommitTo(commit, other);
     assertCommit(project, other);
 
-    for (ChangeData c : queryProvider.get().byKey(new Change.Key(r.getChangeId()))) {
-      if (c.change().getDest().get().equals(other)) {
+    for (ChangeData c : queryProvider.get().byKey(Change.key(r.getChangeId()))) {
+      if (c.change().getDest().branch().equals(other)) {
         assertThat(c.change().isMerged()).isTrue();
       }
     }
@@ -254,13 +254,13 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     r = amendChange(changeId);
     ChangeData cd = r.getChange();
     PatchSet.Id psId2 = cd.change().currentPatchSetId();
-    assertThat(psId2.getParentKey()).isEqualTo(psId1.getParentKey());
+    assertThat(psId2.changeId()).isEqualTo(psId1.changeId());
     assertThat(psId2.get()).isEqualTo(2);
 
     testRepo.reset(c1);
     assertPushOk(pushHead(testRepo, "refs/heads/master", false), "refs/heads/master");
 
-    cd = changeDataFactory.create(project, psId1.getParentKey());
+    cd = changeDataFactory.create(project, psId1.changeId());
     Change c = cd.change();
     assertThat(c.isMerged()).isTrue();
     assertThat(c.currentPatchSetId()).isEqualTo(psId1);
@@ -316,7 +316,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId) throws Exception {
-    ChangeNotes notes = notesFactory.createChecked(project, patchSetId.getParentKey()).load();
+    ChangeNotes notes = notesFactory.createChecked(project, patchSetId.changeId()).load();
     return approvalsUtil.getSubmitter(notes, patchSetId);
   }
 

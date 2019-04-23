@@ -22,7 +22,6 @@ Gerrit is developed as a self-hosting open source project:
 .. link:dev-stars.html[Starring Changes]
 .. link:quota.html[Quota Enforcement]
 . link:dev-design.html[System Design]
-. link:i18n-readme.html[i18n Support]
 
 == Maintainer
 . link:dev-release.html[Making a Gerrit Release]

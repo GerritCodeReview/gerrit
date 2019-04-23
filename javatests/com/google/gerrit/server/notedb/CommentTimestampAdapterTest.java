@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 import java.time.ZonedDateTime;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -160,7 +161,7 @@ public class CommentTimestampAdapterTest extends GerritBaseTests {
             "serverId",
             false);
     c.lineNbr = 1;
-    c.revId = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+    c.setCommitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
 
     String json = gson.toJson(c);
     assertThat(json).contains("\"writtenOn\": \"" + NON_DST_STR_TRUNC + "\",");

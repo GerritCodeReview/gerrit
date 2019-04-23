@@ -24,7 +24,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -224,16 +223,16 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(revNotesMap);
 
     for (Comment c : putInComments) {
-      cache.get(new RevId(c.revId)).putComment(c);
+      cache.get(c.getCommitId()).putComment(c);
     }
 
     for (Comment c : deletedComments) {
-      cache.get(new RevId(c.revId)).deleteComment(c.key);
+      cache.get(c.getCommitId()).deleteComment(c.key);
     }
 
-    Map<RevId, RevisionNoteBuilder> builders = cache.getBuilders();
-    for (Map.Entry<RevId, RevisionNoteBuilder> entry : builders.entrySet()) {
-      ObjectId objectId = ObjectId.fromString(entry.getKey().get());
+    Map<ObjectId, RevisionNoteBuilder> builders = cache.getBuilders();
+    for (Map.Entry<ObjectId, RevisionNoteBuilder> entry : builders.entrySet()) {
+      ObjectId objectId = entry.getKey();
       byte[] data = entry.getValue().build(noteUtil.getChangeNoteJson());
       if (data.length == 0) {
         revNotesMap.noteMap.remove(objectId);

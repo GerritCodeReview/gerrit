@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.changes.DraftInput;
@@ -119,7 +119,7 @@ public class CreateDraftComment
       comment.setLineNbrAndRange(in.line, in.range);
       comment.tag = in.tag;
 
-      setCommentRevId(comment, patchListCache, ctx.getChange(), ps);
+      setCommentCommitId(comment, patchListCache, ctx.getChange(), ps);
 
       commentsUtil.putComments(ctx.getUpdate(psId), Status.DRAFT, Collections.singleton(comment));
       return true;

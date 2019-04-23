@@ -663,7 +663,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
             "message 1",
             "serverId",
             false);
-    c1.setRevId(ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+    c1.setCommitId(ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
     String c1Json = Serializer.GSON.toJson(c1);
 
     Comment c2 =
@@ -675,13 +675,12 @@ public class ChangeNotesStateTest extends GerritBaseTests {
             "message 2",
             "serverId",
             true);
-    c2.setRevId(ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
+    c2.setCommitId(ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
     String c2Json = Serializer.GSON.toJson(c2);
 
     assertRoundTrip(
         newBuilder()
-            .publishedComments(
-                ImmutableListMultimap.of(new RevId(c2.revId), c2, new RevId(c1.revId), c1))
+            .publishedComments(ImmutableListMultimap.of(c2.getCommitId(), c2, c1.getCommitId(), c1))
             .build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
@@ -733,7 +732,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
                 .put("changeMessages", new TypeLiteral<ImmutableList<ChangeMessage>>() {}.getType())
                 .put(
                     "publishedComments",
-                    new TypeLiteral<ImmutableListMultimap<RevId, Comment>>() {}.getType())
+                    new TypeLiteral<ImmutableListMultimap<ObjectId, Comment>>() {}.getType())
                 .put("updateCount", int.class)
                 .build());
   }

@@ -640,20 +640,6 @@ logs may be mined for usage information.  This is outside of the
 scope of Gerrit.
 
 
-== Caveats
-
-Rietveld can't be used as it does not provide the "submit over the
-web" feature that Gerrit provides for Git.
-
-Gitosis can't be used as it does not provide any code review
-features, but it does provide basic access controls.
-
-Email based code review does not scale to a project as large and
-complex as Android.  Most contributors at least need some sort of
-dashboard to keep track of any pending reviews, and some way to
-correlate updated revisions back to the comments written on prior
-revisions of the same logical change.
-
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

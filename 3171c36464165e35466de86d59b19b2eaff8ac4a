@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e64cb3f4_6731b6ca",
+        "filename": "java/com/google/gerrit/server/index/project/AllProjectsIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T01:03:38Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be inside the if-block?",
+      "range": {
+        "startLine": 82,
+        "startChar": 18,
+        "endLine": 83,
+        "endChar": 41
+      },
+      "revId": "3171c36464165e35466de86d59b19b2eaff8ac4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

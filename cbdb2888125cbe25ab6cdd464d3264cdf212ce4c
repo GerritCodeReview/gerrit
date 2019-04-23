@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "46e283c8_2e72480c",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T05:17:49Z",
+      "side": 1,
+      "message": "It is assumed that the admin would have to do this step.",
+      "parentUuid": "a0989217_c64b2b93",
+      "range": {
+        "startLine": 60,
+        "startChar": 27,
+        "endLine": 60,
+        "endChar": 38
+      },
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "92fb1186_2d332a48",
         "filename": "Documentation/lfs-quota-design.txt",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "7063328d_1e205025",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T05:17:49Z",
+      "side": 1,
+      "message": "\u003e you will no longer be able to limit the maximum total size\nof git objects per repository\n\ngood point; I don\u0027t think we considered this drawback.",
+      "parentUuid": "92fb1186_2d332a48",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1017c709_10a52dc7",
         "filename": "Documentation/lfs-quota-design.txt",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2019-04-22T21:47:28Z",
       "side": 1,
       "message": "I think there should be 2 quotas, storing 10GB in lfs probably won\u0027t cause issues, though storing\n10GB in git objects is typically not a good idea. So why don\u0027t you implement the lfs quota in the lfs plugin ?\nI guess you could still reuse parts of the implementation.",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26ea6087_5cf4984c",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T05:17:49Z",
+      "side": 1,
+      "message": "The use case that we\u0027re looking at is a total storage quota that includes both git data and LFS data, without caring where the storage is consumed.",
+      "parentUuid": "1017c709_10a52dc7",
       "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -93,6 +153,24 @@
     },
     {
       "key": {
+        "uuid": "1dca59e1_e718f443",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T05:17:49Z",
+      "side": 1,
+      "message": "We have considered that.  We preferred not to do it because it adds another component that needs to be versioned and included in both plugin builds.",
+      "parentUuid": "c84c1d53_1b578b52",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "641e4997_3fe5355a",
         "filename": "Documentation/lfs-quota-design.txt",
         "patchSetId": 3
@@ -121,6 +199,24 @@
       "writtenOn": "2019-04-22T21:47:28Z",
       "side": 1,
       "message": "But this means you need to implement the lfs transport protocol on top of git.\nWhere would you store the sha256 hashes of the large files stored in separate git repositories ?\nWhen would you create a commit in these separate git repositories ?\nGit versioning for these objects would be redundant, right ?",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb1770a4_6cda72a4",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T05:17:49Z",
+      "side": 1,
+      "message": "We haven\u0027t got as far as thinking about how it would be implemented. This was just a \"what if...\" idea that was raised during discussions; I\u0027ve only added it here as something that we considered.",
+      "parentUuid": "19be27e7_fca87e94",
       "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

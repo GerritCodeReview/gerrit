@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -138,7 +138,7 @@ public class PutDraftComment
         commentsUtil.deleteComments(update, Collections.singleton(origComment));
         comment.key.filename = in.path;
       }
-      setCommentRevId(comment, patchListCache, ctx.getChange(), ps);
+      setCommentCommitId(comment, patchListCache, ctx.getChange(), ps);
       commentsUtil.putComments(
           update, Status.DRAFT, Collections.singleton(update(comment, in, ctx.getWhen())));
       return true;

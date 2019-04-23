@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.account;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
@@ -181,7 +181,7 @@ public class DeleteDraftComments
       for (Comment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), accountId)) {
         dirty = true;
         PatchSet.Id psId = PatchSet.id(ctx.getChange().getId(), c.key.patchSetId);
-        setCommentRevId(c, patchListCache, ctx.getChange(), psUtil.get(ctx.getNotes(), psId));
+        setCommentCommitId(c, patchListCache, ctx.getChange(), psUtil.get(ctx.getNotes(), psId));
         commentsUtil.deleteComments(ctx.getUpdate(psId), Collections.singleton(c));
         comments.add(commentFormatter.format(c));
       }

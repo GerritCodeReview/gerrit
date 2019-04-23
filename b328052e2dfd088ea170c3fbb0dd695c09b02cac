@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4f7e926_fecb19d9",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T00:00:56Z",
+      "side": 1,
+      "message": "on",
+      "range": {
+        "startLine": 94,
+        "startChar": 24,
+        "endLine": 94,
+        "endChar": 28
+      },
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bee17b63_b3b58158",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T00:00:56Z",
+      "side": 1,
+      "message": "the HTTP password",
+      "range": {
+        "startLine": 94,
+        "startChar": 9,
+        "endLine": 94,
+        "endChar": 23
+      },
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "444eff62_fb4d7baf",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T00:00:56Z",
+      "side": 1,
+      "message": "Is this the correct behavior?  I would expect the notification to be sent even if the admin sets it; i.e. what if the admin account was compromised and used to attack another account?",
+      "range": {
+        "startLine": 94,
+        "startChar": 45,
+        "endLine": 95,
+        "endChar": 62
+      },
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20e55447_0368d1d3",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T00:00:56Z",
+      "side": 1,
+      "message": "password",
+      "range": {
+        "startLine": 95,
+        "startChar": 9,
+        "endLine": 95,
+        "endChar": 12
+      },
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "037a2d1b_2d80229c",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPassword.soy",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T00:00:56Z",
+      "side": 1,
+      "message": "Maybe name this HttpPasswordUpdate.soy or similar?",
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "315e92ee_0f6da2c5",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPassword.soy",
+        "patchSetId": 29
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T00:00:56Z",
+      "side": 1,
+      "message": "There can only be one http password, so it makes no sense to say \"one or more\".\n\nAlso, do we need to distinguish specifically between added and changed?",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 56
+      },
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eeae22af_bbf31920",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPassword.soy",
+        "patchSetId": 29
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T00:00:56Z",
+      "side": 1,
+      "message": ".",
+      "range": {
+        "startLine": 26,
+        "startChar": 25,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9c4d49f_a3cf31a0",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/server/mail/HttpPasswordHtml.soy",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T00:00:56Z",
+      "side": 1,
+      "message": "Same comments as HttpPassword.soy",
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94a11250_8e6549ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-23T00:00:56Z",
+      "side": 1,
+      "message": "Use logger\u0027s formatting instead of concatenation.",
+      "range": {
+        "startLine": 132,
+        "startChar": 14,
+        "endLine": 132,
+        "endChar": 16
+      },
+      "revId": "b328052e2dfd088ea170c3fbb0dd695c09b02cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

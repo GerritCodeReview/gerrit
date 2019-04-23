@@ -640,15 +640,6 @@ logs may be mined for usage information.  This is outside of the
 scope of Gerrit.
 
 
-== Testing Plan
-
-Gerrit is currently manually tested through its web UI.
-
-JGit has a fairly extensive automated unit test suite.  Most new
-changes to JGit are rejected unless corresponding automated unit
-tests are included.
-
-
 == Caveats
 
 Rietveld can't be used as it does not provide the "submit over the

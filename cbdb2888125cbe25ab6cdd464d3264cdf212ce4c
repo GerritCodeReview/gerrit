@@ -191,6 +191,24 @@
     },
     {
       "key": {
+        "uuid": "166c0654_f0ef8d1d",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-23T19:18:53Z",
+      "side": 1,
+      "message": "We implemented receive.maxObjectSizeLimit as the first line of defense when we came across users\nstoring ISO images and database backups in Gerrit which caused massive load issues on the server side.\nSince then we enforce a hard limit of 20MB for the max. blob size.\nThough we learnt that this isn\u0027t sufficient since projects e.g. try to store binary dependencies\nin git and keep adding new versions of dependencies. Hence we implemented the quota plugin as a tool helping to restrict\nsuch practice before users end up with performance problems in the support hotline.",
+      "parentUuid": "355de316_6190e54d",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "df21830a_bf73646e",
         "filename": "Documentation/lfs-quota-design.txt",
         "patchSetId": 3
@@ -226,6 +244,24 @@
     },
     {
       "key": {
+        "uuid": "b3d8ee3d_3d7cfe50",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-23T19:18:53Z",
+      "side": 1,
+      "message": "maybe this could be downported ?",
+      "parentUuid": "645f2a17_5d78320f",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b12a89d9_eb4bf5e3",
         "filename": "Documentation/lfs-quota-design.txt",
         "patchSetId": 3
@@ -255,6 +291,24 @@
       "side": 1,
       "message": "again I would say they could be different quotas ;)",
       "parentUuid": "b12a89d9_eb4bf5e3",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3da3b392_7575fe74",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-23T19:18:53Z",
+      "side": 1,
+      "message": "isn\u0027t that what I said ?",
+      "parentUuid": "8bf926fb_dabb721f",
       "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -414,6 +468,24 @@
       "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a026edc_bcaadefe",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-23T19:18:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "eb1770a4_6cda72a4",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

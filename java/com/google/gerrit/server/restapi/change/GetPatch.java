@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -31,7 +32,6 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -189,7 +189,6 @@ public class GetPatch implements RestReadView<RevisionResource> {
   }
 
   private static String fileName(RevWalk rw, RevCommit commit) throws IOException {
-    AbbreviatedObjectId id = rw.getObjectReader().abbreviate(commit, 7);
-    return id.name() + ".diff";
+    return abbreviateName(commit, rw.getObjectReader()) + ".diff";
   }
 }

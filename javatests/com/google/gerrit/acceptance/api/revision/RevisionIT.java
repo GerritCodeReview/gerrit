@@ -23,6 +23,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.PATCH_FILE_ONLY;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -549,8 +550,8 @@ public class RevisionIT extends AbstractDaemonTest {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
     String fileContent = new String(os.toByteArray(), UTF_8);
-    String destSha1 = getRemoteHead(project, destBranch).abbreviate(6).name();
-    String changeSha1 = r.getCommit().abbreviate(6).name();
+    String destSha1 = abbreviateName(getRemoteHead(project, destBranch), 6);
+    String changeSha1 = abbreviateName(r.getCommit(), 6);
     assertThat(fileContent)
         .isEqualTo(
             "<<<<<<< HEAD   ("

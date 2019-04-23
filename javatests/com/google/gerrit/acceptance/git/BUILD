@@ -7,6 +7,7 @@ acceptance_tests(
     deps = [
         ":push_for_review",
         ":submodule_util",
+        "//java/com/google/gerrit/git",
         "//lib/commons:lang",
     ],
 )
@@ -17,6 +18,7 @@ java_library(
     srcs = ["AbstractPushForReview.java"],
     deps = [
         "//java/com/google/gerrit/acceptance:lib",
+        "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/mail",
     ],
 )

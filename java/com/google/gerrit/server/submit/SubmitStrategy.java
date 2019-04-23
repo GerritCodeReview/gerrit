@@ -20,7 +20,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -82,7 +82,7 @@ public abstract class SubmitStrategy {
     interface Factory {
       Arguments create(
           SubmitType submitType,
-          Branch.NameKey destBranch,
+          BranchNameKey destBranch,
           CommitStatus commitStatus,
           CodeReviewRevWalk rw,
           IdentifiedUser caller,
@@ -114,7 +114,7 @@ public abstract class SubmitStrategy {
     final ProjectConfig.Factory projectConfigFactory;
     final SetPrivateOp.Factory setPrivateOpFactory;
 
-    final Branch.NameKey destBranch;
+    final BranchNameKey destBranch;
     final CodeReviewRevWalk rw;
     final CommitStatus commitStatus;
     final IdentifiedUser caller;
@@ -152,7 +152,7 @@ public abstract class SubmitStrategy {
         Provider<InternalChangeQuery> queryProvider,
         ProjectConfig.Factory projectConfigFactory,
         SetPrivateOp.Factory setPrivateOpFactory,
-        @Assisted Branch.NameKey destBranch,
+        @Assisted BranchNameKey destBranch,
         @Assisted CommitStatus commitStatus,
         @Assisted CodeReviewRevWalk rw,
         @Assisted IdentifiedUser caller,

@@ -21,7 +21,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -56,7 +56,7 @@ public class RebaseUtil {
     this.psUtil = psUtil;
   }
 
-  public boolean canRebase(PatchSet patchSet, Branch.NameKey dest, Repository git, RevWalk rw) {
+  public boolean canRebase(PatchSet patchSet, BranchNameKey dest, Repository git, RevWalk rw) {
     try {
       findBaseRevision(patchSet, dest, git, rw);
       return true;
@@ -141,7 +141,7 @@ public class RebaseUtil {
    * @throws IOException if accessing the repository fails.
    */
   public ObjectId findBaseRevision(
-      PatchSet patchSet, Branch.NameKey destBranch, Repository git, RevWalk rw)
+      PatchSet patchSet, BranchNameKey destBranch, Repository git, RevWalk rw)
       throws RestApiException, IOException {
     String baseRev = null;
     RevCommit commit = rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));

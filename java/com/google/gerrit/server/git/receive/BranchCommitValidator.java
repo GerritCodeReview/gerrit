@@ -18,7 +18,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -48,12 +48,12 @@ public class BranchCommitValidator {
   private final IdentifiedUser user;
   private final PermissionBackend.ForProject permissions;
   private final Project project;
-  private final Branch.NameKey branch;
+  private final BranchNameKey branch;
   private final SshInfo sshInfo;
 
   interface Factory {
     BranchCommitValidator create(
-        ProjectState projectState, Branch.NameKey branch, IdentifiedUser user);
+        ProjectState projectState, BranchNameKey branch, IdentifiedUser user);
   }
 
   @Inject
@@ -62,7 +62,7 @@ public class BranchCommitValidator {
       PermissionBackend permissionBackend,
       SshInfo sshInfo,
       @Assisted ProjectState projectState,
-      @Assisted Branch.NameKey branch,
+      @Assisted BranchNameKey branch,
       @Assisted IdentifiedUser user) {
     this.sshInfo = sshInfo;
     this.user = user;

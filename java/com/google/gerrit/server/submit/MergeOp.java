@@ -48,7 +48,7 @@ import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -119,7 +119,7 @@ public class MergeOp implements AutoCloseable {
 
   public static class CommitStatus {
     private final ImmutableMap<Change.Id, ChangeData> changes;
-    private final ImmutableSetMultimap<Branch.NameKey, Change.Id> byBranch;
+    private final ImmutableSetMultimap<BranchNameKey, Change.Id> byBranch;
     private final Map<Change.Id, CodeReviewCommit> commits;
     private final ListMultimap<Change.Id, String> problems;
     private final boolean allowClosed;
@@ -128,7 +128,7 @@ public class MergeOp implements AutoCloseable {
       checkArgument(
           !cs.furtherHiddenChanges(), "CommitStatus must not be called with hidden changes");
       changes = cs.changesById();
-      ImmutableSetMultimap.Builder<Branch.NameKey, Change.Id> bb = ImmutableSetMultimap.builder();
+      ImmutableSetMultimap.Builder<BranchNameKey, Change.Id> bb = ImmutableSetMultimap.builder();
       for (ChangeData cd : cs.changes()) {
         bb.put(cd.change().getDest(), cd.getId());
       }
@@ -142,7 +142,7 @@ public class MergeOp implements AutoCloseable {
       return changes.keySet();
     }
 
-    public ImmutableSet<Change.Id> getChangeIds(Branch.NameKey branch) {
+    public ImmutableSet<Change.Id> getChangeIds(BranchNameKey branch) {
       return byBranch.get(branch);
     }
 
@@ -573,17 +573,17 @@ public class MergeOp implements AutoCloseable {
       throws IntegrationException, RestApiException, UpdateException {
     checkArgument(!cs.furtherHiddenChanges(), "cannot integrate hidden changes into history");
     logger.atFine().log("Beginning merge attempt on %s", cs);
-    Map<Branch.NameKey, BranchBatch> toSubmit = new HashMap<>();
+    Map<BranchNameKey, BranchBatch> toSubmit = new HashMap<>();
 
-    ListMultimap<Branch.NameKey, ChangeData> cbb;
+    ListMultimap<BranchNameKey, ChangeData> cbb;
     try {
       cbb = cs.changesByBranch();
     } catch (StorageException e) {
       throw new IntegrationException("Error reading changes to submit", e);
     }
-    Set<Branch.NameKey> branches = cbb.keySet();
+    Set<BranchNameKey> branches = cbb.keySet();
 
-    for (Branch.NameKey branch : branches) {
+    for (BranchNameKey branch : branches) {
       OpenRepo or = openRepo(branch.project());
       if (or != null) {
         toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
@@ -641,13 +641,13 @@ public class MergeOp implements AutoCloseable {
   }
 
   private List<SubmitStrategy> getSubmitStrategies(
-      Map<Branch.NameKey, BranchBatch> toSubmit, SubmoduleOp submoduleOp, boolean dryrun)
+      Map<BranchNameKey, BranchBatch> toSubmit, SubmoduleOp submoduleOp, boolean dryrun)
       throws IntegrationException, NoSuchProjectException, IOException {
     List<SubmitStrategy> strategies = new ArrayList<>();
-    Set<Branch.NameKey> allBranches = submoduleOp.getBranchesInOrder();
+    Set<BranchNameKey> allBranches = submoduleOp.getBranchesInOrder();
     Set<CodeReviewCommit> allCommits =
         toSubmit.values().stream().map(BranchBatch::commits).flatMap(Set::stream).collect(toSet());
-    for (Branch.NameKey branch : allBranches) {
+    for (BranchNameKey branch : allBranches) {
       OpenRepo or = orm.getRepo(branch.project());
       if (toSubmit.containsKey(branch)) {
         BranchBatch submitting = toSubmit.get(branch);
@@ -769,7 +769,7 @@ public class MergeOp implements AutoCloseable {
       }
 
       PatchSet ps;
-      Branch.NameKey destBranch = chg.getDest();
+      BranchNameKey destBranch = chg.getDest();
       try {
         ps = cd.currentPatchSet();
       } catch (StorageException e) {

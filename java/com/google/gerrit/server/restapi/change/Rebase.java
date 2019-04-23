@@ -26,7 +26,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeUtil;
@@ -137,7 +137,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       Repository repo, RevWalk rw, RevisionResource rsrc, RebaseInput input)
       throws RestApiException, IOException, NoSuchChangeException, AuthException,
           PermissionBackendException {
-    Branch.NameKey destRefKey = rsrc.getChange().getDest();
+    BranchNameKey destRefKey = rsrc.getChange().getDest();
     if (input == null || input.base == null) {
       return rebaseUtil.findBaseRevision(rsrc.getPatchSet(), destRefKey, repo, rw);
     }

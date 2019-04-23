@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -60,7 +60,7 @@ public class SubscribeSection {
    * @param branch the branch to check
    * @return if the branch could trigger a superproject update
    */
-  public boolean appliesTo(Branch.NameKey branch) {
+  public boolean appliesTo(BranchNameKey branch) {
     for (RefSpec r : matchingRefSpecs) {
       if (r.matchSource(branch.branch())) {
         return true;

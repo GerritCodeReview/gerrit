@@ -38,7 +38,7 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -89,7 +89,7 @@ class DefaultRefFilter {
   private final Counter0 skipFilterCount;
   private final boolean skipFullRefEvaluationIfAllRefsAreVisible;
 
-  private Map<Change.Id, Branch.NameKey> visibleChanges;
+  private Map<Change.Id, BranchNameKey> visibleChanges;
 
   @Inject
   DefaultRefFilter(
@@ -375,11 +375,10 @@ class DefaultRefFilter {
     return false;
   }
 
-  private Map<Change.Id, Branch.NameKey> visibleChangesBySearch()
-      throws PermissionBackendException {
+  private Map<Change.Id, BranchNameKey> visibleChangesBySearch() throws PermissionBackendException {
     Project.NameKey project = projectState.getNameKey();
     try {
-      Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
+      Map<Change.Id, BranchNameKey> visibleChanges = new HashMap<>();
       for (ChangeData cd : changeCache.getChangeData(project)) {
         ChangeNotes notes = changeNotesFactory.createFromIndexedChange(cd.change());
         if (!projectState.statePermitsRead()) {
@@ -400,7 +399,7 @@ class DefaultRefFilter {
     }
   }
 
-  private Map<Change.Id, Branch.NameKey> visibleChangesByScan(Repository repo)
+  private Map<Change.Id, BranchNameKey> visibleChangesByScan(Repository repo)
       throws PermissionBackendException {
     Project.NameKey p = projectState.getNameKey();
     ImmutableList<ChangeNotesResult> changes;
@@ -412,7 +411,7 @@ class DefaultRefFilter {
       return Collections.emptyMap();
     }
 
-    Map<Change.Id, Branch.NameKey> result = Maps.newHashMapWithExpectedSize(changes.size());
+    Map<Change.Id, BranchNameKey> result = Maps.newHashMapWithExpectedSize(changes.size());
     for (ChangeNotesResult notesResult : changes) {
       ChangeNotes notes = toNotes(notesResult);
       if (notes != null) {

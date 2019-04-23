@@ -28,7 +28,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -138,7 +138,7 @@ public class CreateMergePatchSet
     PatchSet ps = psUtil.current(rsrc.getNotes());
     Change change = rsrc.getChange();
     Project.NameKey project = change.getProject();
-    Branch.NameKey dest = change.getDest();
+    BranchNameKey dest = change.getDest();
     try (Repository git = gitManager.openRepository(project);
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
@@ -215,7 +215,7 @@ public class CreateMergePatchSet
   private RevCommit createMergeCommit(
       MergePatchSetInput in,
       ProjectState projectState,
-      Branch.NameKey dest,
+      BranchNameKey dest,
       Repository git,
       ObjectInserter oi,
       RevWalk rw,

@@ -23,7 +23,7 @@ import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.TagInput;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import org.junit.Test;
 
 @NoHttpd
@@ -55,7 +55,7 @@ public class ChangeIncludedInIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(result.getChangeId()).includedIn().tags)
         .containsExactly("test-tag");
 
-    createBranch(Branch.nameKey(project, "test-branch"));
+    createBranch(BranchNameKey.create(project, "test-branch"));
 
     assertThat(gApi.changes().id(result.getChangeId()).includedIn().branches)
         .containsExactly("master", "test-branch");

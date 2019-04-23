@@ -82,7 +82,7 @@ import com.google.gerrit.mail.EmailHeader;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -692,14 +692,14 @@ public abstract class AbstractDaemonTest {
     return push.to("refs/for/" + branch + "%topic=" + name(topic));
   }
 
-  protected BranchApi createBranch(Branch.NameKey branch) throws Exception {
+  protected BranchApi createBranch(BranchNameKey branch) throws Exception {
     return gApi.projects()
         .name(branch.project().get())
         .branch(branch.branch())
         .create(new BranchInput());
   }
 
-  protected BranchApi createBranchWithRevision(Branch.NameKey branch, String revision)
+  protected BranchApi createBranchWithRevision(BranchNameKey branch, String revision)
       throws Exception {
     BranchInput in = new BranchInput();
     in.revision = revision;
@@ -1143,7 +1143,7 @@ public abstract class AbstractDaemonTest {
     assertThat(replyTo.getString()).contains(email);
   }
 
-  protected Map<Branch.NameKey, ObjectId> fetchFromSubmitPreview(String changeId) throws Exception {
+  protected Map<BranchNameKey, ObjectId> fetchFromSubmitPreview(String changeId) throws Exception {
     try (BinaryResult result = gApi.changes().id(changeId).current().submitPreview()) {
       return fetchFromBundles(result);
     }
@@ -1155,7 +1155,7 @@ public abstract class AbstractDaemonTest {
    *
    * <p>Omits NoteDb meta refs.
    */
-  protected Map<Branch.NameKey, ObjectId> fetchFromBundles(BinaryResult bundles) throws Exception {
+  protected Map<BranchNameKey, ObjectId> fetchFromBundles(BinaryResult bundles) throws Exception {
     assertThat(bundles.getContentType()).isEqualTo("application/x-zip");
 
     FileSystem fs = Jimfs.newFileSystem();
@@ -1163,7 +1163,7 @@ public abstract class AbstractDaemonTest {
     try (OutputStream out = Files.newOutputStream(previewPath)) {
       bundles.writeTo(out);
     }
-    Map<Branch.NameKey, ObjectId> ret = new HashMap<>();
+    Map<BranchNameKey, ObjectId> ret = new HashMap<>();
     try (FileSystem zipFs = FileSystems.newFileSystem(previewPath, null);
         DirectoryStream<Path> dirStream =
             Files.newDirectoryStream(Iterables.getOnlyElement(zipFs.getRootDirectories()))) {
@@ -1192,7 +1192,7 @@ public abstract class AbstractDaemonTest {
               continue;
             }
             RevCommit c = localRepo.getRevWalk().parseCommit(r.getObjectId());
-            ret.put(Branch.nameKey(proj, refName), c.getTree().copy());
+            ret.put(BranchNameKey.create(proj, refName), c.getTree().copy());
           }
         }
       }
@@ -1202,13 +1202,13 @@ public abstract class AbstractDaemonTest {
   }
 
   /** Assert that the given branches have the given tree ids. */
-  protected void assertTrees(Project.NameKey proj, Map<Branch.NameKey, ObjectId> trees)
+  protected void assertTrees(Project.NameKey proj, Map<BranchNameKey, ObjectId> trees)
       throws Exception {
     TestRepository<?> localRepo = cloneProject(proj);
     GitUtil.fetch(localRepo, "refs/*:refs/*");
-    Map<Branch.NameKey, RevTree> refValues = new HashMap<>();
+    Map<BranchNameKey, RevTree> refValues = new HashMap<>();
 
-    for (Branch.NameKey b : trees.keySet()) {
+    for (BranchNameKey b : trees.keySet()) {
       if (!b.project().equals(proj)) {
         continue;
       }

@@ -16,7 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import java.util.Optional;
@@ -27,7 +27,7 @@ public abstract class ChangeTriplet {
     return format(change.getDest(), change.getKey());
   }
 
-  private static String format(Branch.NameKey branch, Change.Key change) {
+  private static String format(BranchNameKey branch, Change.Key change) {
     return branch.project().get() + "~" + branch.shortName() + "~" + change.get();
   }
 
@@ -53,14 +53,14 @@ public abstract class ChangeTriplet {
     String changeId = Url.decode(triplet.substring(z + 1));
     return Optional.of(
         new AutoValue_ChangeTriplet(
-            Branch.nameKey(Project.nameKey(project), branch), Change.key(changeId)));
+            BranchNameKey.create(Project.nameKey(project), branch), Change.key(changeId)));
   }
 
   public final Project.NameKey project() {
     return branch().project();
   }
 
-  public abstract Branch.NameKey branch();
+  public abstract BranchNameKey branch();
 
   public abstract Change.Key id();
 

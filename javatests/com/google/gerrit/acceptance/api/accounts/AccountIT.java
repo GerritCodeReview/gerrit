@@ -104,7 +104,7 @@ import com.google.gerrit.gpg.testing.TestKey;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -2692,7 +2692,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void deleteDraftCommentsSkipsInvisibleChanges() throws Exception {
     try {
-      createBranch(Branch.nameKey(project, "secret"));
+      createBranch(BranchNameKey.create(project, "secret"));
       PushOneCommit.Result r1 = createChange();
       PushOneCommit.Result r2 = createChange("refs/for/secret");
 

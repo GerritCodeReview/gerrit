@@ -14,6 +14,8 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.Objects;
@@ -65,17 +67,10 @@ public class Comment {
 
     @Override
     public String toString() {
-      return new StringBuilder()
-          .append("Comment.Key{")
-          .append("uuid=")
-          .append(uuid)
-          .append(',')
-          .append("filename=")
-          .append(filename)
-          .append(',')
-          .append("patchSetId=")
-          .append(patchSetId)
-          .append('}')
+      return MoreObjects.toStringHelper(this)
+          .add("uuid", uuid)
+          .add("filename", filename)
+          .add("patchSetId", patchSetId)
           .toString();
     }
 
@@ -122,12 +117,7 @@ public class Comment {
 
     @Override
     public String toString() {
-      return new StringBuilder()
-          .append("Comment.Identity{")
-          .append("id=")
-          .append(id)
-          .append('}')
-          .toString();
+      return MoreObjects.toStringHelper(this).add("id", id).toString();
     }
   }
 
@@ -177,20 +167,11 @@ public class Comment {
 
     @Override
     public String toString() {
-      return new StringBuilder()
-          .append("Comment.Range{")
-          .append("startLine=")
-          .append(startLine)
-          .append(',')
-          .append("startChar=")
-          .append(startChar)
-          .append(',')
-          .append("endLine=")
-          .append(endLine)
-          .append(',')
-          .append("endChar=")
-          .append(endChar)
-          .append('}')
+      return MoreObjects.toStringHelper(this)
+          .add("startLine", startLine)
+          .add("startChar", startChar)
+          .add("endLine", endLine)
+          .add("endChar", endChar)
           .toString();
     }
 
@@ -322,44 +303,22 @@ public class Comment {
 
   @Override
   public String toString() {
-    return new StringBuilder()
-        .append("Comment{")
-        .append("key=")
-        .append(key)
-        .append(',')
-        .append("lineNbr=")
-        .append(lineNbr)
-        .append(',')
-        .append("author=")
-        .append(author.getId().get())
-        .append(',')
-        .append("realAuthor=")
-        .append(realAuthor != null ? realAuthor.getId().get() : "")
-        .append(',')
-        .append("writtenOn=")
-        .append(writtenOn.toString())
-        .append(',')
-        .append("side=")
-        .append(side)
-        .append(',')
-        .append("message=")
-        .append(Objects.toString(message, ""))
-        .append(',')
-        .append("parentUuid=")
-        .append(Objects.toString(parentUuid, ""))
-        .append(',')
-        .append("range=")
-        .append(Objects.toString(range, ""))
-        .append(',')
-        .append("revId=")
-        .append(revId != null ? revId : "")
-        .append(',')
-        .append("tag=")
-        .append(Objects.toString(tag, ""))
-        .append(',')
-        .append("unresolved=")
-        .append(unresolved)
-        .append('}')
-        .toString();
+    return toStringHelper().toString();
+  }
+
+  protected ToStringHelper toStringHelper() {
+    return MoreObjects.toStringHelper(this)
+        .add("key", key)
+        .add("lineNbr", lineNbr)
+        .add("author", author.getId())
+        .add("realAuthor", realAuthor != null ? realAuthor.getId() : "")
+        .add("writtenOn", writtenOn)
+        .add("side", side)
+        .add("message", Objects.toString(message, ""))
+        .add("parentUuid", Objects.toString(parentUuid, ""))
+        .add("range", Objects.toString(range, ""))
+        .add("revId", Objects.toString(revId, ""))
+        .add("tag", Objects.toString(tag, ""))
+        .add("unresolved", unresolved);
   }
 }

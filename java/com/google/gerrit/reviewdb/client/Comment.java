@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.Objects;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * This class represents inline comments in NoteDb. This means it determines the JSON format for
@@ -196,8 +197,10 @@ public class Comment {
 
   // Hex commit SHA1 of the commit of the patchset to which this comment applies. Other classes call
   // this "commitId", but this class uses the old ReviewDb term "revId", and this field name is
-  // serialized into JSON in NoteDb, so it can't easily be changed.
-  public String revId;
+  // serialized into JSON in NoteDb, so it can't easily be changed. Callers do not access this field
+  // directly, and instead use the public getter/setter that wraps an ObjectId.
+  private String revId;
+
   public String serverId;
   public boolean unresolved;
 
@@ -254,8 +257,13 @@ public class Comment {
     this.range = range != null ? range.asCommentRange() : null;
   }
 
-  public void setRevId(@Nullable AnyObjectId revId) {
-    this.revId = revId != null ? revId.name() : null;
+  @Nullable
+  public ObjectId getCommitId() {
+    return revId != null ? ObjectId.fromString(revId) : null;
+  }
+
+  public void setCommitId(@Nullable AnyObjectId commitId) {
+    this.revId = commitId != null ? commitId.name() : null;
   }
 
   public void setRealAuthor(Account.Id id) {

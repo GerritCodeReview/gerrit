@@ -34,6 +34,7 @@ import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.QuotedString;
 
@@ -91,8 +92,9 @@ public class LegacyChangeNoteWrite {
 
     OutputStreamWriter streamWriter = new OutputStreamWriter(out, UTF_8);
     try (PrintWriter writer = new PrintWriter(streamWriter)) {
-      String revId = comments.values().iterator().next().revId;
-      appendHeaderField(writer, ChangeNoteUtil.REVISION, revId);
+      ObjectId commitId = comments.values().iterator().next().getCommitId();
+      String commitName = commitId.name();
+      appendHeaderField(writer, ChangeNoteUtil.REVISION, commitName);
 
       for (int psId : psIds) {
         List<Comment> psComments = COMMENT_ORDER.sortedCopy(comments.get(psId));
@@ -111,11 +113,11 @@ public class LegacyChangeNoteWrite {
 
         for (Comment c : psComments) {
           checkArgument(
-              revId.equals(c.revId),
+              commitId.equals(c.getCommitId()),
               "All comments being added must have all the same RevId. The "
                   + "comment below does not have the same RevId as the others "
                   + "(%s).\n%s",
-              revId,
+              commitId,
               c);
           checkArgument(
               side == c.side,

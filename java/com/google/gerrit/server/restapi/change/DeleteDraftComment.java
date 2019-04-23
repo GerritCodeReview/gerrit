@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.Input;
@@ -94,7 +94,7 @@ public class DeleteDraftComment
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }
       Comment c = maybeComment.get();
-      setCommentRevId(c, patchListCache, ctx.getChange(), ps);
+      setCommentCommitId(c, patchListCache, ctx.getChange(), ps);
       commentsUtil.deleteComments(ctx.getUpdate(psId), Collections.singleton(c));
       return true;
     }

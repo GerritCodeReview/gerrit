@@ -399,7 +399,7 @@ public class MailProcessor {
         comment.range = mailComment.getInReplyTo().range;
         comment.unresolved = mailComment.getInReplyTo().unresolved;
       }
-      CommentsUtil.setCommentRevId(comment, patchListCache, ctx.getChange(), patchSetForComment);
+      CommentsUtil.setCommentCommitId(comment, patchListCache, ctx.getChange(), patchSetForComment);
       return comment;
     }
   }

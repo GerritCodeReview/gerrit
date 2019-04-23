@@ -14,11 +14,12 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -56,7 +57,7 @@ public class PatchSetParser {
       throws UnloggedFailure {
     // By commit?
     //
-    if (token.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
+    if (token.matches("^([0-9a-fA-F]{4," + OBJECT_ID_STRING_LENGTH + "})$")) {
       InternalChangeQuery query = queryProvider.get();
       List<ChangeData> cds;
       if (projectState != null) {

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
+
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -121,7 +123,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     } else if (id.length() < 6 && id.matches("^[1-9][0-9]{0,4}$")) {
       // Legacy patch set number syntax.
       return byLegacyPatchSetId(change, id);
-    } else if (id.length() < 4 || id.length() > RevId.LEN) {
+    } else if (id.length() < 4 || id.length() > OBJECT_ID_STRING_LENGTH) {
       // Require a minimum of 4 digits.
       // Impossibly long identifier will never match.
       return Collections.emptyList();
@@ -133,7 +135,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
         }
       }
       // Not an existing patch set on a change, but might be an edit.
-      if (out.isEmpty() && id.length() == RevId.LEN) {
+      if (out.isEmpty() && id.length() == OBJECT_ID_STRING_LENGTH) {
         return loadEdit(change, new RevId(id));
       }
       return out;

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
+
 import com.google.common.base.Throwables;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
@@ -169,7 +171,7 @@ public class ChangeFinder {
     InternalChangeQuery query = queryProvider.get().noFields();
 
     // Try commit hash
-    if (id.matches("^([0-9a-fA-F]{" + RevId.ABBREV_LEN + "," + RevId.LEN + "})$")) {
+    if (id.matches("^([0-9a-fA-F]{" + RevId.ABBREV_LEN + "," + OBJECT_ID_STRING_LENGTH + "})$")) {
       checkIdType(ChangeIdType.COMMIT_HASH, enforceDeprecation, id);
       return asChangeNotes(query.byCommit(id));
     }

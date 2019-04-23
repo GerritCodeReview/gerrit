@@ -137,6 +137,41 @@
     },
     {
       "key": {
+        "uuid": "fde8236e_cf43428d",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-04-23T08:34:05Z",
+      "side": 1,
+      "message": "\u003e The use case that we\u0027re looking at is a total storage quota that includes both git data and LFS data, without caring where the storage is consumed.\n\nI think enforcing large file quota in the LFS plugin and the rest in the quota plugin is a good idea. I see why you want this quota to be the same, uniform quota, but I think that is dangerous. From a system health perspective it would be better to enforce the limits separately forcing users to put large objects in the LFS in my opinion.",
+      "parentUuid": "26ea6087_5cf4984c",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df21830a_bf73646e",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-04-23T08:34:05Z",
+      "side": 1,
+      "message": "Please use QuotaEnforcer/QuotaBackend instead of creating new generic events",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b12a89d9_eb4bf5e3",
         "filename": "Documentation/lfs-quota-design.txt",
         "patchSetId": 3
@@ -148,6 +183,40 @@
       "writtenOn": "2019-04-22T21:47:28Z",
       "side": 1,
       "message": "again I think there should be different quotas for git and lfs objects",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "593a7edd_616e91f6",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-04-23T08:34:05Z",
+      "side": 1,
+      "message": "When you use QuotaEnforcer/QuotaBackend, you could. The LFS plugin checks for a quota bucket (\"lfs_quota\", this is just a string, so you don\u0027t need any dependencies). The quota plugin knows how to check that quota.\n\nThis isn\u0027t clean, but it is one way of making this work without complicated inter-plugin dependencies.\n\nAs said in an earlier comment, I don\u0027t think you should :)",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "018c5a2a_169d1abf",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-04-23T08:34:05Z",
+      "side": 1,
+      "message": "I am not a huge fan of adding new plugin interfaces to core while the thing you really need is already in master and would be the cleaner solution.\n\nWe are already eyeballing the new Gerrit release for around the hackathon. Any chance you can wait for that? If not, we could think about cherry-picking over as a last resort. The series was submitted within days of the release, so I would not expect many conflicts.\n\nIn any case, I think we shouldn\u0027t do any kind of feature development on a stable branch.",
       "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

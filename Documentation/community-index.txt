@@ -1,0 +1,30 @@
+= Gerrit Community
+
+== Developer
+. Getting Started
+.. link:dev-readme.html[Developer Setup]
+.. link:dev-bazel.html[Building with Bazel]
+.. link:dev-eclipse.html[Eclipse Setup]
+.. link:dev-intellij.html[IntelliJ Setup]
+.. link:dev-contributing.html[Contributing to Gerrit]
+. Plugin Development
+.. link:dev-plugins.html[Developing Plugins]
+.. link:dev-build-plugins.html[Building Gerrit plugins]
+.. link:js-api.html[JavaScript Plugin API]
+.. link:config-validation.html[Validation Interfaces]
+.. link:dev-stars.html[Starring Changes]
+.. link:quota.html[Quota Enforcement]
+. link:dev-design.html[System Design]
+. link:i18n-readme.html[i18n Support]
+
+== Maintainer
+. link:dev-release.html[Making a Gerrit Release]
+. link:dev-release-subproject.html[Making a Release of a Gerrit Subproject]
+. link:dev-release-jgit.html[Making a Release of JGit]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

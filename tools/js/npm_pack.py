@@ -54,7 +54,7 @@ def main(args):
 
     name, version = args
     filename = '%s-%s.tgz' % (name, version)
-    url = 'http://registry.npmjs.org/%s/-/%s' % (name, filename)
+    url = 'https://registry.npmjs.org/%s/-/%s' % (name, filename)
 
     tmpdir = tempfile.mkdtemp()
     tgz = os.path.join(tmpdir, filename)

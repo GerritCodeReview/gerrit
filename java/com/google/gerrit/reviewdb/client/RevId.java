@@ -16,8 +16,6 @@ package com.google.gerrit.reviewdb.client;
 
 /** A revision identifier for a file or a change. */
 public final class RevId {
-  public static final int ABBREV_LEN = 7;
-  public static final int LEN = 40;
 
   protected String id;
 

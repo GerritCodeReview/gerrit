@@ -3,24 +3,8 @@
 == Introduction
 Gerrit is developed as a
 link:https://gerrit-review.googlesource.com/[self-hosting open source project]
-and very much welcomes contributions from anyone with a contributor's
-agreement on file with the project.
-
-== Contributor License Agreement
-A Contributor License Agreement must be completed before contributions
-are accepted.  To view and accept the agreements do the following:
-
-* Click 'Sign In' at the top right corner of https://gerrit-review.googlesource.com/
-* Sign In with your Google account
-* After signing in, go to the
-link:https://gerrit-review.googlesource.com/#/settings/agreements[Agreements]
-tab on the settings page
-* Click 'New Contributor Agreement' and follow the instructions
-
-For reference, the actual agreements are linked below
-
-* link:https://cla.developers.google.com/about/android-individual[Individual Agreement]
-* link:https://source.android.com/source/cla-corporate.pdf[Corporate Agreement]
+and very much welcomes contributions from anyone with a
+link:dev-cla.html[contributor's agreement] on file with the project.
 
 == Code Review
 As Gerrit is a code review tool, naturally contributions will

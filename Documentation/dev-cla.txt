@@ -1,0 +1,26 @@
+= Gerrit Code Review - Contributor License Agreement
+
+In order to link::dev-community.html#how-to-contribute[contribute] to
+Gerrit a Contributor License Agreement must be completed before
+contributions are accepted. To view and accept the agreements do the
+following:
+
+. Click 'Sign In' at the top right corner of
+  https://gerrit-review.googlesource.com/
+. Sign In with your Google account
+. After signing in, go to the
+  link:https://gerrit-review.googlesource.com/#/settings/agreements[Agreements]
+  tab on the settings page
+. Click on 'New Contributor Agreement' and follow the instructions
+
+For reference, the actual agreements are linked below
+
+* link:https://cla.developers.google.com/about/android-individual[Individual Agreement]
+* link:https://source.android.com/source/cla-corporate.pdf[Corporate Agreement]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

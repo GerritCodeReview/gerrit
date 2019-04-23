@@ -36,7 +36,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
@@ -54,7 +54,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeWithShortRef() throws Exception {
     // Move change to a different branch using short ref name
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch = Branch.nameKey(r.getChange().change().getProject(), "moveTest");
+    BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     move(r.getChangeId(), newBranch.shortName());
     assertThat(r.getChange().change().getDest()).isEqualTo(newBranch);
@@ -64,7 +64,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeWithFullRef() throws Exception {
     // Move change to a different branch using full ref name
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch = Branch.nameKey(r.getChange().change().getProject(), "moveTest");
+    BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     move(r.getChangeId(), newBranch.branch());
     assertThat(r.getChange().change().getDest()).isEqualTo(newBranch);
@@ -74,7 +74,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeWithMessage() throws Exception {
     // Provide a message using --message flag
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch = Branch.nameKey(r.getChange().change().getProject(), "moveTest");
+    BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     String moveMessage = "Moving for the move test";
     move(r.getChangeId(), newBranch.branch(), moveMessage);
@@ -99,7 +99,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeToSameChangeId() throws Exception {
     // Move change to a branch with existing change with same change ID
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch = Branch.nameKey(r.getChange().change().getProject(), "moveTest");
+    BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     int changeNum = r.getChange().change().getChangeId();
     createChange(newBranch.branch(), r.getChangeId());
@@ -116,8 +116,8 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeToNonExistentRef() throws Exception {
     // Move change to a non-existing branch
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch =
-        Branch.nameKey(r.getChange().change().getProject(), "does_not_exist");
+    BranchNameKey newBranch =
+        BranchNameKey.create(r.getChange().change().getProject(), "does_not_exist");
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Destination " + newBranch.branch() + " not found in the project");
     move(r.getChangeId(), newBranch.branch());
@@ -127,7 +127,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveClosedChange() throws Exception {
     // Move a change which is not open
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch = Branch.nameKey(r.getChange().change().getProject(), "moveTest");
+    BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     merge(r);
     exception.expect(ResourceConflictException.class);
@@ -153,7 +153,8 @@ public class MoveChangeIT extends AbstractDaemonTest {
     pushHead(testRepo, "refs/for/master", false, false);
 
     // Try to move the merge commit to another branch
-    Branch.NameKey newBranch = Branch.nameKey(r1.getChange().change().getProject(), "moveTest");
+    BranchNameKey newBranch =
+        BranchNameKey.create(r1.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Merge commit cannot be moved");
@@ -164,8 +165,8 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeToBranchWithoutUploadPerms() throws Exception {
     // Move change to a destination where user doesn't have upload permissions
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch =
-        Branch.nameKey(r.getChange().change().getProject(), "blocked_branch");
+    BranchNameKey newBranch =
+        BranchNameKey.create(r.getChange().change().getProject(), "blocked_branch");
     createBranch(newBranch);
     block(
         "refs/for/" + newBranch.branch(),
@@ -180,7 +181,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeFromBranchWithoutAbandonPerms() throws Exception {
     // Move change for which user does not have abandon permissions
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch = Branch.nameKey(r.getChange().change().getProject(), "moveTest");
+    BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     block(
         r.getChange().change().getDest().branch(),
@@ -202,7 +203,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
     int changeNum = r.getChange().change().getChangeId();
 
     // Create a branch with that same commit
-    Branch.NameKey newBranch = Branch.nameKey(r.getChange().change().getProject(), "moveTest");
+    BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
     BranchInput bi = new BranchInput();
     bi.revision = r.getCommit().name();
     gApi.projects().name(newBranch.project().get()).branch(newBranch.branch()).create(bi);
@@ -218,7 +219,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeWithCurrentPatchSetLocked() throws Exception {
     // Move change that is locked
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch = Branch.nameKey(r.getChange().change().getProject(), "moveTest");
+    BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
 
     try (ProjectConfigUpdate u = updateProject(project)) {
@@ -247,7 +248,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeOnlyKeepVetoVotes() throws Exception {
     // A vote for a label will be kept after moving if the label's function is *WithBlock and the
     // vote holds the minimum value.
-    createBranch(Branch.nameKey(project, "foo"));
+    createBranch(BranchNameKey.create(project, "foo"));
 
     String codeReviewLabel = "Code-Review"; // 'Code-Review' uses 'MaxWithBlock' function.
     String testLabelA = "Label-A";
@@ -302,7 +303,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
 
   @Test
   public void moveToBranchWithoutLabel() throws Exception {
-    createBranch(Branch.nameKey(project, "foo"));
+    createBranch(BranchNameKey.create(project, "foo"));
     String testLabelA = "Label-A";
     configLabel(testLabelA, LabelFunction.MAX_WITH_BLOCK, Arrays.asList("refs/heads/master"));
 

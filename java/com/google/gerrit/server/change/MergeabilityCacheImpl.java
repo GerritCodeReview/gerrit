@@ -26,7 +26,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.proto.Protos;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.MergeabilityKeyProto;
 import com.google.gerrit.server.cache.serialize.BooleanCacheSerializer;
@@ -191,7 +191,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
       Ref intoRef,
       SubmitType submitType,
       String mergeStrategy,
-      Branch.NameKey dest,
+      BranchNameKey dest,
       Repository repo) {
     ObjectId into = intoRef != null ? intoRef.getObjectId() : ObjectId.zeroId();
     EntryKey key = new EntryKey(commit, into, submitType, mergeStrategy);

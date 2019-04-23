@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.common.CherryPickChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
@@ -102,7 +102,7 @@ public class CherryPickCommit
               projectName,
               commit,
               input,
-              Branch.nameKey(rsrc.getProjectState().getNameKey(), refName));
+              BranchNameKey.create(rsrc.getProjectState().getNameKey(), refName));
       CherryPickChangeInfo changeInfo =
           json.noOptions()
               .format(projectName, cherryPickResult.changeId(), CherryPickChangeInfo::new);

@@ -17,7 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -64,10 +64,7 @@ public class CreateRefControl {
    * @throws ResourceConflictException if the project state does not permit the operation
    */
   public void checkCreateRef(
-      Provider<? extends CurrentUser> user,
-      Repository repo,
-      Branch.NameKey branch,
-      RevObject object)
+      Provider<? extends CurrentUser> user, Repository repo, BranchNameKey branch, RevObject object)
       throws AuthException, PermissionBackendException, NoSuchProjectException, IOException,
           ResourceConflictException {
     ProjectState ps = projectCache.checkedGet(branch.project());

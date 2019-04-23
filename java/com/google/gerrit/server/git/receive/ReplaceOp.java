@@ -35,7 +35,7 @@ import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -99,7 +99,7 @@ public class ReplaceOp implements BatchUpdateOp {
   public interface Factory {
     ReplaceOp create(
         ProjectState projectState,
-        Branch.NameKey dest,
+        BranchNameKey dest,
         boolean checkMergedInto,
         @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
         @Assisted("priorCommitId") ObjectId priorCommit,
@@ -131,7 +131,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ReviewerAdder reviewerAdder;
 
   private final ProjectState projectState;
-  private final Branch.NameKey dest;
+  private final BranchNameKey dest;
   private final boolean checkMergedInto;
   private final PatchSet.Id priorPatchSetId;
   private final ObjectId priorCommitId;
@@ -175,7 +175,7 @@ public class ReplaceOp implements BatchUpdateOp {
       @SendEmailExecutor ExecutorService sendEmailExecutor,
       ReviewerAdder reviewerAdder,
       @Assisted ProjectState projectState,
-      @Assisted Branch.NameKey dest,
+      @Assisted BranchNameKey dest,
       @Assisted boolean checkMergedInto,
       @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
       @Assisted("priorCommitId") ObjectId priorCommitId,

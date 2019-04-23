@@ -28,7 +28,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -174,7 +174,7 @@ public class EventFactory {
    * @return object suitable for serialization to JSON
    */
   public RefUpdateAttribute asRefUpdateAttribute(
-      ObjectId oldId, ObjectId newId, Branch.NameKey refName) {
+      ObjectId oldId, ObjectId newId, BranchNameKey refName) {
     RefUpdateAttribute ru = new RefUpdateAttribute();
     ru.newRev = newId != null ? newId.getName() : ObjectId.zeroId().getName();
     ru.oldRev = oldId != null ? oldId.getName() : ObjectId.zeroId().getName();

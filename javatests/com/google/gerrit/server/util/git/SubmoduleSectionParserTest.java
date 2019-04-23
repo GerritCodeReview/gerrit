@@ -17,7 +17,7 @@ package com.google.gerrit.server.util.git;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Sets;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.testing.GerritBaseTests;
@@ -40,14 +40,15 @@ public class SubmoduleSectionParserTest extends GerritBaseTests {
             + p.get()
             + "\n"
             + "branch = master\n");
-    Branch.NameKey targetBranch = Branch.nameKey(Project.nameKey("project"), "master");
+    BranchNameKey targetBranch = BranchNameKey.create(Project.nameKey("project"), "master");
 
     Set<SubmoduleSubscription> res =
         new SubmoduleSectionParser(cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected =
         Sets.newHashSet(
-            new SubmoduleSubscription(targetBranch, Branch.nameKey(p, "master"), "localpath-to-a"));
+            new SubmoduleSubscription(
+                targetBranch, BranchNameKey.create(p, "master"), "localpath-to-a"));
 
     assertThat(res).containsExactlyElementsIn(expected);
   }
@@ -65,24 +66,25 @@ public class SubmoduleSectionParserTest extends GerritBaseTests {
             + "\n"
             + "branch = .\n");
 
-    Branch.NameKey targetBranch1 = Branch.nameKey(Project.nameKey("project"), "master");
+    BranchNameKey targetBranch1 = BranchNameKey.create(Project.nameKey("project"), "master");
 
     Set<SubmoduleSubscription> res1 =
         new SubmoduleSectionParser(cfg, THIS_SERVER, targetBranch1).parseAllSections();
 
     Set<SubmoduleSubscription> expected1 =
-        Sets.newHashSet(new SubmoduleSubscription(targetBranch1, Branch.nameKey(p, "master"), "a"));
+        Sets.newHashSet(
+            new SubmoduleSubscription(targetBranch1, BranchNameKey.create(p, "master"), "a"));
 
     assertThat(res1).containsExactlyElementsIn(expected1);
 
-    Branch.NameKey targetBranch2 = Branch.nameKey(Project.nameKey("project"), "somebranch");
+    BranchNameKey targetBranch2 = BranchNameKey.create(Project.nameKey("project"), "somebranch");
 
     Set<SubmoduleSubscription> res2 =
         new SubmoduleSectionParser(cfg, THIS_SERVER, targetBranch2).parseAllSections();
 
     Set<SubmoduleSubscription> expected2 =
         Sets.newHashSet(
-            new SubmoduleSubscription(targetBranch2, Branch.nameKey(p, "somebranch"), "a"));
+            new SubmoduleSubscription(targetBranch2, BranchNameKey.create(p, "somebranch"), "a"));
 
     assertThat(res2).containsExactlyElementsIn(expected2);
   }
@@ -100,14 +102,14 @@ public class SubmoduleSectionParserTest extends GerritBaseTests {
             + "\n"
             + "branch = anotherbranch\n");
 
-    Branch.NameKey targetBranch = Branch.nameKey(Project.nameKey("project"), "master");
+    BranchNameKey targetBranch = BranchNameKey.create(Project.nameKey("project"), "master");
 
     Set<SubmoduleSubscription> res =
         new SubmoduleSectionParser(cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected =
         Sets.newHashSet(
-            new SubmoduleSubscription(targetBranch, Branch.nameKey(p, "anotherbranch"), "a"));
+            new SubmoduleSubscription(targetBranch, BranchNameKey.create(p, "anotherbranch"), "a"));
 
     assertThat(res).containsExactlyElementsIn(expected);
   }
@@ -125,13 +127,14 @@ public class SubmoduleSectionParserTest extends GerritBaseTests {
             + "\n"
             + "branch = master\n");
 
-    Branch.NameKey targetBranch = Branch.nameKey(Project.nameKey("project"), "master");
+    BranchNameKey targetBranch = BranchNameKey.create(Project.nameKey("project"), "master");
 
     Set<SubmoduleSubscription> res =
         new SubmoduleSectionParser(cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected =
-        Sets.newHashSet(new SubmoduleSubscription(targetBranch, Branch.nameKey(p, "master"), "a"));
+        Sets.newHashSet(
+            new SubmoduleSubscription(targetBranch, BranchNameKey.create(p, "master"), "a"));
 
     assertThat(res).containsExactlyElementsIn(expected);
   }
@@ -149,13 +152,14 @@ public class SubmoduleSectionParserTest extends GerritBaseTests {
             + "\n"
             + "branch = master\n");
 
-    Branch.NameKey targetBranch = Branch.nameKey(Project.nameKey("project"), "master");
+    BranchNameKey targetBranch = BranchNameKey.create(Project.nameKey("project"), "master");
 
     Set<SubmoduleSubscription> res =
         new SubmoduleSectionParser(cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected =
-        Sets.newHashSet(new SubmoduleSubscription(targetBranch, Branch.nameKey(p, "master"), "a"));
+        Sets.newHashSet(
+            new SubmoduleSubscription(targetBranch, BranchNameKey.create(p, "master"), "a"));
 
     assertThat(res).containsExactlyElementsIn(expected);
   }
@@ -173,14 +177,15 @@ public class SubmoduleSectionParserTest extends GerritBaseTests {
             + "\n"
             + "branch = master\n");
 
-    Branch.NameKey targetBranch = Branch.nameKey(Project.nameKey("project"), "master");
+    BranchNameKey targetBranch = BranchNameKey.create(Project.nameKey("project"), "master");
 
     Set<SubmoduleSubscription> res =
         new SubmoduleSectionParser(cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected =
         Sets.newHashSet(
-            new SubmoduleSubscription(targetBranch, Branch.nameKey(p, "master"), "a/b/c/d/e"));
+            new SubmoduleSubscription(
+                targetBranch, BranchNameKey.create(p, "master"), "a/b/c/d/e"));
 
     assertThat(res).containsExactlyElementsIn(expected);
   }
@@ -205,15 +210,15 @@ public class SubmoduleSectionParserTest extends GerritBaseTests {
             + "\n"
             + "		branch = master\n");
 
-    Branch.NameKey targetBranch = Branch.nameKey(Project.nameKey("project"), "master");
+    BranchNameKey targetBranch = BranchNameKey.create(Project.nameKey("project"), "master");
 
     Set<SubmoduleSubscription> res =
         new SubmoduleSectionParser(cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected =
         Sets.newHashSet(
-            new SubmoduleSubscription(targetBranch, Branch.nameKey(p1, "master"), "a"),
-            new SubmoduleSubscription(targetBranch, Branch.nameKey(p2, "master"), "b"));
+            new SubmoduleSubscription(targetBranch, BranchNameKey.create(p1, "master"), "a"),
+            new SubmoduleSubscription(targetBranch, BranchNameKey.create(p2, "master"), "b"));
 
     assertThat(res).containsExactlyElementsIn(expected);
   }
@@ -238,15 +243,15 @@ public class SubmoduleSectionParserTest extends GerritBaseTests {
             + "\n"
             + "branch = .\n");
 
-    Branch.NameKey targetBranch = Branch.nameKey(Project.nameKey("project"), "master");
+    BranchNameKey targetBranch = BranchNameKey.create(Project.nameKey("project"), "master");
 
     Set<SubmoduleSubscription> res =
         new SubmoduleSectionParser(cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected =
         Sets.newHashSet(
-            new SubmoduleSubscription(targetBranch, Branch.nameKey(p2, "master"), "b"),
-            new SubmoduleSubscription(targetBranch, Branch.nameKey(p1, "master"), "a/b"));
+            new SubmoduleSubscription(targetBranch, BranchNameKey.create(p2, "master"), "b"),
+            new SubmoduleSubscription(targetBranch, BranchNameKey.create(p1, "master"), "a/b"));
 
     assertThat(res).containsExactlyElementsIn(expected);
   }
@@ -289,15 +294,15 @@ public class SubmoduleSectionParserTest extends GerritBaseTests {
             + "\n"
             + "    branch = refs/heads/master\n");
 
-    Branch.NameKey targetBranch = Branch.nameKey(Project.nameKey("project"), "master");
+    BranchNameKey targetBranch = BranchNameKey.create(Project.nameKey("project"), "master");
 
     Set<SubmoduleSubscription> res =
         new SubmoduleSectionParser(cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected =
         Sets.newHashSet(
-            new SubmoduleSubscription(targetBranch, Branch.nameKey(p1, "master"), "a"),
-            new SubmoduleSubscription(targetBranch, Branch.nameKey(p4, "master"), "e"));
+            new SubmoduleSubscription(targetBranch, BranchNameKey.create(p1, "master"), "a"),
+            new SubmoduleSubscription(targetBranch, BranchNameKey.create(p4, "master"), "e"));
 
     assertThat(res).containsExactlyElementsIn(expected);
   }
@@ -313,7 +318,7 @@ public class SubmoduleSectionParserTest extends GerritBaseTests {
             // Project "a" doesn't exist
             + "branch = .\\n");
 
-    Branch.NameKey targetBranch = Branch.nameKey(Project.nameKey("project"), "master");
+    BranchNameKey targetBranch = BranchNameKey.create(Project.nameKey("project"), "master");
 
     Set<SubmoduleSubscription> res =
         new SubmoduleSectionParser(cfg, THIS_SERVER, targetBranch).parseAllSections();
@@ -334,7 +339,7 @@ public class SubmoduleSectionParserTest extends GerritBaseTests {
             + "\n"
             + "branch = .");
 
-    Branch.NameKey targetBranch = Branch.nameKey(Project.nameKey("project"), "master");
+    BranchNameKey targetBranch = BranchNameKey.create(Project.nameKey("project"), "master");
 
     Set<SubmoduleSubscription> res =
         new SubmoduleSectionParser(cfg, THIS_SERVER, targetBranch).parseAllSections();
@@ -355,13 +360,14 @@ public class SubmoduleSectionParserTest extends GerritBaseTests {
             + "\n"
             + "branch = master\n");
 
-    Branch.NameKey targetBranch = Branch.nameKey(Project.nameKey("project"), "master");
+    BranchNameKey targetBranch = BranchNameKey.create(Project.nameKey("project"), "master");
 
     Set<SubmoduleSubscription> res =
         new SubmoduleSectionParser(cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected =
-        Sets.newHashSet(new SubmoduleSubscription(targetBranch, Branch.nameKey(p1, "master"), "a"));
+        Sets.newHashSet(
+            new SubmoduleSubscription(targetBranch, BranchNameKey.create(p1, "master"), "a"));
 
     assertThat(res).containsExactlyElementsIn(expected);
   }
@@ -379,13 +385,14 @@ public class SubmoduleSectionParserTest extends GerritBaseTests {
             + "\n"
             + "branch = master\n");
 
-    Branch.NameKey targetBranch = Branch.nameKey(Project.nameKey("nested/project"), "master");
+    BranchNameKey targetBranch = BranchNameKey.create(Project.nameKey("nested/project"), "master");
 
     Set<SubmoduleSubscription> res =
         new SubmoduleSectionParser(cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected =
-        Sets.newHashSet(new SubmoduleSubscription(targetBranch, Branch.nameKey(p1, "master"), "a"));
+        Sets.newHashSet(
+            new SubmoduleSubscription(targetBranch, BranchNameKey.create(p1, "master"), "a"));
 
     assertThat(res).containsExactlyElementsIn(expected);
   }
@@ -403,13 +410,14 @@ public class SubmoduleSectionParserTest extends GerritBaseTests {
             + "\n"
             + "branch = master\n");
 
-    Branch.NameKey targetBranch = Branch.nameKey(Project.nameKey("nested/project"), "master");
+    BranchNameKey targetBranch = BranchNameKey.create(Project.nameKey("nested/project"), "master");
 
     Set<SubmoduleSubscription> res =
         new SubmoduleSectionParser(cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected =
-        Sets.newHashSet(new SubmoduleSubscription(targetBranch, Branch.nameKey(p1, "master"), "a"));
+        Sets.newHashSet(
+            new SubmoduleSubscription(targetBranch, BranchNameKey.create(p1, "master"), "a"));
 
     assertThat(res).containsExactlyElementsIn(expected);
   }

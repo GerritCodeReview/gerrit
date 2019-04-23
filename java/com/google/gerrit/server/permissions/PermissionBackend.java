@@ -30,7 +30,7 @@ import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -157,7 +157,7 @@ public abstract class PermissionBackend {
     public abstract ForProject project(Project.NameKey project);
 
     /** Returns an instance scoped for the {@code ref}, and its parent project. */
-    public ForRef ref(Branch.NameKey ref) {
+    public ForRef ref(BranchNameKey ref) {
       return project(ref.project()).ref(ref.branch());
     }
 

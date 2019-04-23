@@ -18,7 +18,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSet.Id;
@@ -82,7 +82,7 @@ public class EventBroker implements EventDispatcher {
   }
 
   @Override
-  public void postEvent(Branch.NameKey branchName, RefEvent event)
+  public void postEvent(BranchNameKey branchName, RefEvent event)
       throws PermissionBackendException {
     fireEvent(branchName, event);
   }
@@ -121,7 +121,7 @@ public class EventBroker implements EventDispatcher {
     fireEventForUnrestrictedListeners(event);
   }
 
-  protected void fireEvent(Branch.NameKey branchName, RefEvent event)
+  protected void fireEvent(BranchNameKey branchName, RefEvent event)
       throws PermissionBackendException {
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
       CurrentUser user = c.call(UserScopedEventListener::getUser);
@@ -175,7 +175,7 @@ public class EventBroker implements EventDispatcher {
     }
   }
 
-  protected boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user)
+  protected boolean isVisibleTo(BranchNameKey branchName, CurrentUser user)
       throws PermissionBackendException {
     ProjectState pe = projectCache.get(branchName.project());
     if (pe == null || !pe.statePermitsRead()) {

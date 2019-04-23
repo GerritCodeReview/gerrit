@@ -23,7 +23,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -80,7 +80,7 @@ public class MergeValidators {
       Repository repo,
       CodeReviewCommit commit,
       ProjectState destProject,
-      Branch.NameKey destBranch,
+      BranchNameKey destBranch,
       PatchSet.Id patchSetId,
       IdentifiedUser caller)
       throws MergeValidationException {
@@ -156,7 +156,7 @@ public class MergeValidators {
         final Repository repo,
         final CodeReviewCommit commit,
         final ProjectState destProject,
-        final Branch.NameKey destBranch,
+        final BranchNameKey destBranch,
         final PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {
@@ -251,7 +251,7 @@ public class MergeValidators {
         Repository repo,
         CodeReviewCommit commit,
         ProjectState destProject,
-        Branch.NameKey destBranch,
+        BranchNameKey destBranch,
         PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {
@@ -285,7 +285,7 @@ public class MergeValidators {
         Repository repo,
         CodeReviewCommit commit,
         ProjectState destProject,
-        Branch.NameKey destBranch,
+        BranchNameKey destBranch,
         PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {
@@ -335,7 +335,7 @@ public class MergeValidators {
         Repository repo,
         CodeReviewCommit commit,
         ProjectState destProject,
-        Branch.NameKey destBranch,
+        BranchNameKey destBranch,
         PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {

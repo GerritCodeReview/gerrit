@@ -21,7 +21,7 @@ import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -112,7 +112,7 @@ public class SubmitDryRun {
       SubmitType submitType,
       Repository repo,
       CodeReviewRevWalk rw,
-      Branch.NameKey destBranch,
+      BranchNameKey destBranch,
       ObjectId tip,
       ObjectId toMerge,
       Set<RevCommit> alreadyAccepted)
@@ -155,7 +155,7 @@ public class SubmitDryRun {
     }
   }
 
-  private ProjectState getProject(Branch.NameKey branch) throws NoSuchProjectException {
+  private ProjectState getProject(BranchNameKey branch) throws NoSuchProjectException {
     ProjectState p = projectCache.get(branch.project());
     if (p == null) {
       throw new NoSuchProjectException(branch.project());

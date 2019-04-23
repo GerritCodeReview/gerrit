@@ -14,7 +14,7 @@
 
 package gerrit;
 
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.server.rules.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.Operation;
@@ -34,7 +34,7 @@ public class PRED_change_branch_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    Branch.NameKey name = StoredValues.getChange(engine).getDest();
+    BranchNameKey name = StoredValues.getChange(engine).getDest();
 
     if (!a1.unify(SymbolTerm.create(name.branch()), engine.trail)) {
       return engine.fail();

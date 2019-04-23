@@ -24,7 +24,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.TagInput;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
@@ -54,7 +54,7 @@ public class CommitIncludedInIT extends AbstractDaemonTest {
 
     assertThat(getIncludedIn(result.getCommit().getId()).tags).containsExactly("test-tag");
 
-    createBranch(Branch.nameKey(project, "test-branch"));
+    createBranch(BranchNameKey.create(project, "test-branch"));
 
     assertThat(getIncludedIn(result.getCommit().getId()).branches)
         .containsExactly("master", "test-branch");

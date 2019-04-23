@@ -193,8 +193,6 @@ Gerrit code base.  Some portions of the code have tried to take
 RTL into consideration, while others probably need to be modified
 before translating the UI to an RTL language.
 
-* link:i18n-readme.html[Gerrit's i18n Support]
-
 
 == Accessibility Considerations
 

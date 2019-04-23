@@ -17,6 +17,7 @@ package com.google.gerrit.git.testing;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.git.testing.PushResultSubject.RemoteRefUpdateSubject.refs;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
@@ -120,9 +121,10 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
   }
 
   public RemoteRefUpdateSubject ref(String refName) {
-    return assertAbout(
-            (FailureMetadata m, RemoteRefUpdate a) -> new RemoteRefUpdateSubject(refName, m, a))
-        .that(actual().getRemoteUpdate(refName));
+    RemoteRefUpdateSubject ref =
+        check("getRemoteUpdate(%s)", refName).about(refs()).that(actual().getRemoteUpdate(refName));
+    ref.isNotNull();
+    return ref;
   }
 
   public RemoteRefUpdateSubject onlyRef(String refName) {
@@ -136,13 +138,12 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
 
   public static class RemoteRefUpdateSubject
       extends Subject<RemoteRefUpdateSubject, RemoteRefUpdate> {
-    private final String refName;
-
-    private RemoteRefUpdateSubject(
-        String refName, FailureMetadata metadata, RemoteRefUpdate actual) {
+    private RemoteRefUpdateSubject(FailureMetadata metadata, RemoteRefUpdate actual) {
       super(metadata, actual);
-      this.refName = refName;
-      named("ref update for %s", refName).isNotNull();
+    }
+
+    static Factory<RemoteRefUpdateSubject, RemoteRefUpdate> refs() {
+      return RemoteRefUpdateSubject::new;
     }
 
     public void hasStatus(RemoteRefUpdate.Status status) {
@@ -155,15 +156,11 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
     }
 
     public void hasNoMessage() {
-      assertWithMessage("message of ref update for %s", refName)
-          .that(actual().getMessage())
-          .isNull();
+      check("getMessage()").that(actual().getMessage()).isNull();
     }
 
     public void hasMessage(String expected) {
-      assertWithMessage("message of ref update for %s", refName)
-          .that(actual().getMessage())
-          .isEqualTo(expected);
+      check("getMessage()").that(actual().getMessage()).isEqualTo(expected);
     }
 
     public void isOk() {

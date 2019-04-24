@@ -318,7 +318,7 @@ public class EventFactory {
 
   private void addNeededBy(RevWalk rw, ChangeAttribute ca, Change change, PatchSet currentPs)
       throws IOException {
-    if (currentPs.getGroups().isEmpty()) {
+    if (((List<String>) currentPs.getGroups()).isEmpty()) {
       return;
     }
     String rev = currentPs.getCommitId().name();

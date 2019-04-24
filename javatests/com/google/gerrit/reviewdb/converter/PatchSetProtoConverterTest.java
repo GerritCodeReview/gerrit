@@ -25,9 +25,11 @@ import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.inject.TypeLiteral;
 import com.google.protobuf.Parser;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
@@ -37,14 +39,15 @@ public class PatchSetProtoConverterTest {
   @Test
   public void allValuesConvertedToProto() {
     PatchSet patchSet =
-        new PatchSet(
-            PatchSet.id(Change.id(103), 73),
-            ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
-    patchSet.setUploader(Account.id(452));
-    patchSet.setCreatedOn(new Timestamp(930349320L));
-    patchSet.setGroups(ImmutableList.of("group1", " group2"));
-    patchSet.setPushCertificate("my push certificate");
-    patchSet.setDescription("This is a patch set description.");
+        PatchSet.builder()
+            .id(PatchSet.id(Change.id(103), 73))
+            .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
+            .uploader(Account.id(452))
+            .createdOn(new Timestamp(930349320L))
+            .groups(ImmutableList.of("group1", " group2"))
+            .pushCertificate("my push certificate")
+            .description("This is a patch set description.")
+            .build();
 
     Entities.PatchSet proto = patchSetProtoConverter.toProto(patchSet);
 
@@ -68,9 +71,12 @@ public class PatchSetProtoConverterTest {
   @Test
   public void mandatoryValuesConvertedToProto() {
     PatchSet patchSet =
-        new PatchSet(
-            PatchSet.id(Change.id(103), 73),
-            ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+        PatchSet.builder()
+            .id(PatchSet.id(Change.id(103), 73))
+            .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
+            .uploader(Account.id(452))
+            .createdOn(new Timestamp(930349320L))
+            .build();
 
     Entities.PatchSet proto = patchSetProtoConverter.toProto(patchSet);
 
@@ -82,6 +88,8 @@ public class PatchSetProtoConverterTest {
                     .setId(73))
             .setCommitId(
                 Entities.ObjectId.newBuilder().setName("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
+            .setUploaderAccountId(Entities.Account_Id.newBuilder().setId(452))
+            .setCreatedOn(930349320L)
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -89,14 +97,15 @@ public class PatchSetProtoConverterTest {
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
     PatchSet patchSet =
-        new PatchSet(
-            PatchSet.id(Change.id(103), 73),
-            ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
-    patchSet.setUploader(Account.id(452));
-    patchSet.setCreatedOn(new Timestamp(930349320L));
-    patchSet.setGroups(ImmutableList.of("group1", " group2"));
-    patchSet.setPushCertificate("my push certificate");
-    patchSet.setDescription("This is a patch set description.");
+        PatchSet.builder()
+            .id(PatchSet.id(Change.id(103), 73))
+            .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
+            .uploader(Account.id(452))
+            .createdOn(new Timestamp(930349320L))
+            .groups(ImmutableList.of("group1", " group2"))
+            .pushCertificate("my push certificate")
+            .description("This is a patch set description.")
+            .build();
 
     PatchSet convertedPatchSet =
         patchSetProtoConverter.fromProto(patchSetProtoConverter.toProto(patchSet));
@@ -106,9 +115,12 @@ public class PatchSetProtoConverterTest {
   @Test
   public void mandatoryValuesConvertedToProtoAndBackAgain() {
     PatchSet patchSet =
-        new PatchSet(
-            PatchSet.id(Change.id(103), 73),
-            ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+        PatchSet.builder()
+            .id(PatchSet.id(Change.id(103), 73))
+            .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
+            .uploader(Account.id(452))
+            .createdOn(new Timestamp(930349320L))
+            .build();
 
     PatchSet convertedPatchSet =
         patchSetProtoConverter.fromProto(patchSetProtoConverter.toProto(patchSet));
@@ -136,15 +148,15 @@ public class PatchSetProtoConverterTest {
   @Test
   public void fieldsExistAsExpected() {
     assertThatSerializedClass(PatchSet.class)
-        .hasFields(
+        .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
                 .put("id", PatchSet.Id.class)
                 .put("commitId", ObjectId.class)
                 .put("uploader", Account.Id.class)
                 .put("createdOn", Timestamp.class)
-                .put("groups", String.class)
-                .put("pushCertificate", String.class)
-                .put("description", String.class)
+                .put("groups", new TypeLiteral<ImmutableList<String>>() {}.getType())
+                .put("pushCertificate", new TypeLiteral<Optional<String>>() {}.getType())
+                .put("description", new TypeLiteral<Optional<String>>() {}.getType())
                 .build());
   }
 }

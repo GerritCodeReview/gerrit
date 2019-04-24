@@ -39,7 +39,6 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.change.ChangeJson;
@@ -297,7 +296,7 @@ public class ProjectsConsistencyChecker {
                 // Auto-close by commit
                 for (ObjectId patchSetSha1 :
                     autoCloseableChange.patchSets().stream()
-                        .map(PatchSet::getCommitId)
+                        .map(patchSet -> patchSet.getCommitId())
                         .collect(toSet())) {
                   if (mergedSha1s.contains(patchSetSha1)) {
                     autoCloseableChangesByBranch.add(

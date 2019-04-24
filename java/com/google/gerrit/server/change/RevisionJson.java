@@ -282,7 +282,7 @@ public class RevisionJson {
     out.uploader = accountLoader.get(in.getUploader());
     out.fetch = makeFetchMap(cd, in);
     out.kind = changeKindCache.getChangeKind(rw, repo != null ? repo.getConfig() : null, cd, in);
-    out.description = in.getDescription();
+    out.description = in.getDescription().orElse(null);
 
     boolean setCommit = has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT));
     boolean addFooters = out.isCurrent && has(COMMIT_FOOTERS);
@@ -324,10 +324,10 @@ public class RevisionJson {
     }
 
     if (gpgApi.isEnabled() && has(PUSH_CERTIFICATES)) {
-      if (in.getPushCertificate() != null) {
+      if (in.getPushCertificate().isPresent()) {
         out.pushCertificate =
             gpgApi.checkPushCertificate(
-                in.getPushCertificate(), userFactory.create(in.getUploader()));
+                in.getPushCertificate().get(), userFactory.create(in.getUploader()));
       } else {
         out.pushCertificate = new PushCertificateInfo();
       }

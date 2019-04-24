@@ -264,7 +264,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     Change c = cd.change();
     assertThat(c.isMerged()).isTrue();
     assertThat(c.currentPatchSetId()).isEqualTo(psId1);
-    assertThat(cd.patchSets().stream().map(PatchSet::getId).collect(toList()))
+    assertThat(cd.patchSets().stream().map(patchSet -> patchSet.getId()).collect(toList()))
         .containsExactly(psId1, psId2);
   }
 

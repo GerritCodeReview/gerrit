@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -44,27 +43,20 @@ public class FileInfoJson {
 
   public Map<String, FileInfo> toFileInfoMap(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException {
-    return toFileInfoMap(change, patchSet.getRevision(), null);
-  }
-
-  public Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, @Nullable PatchSet base)
-      throws PatchListNotAvailableException {
-    ObjectId objectId = ObjectId.fromString(revision.get());
-    return toFileInfoMap(change, objectId, base);
+    return toFileInfoMap(change, patchSet.getCommitId(), null);
   }
 
   public Map<String, FileInfo> toFileInfoMap(
       Change change, ObjectId objectId, @Nullable PatchSet base)
       throws PatchListNotAvailableException {
-    ObjectId a = (base == null) ? null : ObjectId.fromString(base.getRevision().get());
+    ObjectId a = base != null ? base.getCommitId() : null;
     return toFileInfoMap(change, PatchListKey.againstCommit(a, objectId, Whitespace.IGNORE_NONE));
   }
 
-  public Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, int parent)
+  public Map<String, FileInfo> toFileInfoMap(Change change, ObjectId objectId, int parent)
       throws PatchListNotAvailableException {
-    ObjectId b = ObjectId.fromString(revision.get());
     return toFileInfoMap(
-        change, PatchListKey.againstParentNum(parent + 1, b, Whitespace.IGNORE_NONE));
+        change, PatchListKey.againstParentNum(parent + 1, objectId, Whitespace.IGNORE_NONE));
   }
 
   private Map<String, FileInfo> toFileInfoMap(Change change, PatchListKey key)

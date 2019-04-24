@@ -977,7 +977,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Test
   public void commitChangeNotesUnique() throws Exception {
-    // PatchSetId -> RevId must be a one to one mapping
+    // PatchSetId -> ObjectId must be a one to one mapping
     Change c = newChange();
 
     ChangeNotes notes = newNotes(c);
@@ -998,10 +998,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
           e,
           ConfigInvalidException.class,
           "Multiple revisions parsed for patch set 1:"
-              + " RevId{"
+              + " "
               + commit.name()
-              + "} and "
-              + ps.getRevision().get());
+              + " and "
+              + ps.getCommitId().name());
     }
   }
 
@@ -1026,8 +1026,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getChange().getSubject()).isEqualTo("PS2");
     assertThat(notes.getChange().getOriginalSubject()).isEqualTo("Change subject");
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps2.getId());
-    assertThat(ps2.getRevision().get()).isNotEqualTo(ps1.getRevision());
-    assertThat(ps2.getRevision().get()).isEqualTo(commit.name());
+    assertThat(ps2.getCommitId()).isNotEqualTo(ps1.getCommitId());
+    assertThat(ps2.getCommitId()).isEqualTo(commit);
     assertThat(ps2.getUploader()).isEqualTo(otherUser.getAccountId());
     assertThat(ps2.getCreatedOn()).isEqualTo(notes.getChange().getLastUpdatedOn());
 
@@ -1560,7 +1560,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
-  public void patchLineCommentNotesFormatMultiplePatchSetsSameRevId() throws Exception {
+  public void patchLineCommentNotesFormatMultiplePatchSetsSameCommitId() throws Exception {
     Change c = newChange();
     PatchSet.Id psId1 = c.currentPatchSetId();
     incrementPatchSet(c);

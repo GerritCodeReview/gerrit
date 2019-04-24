@@ -53,7 +53,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -135,8 +134,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
         }
 
         // Get the underlying git commit object
-        String objIdStr = cd.currentPatchSet().getRevision().get();
-        RevCommit commit = or.rw.parseCommit(ObjectId.fromString(objIdStr));
+        RevCommit commit = or.rw.parseCommit(cd.currentPatchSet().getCommitId());
 
         // Always include the input, even if merged. This allows
         // SubmitStrategyOp to correct the situation later, assuming it gets

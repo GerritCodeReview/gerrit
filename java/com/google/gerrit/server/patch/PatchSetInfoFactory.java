@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -77,7 +76,7 @@ public class PatchSetInfoFactory {
       throws PatchSetInfoNotAvailableException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
-      final RevCommit src = rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
+      RevCommit src = rw.parseCommit(patchSet.getCommitId());
       PatchSetInfo info = get(rw, src, patchSet.getId());
       info.setParents(toParentInfos(src.getParents(), rw));
       return info;

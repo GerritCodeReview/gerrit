@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.project;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
 import static java.util.stream.Collectors.toList;
 
@@ -375,8 +375,8 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
       throws Exception {
     List<ProjectInfo> result = query.get();
     Iterable<String> names = names(result);
-    assertThat(names)
-        .named(format(query, result, projects))
+    assertWithMessage(format(query, result, projects))
+        .that(names)
         .containsExactlyElementsIn(names(projects))
         .inOrder();
     return result;

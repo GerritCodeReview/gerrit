@@ -16,6 +16,7 @@ package com.google.gerrit.git.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertAbout;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
@@ -126,9 +127,9 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
 
   public RemoteRefUpdateSubject onlyRef(String refName) {
     check("setOfRefs()")
+        .withMessage("set of refs")
         .about(StreamSubject.streams())
         .that(actual().getRemoteUpdates().stream().map(RemoteRefUpdate::getRemoteName))
-        .named("set of refs")
         .containsExactly(refName);
     return ref(refName);
   }
@@ -146,22 +147,22 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
 
     public void hasStatus(RemoteRefUpdate.Status status) {
       RemoteRefUpdate u = actual();
-      Truth.assertThat(u.getStatus())
-          .named(
+      assertWithMessage(
               "status of ref update for %s%s",
               refName, u.getMessage() != null ? ": " + u.getMessage() : "")
+          .that(u.getStatus())
           .isEqualTo(status);
     }
 
     public void hasNoMessage() {
-      Truth.assertThat(actual().getMessage())
-          .named("message of ref update for %s", refName)
+      assertWithMessage("message of ref update for %s", refName)
+          .that(actual().getMessage())
           .isNull();
     }
 
     public void hasMessage(String expected) {
-      Truth.assertThat(actual().getMessage())
-          .named("message of ref update for %s", refName)
+      assertWithMessage("message of ref update for %s", refName)
+          .that(actual().getMessage())
           .isEqualTo(expected);
     }
 

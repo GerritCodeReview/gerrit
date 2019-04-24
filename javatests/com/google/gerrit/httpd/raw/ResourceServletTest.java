@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
@@ -336,8 +337,8 @@ public class ResourceServletTest extends GerritBaseTests {
   }
 
   private static void assertCacheHits(Cache<?, ?> cache, int hits, int misses) {
-    assertThat(cache.stats().hitCount()).named("hits").isEqualTo(hits);
-    assertThat(cache.stats().missCount()).named("misses").isEqualTo(misses);
+    assertWithMessage("hits").that(cache.stats().hitCount()).isEqualTo(hits);
+    assertWithMessage("misses").that(cache.stats().missCount()).isEqualTo(misses);
   }
 
   private static void assertCacheable(FakeHttpServletResponse res, boolean revalidate) {

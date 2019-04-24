@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
@@ -170,8 +171,8 @@ public class WatchConfigTest implements ValidationError.Sink {
   private void assertParseNotifyValueFails(String notifyValue) {
     assertThat(validationErrors).isEmpty();
     parseNotifyValue(notifyValue);
-    assertThat(validationErrors)
-        .named("expected validation error for notifyValue: " + notifyValue)
+    assertWithMessage("expected validation error for notifyValue: " + notifyValue)
+        .that(validationErrors)
         .isNotEmpty();
     validationErrors.clear();
   }

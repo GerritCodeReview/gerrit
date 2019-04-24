@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.group;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static java.util.stream.Collectors.toList;
@@ -459,8 +460,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
       throws Exception {
     List<GroupInfo> result = query.get();
     Iterable<String> uuids = uuids(result);
-    assertThat(uuids)
-        .named(format(query, result, groups))
+    assertWithMessage(format(query, result, groups))
+        .that(uuids)
         .containsExactlyElementsIn(uuids(groups))
         .inOrder();
     return result;

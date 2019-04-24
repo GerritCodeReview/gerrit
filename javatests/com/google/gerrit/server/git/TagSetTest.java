@@ -156,22 +156,24 @@ public class TagSetTest extends GerritBaseTests {
 
     Map<String, CachedRef> aRefs = a.getRefsForTesting();
     Map<String, CachedRef> bRefs = b.getRefsForTesting();
-    assertThat(ImmutableSortedSet.copyOf(aRefs.keySet()))
-        .named("ref name set")
+    assertWithMessage("ref name set")
+        .that(ImmutableSortedSet.copyOf(aRefs.keySet()))
         .isEqualTo(ImmutableSortedSet.copyOf(bRefs.keySet()));
     for (String name : aRefs.keySet()) {
       CachedRef aRef = aRefs.get(name);
       CachedRef bRef = bRefs.get(name);
-      assertThat(aRef.get()).named("value of ref %s", name).isEqualTo(bRef.get());
-      assertThat(aRef.flag).named("flag of ref %s", name).isEqualTo(bRef.flag);
+      assertWithMessage("value of ref %s", name).that(aRef.get()).isEqualTo(bRef.get());
+      assertWithMessage("flag of ref %s", name).that(aRef.flag).isEqualTo(bRef.flag);
     }
 
     ObjectIdOwnerMap<Tag> aTags = a.getTagsForTesting();
     ObjectIdOwnerMap<Tag> bTags = b.getTagsForTesting();
-    assertThat(getTagIds(aTags)).named("tag ID set").isEqualTo(getTagIds(bTags));
+    assertWithMessage("tag ID set").that(getTagIds(aTags)).isEqualTo(getTagIds(bTags));
     for (Tag aTag : aTags) {
       Tag bTag = bTags.get(aTag);
-      assertThat(aTag.refFlags).named("flags for tag %s", aTag.name()).isEqualTo(bTag.refFlags);
+      assertWithMessage("flags for tag %s", aTag.name())
+          .that(aTag.refFlags)
+          .isEqualTo(bTag.refFlags);
     }
   }
 

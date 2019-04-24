@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static java.util.stream.Collectors.toList;
@@ -306,8 +307,8 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
     if (repo instanceof InMemoryRepository) {
       ((InMemoryRepository) repo).setPerformsAtomicTransactions(true);
     } else {
-      assertThat(repo.getRefDatabase().performsAtomicTransactions())
-          .named("performsAtomicTransactions on %s", repo)
+      assertWithMessage("performsAtomicTransactions on %s", repo)
+          .that(repo.getRefDatabase().performsAtomicTransactions())
           .isTrue();
     }
   }

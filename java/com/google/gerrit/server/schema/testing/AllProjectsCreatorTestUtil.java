@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema.testing;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -151,8 +152,8 @@ public class AllProjectsCreatorTestUtil {
 
     Set<String> subsections1 = config1.getSubsections(section);
     Set<String> subsections2 = config2.getSubsections(section);
-    assertThat(subsections1)
-        .named("section \"%s\"", section)
+    assertWithMessage("section \"%s\"", section)
+        .that(subsections1)
         .containsExactlyElementsIn(subsections2);
 
     subsections1.forEach(s -> assertSubsectionEquivalent(config1, config2, section, s));
@@ -163,12 +164,12 @@ public class AllProjectsCreatorTestUtil {
     Set<String> subsectionNames1 = config1.getNames(section, subsection);
     Set<String> subsectionNames2 = config2.getNames(section, subsection);
     String name = String.format("subsection \"%s\" of section \"%s\"", subsection, section);
-    assertThat(subsectionNames1).named(name).containsExactlyElementsIn(subsectionNames2);
+    assertWithMessage(name).that(subsectionNames1).containsExactlyElementsIn(subsectionNames2);
 
     subsectionNames1.forEach(
         n ->
-            assertThat(config1.getStringList(section, subsection, n))
-                .named(name)
+            assertWithMessage(name)
+                .that(config1.getStringList(section, subsection, n))
                 .asList()
                 .containsExactlyElementsIn(config2.getStringList(section, subsection, n)));
   }

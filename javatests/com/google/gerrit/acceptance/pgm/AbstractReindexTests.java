@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.pgm;
 
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
+import static com.google.common.truth.StreamSubject.streams;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
@@ -255,30 +256,31 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
   }
 
   private void assertSearchVersion(ServerContext ctx, int expected) {
-    assertThat(
+    assertWithMessage("search version")
+        .that(
             ctx.getInjector()
                 .getInstance(ChangeIndexCollection.class)
                 .getSearchIndex()
                 .getSchema()
                 .getVersion())
-        .named("search version")
         .isEqualTo(expected);
   }
 
   private void assertWriteVersions(ServerContext ctx, Integer... expected) {
-    assertThat(
+    assertWithMessage("write versions")
+        .about(streams())
+        .that(
             ctx.getInjector().getInstance(ChangeIndexCollection.class).getWriteIndexes().stream()
                 .map(i -> i.getSchema().getVersion()))
-        .named("write versions")
         .containsExactlyElementsIn(ImmutableSet.copyOf(expected));
   }
 
   private void assertReady(int expectedReady) throws Exception {
     Set<Integer> allVersions = ChangeSchemaDefinitions.INSTANCE.getSchemas().keySet();
     GerritIndexStatus status = new GerritIndexStatus(sitePaths);
-    assertThat(
+    assertWithMessage("ready state for index versions")
+        .that(
             allVersions.stream().collect(toImmutableMap(v -> v, v -> status.getReady(CHANGES, v))))
-        .named("ready state for index versions")
         .isEqualTo(allVersions.stream().collect(toImmutableMap(v -> v, v -> v == expectedReady)));
   }
 }

@@ -110,7 +110,8 @@ public class BranchCommitValidator {
 
       for (CommitValidationMessage m : validators.validate(receiveEvent)) {
         messages.add(
-            new CommitValidationMessage(messageForCommit(commit, m.getMessage()), m.getType()));
+            new CommitValidationMessage(
+                messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
       }
     } catch (CommitValidationException e) {
       logger.atFine().log("Commit validation failed on %s", commit.name());
@@ -118,15 +119,17 @@ public class BranchCommitValidator {
         // The non-error messages may contain background explanation for the
         // fatal error, so have to preserve all messages.
         messages.add(
-            new CommitValidationMessage(messageForCommit(commit, m.getMessage()), m.getType()));
+            new CommitValidationMessage(
+                messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
       }
-      cmd.setResult(REJECTED_OTHER_REASON, messageForCommit(commit, e.getMessage()));
+      cmd.setResult(REJECTED_OTHER_REASON, messageForCommit(commit, e.getMessage(), objectReader));
       return false;
     }
     return true;
   }
 
-  private String messageForCommit(RevCommit c, String msg) {
-    return String.format("commit %s: %s", abbreviateName(c), msg);
+  private String messageForCommit(RevCommit c, String msg, ObjectReader objectReader)
+      throws IOException {
+    return String.format("commit %s: %s", abbreviateName(c, objectReader), msg);
   }
 }

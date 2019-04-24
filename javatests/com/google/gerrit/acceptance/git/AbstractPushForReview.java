@@ -30,7 +30,6 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACC
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
-import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_SKIP_VALIDATION;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -79,6 +78,7 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.testing.EditInfoSubject;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
@@ -110,6 +110,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -1616,7 +1617,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertErrorStatus(
         String.format(
             "commit %s: %s",
-            abbreviateName(r.getCommit()), ChangeIdValidator.CHANGE_ID_MISMATCH_MSG));
+            abbreviateName(r.getCommit(), 7), ChangeIdValidator.CHANGE_ID_MISMATCH_MSG));
   }
 
   @Test
@@ -2690,5 +2691,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     return infos != null
         ? infos.stream().map(a -> a.email).collect(toImmutableList())
         : ImmutableList.of();
+  }
+
+  private String abbreviateName(AnyObjectId id, int n) throws Exception {
+    return ObjectIds.abbreviateName(id, n, testRepo.getRevWalk().getObjectReader());
   }
 }

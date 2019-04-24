@@ -130,7 +130,9 @@ approving and submitting changes.
 Maintainers should only approve changes that:
 
 * they fully understand
-* seem to be in scope for what Gerrit should do
+* are in line with the project vision and project scope that are
+  defined by the link:dev-processes.html#steering-committee[steering
+  committee], and should consult them, when in doubt
 * meet the quality expectations of the project (well-tested, properly
   documented, scalable, backwards-compatible)
 * implement usable features or bug fixes (no incomplete/unusable
@@ -158,8 +160,10 @@ Maintainers can:
   ignored if there is a good reason, in this case the reason should be
   clearly communicated on the change
 * submit changes
-* veto changes if they disagree with a feature or with how it is being
-  implemented (vote `-2` on the `Code-Review` label)
+* block submission of changes if they disagree with a feature or with
+  how it is being implemented (vote `-2` on the `Code-Review` label),
+  but their vote can be overruled by the steering committee, see
+  link:dev-processes.html#project-governance[Project Governance]
 * nominate new maintainers and vote on nominations (see below)
 * administrate the link:https://groups.google.com/d/forum/repo-discuss[
   mailing list], the
@@ -198,6 +202,27 @@ include:
 * high quality code contributions
 * high quality code reviews
 * activity on the mailing list
+
+[[steering-committee-member]]
+== Steering Committee Member
+
+The Gerrit project has a steering committee that governs the project,
+see link:dev-processes.html#project-governance[Project Governance].
+
+Members of the steering committee are expected to act in the interest
+of the Gerrit project and the whole Gerrit community.
+
+For those that are familiar with scrum, the steering committee member
+role is similar to the role of an agile product owner.
+
+Steering committee members must be able to dedicate sufficient time to
+their role so that the steering committee can satisfy its
+responsibilities and live up to the promise of answering incoming
+requests in a timely manner.
+
+link:#maintainer[Maintainers] can become steering committee member by
+election, or by being appointed by Google (only for the seats that
+belong to Google).
 
 [[release-manager]]
 == Release Manager

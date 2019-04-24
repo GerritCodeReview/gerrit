@@ -1,5 +1,66 @@
 = Gerrit Code Review - Development Processes
 
+[[project-governance]]
+[[steering-committee]]
+== Project Governance / Steering Committee
+
+The Gerrit project has a steering committee that is in charge of:
+
+* Gerrit core (the `gerrit` project) and the core plugins
+* defining the project vision and the project scope
+* maintaining a roadmap, a release plan and a prioritized backlog
+* ensuring that new features are compatible with the project vision and
+  are well aligned with other features
+* vetoing new features
+* accepting new plugins as core plugins
+* making changes to the project governance process and the
+  link:dev-contributing.html[contribution process]
+
+The steering committee has 5 members:
+
+* 3 Googlers that are appointed by Google
+* 2 non-Google maintainers, elected by non-Google maintainers for the
+  period of 1 year (see link:#steering-committee-election[below])
+
+The steering committee should act in the interest of the Gerrit project
+and the whole Gerrit community.
+
+For decisions, consensus between steering committee members and all
+other maintainers is desired. If consensus cannot be reached, decisions
+can also be made by simple majority in the steering committee (should
+be applied only in exceptional situations).
+
+The steering committee is empowered to overrule positive/negative votes
+from individual maintainers, but should do so only in exceptional
+situations after attempts to reach consensus have failed.
+
+As an integral part of the Gerrit community, the steering committee is
+committed to transparency and to answering incoming requests in a
+timely manner.
+
+[[steering-committee-election]]
+=== Election of non-Google steering committee members
+
+The election of the non-Google steering committee members happens once
+a year in May. Non-Google link:dev-roles.html#maintainer[maintainers]
+can nominate themselves by posting an informal application on the
+non-public maintainers mailing list by end of April (deadline for 2019
+is Mon 13th of May). By applying to be steering committee member, the
+candidate confirms to be able to dedicate the time that is needed to
+fulfill this role (also see
+link:dev-roles.html#steering-committee-member[steering committee
+member]).
+
+Each non-Google maintainer can vote for 2 candidates. The voting
+happens by posting on the maintainer mailing list. The voting period is
+14 calendar days from the nomination deadline (except for 2019, where
+the initial steering committee should be confirmed during the Munich
+hackathon, the voting period goes from 14th May to 16th May).
+
+Google maintainers do not take part in this vote, because Google
+already has dedicated seats in the steering committee (see section
+link:steering-committee[steering committee]).
+
 [[contribution-process]]
 == Contribution Process
 
@@ -18,14 +79,14 @@ exceptions may apply:
     branch before the first release candidate is created.
   * To stabilize the code before doing a major release several release candidates are created. Once
     the first release candidate was done no more features should be accepted on the stable branch.
-    If more features are found to be required they should be discussed with the Gerrit maintainers
+    If more features are found to be required they should be discussed with the steering committee
     and should only be allowed if the risk of breaking things is considered to be low.
   * Once a major release is done only bug-fixes and documentation updates should be done on the
     stable branch. These updates will be included in the next minor release.
   * For minor releases new features are only acceptable if they are important to the Gerrit
     community, if they are backwards compatible and the risk of breaking things is low and if there
-    are no objections from the Gerrit community.
-  * In cases of doubt it's the responsibility of the release maintainer to evaluate the risk of new
+    are no objections from the steering committee.
+  * In cases of doubt it's the responsibility of the steering committee to evaluate the risk of new
     features and make a decision based on these rules and opinions from the Gerrit community.
   * The older a stable branch is the more stable it should be. This means old stable branches
     should only receive bug-fixes that are either important or low risk. Security fixes, including

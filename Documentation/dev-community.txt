@@ -15,6 +15,7 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 * link:https://gerrit-review.googlesource.com/q/status:open+project:gerrit[Change Review]
 * link:dev-design.html[System Design]
 * Processes
+** link:dev-processes.html#project-governance[Project Governance / Steering Committee]
 ** link:dev-contributing.html[Contribution Process]
 ** link:dev-processes.html#dev-in-stable-branches[Development in stable branches]
 ** link:dev-processes.html#backporting[Backporting to stable branches]
@@ -24,6 +25,7 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 ** link:dev-roles.html#supporter[Supporter]
 ** link:dev-roles.html#contributor[Contributor]
 ** link:dev-roles.html#maintainer[Maintainer]
+** link:dev-roles.html#steering-committee-member[Steering Committee Member]
 ** link:dev-roles.html#release-manager[Release Manager]
 
 [[how-to-contribute]]

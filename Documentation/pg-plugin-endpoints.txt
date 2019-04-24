@@ -35,6 +35,11 @@ components.
 
 The following endpoints are available to plugins.
 
+=== banner
+The `banner` extension point is located at the top of all pages. The purpose
+is to allow plugins to show outage information and important announcements to
+all users.
+
 === change-view-integration
 The `change-view-integration` extension point is located between `Files` and
 `Messages` section on the change view page, and it may take full page's

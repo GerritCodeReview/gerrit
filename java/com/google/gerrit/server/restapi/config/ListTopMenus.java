@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-class ListTopMenus implements RestReadView<ConfigResource> {
+public class ListTopMenus implements RestReadView<ConfigResource> {
   private final PluginSetContext<TopMenu> extensions;
 
   @Inject

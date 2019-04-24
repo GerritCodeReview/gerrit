@@ -135,9 +135,6 @@ public class PatchListCacheImpl implements PatchListCache {
       throws PatchListNotAvailableException {
     Project.NameKey project = change.getProject();
     ObjectId b = patchSet.getCommitId();
-    if (b == null) {
-      throw new PatchListNotAvailableException("commit ID is null for " + patchSet.getId());
-    }
     Whitespace ws = Whitespace.IGNORE_NONE;
     if (parentNum != null) {
       return get(PatchListKey.againstParentNum(parentNum, b, ws), project);

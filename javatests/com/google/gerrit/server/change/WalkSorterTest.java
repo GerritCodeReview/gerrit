@@ -334,17 +334,15 @@ public class WalkSorterTest extends GerritBaseTests {
   private ChangeData newChange(TestRepository<Repo> tr, ObjectId id) throws Exception {
     Project.NameKey project = tr.getRepository().getDescription().getProject();
     Change c = TestChanges.newChange(project, userId);
-    ChangeData cd = ChangeData.createForTest(project, c.getId(), 1);
+    ChangeData cd = ChangeData.createForTest(project, c.getId(), 1, id);
     cd.setChange(c);
-    cd.currentPatchSet().setCommitId(id);
     cd.setPatchSets(ImmutableList.of(cd.currentPatchSet()));
     return cd;
   }
 
   private PatchSet addPatchSet(ChangeData cd, ObjectId id) throws Exception {
     TestChanges.incrementPatchSet(cd.change());
-    PatchSet ps = new PatchSet(cd.change().currentPatchSetId());
-    ps.setCommitId(id);
+    PatchSet ps = new PatchSet(cd.change().currentPatchSetId(), id);
     List<PatchSet> patchSets = new ArrayList<>(cd.patchSets());
     patchSets.add(ps);
     cd.setPatchSets(patchSets);

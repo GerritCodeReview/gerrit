@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.api.accounts.Accounts;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.groups.Groups;
+import com.google.gerrit.extensions.api.menus.TopMenus;
 import com.google.gerrit.extensions.api.plugins.Plugins;
 import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.inject.Inject;
@@ -32,6 +33,7 @@ class GerritApiImpl implements GerritApi {
   private final Groups groups;
   private final Projects projects;
   private final Plugins plugins;
+  private final TopMenus topMenus;
 
   @Inject
   GerritApiImpl(
@@ -40,13 +42,15 @@ class GerritApiImpl implements GerritApi {
       Config config,
       Groups groups,
       Projects projects,
-      Plugins plugins) {
+      Plugins plugins,
+      TopMenus topMenus) {
     this.accounts = accounts;
     this.changes = changes;
     this.config = config;
     this.groups = groups;
     this.projects = projects;
     this.plugins = plugins;
+    this.topMenus = topMenus;
   }
 
   @Override
@@ -77,5 +81,10 @@ class GerritApiImpl implements GerritApi {
   @Override
   public Plugins plugins() {
     return plugins;
+  }
+
+  @Override
+  public TopMenus topMenus() {
+    return topMenus;
   }
 }

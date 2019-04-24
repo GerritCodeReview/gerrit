@@ -20,6 +20,8 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.webui.TopMenu;
+import java.util.List;
 
 public interface Server {
   /** @return Version of server. */
@@ -40,6 +42,8 @@ public interface Server {
   EditPreferencesInfo setDefaultEditPreferences(EditPreferencesInfo in) throws RestApiException;
 
   ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) throws RestApiException;
+
+  List<TopMenu.MenuEntry> topMenus() throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility when adding new methods to the
@@ -91,6 +95,11 @@ public interface Server {
 
     @Override
     public ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<TopMenu.MenuEntry> topMenus() throws RestApiException {
       throw new NotImplementedException();
     }
   }

@@ -1,12 +1,14 @@
 = Gerrit Code Review - Contributing
 
-== Introduction
-Gerrit is developed as a
-link:https://gerrit-review.googlesource.com/[self-hosting open source project]
-and very much welcomes contributions from anyone with a
-link:dev-cla.html[contributor's agreement] on file with the project.
+[[cla]]
+== Contributor License Agreement
 
-== Code Review
+In order to contribute to Gerrit a link:dev-cla.html[Contributor
+License Agreement] must be completed before contributions are accepted.
+
+[[contribution-process]]
+== Contribution Process
+
 As Gerrit is a code review tool, naturally contributions will
 be reviewed before they will get submitted to the code base.  To
 start your contribution, please make a git commit and upload it

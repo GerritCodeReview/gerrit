@@ -48,6 +48,15 @@ is merged back.
 [[upgrading-libraries]]
 == Upgrading Libraries
 
+Changes that add new libraries or upgrade existing libraries require an approval on the
+`Library-Compliance` label. For an approval the following things are checked:
+
+* The library has a license that is suitable for use within Gerrit.
+* If the library is used within Google, the version of the library must be compatible with the
+  version that is used at Google.
+
+Only maintainers from Google can vote on the `Library-Compliance` label.
+
 Gerrit's library dependencies should only be upgraded if the new version contains
 something we need in Gerrit. This includes new features, API changes as well as bug
 or security fixes.

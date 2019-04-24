@@ -16,6 +16,24 @@
       "revId": "f61ad0ec6f86475c365efe6d00e8925a07757c8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18e16866_2a26a1db",
+        "filename": "java/com/google/gerrit/extensions/api/menus/TopMenus.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-24T14:30:14Z",
+      "side": 1,
+      "message": "\u003e Given that the ListTopMenu class is in the c.g.g.s.restapi.config package, I would have expected this to be implemented as a method on the existing config API rather than in a whole new API, which is most likely only ever going to include this method.\n\nRight, let me move it there. Thanks for your feedback.",
+      "parentUuid": "2848d79a_e5dfbe97",
+      "revId": "f61ad0ec6f86475c365efe6d00e8925a07757c8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

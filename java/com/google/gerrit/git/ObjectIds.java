@@ -17,9 +17,11 @@ package com.google.gerrit.git;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 
+import com.google.gerrit.common.Nullable;
 import java.io.IOException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 
 /** Static utilities for working with {@code ObjectId}s. */
@@ -82,6 +84,28 @@ public class ObjectIds {
       throws IOException {
     checkValidLength(n);
     return reader.abbreviate(id, n).name();
+  }
+
+  /**
+   * Copy a nullable ID, preserving null.
+   *
+   * @param id object ID.
+   * @return {@link AnyObjectId#copy} of {@code id}, or {@code null} if {@code id} is null.
+   */
+  @Nullable
+  public static ObjectId copyOrNull(@Nullable AnyObjectId id) {
+    return id != null ? id.copy() : null;
+  }
+
+  /**
+   * Copy a nullable ID, converting null to {@code zeroId}.
+   *
+   * @param id object ID.
+   * @return {@link AnyObjectId#copy} of {@code id}, or {@link ObjectId#zeroId} if {@code id} is
+   *     null.
+   */
+  public static ObjectId copyOrZero(@Nullable AnyObjectId id) {
+    return id != null ? id.copy() : ObjectId.zeroId();
   }
 
   private static void checkValidLength(int n) {

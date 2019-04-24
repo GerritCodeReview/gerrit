@@ -453,8 +453,8 @@ public class ChangeField {
   private static Set<String> getRevisions(ChangeData cd) {
     Set<String> revisions = new HashSet<>();
     for (PatchSet ps : cd.patchSets()) {
-      if (ps.getRevision() != null) {
-        revisions.add(ps.getRevision().get());
+      if (ps.getCommitId() != null) {
+        revisions.add(ps.getCommitId().name());
       }
     }
     return revisions;

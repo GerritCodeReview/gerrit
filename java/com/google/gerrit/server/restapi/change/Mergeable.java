@@ -106,7 +106,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     result.submitType = getSubmitType(cd);
 
     try (Repository git = gitManager.openRepository(change.getProject())) {
-      ObjectId commit = toId(ps);
+      ObjectId commit = ps.getCommitId();
       Ref ref = git.getRefDatabase().exactRef(change.getDest().branch());
       ProjectState projectState = projectCache.get(change.getProject());
       String strategy = mergeUtilFactory.create(projectState).mergeStrategyName();
@@ -159,15 +159,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
       return old;
     }
     return refresh(change, commit, ref, submitType, strategy, git, old);
-  }
-
-  private static ObjectId toId(PatchSet ps) {
-    try {
-      return ObjectId.fromString(ps.getRevision().get());
-    } catch (IllegalArgumentException e) {
-      logger.atSevere().log("Invalid revision on patch set %s", ps);
-      return null;
-    }
   }
 
   private boolean refresh(

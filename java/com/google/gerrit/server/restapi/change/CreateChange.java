@@ -345,7 +345,7 @@ public class CreateChange
       throws BadRequestException, IOException, UnprocessableEntityException,
           ResourceConflictException {
     if (basePatchSet != null) {
-      return ObjectId.fromString(basePatchSet.getRevision().get());
+      return basePatchSet.getCommitId();
     }
 
     Ref destRef = repo.getRefDatabase().exactRef(inputBranch);

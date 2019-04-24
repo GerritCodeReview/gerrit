@@ -276,8 +276,9 @@ public class ConsistencyChecker {
       // Check revision format.
       int psNum = ps.getId().get();
       String refName = ps.getId().toRefName();
-      ObjectId objId = parseObjectId(ps.getRevision().get(), "patch set " + psNum);
+      ObjectId objId = ps.getCommitId();
       if (objId == null) {
+        problem("Null commitId on patch set " + psNum);
         continue;
       }
       patchSetsBySha.put(objId, ps);
@@ -395,7 +396,11 @@ public class ConsistencyChecker {
   }
 
   private void checkExpectMergedAs() {
-    ObjectId objId = parseObjectId(fix.expectMergedAs, "expected merged commit");
+    if (!ObjectId.isId(fix.expectMergedAs)) {
+      problem("Invalid revision on expected merged commit: " + fix.expectMergedAs);
+      return;
+    }
+    ObjectId objId = ObjectId.fromString(fix.expectMergedAs);
     RevCommit commit = parseCommit(objId, "expected merged commit");
     if (commit == null) {
       return;
@@ -602,7 +607,7 @@ public class ConsistencyChecker {
     try {
       RefUpdate ru = repo.updateRef(ps.getId().toRefName());
       ru.setForceUpdate(true);
-      ru.setNewObjectId(ObjectId.fromString(ps.getRevision().get()));
+      ru.setNewObjectId(ps.getCommitId());
       ru.setRefLogIdent(newRefLogIdent());
       ru.setRefLogMessage("Repair patch set ref", true);
       RefUpdate.Result result = ru.update();
@@ -731,15 +736,6 @@ public class ConsistencyChecker {
       return u.asIdentifiedUser().newRefLogIdent();
     }
     return serverIdent.get();
-  }
-
-  private ObjectId parseObjectId(String objIdStr, String desc) {
-    try {
-      return ObjectId.fromString(objIdStr);
-    } catch (IllegalArgumentException e) {
-      problem(String.format("Invalid revision on %s: %s", desc, objIdStr));
-      return null;
-    }
   }
 
   private RevCommit parseCommit(ObjectId objId, String desc) {

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1556137494 -0700\nnonce AC6AUtNCc8disDMpy1Zfd7mOD8sSAIZz2qWpwtm8qNcxZEpNwa7lofT/rC5Sv8lGLJ3MTQJWrH3y\n\n0000000000000000000000000000000000000000 9ed7ca6e629f1573d71494efa3ca474f2efc30dd refs/for/master%topic\u003drevid-to-objectid,r\u003dekempin@google.com,r\u003ddpursehouse@collab.net\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlzAxhYVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMQ8wP/37wHhNnJ/cu1CN8EzLboVlTuvkn\nS6+6SsoK45JNQI+ABUAslWzD8BJiWeA7zWIgGcHJPn6NQK0sMfYbycjX2jYLFD/S\nT2uIHDel1zzkZr6oy9XyIoRyUn7XfV5p8nX7ANrD25OUffxwJFOJGL7jtISAT87W\nVomaZauGgZefSALfn5Y5YBU16Ak04e3AAB9oqDk7V/15U+qpWLFXJUMFG7mp8Toz\n9r3OolbG/QrIIP1hy1/GMugmIJRxNLCQ3vRUhvMQIc7IgA6ARvG+hk123Nzzc12O\nlkyMH6KsQcP9GwXcWZOHvUcPU4MFd7b93mpJsIFqam9foIOpMRJTOLi2gADjEZik\nyHtFoiX5IrZa+Rk722p3wE38zvVFaOpuboncgkxbeviUVHxSncR0jP3Jn5r48UdX\n3Ei4XI8C9C7zP/TeYy66a/WW3TZxzh8G0xKycUiecP9WMAKqFT/rCc6ow0Uh6+lZ\nRZJDXgch4y9iqQVqxNZ3UahmNrqqZyi7CwXQwb8aCvXRT9ILjfwC3VkgTRuP3Uvu\n4xWsUQ5rzq/g1GpatH9DPKJSDieY14Ee2lHiA23rsE4S2hqV3LBkgu/8DzS2aEjO\nga5e+KW5maMLfFeSvMB7i4njeV83/LjKI7x/Nh+9PALfN6MJJ2HoovB9X34rsh0J\nIaCc4cOIZpCj3io7\n\u003d2gK0\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8b7fff7_31965445",
+        "filename": "java/com/google/gerrit/reviewdb/client/PatchSetInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-24T23:18:02Z",
+      "side": 1,
+      "message": "This is no longer only the SHA1 (previously represented by a String).",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 21
+      },
+      "revId": "8922a01194ad0584e4639f6f745594b042b1f9c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

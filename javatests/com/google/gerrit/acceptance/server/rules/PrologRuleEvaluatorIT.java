@@ -32,6 +32,7 @@ import com.googlecode.prolog_cafe.lang.Term;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 public class PrologRuleEvaluatorIT extends AbstractDaemonTest {
@@ -149,7 +150,7 @@ public class PrologRuleEvaluatorIT extends AbstractDaemonTest {
   }
 
   private ChangeData makeChangeData() {
-    ChangeData cd = ChangeData.createForTest(project, Change.id(1), 1);
+    ChangeData cd = ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId());
     cd.setChange(TestChanges.newChange(project, admin.id()));
     return cd;
   }

@@ -23,18 +23,19 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.TestChanges;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 public class ChangeDataTest extends GerritBaseTests {
   @Test
   public void setPatchSetsClearsCurrentPatchSet() throws Exception {
     Project.NameKey project = Project.nameKey("project");
-    ChangeData cd = ChangeData.createForTest(project, Change.id(1), 1);
+    ChangeData cd = ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId());
     cd.setChange(TestChanges.newChange(project, Account.id(1000)));
     PatchSet curr1 = cd.currentPatchSet();
     int currId = curr1.getId().get();
-    PatchSet ps1 = new PatchSet(PatchSet.id(cd.getId(), currId + 1));
-    PatchSet ps2 = new PatchSet(PatchSet.id(cd.getId(), currId + 2));
+    PatchSet ps1 = new PatchSet(PatchSet.id(cd.getId(), currId + 1), ObjectId.zeroId());
+    PatchSet ps2 = new PatchSet(PatchSet.id(cd.getId(), currId + 2), ObjectId.zeroId());
     cd.setPatchSets(ImmutableList.of(ps1, ps2));
     PatchSet curr2 = cd.currentPatchSet();
     assertThat(curr2).isNotSameInstanceAs(curr1);

@@ -222,12 +222,12 @@ public class ChangeData {
    * @return instance for testing.
    */
   public static ChangeData createForTest(
-      Project.NameKey project, Change.Id id, int currentPatchSetId) {
+      Project.NameKey project, Change.Id id, int currentPatchSetId, ObjectId commitId) {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
             null, project, id, null, null);
-    cd.currentPatchSet = new PatchSet(PatchSet.id(id, currentPatchSetId));
+    cd.currentPatchSet = new PatchSet(PatchSet.id(id, currentPatchSetId), commitId);
     return cd;
   }
 

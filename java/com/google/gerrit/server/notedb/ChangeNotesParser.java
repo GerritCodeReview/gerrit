@@ -506,9 +506,8 @@ class ChangeNotesParser {
               "Multiple revisions parsed for patch set %s: %s and %s",
               psId.get(), patchSets.get(psId).getCommitId().name(), rev.name()));
     }
-    PatchSet ps = new PatchSet(psId);
+    PatchSet ps = new PatchSet(psId, rev);
     patchSets.put(psId, ps);
-    ps.setCommitId(rev);
     ps.setUploader(accountId);
     ps.setCreatedOn(ts);
     PendingPatchSetFields pending = pendingPatchSets.remove(psId);

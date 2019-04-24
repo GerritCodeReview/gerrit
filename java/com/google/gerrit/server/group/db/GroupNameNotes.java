@@ -30,6 +30,7 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.exceptions.DuplicateKeyException;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -286,7 +287,7 @@ public class GroupNameNotes extends VersionedMetaData {
       cb.setMessage("Store " + n + " group name" + (n != 1 ? "s" : ""));
       ObjectId newId = inserter.insert(cb).copy();
 
-      ObjectId oldId = oldCommit != null ? oldCommit.copy() : ObjectId.zeroId();
+      ObjectId oldId = ObjectIds.copyOrZero(oldCommit);
       bru.addCommand(new ReceiveCommand(oldId, newId, RefNames.REFS_GROUPNAMES));
     }
   }

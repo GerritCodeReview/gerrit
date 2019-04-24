@@ -1,5 +1,10 @@
 = Gerrit Code Review - Development Processes
 
+[[contribution-process]]
+== Contribution Process
+
+See link:dev-contributing.html[here].
+
 [[dev-in-stable-branches]]
 == Development in stable branches
 

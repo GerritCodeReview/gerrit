@@ -14,13 +14,16 @@
 
 package com.google.gerrit.server.api.projects;
 
+import com.google.gerrit.extensions.api.menus.TopMenus;
 import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.api.menus.TopMenusImpl;
 
 public class Module extends FactoryModule {
   @Override
   protected void configure() {
     bind(Projects.class).to(ProjectsImpl.class);
+    bind(TopMenus.class).to(TopMenusImpl.class);
 
     factory(BranchApiImpl.Factory.class);
     factory(TagApiImpl.Factory.class);

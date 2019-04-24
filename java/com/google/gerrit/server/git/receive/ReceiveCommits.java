@@ -2350,7 +2350,10 @@ class ReceiveCommits {
             rw.parseBody(c);
             messages.add(
                 new CommitValidationMessage(
-                    "Implicit Merge of " + abbreviateName(c) + " " + c.getShortMessage(),
+                    "Implicit Merge of "
+                        + abbreviateName(c, rw.getObjectReader())
+                        + " "
+                        + c.getShortMessage(),
                     ValidationMessage.Type.ERROR));
           }
           reject(magicBranch.cmd, "implicit merges detected");

@@ -15,18 +15,17 @@
 package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.git.ObjectIds;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** A single revision of a {@link Change}. */
@@ -157,9 +156,24 @@ public final class PatchSet {
     }
   }
 
+  /**
+   * Create a patch set with no commit ID.
+   *
+   * <p>It is illegal to call {@link #getCommitId()} on the returned instance.
+   *
+   * @deprecated This method only exists to preserve behavior of one specific codepath in {@code
+   *     PatchScriptFactory}.
+   * @param id patch set ID.
+   * @return new patch set.
+   */
+  @Deprecated
+  public static PatchSet createWithNoCommitId(PatchSet.Id id) {
+    return new PatchSet(id);
+  }
+
   protected Id id;
 
-  @Nullable protected ObjectId commitId;
+  protected ObjectId commitId;
 
   protected Account.Id uploader;
 
@@ -192,8 +206,14 @@ public final class PatchSet {
 
   protected PatchSet() {}
 
-  public PatchSet(PatchSet.Id k) {
-    id = k;
+  private PatchSet(PatchSet.Id id) {
+    this.id = requireNonNull(id);
+    this.commitId = null;
+  }
+
+  public PatchSet(PatchSet.Id id, ObjectId commitId) {
+    this.id = requireNonNull(id);
+    this.commitId = commitId.copy();
   }
 
   public PatchSet(PatchSet src) {
@@ -219,14 +239,11 @@ public final class PatchSet {
    *
    * <p>The commit associated with a patch set is also known as the <strong>revision</strong>.
    *
-   * @return the commit ID.
+   * @return the commit ID, never null.
    */
   public ObjectId getCommitId() {
+    requireNonNull(commitId);
     return commitId;
-  }
-
-  public void setCommitId(@Nullable AnyObjectId commitId) {
-    this.commitId = ObjectIds.copyOrNull(commitId);
   }
 
   public Account.Id getUploader() {

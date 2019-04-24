@@ -333,16 +333,18 @@ public class ChangeNotesStateTest extends GerritBaseTests {
 
   @Test
   public void serializePatchSets() throws Exception {
-    PatchSet ps1 = new PatchSet(PatchSet.id(ID, 1));
+    PatchSet ps1 =
+        new PatchSet(
+            PatchSet.id(ID, 1), ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
     ps1.setUploader(Account.id(2000));
-    ps1.setCommitId(ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
     ps1.setCreatedOn(cols.createdOn());
     ByteString ps1Bytes = toByteString(ps1, PatchSetProtoConverter.INSTANCE);
     assertThat(ps1Bytes.size()).isEqualTo(66);
 
-    PatchSet ps2 = new PatchSet(PatchSet.id(ID, 2));
+    PatchSet ps2 =
+        new PatchSet(
+            PatchSet.id(ID, 2), ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
     ps2.setUploader(Account.id(3000));
-    ps2.setCommitId(ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
     ps2.setCreatedOn(cols.lastUpdatedOn());
     ByteString ps2Bytes = toByteString(ps2, PatchSetProtoConverter.INSTANCE);
     assertThat(ps2Bytes.size()).isEqualTo(66);

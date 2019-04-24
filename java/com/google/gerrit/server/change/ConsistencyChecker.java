@@ -277,10 +277,6 @@ public class ConsistencyChecker {
       int psNum = ps.getId().get();
       String refName = ps.getId().toRefName();
       ObjectId objId = ps.getCommitId();
-      if (objId == null) {
-        problem("Null commitId on patch set " + psNum);
-        continue;
-      }
       patchSetsBySha.put(objId, ps);
 
       // Check ref existence.

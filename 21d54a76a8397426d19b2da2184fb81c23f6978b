@@ -34,6 +34,24 @@
       "revId": "21d54a76a8397426d19b2da2184fb81c23f6978b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e671e13_16825e89",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-24T00:09:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c515c38b_b54911bf",
+      "revId": "21d54a76a8397426d19b2da2184fb81c23f6978b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

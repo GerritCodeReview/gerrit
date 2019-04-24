@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
@@ -101,7 +102,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getCurrentPatchSet().getDescription()).isEqualTo(description);
+    assertThat(notes.getCurrentPatchSet().getDescription()).hasValue(description);
 
     description = "new, now more descriptive!";
     update = newUpdate(c, changeOwner);
@@ -109,7 +110,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getCurrentPatchSet().getDescription()).isEqualTo(description);
+    assertThat(notes.getCurrentPatchSet().getDescription()).hasValue(description);
   }
 
   @Test
@@ -1143,8 +1144,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     readNote(notes, commit);
 
     Map<PatchSet.Id, PatchSet> patchSets = notes.getPatchSets();
-    assertThat(patchSets.get(psId1).getPushCertificate()).isNull();
-    assertThat(patchSets.get(psId2).getPushCertificate()).isEqualTo(pushCert);
+    assertThat(patchSets.get(psId1).getPushCertificate()).isEmpty();
+    assertThat(patchSets.get(psId2).getPushCertificate()).hasValue(pushCert);
     assertThat(notes.getComments()).isEmpty();
 
     // comment on ps2
@@ -1171,8 +1172,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     notes = newNotes(c);
 
     patchSets = notes.getPatchSets();
-    assertThat(patchSets.get(psId1).getPushCertificate()).isNull();
-    assertThat(patchSets.get(psId2).getPushCertificate()).isEqualTo(pushCert);
+    assertThat(patchSets.get(psId1).getPushCertificate()).isEmpty();
+    assertThat(patchSets.get(psId2).getPushCertificate()).hasValue(pushCert);
     assertThat(notes.getComments()).isNotEmpty();
   }
 

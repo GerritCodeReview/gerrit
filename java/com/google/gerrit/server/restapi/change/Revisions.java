@@ -37,11 +37,13 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
 public class Revisions implements ChildCollection<ChangeResource, RevisionResource> {
@@ -153,9 +155,15 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       throws AuthException, IOException {
     Optional<ChangeEdit> edit = editUtil.byChange(change.getNotes(), change.getUser());
     if (edit.isPresent()) {
-      ObjectId editCommitId = edit.get().getEditCommit();
-      PatchSet ps = new PatchSet(PatchSet.id(change.getId(), 0), editCommitId);
-      if (commitId == null || editCommitId.equals(commitId)) {
+      RevCommit editCommit = edit.get().getEditCommit();
+      PatchSet ps =
+          PatchSet.builder()
+              .id(PatchSet.id(change.getId(), 0))
+              .commitId(editCommit)
+              .uploader(change.getUser().getAccountId())
+              .createdOn(new Timestamp(editCommit.getCommitterIdent().getWhen().getTime()))
+              .build();
+      if (commitId == null || editCommit.equals(commitId)) {
         return Collections.singletonList(new RevisionResource(change, ps, edit));
       }
     }

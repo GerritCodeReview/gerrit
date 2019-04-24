@@ -84,7 +84,7 @@ public class PutDescription
     public boolean updateChange(ChangeContext ctx) {
       ChangeUpdate update = ctx.getUpdate(psId);
       newDescription = Strings.nullToEmpty(input.description);
-      oldDescription = Strings.nullToEmpty(psUtil.get(ctx.getNotes(), psId).getDescription());
+      oldDescription = psUtil.get(ctx.getNotes(), psId).getDescription().orElse("");
       if (oldDescription.equals(newDescription)) {
         return false;
       }

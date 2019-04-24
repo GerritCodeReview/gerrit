@@ -74,6 +74,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -227,7 +228,13 @@ public class ChangeData {
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
             null, project, id, null, null);
-    cd.currentPatchSet = new PatchSet(PatchSet.id(id, currentPatchSetId), commitId);
+    cd.currentPatchSet =
+        PatchSet.builder()
+            .id(PatchSet.id(id, currentPatchSetId))
+            .commitId(commitId)
+            .uploader(Account.id(1000))
+            .createdOn(TimeUtil.nowTs())
+            .build();
     return cd;
   }
 

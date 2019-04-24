@@ -178,17 +178,6 @@ has been migrated out of the database and into the git
 repositories for each project.
 
 
-== Project Information
-
-Gerrit is developed as a self-hosting open source project:
-
-* link:https://www.gerritcodereview.com/[Project Homepage]
-* link:https://www.gerritcodereview.com/download/index.html[Release Versions]
-* link:https://gerrit.googlesource.com/gerrit[Source]
-* link:https://bugs.chromium.org/p/gerrit/issues/list[Issue Tracking]
-* link:https://review.source.android.com/[Change Review]
-
-
 == Internationalization and Localization
 
 As a source code review system for open source projects, where the
@@ -203,8 +192,6 @@ Right-to-left (RTL) support is only barely considered within the
 Gerrit code base.  Some portions of the code have tried to take
 RTL into consideration, while others probably need to be modified
 before translating the UI to an RTL language.
-
-* link:i18n-readme.html[Gerrit's i18n Support]
 
 
 == Accessibility Considerations
@@ -639,29 +626,6 @@ or the hosting servlet container may record access logs, and these
 logs may be mined for usage information.  This is outside of the
 scope of Gerrit.
 
-
-== Testing Plan
-
-Gerrit is currently manually tested through its web UI.
-
-JGit has a fairly extensive automated unit test suite.  Most new
-changes to JGit are rejected unless corresponding automated unit
-tests are included.
-
-
-== Caveats
-
-Rietveld can't be used as it does not provide the "submit over the
-web" feature that Gerrit provides for Git.
-
-Gitosis can't be used as it does not provide any code review
-features, but it does provide basic access controls.
-
-Email based code review does not scale to a project as large and
-complex as Android.  Most contributors at least need some sort of
-dashboard to keep track of any pending reviews, and some way to
-correlate updated revisions back to the comments written on prior
-revisions of the same logical change.
 
 GERRIT
 ------

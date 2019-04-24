@@ -1,0 +1,47 @@
+= Gerrit Community
+
+[[project-information]]
+== Project Information
+
+Gerrit is developed as a self-hosting open source project:
+
+* link:https://www.gerritcodereview.com/[Project Homepage]
+* link:https://www.gerritcodereview.com/releases-readme.html[Release Versions]
+* link:https://gerrit.googlesource.com/gerrit[Source]
+* link:https://bugs.chromium.org/p/gerrit/issues/list[Issue Tracking]
+* link:https://gerrit-review.googlesource.com/q/status:open+project:gerrit[Change Review]
+* link:dev-design.html[System Design]
+* Processes
+** link:dev-contributing.html[Contribution Process]
+** link:dev-processes.html#dev-in-stable-branches[Development in stable branches]
+** link:dev-processes.html#backporting[Backporting to stable branches]
+** link:dev-processes.html#upgrading-libraries[Upgrading Libraries]
+** link:dev-processes.html#deprecating-features[Deprecating features]
+
+[[how-to-contribute]]
+== How to contribute?
+* link:dev-cla.html[Contributor License Agreement]
+* link:dev-contributing.html[Contributing to Gerrit]
+* link:dev-readme.html[Developer Setup]
+
+[[plugin-development]]
+== Plugin Development
+* link:dev-plugins.html[Developing Plugins]
+* link:dev-build-plugins.html[Building Gerrit plugins]
+* link:js-api.html[JavaScript Plugin API]
+* link:config-validation.html[Validation Interfaces]
+* link:dev-stars.html[Starring Changes]
+* link:quota.html[Quota Enforcement]
+
+[[maintainer]]
+== Maintainer
+* link:dev-release.html[Making a Gerrit Release]
+* link:dev-release-subproject.html[Making a Release of a Gerrit Subproject]
+* link:dev-release-jgit.html[Making a Release of JGit]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

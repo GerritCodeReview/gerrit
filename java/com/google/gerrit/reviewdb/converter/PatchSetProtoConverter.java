@@ -14,8 +14,7 @@
 
 package com.google.gerrit.reviewdb.converter;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -37,54 +36,56 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
   @Override
   public Entities.PatchSet toProto(PatchSet patchSet) {
     Entities.PatchSet.Builder builder =
-        Entities.PatchSet.newBuilder().setId(patchSetIdConverter.toProto(patchSet.getId()));
-    builder.setCommitId(objectIdConverter.toProto(patchSet.getCommitId()));
-    Account.Id uploader = patchSet.getUploader();
-    if (uploader != null) {
-      builder.setUploaderAccountId(accountIdConverter.toProto(uploader));
-    }
-    Timestamp createdOn = patchSet.getCreatedOn();
-    if (createdOn != null) {
-      builder.setCreatedOn(createdOn.getTime());
-    }
+        Entities.PatchSet.newBuilder()
+            .setId(patchSetIdConverter.toProto(patchSet.getId()))
+            .setCommitId(objectIdConverter.toProto(patchSet.getCommitId()))
+            .setUploaderAccountId(accountIdConverter.toProto(patchSet.getUploader()))
+            .setCreatedOn(patchSet.getCreatedOn().getTime());
     List<String> groups = patchSet.getGroups();
     if (!groups.isEmpty()) {
       builder.setGroups(PatchSet.joinGroups(groups));
     }
-    String pushCertificate = patchSet.getPushCertificate();
-    if (pushCertificate != null) {
-      builder.setPushCertificate(pushCertificate);
-    }
-    String description = patchSet.getDescription();
-    if (description != null) {
-      builder.setDescription(description);
-    }
+    patchSet.getPushCertificate().ifPresent(builder::setPushCertificate);
+    patchSet.getDescription().ifPresent(builder::setDescription);
     return builder.build();
   }
 
   @Override
   public PatchSet fromProto(Entities.PatchSet proto) {
-    checkArgument(proto.hasCommitId(), "missing commit_id: %s", proto);
-    PatchSet patchSet =
-        new PatchSet(
-            patchSetIdConverter.fromProto(proto.getId()),
-            objectIdConverter.fromProto(proto.getCommitId()));
-    if (proto.hasUploaderAccountId()) {
-      patchSet.setUploader(accountIdConverter.fromProto(proto.getUploaderAccountId()));
-    }
-    if (proto.hasCreatedOn()) {
-      patchSet.setCreatedOn(new Timestamp(proto.getCreatedOn()));
-    }
+    PatchSet.Builder builder = PatchSet.builder().id(patchSetIdConverter.fromProto(proto.getId()));
     if (proto.hasGroups()) {
-      patchSet.setGroups(PatchSet.splitGroups(proto.getGroups()));
+      builder.groups(PatchSet.splitGroups(proto.getGroups()));
+    } else {
+      builder.groups(ImmutableList.of());
     }
     if (proto.hasPushCertificate()) {
-      patchSet.setPushCertificate(proto.getPushCertificate());
+      builder.pushCertificate(proto.getPushCertificate());
     }
     if (proto.hasDescription()) {
-      patchSet.setDescription(proto.getDescription());
+      builder.description(proto.getDescription());
     }
-    return patchSet;
+
+    // The following fields used to theoretically be nullable in PatchSet, but in practice no
+    // production codepath should have ever serialized an instance that was missing one of these
+    // fields.
+    //
+    // However, since some protos may theoretically be missing these fields, we need to support
+    // them. Populate specific sentinel values for each field as documented in the PatchSet javadoc.
+    // Callers that encounter one of these sentinels will likely fail, for example by failing to
+    // look up the zeroId. They would have also failed back when the fields were nullable, for
+    // example with NPE; the current behavior just fails slightly differently.
+    builder
+        .commitId(
+            proto.hasCommitId()
+                ? objectIdConverter.fromProto(proto.getCommitId())
+                : ObjectId.zeroId())
+        .uploader(
+            proto.hasUploaderAccountId()
+                ? accountIdConverter.fromProto(proto.getUploaderAccountId())
+                : Account.id(0))
+        .createdOn(proto.hasCreatedOn() ? new Timestamp(proto.getCreatedOn()) : new Timestamp(0));
+
+    return builder.build();
   }
 
   @Override

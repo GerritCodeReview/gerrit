@@ -49,7 +49,8 @@ public enum CommitMergeStatus {
           + "Please rebase the change locally and upload the rebased commit for review."),
 
   SKIPPED_IDENTICAL_TREE(
-      "Marking change merged without cherry-picking to branch, as the resulting commit would be empty."),
+      "Marking change merged without cherry-picking to branch, as the resulting commit would be"
+          + " empty."),
 
   MISSING_DEPENDENCY("Depends on change that was not submitted."),
 
@@ -102,14 +103,14 @@ public enum CommitMergeStatus {
           commit, otherCommit, caller != null ? caller.getLoggableName() : "<user-not-available>");
     } else if (changes.size() == 1) {
       ChangeData cd = changes.get(0);
-      if (cd.currentPatchSet().getRevision().get().equals(otherCommit)) {
+      if (cd.currentPatchSet().getCommitId().name().equals(otherCommit)) {
         return String.format(
             "Commit %s depends on commit %s of change %d which cannot be merged.",
             commit, otherCommit, cd.getId().get());
       }
       Optional<PatchSet> patchSet =
           cd.patchSets().stream()
-              .filter(ps -> ps.getRevision().get().equals(otherCommit))
+              .filter(ps -> ps.getCommitId().name().equals(otherCommit))
               .findAny();
       if (patchSet.isPresent()) {
         return String.format(

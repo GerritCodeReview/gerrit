@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -151,10 +150,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
           NoSuchChangeException, PermissionBackendException {
     // Ok that originalPatchSet was not read in a transaction, since we just
     // need its revision.
-    RevId oldRev = originalPatchSet.getRevision();
-
     RevWalk rw = ctx.getRevWalk();
-    RevCommit original = rw.parseCommit(ObjectId.fromString(oldRev.get()));
+    RevCommit original = rw.parseCommit(originalPatchSet.getCommitId());
     rw.parseBody(original);
     RevCommit baseCommit = rw.parseCommit(baseCommitId);
     CurrentUser changeOwner = identifiedUserFactory.create(notes.getChange().getOwner());

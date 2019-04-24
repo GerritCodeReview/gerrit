@@ -776,20 +776,12 @@ public class MergeOp implements AutoCloseable {
         commitStatus.logProblem(changeId, e);
         continue;
       }
-      if (ps == null || ps.getRevision() == null || ps.getRevision().get() == null) {
+      if (ps == null || ps.getCommitId() == null) {
         commitStatus.logProblem(changeId, "Missing patch set or revision on change");
         continue;
       }
 
-      String idstr = ps.getRevision().get();
-      ObjectId id;
-      try {
-        id = ObjectId.fromString(idstr);
-      } catch (IllegalArgumentException e) {
-        commitStatus.logProblem(changeId, e);
-        continue;
-      }
-
+      ObjectId id = ps.getCommitId();
       if (!revisions.containsEntry(id, ps.getId())) {
         if (revisions.containsValue(ps.getId())) {
           // TODO This is actually an error, the patch set ref exists but points to a revision that
@@ -798,7 +790,7 @@ public class MergeOp implements AutoCloseable {
           commitStatus.logProblem(
               changeId,
               "Revision "
-                  + idstr
+                  + id.name()
                   + " of patch set "
                   + ps.getPatchSetId()
                   + " does not match the revision of the patch set ref "
@@ -817,7 +809,7 @@ public class MergeOp implements AutoCloseable {
                 + " not found. Expected patch set ref of "
                 + ps.getPatchSetId()
                 + " to point to revision "
-                + idstr);
+                + id.name());
         continue;
       }
 

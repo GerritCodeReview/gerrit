@@ -139,7 +139,7 @@ public class CatServlet extends HttpServlet {
           rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
           return;
         }
-        revision = patchSet.getRevision().get();
+        revision = patchSet.getCommitId().name();
       }
     } catch (ResourceConflictException | NoSuchChangeException | AuthException e) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);

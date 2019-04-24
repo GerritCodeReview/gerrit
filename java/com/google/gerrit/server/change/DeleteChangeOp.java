@@ -99,8 +99,8 @@ public class DeleteChangeOp implements BatchUpdateOp {
     }
 
     RevWalk revWalk = ctx.getRevWalk();
-    ObjectId objectId = ObjectId.fromString(patchSet.getRevision().get());
-    return revWalk.isMergedInto(revWalk.parseCommit(objectId), revWalk.parseCommit(destId.get()));
+    return revWalk.isMergedInto(
+        revWalk.parseCommit(patchSet.getCommitId()), revWalk.parseCommit(destId.get()));
   }
 
   private void cleanUpReferences(Change.Id id, Collection<PatchSet> patchSets) throws IOException {

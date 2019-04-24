@@ -24,7 +24,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import java.io.IOException;
-import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.Option;
 
 public class DownloadContent implements RestReadView<FileResource> {
@@ -45,8 +44,7 @@ public class DownloadContent implements RestReadView<FileResource> {
       throws ResourceNotFoundException, IOException, NoSuchChangeException {
     String path = rsrc.getPatchKey().fileName();
     RevisionResource rev = rsrc.getRevision();
-    ObjectId revstr = ObjectId.fromString(rev.getPatchSet().getRevision().get());
     return fileContentUtil.downloadContent(
-        projectCache.checkedGet(rev.getProject()), revstr, path, parent);
+        projectCache.checkedGet(rev.getProject()), rev.getPatchSet().getCommitId(), path, parent);
   }
 }

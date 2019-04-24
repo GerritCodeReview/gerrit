@@ -26,7 +26,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -55,8 +54,7 @@ public class GetCommit implements RestReadView<RevisionResource> {
     Project.NameKey p = rsrc.getChange().getProject();
     try (Repository repo = repoManager.openRepository(p);
         RevWalk rw = new RevWalk(repo)) {
-      String rev = rsrc.getPatchSet().getRevision().get();
-      RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
+      RevCommit commit = rw.parseCommit(rsrc.getPatchSet().getCommitId());
       rw.parseBody(commit);
       CommitInfo info =
           json.create(ImmutableSet.of())

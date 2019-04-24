@@ -67,7 +67,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
@@ -505,11 +504,11 @@ class ChangeNotesParser {
       throw new ConfigInvalidException(
           String.format(
               "Multiple revisions parsed for patch set %s: %s and %s",
-              psId.get(), patchSets.get(psId).getRevision(), rev.name()));
+              psId.get(), patchSets.get(psId).getCommitId().name(), rev.name()));
     }
     PatchSet ps = new PatchSet(psId);
     patchSets.put(psId, ps);
-    ps.setRevision(new RevId(rev.name()));
+    ps.setCommitId(rev);
     ps.setUploader(accountId);
     ps.setCreatedOn(ts);
     PendingPatchSetFields pending = pendingPatchSets.remove(psId);
@@ -743,7 +742,7 @@ class ChangeNotesParser {
     }
 
     for (PatchSet ps : patchSets.values()) {
-      ChangeRevisionNote rn = rns.get(ObjectId.fromString(ps.getRevision().get()));
+      ChangeRevisionNote rn = rns.get(ps.getCommitId());
       if (rn != null && rn.getPushCert() != null) {
         ps.setPushCertificate(rn.getPushCert());
       }

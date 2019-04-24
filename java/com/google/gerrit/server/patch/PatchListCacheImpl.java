@@ -134,10 +134,10 @@ public class PatchListCacheImpl implements PatchListCache {
   private PatchList get(Change change, PatchSet patchSet, Integer parentNum)
       throws PatchListNotAvailableException {
     Project.NameKey project = change.getProject();
-    if (patchSet.getRevision() == null) {
-      throw new PatchListNotAvailableException("revision is null for " + patchSet.getId());
+    ObjectId b = patchSet.getCommitId();
+    if (b == null) {
+      throw new PatchListNotAvailableException("commit ID is null for " + patchSet.getId());
     }
-    ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
     Whitespace ws = Whitespace.IGNORE_NONE;
     if (parentNum != null) {
       return get(PatchListKey.againstParentNum(parentNum, b, ws), project);

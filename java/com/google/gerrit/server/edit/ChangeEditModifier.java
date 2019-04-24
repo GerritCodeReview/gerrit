@@ -124,7 +124,7 @@ public class ChangeEditModifier {
     }
 
     PatchSet currentPatchSet = lookupCurrentPatchSet(notes);
-    ObjectId patchSetCommitId = getPatchSetCommitId(currentPatchSet);
+    ObjectId patchSetCommitId = currentPatchSet.getCommitId();
     createEdit(repository, notes, currentPatchSet, patchSetCommitId, TimeUtil.nowTs());
   }
 
@@ -456,7 +456,7 @@ public class ChangeEditModifier {
 
   private static RevCommit lookupCommit(Repository repository, PatchSet patchSet)
       throws IOException {
-    ObjectId patchSetCommitId = getPatchSetCommitId(patchSet);
+    ObjectId patchSetCommitId = patchSet.getCommitId();
     return lookupCommit(repository, patchSetCommitId);
   }
 
@@ -483,7 +483,7 @@ public class ChangeEditModifier {
   private static ObjectId merge(Repository repository, ChangeEdit changeEdit, ObjectId newTreeId)
       throws IOException, MergeConflictException {
     PatchSet basePatchSet = changeEdit.getBasePatchSet();
-    ObjectId basePatchSetCommitId = getPatchSetCommitId(basePatchSet);
+    ObjectId basePatchSetCommitId = basePatchSet.getCommitId();
     ObjectId editCommitId = changeEdit.getEditCommit();
 
     ThreeWayMerger threeWayMerger = MergeStrategy.RESOLVE.newMerger(repository, true);
@@ -520,10 +520,6 @@ public class ChangeEditModifier {
   private PersonIdent getCommitterIdent(Timestamp commitTimestamp) {
     IdentifiedUser user = currentUser.get().asIdentifiedUser();
     return user.newCommitterIdent(commitTimestamp, tz);
-  }
-
-  private static ObjectId getPatchSetCommitId(PatchSet patchSet) {
-    return ObjectId.fromString(patchSet.getRevision().get());
   }
 
   private ChangeEdit createEdit(

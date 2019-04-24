@@ -51,7 +51,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -328,11 +327,6 @@ public class GitOverHttpServlet extends GitServlet {
       up.setTimeout(config.getTimeout());
       up.setPreUploadHook(PreUploadHookChain.newChain(Lists.newArrayList(preUploadHooks)));
       up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
-      String header = req.getHeader("Git-Protocol");
-      if (header != null) {
-        String[] params = header.split(":");
-        up.setExtraParameters(Arrays.asList(params));
-      }
       ProjectState state = (ProjectState) req.getAttribute(ATT_STATE);
       uploadPackInitializers.runEach(initializer -> initializer.init(state.getNameKey(), up));
       return up;

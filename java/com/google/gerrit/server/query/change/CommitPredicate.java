@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.gerrit.git.ObjectIds.matchesAbbreviation;
 import static com.google.gerrit.server.index.change.ChangeField.COMMIT;
 import static com.google.gerrit.server.index.change.ChangeField.EXACT_COMMIT;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
@@ -45,9 +46,10 @@ public class CommitPredicate extends ChangeIndexPredicate {
   }
 
   protected boolean equals(PatchSet p, String id) {
-    boolean exact = getField() == EXACT_COMMIT;
-    String rev = p.getCommitId().name();
-    return (exact && id.equals(rev)) || (!exact && rev.startsWith(id));
+    if (getField() == EXACT_COMMIT) {
+      return p.getCommitId().name().equals(id);
+    }
+    return matchesAbbreviation(p.getCommitId(), id);
   }
 
   @Override

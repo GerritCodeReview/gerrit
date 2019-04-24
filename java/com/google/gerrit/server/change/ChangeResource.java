@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -149,7 +148,9 @@ public class ChangeResource implements RestResource, HasETag {
       accounts.add(getChange().getAssignee());
     }
     try {
-      patchSetUtil.byChange(notes).stream().map(PatchSet::getUploader).forEach(accounts::add);
+      patchSetUtil.byChange(notes).stream()
+          .map(patchSet -> patchSet.getUploader())
+          .forEach(accounts::add);
 
       // It's intentional to include the states for *all* reviewers into the ETag computation.
       // We need the states of all current reviewers and CCs because they are part of ChangeInfo.

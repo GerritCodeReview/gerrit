@@ -109,7 +109,7 @@ public class GroupCollector {
           // TODO(dborowitz): Reuse open repository from caller.
           ChangeNotes notes = notesFactory.createChecked(project, psId.changeId());
           PatchSet ps = psUtil.get(notes, psId);
-          return ps != null ? ps.getGroups() : null;
+          return ps != null ? (List<String>) ps.getGroups() : null;
         });
   }
 

@@ -51,40 +51,34 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
     if (!groups.isEmpty()) {
       builder.setGroups(PatchSet.joinGroups(groups));
     }
-    String pushCertificate = patchSet.getPushCertificate();
-    if (pushCertificate != null) {
-      builder.setPushCertificate(pushCertificate);
-    }
-    String description = patchSet.getDescription();
-    if (description != null) {
-      builder.setDescription(description);
-    }
+    patchSet.getPushCertificate().ifPresent(builder::setPushCertificate);
+    patchSet.getDescription().ifPresent(builder::setDescription);
     return builder.build();
   }
 
   @Override
   public PatchSet fromProto(Entities.PatchSet proto) {
     checkArgument(proto.hasCommitId(), "missing commit_id: %s", proto);
-    PatchSet patchSet =
-        new PatchSet(
-            patchSetIdConverter.fromProto(proto.getId()),
-            objectIdConverter.fromProto(proto.getCommitId()));
+    PatchSet.Builder builder =
+        PatchSet.builder()
+            .id(patchSetIdConverter.fromProto(proto.getId()))
+            .commitId(objectIdConverter.fromProto(proto.getCommitId()));
     if (proto.hasUploaderAccountId()) {
-      patchSet.setUploader(accountIdConverter.fromProto(proto.getUploaderAccountId()));
+      builder.uploader(accountIdConverter.fromProto(proto.getUploaderAccountId()));
     }
     if (proto.hasCreatedOn()) {
-      patchSet.setCreatedOn(new Timestamp(proto.getCreatedOn()));
+      builder.createdOn(new Timestamp(proto.getCreatedOn()));
     }
     if (proto.hasGroups()) {
-      patchSet.setGroups(PatchSet.splitGroups(proto.getGroups()));
+      builder.groups(PatchSet.splitGroups(proto.getGroups()));
     }
     if (proto.hasPushCertificate()) {
-      patchSet.setPushCertificate(proto.getPushCertificate());
+      builder.pushCertificate(proto.getPushCertificate());
     }
     if (proto.hasDescription()) {
-      patchSet.setDescription(proto.getDescription());
+      builder.description(proto.getDescription());
     }
-    return patchSet;
+    return builder.build();
   }
 
   @Override

@@ -118,6 +118,13 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 public class MergeUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  /**
+   * Length of abbreviated hex SHA-1s in merged filenames.
+   *
+   * <p>This is a constant so output is stable over time even if the SHA-1 prefix becomes ambiguous.
+   */
+  private static final int NAME_ABBREV_LEN = 6;
+
   static class PluggableCommitMessageGenerator {
     private final DynamicSet<ChangeMessageModifier> changeMessageModifiers;
 
@@ -338,13 +345,13 @@ public class MergeUtil {
         String.format(
             "%0$-" + nameLength + "s (%s %s)",
             oursName,
-            abbreviateName(ours, 6),
+            abbreviateName(ours, NAME_ABBREV_LEN),
             oursMsg.substring(0, Math.min(oursMsg.length(), 60)));
     String theirsNameFormatted =
         String.format(
             "%0$-" + nameLength + "s (%s %s)",
             theirsName,
-            abbreviateName(theirs, 6),
+            abbreviateName(theirs, NAME_ABBREV_LEN),
             theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
 
     MergeFormatter fmt = new MergeFormatter();

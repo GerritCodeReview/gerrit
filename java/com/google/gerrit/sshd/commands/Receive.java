@@ -14,13 +14,12 @@
 
 package com.google.gerrit.sshd.commands;
 
-import static com.google.gerrit.git.ObjectIds.abbreviateName;
-
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
@@ -143,7 +142,7 @@ final class Receive extends AbstractGitCommand {
         msg.append("  Visible references (").append(adv.size()).append("):\n");
         for (Ref ref : adv.values()) {
           msg.append("  - ")
-              .append(abbreviateName(ref.getObjectId(), 8))
+              .append(abbreviateName(ref, rp))
               .append(" ")
               .append(ref.getName())
               .append("\n");
@@ -160,7 +159,7 @@ final class Receive extends AbstractGitCommand {
         msg.append("  Hidden references (").append(hidden.size()).append("):\n");
         for (Ref ref : hidden) {
           msg.append("  - ")
-              .append(abbreviateName(ref.getObjectId(), 8))
+              .append(abbreviateName(ref, rp))
               .append(" ")
               .append(ref.getName())
               .append("\n");
@@ -170,5 +169,9 @@ final class Receive extends AbstractGitCommand {
       IOException detail = new IOException(msg.toString(), badStream);
       throw new Failure(128, "fatal: Unpack error, check server log", detail);
     }
+  }
+
+  private String abbreviateName(Ref ref, ReceivePack rp) throws IOException {
+    return ObjectIds.abbreviateName(ref.getObjectId(), rp.getRevWalk().getObjectReader());
   }
 }

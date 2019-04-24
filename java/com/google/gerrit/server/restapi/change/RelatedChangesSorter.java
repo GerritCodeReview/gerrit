@@ -74,8 +74,8 @@ class RelatedChangesSorter {
       throws IOException, PermissionBackendException {
     checkArgument(!in.isEmpty(), "Input may not be empty");
     // Map of all patch sets, keyed by commit SHA-1.
-    Map<String, PatchSetData> byId = collectById(in);
-    PatchSetData start = byId.get(startPs.getRevision().get());
+    Map<ObjectId, PatchSetData> byId = collectById(in);
+    PatchSetData start = byId.get(startPs.getCommitId());
     checkArgument(start != null, "%s not found in %s", startPs, in);
 
     // Map of patch set -> immediate parent.
@@ -89,12 +89,12 @@ class RelatedChangesSorter {
 
     for (ChangeData cd : in) {
       for (PatchSet ps : cd.patchSets()) {
-        PatchSetData thisPsd = requireNonNull(byId.get(ps.getRevision().get()));
+        PatchSetData thisPsd = requireNonNull(byId.get(ps.getCommitId()));
         if (cd.getId().equals(start.id()) && !ps.getId().equals(start.psId())) {
           otherPatchSetsOfStart.add(thisPsd);
         }
         for (RevCommit p : thisPsd.commit().getParents()) {
-          PatchSetData parentPsd = byId.get(p.name());
+          PatchSetData parentPsd = byId.get(p);
           if (parentPsd != null) {
             parents.put(thisPsd, parentPsd);
             children.put(parentPsd, thisPsd);
@@ -112,9 +112,9 @@ class RelatedChangesSorter {
     return result;
   }
 
-  private Map<String, PatchSetData> collectById(List<ChangeData> in) throws IOException {
+  private Map<ObjectId, PatchSetData> collectById(List<ChangeData> in) throws IOException {
     Project.NameKey project = in.get(0).change().getProject();
-    Map<String, PatchSetData> result = Maps.newHashMapWithExpectedSize(in.size() * 3);
+    Map<ObjectId, PatchSetData> result = Maps.newHashMapWithExpectedSize(in.size() * 3);
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.setRetainBody(true);
@@ -126,10 +126,9 @@ class RelatedChangesSorter {
             project,
             cd.change().getProject());
         for (PatchSet ps : cd.patchSets()) {
-          String id = ps.getRevision().get();
-          RevCommit c = rw.parseCommit(ObjectId.fromString(id));
+          RevCommit c = rw.parseCommit(ps.getCommitId());
           PatchSetData psd = PatchSetData.create(cd, ps, c);
-          result.put(id, psd);
+          result.put(ps.getCommitId(), psd);
         }
       }
     }

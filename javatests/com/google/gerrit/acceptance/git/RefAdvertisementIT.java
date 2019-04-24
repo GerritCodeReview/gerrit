@@ -776,7 +776,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     PatchSet.Id psId = PatchSet.id(cd.getId(), psNum);
     PatchSet ps = cd.patchSet(psId);
     assertWithMessage("%s not found in %s", psId, cd.patchSets()).that(ps).isNotNull();
-    return ObjectId.fromString(ps.getRevision().get());
+    return ps.getCommitId();
   }
 
   private AccountGroup.UUID createSelfOwnedGroup(String name, TestAccount... members)

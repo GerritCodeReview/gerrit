@@ -54,8 +54,6 @@ public class PureRevert {
     }
 
     return pureRevertCache.isPureRevert(
-        notes.getProjectName(),
-        ObjectId.fromString(notes.getCurrentPatchSet().getRevision().get()),
-        claimedOriginalObjectId);
+        notes.getProjectName(), notes.getCurrentPatchSet().getCommitId(), claimedOriginalObjectId);
   }
 }

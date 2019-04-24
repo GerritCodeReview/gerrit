@@ -154,10 +154,10 @@ public class CreateMergePatchSet
       List<String> groups = null;
       if (!in.inheritParent && !in.baseChange.isEmpty()) {
         PatchSet basePS = findBasePatchSet(in.baseChange);
-        currentPsCommit = rw.parseCommit(ObjectId.fromString(basePS.getRevision().get()));
+        currentPsCommit = rw.parseCommit(basePS.getCommitId());
         groups = basePS.getGroups();
       } else {
-        currentPsCommit = rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
+        currentPsCommit = rw.parseCommit(ps.getCommitId());
       }
 
       Timestamp now = TimeUtil.nowTs();

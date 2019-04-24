@@ -41,7 +41,6 @@ import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -230,13 +229,12 @@ public class WalkSorter {
       if (maxPs == null) {
         continue; // No patch sets matched.
       }
-      ObjectId id = ObjectId.fromString(maxPs.getRevision().get());
       try {
-        RevCommit c = rw.parseCommit(id);
+        RevCommit c = rw.parseCommit(maxPs.getCommitId());
         byCommit.put(c, PatchSetData.create(cd, maxPs, c));
       } catch (MissingObjectException | IncorrectObjectTypeException e) {
         logger.atWarning().withCause(e).log(
-            "missing commit %s for patch set %s", id.name(), maxPs.getId());
+            "missing commit %s for patch set %s", maxPs.getCommitId().name(), maxPs.getId());
       }
     }
     return byCommit;

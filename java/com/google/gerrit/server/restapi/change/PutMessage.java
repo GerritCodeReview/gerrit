@@ -119,7 +119,7 @@ public class PutMessage
     try (Repository repository = repositoryManager.openRepository(resource.getProject());
         RevWalk revWalk = new RevWalk(repository);
         ObjectInserter objectInserter = repository.newObjectInserter()) {
-      RevCommit patchSetCommit = revWalk.parseCommit(ObjectId.fromString(ps.getRevision().get()));
+      RevCommit patchSetCommit = revWalk.parseCommit(ps.getCommitId());
 
       String currentCommitMessage = patchSetCommit.getFullMessage();
       if (input.message.equals(currentCommitMessage)) {

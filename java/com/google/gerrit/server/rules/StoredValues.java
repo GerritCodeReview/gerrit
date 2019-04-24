@@ -42,7 +42,6 @@ import com.googlecode.prolog_cafe.lang.Prolog;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -96,9 +95,8 @@ public final class StoredValues {
           PatchListCache plCache = env.getArgs().getPatchListCache();
           Change change = getChange(engine);
           Project.NameKey project = change.getProject();
-          ObjectId b = ObjectId.fromString(ps.getRevision().get());
           Whitespace ws = Whitespace.IGNORE_NONE;
-          PatchListKey plKey = PatchListKey.againstDefaultBase(b, ws);
+          PatchListKey plKey = PatchListKey.againstDefaultBase(ps.getCommitId(), ws);
           PatchList patchList;
           try {
             patchList = plCache.get(plKey, project);

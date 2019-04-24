@@ -60,7 +60,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -358,9 +357,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         return Response.ok(
             fileContentUtil.getContent(
                 projectCache.checkedGet(rsrc.getChangeResource().getProject()),
-                base
-                    ? ObjectId.fromString(edit.getBasePatchSet().getRevision().get())
-                    : edit.getEditCommit(),
+                base ? edit.getBasePatchSet().getCommitId() : edit.getEditCommit(),
                 rsrc.getPath(),
                 null));
       } catch (ResourceNotFoundException | BadRequestException e) {
@@ -461,9 +458,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         if (base) {
           try (Repository repo = repoManager.openRepository(rsrc.getProject());
               RevWalk rw = new RevWalk(repo)) {
-            RevCommit commit =
-                rw.parseCommit(
-                    ObjectId.fromString(edit.get().getBasePatchSet().getRevision().get()));
+            RevCommit commit = rw.parseCommit(edit.get().getBasePatchSet().getCommitId());
             msg = commit.getFullMessage();
           }
         } else {

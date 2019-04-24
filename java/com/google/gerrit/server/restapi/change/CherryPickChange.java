@@ -143,12 +143,7 @@ public class CherryPickChange {
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
-        batchUpdateFactory,
-        change,
-        change.getProject(),
-        ObjectId.fromString(patch.getRevision().get()),
-        input,
-        dest);
+        batchUpdateFactory, change, change.getProject(), patch.getCommitId(), input, dest);
   }
 
   public Result cherryPick(

@@ -584,7 +584,7 @@ public class PostReview
 
   private Set<String> getAffectedFilePaths(RevisionResource revision)
       throws PatchListNotAvailableException {
-    ObjectId newId = ObjectId.fromString(revision.getPatchSet().getRevision().get());
+    ObjectId newId = revision.getPatchSet().getCommitId();
     DiffSummaryKey key =
         DiffSummaryKey.fromPatchListKey(
             PatchListKey.againstDefaultBase(newId, Whitespace.IGNORE_NONE));

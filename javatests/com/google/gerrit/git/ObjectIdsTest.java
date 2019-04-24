@@ -17,6 +17,7 @@ package com.google.gerrit.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
 import java.util.function.Function;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -97,6 +98,28 @@ public class ObjectIdsTest {
     assertThat(copy).isEqualTo(myId);
     assertThat(copy).isNotSameInstanceAs(myId);
     assertThat(copy.getClass()).isEqualTo(ObjectId.class);
+  }
+
+  @Test
+  public void matchesAbbreviation() throws Exception {
+    assertThat(ObjectIds.matchesAbbreviation(null, "")).isFalse();
+    assertThat(ObjectIds.matchesAbbreviation(null, "0")).isFalse();
+    assertThat(ObjectIds.matchesAbbreviation(null, "00000")).isFalse();
+    assertThat(ObjectIds.matchesAbbreviation(null, "not a SHA-1")).isFalse();
+    assertThat(ObjectIds.matchesAbbreviation(null, ID.name())).isFalse();
+
+    assertThat(ObjectIds.matchesAbbreviation(ID, "")).isTrue();
+    for (int i = 1; i <= OBJECT_ID_STRING_LENGTH; i++) {
+      String prefix = ID.name().substring(0, i);
+      assertThat(ObjectIds.matchesAbbreviation(ID, prefix))
+          .named("match %s against %s", ID.name(), prefix)
+          .isTrue();
+    }
+
+    assertThat(ObjectIds.matchesAbbreviation(ID, "1")).isFalse();
+    assertThat(ObjectIds.matchesAbbreviation(ID, "x")).isFalse();
+    assertThat(ObjectIds.matchesAbbreviation(ID, "not a SHA-1")).isFalse();
+    assertThat(ObjectIds.matchesAbbreviation(ID, AMBIGUOUS_BLOB_ID.name())).isFalse();
   }
 
   @FunctionalInterface

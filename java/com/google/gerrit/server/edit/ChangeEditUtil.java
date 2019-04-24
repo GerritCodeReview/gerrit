@@ -174,7 +174,7 @@ public class ChangeEditUtil {
           new StringBuilder("Patch Set ").append(inserter.getPatchSetId().get()).append(": ");
 
       // Previously checked that the base patch set is the current patch set.
-      ObjectId prior = ObjectId.fromString(basePatchSet.getRevision().get());
+      ObjectId prior = basePatchSet.getCommitId();
       ChangeKind kind =
           changeKindCache.getChangeKind(change.getProject(), rw, repo.getConfig(), prior, squashed);
       if (kind == ChangeKind.NO_CODE_CHANGE) {
@@ -232,7 +232,7 @@ public class ChangeEditUtil {
   private RevCommit squashEdit(
       RevWalk rw, ObjectInserter inserter, RevCommit edit, PatchSet basePatchSet)
       throws IOException, ResourceConflictException {
-    RevCommit parent = rw.parseCommit(ObjectId.fromString(basePatchSet.getRevision().get()));
+    RevCommit parent = rw.parseCommit(basePatchSet.getCommitId());
     if (parent.getTree().equals(edit.getTree())
         && edit.getFullMessage().equals(parent.getFullMessage())) {
       throw new ResourceConflictException("identical tree and message");

@@ -227,7 +227,7 @@ public class RevisionJson {
         }
         if (want) {
           res.put(
-              in.getRevision().get(),
+              in.getCommitId().name(),
               toRevisionInfo(accountLoader, cd, in, repo, rw, false, changeInfo));
         }
       }
@@ -290,7 +290,7 @@ public class RevisionJson {
       checkState(rw != null);
       checkState(repo != null);
       Project.NameKey project = c.getProject();
-      String rev = in.getRevision().get();
+      String rev = in.getCommitId().name();
       RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
       rw.parseBody(commit);
       if (setCommit) {

@@ -386,11 +386,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         if (priorPs != patch) {
           kind =
               cache.getChangeKind(
-                  change.project(),
-                  rw,
-                  repoConfig,
-                  ObjectId.fromString(priorPs.getRevision().get()),
-                  ObjectId.fromString(patch.getRevision().get()));
+                  change.project(), rw, repoConfig, priorPs.getCommitId(), patch.getCommitId());
         }
       } catch (StorageException e) {
         // Do nothing; assume we have a complex change

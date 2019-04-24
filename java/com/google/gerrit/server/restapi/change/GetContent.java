@@ -33,7 +33,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -77,7 +76,7 @@ public class GetContent implements RestReadView<FileResource> {
     }
     return fileContentUtil.getContent(
         projectCache.checkedGet(rsrc.getRevision().getProject()),
-        ObjectId.fromString(rsrc.getRevision().getPatchSet().getRevision().get()),
+        rsrc.getRevision().getPatchSet().getCommitId(),
         path,
         parent);
   }
@@ -91,7 +90,7 @@ public class GetContent implements RestReadView<FileResource> {
 
     try (Repository git = gitManager.openRepository(notes.getProjectName());
         RevWalk revWalk = new RevWalk(git)) {
-      RevCommit commit = revWalk.parseCommit(ObjectId.fromString(ps.getRevision().get()));
+      RevCommit commit = revWalk.parseCommit(ps.getCommitId());
       return commit.getFullMessage();
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchChangeException(changeId, e);
@@ -108,9 +107,7 @@ public class GetContent implements RestReadView<FileResource> {
     try (Repository git = gitManager.openRepository(notes.getProjectName());
         RevWalk revWalk = new RevWalk(git)) {
       return Text.forMergeList(
-              ComparisonType.againstAutoMerge(),
-              revWalk.getObjectReader(),
-              ObjectId.fromString(ps.getRevision().get()))
+              ComparisonType.againstAutoMerge(), revWalk.getObjectReader(), ps.getCommitId())
           .getContent();
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchChangeException(changeId, e);

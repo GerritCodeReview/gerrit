@@ -37,7 +37,6 @@ import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -203,7 +202,7 @@ public class Submit
       // TODO Allow submitting non-current revision by changing the current.
       throw new ResourceConflictException(
           String.format(
-              "revision %s is not current revision", rsrc.getPatchSet().getRevision().get()));
+              "revision %s is not current revision", rsrc.getPatchSet().getCommitId().name()));
     }
 
     try (MergeOp op = mergeOpProvider.get()) {
@@ -365,12 +364,11 @@ public class Submit
           .setVisible(true)
           .setEnabled(Boolean.TRUE.equals(enabled));
     }
-    RevId revId = resource.getPatchSet().getRevision();
     Map<String, String> params =
         ImmutableMap.of(
             "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
             "branch", change.getDest().shortName(),
-            "commit", abbreviateName(ObjectId.fromString(revId.get())),
+            "commit", abbreviateName(resource.getPatchSet().getCommitId()),
             "submitSize", String.valueOf(cs.size()));
     ParameterizedString tp = cs.size() > 1 ? titlePatternWithAncestors : titlePattern;
     return new UiAction.Description()
@@ -434,9 +432,7 @@ public class Submit
     try (Repository repo = repoManager.openRepository(project);
         RevWalk walk = new RevWalk(repo)) {
       for (ChangeData change : changes) {
-        RevCommit commit =
-            walk.parseCommit(
-                ObjectId.fromString(psUtil.current(change.notes()).getRevision().get()));
+        RevCommit commit = walk.parseCommit(psUtil.current(change.notes()).getCommitId());
         commits.put(change.getId(), commit);
       }
     }

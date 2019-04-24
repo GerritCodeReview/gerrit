@@ -194,7 +194,13 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     validatePatchSetId(psb);
 
     PatchSet psEntityA = psa != null ? psUtil.get(notes, psa) : null;
-    PatchSet psEntityB = psb.get() == 0 ? new PatchSet(psb) : psUtil.get(notes, psb);
+
+    // TODO(dborowitz): Shouldn't be creating a PatchSet with no commitId, but the logic depends on
+    // it somehow in a way that I don't follow, so old behavior is preserved for now.
+    @SuppressWarnings("deprecation")
+    PatchSet psEntityB =
+        psb.get() == 0 ? PatchSet.createWithNoCommitId(psb) : psUtil.get(notes, psb);
+
     if (psEntityA != null || psEntityB != null) {
       try {
         permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
@@ -261,9 +267,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private ObjectId toObjectId(PatchSet ps) throws AuthException, IOException {
     if (ps.getId().get() == 0) {
       return getEditRev();
-    }
-    if (ps.getCommitId() == null) {
-      throw new NoSuchChangeException(changeId);
     }
     return ps.getCommitId();
   }

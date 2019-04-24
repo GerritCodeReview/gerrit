@@ -204,7 +204,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   private void setCommitIdHeader() {
-    if (patchSet != null && patchSet.getCommitId() != null) {
+    if (patchSet != null) {
       setHeader(MailHeader.COMMIT.fieldName(), patchSet.getCommitId().name());
     }
   }

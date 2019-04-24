@@ -689,8 +689,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
           new BatchUpdateOp() {
             @Override
             public boolean updateChange(ChangeContext ctx) {
-              PatchSet ps = psUtil.get(ctx.getNotes(), psId);
-              psUtil.setGroups(ctx.getUpdate(psId), ps, ImmutableList.of());
+              ctx.getUpdate(psId).setGroups(ImmutableList.of());
               return true;
             }
           });

@@ -64,6 +64,7 @@ junit_tests(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/cache/testing",
+        "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib/jgit/org.eclipse.jgit:jgit",

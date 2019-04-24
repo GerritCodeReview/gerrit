@@ -2919,7 +2919,7 @@ class ReceiveCommits {
               } else if (sameGroups(oldGroups, groups)) {
                 return false;
               }
-              psUtil.setGroups(ctx.getUpdate(psId), ps, groups);
+              ctx.getUpdate(psId).setGroups(groups);
               return true;
             }
           });

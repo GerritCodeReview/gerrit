@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.inject.Singleton;
@@ -23,6 +22,6 @@ import com.google.inject.Singleton;
 public class GetDescription implements RestReadView<RevisionResource> {
   @Override
   public String apply(RevisionResource rsrc) {
-    return Strings.nullToEmpty(rsrc.getPatchSet().getDescription());
+    return rsrc.getPatchSet().getDescription().orElse("");
   }
 }

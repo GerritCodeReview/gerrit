@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0d27e957_71d59859",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-24T12:42:18Z",
+      "side": 1,
+      "message": "It\u0027s implicitly mentioned above (l. 48 to l. 51). I think you can be member in this group even without being a contributor, which is why I included it into the \u0027supporter\u0027 section. I\u0027ve clarified the point above to make it clear that this is about the gerrit-verifiers group.\n\nI also think there are some more abilities connected with it (submitting changes which are already approved, uploading patch sets to changes of other people) but I\u0027m not sure if all of this needs to be explicitly mentioned here. Maybe we can also add those later if we find that this is important to be documented here.",
+      "parentUuid": "8963d52d_284d79f4",
+      "revId": "73a416317604176f1405cf49910d425a2d6e3e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "17a16fe7_5d000178",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 1
@@ -65,6 +83,54 @@
     },
     {
       "key": {
+        "uuid": "9223b99b_c471c7d3",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-24T12:42:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17a16fe7_5d000178",
+      "range": {
+        "startLine": 101,
+        "startChar": 54,
+        "endLine": 101,
+        "endChar": 56
+      },
+      "revId": "73a416317604176f1405cf49910d425a2d6e3e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1283e14f_a086d86d",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-24T12:42:18Z",
+      "side": 1,
+      "message": "oh, yes.",
+      "parentUuid": "f40a4cc7_d7bcab41",
+      "range": {
+        "startLine": 101,
+        "startChar": 28,
+        "endLine": 101,
+        "endChar": 34
+      },
+      "revId": "73a416317604176f1405cf49910d425a2d6e3e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c36d3431_61ae0df4",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 1
@@ -85,6 +151,30 @@
       "revId": "73a416317604176f1405cf49910d425a2d6e3e11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08916ff5_2ef43d4d",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-24T12:42:18Z",
+      "side": 1,
+      "message": "Yeah, maybe let\u0027s drop this point. I was more thinking in the direction that if a new features causes issues it\u0027s up to the maintainers to decide if the feature should be reverted or if we want to attempt fixing it by rolling forward. But I guess that already implicitly covered by all the other points.",
+      "parentUuid": "c36d3431_61ae0df4",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 122,
+        "endChar": 39
+      },
+      "revId": "73a416317604176f1405cf49910d425a2d6e3e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

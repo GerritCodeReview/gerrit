@@ -193,8 +193,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       try (Repository repo = repoManager.openRepository(projectKey);
           RevWalk revWalk = new RevWalk(repo)) {
         RevCommit currPatchsetRevCommit =
-            revWalk.parseCommit(
-                ObjectId.fromString(psUtil.current(ctx.getNotes()).getRevision().get()));
+            revWalk.parseCommit(psUtil.current(ctx.getNotes()).getCommitId());
         if (currPatchsetRevCommit.getParentCount() > 1) {
           throw new ResourceConflictException("Merge commit cannot be moved");
         }

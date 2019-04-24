@@ -1802,7 +1802,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       throws Exception {
     Change.Id id = accidentallyPushNewPatchSetDirectlyToBranch();
     ChangeData cd = byChangeId(id);
-    String ps1Rev = Iterables.getOnlyElement(cd.patchSets()).getRevision().get();
+    String ps1Rev = Iterables.getOnlyElement(cd.patchSets()).getCommitId().name();
 
     String r = "refs/changes/" + id;
     assertPushOk(pushHead(testRepo, r, false), r);
@@ -1820,7 +1820,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       throws Exception {
     Change.Id id = accidentallyPushNewPatchSetDirectlyToBranch();
     ChangeData cd = byChangeId(id);
-    String ps1Rev = Iterables.getOnlyElement(cd.patchSets()).getRevision().get();
+    String ps1Rev = Iterables.getOnlyElement(cd.patchSets()).getCommitId().name();
 
     String r = "refs/for/master";
     assertPushRejected(pushHead(testRepo, r, false), r, "no new changes");
@@ -2627,7 +2627,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   private static Map<Integer, String> getPatchSetRevisions(ChangeData cd) throws Exception {
     Map<Integer, String> revisions = new HashMap<>();
     for (PatchSet ps : cd.patchSets()) {
-      revisions.put(ps.getPatchSetId(), ps.getRevision().get());
+      revisions.put(ps.getPatchSetId(), ps.getCommitId().name());
     }
     return revisions;
   }

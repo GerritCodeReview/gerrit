@@ -108,6 +108,20 @@ public class ObjectIds {
     return id != null ? id.copy() : ObjectId.zeroId();
   }
 
+  /**
+   * Return whether the given ID matches the given abbreviation.
+   *
+   * @param id object ID.
+   * @param abbreviation abbreviated hex object ID. May not be null, but may be an invalid hex SHA-1
+   *     abbreviation string.
+   * @return true if {@code id} is not null and {@code abbreviation} is a valid hex SHA-1
+   *     abbreviation that matches {@code id}, false otherwise.
+   */
+  public static boolean matchesAbbreviation(@Nullable AnyObjectId id, String abbreviation) {
+    requireNonNull(abbreviation);
+    return id != null && id.name().startsWith(abbreviation);
+  }
+
   private static void checkValidLength(int n) {
     checkArgument(n > 0);
     checkArgument(n <= STR_LEN);

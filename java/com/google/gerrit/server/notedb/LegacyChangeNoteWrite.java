@@ -78,7 +78,7 @@ public class LegacyChangeNoteWrite {
    *
    * @param comments Comments to be written to the output stream, keyed by patch set ID; multiple
    *     patch sets are allowed since base revisions may be shared across patch sets. All of the
-   *     comments must share the same RevId, and all the comments for a given patch set must have
+   *     comments must share the same commitId, and all the comments for a given patch set must have
    *     the same side.
    * @param out output stream to write to.
    */
@@ -114,8 +114,8 @@ public class LegacyChangeNoteWrite {
         for (Comment c : psComments) {
           checkArgument(
               commitId.equals(c.getCommitId()),
-              "All comments being added must have all the same RevId. The "
-                  + "comment below does not have the same RevId as the others "
+              "All comments being added must have all the same commitId. The "
+                  + "comment below does not have the same commitId as the others "
                   + "(%s).\n%s",
               commitId,
               c);

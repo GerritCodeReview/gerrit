@@ -25,10 +25,10 @@ import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.protobuf.Parser;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 public class PatchSetProtoConverterTest {
@@ -37,7 +37,7 @@ public class PatchSetProtoConverterTest {
   @Test
   public void allValuesConvertedToProto() {
     PatchSet patchSet = new PatchSet(PatchSet.id(Change.id(103), 73));
-    patchSet.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    patchSet.setCommitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
     patchSet.setUploader(Account.id(452));
     patchSet.setCreatedOn(new Timestamp(930349320L));
     patchSet.setGroups(ImmutableList.of("group1, group2"));
@@ -82,7 +82,7 @@ public class PatchSetProtoConverterTest {
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
     PatchSet patchSet = new PatchSet(PatchSet.id(Change.id(103), 73));
-    patchSet.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    patchSet.setCommitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
     patchSet.setUploader(Account.id(452));
     patchSet.setCreatedOn(new Timestamp(930349320L));
     patchSet.setGroups(ImmutableList.of("group1, group2"));
@@ -127,7 +127,7 @@ public class PatchSetProtoConverterTest {
         .hasFields(
             ImmutableMap.<String, Type>builder()
                 .put("id", PatchSet.Id.class)
-                .put("revision", RevId.class)
+                .put("commitId", ObjectId.class)
                 .put("uploader", Account.Id.class)
                 .put("createdOn", Timestamp.class)
                 .put("groups", String.class)

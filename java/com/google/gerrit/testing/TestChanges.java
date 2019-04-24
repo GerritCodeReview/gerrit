@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.AbstractChangeNotes;
@@ -70,7 +69,7 @@ public class TestChanges {
 
   public static PatchSet newPatchSet(PatchSet.Id id, String revision, Account.Id userId) {
     PatchSet ps = new PatchSet(id);
-    ps.setRevision(new RevId(revision));
+    ps.setCommitId(ObjectId.fromString(revision));
     ps.setUploader(userId);
     ps.setCreatedOn(TimeUtil.nowTs());
     return ps;

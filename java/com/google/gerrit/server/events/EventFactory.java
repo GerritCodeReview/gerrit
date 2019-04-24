@@ -285,7 +285,7 @@ public class EventFactory {
 
   private void addDependsOn(RevWalk rw, ChangeAttribute ca, Change change, PatchSet currentPs)
       throws IOException {
-    RevCommit commit = rw.parseCommit(ObjectId.fromString(currentPs.getRevision().get()));
+    RevCommit commit = rw.parseCommit(currentPs.getCommitId());
     final List<String> parentNames = new ArrayList<>(commit.getParentCount());
     for (RevCommit p : commit.getParents()) {
       parentNames.add(p.name());
@@ -296,7 +296,7 @@ public class EventFactory {
     for (ChangeData cd : queryProvider.get().byProjectCommits(change.getProject(), parentNames)) {
       for (PatchSet ps : cd.patchSets()) {
         for (String p : parentNames) {
-          if (!ps.getRevision().get().equals(p)) {
+          if (!ps.getCommitId().name().equals(p)) {
             continue;
           }
           ca.dependsOn.add(newDependsOn(requireNonNull(cd.change()), ps));
@@ -321,7 +321,7 @@ public class EventFactory {
     if (currentPs.getGroups().isEmpty()) {
       return;
     }
-    String rev = currentPs.getRevision().get();
+    String rev = currentPs.getCommitId().name();
     // Find changes in the same related group as this patch set, having a patch
     // set whose parent matches this patch set's revision.
     for (ChangeData cd :
@@ -329,7 +329,7 @@ public class EventFactory {
             queryProvider, indexConfig, change.getProject(), currentPs.getGroups())) {
       PATCH_SETS:
       for (PatchSet ps : cd.patchSets()) {
-        RevCommit commit = rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
+        RevCommit commit = rw.parseCommit(ps.getCommitId());
         for (RevCommit p : commit.getParents()) {
           if (!p.name().equals(rev)) {
             continue;
@@ -355,7 +355,7 @@ public class EventFactory {
     DependencyAttribute d = new DependencyAttribute();
     d.number = c.getId().get();
     d.id = c.getKey().toString();
-    d.revision = ps.getRevision().get();
+    d.revision = ps.getCommitId().name();
     d.ref = ps.getRefName();
     return d;
   }
@@ -463,7 +463,7 @@ public class EventFactory {
    */
   public PatchSetAttribute asPatchSetAttribute(RevWalk revWalk, Change change, PatchSet patchSet) {
     PatchSetAttribute p = new PatchSetAttribute();
-    p.revision = patchSet.getRevision().get();
+    p.revision = patchSet.getCommitId().name();
     p.number = patchSet.getPatchSetId();
     p.ref = patchSet.getRefName();
     p.uploader = asAccountAttribute(patchSet.getUploader());

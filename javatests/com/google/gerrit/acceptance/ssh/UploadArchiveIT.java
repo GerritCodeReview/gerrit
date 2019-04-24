@@ -15,14 +15,15 @@
 package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.git.ObjectIds.abbreviateName;
 
 import com.google.common.base.Splitter;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.git.ObjectIds;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -56,7 +57,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
   @Test
   public void zipFormat() throws Exception {
     PushOneCommit.Result r = createChange();
-    String abbreviated = abbreviateName(r.getCommit(), 8);
+    String abbreviated = abbreviateName(r);
     String c = command(r, "zip", abbreviated);
 
     InputStream out =
@@ -93,7 +94,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
   @Test
   public void txzFormat() throws Exception {
     PushOneCommit.Result r = createChange();
-    String abbreviated = abbreviateName(r.getCommit(), 8);
+    String abbreviated = abbreviateName(r);
     String c = command(r, "tar.xz", abbreviated);
 
     try (InputStream out =
@@ -131,7 +132,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
 
   private void assertArchiveNotPermitted() throws Exception {
     PushOneCommit.Result r = createChange();
-    String abbreviated = abbreviateName(r.getCommit(), 8);
+    String abbreviated = abbreviateName(r);
     String c = command(r, "zip", abbreviated);
 
     InputStream out =
@@ -145,6 +146,10 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     tmp = in.readString();
     tmp = tmp.substring(1);
     assertThat(tmp).isEqualTo("fatal: upload-archive not permitted for format zip");
+  }
+
+  private String abbreviateName(Result r) throws Exception {
+    return ObjectIds.abbreviateName(r.getCommit(), 8, testRepo.getRevWalk().getObjectReader());
   }
 
   private InputStream argumentsToInputStream(String c) throws Exception {

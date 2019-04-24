@@ -56,6 +56,7 @@ import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -334,18 +335,22 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   @Test
   public void serializePatchSets() throws Exception {
     PatchSet ps1 =
-        new PatchSet(
-            PatchSet.id(ID, 1), ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
-    ps1.setUploader(Account.id(2000));
-    ps1.setCreatedOn(cols.createdOn());
+        PatchSet.builder()
+            .id(PatchSet.id(ID, 1))
+            .commitId(ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"))
+            .uploader(Account.id(2000))
+            .createdOn(cols.createdOn())
+            .build();
     ByteString ps1Bytes = toByteString(ps1, PatchSetProtoConverter.INSTANCE);
     assertThat(ps1Bytes.size()).isEqualTo(66);
 
     PatchSet ps2 =
-        new PatchSet(
-            PatchSet.id(ID, 2), ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
-    ps2.setUploader(Account.id(3000));
-    ps2.setCreatedOn(cols.lastUpdatedOn());
+        PatchSet.builder()
+            .id(PatchSet.id(ID, 2))
+            .commitId(ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"))
+            .uploader(Account.id(3000))
+            .createdOn(cols.lastUpdatedOn())
+            .build();
     ByteString ps2Bytes = toByteString(ps2, PatchSetProtoConverter.INSTANCE);
     assertThat(ps2Bytes.size()).isEqualTo(66);
     assertThat(ps2Bytes).isNotEqualTo(ps1Bytes);
@@ -766,15 +771,15 @@ public class ChangeNotesStateTest extends GerritBaseTests {
   @Test
   public void patchSetFields() throws Exception {
     assertThatSerializedClass(PatchSet.class)
-        .hasFields(
+        .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
-                .put("id", PatchSet.Id.class)
-                .put("commitId", ObjectId.class)
-                .put("uploader", Account.Id.class)
-                .put("createdOn", Timestamp.class)
-                .put("groups", String.class)
-                .put("pushCertificate", String.class)
-                .put("description", String.class)
+                .put("getId", PatchSet.Id.class)
+                .put("getCommitId", ObjectId.class)
+                .put("getUploader", Account.Id.class)
+                .put("getCreatedOn", Timestamp.class)
+                .put("getGroups", new TypeLiteral<ImmutableList<String>>() {}.getType())
+                .put("getPushCertificate", new TypeLiteral<Optional<String>>() {}.getType())
+                .put("getDescription", new TypeLiteral<Optional<String>>() {}.getType())
                 .build());
   }
 

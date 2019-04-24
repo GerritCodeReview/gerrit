@@ -23,15 +23,14 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
 import com.google.common.primitives.Ints;
-import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** A single revision of a {@link Change}. */
-public final class PatchSet {
+@AutoValue
+public abstract class PatchSet {
   /** Is the reference name a change reference? */
   public static boolean isChangeRef(String name) {
     return Id.fromRef(name) != null;
@@ -80,7 +79,7 @@ public final class PatchSet {
       checkArgument(test, "invalid patch set ID: %s", input);
     }
 
-    /** Parse a PatchSet.Id from a {@link PatchSet#getRefName()} result. */
+    /** Parse a PatchSet.Id from a {@link #getRefName()} result. */
     public static Id fromRef(String ref) {
       int cs = Change.Id.startIndex(ref);
       if (cs < 0) {
@@ -135,14 +134,70 @@ public final class PatchSet {
     }
   }
 
-  protected Id id;
+  public static Builder builder() {
+    return new AutoValue_PatchSet.Builder().groups(ImmutableList.of());
+  }
 
-  protected ObjectId commitId;
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder id(Id id);
 
-  protected Account.Id uploader;
+    public abstract Id getId();
 
-  /** When this patch set was first introduced onto the change. */
-  protected Timestamp createdOn;
+    public abstract Builder commitId(ObjectId commitId);
+
+    public abstract Optional<ObjectId> getCommitId();
+
+    public abstract Builder uploader(Account.Id uploader);
+
+    public abstract Builder createdOn(Timestamp createdOn);
+
+    public abstract Builder groups(Iterable<String> groups);
+
+    public abstract ImmutableList<String> getGroups();
+
+    public abstract Builder pushCertificate(Optional<String> pushCertificate);
+
+    public abstract Builder pushCertificate(String pushCertificate);
+
+    public abstract Builder description(Optional<String> description);
+
+    public abstract Builder description(String description);
+
+    public abstract Optional<String> getDescription();
+
+    public abstract PatchSet build();
+  }
+
+  /** ID of the patch set. */
+  public abstract Id getId();
+
+  /**
+   * Commit ID of the patch set, also known as the revision.
+   *
+   * <p>If this is a deserialized instance that was originally serialized by an older version of
+   * Gerrit, and the old data erroneously did not include a {@code commitId}, then this method will
+   * return {@link ObjectId#zeroId()}.
+   */
+  public abstract ObjectId getCommitId();
+
+  /**
+   * Account that uploaded the patch set.
+   *
+   * <p>If this is a deserialized instance that was originally serialized by an older version of
+   * Gerrit, and the old data erroneously did not include an {@code uploader}, then this method will
+   * return an account ID of 0.
+   */
+  public abstract Account.Id getUploader();
+
+  /**
+   * When this patch set was first introduced onto the change.
+   *
+   * <p>If this is a deserialized instance that was originally serialized by an older version of
+   * Gerrit, and the old data erroneously did not include a {@code createdOn}, then this method will
+   * return a timestamp of 0.
+   */
+  public abstract Timestamp getCreatedOn();
 
   /**
    * Opaque group identifier, usually assigned during creation.
@@ -153,127 +208,26 @@ public final class PatchSet {
    * <p>Changes on the same branch having patch sets with intersecting groups are considered
    * related, as in the "Related Changes" tab.
    */
-  @Nullable protected String groups;
-
-  // DELETED id = 7 (pushCertficate)
+  public abstract ImmutableList<String> getGroups();
 
   /** Certificate sent with a push that created this patch set. */
-  @Nullable protected String pushCertificate;
+  public abstract Optional<String> getPushCertificate();
 
   /**
    * Optional user-supplied description for this patch set.
    *
-   * <p>When this field is null, the description was never set on the patch set. When this field is
-   * an empty string, the description was set and later cleared.
+   * <p>When this field is an empty {@code Optional}, the description was never set on the patch
+   * set. When this field is present but an empty string, the description was set and later cleared.
    */
-  @Nullable protected String description;
+  public abstract Optional<String> getDescription();
 
-  public PatchSet(PatchSet.Id id, ObjectId commitId) {
-    this.id = requireNonNull(id);
-    this.commitId = commitId.copy();
-  }
-
-  public PatchSet(PatchSet src) {
-    this.id = src.id;
-    this.commitId = src.commitId;
-    this.uploader = src.uploader;
-    this.createdOn = src.createdOn;
-    this.groups = src.groups;
-    this.pushCertificate = src.pushCertificate;
-    this.description = src.description;
-  }
-
-  public PatchSet.Id getId() {
-    return id;
-  }
-
+  /** Patch set number. */
   public int getPatchSetId() {
-    return id.get();
+    return getId().get();
   }
 
-  /**
-   * Get the ID of the commit associated with this patch set.
-   *
-   * <p>The commit associated with a patch set is also known as the <strong>revision</strong>.
-   *
-   * @return the commit ID, never null.
-   */
-  public ObjectId getCommitId() {
-    return commitId;
-  }
-
-  public Account.Id getUploader() {
-    return uploader;
-  }
-
-  public void setUploader(Account.Id who) {
-    uploader = who;
-  }
-
-  public Timestamp getCreatedOn() {
-    return createdOn;
-  }
-
-  public void setCreatedOn(Timestamp ts) {
-    createdOn = ts;
-  }
-
-  public List<String> getGroups() {
-    if (groups == null) {
-      return Collections.emptyList();
-    }
-    return splitGroups(groups);
-  }
-
-  public void setGroups(List<String> groups) {
-    if (groups == null) {
-      groups = Collections.emptyList();
-    }
-    this.groups = joinGroups(groups);
-  }
-
+  /** Name of the corresponding patch set ref. */
   public String getRefName() {
-    return id.toRefName();
-  }
-
-  public String getPushCertificate() {
-    return pushCertificate;
-  }
-
-  public void setPushCertificate(String cert) {
-    pushCertificate = cert;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (!(o instanceof PatchSet)) {
-      return false;
-    }
-    PatchSet p = (PatchSet) o;
-    return Objects.equals(id, p.id)
-        && Objects.equals(commitId, p.commitId)
-        && Objects.equals(uploader, p.uploader)
-        && Objects.equals(createdOn, p.createdOn)
-        && Objects.equals(groups, p.groups)
-        && Objects.equals(pushCertificate, p.pushCertificate)
-        && Objects.equals(description, p.description);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, commitId, uploader, createdOn, groups, pushCertificate, description);
-  }
-
-  @Override
-  public String toString() {
-    return "[PatchSet " + getId().toString() + "]";
+    return getId().toRefName();
   }
 }

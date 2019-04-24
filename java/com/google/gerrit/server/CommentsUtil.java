@@ -50,7 +50,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -321,7 +320,7 @@ public class CommentsUtil {
           c.setCommitId(cache.getOldId(change, ps, null));
         }
       } else {
-        c.setCommitId(ObjectId.fromString(ps.getRevision().get()));
+        c.setCommitId(ps.getCommitId());
       }
     }
   }

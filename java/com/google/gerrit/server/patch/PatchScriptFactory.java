@@ -262,16 +262,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     if (ps.getId().get() == 0) {
       return getEditRev();
     }
-    if (ps.getRevision() == null || ps.getRevision().get() == null) {
+    if (ps.getCommitId() == null) {
       throw new NoSuchChangeException(changeId);
     }
-
-    try {
-      return ObjectId.fromString(ps.getRevision().get());
-    } catch (IllegalArgumentException e) {
-      logger.atSevere().log("Patch set %s has invalid revision", ps.getId());
-      throw new NoSuchChangeException(changeId, e);
-    }
+    return ps.getCommitId();
   }
 
   private ObjectId getEditRev() throws AuthException, IOException {

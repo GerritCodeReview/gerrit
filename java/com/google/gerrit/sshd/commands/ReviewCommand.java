@@ -243,7 +243,7 @@ public class ReviewCommand extends SshCommand {
   private void applyReview(PatchSet patchSet, ReviewInput review) throws RestApiException {
     gApi.changes()
         .id(patchSet.getId().changeId().get())
-        .revision(patchSet.getRevision().get())
+        .revision(patchSet.getCommitId().name())
         .review(review);
   }
 
@@ -314,7 +314,7 @@ public class ReviewCommand extends SshCommand {
   }
 
   private RevisionApi revisionApi(PatchSet patchSet) throws RestApiException {
-    return changeApi(patchSet).revision(patchSet.getRevision().get());
+    return changeApi(patchSet).revision(patchSet.getCommitId().name());
   }
 
   @Override

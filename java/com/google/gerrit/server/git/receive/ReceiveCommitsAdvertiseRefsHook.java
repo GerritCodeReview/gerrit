@@ -108,12 +108,11 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
               .byProjectOpen(projectName)) {
         PatchSet ps = cd.currentPatchSet();
         if (ps != null) {
-          ObjectId id = ObjectId.fromString(ps.getRevision().get());
           // Ensure we actually observed a patch set ref pointing to this
           // object, in case the database is out of sync with the repo and the
           // object doesn't actually exist.
-          if (allPatchSets.contains(id)) {
-            r.add(id);
+          if (allPatchSets.contains(ps.getCommitId())) {
+            r.add(ps.getCommitId());
           }
         }
       }

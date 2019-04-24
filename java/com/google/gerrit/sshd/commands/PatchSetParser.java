@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -77,7 +78,7 @@ public class PatchSetParser {
           continue;
         }
         for (PatchSet ps : cd.patchSets()) {
-          if (ps.getRevision().matches(token)) {
+          if (ObjectIds.matchesAbbreviation(ps.getCommitId(), token)) {
             matches.add(ps);
           }
         }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.reviewdb.converter;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -36,10 +38,7 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
   public Entities.PatchSet toProto(PatchSet patchSet) {
     Entities.PatchSet.Builder builder =
         Entities.PatchSet.newBuilder().setId(patchSetIdConverter.toProto(patchSet.getId()));
-    ObjectId commitId = patchSet.getCommitId();
-    if (commitId != null) {
-      builder.setCommitId(objectIdConverter.toProto(commitId));
-    }
+    builder.setCommitId(objectIdConverter.toProto(patchSet.getCommitId()));
     Account.Id uploader = patchSet.getUploader();
     if (uploader != null) {
       builder.setUploaderAccountId(accountIdConverter.toProto(uploader));
@@ -65,10 +64,11 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
 
   @Override
   public PatchSet fromProto(Entities.PatchSet proto) {
-    PatchSet patchSet = new PatchSet(patchSetIdConverter.fromProto(proto.getId()));
-    if (proto.hasCommitId()) {
-      patchSet.setCommitId(objectIdConverter.fromProto(proto.getCommitId()));
-    }
+    checkArgument(proto.hasCommitId(), "missing commit_id: %s", proto);
+    PatchSet patchSet =
+        new PatchSet(
+            patchSetIdConverter.fromProto(proto.getId()),
+            objectIdConverter.fromProto(proto.getCommitId()));
     if (proto.hasUploaderAccountId()) {
       patchSet.setUploader(accountIdConverter.fromProto(proto.getUploaderAccountId()));
     }

@@ -23,6 +23,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.git.ObjectIds;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -82,7 +83,7 @@ public class PatchListKey implements Serializable {
   private transient Whitespace whitespace;
 
   private PatchListKey(AnyObjectId a, AnyObjectId b, Whitespace ws) {
-    oldId = a != null ? a.copy() : null;
+    oldId = ObjectIds.copyOrNull(a);
     newId = b.copy();
     whitespace = ws;
   }

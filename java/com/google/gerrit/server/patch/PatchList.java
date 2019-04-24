@@ -25,6 +25,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import java.io.ByteArrayInputStream;
@@ -78,7 +79,7 @@ public class PatchList implements Serializable {
       boolean isMerge,
       ComparisonType comparisonType,
       PatchListEntry[] patches) {
-    this.oldId = oldId != null ? oldId.copy() : null;
+    this.oldId = ObjectIds.copyOrNull(oldId);
     this.newId = newId.copy();
     this.isMerge = isMerge;
     this.comparisonType = comparisonType;

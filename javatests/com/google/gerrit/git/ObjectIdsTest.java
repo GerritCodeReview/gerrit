@@ -18,9 +18,11 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 
+import java.util.function.Function;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevBlob;
@@ -75,6 +77,28 @@ public class ObjectIdsTest {
     assertThat(abbreviateName(ID, shortest.length() + 1, reader)).isEqualTo("000000000010");
   }
 
+  @Test
+  public void copyOrNull() throws Exception {
+    testCopy(ObjectIds::copyOrNull);
+    assertThat(ObjectIds.copyOrNull(null)).isNull();
+  }
+
+  @Test
+  public void copyOrZero() throws Exception {
+    testCopy(ObjectIds::copyOrZero);
+    assertThat(ObjectIds.copyOrZero(null)).isEqualTo(ObjectId.zeroId());
+  }
+
+  private void testCopy(Function<AnyObjectId, ObjectId> copyFunc) {
+    MyObjectId myId = new MyObjectId(ID);
+    assertThat(myId).isEqualTo(ID);
+
+    ObjectId copy = copyFunc.apply(myId);
+    assertThat(copy).isEqualTo(myId);
+    assertThat(copy).isNotSameInstanceAs(myId);
+    assertThat(copy.getClass()).isEqualTo(ObjectId.class);
+  }
+
   @FunctionalInterface
   private interface Func {
     void call() throws Exception;
@@ -98,5 +122,13 @@ public class ObjectIdsTest {
     assertThat(blob.name()).isEqualTo(AMBIGUOUS_BLOB_ID.name());
     assertThat(tr.tree(tr.file("a0blgqsjc", blob)).name()).isEqualTo(AMBIGUOUS_TREE_ID.name());
     return tr.getRevWalk().getObjectReader();
+  }
+
+  private static class MyObjectId extends ObjectId {
+    private static final long serialVersionUID = 1L;
+
+    MyObjectId(AnyObjectId src) {
+      super(src);
+    }
   }
 }

@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestChanges;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -33,10 +34,19 @@ public class ChangeDataTest {
     cd.setChange(TestChanges.newChange(project, Account.id(1000)));
     PatchSet curr1 = cd.currentPatchSet();
     int currId = curr1.getId().get();
-    PatchSet ps1 = new PatchSet(PatchSet.id(cd.getId(), currId + 1), ObjectId.zeroId());
-    PatchSet ps2 = new PatchSet(PatchSet.id(cd.getId(), currId + 2), ObjectId.zeroId());
+    PatchSet ps1 = newPatchSet(cd.getId(), currId + 1);
+    PatchSet ps2 = newPatchSet(cd.getId(), currId + 2);
     cd.setPatchSets(ImmutableList.of(ps1, ps2));
     PatchSet curr2 = cd.currentPatchSet();
     assertThat(curr2).isNotSameInstanceAs(curr1);
+  }
+
+  private static PatchSet newPatchSet(Change.Id changeId, int num) {
+    return PatchSet.builder()
+        .id(PatchSet.id(changeId, num))
+        .commitId(ObjectId.zeroId())
+        .uploader(Account.id(1234))
+        .createdOn(TimeUtil.nowTs())
+        .build();
   }
 }

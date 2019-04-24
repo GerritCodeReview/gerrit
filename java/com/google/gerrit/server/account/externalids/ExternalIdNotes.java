@@ -28,6 +28,7 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -670,7 +671,7 @@ public class ExternalIdNotes extends VersionedMetaData {
 
   @Override
   public RevCommit commit(MetaDataUpdate update) throws IOException {
-    oldRev = revision != null ? revision.copy() : ObjectId.zeroId();
+    oldRev = ObjectIds.copyOrZero(revision);
     RevCommit commit = super.commit(update);
     updateCount.increment();
     return commit;

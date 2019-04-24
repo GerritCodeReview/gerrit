@@ -36,8 +36,10 @@ public class PatchSetProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    PatchSet patchSet = new PatchSet(PatchSet.id(Change.id(103), 73));
-    patchSet.setCommitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    PatchSet patchSet =
+        new PatchSet(
+            PatchSet.id(Change.id(103), 73),
+            ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
     patchSet.setUploader(Account.id(452));
     patchSet.setCreatedOn(new Timestamp(930349320L));
     patchSet.setGroups(ImmutableList.of("group1, group2"));
@@ -65,7 +67,10 @@ public class PatchSetProtoConverterTest {
 
   @Test
   public void mandatoryValuesConvertedToProto() {
-    PatchSet patchSet = new PatchSet(PatchSet.id(Change.id(103), 73));
+    PatchSet patchSet =
+        new PatchSet(
+            PatchSet.id(Change.id(103), 73),
+            ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
 
     Entities.PatchSet proto = patchSetProtoConverter.toProto(patchSet);
 
@@ -81,8 +86,10 @@ public class PatchSetProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    PatchSet patchSet = new PatchSet(PatchSet.id(Change.id(103), 73));
-    patchSet.setCommitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    PatchSet patchSet =
+        new PatchSet(
+            PatchSet.id(Change.id(103), 73),
+            ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
     patchSet.setUploader(Account.id(452));
     patchSet.setCreatedOn(new Timestamp(930349320L));
     patchSet.setGroups(ImmutableList.of("group1, group2"));
@@ -96,7 +103,10 @@ public class PatchSetProtoConverterTest {
 
   @Test
   public void mandatoryValuesConvertedToProtoAndBackAgain() {
-    PatchSet patchSet = new PatchSet(PatchSet.id(Change.id(103), 73));
+    PatchSet patchSet =
+        new PatchSet(
+            PatchSet.id(Change.id(103), 73),
+            ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
 
     PatchSet convertedPatchSet =
         patchSetProtoConverter.fromProto(patchSetProtoConverter.toProto(patchSet));

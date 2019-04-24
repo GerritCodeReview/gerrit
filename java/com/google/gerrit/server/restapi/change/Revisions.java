@@ -153,9 +153,8 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       throws AuthException, IOException {
     Optional<ChangeEdit> edit = editUtil.byChange(change.getNotes(), change.getUser());
     if (edit.isPresent()) {
-      PatchSet ps = new PatchSet(PatchSet.id(change.getId(), 0));
       ObjectId editCommitId = edit.get().getEditCommit();
-      ps.setCommitId(edit.get().getEditCommit());
+      PatchSet ps = new PatchSet(PatchSet.id(change.getId(), 0), editCommitId);
       if (commitId == null || editCommitId.equals(commitId)) {
         return Collections.singletonList(new RevisionResource(change, ps, edit));
       }

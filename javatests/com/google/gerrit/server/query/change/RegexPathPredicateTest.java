@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Arrays;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 public class RegexPathPredicateTest extends GerritBaseTests {
@@ -83,7 +84,8 @@ public class RegexPathPredicateTest extends GerritBaseTests {
 
   private static ChangeData change(String... files) {
     Arrays.sort(files);
-    ChangeData cd = ChangeData.createForTest(Project.nameKey("project"), Change.id(1), 1);
+    ChangeData cd =
+        ChangeData.createForTest(Project.nameKey("project"), Change.id(1), 1, ObjectId.zeroId());
     cd.setCurrentFilePaths(Arrays.asList(files));
     return cd;
   }

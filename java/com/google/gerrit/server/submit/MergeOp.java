@@ -776,8 +776,8 @@ public class MergeOp implements AutoCloseable {
         commitStatus.logProblem(changeId, e);
         continue;
       }
-      if (ps == null || ps.getCommitId() == null) {
-        commitStatus.logProblem(changeId, "Missing patch set or revision on change");
+      if (ps == null) {
+        commitStatus.logProblem(changeId, "Missing patch set on change");
         continue;
       }
 

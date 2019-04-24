@@ -20,6 +20,11 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 ** link:dev-processes.html#backporting[Backporting to stable branches]
 ** link:dev-processes.html#upgrading-libraries[Upgrading Libraries]
 ** link:dev-processes.html#deprecating-features[Deprecating features]
+* Roles
+** link:dev-roles.html#supporter[Supporter]
+** link:dev-roles.html#contributor[Contributor]
+** link:dev-roles.html#maintainer[Maintainer]
+** link:dev-roles.html#release-manager[Release Manager]
 
 [[how-to-contribute]]
 == How to contribute?

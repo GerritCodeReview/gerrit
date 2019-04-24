@@ -24,6 +24,7 @@ Gerrit is developed as a self-hosting open source project:
 * link:dev-contributing.html[Contributing to Gerrit]
 * link:dev-readme.html[Developer Setup]
 * link:dev-crafting-changes.html[Crafting Changes]
+* link:dev-starter-projects.html[Starter Projects]
 
 [[plugin-development]]
 == Plugin Development

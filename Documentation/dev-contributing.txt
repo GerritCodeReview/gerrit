@@ -37,14 +37,6 @@ Reviewers don't want to seem like nags and pester you if you
 haven't replied or made a fix, so it helps them know if you
 missed it or decided against it.
 
-== Finding starter projects to work on
-
-We have created a
-link:https://bugs.chromium.org/p/gerrit/issues/list?can=2&q=label%3AStarterProject[StarterProject]
-category in the issue tracker and try to assign easy hack projects to it. If in
-doubt, do not hesitate to ask on the developer
-link:https://groups.google.com/forum/#!forum/repo-discuss[mailing list].
-
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

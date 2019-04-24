@@ -42,7 +42,6 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -189,13 +188,12 @@ public class MergedByPushOp implements BatchUpdateOp {
                 }));
 
     changeMerged.fire(
-        change, patchSet, ctx.getAccount(), patchSet.getRevision().get(), ctx.getWhen());
+        change, patchSet, ctx.getAccount(), patchSet.getCommitId().name(), ctx.getWhen());
   }
 
   private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {
     RevWalk rw = ctx.getRevWalk();
-    RevCommit commit =
-        rw.parseCommit(ObjectId.fromString(requireNonNull(patchSet).getRevision().get()));
+    RevCommit commit = rw.parseCommit(requireNonNull(patchSet).getCommitId());
     return patchSetInfoFactory.get(rw, commit, psId);
   }
 }

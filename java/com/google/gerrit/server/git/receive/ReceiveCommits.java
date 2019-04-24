@@ -88,7 +88,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
@@ -2188,9 +2187,9 @@ class ReceiveCommits {
           // Schedule as a replacement to this one matching change.
           //
 
-          RevId currentPs = changes.get(0).currentPatchSet().getRevision();
+          ObjectId currentPs = changes.get(0).currentPatchSet().getCommitId();
           // If Commit is already current PatchSet of target Change.
-          if (p.commit.name().equals(currentPs.get())) {
+          if (p.commit.equals(currentPs)) {
             if (pending.size() == 1) {
               // There are no commits left to check, all commits in pending were already
               // current PatchSet of the corresponding target changes.

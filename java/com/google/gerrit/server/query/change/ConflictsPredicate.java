@@ -131,7 +131,7 @@ public class ConflictsPredicate {
           return false;
         }
 
-        other = ObjectId.fromString(object.currentPatchSet().getRevision().get());
+        other = object.currentPatchSet().getCommitId();
         ConflictKey conflictsKey =
             ConflictKey.create(
                 changeDataCache.getTestAgainst(),
@@ -207,7 +207,7 @@ public class ConflictsPredicate {
 
     ObjectId getTestAgainst() {
       if (testAgainst == null) {
-        testAgainst = ObjectId.fromString(cd.currentPatchSet().getRevision().get());
+        testAgainst = cd.currentPatchSet().getCommitId();
       }
       return testAgainst;
     }

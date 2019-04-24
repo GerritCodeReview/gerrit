@@ -38,7 +38,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
@@ -72,12 +71,11 @@ public class ApplyFix implements RestModifyView<FixResource, Void> {
     Project.NameKey project = revisionResource.getProject();
     ProjectState projectState = projectCache.checkedGet(project);
     PatchSet patchSet = revisionResource.getPatchSet();
-    ObjectId patchSetCommitId = ObjectId.fromString(patchSet.getRevision().get());
 
     try (Repository repository = gitRepositoryManager.openRepository(project)) {
       List<TreeModification> treeModifications =
           fixReplacementInterpreter.toTreeModifications(
-              repository, projectState, patchSetCommitId, fixResource.getFixReplacements());
+              repository, projectState, patchSet.getCommitId(), fixResource.getFixReplacements());
       ChangeEdit changeEdit =
           changeEditModifier.combineWithModifiedPatchSetTree(
               repository, revisionResource.getNotes(), patchSet, treeModifications);

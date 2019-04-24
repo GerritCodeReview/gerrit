@@ -62,7 +62,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -163,13 +162,13 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
             Response.ok(
                 fileInfoJson.toFileInfoMap(
                     resource.getChange(),
-                    resource.getPatchSet().getRevision(),
+                    resource.getPatchSet().getCommitId(),
                     baseResource.getPatchSet()));
       } else if (parentNum > 0) {
         r =
             Response.ok(
                 fileInfoJson.toFileInfoMap(
-                    resource.getChange(), resource.getPatchSet().getRevision(), parentNum - 1));
+                    resource.getChange(), resource.getPatchSet().getCommitId(), parentNum - 1));
       } else {
         r = Response.ok(fileInfoJson.toFileInfoMap(resource.getChange(), resource.getPatchSet()));
       }
@@ -206,8 +205,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
           ObjectReader or = git.newObjectReader();
           RevWalk rw = new RevWalk(or);
           TreeWalk tw = new TreeWalk(or)) {
-        RevCommit c =
-            rw.parseCommit(ObjectId.fromString(resource.getPatchSet().getRevision().get()));
+        RevCommit c = rw.parseCommit(resource.getPatchSet().getCommitId());
 
         tw.addTree(c.getTree());
         tw.setRecursive(true);

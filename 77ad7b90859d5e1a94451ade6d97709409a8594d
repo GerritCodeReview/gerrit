@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef8c7667_0486f203",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-24T00:18:43Z",
+      "side": 1,
+      "message": "Same nits here as in the documentation.",
+      "revId": "77ad7b90859d5e1a94451ade6d97709409a8594d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8136c3e_24252ba6",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-24T00:18:43Z",
+      "side": 1,
+      "message": "clunky",
+      "range": {
+        "startLine": 392,
+        "startChar": 9,
+        "endLine": 392,
+        "endChar": 15
+      },
+      "revId": "77ad7b90859d5e1a94451ade6d97709409a8594d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f624256_ac183daf",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-24T00:18:43Z",
+      "side": 1,
+      "message": "Move the period outside the parentheses? Or is this actually correct in US English?",
+      "range": {
+        "startLine": 404,
+        "startChar": 37,
+        "endLine": 404,
+        "endChar": 39
+      },
+      "revId": "77ad7b90859d5e1a94451ade6d97709409a8594d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

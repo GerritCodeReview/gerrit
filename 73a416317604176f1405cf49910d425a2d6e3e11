@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8963d52d_284d79f4",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-24T12:22:01Z",
+      "side": 1,
+      "message": "Is it worth mentioning the gerrit-verifiers group?  Members of this group get some more abilities than regular contributors, for example they can set Verified+1 on other users\u0027 changes.  There might be other abilities, but we\u0027d need to check the access controls to find out.",
+      "revId": "73a416317604176f1405cf49910d425a2d6e3e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17a16fe7_5d000178",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-24T12:22:01Z",
+      "side": 1,
+      "message": "to",
+      "range": {
+        "startLine": 101,
+        "startChar": 54,
+        "endLine": 101,
+        "endChar": 56
+      },
+      "revId": "73a416317604176f1405cf49910d425a2d6e3e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f40a4cc7_d7bcab41",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-24T12:22:01Z",
+      "side": 1,
+      "message": "dedicate?",
+      "range": {
+        "startLine": 101,
+        "startChar": 28,
+        "endLine": 101,
+        "endChar": 34
+      },
+      "revId": "73a416317604176f1405cf49910d425a2d6e3e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c36d3431_61ae0df4",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-24T12:22:01Z",
+      "side": 1,
+      "message": "Regular contributors can also upload reverts for review.",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 122,
+        "endChar": 39
+      },
+      "revId": "73a416317604176f1405cf49910d425a2d6e3e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

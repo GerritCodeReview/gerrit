@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08026c24_337e4aa4",
+        "filename": "java/com/google/gerrit/extensions/common/testing/RobotCommentInfoSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-04-25T14:06:49Z",
+      "side": 1,
+      "message": "There\u0027s no reason to keep this message anymore as the new style with assertWithMessage(..) doesn\u0027t add any additional value to the failure message.\n\nExample failure output before this change:\nvalue of: robotCommentInfos.onlyElement().fixSuggestions().onlyElement()\nexpected: null\nbut was : com.google.gerrit.extensions.common.FixSuggestionInfo@29f86630\nlist was: robotCommentInfos ([com.google.gerrit.extensions.common.RobotCommentInfo@7e853844])\n\nExample failure output after this change:\nrobotCommentInfos\nvalue of: list.onlyElement().fixSuggestions().onlyElement()\nexpected: null\nbut was : com.google.gerrit.extensions.common.FixSuggestionInfo@5692863\nlist was: [com.google.gerrit.extensions.common.RobotCommentInfo@7cab039f]\n\nWe should remove the message \"robotCommentInfos\" in a follow-up change (or in this one depending on what you prefer) and go back to the simpler ListSubject.assertThat(robotCommentInfos, robotComments()) code.",
+      "range": {
+        "startLine": 32,
+        "startChar": 11,
+        "endLine": 32,
+        "endChar": 49
+      },
+      "revId": "89bd4ba705c6e4bb7053fbe4ff0668f4523beb3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

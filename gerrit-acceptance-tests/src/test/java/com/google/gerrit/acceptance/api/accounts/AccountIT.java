@@ -1529,8 +1529,11 @@ public class AccountIT extends AbstractDaemonTest {
     String id = key.getKeyIdString();
     addExternalIdEmail(admin, "test1@example.com");
 
+    sender.clear();
     assertKeyMapContains(key, addGpgKey(key.getPublicKeyArmored()));
     assertKeys(key);
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("new GPG keys have been added");
 
     setApiUser(user);
     exception.expect(ResourceNotFoundException.class);
@@ -1545,14 +1548,21 @@ public class AccountIT extends AbstractDaemonTest {
     String id = key.getKeyIdString();
     PGPPublicKey pk = key.getPublicKey();
 
+    sender.clear();
     GpgKeyInfo info = addGpgKey(armor(pk)).get(id);
     assertThat(info.userIds).hasSize(2);
     assertIteratorSize(2, getOnlyKeyFromStore(key).getUserIDs());
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("new GPG keys have been added");
 
     pk = PGPPublicKey.removeCertification(pk, "foo:myId");
+    sender.clear();
     info = addGpgKey(armor(pk)).get(id);
     assertThat(info.userIds).hasSize(1);
     assertIteratorSize(1, getOnlyKeyFromStore(key).getUserIDs());
+    // TODO: Issue 10769: Adding an already existing key should not result in a notification email
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("new GPG keys have been added");
   }
 
   @Test
@@ -1664,27 +1674,37 @@ public class AccountIT extends AbstractDaemonTest {
     accountIndexedCounter.assertNoReindex();
 
     // Add a new key
+    sender.clear();
     String newKey = AccountCreator.publicKey(AccountCreator.genSshKey(), admin.email);
     gApi.accounts().self().addSshKey(newKey);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
     assertSequenceNumbers(info);
     accountIndexedCounter.assertReindexOf(admin);
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("new SSH keys have been added");
 
     // Add an existing key (the request succeeds, but the key isn't added again)
+    sender.clear();
     gApi.accounts().self().addSshKey(inital);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
     assertSequenceNumbers(info);
     accountIndexedCounter.assertNoReindex();
+    // TODO: Issue 10769: Adding an already existing key should not result in a notification email
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("new SSH keys have been added");
 
     // Add another new key
+    sender.clear();
     String newKey2 = AccountCreator.publicKey(AccountCreator.genSshKey(), admin.email);
     gApi.accounts().self().addSshKey(newKey2);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(3);
     assertSequenceNumbers(info);
     accountIndexedCounter.assertReindexOf(admin);
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("new SSH keys have been added");
 
     // Delete second key
     gApi.accounts().self().deleteSshKey(2);

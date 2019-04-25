@@ -111,8 +111,8 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
           // Ensure we actually observed a patch set ref pointing to this
           // object, in case the database is out of sync with the repo and the
           // object doesn't actually exist.
-          if (allPatchSets.contains(ps.getCommitId())) {
-            r.add(ps.getCommitId());
+          if (allPatchSets.contains(ps.commitId())) {
+            r.add(ps.commitId());
           }
         }
       }

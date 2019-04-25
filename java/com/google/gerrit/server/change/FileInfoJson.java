@@ -43,13 +43,13 @@ public class FileInfoJson {
 
   public Map<String, FileInfo> toFileInfoMap(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException {
-    return toFileInfoMap(change, patchSet.getCommitId(), null);
+    return toFileInfoMap(change, patchSet.commitId(), null);
   }
 
   public Map<String, FileInfo> toFileInfoMap(
       Change change, ObjectId objectId, @Nullable PatchSet base)
       throws PatchListNotAvailableException {
-    ObjectId a = base != null ? base.getCommitId() : null;
+    ObjectId a = base != null ? base.commitId() : null;
     return toFileInfoMap(change, PatchListKey.againstCommit(a, objectId, Whitespace.IGNORE_NONE));
   }
 

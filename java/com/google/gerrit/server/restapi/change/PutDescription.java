@@ -57,7 +57,7 @@ public class PutDescription
       throws UpdateException, RestApiException, PermissionBackendException {
     rsrc.permissions().check(ChangePermission.EDIT_DESCRIPTION);
 
-    Op op = new Op(input != null ? input : new DescriptionInput(), rsrc.getPatchSet().getId());
+    Op op = new Op(input != null ? input : new DescriptionInput(), rsrc.getPatchSet().id());
     try (BatchUpdate u =
         updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       u.addOp(rsrc.getChange().getId(), op);
@@ -84,7 +84,7 @@ public class PutDescription
     public boolean updateChange(ChangeContext ctx) {
       ChangeUpdate update = ctx.getUpdate(psId);
       newDescription = Strings.nullToEmpty(input.description);
-      oldDescription = psUtil.get(ctx.getNotes(), psId).getDescription().orElse("");
+      oldDescription = psUtil.get(ctx.getNotes(), psId).description().orElse("");
       if (oldDescription.equals(newDescription)) {
         return false;
       }

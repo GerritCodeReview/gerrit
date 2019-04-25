@@ -58,7 +58,7 @@ public class Comments implements ChildCollection<RevisionResource, CommentResour
     String uuid = id.get();
     ChangeNotes notes = rev.getNotes();
 
-    for (Comment c : commentsUtil.publishedByPatchSet(notes, rev.getPatchSet().getId())) {
+    for (Comment c : commentsUtil.publishedByPatchSet(notes, rev.getPatchSet().id())) {
       if (uuid.equals(c.key.uuid)) {
         return new CommentResource(rev, c);
       }

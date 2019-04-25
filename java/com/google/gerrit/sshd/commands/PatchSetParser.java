@@ -76,7 +76,7 @@ public class PatchSetParser {
           continue;
         }
         for (PatchSet ps : cd.patchSets()) {
-          if (ObjectIds.matchesAbbreviation(ps.getCommitId(), token)) {
+          if (ObjectIds.matchesAbbreviation(ps.commitId(), token)) {
             matches.add(ps);
           }
         }

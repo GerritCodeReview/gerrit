@@ -84,7 +84,7 @@ public class CreateDraftComment
 
     try (BatchUpdate bu =
         updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
-      Op op = new Op(rsrc.getPatchSet().getId(), in);
+      Op op = new Op(rsrc.getPatchSet().id(), in);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
       return Response.created(
@@ -115,7 +115,7 @@ public class CreateDraftComment
 
       comment =
           commentsUtil.newComment(
-              ctx, in.path, ps.getId(), in.side(), in.message.trim(), in.unresolved, parentUuid);
+              ctx, in.path, ps.id(), in.side(), in.message.trim(), in.unresolved, parentUuid);
       comment.setLineNbrAndRange(in.line, in.range);
       comment.tag = in.tag;
 

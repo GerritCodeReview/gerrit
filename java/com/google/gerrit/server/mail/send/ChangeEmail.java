@@ -156,10 +156,10 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
 
     if (patchSet != null) {
-      setHeader(MailHeader.PATCH_SET.fieldName(), patchSet.getPatchSetId() + "");
+      setHeader(MailHeader.PATCH_SET.fieldName(), patchSet.number() + "");
       if (patchSetInfo == null) {
         try {
-          patchSetInfo = args.patchSetInfoFactory.get(changeData.notes(), patchSet.getId());
+          patchSetInfo = args.patchSetInfoFactory.get(changeData.notes(), patchSet.id());
         } catch (PatchSetInfoNotAvailableException | StorageException err) {
           patchSetInfo = null;
         }
@@ -205,7 +205,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   private void setCommitIdHeader() {
     if (patchSet != null) {
-      setHeader(MailHeader.COMMIT.fieldName(), patchSet.getCommitId().name());
+      setHeader(MailHeader.COMMIT.fieldName(), patchSet.commitId().name());
     }
   }
 
@@ -286,7 +286,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Get the patch list corresponding to patch set patchSetId of this change. */
   protected PatchList getPatchList(int patchSetId) throws PatchListNotAvailableException {
     PatchSet ps;
-    if (patchSetId == patchSet.getPatchSetId()) {
+    if (patchSetId == patchSet.number()) {
       ps = patchSet;
     } else {
       try {
@@ -411,7 +411,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       case ALL:
       default:
         if (patchSet != null) {
-          authors.add(patchSet.getUploader());
+          authors.add(patchSet.uploader());
         }
         if (patchSetInfo != null) {
           if (patchSetInfo.getAuthor().getAccount() != null) {
@@ -461,8 +461,8 @@ public abstract class ChangeEmail extends NotificationEmail {
     soyContext.put("change", changeData);
 
     Map<String, Object> patchSetData = new HashMap<>();
-    patchSetData.put("patchSetId", patchSet.getPatchSetId());
-    patchSetData.put("refName", patchSet.getRefName());
+    patchSetData.put("patchSetId", patchSet.number());
+    patchSetData.put("refName", patchSet.refName());
     soyContext.put("patchSet", patchSetData);
 
     Map<String, Object> patchSetInfoData = new HashMap<>();
@@ -472,7 +472,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     footers.add(MailHeader.CHANGE_ID.withDelimiter() + change.getKey().get());
     footers.add(MailHeader.CHANGE_NUMBER.withDelimiter() + Integer.toString(change.getChangeId()));
-    footers.add(MailHeader.PATCH_SET.withDelimiter() + patchSet.getPatchSetId());
+    footers.add(MailHeader.PATCH_SET.withDelimiter() + patchSet.number());
     footers.add(MailHeader.OWNER.withDelimiter() + getNameEmailFor(change.getOwner()));
     if (change.getAssignee() != null) {
       footers.add(MailHeader.ASSIGNEE.withDelimiter() + getNameEmailFor(change.getAssignee()));

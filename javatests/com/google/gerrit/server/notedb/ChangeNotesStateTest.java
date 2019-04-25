@@ -356,9 +356,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
     assertThat(ps2Bytes).isNotEqualTo(ps1Bytes);
 
     assertRoundTrip(
-        newBuilder()
-            .patchSets(ImmutableMap.of(ps2.getId(), ps2, ps1.getId(), ps1).entrySet())
-            .build(),
+        newBuilder().patchSets(ImmutableMap.of(ps2.id(), ps2, ps1.id(), ps1).entrySet()).build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())

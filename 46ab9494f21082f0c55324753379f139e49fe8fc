@@ -713,6 +713,30 @@
     },
     {
       "key": {
+        "uuid": "2e1eed10_3327deab",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T14:56:19Z",
+      "side": 1,
+      "message": "Right, I changed it to \"Maintainers can: ... gain permissions to do Gerrit releases and publish release artifacts\". Hope that\u0027s clearer.",
+      "parentUuid": "9d7025a8_67b28015",
+      "range": {
+        "startLine": 140,
+        "startChar": 2,
+        "endLine": 140,
+        "endChar": 20
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7efe7e0a_5d841434",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 6

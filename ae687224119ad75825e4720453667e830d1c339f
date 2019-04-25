@@ -64,6 +64,24 @@
       "revId": "ae687224119ad75825e4720453667e830d1c339f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "066eaa98_0c831f6b",
+        "filename": "java/com/google/gerrit/server/notedb/AllUsersAsyncUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-04-25T08:53:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "594a7fa6_5819ad49",
+      "revId": "ae687224119ad75825e4720453667e830d1c339f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

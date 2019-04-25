@@ -111,6 +111,30 @@
     },
     {
       "key": {
+        "uuid": "cd005968_5561ed34",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-04-25T10:38:24Z",
+      "side": 1,
+      "message": "Would it make more sense to say:\n\n    \"Contributors have all the permissions a link:#supporter[supporters] have.\"",
+      "parentUuid": "7f6cbe2e_f0fd73ce",
+      "range": {
+        "startLine": 93,
+        "startChar": 13,
+        "endLine": 93,
+        "endChar": 69
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ee273b4_1ac18fbe",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 6
@@ -122,6 +146,30 @@
       "writtenOn": "2019-04-25T09:34:34Z",
       "side": 1,
       "message": "What \"engaged\" means in this context? We should list some criteria.",
+      "range": {
+        "startLine": 96,
+        "startChar": 60,
+        "endLine": 97,
+        "endChar": 7
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "157b15dd_223b7add",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-04-25T10:38:24Z",
+      "side": 1,
+      "message": "\"... in the community, *in activities outlined above*, may be nominated ...\"?",
+      "parentUuid": "7ee273b4_1ac18fbe",
       "range": {
         "startLine": 96,
         "startChar": 60,
@@ -196,6 +244,53 @@
         "startChar": 2,
         "endLine": 140,
         "endChar": 20
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9ac944f_ce48f20c",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-04-25T10:38:24Z",
+      "side": 1,
+      "message": "\"become link#release-manager[release managers]\"",
+      "parentUuid": "24c98177_73b72b6d",
+      "range": {
+        "startLine": 140,
+        "startChar": 2,
+        "endLine": 140,
+        "endChar": 20
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7efe7e0a_5d841434",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-04-25T10:38:24Z",
+      "side": 1,
+      "message": "Isn\u0027t this a fifth role, \"google-maintainer\" or similar?\nIt might be worth clarifying.",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 46
       },
       "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

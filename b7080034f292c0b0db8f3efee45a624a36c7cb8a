@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36a09886_46806c25",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-04-25T07:12:54Z",
+      "side": 1,
+      "message": "nit: only used once, could be inlined",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 137,
+        "endChar": 37
+      },
+      "revId": "b7080034f292c0b0db8f3efee45a624a36c7cb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87f4d3e7_7646916d",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-04-25T07:12:54Z",
+      "side": 1,
+      "message": "How do these changes work with online reindexing?\n\nSpecifically: We get the ID in Lucene*Index#fromDocument. The new code will assume this is a string, while it is a legacy ID int field. From the JavaDoc for #stringValue which we call on IndexedField [1] I think we would get null for as long as we are on the old index.\n\nThis issue isn\u0027t limitted to Lucene, but also affects other index backends (like ours and elastic search). Can we make this modification only for the Lucene index? It seems undesirable also to force other index backends to use String as identifier because Lucene needs that.\n\n[1] http://lucene.apache.org/core/6_5_1/core/org/apache/lucene/index/IndexableField.html?is-external\u003dtrue",
+      "revId": "b7080034f292c0b0db8f3efee45a624a36c7cb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

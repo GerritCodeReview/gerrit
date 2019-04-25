@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.mail.send.EmailModifiedAddressSender;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -58,6 +59,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final PutPreferred putPreferred;
   private final OutgoingEmailValidator validator;
+  private final EmailModifiedAddressSender.Factory emailModifiedAddressSenderFactory;
   private final String email;
   private final boolean isDevMode;
 
@@ -71,6 +73,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       RegisterNewEmailSender.Factory registerNewEmailFactory,
       PutPreferred putPreferred,
       OutgoingEmailValidator validator,
+      EmailModifiedAddressSender.Factory emailModifiedAddressSenderFactory,
       @Assisted String email) {
     this.self = self;
     this.realm = realm;
@@ -79,6 +82,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
     this.registerNewEmailFactory = registerNewEmailFactory;
     this.putPreferred = putPreferred;
     this.validator = validator;
+    this.emailModifiedAddressSenderFactory = emailModifiedAddressSenderFactory;
     this.email = email != null ? email.trim() : null;
     this.isDevMode = authConfig.getAuthType() == DEVELOPMENT_BECOME_ANY_ACCOUNT;
   }
@@ -122,6 +126,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
 
     EmailInfo info = new EmailInfo();
     info.email = email;
+    String action = "added-email";
     if (input.noConfirmation || isDevMode) {
       if (isDevMode) {
         log.warn("skipping email validation in developer mode");
@@ -134,6 +139,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       if (input.preferred) {
         putPreferred.apply(new AccountResource.Email(user, email), null);
         info.preferred = true;
+        action = "added-email-preferred";
       }
     } else {
       try {
@@ -148,6 +154,20 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
         throw e;
       }
     }
+
+    try {
+      if (input.email != null) {
+        emailModifiedAddressSenderFactory.create(input.email, user, action).send();
+      }
+    } catch (EmailException e) {
+      if (user.getAccount().getPreferredEmail() != null) {
+        log.error(
+            "Cannot send preferred email message to {}", user.getAccount().getPreferredEmail(), e);
+      } else {
+        log.error("Cannot send email message to your secondary emails.", e);
+      }
+    }
+
     return Response.created(info);
   }
 }

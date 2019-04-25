@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77be5f69_1b34815a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/HttpPasswordUpdateSender.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-25T03:38:37Z",
+      "side": 1,
+      "message": "This is not used.",
+      "range": {
+        "startLine": 29,
+        "startChar": 31,
+        "endLine": 29,
+        "endChar": 42
+      },
+      "revId": "8d9c8b435399b11fdaa358628581fc7670dbf264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

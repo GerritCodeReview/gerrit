@@ -18,14 +18,23 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.sql.Timestamp;
 import org.junit.Test;
 
 public class EventDeserializerTest extends GerritBaseTests {
+  Gson gsonSerializer =
+      new GsonBuilder().registerTypeAdapter(Supplier.class, new SupplierSerializer()).create();
+
+  Gson gsonDeserializer = new GsonEventDeserializerProvider().get();
 
   @Test
   public void refUpdatedEvent() {
@@ -39,16 +48,7 @@ public class EventDeserializerTest extends GerritBaseTests {
     accountAttribute.email = "some.user@domain.com";
     refUpdatedEvent.submitter = createSupplier(accountAttribute);
 
-    Gson gsonSerializer =
-        new GsonBuilder().registerTypeAdapter(Supplier.class, new SupplierSerializer()).create();
     String serializedEvent = gsonSerializer.toJson(refUpdatedEvent);
-
-    Gson gsonDeserializer =
-        new GsonBuilder()
-            .registerTypeAdapter(Event.class, new EventDeserializer())
-            .registerTypeAdapter(Supplier.class, new SupplierDeserializer())
-            .create();
-
     RefUpdatedEvent e = (RefUpdatedEvent) gsonDeserializer.fromJson(serializedEvent, Event.class);
 
     assertThat(e).isNotNull();
@@ -56,6 +56,91 @@ public class EventDeserializerTest extends GerritBaseTests {
     assertThat(e.refUpdate.get().refName).isEqualTo(refUpdatedAttribute.refName);
     assertThat(e.submitter).isInstanceOf(Supplier.class);
     assertThat(e.submitter.get().email).isEqualTo(accountAttribute.email);
+  }
+
+  @Test
+  public void patchSetCreatedEvent() {
+    String changeKey = "Iabcdef";
+    Change change =
+        new Change(
+            Change.key(changeKey),
+            Change.id(1000),
+            Account.id(1000),
+            Branch.nameKey(Project.nameKey("myproject"), "mybranch"),
+            new Timestamp(System.currentTimeMillis()));
+    PatchSetCreatedEvent orig = new PatchSetCreatedEvent(change);
+
+    String serialized = gsonSerializer.toJson(orig);
+    PatchSetCreatedEvent e =
+        (PatchSetCreatedEvent) gsonDeserializer.fromJson(serialized, Event.class);
+
+    assertThat(e).isNotNull();
+    assertThat(e.changeKey.get()).isEqualTo(changeKey);
+  }
+
+  @Test
+  public void assigneeChangedEvent() {
+    // TODO
+  }
+
+  @Test
+  public void changeDeletedEvent() {
+    // TODO
+  }
+
+  @Test
+  public void hashtagsChangedEvent() {
+    // TODO
+  }
+
+  @Test
+  public void changeAbandonedEvent() {
+    // TODO
+  }
+
+  @Test
+  public void changeMergedEvent() {
+    // TODO
+  }
+
+  @Test
+  public void changeRestoredEvent() {
+    // TODO
+  }
+
+  @Test
+  public void commentAddedEvent() {
+    // TODO
+  }
+
+  @Test
+  public void privateStateChangedEvent() {
+    // TODO
+  }
+
+  @Test
+  public void reviewerAddedEvent() {
+    // TODO
+  }
+
+  @Test
+  public void reviewerDeletedEvent() {
+    // TODO
+  }
+
+  @Test
+  public void voteDeletedEvent() {
+    // TODO
+  }
+
+  @Test
+  public void workinProgressStateChangedEvent() {
+    // TODO
+  }
+
+  @Test
+  public void topicChangedEvent() {
+    // TODO
   }
 
   private <T> Supplier<T> createSupplier(T value) {

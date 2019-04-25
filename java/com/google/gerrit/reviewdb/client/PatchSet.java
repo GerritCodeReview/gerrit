@@ -15,14 +15,16 @@
 package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Streams;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -46,38 +48,15 @@ public final class PatchSet {
   }
 
   public static String joinGroups(List<String> groups) {
-    if (groups == null) {
-      throw new IllegalArgumentException("groups may not be null");
+    requireNonNull(groups);
+    for (String group : groups) {
+      checkArgument(!group.contains(","), "group may not contain ',': %s", group);
     }
-    StringBuilder sb = new StringBuilder();
-    boolean first = true;
-    for (String g : groups) {
-      if (!first) {
-        sb.append(',');
-      } else {
-        first = false;
-      }
-      sb.append(g);
-    }
-    return sb.toString();
+    return String.join(",", groups);
   }
 
-  public static List<String> splitGroups(String joinedGroups) {
-    if (joinedGroups == null) {
-      throw new IllegalArgumentException("groups may not be null");
-    }
-    List<String> groups = new ArrayList<>();
-    int i = 0;
-    while (true) {
-      int idx = joinedGroups.indexOf(',', i);
-      if (idx < 0) {
-        groups.add(joinedGroups.substring(i));
-        break;
-      }
-      groups.add(joinedGroups.substring(i, idx));
-      i = idx + 1;
-    }
-    return groups;
+  public static ImmutableList<String> splitGroups(String joinedGroups) {
+    return Streams.stream(Splitter.on(',').split(joinedGroups)).collect(toImmutableList());
   }
 
   public static Id id(Change.Id changeId, int id) {

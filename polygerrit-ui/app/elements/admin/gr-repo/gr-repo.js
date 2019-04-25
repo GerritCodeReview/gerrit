@@ -67,11 +67,6 @@
         type: Boolean,
         value: true,
       },
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-        observer: '_loggedInChanged',
-      },
       /** @type {?} */
       _repoConfig: Object,
       /** @type {?} */
@@ -142,8 +137,14 @@
       };
 
       promises.push(this._getLoggedIn().then(loggedIn => {
-        this._loggedIn = loggedIn;
         if (loggedIn) {
+          /*this.$.restAPI.getPreferences().then(prefs => {
+            if (prefs.download_scheme) {
+              // Note (issue 5180): normalize the download scheme with lower-case.
+              this._selectedScheme = prefs.download_scheme.toLowerCase();
+            }
+          });*/
+
           this.$.restAPI.getRepoAccess(this.repo).then(access => {
             if (!access) { return Promise.resolve(); }
 
@@ -189,16 +190,6 @@
 
     _computeHideClass(arr) {
       return !arr || !arr.length ? 'hide' : '';
-    },
-
-    _loggedInChanged(_loggedIn) {
-      if (!_loggedIn) { return; }
-      this.$.restAPI.getPreferences().then(prefs => {
-        if (prefs.download_scheme) {
-          // Note (issue 5180): normalize the download scheme with lower-case.
-          this._selectedScheme = prefs.download_scheme.toLowerCase();
-        }
-      });
     },
 
     _formatBooleanSelect(item) {

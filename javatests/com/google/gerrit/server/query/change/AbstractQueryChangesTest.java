@@ -2489,8 +2489,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(indexer.reindexIfStale(project, change.getId()).get()).isFalse();
 
     // Delete edit ref behind index's back.
-    RefUpdate ru =
-        repo.getRepository().updateRef(RefNames.refsEdit(user, change.getId(), ps.getId()));
+    RefUpdate ru = repo.getRepository().updateRef(RefNames.refsEdit(user, change.getId(), ps.id()));
     ru.setForceUpdate(true);
     assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
 

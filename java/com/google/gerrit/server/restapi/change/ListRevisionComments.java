@@ -37,6 +37,6 @@ public class ListRevisionComments extends ListRevisionDrafts {
   @Override
   protected Iterable<Comment> listComments(RevisionResource rsrc) {
     ChangeNotes notes = rsrc.getNotes();
-    return commentsUtil.publishedByPatchSet(notes, rsrc.getPatchSet().getId());
+    return commentsUtil.publishedByPatchSet(notes, rsrc.getPatchSet().id());
   }
 }

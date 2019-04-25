@@ -295,8 +295,7 @@ public class WalkSorterTest {
 
     List<ChangeData> changes = ImmutableList.of(cd1, cd2);
     WalkSorter sorter =
-        new WalkSorter(repoManager)
-            .includePatchSets(ImmutableSet.of(cd1.currentPatchSet().getId()));
+        new WalkSorter(repoManager).includePatchSets(ImmutableSet.of(cd1.currentPatchSet().id()));
 
     assertSorted(sorter, changes, ImmutableList.of(patchSetData(cd1, c1)));
   }

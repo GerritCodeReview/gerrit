@@ -86,8 +86,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
       if (isPatchSetMerged(ctx, patchSet)) {
         throw new ResourceConflictException(
             String.format(
-                "Cannot delete change %s: patch set %s is already merged",
-                id, patchSet.getPatchSetId()));
+                "Cannot delete change %s: patch set %s is already merged", id, patchSet.number()));
       }
     }
   }
@@ -100,12 +99,12 @@ public class DeleteChangeOp implements BatchUpdateOp {
 
     RevWalk revWalk = ctx.getRevWalk();
     return revWalk.isMergedInto(
-        revWalk.parseCommit(patchSet.getCommitId()), revWalk.parseCommit(destId.get()));
+        revWalk.parseCommit(patchSet.commitId()), revWalk.parseCommit(destId.get()));
   }
 
   private void cleanUpReferences(Change.Id id, Collection<PatchSet> patchSets) throws IOException {
     for (PatchSet ps : patchSets) {
-      accountPatchReviewStore.run(s -> s.clearReviewed(ps.getId()));
+      accountPatchReviewStore.run(s -> s.clearReviewed(ps.id()));
     }
 
     // Non-atomic operation on All-Users refs; not much we can do to make it atomic.

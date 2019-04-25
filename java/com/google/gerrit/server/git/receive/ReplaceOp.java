@@ -250,7 +250,7 @@ public class ReplaceOp implements BatchUpdateOp {
     }
     if (groups.isEmpty()) {
       PatchSet prevPs = psUtil.current(notes);
-      groups = prevPs != null ? prevPs.getGroups() : ImmutableList.of();
+      groups = prevPs != null ? prevPs.groups() : ImmutableList.of();
     }
 
     ChangeData cd = changeDataFactory.create(ctx.getNotes());
@@ -562,7 +562,7 @@ public class ReplaceOp implements BatchUpdateOp {
         cm.send();
       } catch (Exception e) {
         logger.atSevere().withCause(e).log(
-            "Cannot send email for new patch set %s", newPatchSet.getId());
+            "Cannot send email for new patch set %s", newPatchSet.id());
       }
     }
 

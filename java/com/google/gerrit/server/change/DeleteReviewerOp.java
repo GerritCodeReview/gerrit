@@ -134,7 +134,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       // Check if removing this vote is OK
       removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), a);
       del.add(a);
-      if (a.getPatchSetId().equals(currPs.getId()) && a.getValue() != 0) {
+      if (a.getPatchSetId().equals(currPs.id()) && a.getValue() != 0) {
         oldApprovals.put(a.getLabel(), a.getValue());
         removedVotesMsg
             .append("* ")
@@ -152,7 +152,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     } else {
       msg.append(".");
     }
-    ChangeUpdate update = ctx.getUpdate(currPs.getId());
+    ChangeUpdate update = ctx.getUpdate(currPs.id());
     update.removeReviewer(reviewerId);
 
     changeMessage =

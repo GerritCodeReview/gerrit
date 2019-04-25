@@ -147,7 +147,7 @@ public class ApprovalsUtil {
         update,
         labelTypes,
         change,
-        ps.getId(),
+        ps.id(),
         info.getAuthor().getAccount(),
         info.getCommitter().getAccount(),
         wantReviewers,
@@ -274,10 +274,10 @@ public class ApprovalsUtil {
       throws RestApiException, PermissionBackendException {
     Account.Id accountId = user.getAccountId();
     checkArgument(
-        accountId.equals(ps.getUploader()),
+        accountId.equals(ps.uploader()),
         "expected user %s to match patch set uploader %s",
         accountId,
-        ps.getUploader());
+        ps.uploader());
     if (approvals.isEmpty()) {
       return ImmutableList.of();
     }
@@ -286,7 +286,7 @@ public class ApprovalsUtil {
     Date ts = update.getWhen();
     for (Map.Entry<String, Short> vote : approvals.entrySet()) {
       LabelType lt = labelTypes.byLabel(vote.getKey());
-      cells.add(newApproval(ps.getId(), user, lt.getLabelId(), vote.getValue(), ts));
+      cells.add(newApproval(ps.id(), user, lt.getLabelId(), vote.getValue(), ts));
     }
     for (PatchSetApproval psa : cells) {
       update.putApproval(psa.getLabel(), psa.getValue());

@@ -79,7 +79,7 @@ public abstract class PatchSet {
       checkArgument(test, "invalid patch set ID: %s", input);
     }
 
-    /** Parse a PatchSet.Id from a {@link #getRefName()} result. */
+    /** Parse a PatchSet.Id from a {@link #refName()} result. */
     public static Id fromRef(String ref) {
       int cs = Change.Id.startIndex(ref);
       if (cs < 0) {
@@ -142,11 +142,11 @@ public abstract class PatchSet {
   public abstract static class Builder {
     public abstract Builder id(Id id);
 
-    public abstract Id getId();
+    public abstract Id id();
 
     public abstract Builder commitId(ObjectId commitId);
 
-    public abstract Optional<ObjectId> getCommitId();
+    public abstract Optional<ObjectId> commitId();
 
     public abstract Builder uploader(Account.Id uploader);
 
@@ -154,7 +154,7 @@ public abstract class PatchSet {
 
     public abstract Builder groups(Iterable<String> groups);
 
-    public abstract ImmutableList<String> getGroups();
+    public abstract ImmutableList<String> groups();
 
     public abstract Builder pushCertificate(Optional<String> pushCertificate);
 
@@ -164,13 +164,13 @@ public abstract class PatchSet {
 
     public abstract Builder description(String description);
 
-    public abstract Optional<String> getDescription();
+    public abstract Optional<String> description();
 
     public abstract PatchSet build();
   }
 
   /** ID of the patch set. */
-  public abstract Id getId();
+  public abstract Id id();
 
   /**
    * Commit ID of the patch set, also known as the revision.
@@ -179,7 +179,7 @@ public abstract class PatchSet {
    * Gerrit, and the old data erroneously did not include a {@code commitId}, then this method will
    * return {@link ObjectId#zeroId()}.
    */
-  public abstract ObjectId getCommitId();
+  public abstract ObjectId commitId();
 
   /**
    * Account that uploaded the patch set.
@@ -188,7 +188,7 @@ public abstract class PatchSet {
    * Gerrit, and the old data erroneously did not include an {@code uploader}, then this method will
    * return an account ID of 0.
    */
-  public abstract Account.Id getUploader();
+  public abstract Account.Id uploader();
 
   /**
    * When this patch set was first introduced onto the change.
@@ -197,7 +197,7 @@ public abstract class PatchSet {
    * Gerrit, and the old data erroneously did not include a {@code createdOn}, then this method will
    * return a timestamp of 0.
    */
-  public abstract Timestamp getCreatedOn();
+  public abstract Timestamp createdOn();
 
   /**
    * Opaque group identifier, usually assigned during creation.
@@ -208,10 +208,10 @@ public abstract class PatchSet {
    * <p>Changes on the same branch having patch sets with intersecting groups are considered
    * related, as in the "Related Changes" tab.
    */
-  public abstract ImmutableList<String> getGroups();
+  public abstract ImmutableList<String> groups();
 
   /** Certificate sent with a push that created this patch set. */
-  public abstract Optional<String> getPushCertificate();
+  public abstract Optional<String> pushCertificate();
 
   /**
    * Optional user-supplied description for this patch set.
@@ -219,15 +219,15 @@ public abstract class PatchSet {
    * <p>When this field is an empty {@code Optional}, the description was never set on the patch
    * set. When this field is present but an empty string, the description was set and later cleared.
    */
-  public abstract Optional<String> getDescription();
+  public abstract Optional<String> description();
 
   /** Patch set number. */
-  public int getPatchSetId() {
-    return getId().get();
+  public int number() {
+    return id().get();
   }
 
   /** Name of the corresponding patch set ref. */
-  public String getRefName() {
-    return getId().toRefName();
+  public String refName() {
+    return id().toRefName();
   }
 }

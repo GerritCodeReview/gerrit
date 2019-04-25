@@ -76,8 +76,8 @@ public class PatchSetInfoFactory {
       throws PatchSetInfoNotAvailableException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
-      RevCommit src = rw.parseCommit(patchSet.getCommitId());
-      PatchSetInfo info = get(rw, src, patchSet.getId());
+      RevCommit src = rw.parseCommit(patchSet.commitId());
+      PatchSetInfo info = get(rw, src, patchSet.id());
       info.setParents(toParentInfos(src.getParents(), rw));
       return info;
     } catch (IOException | StorageException e) {

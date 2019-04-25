@@ -40,7 +40,7 @@ public class ChangeUtil {
   private static final BaseEncoding UUID_ENCODING = BaseEncoding.base16().lowerCase();
 
   public static final Ordering<PatchSet> PS_ID_ORDER =
-      Ordering.from(comparingInt(PatchSet::getPatchSetId));
+      Ordering.from(comparingInt(PatchSet::number));
 
   /** @return a new unique identifier for change message entities. */
   public static String messageUuid() {

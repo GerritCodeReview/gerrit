@@ -286,7 +286,7 @@ public class ChangeJson {
 
   public ChangeInfo format(RevisionResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    return format(cd, Optional.of(rsrc.getPatchSet().getId()), true, ChangeInfo::new);
+    return format(cd, Optional.of(rsrc.getPatchSet().id()), true, ChangeInfo::new);
   }
 
   public List<List<ChangeInfo>> format(List<QueryResult<ChangeData>> in)
@@ -784,7 +784,7 @@ public class ChangeJson {
     }
     Map<PatchSet.Id, PatchSet> map = Maps.newHashMapWithExpectedSize(src.size());
     for (PatchSet patchSet : src) {
-      map.put(patchSet.getId(), patchSet);
+      map.put(patchSet.id(), patchSet);
     }
     return map;
   }

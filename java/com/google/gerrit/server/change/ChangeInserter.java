@@ -426,9 +426,9 @@ public class ChangeInserter implements InsertChangeOp {
     if (message != null) {
       changeMessage =
           ChangeMessagesUtil.newMessage(
-              patchSet.getId(),
+              patchSet.id(),
               ctx.getUser(),
-              patchSet.getCreatedOn(),
+              patchSet.createdOn(),
               message,
               ChangeMessagesUtil.uploadedPatchSetTag(workInProgress));
       cmUtil.addChangeMessage(update, changeMessage);

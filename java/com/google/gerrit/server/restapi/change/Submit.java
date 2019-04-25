@@ -198,11 +198,11 @@ public class Submit
     } else if (!ProjectUtil.branchExists(repoManager, change.getDest())) {
       throw new ResourceConflictException(
           String.format("destination branch \"%s\" not found.", change.getDest().branch()));
-    } else if (!rsrc.getPatchSet().getId().equals(change.currentPatchSetId())) {
+    } else if (!rsrc.getPatchSet().id().equals(change.currentPatchSetId())) {
       // TODO Allow submitting non-current revision by changing the current.
       throw new ResourceConflictException(
           String.format(
-              "revision %s is not current revision", rsrc.getPatchSet().getCommitId().name()));
+              "revision %s is not current revision", rsrc.getPatchSet().commitId().name()));
     }
 
     try (MergeOp op = mergeOpProvider.get()) {
@@ -366,9 +366,9 @@ public class Submit
     }
     Map<String, String> params =
         ImmutableMap.of(
-            "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
+            "patchSet", String.valueOf(resource.getPatchSet().number()),
             "branch", change.getDest().shortName(),
-            "commit", abbreviateName(resource.getPatchSet().getCommitId()),
+            "commit", abbreviateName(resource.getPatchSet().commitId()),
             "submitSize", String.valueOf(cs.size()));
     ParameterizedString tp = cs.size() > 1 ? titlePatternWithAncestors : titlePattern;
     return new UiAction.Description()
@@ -432,7 +432,7 @@ public class Submit
     try (Repository repo = repoManager.openRepository(project);
         RevWalk walk = new RevWalk(repo)) {
       for (ChangeData change : changes) {
-        RevCommit commit = walk.parseCommit(psUtil.current(change.notes()).getCommitId());
+        RevCommit commit = walk.parseCommit(psUtil.current(change.notes()).commitId());
         commits.put(change.getId(), commit);
       }
     }

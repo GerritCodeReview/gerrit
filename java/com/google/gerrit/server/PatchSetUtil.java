@@ -166,7 +166,7 @@ public class PatchSetUtil {
   public RevCommit getRevCommit(Project.NameKey project, PatchSet patchSet) throws IOException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
-      RevCommit src = rw.parseCommit(patchSet.getCommitId());
+      RevCommit src = rw.parseCommit(patchSet.commitId());
       rw.parseBody(src);
       return src;
     }

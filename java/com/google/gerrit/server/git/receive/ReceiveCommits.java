@@ -2187,7 +2187,7 @@ class ReceiveCommits {
           // Schedule as a replacement to this one matching change.
           //
 
-          ObjectId currentPs = changes.get(0).currentPatchSet().getCommitId();
+          ObjectId currentPs = changes.get(0).currentPatchSet().commitId();
           // If Commit is already current PatchSet of target Change.
           if (p.commit.equals(currentPs)) {
             if (pending.size() == 1) {
@@ -2817,7 +2817,7 @@ class ReceiveCommits {
       }
 
       if (edit.isPresent()) {
-        if (edit.get().getBasePatchSet().getId().equals(psId)) {
+        if (edit.get().getBasePatchSet().id().equals(psId)) {
           // replace edit
           cmd =
               new ReceiveCommand(edit.get().getEditCommit(), newCommitId, edit.get().getRefName());
@@ -2911,7 +2911,7 @@ class ReceiveCommits {
             @Override
             public boolean updateChange(ChangeContext ctx) {
               PatchSet ps = psUtil.get(ctx.getNotes(), psId);
-              List<String> oldGroups = ps.getGroups();
+              List<String> oldGroups = ps.groups();
               if (oldGroups == null) {
                 if (groups == null) {
                   return false;

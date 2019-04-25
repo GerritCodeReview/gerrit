@@ -386,7 +386,7 @@ public class MailProcessor {
           commentsUtil.newComment(
               ctx,
               fileName,
-              patchSetForComment.getId(),
+              patchSetForComment.id(),
               (short) side.ordinal(),
               mailComment.getMessage(),
               false,

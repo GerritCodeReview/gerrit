@@ -97,8 +97,8 @@ public class PureRevertCache {
             claimedRevert.getProjectName(), claimedRevert.getChange().getRevertOf());
     return isPureRevert(
         claimedRevert.getProjectName(),
-        claimedRevert.getCurrentPatchSet().getCommitId(),
-        claimedOriginal.getCurrentPatchSet().getCommitId());
+        claimedRevert.getCurrentPatchSet().commitId(),
+        claimedOriginal.getCurrentPatchSet().commitId());
   }
 
   /**

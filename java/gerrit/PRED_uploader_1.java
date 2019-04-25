@@ -50,7 +50,7 @@ public class PRED_uploader_1 extends Predicate.P1 {
       return engine.fail();
     }
 
-    Account.Id uploaderId = patchSet.getUploader();
+    Account.Id uploaderId = patchSet.uploader();
 
     if (!a1.unify(new StructureTerm(user, new IntegerTerm(uploaderId.get())), engine.trail)) {
       return engine.fail();

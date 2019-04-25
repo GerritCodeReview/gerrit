@@ -252,7 +252,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
                 args.psUtil.get(ctx.getNotes(), oldPsId),
                 () -> String.format("missing old patch set %s", oldPsId));
       } else {
-        PatchSet.Id n = newPatchSet.getId();
+        PatchSet.Id n = newPatchSet.id();
         checkState(
             !n.equals(oldPsId) && n.equals(newPsId),
             "current patch was %s and is now %s, but updateChangeImpl returned"
@@ -312,7 +312,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // a patch set ref. Fix up the database. Note that this uses the current
     // user as the uploader, which is as good a guess as any.
     List<String> groups =
-        prevPs != null ? prevPs.getGroups() : GroupCollector.getDefaultGroups(alreadyMergedCommit);
+        prevPs != null ? prevPs.groups() : GroupCollector.getDefaultGroups(alreadyMergedCommit);
     return args.psUtil.insert(
         ctx.getRevWalk(), ctx.getUpdate(psId), psId, alreadyMergedCommit, groups, null, null);
   }

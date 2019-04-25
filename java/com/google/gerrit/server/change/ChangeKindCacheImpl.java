@@ -367,13 +367,13 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     ChangeKind kind = ChangeKind.REWORK;
     // Trivial case: if we're on the first patch, we don't need to use
     // the repository.
-    if (patch.getId().get() > 1) {
+    if (patch.id().get() > 1) {
       try {
         Collection<PatchSet> patchSetCollection = change.patchSets();
         PatchSet priorPs = patch;
         for (PatchSet ps : patchSetCollection) {
-          if (ps.getId().get() < patch.getId().get()
-              && (ps.getId().get() > priorPs.getId().get() || priorPs == patch)) {
+          if (ps.id().get() < patch.id().get()
+              && (ps.id().get() > priorPs.id().get() || priorPs == patch)) {
             // We only want the previous patch set, so walk until the last one
             priorPs = ps;
           }
@@ -386,13 +386,13 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         if (priorPs != patch) {
           kind =
               cache.getChangeKind(
-                  change.project(), rw, repoConfig, priorPs.getCommitId(), patch.getCommitId());
+                  change.project(), rw, repoConfig, priorPs.commitId(), patch.commitId());
         }
       } catch (StorageException e) {
         // Do nothing; assume we have a complex change
         logger.atWarning().withCause(e).log(
             "Unable to get change kind for patchSet %s of change %s",
-            patch.getPatchSetId(), change.getId());
+            patch.number(), change.getId());
       }
     }
     return kind;
@@ -408,7 +408,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     ChangeKind kind = ChangeKind.REWORK;
     // Trivial case: if we're on the first patch, we don't need to open
     // the repository.
-    if (patch.getId().get() > 1) {
+    if (patch.id().get() > 1) {
       try (Repository repo = repoManager.openRepository(change.getProject());
           RevWalk rw = new RevWalk(repo)) {
         kind =
@@ -418,7 +418,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         // Do nothing; assume we have a complex change
         logger.atWarning().withCause(e).log(
             "Unable to get change kind for patchSet %s of change %s",
-            patch.getPatchSetId(), change.getChangeId());
+            patch.number(), change.getChangeId());
       }
     }
     return kind;

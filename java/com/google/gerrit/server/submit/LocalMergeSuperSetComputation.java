@@ -134,7 +134,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
         }
 
         // Get the underlying git commit object
-        RevCommit commit = or.rw.parseCommit(cd.currentPatchSet().getCommitId());
+        RevCommit commit = or.rw.parseCommit(cd.currentPatchSet().commitId());
 
         // Always include the input, even if merged. This allows
         // SubmitStrategyOp to correct the situation later, assuming it gets

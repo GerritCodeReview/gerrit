@@ -357,7 +357,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         return Response.ok(
             fileContentUtil.getContent(
                 projectCache.checkedGet(rsrc.getChangeResource().getProject()),
-                base ? edit.getBasePatchSet().getCommitId() : edit.getEditCommit(),
+                base ? edit.getBasePatchSet().commitId() : edit.getEditCommit(),
                 rsrc.getPath(),
                 null));
       } catch (ResourceNotFoundException | BadRequestException e) {
@@ -384,8 +384,8 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
           webLinks.getDiffLinks(
               change.getProject().get(),
               change.getChangeId(),
-              edit.getBasePatchSet().getPatchSetId(),
-              edit.getBasePatchSet().getRefName(),
+              edit.getBasePatchSet().number(),
+              edit.getBasePatchSet().refName(),
               rsrc.getPath(),
               0,
               edit.getRefName(),
@@ -458,7 +458,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         if (base) {
           try (Repository repo = repoManager.openRepository(rsrc.getProject());
               RevWalk rw = new RevWalk(repo)) {
-            RevCommit commit = rw.parseCommit(edit.get().getBasePatchSet().getCommitId());
+            RevCommit commit = rw.parseCommit(edit.get().getBasePatchSet().commitId());
             msg = commit.getFullMessage();
           }
         } else {

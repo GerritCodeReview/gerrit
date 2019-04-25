@@ -66,7 +66,7 @@ public class GetMergeList implements RestReadView<RevisionResource> {
     Project.NameKey p = rsrc.getChange().getProject();
     try (Repository repo = repoManager.openRepository(p);
         RevWalk rw = new RevWalk(repo)) {
-      RevCommit commit = rw.parseCommit(rsrc.getPatchSet().getCommitId());
+      RevCommit commit = rw.parseCommit(rsrc.getPatchSet().commitId());
       rw.parseBody(commit);
 
       if (uninterestingParent < 1 || uninterestingParent > commit.getParentCount()) {

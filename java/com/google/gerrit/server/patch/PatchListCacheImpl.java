@@ -134,7 +134,7 @@ public class PatchListCacheImpl implements PatchListCache {
   private PatchList get(Change change, PatchSet patchSet, Integer parentNum)
       throws PatchListNotAvailableException {
     Project.NameKey project = change.getProject();
-    ObjectId b = patchSet.getCommitId();
+    ObjectId b = patchSet.commitId();
     Whitespace ws = Whitespace.IGNORE_NONE;
     if (parentNum != null) {
       return get(PatchListKey.againstParentNum(parentNum, b, ws), project);

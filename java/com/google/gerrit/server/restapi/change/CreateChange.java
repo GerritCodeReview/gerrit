@@ -277,7 +277,7 @@ public class CreateChange
       if (input.baseChange != null) {
         ChangeNotes baseChange = getBaseChange(input.baseChange);
         basePatchSet = psUtil.current(baseChange);
-        groups = basePatchSet.getGroups();
+        groups = basePatchSet.groups();
       }
       ObjectId parentCommit =
           getParentCommit(git, rw, input.branch, input.newBranch, basePatchSet, input.baseCommit);
@@ -345,7 +345,7 @@ public class CreateChange
       throws BadRequestException, IOException, UnprocessableEntityException,
           ResourceConflictException {
     if (basePatchSet != null) {
-      return basePatchSet.getCommitId();
+      return basePatchSet.commitId();
     }
 
     Ref destRef = repo.getRefDatabase().exactRef(inputBranch);

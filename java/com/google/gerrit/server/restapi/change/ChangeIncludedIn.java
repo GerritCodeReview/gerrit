@@ -39,6 +39,6 @@ public class ChangeIncludedIn implements RestReadView<ChangeResource> {
   @Override
   public IncludedInInfo apply(ChangeResource rsrc) throws RestApiException, IOException {
     PatchSet ps = psUtil.current(rsrc.getNotes());
-    return includedIn.apply(rsrc.getProject(), ps.getCommitId().name());
+    return includedIn.apply(rsrc.getProject(), ps.commitId().name());
   }
 }

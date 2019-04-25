@@ -297,7 +297,7 @@ public class ProjectsConsistencyChecker {
                 // Auto-close by commit
                 for (ObjectId patchSetSha1 :
                     autoCloseableChange.patchSets().stream()
-                        .map(PatchSet::getCommitId)
+                        .map(PatchSet::commitId)
                         .collect(toSet())) {
                   if (mergedSha1s.contains(patchSetSha1)) {
                     autoCloseableChangesByBranch.add(

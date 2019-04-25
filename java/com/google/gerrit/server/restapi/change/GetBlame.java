@@ -87,7 +87,7 @@ public class GetBlame implements RestReadView<FileResource> {
       String refName =
           resource.getRevision().getEdit().isPresent()
               ? resource.getRevision().getEdit().get().getRefName()
-              : resource.getRevision().getPatchSet().getRefName();
+              : resource.getRevision().getPatchSet().refName();
 
       Ref ref = repository.findRef(refName);
       if (ref == null) {

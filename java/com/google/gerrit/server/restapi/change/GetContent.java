@@ -76,7 +76,7 @@ public class GetContent implements RestReadView<FileResource> {
     }
     return fileContentUtil.getContent(
         projectCache.checkedGet(rsrc.getRevision().getProject()),
-        rsrc.getRevision().getPatchSet().getCommitId(),
+        rsrc.getRevision().getPatchSet().commitId(),
         path,
         parent);
   }
@@ -90,7 +90,7 @@ public class GetContent implements RestReadView<FileResource> {
 
     try (Repository git = gitManager.openRepository(notes.getProjectName());
         RevWalk revWalk = new RevWalk(git)) {
-      RevCommit commit = revWalk.parseCommit(ps.getCommitId());
+      RevCommit commit = revWalk.parseCommit(ps.commitId());
       return commit.getFullMessage();
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchChangeException(changeId, e);
@@ -107,7 +107,7 @@ public class GetContent implements RestReadView<FileResource> {
     try (Repository git = gitManager.openRepository(notes.getProjectName());
         RevWalk revWalk = new RevWalk(git)) {
       return Text.forMergeList(
-              ComparisonType.againstAutoMerge(), revWalk.getObjectReader(), ps.getCommitId())
+              ComparisonType.againstAutoMerge(), revWalk.getObjectReader(), ps.commitId())
           .getContent();
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchChangeException(changeId, e);

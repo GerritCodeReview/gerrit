@@ -285,7 +285,7 @@ public class EventFactory {
 
   private void addDependsOn(RevWalk rw, ChangeAttribute ca, Change change, PatchSet currentPs)
       throws IOException {
-    RevCommit commit = rw.parseCommit(currentPs.getCommitId());
+    RevCommit commit = rw.parseCommit(currentPs.commitId());
     final List<String> parentNames = new ArrayList<>(commit.getParentCount());
     for (RevCommit p : commit.getParents()) {
       parentNames.add(p.name());
@@ -296,7 +296,7 @@ public class EventFactory {
     for (ChangeData cd : queryProvider.get().byProjectCommits(change.getProject(), parentNames)) {
       for (PatchSet ps : cd.patchSets()) {
         for (String p : parentNames) {
-          if (!ps.getCommitId().name().equals(p)) {
+          if (!ps.commitId().name().equals(p)) {
             continue;
           }
           ca.dependsOn.add(newDependsOn(requireNonNull(cd.change()), ps));
@@ -318,18 +318,18 @@ public class EventFactory {
 
   private void addNeededBy(RevWalk rw, ChangeAttribute ca, Change change, PatchSet currentPs)
       throws IOException {
-    if (currentPs.getGroups().isEmpty()) {
+    if (currentPs.groups().isEmpty()) {
       return;
     }
-    String rev = currentPs.getCommitId().name();
+    String rev = currentPs.commitId().name();
     // Find changes in the same related group as this patch set, having a patch
     // set whose parent matches this patch set's revision.
     for (ChangeData cd :
         InternalChangeQuery.byProjectGroups(
-            queryProvider, indexConfig, change.getProject(), currentPs.getGroups())) {
+            queryProvider, indexConfig, change.getProject(), currentPs.groups())) {
       PATCH_SETS:
       for (PatchSet ps : cd.patchSets()) {
-        RevCommit commit = rw.parseCommit(ps.getCommitId());
+        RevCommit commit = rw.parseCommit(ps.commitId());
         for (RevCommit p : commit.getParents()) {
           if (!p.name().equals(rev)) {
             continue;
@@ -343,7 +343,7 @@ public class EventFactory {
 
   private DependencyAttribute newDependsOn(Change c, PatchSet ps) {
     DependencyAttribute d = newDependencyAttribute(c, ps);
-    d.isCurrentPatchSet = ps.getId().equals(c.currentPatchSetId());
+    d.isCurrentPatchSet = ps.id().equals(c.currentPatchSetId());
     return d;
   }
 
@@ -355,8 +355,8 @@ public class EventFactory {
     DependencyAttribute d = new DependencyAttribute();
     d.number = c.getId().get();
     d.id = c.getKey().toString();
-    d.revision = ps.getCommitId().name();
-    d.ref = ps.getRefName();
+    d.revision = ps.commitId().name();
+    d.ref = ps.refName();
     return d;
   }
 
@@ -400,7 +400,7 @@ public class EventFactory {
       for (PatchSet p : ps) {
         PatchSetAttribute psa = asPatchSetAttribute(revWalk, change, p);
         if (approvals != null) {
-          addApprovals(psa, p.getId(), approvals, labelTypes);
+          addApprovals(psa, p.id(), approvals, labelTypes);
         }
         ca.patchSets.add(psa);
         if (includeFiles) {
@@ -463,12 +463,12 @@ public class EventFactory {
    */
   public PatchSetAttribute asPatchSetAttribute(RevWalk revWalk, Change change, PatchSet patchSet) {
     PatchSetAttribute p = new PatchSetAttribute();
-    p.revision = patchSet.getCommitId().name();
-    p.number = patchSet.getPatchSetId();
-    p.ref = patchSet.getRefName();
-    p.uploader = asAccountAttribute(patchSet.getUploader());
-    p.createdOn = patchSet.getCreatedOn().getTime() / 1000L;
-    PatchSet.Id pId = patchSet.getId();
+    p.revision = patchSet.commitId().name();
+    p.number = patchSet.number();
+    p.ref = patchSet.refName();
+    p.uploader = asAccountAttribute(patchSet.uploader());
+    p.createdOn = patchSet.createdOn().getTime() / 1000L;
+    PatchSet.Id pId = patchSet.id();
     try {
       p.parents = new ArrayList<>();
       RevCommit c = revWalk.parseCommit(ObjectId.fromString(p.revision));
@@ -495,7 +495,7 @@ public class EventFactory {
       }
       p.kind = changeKindCache.getChangeKind(change, patchSet);
     } catch (IOException | StorageException e) {
-      logger.atSevere().withCause(e).log("Cannot load patch set data for %s", patchSet.getId());
+      logger.atSevere().withCause(e).log("Cannot load patch set data for %s", patchSet.id());
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Cannot get size information for %s: %s", pId, e.getMessage());
     } catch (PatchListNotAvailableException e) {

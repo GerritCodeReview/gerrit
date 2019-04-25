@@ -356,8 +356,7 @@ public class PostReview
 
       // Add the review op.
       bu.addOp(
-          revision.getChange().getId(),
-          new Op(projectState, revision.getPatchSet().getId(), input));
+          revision.getChange().getId(), new Op(projectState, revision.getPatchSet().id(), input));
 
       // Notify based on ReviewInput, ignoring the notify settings from any AddReviewerInputs.
       NotifyResolver.Result notify =
@@ -570,7 +569,7 @@ public class PostReview
     Set<String> revisionFilePaths = getAffectedFilePaths(revision);
     for (Map.Entry<String, List<T>> entry : commentsPerPath.entrySet()) {
       String path = entry.getKey();
-      PatchSet.Id patchSetId = revision.getPatchSet().getId();
+      PatchSet.Id patchSetId = revision.getPatchSet().id();
       ensurePathRefersToAvailableOrMagicFile(path, revisionFilePaths, patchSetId);
 
       List<T> comments = entry.getValue();
@@ -584,7 +583,7 @@ public class PostReview
 
   private Set<String> getAffectedFilePaths(RevisionResource revision)
       throws PatchListNotAvailableException {
-    ObjectId newId = revision.getPatchSet().getCommitId();
+    ObjectId newId = revision.getPatchSet().commitId();
     DiffSummaryKey key =
         DiffSummaryKey.fromPatchListKey(
             PatchListKey.againstDefaultBase(newId, Whitespace.IGNORE_NONE));

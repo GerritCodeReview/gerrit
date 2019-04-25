@@ -451,7 +451,7 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_EXACTCOMMIT).buildRepeatable(ChangeField::getRevisions);
 
   private static ImmutableSet<String> getRevisions(ChangeData cd) {
-    return cd.patchSets().stream().map(ps -> ps.getCommitId().name()).collect(toImmutableSet());
+    return cd.patchSets().stream().map(ps -> ps.commitId().name()).collect(toImmutableSet());
   }
 
   /** Tracking id extracted from a footer. */
@@ -663,8 +663,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> GROUP =
       exact(ChangeQueryBuilder.FIELD_GROUP)
           .buildRepeatable(
-              cd ->
-                  cd.patchSets().stream().flatMap(ps -> ps.getGroups().stream()).collect(toSet()));
+              cd -> cd.patchSets().stream().flatMap(ps -> ps.groups().stream()).collect(toSet()));
 
   /** Serialized patch set object, used for pre-populating results. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> PATCH_SET =

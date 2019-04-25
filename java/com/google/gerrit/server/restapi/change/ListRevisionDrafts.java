@@ -40,7 +40,7 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
 
   protected Iterable<Comment> listComments(RevisionResource rsrc) {
     return commentsUtil.draftByPatchSetAuthor(
-        rsrc.getPatchSet().getId(), rsrc.getAccountId(), rsrc.getNotes());
+        rsrc.getPatchSet().id(), rsrc.getAccountId(), rsrc.getNotes());
   }
 
   protected boolean includeAuthorInfo() {

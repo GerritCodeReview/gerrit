@@ -75,7 +75,7 @@ public class ApplyFix implements RestModifyView<FixResource, Void> {
     try (Repository repository = gitRepositoryManager.openRepository(project)) {
       List<TreeModification> treeModifications =
           fixReplacementInterpreter.toTreeModifications(
-              repository, projectState, patchSet.getCommitId(), fixResource.getFixReplacements());
+              repository, projectState, patchSet.commitId(), fixResource.getFixReplacements());
       ChangeEdit changeEdit =
           changeEditModifier.combineWithModifiedPatchSetTree(
               repository, revisionResource.getNotes(), patchSet, treeModifications);

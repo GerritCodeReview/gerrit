@@ -114,7 +114,7 @@ public class RevisionResource implements RestResource, HasETag {
 
   @Override
   public String toString() {
-    String s = ps.getId().toString();
+    String s = ps.id().toString();
     if (edit.isPresent()) {
       s = "edit:" + s;
     }
@@ -122,6 +122,6 @@ public class RevisionResource implements RestResource, HasETag {
   }
 
   public boolean isCurrent() {
-    return ps.getId().equals(getChange().currentPatchSetId());
+    return ps.id().equals(getChange().currentPatchSetId());
   }
 }

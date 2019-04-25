@@ -45,6 +45,6 @@ public class DownloadContent implements RestReadView<FileResource> {
     String path = rsrc.getPatchKey().fileName();
     RevisionResource rev = rsrc.getRevision();
     return fileContentUtil.downloadContent(
-        projectCache.checkedGet(rev.getProject()), rev.getPatchSet().getCommitId(), path, parent);
+        projectCache.checkedGet(rev.getProject()), rev.getPatchSet().commitId(), path, parent);
   }
 }

@@ -64,7 +64,7 @@ public class RebaseUtil {
       return false;
     } catch (StorageException | IOException e) {
       logger.atWarning().withCause(e).log(
-          "Error checking if patch set %s on %s can be rebased", patchSet.getId(), dest);
+          "Error checking if patch set %s on %s can be rebased", patchSet.id(), dest);
       return false;
     }
   }
@@ -108,10 +108,10 @@ public class RebaseUtil {
     Base ret = null;
     for (ChangeData cd : queryProvider.get().byProjectCommit(rsrc.getProject(), base)) {
       for (PatchSet ps : cd.patchSets()) {
-        if (!ObjectIds.matchesAbbreviation(ps.getCommitId(), base)) {
+        if (!ObjectIds.matchesAbbreviation(ps.commitId(), base)) {
           continue;
         }
-        if (ret == null || ret.patchSet().getId().get() < ps.getId().get()) {
+        if (ret == null || ret.patchSet().id().get() < ps.id().get()) {
           ret = Base.create(cd.notes(), ps);
         }
       }
@@ -144,7 +144,7 @@ public class RebaseUtil {
       PatchSet patchSet, BranchNameKey destBranch, Repository git, RevWalk rw)
       throws RestApiException, IOException {
     ObjectId baseId = null;
-    RevCommit commit = rw.parseCommit(patchSet.getCommitId());
+    RevCommit commit = rw.parseCommit(patchSet.commitId());
 
     if (commit.getParentCount() > 1) {
       throw new UnprocessableEntityException("Cannot rebase a change with multiple parents.");
@@ -158,7 +158,7 @@ public class RebaseUtil {
     CHANGES:
     for (ChangeData cd : queryProvider.get().byBranchCommit(destBranch, parentId.name())) {
       for (PatchSet depPatchSet : cd.patchSets()) {
-        if (!depPatchSet.getCommitId().equals(parentId)) {
+        if (!depPatchSet.commitId().equals(parentId)) {
           continue;
         }
         Change depChange = cd.change();
@@ -168,11 +168,11 @@ public class RebaseUtil {
         }
 
         if (depChange.isNew()) {
-          if (depPatchSet.getId().equals(depChange.currentPatchSetId())) {
+          if (depPatchSet.id().equals(depChange.currentPatchSetId())) {
             throw new ResourceConflictException(
                 "Change is already based on the latest patch set of the dependent change.");
           }
-          baseId = cd.currentPatchSet().getCommitId();
+          baseId = cd.currentPatchSet().commitId();
         }
         break CHANGES;
       }

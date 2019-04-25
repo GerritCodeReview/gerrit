@@ -108,7 +108,7 @@ public class ApprovalCopier {
       }
 
       Table<String, Account.Id, PatchSetApproval> byUser = HashBasedTable.create();
-      for (PatchSetApproval psa : all.get(ps.getId())) {
+      for (PatchSetApproval psa : all.get(ps.id())) {
         if (!wontCopy.contains(psa.getLabel(), psa.getAccountId())) {
           byUser.put(psa.getLabel(), psa.getAccountId(), psa);
         }
@@ -118,16 +118,16 @@ public class ApprovalCopier {
 
       // Walk patch sets strictly less than current in descending order.
       Collection<PatchSet> allPrior =
-          patchSets.descendingMap().tailMap(ps.getId().get(), false).values();
+          patchSets.descendingMap().tailMap(ps.id().get(), false).values();
       for (PatchSet priorPs : allPrior) {
-        List<PatchSetApproval> priorApprovals = all.get(priorPs.getId());
+        List<PatchSetApproval> priorApprovals = all.get(priorPs.id());
         if (priorApprovals.isEmpty()) {
           continue;
         }
 
         ChangeKind kind =
             changeKindCache.getChangeKind(
-                project.getNameKey(), rw, repoConfig, priorPs.getCommitId(), ps.getCommitId());
+                project.getNameKey(), rw, repoConfig, priorPs.commitId(), ps.commitId());
 
         for (PatchSetApproval psa : priorApprovals) {
           if (wontCopy.contains(psa.getLabel(), psa.getAccountId())) {
@@ -136,11 +136,11 @@ public class ApprovalCopier {
           if (byUser.contains(psa.getLabel(), psa.getAccountId())) {
             continue;
           }
-          if (!canCopy(project, psa, ps.getId(), kind)) {
+          if (!canCopy(project, psa, ps.id(), kind)) {
             wontCopy.put(psa.getLabel(), psa.getAccountId(), psa);
             continue;
           }
-          byUser.put(psa.getLabel(), psa.getAccountId(), copy(psa, ps.getId()));
+          byUser.put(psa.getLabel(), psa.getAccountId(), copy(psa, ps.id()));
         }
       }
       return labelNormalizer.normalize(notes, byUser.values()).getNormalized();
@@ -153,7 +153,7 @@ public class ApprovalCopier {
     Collection<PatchSet> patchSets = cd.patchSets();
     TreeMap<Integer, PatchSet> result = new TreeMap<>();
     for (PatchSet ps : patchSets) {
-      result.put(ps.getId().get(), ps);
+      result.put(ps.id().get(), ps);
     }
     return result;
   }

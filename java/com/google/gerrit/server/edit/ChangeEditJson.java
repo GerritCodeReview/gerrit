@@ -51,8 +51,8 @@ public class ChangeEditJson {
   public EditInfo toEditInfo(ChangeEdit edit, boolean downloadCommands) {
     EditInfo out = new EditInfo();
     out.commit = fillCommit(edit.getEditCommit());
-    out.baseRevision = edit.getBasePatchSet().getCommitId().name();
-    out.basePatchSetNumber = edit.getBasePatchSet().getPatchSetId();
+    out.baseRevision = edit.getBasePatchSet().commitId().name();
+    out.basePatchSetNumber = edit.getBasePatchSet().number();
     out.ref = edit.getRefName();
     if (downloadCommands) {
       out.fetch = fillFetchMap(edit);

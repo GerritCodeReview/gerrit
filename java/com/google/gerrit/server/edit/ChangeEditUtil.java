@@ -162,7 +162,7 @@ public class ChangeEditUtil {
         ObjectReader reader = oi.newReader();
         RevWalk rw = new RevWalk(reader)) {
       PatchSet basePatchSet = edit.getBasePatchSet();
-      if (!basePatchSet.getId().equals(change.currentPatchSetId())) {
+      if (!basePatchSet.id().equals(change.currentPatchSetId())) {
         throw new ResourceConflictException("only edit for current patch set can be published");
       }
 
@@ -174,17 +174,14 @@ public class ChangeEditUtil {
           new StringBuilder("Patch Set ").append(inserter.getPatchSetId().get()).append(": ");
 
       // Previously checked that the base patch set is the current patch set.
-      ObjectId prior = basePatchSet.getCommitId();
+      ObjectId prior = basePatchSet.commitId();
       ChangeKind kind =
           changeKindCache.getChangeKind(change.getProject(), rw, repo.getConfig(), prior, squashed);
       if (kind == ChangeKind.NO_CODE_CHANGE) {
         message.append("Commit message was updated.");
         inserter.setDescription("Edit commit message");
       } else {
-        message
-            .append("Published edit on patch set ")
-            .append(basePatchSet.getPatchSetId())
-            .append(".");
+        message.append("Published edit on patch set ").append(basePatchSet.number()).append(".");
       }
 
       try (BatchUpdate bu = updateFactory.create(change.getProject(), user, TimeUtil.nowTs())) {
@@ -232,7 +229,7 @@ public class ChangeEditUtil {
   private RevCommit squashEdit(
       RevWalk rw, ObjectInserter inserter, RevCommit edit, PatchSet basePatchSet)
       throws IOException, ResourceConflictException {
-    RevCommit parent = rw.parseCommit(basePatchSet.getCommitId());
+    RevCommit parent = rw.parseCommit(basePatchSet.commitId());
     if (parent.getTree().equals(edit.getTree())
         && edit.getFullMessage().equals(parent.getFullMessage())) {
       throw new ResourceConflictException("identical tree and message");

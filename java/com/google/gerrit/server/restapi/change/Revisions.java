@@ -131,7 +131,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     } else {
       List<RevisionResource> out = new ArrayList<>();
       for (PatchSet ps : psUtil.byChange(change.getNotes())) {
-        if (ObjectIds.matchesAbbreviation(ps.getCommitId(), id)) {
+        if (ObjectIds.matchesAbbreviation(ps.commitId(), id)) {
           out.add(new RevisionResource(change, ps));
         }
       }

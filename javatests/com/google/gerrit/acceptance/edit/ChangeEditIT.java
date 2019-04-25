@@ -187,7 +187,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     adminRestSession.post(urlPublish(changeId)).assertNoContent();
     assertThat(getEdit(changeId)).isAbsent();
     PatchSet newCurrentPatchSet = getCurrentPatchSet(changeId);
-    assertThat(newCurrentPatchSet.getId()).isNotEqualTo(oldCurrentPatchSet.getId());
+    assertThat(newCurrentPatchSet.id()).isNotEqualTo(oldCurrentPatchSet.id());
     assertChangeMessages(
         changeId,
         ImmutableList.of(
@@ -240,16 +240,13 @@ public class ChangeEditIT extends AbstractDaemonTest {
     PatchSet currentPatchSet = getCurrentPatchSet(changeId2);
 
     Optional<EditInfo> originalEdit = getEdit(changeId2);
-    assertThat(originalEdit)
-        .value()
-        .baseRevision()
-        .isEqualTo(previousPatchSet.getCommitId().name());
+    assertThat(originalEdit).value().baseRevision().isEqualTo(previousPatchSet.commitId().name());
     Timestamp beforeRebase = originalEdit.get().commit.committer.date;
     gApi.changes().id(changeId2).edit().rebase();
     ensureSameBytes(getFileContentOfEdit(changeId2, FILE_NAME), CONTENT_NEW);
     ensureSameBytes(getFileContentOfEdit(changeId2, FILE_NAME2), CONTENT_NEW2);
     Optional<EditInfo> rebasedEdit = getEdit(changeId2);
-    assertThat(rebasedEdit).value().baseRevision().isEqualTo(currentPatchSet.getCommitId().name());
+    assertThat(rebasedEdit).value().baseRevision().isEqualTo(currentPatchSet.commitId().name());
     assertThat(rebasedEdit).value().commit().committer().date().isNotEqualTo(beforeRebase);
   }
 
@@ -262,16 +259,13 @@ public class ChangeEditIT extends AbstractDaemonTest {
     PatchSet currentPatchSet = getCurrentPatchSet(changeId2);
 
     Optional<EditInfo> originalEdit = getEdit(changeId2);
-    assertThat(originalEdit)
-        .value()
-        .baseRevision()
-        .isEqualTo(previousPatchSet.getCommitId().name());
+    assertThat(originalEdit).value().baseRevision().isEqualTo(previousPatchSet.commitId().name());
     Timestamp beforeRebase = originalEdit.get().commit.committer.date;
     adminRestSession.post(urlRebase(changeId2)).assertNoContent();
     ensureSameBytes(getFileContentOfEdit(changeId2, FILE_NAME), CONTENT_NEW);
     ensureSameBytes(getFileContentOfEdit(changeId2, FILE_NAME2), CONTENT_NEW2);
     Optional<EditInfo> rebasedEdit = getEdit(changeId2);
-    assertThat(rebasedEdit).value().baseRevision().isEqualTo(currentPatchSet.getCommitId().name());
+    assertThat(rebasedEdit).value().baseRevision().isEqualTo(currentPatchSet.commitId().name());
     assertThat(rebasedEdit).value().commit().committer().date().isNotEqualTo(beforeRebase);
   }
 
@@ -281,7 +275,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     createEmptyEditFor(changeId2);
     gApi.changes().id(changeId2).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
     Optional<EditInfo> edit = getEdit(changeId2);
-    assertThat(edit).value().baseRevision().isEqualTo(currentPatchSet.getCommitId().name());
+    assertThat(edit).value().baseRevision().isEqualTo(currentPatchSet.commitId().name());
     PushOneCommit push =
         pushFactory.create(
             admin.newIdent(),
@@ -388,7 +382,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     r = adminRestSession.getJsonAccept(urlEditMessage(changeId, true));
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
-      RevCommit commit = rw.parseCommit(ObjectId.fromString(ps.getCommitId().name()));
+      RevCommit commit = rw.parseCommit(ObjectId.fromString(ps.commitId().name()));
       assertThat(readContentFromJson(r)).isEqualTo(commit.getFullMessage());
     }
 

@@ -35,6 +35,7 @@ import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -48,6 +49,10 @@ public class EventBroker implements EventDispatcher {
     protected void configure() {
       DynamicItem.itemOf(binder(), EventDispatcher.class);
       DynamicItem.bind(binder(), EventDispatcher.class).to(EventBroker.class);
+
+      bind(Gson.class)
+          .annotatedWith(GsonEventDeserializer.class)
+          .toProvider(GsonEventDeserializerProvider.class);
     }
   }
 

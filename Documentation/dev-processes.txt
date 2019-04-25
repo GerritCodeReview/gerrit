@@ -9,12 +9,16 @@ The Gerrit project has a steering committee that is in charge of:
 * Gerrit core (the `gerrit` project) and the core plugins
 * defining the project vision and the project scope
 * maintaining a roadmap, a release plan and a prioritized backlog
+* ensuring timely design reviews
 * ensuring that new features are compatible with the project vision and
-  are well aligned with other features
-* vetoing new features
+  are well aligned with other features (give feedback on new
+  link:dev-design-docs.html[design docs] within 14 calendar days)
+* approving/rejecting link:dev-design-docs.html[designs], vetoing new
+  features
 * accepting new plugins as core plugins
 * making changes to the project governance process and the
-  link:dev-contributing.html[contribution process]
+  link:dev-contributing.html#contribution-processes[contribution
+  processes]
 
 The steering committee has 5 members:
 
@@ -65,6 +69,11 @@ link:steering-committee[steering committee]).
 == Contribution Process
 
 See link:dev-contributing.html[here].
+
+[[design-doc-review]]
+== Design Doc Review
+
+See link:dev-design-docs.html#review[here].
 
 [[dev-in-stable-branches]]
 == Development in stable branches

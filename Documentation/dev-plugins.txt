@@ -33,12 +33,9 @@ Most of this documentation refers to either type as a plugin.
 [[getting-started]]
 == Getting started
 
-To get started with the development of a plugin clone the sample
-plugins:
-
-----
-$ git clone https://gerrit.googlesource.com/plugins/examples
-----
+To get started with the development of a plugin, take a look at
+the samples in the
+link:https://gerrit.googlesource.com/plugins/examples[examples plugin project].
 
 This is a project that demonstrates the various features of the
 plugin API. It can be taken as an example to develop an own plugin.

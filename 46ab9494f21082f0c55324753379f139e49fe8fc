@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "0bd6b0c3_e8d47b0c",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T11:33:47Z",
+      "side": 1,
+      "message": "\u003e Those users are supporters.\n\u003e Users that doesn\u0027t give anything back to the community doesn\u0027t really have a role in it, but as\n\u003e soon as they engage in any of the ways outlined below they (at minimum) become \"supporters\".\n\nI\u0027m on the edge whether Users should be a separate role, I\u0027m fine with either way.",
+      "parentUuid": "b2d198ac_5648c8b6",
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d98c96d9_654a3833",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 6
@@ -114,6 +132,30 @@
       "side": 1,
       "message": "The latter, clarified this.\n\nDone.",
       "parentUuid": "d98c96d9_654a3833",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 41
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc4ed485_229c5682",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T11:33:47Z",
+      "side": 1,
+      "message": "\u003e If you are a contributor you are implicitly also a supporter\n\nExactly, this is how it\u0027s meant.",
+      "parentUuid": "874144db_2b5fe011",
       "range": {
         "startLine": 30,
         "startChar": 2,
@@ -291,6 +333,30 @@
     },
     {
       "key": {
+        "uuid": "aa481a58_0c61e8e7",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T11:33:47Z",
+      "side": 1,
+      "message": "\u003e Would it make more sense to say:\n\u003e\n\u003e    \"Contributors have all the permissions a link:#supporter[supporters] have.\"\n\nDone",
+      "parentUuid": "1d3643ca_493eb0a3",
+      "range": {
+        "startLine": 93,
+        "startChar": 13,
+        "endLine": 93,
+        "endChar": 69
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ee273b4_1ac18fbe",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 6
@@ -350,6 +416,30 @@
       "side": 1,
       "message": "Listed some, we can add more later.\n\nDone",
       "parentUuid": "7ee273b4_1ac18fbe",
+      "range": {
+        "startLine": 96,
+        "startChar": 60,
+        "endLine": 97,
+        "endChar": 7
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "792be61b_ffbcbcce",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T11:33:47Z",
+      "side": 1,
+      "message": "\u003e \"... in the community, *in activities outlined above*, may be nominated ...\"?\n\nThanks for the suggestion. Done.",
+      "parentUuid": "64529187_4deb98ee",
       "range": {
         "startLine": 96,
         "startChar": 60,
@@ -547,6 +637,30 @@
       "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2896314_fdba3a58",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T11:33:47Z",
+      "side": 1,
+      "message": "Yes, strictly speaking that\u0027s a separate role. But I would prefer to keep the number of roles to a minimum. I think just having this sentence is clear enough for everyone for whom the difference between \"maintainer\" and \"google maintainer\" matters.",
+      "parentUuid": "7efe7e0a_5d841434",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 46
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,8 +15,8 @@
 package com.google.gerrit.server.cache.serialize;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 
+import com.google.gerrit.git.ObjectIds;
 import com.google.protobuf.ByteString;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -35,7 +35,7 @@ public class ObjectIdConverter {
     return new ObjectIdConverter();
   }
 
-  private final byte[] buf = new byte[OBJECT_ID_LENGTH];
+  private final byte[] buf = new byte[ObjectIds.LEN];
 
   private ObjectIdConverter() {}
 
@@ -46,10 +46,7 @@ public class ObjectIdConverter {
 
   public ObjectId fromByteString(ByteString in) {
     checkArgument(
-        in.size() == OBJECT_ID_LENGTH,
-        "expected ByteString of length %s: %s",
-        OBJECT_ID_LENGTH,
-        in);
+        in.size() == ObjectIds.LEN, "expected ByteString of length %s: %s", ObjectIds.LEN, in);
     in.copyTo(buf, 0);
     return ObjectId.fromRaw(buf);
   }

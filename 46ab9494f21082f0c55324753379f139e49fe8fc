@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bd920aa8_865fc7d3",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-04-25T10:46:42Z",
+      "side": 1,
+      "message": "See below:\n* get involved in discussion on the...\n* attend community events like user summits and hackathons\n\nThose users are supporters.\nUsers that doesn\u0027t give anything back to the community doesn\u0027t really have a role in it, but as soon as they engage in any of the ways outlined below they (at minimum) become \"supporters\".",
+      "parentUuid": "b2a8e844_9c6a8cc4",
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d98c96d9_654a3833",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2019-04-25T09:34:34Z",
       "side": 1,
       "message": "What does this mean? You are a supporter if you become a contributor? Or supporters can become contributors?",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 41
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdd2a356_265f6997",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-04-25T10:46:42Z",
+      "side": 1,
+      "message": "If you are a contributor you are implicitly also a supporter",
+      "parentUuid": "d98c96d9_654a3833",
       "range": {
         "startLine": 30,
         "startChar": 2,

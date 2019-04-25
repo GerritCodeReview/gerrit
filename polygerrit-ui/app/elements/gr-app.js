@@ -92,6 +92,11 @@
         value: 'https://bugs.chromium.org/p/gerrit/issues/entry' +
           '?template=PolyGerrit%20Issue',
       },
+      // Used to allow searching on mobile
+      mobileSearch: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     listeners: {
@@ -448,6 +453,10 @@
     _handleRpcLog(e) {
       this.$.reporting.reportRpcTiming(e.detail.anonymizedUrl,
           e.detail.elapsed);
+    },
+
+    _mobileSearchToggle(e) {
+      this.mobileSearch = !this.mobileSearch;
     },
   });
 })();

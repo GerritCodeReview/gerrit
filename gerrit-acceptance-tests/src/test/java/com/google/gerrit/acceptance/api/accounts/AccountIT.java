@@ -1797,8 +1797,10 @@ public class AccountIT extends AbstractDaemonTest {
     assertSequenceNumbers(info);
     accountIndexedCounter.assertReindexOf(user);
 
-    // No email is sent when key is added by admin
-    assertThat(sender.getMessages()).isEmpty();
+    assertThat(sender.getMessages()).hasSize(1);
+    Message message = sender.getMessages().get(0);
+    assertThat(message.rcpt()).containsExactly(user.emailAddress);
+    assertThat(message.body()).contains("new SSH keys have been added");
 
     // Delete key
     sender.clear();
@@ -1807,8 +1809,10 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(info).hasSize(1);
     accountIndexedCounter.assertReindexOf(user);
 
-    // No email is sent when key is deleted by admin
-    assertThat(sender.getMessages()).isEmpty();
+    assertThat(sender.getMessages()).hasSize(1);
+    message = sender.getMessages().get(0);
+    assertThat(message.rcpt()).containsExactly(user.emailAddress);
+    assertThat(message.body()).contains("SSH keys have been deleted");
   }
 
   @Test

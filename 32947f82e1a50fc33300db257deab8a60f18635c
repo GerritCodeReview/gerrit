@@ -1,0 +1,302 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42e6631b_321ef7bd",
+        "filename": "java/com/google/gerrit/server/notedb/AllUsersAsyncUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-25T20:31:17Z",
+      "side": 1,
+      "message": "I\u0027m very confused by these negated booleans. The way you have it with `checkState(isNonPublishOnly)`, it sounds like you\u0027re saying: \"ensure that the inputs are not publish-only\". But that doesn\u0027t seem right; don\u0027t we want to require that *all* inputs *are* publish-only? Also, I don\u0027t understand how `anyMatch(isPublishOnly)` means `isNonPublishOnly`?\n\nI think there might be a bug but it\u0027s hard to follow.\n\nIIUC what you want to do is: fail fast if there are any updates in the input that are *not* publish-only. Shouldn\u0027t that be something more like this?\n\n boolean allPublishOnly \u003d draftUpdates.values().stream().allMatch(ChangeDraftUpdate::isPublishOnly);\n checkState(allPublishOnly, \"not all updates are publish-only\");",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 97
+      },
+      "revId": "32947f82e1a50fc33300db257deab8a60f18635c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cb43494_37214e0e",
+        "filename": "java/com/google/gerrit/server/notedb/AllUsersAsyncUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-25T20:31:17Z",
+      "side": 1,
+      "message": "for (Map.Entry\u003cString, ChangeDraftUpdate\u003e entry : draftUpdates.entries()) {",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 57
+      },
+      "revId": "32947f82e1a50fc33300db257deab8a60f18635c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11e10aff_ea694f24",
+        "filename": "java/com/google/gerrit/server/notedb/AllUsersAsyncUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-25T20:31:17Z",
+      "side": 1,
+      "message": "Actually now that all Id and Key types are fully immutable AutoValues, the only field in Change that\u0027s not *technically* immutable is Timestamp :)",
+      "range": {
+        "startLine": 81,
+        "startChar": 48,
+        "endLine": 81,
+        "endChar": 83
+      },
+      "revId": "32947f82e1a50fc33300db257deab8a60f18635c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05d8c49e_fe438864",
+        "filename": "java/com/google/gerrit/server/notedb/AllUsersAsyncUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-25T20:31:17Z",
+      "side": 1,
+      "message": "I would much rather there be a public copy method on ChangeDraftUpdate, instead of reaching into protected members of AbstractChangeUpdate.",
+      "range": {
+        "startLine": 83,
+        "startChar": 16,
+        "endLine": 85,
+        "endChar": 29
+      },
+      "revId": "32947f82e1a50fc33300db257deab8a60f18635c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dd48a7b_fcec30ec",
+        "filename": "java/com/google/gerrit/server/notedb/AllUsersAsyncUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-25T20:31:17Z",
+      "side": 1,
+      "message": "A special reflog message for this would probably be nice.",
+      "range": {
+        "startLine": 116,
+        "startChar": 70,
+        "endLine": 116,
+        "endChar": 88
+      },
+      "revId": "32947f82e1a50fc33300db257deab8a60f18635c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22e63c9c_ba75b565",
+        "filename": "java/com/google/gerrit/server/notedb/AllUsersAsyncUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-25T20:31:17Z",
+      "side": 1,
+      "message": "Do you not want to reuse the timestamp from the original BatchUpdate? I guess maybe having a later timestamp that includes scheduling latency might arguably be useful? But the commit timestamps will still be the original timestamp.",
+      "range": {
+        "startLine": 118,
+        "startChar": 71,
+        "endLine": 118,
+        "endChar": 88
+      },
+      "revId": "32947f82e1a50fc33300db257deab8a60f18635c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e7df531_64a0e53f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-25T20:31:17Z",
+      "side": 1,
+      "message": "This reads oddly, it sounds like you\u0027re deleting a \"published comment\" from the ChangeDraftUpdate, but in fact all the Comment instances accessible via ChangeDraftUpdate have status \u003d\u003d DRAFT.\n\nMaybe something like \"markCommentPublished\"? I dunno though. I don\u0027t feel too strongly.",
+      "range": {
+        "startLine": 134,
+        "startChar": 14,
+        "endLine": 134,
+        "endChar": 36
+      },
+      "revId": "32947f82e1a50fc33300db257deab8a60f18635c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d8a5bc5_703b0a19",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-25T20:31:17Z",
+      "side": 1,
+      "message": "Should it be an error to delete the same comment multiple times with different reasons? Or does last-wins (what you have here) make the most sense?",
+      "revId": "32947f82e1a50fc33300db257deab8a60f18635c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4572234_4bf941be",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-25T20:31:17Z",
+      "side": 1,
+      "message": "Do you not also want to allow FIXED here? Couldn\u0027t the fixup also happen asynchronously?",
+      "range": {
+        "startLine": 157,
+        "startChar": 72,
+        "endLine": 157,
+        "endChar": 94
+      },
+      "revId": "32947f82e1a50fc33300db257deab8a60f18635c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bc7411b_78fe4f25",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-25T20:31:17Z",
+      "side": 1,
+      "message": "Same comment as above; maybe even move this up next to deletePublishedComment.",
+      "range": {
+        "startLine": 160,
+        "startChar": 7,
+        "endLine": 160,
+        "endChar": 30
+      },
+      "revId": "32947f82e1a50fc33300db257deab8a60f18635c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "192bb398_64679dbe",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-25T20:31:17Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment.",
+      "revId": "32947f82e1a50fc33300db257deab8a60f18635c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68c20e74_15dad2c8",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-25T20:31:17Z",
+      "side": 1,
+      "message": "allMatch?",
+      "range": {
+        "startLine": 367,
+        "startChar": 41,
+        "endLine": 367,
+        "endChar": 49
+      },
+      "revId": "32947f82e1a50fc33300db257deab8a60f18635c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "451bee25_994e3dfc",
+        "filename": "java/com/google/gerrit/server/notedb/OpenRepo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-25T20:31:17Z",
+      "side": 1,
+      "message": "I think you\u0027ll need @SuppressWarnings(\"resource\") around these.",
+      "revId": "32947f82e1a50fc33300db257deab8a60f18635c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "281a55a0_07e658f1",
+        "filename": "java/com/google/gerrit/server/notedb/TooManyUpdatesException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-25T20:31:17Z",
+      "side": 1,
+      "message": "Copyright header",
+      "revId": "32947f82e1a50fc33300db257deab8a60f18635c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

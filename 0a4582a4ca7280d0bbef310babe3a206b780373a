@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb9f6687_177b5ac1",
+        "filename": "java/com/google/gerrit/server/notedb/AllUsersAsyncUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-25T10:47:16Z",
+      "side": 1,
+      "message": "Missing copyright/license header.",
+      "revId": "0a4582a4ca7280d0bbef310babe3a206b780373a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "441d4c99_63b6b012",
+        "filename": "java/com/google/gerrit/server/notedb/AllUsersAsyncUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-25T10:47:16Z",
+      "side": 1,
+      "message": "Annotate as @Singleton?",
+      "revId": "0a4582a4ca7280d0bbef310babe3a206b780373a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23b12896_b61fa363",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-25T10:47:16Z",
+      "side": 1,
+      "message": "of what?",
+      "range": {
+        "startLine": 66,
+        "startChar": 23,
+        "endLine": 66,
+        "endChar": 25
+      },
+      "revId": "0a4582a4ca7280d0bbef310babe3a206b780373a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bb848c6_1549c588",
+        "filename": "java/com/google/gerrit/server/notedb/OpenRepo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-25T10:47:16Z",
+      "side": 1,
+      "message": "Missing copyright/license header.",
+      "revId": "0a4582a4ca7280d0bbef310babe3a206b780373a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cf436fd_962a0d53",
+        "filename": "java/com/google/gerrit/server/notedb/OpenRepo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-25T10:47:16Z",
+      "side": 1,
+      "message": "should this be private?",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 10
+      },
+      "revId": "0a4582a4ca7280d0bbef310babe3a206b780373a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f003b44_4377258d",
+        "filename": "java/com/google/gerrit/server/notedb/TooManyUpdatesException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-25T10:47:16Z",
+      "side": 1,
+      "message": "Missing license/copyright header",
+      "revId": "0a4582a4ca7280d0bbef310babe3a206b780373a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf500c21_2f48a6b8",
+        "filename": "java/com/google/gerrit/testing/AssertableExecutorService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-25T10:47:16Z",
+      "side": 1,
+      "message": "Missing header",
+      "revId": "0a4582a4ca7280d0bbef310babe3a206b780373a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18ce15a7_ac313421",
+        "filename": "javatests/com/google/gerrit/server/notedb/DraftCommentNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-25T10:47:16Z",
+      "side": 1,
+      "message": "Missing header.",
+      "revId": "0a4582a4ca7280d0bbef310babe3a206b780373a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

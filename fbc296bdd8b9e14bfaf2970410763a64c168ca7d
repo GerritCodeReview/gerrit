@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "048e10c4_4531d992",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-25T08:42:14Z",
+      "side": 1,
+      "message": "Document this new endpoint in Documentation/pg-plugin-endpoints.txt.\n\nPlease also describe how a plugin would add/modify/delete items in gr-dropdown.",
+      "revId": "fbc296bdd8b9e14bfaf2970410763a64c168ca7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

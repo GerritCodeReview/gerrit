@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed3334ed_d25491b1",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T12:22:54Z",
+      "side": 1,
+      "message": "Maybe mention the test the needs to be adapted for this?",
+      "revId": "fa11e20e8e53d448fada156372a2bfd4c675db7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -54,6 +54,11 @@ Supporters can:
   see below)
 * file issues in the link:https://bugs.chromium.org/p/gerrit/issues/list[
   issue tracker] and comment on existing issues
+* support the
+  link:dev-processes.html#design-driven-contribution-process[
+  design-driven contribution process] by reviewing incoming
+  link:dev-design-docs.html[design docs] and raising concerns during
+  the design review
 
 Supporters who want to engage further can get additional privileges
 on request (ask for it on the
@@ -91,6 +96,9 @@ Contributions can be:
 * code cleanups
 * documentation updates
 * release notes updates
+* propose link:#dev-design-docs[design docs] as part of the
+  link:dev-contributing.html#design-driven-contribution-process[
+  design-driven contribution process]
 * scripts which are of interest to the community
 
 Contributors have all the permissions that link:#supporter[supporters]
@@ -107,8 +115,9 @@ group, which allows to:
 Being member of the `gerrit-verifiers` group includes further
 permissions (see link:#supporter[supporter] section above).
 
-It's highly appreciated if contributors engage in code reviews and
-mailing list discussions.
+It's highly appreciated if contributors engage in code reviews,
+link:dev-design-docs.html#review[design reviews] and mailing list
+discussions.
 
 Contributors may also be invited to join the Gerrit hackathons which
 happen regularly (e.g. twice a year). Hackathons are announced on the
@@ -151,6 +160,11 @@ following tasks (but are not required to do so):
 * reviewing changes
 * mailing list discussions and support
 * bug fixing and bug triaging
+* supporting the
+  link:dev-processes.html#design-driven-contribution-process[
+  design-driven contribution process] by reviewing incoming
+  link:dev-design-docs.html[design docs] and raising concerns during
+  the design review
 * doing releases (see link#release-manager[release manager])
 
 Maintainers can:
@@ -160,9 +174,9 @@ Maintainers can:
   ignored if there is a good reason, in this case the reason should be
   clearly communicated on the change
 * submit changes
-* block submission of changes if they disagree with a feature or with
-  how it is being implemented (vote `-2` on the `Code-Review` label),
-  but their vote can be overruled by the steering committee, see
+* block submission of changes if they disagree with how a feature is
+  being implemented (vote `-2` on the `Code-Review` label), but their
+  vote can be overruled by the steering committee, see
   link:dev-processes.html#project-governance[Project Governance]
 * nominate new maintainers and vote on nominations (see below)
 * administrate the link:https://groups.google.com/d/forum/repo-discuss[

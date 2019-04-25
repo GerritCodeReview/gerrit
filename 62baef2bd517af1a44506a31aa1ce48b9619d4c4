@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "67553a8b_c1017bb0",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-04-25T18:25:35Z",
+      "side": 1,
+      "message": "It is a bit unclear from this title what the scope of \"Roles\" is, and I think that is also reflected in some of the comments already on this change. Perhaps you are trying to describe \"Supporting Roles\" (We probably don\u0027t want to start listing \"Troll\" as a role here)?",
+      "range": {
+        "startLine": 1,
+        "startChar": 23,
+        "endLine": 1,
+        "endChar": 28
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cbb09a9b_e67bceb3",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11
@@ -99,6 +122,23 @@
         "endLine": 116,
         "endChar": 30
       },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08256ba3_86301d6d",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-04-25T18:25:35Z",
+      "side": 1,
+      "message": "For healthy open source projects, I believe that expectations of being a maintainer (like other contributors) should only be about \"how to do things\" (quality, respectfully, with good judgement, following through...), not about what things the maintainer chooses to do, or how much time they spend doing those things. I would not want to scare away any new maintainers from accepting a maintainer role on the chance they believed that they could not dedicate a certain amount of time to the project. I also don\u0027t want to scare away any future contributions from any of the Gerrit maintainers that have, for all practical purposes, \"left\" the project. Some of them currently work at jobs that do not allow them to work on anything related to Gerrit. I would be delighted to see any contributions (including maintainer role stuff) from them at any time in the future. If they do things well, I value their contributions however big or little they are without expectations of more.\n\nReplacing the word \"expect\" with \"hope\" above would more closely reflect the vision that I mostly see in the community, and that I hope we can continue to follow in the future.",
       "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

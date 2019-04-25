@@ -1,0 +1,62 @@
+= Gerrit Code Review - Design Docs
+
+For the link:dev-contributing.html#design-driven-contribution-process[
+design-driven contribution process] it is required to specify features
+upfront in a design doc.
+
+[[propose]]
+== How to propose a new design?
+
+To propose a new design, add a `design-${title}.txt` file to this
+folder and push it as change for review. The design doc should follow
+the structure of the link:dev-design-doc-template.html[design doc
+template] and the change should be marked with the hashtag
+`design-doc`.
+
+Pushing a design doc for review requires to be a
+link:dev-roles.html#contributor[contributor].
+
+When contributing design docs, contributors should make clear whether
+they are committed to do the implementation. It is possible to
+contribute designs without having resources to do the implementation,
+but in this case the implementation is only done if someone volunteers
+to do it (which is not guaranteed to happen).
+
+[[review]]
+== Design doc review
+
+Everyone in the link:dev-roles.html[Gerrit community] is welcome to
+take part in the design review and comment on the design.
+
+Changes with new design docs should stay open for a minimum of 10
+calendar days so that everyone has a fair chance to see them. It is
+important that concerns regarding a feature are raised during this time
+frame since once a design is approved and submitted the implementation
+may start immediately.
+
+Within the 10 calendar days time frame, the contributor should hear back
+from the link:dev-processes.html#steering-committee[steering committee]
+whether the proposed feature is in scope of the project and if it can
+be accepted.
+
+In order to be accepted/submitted, it is not necessary that the design
+doc fully specifies all the details, but the idea of the feature and
+how it fits into Gerrit should be sufficiently clear (judged by the
+steering committee). Contributors are expected to keep the design doc
+updated and fill in gaps while they go forward with the implementation.
+
+[[watch-designs]]
+== How to get notified for new design docs?
+
+. Go to the
+  link:https://gerrit-review.googlesource.com/settings/#Notifications[
+  notification settings]
+. Add a project watch for the `gerrit` repository with the following
+  query: `hashtag:design-doc`
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

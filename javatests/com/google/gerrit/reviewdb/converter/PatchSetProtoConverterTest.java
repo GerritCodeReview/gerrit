@@ -42,7 +42,7 @@ public class PatchSetProtoConverterTest {
             ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
     patchSet.setUploader(Account.id(452));
     patchSet.setCreatedOn(new Timestamp(930349320L));
-    patchSet.setGroups(ImmutableList.of("group1, group2"));
+    patchSet.setGroups(ImmutableList.of("group1", " group2"));
     patchSet.setPushCertificate("my push certificate");
     patchSet.setDescription("This is a patch set description.");
 
@@ -94,7 +94,7 @@ public class PatchSetProtoConverterTest {
             ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
     patchSet.setUploader(Account.id(452));
     patchSet.setCreatedOn(new Timestamp(930349320L));
-    patchSet.setGroups(ImmutableList.of("group1, group2"));
+    patchSet.setGroups(ImmutableList.of("group1", " group2"));
     patchSet.setPushCertificate("my push certificate");
     patchSet.setDescription("This is a patch set description.");
 

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.cache.serialize;
 
-import org.eclipse.jgit.lib.Constants;
+import com.google.gerrit.git.ObjectIds;
 import org.eclipse.jgit.lib.ObjectId;
 
 public enum ObjectIdCacheSerializer implements CacheSerializer<ObjectId> {
@@ -22,14 +22,14 @@ public enum ObjectIdCacheSerializer implements CacheSerializer<ObjectId> {
 
   @Override
   public byte[] serialize(ObjectId object) {
-    byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
+    byte[] buf = new byte[ObjectIds.LEN];
     object.copyRawTo(buf, 0);
     return buf;
   }
 
   @Override
   public ObjectId deserialize(byte[] in) {
-    if (in == null || in.length != Constants.OBJECT_ID_LENGTH) {
+    if (in == null || in.length != ObjectIds.LEN) {
       throw new IllegalArgumentException("Failed to deserialize ObjectId");
     }
     return ObjectId.fromRaw(in);

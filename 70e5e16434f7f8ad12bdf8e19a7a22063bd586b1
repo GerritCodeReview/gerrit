@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d46df7ba_7f3ae8a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-25T12:09:47Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9c5ec5ca_4ceb081a",
+      "revId": "70e5e16434f7f8ad12bdf8e19a7a22063bd586b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e79fd150_2a19bda5",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
         "patchSetId": 7

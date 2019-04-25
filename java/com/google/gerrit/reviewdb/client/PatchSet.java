@@ -156,21 +156,6 @@ public final class PatchSet {
     }
   }
 
-  /**
-   * Create a patch set with no commit ID.
-   *
-   * <p>It is illegal to call {@link #getCommitId()} on the returned instance.
-   *
-   * @deprecated This method only exists to preserve behavior of one specific codepath in {@code
-   *     PatchScriptFactory}.
-   * @param id patch set ID.
-   * @return new patch set.
-   */
-  @Deprecated
-  public static PatchSet createWithNoCommitId(PatchSet.Id id) {
-    return new PatchSet(id);
-  }
-
   protected Id id;
 
   protected ObjectId commitId;
@@ -204,13 +189,6 @@ public final class PatchSet {
    */
   @Nullable protected String description;
 
-  protected PatchSet() {}
-
-  private PatchSet(PatchSet.Id id) {
-    this.id = requireNonNull(id);
-    this.commitId = null;
-  }
-
   public PatchSet(PatchSet.Id id, ObjectId commitId) {
     this.id = requireNonNull(id);
     this.commitId = commitId.copy();
@@ -242,7 +220,6 @@ public final class PatchSet {
    * @return the commit ID, never null.
    */
   public ObjectId getCommitId() {
-    requireNonNull(commitId);
     return commitId;
   }
 

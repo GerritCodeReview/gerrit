@@ -26,7 +26,7 @@ public class GroupPredicate extends ChangeIndexPredicate {
   @Override
   public boolean match(ChangeData cd) {
     for (PatchSet ps : cd.patchSets()) {
-      List<String> groups = ps.getGroups();
+      List<String> groups = ps.groups();
       if (groups != null && groups.contains(getValue())) {
         return true;
       }

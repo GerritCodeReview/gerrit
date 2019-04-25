@@ -33,7 +33,7 @@ public class ChangeDataTest {
     ChangeData cd = ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId());
     cd.setChange(TestChanges.newChange(project, Account.id(1000)));
     PatchSet curr1 = cd.currentPatchSet();
-    int currId = curr1.getId().get();
+    int currId = curr1.id().get();
     PatchSet ps1 = newPatchSet(cd.getId(), currId + 1);
     PatchSet ps2 = newPatchSet(cd.getId(), currId + 2);
     cd.setPatchSets(ImmutableList.of(ps1, ps2));

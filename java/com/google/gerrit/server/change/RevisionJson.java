@@ -216,7 +216,7 @@ public class RevisionJson {
     try (Repository repo = openRepoIfNecessary(cd.project());
         RevWalk rw = newRevWalk(repo)) {
       for (PatchSet in : map.values()) {
-        PatchSet.Id id = in.getId();
+        PatchSet.Id id = in.id();
         boolean want;
         if (has(ALL_REVISIONS)) {
           want = true;
@@ -227,7 +227,7 @@ public class RevisionJson {
         }
         if (want) {
           res.put(
-              in.getCommitId().name(),
+              in.commitId().name(),
               toRevisionInfo(accountLoader, cd, in, repo, rw, false, changeInfo));
         }
       }
@@ -251,7 +251,7 @@ public class RevisionJson {
 
       String projectName = cd.project().get();
       String url = scheme.getUrl(projectName);
-      String refName = in.getRefName();
+      String refName = in.refName();
       FetchInfo fetchInfo = new FetchInfo(url, refName);
       r.put(schemeName, fetchInfo);
 
@@ -275,14 +275,14 @@ public class RevisionJson {
       throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
     Change c = cd.change();
     RevisionInfo out = new RevisionInfo();
-    out.isCurrent = in.getId().equals(c.currentPatchSetId());
-    out._number = in.getId().get();
-    out.ref = in.getRefName();
-    out.created = in.getCreatedOn();
-    out.uploader = accountLoader.get(in.getUploader());
+    out.isCurrent = in.id().equals(c.currentPatchSetId());
+    out._number = in.id().get();
+    out.ref = in.refName();
+    out.created = in.createdOn();
+    out.uploader = accountLoader.get(in.uploader());
     out.fetch = makeFetchMap(cd, in);
     out.kind = changeKindCache.getChangeKind(rw, repo != null ? repo.getConfig() : null, cd, in);
-    out.description = in.getDescription().orElse(null);
+    out.description = in.description().orElse(null);
 
     boolean setCommit = has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT));
     boolean addFooters = out.isCurrent && has(COMMIT_FOOTERS);
@@ -290,7 +290,7 @@ public class RevisionJson {
       checkState(rw != null);
       checkState(repo != null);
       Project.NameKey project = c.getProject();
-      String rev = in.getCommitId().name();
+      String rev = in.commitId().name();
       RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
       rw.parseBody(commit);
       if (setCommit) {
@@ -306,7 +306,7 @@ public class RevisionJson {
         out.commitWithFooters =
             mergeUtilFactory
                 .create(projectCache.get(project))
-                .createCommitMessageOnSubmit(commit, mergeTip, cd.notes(), in.getId());
+                .createCommitMessageOnSubmit(commit, mergeTip, cd.notes(), in.id());
       }
     }
 
@@ -324,10 +324,10 @@ public class RevisionJson {
     }
 
     if (gpgApi.isEnabled() && has(PUSH_CERTIFICATES)) {
-      if (in.getPushCertificate().isPresent()) {
+      if (in.pushCertificate().isPresent()) {
         out.pushCertificate =
             gpgApi.checkPushCertificate(
-                in.getPushCertificate().get(), userFactory.create(in.getUploader()));
+                in.pushCertificate().get(), userFactory.create(in.uploader()));
       } else {
         out.pushCertificate = new PushCertificateInfo();
       }

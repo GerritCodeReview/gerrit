@@ -94,7 +94,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
     if (!change.isNew()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
-    } else if (!ps.getId().equals(change.currentPatchSetId())) {
+    } else if (!ps.id().equals(change.currentPatchSetId())) {
       // Only the current revision is mergeable. Others always fail.
       return result;
     }
@@ -103,7 +103,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     result.submitType = getSubmitType(cd);
 
     try (Repository git = gitManager.openRepository(change.getProject())) {
-      ObjectId commit = ps.getCommitId();
+      ObjectId commit = ps.commitId();
       Ref ref = git.getRefDatabase().exactRef(change.getDest().branch());
       ProjectState projectState = projectCache.get(change.getProject());
       String strategy = mergeUtilFactory.create(projectState).mergeStrategyName();

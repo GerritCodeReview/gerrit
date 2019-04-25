@@ -22,6 +22,6 @@ import com.google.inject.Singleton;
 public class GetDescription implements RestReadView<RevisionResource> {
   @Override
   public String apply(RevisionResource rsrc) {
-    return rsrc.getPatchSet().getDescription().orElse("");
+    return rsrc.getPatchSet().description().orElse("");
   }
 }

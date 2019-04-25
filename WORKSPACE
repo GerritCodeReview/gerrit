@@ -15,9 +15,9 @@ http_archive(
 
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "34abd9170fdbfdfc6f3b63f2c18cee3cbcb2ddbd5e3c97324add0aa7809ed875",
-    strip_prefix = "rules_closure-9d543facf886631e4ed379996e60ce3533188adc",
-    urls = ["https://github.com/bazelbuild/rules_closure/archive/9d543facf886631e4ed379996e60ce3533188adc.tar.gz"],
+    sha256 = "1c05fea22c9630cf1047f25d008780756373a60ddd4d2a6993cf9858279c5da6",
+    strip_prefix = "rules_closure-50d3dc9e6d27a5577a0f95708466718825d579f4",
+    urls = ["https://github.com/bazelbuild/rules_closure/archive/50d3dc9e6d27a5577a0f95708466718825d579f4.tar.gz"],
 )
 
 # Transitive dependency of rules_closure and protobuf

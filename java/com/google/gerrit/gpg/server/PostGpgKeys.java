@@ -194,10 +194,11 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
       throws BadRequestException, ResourceConflictException, PGPException, IOException {
     try (PublicKeyStore store = storeProvider.get()) {
       List<String> addedKeys = new ArrayList<>();
+      IdentifiedUser user = rsrc.getUser();
       for (PGPPublicKeyRing keyRing : keyRings) {
         PGPPublicKey key = keyRing.getPublicKey();
         // Don't check web of trust; admins can fill in certifications later.
-        CheckResult result = checkerFactory.create(rsrc.getUser(), store).disableTrust().check(key);
+        CheckResult result = checkerFactory.create(user, store).disableTrust().check(key);
         if (!result.isOk()) {
           throw new BadRequestException(
               String.format(
@@ -212,7 +213,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
       }
       CommitBuilder cb = new CommitBuilder();
       PersonIdent committer = serverIdent.get();
-      cb.setAuthor(rsrc.getUser().newCommitterIdent(committer.getWhen(), committer.getTimeZone()));
+      cb.setAuthor(user.newCommitterIdent(committer.getWhen(), committer.getTimeZone()));
       cb.setCommitter(committer);
 
       RefUpdate.Result saveResult = store.save(cb);
@@ -220,12 +221,14 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
         case NEW:
         case FAST_FORWARD:
         case FORCED:
-          try {
-            addKeyFactory.create(rsrc.getUser(), addedKeys).send();
-          } catch (EmailException e) {
-            logger.atSevere().withCause(e).log(
-                "Cannot send GPG key added message to %s",
-                rsrc.getUser().getAccount().getPreferredEmail());
+          if (!addedKeys.isEmpty()) {
+            try {
+              addKeyFactory.create(user, addedKeys).send();
+            } catch (EmailException e) {
+              logger.atSevere().withCause(e).log(
+                  "Cannot send GPG key added message to %s",
+                  rsrc.getUser().getAccount().getPreferredEmail());
+            }
           }
           break;
         case NO_CHANGE:

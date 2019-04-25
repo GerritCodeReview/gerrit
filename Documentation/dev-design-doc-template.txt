@@ -1,0 +1,54 @@
+= Gerrit Code Review - ${title}
+
+[[objective]]
+== Objective
+
+In a few sentences, describe the key system objectives. Define the
+goals and non-goals.
+
+[[background]]
+== Background
+
+Stuff one needs to know to understand this doc (e.g. motivating
+examples, previous versions and problems, links to related
+changes/design docs, etc.
+
+Note: this is background; do not write about your design or ideas to
+solve problems here.
+
+[[overview]]
+== Overview
+
+High-level overview; put details in the next section and background in
+the previous section. Should be understandable by engineers that are
+not working on Gerrit.
+
+[[detailed-design]]
+== Detailed Design
+
+How does the overall design work? Details about the algorithms,
+storage format, APIs, etc., should be included here.
+
+It is ok for this to lack in detail at first for initial review.
+
+[[alternatives-considered]]
+== Alternatives Considered
+
+You may need to describe what you did not do or why simpler approaches
+don't work. Mention other things to watch out for (if any).
+
+[[implemenation-plan]]
+== Implementation Plan
+
+If known, say who is driving the implementation, for when the
+implementation is planned and which priority it has for you.
+
+It is possible to contribute designs without having resources to do the
+implementation. In this case, say so here.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

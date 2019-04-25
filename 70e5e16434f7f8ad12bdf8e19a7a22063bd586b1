@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "301cdbd4_9bf4a616",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-25T12:12:25Z",
+      "side": 1,
+      "message": "If it is inline-flex, then why did you use inline-block here?",
+      "parentUuid": "21af3299_d6217c29",
+      "revId": "70e5e16434f7f8ad12bdf8e19a7a22063bd586b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f6801b1_8cc68b61",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
         "patchSetId": 7

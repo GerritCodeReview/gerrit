@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44cd098b_e680d57e",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-04-25T11:50:20Z",
+      "side": 1,
+      "message": "We talked about this last year and strive for a slightly different mode (-\u003e only changes for release and urgent (security) fixes; additionally: always find another maintainer who gives approval in hindsight ASAP, ideally within a business day). Should I adjust it in a follow up change?",
+      "range": {
+        "startLine": 142,
+        "startChar": 34,
+        "endLine": 144,
+        "endChar": 59
+      },
+      "revId": "fd5a3cd0cfac191dc0e3c6ed5bc0a3955379bbcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

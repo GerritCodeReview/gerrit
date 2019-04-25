@@ -215,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "548109f5_93cd0127",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-25T14:46:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a35a9aee_104397e8",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 64
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02247902_4b44e51c",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 6
@@ -250,6 +274,30 @@
       "side": 1,
       "message": "Any project.\n\nClarified this.",
       "parentUuid": "02247902_4b44e51c",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 40
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23db51b4_0d5d1ab2",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-25T14:46:47Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "8ff093b9_7665cae7",
       "range": {
         "startLine": 81,
         "startChar": 14,
@@ -345,6 +393,30 @@
       "side": 1,
       "message": "\u003e Would it make more sense to say:\n\u003e\n\u003e    \"Contributors have all the permissions a link:#supporter[supporters] have.\"\n\nDone",
       "parentUuid": "1d3643ca_493eb0a3",
+      "range": {
+        "startLine": 93,
+        "startChar": 13,
+        "endLine": 93,
+        "endChar": 69
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf79f016_a96d2821",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-25T14:46:47Z",
+      "side": 1,
+      "message": "Thanks, that helps.",
+      "parentUuid": "aa481a58_0c61e8e7",
       "range": {
         "startLine": 93,
         "startChar": 13,
@@ -605,6 +677,30 @@
       "side": 1,
       "message": "This is about permissions, I think all maintainers have the permissions to upload release artifacts etc.. That\u0027s not limited to the release manager, hence I would prefer to keep this here.",
       "parentUuid": "24c98177_73b72b6d",
+      "range": {
+        "startLine": 140,
+        "startChar": 2,
+        "endLine": 140,
+        "endChar": 20
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d7025a8_67b28015",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-25T14:46:47Z",
+      "side": 1,
+      "message": "The permission to publish to Maven Central isn\u0027t granted to all maintainers. On the other side, we could have non-maintainers authorized to push to it (as I did for years before being maintainer).\n\nCurrently, only the maintainers that have been in the rota of doing the release management have been authorized to publish the release artifacts to Maven. The permissions you are referring to are the ones on Google Bucket, but they are not enough to perform a release.",
+      "parentUuid": "d05083bd_1a1e05e2",
       "range": {
         "startLine": 140,
         "startChar": 2,

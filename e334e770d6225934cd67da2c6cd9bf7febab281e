@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7dc16707_b44d5249",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-25T08:44:32Z",
+      "side": 1,
+      "message": "Can you describe a use case of this new extension point in the commit message?",
+      "revId": "e334e770d6225934cd67da2c6cd9bf7febab281e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc8b61ce_742b0352",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-25T08:44:32Z",
+      "side": 1,
+      "message": "Document this new endpoint in Documentation/pg-plugin-endpoints.txt.\n\nPlease also describe how a plugin would add/modify/delete labels in gr-label-score-row.",
+      "revId": "e334e770d6225934cd67da2c6cd9bf7febab281e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

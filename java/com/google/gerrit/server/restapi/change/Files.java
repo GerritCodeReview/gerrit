@@ -162,13 +162,13 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
             Response.ok(
                 fileInfoJson.toFileInfoMap(
                     resource.getChange(),
-                    resource.getPatchSet().getCommitId(),
+                    resource.getPatchSet().commitId(),
                     baseResource.getPatchSet()));
       } else if (parentNum > 0) {
         r =
             Response.ok(
                 fileInfoJson.toFileInfoMap(
-                    resource.getChange(), resource.getPatchSet().getCommitId(), parentNum - 1));
+                    resource.getChange(), resource.getPatchSet().commitId(), parentNum - 1));
       } else {
         r = Response.ok(fileInfoJson.toFileInfoMap(resource.getChange(), resource.getPatchSet()));
       }
@@ -205,7 +205,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
           ObjectReader or = git.newObjectReader();
           RevWalk rw = new RevWalk(or);
           TreeWalk tw = new TreeWalk(or)) {
-        RevCommit c = rw.parseCommit(resource.getPatchSet().getCommitId());
+        RevCommit c = rw.parseCommit(resource.getPatchSet().commitId());
 
         tw.addTree(c.getTree());
         tw.setRecursive(true);
@@ -229,11 +229,11 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       Account.Id userId = user.getAccountId();
       PatchSet patchSetId = resource.getPatchSet();
       Optional<PatchSetWithReviewedFiles> o;
-      o = accountPatchReviewStore.call(s -> s.findReviewed(patchSetId.getId(), userId));
+      o = accountPatchReviewStore.call(s -> s.findReviewed(patchSetId.id(), userId));
 
       if (o.isPresent()) {
         PatchSetWithReviewedFiles res = o.get();
-        if (res.patchSetId().equals(patchSetId.getId())) {
+        if (res.patchSetId().equals(patchSetId.id())) {
           return res.files();
         }
 
@@ -312,7 +312,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         }
 
         accountPatchReviewStore.run(
-            s -> s.markReviewed(resource.getPatchSet().getId(), userId, pathList));
+            s -> s.markReviewed(resource.getPatchSet().id(), userId, pathList));
         return pathList;
       }
     }

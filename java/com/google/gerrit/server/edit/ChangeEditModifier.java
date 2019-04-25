@@ -124,7 +124,7 @@ public class ChangeEditModifier {
     }
 
     PatchSet currentPatchSet = lookupCurrentPatchSet(notes);
-    ObjectId patchSetCommitId = currentPatchSet.getCommitId();
+    ObjectId patchSetCommitId = currentPatchSet.commitId();
     createEdit(repository, notes, currentPatchSet, patchSetCommitId, TimeUtil.nowTs());
   }
 
@@ -157,7 +157,7 @@ public class ChangeEditModifier {
       throw new InvalidChangeOperationException(
           String.format(
               "Change edit for change %s is already based on latest patch set %s",
-              notes.getChangeId(), currentPatchSet.getId()));
+              notes.getChangeId(), currentPatchSet.id()));
     }
 
     rebase(repository, changeEdit, currentPatchSet);
@@ -421,10 +421,10 @@ public class ChangeEditModifier {
             String.format(
                 "Only the patch set %s on which the existing change edit is based may be modified "
                     + "(specified patch set: %s)",
-                changeEdit.getBasePatchSet().getId(), patchSet.getId()));
+                changeEdit.getBasePatchSet().id(), patchSet.id()));
       }
     } else {
-      PatchSet.Id patchSetId = patchSet.getId();
+      PatchSet.Id patchSetId = patchSet.id();
       PatchSet.Id currentPatchSetId = notes.getChange().currentPatchSetId();
       if (!patchSetId.equals(currentPatchSetId)) {
         throw new InvalidChangeOperationException(
@@ -451,12 +451,12 @@ public class ChangeEditModifier {
 
   private static boolean isBasedOn(ChangeEdit changeEdit, PatchSet patchSet) {
     PatchSet editBasePatchSet = changeEdit.getBasePatchSet();
-    return editBasePatchSet.getId().equals(patchSet.getId());
+    return editBasePatchSet.id().equals(patchSet.id());
   }
 
   private static RevCommit lookupCommit(Repository repository, PatchSet patchSet)
       throws IOException {
-    ObjectId patchSetCommitId = patchSet.getCommitId();
+    ObjectId patchSetCommitId = patchSet.commitId();
     return lookupCommit(repository, patchSetCommitId);
   }
 
@@ -483,7 +483,7 @@ public class ChangeEditModifier {
   private static ObjectId merge(Repository repository, ChangeEdit changeEdit, ObjectId newTreeId)
       throws IOException, MergeConflictException {
     PatchSet basePatchSet = changeEdit.getBasePatchSet();
-    ObjectId basePatchSetCommitId = basePatchSet.getCommitId();
+    ObjectId basePatchSetCommitId = basePatchSet.commitId();
     ObjectId editCommitId = changeEdit.getEditCommit();
 
     ThreeWayMerger threeWayMerger = MergeStrategy.RESOLVE.newMerger(repository, true);
@@ -540,7 +540,7 @@ public class ChangeEditModifier {
 
   private String getEditRefName(Change change, PatchSet basePatchSet) {
     IdentifiedUser me = currentUser.get().asIdentifiedUser();
-    return RefNames.refsEdit(me.getAccountId(), change.getId(), basePatchSet.getId());
+    return RefNames.refsEdit(me.getAccountId(), change.getId(), basePatchSet.id());
   }
 
   private ChangeEdit updateEdit(

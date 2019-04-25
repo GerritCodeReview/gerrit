@@ -103,24 +103,22 @@ public enum CommitMergeStatus {
           commit, otherCommit, caller != null ? caller.getLoggableName() : "<user-not-available>");
     } else if (changes.size() == 1) {
       ChangeData cd = changes.get(0);
-      if (cd.currentPatchSet().getCommitId().name().equals(otherCommit)) {
+      if (cd.currentPatchSet().commitId().name().equals(otherCommit)) {
         return String.format(
             "Commit %s depends on commit %s of change %d which cannot be merged.",
             commit, otherCommit, cd.getId().get());
       }
       Optional<PatchSet> patchSet =
-          cd.patchSets().stream()
-              .filter(ps -> ps.getCommitId().name().equals(otherCommit))
-              .findAny();
+          cd.patchSets().stream().filter(ps -> ps.commitId().name().equals(otherCommit)).findAny();
       if (patchSet.isPresent()) {
         return String.format(
             "Commit %s depends on commit %s, which is outdated patch set %d of change %d."
                 + " The latest patch set is %d.",
             commit,
             otherCommit,
-            patchSet.get().getId().get(),
+            patchSet.get().id().get(),
             cd.getId().get(),
-            cd.currentPatchSet().getId().get());
+            cd.currentPatchSet().id().get());
       }
       // should not happen, fall-back to default message
       return String.format(

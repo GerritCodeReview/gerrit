@@ -188,12 +188,12 @@ public class MergedByPushOp implements BatchUpdateOp {
                 }));
 
     changeMerged.fire(
-        change, patchSet, ctx.getAccount(), patchSet.getCommitId().name(), ctx.getWhen());
+        change, patchSet, ctx.getAccount(), patchSet.commitId().name(), ctx.getWhen());
   }
 
   private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {
     RevWalk rw = ctx.getRevWalk();
-    RevCommit commit = rw.parseCommit(requireNonNull(patchSet).getCommitId());
+    RevCommit commit = rw.parseCommit(requireNonNull(patchSet).commitId());
     return patchSetInfoFactory.get(rw, commit, psId);
   }
 }

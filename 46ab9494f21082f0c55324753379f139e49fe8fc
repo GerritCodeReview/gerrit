@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b2d198ac_5648c8b6",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T11:10:24Z",
+      "side": 1,
+      "message": "Good point. Added a \u0027User\u0027 role.\n\nDone",
+      "parentUuid": "b2a8e844_9c6a8cc4",
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d98c96d9_654a3833",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 6
@@ -84,6 +102,30 @@
     },
     {
       "key": {
+        "uuid": "874144db_2b5fe011",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T11:10:24Z",
+      "side": 1,
+      "message": "The latter, clarified this.\n\nDone.",
+      "parentUuid": "d98c96d9_654a3833",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 41
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d75f4b4b_7297369d",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 6
@@ -95,6 +137,30 @@
       "writtenOn": "2019-04-25T09:34:34Z",
       "side": 1,
       "message": "What you call \"Supporters\" I refer them as \"Reviewers\". Can we find a common term to refer to them?",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 64
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a35a9aee_104397e8",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T11:10:24Z",
+      "side": 1,
+      "message": "I agree that \"Supporters\" is maybe not the best name, but I couldn\u0027t come up with a better one. Which name do you suggest?\n\nI find \"Reviewers\" not suitable since, this role goes beyond just doing reviews.\n\nThis documents intends to define community roles. Reviewer, same as committer, author, uploader, change owner etc., are rather technical roles and I don\u0027t think they should be defined in this doc.",
+      "parentUuid": "d75f4b4b_7297369d",
       "range": {
         "startLine": 42,
         "startChar": 2,
@@ -127,6 +193,30 @@
       "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ff093b9_7665cae7",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T11:10:24Z",
+      "side": 1,
+      "message": "Any project.\n\nClarified this.",
+      "parentUuid": "02247902_4b44e51c",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 40
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -177,6 +267,30 @@
     },
     {
       "key": {
+        "uuid": "1d3643ca_493eb0a3",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T11:10:24Z",
+      "side": 1,
+      "message": "The difference is that contributors have signed an CLA. Only you can push changes. Permission-wise it\u0027s no difference.",
+      "parentUuid": "7f6cbe2e_f0fd73ce",
+      "range": {
+        "startLine": 93,
+        "startChar": 13,
+        "endLine": 93,
+        "endChar": 69
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ee273b4_1ac18fbe",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 6
@@ -224,6 +338,30 @@
     },
     {
       "key": {
+        "uuid": "64529187_4deb98ee",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T11:10:24Z",
+      "side": 1,
+      "message": "Listed some, we can add more later.\n\nDone",
+      "parentUuid": "7ee273b4_1ac18fbe",
+      "range": {
+        "startLine": 96,
+        "startChar": 60,
+        "endLine": 97,
+        "endChar": 7
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cb938b3_c27ae4cd",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 6
@@ -247,6 +385,30 @@
     },
     {
       "key": {
+        "uuid": "9ee998ba_efea9616",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T11:10:24Z",
+      "side": 1,
+      "message": "\u003e I believe we should extend this concept to prevent \"ping-pong\" of two maintainers\n\u003e to workaround the rule\n\nWe trust maintainers to not use such tricks, so I don\u0027t think we need to explicitly mention this.\n\n\u003e Additionally, we should define what \"trivial change\" means.\n\nClarified that it\u0027s the maintainer\u0027s judgment whether a change is trivial or not.\n\nIf we find that we need to be more explicit here, we can still tweak this later.",
+      "parentUuid": "3cb938b3_c27ae4cd",
+      "range": {
+        "startLine": 114,
+        "startChar": 2,
+        "endLine": 114,
+        "endChar": 32
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5f32499_df440a14",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 6
@@ -267,6 +429,30 @@
       "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f78833d6_4b12948a",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T11:10:24Z",
+      "side": 1,
+      "message": "Originally this was a rotation. So there is an expectation for maintainers to help with releases, although I agree it\u0027s not required. Clarified this.",
+      "parentUuid": "b5f32499_df440a14",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 127,
+        "endChar": 60
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -314,6 +500,30 @@
       "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d05083bd_1a1e05e2",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T11:10:24Z",
+      "side": 1,
+      "message": "This is about permissions, I think all maintainers have the permissions to upload release artifacts etc.. That\u0027s not limited to the release manager, hence I would prefer to keep this here.",
+      "parentUuid": "24c98177_73b72b6d",
+      "range": {
+        "startLine": 140,
+        "startChar": 2,
+        "endLine": 140,
+        "endChar": 20
+      },
+      "revId": "46ab9494f21082f0c55324753379f139e49fe8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

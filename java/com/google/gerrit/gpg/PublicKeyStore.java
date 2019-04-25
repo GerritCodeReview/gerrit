@@ -20,6 +20,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.Preconditions;
 import com.google.common.io.ByteStreams;
+import com.google.gerrit.git.ObjectIds;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -45,7 +46,6 @@ import org.bouncycastle.openpgp.operator.bc.BcPGPContentVerifierBuilderProvider;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -75,6 +75,7 @@ import org.eclipse.jgit.util.NB;
  * after checking with a {@link PublicKeyChecker}.
  */
 public class PublicKeyStore implements AutoCloseable {
+
   private static final ObjectId EMPTY_TREE =
       ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904");
 
@@ -516,7 +517,7 @@ public class PublicKeyStore implements AutoCloseable {
   }
 
   static ObjectId keyObjectId(long keyId) {
-    byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
+    byte[] buf = new byte[ObjectIds.LEN];
     NB.encodeInt64(buf, 0, keyId);
     return ObjectId.fromRaw(buf);
   }

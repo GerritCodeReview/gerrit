@@ -37,16 +37,16 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
   public Entities.PatchSet toProto(PatchSet patchSet) {
     Entities.PatchSet.Builder builder =
         Entities.PatchSet.newBuilder()
-            .setId(patchSetIdConverter.toProto(patchSet.getId()))
-            .setCommitId(objectIdConverter.toProto(patchSet.getCommitId()))
-            .setUploaderAccountId(accountIdConverter.toProto(patchSet.getUploader()))
-            .setCreatedOn(patchSet.getCreatedOn().getTime());
-    List<String> groups = patchSet.getGroups();
+            .setId(patchSetIdConverter.toProto(patchSet.id()))
+            .setCommitId(objectIdConverter.toProto(patchSet.commitId()))
+            .setUploaderAccountId(accountIdConverter.toProto(patchSet.uploader()))
+            .setCreatedOn(patchSet.createdOn().getTime());
+    List<String> groups = patchSet.groups();
     if (!groups.isEmpty()) {
       builder.setGroups(PatchSet.joinGroups(groups));
     }
-    patchSet.getPushCertificate().ifPresent(builder::setPushCertificate);
-    patchSet.getDescription().ifPresent(builder::setDescription);
+    patchSet.pushCertificate().ifPresent(builder::setPushCertificate);
+    patchSet.description().ifPresent(builder::setDescription);
     return builder.build();
   }
 

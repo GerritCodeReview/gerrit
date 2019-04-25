@@ -270,7 +270,7 @@ class ChangeNotesParser {
     for (Map.Entry<PatchSet.Id, PatchSet.Builder> e : patchSets.entrySet()) {
       try {
         PatchSet ps = e.getValue().build();
-        result.put(ps.getId(), ps);
+        result.put(ps.id(), ps);
       } catch (Exception ex) {
         ConfigInvalidException cie = parseException("Error building patch set %s", e.getKey());
         cie.initCause(ex);
@@ -503,7 +503,7 @@ class ChangeNotesParser {
         // Do not update PS details as PS was deleted and this meta data is of no relevance.
         return;
       }
-      ObjectId commitId = patchSets.get(psId).getCommitId().orElseThrow(IllegalStateException::new);
+      ObjectId commitId = patchSets.get(psId).commitId().orElseThrow(IllegalStateException::new);
       throw new ConfigInvalidException(
           String.format(
               "Multiple revisions parsed for patch set %s: %s and %s",
@@ -529,7 +529,7 @@ class ChangeNotesParser {
     }
     checkPatchSetCommitNotParsed(psId, FOOTER_GROUPS);
     PatchSet.Builder pending = patchSets.computeIfAbsent(psId, id -> PatchSet.builder());
-    if (pending.getGroups().isEmpty()) {
+    if (pending.groups().isEmpty()) {
       pending.groups(PatchSet.splitGroups(groupsStr));
     }
   }
@@ -678,7 +678,7 @@ class ChangeNotesParser {
     if (descLines.size() == 1) {
       String desc = descLines.get(0).trim();
       PatchSet.Builder pending = patchSets.computeIfAbsent(psId, p -> PatchSet.builder());
-      if (!pending.getDescription().isPresent()) {
+      if (!pending.description().isPresent()) {
         pending.description(Optional.of(desc));
       }
     } else {
@@ -740,11 +740,10 @@ class ChangeNotesParser {
 
     for (PatchSet.Builder b : patchSets.values()) {
       ObjectId commitId =
-          b.getCommitId()
+          b.commitId()
               .orElseThrow(
                   () ->
-                      new IllegalStateException(
-                          "never parsed commit ID for patch set " + b.getId()));
+                      new IllegalStateException("never parsed commit ID for patch set " + b.id()));
       ChangeRevisionNote rn = rns.get(commitId);
       if (rn != null && rn.getPushCert() != null) {
         b.pushCertificate(Optional.of(rn.getPushCert()));
@@ -1109,7 +1108,7 @@ class ChangeNotesParser {
 
   private boolean patchSetCommitParsed(PatchSet.Id psId) {
     PatchSet.Builder pending = patchSets.get(psId);
-    return pending != null && pending.getCommitId().isPresent();
+    return pending != null && pending.commitId().isPresent();
   }
 
   private ConfigInvalidException parseException(String fmt, Object... args) {

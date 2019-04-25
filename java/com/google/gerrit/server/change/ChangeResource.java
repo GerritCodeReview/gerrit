@@ -149,7 +149,7 @@ public class ChangeResource implements RestResource, HasETag {
       accounts.add(getChange().getAssignee());
     }
     try {
-      patchSetUtil.byChange(notes).stream().map(PatchSet::getUploader).forEach(accounts::add);
+      patchSetUtil.byChange(notes).stream().map(PatchSet::uploader).forEach(accounts::add);
 
       // It's intentional to include the states for *all* reviewers into the ETag computation.
       // We need the states of all current reviewers and CCs because they are part of ChangeInfo.

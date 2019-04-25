@@ -251,8 +251,7 @@ public class BatchUpdateTest extends GerritBaseTests {
     ChangeNotes notes = changeNotesFactory.create(project, id);
 
     try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
-      ObjectId commitId =
-          repo.amend(notes.getCurrentPatchSet().getCommitId()).message("PS2").create();
+      ObjectId commitId = repo.amend(notes.getCurrentPatchSet().commitId()).message("PS2").create();
       bu.addOp(
           id,
           patchSetInserterFactory

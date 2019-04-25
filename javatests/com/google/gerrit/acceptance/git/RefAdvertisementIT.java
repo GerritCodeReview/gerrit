@@ -145,25 +145,25 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%submit");
     mr.assertOkStatus();
     cd1 = mr.getChange();
-    psRef1 = cd1.currentPatchSet().getId().toRefName();
+    psRef1 = cd1.currentPatchSet().id().toRefName();
     metaRef1 = RefNames.changeMetaRef(cd1.getId());
     PushOneCommit.Result br =
         pushFactory.create(admin.newIdent(), testRepo).to("refs/for/branch%submit");
     br.assertOkStatus();
     cd2 = br.getChange();
-    psRef2 = cd2.currentPatchSet().getId().toRefName();
+    psRef2 = cd2.currentPatchSet().id().toRefName();
     metaRef2 = RefNames.changeMetaRef(cd2.getId());
 
     // Second 2 changes are unmerged.
     mr = pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master");
     mr.assertOkStatus();
     cd3 = mr.getChange();
-    psRef3 = cd3.currentPatchSet().getId().toRefName();
+    psRef3 = cd3.currentPatchSet().id().toRefName();
     metaRef3 = RefNames.changeMetaRef(cd3.getId());
     br = pushFactory.create(admin.newIdent(), testRepo).to("refs/for/branch");
     br.assertOkStatus();
     cd4 = br.getChange();
-    psRef4 = cd4.currentPatchSet().getId().toRefName();
+    psRef4 = cd4.currentPatchSet().id().toRefName();
     metaRef4 = RefNames.changeMetaRef(cd4.getId());
 
     try (Repository repo = repoManager.openRepository(project)) {
@@ -570,7 +570,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     TestRepository<?> userTestRepository = cloneProject(project, user);
     try (Git git = userTestRepository.git()) {
-      String change3RefName = cd3.currentPatchSet().getRefName();
+      String change3RefName = cd3.currentPatchSet().refName();
       assertWithMessage("Precondition violated").that(getRefs(git)).contains(change3RefName);
 
       gApi.changes().id(cd3.getId().get()).setPrivate(true, null);
@@ -587,7 +587,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     TestRepository<?> userTestRepository = cloneProject(project, user);
     try (Git git = userTestRepository.git()) {
-      String change3RefName = cd3.currentPatchSet().getRefName();
+      String change3RefName = cd3.currentPatchSet().refName();
       assertWithMessage("Precondition violated").that(getRefs(git)).contains(change3RefName);
 
       gApi.changes().id(cd3.getId().get()).setPrivate(true, null);
@@ -603,7 +603,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     TestRepository<?> userTestRepository = cloneProject(project, user);
     try (Git git = userTestRepository.git()) {
-      String change3RefName = cd3.currentPatchSet().getRefName();
+      String change3RefName = cd3.currentPatchSet().refName();
       assertWithMessage("Precondition violated").that(getRefs(git)).contains(change3RefName);
 
       gApi.changes().id(cd3.getId().get()).setPrivate(true, null);
@@ -776,7 +776,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     PatchSet.Id psId = PatchSet.id(cd.getId(), psNum);
     PatchSet ps = cd.patchSet(psId);
     assertWithMessage("%s not found in %s", psId, cd.patchSets()).that(ps).isNotNull();
-    return ps.getCommitId();
+    return ps.commitId();
   }
 
   private AccountGroup.UUID createSelfOwnedGroup(String name, TestAccount... members)

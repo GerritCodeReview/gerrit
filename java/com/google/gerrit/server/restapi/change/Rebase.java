@@ -159,7 +159,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       throw new ResourceConflictException(
           "base revision is missing from the destination branch: " + str);
     }
-    PatchSet.Id baseId = base.patchSet().getId();
+    PatchSet.Id baseId = base.patchSet().id();
     if (change.getId().equals(baseId.changeId())) {
       throw new ResourceConflictException("cannot rebase change onto itself");
     }
@@ -181,18 +181,18 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
               + baseChange.getKey()
               + " is a descendant of the current change - recursion not allowed");
     }
-    return base.patchSet().getCommitId();
+    return base.patchSet().commitId();
   }
 
   private boolean isMergedInto(RevWalk rw, PatchSet base, PatchSet tip) throws IOException {
-    ObjectId baseId = base.getCommitId();
-    ObjectId tipId = tip.getCommitId();
+    ObjectId baseId = base.commitId();
+    ObjectId tipId = tip.commitId();
     return rw.isMergedInto(rw.parseCommit(baseId), rw.parseCommit(tipId));
   }
 
   private boolean hasOneParent(RevWalk rw, PatchSet ps) throws IOException {
     // Prevent rebase of exotic changes (merge commit, no ancestor).
-    RevCommit c = rw.parseCommit(ps.getCommitId());
+    RevCommit c = rw.parseCommit(ps.commitId());
     return c.getParentCount() == 1;
   }
 

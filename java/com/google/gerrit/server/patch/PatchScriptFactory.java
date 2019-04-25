@@ -268,7 +268,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     if (ps == null) {
       throw new NoSuchChangeException(psId.changeId());
     }
-    return ps.getCommitId();
+    return ps.commitId();
   }
 
   private ObjectId getEditRev() throws AuthException, IOException {
@@ -303,7 +303,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           switch (changeType) {
             case COPIED:
             case RENAMED:
-              if (ps.getId().equals(psa)) {
+              if (ps.id().equals(psa)) {
                 name = oldName;
               }
               break;
@@ -316,7 +316,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           }
         }
 
-        Patch p = new Patch(Patch.key(ps.getId(), name));
+        Patch p = new Patch(Patch.key(ps.id(), name));
         history.add(p);
         byKey.put(p.getKey(), p);
       }

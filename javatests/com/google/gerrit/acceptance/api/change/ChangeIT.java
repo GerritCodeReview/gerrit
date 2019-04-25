@@ -1292,23 +1292,23 @@ public class ChangeIT extends AbstractDaemonTest {
     ri.base = "";
     gApi.changes().id(r3.getChangeId()).revision(r3.getCommit().name()).rebase(ri);
     PatchSet ps3 = r3.getPatchSet();
-    assertThat(ps3.getId().get()).isEqualTo(2);
+    assertThat(ps3.id().get()).isEqualTo(2);
 
     // rebase r2 onto r3 (referenced by ref)
-    ri.base = ps3.getId().toRefName();
+    ri.base = ps3.id().toRefName();
     gApi.changes().id(r2.getChangeId()).revision(r2.getCommit().name()).rebase(ri);
     PatchSet ps2 = r2.getPatchSet();
-    assertThat(ps2.getId().get()).isEqualTo(2);
+    assertThat(ps2.id().get()).isEqualTo(2);
 
     // rebase r1 onto r2 (referenced by commit)
-    ri.base = ps2.getCommitId().name();
+    ri.base = ps2.commitId().name();
     gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).rebase(ri);
     PatchSet ps1 = r1.getPatchSet();
-    assertThat(ps1.getId().get()).isEqualTo(2);
+    assertThat(ps1.id().get()).isEqualTo(2);
 
     // rebase r1 onto r3 (referenced by change number)
     ri.base = String.valueOf(r3.getChange().getId().get());
-    gApi.changes().id(r1.getChangeId()).revision(ps1.getCommitId().name()).rebase(ri);
+    gApi.changes().id(r1.getChangeId()).revision(ps1.commitId().name()).rebase(ri);
     assertThat(r1.getPatchSetId().get()).isEqualTo(3);
   }
 
@@ -2948,7 +2948,7 @@ public class ChangeIT extends AbstractDaemonTest {
     r1.assertOkStatus();
 
     // Fetch change
-    GitUtil.fetch(userTestRepo, r1.getPatchSet().getRefName() + ":ps");
+    GitUtil.fetch(userTestRepo, r1.getPatchSet().refName() + ":ps");
     userTestRepo.reset("ps");
 
     // Amend change as user
@@ -2968,7 +2968,7 @@ public class ChangeIT extends AbstractDaemonTest {
     r1.assertOkStatus();
 
     // Fetch change
-    GitUtil.fetch(userTestRepo, r1.getPatchSet().getRefName() + ":ps");
+    GitUtil.fetch(userTestRepo, r1.getPatchSet().refName() + ":ps");
     userTestRepo.reset("ps");
 
     // Amend change as user
@@ -2992,7 +2992,7 @@ public class ChangeIT extends AbstractDaemonTest {
     r1.assertOkStatus();
 
     // Fetch change
-    GitUtil.fetch(adminTestRepo, r1.getPatchSet().getRefName() + ":ps");
+    GitUtil.fetch(adminTestRepo, r1.getPatchSet().refName() + ":ps");
     adminTestRepo.reset("ps");
 
     // Amend change as admin

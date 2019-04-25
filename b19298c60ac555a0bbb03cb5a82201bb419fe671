@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "674664eb_02fcb013",
+        "filename": "java/com/google/gerrit/index/project/ProjectSchemaDefinitions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-04-25T07:16:47Z",
+      "side": 1,
+      "message": "Can you add this as a comment also to the other version bumps?\n\nPlease also add a note that the field name changed only for Lucene, but not for other index backends.",
+      "revId": "b19298c60ac555a0bbb03cb5a82201bb419fe671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

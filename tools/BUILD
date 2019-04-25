@@ -4,6 +4,8 @@ load(
     "default_java_toolchain",
 )
 
+exports_files(["nongoogle.bzl"])
+
 py_binary(
     name = "merge_jars",
     srcs = ["merge_jars.py"],

@@ -504,3 +504,9 @@ java_library(
     visibility = ["//visibility:public"],
     exports = ["@postgresql//jar"],
 )
+
+sh_test(
+    name = "nongoogle_test",
+    srcs = ["nongoogle_test.sh"],
+    data = ["//tools:nongoogle.bzl"],
+)

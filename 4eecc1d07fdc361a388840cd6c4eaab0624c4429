@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f7c74d3c_eb2442b4",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T09:09:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "311cea16_9c651bba",
+      "range": {
+        "startLine": 78,
+        "startChar": 17,
+        "endLine": 78,
+        "endChar": 27
+      },
+      "revId": "4eecc1d07fdc361a388840cd6c4eaab0624c4429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3063f5d_4bea88f4",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 5
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "843a7720_9d35071e",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T09:09:47Z",
+      "side": 1,
+      "message": "I agree \"project direction\" is very vague as it\u0027s nowhere properly defined.\nI like \"seem to be in scope for what Gerrit should do\" more, thanks for suggesting that, but I would also be fine with dropping this point completely if that\u0027s preferred.",
+      "parentUuid": "d3063f5d_4bea88f4",
+      "revId": "4eecc1d07fdc361a388840cd6c4eaab0624c4429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30769712_fe22a870",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 5
@@ -56,6 +98,24 @@
       "revId": "4eecc1d07fdc361a388840cd6c4eaab0624c4429",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e97c0af_816f8e7a",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T09:09:47Z",
+      "side": 1,
+      "message": "Good point. Let me make that clearer.\n\nDone",
+      "parentUuid": "30769712_fe22a870",
+      "revId": "4eecc1d07fdc361a388840cd6c4eaab0624c4429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

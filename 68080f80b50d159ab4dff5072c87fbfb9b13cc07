@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ecbff736_e3f7c9c0",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T14:33:09Z",
+      "side": 1,
+      "message": "Yeah, you convinced me to merge these roles again.\n\nDone.",
+      "parentUuid": "d2bf3e5d_82a75321",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 53
+      },
+      "revId": "68080f80b50d159ab4dff5072c87fbfb9b13cc07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "571f340e_6da6dcfb",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "68080f80b50d159ab4dff5072c87fbfb9b13cc07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1515a131_91040cb6",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T14:33:09Z",
+      "side": 1,
+      "message": "Fully agree. Moved the hackathons down to the Contributor sections.\n\nDone.",
+      "parentUuid": "571f340e_6da6dcfb",
+      "range": {
+        "startLine": 35,
+        "startChar": 44,
+        "endLine": 35,
+        "endChar": 58
+      },
+      "revId": "68080f80b50d159ab4dff5072c87fbfb9b13cc07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

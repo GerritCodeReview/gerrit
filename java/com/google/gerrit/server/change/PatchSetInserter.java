@@ -208,7 +208,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     if (newGroups.isEmpty()) {
       PatchSet prevPs = psUtil.current(ctx.getNotes());
       if (prevPs != null) {
-        newGroups = prevPs.getGroups();
+        newGroups = prevPs.groups();
       }
     }
     patchSet =
@@ -222,7 +222,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     if (message != null) {
       changeMessage =
           ChangeMessagesUtil.newMessage(
-              patchSet.getId(),
+              patchSet.id(),
               ctx.getUser(),
               ctx.getWhen(),
               message,

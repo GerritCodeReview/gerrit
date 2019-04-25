@@ -843,7 +843,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(r.getChange().change().isWorkInProgress()).isTrue();
 
     // Admin user trying to move from WIP to ready should succeed.
-    GitUtil.fetch(testRepo, r.getPatchSet().getRefName() + ":ps");
+    GitUtil.fetch(testRepo, r.getPatchSet().refName() + ":ps");
     testRepo.reset("ps");
     r = amendChange(r.getChangeId(), "refs/for/master%ready", user, testRepo);
     r.assertOkStatus();
@@ -859,7 +859,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(r.getChange().change().isWorkInProgress()).isFalse();
 
     // Admin user trying to move from ready to WIP should succeed.
-    GitUtil.fetch(testRepo, r.getPatchSet().getRefName() + ":ps");
+    GitUtil.fetch(testRepo, r.getPatchSet().refName() + ":ps");
     testRepo.reset("ps");
     r = amendChange(r.getChangeId(), "refs/for/master%wip", admin, testRepo);
     r.assertOkStatus();
@@ -873,7 +873,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     grant(
         project, "refs/*", Permission.FORGE_COMMITTER, false, SystemGroupBackend.REGISTERED_USERS);
     TestRepository<?> user2Repo = cloneProject(project, user2);
-    GitUtil.fetch(user2Repo, r.getPatchSet().getRefName() + ":ps");
+    GitUtil.fetch(user2Repo, r.getPatchSet().refName() + ":ps");
     user2Repo.reset("ps");
     r = amendChange(r.getChangeId(), "refs/for/master%ready", user2, user2Repo);
     r.assertErrorStatus(ReceiveConstants.ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
@@ -1404,7 +1404,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     // create a second change as user (depends on the change from admin)
     TestRepository<?> userRepo = cloneProject(project, user);
-    GitUtil.fetch(userRepo, r.getPatchSet().getRefName() + ":change");
+    GitUtil.fetch(userRepo, r.getPatchSet().refName() + ":change");
     userRepo.reset("change");
     push =
         pushFactory.create(
@@ -1801,7 +1801,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       throws Exception {
     Change.Id id = accidentallyPushNewPatchSetDirectlyToBranch();
     ChangeData cd = byChangeId(id);
-    String ps1Rev = Iterables.getOnlyElement(cd.patchSets()).getCommitId().name();
+    String ps1Rev = Iterables.getOnlyElement(cd.patchSets()).commitId().name();
 
     String r = "refs/changes/" + id;
     assertPushOk(pushHead(testRepo, r, false), r);
@@ -1819,7 +1819,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       throws Exception {
     Change.Id id = accidentallyPushNewPatchSetDirectlyToBranch();
     ChangeData cd = byChangeId(id);
-    String ps1Rev = Iterables.getOnlyElement(cd.patchSets()).getCommitId().name();
+    String ps1Rev = Iterables.getOnlyElement(cd.patchSets()).commitId().name();
 
     String r = "refs/for/master";
     assertPushRejected(pushHead(testRepo, r, false), r, "no new changes");
@@ -2626,7 +2626,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   private static Map<Integer, String> getPatchSetRevisions(ChangeData cd) throws Exception {
     Map<Integer, String> revisions = new HashMap<>();
     for (PatchSet ps : cd.patchSets()) {
-      revisions.put(ps.getPatchSetId(), ps.getCommitId().name());
+      revisions.put(ps.number(), ps.commitId().name());
     }
     return revisions;
   }

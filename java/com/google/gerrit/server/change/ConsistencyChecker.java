@@ -265,7 +265,7 @@ public class ConsistencyChecker {
     try {
       refs =
           repo.getRefDatabase()
-              .exactRef(all.stream().map(ps -> ps.getId().toRefName()).toArray(String[]::new));
+              .exactRef(all.stream().map(ps -> ps.id().toRefName()).toArray(String[]::new));
     } catch (IOException e) {
       error("error reading refs", e);
       refs = Collections.emptyMap();
@@ -274,9 +274,9 @@ public class ConsistencyChecker {
     List<DeletePatchSetFromDbOp> deletePatchSetOps = new ArrayList<>();
     for (PatchSet ps : all) {
       // Check revision format.
-      int psNum = ps.getId().get();
-      String refName = ps.getId().toRefName();
-      ObjectId objId = ps.getCommitId();
+      int psNum = ps.id().get();
+      String refName = ps.id().toRefName();
+      ObjectId objId = ps.commitId();
       patchSetsBySha.put(objId, ps);
 
       // Check ref existence.
@@ -296,13 +296,13 @@ public class ConsistencyChecker {
       RevCommit psCommit = parseCommit(objId, String.format("patch set %d", psNum));
       if (psCommit == null) {
         if (fix != null && fix.deletePatchSetIfCommitMissing) {
-          deletePatchSetOps.add(new DeletePatchSetFromDbOp(lastProblem(), ps.getId()));
+          deletePatchSetOps.add(new DeletePatchSetFromDbOp(lastProblem(), ps.id()));
         }
         continue;
       } else if (refProblem != null && fix != null) {
         fixPatchSetRef(refProblem, ps);
       }
-      if (ps.getId().equals(change().currentPatchSetId())) {
+      if (ps.id().equals(change().currentPatchSetId())) {
         currPsCommit = psCommit;
       }
     }
@@ -316,7 +316,7 @@ public class ConsistencyChecker {
         problem(
             String.format(
                 "Multiple patch sets pointing to %s: %s",
-                e.getKey().name(), Collections2.transform(e.getValue(), PatchSet::getPatchSetId)));
+                e.getKey().name(), Collections2.transform(e.getValue(), PatchSet::number)));
       }
     }
 
@@ -348,10 +348,10 @@ public class ConsistencyChecker {
       try {
         merged = rw.isMergedInto(currPsCommit, tip);
       } catch (IOException e) {
-        problem("Error checking whether patch set " + currPs.getId().get() + " is merged");
+        problem("Error checking whether patch set " + currPs.id().get() + " is merged");
         return;
       }
-      checkMergedBitMatchesStatus(currPs.getId(), currPsCommit, merged);
+      checkMergedBitMatchesStatus(currPs.id(), currPsCommit, merged);
     }
   }
 
@@ -376,7 +376,7 @@ public class ConsistencyChecker {
           formatProblemMessage(
               "Patch set %d (%s) is not merged into"
                   + " destination ref %s (%s), but change status is %s",
-              currPs.getId().get(), commit.name(), refName, tip.name()));
+              currPs.id().get(), commit.name(), refName, tip.name()));
     }
   }
 
@@ -601,9 +601,9 @@ public class ConsistencyChecker {
 
   private void fixPatchSetRef(ProblemInfo p, PatchSet ps) {
     try {
-      RefUpdate ru = repo.updateRef(ps.getId().toRefName());
+      RefUpdate ru = repo.updateRef(ps.id().toRefName());
       ru.setForceUpdate(true);
-      ru.setNewObjectId(ps.getCommitId());
+      ru.setNewObjectId(ps.commitId());
       ru.setRefLogIdent(newRefLogIdent());
       ru.setRefLogMessage("Repair patch set ref", true);
       RefUpdate.Result result = ru.update();
@@ -630,7 +630,7 @@ public class ConsistencyChecker {
       }
     } catch (IOException e) {
       String msg = "Error fixing patch set ref";
-      logger.atWarning().withCause(e).log("%s %s", msg, ps.getId().toRefName());
+      logger.atWarning().withCause(e).log("%s %s", msg, ps.id().toRefName());
       p.status = Status.FIX_FAILED;
       p.outcome = msg;
     }
@@ -714,8 +714,8 @@ public class ConsistencyChecker {
       // and whether they are seen by this op; we are already given the full set
       // of patch sets that will eventually be deleted in this update.
       for (PatchSet ps : psUtil.byChange(ctx.getNotes())) {
-        if (!toDelete.contains(ps.getId())) {
-          all.add(ps.getId());
+        if (!toDelete.contains(ps.id())) {
+          all.add(ps.id());
         }
       }
       if (all.isEmpty()) {

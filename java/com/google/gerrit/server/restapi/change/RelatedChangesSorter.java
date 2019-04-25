@@ -75,7 +75,7 @@ class RelatedChangesSorter {
     checkArgument(!in.isEmpty(), "Input may not be empty");
     // Map of all patch sets, keyed by commit SHA-1.
     Map<ObjectId, PatchSetData> byId = collectById(in);
-    PatchSetData start = byId.get(startPs.getCommitId());
+    PatchSetData start = byId.get(startPs.commitId());
     checkArgument(start != null, "%s not found in %s", startPs, in);
 
     // Map of patch set -> immediate parent.
@@ -89,8 +89,8 @@ class RelatedChangesSorter {
 
     for (ChangeData cd : in) {
       for (PatchSet ps : cd.patchSets()) {
-        PatchSetData thisPsd = requireNonNull(byId.get(ps.getCommitId()));
-        if (cd.getId().equals(start.id()) && !ps.getId().equals(start.psId())) {
+        PatchSetData thisPsd = requireNonNull(byId.get(ps.commitId()));
+        if (cd.getId().equals(start.id()) && !ps.id().equals(start.psId())) {
           otherPatchSetsOfStart.add(thisPsd);
         }
         for (RevCommit p : thisPsd.commit().getParents()) {
@@ -126,9 +126,9 @@ class RelatedChangesSorter {
             project,
             cd.change().getProject());
         for (PatchSet ps : cd.patchSets()) {
-          RevCommit c = rw.parseCommit(ps.getCommitId());
+          RevCommit c = rw.parseCommit(ps.commitId());
           PatchSetData psd = PatchSetData.create(cd, ps, c);
-          result.put(ps.getCommitId(), psd);
+          result.put(ps.commitId(), psd);
         }
       }
     }
@@ -251,7 +251,7 @@ class RelatedChangesSorter {
     abstract RevCommit commit();
 
     PatchSet.Id psId() {
-      return patchSet().getId();
+      return patchSet().id();
     }
 
     Change.Id id() {
@@ -260,7 +260,7 @@ class RelatedChangesSorter {
 
     @Override
     public int hashCode() {
-      return Objects.hash(patchSet().getId(), commit());
+      return Objects.hash(patchSet().id(), commit());
     }
 
     @Override
@@ -269,7 +269,7 @@ class RelatedChangesSorter {
         return false;
       }
       PatchSetData o = (PatchSetData) obj;
-      return Objects.equals(patchSet().getId(), o.patchSet().getId())
+      return Objects.equals(patchSet().id(), o.patchSet().id())
           && Objects.equals(commit(), o.commit());
     }
   }

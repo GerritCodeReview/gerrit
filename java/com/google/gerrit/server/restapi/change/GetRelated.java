@@ -102,7 +102,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     for (RelatedChangesSorter.PatchSetData d : sorter.sort(cds, basePs)) {
       PatchSet ps = d.patchSet();
       RevCommit commit;
-      if (isEdit && ps.getId().equals(basePs.getId())) {
+      if (isEdit && ps.id().equals(basePs.id())) {
         // Replace base of an edit with the edit itself.
         ps = rsrc.getPatchSet();
         commit = rsrc.getEdit().get().getEditCommit();
@@ -114,7 +114,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
     if (result.size() == 1) {
       RelatedChangeAndCommitInfo r = result.get(0);
-      if (r.commit != null && r.commit.commit.equals(rsrc.getPatchSet().getCommitId().name())) {
+      if (r.commit != null && r.commit.commit.equals(rsrc.getPatchSet().commitId().name())) {
         return Collections.emptyList();
       }
     }
@@ -123,13 +123,13 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   @VisibleForTesting
   public static Set<String> getAllGroups(ChangeNotes notes, PatchSetUtil psUtil) {
-    return psUtil.byChange(notes).stream().flatMap(ps -> ps.getGroups().stream()).collect(toSet());
+    return psUtil.byChange(notes).stream().flatMap(ps -> ps.groups().stream()).collect(toSet());
   }
 
   private void reloadChangeIfStale(List<ChangeData> cds, PatchSet wantedPs) {
     for (ChangeData cd : cds) {
-      if (cd.getId().equals(wantedPs.getId().changeId())) {
-        if (cd.patchSet(wantedPs.getId()) == null) {
+      if (cd.getId().equals(wantedPs.id().changeId())) {
+        if (cd.patchSet(wantedPs.id()) == null) {
           cd.reloadChange();
         }
       }
@@ -144,7 +144,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     if (change != null) {
       info.changeId = change.getKey().get();
       info._changeNumber = change.getChangeId();
-      info._revisionNumber = ps != null ? ps.getPatchSetId() : null;
+      info._revisionNumber = ps != null ? ps.number() : null;
       PatchSet.Id curr = change.currentPatchSetId();
       info._currentRevisionNumber = curr != null ? curr.get() : null;
       info.status = ChangeUtil.status(change).toUpperCase(Locale.US);

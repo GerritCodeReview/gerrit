@@ -59,7 +59,7 @@ public class RobotComments implements ChildCollection<RevisionResource, RobotCom
     String uuid = id.get();
     ChangeNotes notes = rev.getNotes();
 
-    for (RobotComment c : commentsUtil.robotCommentsByPatchSet(notes, rev.getPatchSet().getId())) {
+    for (RobotComment c : commentsUtil.robotCommentsByPatchSet(notes, rev.getPatchSet().id())) {
       if (uuid.equals(c.key.uuid)) {
         return new RobotCommentResource(rev, c);
       }

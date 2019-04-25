@@ -37,22 +37,22 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
   @Override
   public Entities.PatchSet toProto(PatchSet patchSet) {
     Entities.PatchSet.Builder builder =
-        Entities.PatchSet.newBuilder().setId(patchSetIdConverter.toProto(patchSet.getId()));
-    builder.setCommitId(objectIdConverter.toProto(patchSet.getCommitId()));
-    Account.Id uploader = patchSet.getUploader();
+        Entities.PatchSet.newBuilder().setId(patchSetIdConverter.toProto(patchSet.id()));
+    builder.setCommitId(objectIdConverter.toProto(patchSet.commitId()));
+    Account.Id uploader = patchSet.uploader();
     if (uploader != null) {
       builder.setUploaderAccountId(accountIdConverter.toProto(uploader));
     }
-    Timestamp createdOn = patchSet.getCreatedOn();
+    Timestamp createdOn = patchSet.createdOn();
     if (createdOn != null) {
       builder.setCreatedOn(createdOn.getTime());
     }
-    List<String> groups = patchSet.getGroups();
+    List<String> groups = patchSet.groups();
     if (!groups.isEmpty()) {
       builder.setGroups(PatchSet.joinGroups(groups));
     }
-    patchSet.getPushCertificate().ifPresent(builder::setPushCertificate);
-    patchSet.getDescription().ifPresent(builder::setDescription);
+    patchSet.pushCertificate().ifPresent(builder::setPushCertificate);
+    patchSet.description().ifPresent(builder::setDescription);
     return builder.build();
   }
 

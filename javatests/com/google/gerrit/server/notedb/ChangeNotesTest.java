@@ -101,7 +101,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getCurrentPatchSet().getDescription()).hasValue(description);
+    assertThat(notes.getCurrentPatchSet().description()).hasValue(description);
 
     description = "new, now more descriptive!";
     update = newUpdate(c, changeOwner);
@@ -109,7 +109,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getCurrentPatchSet().getDescription()).hasValue(description);
+    assertThat(notes.getCurrentPatchSet().description()).hasValue(description);
   }
 
   @Test
@@ -1001,7 +1001,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
               + " "
               + commit.name()
               + " and "
-              + ps.getCommitId().name());
+              + ps.commitId().name());
     }
   }
 
@@ -1012,32 +1012,32 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     // ps1 created by newChange()
     ChangeNotes notes = newNotes(c);
     PatchSet ps1 = notes.getCurrentPatchSet();
-    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps1.getId());
+    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps1.id());
     assertThat(notes.getChange().getSubject()).isEqualTo("Change subject");
     assertThat(notes.getChange().getOriginalSubject()).isEqualTo("Change subject");
-    assertThat(ps1.getId()).isEqualTo(PatchSet.id(c.getId(), 1));
-    assertThat(ps1.getUploader()).isEqualTo(changeOwner.getAccountId());
+    assertThat(ps1.id()).isEqualTo(PatchSet.id(c.getId(), 1));
+    assertThat(ps1.uploader()).isEqualTo(changeOwner.getAccountId());
 
     // ps2 by other user
     RevCommit commit = incrementPatchSet(c, otherUser);
     notes = newNotes(c);
     PatchSet ps2 = notes.getCurrentPatchSet();
-    assertThat(ps2.getId()).isEqualTo(PatchSet.id(c.getId(), 2));
+    assertThat(ps2.id()).isEqualTo(PatchSet.id(c.getId(), 2));
     assertThat(notes.getChange().getSubject()).isEqualTo("PS2");
     assertThat(notes.getChange().getOriginalSubject()).isEqualTo("Change subject");
-    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps2.getId());
-    assertThat(ps2.getCommitId()).isNotEqualTo(ps1.getCommitId());
-    assertThat(ps2.getCommitId()).isEqualTo(commit);
-    assertThat(ps2.getUploader()).isEqualTo(otherUser.getAccountId());
-    assertThat(ps2.getCreatedOn()).isEqualTo(notes.getChange().getLastUpdatedOn());
+    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps2.id());
+    assertThat(ps2.commitId()).isNotEqualTo(ps1.commitId());
+    assertThat(ps2.commitId()).isEqualTo(commit);
+    assertThat(ps2.uploader()).isEqualTo(otherUser.getAccountId());
+    assertThat(ps2.createdOn()).isEqualTo(notes.getChange().getLastUpdatedOn());
 
     // comment on ps1, current patch set is still ps2
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setPatchSetId(ps1.getId());
+    update.setPatchSetId(ps1.id());
     update.setChangeMessage("Comment on old patch set.");
     update.commit();
     notes = newNotes(c);
-    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps2.getId());
+    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps2.id());
   }
 
   @Test
@@ -1098,14 +1098,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     PatchSet.Id psId1 = c.currentPatchSetId();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getPatchSets().get(psId1).getGroups()).isEmpty();
+    assertThat(notes.getPatchSets().get(psId1).groups()).isEmpty();
 
     // ps1
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setGroups(ImmutableList.of("a", "b"));
     update.commit();
     notes = newNotes(c);
-    assertThat(notes.getPatchSets().get(psId1).getGroups()).containsExactly("a", "b").inOrder();
+    assertThat(notes.getPatchSets().get(psId1).groups()).containsExactly("a", "b").inOrder();
 
     incrementCurrentPatchSetFieldOnly(c);
     PatchSet.Id psId2 = c.currentPatchSetId();
@@ -1114,8 +1114,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.setGroups(ImmutableList.of("d"));
     update.commit();
     notes = newNotes(c);
-    assertThat(notes.getPatchSets().get(psId2).getGroups()).containsExactly("d");
-    assertThat(notes.getPatchSets().get(psId1).getGroups()).containsExactly("a", "b").inOrder();
+    assertThat(notes.getPatchSets().get(psId2).groups()).containsExactly("d");
+    assertThat(notes.getPatchSets().get(psId1).groups()).containsExactly("a", "b").inOrder();
   }
 
   @Test
@@ -1144,8 +1144,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     readNote(notes, commit);
 
     Map<PatchSet.Id, PatchSet> patchSets = notes.getPatchSets();
-    assertThat(patchSets.get(psId1).getPushCertificate()).isEmpty();
-    assertThat(patchSets.get(psId2).getPushCertificate()).hasValue(pushCert);
+    assertThat(patchSets.get(psId1).pushCertificate()).isEmpty();
+    assertThat(patchSets.get(psId2).pushCertificate()).hasValue(pushCert);
     assertThat(notes.getComments()).isEmpty();
 
     // comment on ps2
@@ -1172,8 +1172,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     notes = newNotes(c);
 
     patchSets = notes.getPatchSets();
-    assertThat(patchSets.get(psId1).getPushCertificate()).isEmpty();
-    assertThat(patchSets.get(psId2).getPushCertificate()).hasValue(pushCert);
+    assertThat(patchSets.get(psId1).pushCertificate()).isEmpty();
+    assertThat(patchSets.get(psId2).pushCertificate()).hasValue(pushCert);
     assertThat(notes.getComments()).isNotEmpty();
   }
 

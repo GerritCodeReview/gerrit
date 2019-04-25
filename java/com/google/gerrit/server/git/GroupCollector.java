@@ -82,9 +82,9 @@ public class GroupCollector {
     if (rsrc.getEdit().isPresent()) {
       // Groups for an edit are just the base revision's groups, since they have
       // the same parent.
-      return rsrc.getEdit().get().getBasePatchSet().getGroups();
+      return rsrc.getEdit().get().getBasePatchSet().groups();
     }
-    return rsrc.getPatchSet().getGroups();
+    return rsrc.getPatchSet().groups();
   }
 
   private interface Lookup {
@@ -109,7 +109,7 @@ public class GroupCollector {
           // TODO(dborowitz): Reuse open repository from caller.
           ChangeNotes notes = notesFactory.createChecked(project, psId.changeId());
           PatchSet ps = psUtil.get(notes, psId);
-          return ps != null ? (List<String>) ps.getGroups() : null;
+          return ps != null ? (List<String>) ps.groups() : null;
         });
   }
 

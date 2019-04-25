@@ -149,7 +149,7 @@ public class ChangeResource implements RestResource, HasETag {
     }
     try {
       patchSetUtil.byChange(notes).stream()
-          .map(patchSet -> patchSet.getUploader())
+          .map(patchSet -> patchSet.uploader())
           .forEach(accounts::add);
 
       // It's intentional to include the states for *all* reviewers into the ETag computation.

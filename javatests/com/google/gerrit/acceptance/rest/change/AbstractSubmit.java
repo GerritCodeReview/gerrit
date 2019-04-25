@@ -224,7 +224,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           break;
         case REBASE_IF_NECESSARY:
         case REBASE_ALWAYS:
-          String change2hash = change2.getChange().currentPatchSet().getCommitId().name();
+          String change2hash = change2.getChange().currentPatchSet().commitId().name();
           assertThat(e.getMessage())
               .isEqualTo(
                   "Cannot rebase "

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -188,25 +189,28 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   public PatchScript call()
       throws LargeObjectException, AuthException, InvalidChangeOperationException, IOException,
           PermissionBackendException {
-    if (parentNum < 0) {
-      validatePatchSetId(psa);
-    }
+    validatePatchSetId(psa);
     validatePatchSetId(psb);
 
-    PatchSet psEntityA = psa != null ? psUtil.get(notes, psa) : null;
+    if (psa != null) {
+      checkState(parentNum < 0, "expected no parentNum when psa is present");
+      checkArgument(psa.get() != 0, "edit not supported for left side");
+      aId = getCommitId(psa);
+    } else {
+      aId = null;
+    }
 
-    // TODO(dborowitz): Shouldn't be creating a PatchSet with no commitId, but the logic depends on
-    // it somehow in a way that I don't follow, so old behavior is preserved for now.
-    @SuppressWarnings("deprecation")
-    PatchSet psEntityB =
-        psb.get() == 0 ? PatchSet.createWithNoCommitId(psb) : psUtil.get(notes, psb);
+    if (psb.get() != 0) {
+      bId = getCommitId(psb);
+    } else {
+      // Change edit: create synthetic PatchSet corresponding to the edit.
+      bId = getEditRev();
+    }
 
-    if (psEntityA != null || psEntityB != null) {
-      try {
-        permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
-      } catch (AuthException e) {
-        throw new NoSuchChangeException(changeId);
-      }
+    try {
+      permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
+    } catch (AuthException e) {
+      throw new NoSuchChangeException(changeId);
     }
 
     if (!projectCache.checkedGet(notes.getProjectName()).statePermitsRead()) {
@@ -214,11 +218,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
 
     try (Repository git = repoManager.openRepository(notes.getProjectName())) {
-      bId = toObjectId(psEntityB);
-      if (parentNum < 0) {
-        aId = psEntityA != null ? toObjectId(psEntityA) : null;
-      }
-
       try {
         final PatchList list = listFor(keyFor(diffPrefs.ignoreWhitespace));
         final PatchScriptBuilder b = newBuilder(list, git);
@@ -264,9 +263,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     return b;
   }
 
-  private ObjectId toObjectId(PatchSet ps) throws AuthException, IOException {
-    if (ps.getId().get() == 0) {
-      return getEditRev();
+  private ObjectId getCommitId(PatchSet.Id psId) {
+    PatchSet ps = psUtil.get(notes, psId);
+    if (ps == null) {
+      throw new NoSuchChangeException(psId.changeId());
     }
     return ps.getCommitId();
   }

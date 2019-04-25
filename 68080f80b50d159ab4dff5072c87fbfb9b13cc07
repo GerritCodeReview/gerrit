@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2bf3e5d_82a75321",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-04-25T14:15:37Z",
+      "side": 1,
+      "message": "I think we should merge the Roles User and Supporter.\nIt makes things unnecessary complicated to have both the User and Supporter role, they are practically the same. If you f.i. attend a User Summit, you are both a User and a Supporter!\n\nFor me both User (perhaps \"Active User\") and Supporter would make for decent names for the merged role User+Supporter.\n\nThe differences between the other roles are that there are clear toll-gates:\n* You need to participate in some way to be considered a User/Supporter.\n* You need a CLA to become a contributor.\n* You need to be nominated and accepted by the other maintainers to become a Maintainer.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 53
+      },
+      "revId": "68080f80b50d159ab4dff5072c87fbfb9b13cc07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "571f340e_6da6dcfb",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-04-25T14:15:37Z",
+      "side": 1,
+      "message": "In all honesty, I don\u0027t see purpose of attending a hackathon without a CLA. IMO the hacking and contributing are quite central to the concept.\nIf I\u0027m not mistaken non-contributing hackathon participants have been tried before and that it was not a full-on success.\nPerhaps it\u0027s more honest to move this to the Contributor role.",
+      "range": {
+        "startLine": 35,
+        "startChar": 44,
+        "endLine": 35,
+        "endChar": 58
+      },
+      "revId": "68080f80b50d159ab4dff5072c87fbfb9b13cc07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

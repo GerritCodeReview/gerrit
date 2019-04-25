@@ -308,9 +308,9 @@ public class CommentsUtil {
   public static void setCommentCommitId(Comment c, PatchListCache cache, Change change, PatchSet ps)
       throws PatchListNotAvailableException {
     checkArgument(
-        c.key.patchSetId == ps.getId().get(),
+        c.key.patchSetId == ps.id().get(),
         "cannot set commit ID for patch set %s on comment %s",
-        ps.getId(),
+        ps.id(),
         c);
     if (c.getCommitId() == null) {
       if (Side.fromShort(c.side) == Side.PARENT) {
@@ -320,7 +320,7 @@ public class CommentsUtil {
           c.setCommitId(cache.getOldId(change, ps, null));
         }
       } else {
-        c.setCommitId(ps.getCommitId());
+        c.setCommitId(ps.commitId());
       }
     }
   }

@@ -129,7 +129,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       cm.setNotify(notify);
       cm.send();
     } catch (Exception e) {
-      logger.atSevere().withCause(e).log("Cannot email comments for %s", patchSet.getId());
+      logger.atSevere().withCause(e).log("Cannot email comments for %s", patchSet.id());
     } finally {
       requestContext.setContext(old);
     }

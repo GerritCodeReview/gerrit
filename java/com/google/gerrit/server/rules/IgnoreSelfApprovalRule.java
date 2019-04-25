@@ -79,7 +79,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
 
     Account.Id uploader;
     try {
-      uploader = cd.currentPatchSet().getUploader();
+      uploader = cd.currentPatchSet().uploader();
     } catch (StorageException e) {
       logger.atWarning().withCause(e).log(E_UNABLE_TO_FETCH_UPLOADER);
       return singletonRuleError(E_UNABLE_TO_FETCH_UPLOADER);

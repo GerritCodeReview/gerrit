@@ -154,10 +154,10 @@ public class CreateMergePatchSet
       List<String> groups = null;
       if (!in.inheritParent && !in.baseChange.isEmpty()) {
         PatchSet basePS = findBasePatchSet(in.baseChange);
-        currentPsCommit = rw.parseCommit(basePS.getCommitId());
-        groups = basePS.getGroups();
+        currentPsCommit = rw.parseCommit(basePS.commitId());
+        groups = basePS.groups();
       } else {
-        currentPsCommit = rw.parseCommit(ps.getCommitId());
+        currentPsCommit = rw.parseCommit(ps.commitId());
       }
 
       Timestamp now = TimeUtil.nowTs();
@@ -176,7 +176,7 @@ public class CreateMergePatchSet
               author,
               ObjectId.fromString(change.getKey().get().substring(1)));
 
-      PatchSet.Id nextPsId = ChangeUtil.nextPatchSetId(ps.getId());
+      PatchSet.Id nextPsId = ChangeUtil.nextPatchSetId(ps.id());
       PatchSetInserter psInserter =
           patchSetInserterFactory.create(rsrc.getNotes(), nextPsId, newCommit);
       try (BatchUpdate bu = updateFactory.create(project, me, now)) {

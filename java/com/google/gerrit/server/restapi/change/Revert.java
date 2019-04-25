@@ -172,7 +172,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
         RevWalk revWalk = new RevWalk(reader)) {
-      RevCommit commitToRevert = revWalk.parseCommit(patch.getCommitId());
+      RevCommit commitToRevert = revWalk.parseCommit(patch.commitId());
       if (commitToRevert.getParentCount() == 0) {
         throw new ResourceConflictException("Cannot revert initial commit");
       }
@@ -197,7 +197,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
             MessageFormat.format(
                 ChangeMessages.get().revertChangeDefaultMessage,
                 changeToRevert.getSubject(),
-                patch.getCommitId().name());
+                patch.commitId().name());
       }
 
       ObjectId computedChangeId =

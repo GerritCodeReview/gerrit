@@ -171,13 +171,13 @@ public class PatchSetProtoConverterTest {
     assertThatSerializedClass(PatchSet.class)
         .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
-                .put("getId", PatchSet.Id.class)
-                .put("getCommitId", ObjectId.class)
-                .put("getUploader", Account.Id.class)
-                .put("getCreatedOn", Timestamp.class)
-                .put("getGroups", new TypeLiteral<ImmutableList<String>>() {}.getType())
-                .put("getPushCertificate", new TypeLiteral<Optional<String>>() {}.getType())
-                .put("getDescription", new TypeLiteral<Optional<String>>() {}.getType())
+                .put("id", PatchSet.Id.class)
+                .put("commitId", ObjectId.class)
+                .put("uploader", Account.Id.class)
+                .put("createdOn", Timestamp.class)
+                .put("groups", new TypeLiteral<ImmutableList<String>>() {}.getType())
+                .put("pushCertificate", new TypeLiteral<Optional<String>>() {}.getType())
+                .put("description", new TypeLiteral<Optional<String>>() {}.getType())
                 .build());
   }
 }

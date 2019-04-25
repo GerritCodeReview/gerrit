@@ -102,8 +102,8 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
       ChangeData cd1 = changes.get(0).getChange();
       ChangeData cd2 = changes.get(1).getChange();
       assertThat(cd2.patchSets()).hasSize(2);
-      String change1CurrentCommit = cd1.currentPatchSet().getCommitId().name();
-      String change2Ps1Commit = cd2.patchSet(PatchSet.id(cd2.getId(), 1)).getCommitId().name();
+      String change1CurrentCommit = cd1.currentPatchSet().commitId().name();
+      String change2Ps1Commit = cd2.patchSet(PatchSet.id(cd2.getId(), 1)).commitId().name();
 
       assertThat(gApi.changes().id(cd2.getId().get()).revision(2).commit(false).message)
           .isEqualTo(

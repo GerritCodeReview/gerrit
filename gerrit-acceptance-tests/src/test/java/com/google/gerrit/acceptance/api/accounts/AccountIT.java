@@ -671,7 +671,7 @@ public class AccountIT extends AbstractDaemonTest {
     EmailInput input = newEmailInput(email, false);
     gApi.accounts().self().addEmail(input);
 
-    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages()).hasSize(2);
     Message m = sender.getMessages().get(0);
     assertThat(m.rcpt()).containsExactly(new Address(email));
   }

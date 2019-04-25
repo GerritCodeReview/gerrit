@@ -25,7 +25,6 @@
       _loggedIn: {
         type: Boolean,
         value: false,
-        observer: '_loggedInChanged',
       },
       schemes: Array,
       selectedScheme: {
@@ -41,6 +40,15 @@
     attached() {
       this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
+
+        if (loggedIn) {
+          this.$.restAPI.getPreferences().then(prefs => {
+            if (prefs.download_scheme) {
+              // Note (issue 5180): normalize the download scheme with lower-case.
+              this.selectedScheme = prefs.download_scheme.toLowerCase();
+            }
+          });
+        }
       });
     },
 
@@ -50,16 +58,6 @@
 
     _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
-    },
-
-    _loggedInChanged(loggedIn) {
-      if (!loggedIn) { return; }
-      return this.$.restAPI.getPreferences().then(prefs => {
-        if (prefs.download_scheme) {
-          // Note (issue 5180): normalize the download scheme with lower-case.
-          this.selectedScheme = prefs.download_scheme.toLowerCase();
-        }
-      });
     },
 
     _handleTabChange(e) {

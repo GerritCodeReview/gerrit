@@ -16,7 +16,10 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 * link:dev-design.html[System Design]
 * Processes
 ** link:dev-processes.html#project-governance[Project Governance / Steering Committee]
-** link:dev-contributing.html[Contribution Process]
+** link:dev-contributing.html#contribution-processes[Contribution Processes]
+*** link:dev-contributing.html#lightweight-contribution-process[Lightweight Contribution Process]
+*** link:dev-contributing.html#design-driven-contribution-process[Design-Driven Contribution Process]
+** link:dev-design-docs.html#review[Design doc reviews]
 ** link:dev-processes.html#dev-in-stable-branches[Development in stable branches]
 ** link:dev-processes.html#backporting[Backporting to stable branches]
 ** link:dev-processes.html#upgrading-libraries[Upgrading Libraries]
@@ -31,8 +34,12 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 [[how-to-contribute]]
 == How to contribute?
 * link:dev-cla.html[Contributor License Agreement]
-* link:dev-contributing.html[Contributing to Gerrit]
+* link:dev-contributing.html#contribution-processes[Contribution Processes]
+** link:dev-contributing.html#lightweight-contribution-process[Lightweight Contribution Process]
+** link:dev-contributing.html#design-driven-contribution-process[Design-Driven Contribution Process]
+* link:dev-design-docs.html[Design Docs]
 * link:dev-readme.html[Developer Setup]
+* link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui[Polymer Frontend Developer Setup]
 * link:dev-crafting-changes.html[Crafting Changes]
 * link:dev-starter-projects.html[Starter Projects]
 

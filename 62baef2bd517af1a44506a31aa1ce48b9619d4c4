@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbb09a9b_e67bceb3",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-25T16:53:05Z",
+      "side": 1,
+      "message": "move this to the contributor section ?",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9888bc75_a69cf636",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-25T16:53:05Z",
+      "side": 1,
+      "message": "move this to the contributor section ?",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8455efc_d277d6f7",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-25T16:53:05Z",
+      "side": 1,
+      "message": "by signing the CLA and ...\n\nor just refer to the next section",
+      "range": {
+        "startLine": 77,
+        "startChar": 54,
+        "endLine": 77,
+        "endChar": 56
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f742e8d_90da77bf",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-25T16:53:05Z",
+      "side": 1,
+      "message": "bug fixes",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 11
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2881fdb2_d7af2991",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-25T16:53:05Z",
+      "side": 1,
+      "message": "move this to the maintainer section ?",
+      "range": {
+        "startLine": 111,
+        "startChar": 14,
+        "endLine": 116,
+        "endChar": 30
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a75a1a4_88ee193e",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-25T16:53:05Z",
+      "side": 1,
+      "message": "can you explain\n* why is this rule in place ?\n* what are the rules for accepting/rejecting dependencies by Google maintainers ?",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

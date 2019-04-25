@@ -17,6 +17,24 @@
       "revId": "6b24588b73ac90b8888d5108fcc8b38dd4fcb731",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9b692d4_f603157f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-25T08:34:22Z",
+      "side": 1,
+      "message": "I agree, mentioning this here more explicit would be nice",
+      "parentUuid": "fe1b2eff_ce0fee06",
+      "revId": "6b24588b73ac90b8888d5108fcc8b38dd4fcb731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

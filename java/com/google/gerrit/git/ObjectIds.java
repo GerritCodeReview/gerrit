@@ -24,6 +24,9 @@ import org.eclipse.jgit.lib.ObjectReader;
 
 /** Static utilities for working with {@code ObjectId}s. */
 public class ObjectIds {
+  /** Length of a binary SHA-1 byte array. */
+  public static final int LEN = Constants.OBJECT_ID_LENGTH;
+
   /** Length of a hex SHA-1 string. */
   public static final int STR_LEN = Constants.OBJECT_ID_STRING_LENGTH;
 

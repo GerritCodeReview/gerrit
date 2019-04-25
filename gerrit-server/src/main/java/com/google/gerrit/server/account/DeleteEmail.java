@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static java.util.stream.Collectors.toSet;
 
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -28,6 +29,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.DeleteEmail.Input;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.mail.send.EmailPreferredAddressSender;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -38,9 +40,13 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class DeleteEmail implements RestModifyView<AccountResource.Email, Input> {
+  private static final Logger log = LoggerFactory.getLogger(DeleteEmail.class);
+
   public static class Input {}
 
   private final Provider<CurrentUser> self;
@@ -48,6 +54,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
   private final PermissionBackend permissionBackend;
   private final AccountManager accountManager;
   private final ExternalIds externalIds;
+  private final EmailPreferredAddressSender.Factory emailPreferredAddressSenderFactory;
 
   @Inject
   DeleteEmail(
@@ -55,12 +62,14 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
       Realm realm,
       PermissionBackend permissionBackend,
       AccountManager accountManager,
-      ExternalIds externalIds) {
+      ExternalIds externalIds,
+      EmailPreferredAddressSender.Factory emailPreferredAddressSenderFactory) {
     this.self = self;
     this.realm = realm;
     this.permissionBackend = permissionBackend;
     this.accountManager = accountManager;
     this.externalIds = externalIds;
+    this.emailPreferredAddressSenderFactory = emailPreferredAddressSenderFactory;
   }
 
   @Override
@@ -95,6 +104,18 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
     } catch (AccountException e) {
       throw new ResourceConflictException(e.getMessage());
     }
+
+    try {
+      emailPreferredAddressSenderFactory
+          .create(user, "deleted", email)
+          .send();
+    } catch (EmailException e) {
+      log.error(
+          "Cannot send preferred email message to {}",
+          user.getAccount().getPreferredEmail(),
+          e);
+    }
+
     return Response.none();
   }
 }

@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c5ec5ca_4ceb081a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-25T08:32:08Z",
+      "side": 1,
+      "message": "Can you describe the solution in one or two sentences here?",
+      "revId": "70e5e16434f7f8ad12bdf8e19a7a22063bd586b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e79fd150_2a19bda5",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-25T08:32:08Z",
+      "side": 1,
+      "message": "Can you check what the default is for iron-icon? I think it might be \"display:flex\" or \"display:inline-flex\".",
+      "revId": "70e5e16434f7f8ad12bdf8e19a7a22063bd586b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f6801b1_8cc68b61",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-25T08:32:08Z",
+      "side": 1,
+      "message": "FYI: this.fire is deprecated with Polymer 2: https://polymer-library.polymer-project.org/2.0/docs/upgrade#fire\n\nBut you don\u0027t have to change this here. We can do this when we convert all the this.fire usages.",
+      "revId": "70e5e16434f7f8ad12bdf8e19a7a22063bd586b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca592224_02726396",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-25T08:32:08Z",
+      "side": 1,
+      "message": "This conflicts with {{params.query}} two lines above? Maybe just drop this line? What are you trying to do with this?",
+      "revId": "70e5e16434f7f8ad12bdf8e19a7a22063bd586b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d0fca4f_5bdd2037",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-25T08:32:08Z",
+      "side": 1,
+      "message": "Maybe params.query instead?",
+      "range": {
+        "startLine": 166,
+        "startChar": 26,
+        "endLine": 166,
+        "endChar": 37
+      },
+      "revId": "70e5e16434f7f8ad12bdf8e19a7a22063bd586b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d533163f_bb7f5385",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-25T08:32:08Z",
+      "side": 1,
+      "message": "Why do you need this property? Maybe just drop it?",
+      "revId": "70e5e16434f7f8ad12bdf8e19a7a22063bd586b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "851f362c_d0013e0a",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-25T08:32:08Z",
+      "side": 1,
+      "message": "Add a comment.",
+      "revId": "70e5e16434f7f8ad12bdf8e19a7a22063bd586b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adaa8b0d_4c012a34",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-25T08:32:08Z",
+      "side": 1,
+      "message": "Add \"toggle\" to the name of the method.",
+      "revId": "70e5e16434f7f8ad12bdf8e19a7a22063bd586b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2656dad1_25086e51",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-25T08:32:08Z",
+      "side": 1,
+      "message": "What about this?\nthis.mobileSearch \u003d !this.mobileSearch;",
+      "revId": "70e5e16434f7f8ad12bdf8e19a7a22063bd586b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

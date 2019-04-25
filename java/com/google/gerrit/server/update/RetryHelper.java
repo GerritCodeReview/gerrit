@@ -38,7 +38,6 @@ import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
-import com.google.gerrit.metrics.Histogram1;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -107,18 +106,18 @@ public class RetryHelper {
   @VisibleForTesting
   @Singleton
   public static class Metrics {
-    final Histogram1<ActionType> attemptCounts;
+    final Counter1<ActionType> attemptCounts;
     final Counter1<ActionType> timeoutCount;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
       Field<ActionType> view = Field.ofEnum(ActionType.class, "action_type");
       attemptCounts =
-          metricMaker.newHistogram(
-              "action/retry_attempt_counts",
+          metricMaker.newCounter(
+              "action/retry_attempt_count",
               new Description(
-                      "Distribution of number of attempts made by RetryHelper to execute an action"
-                          + " (1 == single attempt, no retry)")
+                      "Number of retry attempts made by RetryHelper to execute an action"
+                          + " (0 == single attempt, no retry)")
                   .setCumulative()
                   .setUnit("attempts"),
               view);
@@ -262,8 +261,8 @@ public class RetryHelper {
     } finally {
       if (listener.getAttemptCount() > 1) {
         logger.atFine().log("%s was attempted %d times", actionType, listener.getAttemptCount());
+        metrics.attemptCounts.incrementBy(actionType, listener.getAttemptCount() - 1);
       }
-      metrics.attemptCounts.record(actionType, listener.getAttemptCount());
     }
   }
 

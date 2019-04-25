@@ -15,8 +15,8 @@ The following metrics are reported.
 
 === Actions
 
-* `action/retry_attempt_counts`: Distribution of number of attempts made
-by RetryHelper to execute an action (1 == single attempt, no retry)
+* `action/retry_attempt_count`: Number of retry attempts made
+by RetryHelper to execute an action (0 == single attempt, no retry)
 * `action/retry_timeout_count`: Number of action executions of RetryHelper
 that ultimately timed out
 

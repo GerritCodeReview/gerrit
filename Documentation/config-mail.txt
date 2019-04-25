@@ -83,6 +83,11 @@ The DeleteReviewer templates will determine the contents of the email related to
 a user removing a reviewer (with a vote) from a change.  It is a
 `ChangeEmail`: see `ChangeSubject.soy` and ChangeFooter.
 
+=== EmailModifiedAddress.soy
+
+The EmailModifiedAddress templates will determine the contents of the email related to
+a user adding/changing/deleting an email from their account.
+
 === Footer.soy and FooterHtml.soy
 
 The Footer templates will determine the contents of the footer text appended to

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d21c411f_dfbcd715",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-26T06:21:44Z",
+      "side": 1,
+      "message": "Add more context here about what leads to this problem",
+      "revId": "a2d138322b23ce460d54b153d4ad03972d782575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "954b1c5d_a3d57978",
+        "filename": "java/com/google/gerrit/server/index/project/AllProjectsIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-26T06:21:44Z",
+      "side": 1,
+      "message": "How does it get to this point with a name that doesn\u0027t exist any more?  Where is the input to the indexer coming from?\n\nIn other words it looks like we\u0027re fixing the symptom of the problem here, rather than the actual underlying problem.",
+      "revId": "a2d138322b23ce460d54b153d4ad03972d782575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36221f6d_48e6844c",
+        "filename": "java/com/google/gerrit/server/index/project/AllProjectsIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-26T06:21:44Z",
+      "side": 1,
+      "message": "Unrelated to this change, but I wonder why the ProjectCache is still returning null for non-existing project while the account cache and group cache have both been converted to return Optional.",
+      "range": {
+        "startLine": 79,
+        "startChar": 18,
+        "endLine": 79,
+        "endChar": 45
+      },
+      "revId": "a2d138322b23ce460d54b153d4ad03972d782575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5be22e3b_751239c2",
+        "filename": "java/com/google/gerrit/server/index/project/AllProjectsIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-26T06:21:44Z",
+      "side": 1,
+      "message": "Should we log an error/warning if the projectState is null?",
+      "revId": "a2d138322b23ce460d54b153d4ad03972d782575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

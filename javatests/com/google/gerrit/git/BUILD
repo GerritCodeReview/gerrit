@@ -28,10 +28,12 @@ junit_tests(
     ),
     deps = [
         "//java/com/google/gerrit/git",
+        "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/truth",
+        "//lib/easymock"
     ],
 )

@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "f8b02a85_56542e2d",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-04-26T12:04:14Z",
+      "side": 1,
+      "message": "As a community member I *do* have the expectation on maintainers to dedicate *some* of their time to these tasks. I regard \"maintainer\" more as a Role with responsibilities than a badge of honor.\nI would even go so far as to say that it\u0027s a good thing for the community if nominated maintainers asks themselves \"do I have the time to take on this responsibility\", I know I would (if I for some odd reason got nominated).\n\nDisregarding my view on the outlined expectations I cannot even begin to understand how specifying these expectations could scare inactive maintainers into doing less.\nHaving said that; the way I see it a maintainer is given the \"power\" to veto changes, CR+2, do releases, etc. as they, apart for having the qualities you outlined, are deemed to have a good overview of the project from active participation and are therefore able to make these decisions based on a solid understanding of the effects.\n\nIf a maintainers work|life situation changed, so that he/she could no longer actively participate in the community, it wouldn\u0027t be unthinkable that they would even offer to \"step down\" from the maintainer role. There would be nothing keeping them from  participating in discussions, reviewing the odd code snippet etc. during their hiatus.\nIf they have the chance to pick up their engagement in the community at a later date, they could continue as contrubuters, and if there was a need for more maintainers they could be reinstated.",
+      "parentUuid": "08256ba3_86301d6d",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a75a1a4_88ee193e",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11

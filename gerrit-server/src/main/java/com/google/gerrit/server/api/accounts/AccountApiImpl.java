@@ -63,6 +63,7 @@ import com.google.gerrit.server.account.Index;
 import com.google.gerrit.server.account.PostWatchedProjects;
 import com.google.gerrit.server.account.PutActive;
 import com.google.gerrit.server.account.PutAgreement;
+import com.google.gerrit.server.account.PutHttpPassword;
 import com.google.gerrit.server.account.PutName;
 import com.google.gerrit.server.account.PutStatus;
 import com.google.gerrit.server.account.SetDiffPreferences;
@@ -122,6 +123,7 @@ public class AccountApiImpl implements AccountApi {
   private final PutStatus putStatus;
   private final GetGroups getGroups;
   private final PutName putName;
+  private final PutHttpPassword putHttpPassword;
 
   @Inject
   AccountApiImpl(
@@ -161,6 +163,7 @@ public class AccountApiImpl implements AccountApi {
       PutStatus putStatus,
       GetGroups getGroups,
       PutName putName,
+      PutHttpPassword putPassword,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -199,6 +202,7 @@ public class AccountApiImpl implements AccountApi {
     this.putStatus = putStatus;
     this.getGroups = getGroups;
     this.putName = putName;
+    this.putHttpPassword = putPassword;
   }
 
   @Override
@@ -526,6 +530,33 @@ public class AccountApiImpl implements AccountApi {
       putName.apply(account, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot set account name", e);
+    }
+  }
+
+  @Override
+  public String generateHttpPassword() throws RestApiException {
+    PutHttpPassword.Input input = new PutHttpPassword.Input();
+    input.generate = true;
+    try {
+      // Response should never be 'none' for a generated password, but
+      // let's make sure.
+      Response<String> result = putHttpPassword.apply(account, input);
+      return result.isNone() ? null : result.value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot generate HTTP password", e);
+    }
+  }
+
+  @Override
+  public String setHttpPassword(String password) throws RestApiException {
+    PutHttpPassword.Input input = new PutHttpPassword.Input();
+    input.generate = false;
+    input.httpPassword = password;
+    try {
+      Response<String> result = putHttpPassword.apply(account, input);
+      return result.isNone() ? null : result.value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot generate HTTP password", e);
     }
   }
 }

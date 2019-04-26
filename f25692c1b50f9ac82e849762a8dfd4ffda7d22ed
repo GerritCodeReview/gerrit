@@ -69,6 +69,24 @@
       "revId": "f25692c1b50f9ac82e849762a8dfd4ffda7d22ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f6d98b1_99201c32",
+        "filename": "java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-26T10:21:08Z",
+      "side": 1,
+      "message": "I was just looking into writing a test for this, but it seems we already have one, and it doesn\u0027t pass the project option:\n\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/stable-2.16/javatests/com/google/gerrit/acceptance/ssh/SetReviewersIT.java#53\n\nso now I\u0027m wondering why that was passing.",
+      "parentUuid": "bd040014_e26f3a2f",
+      "revId": "f25692c1b50f9ac82e849762a8dfd4ffda7d22ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

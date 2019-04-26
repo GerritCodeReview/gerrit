@@ -16,6 +16,24 @@
       "revId": "f25692c1b50f9ac82e849762a8dfd4ffda7d22ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b56959c0_3bc76b59",
+        "filename": "java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-26T09:42:39Z",
+      "side": 1,
+      "message": "If projectState is null this condition will evaluate to false, and then it will continue to the permission check below.",
+      "parentUuid": "8e816615_663798a1",
+      "revId": "f25692c1b50f9ac82e849762a8dfd4ffda7d22ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

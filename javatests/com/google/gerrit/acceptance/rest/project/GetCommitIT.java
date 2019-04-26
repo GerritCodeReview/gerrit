@@ -107,14 +107,27 @@ public class GetCommitIT extends AbstractDaemonTest {
 
   @Test
   public void getOpenChange_NotFound() throws Exception {
+    // Need to unblock read to allow the push operation to succeed
+    // if not, when retrieving the advertised refs during the push,
+    //  the client won't be sent the initial commit and will send it again as part of the change.
+    unblockRead();
     PushOneCommit.Result r = pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master");
     r.assertOkStatus();
+
+    unblockRead();
     assertNotFound(r.getCommit());
   }
 
   private void unblockRead() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getAccessSection("refs/*").remove(new Permission(Permission.READ));
+      u.save();
+    }
+  }
+
+  private void reblockRead() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getAccessSection("refs/*").addPermission(new Permission(Permission.READ));
       u.save();
     }
   }

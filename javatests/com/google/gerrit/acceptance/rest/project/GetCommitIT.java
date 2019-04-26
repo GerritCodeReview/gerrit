@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -107,8 +108,16 @@ public class GetCommitIT extends AbstractDaemonTest {
 
   @Test
   public void getOpenChange_NotFound() throws Exception {
+    // Need to unblock read to allow the push operation to succeed if not, when retrieving the
+    // advertised refs during
+    // the push, the client won't be sent the initial commit and will send it again as part of the
+    // change.
+    unblockRead();
     PushOneCommit.Result r = pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master");
     r.assertOkStatus();
+
+    // Re-blocking the read
+    block("refs/*", Permission.READ, SystemGroupBackend.ANONYMOUS_USERS);
     assertNotFound(r.getCommit());
   }
 
@@ -120,7 +129,9 @@ public class GetCommitIT extends AbstractDaemonTest {
   }
 
   private void assertNotFound(ObjectId id) throws Exception {
-    userRestSession.get("/projects/" + project.get() + "/commits/" + id.name()).assertNotFound();
+    RestResponse restResponse =
+        userRestSession.get("/projects/" + project.get() + "/commits/" + id.name());
+    restResponse.assertNotFound();
   }
 
   private CommitInfo getCommit(ObjectId id) throws Exception {

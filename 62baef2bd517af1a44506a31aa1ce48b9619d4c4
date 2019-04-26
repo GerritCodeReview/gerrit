@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2f805fb7_55023321",
+        "filename": "Documentation/dev-community.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-26T21:52:35Z",
+      "side": 1,
+      "message": "Clicking on this link leads to no User role-specific section on the page, unlike the other roles. I think this role should also have its own dedicated section, at the beginning of the roles page, even if only made of a few /simpler documentation items.",
+      "range": {
+        "startLine": 24,
+        "startChar": 3,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "67553a8b_c1017bb0",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11
@@ -18,6 +41,75 @@
         "startChar": 23,
         "endLine": 1,
         "endChar": 28
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b05723e0_b2218123",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-26T21:52:35Z",
+      "side": 1,
+      "message": "Remove? -As the Gerrit project is made of core but also plugins and other as-supporting components.",
+      "range": {
+        "startLine": 27,
+        "startChar": 59,
+        "endLine": 27,
+        "endChar": 74
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92666be3_3ad71979",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-26T21:52:35Z",
+      "side": 1,
+      "message": ") -no final dot -as other bullet items such as this one have none.",
+      "range": {
+        "startLine": 42,
+        "startChar": 15,
+        "endLine": 42,
+        "endChar": 17
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c416f9f_771bc81a",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-26T21:52:35Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "range": {
+        "startLine": 44,
+        "startChar": 59,
+        "endLine": 44,
+        "endChar": 74
       },
       "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -82,6 +174,29 @@
     },
     {
       "key": {
+        "uuid": "dff7e36f_a61ca064",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-26T21:52:35Z",
+      "side": 1,
+      "message": "Replace this with the same link but named \"gerrit-review.googlesource.com\"?",
+      "range": {
+        "startLine": 85,
+        "startChar": 29,
+        "endLine": 85,
+        "endChar": 68
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3f742e8d_90da77bf",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11
@@ -93,6 +208,30 @@
       "writtenOn": "2019-04-25T16:53:05Z",
       "side": 1,
       "message": "bug fixes",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 11
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "438dc0e3_82752ecb",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-26T21:52:35Z",
+      "side": 1,
+      "message": "If applying this comment, would need to be applied also for other occurrences of this term in this file (singular or plural).",
+      "parentUuid": "3f742e8d_90da77bf",
       "range": {
         "startLine": 91,
         "startChar": 2,
@@ -217,6 +356,47 @@
     },
     {
       "key": {
+        "uuid": "03bb1fd1_eac6f4a1",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-26T21:52:35Z",
+      "side": 1,
+      "message": "In a nutshell for this humble reply of mine, on this awesome thread overall: I\u0027d foster fairly explicit project activity to be a maintainer, in this very file and change -straight.\n\nHowever again in all fairness, I would also consider that it may take months or a few years for a no longer active maintainer to step down. It takes some non negligible energy to 1. nominate or 2. become a maintainer. So \"losing\" such an initial investment might be counter-productive or even sad, despite the ROI gained onward.\n\nI\u0027m also thinking of a potentially ever (or so) growing list of maintainers, which is likely not scaling in the longer run. A long list might taint the true meaning of the (active) maintainer role, or quite. -A living project has a footprint that matches that list. But this I think should not mean to prematurely step down if becoming (temporarily? who knows) inactive. And some still listed yet \"passive\" maintainers remain close enough to the project, given their lasting impact on it. Not sure I\u0027d personally foster their removal out of inactivity... unless another role can be used for that purpose.",
+      "parentUuid": "214b9181_9cfb7575",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c4687e9_99bb9211",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-26T21:52:35Z",
+      "side": 1,
+      "message": "Same comment as the related one further above.",
+      "range": {
+        "startLine": 161,
+        "startChar": 2,
+        "endLine": 161,
+        "endChar": 41
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a75a1a4_88ee193e",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11
@@ -228,6 +408,24 @@
       "writtenOn": "2019-04-25T16:53:05Z",
       "side": 1,
       "message": "can you explain\n* why is this rule in place ?\n* what are the rules for accepting/rejecting dependencies by Google maintainers ?",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1d61841_e826c96a",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-26T21:52:35Z",
+      "side": 1,
+      "message": "+1, and I\u0027d also add this question: should we consider other organizations also potentially in need of co-vetoing on LC, say, if they have constraints such as Google\u0027s? -Now maybe this is a controversial topic for a follow-up and not this change review. Ericsson is not urgently pushing for this now, I mean...\n\nWhat I have in mind too is the timely scoring of LC votes, which sometimes take a longer time, given Googlers\u0027 genuine constraints on how much time they need to properly vote. Co-vetoing on LC is unlikely helping to facilitate that process, though, as each organization (Google) shall comply internally.",
+      "parentUuid": "4a75a1a4_88ee193e",
       "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -1,6 +1,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.server.permissions.PermissionBackend;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -9,15 +10,20 @@ import org.eclipse.jgit.lib.Repository;
  */
 public class PermissionAwareRepositoryManager {
   public static Repository wrap(Repository delegate, PermissionBackend.ForProject forProject) {
-    if (delegate instanceof PermissionAwareRepository) {
-      new PermissionAwareRepository(((PermissionAwareRepository) delegate).unwrap(), forProject);
+    if (delegate instanceof PermissionAwareRepositoryWrapper) {
+      return wrap(((PermissionAwareRepositoryWrapper) delegate).unwrap(), forProject);
     }
+
+    if (delegate instanceof DfsRepository) {
+      return new PermissionAwareDfsRepository((DfsRepository) delegate, forProject);
+    }
+
     return new PermissionAwareRepository(delegate, forProject);
   }
 
   public static Repository unwrap(Repository repository) {
-    if (repository instanceof PermissionAwareRepository) {
-      return ((PermissionAwareRepository) repository).unwrap();
+    if (repository instanceof PermissionAwareRepositoryWrapper) {
+      return ((PermissionAwareRepositoryWrapper) repository).unwrap();
     }
     return repository;
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e816615_663798a1",
+        "filename": "java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1015732
+      },
+      "writtenOn": "2019-04-26T09:20:28Z",
+      "side": 1,
+      "message": "It seems to me, that with this change, the projectState becomes mandatory actually as it will skip all changes as soon as ProjectState is null.\nWhile the original intent was to have it optional, though, possibly leading to multiple changes.\nI suppose that this test is there to verify the read permission for the project associated to the discovered change.\n\nThis should not be done from the projectState which can be null (passed just as a selection filter), but from the notes.getProjectName() or some other mean given the currently processed ChangeNotes in the notes iterator.",
+      "revId": "f25692c1b50f9ac82e849762a8dfd4ffda7d22ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

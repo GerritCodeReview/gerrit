@@ -163,6 +163,24 @@
     },
     {
       "key": {
+        "uuid": "02fbbaf5_8768c08e",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-26T14:04:11Z",
+      "side": 1,
+      "message": "\u003e As a community member I *do* have the expectation on maintainers to dedicate *some* of their time to these tasks. I regard \"maintainer\" more as a Role with responsibilities than a badge of honor.\n\u003e I would even go so far as to say that it\u0027s a good thing for the community if nominated maintainers asks themselves \"do I have the time to take on this responsibility\", I know I would (if I for some odd reason got nominated).\n\nI believe that this document describes how is the process *today* and not how we do think it should work, which is a different discussion we will have in 2 weeks\u0027 time.\nPersonally, I share your point of view, but that is not the current reality.\n\nThe reality is more the one Martin described: you if you to https://analytics.gerritforge.com and you do some query, you will realize that there are contributors (non-maintainers) that are doing way more work in terms of contribution and review than other maintainers.\n\n\u003e Disregarding my view on the outlined expectations I cannot even begin to understand how specifying these expectations could scare inactive maintainers into doing less.\n\u003e Having said that; the way I see it a maintainer is given the \"power\"\n\nMore \"responsibility\" than \"power\" :-)\n\n\u003e to veto changes, CR+2, do releases, etc. as they, apart for having the qualities you outlined, are deemed to have a good overview of the project from active participation and are therefore able to make these decisions based on a solid understanding of the effects.\n\nNot alone of course, but in agreement with the other maintainers and the rest of the community.\n\n\u003e If a maintainers work|life situation changed, so that he/she could no longer actively participate in the community, it wouldn\u0027t be unthinkable that they would even offer to \"step down\" from the maintainer role. There would be nothing keeping them from  participating in discussions, reviewing the odd code snippet etc. during their hiatus.\n\nThis is not the current reality though. Look for instance recently Hugo (current maintainer) left Ericsson and now isn\u0027t using Gerrit for work anymore. He is still a maintainer even though he doesn\u0027t participate actively as before.\n\n\u003e If they have the chance to pick up their engagement in the community at a later date, they could continue as contrubuters, and if there was a need for more maintainers they could be reinstated.\n\nTrue, but let\u0027s discuss together face-to-face how to change the process: at the moment isn\u0027t in the way you described.",
+      "parentUuid": "f8b02a85_56542e2d",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a75a1a4_88ee193e",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11

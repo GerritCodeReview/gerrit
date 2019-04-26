@@ -52,6 +52,23 @@
       "revId": "f25692c1b50f9ac82e849762a8dfd4ffda7d22ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd040014_e26f3a2f",
+        "filename": "java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1015732
+      },
+      "writtenOn": "2019-04-26T10:10:44Z",
+      "side": 1,
+      "message": "Ok, sorry I inverted the Logic.\nWhat surprises me is that this permission check depends on a possibly missing parameter which seems weird as the purpose is unrelatted (permission vs filter).\nSorry for the confusion.",
+      "revId": "f25692c1b50f9ac82e849762a8dfd4ffda7d22ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

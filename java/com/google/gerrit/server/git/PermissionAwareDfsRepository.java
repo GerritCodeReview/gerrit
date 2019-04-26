@@ -30,9 +30,11 @@ import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.events.RepositoryEvent;
+import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryBuilder;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.BaseRepositoryBuilder;
-import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -51,40 +53,53 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.FS;
 
 /**
- * Wrapper around {@link Repository} that delegates all calls to the wrapped {@link Repository}
- * except for {@link #getRefDatabase()} where it provides a {@link
+ * Wrapper around {@link DfsRepository} that delegates all calls to the wrapped {@link
+ * DfsRepository} except for {@link #getRefDatabase()} where it provides a {@link
  * PermissionAwareReadOnlyRefDatabase}.
+ *
+ * <p>This is an almost exact copy of {@link PermissionAwareRepository} that should disappear once
+ * the JGit {@link Repository} class would be converted into an interface and the code using it
+ * would not explicitly check the instance class to discriminate from Dfs or non Dfs repos
  */
-public class PermissionAwareRepository extends Repository
+public class PermissionAwareDfsRepository extends DfsRepository
     implements PermissionAwareRepositoryWrapper {
 
-  private final Repository delegate;
+  private final DfsRepository delegate;
   private final PermissionAwareReadOnlyRefDatabase permissionAwareReadOnlyRefDatabase;
 
-  public PermissionAwareRepository(Repository delegate, PermissionBackend.ForProject forProject) {
+  public PermissionAwareDfsRepository(
+      DfsRepository delegate, PermissionBackend.ForProject forProject) {
     super(toBuilder(delegate));
     this.delegate = delegate;
     this.permissionAwareReadOnlyRefDatabase =
         new PermissionAwareReadOnlyRefDatabase(delegate, forProject);
   }
-
+  
   @Override
   public Repository unwrap() {
     return delegate;
   }
-  
-  private static BaseRepositoryBuilder toBuilder(Repository repo) {
-	    BaseRepositoryBuilder b = new BaseRepositoryBuilder<>();
+
+  private static DfsRepositoryBuilder<DfsRepositoryBuilder, DfsRepository> toBuilder(
+	      DfsRepository repo) {
+	    DfsRepositoryBuilder<DfsRepositoryBuilder, DfsRepository> b =
+	        new DfsRepositoryBuilder<DfsRepositoryBuilder, DfsRepository>() {
+	          @Override
+	          public DfsRepository build() throws IOException {
+	            return null;
+	          }
+	        };
 	    b.setFS(repo.getFS());
 	    b.setGitDir(repo.getDirectory());
 	    if (!repo.isBare()) {
 	      b.setIndexFile(repo.getIndexFile());
 	      b.setWorkTree(repo.getWorkTree());
 	    }
+
 	    return b;
 	  }
-
-  ////// Overriding all public methods, not just abstract ones, in order to act as a pure proxy
+  
+  ////// Overriding all Repository public methods, not just abstract ones, in order to act as a pure proxy
 
   @Override
   public ListenerList getListenerList() {
@@ -100,7 +115,6 @@ public class PermissionAwareRepository extends Repository
   public void create() throws IOException {
     delegate.create();
   }
-  
 
   @Override
   public void create(boolean bare) throws IOException {
@@ -110,6 +124,11 @@ public class PermissionAwareRepository extends Repository
   @Override
   public File getDirectory() {
     return delegate.getDirectory();
+  }
+
+  @Override
+  public DfsObjDatabase getObjectDatabase() {
+    return delegate.getObjectDatabase();
   }
 
   @Override
@@ -123,11 +142,6 @@ public class PermissionAwareRepository extends Repository
   }
 
   @Override
-  public ObjectDatabase getObjectDatabase() {
-    return delegate.getObjectDatabase();
-  }
-
-  @Override
   public RefDatabase getRefDatabase() {
     return permissionAwareReadOnlyRefDatabase;
   }
@@ -136,7 +150,7 @@ public class PermissionAwareRepository extends Repository
   public StoredConfig getConfig() {
     return delegate.getConfig();
   }
-
+  
   @Override
   public AttributesNodeProvider createAttributesNodeProvider() {
     return delegate.createAttributesNodeProvider();
@@ -280,6 +294,7 @@ public class PermissionAwareRepository extends Repository
   public void notifyIndexChanged(boolean internal) {
     delegate.notifyIndexChanged(internal);
   }
+
   
   @Override
   public String shortenRemoteBranchName(String refName) {
@@ -396,5 +411,15 @@ public class PermissionAwareRepository extends Repository
   @Override
   public void autoGC(ProgressMonitor monitor) {
     delegate.autoGC(monitor);
+  }
+
+  @Override
+  public DfsRepositoryDescription getDescription() {
+    return delegate.getDescription();
+  }
+
+  @Override
+  public boolean exists() throws IOException {
+    return delegate.exists();
   }
 }

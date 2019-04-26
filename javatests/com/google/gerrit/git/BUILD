@@ -33,5 +33,7 @@ junit_tests(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/truth",
+        "//lib/easymock",
+        "//java/com/google/gerrit/server"
     ],
 )

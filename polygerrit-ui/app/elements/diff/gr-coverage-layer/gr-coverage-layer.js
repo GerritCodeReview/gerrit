@@ -38,6 +38,17 @@
     NOT_INSTRUMENTED: 'NOT_INSTRUMENTED',
   };
 
+  const TOOLTIP_MAP = new Map([
+    [Gerrit.CoverageType.COVERED, 'This line is covered by tests.'],
+    [Gerrit.CoverageType.NOT_COVERED, 'This line is NOT covered by tests.'],
+    [
+      Gerrit.CoverageType.PARTIALLY_COVERED,
+      'This line is partially covered by tests.'],
+    [
+      Gerrit.CoverageType.NOT_INSTRUMENTED,
+      'This line is not instrumented by any tests.'],
+  ]);
+
   /**
    * @typedef {{
    *   side: string,
@@ -122,6 +133,7 @@
 
         // The line number is within the current coverage range. Style it!
         lineNumberEl.classList.add(coverageRange.type);
+        lineNumberEl.title = TOOLTIP_MAP.get(coverageRange.type);
         return;
       }
     },

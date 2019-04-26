@@ -34,6 +34,24 @@
       "revId": "f25692c1b50f9ac82e849762a8dfd4ffda7d22ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a1435c5_eca6069f",
+        "filename": "java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-26T09:45:24Z",
+      "side": 1,
+      "message": "\u003e It seems to me, that with this change, the projectState becomes mandatory actually as it will skip all changes as soon as ProjectState is null.\n\nThis isn\u0027t what I read in the code: projectState \u003d\u003d null \u003d\u003e if(null !\u003d null \u0026\u0026 ...) is false \u003d\u003e the continue is not processed \u003d\u003e the toAdd gets processed.\n\n\u003e While the original intent was to have it optional, though, possibly leading to multiple changes.\n\nAnd this is what I read the code is doing.\nHowever, there must be a follow-up to this change, by introducing *first* a functional test for the use-case and *then* a proper management.\n\n\u003e I suppose that this test is there to verify the read permission for the project associated to the discovered change.\n\nYes, when you specify a project.\n\n\u003e This should not be done from the projectState which can be null (passed just as a selection filter), but from the notes.getProjectName() or some other mean given the currently processed ChangeNotes in the notes iterator.\n\nFrom what I see it is done at L101 where you check if you can access the change notes.",
+      "parentUuid": "8e816615_663798a1",
+      "revId": "f25692c1b50f9ac82e849762a8dfd4ffda7d22ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

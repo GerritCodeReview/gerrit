@@ -45,6 +45,54 @@
       "revId": "0d43092c6e12c98011de8272cb6b6c7838a47360",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe3fd29c_b058229b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-26T12:12:44Z",
+      "side": 1,
+      "message": "This comment might be obsolete with the current implementation. If you are asking whether the layer may change, then no, coverage information is considered immutable per diff. Once it is set, it is set.",
+      "parentUuid": "bf96658c_22bd9ac7",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 12
+      },
+      "revId": "0d43092c6e12c98011de8272cb6b6c7838a47360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b929eee_ae36710d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-26T12:12:44Z",
+      "side": 1,
+      "message": "Yes, that is being dealt with in the diff-host interacting with the plugins, see https://gerrit-review.googlesource.com/c/gerrit/+/216143",
+      "parentUuid": "e6e10204_d8356055",
+      "range": {
+        "startLine": 71,
+        "startChar": 35,
+        "endLine": 71,
+        "endChar": 38
+      },
+      "revId": "0d43092c6e12c98011de8272cb6b6c7838a47360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

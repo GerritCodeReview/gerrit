@@ -92,7 +92,7 @@ public class ChangeArgumentParser {
           continue;
         }
 
-        if (!projectState.statePermitsRead()) {
+        if (projectState != null && !projectState.statePermitsRead()) {
           continue;
         }
 

@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4f846a07_4a97efd1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-26T12:39:07Z",
+      "side": 1,
+      "message": "Resolving. I think leaving this up to the plugin is ok.",
+      "parentUuid": "6f9631e4_1adc038f",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 53
+      },
+      "revId": "b125de4d392473258b0d801eff346c69115ad570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9eddecc3_0b80fa8a",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
         "patchSetId": 3

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c0428713_c5bdb259",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-26T12:39:07Z",
+      "side": 1,
+      "message": "No idea, but unrelated to this change. :-)",
+      "parentUuid": "d184271c_ef2e9832",
+      "range": {
+        "startLine": 48,
+        "startChar": 23,
+        "endLine": 48,
+        "endChar": 41
+      },
+      "revId": "cf6bee033c02395fbc215586ac30c3b0820fd89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b01c2363_032bee2a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
         "patchSetId": 14
@@ -113,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "6c1ac28d_a12f0489",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-26T12:39:07Z",
+      "side": 1,
+      "message": "Added console.warn().",
+      "parentUuid": "60d17179_a05bcf2e",
+      "revId": "cf6bee033c02395fbc215586ac30c3b0820fd89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5521024b_fdbe927b",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
         "patchSetId": 14
@@ -127,6 +169,24 @@
       "revId": "cf6bee033c02395fbc215586ac30c3b0820fd89c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c257fe59_c3cfe77e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-26T12:39:07Z",
+      "side": 1,
+      "message": "Yes, the API favors simple over optimized. :-)",
+      "parentUuid": "5521024b_fdbe927b",
+      "revId": "cf6bee033c02395fbc215586ac30c3b0820fd89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

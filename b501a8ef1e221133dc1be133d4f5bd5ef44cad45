@@ -16,6 +16,24 @@
       "revId": "b501a8ef1e221133dc1be133d4f5bd5ef44cad45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fed54ef3_5fb8b8c8",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-26T00:33:42Z",
+      "side": 1,
+      "message": "As mentioned in the commit message.  This makes it a bit easier to test local deployments, i.e. using MAVEN_LOCAL.",
+      "parentUuid": "8aced54e_96f6eafa",
+      "revId": "b501a8ef1e221133dc1be133d4f5bd5ef44cad45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

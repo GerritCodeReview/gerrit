@@ -147,17 +147,17 @@ in the SDM debug session.
 
 `codeserver` needs two additional inputs to expose the plugin module in the SDM
 debug session: the module name and the source folder location. For example the
-module name and source folder of `cookbook-plugin` should be added in the local
+module name and source folder of any GWT plugin should be added in the local
 copy of the `gerrit_gwt_debug` configuration:
 
 ----
-  com.googlesource.gerrit.plugins.cookbook.HelloForm \
-  -src ${resource_loc:/gerrit}/plugins/cookbook-plugin/src/main/java \
+  com.googlesource.gerrit.plugins.myplugin.HelloForm \
+  -src ${resource_loc:/gerrit}/plugins/myplugin/src/main/java \
   -- --console-log [...]
 ----
 
 After doing that, both the Gerrit core and plugin GWT modules can be activated
-during SDM (debug session)[http://imgur.com/HFXZ5No].
+during SDM (debug session).
 
 GERRIT
 ------

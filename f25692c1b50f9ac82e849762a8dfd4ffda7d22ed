@@ -87,6 +87,24 @@
       "revId": "f25692c1b50f9ac82e849762a8dfd4ffda7d22ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a77142c4_77c51aac",
+        "filename": "java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-26T10:23:30Z",
+      "side": 1,
+      "message": "Ah, it\u0027s because the test is invoking the command as admin, so it\u0027s entering the \"if (canMaintainServer)\" block and continuing before reaching here.",
+      "parentUuid": "3f6d98b1_99201c32",
+      "revId": "f25692c1b50f9ac82e849762a8dfd4ffda7d22ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

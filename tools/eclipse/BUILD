@@ -43,5 +43,13 @@ classpath_collector(
 
 classpath_collector(
     name = "autovalue_classpath_collect",
-    deps = ["//lib/auto:auto-value"],
+    deps = [
+        "//lib:gson",
+        "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
+        "//lib/auto:auto-value-gson",
+        "//lib/auto:auto-value-gson-runtime",
+        "//lib/auto:java-poet",
+        "//lib/auto:sweers-autotransient",
+    ],
 )

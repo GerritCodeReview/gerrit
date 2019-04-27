@@ -8,10 +8,13 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
+        "//lib:gson",
         "//lib:guava",
         "//lib:protobuf",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/auto:auto-value-gson",
+        "//lib/auto:auto-value-gson-runtime",
         "//proto:entities_java_proto",
     ],
 )

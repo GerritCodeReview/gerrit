@@ -610,6 +610,32 @@ maven_jar(
     sha1 = "c3dad10377f0e2242c9a4b88e9704eaf79103679",
 )
 
+AUTO_VALUE_GSON_VERSION = "1.0.0"
+
+maven_jar(
+    name = "auto-value-gson",
+    artifact = "com.ryanharter.auto.value:auto-value-gson:" + AUTO_VALUE_GSON_VERSION,
+    sha1 = "86ebf4e5612a55b8dd5b60359a88ecafeafce54a",
+)
+
+maven_jar(
+    name = "auto-value-gson-runtime",
+    artifact = "com.ryanharter.auto.value:auto-value-gson-runtime:" + AUTO_VALUE_GSON_VERSION,
+    sha1 = "d7fe9c32348a4b6b2499106c5ad898ca26cb67ed",
+)
+
+maven_jar(
+    name = "java-poet",
+    artifact = "com.squareup:javapoet:1.11.1",
+    sha1 = "210e69f58dfa76c5529a303913b4a30c2bfeb76b",
+)
+
+maven_jar(
+    name = "sweers-autotransient",
+    artifact = "io.sweers.autotransient:autotransient:1.0.0",
+    sha1 = "38b1c630b8e76560221622289f37be40105abb3d",
+)
+
 declare_nongoogle_deps()
 
 LUCENE_VERS = "6.6.5"

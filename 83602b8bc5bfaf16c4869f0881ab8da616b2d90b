@@ -46,6 +46,30 @@
       "revId": "83602b8bc5bfaf16c4869f0881ab8da616b2d90b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4a58251_bc29b3e2",
+        "filename": "javatests/com/google/gerrit/server/events/EventDeserializerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-27T21:08:36Z",
+      "side": 1,
+      "message": "Yes, mine is similar to yours but doesn\u0027t require to change anything in the existing auto-value classes.",
+      "parentUuid": "2663baca_1d720d73",
+      "range": {
+        "startLine": 42,
+        "startChar": 31,
+        "endLine": 42,
+        "endChar": 76
+      },
+      "revId": "83602b8bc5bfaf16c4869f0881ab8da616b2d90b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

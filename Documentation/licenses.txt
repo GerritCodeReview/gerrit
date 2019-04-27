@@ -44,6 +44,10 @@ Apache2.0
 
 * auto:auto-value
 * auto:auto-value-annotations
+* auto:auto-value-gson
+* auto:auto-value-gson-runtime
+* auto:java-poet
+* auto:sweers-autotransient
 * commons:codec
 * commons:compress
 * commons:dbcp

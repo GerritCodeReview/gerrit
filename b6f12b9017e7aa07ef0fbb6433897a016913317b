@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4f5fe2c_0f821840",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-27T23:28:49Z",
+      "side": 1,
+      "message": "This is the library that I was thinking of at the beginning.\nHowever, it is quite intrusive as change because:\n- Requires adding extra dependencies to the Gerrit project\n- Requires changing *all the AutoValue* classes",
+      "range": {
+        "startLine": 615,
+        "startChar": 0,
+        "endLine": 637,
+        "endChar": 1
+      },
+      "revId": "b6f12b9017e7aa07ef0fbb6433897a016913317b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

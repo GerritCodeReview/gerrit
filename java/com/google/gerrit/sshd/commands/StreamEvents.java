@@ -16,18 +16,21 @@ package com.google.gerrit.sshd.commands;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Supplier;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.ChangeKeyAdapter;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventTypes;
-import com.google.gerrit.server.events.ProjectNameKeySerializer;
+import com.google.gerrit.server.events.ProjectNameKeyAdapter;
 import com.google.gerrit.server.events.SupplierSerializer;
 import com.google.gerrit.server.events.UserScopedEventListener;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
@@ -49,7 +52,7 @@ import org.kohsuke.args4j.Option;
 
 @RequiresCapability(GlobalCapability.STREAM_EVENTS)
 @CommandMetaData(name = "stream-events", description = "Monitor events occurring in real time")
-final class StreamEvents extends BaseCommand {
+public final class StreamEvents extends BaseCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Maximum number of events that may be queued up for each connection. */
@@ -166,11 +169,16 @@ final class StreamEvents extends BaseCommand {
               }
             });
 
-    gson =
-        new GsonBuilder()
-            .registerTypeAdapter(Supplier.class, new SupplierSerializer())
-            .registerTypeAdapter(Project.NameKey.class, new ProjectNameKeySerializer())
-            .create();
+    gson = newGson();
+  }
+
+  @VisibleForTesting
+  public static Gson newGson() {
+    return new GsonBuilder()
+        .registerTypeAdapter(Supplier.class, new SupplierSerializer())
+        .registerTypeAdapter(Project.NameKey.class, new ProjectNameKeyAdapter())
+        .registerTypeAdapter(Change.Key.class, new ChangeKeyAdapter())
+        .create();
   }
 
   private void removeEventListenerRegistration() {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "111fbc7d_8893df2b",
+        "filename": "javatests/com/google/gerrit/server/events/EventDeserializerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-27T20:28:38Z",
+      "side": 1,
+      "message": "This isn\u0027t solving the problem but rather applying the workaround in the test.\nIt\u0027s fine, if we agree that we define as the responsibility of the plugin to register all the proper de-serializers for all the internals of all the details of the stream events.\n\nHowever, based on Marco\u0027s comments on the issue, this isn\u0027t really helping the plugins in abstracting from Gerrit\u0027s internal implementation details.",
+      "range": {
+        "startLine": 42,
+        "startChar": 31,
+        "endLine": 42,
+        "endChar": 76
+      },
+      "revId": "83602b8bc5bfaf16c4869f0881ab8da616b2d90b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

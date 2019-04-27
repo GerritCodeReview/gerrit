@@ -15,16 +15,30 @@
 package com.google.gerrit.server.events;
 
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 
-public class ProjectNameKeySerializer implements JsonSerializer<Project.NameKey> {
+public class ProjectNameKeyAdapter
+    implements JsonSerializer<Project.NameKey>, JsonDeserializer<Project.NameKey> {
   @Override
   public JsonElement serialize(
       Project.NameKey project, Type typeOfSrc, JsonSerializationContext context) {
     return new JsonPrimitive(project.get());
+  }
+
+  @Override
+  public Project.NameKey deserialize(
+      JsonElement json, Type typeOfT, JsonDeserializationContext context)
+      throws JsonParseException {
+    if (!json.isJsonPrimitive() || !json.getAsJsonPrimitive().isString()) {
+      throw new JsonParseException("Key is not a string: " + json);
+    }
+    return Project.nameKey(json.getAsString());
   }
 }

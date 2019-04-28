@@ -938,7 +938,7 @@ public class ChangeData {
   }
 
   public List<SubmitRecord> submitRecords(SubmitRuleOptions options) throws OrmException {
-    List<SubmitRecord> records = submitRecords.get(options);
+    List<SubmitRecord> records = getCachedSubmitRecord(options);
     if (records == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
@@ -951,6 +951,20 @@ public class ChangeData {
       submitRecords.put(options, records);
     }
     return records;
+  }
+
+  private List<SubmitRecord> getCachedSubmitRecord(SubmitRuleOptions options) throws OrmException {
+    List<SubmitRecord> records = submitRecords.get(options);
+    if (records != null) {
+      return records;
+    }
+
+    if (change().getStatus().isOpen()) {
+      SubmitRuleOptions openSubmitRuleOptions = options.toBuilder().allowClosed(false).build();
+      return submitRecords.get(openSubmitRuleOptions);
+    }
+
+    return null;
   }
 
   @Nullable

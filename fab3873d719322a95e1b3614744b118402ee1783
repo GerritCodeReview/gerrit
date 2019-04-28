@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62f5c365_169b80e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-28T11:34:58Z",
+      "side": 1,
+      "message": "Best to check also that options.allowClosed() is true",
+      "range": {
+        "startLine": 962,
+        "startChar": 8,
+        "endLine": 962,
+        "endChar": 37
+      },
+      "revId": "fab3873d719322a95e1b3614744b118402ee1783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

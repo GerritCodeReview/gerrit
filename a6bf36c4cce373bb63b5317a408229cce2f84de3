@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1556218804 -0700\nnonce AC6AUtOa8uGSmNytWSxG2ar/WB2Rv9JQO34zevb1aD90rrFBRgdyjnF0v22UMEn5sfn+kxj3eeJ7\n\n0000000000000000000000000000000000000000 447d0be2a3f11191a3b1743b7dc5a3e704971b01 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlzCA7QVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMbxkQAMQXvNKHbwpeFohfkYU+0duWhj/R\n75yfJ65cQIM3zUxiY2hy6AGtEhb6pG1iVtVV7dpVNnZqkqYn/PZDpdQS+KnzluEH\nUau9ojLbBZPHjpwWrWA8/y/xXYtmDKKzOZ5t4ZHq8L/9Y+9vOu2oAF8e2MEBEs6z\n5ojS4gsX4/nC3fCwAUnQMylymHLzeocAYEVOEQ7O4Jicj6JtWhUYHflUIP907Ihf\n9hJ4cWvY/9oZkqEekhoth/rP9STWzjFCbcLjVsokbVJ1bTdYWB188fY7XAHyRpvU\nNOhcObzX4WcGh/2Ej06Xu7rrzotESd9tLyx6Zemvk5YREHeD1MWa5GLJK8lz7Nup\nTtWGn0s+DkAgLIHcIs2hFGFxYMfTxGp9/y/SSgK69LqYmCJ/NYx4wQXrmgJ8oNzd\n6iTR6Y/a9tRKooabKW0JW9IHuQQ9p3vY0HznkVXtlhNTaj39Q8w8UdXzMECu4QSb\ngp9OHppLBC+HV9FsSlPl6/YfQ0rhhoFbwlTcrg3M/rWE+lDqlXUc8emj06FTEixm\n6FMNMOlqMSsFzVUaRHkqkvmBMuw6ZWnP6STRwozuJHZlwzGfQ06TY2p4Gp3nx4rZ\nXFFma7w/WwEsJbGEOba5FduIL/TK2OCc87BQ3a+hiDiHclZ+x8hsZCLWcxfjiCoD\nWuguuYXFYN/BAXi4\n\u003dJv2S\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "19d1008e_8216fa54",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T08:19:00Z",
+      "side": 1,
+      "message": "Needs to be updated to 3e74dbd716f3834f1733c8d5aedec0ce2089d4c6 [1]. The change that corresponds to c803e750fa13c159c6d252033d40c56dbd91dd67 was abandened [2].\n\n[1] https://gerrit-review.googlesource.com/c/plugins/reviewnotes/+/222215\n[2] https://gerrit-review.googlesource.com/c/plugins/reviewnotes/+/222216",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "a6bf36c4cce373bb63b5317a408229cce2f84de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

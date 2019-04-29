@@ -31,7 +31,7 @@ import java.sql.Timestamp;
 import org.junit.Test;
 
 public class EventDeserializerTest extends GerritBaseTests {
-  private final Gson gson = new GsonEventDeserializerProvider().get();
+  private final Gson gson = new EventGsonProvider().get();
 
   @Test
   public void refUpdatedEvent() {

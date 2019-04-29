@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1556566552 -0700\nnonce AC6AUtN36EUruv8mcvyJCAfP4FomxDCmvZlTh5B7i7tbAUnw0DTRCzX6WuSshIJ9dxol+YKj5D5s\n\n0000000000000000000000000000000000000000 40b93023eaff9bce9567612bda7dbc30178a43f6 refs/for/master%t\u003devent-json-tests,r\u003ddavid.ostrovsky,r\u003dluca.milanesio\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlzHUhgVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMZLQP/1yOnP7Uk0SSAQNPaRVGcEP9AlKm\nwSNXxxuH9mSXEPiCvQeHWt6+nWWnHo/7xaPriB87XJ8UdSpUHaZs+FVdOHsU5KEx\nvDy1WopoEw3Spa5rgk8XnhL1NrD1Tyju2zqU+9J39cAvxg5/CtAPjbdPwI2Jo22H\nimQRihiwEumuJvBqN2MQINw9zm5enxaKTBGESMEifoVr1iu9LMLFBSDArqRQSPpY\nzJecWf1uNJwCtCGeiQl1R/gc8rsavqAH/bXa2QLki8N6aPd7pUwOP+uneLA6skMA\n/vsYSWhAcfUqPK8zKgpmNT91LiDK0BksVZatXGzIh1s+2a1/iQ6iV73eHaC53wmo\nSH/RDp38BjiDzIvSIMHA9hcEm4giSptKErTJCGnc4fQYFP4RqQPlItu+XZBC80p7\ncG4SBIdGvWK8+Z07iTyXknTUYWvDdT45shFw/p731tI1AFd0iH/l/56oPwy9Z9Mc\ns2h308zA5/3MQZuhXLVlo8aDMtUxkh67vsRH775cPayu84xDXm7iFhLazfpDA5Cx\nx6c8x/s8JhqrO+R+ezB6PnjTsVztnlgj/jYf+izfycNIdSkfsEEpDTf11Ubntml+\nFrnBFwnwFPggNthb36/Ny3c3z0g5pWQnwvWczbuQ0QHCistOjzIwh3BkRdBVPI7o\nHZkn3wQNpl/L0Q1o\n\u003dvlwv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "06b124cc_e9fe8783",
+        "filename": "java/com/google/gerrit/server/events/AutoValueAdapterFactory.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-29T19:52:02Z",
+      "side": 1,
+      "message": "This sounds like a hack to me. I am not aware of any other code path, where catching of CNFE considered to be a regular code path. At very least this could benefit from a TODO: Find a better/right way to do it.",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 5
+      },
+      "revId": "c4104954f51cab8677ab515f9388a2b200929734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

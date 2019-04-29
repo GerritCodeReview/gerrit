@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
-import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.truth.ListSubject.elements;
 
 import com.google.common.truth.FailureMetadata;
@@ -29,9 +28,7 @@ public class RobotCommentInfoSubject extends Subject<RobotCommentInfoSubject, Ro
 
   public static ListSubject<RobotCommentInfoSubject, RobotCommentInfo> assertThatList(
       List<RobotCommentInfo> robotCommentInfos) {
-    return assertWithMessage("robotCommentInfos")
-        .about(elements())
-        .thatCustom(robotCommentInfos, robotComments());
+    return ListSubject.assertThat(robotCommentInfos, robotComments());
   }
 
   public static RobotCommentInfoSubject assertThat(RobotCommentInfo robotCommentInfo) {

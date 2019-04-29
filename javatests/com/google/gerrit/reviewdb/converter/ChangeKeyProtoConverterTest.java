@@ -63,6 +63,6 @@ public class ChangeKeyProtoConverterTest {
   @Test
   public void methodsExistAsExpected() {
     assertThatSerializedClass(Change.Key.class)
-        .hasAutoValueMethods(ImmutableMap.of("key", String.class));
+        .hasAutoValueMethods(ImmutableMap.of("id", String.class));
   }
 }

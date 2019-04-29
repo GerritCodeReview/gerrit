@@ -16,27 +16,22 @@ package com.google.gerrit.sshd.commands;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Supplier;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.events.EventGson;
 import com.google.gerrit.server.events.EventTypes;
-import com.google.gerrit.server.events.ProjectNameKeySerializer;
-import com.google.gerrit.server.events.SupplierSerializer;
 import com.google.gerrit.server.events.UserScopedEventListener;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.StreamCommandExecutor;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -72,10 +67,10 @@ public final class StreamEvents extends BaseCommand {
 
   @Inject @StreamCommandExecutor private ScheduledThreadPoolExecutor pool;
 
+  @Inject @EventGson private Gson gson;
+
   /** Queue of events to stream to the connected user. */
   private final LinkedBlockingQueue<Event> queue = new LinkedBlockingQueue<>(MAX_EVENTS);
-
-  private Gson gson;
 
   private RegistrationHandle eventListenerRegistration;
 
@@ -166,16 +161,6 @@ public final class StreamEvents extends BaseCommand {
                 return currentUser;
               }
             });
-
-    gson = newGson();
-  }
-
-  @VisibleForTesting
-  public static Gson newGson() {
-    return new GsonBuilder()
-        .registerTypeAdapter(Supplier.class, new SupplierSerializer())
-        .registerTypeAdapter(Project.NameKey.class, new ProjectNameKeySerializer())
-        .create();
   }
 
   private void removeEventListenerRegistration() {

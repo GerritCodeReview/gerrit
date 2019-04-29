@@ -96,6 +96,46 @@
       "revId": "b990d30aa27f4e2f044121838578439dd9a40ac2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffc8ebef_e6aceb21",
+        "filename": "javatests/com/google/gerrit/server/events/EventDeserializerTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-29T15:49:30Z",
+      "side": 1,
+      "message": "Definitely should be private. Can also be final.",
+      "revId": "b990d30aa27f4e2f044121838578439dd9a40ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f9e74b7_5b1e4432",
+        "filename": "javatests/com/google/gerrit/server/events/EventDeserializerTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-29T15:49:30Z",
+      "side": 1,
+      "message": "You\u0027re using the same hard-coded ID for all changes; any reason not to just use the same hard-coded Change-Id as well, and drop this parameter?",
+      "range": {
+        "startLine": 253,
+        "startChar": 34,
+        "endLine": 253,
+        "endChar": 43
+      },
+      "revId": "b990d30aa27f4e2f044121838578439dd9a40ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

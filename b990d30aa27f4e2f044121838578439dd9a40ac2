@@ -76,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "433b09be_3b4df5c1",
+        "filename": "java/com/google/gerrit/server/events/GsonEventDeserializer.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-29T16:33:38Z",
+      "side": 1,
+      "message": "Nevermind, it\u0027s in EventBroker.java",
+      "parentUuid": "8c6662d3_b3cc9390",
+      "revId": "b990d30aa27f4e2f044121838578439dd9a40ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dd45d17_180238d9",
         "filename": "java/com/google/gerrit/server/events/GsonEventDeserializerProvider.java",
         "patchSetId": 17

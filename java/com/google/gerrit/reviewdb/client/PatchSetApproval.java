@@ -75,7 +75,7 @@ public final class PatchSetApproval {
     setGranted(ts);
   }
 
-  public PatchSetApproval(PatchSet.Id psId, PatchSetApproval src) {
+  private PatchSetApproval(PatchSet.Id psId, PatchSetApproval src) {
     key = key(psId, src.getAccountId(), src.getLabelId());
     value = src.getValue();
     granted = src.granted;
@@ -84,8 +84,12 @@ public final class PatchSetApproval {
     postSubmit = src.postSubmit;
   }
 
-  public PatchSetApproval(PatchSetApproval src) {
-    this(src.getPatchSetId(), src);
+  public PatchSetApproval copyWithPatchSet(PatchSet.Id psId) {
+    return new PatchSetApproval(psId, this);
+  }
+
+  public PatchSetApproval copy() {
+    return copyWithPatchSet(getPatchSetId());
   }
 
   public PatchSetApproval.Key getKey() {

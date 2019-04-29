@@ -103,7 +103,7 @@ public class LabelNormalizer {
         deleted.add(psa);
         continue;
       }
-      PatchSetApproval copy = copy(psa);
+      PatchSetApproval copy = psa.copy();
       applyTypeFloor(label, copy);
       if (copy.getValue() != psa.getValue()) {
         updated.add(copy);
@@ -112,10 +112,6 @@ public class LabelNormalizer {
       }
     }
     return Result.create(unchanged, updated, deleted);
-  }
-
-  private PatchSetApproval copy(PatchSetApproval src) {
-    return new PatchSetApproval(src.getPatchSetId(), src);
   }
 
   private void applyTypeFloor(LabelType lt, PatchSetApproval a) {

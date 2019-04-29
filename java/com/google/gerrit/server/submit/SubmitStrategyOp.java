@@ -20,7 +20,6 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.base.Function;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
@@ -334,7 +333,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // approvals as well.
     if (!newPsId.equals(oldPsId)) {
       saveApprovals(normalized, newPsUpdate, true);
-      submitter = convertPatchSet(newPsId).apply(submitter);
+      submitter = submitter.copyWithPatchSet(newPsId);
     }
   }
 
@@ -381,16 +380,6 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());
       }
     }
-  }
-
-  private static Function<PatchSetApproval, PatchSetApproval> convertPatchSet(
-      final PatchSet.Id psId) {
-    return psa -> {
-      if (psa.getPatchSetId().equals(psId)) {
-        return psa;
-      }
-      return new PatchSetApproval(psId, psa);
-    };
   }
 
   private String getByAccountName() {

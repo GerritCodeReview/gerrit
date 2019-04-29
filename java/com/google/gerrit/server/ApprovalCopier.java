@@ -140,7 +140,7 @@ public class ApprovalCopier {
             wontCopy.put(psa.getLabel(), psa.getAccountId(), psa);
             continue;
           }
-          byUser.put(psa.getLabel(), psa.getAccountId(), copy(psa, ps.id()));
+          byUser.put(psa.getLabel(), psa.getAccountId(), psa.copyWithPatchSet(ps.id()));
         }
       }
       return labelNormalizer.normalize(notes, byUser.values()).getNormalized();
@@ -185,12 +185,5 @@ public class ApprovalCopier {
       default:
         return false;
     }
-  }
-
-  private static PatchSetApproval copy(PatchSetApproval src, PatchSet.Id psId) {
-    if (src.getKey().patchSetId().equals(psId)) {
-      return src;
-    }
-    return new PatchSetApproval(psId, src);
   }
 }

@@ -193,7 +193,7 @@ public class LabelNormalizerTest {
   }
 
   private PatchSetApproval copy(PatchSetApproval src, int newValue) {
-    PatchSetApproval result = new PatchSetApproval(src.getKey().patchSetId(), src);
+    PatchSetApproval result = src.copy();
     result.setValue((short) newValue);
     return result;
   }

@@ -341,7 +341,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       ImmutableListMultimap.Builder<PatchSet.Id, PatchSetApproval> b =
           ImmutableListMultimap.builder();
       for (Map.Entry<PatchSet.Id, PatchSetApproval> e : state.approvals()) {
-        b.put(e.getKey(), new PatchSetApproval(e.getValue()));
+        b.put(e.getKey(), e.getValue().copy());
       }
       approvals = b.build();
     }

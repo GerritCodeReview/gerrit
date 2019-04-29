@@ -392,6 +392,24 @@
     },
     {
       "key": {
+        "uuid": "cddfbc27_66a96743",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-29T09:13:34Z",
+      "side": 1,
+      "message": "\u003e \u003e When I asked Shawn back in Sep 2017 for his support to become a maintainer, he gave me this definition: \"A maintainer is a contributor with history of deep technical contributions across different parts of the core Gerrit codebase. Gerrit project has grown and changed a lot in the past 1-2 years, and it has become clear that, with a larger project, not every maintainer needs to be an expert on everything.\"\n\u003e \n\u003e That seems to me like a fair definition of what should be considered before a maintainer is nominated and accepted. We could probably add it to this document. But that\u0027s it, it only speaks of what you need to accomplish before being considered for the maintainer role.\n\n+1 and that is what has been so far and should be included.\n\n\u003e \u003e He did not mention the expectations you raised and,\n\u003e \n\u003e I would like to point out two things about this statement:\n\u003e 1. In the quote above he does not mention *anything* about what is expected of you once you become a maintainer.\n\nYes, I was not told what was expected from me. However, I self-empowered myself to do what I believe was appropriate for my role and for the Gerrit Community.\n\n\u003e 2. Although I agree with the expectations outlined below, it was actually Edwin that \"raised\" them in this document.\n\nSure, Edwin raised for discussion and this what we are doing here and we\u0027ll be progressing face-to-face in 2 weeks\u0027 time :-)\n\n\u003e \u003e before the introduction of the https://analytics.gerrithub.io, I believe nobody really counted the contributions of maintainers.\n\u003e \n\u003e I don\u0027t see what point you are trying to make here.\n\u003e I haven\u0027t suggested, and neither would I ever suggest, that we should start tracking maintainers to make sure they follow the expectations outlined below.\n\u003e Even if we did, these metrics have only a peripheral correlation with two of the four tasks in the list.\n\nI am not trying to make any point, just saying that at the moment we do not count or expects contributions in volumes from maintainers and we shouldn\u0027t until we have decided to do so. That\u0027s why I recommend removing that part, at least from now until we have re-discussed the roles and responsibilities in 2 weeks\u0027 time.\n\n\u003e In an effort to clarify my position further:\n\u003e I regard this document as *guidelines* not *rules*.\n\u003e \n\u003e \u003e I believe we should stick for now to what was Shawn\u0027s definition of a maintainer and, once we have defined a new role and shared and agreed on an understanding of the responsibilities and expectations, we can ask the current maintainers if they are willing to take them on board and continue to be a maintainer of this project.\n\u003e \n\u003e What new role?\n\u003e \n\u003e As I pointed out above the quote above says nothing about \"responsibilities and expectations\" of those who have already become maintainers, so this would amount to no expectations and no responsibilities.\n\nI do not believe it is fair to expect more than what Shawn meant as maintainer for now. We can, of course, rediscuss together, which is only in two weeks\u0027 time, and add more expectations from now on.\n\n\u003e Does this mean that you also disapprove of the section above this section where it says \"Maintainers should only approve changes that:\"? Those are the only responsibilities outlined in this document and they\n\u003e \n\u003e Have I understood you correctly if I say that; you regard being a maintainer more of a badge-of-honor than a role with expectations?\n\nShawn\u0027s statement had expectations of what a maintainer *should be* in terms of competence and expertise, and that should stay IMHO. Anything extra should be discussed together with the rest of the maintainers.\n\n\u003e Or would you agree that new maintainers are nominated and accepted with the expectation that they leverage their \"deep technical [knowledge] across different parts of the core Gerrit codebase\" to the benefit of the community by engaging in the tasks outlined below?\n\n+1 *without expectations* for now on the number of contributions and the time dedicated to them.",
+      "parentUuid": "2af84c8d_ccdf6976",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c4687e9_99bb9211",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11

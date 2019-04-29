@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8c570882_66f12475",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-29T20:20:03Z",
+      "side": 1,
+      "message": "I agree that there are various approaches to solving this, and maybe the proposed algorithm is not the ultimate solution. However, it is still simple, implemented and tested. And I cannot see serious concerns: Can you be more specific about what the assumptions that are made that might break? Why is a single layer better?\n\nI had considered the map approach. I think I was worried about the maps getting quite large and the memory consumption associated with that. If you have a COVERED range from line 100-199, then would you create 100 map entries for that? Even if the answer is yes, I guess we could afford the memory (with no map entry meaning NOT INSTRUMENTED). OTOH it will be slightly less robust against huge file issues.\n\nAnyway, I don\u0027t have the one hour that it takes to rewrite this at the moment. :-( Feel free to jump in and write a follow-up change.",
+      "parentUuid": "8809224d_593ebc59",
+      "range": {
+        "startLine": 66,
+        "startChar": 70,
+        "endLine": 66,
+        "endChar": 76
+      },
+      "revId": "147682df4720b9baf230159b404a0e920831cdf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74a7b254_427bc232",
         "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "22bd24e6_29bcf8fc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-29T20:20:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74a7b254_427bc232",
+      "range": {
+        "startLine": 86,
+        "startChar": 38,
+        "endLine": 86,
+        "endChar": 44
+      },
+      "revId": "147682df4720b9baf230159b404a0e920831cdf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b054d132_fb7ea1c2",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
         "patchSetId": 11
@@ -68,6 +116,30 @@
       "revId": "147682df4720b9baf230159b404a0e920831cdf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a365f27f_3e38a66c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-29T20:20:03Z",
+      "side": 1,
+      "message": "Good point! :-)",
+      "parentUuid": "b054d132_fb7ea1c2",
+      "range": {
+        "startLine": 40,
+        "startChar": 8,
+        "endLine": 40,
+        "endChar": 26
+      },
+      "revId": "147682df4720b9baf230159b404a0e920831cdf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,4 +25,4 @@ import java.lang.annotation.Target;
 @BindingAnnotation
 @Retention(RUNTIME)
 @Target({PARAMETER, FIELD})
-public @interface GsonEventDeserializer {}
+public @interface EventGson {}

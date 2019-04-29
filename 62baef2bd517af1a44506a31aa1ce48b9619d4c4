@@ -446,6 +446,24 @@
     },
     {
       "key": {
+        "uuid": "9c6fe047_ca28c3a5",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-04-29T10:53:07Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e \u003e Or would you agree that new maintainers are nominated and accepted with the expectation that they leverage their \"deep technical [knowledge] across different parts of the core Gerrit codebase\" to the benefit of the community by engaging in the tasks outlined below?\n\u003e \u003e \u003e \n\u003e \u003e \u003e +1 *without expectations* for now on the number of contributions and the time dedicated to them.\n\u003e \u003e \n\u003e \u003e Good, then we have been in agreement all along!\n\u003e \u003e \n\u003e \u003e     Maintainers are expected to dedicate some of their time to:\n\u003e \u003e \n\u003e \u003e Is what we have been debating, and expectations on number-of-contribution or time-dedicated are not quantified in that statement.\n\u003e \n\u003e The \"are expected\" is the sticking point: if you read the statement it is saying \"If you are maintainer we expect you to dedicate time for all of these activities\".\n\nNo, it\u0027s actually saying:\n\n     Maintainers are expected to dedicate some of their time to [these activities].\n\n\u003e \n\u003e If we amend the statement to:\n\u003e \n\u003e   Maintainers may dedicate some of their time to:\n\nThen it is no longer a statement. You could for instance add \"picking daffodils\" and \"study geology\" to the list below without it being less accurate.\n\n\u003e \n\u003e Then it reflects IMHO the current status: no specific expectations but only a list of duties on a voluntary basis, that is exactly that is happening today.\n\n1. But there are expectations, you conceded to that above,they were previously implicit and writing them down makes them explicit.\n   \"However, I self-empowered myself to do what I believe was appropriate for my role and for the Gerrit Community.\"\n   Would you at least agree that what you believed to be appropriate was to \"Dedicate some of your time\" to, among other things, what is outlined below? You are at least acting out that expectation right now.\n\n2. \"duties on a voluntary basis\" is a contradiction. If they are on a voluntary basis they are not duties. I believe the word \"duty\" has no place in this document, the responsibilities outlined in lines 124-134 is sufficient IMO.\n\n3. What is happening today is that there are expectations, so in that sense the document is describing the current situation accurately in it\u0027s current form.\n\nMy final note here will be that if the maintainers agree that, as a maintainer, you shouldn\u0027t be expected to do anything then I would suggest to just remove this whole section 140 - 146.",
+      "parentUuid": "2cfb3032_ef1fa2a6",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c4687e9_99bb9211",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11

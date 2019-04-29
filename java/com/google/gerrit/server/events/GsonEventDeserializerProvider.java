@@ -32,18 +32,8 @@ public class GsonEventDeserializerProvider implements Provider<Gson> {
         .registerTypeAdapter(Event.class, new EventDeserializer())
         .registerTypeAdapter(Supplier.class, new SupplierSerializer())
         .registerTypeAdapter(Supplier.class, new SupplierDeserializer())
-        .registerTypeAdapterFactory(new AutoValueAdapterFactory())
         .registerTypeAdapter(Project.NameKey.class, new ProjectNameKeySerializer())
+        .registerTypeAdapterFactory(new AutoValueAdapterFactory())
         .create();
-  }
-
-  private static class ProjectNameKeySerializer implements JsonSerializer<Project.NameKey> {
-    @Override
-    public JsonElement serialize(
-        Project.NameKey src, Type typeOfSrc, JsonSerializationContext context) {
-      JsonObject jsonObject = new JsonObject();
-      jsonObject.addProperty("name", src.get());
-      return jsonObject;
-    }
   }
 }

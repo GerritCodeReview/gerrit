@@ -94,7 +94,7 @@ public class EventJsonTest extends GerritBaseTests {
                 .put("status", "NEW")
                 .build(),
             "project",
-            ImmutableMap.of("name", "myproject"),
+            "myproject",
             "refName",
             "refs/heads/mybranch",
             "changeKey",
@@ -138,7 +138,7 @@ public class EventJsonTest extends GerritBaseTests {
                 .put("status", "NEW")
                 .build(),
             "project",
-            ImmutableMap.of("name", "myproject"),
+            "myproject",
             "refName",
             "refs/heads/mybranch",
             "changeKey",
@@ -173,7 +173,7 @@ public class EventJsonTest extends GerritBaseTests {
                 .put("status", "NEW")
                 .build(),
             "project",
-            ImmutableMap.of("name", "myproject"),
+            "myproject",
             "refName",
             "refs/heads/mybranch",
             "changeKey",
@@ -217,7 +217,7 @@ public class EventJsonTest extends GerritBaseTests {
                 .put("status", "NEW")
                 .build(),
             "project",
-            ImmutableMap.of("name", "myproject"),
+            "myproject",
             "refName",
             "refs/heads/mybranch",
             "changeKey",
@@ -255,7 +255,7 @@ public class EventJsonTest extends GerritBaseTests {
                 .put("status", "NEW")
                 .build(),
             "project",
-            ImmutableMap.of("name", "myproject"),
+            "myproject",
             "refName",
             "refs/heads/mybranch",
             "changeKey",
@@ -286,7 +286,7 @@ public class EventJsonTest extends GerritBaseTests {
                 .put("status", "NEW")
                 .build(),
             "project",
-            ImmutableMap.of("name", "myproject"),
+            "myproject",
             "refName",
             "refs/heads/mybranch",
             "changeKey",
@@ -317,7 +317,7 @@ public class EventJsonTest extends GerritBaseTests {
                 .put("status", "NEW")
                 .build(),
             "project",
-            ImmutableMap.of("name", "myproject"),
+            "myproject",
             "refName",
             "refs/heads/mybranch",
             "changeKey",
@@ -348,7 +348,7 @@ public class EventJsonTest extends GerritBaseTests {
                 .put("status", "NEW")
                 .build(),
             "project",
-            ImmutableMap.of("name", "myproject"),
+            "myproject",
             "refName",
             "refs/heads/mybranch",
             "changeKey",
@@ -379,7 +379,7 @@ public class EventJsonTest extends GerritBaseTests {
                 .put("status", "NEW")
                 .build(),
             "project",
-            ImmutableMap.of("name", "myproject"),
+            "myproject",
             "refName",
             "refs/heads/mybranch",
             "changeKey",
@@ -410,7 +410,7 @@ public class EventJsonTest extends GerritBaseTests {
                 .put("status", "NEW")
                 .build(),
             "project",
-            ImmutableMap.of("name", "myproject"),
+            "myproject",
             "refName",
             "refs/heads/mybranch",
             "changeKey",
@@ -441,7 +441,7 @@ public class EventJsonTest extends GerritBaseTests {
                 .put("status", "NEW")
                 .build(),
             "project",
-            ImmutableMap.of("name", "myproject"),
+            "myproject",
             "refName",
             "refs/heads/mybranch",
             "changeKey",
@@ -472,7 +472,7 @@ public class EventJsonTest extends GerritBaseTests {
                 .put("status", "NEW")
                 .build(),
             "project",
-            ImmutableMap.of("name", "myproject"),
+            "myproject",
             "refName",
             "refs/heads/mybranch",
             "changeKey",
@@ -503,7 +503,7 @@ public class EventJsonTest extends GerritBaseTests {
                 .put("status", "NEW")
                 .build(),
             "project",
-            ImmutableMap.of("name", "myproject"),
+            "myproject",
             "refName",
             "refs/heads/mybranch",
             "changeKey",
@@ -534,7 +534,7 @@ public class EventJsonTest extends GerritBaseTests {
                 .put("status", "NEW")
                 .build(),
             "project",
-            ImmutableMap.of("name", "myproject"),
+            "myproject",
             "refName",
             "refs/heads/mybranch",
             "changeKey",

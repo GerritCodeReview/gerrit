@@ -28,6 +28,11 @@ API, as well as with the commit SHA-1 (at least the 7 first characters).
 -p::
 	Name of the project the intended change is contained within.  This
 	option must be supplied before Change-Id in order to take effect.
+	The specified project must be active and the current user authorized
+	to access it and set reviewers to its changes.
+	
+	When omitted, the impacted changes can be from different projects and
+	the current user needs to be authorized to set reviewers to them.
 
 --add::
 -a::

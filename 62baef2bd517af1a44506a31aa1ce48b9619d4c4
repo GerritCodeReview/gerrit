@@ -794,6 +794,24 @@
     },
     {
       "key": {
+        "uuid": "494ce1c6_33d989a4",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-04-29T18:11:53Z",
+      "side": 1,
+      "message": "\u003e I\u0027m also thinking of a potentially ever (or so) growing list of maintainers, which is likely not scaling in the longer run.\n\nI always have seen having more maintainers as a way to scale better. Have we had any scaling issues with having too many maintainers, or are you anticipating that we might at some point? If so, in what way?",
+      "parentUuid": "03bb1fd1_eac6f4a1",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c4687e9_99bb9211",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11

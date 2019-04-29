@@ -830,6 +830,24 @@
     },
     {
       "key": {
+        "uuid": "3d89b972_10864dc2",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-29T20:07:40Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e I\u0027m also thinking of a potentially ever (or so) growing list of maintainers, which is likely not scaling in the longer run.\n\u003e \u003e \n\u003e \u003e I always have seen having more maintainers as a way to scale better. Have we had any scaling issues with having too many maintainers, or are you anticipating that we might at some point? If so, in what way?\n\u003e \n\u003e No, not really. At least not as we speak. My comment was more in that context of active vs. inactive (possibly temporarily). Also, how to make the role clear enough with respect to that, to manage expectations towards that role -across.\n\u003e \n\u003e Growing that list (of maintainers) so far showed to be beneficial indeed. More hands to share the maintenance work. More heads to bounce ideas thus decide best.\n\n+1 with Marco and Martin, having more maintainers helps to keep the house cleaner and tidy. More people that care about the code, more people writing tests, adjusting the documentation, the packaging and the release of Gerrit.\n\n\u003e The more the merrier, however consensus is not harder to get than before with a smaller list, it seems to me; I\u0027m just a recently nominated maintainer though.\n\nI believe Han-Wen will have a good proposal for keeping consensus with an increasing number of contributors and maintainers and moving more quickly.",
+      "parentUuid": "81e34c69_64c30506",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c4687e9_99bb9211",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11

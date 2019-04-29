@@ -41,6 +41,7 @@ import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.server.LibModuleLoader;
+import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.AccountDeactivator;
@@ -263,7 +264,8 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
       modules.add(new GerritServerConfigModule());
     }
     modules.add(new DropWizardMetricMaker.ApiModule());
-    return Guice.createInjector(PRODUCTION, modules);
+    return Guice.createInjector(
+        PRODUCTION, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE));
   }
 
   private Injector createCfgInjector() {
@@ -336,7 +338,8 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new AccountDeactivator.Module());
     modules.add(new DefaultProjectNameLockManager.Module());
     return cfgInjector.createChildInjector(
-        ModuleOverloader.override(modules, LibModuleLoader.loadModules(cfgInjector)));
+        ModuleOverloader.override(
+            modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.SYS_MODULE)));
   }
 
   private Module createIndexModule() {

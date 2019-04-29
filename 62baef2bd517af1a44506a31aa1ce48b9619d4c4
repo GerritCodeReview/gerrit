@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6959e10b_25492c3b",
+        "filename": "Documentation/dev-community.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-29T17:06:54Z",
+      "side": 1,
+      "message": "\u003e This is a left-over from a previous patch set, when there was a separate role for User, and should be removed. This role was merged into the Supporters role now (see discussion at [1]). I prefer this, because the separation between all roles is pretty clear now, as pointed out by Sven in [1]. Though I\u0027m fine with re-adding the User role if there is consensus that this is better.\n\u003e \n\u003e [1] https://gerrit-review.googlesource.com/c/gerrit/+/222153/9..10/Documentation/dev-roles.txt\n\nAck. I missed that discussion. Yes I agree with merging these. Because this doc is pretty much about active (or explicit enough) roles. -Which a Supporter is, but maybe not all Users of Gerrit.",
+      "parentUuid": "b6c0f9f0_34620450",
+      "range": {
+        "startLine": 24,
+        "startChar": 3,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "67553a8b_c1017bb0",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11
@@ -864,6 +888,24 @@
       "side": 1,
       "message": "\u003e can you explain\n\u003e\n\u003e * why is this rule in place ?\n\u003e * what are the rules for accepting/rejecting dependencies by Google maintainers ?\n\nI added this info in the \u0027Upgrading Libraries\u0027 section which is linked from here. I cannot add too many details though (e.g. the list of compliant licenses is maintained by our lawyers and I cannot copy it into the Gerrit documentation).\n\n\u003e +1, and I\u0027d also add this question: should we consider other organizations also potentially\n\u003e in need of co-vetoing on LC, say, if they have constraints such as Google\u0027s? -Now maybe this\n\u003e is a controversial topic for a follow-up and not this change review. Ericsson is not urgently\n\u003e pushing for this now, I mean...\n\nThat\u0027s a valid question. So far this was only an issue for Google, hence the current process doesn\u0027t foresee anyone else to veto. If this becomes an issue for other companies too, we should have a dedicated discussion about this on the mailing list. I don\u0027t think that the current library compliance process would scale well for this, and coming up with something better is probably not easy.\n\n\u003e What I have in mind too is the timely scoring of LC votes, which sometimes take a longer time\n\u003e given Googlers\u0027 genuine constraints on how much time they need to properly vote.\n\nYes, we are aware that this is a problem and we are working further on easing the pain here. E.g. Hanwen just made a change to remove the compliance label for upgrades of libraries which are not used at Google [1]. We have a daily rotation to look at changes which need library compliance, but if there is a version mismatch with what is used within Google, we need to upgrade all of Google to the new library version first, which is often not trivial. It\u0027s also a lot of work, which is why we are hesitant to do it if there is no obvious value in upgrading the library. We are happy to discuss the library upgrade process further, but I see this as unrelated to this change and our proposal for better project governance.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/221093",
       "parentUuid": "a1d61841_e826c96a",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c3125eb_34206143",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-04-29T17:06:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1b8fbe53_67816e40",
       "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -41,7 +41,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
@@ -128,11 +127,7 @@ public class ApprovalCopier {
 
         ChangeKind kind =
             changeKindCache.getChangeKind(
-                project.getNameKey(),
-                rw,
-                repoConfig,
-                ObjectId.fromString(priorPs.getRevision().get()),
-                ObjectId.fromString(ps.getRevision().get()));
+                project.getNameKey(), rw, repoConfig, priorPs.getCommitId(), ps.getCommitId());
 
         for (PatchSetApproval psa : priorApprovals) {
           if (wontCopy.contains(psa.getLabel(), psa.getAccountId())) {

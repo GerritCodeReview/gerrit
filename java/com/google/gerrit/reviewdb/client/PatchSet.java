@@ -15,6 +15,7 @@
 package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import org.eclipse.jgit.lib.ObjectId;
 
 /** A single revision of a {@link Change}. */
 public final class PatchSet {
@@ -156,7 +158,7 @@ public final class PatchSet {
 
   protected Id id;
 
-  @Nullable protected RevId revision;
+  protected ObjectId commitId;
 
   protected Account.Id uploader;
 
@@ -187,15 +189,14 @@ public final class PatchSet {
    */
   @Nullable protected String description;
 
-  protected PatchSet() {}
-
-  public PatchSet(PatchSet.Id k) {
-    id = k;
+  public PatchSet(PatchSet.Id id, ObjectId commitId) {
+    this.id = requireNonNull(id);
+    this.commitId = commitId.copy();
   }
 
   public PatchSet(PatchSet src) {
     this.id = src.id;
-    this.revision = src.revision;
+    this.commitId = src.commitId;
     this.uploader = src.uploader;
     this.createdOn = src.createdOn;
     this.groups = src.groups;
@@ -211,12 +212,15 @@ public final class PatchSet {
     return id.get();
   }
 
-  public RevId getRevision() {
-    return revision;
-  }
-
-  public void setRevision(RevId i) {
-    revision = i;
+  /**
+   * Get the ID of the commit associated with this patch set.
+   *
+   * <p>The commit associated with a patch set is also known as the <strong>revision</strong>.
+   *
+   * @return the commit ID, never null.
+   */
+  public ObjectId getCommitId() {
+    return commitId;
   }
 
   public Account.Id getUploader() {
@@ -276,7 +280,7 @@ public final class PatchSet {
     }
     PatchSet p = (PatchSet) o;
     return Objects.equals(id, p.id)
-        && Objects.equals(revision, p.revision)
+        && Objects.equals(commitId, p.commitId)
         && Objects.equals(uploader, p.uploader)
         && Objects.equals(createdOn, p.createdOn)
         && Objects.equals(groups, p.groups)
@@ -286,7 +290,7 @@ public final class PatchSet {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, revision, uploader, createdOn, groups, pushCertificate, description);
+    return Objects.hash(id, commitId, uploader, createdOn, groups, pushCertificate, description);
   }
 
   @Override

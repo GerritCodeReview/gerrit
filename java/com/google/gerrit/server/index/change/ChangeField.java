@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.index.FieldDef.exact;
 import static com.google.gerrit.index.FieldDef.fullText;
 import static com.google.gerrit.index.FieldDef.intRange;
@@ -51,7 +52,6 @@ import com.google.gerrit.proto.Protos;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -450,14 +450,8 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMIT =
       exact(ChangeQueryBuilder.FIELD_EXACTCOMMIT).buildRepeatable(ChangeField::getRevisions);
 
-  private static Set<String> getRevisions(ChangeData cd) {
-    Set<String> revisions = new HashSet<>();
-    for (PatchSet ps : cd.patchSets()) {
-      if (ps.getRevision() != null) {
-        revisions.add(ps.getRevision().get());
-      }
-    }
-    return revisions;
+  private static ImmutableSet<String> getRevisions(ChangeData cd) {
+    return cd.patchSets().stream().map(ps -> ps.getCommitId().name()).collect(toImmutableSet());
   }
 
   /** Tracking id extracted from a footer. */

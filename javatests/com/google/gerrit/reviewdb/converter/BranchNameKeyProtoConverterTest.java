@@ -21,7 +21,7 @@ import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatS
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.protobuf.Parser;
 import java.lang.reflect.Type;
@@ -33,7 +33,7 @@ public class BranchNameKeyProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    Branch.NameKey nameKey = Branch.nameKey(Project.nameKey("project-13"), "branch-72");
+    BranchNameKey nameKey = BranchNameKey.create(Project.nameKey("project-13"), "branch-72");
 
     Entities.Branch_NameKey proto = branchNameKeyProtoConverter.toProto(nameKey);
 
@@ -47,9 +47,9 @@ public class BranchNameKeyProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    Branch.NameKey nameKey = Branch.nameKey(Project.nameKey("project-52"), "branch 14");
+    BranchNameKey nameKey = BranchNameKey.create(Project.nameKey("project-52"), "branch 14");
 
-    Branch.NameKey convertedNameKey =
+    BranchNameKey convertedNameKey =
         branchNameKeyProtoConverter.fromProto(branchNameKeyProtoConverter.toProto(nameKey));
 
     assertThat(convertedNameKey).isEqualTo(nameKey);
@@ -73,7 +73,7 @@ public class BranchNameKeyProtoConverterTest {
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
   public void methodsExistAsExpected() {
-    assertThatSerializedClass(Branch.NameKey.class)
+    assertThatSerializedClass(BranchNameKey.class)
         .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
                 .put("project", Project.NameKey.class)

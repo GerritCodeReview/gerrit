@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.util.git;
 
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import java.net.URI;
@@ -45,10 +45,10 @@ public class SubmoduleSectionParser {
 
   private final Config config;
   private final String canonicalWebUrl;
-  private final Branch.NameKey superProjectBranch;
+  private final BranchNameKey superProjectBranch;
 
   public SubmoduleSectionParser(
-      Config config, String canonicalWebUrl, Branch.NameKey superProjectBranch) {
+      Config config, String canonicalWebUrl, BranchNameKey superProjectBranch) {
     this.config = config;
     this.canonicalWebUrl = canonicalWebUrl;
     this.superProjectBranch = superProjectBranch;
@@ -135,7 +135,7 @@ public class SubmoduleSectionParser {
         }
         Project.NameKey projectKey = Project.nameKey(project);
         return new SubmoduleSubscription(
-            superProjectBranch, Branch.nameKey(projectKey, branch), path);
+            superProjectBranch, BranchNameKey.create(projectKey, branch), path);
       }
     } catch (URISyntaxException e) {
       // Error in url syntax (in fact it is uri syntax)

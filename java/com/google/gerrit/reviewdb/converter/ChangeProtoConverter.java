@@ -16,7 +16,7 @@ package com.google.gerrit.reviewdb.converter;
 
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.protobuf.Parser;
@@ -31,7 +31,7 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
       ChangeKeyProtoConverter.INSTANCE;
   private final ProtoConverter<Entities.Account_Id, Account.Id> accountIdConverter =
       AccountIdProtoConverter.INSTANCE;
-  private final ProtoConverter<Entities.Branch_NameKey, Branch.NameKey> branchNameConverter =
+  private final ProtoConverter<Entities.Branch_NameKey, BranchNameKey> branchNameConverter =
       BranchNameKeyProtoConverter.INSTANCE;
 
   @Override
@@ -86,7 +86,7 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
         proto.hasChangeKey() ? changeKeyConverter.fromProto(proto.getChangeKey()) : null;
     Account.Id owner =
         proto.hasOwnerAccountId() ? accountIdConverter.fromProto(proto.getOwnerAccountId()) : null;
-    Branch.NameKey destination =
+    BranchNameKey destination =
         proto.hasDest() ? branchNameConverter.fromProto(proto.getDest()) : null;
     Change change =
         new Change(key, changeId, owner, destination, new Timestamp(proto.getCreatedOn()));

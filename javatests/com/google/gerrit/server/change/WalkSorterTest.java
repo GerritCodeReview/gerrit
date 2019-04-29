@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.change.WalkSorter.PatchSetData;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.GerritBaseTests;
@@ -335,17 +334,15 @@ public class WalkSorterTest extends GerritBaseTests {
   private ChangeData newChange(TestRepository<Repo> tr, ObjectId id) throws Exception {
     Project.NameKey project = tr.getRepository().getDescription().getProject();
     Change c = TestChanges.newChange(project, userId);
-    ChangeData cd = ChangeData.createForTest(project, c.getId(), 1);
+    ChangeData cd = ChangeData.createForTest(project, c.getId(), 1, id);
     cd.setChange(c);
-    cd.currentPatchSet().setRevision(new RevId(id.name()));
     cd.setPatchSets(ImmutableList.of(cd.currentPatchSet()));
     return cd;
   }
 
   private PatchSet addPatchSet(ChangeData cd, ObjectId id) throws Exception {
     TestChanges.incrementPatchSet(cd.change());
-    PatchSet ps = new PatchSet(cd.change().currentPatchSetId());
-    ps.setRevision(new RevId(id.name()));
+    PatchSet ps = new PatchSet(cd.change().currentPatchSetId(), id);
     List<PatchSet> patchSets = new ArrayList<>(cd.patchSets());
     patchSets.add(ps);
     cd.setPatchSets(patchSets);

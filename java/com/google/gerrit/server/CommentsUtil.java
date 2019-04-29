@@ -50,7 +50,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -306,22 +305,22 @@ public class CommentsUtil {
     return sort(result);
   }
 
-  public static void setCommentRevId(Comment c, PatchListCache cache, Change change, PatchSet ps)
+  public static void setCommentCommitId(Comment c, PatchListCache cache, Change change, PatchSet ps)
       throws PatchListNotAvailableException {
     checkArgument(
         c.key.patchSetId == ps.getId().get(),
-        "cannot set RevId for patch set %s on comment %s",
+        "cannot set commit ID for patch set %s on comment %s",
         ps.getId(),
         c);
-    if (c.revId == null) {
+    if (c.getCommitId() == null) {
       if (Side.fromShort(c.side) == Side.PARENT) {
         if (c.side < 0) {
-          c.revId = ObjectId.toString(cache.getOldId(change, ps, -c.side));
+          c.setCommitId(cache.getOldId(change, ps, -c.side));
         } else {
-          c.revId = ObjectId.toString(cache.getOldId(change, ps, null));
+          c.setCommitId(cache.getOldId(change, ps, null));
         }
       } else {
-        c.revId = ps.getRevision().get();
+        c.setCommitId(ps.getCommitId());
       }
     }
   }

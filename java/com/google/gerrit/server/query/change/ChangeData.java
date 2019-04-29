@@ -222,12 +222,12 @@ public class ChangeData {
    * @return instance for testing.
    */
   public static ChangeData createForTest(
-      Project.NameKey project, Change.Id id, int currentPatchSetId) {
+      Project.NameKey project, Change.Id id, int currentPatchSetId, ObjectId commitId) {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
             null, project, id, null, null);
-    cd.currentPatchSet = new PatchSet(PatchSet.id(id, currentPatchSetId));
+    cd.currentPatchSet = new PatchSet(PatchSet.id(id, currentPatchSetId), commitId);
     return cd;
   }
 
@@ -387,7 +387,7 @@ public class ChangeData {
         return Optional.empty();
       }
 
-      ObjectId id = ObjectId.fromString(ps.getRevision().get());
+      ObjectId id = ps.getCommitId();
       Whitespace ws = Whitespace.IGNORE_NONE;
       PatchListKey pk =
           parentCount > 1
@@ -580,10 +580,9 @@ public class ChangeData {
     if (ps == null) {
       return false;
     }
-    String sha1 = ps.getRevision().get();
     try (Repository repo = repoManager.openRepository(project());
         RevWalk walk = new RevWalk(repo)) {
-      RevCommit c = walk.parseCommit(ObjectId.fromString(sha1));
+      RevCommit c = walk.parseCommit(ps.getCommitId());
       commitMessage = c.getFullMessage();
       commitFooters = c.getFooterLines();
       author = c.getAuthorIdent();
@@ -898,12 +897,7 @@ public class ChangeData {
               mergeUtilFactory.create(projectCache.get(project())).mergeStrategyName();
           mergeable =
               mergeabilityCache.get(
-                  ObjectId.fromString(ps.getRevision().get()),
-                  ref,
-                  str.type,
-                  mergeStrategy,
-                  c.getDest(),
-                  repo);
+                  ps.getCommitId(), ref, str.type, mergeStrategy, c.getDest(), repo);
         } catch (IOException e) {
           throw new StorageException(e);
         }

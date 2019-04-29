@@ -32,7 +32,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.LabelId;
@@ -135,7 +135,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       throw new ResourceConflictException("Change is " + ChangeUtil.status(change));
     }
 
-    Branch.NameKey newDest = Branch.nameKey(project, input.destinationBranch);
+    BranchNameKey newDest = BranchNameKey.create(project, input.destinationBranch);
     if (change.getDest().equals(newDest)) {
       throw new ResourceConflictException("Change is already destined for the specified branch");
     }
@@ -164,7 +164,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     private final MoveInput input;
 
     private Change change;
-    private Branch.NameKey newDestKey;
+    private BranchNameKey newDestKey;
 
     Op(MoveInput input) {
       this.input = input;
@@ -183,8 +183,8 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       }
 
       Project.NameKey projectKey = change.getProject();
-      newDestKey = Branch.nameKey(projectKey, input.destinationBranch);
-      Branch.NameKey changePrevDest = change.getDest();
+      newDestKey = BranchNameKey.create(projectKey, input.destinationBranch);
+      BranchNameKey changePrevDest = change.getDest();
       if (changePrevDest.equals(newDestKey)) {
         throw new ResourceConflictException("Change is already destined for the specified branch");
       }
@@ -193,8 +193,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       try (Repository repo = repoManager.openRepository(projectKey);
           RevWalk revWalk = new RevWalk(repo)) {
         RevCommit currPatchsetRevCommit =
-            revWalk.parseCommit(
-                ObjectId.fromString(psUtil.current(ctx.getNotes()).getRevision().get()));
+            revWalk.parseCommit(psUtil.current(ctx.getNotes()).getCommitId());
         if (currPatchsetRevCommit.getParentCount() > 1) {
           throw new ResourceConflictException("Merge commit cannot be moved");
         }

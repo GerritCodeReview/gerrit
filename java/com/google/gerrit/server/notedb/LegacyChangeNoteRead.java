@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
@@ -34,6 +33,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.GitDateParser;
 import org.eclipse.jgit.util.MutableInteger;
@@ -77,7 +77,8 @@ public class LegacyChangeNoteRead {
     byte[] bpsb = ChangeNoteUtil.BASE_PATCH_SET.getBytes(UTF_8);
     byte[] bpn = ChangeNoteUtil.PARENT_NUMBER.getBytes(UTF_8);
 
-    RevId revId = new RevId(parseStringField(note, p, changeId, ChangeNoteUtil.REVISION));
+    ObjectId commitId =
+        ObjectId.fromString(parseStringField(note, p, changeId, ChangeNoteUtil.REVISION));
     String fileName = null;
     PatchSet.Id psId = null;
     boolean isForBase = false;
@@ -105,7 +106,7 @@ public class LegacyChangeNoteRead {
             ChangeNoteUtil.BASE_PATCH_SET);
       }
 
-      Comment c = parseComment(note, p, fileName, psId, revId, isForBase, parentNumber);
+      Comment c = parseComment(note, p, fileName, psId, commitId, isForBase, parentNumber);
       fileName = c.key.filename;
       if (!seen.add(c.key)) {
         throw parseException(changeId, "multiple comments for %s in note", c.key);
@@ -120,7 +121,7 @@ public class LegacyChangeNoteRead {
       MutableInteger curr,
       String currentFileName,
       PatchSet.Id psId,
-      RevId revId,
+      ObjectId commitId,
       boolean isForBase,
       Integer parentNumber)
       throws ConfigInvalidException {
@@ -189,7 +190,7 @@ public class LegacyChangeNoteRead {
     c.lineNbr = range.getEndLine();
     c.parentUuid = parentUUID;
     c.tag = tag;
-    c.setRevId(revId);
+    c.setCommitId(commitId);
     if (raId != null) {
       c.setRealAuthor(raId);
     }

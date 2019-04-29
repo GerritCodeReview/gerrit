@@ -14,14 +14,14 @@
 
 package com.google.gerrit.server.git.receive;
 
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
@@ -48,12 +48,12 @@ public class BranchCommitValidator {
   private final IdentifiedUser user;
   private final PermissionBackend.ForProject permissions;
   private final Project project;
-  private final Branch.NameKey branch;
+  private final BranchNameKey branch;
   private final SshInfo sshInfo;
 
   interface Factory {
     BranchCommitValidator create(
-        ProjectState projectState, Branch.NameKey branch, IdentifiedUser user);
+        ProjectState projectState, BranchNameKey branch, IdentifiedUser user);
   }
 
   @Inject
@@ -62,7 +62,7 @@ public class BranchCommitValidator {
       PermissionBackend permissionBackend,
       SshInfo sshInfo,
       @Assisted ProjectState projectState,
-      @Assisted Branch.NameKey branch,
+      @Assisted BranchNameKey branch,
       @Assisted IdentifiedUser user) {
     this.sshInfo = sshInfo;
     this.user = user;
@@ -110,7 +110,8 @@ public class BranchCommitValidator {
 
       for (CommitValidationMessage m : validators.validate(receiveEvent)) {
         messages.add(
-            new CommitValidationMessage(messageForCommit(commit, m.getMessage()), m.getType()));
+            new CommitValidationMessage(
+                messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
       }
     } catch (CommitValidationException e) {
       logger.atFine().log("Commit validation failed on %s", commit.name());
@@ -118,15 +119,17 @@ public class BranchCommitValidator {
         // The non-error messages may contain background explanation for the
         // fatal error, so have to preserve all messages.
         messages.add(
-            new CommitValidationMessage(messageForCommit(commit, m.getMessage()), m.getType()));
+            new CommitValidationMessage(
+                messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
       }
-      cmd.setResult(REJECTED_OTHER_REASON, messageForCommit(commit, e.getMessage()));
+      cmd.setResult(REJECTED_OTHER_REASON, messageForCommit(commit, e.getMessage(), objectReader));
       return false;
     }
     return true;
   }
 
-  private String messageForCommit(RevCommit c, String msg) {
-    return String.format("commit %s: %s", c.abbreviate(RevId.ABBREV_LEN).name(), msg);
+  private String messageForCommit(RevCommit c, String msg, ObjectReader objectReader)
+      throws IOException {
+    return String.format("commit %s: %s", abbreviateName(c, objectReader), msg);
   }
 }

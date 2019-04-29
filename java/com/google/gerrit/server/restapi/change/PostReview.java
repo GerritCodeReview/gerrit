@@ -16,7 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -584,7 +584,7 @@ public class PostReview
 
   private Set<String> getAffectedFilePaths(RevisionResource revision)
       throws PatchListNotAvailableException {
-    ObjectId newId = ObjectId.fromString(revision.getPatchSet().getRevision().get());
+    ObjectId newId = revision.getPatchSet().getCommitId();
     DiffSummaryKey key =
         DiffSummaryKey.fromPatchListKey(
             PatchListKey.againstDefaultBase(newId, Whitespace.IGNORE_NONE));
@@ -921,7 +921,7 @@ public class PostReview
             e.message = c.message;
           }
 
-          setCommentRevId(e, patchListCache, ctx.getChange(), ps);
+          setCommentCommitId(e, patchListCache, ctx.getChange(), ps);
           e.setLineNbrAndRange(c.line, c.range);
           e.tag = in.tag;
 
@@ -996,7 +996,7 @@ public class PostReview
       robotComment.properties = robotCommentInput.properties;
       robotComment.setLineNbrAndRange(robotCommentInput.line, robotCommentInput.range);
       robotComment.tag = in.tag;
-      setCommentRevId(robotComment, patchListCache, ctx.getChange(), ps);
+      setCommentCommitId(robotComment, patchListCache, ctx.getChange(), ps);
       robotComment.fixSuggestions = createFixSuggestionsFromInput(robotCommentInput.fixSuggestions);
       return robotComment;
     }

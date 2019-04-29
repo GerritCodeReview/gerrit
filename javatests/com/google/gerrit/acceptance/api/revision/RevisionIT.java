@@ -23,6 +23,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.PATCH_FILE_ONLY;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -83,7 +84,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.change.RevisionResource;
@@ -549,8 +550,8 @@ public class RevisionIT extends AbstractDaemonTest {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
     String fileContent = new String(os.toByteArray(), UTF_8);
-    String destSha1 = getRemoteHead(project, destBranch).abbreviate(6).name();
-    String changeSha1 = r.getCommit().abbreviate(6).name();
+    String destSha1 = abbreviateName(getRemoteHead(project, destBranch), 6);
+    String changeSha1 = abbreviateName(r.getCommit(), 6);
     assertThat(fileContent)
         .isEqualTo(
             "<<<<<<< HEAD   ("
@@ -627,7 +628,7 @@ public class RevisionIT extends AbstractDaemonTest {
         createCherryPickableMerge(parent1FileName, parent2FileName);
 
     String cherryPickBranchName = "branch_for_cherry_pick";
-    createBranch(Branch.nameKey(project, cherryPickBranchName));
+    createBranch(BranchNameKey.create(project, cherryPickBranchName));
 
     CherryPickInput cherryPickInput = new CherryPickInput();
     cherryPickInput.destination = cherryPickBranchName;
@@ -654,7 +655,7 @@ public class RevisionIT extends AbstractDaemonTest {
         createCherryPickableMerge(parent1FileName, parent2FileName);
 
     String cherryPickBranchName = "branch_for_cherry_pick";
-    createBranch(Branch.nameKey(project, cherryPickBranchName));
+    createBranch(BranchNameKey.create(project, cherryPickBranchName));
 
     CherryPickInput cherryPickInput = new CherryPickInput();
     cherryPickInput.destination = cherryPickBranchName;
@@ -682,7 +683,7 @@ public class RevisionIT extends AbstractDaemonTest {
         createCherryPickableMerge(parent1FileName, parent2FileName);
 
     String cherryPickBranchName = "branch_for_cherry_pick";
-    createBranch(Branch.nameKey(project, cherryPickBranchName));
+    createBranch(BranchNameKey.create(project, cherryPickBranchName));
 
     CherryPickInput cherryPickInput = new CherryPickInput();
     cherryPickInput.destination = cherryPickBranchName;
@@ -703,7 +704,7 @@ public class RevisionIT extends AbstractDaemonTest {
         createCherryPickableMerge(parent1FileName, parent2FileName);
 
     String cherryPickBranchName = "branch_for_cherry_pick";
-    createBranch(Branch.nameKey(project, cherryPickBranchName));
+    createBranch(BranchNameKey.create(project, cherryPickBranchName));
 
     CherryPickInput cherryPickInput = new CherryPickInput();
     cherryPickInput.destination = cherryPickBranchName;
@@ -718,9 +719,9 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickNotify() throws Exception {
-    createBranch(Branch.nameKey(project, "branch-1"));
-    createBranch(Branch.nameKey(project, "branch-2"));
-    createBranch(Branch.nameKey(project, "branch-3"));
+    createBranch(BranchNameKey.create(project, "branch-1"));
+    createBranch(BranchNameKey.create(project, "branch-2"));
+    createBranch(BranchNameKey.create(project, "branch-3"));
 
     // Creates a change for 'admin'.
     PushOneCommit.Result result = createChange();
@@ -759,7 +760,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickKeepReviewers() throws Exception {
-    createBranch(Branch.nameKey(project, "stable"));
+    createBranch(BranchNameKey.create(project, "stable"));
 
     // Change is created by 'admin'.
     PushOneCommit.Result r = createChange();
@@ -793,7 +794,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickToMergedChangeRevision() throws Exception {
-    createBranch(Branch.nameKey(project, "foo"));
+    createBranch(BranchNameKey.create(project, "foo"));
 
     PushOneCommit.Result dstChange = createChange(testRepo, "foo", SUBJECT, "b.txt", "b", "t");
     dstChange.assertOkStatus();
@@ -817,7 +818,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickToOpenChangeRevision() throws Exception {
-    createBranch(Branch.nameKey(project, "foo"));
+    createBranch(BranchNameKey.create(project, "foo"));
 
     PushOneCommit.Result dstChange = createChange(testRepo, "foo", SUBJECT, "b.txt", "b", "t");
     dstChange.assertOkStatus();
@@ -835,7 +836,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickToNonVisibleChangeFails() throws Exception {
-    createBranch(Branch.nameKey(project, "foo"));
+    createBranch(BranchNameKey.create(project, "foo"));
 
     PushOneCommit.Result dstChange = createChange(testRepo, "foo", SUBJECT, "b.txt", "b", "t");
     dstChange.assertOkStatus();
@@ -1525,9 +1526,9 @@ public class RevisionIT extends AbstractDaemonTest {
     RevCommit initialCommit = getHead(repo(), "HEAD");
 
     String branchAName = "branchA";
-    createBranch(Branch.nameKey(project, branchAName));
+    createBranch(BranchNameKey.create(project, branchAName));
     String branchBName = "branchB";
-    createBranch(Branch.nameKey(project, branchBName));
+    createBranch(BranchNameKey.create(project, branchBName));
 
     PushOneCommit.Result changeAResult =
         pushFactory

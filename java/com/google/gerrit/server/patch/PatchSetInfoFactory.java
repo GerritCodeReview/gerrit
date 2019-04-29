@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.Emails;
@@ -33,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -60,7 +58,7 @@ public class PatchSetInfoFactory {
     info.setMessage(src.getFullMessage());
     info.setAuthor(toUserIdentity(src.getAuthorIdent()));
     info.setCommitter(toUserIdentity(src.getCommitterIdent()));
-    info.setRevId(src.getName());
+    info.setCommitId(src);
     return info;
   }
 
@@ -78,7 +76,7 @@ public class PatchSetInfoFactory {
       throws PatchSetInfoNotAvailableException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
-      final RevCommit src = rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
+      RevCommit src = rw.parseCommit(patchSet.getCommitId());
       PatchSetInfo info = get(rw, src, patchSet.getId());
       info.setParents(toParentInfos(src.getParents(), rw));
       return info;
@@ -111,9 +109,8 @@ public class PatchSetInfoFactory {
     List<PatchSetInfo.ParentInfo> pInfos = new ArrayList<>(parents.length);
     for (RevCommit parent : parents) {
       walk.parseBody(parent);
-      RevId rev = new RevId(parent.getId().name());
       String msg = parent.getShortMessage();
-      pInfos.add(new PatchSetInfo.ParentInfo(rev, msg));
+      pInfos.add(new PatchSetInfo.ParentInfo(parent, msg));
     }
     return pInfos;
   }

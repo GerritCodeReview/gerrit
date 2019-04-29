@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -99,8 +98,7 @@ public class PatchSetUtil {
     update.setPsDescription(description);
     update.setGroups(groups);
 
-    PatchSet ps = new PatchSet(psId);
-    ps.setRevision(new RevId(commit.name()));
+    PatchSet ps = new PatchSet(psId, commit);
     ps.setUploader(update.getAccountId());
     ps.setCreatedOn(new Timestamp(update.getWhen().getTime()));
     ps.setGroups(groups);
@@ -169,7 +167,7 @@ public class PatchSetUtil {
   public RevCommit getRevCommit(Project.NameKey project, PatchSet patchSet) throws IOException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
-      RevCommit src = rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
+      RevCommit src = rw.parseCommit(patchSet.getCommitId());
       rw.parseBody(src);
       return src;
     }

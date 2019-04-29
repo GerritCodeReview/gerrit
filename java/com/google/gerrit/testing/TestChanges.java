@@ -19,12 +19,11 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.AbstractChangeNotes;
@@ -58,7 +57,7 @@ public class TestChanges {
             Change.key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
             changeId,
             userId,
-            Branch.nameKey(project, "master"),
+            BranchNameKey.create(project, "master"),
             TimeUtil.nowTs());
     incrementPatchSet(c);
     return c;
@@ -69,8 +68,7 @@ public class TestChanges {
   }
 
   public static PatchSet newPatchSet(PatchSet.Id id, String revision, Account.Id userId) {
-    PatchSet ps = new PatchSet(id);
-    ps.setRevision(new RevId(revision));
+    PatchSet ps = new PatchSet(id, ObjectId.fromString(revision));
     ps.setUploader(userId);
     ps.setCreatedOn(TimeUtil.nowTs());
     return ps;

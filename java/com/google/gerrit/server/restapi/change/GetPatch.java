@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -31,8 +32,6 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.lib.AbbreviatedObjectId;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -67,8 +66,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
     try {
       final RevWalk rw = new RevWalk(repo);
       try {
-        final RevCommit commit =
-            rw.parseCommit(ObjectId.fromString(rsrc.getPatchSet().getRevision().get()));
+        final RevCommit commit = rw.parseCommit(rsrc.getPatchSet().getCommitId());
         RevCommit[] parents = commit.getParents();
         if (parents.length > 1) {
           throw new ResourceConflictException("Revision has more than 1 parent.");
@@ -189,7 +187,6 @@ public class GetPatch implements RestReadView<RevisionResource> {
   }
 
   private static String fileName(RevWalk rw, RevCommit commit) throws IOException {
-    AbbreviatedObjectId id = rw.getObjectReader().abbreviate(commit, 7);
-    return id.name() + ".diff";
+    return abbreviateName(commit, rw.getObjectReader()) + ".diff";
   }
 }

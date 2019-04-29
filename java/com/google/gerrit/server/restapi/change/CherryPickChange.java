@@ -29,7 +29,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -139,16 +139,11 @@ public class CherryPickChange {
       Change change,
       PatchSet patch,
       CherryPickInput input,
-      Branch.NameKey dest)
+      BranchNameKey dest)
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
-        batchUpdateFactory,
-        change,
-        change.getProject(),
-        ObjectId.fromString(patch.getRevision().get()),
-        input,
-        dest);
+        batchUpdateFactory, change, change.getProject(), patch.getCommitId(), input, dest);
   }
 
   public Result cherryPick(
@@ -157,7 +152,7 @@ public class CherryPickChange {
       Project.NameKey project,
       ObjectId sourceCommit,
       CherryPickInput input,
-      Branch.NameKey dest)
+      BranchNameKey dest)
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
 
@@ -235,7 +230,7 @@ public class CherryPickChange {
           changeKey = Change.key("I" + computedChangeId.name());
         }
 
-        Branch.NameKey newDest = Branch.nameKey(project, destRef.getName());
+        BranchNameKey newDest = BranchNameKey.create(project, destRef.getName());
         List<ChangeData> destChanges =
             queryProvider.get().setLimit(2).byBranchKey(newDest, changeKey);
         if (destChanges.size() > 1) {
@@ -344,7 +339,7 @@ public class CherryPickChange {
       throws IOException {
     Change.Id changeId = Change.id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
-    Branch.NameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
+    BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
     ins.setMessage(
             messageForDestinationChange(
                 ins.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit))
@@ -375,7 +370,7 @@ public class CherryPickChange {
 
   private String messageForDestinationChange(
       PatchSet.Id patchSetId,
-      Branch.NameKey sourceBranch,
+      BranchNameKey sourceBranch,
       ObjectId sourceCommit,
       CodeReviewCommit cherryPickCommit) {
     StringBuilder stringBuilder = new StringBuilder("Patch Set ").append(patchSetId.get());

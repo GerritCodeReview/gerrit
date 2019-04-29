@@ -36,7 +36,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -185,7 +185,7 @@ public class ChangeInserter implements InsertChangeOp {
             getChangeKey(ctx.getRevWalk(), commitId),
             changeId,
             ctx.getAccountId(),
-            Branch.nameKey(ctx.getProject(), refName),
+            BranchNameKey.create(ctx.getProject(), refName),
             ctx.getWhen());
     change.setStatus(MoreObjects.firstNonNull(status, Change.Status.NEW));
     change.setTopic(topic);
@@ -525,7 +525,7 @@ public class ChangeInserter implements InsertChangeOp {
         commitValidatorsFactory
             .forGerritCommits(
                 permissionBackend.user(ctx.getUser()).project(ctx.getProject()),
-                Branch.nameKey(ctx.getProject(), refName),
+                BranchNameKey.create(ctx.getProject(), refName),
                 ctx.getIdentifiedUser(),
                 new NoSshInfo(),
                 ctx.getRevWalk(),

@@ -67,7 +67,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
@@ -101,10 +100,6 @@ import org.eclipse.jgit.util.RawParseUtils;
 class ChangeNotesParser {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  // Sentinel RevId indicating a mutable field on a patch set was parsed, but
-  // the parser does not yet know its commit SHA-1.
-  private static final RevId PARTIAL_PATCH_SET = new RevId("INVALID PARTIAL PATCH SET");
-
   @AutoValue
   abstract static class ApprovalKey {
     abstract PatchSet.Id psId();
@@ -116,6 +111,18 @@ class ChangeNotesParser {
     private static ApprovalKey create(PatchSet.Id psId, Account.Id accountId, String label) {
       return new AutoValue_ChangeNotesParser_ApprovalKey(psId, accountId, label);
     }
+  }
+
+  /**
+   * Subset of field on patch sets that are mutable after patch set creation, and therefore may be
+   * parsed before the rest of the patch set is available.
+   *
+   * <p>In the future, if {@code PatchSet} becomes an immutable type with a builder, this class can
+   * be replaced with the builder. For now, keep it as simple as possible.
+   */
+  static class PendingPatchSetFields {
+    List<String> groups = Collections.emptyList();
+    String description;
   }
 
   // Private final members initialized in the constructor.
@@ -134,8 +141,9 @@ class ChangeNotesParser {
   private final List<Account.Id> allPastReviewers;
   private final List<ReviewerStatusUpdate> reviewerUpdates;
   private final List<SubmitRecord> submitRecords;
-  private final ListMultimap<RevId, Comment> comments;
+  private final ListMultimap<ObjectId, Comment> comments;
   private final Map<PatchSet.Id, PatchSet> patchSets;
+  private final Map<PatchSet.Id, PendingPatchSetFields> pendingPatchSets;
   private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
   private final List<PatchSet.Id> currentPatchSets;
@@ -193,6 +201,7 @@ class ChangeNotesParser {
     allChangeMessages = new ArrayList<>();
     comments = MultimapBuilder.hashKeys().arrayListValues().build();
     patchSets = new HashMap<>();
+    pendingPatchSets = new HashMap<>();
     deletedPatchSets = new HashSet<>();
     patchSetStates = new HashMap<>();
     currentPatchSets = new ArrayList<>();
@@ -364,11 +373,14 @@ class ChangeNotesParser {
       submissionId = parseSubmissionId(commit);
     }
 
+    // Parse mutable patch set fields first so they can be recorded in the PendingPatchSetFields.
+    parseDescription(psId, commit);
+    parseGroups(psId, commit);
+
     ObjectId currRev = parseRevision(commit);
     if (currRev != null) {
       parsePatchSet(psId, currRev, accountId, ts);
     }
-    parseGroups(psId, commit);
     parseCurrentPatchSet(psId, commit);
 
     if (submitRecords.isEmpty()) {
@@ -412,8 +424,6 @@ class ChangeNotesParser {
     if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
       lastUpdatedOn = ts;
     }
-
-    parseDescription(psId, commit);
   }
 
   private String parseSubmissionId(ChangeNotesCommit commit) throws ConfigInvalidException {
@@ -486,24 +496,25 @@ class ChangeNotesParser {
     if (accountId == null) {
       throw parseException("patch set %s requires an identified user as uploader", psId.get());
     }
-    PatchSet ps = patchSets.get(psId);
-    if (ps == null) {
-      ps = new PatchSet(psId);
-      patchSets.put(psId, ps);
-    } else if (!ps.getRevision().equals(PARTIAL_PATCH_SET)) {
+    if (patchSets.containsKey(psId)) {
       if (deletedPatchSets.contains(psId)) {
-        // Do not update PS details as PS was deleted and this meta data is of
-        // no relevance
+        // Do not update PS details as PS was deleted and this meta data is of no relevance.
         return;
       }
       throw new ConfigInvalidException(
           String.format(
               "Multiple revisions parsed for patch set %s: %s and %s",
-              psId.get(), patchSets.get(psId).getRevision(), rev.name()));
+              psId.get(), patchSets.get(psId).getCommitId().name(), rev.name()));
     }
-    ps.setRevision(new RevId(rev.name()));
+    PatchSet ps = new PatchSet(psId, rev);
+    patchSets.put(psId, ps);
     ps.setUploader(accountId);
     ps.setCreatedOn(ts);
+    PendingPatchSetFields pending = pendingPatchSets.remove(psId);
+    if (pending != null) {
+      ps.setGroups(pending.groups);
+      ps.setDescription(pending.description);
+    }
   }
 
   private void parseGroups(PatchSet.Id psId, ChangeNotesCommit commit)
@@ -512,15 +523,14 @@ class ChangeNotesParser {
     if (groupsStr == null) {
       return;
     }
-    PatchSet ps = patchSets.get(psId);
-    if (ps == null) {
-      ps = new PatchSet(psId);
-      ps.setRevision(PARTIAL_PATCH_SET);
-      patchSets.put(psId, ps);
-    } else if (!ps.getGroups().isEmpty()) {
-      return;
+    if (patchSets.containsKey(psId)) {
+      throw patchSetFieldBeforeDefinition(psId, FOOTER_GROUPS);
     }
-    ps.setGroups(PatchSet.splitGroups(groupsStr));
+    PendingPatchSetFields pending =
+        pendingPatchSets.computeIfAbsent(psId, p -> new PendingPatchSetFields());
+    if (pending.groups.isEmpty()) {
+      pending.groups = PatchSet.splitGroups(groupsStr);
+    }
   }
 
   private void parseCurrentPatchSet(PatchSet.Id psId, ChangeNotesCommit commit)
@@ -661,16 +671,17 @@ class ChangeNotesParser {
     List<String> descLines = commit.getFooterLineValues(FOOTER_PATCH_SET_DESCRIPTION);
     if (descLines.isEmpty()) {
       return;
-    } else if (descLines.size() == 1) {
+    }
+
+    if (patchSets.containsKey(psId)) {
+      throw patchSetFieldBeforeDefinition(psId, FOOTER_PATCH_SET_DESCRIPTION);
+    }
+    if (descLines.size() == 1) {
       String desc = descLines.get(0).trim();
-      PatchSet ps = patchSets.get(psId);
-      if (ps == null) {
-        ps = new PatchSet(psId);
-        ps.setRevision(PARTIAL_PATCH_SET);
-        patchSets.put(psId, ps);
-      }
-      if (ps.getDescription() == null) {
-        ps.setDescription(desc);
+      PendingPatchSetFields pending =
+          pendingPatchSets.computeIfAbsent(psId, p -> new PendingPatchSetFields());
+      if (pending.description == null) {
+        pending.description = desc;
       }
     } else {
       throw expectedOneFooter(FOOTER_PATCH_SET_DESCRIPTION, descLines);
@@ -721,16 +732,16 @@ class ChangeNotesParser {
             reader,
             NoteMap.read(reader, tipCommit),
             PatchLineComment.Status.PUBLISHED);
-    Map<RevId, ChangeRevisionNote> rns = revisionNoteMap.revisionNotes;
+    Map<ObjectId, ChangeRevisionNote> rns = revisionNoteMap.revisionNotes;
 
-    for (Map.Entry<RevId, ChangeRevisionNote> e : rns.entrySet()) {
+    for (Map.Entry<ObjectId, ChangeRevisionNote> e : rns.entrySet()) {
       for (Comment c : e.getValue().getEntities()) {
         comments.put(e.getKey(), c);
       }
     }
 
     for (PatchSet ps : patchSets.values()) {
-      ChangeRevisionNote rn = rns.get(ps.getRevision());
+      ChangeRevisionNote rn = rns.get(ps.getCommitId());
       if (rn != null && rn.getPushCert() != null) {
         ps.setPushCertificate(rn.getPushCert());
       }
@@ -1003,13 +1014,7 @@ class ChangeNotesParser {
 
   private void updatePatchSetStates() {
     Set<PatchSet.Id> missing = new TreeSet<>(comparing(PatchSet.Id::get));
-    for (Iterator<PatchSet> it = patchSets.values().iterator(); it.hasNext(); ) {
-      PatchSet ps = it.next();
-      if (ps.getRevision().equals(PARTIAL_PATCH_SET)) {
-        missing.add(ps.getId());
-        it.remove();
-      }
-    }
+    missing.addAll(pendingPatchSets.keySet());
     for (Map.Entry<PatchSet.Id, PatchSetState> e : patchSetStates.entrySet()) {
       switch (e.getValue()) {
         case PUBLISHED:
@@ -1087,6 +1092,13 @@ class ChangeNotesParser {
     if (!expr) {
       throw invalidFooter(footer, actual);
     }
+  }
+
+  private ConfigInvalidException patchSetFieldBeforeDefinition(
+      PatchSet.Id psId, FooterKey footerPatchSetDescription) {
+    return parseException(
+        "%s field found for patch set %s before it was defined",
+        footerPatchSetDescription.getName(), psId.get());
   }
 
   private ConfigInvalidException parseException(String fmt, Object... args) {

@@ -79,6 +79,7 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.testing.EditInfoSubject;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
@@ -87,7 +88,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.git.receive.NoteDbPushOption;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
@@ -111,6 +111,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -1592,8 +1593,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     RemoteRefUpdate refUpdate = r.getRemoteUpdate(ref);
     assertThat(refUpdate.getStatus()).isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
     String reason =
-        String.format(
-            "commit %s: missing Change-Id in message footer", c.toObjectId().abbreviate(7).name());
+        String.format("commit %s: missing Change-Id in message footer", abbreviateName(c));
     assertThat(refUpdate.getMessage()).isEqualTo(reason);
 
     assertThat(r.getMessages()).contains("\nERROR: " + reason);
@@ -1618,8 +1618,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertErrorStatus(
         String.format(
             "commit %s: %s",
-            r.getCommit().abbreviate(RevId.ABBREV_LEN).name(),
-            ChangeIdValidator.CHANGE_ID_MISMATCH_MSG));
+            abbreviateName(r.getCommit()), ChangeIdValidator.CHANGE_ID_MISMATCH_MSG));
   }
 
   @Test
@@ -1803,7 +1802,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       throws Exception {
     Change.Id id = accidentallyPushNewPatchSetDirectlyToBranch();
     ChangeData cd = byChangeId(id);
-    String ps1Rev = Iterables.getOnlyElement(cd.patchSets()).getRevision().get();
+    String ps1Rev = Iterables.getOnlyElement(cd.patchSets()).getCommitId().name();
 
     String r = "refs/changes/" + id;
     assertPushOk(pushHead(testRepo, r, false), r);
@@ -1821,7 +1820,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       throws Exception {
     Change.Id id = accidentallyPushNewPatchSetDirectlyToBranch();
     ChangeData cd = byChangeId(id);
-    String ps1Rev = Iterables.getOnlyElement(cd.patchSets()).getRevision().get();
+    String ps1Rev = Iterables.getOnlyElement(cd.patchSets()).getCommitId().name();
 
     String r = "refs/for/master";
     assertPushRejected(pushHead(testRepo, r, false), r, "no new changes");
@@ -2352,9 +2351,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(pr.getMessages())
         .contains(
             "warning: no changes between prior commit "
-                + c.abbreviate(7).name()
+                + abbreviateName(c)
                 + " and new commit "
-                + amended.abbreviate(7).name());
+                + abbreviateName(amended));
   }
 
   @Test
@@ -2380,8 +2379,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pr = pushHead(testRepo, r, false);
     assertPushOk(pr, r);
     assertThat(pr.getMessages())
-        .contains(
-            "warning: " + amended.abbreviate(7).name() + ": no files changed, message updated");
+        .contains("warning: " + abbreviateName(amended) + ": no files changed, message updated");
   }
 
   @Test
@@ -2405,8 +2403,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pr = pushHead(testRepo, r, false);
     assertPushOk(pr, r);
     assertThat(pr.getMessages())
-        .contains(
-            "warning: " + amended.abbreviate(7).name() + ": no files changed, author changed");
+        .contains("warning: " + abbreviateName(amended) + ": no files changed, author changed");
   }
 
   @Test
@@ -2433,7 +2430,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pr = pushHead(testRepo, r, false);
     assertPushOk(pr, r);
     assertThat(pr.getMessages())
-        .contains("warning: " + amended.abbreviate(7).name() + ": no files changed, was rebased");
+        .contains("warning: " + abbreviateName(amended) + ": no files changed, was rebased");
   }
 
   @Test
@@ -2630,7 +2627,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   private static Map<Integer, String> getPatchSetRevisions(ChangeData cd) throws Exception {
     Map<Integer, String> revisions = new HashMap<>();
     for (PatchSet ps : cd.patchSets()) {
-      revisions.put(ps.getPatchSetId(), ps.getRevision().get());
+      revisions.put(ps.getPatchSetId(), ps.getCommitId().name());
     }
     return revisions;
   }
@@ -2695,5 +2692,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     return infos != null
         ? infos.stream().map(a -> a.email).collect(toImmutableList())
         : ImmutableList.of();
+  }
+
+  private String abbreviateName(AnyObjectId id) throws Exception {
+    return ObjectIds.abbreviateName(id, testRepo.getRevWalk().getObjectReader());
   }
 }

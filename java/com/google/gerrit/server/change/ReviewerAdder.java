@@ -44,7 +44,7 @@ import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -369,7 +369,7 @@ public class ReviewerAdder {
     return new ReviewerAddition(input, notes, user, null, ImmutableList.of(adr), true);
   }
 
-  private boolean isValidReviewer(Branch.NameKey branch, Account member)
+  private boolean isValidReviewer(BranchNameKey branch, Account member)
       throws PermissionBackendException {
     try {
       // Check ref permission instead of change permission, since change permissions take into

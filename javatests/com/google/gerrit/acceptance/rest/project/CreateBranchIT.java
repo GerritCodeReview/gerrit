@@ -32,7 +32,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.inject.Inject;
 import org.junit.Before;
@@ -41,11 +41,11 @@ import org.junit.Test;
 public class CreateBranchIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
 
-  private Branch.NameKey testBranch;
+  private BranchNameKey testBranch;
 
   @Before
   public void setUp() throws Exception {
-    testBranch = Branch.nameKey(project, "test");
+    testBranch = BranchNameKey.create(project, "test");
   }
 
   @Test
@@ -104,7 +104,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
     String metaRef = RefNames.REFS_META + "foo";
     allow(metaRef, Permission.CREATE, REGISTERED_USERS);
     allow(metaRef, Permission.PUSH, REGISTERED_USERS);
-    assertCreateSucceeds(Branch.nameKey(project, metaRef));
+    assertCreateSucceeds(BranchNameKey.create(project, metaRef));
   }
 
   @Test
@@ -112,7 +112,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE, REGISTERED_USERS);
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH, REGISTERED_USERS);
     assertCreateFails(
-        Branch.nameKey(allUsers, RefNames.refsUsers(Account.id(1))),
+        BranchNameKey.create(allUsers, RefNames.refsUsers(Account.id(1))),
         RefNames.refsUsers(admin.id()),
         ResourceConflictException.class,
         "Not allowed to create user branch.");
@@ -123,7 +123,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.CREATE, REGISTERED_USERS);
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.PUSH, REGISTERED_USERS);
     assertCreateFails(
-        Branch.nameKey(allUsers, RefNames.refsGroups(AccountGroup.uuid("foo"))),
+        BranchNameKey.create(allUsers, RefNames.refsGroups(AccountGroup.uuid("foo"))),
         RefNames.refsGroups(adminGroupUuid()),
         ResourceConflictException.class,
         "Not allowed to create group branch.");
@@ -137,23 +137,23 @@ public class CreateBranchIT extends AbstractDaemonTest {
     allow("refs/*", Permission.OWNER, REGISTERED_USERS);
   }
 
-  private BranchApi branch(Branch.NameKey branch) throws Exception {
+  private BranchApi branch(BranchNameKey branch) throws Exception {
     return gApi.projects().name(branch.project().get()).branch(branch.branch());
   }
 
-  private void assertCreateSucceeds(Branch.NameKey branch) throws Exception {
+  private void assertCreateSucceeds(BranchNameKey branch) throws Exception {
     BranchInfo created = branch(branch).create(new BranchInput()).get();
     assertThat(created.ref).isEqualTo(branch.branch());
   }
 
   private void assertCreateFails(
-      Branch.NameKey branch, Class<? extends RestApiException> errType, String errMsg)
+      BranchNameKey branch, Class<? extends RestApiException> errType, String errMsg)
       throws Exception {
     assertCreateFails(branch, null, errType, errMsg);
   }
 
   private void assertCreateFails(
-      Branch.NameKey branch,
+      BranchNameKey branch,
       String revision,
       Class<? extends RestApiException> errType,
       String errMsg)
@@ -167,7 +167,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
     branch(branch).create(in);
   }
 
-  private void assertCreateFails(Branch.NameKey branch, Class<? extends RestApiException> errType)
+  private void assertCreateFails(BranchNameKey branch, Class<? extends RestApiException> errType)
       throws Exception {
     assertCreateFails(branch, errType, null);
   }

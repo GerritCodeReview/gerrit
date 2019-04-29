@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
@@ -40,7 +41,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -117,6 +118,13 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 public class MergeUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  /**
+   * Length of abbreviated hex SHA-1s in merged filenames.
+   *
+   * <p>This is a constant so output is stable over time even if the SHA-1 prefix becomes ambiguous.
+   */
+  private static final int NAME_ABBREV_LEN = 6;
+
   static class PluggableCommitMessageGenerator {
     private final DynamicSet<ChangeMessageModifier> changeMessageModifiers;
 
@@ -126,7 +134,7 @@ public class MergeUtil {
     }
 
     public String generate(
-        RevCommit original, RevCommit mergeTip, Branch.NameKey dest, String originalMessage) {
+        RevCommit original, RevCommit mergeTip, BranchNameKey dest, String originalMessage) {
       requireNonNull(original.getRawBuffer());
       if (mergeTip != null) {
         requireNonNull(mergeTip.getRawBuffer());
@@ -337,13 +345,13 @@ public class MergeUtil {
         String.format(
             "%0$-" + nameLength + "s (%s %s)",
             oursName,
-            ours.abbreviate(6).name(),
+            abbreviateName(ours, NAME_ABBREV_LEN),
             oursMsg.substring(0, Math.min(oursMsg.length(), 60)));
     String theirsNameFormatted =
         String.format(
             "%0$-" + nameLength + "s (%s %s)",
             theirsName,
-            theirs.abbreviate(6).name(),
+            abbreviateName(theirs, NAME_ABBREV_LEN),
             theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
 
     MergeFormatter fmt = new MergeFormatter();
@@ -733,7 +741,7 @@ public class MergeUtil {
       CodeReviewRevWalk rw,
       ObjectInserter inserter,
       Config repoConfig,
-      Branch.NameKey destBranch,
+      BranchNameKey destBranch,
       CodeReviewCommit mergeTip,
       CodeReviewCommit n)
       throws IntegrationException {
@@ -788,7 +796,7 @@ public class MergeUtil {
       PersonIdent committer,
       CodeReviewRevWalk rw,
       ObjectInserter inserter,
-      Branch.NameKey destBranch,
+      BranchNameKey destBranch,
       CodeReviewCommit mergeTip,
       ObjectId treeId,
       CodeReviewCommit n)

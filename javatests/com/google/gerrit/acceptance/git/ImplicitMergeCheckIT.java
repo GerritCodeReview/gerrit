@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -76,8 +77,9 @@ public class ImplicitMergeCheckIT extends AbstractDaemonTest {
     assertThat(c.getMessage().toLowerCase()).doesNotContain(implicitMergeOf(m.getCommit()));
   }
 
-  private static String implicitMergeOf(ObjectId commit) {
-    return "implicit merge of " + commit.abbreviate(7).name();
+  private String implicitMergeOf(ObjectId commit) throws Exception {
+    return "implicit merge of "
+        + ObjectIds.abbreviateName(commit, testRepo.getRevWalk().getObjectReader());
   }
 
   private void setRejectImplicitMerges() throws Exception {

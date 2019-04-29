@@ -16,14 +16,15 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
@@ -121,20 +122,20 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     } else if (id.length() < 6 && id.matches("^[1-9][0-9]{0,4}$")) {
       // Legacy patch set number syntax.
       return byLegacyPatchSetId(change, id);
-    } else if (id.length() < 4 || id.length() > RevId.LEN) {
+    } else if (id.length() < 4 || id.length() > ObjectIds.STR_LEN) {
       // Require a minimum of 4 digits.
       // Impossibly long identifier will never match.
       return Collections.emptyList();
     } else {
       List<RevisionResource> out = new ArrayList<>();
       for (PatchSet ps : psUtil.byChange(change.getNotes())) {
-        if (ps.getRevision() != null && ps.getRevision().get().startsWith(id)) {
+        if (ObjectIds.matchesAbbreviation(ps.getCommitId(), id)) {
           out.add(new RevisionResource(change, ps));
         }
       }
       // Not an existing patch set on a change, but might be an edit.
-      if (out.isEmpty() && id.length() == RevId.LEN) {
-        return loadEdit(change, new RevId(id));
+      if (out.isEmpty() && ObjectId.isId(id)) {
+        return loadEdit(change, ObjectId.fromString(id));
       }
       return out;
     }
@@ -148,14 +149,13 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     return Collections.emptyList();
   }
 
-  private List<RevisionResource> loadEdit(ChangeResource change, RevId revid)
+  private List<RevisionResource> loadEdit(ChangeResource change, @Nullable ObjectId commitId)
       throws AuthException, IOException {
     Optional<ChangeEdit> edit = editUtil.byChange(change.getNotes(), change.getUser());
     if (edit.isPresent()) {
-      PatchSet ps = new PatchSet(PatchSet.id(change.getId(), 0));
-      RevId editRevId = new RevId(ObjectId.toString(edit.get().getEditCommit()));
-      ps.setRevision(editRevId);
-      if (revid == null || editRevId.equals(revid)) {
+      ObjectId editCommitId = edit.get().getEditCommit();
+      PatchSet ps = new PatchSet(PatchSet.id(change.getId(), 0), editCommitId);
+      if (commitId == null || editCommitId.equals(commitId)) {
         return Collections.singletonList(new RevisionResource(change, ps, edit));
       }
     }

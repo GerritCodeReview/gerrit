@@ -118,13 +118,13 @@ public class CatServlet extends HttpServlet {
       }
     }
 
-    final Change.Id changeId = patchKey.getParentKey().changeId();
+    final Change.Id changeId = patchKey.patchSetId().changeId();
     String revision;
     try {
       ChangeNotes notes = changeNotesFactory.createChecked(changeId);
       permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
       projectCache.checkedGet(notes.getProjectName()).checkStatePermitsRead();
-      if (patchKey.getParentKey().get() == 0) {
+      if (patchKey.patchSetId().get() == 0) {
         // change edit
         Optional<ChangeEdit> edit = changeEditUtil.byChange(notes);
         if (edit.isPresent()) {
@@ -134,12 +134,12 @@ public class CatServlet extends HttpServlet {
           return;
         }
       } else {
-        PatchSet patchSet = psUtil.get(notes, patchKey.getParentKey());
+        PatchSet patchSet = psUtil.get(notes, patchKey.patchSetId());
         if (patchSet == null) {
           rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
           return;
         }
-        revision = patchSet.getRevision().get();
+        revision = patchSet.getCommitId().name();
       }
     } catch (ResourceConflictException | NoSuchChangeException | AuthException e) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);

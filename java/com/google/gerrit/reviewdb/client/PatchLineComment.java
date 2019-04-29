@@ -18,6 +18,8 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.Comment.Range;
 import java.sql.Timestamp;
 import java.util.Objects;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * A comment left by a user on a specific line of a {@link Patch}.
@@ -68,7 +70,7 @@ public final class PatchLineComment {
       plc.setRange(new CommentRange(r.startLine, r.startChar, r.endLine, r.endChar));
     }
     plc.setTag(c.tag);
-    plc.setRevId(new RevId(c.revId));
+    plc.setCommitId(c.getCommitId());
     plc.setStatus(status);
     plc.setRealAuthor(c.getRealAuthor().getId());
     plc.setUnresolved(c.unresolved);
@@ -110,8 +112,8 @@ public final class PatchLineComment {
   /** True if this comment requires further action. */
   protected boolean unresolved;
 
-  /** The RevId for the commit to which this comment is referring. */
-  protected RevId revId;
+  /** The ID of the commit to which this comment is referring. */
+  protected ObjectId commitId;
 
   protected PatchLineComment() {}
 
@@ -137,7 +139,7 @@ public final class PatchLineComment {
     side = o.side;
     message = o.message;
     parentUuid = o.parentUuid;
-    revId = o.revId;
+    commitId = o.commitId;
     if (o.range != null) {
       range =
           new CommentRange(
@@ -149,7 +151,7 @@ public final class PatchLineComment {
   }
 
   public PatchSet.Id getPatchSetId() {
-    return patchKey.getParentKey();
+    return patchKey.patchSetId();
   }
 
   public int getLine() {
@@ -232,12 +234,12 @@ public final class PatchLineComment {
     return range;
   }
 
-  public void setRevId(RevId rev) {
-    revId = rev;
+  public void setCommitId(AnyObjectId commitId) {
+    this.commitId = commitId.copy();
   }
 
-  public RevId getRevId() {
-    return revId;
+  public ObjectId getCommitId() {
+    return commitId;
   }
 
   public void setTag(String tag) {
@@ -259,14 +261,14 @@ public final class PatchLineComment {
   public Comment asComment(String serverId) {
     Comment c =
         new Comment(
-            new Comment.Key(uuid, patchKey.fileName(), patchKey.getParentKey().get()),
+            new Comment.Key(uuid, patchKey.fileName(), patchKey.patchSetId().get()),
             author,
             writtenOn,
             side,
             message,
             serverId,
             unresolved);
-    c.setRevId(revId);
+    c.setCommitId(commitId);
     c.setRange(range);
     c.lineNbr = lineNbr;
     c.parentUuid = parentUuid;
@@ -289,7 +291,7 @@ public final class PatchLineComment {
           && Objects.equals(message, c.getMessage())
           && Objects.equals(parentUuid, c.getParentUuid())
           && Objects.equals(range, c.getRange())
-          && Objects.equals(revId, c.getRevId())
+          && Objects.equals(commitId, c.getCommitId())
           && Objects.equals(tag, c.getTag())
           && Objects.equals(unresolved, c.getUnresolved());
     }
@@ -316,7 +318,7 @@ public final class PatchLineComment {
     builder.append("message=").append(Objects.toString(message, "")).append(',');
     builder.append("parentUuid=").append(Objects.toString(parentUuid, "")).append(',');
     builder.append("range=").append(Objects.toString(range, "")).append(',');
-    builder.append("revId=").append(revId != null ? revId.get() : "").append(',');
+    builder.append("revId=").append(commitId != null ? commitId.name() : "").append(',');
     builder.append("tag=").append(Objects.toString(tag, "")).append(',');
     builder.append("unresolved=").append(unresolved);
     builder.append('}');

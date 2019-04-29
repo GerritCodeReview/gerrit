@@ -25,7 +25,7 @@ import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -97,7 +97,7 @@ public class ConflictsPredicate {
 
   private static final class CheckConflict extends PostFilterPredicate<ChangeData> {
     private final Arguments args;
-    private final Branch.NameKey dest;
+    private final BranchNameKey dest;
     private final ChangeDataCache changeDataCache;
 
     CheckConflict(String value, Arguments args, Change c, ChangeDataCache changeDataCache) {
@@ -131,7 +131,7 @@ public class ConflictsPredicate {
           return false;
         }
 
-        other = ObjectId.fromString(object.currentPatchSet().getRevision().get());
+        other = object.currentPatchSet().getCommitId();
         ConflictKey conflictsKey =
             ConflictKey.create(
                 changeDataCache.getTestAgainst(),
@@ -207,7 +207,7 @@ public class ConflictsPredicate {
 
     ObjectId getTestAgainst() {
       if (testAgainst == null) {
-        testAgainst = ObjectId.fromString(cd.currentPatchSet().getRevision().get());
+        testAgainst = cd.currentPatchSet().getCommitId();
       }
       return testAgainst;
     }

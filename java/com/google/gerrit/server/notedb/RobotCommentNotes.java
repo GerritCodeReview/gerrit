@@ -22,7 +22,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -42,7 +41,7 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
 
   private final Change change;
 
-  private ImmutableListMultimap<RevId, RobotComment> comments;
+  private ImmutableListMultimap<ObjectId, RobotComment> comments;
   private RevisionNoteMap<RobotCommentsRevisionNote> revisionNoteMap;
   private ObjectId metaId;
 
@@ -56,7 +55,7 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
     return revisionNoteMap;
   }
 
-  public ImmutableListMultimap<RevId, RobotComment> getComments() {
+  public ImmutableListMultimap<ObjectId, RobotComment> getComments() {
     return comments;
   }
 
@@ -95,10 +94,10 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
     revisionNoteMap =
         RevisionNoteMap.parseRobotComments(
             args.changeNoteJson, reader, NoteMap.read(reader, tipCommit));
-    ListMultimap<RevId, RobotComment> cs = MultimapBuilder.hashKeys().arrayListValues().build();
+    ListMultimap<ObjectId, RobotComment> cs = MultimapBuilder.hashKeys().arrayListValues().build();
     for (RobotCommentsRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
       for (RobotComment c : rn.getEntities()) {
-        cs.put(new RevId(c.revId), c);
+        cs.put(c.getCommitId(), c);
       }
     }
     comments = ImmutableListMultimap.copyOf(cs);

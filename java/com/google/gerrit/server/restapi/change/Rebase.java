@@ -26,7 +26,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeUtil;
@@ -137,7 +137,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       Repository repo, RevWalk rw, RevisionResource rsrc, RebaseInput input)
       throws RestApiException, IOException, NoSuchChangeException, AuthException,
           PermissionBackendException {
-    Branch.NameKey destRefKey = rsrc.getChange().getDest();
+    BranchNameKey destRefKey = rsrc.getChange().getDest();
     if (input == null || input.base == null) {
       return rebaseUtil.findBaseRevision(rsrc.getPatchSet(), destRefKey, repo, rw);
     }
@@ -181,18 +181,18 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
               + baseChange.getKey()
               + " is a descendant of the current change - recursion not allowed");
     }
-    return ObjectId.fromString(base.patchSet().getRevision().get());
+    return base.patchSet().getCommitId();
   }
 
   private boolean isMergedInto(RevWalk rw, PatchSet base, PatchSet tip) throws IOException {
-    ObjectId baseId = ObjectId.fromString(base.getRevision().get());
-    ObjectId tipId = ObjectId.fromString(tip.getRevision().get());
+    ObjectId baseId = base.getCommitId();
+    ObjectId tipId = tip.getCommitId();
     return rw.isMergedInto(rw.parseCommit(baseId), rw.parseCommit(tipId));
   }
 
   private boolean hasOneParent(RevWalk rw, PatchSet ps) throws IOException {
     // Prevent rebase of exotic changes (merge commit, no ancestor).
-    RevCommit c = rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
+    RevCommit c = rw.parseCommit(ps.getCommitId());
     return c.getParentCount() == 1;
   }
 

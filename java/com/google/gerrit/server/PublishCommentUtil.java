@@ -66,7 +66,7 @@ public class PublishCommentUtil {
       // applies to X-Gerrit-RunAs, since modifying drafts via on_behalf_of is not allowed.)
       ctx.getUser().updateRealAccountId(d::setRealAuthor);
       try {
-        CommentsUtil.setCommentRevId(d, patchListCache, notes.getChange(), ps);
+        CommentsUtil.setCommentCommitId(d, patchListCache, notes.getChange(), ps);
       } catch (PatchListNotAvailableException e) {
         throw new StorageException(e);
       }

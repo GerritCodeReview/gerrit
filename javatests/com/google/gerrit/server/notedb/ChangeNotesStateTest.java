@@ -35,7 +35,6 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.converter.ChangeMessageProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
@@ -334,16 +333,18 @@ public class ChangeNotesStateTest extends GerritBaseTests {
 
   @Test
   public void serializePatchSets() throws Exception {
-    PatchSet ps1 = new PatchSet(PatchSet.id(ID, 1));
+    PatchSet ps1 =
+        new PatchSet(
+            PatchSet.id(ID, 1), ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
     ps1.setUploader(Account.id(2000));
-    ps1.setRevision(new RevId("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
     ps1.setCreatedOn(cols.createdOn());
     ByteString ps1Bytes = toByteString(ps1, PatchSetProtoConverter.INSTANCE);
     assertThat(ps1Bytes.size()).isEqualTo(66);
 
-    PatchSet ps2 = new PatchSet(PatchSet.id(ID, 2));
+    PatchSet ps2 =
+        new PatchSet(
+            PatchSet.id(ID, 2), ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
     ps2.setUploader(Account.id(3000));
-    ps2.setRevision(new RevId("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
     ps2.setCreatedOn(cols.lastUpdatedOn());
     ByteString ps2Bytes = toByteString(ps2, PatchSetProtoConverter.INSTANCE);
     assertThat(ps2Bytes.size()).isEqualTo(66);
@@ -663,7 +664,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
             "message 1",
             "serverId",
             false);
-    c1.setRevId(new RevId("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+    c1.setCommitId(ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
     String c1Json = Serializer.GSON.toJson(c1);
 
     Comment c2 =
@@ -675,13 +676,12 @@ public class ChangeNotesStateTest extends GerritBaseTests {
             "message 2",
             "serverId",
             true);
-    c2.setRevId(new RevId("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
+    c2.setCommitId(ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
     String c2Json = Serializer.GSON.toJson(c2);
 
     assertRoundTrip(
         newBuilder()
-            .publishedComments(
-                ImmutableListMultimap.of(new RevId(c2.revId), c2, new RevId(c1.revId), c1))
+            .publishedComments(ImmutableListMultimap.of(c2.getCommitId(), c2, c1.getCommitId(), c1))
             .build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
@@ -733,7 +733,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
                 .put("changeMessages", new TypeLiteral<ImmutableList<ChangeMessage>>() {}.getType())
                 .put(
                     "publishedComments",
-                    new TypeLiteral<ImmutableListMultimap<RevId, Comment>>() {}.getType())
+                    new TypeLiteral<ImmutableListMultimap<ObjectId, Comment>>() {}.getType())
                 .put("updateCount", int.class)
                 .build());
   }
@@ -769,7 +769,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
         .hasFields(
             ImmutableMap.<String, Type>builder()
                 .put("id", PatchSet.Id.class)
-                .put("revision", RevId.class)
+                .put("commitId", ObjectId.class)
                 .put("uploader", Account.Id.class)
                 .put("createdOn", Timestamp.class)
                 .put("groups", String.class)

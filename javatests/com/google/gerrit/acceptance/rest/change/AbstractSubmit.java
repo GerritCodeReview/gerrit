@@ -62,7 +62,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -153,7 +153,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(projectOperations.project(project).hasHead("master")).isFalse();
     PushOneCommit.Result change = createChange();
     assertThat(change.getCommit().getParents()).isEmpty();
-    Map<Branch.NameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
+    Map<BranchNameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
     assertThat(projectOperations.project(project).hasHead("master")).isFalse();
     assertThat(actual).hasSize(1);
 
@@ -166,7 +166,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void submitSingleChange() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
-    Map<Branch.NameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
+    Map<BranchNameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
     RevCommit headAfterSubmit = getRemoteHead();
     assertThat(headAfterSubmit).isEqualTo(initialHead);
     assertRefUpdatedEvents();
@@ -225,7 +225,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           break;
         case REBASE_IF_NECESSARY:
         case REBASE_ALWAYS:
-          String change2hash = change2.getChange().currentPatchSet().getRevision().get();
+          String change2hash = change2.getChange().currentPatchSet().getCommitId().name();
           assertThat(e.getMessage())
               .isEqualTo(
                   "Cannot rebase "
@@ -276,12 +276,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit.Result change4 = createChange("Change 4", "e", "e");
     // change 2 is not approved, but we ignore labels
     approve(change3.getChangeId());
-    Map<Branch.NameKey, ObjectId> actual = fetchFromSubmitPreview(change4.getChangeId());
+    Map<BranchNameKey, ObjectId> actual = fetchFromSubmitPreview(change4.getChangeId());
     Map<String, Map<String, Integer>> expected = new HashMap<>();
     expected.put(project.get(), new HashMap<>());
     expected.get(project.get()).put("refs/heads/master", 3);
 
-    assertThat(actual).containsKey(Branch.nameKey(project, "refs/heads/master"));
+    assertThat(actual).containsKey(BranchNameKey.create(project, "refs/heads/master"));
     if (getSubmitType() == SubmitType.CHERRY_PICK) {
       // CherryPick ignores dependencies, thus only change and destination
       // branch refs are modified.
@@ -546,7 +546,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit.Result visible = createChange("refs/for/master/" + name("topic"));
     Change.Id num = visible.getChange().getId();
 
-    createBranch(Branch.nameKey(project, "hidden"));
+    createBranch(BranchNameKey.create(project, "hidden"));
     PushOneCommit.Result hidden = createChange("refs/for/hidden/" + name("topic"));
     approve(hidden.getChangeId());
     blockRead("refs/heads/hidden");
@@ -1065,7 +1065,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(projectOperations.project(project).hasHead("master")).isFalse();
     PushOneCommit.Result change = createChange();
     assertThat(change.getCommit().getParents()).isEmpty();
-    Map<Branch.NameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
+    Map<BranchNameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
     assertThat(projectOperations.project(project).hasHead("master")).isFalse();
     assertThat(actual).hasSize(1);
 
@@ -1087,7 +1087,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(change.getCommit().getTree())
         .isEqualTo(ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904"));
 
-    Map<Branch.NameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
+    Map<BranchNameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
     assertThat(projectOperations.project(project).hasHead("master")).isFalse();
     assertThat(actual).hasSize(1);
 

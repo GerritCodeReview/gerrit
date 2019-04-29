@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -27,7 +29,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -65,7 +66,7 @@ public class GetArchive implements RestReadView<RevisionResource> {
       final RevCommit commit;
       String name;
       try (RevWalk rw = new RevWalk(repo)) {
-        commit = rw.parseCommit(ObjectId.fromString(rsrc.getPatchSet().getRevision().get()));
+        commit = rw.parseCommit(rsrc.getPatchSet().getCommitId());
         name = name(f, rw, commit);
       }
 
@@ -104,6 +105,6 @@ public class GetArchive implements RestReadView<RevisionResource> {
   private static String name(ArchiveFormat format, RevWalk rw, RevCommit commit)
       throws IOException {
     return String.format(
-        "%s%s", rw.getObjectReader().abbreviate(commit, 7).name(), format.getDefaultSuffix());
+        "%s%s", abbreviateName(commit, rw.getObjectReader()), format.getDefaultSuffix());
   }
 }

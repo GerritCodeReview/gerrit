@@ -15,10 +15,10 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -56,7 +56,7 @@ public class PatchSetParser {
       throws UnloggedFailure {
     // By commit?
     //
-    if (token.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
+    if (token.matches("^([0-9a-fA-F]{4," + ObjectIds.STR_LEN + "})$")) {
       InternalChangeQuery query = queryProvider.get();
       List<ChangeData> cds;
       if (projectState != null) {
@@ -76,7 +76,7 @@ public class PatchSetParser {
           continue;
         }
         for (PatchSet ps : cd.patchSets()) {
-          if (ps.getRevision().matches(token)) {
+          if (ObjectIds.matchesAbbreviation(ps.getCommitId(), token)) {
             matches.add(ps);
           }
         }

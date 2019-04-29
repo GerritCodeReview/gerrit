@@ -136,7 +136,7 @@ import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -1301,14 +1301,14 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(ps2.getId().get()).isEqualTo(2);
 
     // rebase r1 onto r2 (referenced by commit)
-    ri.base = ps2.getRevision().get();
+    ri.base = ps2.getCommitId().name();
     gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).rebase(ri);
     PatchSet ps1 = r1.getPatchSet();
     assertThat(ps1.getId().get()).isEqualTo(2);
 
     // rebase r1 onto r3 (referenced by change number)
     ri.base = String.valueOf(r3.getChange().getId().get());
-    gApi.changes().id(r1.getChangeId()).revision(ps1.getRevision().get()).rebase(ri);
+    gApi.changes().id(r1.getChangeId()).revision(ps1.getCommitId().name()).rebase(ri);
     assertThat(r1.getPatchSetId().get()).isEqualTo(3);
   }
 
@@ -4244,7 +4244,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   private BranchApi createBranch(String branch) throws Exception {
-    return createBranch(Branch.nameKey(project, branch));
+    return createBranch(BranchNameKey.create(project, branch));
   }
 
   private ThrowableSubject assertThatQueryException(String query) throws Exception {

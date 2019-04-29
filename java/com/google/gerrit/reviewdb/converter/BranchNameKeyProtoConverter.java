@@ -15,19 +15,19 @@
 package com.google.gerrit.reviewdb.converter;
 
 import com.google.gerrit.proto.Entities;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.protobuf.Parser;
 
 public enum BranchNameKeyProtoConverter
-    implements ProtoConverter<Entities.Branch_NameKey, Branch.NameKey> {
+    implements ProtoConverter<Entities.Branch_NameKey, BranchNameKey> {
   INSTANCE;
 
   private final ProtoConverter<Entities.Project_NameKey, Project.NameKey> projectNameConverter =
       ProjectNameKeyProtoConverter.INSTANCE;
 
   @Override
-  public Entities.Branch_NameKey toProto(Branch.NameKey nameKey) {
+  public Entities.Branch_NameKey toProto(BranchNameKey nameKey) {
     return Entities.Branch_NameKey.newBuilder()
         .setProject(projectNameConverter.toProto(nameKey.project()))
         .setBranch(nameKey.branch())
@@ -35,8 +35,9 @@ public enum BranchNameKeyProtoConverter
   }
 
   @Override
-  public Branch.NameKey fromProto(Entities.Branch_NameKey proto) {
-    return Branch.nameKey(projectNameConverter.fromProto(proto.getProject()), proto.getBranch());
+  public BranchNameKey fromProto(Entities.Branch_NameKey proto) {
+    return BranchNameKey.create(
+        projectNameConverter.fromProto(proto.getProject()), proto.getBranch());
   }
 
   @Override

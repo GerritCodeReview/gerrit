@@ -25,7 +25,7 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.MergeableInfo;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
@@ -34,11 +34,11 @@ import org.junit.Test;
 
 public class CheckMergeabilityIT extends AbstractDaemonTest {
 
-  private Branch.NameKey branch;
+  private BranchNameKey branch;
 
   @Before
   public void setUp() throws Exception {
-    branch = Branch.nameKey(project, "test");
+    branch = BranchNameKey.create(project, "test");
     gApi.projects().name(branch.project().get()).branch(branch.branch()).create(new BranchInput());
   }
 

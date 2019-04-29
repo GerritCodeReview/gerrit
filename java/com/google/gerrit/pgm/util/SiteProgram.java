@@ -21,6 +21,9 @@ import com.google.gerrit.common.Die;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
+import com.google.gerrit.server.LibModuleLoader;
+import com.google.gerrit.server.LibModuleType;
+import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
@@ -118,7 +121,10 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
 
     try {
-      return Guice.createInjector(PRODUCTION, modules);
+      return Guice.createInjector(
+          PRODUCTION,
+          ModuleOverloader.override(
+              modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE)));
     } catch (CreationException ce) {
       Message first = ce.getErrorMessages().iterator().next();
       Throwable why = first.getCause();

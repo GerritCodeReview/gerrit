@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "dff5322e_3a474590",
+        "filename": "java/com/google/gerrit/server/events/AutoValueAdapterFactory.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-29T08:25:36Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "b990d30aa27f4e2f044121838578439dd9a40ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e41a11a5_4251ee25",
+        "filename": "java/com/google/gerrit/server/events/AutoValueAdapterFactory.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-29T08:25:36Z",
+      "side": 1,
+      "message": "Annotate the method as @Nullable?",
+      "revId": "b990d30aa27f4e2f044121838578439dd9a40ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0e14bf31_7863980c",
         "filename": "java/com/google/gerrit/server/events/GsonEventDeserializer.java",
         "patchSetId": 17
@@ -13,6 +53,29 @@
       "writtenOn": "2019-04-29T07:26:05Z",
       "side": 1,
       "message": "Copyright and license header is missing",
+      "revId": "b990d30aa27f4e2f044121838578439dd9a40ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dd45d17_180238d9",
+        "filename": "java/com/google/gerrit/server/events/GsonEventDeserializerProvider.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-29T08:25:36Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
       "revId": "b990d30aa27f4e2f044121838578439dd9a40ac2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

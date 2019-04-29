@@ -410,6 +410,24 @@
     },
     {
       "key": {
+        "uuid": "afafab6a_143c22e5",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-04-29T09:40:03Z",
+      "side": 1,
+      "message": "\u003e \u003e Or would you agree that new maintainers are nominated and accepted with the expectation that they leverage their \"deep technical [knowledge] across different parts of the core Gerrit codebase\" to the benefit of the community by engaging in the tasks outlined below?\n\u003e \n\u003e +1 *without expectations* for now on the number of contributions and the time dedicated to them.\n\nGood, then we have been in agreement all along!\n\n    Maintainers are expected to dedicate some of their time to:\n\nIs what we have been debating, and expectations on number-of-contribution or time-dedicated are not quantified in that statement.",
+      "parentUuid": "cddfbc27_66a96743",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c4687e9_99bb9211",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11

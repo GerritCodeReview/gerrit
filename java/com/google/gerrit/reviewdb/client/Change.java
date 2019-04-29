@@ -264,10 +264,10 @@ public final class Change {
       return Change.key(KeyUtil.decode(str));
     }
 
-    abstract String key();
+    abstract String id();
 
     public String get() {
-      return key();
+      return id();
     }
 
     /** Construct a key that is after all keys prefixed by this key. */

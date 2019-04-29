@@ -15,9 +15,15 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.base.Supplier;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.inject.Provider;
+import java.lang.reflect.Type;
 
 public class GsonEventDeserializerProvider implements Provider<Gson> {
   @Override
@@ -27,6 +33,17 @@ public class GsonEventDeserializerProvider implements Provider<Gson> {
         .registerTypeAdapter(Supplier.class, new SupplierSerializer())
         .registerTypeAdapter(Supplier.class, new SupplierDeserializer())
         .registerTypeAdapterFactory(new AutoValueAdapterFactory())
+        .registerTypeAdapter(Project.NameKey.class, new ProjectNameKeySerializer())
         .create();
+  }
+
+  private static class ProjectNameKeySerializer implements JsonSerializer<Project.NameKey> {
+    @Override
+    public JsonElement serialize(
+        Project.NameKey src, Type typeOfSrc, JsonSerializationContext context) {
+      JsonObject jsonObject = new JsonObject();
+      jsonObject.addProperty("name", src.get());
+      return jsonObject;
+    }
   }
 }

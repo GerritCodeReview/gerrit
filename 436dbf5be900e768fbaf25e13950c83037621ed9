@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f4590c3_f39f1d54",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-04-29T13:37:08Z",
+      "side": 1,
+      "message": "Not to start a new discussion but this wording leads to a discrepancy between contributor and maintainer.\n\"Contributors are highly encouraged to engage in code reviews and mailing list discussions\" whereas with maintainers  it is merely appreciated if they do.\nThe expectations (as it currently stands) are higher on contributors than on maintainers.\n\nEither:\n\n    It\u0027s appreciated if contributors engage in code reviews and mailing list discussions\n\nor\n\n    Maintainers are highly encouraged to dedicate some of their time to:",
+      "range": {
+        "startLine": 142,
+        "startChar": 5,
+        "endLine": 142,
+        "endChar": 17
+      },
+      "revId": "436dbf5be900e768fbaf25e13950c83037621ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

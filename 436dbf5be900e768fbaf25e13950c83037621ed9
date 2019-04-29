@@ -22,6 +22,30 @@
       "revId": "436dbf5be900e768fbaf25e13950c83037621ed9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f78a2980_52c9cccb",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T13:43:09Z",
+      "side": 1,
+      "message": "Good point. I think it makes sense to reverse this.\n\nDone.",
+      "parentUuid": "3f4590c3_f39f1d54",
+      "range": {
+        "startLine": 142,
+        "startChar": 5,
+        "endLine": 142,
+        "endChar": 17
+      },
+      "revId": "436dbf5be900e768fbaf25e13950c83037621ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -752,6 +752,24 @@
     },
     {
       "key": {
+        "uuid": "5d7ed34d_43e61880",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T13:43:09Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e Maintainers are expected to dedicate some of their time to:\n\u003e \u003e \n\u003e \u003e When I wrote this, I didn\u0027t intent to imply that there is any kind of obligation for maintainers here.\n\u003e \n\u003e Just to be clear. I did not interpret \"expected\" as \"obligated\".\n\nYes, I think you read it as it was meant by me :)\nBut I think Martin and Luca were interpreting it more in the direction of it being an obligation.",
+      "parentUuid": "494ad363_476b17f6",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c4687e9_99bb9211",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11

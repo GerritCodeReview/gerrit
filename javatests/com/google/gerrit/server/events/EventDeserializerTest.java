@@ -25,16 +25,13 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
-import com.google.gerrit.sshd.commands.StreamEvents;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gson.Gson;
 import java.sql.Timestamp;
 import org.junit.Test;
 
 public class EventDeserializerTest extends GerritBaseTests {
-  // TODO(dborowitz): These should be the same.
-  private final Gson serializeGson = StreamEvents.newGson();
-  private final Gson deserializeGson = new GsonEventDeserializerProvider().get();
+  private final Gson gson = new EventGsonProvider().get();
 
   @Test
   public void refUpdatedEvent() {
@@ -320,7 +317,7 @@ public class EventDeserializerTest extends GerritBaseTests {
 
   @SuppressWarnings("unchecked")
   private <E extends Event> E roundTrip(E event) {
-    String json = serializeGson.toJson(event);
-    return (E) deserializeGson.fromJson(json, event.getClass());
+    String json = gson.toJson(event);
+    return (E) gson.fromJson(json, event.getClass());
   }
 }

@@ -30,7 +30,6 @@ import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.sshd.commands.StreamEvents;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gson.Gson;
@@ -52,9 +51,7 @@ public class EventJsonTest extends GerritBaseTests {
   private static final double TS2 = 1.254344401E9;
   private static final String URL = "http://somewhere.com";
 
-  // TODO(dborowitz): These should be the same.
-  private final Gson serializeGson = StreamEvents.newGson();
-  private final Gson deserializeGson = new GsonEventDeserializerProvider().get();
+  private final Gson gson = new EventGsonProvider().get();
 
   @Before
   public void setTimeForTesting() {
@@ -606,9 +603,9 @@ public class EventJsonTest extends GerritBaseTests {
     // Parse JSON into a raw Java map:
     //  * Doesn't depend on field iteration order.
     //  * Avoids excessively long string literals in asserts.
-    String json = deserializeGson.toJson(src);
+    String json = gson.toJson(src);
     Map<Object, Object> map =
-        deserializeGson.fromJson(json, new TypeToken<Map<Object, Object>>() {}.getType());
+        gson.fromJson(json, new TypeToken<Map<Object, Object>>() {}.getType());
     return assertThat(map);
   }
 

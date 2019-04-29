@@ -31,6 +31,7 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 * link:dev-cla.html[Contributor License Agreement]
 * link:dev-contributing.html[Contributing to Gerrit]
 * link:dev-readme.html[Developer Setup]
+* link:dev-frontend-readme.html[Polymer Frontend Developer Setup]
 * link:dev-crafting-changes.html[Crafting Changes]
 * link:dev-starter-projects.html[Starter Projects]
 

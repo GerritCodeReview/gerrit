@@ -1,4 +1,8 @@
-# PolyGerrit
+# Gerrit Polymer Frontend
+
+Follow the
+[setup instructions for Gerrit backend developers](https://gerrit-review.googlesource.com/Documentation/dev-readme.html)
+where applicable.
 
 ## Installing [Bazel](https://bazel.build/)
 
@@ -20,8 +24,8 @@ brew install node
 brew install npm
 ```
 
-All other platforms: [download from
-nodejs.org](https://nodejs.org/en/download/).
+All other platforms:
+[download from nodejs.org](https://nodejs.org/en/download/).
 
 Various steps below require installing additional npm packages. The full list of
 dependencies can be installed with:
@@ -40,57 +44,61 @@ sudo npm install -g \
 It may complain about a missing `typescript@2.3.4` peer dependency, which is
 harmless.
 
-If you're interested in the details, keep reading.
+## Running locally against production data
 
-## Local UI, Production Data
+#### Go server
 
-This is a quick and easy way to test your local changes against real data.
-Unfortunately, you can't sign in, so testing certain features will require
-you to use the "test data" technique described below.
-
-### Running the server
-
-To test the local UI against gerrit-review.googlesource.com:
+To test the local Polymer frontend against gerrit-review.googlesource.com
+simply execute:
 
 ```sh
 ./run-server.sh
 ```
 
-Then visit http://localhost:8081
+Then visit <http://localhost:8081>.
 
-## Local UI, Test Data
-
-One-time setup:
-
-1. [Build Gerrit](https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_gerrit_development_war_file)
-2. Set up a local test site. Docs
-   [here](https://gerrit-review.googlesource.com/Documentation/linux-quickstart.html) and
-   [here](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#init).
-
-When your project is set up and works using the classic UI, run a test server
-that serves PolyGerrit:
-
-```sh
-bazel build gerrit &&
-  $(bazel info output_base)/external/local_jdk/bin/java \
-  -jar bazel-bin/gerrit.war daemon --polygerrit-dev \
-  -d ~/gerrit_testsite --console-log --show-stack-trace
-```
-
-Serving plugins
-
-> Local dev plugins must be put inside of gerrit/plugins
-
-Loading a single plugin file:
-
-```sh
-./run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js
-```
-
-Loading multiple plugin files:
+This method is based on a
+[simple hand-written Go webserver](https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/server.go).
+Mostly it just switches between serving files locally and proxying the real
+server based on the file name. It also does some basic response rewriting, e.g.
+it patches the `config/server/info` response with plugin information provided on
+the command line:
 
 ```sh
 ./run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js,plugins/my_plugin/static/my_plugin.html
+```
+
+The biggest draw back of this method is that you cannot log in, so cannot test
+scenarios that require it.
+
+#### MITM Proxy
+
+[MITM Proxy](https://mitmproxy.org/) is an open source product for proxying
+https servers. The
+[contrib/mitm-ui/](https://gerrit.googlesource.com/gerrit/+/master/contrib/mitm-ui/)
+directory contains scripts (and documentation) for using this technology
+(instead of the Go server). These scripts are somewhat experimental and
+unmaintained though.
+
+## Running locally against a Gerrit test site
+
+Set up a local test site once:
+
+1. [Build Gerrit](https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_gerrit_development_war_file)
+2. [Set up a local test site](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#init).
+3. Optionally [populate](https://gerrit.googlesource.com/gerrit/+/master/contrib/populate-fixture-data.py) your test site with some test data.
+
+For running a locally built Gerrit war against your test instance use
+[this command](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#run_daemon),
+and add the `--polygerrit-dev` option, if you want to serve the Polymer frontend
+directly from the sources in `polygerrit_ui/app/` instead of from the war:
+
+```sh
+$(bazel info output_base)/external/local_jdk/bin/java \
+    -jar bazel-bin/gerrit.war daemon \
+    -d ../gerrit_testsite \
+    --console-log \
+    --polygerrit-dev
 ```
 
 ## Running Tests
@@ -100,7 +108,14 @@ This step requires the `web-component-tester` npm module.
 Note: it may be necessary to add the options `--unsafe-perm=true --allow-root`
 to the `npm install` command to avoid file permission errors.
 
-Run all web tests:
+For daily development you typically only want to run and debug individual tests.
+Run the local [Go proxy server](#go-server) and navigate for example to
+<http://localhost:8081/elements/change/gr-account-entry/gr-account-entry_test.html>.
+Check "Disable cache" in the "Network" tab of Chrome's dev tools, so code
+changes are picked up on "reload".
+
+Our CI integration ensures that all tests are run when you upload a change to
+Gerrit, but you can also run all tests locally:
 
 ```sh
 ./polygerrit-ui/app/run_test.sh
@@ -117,26 +132,12 @@ If you need to pass additional arguments to `wct`:
 WCT_ARGS='-p --some-flag="foo bar"' ./polygerrit-ui/app/run_test.sh
 ```
 
-For interactively working on a single test file, do the following:
-
-```sh
-./polygerrit-ui/run-server.sh
-```
-
-Then visit http://localhost:8081/elements/foo/bar_test.html and check "Disable
-cache" in the "Network" tab of Chrome's dev tools, so code changes are picked
-up on "reload".
 
 To run Chrome tests in headless mode:
 
 ```sh
 WCT_HEADLESS_MODE=1 ./polygerrit-ui/app/run_test.sh
 ```
-
-Toolchain requirements for headless mode:
-
-* Chrome: 59+
-* web-component-tester: v6.5.0+
 
 ## Style guide
 
@@ -176,11 +177,14 @@ To run polylint, execute the following command.
 bazel test //polygerrit-ui/app:polylint_test
 ```
 ## Template Type Safety
-Polymer elements are not type checked against the element definition, making it trivial to break the display when refactoring or moving code. We now run additional tests to help ensure that template types are checked.
+Polymer elements are not type checked against the element definition, making it
+trivial to break the display when refactoring or moving code. We now run
+additional tests to help ensure that template types are checked.
 
 A few notes to ensure that these tests pass
 - Any functions with optional parameters will need closure annotations.
-- Any Polymer parameters that are nullable or can be multiple types (other than the one explicitly delared) will need type annotations.
+- Any Polymer parameters that are nullable or can be multiple types (other than
+  the one explicitly delared) will need type annotations.
 
 These tests require the `typescript` and `fried-twinkie` npm packages.
 

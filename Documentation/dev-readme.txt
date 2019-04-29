@@ -55,19 +55,23 @@ command to create a test site:
 
 ----
   $(bazel info output_base)/external/local_jdk/bin/java \
-     -jar bazel-bin/gerrit.war init -d ~/gerrit_testsite
+      -jar bazel-bin/gerrit.war init --batch --dev -d ../gerrit_testsite
 ----
 
 [[special_bazel_java_version]]
 NOTE: You must use the same Java version that Bazel used for the build, which
 is available at `$(bazel info output_base)/external/local_jdk/bin/java`.
 
-During initialization, change two settings from the defaults:
+This command takes two parameters:
 
-*  To ensure the development instance is not externally accessible, change the
-listen addresses from '*' to 'localhost'.
-*  To allow yourself to create and act as arbitrary test accounts on your
-development instance, change the auth type from 'OPENID' to 'DEVELOPMENT_BECOME_ANY_ACCOUNT'.
+* `--batch` assigns default values to several Gerrit configuration
+    options. To learn more about these options, see
+    link:config-gerrit.html[Configuration].
+* `--dev` configures the Gerrit server to use the authentication
+  option, `DEVELOPMENT_BECOME_ANY_ACCOUNT`, which enables you to
+  switch between different users to explore how Gerrit works. To learn more
+  about setting up Gerrit for development, see
+  link:dev-readme.html[Gerrit Code Review: Developer Setup].
 
 After initializing the test site, Gerrit starts serving in the background. A
 web browser displays the Start page.

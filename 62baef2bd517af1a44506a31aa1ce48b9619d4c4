@@ -428,6 +428,24 @@
     },
     {
       "key": {
+        "uuid": "2cfb3032_ef1fa2a6",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-29T09:53:59Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e Or would you agree that new maintainers are nominated and accepted with the expectation that they leverage their \"deep technical [knowledge] across different parts of the core Gerrit codebase\" to the benefit of the community by engaging in the tasks outlined below?\n\u003e \u003e \n\u003e \u003e +1 *without expectations* for now on the number of contributions and the time dedicated to them.\n\u003e \n\u003e Good, then we have been in agreement all along!\n\u003e \n\u003e     Maintainers are expected to dedicate some of their time to:\n\u003e \n\u003e Is what we have been debating, and expectations on number-of-contribution or time-dedicated are not quantified in that statement.\n\nThe \"are expected\" is the sticking point: if you read the statement it is saying \"If you are maintainer we expect you to dedicate time for all of these activities\".\n\nIf we amend the statement to:\n\n  Maintainers may dedicate some of their time to:\n\nThen it reflects IMHO the current status: no specific expectations but only a list of duties on a voluntary basis, that is exactly that is happening today.",
+      "parentUuid": "afafab6a_143c22e5",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c4687e9_99bb9211",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11

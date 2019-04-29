@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Supplier;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -49,7 +50,7 @@ import org.kohsuke.args4j.Option;
 
 @RequiresCapability(GlobalCapability.STREAM_EVENTS)
 @CommandMetaData(name = "stream-events", description = "Monitor events occurring in real time")
-final class StreamEvents extends BaseCommand {
+public final class StreamEvents extends BaseCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Maximum number of events that may be queued up for each connection. */
@@ -166,11 +167,15 @@ final class StreamEvents extends BaseCommand {
               }
             });
 
-    gson =
-        new GsonBuilder()
-            .registerTypeAdapter(Supplier.class, new SupplierSerializer())
-            .registerTypeAdapter(Project.NameKey.class, new ProjectNameKeySerializer())
-            .create();
+    gson = newGson();
+  }
+
+  @VisibleForTesting
+  public static Gson newGson() {
+    return new GsonBuilder()
+        .registerTypeAdapter(Supplier.class, new SupplierSerializer())
+        .registerTypeAdapter(Project.NameKey.class, new ProjectNameKeySerializer())
+        .create();
   }
 
   private void removeEventListenerRegistration() {

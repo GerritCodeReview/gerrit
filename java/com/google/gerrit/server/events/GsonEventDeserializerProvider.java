@@ -15,6 +15,7 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.base.Supplier;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Provider;
@@ -27,6 +28,7 @@ public class GsonEventDeserializerProvider implements Provider<Gson> {
         .registerTypeAdapter(Supplier.class, new SupplierSerializer())
         .registerTypeAdapter(Supplier.class, new SupplierDeserializer())
         .registerTypeAdapterFactory(new AutoValueAdapterFactory())
+        .registerTypeAdapter(Project.NameKey.class, new ProjectNameKeySerializer())
         .create();
   }
 }

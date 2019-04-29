@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8809224d_593ebc59",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-29T09:39:16Z",
+      "side": 1,
+      "message": "I agree it\u0027s simple, but it\u0027s also depending on a lot of what I would consider an implementation detail. What if the annotate process errors out somehow? What if a future version wants to annotate in a different order or in parallel? \n\nI would personally prefer to make one pass over coverageRanges as they come in and write them into a Map by number. That is probably efficient enough (it\u0027s still amortized linear) and makes less assumptions / will require less comments to explain this slightly odd requirements and approach...\n\nIt might also allow you to only have a single coverage layer for both sides?",
+      "range": {
+        "startLine": 66,
+        "startChar": 70,
+        "endLine": 66,
+        "endChar": 76
+      },
+      "revId": "147682df4720b9baf230159b404a0e920831cdf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74a7b254_427bc232",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-29T09:39:16Z",
+      "side": 1,
+      "message": "Nit: model? Object is super generic and could mean anything...",
+      "range": {
+        "startLine": 86,
+        "startChar": 38,
+        "endLine": 86,
+        "endChar": 44
+      },
+      "revId": "147682df4720b9baf230159b404a0e920831cdf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b054d132_fb7ea1c2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-29T09:39:16Z",
+      "side": 1,
+      "message": "Can you actually have two elements with the same id? I think this is even forbidden by simple HTML, no?",
+      "range": {
+        "startLine": 40,
+        "startChar": 8,
+        "endLine": 40,
+        "endChar": 26
+      },
+      "revId": "147682df4720b9baf230159b404a0e920831cdf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

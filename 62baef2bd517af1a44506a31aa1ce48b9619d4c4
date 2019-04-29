@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b6c0f9f0_34620450",
+        "filename": "Documentation/dev-community.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T12:28:19Z",
+      "side": 1,
+      "message": "This is a left-over from a previous patch set, when there was a separate role for User, and should be removed. This role was merged into the Supporters role now (see discussion at [1]). I prefer this, because the separation between all roles is pretty clear now, as pointed out by Sven in [1]. Though I\u0027m fine with re-adding the User role if there is consensus that this is better.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/222153/9..10/Documentation/dev-roles.txt",
+      "parentUuid": "2f805fb7_55023321",
+      "range": {
+        "startLine": 24,
+        "startChar": 3,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "67553a8b_c1017bb0",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11
@@ -45,6 +69,30 @@
       "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "598fbda3_ae492ca7",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T12:28:19Z",
+      "side": 1,
+      "message": "Yes, this is about roles in the Gerrit community that support the project.\n\nChanged to \"Supporting Roles\" as you suggest.",
+      "parentUuid": "67553a8b_c1017bb0",
+      "range": {
+        "startLine": 1,
+        "startChar": 23,
+        "endLine": 1,
+        "endChar": 28
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "32ff15f8_3847e1c6",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T12:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b05723e0_b2218123",
+      "range": {
+        "startLine": 27,
+        "startChar": 59,
+        "endLine": 27,
+        "endChar": 74
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92666be3_3ad71979",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11
@@ -91,6 +163,30 @@
       "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23ab07d8_32d65c15",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T12:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92666be3_3ad71979",
+      "range": {
+        "startLine": 42,
+        "startChar": 15,
+        "endLine": 42,
+        "endChar": 17
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "ce4e526b_989a0ae3",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T12:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c416f9f_771bc81a",
+      "range": {
+        "startLine": 44,
+        "startChar": 59,
+        "endLine": 44,
+        "endChar": 74
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbb09a9b_e67bceb3",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11
@@ -134,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "14eda87e_811e4de4",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T12:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbb09a9b_e67bceb3",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9888bc75_a69cf636",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11
@@ -148,6 +286,24 @@
       "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f22af3ef_1284e686",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T12:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9888bc75_a69cf636",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -174,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "561ee867_bd9840e9",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T12:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8455efc_d277d6f7",
+      "range": {
+        "startLine": 77,
+        "startChar": 54,
+        "endLine": 77,
+        "endChar": 56
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dff7e36f_a61ca064",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11
@@ -194,6 +374,30 @@
       "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9bd619f_326b6a81",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T12:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dff7e36f_a61ca064",
+      "range": {
+        "startLine": 85,
+        "startChar": 29,
+        "endLine": 85,
+        "endChar": 68
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -244,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "3a4ff8f5_01c4bb82",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T12:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "438dc0e3_82752ecb",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 11
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2881fdb2_d7af2991",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11
@@ -264,6 +492,30 @@
       "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce8f191a_e6b60492",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T12:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2881fdb2_d7af2991",
+      "range": {
+        "startLine": 111,
+        "startChar": 14,
+        "endLine": 116,
+        "endChar": 30
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -464,6 +716,24 @@
     },
     {
       "key": {
+        "uuid": "4b2a2baf_9e1979fd",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T12:28:19Z",
+      "side": 1,
+      "message": "Thanks for the lively discussion on this.\nI\u0027m glad we are having it and I believe having role describtions can help us reduce friction in the community that come from different understandings of the roles.\n\nI agree that currently there are no obligations for maintainers, but I think nonetheless that non-maintainers do have expectations towards maintainers. That\u0027s a mismatch and we should surely discuss if we can make this better (maybe documenting the maintainer role already helps?).\n\n\u003e Maintainers are expected to dedicate some of their time to:\n\nWhen I wrote this, I didn\u0027t intent to imply that there is any kind of obligation for maintainers here.\nThat\u0027s why it\u0027s not saying \"must dedicate\", and also \"some of their time\" was kept intentionally vague. However as this discussion shows this way of phrasing is bad since it\u0027s open to different interpretations. The whole point of this doc is to clearly define the role and if different interpretations are possible, it\u0027s not clear. Hence I rephrased it and hope that it is clearer now?\n\nI think, this change is maybe not the right place to discuss possible future changes to the maintainers role, but as said I\u0027m happy if we continue this discussion.\n\n@Luca: Thanks for bringing in Shawn\u0027s definition of what\u0027s expected from a contributor to become a maintainer. I included this.",
+      "parentUuid": "afafab6a_143c22e5",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c4687e9_99bb9211",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11
@@ -484,6 +754,30 @@
       "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22125219_1daed4cf",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T12:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c4687e9_99bb9211",
+      "range": {
+        "startLine": 161,
+        "startChar": 2,
+        "endLine": 161,
+        "endChar": 41
+      },
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -519,6 +813,24 @@
       "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b8fbe53_67816e40",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-04-29T12:28:19Z",
+      "side": 1,
+      "message": "\u003e can you explain\n\u003e\n\u003e * why is this rule in place ?\n\u003e * what are the rules for accepting/rejecting dependencies by Google maintainers ?\n\nI added this info in the \u0027Upgrading Libraries\u0027 section which is linked from here. I cannot add too many details though (e.g. the list of compliant licenses is maintained by our lawyers and I cannot copy it into the Gerrit documentation).\n\n\u003e +1, and I\u0027d also add this question: should we consider other organizations also potentially\n\u003e in need of co-vetoing on LC, say, if they have constraints such as Google\u0027s? -Now maybe this\n\u003e is a controversial topic for a follow-up and not this change review. Ericsson is not urgently\n\u003e pushing for this now, I mean...\n\nThat\u0027s a valid question. So far this was only an issue for Google, hence the current process doesn\u0027t foresee anyone else to veto. If this becomes an issue for other companies too, we should have a dedicated discussion about this on the mailing list. I don\u0027t think that the current library compliance process would scale well for this, and coming up with something better is probably not easy.\n\n\u003e What I have in mind too is the timely scoring of LC votes, which sometimes take a longer time\n\u003e given Googlers\u0027 genuine constraints on how much time they need to properly vote.\n\nYes, we are aware that this is a problem and we are working further on easing the pain here. E.g. Hanwen just made a change to remove the compliance label for upgrades of libraries which are not used at Google [1]. We have a daily rotation to look at changes which need library compliance, but if there is a version mismatch with what is used within Google, we need to upgrade all of Google to the new library version first, which is often not trivial. It\u0027s also a lot of work, which is why we are hesitant to do it if there is no obvious value in upgrading the library. We are happy to discuss the library upgrade process further, but I see this as unrelated to this change and our proposal for better project governance.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/221093",
+      "parentUuid": "a1d61841_e826c96a",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

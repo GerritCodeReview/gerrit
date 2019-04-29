@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.util.stream.Collectors.joining;
 import static org.junit.Assert.fail;
 
@@ -205,8 +205,8 @@ public abstract class StandaloneSiteTest {
     // Use invokeProgram with the current classloader, rather than mainImpl, which would create a
     // new classloader. This is necessary so that static state, particularly the SystemReader, is
     // shared with the test method.
-    assertThat(GerritLauncher.invokeProgram(StandaloneSiteTest.class.getClassLoader(), args))
-        .named("gerrit.war " + Arrays.stream(args).collect(joining(" ")))
+    assertWithMessage("gerrit.war " + Arrays.stream(args).collect(joining(" ")))
+        .that(GerritLauncher.invokeProgram(StandaloneSiteTest.class.getClassLoader(), args))
         .isEqualTo(0);
   }
 

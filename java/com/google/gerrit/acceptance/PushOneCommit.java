@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static org.junit.Assert.assertEquals;
 
@@ -395,15 +396,15 @@ public class PushOneCommit {
     public void assertErrorStatus() {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
       assertThat(refUpdate).isNotNull();
-      assertThat(refUpdate.getStatus())
-          .named(message(refUpdate))
+      assertWithMessage(message(refUpdate))
+          .that(refUpdate.getStatus())
           .isEqualTo(Status.REJECTED_OTHER_REASON);
     }
 
     private void assertStatus(Status expectedStatus, String expectedMessage) {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
       assertThat(refUpdate).isNotNull();
-      assertThat(refUpdate.getStatus()).named(message(refUpdate)).isEqualTo(expectedStatus);
+      assertWithMessage(message(refUpdate)).that(refUpdate.getStatus()).isEqualTo(expectedStatus);
       if (expectedMessage == null) {
         assertThat(refUpdate.getMessage()).isNull();
       } else {

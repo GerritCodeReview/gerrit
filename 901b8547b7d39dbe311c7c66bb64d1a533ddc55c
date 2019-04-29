@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "45d13d1c_1755f551",
+        "filename": "Documentation/cmd-set-reviewers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-29T13:11:17Z",
+      "side": 1,
+      "message": "Actually looking at the code again, there is no specific access permission check from the user to the project. Removing it also from the documentation.",
+      "parentUuid": "3c5f8a42_d1947b07",
+      "range": {
+        "startLine": 31,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 47
+      },
+      "revId": "901b8547b7d39dbe311c7c66bb64d1a533ddc55c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4833789d_c7262a02",
         "filename": "Documentation/cmd-set-reviewers.txt",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d52f31fa_f7560ff2",
+        "filename": "Documentation/cmd-set-reviewers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-29T13:11:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4833789d_c7262a02",
+      "range": {
+        "startLine": 34,
+        "startChar": 1,
+        "endLine": 34,
+        "endChar": 5
+      },
+      "revId": "901b8547b7d39dbe311c7c66bb64d1a533ddc55c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02275810_69a07f18",
         "filename": "Documentation/cmd-set-reviewers.txt",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "901b8547b7d39dbe311c7c66bb64d1a533ddc55c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8277d4a3_c773c8b8",
+        "filename": "Documentation/cmd-set-reviewers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-29T13:11:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "02275810_69a07f18",
+      "range": {
+        "startLine": 35,
+        "startChar": 58,
+        "endLine": 35,
+        "endChar": 65
+      },
+      "revId": "901b8547b7d39dbe311c7c66bb64d1a533ddc55c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

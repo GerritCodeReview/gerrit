@@ -71,6 +71,10 @@ public final class Branch {
     }
 
     public String getShortName() {
+      return shortName();
+    }
+
+    public String shortName() {
       return RefNames.shortName(get());
     }
   }

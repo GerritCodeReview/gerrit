@@ -1526,7 +1526,9 @@
      * @param {function(?Response, string=)=} opt_errFn
      */
     getChangeSuggestedReviewers(changeNum, inputVal, opt_errFn) {
-      const params = {n: 10};
+      // More suggestions may obscure content underneath in the reply dialog,
+      // see issue 10793.
+      const params = {n: 6};
       if (inputVal) { params.q = inputVal; }
       return this._getChangeURLAndFetch({
         changeNum,

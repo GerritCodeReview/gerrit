@@ -30,9 +30,9 @@ import org.eclipse.jgit.lib.Config;
 public class LibModuleLoader {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static List<Module> loadModules(Injector parent) {
+  public static List<Module> loadModules(Injector parent, LibModuleType moduleType) {
     Config cfg = getConfig(parent);
-    return Arrays.stream(cfg.getStringList("gerrit", null, "installModule"))
+    return Arrays.stream(cfg.getStringList("gerrit", null, "install" + moduleType.getConfigKey()))
         .map(m -> createModule(parent, m))
         .collect(toList());
   }

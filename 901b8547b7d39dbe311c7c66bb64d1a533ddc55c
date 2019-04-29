@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c5f8a42_d1947b07",
+        "filename": "Documentation/cmd-set-reviewers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-04-29T13:08:10Z",
+      "side": 1,
+      "message": "complicated sentence. Suggestion:\n\n Please note that the project specified must be active. Additionally, the\n current user must be authorized to access it and to set reviewers to the\n change.",
+      "range": {
+        "startLine": 31,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 47
+      },
+      "revId": "901b8547b7d39dbe311c7c66bb64d1a533ddc55c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4833789d_c7262a02",
+        "filename": "Documentation/cmd-set-reviewers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-04-29T13:08:10Z",
+      "side": 1,
+      "message": "(nit) When -\u003e If",
+      "range": {
+        "startLine": 34,
+        "startChar": 1,
+        "endLine": 34,
+        "endChar": 5
+      },
+      "revId": "901b8547b7d39dbe311c7c66bb64d1a533ddc55c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02275810_69a07f18",
+        "filename": "Documentation/cmd-set-reviewers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-04-29T13:08:10Z",
+      "side": 1,
+      "message": "(nit) clearer if \"to all of them\", assuming that\u0027s what you mean",
+      "range": {
+        "startLine": 35,
+        "startChar": 58,
+        "endLine": 35,
+        "endChar": 65
+      },
+      "revId": "901b8547b7d39dbe311c7c66bb64d1a533ddc55c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aaee326_b862eb23",
+        "filename": "Documentation/cmd-set-reviewers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-04-29T13:08:10Z",
+      "side": 1,
+      "message": "this example should include the --project option, I think",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 4
+      },
+      "revId": "901b8547b7d39dbe311c7c66bb64d1a533ddc55c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18c5fa13_43ee68a0",
+        "filename": "Documentation/cmd-set-reviewers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-04-29T13:08:10Z",
+      "side": 1,
+      "message": "this example should include the --project option, I think",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 1
+      },
+      "revId": "901b8547b7d39dbe311c7c66bb64d1a533ddc55c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

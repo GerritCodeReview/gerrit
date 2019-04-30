@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac0126e5_41753528",
+        "filename": "plugins/plugin-manager",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-30T22:14:25Z",
+      "side": 1,
+      "message": "This should be upgraded to reflect recent changes in the plugin.",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "8e8fef97a1253e561e30a8d5a8912abec3bf6849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

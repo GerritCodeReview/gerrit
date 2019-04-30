@@ -884,6 +884,24 @@
     },
     {
       "key": {
+        "uuid": "f5a33512_f9dae05e",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-04-30T12:51:02Z",
+      "side": 1,
+      "message": "\u003eAre you suggesting we abandon collective code ownership and we endorse component-based ownership?\n\nNo, not for now. I\u0027m just observing that adding more maintainers to the current model won\u0027t necessarily move the project more quickly.",
+      "parentUuid": "525b84bd_f089faaf",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c4687e9_99bb9211",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11

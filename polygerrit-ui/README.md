@@ -74,7 +74,7 @@ that serves PolyGerrit:
 bazel build gerrit &&
   $(bazel info output_base)/external/local_jdk/bin/java \
   -jar bazel-bin/gerrit.war daemon --polygerrit-dev \
-  -d ../gerrit_testsite --console-log --show-stack-trace
+  -d ~/gerrit_testsite --console-log --show-stack-trace
 ```
 
 Serving plugins

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11d41a6a_ebf8327b",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareDfsRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-30T15:46:09Z",
+      "side": 1,
+      "message": "Needs a license header.",
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d27ed3ed_927df4a6",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepositoryWrapper.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-30T15:46:09Z",
+      "side": 1,
+      "message": "Needs a license header.",
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

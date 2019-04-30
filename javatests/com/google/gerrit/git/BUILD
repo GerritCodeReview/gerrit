@@ -30,10 +30,11 @@ junit_tests(
         "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/testing:gerrit-test-util",
-        "//lib/easymock",
         "//lib:guava",
+        "//lib/easymock",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
-        "//lib/truth"
+        "//lib/truth",
+        "@commons-lang//jar",
     ],
 )

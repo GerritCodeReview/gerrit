@@ -55,7 +55,7 @@ import org.eclipse.jgit.util.FS;
 /**
  * Wrapper around {@link DfsRepository} that delegates all calls to the wrapped {@link
  * DfsRepository} except for {@link #getRefDatabase()} where it provides a {@link
- * PermissionAwareReadOnlyRefDatabase}.
+ * PermissionAwareRefDatabase}.
  *
  * <p>This is an almost exact copy of {@link PermissionAwareRepository} that should disappear once
  * the JGit {@link Repository} class would be converted into an interface and the code using it
@@ -65,14 +65,13 @@ public class PermissionAwareDfsRepository extends DfsRepository
     implements PermissionAwareRepositoryWrapper {
 
   private final DfsRepository delegate;
-  private final PermissionAwareReadOnlyRefDatabase permissionAwareReadOnlyRefDatabase;
+  private final PermissionAwareRefDatabase permissionAwareReadOnlyRefDatabase;
 
   public PermissionAwareDfsRepository(
       DfsRepository delegate, PermissionBackend.ForProject forProject) {
     super(toBuilder(delegate));
     this.delegate = delegate;
-    this.permissionAwareReadOnlyRefDatabase =
-        new PermissionAwareReadOnlyRefDatabase(delegate, forProject);
+    this.permissionAwareReadOnlyRefDatabase = new PermissionAwareRefDatabase(delegate, forProject);
   }
   
   @Override

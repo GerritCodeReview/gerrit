@@ -866,6 +866,24 @@
     },
     {
       "key": {
+        "uuid": "525b84bd_f089faaf",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-04-30T12:42:34Z",
+      "side": 1,
+      "message": "\u003e Having more maintainers by itself is not enough, and could even be detrimental, through the bystander effect (https://en.wikipedia.org/wiki/Bystander_effect): if there are many maintainers, the chance of a change going unreviewed is higher because everyone will think someone else will do it.\n\u003e \n\u003e What might work if we couple having more maintainers with more explicit ownership. Or, perhaps a per-component notion of ownership/maintainership, where we could assign maintainers to (say) subdirectories of the codebase.\n\nAre you suggesting we abandon collective code ownership and we endorse component-based ownership?\n\n\u003e \n\u003e \u003eI believe Han-Wen will have a good proposal for keeping consensus with an increasing number of \u003econtributors and maintainers and moving more quickly.\n\u003e \n\u003e I have asked Edwin to come up with ideas, so stay tuned for input from him.\n\nLooking forward to it.",
+      "parentUuid": "c3a456bd_5e5b6b5c",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c4687e9_99bb9211",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11

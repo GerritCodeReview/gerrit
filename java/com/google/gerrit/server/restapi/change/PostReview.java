@@ -1283,7 +1283,7 @@ public class PostReview
           // Pick a random label that is about to be deleted and keep it.
           Iterator<PatchSetApproval> i = del.iterator();
           PatchSetApproval c = i.next();
-          c.setValue((short) 0);
+          c.setValue(0);
           c.setGranted(ctx.getWhen());
           i.remove();
           ups.add(c);

@@ -15,6 +15,7 @@
 package com.google.gerrit.reviewdb.client;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -123,6 +124,10 @@ public final class PatchSetApproval {
 
   public void setValue(short v) {
     value = v;
+  }
+
+  public void setValue(int v) {
+    setValue(Shorts.checkedCast(v));
   }
 
   public Timestamp getGranted() {

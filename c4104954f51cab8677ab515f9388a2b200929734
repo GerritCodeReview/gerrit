@@ -119,6 +119,30 @@
       "revId": "c4104954f51cab8677ab515f9388a2b200929734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbe5150b_99e2a974",
+        "filename": "java/com/google/gerrit/server/events/AutoValueAdapterFactory.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-30T20:14:25Z",
+      "side": 1,
+      "message": "\u003e I have not suggested to re-introduce gwtorm.Key.\n\nSorry, that\u0027s what I thought you meant by \"revert Change.Key migration to AutoValue\".\n\n\u003e Can\u0027t the Change.Key be implemented manually, without using AutoValue altogether for now? \n\nYes, I think we\u0027re on the same page now.",
+      "parentUuid": "d3dafe62_2965b556",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 5
+      },
+      "revId": "c4104954f51cab8677ab515f9388a2b200929734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0a9cd4b1_5c364013",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-30T07:53:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4230538e_dfedbbd6",
+      "range": {
+        "startLine": 254,
+        "startChar": 5,
+        "endLine": 257,
+        "endChar": 48
+      },
+      "revId": "4dd0697093869651fc132e57376ecca36465aa2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20a42c64_e6129198",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
         "patchSetId": 24
@@ -45,6 +69,30 @@
       "revId": "4dd0697093869651fc132e57376ecca36465aa2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61b15eab_b25c4717",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-30T07:53:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20a42c64_e6129198",
+      "range": {
+        "startLine": 64,
+        "startChar": 5,
+        "endLine": 64,
+        "endChar": 43
+      },
+      "revId": "4dd0697093869651fc132e57376ecca36465aa2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c2d9f94c_ffcf8d55",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-30T07:53:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d595036_aa49c39c",
+      "range": {
+        "startLine": 71,
+        "startChar": 3,
+        "endLine": 71,
+        "endChar": 5
+      },
+      "revId": "4dd0697093869651fc132e57376ecca36465aa2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02d866f0_d0c0985f",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
         "patchSetId": 24
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "c841f3fe_0992c1af",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-30T07:53:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02d866f0_d0c0985f",
+      "range": {
+        "startLine": 231,
+        "startChar": 4,
+        "endLine": 231,
+        "endChar": 21
+      },
+      "revId": "4dd0697093869651fc132e57376ecca36465aa2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee872bc0_d44215a5",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
         "patchSetId": 24
@@ -114,6 +210,30 @@
       "revId": "4dd0697093869651fc132e57376ecca36465aa2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "023ba0f9_08cfd861",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-30T07:53:36Z",
+      "side": 1,
+      "message": "Promise.resolve([]) is a promise, [] is an array.\n\nYou know JavaScript way better than I do, so I might miss something, but returning Promise.resolve([]) can also be found elsewhere in the code base.",
+      "parentUuid": "ee872bc0_d44215a5",
+      "range": {
+        "startLine": 242,
+        "startChar": 15,
+        "endLine": 242,
+        "endChar": 34
+      },
+      "revId": "4dd0697093869651fc132e57376ecca36465aa2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

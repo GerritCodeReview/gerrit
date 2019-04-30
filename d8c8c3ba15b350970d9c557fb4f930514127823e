@@ -22,6 +22,30 @@
       "revId": "d8c8c3ba15b350970d9c557fb4f930514127823e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b6a060c_9db75899",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-30T07:53:36Z",
+      "side": 1,
+      "message": "Good point. I have added a separate catch clause here, because I don\u0027t want the coverage errors to interfere with the diff loading. Just logging a warning to the console for failed coverage seems appropriate.",
+      "parentUuid": "cac6506f_3693ac37",
+      "range": {
+        "startLine": 254,
+        "startChar": 6,
+        "endLine": 254,
+        "endChar": 10
+      },
+      "revId": "d8c8c3ba15b350970d9c557fb4f930514127823e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

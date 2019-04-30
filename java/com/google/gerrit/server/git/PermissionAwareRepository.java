@@ -52,37 +52,35 @@ import org.eclipse.jgit.util.FS;
 
 /**
  * Wrapper around {@link Repository} that delegates all calls to the wrapped {@link Repository}
- * except for {@link #getRefDatabase()} where it provides a {@link
- * PermissionAwareReadOnlyRefDatabase}.
+ * except for {@link #getRefDatabase()} where it provides a {@link PermissionAwareRefDatabase}.
  */
 public class PermissionAwareRepository extends Repository
     implements PermissionAwareRepositoryWrapper {
 
   private final Repository delegate;
-  private final PermissionAwareReadOnlyRefDatabase permissionAwareReadOnlyRefDatabase;
+  private final PermissionAwareRefDatabase permissionAwareReadOnlyRefDatabase;
 
   public PermissionAwareRepository(Repository delegate, PermissionBackend.ForProject forProject) {
     super(toBuilder(delegate));
     this.delegate = delegate;
-    this.permissionAwareReadOnlyRefDatabase =
-        new PermissionAwareReadOnlyRefDatabase(delegate, forProject);
+    this.permissionAwareReadOnlyRefDatabase = new PermissionAwareRefDatabase(delegate, forProject);
   }
 
   @Override
   public Repository unwrap() {
     return delegate;
   }
-  
+
   private static BaseRepositoryBuilder toBuilder(Repository repo) {
-	    BaseRepositoryBuilder b = new BaseRepositoryBuilder<>();
-	    b.setFS(repo.getFS());
-	    b.setGitDir(repo.getDirectory());
-	    if (!repo.isBare()) {
-	      b.setIndexFile(repo.getIndexFile());
-	      b.setWorkTree(repo.getWorkTree());
-	    }
-	    return b;
-	  }
+    BaseRepositoryBuilder b = new BaseRepositoryBuilder<>();
+    b.setFS(repo.getFS());
+    b.setGitDir(repo.getDirectory());
+    if (!repo.isBare()) {
+      b.setIndexFile(repo.getIndexFile());
+      b.setWorkTree(repo.getWorkTree());
+    }
+    return b;
+  }
 
   ////// Overriding all public methods, not just abstract ones, in order to act as a pure proxy
 
@@ -100,7 +98,6 @@ public class PermissionAwareRepository extends Repository
   public void create() throws IOException {
     delegate.create();
   }
-  
 
   @Override
   public void create(boolean bare) throws IOException {
@@ -141,7 +138,7 @@ public class PermissionAwareRepository extends Repository
   public AttributesNodeProvider createAttributesNodeProvider() {
     return delegate.createAttributesNodeProvider();
   }
-  
+
   @Override
   public FS getFS() {
     return delegate.getFS();
@@ -280,7 +277,7 @@ public class PermissionAwareRepository extends Repository
   public void notifyIndexChanged(boolean internal) {
     delegate.notifyIndexChanged(internal);
   }
-  
+
   @Override
   public String shortenRemoteBranchName(String refName) {
     return delegate.shortenRemoteBranchName(refName);
@@ -305,7 +302,7 @@ public class PermissionAwareRepository extends Repository
   public ReflogReader getReflogReader(String refName) throws IOException {
     return delegate.getReflogReader(refName);
   }
-  
+
   @Override
   public String readMergeCommitMsg() throws IOException, NoWorkTreeException {
     return delegate.readMergeCommitMsg();

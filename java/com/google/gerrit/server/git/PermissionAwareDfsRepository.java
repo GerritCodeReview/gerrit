@@ -55,7 +55,7 @@ import org.eclipse.jgit.util.FS;
 /**
  * Wrapper around {@link DfsRepository} that delegates all calls to the wrapped {@link
  * DfsRepository} except for {@link #getRefDatabase()} where it provides a {@link
- * PermissionAwareReadOnlyRefDatabase}.
+ * PermissionAwareRefDatabase}.
  *
  * <p>This is an almost exact copy of {@link PermissionAwareRepository} that should disappear once
  * the JGit {@link Repository} class would be converted into an interface and the code using it
@@ -65,41 +65,41 @@ public class PermissionAwareDfsRepository extends DfsRepository
     implements PermissionAwareRepositoryWrapper {
 
   private final DfsRepository delegate;
-  private final PermissionAwareReadOnlyRefDatabase permissionAwareReadOnlyRefDatabase;
+  private final PermissionAwareRefDatabase permissionAwareReadOnlyRefDatabase;
 
   public PermissionAwareDfsRepository(
       DfsRepository delegate, PermissionBackend.ForProject forProject) {
     super(toBuilder(delegate));
     this.delegate = delegate;
-    this.permissionAwareReadOnlyRefDatabase =
-        new PermissionAwareReadOnlyRefDatabase(delegate, forProject);
+    this.permissionAwareReadOnlyRefDatabase = new PermissionAwareRefDatabase(delegate, forProject);
   }
-  
+
   @Override
   public Repository unwrap() {
     return delegate;
   }
 
   private static DfsRepositoryBuilder<DfsRepositoryBuilder, DfsRepository> toBuilder(
-	      DfsRepository repo) {
-	    DfsRepositoryBuilder<DfsRepositoryBuilder, DfsRepository> b =
-	        new DfsRepositoryBuilder<DfsRepositoryBuilder, DfsRepository>() {
-	          @Override
-	          public DfsRepository build() throws IOException {
-	            return null;
-	          }
-	        };
-	    b.setFS(repo.getFS());
-	    b.setGitDir(repo.getDirectory());
-	    if (!repo.isBare()) {
-	      b.setIndexFile(repo.getIndexFile());
-	      b.setWorkTree(repo.getWorkTree());
-	    }
+      DfsRepository repo) {
+    DfsRepositoryBuilder<DfsRepositoryBuilder, DfsRepository> b =
+        new DfsRepositoryBuilder<DfsRepositoryBuilder, DfsRepository>() {
+          @Override
+          public DfsRepository build() throws IOException {
+            return null;
+          }
+        };
+    b.setFS(repo.getFS());
+    b.setGitDir(repo.getDirectory());
+    if (!repo.isBare()) {
+      b.setIndexFile(repo.getIndexFile());
+      b.setWorkTree(repo.getWorkTree());
+    }
 
-	    return b;
-	  }
-  
-  ////// Overriding all Repository public methods, not just abstract ones, in order to act as a pure proxy
+    return b;
+  }
+
+  ////// Overriding all Repository public methods, not just abstract ones, in order to act as a pure
+  // proxy
 
   @Override
   public ListenerList getListenerList() {
@@ -150,12 +150,12 @@ public class PermissionAwareDfsRepository extends DfsRepository
   public StoredConfig getConfig() {
     return delegate.getConfig();
   }
-  
+
   @Override
   public AttributesNodeProvider createAttributesNodeProvider() {
     return delegate.createAttributesNodeProvider();
   }
-  
+
   @Override
   public FS getFS() {
     return delegate.getFS();
@@ -295,7 +295,6 @@ public class PermissionAwareDfsRepository extends DfsRepository
     delegate.notifyIndexChanged(internal);
   }
 
-  
   @Override
   public String shortenRemoteBranchName(String refName) {
     return delegate.shortenRemoteBranchName(refName);
@@ -320,7 +319,7 @@ public class PermissionAwareDfsRepository extends DfsRepository
   public ReflogReader getReflogReader(String refName) throws IOException {
     return delegate.getReflogReader(refName);
   }
-  
+
   @Override
   public String readMergeCommitMsg() throws IOException, NoWorkTreeException {
     return delegate.readMergeCommitMsg();

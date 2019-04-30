@@ -848,6 +848,24 @@
     },
     {
       "key": {
+        "uuid": "c3a456bd_5e5b6b5c",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-04-30T12:39:35Z",
+      "side": 1,
+      "message": "Having more maintainers by itself is not enough, and could even be detrimental, through the bystander effect (https://en.wikipedia.org/wiki/Bystander_effect): if there are many maintainers, the chance of a change going unreviewed is higher because everyone will think someone else will do it.\n\nWhat might work if we couple having more maintainers with more explicit ownership. Or, perhaps a per-component notion of ownership/maintainership, where we could assign maintainers to (say) subdirectories of the codebase.\n\n\u003eI believe Han-Wen will have a good proposal for keeping consensus with an increasing number of \u003econtributors and maintainers and moving more quickly.\n\nI have asked Edwin to come up with ideas, so stay tuned for input from him.",
+      "parentUuid": "3d89b972_10864dc2",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c4687e9_99bb9211",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11

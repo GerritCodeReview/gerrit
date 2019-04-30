@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c80b7fc_264311f6",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-30T20:40:39Z",
+      "side": 1,
+      "message": "Maybe reference pg-plugin-dev.html#loading for more details.",
+      "revId": "acf30b623d7e81409af03b5e35f16c47fad6681e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

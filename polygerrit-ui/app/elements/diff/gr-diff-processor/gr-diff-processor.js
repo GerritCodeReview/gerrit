@@ -216,7 +216,7 @@
             section.b ? section.b.length : 0,
       };
       let groups;
-      if (section.ab) { // If it's a shared section.
+      if (section.ab || section.common) { // If it's a shared section.
         let sectionEnd = null;
         if (state.sectionIndex === 0) {
           sectionEnd = 'first';
@@ -224,6 +224,7 @@
           sectionEnd = 'last';
         }
         groups = this._sharedGroupsFromLines(
+            section.ab ? GrDiffGroup.Type.BOTH : GrDiffGroup.Type.DELTA,
             lines,
             lineDelta.left,
             numSections > 1 ? this.context : WHOLE_FILE,
@@ -295,6 +296,7 @@
     /**
      * Take rows of a shared diff section and produce an array of corresponding
      * (potentially collapsed) groups.
+     * @param {string} type (GrDiffGroup.Type)
      * @param {!Array<string>} lines
      * @param {number} numLines
      * @param {number} context
@@ -305,7 +307,7 @@
      *     'last' and null respectively.
      * @return {!Array<!Object>} Array of GrDiffGroup
      */
-    _sharedGroupsFromLines(lines, numLines, context, startLineNumLeft,
+    _sharedGroupsFromLines(type, lines, numLines, context, startLineNumLeft,
         startLineNumRight, opt_sectionEnd) {
       // Find the hidden range based on the user's context preference. If this
       // is the first or the last section of the diff, make sure the collapsed
@@ -333,20 +335,20 @@
         }
 
         if (linesBeforeCtx.length > 0) {
-          result.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, linesBeforeCtx));
+          result.push(new GrDiffGroup(type, linesBeforeCtx));
         }
 
         const ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
         ctxLine.contextGroup =
-            new GrDiffGroup(GrDiffGroup.Type.BOTH, hiddenLines);
+            new GrDiffGroup(type, hiddenLines);
         result.push(new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL,
             [ctxLine]));
 
         if (linesAfterCtx.length > 0) {
-          result.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, linesAfterCtx));
+          result.push(new GrDiffGroup(type, linesAfterCtx));
         }
       } else {
-        result.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, lines));
+        result.push(new GrDiffGroup(type, lines));
       }
 
       return result;

@@ -34,6 +34,7 @@ junit_tests(
         "//lib:guava",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
-        "//lib/truth"
+        "//lib/truth",
+        "@commons-lang//jar"
     ],
 )

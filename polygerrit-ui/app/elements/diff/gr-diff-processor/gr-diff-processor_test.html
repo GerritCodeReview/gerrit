@@ -589,7 +589,7 @@ limitations under the License.
         test('_deltaLinesFromRows', () => {
           const startLineNum = 10;
           let result = element._deltaLinesFromRows(GrDiffLine.Type.ADD, rows,
-              startLineNum);
+              startLineNum + 1);
 
           assert.equal(result.length, rows.length);
           assert.equal(result[0].type, GrDiffLine.Type.ADD);
@@ -600,7 +600,7 @@ limitations under the License.
           assert.notOk(result[result.length - 1].beforeNumber);
 
           result = element._deltaLinesFromRows(GrDiffLine.Type.REMOVE, rows,
-              startLineNum);
+              startLineNum + 1);
 
           assert.equal(result.length, rows.length);
           assert.equal(result[0].type, GrDiffLine.Type.REMOVE);

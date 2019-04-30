@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "49f6a1d0_8abd1e50",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-30T15:46:54Z",
+      "side": 1,
+      "message": "needs a license header.",
+      "revId": "d2a96f1f6f80b3baec9ed9370817fb2f61786c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7347660a_00ae07e4",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-30T15:46:54Z",
+      "side": 1,
+      "message": "Needs a license header.",
+      "revId": "d2a96f1f6f80b3baec9ed9370817fb2f61786c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "256f0c63_1a5611ef",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-04-30T15:46:54Z",
+      "side": 1,
+      "message": "Needs a license header.",
+      "revId": "d2a96f1f6f80b3baec9ed9370817fb2f61786c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ffb91963_6183faf0",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 2

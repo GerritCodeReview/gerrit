@@ -902,6 +902,24 @@
     },
     {
       "key": {
+        "uuid": "1ebd8f15_84c71de7",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-04-30T18:04:16Z",
+      "side": 1,
+      "message": "\u003e Having more maintainers by itself is not enough, and could even be detrimental, through the bystander effect (https://en.wikipedia.org/wiki/Bystander_effect): if there are many maintainers, the chance of a change going unreviewed is higher because everyone will think someone else will do it.\n\nI read this page, it\u0027s discussing bystander effect in emergency situations, I hope contributing to the Gerrit open source project is not an emergency situation and contributors are not victims ;-) In the section https://en.wikipedia.org/wiki/Bystander_effect#Cohesiveness_and_group_membership an experiment is described with bystander groups with low and high cohesiveness. The result was that the larger high cohesive group was most likely to help compared to a smaller high cohesive group or to low cohesive groups of different size. I think Gerrit maintainers are a high cohesive group, this would mean that a larger high cohesive group (i.e. a larger group of Gerrit maintainers) is more likely to engage than a smaller one. Though I am not sure if the sample size of this experiment is sufficient to prove significance of this hypothesis.",
+      "parentUuid": "f5a33512_f9dae05e",
+      "revId": "62baef2bd517af1a44506a31aa1ce48b9619d4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c4687e9_99bb9211",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 11

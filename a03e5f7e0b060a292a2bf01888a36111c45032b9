@@ -22,6 +22,30 @@
       "revId": "a03e5f7e0b060a292a2bf01888a36111c45032b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a35bdf2_9530c447",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-04-30T07:58:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0279b60_9ad1bc81",
+      "range": {
+        "startLine": 42,
+        "startChar": 35,
+        "endLine": 42,
+        "endChar": 45
+      },
+      "revId": "a03e5f7e0b060a292a2bf01888a36111c45032b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

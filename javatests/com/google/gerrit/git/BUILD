@@ -35,5 +35,6 @@ junit_tests(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/truth"
+        "@commons-lang//jar"
     ],
 )

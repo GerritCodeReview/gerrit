@@ -67,13 +67,11 @@ One-time setup:
    [here](https://gerrit-review.googlesource.com/Documentation/linux-quickstart.html) and
    [here](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#init).
 
-When your project is set up and works using the classic UI, run a test server
-that serves PolyGerrit:
 
 ```sh
 bazel build gerrit &&
   $(bazel info output_base)/external/local_jdk/bin/java \
-  -jar bazel-bin/gerrit.war daemon --polygerrit-dev \
+  -jar bazel-bin/gerrit.war daemon \
   -d ~/gerrit_testsite --console-log --show-stack-trace
 ```
 

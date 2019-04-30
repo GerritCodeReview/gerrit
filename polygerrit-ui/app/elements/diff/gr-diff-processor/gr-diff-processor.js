@@ -238,8 +238,8 @@
 
         return {
           lineDelta: {
-            left: numLines,
-            right: numLines,
+            left: section.ab.length,
+            right: section.ab.length,
           },
           groups: sharedGroups,
         };
@@ -270,7 +270,6 @@
      * Take rows of a shared diff section and produce an array of corresponding
      * (potentially collapsed) groups.
      * @param {!Array<string>} rows
-     * @param {number} numLines
      * @param {number} context
      * @param {number} startLineNumLeft
      * @param {number} startLineNumRight
@@ -279,14 +278,22 @@
      *     'last' and null respectively.
      * @return {!Array<!Object>} Array of GrDiffGroup
      */
-    _sharedGroupsFromRows(lines, numLines, context, startLineNumLeft,
+    _sharedGroupsFromRows(rows, context, startLineNumLeft,
         startLineNumRight, opt_sectionEnd) {
+      const lines = rows.map((row, i) => {
+        const line = new GrDiffLine(GrDiffLine.Type.BOTH);
+        line.text = row;
+        line.beforeNumber = startLineNumLeft + i + 1;
+        line.afterNumber = startLineNumRight + i + 1;
+        return line;
+      });
+
       // Find the hidden range based on the user's context preference. If this
       // is the first or the last section of the diff, make sure the collapsed
       // part of the section extends to the edge of the file.
       const hiddenRangeStart = opt_sectionEnd === 'first' ? 0 : context;
       const hiddenRangeEnd = opt_sectionEnd === 'last' ?
-          numLines : numLines - context;
+          rows.length : rows.length - context;
 
       const result = [];
       // If there is a range to hide.

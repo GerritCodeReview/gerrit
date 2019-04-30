@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4230538e_dfedbbd6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-30T06:31:27Z",
+      "side": 1,
+      "message": "(Optional) This could be expressed more succinctly with destructuring:\n\nconst {changeNum, path, patchRange: {basePatchNum, patchNum}} \u003d this;\n\nNot sure if it\u0027s worth it.",
+      "range": {
+        "startLine": 254,
+        "startChar": 5,
+        "endLine": 257,
+        "endChar": 48
+      },
+      "revId": "4dd0697093869651fc132e57376ecca36465aa2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20a42c64_e6129198",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-30T06:31:27Z",
+      "side": 1,
+      "message": "Maybe say what will happen if called multiple times? e.g. Previously configured coverage providers will be replaced.",
+      "range": {
+        "startLine": 64,
+        "startChar": 5,
+        "endLine": 64,
+        "endChar": 43
+      },
+      "revId": "4dd0697093869651fc132e57376ecca36465aa2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d595036_aa49c39c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-30T06:31:27Z",
+      "side": 1,
+      "message": "@return {GrAnnotationActionsInterface} ?",
+      "range": {
+        "startLine": 71,
+        "startChar": 3,
+        "endLine": 71,
+        "endChar": 5
+      },
+      "revId": "4dd0697093869651fc132e57376ecca36465aa2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02d866f0_d0c0985f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-30T06:31:27Z",
+      "side": 1,
+      "message": "Doc comment?",
+      "range": {
+        "startLine": 231,
+        "startChar": 4,
+        "endLine": 231,
+        "endChar": 21
+      },
+      "revId": "4dd0697093869651fc132e57376ecca36465aa2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee872bc0_d44215a5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-30T06:31:27Z",
+      "side": 1,
+      "message": "Isn\u0027t that the same as to return just []?",
+      "range": {
+        "startLine": 242,
+        "startChar": 15,
+        "endLine": 242,
+        "endChar": 34
+      },
+      "revId": "4dd0697093869651fc132e57376ecca36465aa2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -24,12 +24,6 @@
     RIGHT: 'right',
   };
 
-  const DiffGroupType = {
-    ADDED: 'b',
-    BOTH: 'ab',
-    REMOVED: 'a',
-  };
-
   const DiffHighlights = {
     ADDED: 'edit_b',
     REMOVED: 'edit_a',
@@ -168,7 +162,8 @@
               }
 
               // Process the next section and incorporate the result.
-              const result = this._processNext(state, content);
+              const result = this._processNext(
+                  state, content[state.sectionIndex], content.length);
               for (const group of result.groups) {
                 this.push('groups', group);
                 currentBatch += group.lines.length;
@@ -207,47 +202,42 @@
 
     /**
      * Process the next section of the diff.
+     *
+     * @param {!Object} state
+     * @param {!Object} section
+     * @param {number} numSections
      */
-    _processNext(state, content) {
-      const section = content[state.sectionIndex];
-
-      const rows = {
-        both: section[DiffGroupType.BOTH] || null,
-        added: section[DiffGroupType.ADDED] || null,
-        removed: section[DiffGroupType.REMOVED] || null,
-      };
-
-      const highlights = {
-        added: section[DiffHighlights.ADDED] || null,
-        removed: section[DiffHighlights.REMOVED] || null,
-      };
-
-      if (rows.both) { // If it's a shared section.
+    _processNext(state, section, numSections) {
+      if (section.ab) { // If it's a shared section.
         let sectionEnd = null;
         if (state.sectionIndex === 0) {
           sectionEnd = 'first';
-        } else if (state.sectionIndex === content.length - 1) {
+        } else if (state.sectionIndex === numSections - 1) {
           sectionEnd = 'last';
         }
 
         const sharedGroups = this._sharedGroupsFromRows(
-            rows.both,
-            content.length > 1 ? this.context : WHOLE_FILE,
+            section.ab,
+            numSections > 1 ? this.context : WHOLE_FILE,
             state.lineNums.left,
             state.lineNums.right,
             sectionEnd);
 
         return {
           lineDelta: {
-            left: rows.both.length,
-            right: rows.both.length,
+            left: section.ab.length,
+            right: section.ab.length,
           },
           groups: sharedGroups,
         };
       } else { // Otherwise it's a delta section.
+        const highlights = {
+          added: section[DiffHighlights.ADDED] || null,
+          removed: section[DiffHighlights.REMOVED] || null,
+        };
         const deltaGroup = this._deltaGroupFromRows(
-            rows.added,
-            rows.removed,
+            section.b,
+            section.a,
             state.lineNums.left,
             state.lineNums.right,
             highlights);
@@ -255,8 +245,8 @@
 
         return {
           lineDelta: {
-            left: rows.removed ? rows.removed.length : 0,
-            right: rows.added ? rows.added.length : 0,
+            left: section.a ? section.a.length : 0,
+            right: section.b ? section.b.length : 0,
           },
           groups: [deltaGroup],
         };

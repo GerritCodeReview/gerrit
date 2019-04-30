@@ -6,7 +6,7 @@ import org.eclipse.jgit.lib.Repository;
 
 /**
  * Wraps and unwraps existing repositories and makes them permission-aware by returning a {@link
- * PermissionAwareReadOnlyRefDatabase}.
+ * PermissionAwareRefDatabase}.
  */
 public class PermissionAwareRepositoryManager {
   public static Repository wrap(Repository delegate, PermissionBackend.ForProject forProject) {
@@ -19,12 +19,5 @@ public class PermissionAwareRepositoryManager {
     }
 
     return new PermissionAwareRepository(delegate, forProject);
-  }
-
-  public static Repository unwrap(Repository repository) {
-    if (repository instanceof PermissionAwareRepositoryWrapper) {
-      return ((PermissionAwareRepositoryWrapper) repository).unwrap();
-    }
-    return repository;
   }
 }

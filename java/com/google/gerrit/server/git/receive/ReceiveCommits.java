@@ -110,7 +110,6 @@ import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
-import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.ValidationError;
@@ -450,7 +449,7 @@ class ReceiveCommits {
 
     // Immutable fields derived from constructor arguments.
     allowPushToRefsChanges = cfg.getBoolean("receive", "allowPushToRefsChanges", false);
-    repo = PermissionAwareRepositoryManager.unwrap(rp.getRepository());
+    repo = rp.getRepository();
     project = projectState.getProject();
     labelTypes = projectState.getLabelTypes();
     permissions = permissionBackend.user(user).project(project.getNameKey());
@@ -735,11 +734,14 @@ class ReceiveCommits {
     Collections.reverse(orderedCommits);
 
     Map<String, CreateRequest> created =
-        newChanges.stream()
+        newChanges
+            .stream()
             .filter(r -> r.change != null)
             .collect(Collectors.toMap(r -> r.commit.name(), r -> r));
     Map<String, ReplaceRequest> updated =
-        replaceByChange.values().stream()
+        replaceByChange
+            .values()
+            .stream()
             .filter(r -> r.inputCommand.getResult() == OK)
             .collect(Collectors.toMap(r -> r.newCommitId.name(), r -> r));
 
@@ -859,9 +861,12 @@ class ReceiveCommits {
         throw INSERT_EXCEPTION.apply(e);
       }
 
-      replaceByChange.values().stream()
+      replaceByChange
+          .values()
+          .stream()
           .forEach(req -> resultChangeIds.add(ResultChangeIds.Key.REPLACED, req.ontoChange));
-      newChanges.stream()
+      newChanges
+          .stream()
           .forEach(req -> resultChangeIds.add(ResultChangeIds.Key.CREATED, req.changeId));
 
       if (magicBranchCmd != null) {

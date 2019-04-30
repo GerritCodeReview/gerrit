@@ -38,20 +38,18 @@ import org.eclipse.jgit.util.FS;
 
 /**
  * Wrapper around {@link Repository} that delegates all calls to the wrapped {@link Repository}
- * except for {@link #getRefDatabase()} where it provides a {@link
- * PermissionAwareReadOnlyRefDatabase}.
+ * except for {@link #getRefDatabase()} where it provides a {@link PermissionAwareRefDatabase}.
  */
 public class PermissionAwareRepository extends Repository
     implements PermissionAwareRepositoryWrapper {
 
   private final Repository delegate;
-  private final PermissionAwareReadOnlyRefDatabase permissionAwareReadOnlyRefDatabase;
+  private final PermissionAwareRefDatabase permissionAwareReadOnlyRefDatabase;
 
   public PermissionAwareRepository(Repository delegate, PermissionBackend.ForProject forProject) {
     super(toBuilder(delegate));
     this.delegate = delegate;
-    this.permissionAwareReadOnlyRefDatabase =
-        new PermissionAwareReadOnlyRefDatabase(delegate, forProject);
+    this.permissionAwareReadOnlyRefDatabase = new PermissionAwareRefDatabase(delegate, forProject);
   }
 
   @Override

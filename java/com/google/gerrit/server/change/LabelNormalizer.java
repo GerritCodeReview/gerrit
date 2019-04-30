@@ -103,8 +103,7 @@ public class LabelNormalizer {
         deleted.add(psa);
         continue;
       }
-      PatchSetApproval copy = psa.copy();
-      applyTypeFloor(label, copy);
+      PatchSetApproval copy = applyTypeFloor(label, psa);
       if (copy.getValue() != psa.getValue()) {
         updated.add(copy);
       } else {
@@ -114,14 +113,16 @@ public class LabelNormalizer {
     return Result.create(unchanged, updated, deleted);
   }
 
-  private void applyTypeFloor(LabelType lt, PatchSetApproval a) {
+  private PatchSetApproval applyTypeFloor(LabelType lt, PatchSetApproval a) {
+    PatchSetApproval.Builder b = a.toBuilder();
     LabelValue atMin = lt.getMin();
     if (atMin != null && a.getValue() < atMin.getValue()) {
-      a.setValue(atMin.getValue());
+      b.value(atMin.getValue());
     }
     LabelValue atMax = lt.getMax();
     if (atMax != null && a.getValue() > atMax.getValue()) {
-      a.setValue(atMax.getValue());
+      b.value(atMax.getValue());
     }
+    return b.build();
   }
 }

@@ -186,16 +186,15 @@ public class LabelNormalizerTest {
   }
 
   private PatchSetApproval psa(Account.Id accountId, String label, int value) {
-    return new PatchSetApproval(
-        PatchSetApproval.key(change.currentPatchSetId(), accountId, LabelId.create(label)),
-        (short) value,
-        TimeUtil.nowTs());
+    return PatchSetApproval.builder()
+        .key(PatchSetApproval.key(change.currentPatchSetId(), accountId, LabelId.create(label)))
+        .value(value)
+        .granted(TimeUtil.nowTs())
+        .build();
   }
 
   private PatchSetApproval copy(PatchSetApproval src, int newValue) {
-    PatchSetApproval result = src.copy();
-    result.setValue(newValue);
-    return result;
+    return src.toBuilder().value(newValue).build();
   }
 
   private static List<PatchSetApproval> list(PatchSetApproval... psas) {

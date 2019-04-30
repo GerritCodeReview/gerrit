@@ -54,21 +54,19 @@ public enum PatchSetApprovalProtoConverter
 
   @Override
   public PatchSetApproval fromProto(Entities.PatchSetApproval proto) {
-    PatchSetApproval patchSetApproval =
-        new PatchSetApproval(
-            patchSetApprovalKeyProtoConverter.fromProto(proto.getKey()),
-            (short) proto.getValue(),
-            new Timestamp(proto.getGranted()));
+    PatchSetApproval.Builder builder =
+        PatchSetApproval.builder()
+            .key(patchSetApprovalKeyProtoConverter.fromProto(proto.getKey()))
+            .value(proto.getValue())
+            .granted(new Timestamp(proto.getGranted()))
+            .postSubmit(proto.getPostSubmit());
     if (proto.hasTag()) {
-      patchSetApproval.setTag(proto.getTag());
+      builder.tag(proto.getTag());
     }
     if (proto.hasRealAccountId()) {
-      patchSetApproval.setRealAccountId(accountIdConverter.fromProto(proto.getRealAccountId()));
+      builder.realAccountId(accountIdConverter.fromProto(proto.getRealAccountId()));
     }
-    if (proto.hasPostSubmit()) {
-      patchSetApproval.setPostSubmit(proto.getPostSubmit());
-    }
-    return patchSetApproval;
+    return builder.build();
   }
 
   @Override

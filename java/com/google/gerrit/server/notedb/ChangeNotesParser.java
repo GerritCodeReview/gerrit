@@ -121,8 +121,8 @@ class ChangeNotesParser {
   private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
   private final List<PatchSet.Id> currentPatchSets;
-  private final Map<PatchSetApproval.Key, PatchSetApproval> approvals;
-  private final List<PatchSetApproval> bufferedApprovals;
+  private final Map<PatchSetApproval.Key, PatchSetApproval.Builder> approvals;
+  private final List<PatchSetApproval.Builder> bufferedApprovals;
   private final List<ChangeMessage> allChangeMessages;
 
   // Non-final private members filled in during the parsing process.
@@ -280,14 +280,14 @@ class ChangeNotesParser {
   private ListMultimap<PatchSet.Id, PatchSetApproval> buildApprovals() {
     ListMultimap<PatchSet.Id, PatchSetApproval> result =
         MultimapBuilder.hashKeys().arrayListValues().build();
-    for (PatchSetApproval a : approvals.values()) {
-      if (!patchSetCommitParsed(a.getPatchSetId())) {
+    for (PatchSetApproval.Builder a : approvals.values()) {
+      if (!patchSetCommitParsed(a.getKey().patchSetId())) {
         continue; // Patch set deleted or missing.
-      } else if (allPastReviewers.contains(a.getAccountId())
-          && !reviewers.containsRow(a.getAccountId())) {
+      } else if (allPastReviewers.contains(a.getKey().accountId())
+          && !reviewers.containsRow(a.getKey().accountId())) {
         continue; // Reviewer was explicitly removed.
       }
-      result.put(a.getPatchSetId(), a);
+      result.put(a.getKey().patchSetId(), a.build());
     }
     result.keySet().forEach(k -> result.get(k).sort(ChangeNotes.PSA_BY_TIME));
     return result;
@@ -612,9 +612,9 @@ class ChangeNotesParser {
     // exception is the legacy SUBM approval, which is never considered post-submit, but might end
     // up sorted after the submit during rebuilding.
     if (status == Change.Status.MERGED) {
-      for (PatchSetApproval psa : bufferedApprovals) {
-        if (!psa.isLegacySubmit()) {
-          psa.setPostSubmit(true);
+      for (PatchSetApproval.Builder psa : bufferedApprovals) {
+        if (!psa.getKey().isLegacySubmit()) {
+          psa.postSubmit(true);
         }
       }
     }
@@ -743,7 +743,7 @@ class ChangeNotesParser {
     if (accountId == null) {
       throw parseException("patch set %s requires an identified user as uploader", psId.get());
     }
-    PatchSetApproval psa;
+    PatchSetApproval.Builder psa;
     if (line.startsWith("-")) {
       psa = parseRemoveApproval(psId, accountId, realAccountId, ts, line);
     } else {
@@ -752,7 +752,7 @@ class ChangeNotesParser {
     bufferedApprovals.add(psa);
   }
 
-  private PatchSetApproval parseAddApproval(
+  private PatchSetApproval.Builder parseAddApproval(
       PatchSet.Id psId, Account.Id committerId, Account.Id realAccountId, Timestamp ts, String line)
       throws ConfigInvalidException {
     // There are potentially 3 accounts involved here:
@@ -789,24 +789,20 @@ class ChangeNotesParser {
       throw pe;
     }
 
-    PatchSetApproval psa =
-        new PatchSetApproval(
-            PatchSetApproval.key(psId, effectiveAccountId, LabelId.create(l.label())),
-            l.value(),
-            ts);
-    psa.setTag(tag);
+    PatchSetApproval.Builder psa =
+        PatchSetApproval.builder()
+            .key(PatchSetApproval.key(psId, effectiveAccountId, LabelId.create(l.label())))
+            .value(l.value())
+            .granted(ts)
+            .tag(Optional.ofNullable(tag));
     if (!Objects.equals(realAccountId, committerId)) {
-      psa.setRealAccountId(realAccountId);
+      psa.realAccountId(realAccountId);
     }
-    PatchSetApproval.Key k =
-        PatchSetApproval.key(psId, effectiveAccountId, LabelId.create(l.label()));
-    if (!approvals.containsKey(k)) {
-      approvals.put(k, psa);
-    }
+    approvals.putIfAbsent(psa.getKey(), psa);
     return psa;
   }
 
-  private PatchSetApproval parseRemoveApproval(
+  private PatchSetApproval.Builder parseRemoveApproval(
       PatchSet.Id psId, Account.Id committerId, Account.Id realAccountId, Timestamp ts, String line)
       throws ConfigInvalidException {
     // See comments in parseAddApproval about the various users involved.
@@ -833,16 +829,15 @@ class ChangeNotesParser {
 
     // Store an actual 0-vote approval in the map for a removed approval, because ApprovalCopier
     // needs an actual approval in order to block copying an earlier approval over a later delete.
-    PatchSetApproval remove =
-        new PatchSetApproval(
-            PatchSetApproval.key(psId, effectiveAccountId, LabelId.create(label)), (short) 0, ts);
+    PatchSetApproval.Builder remove =
+        PatchSetApproval.builder()
+            .key(PatchSetApproval.key(psId, effectiveAccountId, LabelId.create(label)))
+            .value(0)
+            .granted(ts);
     if (!Objects.equals(realAccountId, committerId)) {
-      remove.setRealAccountId(realAccountId);
+      remove.realAccountId(realAccountId);
     }
-    PatchSetApproval.Key k = PatchSetApproval.key(psId, effectiveAccountId, LabelId.create(label));
-    if (!approvals.containsKey(k)) {
-      approvals.put(k, remove);
-    }
+    approvals.putIfAbsent(remove.getKey(), remove);
     return remove;
   }
 
@@ -1028,7 +1023,7 @@ class ChangeNotesParser {
             comments.values(), c -> PatchSet.id(id, c.key.patchSetId), missing);
     pruned +=
         pruneEntitiesForMissingPatchSets(
-            approvals.values(), PatchSetApproval::getPatchSetId, missing);
+            approvals.values(), psa -> psa.getKey().patchSetId(), missing);
 
     if (!missing.isEmpty()) {
       logger.atWarning().log(

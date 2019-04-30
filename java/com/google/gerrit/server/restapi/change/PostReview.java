@@ -133,6 +133,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -1149,10 +1150,13 @@ public class PostReview
             update.putApproval(normName, (short) 0);
           }
         } else if (c != null && c.getValue() != ent.getValue()) {
-          c.setValue(ent.getValue());
-          c.setGranted(ctx.getWhen());
-          c.setTag(in.tag);
-          ctx.getUser().updateRealAccountId(c::setRealAccountId);
+          PatchSetApproval.Builder b =
+              c.toBuilder()
+                  .value(ent.getValue())
+                  .granted(ctx.getWhen())
+                  .tag(Optional.ofNullable(in.tag));
+          ctx.getUser().updateRealAccountId(b::realAccountId);
+          c = b.build();
           ups.add(c);
           addLabelDelta(normName, c.getValue());
           oldApprovals.put(normName, previous.get(normName));
@@ -1163,9 +1167,11 @@ public class PostReview
           oldApprovals.put(normName, null);
           approvals.put(normName, c.getValue());
         } else if (c == null) {
-          c = ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen());
-          c.setTag(in.tag);
-          c.setGranted(ctx.getWhen());
+          c =
+              ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen())
+                  .tag(Optional.ofNullable(in.tag))
+                  .granted(ctx.getWhen())
+                  .build();
           ups.add(c);
           addLabelDelta(normName, c.getValue());
           oldApprovals.put(normName, previous.get(normName));
@@ -1275,18 +1281,16 @@ public class PostReview
           }
 
           LabelId labelId = labelTypes.get(0).getLabelId();
-          PatchSetApproval c = ApprovalsUtil.newApproval(psId, user, labelId, 0, ctx.getWhen());
-          c.setTag(in.tag);
-          c.setGranted(ctx.getWhen());
-          ups.add(c);
+          ups.add(
+              ApprovalsUtil.newApproval(psId, user, labelId, 0, ctx.getWhen())
+                  .tag(Optional.ofNullable(in.tag))
+                  .granted(ctx.getWhen())
+                  .build());
         } else {
           // Pick a random label that is about to be deleted and keep it.
           Iterator<PatchSetApproval> i = del.iterator();
-          PatchSetApproval c = i.next();
-          c.setValue(0);
-          c.setGranted(ctx.getWhen());
+          ups.add(i.next().toBuilder().value(0).granted(ctx.getWhen()).build());
           i.remove();
-          ups.add(c);
         }
       }
       ctx.getUpdate(ctx.getChange().currentPatchSetId()).putReviewer(user.getAccountId(), REVIEWER);

@@ -368,19 +368,24 @@ public class ChangeNotesStateTest {
   @Test
   public void serializeApprovals() throws Exception {
     PatchSetApproval a1 =
-        new PatchSetApproval(
-            PatchSetApproval.key(
-                PatchSet.id(ID, 1), Account.id(2001), LabelId.create("Code-Review")),
-            (short) 1,
-            new Timestamp(1212L));
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    PatchSet.id(ID, 1), Account.id(2001), LabelId.create("Code-Review")))
+            .value(1)
+            .granted(new Timestamp(1212L))
+            .build();
     ByteString a1Bytes = toByteString(a1, PatchSetApprovalProtoConverter.INSTANCE);
     assertThat(a1Bytes.size()).isEqualTo(43);
 
     PatchSetApproval a2 =
-        new PatchSetApproval(
-            PatchSetApproval.key(PatchSet.id(ID, 1), Account.id(2002), LabelId.create("Verified")),
-            (short) -1,
-            new Timestamp(3434L));
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    PatchSet.id(ID, 1), Account.id(2002), LabelId.create("Verified")))
+            .value(-1)
+            .granted(new Timestamp(3434L))
+            .build();
     ByteString a2Bytes = toByteString(a2, PatchSetApprovalProtoConverter.INSTANCE);
     assertThat(a2Bytes.size()).isEqualTo(49);
     assertThat(a2Bytes).isNotEqualTo(a1Bytes);
@@ -790,14 +795,15 @@ public class ChangeNotesStateTest {
                 .put("labelId", LabelId.class)
                 .build());
     assertThatSerializedClass(PatchSetApproval.class)
-        .hasFields(
+        .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
-                .put("key", PatchSetApproval.Key.class)
-                .put("value", short.class)
-                .put("granted", Timestamp.class)
-                .put("tag", String.class)
-                .put("realAccountId", Account.Id.class)
-                .put("postSubmit", boolean.class)
+                .put("getKey", PatchSetApproval.Key.class)
+                .put("getValue", short.class)
+                .put("getGranted", Timestamp.class)
+                .put("getTag", new TypeLiteral<Optional<String>>() {}.getType())
+                .put("getRealAccountId", Account.Id.class)
+                .put("isPostSubmit", boolean.class)
+                .put("toBuilder", PatchSetApproval.Builder.class)
                 .build());
   }
 

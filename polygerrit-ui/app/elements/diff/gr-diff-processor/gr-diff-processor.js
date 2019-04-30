@@ -222,7 +222,7 @@
             section.b ? section.b.length : 0,
       };
       let groups;
-      if (section.ab) { // If it's a shared section.
+      if (section.ab || section.common) { // If it's a shared section.
         let sectionEnd = null;
         if (state.sectionIndex === 0) {
           sectionEnd = 'first';

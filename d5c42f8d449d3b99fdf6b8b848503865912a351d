@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1556660493 -0700\nnonce AC6AUtO6D1L0yzlx5N4Yleo7x5vu49YivASIu2AJqEkXVzK10Qcqifxm/e+ZUz4D7cEeEUJQdt+a\n\n0000000000000000000000000000000000000000 d5c42f8d449d3b99fdf6b8b848503865912a351d refs/for/master%r\u003ddavid.ostrovsky@gmail.com,r\u003dluca.milanesio@gmail.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlzIwQ0VHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMcuEQAIbeMZMFbFy4+gcccbiC4YaPdmQv\nnw/UNWohKva6YrzvilQsLs8Lk31loWW0GBaW3bfwcmaQa1pY3hcPqNb5TxItKplw\nsMfy4Y28p+YhwZzAryk+A29oMXbdijcmf4SZ1ZLigLS/pTNVFP9qOL4XXWGBqX2M\nbCwYfqLpvutlyD45ZoJT81ayuB2r2HYsukTB54F6bW0iQIO7JNLEw8u6q+gPoAPJ\nC//xxyHWfXvFO7flSsLAf2NnZPBaD7UX/Tp+jzuw6G8xeVHQlunJJCL5dObv3dXm\ndm587lqqqbVaUHgAsUfk33UQkjfspk5USBn/PtsFobHwMgFcbnYnEdm2seRcR2bi\nB83LF7vXdI6700V3bjsf17D43ZB0h1KOW6jBW5tXh4B4rQFFUIEDBEL7HVTyKZxw\nLjwk6zsSrHNVEveu/DU0jsDIBPQ7rc34joVJ3eXh3eK63sfcbGMp2RD/8gHNMd55\nsLZVPcbfiO+/NivH6pd3c9rIXPriTGMG6vIMb6ctTwaUZBfgWYkpk7pfZdi98m7I\nPrp3ONOEkQaeYwJArxO7qluDiWRsjTIgB/4WNwqvHvP908bLja4dSuA/dz4brOFN\n2Jj+BfOxphqTgAJLNqurxWeIExGkRAa6AgLfJWoqRFIS6VC+a4BmV/yrbvJykm16\nKsF+WRY0WS3BBDqi\n\u003dz9kt\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaa77256_d593126b",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-30T21:58:44Z",
+      "side": 1,
+      "message": "Should this be: serializeGson.toJson(src)?",
+      "range": {
+        "startLine": 609,
+        "startChar": 18,
+        "endLine": 609,
+        "endChar": 33
+      },
+      "revId": "d5c42f8d449d3b99fdf6b8b848503865912a351d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

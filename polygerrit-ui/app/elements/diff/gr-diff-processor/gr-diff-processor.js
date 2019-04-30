@@ -216,8 +216,18 @@
           sectionEnd = 'last';
         }
 
-        const sharedGroups = this._sharedGroupsFromRows(
-            section.ab,
+        const lines = section.ab.map((row, i) => {
+          const line = new GrDiffLine(GrDiffLine.Type.BOTH);
+          line.text = row;
+          line.beforeNumber = state.lineNums.left + i + 1;
+          line.afterNumber = state.lineNums.right + i + 1;
+          return line;
+        });
+        const numLines = section.ab.length;
+
+        const sharedGroups = this._sharedGroupsFromLines(
+            lines,
+            numLines,
             numSections > 1 ? this.context : WHOLE_FILE,
             state.lineNums.left,
             state.lineNums.right,
@@ -225,8 +235,8 @@
 
         return {
           lineDelta: {
-            left: section.ab.length,
-            right: section.ab.length,
+            left: numLines,
+            right: numLines,
           },
           groups: sharedGroups,
         };
@@ -256,7 +266,8 @@
     /**
      * Take rows of a shared diff section and produce an array of corresponding
      * (potentially collapsed) groups.
-     * @param {!Array<string>} rows
+     * @param {!Array<string>} lines
+     * @param {number} numLines
      * @param {number} context
      * @param {number} startLineNumLeft
      * @param {number} startLineNumRight
@@ -265,36 +276,33 @@
      *     'last' and null respectively.
      * @return {!Array<!Object>} Array of GrDiffGroup
      */
-    _sharedGroupsFromRows(rows, context, startLineNumLeft,
+    _sharedGroupsFromLines(lines, numLines, context, startLineNumLeft,
         startLineNumRight, opt_sectionEnd) {
-      const result = [];
-      const lines = [];
-      let line;
-
-      // Map each row to a GrDiffLine.
-      for (let i = 0; i < rows.length; i++) {
-        line = new GrDiffLine(GrDiffLine.Type.BOTH);
-        line.text = rows[i];
-        line.beforeNumber = ++startLineNumLeft;
-        line.afterNumber = ++startLineNumRight;
-        lines.push(line);
-      }
-
       // Find the hidden range based on the user's context preference. If this
       // is the first or the last section of the diff, make sure the collapsed
       // part of the section extends to the edge of the file.
-      const hiddenRange = [context, rows.length - context];
-      if (opt_sectionEnd === 'first') {
-        hiddenRange[0] = 0;
-      } else if (opt_sectionEnd === 'last') {
-        hiddenRange[1] = rows.length;
-      }
+      const hiddenRangeStart = opt_sectionEnd === 'first' ? 0 : context;
+      const hiddenRangeEnd = opt_sectionEnd === 'last' ?
+          numLines : numLines - context;
+
+      const result = [];
 
       // If there is a range to hide.
-      if (context !== WHOLE_FILE && hiddenRange[1] - hiddenRange[0] > 1) {
-        const linesBeforeCtx = lines.slice(0, hiddenRange[0]);
-        const hiddenLines = lines.slice(hiddenRange[0], hiddenRange[1]);
-        const linesAfterCtx = lines.slice(hiddenRange[1]);
+      if (context !== WHOLE_FILE && hiddenRangeEnd - hiddenRangeStart > 1) {
+        const linesBeforeCtx = [];
+        const hiddenLines = [];
+        const linesAfterCtx = [];
+        for (const line of lines) {
+          // In the case there are no changes, these are the same.
+          // In the case of ignored whitespace changes, either only one is set,
+          // or the are the same.
+          const lineOffset = line.beforeNumber ?
+              line.beforeNumber - startLineNumLeft - 1 :
+              line.afterNumber - startLineNumRight - 1;
+          if (lineOffset < hiddenRangeStart) linesBeforeCtx.push(line);
+          else if (hiddenRangeEnd <= lineOffset) linesAfterCtx.push(line);
+          else hiddenLines.push(line);
+        }
 
         if (linesBeforeCtx.length > 0) {
           result.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, linesBeforeCtx));

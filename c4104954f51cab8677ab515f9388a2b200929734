@@ -71,6 +71,30 @@
       "revId": "c4104954f51cab8677ab515f9388a2b200929734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60f914a5_543b16f7",
+        "filename": "java/com/google/gerrit/server/events/AutoValueAdapterFactory.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-30T20:13:01Z",
+      "side": 1,
+      "message": "For the record, another way to do this is to add an explicit runtime annotation like:\n\n public class Change {\n   @AutoValue\n   @AutoGson(AutoValue_Change_Key.class)\n   public abstract class Key {...}\n }\n\nBut I don\u0027t think that\u0027s necessarily better than having a single one-off TypeAdapter\u003cChange.Key\u003e implementation.",
+      "parentUuid": "85f86247_d067b568",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 5
+      },
+      "revId": "c4104954f51cab8677ab515f9388a2b200929734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -95,6 +95,30 @@
       "revId": "c4104954f51cab8677ab515f9388a2b200929734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3dafe62_2965b556",
+        "filename": "java/com/google/gerrit/server/events/AutoValueAdapterFactory.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-30T20:13:18Z",
+      "side": 1,
+      "message": "\u003e Sigh. You\u0027re absolutely right that this approach has downsides.\n\u003e \n\u003e \u003e Most of the \"try and error\" class loading attempts are JDK primitive or collection  classes.\n\u003e \n\u003e This is why this solution is a hacky solution and a good solution is auto-value-gson :(\n\u003e \n\u003e \u003e I\u0027m also curious for performance implication of that change (with all CNFEs)\n\u003e \n\u003e I agree this seems bad.\n\u003e \n\u003e \u003e  Can\u0027t we consider to revert Change.Key migration to AutoValue until we find a cleaner approach for JSON serialization/deserialization of AutoValue types?\n\u003e \n\u003e I strongly oppose reintroducing gwtorm.Key just to make this work.\n\nI have not suggested to re-introduce gwtorm.Key. Can\u0027t the Change.Key be implemented manually, without using AutoValue altogether for now? Why it works for Project.NameKey? It neither uses gwtorm.Key nor AutoValue.\n\n\u003e I would rather write an explicit TypeAdapter for Change.Key until we are able to use auto-value-gson.\n\nThis is exactly what I have done in this change: [1]. If you check the earlier patch sets of this change, I added dedicated ChangeKeyDeserializer and in later patch sets I switched to auto-value-gson approach. \n\n\u003e If we find (via EventJsonTest) that JSON serialization regresses for many more newly-AutoValue classes, then we can rethink our approach. But as you say, it\u0027s really just this one class for now.\n\nJupp.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/222597",
+      "parentUuid": "85f86247_d067b568",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 5
+      },
+      "revId": "c4104954f51cab8677ab515f9388a2b200929734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

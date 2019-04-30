@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41436da3_ece70b34",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-30T08:12:08Z",
+      "side": 1,
+      "message": "Nit: I do not think a line-by-line commentary is very useful, as it will likely get out of date. How about\n\nRetrieves coverage data possibly provided by a plugin.\n\nWill wait for plugins to be loaded. If multiple plugins offer a coverage provider, the first one is used. If no plugin offers a coverage provider, will resolve to [].\n\nAlso consider typing the parameters. In Gerrit world you otherwise never know what are strings/numbers, what can be null/undefined etc.",
+      "range": {
+        "startLine": 232,
+        "startChar": 6,
+        "endLine": 235,
+        "endChar": 69
+      },
+      "revId": "0f36ca491287c50c1b1c184ebb80a4dfcb00a2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

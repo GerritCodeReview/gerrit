@@ -234,6 +234,30 @@
       "revId": "4dd0697093869651fc132e57376ecca36465aa2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "973f2d96_e8ef383f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-30T08:12:08Z",
+      "side": 1,
+      "message": "Inside a then(), whatever you return will be wrapped into a promise:\n\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then#Return_value\n\nIn other situations you may actually want to create a promise (for example a rejected one to reject the outer promise). In this case it\u0027s the same whether you use Promise.resolve or just return the [], and returning the [] is more common I would say. Maybe a matter of taste.",
+      "parentUuid": "023ba0f9_08cfd861",
+      "range": {
+        "startLine": 242,
+        "startChar": 15,
+        "endLine": 242,
+        "endChar": 34
+      },
+      "revId": "4dd0697093869651fc132e57376ecca36465aa2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

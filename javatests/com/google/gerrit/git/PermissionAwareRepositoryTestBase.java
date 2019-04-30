@@ -24,7 +24,7 @@ import static org.junit.Assume.assumeFalse;
 import static org.junit.Assume.assumeThat;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.server.git.PermissionAwareReadOnlyRefDatabase;
+import com.google.gerrit.server.git.PermissionAwareRefDatabase;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -77,7 +77,7 @@ public abstract class PermissionAwareRepositoryTestBase {
     Repository permissionAwareRepository = buildPermissionAwareRepo();
     replay(repository(), forProject);
     assertThat(permissionAwareRepository.getRefDatabase())
-        .isInstanceOf(PermissionAwareReadOnlyRefDatabase.class);
+        .isInstanceOf(PermissionAwareRefDatabase.class);
     verify(repository(), forProject);
   }
 

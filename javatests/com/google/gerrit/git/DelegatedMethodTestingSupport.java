@@ -45,6 +45,16 @@ public class DelegatedMethodTestingSupport {
 
   public static <T> void assertMethodIsDelegated(
       Method method, T wrapper, T delegateMock, Object[] additionalMocks) throws Exception {
+    assertMethodIsDelegated(method, wrapper, delegateMock, additionalMocks, null);
+  }
+
+  public static <T> void assertMethodIsDelegated(
+      Method method,
+      T wrapper,
+      T delegateMock,
+      Object[] additionalMocks,
+      Runnable expectationsOnExtraMocks)
+      throws Exception {
     Object[] mocks = ArrayUtils.add(additionalMocks, delegateMock);
 
     reset(mocks);
@@ -57,9 +67,13 @@ public class DelegatedMethodTestingSupport {
     Object expected = defaultValueFor(method.getReturnType());
 
     IExpectationSetters<Object> expectDelegateCalled =
-        expect(method.invoke(wrapper, parametersValue.toArray()));
+        expect(method.invoke(delegateMock, parametersValue.toArray()));
     if (method.getReturnType() != Void.TYPE) {
       expectDelegateCalled.andReturn(expected);
+    }
+
+    if (expectationsOnExtraMocks != null) {
+      expectationsOnExtraMocks.run();
     }
 
     replay(mocks);

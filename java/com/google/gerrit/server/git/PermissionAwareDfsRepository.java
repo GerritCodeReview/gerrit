@@ -65,14 +65,13 @@ public class PermissionAwareDfsRepository extends DfsRepository
     implements PermissionAwareRepositoryWrapper {
 
   private final DfsRepository delegate;
-  private final PermissionAwareReadOnlyRefDatabase permissionAwareReadOnlyRefDatabase;
+  private final PermissionAwareRefDatabase permissionAwareReadOnlyRefDatabase;
 
   public PermissionAwareDfsRepository(
       DfsRepository delegate, PermissionBackend.ForProject forProject) {
     super(toBuilder(delegate));
     this.delegate = delegate;
-    this.permissionAwareReadOnlyRefDatabase =
-        new PermissionAwareReadOnlyRefDatabase(delegate, forProject);
+    this.permissionAwareReadOnlyRefDatabase = new PermissionAwareRefDatabase(delegate, forProject);
   }
 
   @Override

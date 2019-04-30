@@ -222,16 +222,13 @@
           sectionEnd = 'last';
         }
 
-        const lines = section.ab.map((row, i) => {
-          const line = new GrDiffLine(GrDiffLine.Type.BOTH);
-          line.text = row;
-          line.beforeNumber = state.lineNums.left + i + 1;
-          line.afterNumber = state.lineNums.right + i + 1;
-          return line;
-        });
+        const lines = section.ab.map((row, i) =>
+            this._lineFromRow(
+                GrDiffLine.Type.BOTH, state.lineNums.left + 1,
+                state.lineNums.right + 1, row, i));
         const numLines = section.ab.length;
 
-        const sharedGroups = this._sharedGroupsFromRows(
+        const sharedGroups = this._sharedGroupsFromLines(
             lines,
             numLines,
             numSections > 1 ? this.context : WHOLE_FILE,
@@ -282,7 +279,7 @@
      *     'last' and null respectively.
      * @return {!Array<!Object>} Array of GrDiffGroup
      */
-    _sharedGroupsFromRows(lines, numLines, context, startLineNumLeft,
+    _sharedGroupsFromLines(lines, numLines, context, startLineNumLeft,
         startLineNumRight, opt_sectionEnd) {
       // Find the hidden range based on the user's context preference. If this
       // is the first or the last section of the diff, make sure the collapsed
@@ -292,7 +289,6 @@
           numLines : numLines - context;
 
       const result = [];
-
       // If there is a range to hide.
       if (context !== WHOLE_FILE && hiddenRangeEnd - hiddenRangeStart > 1) {
         const linesBeforeCtx = [];
@@ -364,22 +360,21 @@
             opt_highlights);
       }
 
-      const lines = [];
-      let line;
-      for (let i = 0; i < rows.length; i++) {
-        line = new GrDiffLine(lineType);
-        line.text = rows[i];
-        if (lineType === GrDiffLine.Type.ADD) {
-          line.afterNumber = ++startLineNum;
-        } else {
-          line.beforeNumber = ++startLineNum;
-        }
-        if (opt_highlights) {
-          line.highlights = opt_highlights.filter(hl => hl.contentIndex === i);
-        }
-        lines.push(line);
+      return rows.map((row, i) =>
+          this._lineFromRow(
+              lineType, startLineNum + 1, startLineNum + 1, row, i,
+              opt_highlights));
+    },
+
+    _lineFromRow(type, offsetLeft, offsetRight, row, i, opt_highlights) {
+      const line = new GrDiffLine(type);
+      line.text = row;
+      if (type !== GrDiffLine.Type.ADD) line.beforeNumber = offsetLeft + i;
+      if (type !== GrDiffLine.Type.REMOVE) line.afterNumber = offsetRight + i;
+      if (opt_highlights) {
+        line.highlights = opt_highlights.filter(hl => hl.contentIndex === i);
       }
-      return lines;
+      return line;
     },
 
     _makeFileComments() {

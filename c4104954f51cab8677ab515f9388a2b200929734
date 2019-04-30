@@ -23,6 +23,30 @@
       "revId": "c4104954f51cab8677ab515f9388a2b200929734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e271b4c_3e12f1e3",
+        "filename": "java/com/google/gerrit/server/events/AutoValueAdapterFactory.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-30T19:56:38Z",
+      "side": 1,
+      "message": "I added the e.printStackTrace() statement in the catch block, and it turns out, that only for:\n\n  HashtagsChangedEvent event \u003d new HashtagsChangedEvent(change);\n\nwe are getting 40 CNFEs, and this is only for this single event type: [1], and long version: [2]. Most of the \"try and error\" class loading attempts are JDK primitive or collection  classes. The rest are our own classes. We could check for known classes and avoid the \"probe\" approach. If it is String.class we don\u0027t need to construct java.lang.AutoValue_String and try to load it to know that this will not work, etc. The same applies for JDK collections and our own classes.\n\nI\u0027m also curious for performance implication of that change (with all CNFEs), especially given that the follow-up change in this series added the same EventGson class also for serialization, even though, it is not strictly needed for AutoValue migrated Entity-Key types to work properly, because unlike in the deserialization use case the instances are already created, and given that we are not using any annotations of type @SerializedName(\"foo\") String bar; this AutoValueAdapterFactory is not needed at all. Note, that for heavy loaded Gerrit servers, there can be number of active master CIs, that consume stream events, and we tried hard to optimize the serialization of stream events, by introducing lazy evaluation of the content of the stream events and use Suppliers.memoize() constructs to optimize the performance. I have concerns, that this AutoValueAdapterFactory \"try end error\" class loading approach would jeopardize those efforts.\n\nOn the other side, if I understand the work on AutoValue migration correctly, the only reason for AutoValueAdapterFactory is only migrated Change.Key, right? Because Project.NameKey was not migrated to AutoValue and for other types, that were migrated we use primitive JDK types anyway. So what is the point? Can\u0027t we consider to revert Change.Key migration to AutoValue until we find a cleaner approach for JSON serialization/deserialization of AutoValue types?\n\n* [1] http://paste.openstack.org/show/750121\n* [2] http://paste.openstack.org/show/750122\n* [3] https://google.github.io/gson/apidocs/com/google/gson/annotations/SerializedName.html",
+      "parentUuid": "06b124cc_e9fe8783",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 5
+      },
+      "revId": "c4104954f51cab8677ab515f9388a2b200929734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

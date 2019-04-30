@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0279b60_9ad1bc81",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-04-30T06:32:39Z",
+      "side": 1,
+      "message": "I would consider to drop \"This line is...\" - it\u0027s a tooltip on the line number, I think it\u0027s clear enough without it.",
+      "range": {
+        "startLine": 42,
+        "startChar": 35,
+        "endLine": 42,
+        "endChar": 45
+      },
+      "revId": "a03e5f7e0b060a292a2bf01888a36111c45032b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

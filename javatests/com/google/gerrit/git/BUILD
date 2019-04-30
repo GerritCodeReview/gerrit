@@ -35,5 +35,7 @@ junit_tests(
         "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/truth",
         "//lib/easymock"
+        "//lib/easymock",
+        "@commons-lang//jar"
     ],
 )

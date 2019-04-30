@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb91963_6183faf0",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-04-30T15:27:58Z",
+      "side": 1,
+      "message": "This wouldn\u0027t be necessary if the PermissionAwareRepository would do a full delegation to the inner one",
+      "revId": "d2a96f1f6f80b3baec9ed9370817fb2f61786c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -110,8 +110,11 @@
       this.hasUnsavedChanges = true;
     },
 
-    _canAddProject(project, filter) {
-      if (!project || !project.id) { return false; }
+    _canAddProject(project, text, filter) {
+      if ((!project || !project.id) && !text) { return false; }
+
+      // This will only be used if not using the auto complete
+      if (!project && text) { return true; }
 
       // Check if the project with filter is already in the list. Compare
       // filters using == to coalesce null and undefined.
@@ -142,7 +145,7 @@
       const newProjectName = this.$.newProject.text;
       const filter = this.$.newFilter.value || null;
 
-      if (!this._canAddProject(newProject, filter)) { return; }
+      if (!this._canAddProject(newProject, newProjectName, filter)) { return; }
 
       const insertIndex = this._getNewProjectIndex(newProjectName, filter);
 

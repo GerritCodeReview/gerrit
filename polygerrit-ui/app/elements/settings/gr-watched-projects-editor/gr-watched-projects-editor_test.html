@@ -132,25 +132,28 @@ limitations under the License.
     });
 
     test('_canAddProject', () => {
-      assert.isFalse(element._canAddProject(null, null));
-      assert.isFalse(element._canAddProject({}, null));
+      assert.isFalse(element._canAddProject(null, null, null));
+      assert.isFalse(element._canAddProject({}, null, null));
 
       // Can add a project that is not in the list.
-      assert.isTrue(element._canAddProject({id: 'project d'}, null));
-      assert.isTrue(element._canAddProject({id: 'project d'}, 'filter 3'));
+      assert.isTrue(element._canAddProject({id: 'project d'}, null, null));
+      assert.isTrue(element._canAddProject({id: 'project d'}, null, 'filter 3'));
 
       // Cannot add a project that is in the list with no filter.
-      assert.isFalse(element._canAddProject({id: 'project a'}, null));
+      assert.isFalse(element._canAddProject({id: 'project a'}, null, null));
 
       // Can add a project that is in the list if the filter differs.
-      assert.isTrue(element._canAddProject({id: 'project a'}, 'filter 4'));
+      assert.isTrue(element._canAddProject({id: 'project a'}, null, 'filter 4'));
 
       // Cannot add a project that is in the list with the same filter.
-      assert.isFalse(element._canAddProject({id: 'project b'}, 'filter 1'));
-      assert.isFalse(element._canAddProject({id: 'project b'}, 'filter 2'));
+      assert.isFalse(element._canAddProject({id: 'project b'}, null, 'filter 1'));
+      assert.isFalse(element._canAddProject({id: 'project b'}, null, 'filter 2'));
 
       // Can add a project that is in the list using a new filter.
-      assert.isTrue(element._canAddProject({id: 'project b'}, 'filter 3'));
+      assert.isTrue(element._canAddProject({id: 'project b'}, null, 'filter 3'));
+
+      // Can add a project that is not added by the auto complete
+      assert.isTrue(element._canAddProject(null, 'test', null));
     });
 
     test('_getNewProjectIndex', () => {

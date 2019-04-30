@@ -45,6 +45,30 @@
       "revId": "528bc5e55eaaf3c9dafda3e339ff1506f0c6fec1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a62011e_28363ec0",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/SetReviewersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-30T06:37:02Z",
+      "side": 1,
+      "message": "When we define a single @ConfigSuite.Config, the test runs twice.  Once with this \"asAdmin\" config, and once with \"default\".\n\nIt\u0027s not necessary to explicitly define another config returning false because at L47-48 it returns default false when not set, which is the case when running with the default config.",
+      "parentUuid": "8167581b_a5076c6f",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 60
+      },
+      "revId": "528bc5e55eaaf3c9dafda3e339ff1506f0c6fec1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
